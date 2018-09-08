@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.WebApi", "InWords.WebApi\InWords.WebApi.csproj", "{ACD93940-020B-4B2C-9872-1AE827E43EF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.WebApi", "InWords.WebApi\InWords.WebApi.csproj", "{3C22AC50-8415-43F5-9C4E-CB098D85E88A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Data", "InWords.Data\InWords.Data.csproj", "{74BCBD28-95AD-4C98-8536-E5EF3434FA3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ACD93940-020B-4B2C-9872-1AE827E43EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACD93940-020B-4B2C-9872-1AE827E43EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACD93940-020B-4B2C-9872-1AE827E43EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACD93940-020B-4B2C-9872-1AE827E43EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C22AC50-8415-43F5-9C4E-CB098D85E88A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C22AC50-8415-43F5-9C4E-CB098D85E88A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C22AC50-8415-43F5-9C4E-CB098D85E88A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C22AC50-8415-43F5-9C4E-CB098D85E88A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74BCBD28-95AD-4C98-8536-E5EF3434FA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74BCBD28-95AD-4C98-8536-E5EF3434FA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74BCBD28-95AD-4C98-8536-E5EF3434FA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74BCBD28-95AD-4C98-8536-E5EF3434FA3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
