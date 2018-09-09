@@ -88,6 +88,9 @@ namespace InWords.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] User user)
         {
+            if (user.UserId != 0)
+                return BadRequest("@POST User with  userID = 0 to add or use @PUT to Update");
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
