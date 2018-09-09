@@ -14,12 +14,11 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            optionbuilder.UseSqlite(@"Data Source=App_Data\InWordsDatabase.db");
+            optionbuilder.UseSqlite(@"Data Source=InWordsDatabase.db");
         }
 
         public DbSet<User> Users { get; set; }
 
-        [Conditional("DEBUG")]
         private void RecreateDb()
         {
 
