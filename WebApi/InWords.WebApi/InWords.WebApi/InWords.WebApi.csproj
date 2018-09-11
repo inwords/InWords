@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InWords.Auth\InWords.Auth.csproj" />
     <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
   </ItemGroup>
 

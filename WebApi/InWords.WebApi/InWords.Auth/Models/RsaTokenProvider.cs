@@ -1,17 +1,17 @@
 ﻿namespace InWords.Auth
 {
     using System;
+    using System.IO;
     using System.Security.Claims;
     using InWords.Auth.Interface;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.IdentityModel.Tokens.Jwt;
-    using Microsoft.IdentityModel.Tokens;
     using System.Security.Cryptography;
+    using Microsoft.IdentityModel.Tokens;
+    using System.IdentityModel.Tokens.Jwt;
+    using NETCore.Encrypt.Extensions.Internal;
 
     public class RsaTokenProvider : ITokenProvider
     {
-        private static readonly string SecretfilePath = "key.security";
+        private static readonly string SecretfilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security");
 
         private readonly SecurityFileProvider securefileProvider = null;
 
@@ -36,7 +36,9 @@
 
 
             var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddDays(1),
+                issuer: "localhost:53636",
+                audience: "localhost:53636",
+                expires: DateTime.Now.AddDays(10),
                 claims: userClaim,
                 signingCredentials: signingCred
                 );
@@ -55,7 +57,7 @@
             }
 
             var rsaParam = new RSACryptoServiceProvider();
-            rsaParam.FromXmlString(key);
+            rsaParam.FromJsonString(key);
 
             return new RsaSecurityKey(rsaParam);
         }
@@ -65,13 +67,14 @@
             string key = null;
             try
             {
-                using (var rsa = RSA.Create(256))
+                using (var rsa = RSA.Create())
                 {
-                    key = rsa.ToXmlString(true);
+                    key = rsa.ToJsonString(true);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                string msg = e.Message;
                 //todo log
             }
             securefileProvider.WriteKeyInFIle(key);
