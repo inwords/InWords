@@ -7,7 +7,6 @@
     using System.Security.Cryptography;
     using Microsoft.IdentityModel.Tokens;
     using System.IdentityModel.Tokens.Jwt;
-    using NETCore.Encrypt.Extensions.Internal;
 
     public class RsaTokenProvider : ITokenProvider
     {
@@ -48,6 +47,8 @@
             return tokenString;
         }
 
+        //todo simmetric singing
+#warning out of date
         private RsaSecurityKey GenerateKey()
         {
             string key = securefileProvider.ReadKeyFromFile();
@@ -57,7 +58,7 @@
             }
 
             var rsaParam = new RSACryptoServiceProvider();
-            rsaParam.FromJsonString(key);
+            //rsaParam.FromJsonString(key);
 
             return new RsaSecurityKey(rsaParam);
         }
@@ -69,7 +70,7 @@
             {
                 using (var rsa = RSA.Create())
                 {
-                    key = rsa.ToJsonString(true);
+                    //key = rsa.ToJsonString(true);
                 }
             }
             catch (Exception e)
