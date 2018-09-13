@@ -1,8 +1,10 @@
-package com.dreamproject.inwords.data.entity;
+package com.dreamproject.inwords.data.source.database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+
+import com.dreamproject.inwords.data.entity.Word;
 
 import java.util.List;
 

@@ -1,12 +1,15 @@
-package com.dreamproject.inwords.data.entity;
+package com.dreamproject.inwords.data.source.database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+import com.dreamproject.inwords.data.entity.User;
+
 import java.util.List;
 
-import io.reactivex.Single;
+import io.reactivex.Flowable;
+
 
 @Dao
 public interface UserDao {
@@ -17,5 +20,5 @@ public interface UserDao {
     int deleteAll();
 
     @Query("SELECT * from user_table ORDER BY userName ASC")
-    Single<List<User>> getUsers();
+    Flowable<List<User>> getUsers();
 }

@@ -6,9 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.dreamproject.inwords.data.entity.User;
-import com.dreamproject.inwords.data.entity.UserDao;
 import com.dreamproject.inwords.data.entity.Word;
-import com.dreamproject.inwords.data.entity.WordDao;
 
 @Database(entities = {Word.class, User.class}, version = 1)
 public abstract class AppRoomDatabase extends RoomDatabase {
