@@ -32,8 +32,8 @@ public class MainPresenterImpl implements MainPresenter {
     public void navigationItemSelectionHandler(Observable<MenuItem> obs) {
         obs.subscribe(menuItem -> {
             switch (menuItem.getItemId()) {
-                case R.id.navigation_home:
-                    mainView.showTextHome();
+                case R.id.mainFragment:
+                    //mainView.navigateToHome();
 
                     Disposable disposable = mainModel.getUsers()
                             .observeOn(AndroidSchedulers.mainThread())
@@ -44,8 +44,8 @@ public class MainPresenterImpl implements MainPresenter {
                     compositeDisposable.add(disposable);
                     break;
 
-                case R.id.navigation_dashboard:
-                    mainView.showTextDashboard();
+                case R.id.loginFragment:
+                    //mainView.navigateToLogin();
                     break;
                 case R.id.navigation_notifications:
                     mainView.showTextNotifications();

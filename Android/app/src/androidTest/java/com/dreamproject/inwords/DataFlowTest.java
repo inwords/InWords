@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -41,7 +42,7 @@ public class DataFlowTest {
 
                             mDatabase.userDao()
                                     .getUsers()
-                                    .flatMapObservable(Observable::fromIterable)
+                                    .flatMap(Flowable::fromIterable)
                                     .subscribe(System.out::println);
                         },
                         Throwable::printStackTrace
@@ -78,7 +79,7 @@ public class DataFlowTest {
             // When subscribing to the emissions of user
             mDatabase.userDao()
                     .getUsers()
-                    .flatMapObservable(Observable::fromIterable)
+                    .flatMap(Flowable::fromIterable)
                     .test()
                     // assertValue asserts that there was only one emission
                     .assertValue(user -> {
@@ -94,12 +95,12 @@ public class DataFlowTest {
 
 
     @Before
-    public void initDb() throws Exception {
+    public void initDb() {
         mDatabase = AppRoomDatabase.getDatabase(InstrumentationRegistry.getTargetContext());
     }
 
     @After
-    public void closeDb() throws Exception {
+    public void closeDb() {
         mDatabase.close();
     }
 }

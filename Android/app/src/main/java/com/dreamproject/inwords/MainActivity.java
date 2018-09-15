@@ -1,51 +1,38 @@
 package com.dreamproject.inwords;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
-import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity implements MainView {
-
-    private MainPresenter presenter;
-    private TextView mTextMessage;
+public class MainActivity extends AppCompatActivity implements
+        MainFragment.OnFragmentInteractionListener,
+        LoginFragment.OnFragmentInteractionListener,
+        TranslationMainFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenterImpl(getApplication(), this);
-        mTextMessage = findViewById(R.id.message);
+        setupBottomNavMenu(Navigation.findNavController(this, R.id.main_nav_host_fragment));
+    }
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        presenter.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
+    private void setupBottomNavMenu(NavController navController) {
+        NavigationUI.setupWithNavController((BottomNavigationView) findViewById(R.id.navigation), navController);
     }
 
     @Override
-    public void showText(String text) {
-        mTextMessage.setText(text);
+    public boolean onSupportNavigateUp() {
+        return Navigation.findNavController(this, R.id.main_nav_host_fragment).navigateUp();
     }
 
     @Override
-    public void showTextHome() {
-        mTextMessage.setText(R.string.title_home);
-    }
+    public void onFragmentInteraction(Uri uri) {
 
-    @Override
-    public void showTextDashboard() {
-        mTextMessage.setText(R.string.title_dashboard);
-    }
-
-    @Override
-    public void showTextNotifications() {
-        mTextMessage.setText(R.string.title_notifications);
-    }
-
-    @Override
-    public void appendText(String text) {
-        mTextMessage.append(text);
     }
 }
