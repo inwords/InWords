@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InWords.Data.Models;
 using InWords.Data.Models.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using InWords.Data;
 
 namespace InWords.WebApi.Controllers
 {
@@ -19,14 +20,14 @@ namespace InWords.WebApi.Controllers
 
         public UsersController()
         {
-            usersRepository = new UserRepository();
+            usersRepository = new UserRepository(new InWordsDataContext());
         }
 
         // GET: api/Users
         [HttpGet]
         public IEnumerable<User> GetUsers()
         {
-            return usersRepository.GetAll();
+            return usersRepository.Get();
         }
 
         // GET: api/Users/5
@@ -38,7 +39,7 @@ namespace InWords.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await usersRepository.GetAsync(id);
+            var user = await usersRepository.FindById(id);
 
             if (user == null)
             {
@@ -64,8 +65,7 @@ namespace InWords.WebApi.Controllers
 
             try
             {
-                usersRepository.Update(user);
-                await usersRepository.SaveChangesAsync();
+                await usersRepository.Update(user);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -97,7 +97,7 @@ namespace InWords.WebApi.Controllers
 
             await usersRepository.Create(user);
 
-            return CreatedAtAction("GetUser", new { id = user.UserID}, user);
+            return CreatedAtAction("GetUser", new { id = user.UserID }, user);
         }
 
         // DELETE: api/Users/5
@@ -109,15 +109,13 @@ namespace InWords.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await usersRepository.GetAsync(id);
+            var user = await usersRepository.FindById(id);
             if (user == null)
             {
                 return NotFound();
             }
 
             usersRepository.Remove(user);
-            await usersRepository.SaveChangesAsync();
-
             return Ok(user);
         }
 

@@ -4,15 +4,15 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Linq;
+    using Microsoft.EntityFrameworkCore;
 
-    public class UserRepository : Repository<User>
+    public class UserRepository  : Repository<User>
     {
-        public User FindByID(User user)
+        public UserRepository(DbContext context) : base(context)
         {
-            return DbSet.Find(user.UserID);
         }
 
-        public override int Count()
+        public int Count()
         {
             return new InWordsDataContext().Accounts.Count();
         }

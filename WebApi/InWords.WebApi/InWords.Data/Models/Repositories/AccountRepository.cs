@@ -6,12 +6,15 @@ namespace InWords.Data.Models.Repositories
     using System.Security.Claims;
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.EntityFrameworkCore;
 
     public class AccountRepository : Repository<Account>
     {
+        public AccountRepository(DbContext context) : base(context) { }
+
         public ClaimsIdentity GetIdentity(string email, string password)
         {
-            Account account = DbSet.FirstOrDefault(x => x.Email == email && x.Password == password);
+            Account account = Get().FirstOrDefault(x => x.Email == email && x.Password == password);
             if (account != null)
             {
                 var claims = new List<Claim>

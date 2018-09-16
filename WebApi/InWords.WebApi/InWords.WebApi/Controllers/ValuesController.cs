@@ -8,6 +8,7 @@
     using InWords.Data.Models.Repositories;
     using Microsoft.AspNetCore.Authorization;
     using InWords.Data.Enums;
+    using InWords.Data;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -17,7 +18,7 @@
 
         public ValuesController()
         {
-            userRepository = new UserRepository();
+            userRepository = new UserRepository(new InWordsDataContext());
         }
 
         // GET api/values

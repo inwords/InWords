@@ -12,15 +12,13 @@
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly DbContext context = null;
-        private readonly DbSet<TEntity> dbSet;
+        protected readonly DbSet<TEntity> dbSet;
 
         public Repository(DbContext context)
         {
             this.context = context;
             this.dbSet = context.Set<TEntity>();
         }
-
-        protected DbSet<TEntity> DbSet { get; set; }
 
         public async Task<TEntity> Create(TEntity item)
         {
@@ -29,9 +27,9 @@
             return item;
         }
 
-        public TEntity FindById(int id)
+        public async Task<TEntity> FindById(int id)
         {
-            return dbSet.Find(id);
+            return await dbSet.FindAsync(id);
         }
 
         public IEnumerable<TEntity> Get()
@@ -54,12 +52,20 @@
             await context.SaveChangesAsync();
         }
 
-        public async void Update(TEntity item)
+        public async Task<TEntity> Update(TEntity item)
         {
             context.Entry(item).State = EntityState.Modified;
             await context.SaveChangesAsync();
+            return item;
         }
 
+        #region Include
+
+        /// <summary>
+        /// Exapmle: IEnumerable<Phone> phones = phoneRepo.GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company);
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
         public IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties)
         {
             return Include(includeProperties).ToList();
@@ -77,6 +83,13 @@
             IQueryable<TEntity> query = dbSet.AsNoTracking();
             return includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+        }
+
+        #endregion
+
+        public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
+        {
+            return dbSet.Any(predicate);
         }
 
         //public Repository()
@@ -136,11 +149,6 @@
         //public virtual int Count()
         //{
         //    return DbSet.Count();
-        //}
-
-        //public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
-        //{
-        //    return DbSet.Any(predicate);
         //}
 
         ////bad pattern

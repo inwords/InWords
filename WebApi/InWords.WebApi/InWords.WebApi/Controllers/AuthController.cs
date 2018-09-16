@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using InWords.Auth;
     using InWords.Auth.Interface;
+    using InWords.Data;
     using InWords.Data.Enums;
     using InWords.Data.Models;
     using InWords.Data.Models.Repositories;
@@ -25,7 +26,7 @@
 
         public AuthController()
         {
-            accountRepository = new AccountRepository();
+            accountRepository = new AccountRepository(new InWordsDataContext());
         }
 
         [Route("token")]
@@ -55,8 +56,7 @@
 
                 try
                 {
-                    accountRepository.Add(newAccaunt);
-                    await accountRepository.SaveChangesAsync();
+                    await accountRepository.Create(newAccaunt);
                 }
                 catch (Exception ex)
                 {

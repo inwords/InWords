@@ -55,7 +55,7 @@
                 // будет ли валидироваться потребитель токена
                 ValidateAudience = true,
                 // установка потребителя токена
-                ValidAudience = U,
+                ValidAudience = Audience,
                 // будет ли валидироваться время существования
                 ValidateLifetime = true,
 

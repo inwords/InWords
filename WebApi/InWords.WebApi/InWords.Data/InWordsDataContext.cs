@@ -3,6 +3,7 @@
     using InWords.Data.Enums;
     using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Diagnostics;
 
     public class InWordsDataContext : DbContext
@@ -31,8 +32,8 @@
                 _created = true;
                 Database.EnsureDeleted();
                 Database.EnsureCreated();
-                Accounts.Add(new Account() { Email = "admin@gmail.com", Password = "1234", Role = RoleType.Admin});
-                Accounts.Add(new Account() { Email = "user@gmail.com", Password = "1234", Role = RoleType.User});
+                Accounts.Add(new Account() { Email = "admin@gmail.com", Password = "1234", Role = RoleType.Admin,RegistrationData = DateTime.Now});
+                Accounts.Add(new Account() { Email = "user@gmail.com", Password = "1234", Role = RoleType.User, RegistrationData = DateTime.Now });
                 SaveChanges();
             }
         }
