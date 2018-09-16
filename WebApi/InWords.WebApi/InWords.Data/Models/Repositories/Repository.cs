@@ -6,16 +6,14 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
 
     public class Repository<TEntity> where TEntity : class
     {
         private DbContext context = null;
 
-        protected DbSet<TEntity> DbSet
-        {
-            get;
-            set;
-        }
+        protected DbSet<TEntity> DbSet { get; set; }
+
 
         public Repository()
         {
@@ -26,7 +24,9 @@
         public Repository(DbContext dataContext)
         {
             context = dataContext;
+            DbSet = context.Set<TEntity>();
         }
+
 
         public List<TEntity> GetAll()
         {
@@ -43,9 +43,9 @@
             return DbSet.FindAsync(id);
         }
 
-        public void Add(TEntity entity)
+        public TEntity Add(TEntity entity)
         {
-            DbSet.Add(entity);
+            return DbSet.Add(entity).Entity;
         }
 
         public void SaveChanges()
@@ -74,7 +74,7 @@
             return DbSet.Count();
         }
 
-        public bool ExistAny(Expression<Func<TEntity,bool>> predicate)
+        public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
         {
             return DbSet.Any(predicate);
         }

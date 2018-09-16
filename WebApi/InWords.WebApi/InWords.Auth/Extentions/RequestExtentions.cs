@@ -1,34 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Auth
+﻿namespace InWords.Auth
 {
-    public class BasicAuthClaims
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-
-        public BasicAuthClaims(string email, string password)
-        {
-            Email = email;
-            Password = password;
-        }
-
-        public BasicAuthClaims(object[] args)
-        {
-            if (args.Length == 2)
-            {
-                Email = args[0].ToString();
-                Password = args[1].ToString();
-            }
-            else
-            {
-                throw new ArgumentException("Neded args.lengs == 2 is email and pass");
-            }
-        }
-    }
+    using Microsoft.AspNetCore.Http;
+    using System;
+    using System.Text;
 
     public static class RequestExtentions
     {

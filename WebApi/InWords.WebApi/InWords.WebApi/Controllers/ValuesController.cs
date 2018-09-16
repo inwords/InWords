@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
     using InWords.Data.Models.Repositories;
     using Microsoft.AspNetCore.Authorization;
+    using InWords.Data.Enums;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -59,11 +60,11 @@
             return Ok($"Ваш логин: {User.Identity.Name}");
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(RoleType.Admin))]
         [Route("getrole")]
         public IActionResult GetRole()
         {
-            return Ok("Ваша роль: администратор");
+            return Ok($"Ваша роль: администратор");
         }
     }
 }

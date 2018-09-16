@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
     using InWords.Auth;
     using InWords.Auth.Interface;
+    using InWords.Data.Enums;
     using InWords.Data.Models;
     using InWords.Data.Models.Repositories;
     using Microsoft.AspNetCore.Http;
@@ -34,6 +35,37 @@
             var identity = GetIdentity(); //локально
             await SendResponse(identity); //отправка
         }
+
+        [Route("registration")]
+        [HttpPost]
+        public async Task<IActionResult> Registration([FromBody] BasicAuthClaims user)
+        {
+            if (accountRepository.ExistAny(a => a.Email == user.Email))
+            {
+                return BadRequest($"User already exist {user.Email}");
+            }
+            else
+            {
+                Account newAccaunt = new Account()
+                {
+                    Email = user.Email,
+                    Password = user.Password,
+                    Role = RoleType.User
+                };
+
+                try
+                {
+                    accountRepository.Add(newAccaunt);
+                    await accountRepository.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return Ok();
+        }
+
 
         private async Task SendResponse(ClaimsIdentity identity)
         {
