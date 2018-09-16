@@ -4,10 +4,8 @@ import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.source.repository.RepositoryController;
-import com.dreamproject.inwords.data.source.repository.TranslationWordsCacheRepository;
-import com.dreamproject.inwords.data.source.repository.TranslationWordsLocalRepository;
-import com.dreamproject.inwords.data.source.repository.TranslationWordsRemoteRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsMainRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepository;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class MainModelImpl implements MainModel {
 
     private static MainModelImpl INSTANCE;
 
-    private RepositoryController<WordTranslation> translationWordsRepository;
+    private TranslationWordsRepository translationWordsRepository;
 
     //data flow between model and view (reemits last element on new subscription)
     private BehaviorSubject<User> userBehaviorSubject;
@@ -37,20 +35,16 @@ public class MainModelImpl implements MainModel {
     }
 
     private MainModelImpl(Application application) {
-        translationWordsRepository = new RepositoryController<>(
-                new TranslationWordsCacheRepository(),
-                new TranslationWordsLocalRepository(application),
-                new TranslationWordsRemoteRepository()
-        );
-
         userBehaviorSubject = BehaviorSubject.create();
+
+        translationWordsRepository = new TranslationWordsMainRepository(application);
 
         getAllWords()
                 .subscribe(wordTranslations -> System.out.println(wordTranslations));
     }
 
     public Observable<List<WordTranslation>> getAllWords() {
-        return translationWordsRepository.get();
+        return translationWordsRepository.getList();
     }
 
     void addUser() //TODO for example only; remove later

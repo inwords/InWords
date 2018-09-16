@@ -1,8 +1,4 @@
-package com.dreamproject.inwords.data.source.repository;
-
-import com.dreamproject.inwords.data.source.DataManipulations;
-
-import java.util.List;
+package com.dreamproject.inwords.data.repository;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -13,7 +9,7 @@ public class RepositoryController<T> implements DataManipulations<T> {
     private DataManipulations<T> localRepository;
     private DataManipulations<T> remoteRepository;
 
-    private BehaviorSubject<List<T>> behaviorSubject;
+    private BehaviorSubject<T> behaviorSubject;
 
     public RepositoryController(DataManipulations<T> inMemoryCache,
                                 DataManipulations<T> localRepository,
@@ -26,16 +22,16 @@ public class RepositoryController<T> implements DataManipulations<T> {
     }
 
     @Override
-    public Observable<List<T>> get() {
-        Observable<List<T>> memoryCachedWords = inMemoryCache.get();
+    public Observable<T> get() {
+        Observable<T> memoryCachedWords = inMemoryCache.get();
 
-        Observable<List<T>> localWords = localRepository.get()
-                .doOnNext(words -> inMemoryCache.addAll(words).subscribe());
+        Observable<T> localWords = localRepository.get()
+                .doOnNext(words -> inMemoryCache.add(words).subscribe());
 
-        Observable<List<T>> remoteWords = remoteRepository.get()
+        Observable<T> remoteWords = remoteRepository.get()
                 .doOnNext(words -> {
-                    localRepository.addAll(words).subscribe();
-                    inMemoryCache.addAll(words).subscribe();
+                    localRepository.add(words).subscribe();
+                    inMemoryCache.add(words).subscribe();
                 });
 
         Observable.concat(memoryCachedWords, localWords, remoteWords) //observables start emitting one by one
@@ -55,11 +51,6 @@ public class RepositoryController<T> implements DataManipulations<T> {
             return true;
         });*/
 
-        return null;
-    }
-
-    @Override
-    public Completable addAll(List<T> values) {
         return null;
     }
 

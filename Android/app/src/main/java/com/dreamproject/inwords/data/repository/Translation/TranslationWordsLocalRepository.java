@@ -1,9 +1,8 @@
-package com.dreamproject.inwords.data.source.repository;
+package com.dreamproject.inwords.data.repository.Translation;
 
 import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.source.DataManipulations;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
@@ -13,7 +12,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
-public class TranslationWordsLocalRepository implements DataManipulations<WordTranslation> {
+public class TranslationWordsLocalRepository implements TranslationWordsRepository {
     private WordTranslationDao wordTranslationDao;
 
     public TranslationWordsLocalRepository(Application application) {
@@ -22,7 +21,13 @@ public class TranslationWordsLocalRepository implements DataManipulations<WordTr
     }
 
     @Override
-    public Observable<List<WordTranslation>> get() {
+    public Observable<WordTranslation> getByOne() {
+        return getList()
+                .flatMap(Observable::fromIterable);
+    }
+
+    @Override
+    public Observable<List<WordTranslation>> getList() {
         return wordTranslationDao.getAllWords()
                 .subscribeOn(Schedulers.io())
                 .filter(wordTranslations -> !wordTranslations.isEmpty())
@@ -43,6 +48,11 @@ public class TranslationWordsLocalRepository implements DataManipulations<WordTr
 
     @Override
     public Completable remove(WordTranslation value) {
+        return null;
+    }
+
+    @Override
+    public Completable removeAll(List<WordTranslation> values) {
         return null;
     }
 }
