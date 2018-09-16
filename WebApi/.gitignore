@@ -5,6 +5,7 @@
 
 #Security files
 .security
+.db
 
 # User-specific files
 *.suo

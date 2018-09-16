@@ -2,14 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>40828328-da8a-4ef5-adfb-5289dc326f59</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InWords.Auth\InWords.Auth.csproj" />
+    <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
   </ItemGroup>
 
 </Project>
