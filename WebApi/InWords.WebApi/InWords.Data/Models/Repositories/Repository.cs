@@ -5,84 +5,148 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using InWords.Data.Interpface;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-    public class Repository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private DbContext context = null;
+        private readonly DbContext context = null;
+        private readonly DbSet<TEntity> dbSet;
+
+        public Repository(DbContext context)
+        {
+            this.context = context;
+            this.dbSet = context.Set<TEntity>();
+        }
 
         protected DbSet<TEntity> DbSet { get; set; }
 
-
-        public Repository()
+        public async Task<TEntity> Create(TEntity item)
         {
-            context = new InWordsDataContext();
-            DbSet = context.Set<TEntity>();
+            dbSet.Add(item);
+            await context.SaveChangesAsync();
+            return item;
         }
 
-        public Repository(DbContext dataContext)
+        public TEntity FindById(int id)
         {
-            context = dataContext;
-            DbSet = context.Set<TEntity>();
+            return dbSet.Find(id);
         }
 
-
-        public List<TEntity> GetAll()
+        public IEnumerable<TEntity> Get()
         {
-            return DbSet.ToList();
+            return dbSet.AsNoTracking().AsEnumerable();
         }
 
-        public TEntity Get(int id)
+        public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
-            return DbSet.Find(id);
+            return dbSet.AsNoTracking().Where(predicate).ToList();
         }
 
-        public Task<TEntity> GetAsync(int id)
+        /// <summary>
+        /// Async remove from DataBase
+        /// </summary>
+        /// <param name="item"></param>
+        public async void Remove(TEntity item)
         {
-            return DbSet.FindAsync(id);
+            context.Entry(item).State = EntityState.Modified;
+            await context.SaveChangesAsync();
         }
 
-        public TEntity Add(TEntity entity)
+        public async void Update(TEntity item)
         {
-            return DbSet.Add(entity).Entity;
+            context.Entry(item).State = EntityState.Modified;
+            await context.SaveChangesAsync();
         }
 
-        public void SaveChanges()
+        public IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            context.SaveChanges();
+            return Include(includeProperties).ToList();
         }
 
-        public Task SaveChangesAsync()
+        public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
+            params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            return context.SaveChangesAsync();
+            var query = Include(includeProperties);
+            return query.Where(predicate).ToList();
         }
 
-        public void Update(TEntity entity)
+        private IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            // Настройки контекста
-            context.Entry(entity).State = EntityState.Modified;
+            IQueryable<TEntity> query = dbSet.AsNoTracking();
+            return includeProperties
+                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
 
-        public void Remove(TEntity entity)
-        {
+        //public Repository()
+        //{
+        //    context = new InWordsDataContext();
+        //    DbSet = context.Set<TEntity>();
+        //}
 
-        }
+        //public Repository(DbContext dataContext)
+        //{
+        //    context = dataContext;
+        //    DbSet = context.Set<TEntity>();
+        //}
 
-        public virtual int Count()
-        {
-            return DbSet.Count();
-        }
 
-        public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
-        {
-            return DbSet.Any(predicate);
-        }
+        //public List<TEntity> GetAll()
+        //{
+        //    return DbSet.ToList();
+        //}
 
-        //bad pattern
-        private DbSet<TEntity> GetDbSet()
-        {
-            return DbSet;
-        }
+        //public TEntity Get(int id)
+        //{
+        //    return DbSet.Find(id);
+        //}
+
+        //public Task<TEntity> GetAsync(int id)
+        //{
+        //    return DbSet.FindAsync(id);
+        //}
+
+        //public TEntity Add(TEntity entity)
+        //{
+        //    return DbSet.Add(entity).Entity;
+        //}
+
+        //public void SaveChanges()
+        //{
+        //    context.SaveChanges();
+        //}
+
+        //public Task SaveChangesAsync()
+        //{
+        //    return context.SaveChangesAsync();
+        //}
+
+        //public void Update(TEntity entity)
+        //{
+        //    // Настройки контекста
+        //    context.Entry(entity).State = EntityState.Modified;
+        //}
+
+        //public void Remove(TEntity entity)
+        //{
+
+        //}
+
+        //public virtual int Count()
+        //{
+        //    return DbSet.Count();
+        //}
+
+        //public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
+        //{
+        //    return DbSet.Any(predicate);
+        //}
+
+        ////bad pattern
+        //private DbSet<TEntity> GetDbSet()
+        //{
+        //    return DbSet;
+        //}
     }
 }

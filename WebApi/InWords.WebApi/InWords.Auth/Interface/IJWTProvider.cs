@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System;
 using System.Security.Claims;
 
 namespace InWords.Auth.Interface

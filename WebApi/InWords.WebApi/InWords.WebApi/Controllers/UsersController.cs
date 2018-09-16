@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InWords.Data.Models;
 using InWords.Data.Models.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InWords.WebApi.Controllers
 {
@@ -83,6 +84,7 @@ namespace InWords.WebApi.Controllers
 
         // POST: api/Users
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostUser([FromBody] User user)
         {
             if (user.UserID != 0)
@@ -93,9 +95,7 @@ namespace InWords.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            usersRepository.Add(user);
-
-            await usersRepository.SaveChangesAsync();
+            await usersRepository.Create(user);
 
             return CreatedAtAction("GetUser", new { id = user.UserID}, user);
         }
