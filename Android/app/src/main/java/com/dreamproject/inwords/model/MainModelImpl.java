@@ -4,11 +4,10 @@ import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.source.repository.RepositoryController;
 import com.dreamproject.inwords.data.source.repository.TranslationWordsCacheRepository;
 import com.dreamproject.inwords.data.source.repository.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.source.repository.TranslationWordsRemoteRepository;
-import com.dreamproject.inwords.data.source.repository.TranslationWordsRepository;
-import com.dreamproject.inwords.data.source.repository.TranslationWordsRepositoryController;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class MainModelImpl implements MainModel {
 
     private static MainModelImpl INSTANCE;
 
-    private TranslationWordsRepository translationWordsRepository;
+    private RepositoryController<WordTranslation> translationWordsRepository;
 
     //data flow between model and view (reemits last element on new subscription)
     private BehaviorSubject<User> userBehaviorSubject;
@@ -38,7 +37,7 @@ public class MainModelImpl implements MainModel {
     }
 
     private MainModelImpl(Application application) {
-        translationWordsRepository = new TranslationWordsRepositoryController(
+        translationWordsRepository = new RepositoryController<>(
                 new TranslationWordsCacheRepository(),
                 new TranslationWordsLocalRepository(application),
                 new TranslationWordsRemoteRepository()
@@ -51,7 +50,7 @@ public class MainModelImpl implements MainModel {
     }
 
     public Observable<List<WordTranslation>> getAllWords() {
-        return translationWordsRepository.getAll();
+        return translationWordsRepository.get();
     }
 
     void addUser() //TODO for example only; remove later

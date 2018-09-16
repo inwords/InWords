@@ -1,6 +1,7 @@
 package com.dreamproject.inwords.data.source.repository;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.source.DataManipulations;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class TranslationWordsRemoteRepository implements TranslationWordsRepository {
+public class TranslationWordsRemoteRepository implements DataManipulations<WordTranslation> {
     private WebRequests webRequests;
 
     public TranslationWordsRemoteRepository() {
@@ -16,7 +17,7 @@ public class TranslationWordsRemoteRepository implements TranslationWordsReposit
     }
 
     @Override
-    public Observable<List<WordTranslation>> getAll() {
+    public Observable<List<WordTranslation>> get() {
         return webRequests.getAllWords()
                 .filter(wordTranslations -> !wordTranslations.isEmpty())
                 .toObservable();
@@ -30,5 +31,10 @@ public class TranslationWordsRemoteRepository implements TranslationWordsReposit
     @Override
     public Completable addAll(List<WordTranslation> wordTranslations) {
         return Completable.fromCallable(() -> webRequests.insertAllWords(wordTranslations));
+    }
+
+    @Override
+    public Completable remove(WordTranslation value) {
+        return null;
     }
 }
