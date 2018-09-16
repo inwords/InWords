@@ -1,5 +1,6 @@
-﻿namespace InWords.Data.Models
+﻿namespace InWords.Data
 {
+    using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using System.Diagnostics;
 
@@ -18,6 +19,8 @@
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Account> Accounts { get; set; }
 
         private void RecreateDb()
         {

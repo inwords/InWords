@@ -18,7 +18,7 @@ namespace InWords.WebApi.Controllers
 
         public UsersController()
         {
-            usersRepository = UserRepositoryInstance.Data;
+            usersRepository = new UserRepository();
         }
 
         // GET: api/Users
@@ -56,13 +56,10 @@ namespace InWords.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != user.UserId)
+            if (id != user.UserID)
             {
                 return BadRequest();
             }
-
-
-
 
             try
             {
@@ -88,7 +85,7 @@ namespace InWords.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] User user)
         {
-            if (user.UserId != 0)
+            if (user.UserID != 0)
                 return BadRequest("@POST User with  userID = 0 to add or use @PUT to Update");
 
             if (!ModelState.IsValid)
@@ -100,7 +97,7 @@ namespace InWords.WebApi.Controllers
 
             await usersRepository.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return CreatedAtAction("GetUser", new { id = user.UserID}, user);
         }
 
         // DELETE: api/Users/5
@@ -126,7 +123,7 @@ namespace InWords.WebApi.Controllers
 
         private bool UserExists(int id)
         {
-            return usersRepository.ExistAny(e => e.UserId == id);
+            return usersRepository.ExistAny(e => e.UserID == id);
         }
     }
 }

@@ -19,12 +19,6 @@
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private List<Account> accaunts = new List<Account>
-        {
-            new Account {Email="admin@gmail.com", Password="12345", Role = "admin" },
-            new Account { Email="qwerty@gmail.com", Password="55555", Role = "user" }
-        };
-
         [Route("token")]
         [HttpPost]
         public async Task Token()
@@ -49,16 +43,7 @@
                 await Response.WriteAsync("Invalid username or password.");
             }
 
-            var now = DateTime.UtcNow;
-            // создаем JWT-токен
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
 
             var response = new
             {
@@ -73,6 +58,14 @@
 
         private ClaimsIdentity GetIdentity(string email, string password)
         {
+            #region InDb
+            List<Account> accaunts = new List<Account>
+        {
+            new Account {Email="admin@gmail.com", Password="12345", Role = "admin" },
+            new Account { Email="qwerty@gmail.com", Password="55555", Role = "user" }
+        };
+            #endregion
+
             Account account = accaunts.FirstOrDefault(x => x.Email == email && x.Password == password);
             if (account != null)
             {

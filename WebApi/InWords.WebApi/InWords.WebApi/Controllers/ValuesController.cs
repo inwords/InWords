@@ -12,12 +12,19 @@
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly UserRepository userRepository = null;
+
+        public ValuesController()
+        {
+            userRepository = new UserRepository();
+        }
+
         // GET api/values
         //IEnumerable<string>
         [HttpGet]
         public ActionResult<int> Get()
         {
-            return UserRepositoryInstance.Data.Count();
+            return userRepository.Count();
         }
 
         // GET api/values/5

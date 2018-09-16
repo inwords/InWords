@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Data.Models
+﻿namespace InWords.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Text;
+
     public class User
     {
-        //todo accaunt id
-        public int UserId { get; set; }
+        [ForeignKey("Account")]
+        public int UserID { get; set; }
 
         public string UserName { get; set; }
 
@@ -18,5 +19,7 @@ namespace InWords.Data.Models
         public string LastName { get; set; }
 
         public string Password { get; set; }
+
+        public virtual Account Account { get; set; }
     }
 }

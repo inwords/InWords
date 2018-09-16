@@ -69,7 +69,7 @@
 
         }
 
-        public int Count()
+        public virtual int Count()
         {
             return DbSet.Count();
         }
