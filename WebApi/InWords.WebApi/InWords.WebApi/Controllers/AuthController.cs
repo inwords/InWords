@@ -51,7 +51,8 @@
                 {
                     Email = user.Email,
                     Password = user.Password,
-                    Role = RoleType.User
+                    Role = RoleType.User,
+                    RegistrationData = DateTime.Now
                 };
 
                 try
