@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InWords.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -17,8 +18,7 @@ namespace InWords.Data.Models
         [StringLength(32)] 
         public string Password { get; set; }
 
-        [StringLength(16)]
-        public string Role { get; set; }
+        public RoleType Role { get; set; }
 
         public virtual User User { get; set; }
     }

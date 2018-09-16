@@ -1,5 +1,6 @@
 ﻿namespace InWords.Data
 {
+    using InWords.Data.Enums;
     using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using System.Diagnostics;
@@ -30,6 +31,9 @@
                 _created = true;
                 Database.EnsureDeleted();
                 Database.EnsureCreated();
+                Accounts.Add(new Account() { Email = "admin@gmail.com", Password = "1234", Role = RoleType.Admin});
+                Accounts.Add(new Account() { Email = "user@gmail.com", Password = "1234", Role = RoleType.User});
+                SaveChanges();
             }
         }
     }
