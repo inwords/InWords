@@ -10,6 +10,8 @@ namespace InWords.Auth
 {
     internal class SecurityFileProvider
     {
+        #region Props
+
         private readonly static string alphabetFIlePath = null;
 
         internal readonly string FilePath = null;
@@ -17,7 +19,9 @@ namespace InWords.Auth
         internal string SymmetricSecurityKey { get; private set; }
 
         private static readonly Random random = null;
+        #endregion
 
+        #region Ctor
         static SecurityFileProvider()
         {
             alphabetFIlePath = "alphabet.security";
@@ -28,6 +32,7 @@ namespace InWords.Auth
         {
             FilePath = filePath;
         }
+        #endregion
 
         internal async Task<string> ReadAllFromFile(string filePath)
         {
@@ -84,7 +89,7 @@ namespace InWords.Auth
             }
         }
 
-        public async Task<string> RandomString(int length)
+        private async Task<string> RandomString(int length)
         {
             string chars = await ReadAllFromFile(alphabetFIlePath);
 
