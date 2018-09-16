@@ -1,4 +1,4 @@
-package com.dreamproject.inwords;
+package com.dreamproject.inwords.viewScenario.main;
 
 import android.view.MenuItem;
 

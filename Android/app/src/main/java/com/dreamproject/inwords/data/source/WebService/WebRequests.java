@@ -1,9 +1,13 @@
 package com.dreamproject.inwords.data.source.WebService;
 
 import com.dreamproject.inwords.data.entity.User;
+import com.dreamproject.inwords.data.entity.WordTranslation;
 
+import java.util.Arrays;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -20,7 +24,7 @@ public class WebRequests {
         apiService = WebApiService.Factory.create(BASE_API_URL);
     }
 
-   public Single<User> addUser(User user) {
+    public Single<User> addUser(User user) {
         return apiService.addUser(user)
                 .subscribeOn(Schedulers.io());
     }
@@ -30,5 +34,30 @@ public class WebRequests {
                 //.flatMap(Observable::fromIterable)
                 .subscribeOn(Schedulers.io());
     }
+
+    public Maybe<List<WordTranslation>> getAllWords() {
+        return Maybe.fromCallable(() -> {
+            Thread.sleep(2000);
+            return Arrays.asList(new WordTranslation("asd", "ку"), new WordTranslation("sdg", "укеу"));
+        })
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Completable insertWord(WordTranslation wordTranslation) {
+        return Completable.fromCallable(() -> {
+            Thread.sleep(2000);
+            return true;
+        })
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Completable insertAllWords(List<WordTranslation> wordTranslations) {
+        return Completable.fromCallable(() -> {
+            Thread.sleep(2000);
+            return true;
+        })
+                .subscribeOn(Schedulers.io());
+    }
+
 
 }

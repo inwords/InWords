@@ -1,4 +1,4 @@
-package com.dreamproject.inwords;
+package com.dreamproject.inwords.model;
 
 import com.dreamproject.inwords.data.entity.User;
 

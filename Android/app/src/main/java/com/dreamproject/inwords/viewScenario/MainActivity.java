@@ -1,9 +1,14 @@
-package com.dreamproject.inwords;
+package com.dreamproject.inwords.viewScenario;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+
+import com.dreamproject.inwords.R;
+import com.dreamproject.inwords.viewScenario.login.LoginFragment;
+import com.dreamproject.inwords.viewScenario.main.MainFragment;
+import com.dreamproject.inwords.viewScenario.translation.TranslationMainFragment;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;

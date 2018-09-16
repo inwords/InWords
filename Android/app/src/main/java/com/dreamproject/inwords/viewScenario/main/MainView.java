@@ -1,4 +1,4 @@
-package com.dreamproject.inwords;
+package com.dreamproject.inwords.viewScenario.main;
 
 public interface MainView {
     void showText(String text);

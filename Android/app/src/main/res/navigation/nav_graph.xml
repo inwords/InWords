@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.dreamproject.inwords.LoginFragment"
+        android:name="com.dreamproject.inwords.viewScenario.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.dreamproject.inwords.MainFragment"
+        android:name="com.dreamproject.inwords.viewScenario.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main">
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/translationMainFragment"
-        android:name="com.dreamproject.inwords.TranslationMainFragment"
+        android:name="com.dreamproject.inwords.viewScenario.translation.TranslationMainFragment"
         android:label="fragment_translation_main"
         tools:layout="@layout/fragment_translation_main" />
 

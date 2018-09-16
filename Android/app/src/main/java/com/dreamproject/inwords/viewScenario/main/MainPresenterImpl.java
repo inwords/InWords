@@ -1,27 +1,28 @@
-package com.dreamproject.inwords;
+package com.dreamproject.inwords.viewScenario.main;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.dreamproject.inwords.BasicPresenter;
+import com.dreamproject.inwords.R;
+import com.dreamproject.inwords.model.MainModel;
+import com.dreamproject.inwords.model.MainModelImpl;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class MainPresenterImpl implements MainPresenter {
+public class MainPresenterImpl extends BasicPresenter implements MainPresenter {
     // Tag used for debugging/logging
     public static final String TAG = "MainPresenterImpl";
-
-    private CompositeDisposable compositeDisposable;
 
     private MainView mainView;
     private MainModel mainModel;
 
     public MainPresenterImpl(Application application, MainView mainView) {
-
-        compositeDisposable = new CompositeDisposable();
+        super(application);
 
         this.mainView = mainView;
         this.mainModel = MainModelImpl.getInstance(application);
@@ -55,12 +56,5 @@ public class MainPresenterImpl implements MainPresenter {
                     Log.d(TAG, "Selected BottomNavigationView unexciting menu item");
             }
         });
-    }
-
-    @Override
-    public void dispose() {
-        if (compositeDisposable != null && compositeDisposable.isDisposed()) {
-            compositeDisposable.dispose();
-        }
     }
 }

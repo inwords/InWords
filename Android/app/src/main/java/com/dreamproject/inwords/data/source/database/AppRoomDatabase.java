@@ -6,12 +6,12 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.dreamproject.inwords.data.entity.User;
-import com.dreamproject.inwords.data.entity.Word;
+import com.dreamproject.inwords.data.entity.WordTranslation;
 
-@Database(entities = {Word.class, User.class}, version = 1)
+@Database(entities = {WordTranslation.class, User.class}, version = 1)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
-    public abstract WordDao wordDao();
+    public abstract WordTranslationDao wordTranslationDao();
     public abstract UserDao userDao();
 
     private static AppRoomDatabase INSTANCE;
