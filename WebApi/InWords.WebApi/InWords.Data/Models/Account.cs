@@ -10,10 +10,14 @@ namespace InWords.Data.Models
         public int AccountID { get; set; }
 
         [DataType(DataType.EmailAddress)]
+        [StringLength(64)]
         public string Email { get; set; }
 
+        [DataType(DataType.Password)]
+        [StringLength(32)] 
         public string Password { get; set; }
 
+        [StringLength(16)]
         public string Role { get; set; }
 
         public virtual User User { get; set; }

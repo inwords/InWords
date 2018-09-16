@@ -26,15 +26,7 @@
             string email = null;
             string password = null;
 
-            var header = Request.Headers["Authorization"];
-            if (header.ToString().StartsWith("Basic"))
-            {
-                var credval = header.ToString().Substring("basic".Length + 1).Trim();
-                var usercred = Encoding.UTF8.GetString(Convert.FromBase64String(credval));
-                var userNamePass = usercred.Split(":");
-                email = userNamePass[0];
-                password = userNamePass[1];
-            }
+            BasicAuthClaims x = Request.GetBasicAuthorizationCalms();
 
             var identity = GetIdentity(email, password);
             if (identity == null)
