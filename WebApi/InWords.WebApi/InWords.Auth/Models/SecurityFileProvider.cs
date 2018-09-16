@@ -1,36 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
 namespace InWords.Auth
 {
     internal class SecurityFileProvider
     {
+        private readonly static string alphabetFIlePath = null;
+
         internal readonly string FilePath = null;
+
+        internal string SymmetricSecurityKey { get; private set; }
+
+        private static readonly Random random = null;
+
+        static SecurityFileProvider()
+        {
+            alphabetFIlePath = "alphabet.security";
+            random = new Random();
+        }
 
         internal SecurityFileProvider(string filePath)
         {
             FilePath = filePath;
-            CreateFileInFolder();
         }
 
-        /// <summary>
-        /// Read key from file
-        /// </summary>
-        /// <returns>Token key</returns>
-        internal string ReadKeyFromFile()
+        internal async Task<string> ReadAllFromFile(string filePath)
         {
-            //read key
-            //todo async?
-
+            EnsureFileFolder();
             string result = null;
             try
             {
-                using (var reader = new StreamReader(FilePath))
+                using (var reader = new StreamReader(filePath))
                 {
-                    result = reader.ReadToEnd(); //do i need readtoend async?
+                    result = await reader.ReadToEndAsync(); //do i need readtoend async?
                 }
             }
             catch (Exception)
@@ -40,14 +47,14 @@ namespace InWords.Auth
             return result;
         }
 
-
-        internal void WriteKeyInFIle(string key)
+        internal async void WriteAllInFIle(string filePath, string key)
         {
+            EnsureFileFolder();
             try
             {
-                using (var writer = new StreamWriter(FilePath))
+                using (var writer = new StreamWriter(filePath))
                 {
-                    writer.Write(key);
+                    await writer.WriteAsync(key);
                 }
             }
             catch (Exception)
@@ -56,8 +63,7 @@ namespace InWords.Auth
             }
         }
 
-
-        private void CreateFileInFolder()
+        private void EnsureFileFolder()
         {
             try
             {
@@ -76,6 +82,29 @@ namespace InWords.Auth
             {
                 //todo log
             }
+        }
+
+        public async Task<string> RandomString(int length)
+        {
+            string chars = await ReadAllFromFile(alphabetFIlePath);
+
+            if (string.IsNullOrEmpty(chars))
+            {
+                chars = "asdfghjkl;'zxcvbnm,./qwertyuiop[]";
+                WriteAllInFIle(alphabetFIlePath, chars);
+            }
+
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        internal SecurityKey GetSymmetricSecurityKey()
+        {
+            if (string.IsNullOrEmpty(SymmetricSecurityKey))
+            {
+                SymmetricSecurityKey = Task.Run(() => RandomString(random.Next(128, 256))).Result;
+            }
+            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SymmetricSecurityKey));
         }
     }
 }

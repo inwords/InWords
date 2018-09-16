@@ -66,7 +66,6 @@
             return Ok();
         }
 
-
         private async Task SendResponse(ClaimsIdentity identity)
         {
             if (identity == null)

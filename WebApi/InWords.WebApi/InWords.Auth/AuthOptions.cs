@@ -11,16 +11,10 @@
         public const int LIFETIME = 300; // время жизни токена - 1 минута
 
         public static IJWTProvider TokenProvider = null;
-        
+
         static AuthOptions()
         {
             TokenProvider = new SimmetricJWTTokenProvider();
         }
-
-        public static SymmetricSecurityKey GetSymmetricSecurityKey()
-        {
-            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes("KEYKEYKEYKEYKEYKEYKEYKEYKEYKEYKEYKEYKEY"));
-        }
-
     }
 }

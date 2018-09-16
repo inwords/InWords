@@ -16,12 +16,9 @@
 
         private readonly SecurityFileProvider securefileProvider = null;
 
-        private readonly string secretKey = null;
-
         public SimmetricJWTTokenProvider()
         {
             securefileProvider = new SecurityFileProvider(SecretfilePath);
-            secretKey = securefileProvider.ReadKeyFromFile();
         }
 
         public string GenerateToken(ClaimsIdentity identity)
@@ -34,7 +31,7 @@
                     notBefore: now,
                     claims: identity.Claims,
                     expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                    signingCredentials: new SigningCredentials(securefileProvider.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
@@ -56,7 +53,7 @@
                 ValidateLifetime = true,
 
                 // установка ключа безопасности
-                IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                IssuerSigningKey = securefileProvider.GetSymmetricSecurityKey(),
                 // валидация ключа безопасности
                 ValidateIssuerSigningKey = true,
             };
