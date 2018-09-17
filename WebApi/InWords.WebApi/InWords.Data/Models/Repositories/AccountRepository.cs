@@ -12,6 +12,13 @@ namespace InWords.Data.Models.Repositories
     {
         public AccountRepository(DbContext context) : base(context) { }
 
+        /// <summary>
+        /// Get identity from database
+        /// Email as Name & Id as NameIdentifier
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password">raw password</param>
+        /// <returns></returns>
         public ClaimsIdentity GetIdentity(string email, string password)
         {
             Account account = Get().FirstOrDefault(x => x.Email == email && x.Password == password);
@@ -20,7 +27,8 @@ namespace InWords.Data.Models.Repositories
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, account.Email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, account.Role.ToString())
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, account.Role.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier,account.AccountID.ToString())
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
@@ -31,5 +39,7 @@ namespace InWords.Data.Models.Repositories
             // если пользователя не найдено
             return null;
         }
+
+        //todo override remove or test cascade remove
     }
 }
