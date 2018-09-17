@@ -12,7 +12,8 @@
 
         public InWordsDataContext()
         {
-            RecreateDb();
+            //RecreateDb();
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
