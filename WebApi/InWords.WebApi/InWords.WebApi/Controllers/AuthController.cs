@@ -51,31 +51,43 @@
             {
                 return BadRequest($"User already exist {user.Email}");
             }
-            else
-            {
-                Account newAccaunt = new Account()
-                {
-                    Email = user.Email,
-                    Password = user.Password,
-                    Role = RoleType.User,
-                    RegistrationData = DateTime.Now,
-                    User = new User()
-                    {
-                        NickName = "Yournick",
-                        Expirience = 0,
-                    }
-                };
 
-                try
+            Account newAccaunt = new Account()
+            {
+                Email = user.Email,
+                Password = user.Password,
+                Role = RoleType.User,
+                RegistrationData = DateTime.Now,
+                User = new User()
                 {
-                    await accountRepository.Create(newAccaunt);
+                    NickName = "Yournick",
+                    Expirience = 0,
                 }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+            };
+
+            try
+            {
+                await accountRepository.Create(newAccaunt);
             }
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+            var identity = GetIdentity(newAccaunt.Email, newAccaunt.Password);
+
+            // получение токена
+            var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
+
+            // подготовка ответа
+            var response = new
+            {
+                access_token = encodedJwt,
+                email = identity.Name // для тестирования // todo
+            };
+
+            return Ok(response);
         }
 
 
@@ -117,6 +129,12 @@
         {
             BasicAuthClaims x = Request.GetBasicAuthorizationCalms();
             var identity = accountRepository.GetIdentity(x.Email, x.Password);
+            return identity;
+        }
+
+        private ClaimsIdentity GetIdentity(string email, string password)
+        {
+            var identity = accountRepository.GetIdentity(email, password);
             return identity;
         }
 
