@@ -12,7 +12,7 @@
 
         public InWordsDataContext()
         {
-            //RecreateDb();
+            RecreateDb();
             Database.EnsureCreated();
         }
 
