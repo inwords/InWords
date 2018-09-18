@@ -16,6 +16,11 @@ public class TranslationWordsRemoteRepository implements TranslationWordsReposit
     }
 
     @Override
+    public Observable<WordTranslation> getTranslation(String word) {
+        return null;
+    }
+
+    @Override
     public Observable<WordTranslation> getByOne() {
         return getList()
                 .flatMap(Observable::fromIterable);
@@ -24,7 +29,7 @@ public class TranslationWordsRemoteRepository implements TranslationWordsReposit
     @Override
     public Observable<List<WordTranslation>> getList() {
         return webRequests.getAllWords()
-                .filter(wordTranslations -> !wordTranslations.isEmpty())
+               // .filter(wordTranslations -> !wordTranslations.isEmpty())
                 .toObservable();
     }
 

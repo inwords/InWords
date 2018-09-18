@@ -37,7 +37,12 @@ public class WebRequests {
 
     public Maybe<List<WordTranslation>> getAllWords() {
         return Maybe.fromCallable(() -> {
-            Thread.sleep(2000);
+            try {
+                Thread.sleep(2000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return Arrays.asList(new WordTranslation("asd", "ку"), new WordTranslation("sdg", "укеу"));
         })
                 .subscribeOn(Schedulers.io());

@@ -21,6 +21,11 @@ public class TranslationWordsLocalRepository implements TranslationWordsReposito
     }
 
     @Override
+    public Observable<WordTranslation> getTranslation(String word) {
+        return null;
+    }
+
+    @Override
     public Observable<WordTranslation> getByOne() {
         return getList()
                 .flatMap(Observable::fromIterable);
@@ -30,7 +35,7 @@ public class TranslationWordsLocalRepository implements TranslationWordsReposito
     public Observable<List<WordTranslation>> getList() {
         return wordTranslationDao.getAllWords()
                 .subscribeOn(Schedulers.io())
-                .filter(wordTranslations -> !wordTranslations.isEmpty())
+                //.filter(wordTranslations -> !wordTranslations.isEmpty())
                 .toObservable();
     }
 

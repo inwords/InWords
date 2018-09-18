@@ -10,6 +10,7 @@ import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepo
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class MainModelImpl implements MainModel {
@@ -40,6 +41,7 @@ public class MainModelImpl implements MainModel {
         translationWordsRepository = new TranslationWordsMainRepository(application);
 
         getAllWords()
+                .observeOn(Schedulers.io())
                 .subscribe(wordTranslations -> System.out.println(wordTranslations));
     }
 
