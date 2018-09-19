@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ColoredButtonStyle">
+        <item name="android:backgroundTint">@color/design_default_color_primary</item>
+        <item name="android:textColor">@android:color/background_light</item>
+    </style>
+
+    <style name="TransparentButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/design_default_color_primary</item>
+    </style>
+
 </resources>
