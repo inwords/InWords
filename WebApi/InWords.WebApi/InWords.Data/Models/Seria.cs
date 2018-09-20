@@ -6,7 +6,7 @@ namespace InWords.Data.Models
 {
     public class Seria
     {
-        public int SeriesID { get; set; }
+        public int SeriaID { get; set; }
         
         public string SetName { get; set; }
 
