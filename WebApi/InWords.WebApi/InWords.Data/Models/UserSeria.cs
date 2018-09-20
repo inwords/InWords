@@ -6,7 +6,7 @@
 
     public class UserSeria
     {
-        public int UserSeriesID { get; set; }
+        public int UserSeriaID { get; set; }
 
         public virtual Seria Seria { get; set; }
 
