@@ -30,8 +30,6 @@
         }
 
 
-
-
         [Route("token")]
         [HttpPost]
         public async Task Token()
@@ -39,9 +37,6 @@
             var identity = GetIdentity(); //локально
             await SendResponse(identity); //отправка
         }
-
-
-
 
         [Route("registration")]
         [HttpPost]
