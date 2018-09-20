@@ -1,21 +1,15 @@
 ﻿namespace InWords.WebApi.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
     using System.Security.Claims;
-    using System.Text;
     using System.Threading.Tasks;
     using InWords.Auth;
-    using InWords.Auth.Interface;
     using InWords.Data;
     using InWords.Data.Enums;
     using InWords.Data.Models;
     using InWords.Data.Models.Repositories;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.IdentityModel.Tokens;
     using Newtonsoft.Json;
 
     [Route("api/[controller]")]
@@ -52,7 +46,7 @@
                     Email = user.Email,
                     Password = user.Password,
                     Role = RoleType.User,
-                    RegistrationData = DateTime.Now
+                    RegistrationDate = DateTime.Now
                 };
 
                 try

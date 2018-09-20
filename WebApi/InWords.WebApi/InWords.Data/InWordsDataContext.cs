@@ -32,8 +32,8 @@
                 _created = true;
                 Database.EnsureDeleted();
                 Database.EnsureCreated();
-                Accounts.Add(new Account() { Email = "admin@gmail.com", Password = "1234", Role = RoleType.Admin,RegistrationData = DateTime.Now});
-                Accounts.Add(new Account() { Email = "user@gmail.com", Password = "1234", Role = RoleType.User, RegistrationData = DateTime.Now });
+                Accounts.Add(new Account() { Email = "admin@gmail.com", Password = "1234", Role = RoleType.Admin,RegistrationDate = DateTime.Now});
+                Accounts.Add(new Account() { Email = "user@gmail.com", Password = "1234", Role = RoleType.User, RegistrationDate = DateTime.Now });
                 SaveChanges();
             }
         }
