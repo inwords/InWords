@@ -23,7 +23,7 @@ namespace InWords.Data.Models
         [Required]
         public RoleType Role { get; set; }
 
-        public DateTime RegistrationData { get; set; }
+        public DateTime RegistrationDate { get; set; }
 
         public virtual User User { get; set; }
     }
