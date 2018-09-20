@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using InWords.Data;
 using InWords.Data.Enums;
 using System.Security.Claims;
+using System.Linq;
 
 namespace InWords.WebApi.Controllers
 {
