@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace InWords.Data.Models.Repositories
+﻿namespace InWords.Data.Models.Repositories
 {
     using System.Security.Claims;
     using System.Collections.Generic;

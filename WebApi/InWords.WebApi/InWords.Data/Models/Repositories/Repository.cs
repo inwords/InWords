@@ -7,7 +7,6 @@
     using System.Threading.Tasks;
     using InWords.Data.Interpface;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
 
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
