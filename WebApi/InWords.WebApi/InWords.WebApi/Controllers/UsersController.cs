@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InWords.Data.Models;
 using InWords.Data.Models.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using InWords.Data;
+using InWords.Data.Enums;
+using System.Security.Claims;
+using System.Linq;
 
 namespace InWords.WebApi.Controllers
 {
@@ -17,17 +17,21 @@ namespace InWords.WebApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserRepository usersRepository;
+        private readonly AccountRepository accauntRepositoty;
+
 
         public UsersController()
         {
-            usersRepository = new UserRepository(new InWordsDataContext());
+            var dataContext = new InWordsDataContext();
+            usersRepository = new UserRepository(dataContext);
+            accauntRepositoty = new AccountRepository(dataContext);
         }
 
         // GET: api/Users
         [HttpGet]
         public IEnumerable<User> GetUsers()
         {
-            return usersRepository.Get();
+            return usersRepository.Get().Take(50);
         }
 
         // GET: api/Users/5
@@ -50,26 +54,45 @@ namespace InWords.WebApi.Controllers
         }
 
         // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> PutUser([FromBody] User user)
         {
+            // todo check claims exist
+            var nameIdentifier = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First();
+            var authorizedID = int.Parse(nameIdentifier.Value);
+
+            /// Authorized
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != user.UserID)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                await usersRepository.Update(user);
+                var authorizedAccaund = await accauntRepositoty.FindById(authorizedID);
+
+                if (authorizedAccaund == null)
+                {
+                    return BadRequest("User doesn't exist. Send this problem to admin");
+                }
+
+                // UpdateNickname
+                if (user.NickName != null)
+                {
+                    authorizedAccaund.User.NickName = user.NickName;
+                }
+
+                //Update uri
+                if (user.AvatarPath != null)
+                {
+                    authorizedAccaund.User.NickName = user.NickName;
+                }
+                await accauntRepositoty.Update(authorizedAccaund);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!UserExists(authorizedID))
                 {
                     return NotFound();
                 }
@@ -82,41 +105,24 @@ namespace InWords.WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> PostUser([FromBody] User user)
-        {
-            if (user.UserID != 0)
-                return BadRequest("@POST User with  userID = 0 to add or use @PUT to Update");
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            await usersRepository.Create(user);
-
-            return CreatedAtAction("GetUser", new { id = user.UserID }, user);
-        }
-
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute] int id)
+        [Authorize(Roles = nameof(RoleType.Admin))]
+        public async Task<IActionResult> AdminDeleteUser([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = await usersRepository.FindById(id);
-            if (user == null)
+            var accaunt = await accauntRepositoty.FindById(id);
+            if (accaunt == null)
             {
                 return NotFound();
             }
 
-            usersRepository.Remove(user);
-            return Ok(user);
+            accauntRepositoty.Remove(accaunt);
+            return Ok(accaunt);
         }
 
         private bool UserExists(int id)

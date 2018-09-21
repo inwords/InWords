@@ -29,6 +29,7 @@
             accountRepository = new AccountRepository(new InWordsDataContext());
         }
 
+
         [Route("token")]
         [HttpPost]
         public async Task Token()
@@ -45,52 +46,90 @@
             {
                 return BadRequest($"User already exist {user.Email}");
             }
-            else
-            {
-                Account newAccaunt = new Account()
-                {
-                    Email = user.Email,
-                    Password = user.Password,
-                    Role = RoleType.User,
-                    RegistrationData = DateTime.Now
-                };
 
-                try
+            Account newAccaunt = new Account()
+            {
+                Email = user.Email,
+                Password = user.Password,
+                Role = RoleType.User,
+                RegistrationDate = DateTime.Now,
+                User = new User()
                 {
-                    await accountRepository.Create(newAccaunt);
+                    NickName = "Yournick",
+                    Expirience = 0,
                 }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+            };
+
+            try
+            {
+                await accountRepository.Create(newAccaunt);
             }
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+            var identity = GetIdentity(newAccaunt.Email, newAccaunt.Password);
+
+            // получение токена
+            var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
+
+            // подготовка ответа
+            var response = new
+            {
+                access_token = encodedJwt,
+                email = identity.Name // для тестирования // todo
+            };
+
+            return Ok(response);
         }
 
+
+        /// <summary>
+        /// Token success response
+        /// </summary>
+        /// <param name="identity"></param>
+        /// <returns></returns>
         private async Task SendResponse(ClaimsIdentity identity)
         {
+            //
             if (identity == null)
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("Invalid username or password.");
                 return;
             }
-
+            // получение токена
             var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
+
+            // подготовка ответа
             var response = new
             {
                 access_token = encodedJwt,
-                email = identity.Name
+                email = identity.Name // для тестирования // todo
             };
+
             // сериализация ответа
             Response.ContentType = "application/json";
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
+
+        /// <summary>
+        /// Check [Request] identity from database 
+        /// </summary>
+        /// <returns>Claims</returns>
         private ClaimsIdentity GetIdentity()
         {
             BasicAuthClaims x = Request.GetBasicAuthorizationCalms();
             var identity = accountRepository.GetIdentity(x.Email, x.Password);
+            return identity;
+        }
+
+        private ClaimsIdentity GetIdentity(string email, string password)
+        {
+            var identity = accountRepository.GetIdentity(email, password);
             return identity;
         }
 

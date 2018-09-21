@@ -7,7 +7,6 @@
     using System.Threading.Tasks;
     using InWords.Data.Interpface;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
 
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
@@ -91,70 +90,5 @@
         {
             return dbSet.Any(predicate);
         }
-
-        //public Repository()
-        //{
-        //    context = new InWordsDataContext();
-        //    DbSet = context.Set<TEntity>();
-        //}
-
-        //public Repository(DbContext dataContext)
-        //{
-        //    context = dataContext;
-        //    DbSet = context.Set<TEntity>();
-        //}
-
-
-        //public List<TEntity> GetAll()
-        //{
-        //    return DbSet.ToList();
-        //}
-
-        //public TEntity Get(int id)
-        //{
-        //    return DbSet.Find(id);
-        //}
-
-        //public Task<TEntity> GetAsync(int id)
-        //{
-        //    return DbSet.FindAsync(id);
-        //}
-
-        //public TEntity Add(TEntity entity)
-        //{
-        //    return DbSet.Add(entity).Entity;
-        //}
-
-        //public void SaveChanges()
-        //{
-        //    context.SaveChanges();
-        //}
-
-        //public Task SaveChangesAsync()
-        //{
-        //    return context.SaveChangesAsync();
-        //}
-
-        //public void Update(TEntity entity)
-        //{
-        //    // Настройки контекста
-        //    context.Entry(entity).State = EntityState.Modified;
-        //}
-
-        //public void Remove(TEntity entity)
-        //{
-
-        //}
-
-        //public virtual int Count()
-        //{
-        //    return DbSet.Count();
-        //}
-
-        ////bad pattern
-        //private DbSet<TEntity> GetDbSet()
-        //{
-        //    return DbSet;
-        //}
     }
 }

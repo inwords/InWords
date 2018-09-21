@@ -1,8 +1,6 @@
 ﻿namespace InWords.Auth
 {
     using InWords.Auth.Interface;
-    using Microsoft.IdentityModel.Tokens;
-    using System.Text;
 
     public static class AuthOptions
     {
