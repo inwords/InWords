@@ -5,13 +5,16 @@ import android.app.Application;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepository;
+import com.dreamproject.inwords.data.source.WebService.AuthToken;
+import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
+import com.dreamproject.inwords.data.source.WebService.TemporaryUser;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
-import okhttp3.Credentials;
 
 public class MainModelImpl implements MainModel {
     // Tag used for debugging/logging
@@ -23,6 +26,8 @@ public class MainModelImpl implements MainModel {
 
     //data flow between model and view (reemits last element on new subscription)
     private BehaviorSubject<User> userBehaviorSubject;
+
+    WebRequests webRequests;
 
     public static MainModelImpl getInstance(final Application application) {
         if (INSTANCE == null) {
@@ -37,6 +42,7 @@ public class MainModelImpl implements MainModel {
 
     private MainModelImpl(Application application) {
         userBehaviorSubject = BehaviorSubject.create();
+        webRequests = WebRequests.INSTANCE;
 
         //translationWordsRepository = new TranslationWordsMainRepository(application);
 
@@ -47,22 +53,32 @@ public class MainModelImpl implements MainModel {
         if (t != null)
             t.printStackTrace();*/
 
-        WebRequests.INSTANCE.setCredentials(Credentials.basic("mail@mail.ru", "qwerty"));
+        /*WebRequests.INSTANCE.setCredentials(new TemporaryUser("mail@mail.ru", "qwerty"));
 
         WebRequests.INSTANCE.getLogin()
                 .subscribe(str -> System.out.println(str),
-                        Throwable::printStackTrace);
-        try {
+                        Throwable::printStackTrace);*/
+        /*try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        WebRequests.INSTANCE.getLogin()
-                .subscribe(str -> System.out.println(str),
-                        Throwable::printStackTrace);
+        }*/
+
         /*getAllWords()
                 .observeOn(Schedulers.io())
                 .subscribe(wordTranslations -> System.out.println(wordTranslations));*/
+    }
+
+    public Completable logIn(TemporaryUser temporaryUser) {
+        return Completable.create((emitter) -> {
+            webRequests.setCredentials(temporaryUser);
+            AuthToken authToken = webRequests.updateToken();
+
+            if (authToken.isValid())
+                emitter.onComplete();
+            else
+                emitter.onError(new AuthenticationError());
+        });
     }
 
     public Observable<List<WordTranslation>> getAllWords() {

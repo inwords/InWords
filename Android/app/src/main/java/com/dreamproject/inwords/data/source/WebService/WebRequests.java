@@ -12,6 +12,7 @@ import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Credentials;
 
 import static com.dreamproject.inwords.AppConfig.BASE_API_URL;
 
@@ -32,14 +33,16 @@ public class WebRequests {
         this.authInfo.setAuthToken(authToken);
     }
 
-    public void setCredentials(String credentials) {
-        this.authInfo.setCredentials(credentials);
+    public void setCredentials(TemporaryUser temporaryUser) {
+        this.authInfo.setCredentials(Credentials.basic(temporaryUser.getEmail(), temporaryUser.getPassword()));
     }
 
     public AuthToken updateToken() {
         AuthToken authToken;
         try {
-            authToken = getToken().blockingFirst();
+            authToken = getToken()
+                    //.onErrorReturnItem(new AuthToken("error_token", "error_mail"))
+                    .blockingFirst();
         } catch (NoSuchElementException e) {
             authToken = new AuthToken("error_token", "error_mail"); //TODO: think
             e.printStackTrace();

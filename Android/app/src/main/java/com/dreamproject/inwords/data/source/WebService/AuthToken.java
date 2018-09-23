@@ -19,7 +19,7 @@ public class AuthToken {
     }
 
     public boolean isValid() {
-        return !access_token.isEmpty();
+        return access_token.length() > 30; //TODO think about more convenient check
     }
 
     public String getBearer() {

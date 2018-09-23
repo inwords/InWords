@@ -2,6 +2,9 @@ package com.dreamproject.inwords;
 
 import android.app.Application;
 
+import com.dreamproject.inwords.model.MainModel;
+import com.dreamproject.inwords.model.MainModelImpl;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public class BasicPresenter {
@@ -9,15 +12,18 @@ public class BasicPresenter {
 
     protected CompositeDisposable compositeDisposable;
 
-    protected BasicPresenter(Application application)
-    {
+    protected MainModel model;
+
+    protected BasicPresenter(Application application) {
         this.application = application;
 
         compositeDisposable = new CompositeDisposable();
+
+        model = MainModelImpl.getInstance(application);
     }
 
     public void dispose() {
-        if (compositeDisposable != null && compositeDisposable.isDisposed()) {
+        if (compositeDisposable != null && !compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }
     }
