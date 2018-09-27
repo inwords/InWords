@@ -48,13 +48,18 @@
                 Password = password,
                 Role = RoleType.User,
                 RegistrationDate = DateTime.Now,
-                User = new User()
-                {
-                    NickName = "Yournick",
-                    Expirience = 0,
-                }
+                User = null
             };
+
+            newAccount.User = new User()
+            {
+                NickName = "Yournick",
+                Expirience = 0,
+            };
+
             await Create(newAccount);
+            //await Update(newAccount);
+
             return newAccount;
         }
 

@@ -59,8 +59,8 @@ namespace InWords.WebApi.Controllers
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
             // todo check claims exist
-            var nameIdentifier = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First();
-            var authorizedID = int.Parse(nameIdentifier.Value);
+            Claim nameIdentifier = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First();
+            int authorizedID = int.Parse(nameIdentifier.Value); //todo Extention
 
             /// Authorized
             if (!ModelState.IsValid)
@@ -70,9 +70,11 @@ namespace InWords.WebApi.Controllers
 
             try
             {
-                var authorizedAccaund = await accauntRepositoty.FindById(authorizedID);
+                //one to one return null?
+                var authorizedUser = await usersRepository.FindById(authorizedID);
 
-                if (authorizedAccaund == null)
+
+                if (authorizedUser == null)
                 {
                     return BadRequest("User doesn't exist. Send this problem to admin");
                 }
@@ -80,15 +82,15 @@ namespace InWords.WebApi.Controllers
                 // UpdateNickname
                 if (user.NickName != null)
                 {
-                    authorizedAccaund.User.NickName = user.NickName;
+                    authorizedUser.NickName = user.NickName;
                 }
 
                 //Update uri
                 if (user.AvatarPath != null)
                 {
-                    authorizedAccaund.User.NickName = user.NickName;
+                    authorizedUser.NickName = user.NickName;
                 }
-                await accauntRepositoty.Update(authorizedAccaund);
+                await usersRepository.Update(authorizedUser);
             }
             catch (DbUpdateConcurrencyException)
             {

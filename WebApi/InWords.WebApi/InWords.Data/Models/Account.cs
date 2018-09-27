@@ -21,8 +21,10 @@ namespace InWords.Data.Models
         [Required]
         public RoleType Role { get; set; }
 
+        [Required]
         public DateTime RegistrationDate { get; set; }
 
+        [Required]
         public virtual User User { get; set; }
     }
 }
