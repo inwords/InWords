@@ -13,6 +13,7 @@
     using InWords.Data.Enums;
     using InWords.Data.Models;
     using InWords.Data.Models.Repositories;
+    using InWords.WebApi.Providers;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.IdentityModel.Tokens;
@@ -26,12 +27,14 @@
 
         private readonly AccountRepository accountRepository = null;
 
+        private readonly AccountIdentityProvider accountIdentityProvider = null;
         #endregion
 
         #region Ctor
         public AuthController()
         {
             accountRepository = new AccountRepository(new InWordsDataContext());
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
         }
         #endregion
 
@@ -41,106 +44,53 @@
         /// <returns></returns>
         [Route("token")]
         [HttpPost]
-        public async Task Token()
+        public IActionResult Token()
         {
-            var identity = GetIdentity(); //[FromRequest]
-            await SendResponse(identity); 
+            ClaimsIdentity identity = accountIdentityProvider.GetIdentity(Request);
+
+            if (identity == null)
+            {
+                return BadRequest("Invalid username or password.");
+            }
+
+            TokenResponse tokenResponse = new TokenResponse(identity);
+
+            return Ok(tokenResponse);
         }
 
         [Route("registration")]
         [HttpPost]
         public async Task<IActionResult> Registration([FromBody] BasicAuthClaims user)
         {
+            //check if accaunt exist;
             if (accountRepository.ExistAny(a => a.Email == user.Email))
             {
                 return BadRequest($"User already exist {user.Email}");
             }
 
-            Account newAccaunt = new Account()
-            {
-                Email = user.Email,
-                Password = user.Password,
-                Role = RoleType.User,
-                RegistrationDate = DateTime.Now,
-                User = new User()
-                {
-                    NickName = "Yournick",
-                    Expirience = 0,
-                }
-            };
+            //Create account in repository;
+            Account newAccaunt = await CreateUserAccaunt(user);
 
-            try
-            {
-                await accountRepository.Create(newAccaunt);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            //Get identity;
+            ClaimsIdentity identity = accountIdentityProvider.GetIdentity(newAccaunt);
 
+            //Create token
+            TokenResponse response = new TokenResponse(identity);
 
-            var identity = GetIdentity(newAccaunt.Email, newAccaunt.Password);
-
-            // получение токена
-            var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
-
-            // подготовка ответа
-            var response = new
-            {
-                access_token = encodedJwt,
-                email = identity.Name // для тестирования // todo
-            };
-
+            //send token
             return Ok(response);
         }
 
 
-        /// <summary>
-        /// Token success response
-        /// </summary>
-        /// <param name="identity"></param>
-        /// <returns></returns>
-        private async Task SendResponse(ClaimsIdentity identity)
+
+
+        #region Adaptor
+
+        private async Task<Account> CreateUserAccaunt(BasicAuthClaims basicAuthClaims)
         {
-            //
-            if (identity == null)
-            {
-                Response.StatusCode = 400;
-                await Response.WriteAsync("Invalid username or password.");
-                return;
-            }
-            // получение токена
-            var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
-
-            // подготовка ответа
-            var response = new
-            {
-                access_token = encodedJwt,
-                email = identity.Name // для тестирования // todo
-            };
-
-            // сериализация ответа
-            Response.ContentType = "application/json";
-            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            return await accountRepository.CreateUserAccaunt(basicAuthClaims.Email, basicAuthClaims.Password);
         }
 
-
-        /// <summary>
-        /// Check [Request] identity from database 
-        /// </summary>
-        /// <returns>Claims</returns>
-        private ClaimsIdentity GetIdentity()
-        {
-            BasicAuthClaims x = Request.GetBasicAuthorizationCalms();
-            ClaimsIdentity identity = accountRepository.GetIdentity(x?.Email, x?.Password);
-            return identity;
-        }
-
-        private ClaimsIdentity GetIdentity(string email, string password)
-        {
-            var identity = accountRepository.GetIdentity(email, password);
-            return identity;
-        }
-
+        #endregion
     }
 }

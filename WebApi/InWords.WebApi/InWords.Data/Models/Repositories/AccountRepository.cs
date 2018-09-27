@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
+    using System.Threading.Tasks;
+    using InWords.Data.Enums;
+    using System;
 
     public class AccountRepository : Repository<Account>
     {
@@ -35,6 +38,24 @@
 
             // если пользователя не найдено
             return null;
+        }
+
+        public async Task<Account> CreateUserAccaunt(string email, string password)
+        {
+            Account newAccount = new Account()
+            {
+                Email = email,
+                Password = password,
+                Role = RoleType.User,
+                RegistrationDate = DateTime.Now,
+                User = new User()
+                {
+                    NickName = "Yournick",
+                    Expirience = 0,
+                }
+            };
+            await Create(newAccount);
+            return newAccount;
         }
 
         //todo override remove or test cascade remove
