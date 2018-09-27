@@ -4,6 +4,26 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- sign in start -->
+    <string name="sign_in">Вход</string>
+    <string name="sign_in_email">Адрес электронной почты</string>
+    <string name="sign_in_password">Пароль</string>
+    <string name="sign_in_enter">Войти</string>
+    <string name="sign_in_create_account">Нет аккаунта? Создать</string>
+    <string name="sign_in_restore_password">Восстановить пароль</string>
+    <!-- sign in end -->
+
+    <!-- sign up start -->
+    <string name="sign_up">Регистрация</string>
+    <string name="sign_up_enter_email">Введите адрес электронной почты</string>
+    <string name="sign_up_enter_password">Введите пароль</string>
+    <string name="sign_up_confirm_password">Повторите пароль</string>
+    <string name="sign_up_enter">Создать аккаунт</string>
+    <!-- sign up end -->
+
+    <!-- password recovery start -->
+    <string name="password_recovery_enter_email">Введите адрес электронной почты</string>
+    <string name="password_recovery_enter">Восстановить пароль</string>
+    <!-- password recovery end -->
+
 </resources>
