@@ -22,20 +22,29 @@
     [ApiController]
     public class AuthController : ControllerBase
     {
+        #region props
+
         private readonly AccountRepository accountRepository = null;
 
+        #endregion
+
+        #region Ctor
         public AuthController()
         {
             accountRepository = new AccountRepository(new InWordsDataContext());
         }
+        #endregion
 
-
+        /// <summary>
+        /// From Request Basic Authorization
+        /// </summary>
+        /// <returns></returns>
         [Route("token")]
         [HttpPost]
         public async Task Token()
         {
-            var identity = GetIdentity(); //локально
-            await SendResponse(identity); //отправка
+            var identity = GetIdentity(); //[FromRequest]
+            await SendResponse(identity); 
         }
 
         [Route("registration")]
@@ -123,7 +132,7 @@
         private ClaimsIdentity GetIdentity()
         {
             BasicAuthClaims x = Request.GetBasicAuthorizationCalms();
-            var identity = accountRepository.GetIdentity(x.Email, x.Password);
+            ClaimsIdentity identity = accountRepository.GetIdentity(x?.Email, x?.Password);
             return identity;
         }
 

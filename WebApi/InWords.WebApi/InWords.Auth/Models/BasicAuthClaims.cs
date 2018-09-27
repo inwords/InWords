@@ -1,8 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace InWords.Auth
+﻿namespace InWords.Auth
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
+    /// <summary>
+    ///  Email and Password
+    ///  data transfer class
+    /// </summary>
     public class BasicAuthClaims
     {
         [Required]
