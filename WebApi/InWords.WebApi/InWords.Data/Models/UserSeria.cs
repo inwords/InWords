@@ -1,9 +1,7 @@
 ﻿namespace InWords.Data.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
+    using System.ComponentModel.DataAnnotations;
+    
     public class UserSeria
     {
         public int UserSeriaID { get; set; }
