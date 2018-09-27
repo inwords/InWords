@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Data.Models
+﻿namespace InWords.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
     public class Word
     {
         public int WordID { get; set; }
 
+        [Required]
         public string Content { get; set; }
 
+        [Required]
         public virtual Language Language { get; set; }
     }
 }
