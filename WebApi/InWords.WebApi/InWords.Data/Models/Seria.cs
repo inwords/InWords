@@ -10,6 +10,6 @@ namespace InWords.Data.Models
         
         public string SetName { get; set; }
 
-        public User Creator { get; set; }
+        public virtual User Creator { get; set; }
     }
 }
