@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class TranslationWordsMainRepository implements TranslationWordsRepository {
@@ -29,8 +30,9 @@ public class TranslationWordsMainRepository implements TranslationWordsRepositor
                 new WordsAllList(remoteRepository));*/
 
 
-        //Один большой костыль для синхронизации
-        Observable.zip(remoteRepository.getList(), localRepository.getList(), (listRemote, listLocal) -> {
+        //Один большой костыль для синхронизаци
+
+        Disposable d = Observable.zip(remoteRepository.getList(), localRepository.getList(), (listRemote, listLocal) -> {
             localRepository.addAll(listRemote)
                     .subscribe();
             remoteRepository.addAll(listLocal)
