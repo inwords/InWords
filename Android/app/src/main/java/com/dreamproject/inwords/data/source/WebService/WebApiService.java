@@ -23,7 +23,7 @@ import retrofit2.http.POST;
 public interface WebApiService {
     @POST("/api/auth/registration")
     @Headers({"Content-Type: application/json"})
-    Observable<AuthToken> registerUser(@Body TemporaryUser temporaryUser); //TODO: test
+    Observable<AuthToken> registerUser(@Body UserCredentials userCredentials); //TODO: test
 
     @POST("/api/auth/token")
     Observable<AuthToken> getToken(@Header("Authorization") String credentials); //TODO: test

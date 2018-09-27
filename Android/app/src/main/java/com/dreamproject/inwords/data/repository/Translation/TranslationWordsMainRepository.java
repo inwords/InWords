@@ -3,20 +3,19 @@ package com.dreamproject.inwords.data.repository.Translation;
 import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.sync.SyncController;
 
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class TranslationWordsMainRepository implements TranslationWordsRepository {
     //private RepositorySyncController<List<WordTranslation>> allListController;
 
-    TranslationWordsRepository inMemoryRepository;
-    TranslationWordsRepository localRepository;
-    TranslationWordsRepository remoteRepository;
+    private TranslationWordsRepository inMemoryRepository;
+    private TranslationWordsRepository localRepository;
+    private TranslationWordsRepository remoteRepository;
 
     public TranslationWordsMainRepository(Application application) {
         inMemoryRepository = new TranslationWordsCacheRepository();
@@ -29,24 +28,9 @@ public class TranslationWordsMainRepository implements TranslationWordsRepositor
                 new WordsAllList(localRepository),
                 new WordsAllList(remoteRepository));*/
 
-
-        //Один большой костыль для синхронизаци
-
-        Disposable d = Observable.zip(remoteRepository.getList(), localRepository.getList(), (listRemote, listLocal) -> {
-            localRepository.addAll(listRemote)
-                    .subscribe();
-            remoteRepository.addAll(listLocal)
-                    .subscribe();
-
-            listLocal.addAll(listRemote);
-            inMemoryRepository.addAll(listLocal)
-                    .subscribe();
-
-            return listLocal;
-        })
-                .subscribeOn(Schedulers.io())
-                .subscribe((wordTranslations) -> {
-                }, Throwable::printStackTrace);
+        SyncController syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
+        syncController.syncKostil();
+        syncController.perf();
 
     }
 

@@ -33,8 +33,8 @@ public class WebRequests {
         this.authInfo.setAuthToken(authToken);
     }
 
-    public void setCredentials(TemporaryUser temporaryUser) {
-        this.authInfo.setCredentials(Credentials.basic(temporaryUser.getEmail(), temporaryUser.getPassword()));
+    public void setCredentials(UserCredentials userCredentials) {
+        this.authInfo.setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword()));
     }
 
     public AuthToken updateToken() {
@@ -52,8 +52,8 @@ public class WebRequests {
         return authToken;
     }
 
-    public Completable registerUser(TemporaryUser temporaryUser) {
-        return apiService.registerUser(temporaryUser)
+    public Completable registerUser(UserCredentials userCredentials) {
+        return apiService.registerUser(userCredentials)
                 .subscribeOn(Schedulers.io())
                 .doOnNext(this::setAuthToken)
                 .ignoreElements(); //TODO security leak? )0)

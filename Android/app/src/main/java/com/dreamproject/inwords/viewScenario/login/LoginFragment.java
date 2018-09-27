@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dreamproject.inwords.R;
-import com.dreamproject.inwords.data.source.WebService.TemporaryUser;
+import com.dreamproject.inwords.data.source.WebService.UserCredentials;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.Objects;
@@ -69,11 +69,11 @@ public class LoginFragment extends Fragment implements LoginView {
     }
 
 
-    public Observable<TemporaryUser> getCredentials() { //TODO: validate input
+    public Observable<UserCredentials> getCredentials() { //TODO: validate input
         return Observable.zip(
                 Observable.fromCallable(() -> editTextEmail.getText().toString()),
                 Observable.fromCallable(() -> editTextPassword.getText().toString()),
-                TemporaryUser::new);
+                UserCredentials::new);
     }
 
     @Override

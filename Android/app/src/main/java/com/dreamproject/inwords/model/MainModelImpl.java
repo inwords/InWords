@@ -4,10 +4,11 @@ import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsMainRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepository;
 import com.dreamproject.inwords.data.source.WebService.AuthToken;
 import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
-import com.dreamproject.inwords.data.source.WebService.TemporaryUser;
+import com.dreamproject.inwords.data.source.WebService.UserCredentials;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
 import java.util.List;
@@ -44,16 +45,16 @@ public class MainModelImpl implements MainModel {
         userBehaviorSubject = BehaviorSubject.create();
         webRequests = WebRequests.INSTANCE;
 
-        //translationWordsRepository = new TranslationWordsMainRepository(application);
+        translationWordsRepository = new TranslationWordsMainRepository(application);
 
         /*WebRequests.INSTANCE.getToken(Credentials.basic("mail@mail.ru", "qwerty")).subscribe(authToken -> System.out.println(authToken.getAccessToken()),
                 Throwable::printStackTrace);*/
 
-        /*Throwable t = WebRequests.INSTANCE.registerUser(new TemporaryUser("mail2@mail.ru", "qwerty")).blockingGet();
+        /*Throwable t = WebRequests.INSTANCE.registerUser(new UserCredentials("mail2@mail.ru", "qwerty")).blockingGet();
         if (t != null)
             t.printStackTrace();*/
 
-        /*WebRequests.INSTANCE.setCredentials(new TemporaryUser("mail@mail.ru", "qwerty"));
+        /*WebRequests.INSTANCE.setCredentials(new UserCredentials("mail@mail.ru", "qwerty"));
 
         WebRequests.INSTANCE.getLogin()
                 .subscribe(str -> System.out.println(str),
@@ -67,11 +68,13 @@ public class MainModelImpl implements MainModel {
         /*getAllWords()
                 .observeOn(Schedulers.io())
                 .subscribe(wordTranslations -> System.out.println(wordTranslations));*/
+
+
     }
 
-    public Completable logIn(TemporaryUser temporaryUser) {
+    public Completable logIn(UserCredentials userCredentials) {
         return Completable.create((emitter) -> {
-            webRequests.setCredentials(temporaryUser);
+            webRequests.setCredentials(userCredentials);
             AuthToken authToken = webRequests.updateToken();
 
             if (authToken.isValid())
@@ -82,7 +85,11 @@ public class MainModelImpl implements MainModel {
     }
 
     public Observable<List<WordTranslation>> getAllWords() {
-        return translationWordsRepository.getList();
+        return translationWordsRepository.getList().map(wordTranslations ->
+        {
+            Observable.fromIterable(wordTranslations).filter(wordTranslation -> wordTranslation.getServerId() > 0).toList();
+            return wordTranslations;
+        });
     }
 
     void addUser() //TODO for example only; remove later
