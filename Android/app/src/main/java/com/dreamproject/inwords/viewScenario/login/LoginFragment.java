@@ -5,14 +5,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dreamproject.inwords.R;
+import com.dreamproject.inwords.data.source.WebService.TemporaryUser;
+import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import io.reactivex.Observable;
 
 
 /**
@@ -23,15 +31,20 @@ import androidx.navigation.Navigation;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements LoginView {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+
+    private NavController navController;
+
+    private TextInputEditText editTextEmail;
+    private TextInputEditText editTextPassword;
+
+    private LoginPresenter presenter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,34 +57,51 @@ public class LoginFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment LoginFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
+    public static LoginFragment newInstance(String param1) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
+
+
+    public Observable<TemporaryUser> getCredentials() { //TODO: validate input
+        return Observable.zip(
+                Observable.fromCallable(() -> editTextEmail.getText().toString()),
+                Observable.fromCallable(() -> editTextPassword.getText().toString()),
+                TemporaryUser::new);
+    }
+
+    @Override
+    public void loginSuccess() {
+        navController.navigate(R.id.action_loginFragment_to_mainFragment_pop);
+    }
+
+    @Override
+    public void loginError() {
+        //TODO
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        presenter = new LoginPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_authorization, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -85,7 +115,22 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getView().findViewById(R.id.buttonLogIn).setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_loginFragment_to_mainFragment_pop));
+        Observable<Object> logInBtnObs = (RxView.clicks(view.findViewById(R.id.buttonEntry))
+                .debounce(200, TimeUnit.MILLISECONDS));
+
+        navController = Navigation.findNavController(view);
+
+        presenter.logInHandler(logInBtnObs);
+
+        editTextEmail = view.findViewById(R.id.editTextEmail);
+        editTextPassword = view.findViewById(R.id.editTextPassword);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        presenter.dispose();
     }
 
     @Override

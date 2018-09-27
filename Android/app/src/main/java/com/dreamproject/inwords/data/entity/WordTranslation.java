@@ -18,6 +18,7 @@ public class WordTranslation {
         this.wordNative = wordNative;
     }
 
+    @NonNull
     public String getWordForeign() {
         return this.wordForeign;
     }

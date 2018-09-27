@@ -9,7 +9,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class WordsAllList implements DataManipulations<List<WordTranslation>> {
+public class WordsAllList implements DataManipulations<List<WordTranslation>, Object> {
     private TranslationWordsRepository repository;
 
     public WordsAllList(TranslationWordsRepository repository) {
@@ -17,7 +17,7 @@ public class WordsAllList implements DataManipulations<List<WordTranslation>> {
     }
 
     @Override
-    public Observable<List<WordTranslation>> get() {
+    public Observable<List<WordTranslation>> get(Object o) {
         return repository.getList();
     }
 

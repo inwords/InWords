@@ -4,16 +4,19 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
-public class RepositoryController<T> implements DataManipulations<T> {
-    private DataManipulations<T> inMemoryCache;
-    private DataManipulations<T> localRepository;
-    private DataManipulations<T> remoteRepository;
+public class RepositorySyncController<T, V> implements DataManipulations<T, V> {
+    private DataManipulations<T, V> inMemoryCache;
+    private DataManipulations<T, V> localRepository;
+    private DataManipulations<T, V> remoteRepository;
 
     private BehaviorSubject<T> behaviorSubject;
 
-    public RepositoryController(DataManipulations<T> inMemoryCache,
-                                DataManipulations<T> localRepository,
-                                DataManipulations<T> remoteRepository) {
+    public RepositorySyncController(BehaviorSubject<T> behaviorSubject,
+                                    DataManipulations<T, V> inMemoryCache,
+                                    DataManipulations<T, V> localRepository,
+                                    DataManipulations<T, V> remoteRepository) {
+        this.behaviorSubject = behaviorSubject;
+
         this.inMemoryCache = inMemoryCache;
         this.localRepository = localRepository;
         this.remoteRepository = remoteRepository;
@@ -22,13 +25,13 @@ public class RepositoryController<T> implements DataManipulations<T> {
     }
 
     @Override
-    public Observable<T> get() {
-        Observable<T> memoryCachedWords = inMemoryCache.get();
+    public Observable<T> get(V o) {
+        Observable<T> memoryCachedWords = inMemoryCache.get(o);
 
-        Observable<T> localWords = localRepository.get()
+        Observable<T> localWords = localRepository.get(o)
                 .doOnNext(words -> inMemoryCache.add(words).subscribe());
 
-        Observable<T> remoteWords = remoteRepository.get()
+        Observable<T> remoteWords = remoteRepository.get(o)
                 .doOnNext(words -> {
                     localRepository.add(words).subscribe();
                     inMemoryCache.add(words).subscribe();

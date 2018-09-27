@@ -4,54 +4,52 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingLeft="32dp"
-        android:paddingTop="16dp"
-        android:paddingRight="32dp"
-        android:paddingBottom="16dp">
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingTop="56dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="56dp">
 
         <TextView
             android:id="@+id/textViewEntry"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Вход"
+            android:layout_marginBottom="24dp"
+            android:text="@string/sign_in"
+            android:textAlignment="center"
             android:textSize="30sp"
             android:textStyle="normal|bold" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayoutEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewEntry"
-            android:layout_marginTop="26dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Адрес электронной почты"
+                android:hint="@string/sign_in_email"
                 android:inputType="textEmailAddress" />
-
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayoutPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textInputLayoutEmail"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Пароль"
+                android:hint="@string/sign_in_password"
                 android:inputType="textPassword" />
-
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -59,30 +57,25 @@
             style="@style/ColoredButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textInputLayoutPassword"
-            android:layout_alignEnd="@+id/textInputLayoutPassword"
-            android:layout_marginTop="26dp"
-            android:text="Войти"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/sign_in_enter" />
+
+        <Button
+            android:id="@+id/buttonCreateNewAccount"
+            style="@style/TransparentButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in_create_account"
             android:textAllCaps="false" />
 
         <Button
             android:id="@+id/buttonRestorePassword"
             style="@style/TransparentButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/buttonEntry"
-            android:layout_marginTop="26dp"
-            android:text="Восстановить пароль"
+            android:text="@string/sign_in_restore_password"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/buttonCreateNewAccount"
-            style="@style/TransparentButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/buttonRestorePassword"
-            android:text="Создать аккаунт"
-            android:textAllCaps="false" />
-
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

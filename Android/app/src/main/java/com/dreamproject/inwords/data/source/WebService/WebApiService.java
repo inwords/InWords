@@ -15,10 +15,21 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 
 public interface WebApiService {
+    @POST("/api/auth/registration")
+    @Headers({"Content-Type: application/json"})
+    Observable<AuthToken> registerUser(@Body TemporaryUser temporaryUser); //TODO: test
+
+    @POST("/api/auth/token")
+    Observable<AuthToken> getToken(@Header("Authorization") String credentials); //TODO: test
+
+    @GET("/api/values/getlogin")
+    Observable<String> getLogin(@Header("Authorization") String bearerToken); //TODO: test
 
     @GET("/api/values")
     Observable<List<String>> getValues();
@@ -39,6 +50,7 @@ public interface WebApiService {
                             setLevel((BuildConfig.DEBUG) ?
                                     HttpLoggingInterceptor.Level.BODY :
                                     HttpLoggingInterceptor.Level.NONE))
+                    .authenticator(new BasicAuthenticator())
                     .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(5, TimeUnit.SECONDS)
                     .writeTimeout(5, TimeUnit.SECONDS)
@@ -49,6 +61,7 @@ public interface WebApiService {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .baseUrl(baseApiUrl)
+
                     .build();
 
             return retrofit.create(WebApiService.class);

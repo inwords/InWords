@@ -3,62 +3,83 @@ package com.dreamproject.inwords.data.repository.Translation;
 import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.repository.RepositoryController;
-import com.dreamproject.inwords.data.repository.Translation.manipulations.WordsAllList;
-import com.dreamproject.inwords.data.repository.Translation.manipulations.WordsOne;
 
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 public class TranslationWordsMainRepository implements TranslationWordsRepository {
-    private RepositoryController<List<WordTranslation>> allListController;
-    private RepositoryController<WordTranslation> oneController;
+    //private RepositorySyncController<List<WordTranslation>> allListController;
+
+    TranslationWordsRepository inMemoryRepository;
+    TranslationWordsRepository localRepository;
+    TranslationWordsRepository remoteRepository;
 
     public TranslationWordsMainRepository(Application application) {
-        TranslationWordsRepository inMemoryRepository = new TranslationWordsCacheRepository();
-        TranslationWordsRepository localRepository = new TranslationWordsLocalRepository(application);
-        TranslationWordsRepository remoteRepository = new TranslationWordsRemoteRepository();
+        inMemoryRepository = new TranslationWordsCacheRepository();
+        localRepository = new TranslationWordsLocalRepository(application);
+        remoteRepository = new TranslationWordsRemoteRepository();
 
-        allListController = new RepositoryController<>(
+        /*allListController = new RepositorySyncController<>(
+                behaviorSubject,
                 new WordsAllList(inMemoryRepository),
                 new WordsAllList(localRepository),
-                new WordsAllList(remoteRepository));
+                new WordsAllList(remoteRepository));*/
 
-        oneController = new RepositoryController<>(
-                new WordsOne(inMemoryRepository),
-                new WordsOne(localRepository),
-                new WordsOne(remoteRepository));
+
+        //Один большой костыль для синхронизации
+        Observable.zip(remoteRepository.getList(), localRepository.getList(), (listRemote, listLocal) -> {
+            localRepository.addAll(listRemote)
+                    .subscribe();
+            remoteRepository.addAll(listLocal)
+                    .subscribe();
+
+            listLocal.addAll(listRemote);
+            inMemoryRepository.addAll(listLocal)
+                    .subscribe();
+
+            return listLocal;
+        })
+                .subscribeOn(Schedulers.io())
+                .subscribe((wordTranslations) -> {
+                }, Throwable::printStackTrace);
+
+    }
+
+    @Override
+    public Observable<WordTranslation> getTranslation(String word) {
+        return inMemoryRepository.getTranslation(word);
     }
 
     @Override
     public Observable<WordTranslation> getByOne() {
-        return oneController.get();
+        return inMemoryRepository.getByOne();
     }
 
     @Override
     public Observable<List<WordTranslation>> getList() {
-        return allListController.get();
+        return inMemoryRepository.getList();
     }
 
     @Override
     public Completable add(WordTranslation wordTranslation) {
-        return oneController.add(wordTranslation);
+        return inMemoryRepository.add(wordTranslation);
     }
 
     @Override
     public Completable addAll(List<WordTranslation> wordTranslations) {
-        return allListController.add(wordTranslations);
+        return inMemoryRepository.addAll(wordTranslations);
     }
 
     @Override
     public Completable remove(WordTranslation wordTranslation) {
-        return oneController.remove(wordTranslation);
+        return inMemoryRepository.remove(wordTranslation);
     }
 
     @Override
     public Completable removeAll(List<WordTranslation> wordTranslations) {
-        return allListController.remove(wordTranslations);
+        return inMemoryRepository.removeAll(wordTranslations);
     }
 }
