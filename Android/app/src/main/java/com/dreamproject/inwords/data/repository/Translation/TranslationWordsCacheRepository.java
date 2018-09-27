@@ -40,6 +40,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsReposito
     @Override
     public Observable<List<WordTranslation>> getList() {
         return behaviorSubject
+                .subscribeOn(Schedulers.computation())
                 .filter(wordTranslations -> !wordTranslations.isEmpty())
                 .map(wordTranslations -> {
                     List<WordTranslation> list = new LinkedList<>();

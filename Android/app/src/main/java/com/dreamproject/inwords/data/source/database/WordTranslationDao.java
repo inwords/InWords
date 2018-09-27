@@ -1,6 +1,7 @@
 package com.dreamproject.inwords.data.source.database;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -19,9 +20,15 @@ public interface WordTranslationDao {
     @Insert
     long[] insertAll(List<WordTranslation> wordTranslation);
 
+    @Delete
+    void delete(WordTranslation wordTranslation);
+
+    @Delete
+    int deleteAll(List<WordTranslation> wordTranslation);
+
     @Query("DELETE FROM word_translation_table")
     int deleteAll();
 
-    @Query("SELECT * from word_translation_table ORDER BY wordForeign ASC")
+    @Query("SELECT * from word_translation_table ORDER BY word_native ASC")
     Maybe<List<WordTranslation>> getAllWords();
 }
