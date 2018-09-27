@@ -29,7 +29,7 @@ public class TranslationWordsMainRepository implements TranslationWordsRepositor
                 new WordsAllList(remoteRepository));*/
 
         SyncController syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
-        syncController.syncKostil();
+        syncController.syncKostil().blockingAwait();
         syncController.perf();
 
     }
