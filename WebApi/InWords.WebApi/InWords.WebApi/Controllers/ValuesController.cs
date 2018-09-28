@@ -5,6 +5,8 @@
     using Microsoft.AspNetCore.Authorization;
     using InWords.Data.Enums;
     using InWords.Data;
+    using InWords.Data.Models;
+    using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -12,9 +14,14 @@
     {
         private readonly UserRepository userRepository = null;
 
+        private readonly WordRepository wordRepository = null;
+
+
         public ValuesController()
         {
-            userRepository = new UserRepository(new InWordsDataContext());
+            var context = new InWordsDataContext();
+            userRepository = new UserRepository(context);
+            wordRepository = new WordRepository(context);
         }
 
         // GET api/values
@@ -27,9 +34,14 @@
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult<Word>> Get(string id)
         {
-            return "value";
+            Word stackedWord = new Word
+            {
+                Content = id
+            };
+            
+            return await wordRepository.Stack(stackedWord);
         }
 
         // POST api/values

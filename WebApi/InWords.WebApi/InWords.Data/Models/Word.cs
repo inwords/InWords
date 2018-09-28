@@ -6,9 +6,9 @@
         public int WordID { get; set; }
 
         [Required]
+        [StringLength(128)]
         public string Content { get; set; }
 
-        [Required]
         public virtual Language Language { get; set; }
     }
 }

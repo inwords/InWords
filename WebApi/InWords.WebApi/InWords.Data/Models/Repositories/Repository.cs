@@ -58,6 +58,21 @@
             return item;
         }
 
+        public async Task<TEntity> Stack(TEntity item, Func<TEntity, bool> predicate)
+        {
+            TEntity stackedWord = null;
+            IEnumerable<TEntity> query = Get(predicate);
+            if (query.Count() == 0)
+            {
+                stackedWord = await Create(item);
+            }
+            else
+            {
+                stackedWord = query.First();
+            }
+            return stackedWord;
+        }
+
         #region Include
 
         /// <summary>
