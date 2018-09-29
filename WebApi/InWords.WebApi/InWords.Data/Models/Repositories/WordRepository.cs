@@ -16,6 +16,7 @@ namespace InWords.Data.Models.Repositories
 
         public async Task<Word> Stack(Word item)
         {
+            item.Content = item.Content.ToLower();
             return await Stack(item, word => word.Content == item.Content);
         }
     }

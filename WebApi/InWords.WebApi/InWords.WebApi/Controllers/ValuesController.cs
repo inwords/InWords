@@ -16,12 +16,14 @@
 
         private readonly WordRepository wordRepository = null;
 
+        private readonly WordPairRepository wordPairRepository = null;
 
         public ValuesController()
         {
             var context = new InWordsDataContext();
             userRepository = new UserRepository(context);
             wordRepository = new WordRepository(context);
+            wordPairRepository = new WordPairRepository(context);
         }
 
         // GET api/values
@@ -33,15 +35,22 @@
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Word>> Get(string id)
+        [HttpGet("{words}")]
+        public async Task<ActionResult<WordPair>> Get(string words)
         {
-            Word stackedWord = new Word
+            string[] wordsArr = words.Split('.');
+
+            Word first = new Word
             {
-                Content = id
+                Content = wordsArr[0]
             };
-            
-            return await wordRepository.Stack(stackedWord);
+
+            Word second = new Word
+            {
+                Content = wordsArr[1]
+            };
+
+            return await wordPairRepository.Stack(first, second);
         }
 
         // POST api/values
