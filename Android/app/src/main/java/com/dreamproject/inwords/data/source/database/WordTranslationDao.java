@@ -10,7 +10,6 @@ import com.dreamproject.inwords.data.entity.WordTranslation;
 
 import java.util.List;
 
-import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 @Dao
@@ -23,13 +22,16 @@ public interface WordTranslationDao {
     List<Long> insertAll(List<WordTranslation> wordTranslation);
 
     @Delete
-    void delete(WordTranslation wordTranslation);
+    int delete(WordTranslation wordTranslation);
 
     @Delete
     int deleteAll(List<WordTranslation> wordTranslation);
 
     @Query("DELETE FROM word_translation_table")
     int deleteAll();
+
+    @Query("DELETE FROM word_translation_table WHERE server_id IN (:serverIds)")
+    int deleteAllServerIds(List<Integer> serverIds);
 
     @Query("SELECT * from word_translation_table ORDER BY word_native ASC")
     Single<List<WordTranslation>> getAllWords();

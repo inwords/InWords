@@ -5,9 +5,10 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsDatabaseRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRemoteRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsWebApiRepository;
 import com.dreamproject.inwords.data.sync.SyncController;
 
 import org.junit.Before;
@@ -21,15 +22,15 @@ import io.reactivex.observers.TestObserver;
 
 @RunWith(AndroidJUnit4.class)
 public class RepositoriesTest {
-    private TranslationWordsRepository inMemoryRepository;
-    private TranslationWordsRepository localRepository;
-    private TranslationWordsRepository remoteRepository;
+    private TranslationWordsLocalRepository inMemoryRepository;
+    private TranslationWordsLocalRepository localRepository;
+    private TranslationWordsRemoteRepository remoteRepository;
 
     @Before
     public void init() {
         inMemoryRepository = new TranslationWordsCacheRepository();
-        localRepository = new TranslationWordsLocalRepository(InstrumentationRegistry.getTargetContext());
-        remoteRepository = new TranslationWordsRemoteRepository();
+        localRepository = new TranslationWordsDatabaseRepository(InstrumentationRegistry.getTargetContext());
+        remoteRepository = new TranslationWordsWebApiRepository();
 
         /*allListController = new RepositorySyncController<>(
                 behaviorSubject,
@@ -38,7 +39,7 @@ public class RepositoriesTest {
                 new WordsAllList(remoteRepository));*/
 
         SyncController syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
-        syncController.populateReposFromSources()
+        syncController.presyncOnStart()
                 .blockingSubscribe((wordTranslations) -> {
                 }, Throwable::printStackTrace);
         syncController.trySyncAllReposWithCache()

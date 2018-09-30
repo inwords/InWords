@@ -1,20 +1,21 @@
 package com.dreamproject.inwords.data.repository.Translation;
 
-import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
-public class TranslationWordsCacheRepository implements TranslationWordsRepository {
+public class TranslationWordsCacheRepository implements TranslationWordsLocalRepository {
     private Set<WordTranslation> list;
 
     private BehaviorSubject<Set<WordTranslation>> behaviorSubject;
@@ -43,11 +44,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsReposito
         return behaviorSubject
                 .subscribeOn(Schedulers.computation())
                 .filter(wordTranslations -> !wordTranslations.isEmpty())
-                .map(wordTranslations -> {
-                    List<WordTranslation> list = new LinkedList<>();
-                    list.addAll(wordTranslations);
-                    return list;
-                });
+                .map(ArrayList::new);
     }
 
     @Override
@@ -70,26 +67,43 @@ public class TranslationWordsCacheRepository implements TranslationWordsReposito
         });
     }
 
-    @Override
-    public Single<WordIdentificator> remove(WordTranslation value) {
-        return Single.defer(() -> {
+    //@Override
+    public Completable remove(WordTranslation value) {
+        return Completable.fromCallable(() -> {
             list.remove(value);
 
-            return Single.just(value.getWordIdentificator())
-                    .doOnSuccess((o) -> publish());
+            publish();
+
+            return true;
         });
     }
 
     @Override
-    public Single<List<WordIdentificator>> removeAll(List<WordTranslation> values) {
-        return Single.defer(() -> {
+    public Completable removeAll(List<WordTranslation> values) {
+        return Completable.fromCallable(() -> {
             list.removeAll(values);
 
-            return Single.just(values)
-                    .flatMap(wordTranslations -> Observable.fromIterable(wordTranslations)
-                            .map(WordTranslation::getWordIdentificator)
-                            .toList())
-                    .doOnSuccess((o) -> publish());
+            publish();
+
+            return true;
+        });
+    }
+
+    @Override
+    public Completable removeAllServerIds(List<Integer> serverIds) {
+        return Completable.fromCallable(() -> {
+            for (Integer serverId : serverIds) {
+                for (Iterator<WordTranslation> it = list.iterator(); it.hasNext(); ) {
+                    WordTranslation next = it.next();
+                    if (next.getServerId() == serverId) {
+                        it.remove();
+                    }
+                }
+            }
+
+            publish();
+
+            return true;
         });
     }
 

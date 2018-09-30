@@ -5,7 +5,6 @@ import android.app.Application;
 import com.dreamproject.inwords.BasicPresenter;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 //compositeDisposable, model and application are available from BasicPresenter
 public class MainPresenterImpl extends BasicPresenter implements MainPresenter {
@@ -22,7 +21,7 @@ public class MainPresenterImpl extends BasicPresenter implements MainPresenter {
 
     @Override
     public void getAllHandler(Observable<Object> obs) {
-        Disposable d = model.getAllWords().subscribe(System.out::println);
+        obs.subscribe(o -> model.getAllWords().subscribe(System.out::println));
     }
 
 }

@@ -11,25 +11,15 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 public class TranslationWordsMainRepository implements TranslationWordsProvider {
-    //private RepositorySyncController<List<WordTranslation>> allListController;
-
-    private TranslationWordsRepository inMemoryRepository;
-    private TranslationWordsRepository localRepository;
-    private TranslationWordsRepository remoteRepository;
+    private TranslationWordsLocalRepository inMemoryRepository;
 
     public TranslationWordsMainRepository(Application application) {
         inMemoryRepository = new TranslationWordsCacheRepository();
-        localRepository = new TranslationWordsLocalRepository(application);
-        remoteRepository = new TranslationWordsRemoteRepository();
-
-        /*allListController = new RepositorySyncController<>(
-                behaviorSubject,
-                new WordsAllList(inMemoryRepository),
-                new WordsAllList(localRepository),
-                new WordsAllList(remoteRepository));*/
+        TranslationWordsLocalRepository localRepository = new TranslationWordsDatabaseRepository(application);
+        TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository();
 
         SyncController syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
-        syncController.populateReposFromSources()
+        syncController.presyncOnStart()
                 .blockingSubscribe((wordTranslations) -> {
                 }, Throwable::printStackTrace);
         syncController.trySyncAllReposWithCache()
@@ -65,11 +55,11 @@ public class TranslationWordsMainRepository implements TranslationWordsProvider 
 
     @Override
     public Completable remove(WordTranslation wordTranslation) {
-        return inMemoryRepository.remove(wordTranslation).ignoreElement();
+        return inMemoryRepository.remove(wordTranslation);
     }
 
     @Override
     public Completable removeAll(List<WordTranslation> wordTranslations) {
-        return inMemoryRepository.removeAll(wordTranslations).ignoreElement();
+        return inMemoryRepository.removeAll(wordTranslations);
     }
 }

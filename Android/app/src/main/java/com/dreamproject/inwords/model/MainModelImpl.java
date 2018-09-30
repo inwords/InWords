@@ -3,13 +3,12 @@ package com.dreamproject.inwords.model;
 import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.User;
+import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsMainRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsProvider;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepository;
 import com.dreamproject.inwords.data.source.WebService.AuthToken;
 import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
-import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
 import java.util.List;
