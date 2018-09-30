@@ -1,6 +1,7 @@
 package com.dreamproject.inwords.data.source.WebService;
 
 import com.dreamproject.inwords.data.entity.User;
+import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
 import java.util.Arrays;
@@ -93,18 +94,20 @@ public class WebRequests {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Completable insertWord(WordTranslation wordTranslation) {
-        return Completable.fromCallable(() -> {
+    public Single<WordTranslation> insertWord(WordTranslation wordTranslation) {
+        return Single.defer(() -> {
             Thread.sleep(2000);
-            return true;
+
+            return Single.just(wordTranslation); //TODO
         })
                 .subscribeOn(Schedulers.io());
     }
 
-    public Completable insertAllWords(List<WordTranslation> wordTranslations) {
-        return Completable.fromCallable(() -> {
+    public Single<List<WordTranslation>> insertAllWords(List<WordTranslation> wordTranslations) {
+        return Single.defer(() -> {
             Thread.sleep(2000);
-            return true;
+
+            return Single.just(wordTranslations); //TODO
         })
                 .subscribeOn(Schedulers.io());
     }

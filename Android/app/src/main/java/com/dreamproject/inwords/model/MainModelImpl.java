@@ -5,10 +5,11 @@ import android.app.Application;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsMainRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsProvider;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepository;
 import com.dreamproject.inwords.data.source.WebService.AuthToken;
 import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
-import com.dreamproject.inwords.data.source.WebService.UserCredentials;
+import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
 import java.util.List;
@@ -23,12 +24,12 @@ public class MainModelImpl implements MainModel {
 
     private static MainModelImpl INSTANCE;
 
-    private TranslationWordsRepository translationWordsRepository;
+    private TranslationWordsProvider translationWordsProvider;
 
     //data flow between model and view (reemits last element on new subscription)
     private BehaviorSubject<User> userBehaviorSubject;
 
-    WebRequests webRequests;
+    private WebRequests webRequests;
 
     public static MainModelImpl getInstance(final Application application) {
         if (INSTANCE == null) {
@@ -45,7 +46,7 @@ public class MainModelImpl implements MainModel {
         userBehaviorSubject = BehaviorSubject.create();
         webRequests = WebRequests.INSTANCE;
 
-        translationWordsRepository = new TranslationWordsMainRepository(application);
+        translationWordsProvider = new TranslationWordsMainRepository(application);
 
         /*WebRequests.INSTANCE.getToken(Credentials.basic("mail@mail.ru", "qwerty")).subscribe(authToken -> System.out.println(authToken.getAccessToken()),
                 Throwable::printStackTrace);*/
@@ -85,7 +86,7 @@ public class MainModelImpl implements MainModel {
     }
 
     public Observable<List<WordTranslation>> getAllWords() {
-        return translationWordsRepository.getList().map(wordTranslations ->
+        return translationWordsProvider.getList().map(wordTranslations ->
         {
             Observable.fromIterable(wordTranslations).filter(wordTranslation -> wordTranslation.getServerId() > 0).toList();
             return wordTranslations;

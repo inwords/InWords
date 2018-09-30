@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dreamproject.inwords.R;
-import com.dreamproject.inwords.data.source.WebService.UserCredentials;
+import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.Objects;

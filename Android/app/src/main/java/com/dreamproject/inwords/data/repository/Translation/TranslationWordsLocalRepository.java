@@ -1,22 +1,25 @@
 package com.dreamproject.inwords.data.repository.Translation;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Pair;
 
+import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 public class TranslationWordsLocalRepository implements TranslationWordsRepository {
     private WordTranslationDao wordTranslationDao;
 
-    public TranslationWordsLocalRepository(Application application) {
-        AppRoomDatabase db = AppRoomDatabase.getDatabase(application);
+    public TranslationWordsLocalRepository(Context context) {
+        AppRoomDatabase db = AppRoomDatabase.getDatabase(context);
         wordTranslationDao = db.wordTranslationDao();
     }
 
@@ -40,24 +43,49 @@ public class TranslationWordsLocalRepository implements TranslationWordsReposito
     }
 
     @Override
-    public Completable add(WordTranslation wordTranslation) {
-        return Completable.fromCallable(() -> wordTranslationDao.insert(wordTranslation))
+    public Single<WordTranslation> add(WordTranslation wordTranslation) {
+        return Single.defer(() -> {
+            long id = wordTranslationDao.insert(wordTranslation);
+            wordTranslation.getWordIdentificator().setId((int) id);
+
+            return Single.just(wordTranslation);
+        })
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable addAll(List<WordTranslation> wordTranslations) {
-        return Completable.fromCallable(() -> wordTranslationDao.insertAll(wordTranslations))
+    public Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations) {
+        return Observable.defer(() -> Observable.zip(
+                Observable.fromIterable(wordTranslationDao.insertAll(wordTranslations)),
+                Observable.fromIterable(wordTranslations),
+                Pair::new
+        )
+                .observeOn(Schedulers.computation())
+                .doOnNext((pair) -> pair.second.setId(pair.first.intValue()))
+                .map((pair) -> pair.second))
+                .toList()
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable remove(WordTranslation value) {
-        return null;
+    public Single<WordIdentificator> remove(WordTranslation value) {
+        return Single.defer(() -> {
+            Thread.sleep(200);
+
+            return Single.just(value.getWordIdentificator()); //TODO
+        })
+                .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable removeAll(List<WordTranslation> values) {
-        return null;
+    public Single<List<WordIdentificator>> removeAll(List<WordTranslation> values) {
+        return Single.defer(() -> {
+            Thread.sleep(200);
+
+            return Observable.fromIterable(values) //TODO
+                    .map(WordTranslation::getWordIdentificator)
+                    .toList();
+        })
+                .subscribeOn(Schedulers.io());
     }
 }

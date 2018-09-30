@@ -3,9 +3,11 @@ package com.dreamproject.inwords.data.sync;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepository;
 
-import io.reactivex.Completable;
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.Single;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -26,41 +28,20 @@ public class SyncController {
         REMOVE, ADD, NORMAL
     }
 
-    public void perf() {
-        Disposable d = inMemoryRepository.getList()
+    public Observable<List<WordTranslation>> trySyncAllReposWithCache() {
+        return inMemoryRepository.getList()
+                .observeOn(Schedulers.computation())
                 .firstElement() //Берём все элементы только 1 раз
                 .flatMapObservable(Observable::fromIterable) //Выдаём их по одному
                 .groupBy(this::group) //Группируем
                 .flatMapSingle(GroupedObservable::toList) //Каждую группу пихаем в List
                 .filter(wordTranslations -> !wordTranslations.isEmpty()) //Смотрим, чтобы он был не пустой
-                .doOnNext(list -> {  //Для каждого сгруппированного листа выполняем действия
-                    switch (group(list.get(0))) { //Узнаём какой группе принадлежит лист
-                        case ADD:
-                            remoteRepository.addAll(list).subscribe();
-                            localRepository.addAll(list).subscribe();
-                            break;
-
-                        case REMOVE:
-                            remoteRepository.removeAll(list).subscribe(() -> {
-                                        inMemoryRepository.removeAll(list);
-                                        localRepository.removeAll(list);
-                                    },
-                                    Throwable::printStackTrace);
-                            break;
-
-                        case NORMAL:
-                        default:
-                            break;
-                    }
-                })
-                .subscribe(list -> {
-                        },
-                        Throwable::printStackTrace);
-
+                .observeOn(Schedulers.io())
+                .doOnNext(this::groupedListHandler);
     }
 
     private Groups group(WordTranslation wordTranslation) {
-        int serverId = wordTranslation.getServerId();
+        int serverId = wordTranslation.getWordIdentificator().getServerId();
 
         if (serverId == 0)
             return ADD;
@@ -70,29 +51,63 @@ public class SyncController {
         return Groups.NORMAL;
     }
 
-    public Completable syncKostil() {
-        return Completable.fromCallable(() -> {
+    private void groupedListHandler(List<WordTranslation> list) {
+        if (list.isEmpty())
+            return;
 
+        switch (group(list.get(0))) { //Узнаём какой группе принадлежит лист
+            case ADD:
+                localRepository.addAll(list)
+                        .doOnSuccess(wordTranslationsLocal -> remoteRepository.addAll(wordTranslationsLocal)
+                                .doOnSuccess((wordTranslationsRemote) ->
+                                        Single.mergeDelayError(
+                                                localRepository.addAll(wordTranslationsRemote),
+                                                inMemoryRepository.addAll(wordTranslationsRemote))
+                                                .blockingSubscribe())
+                                .doOnError((throwable) -> {
+                                    inMemoryRepository.addAll(wordTranslationsLocal).blockingGet();
+                                    throwable.printStackTrace();
+                                })
+                                .blockingGet()
+                        )
+                        .doOnError(Throwable::printStackTrace)
+                        .blockingGet();
+                break;
 
-            Observable.zip(remoteRepository.getList(), localRepository.getList(), (listRemote, listLocal) -> {
-                localRepository.addAll(listRemote)
-                        .subscribe();
-                remoteRepository.addAll(listLocal)
-                        .subscribe();
+            case REMOVE:
+                remoteRepository.removeAll(list)
+                        .doOnSuccess(wordIdentificators1 -> { //TODO
+                            inMemoryRepository.removeAll(list);
+                            localRepository.removeAll(list);
+                        })
+                        .doOnError(Throwable::printStackTrace)
+                        .blockingGet();
+                break;
 
-                listLocal.addAll(listRemote);
-                inMemoryRepository.addAll(listLocal)
-                        .subscribe();
+            case NORMAL:
+            default:
+                break;
+        }
+    }
 
-                return listLocal;
-            })
-                    .subscribeOn(Schedulers.io())
-                    .blockingSubscribe((wordTranslations) -> {
+    public Observable<List<WordTranslation>> populateReposFromSources() {
+        return Observable.fromCallable(() -> {
+            List<WordTranslation> listRemote = remoteRepository.getList().blockingFirst(new ArrayList<>());
+            List<WordTranslation> listLocal = localRepository.getList().blockingFirst(new ArrayList<>());
+
+            Single.mergeDelayError(
+                    localRepository.addAll(listRemote),
+                    inMemoryRepository.addAll(listLocal))
+                    .blockingSubscribe(wordTranslations -> {
                     }, Throwable::printStackTrace);
 
+            listLocal.addAll(listRemote);
+            inMemoryRepository.addAll(listLocal)
+                    .blockingGet();
 
-            return true;
-        });
+            return listLocal;
+        })
+                .subscribeOn(Schedulers.io());
     }
 
 

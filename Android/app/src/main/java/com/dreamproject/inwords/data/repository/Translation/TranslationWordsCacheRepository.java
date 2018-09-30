@@ -1,5 +1,6 @@
 package com.dreamproject.inwords.data.repository.Translation;
 
+import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
 import java.util.Collections;
@@ -8,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -50,41 +51,49 @@ public class TranslationWordsCacheRepository implements TranslationWordsReposito
     }
 
     @Override
-    public Completable add(WordTranslation wordTranslation) {
-        return modifyingAction(() -> list.add(wordTranslation));
+    public Single<WordTranslation> add(WordTranslation wordTranslation) {
+        return Single.defer(() -> {
+            list.add(wordTranslation);
+
+            return Single.just(wordTranslation)
+                    .doOnSuccess((o) -> publish());
+        });
     }
 
     @Override
-    public Completable addAll(List<WordTranslation> wordTranslations) {
-        return modifyingAction(() -> list.addAll(wordTranslations));
+    public Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations) {
+        return Single.defer(() -> {
+            list.addAll(wordTranslations);
+
+            return Single.just(wordTranslations)
+                    .doOnSuccess((o) -> publish());
+        });
     }
 
     @Override
-    public Completable remove(WordTranslation value) {
-        return modifyingAction(() -> list.remove(value));
+    public Single<WordIdentificator> remove(WordTranslation value) {
+        return Single.defer(() -> {
+            list.remove(value);
+
+            return Single.just(value.getWordIdentificator())
+                    .doOnSuccess((o) -> publish());
+        });
     }
 
     @Override
-    public Completable removeAll(List<WordTranslation> values) {
-        return modifyingAction(() -> list.removeAll(values));
-    }
+    public Single<List<WordIdentificator>> removeAll(List<WordTranslation> values) {
+        return Single.defer(() -> {
+            list.removeAll(values);
 
-    private Completable modifyingAction(Action action) {
-        return Completable.fromCallable(() -> {
-            boolean res = action.perform();
-
-            publish();
-
-            return res;
-        })
-                .subscribeOn(Schedulers.computation());
+            return Single.just(values)
+                    .flatMap(wordTranslations -> Observable.fromIterable(wordTranslations)
+                            .map(WordTranslation::getWordIdentificator)
+                            .toList())
+                    .doOnSuccess((o) -> publish());
+        });
     }
 
     private void publish() {
         behaviorSubject.onNext(list);
-    }
-
-    private interface Action {
-        boolean perform();
     }
 }

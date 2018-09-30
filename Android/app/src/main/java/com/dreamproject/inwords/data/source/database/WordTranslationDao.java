@@ -3,6 +3,7 @@ package com.dreamproject.inwords.data.source.database;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
@@ -10,15 +11,16 @@ import com.dreamproject.inwords.data.entity.WordTranslation;
 import java.util.List;
 
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 @Dao
 public interface WordTranslationDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(WordTranslation wordTranslation);
 
-    @Insert
-    long[] insertAll(List<WordTranslation> wordTranslation);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    List<Long> insertAll(List<WordTranslation> wordTranslation);
 
     @Delete
     void delete(WordTranslation wordTranslation);
@@ -30,5 +32,5 @@ public interface WordTranslationDao {
     int deleteAll();
 
     @Query("SELECT * from word_translation_table ORDER BY word_native ASC")
-    Maybe<List<WordTranslation>> getAllWords();
+    Single<List<WordTranslation>> getAllWords();
 }

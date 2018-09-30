@@ -2,6 +2,7 @@ package com.dreamproject.inwords.data.source.WebService;
 
 import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.data.entity.User;
+import com.dreamproject.inwords.data.entity.UserCredentials;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
