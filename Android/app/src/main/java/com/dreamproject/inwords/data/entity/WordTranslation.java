@@ -1,7 +1,6 @@
 package com.dreamproject.inwords.data.entity;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
@@ -13,7 +12,7 @@ import java.util.Objects;
         indices = {
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
-public class WordTranslation extends WordIdentificator{
+public class WordTranslation extends WordIdentificator {
     @NonNull
     @ColumnInfo(name = "word_foreign")
     private String wordForeign;
@@ -74,21 +73,12 @@ public class WordTranslation extends WordIdentificator{
                 '}';
     }
 
-    public boolean equalsActual(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        WordTranslation that = (WordTranslation) o;
-        return wordForeign.equals(that.wordForeign) &&
-                wordNative.equals(that.wordNative);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WordTranslation that = (WordTranslation) o;
-        return super.equals(that) &&
-                wordForeign.equals(that.wordForeign) &&
+        return wordForeign.equals(that.wordForeign) &&
                 wordNative.equals(that.wordNative);
     }
 
