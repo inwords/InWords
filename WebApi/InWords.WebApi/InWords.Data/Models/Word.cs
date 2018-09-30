@@ -9,6 +9,7 @@
         [StringLength(128)]
         public string Content { get; set; }
 
+        public int? LanguageID { get; set; }
         //TODO [Required] Language
         public virtual Language Language { get; set; }
     }
