@@ -18,12 +18,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InWords.Auth\InWords.Auth.csproj" />
     <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
+    <ProjectReference Include="..\InWords.Transfer.Data\InWords.Transfer.Data.csproj" />
   </ItemGroup>
 
 </Project>
