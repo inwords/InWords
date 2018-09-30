@@ -30,26 +30,27 @@ namespace InWords.WebApi.Controllers
         }
 
         [Authorize]
-        [Route("registration")]
+        [Route("addpair")]
         [HttpPost]
         public async Task<IActionResult> AddPair([FromBody] WordTranslation wordTranslation)
         {
             int authorizedID = AuthProvider.GetUserID(User);
 
-            Word first = new Word
+            Word firstWordForeign = new Word
             {
                 Content = wordTranslation.WordForeign
             };
 
-            Word second = new Word
+            Word secondWordNative = new Word
             {
                 Content = wordTranslation.WordNative
             };
 
-            var wordpair = await wordPairRepository.Stack(first, second);
+            var wordpair = await wordPairRepository.Stack(firstWordForeign, secondWordNative);
 
-            Word wordForeign = null;//await wordRepository.FindById(wordpair.WordNativeID);
-            Word native = null;//await wordRepository.FindById(wordpair.WordNativeID)
+            Word wordForeign = wordpair.WordForeign;
+            Word native = wordpair.WordNative;
+
             if (wordpair.WordForeign == null)
             {
                 wordForeign = await wordRepository.FindById(wordpair.WordNativeID);
@@ -62,12 +63,12 @@ namespace InWords.WebApi.Controllers
 
             UserWordPair CreatedPair = new UserWordPair()
             {
-                WordPair = wordpair,
-                IsInvertPair = wordForeign.Content == wordpair.WordForeign.Content,
+                WordPairID = wordpair.WordPairID,
+                IsInvertPair = wordForeign.Content == firstWordForeign.Content,
                 UserID = authorizedID
             };
 
-            await userWordPairRepository.Stack(CreatedPair);
+            CreatedPair = await userWordPairRepository.Stack(CreatedPair);
 
             return Ok(CreatedPair.UserWordPairID);
         }
