@@ -30,8 +30,8 @@ namespace InWords.WebApi.Controllers
         }
 
         [Route("WordPairs")]
-        [HttpPost]
-        public async Task<IActionResult> WordPairs([FromBody] IEnumerable<WordTranslation> wordTranslationList)
+        [HttpPost]//todo PushRequest (list<wordtransltaion> + serverId_todelete)
+        public async Task<IActionResult> PushWordPairs([FromBody] IEnumerable<WordTranslation> wordTranslationList)
         {
             foreach (WordTranslation wordtranstation in wordTranslationList)
             {
@@ -57,7 +57,7 @@ namespace InWords.WebApi.Controllers
         [Authorize]
         [Route("Pull")]
         [HttpPost]
-        public async Task<IActionResult> Pull([FromBody] IEnumerable<int> server_ids)
+        public async Task<IActionResult> PullWordPairs([FromBody] IEnumerable<int> server_ids)
         {
             ///string[] server = { "Microsoft", "Google", "Apple" };
             //string[] user = { "Apple", "IBM", "Samsung" };
