@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class PresyncServerAnswer {
+public class PullWordsAnswer {
     @SerializedName("server_ids")
     private List<Integer> removedServerIds;
     @SerializedName("words")
     private List<WordTranslation> addedWords;
 
-    public PresyncServerAnswer(List<Integer> removedServerIds, List<WordTranslation> addedWords) {
+    public PullWordsAnswer(List<Integer> removedServerIds, List<WordTranslation> addedWords) {
         this.removedServerIds = removedServerIds;
         this.addedWords = addedWords;
     }

@@ -4,7 +4,7 @@ import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.sync.PresyncServerAnswer;
+import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -118,7 +118,7 @@ public class WebRequests {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<PresyncServerAnswer> getPresyncData() { //TODO its a mock
+    public Observable<PullWordsAnswer> getPresyncData() { //TODO its a mock
         return Observable.fromCallable(() -> {
             try {
                 Thread.sleep(2000);
@@ -126,7 +126,7 @@ public class WebRequests {
                 e.printStackTrace();
             }
 
-            return new PresyncServerAnswer(Collections.singletonList(12), Arrays.asList(
+            return new PullWordsAnswer(Collections.singletonList(12), Arrays.asList(
                     new WordTranslation(1, 12, "asd", "ку"),
                     new WordTranslation(3, 14, "asdddd", "qwe"),
                     new WordTranslation(2, 13, "sdg", "укеу")));

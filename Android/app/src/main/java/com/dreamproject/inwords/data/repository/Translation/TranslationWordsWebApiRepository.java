@@ -3,7 +3,7 @@ package com.dreamproject.inwords.data.repository.Translation;
 import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
-import com.dreamproject.inwords.data.sync.PresyncServerAnswer;
+import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class TranslationWordsWebApiRepository implements TranslationWordsRemoteR
     }
 
     @Override
-    public Observable<PresyncServerAnswer> getPresyncData(List<WordTranslation> wordTranslations) {
+    public Observable<PullWordsAnswer> getPresyncData(List<WordTranslation> wordTranslations) {
         return webRequests.getPresyncData();
     }
 }
