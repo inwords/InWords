@@ -33,6 +33,42 @@ namespace InWords.WebApi.Service
             return answer;
         }
 
+        public IEnumerable<int> UserWordsID(int userID)
+        {
+            return userWordPairRepository.Get(uwp => uwp.UserID == userID).Select(uwp => uwp.UserWordPairID);
+        }
+
+        public async Task<List<WordTranslation>> GetWordsByID(IEnumerable<int> ids)
+        {
+            List<WordTranslation> wordTranslations = new List<WordTranslation>();
+
+            foreach (int id in ids)
+            {
+                var uwp = await userWordPairRepository.FindById(id);
+                var wordpair = await wordPairRepository.FindById(uwp.WordPairID);
+                var word1 = await wordRepository.FindById(wordpair.WordForeignID);
+                var word2 = await wordRepository.FindById(wordpair.WordNativeID);
+
+                WordTranslation addedWord = new WordTranslation
+                {
+                    ServerId = id
+                };
+
+                if (uwp.IsInvertPair)
+                {
+                    addedWord.WordNative = word1.Content;
+                    addedWord.WordForeign = word2.Content;
+                }
+                else
+                {
+                    addedWord.WordNative = word2.Content;
+                    addedWord.WordForeign = word1.Content;
+                }
+                wordTranslations.Add(addedWord);
+            }
+            return wordTranslations;
+        }
+
         private async Task AddWord(int userID, WordTranslation wordTranslation, List<WordTranslationBase> answer)
         {
             Word firstWordForeign = new Word
