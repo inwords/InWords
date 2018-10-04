@@ -16,6 +16,7 @@ namespace InWords.WebApi.Controllers
     [ApiController]
     public class SyncController : ControllerBase
     {
+        private readonly Data.InWordsDataContext context = null;
         private readonly UserWordPairRepository userWordPairRepository = null;
         private readonly WordPairRepository wordPairRepository = null;
         private readonly WordRepository wordRepository = null;
@@ -23,7 +24,7 @@ namespace InWords.WebApi.Controllers
 
         public SyncController()
         {
-            Data.InWordsDataContext context = new Data.InWordsDataContext();
+            context = new Data.InWordsDataContext();
             userWordPairRepository = new UserWordPairRepository(context);
             wordPairRepository = new WordPairRepository(context);
             wordRepository = new WordRepository(context);
