@@ -8,16 +8,14 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Service
 {
-    public class WordsService
+    public class WordsService : ServiceBase
     {
-        private readonly Data.InWordsDataContext context = null;
         private readonly UserWordPairRepository userWordPairRepository = null;
         private readonly WordPairRepository wordPairRepository = null;
         private readonly WordRepository wordRepository = null;
 
-        public WordsService(Data.InWordsDataContext context)
+        public WordsService(Data.InWordsDataContext context) : base(context)
         {
-            this.context = context;
             userWordPairRepository = new UserWordPairRepository(this.context);
             wordPairRepository = new WordPairRepository(this.context);
             wordRepository = new WordRepository(this.context);
