@@ -53,7 +53,7 @@ namespace InWords.WebApi.Controllers
         }
 
         [Authorize]
-        [Route("Pull")]
+        [Route("pullwordpairs")]
         [HttpPost]
         public async Task<IActionResult> PullWordPairs([FromBody] IEnumerable<int> server_ids)
         {
