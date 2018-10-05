@@ -6,6 +6,7 @@ using InWords.Auth.Providers;
 using InWords.Data.Models;
 using InWords.Data.Models.Repositories;
 using InWords.Transfer.Data;
+using InWords.WebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,61 +17,37 @@ namespace InWords.WebApi.Controllers
     [ApiController]
     public class WordsController : ControllerBase
     {
-        private readonly UserWordPairRepository userWordPairRepository = null;
-        private readonly WordPairRepository wordPairRepository = null;
-        private readonly WordRepository wordRepository = null;
-
+        private readonly Data.InWordsDataContext context = null;
+        private readonly WordsService wordsService = null;
 
         public WordsController()
         {
-            Data.InWordsDataContext context = new Data.InWordsDataContext();
-            userWordPairRepository = new UserWordPairRepository(context);
-            wordPairRepository = new WordPairRepository(context);
-            wordRepository = new WordRepository(context);
+            context = new Data.InWordsDataContext();
+            wordsService = new WordsService(context);
         }
 
         [Authorize]
         [Route("addpair")]
         [HttpPost]
-        public async Task<IActionResult> AddPair([FromBody] WordTranslation wordTranslation)
+        public async Task<IActionResult> AddPair([FromBody] List<WordTranslation> wordTranslations)
         {
             int authorizedID = AuthProvider.GetUserID(User);
 
-            Word firstWordForeign = new Word
-            {
-                Content = wordTranslation.WordForeign
-            };
+            var answer = await wordsService.AddPair(authorizedID, wordTranslations);
 
-            Word secondWordNative = new Word
-            {
-                Content = wordTranslation.WordNative
-            };
+            return Ok(answer);
+        }
 
-            var wordpair = await wordPairRepository.Stack(firstWordForeign, secondWordNative);
+        [Authorize]
+        [Route("deletepair")]
+        [HttpDelete]
+        public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> userWordPairIDs)
+        {
+            int authorizedID = AuthProvider.GetUserID(User);
 
-            Word wordForeign = wordpair.WordForeign;
-            Word native = wordpair.WordNative;
+            var answer = await wordsService.DeleteUserWordPair(authorizedID, userWordPairIDs);
 
-            if (wordpair.WordForeign == null)
-            {
-                wordForeign = await wordRepository.FindById(wordpair.WordNativeID);
-            }
-
-            if (wordpair.WordNative == null)
-            {
-                native = await wordRepository.FindById(wordpair.WordNativeID);
-            }
-
-            UserWordPair CreatedPair = new UserWordPair()
-            {
-                WordPairID = wordpair.WordPairID,
-                IsInvertPair = wordForeign.Content == firstWordForeign.Content,
-                UserID = authorizedID
-            };
-
-            CreatedPair = await userWordPairRepository.Stack(CreatedPair);
-
-            return Ok(CreatedPair.UserWordPairID);
+            return Ok(answer);
         }
     }
 }

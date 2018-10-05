@@ -122,7 +122,7 @@ namespace InWords.WebApi.Controllers
                 return NotFound();
             }
 
-            accauntRepositoty.Remove(accaunt);
+            await accauntRepositoty.Remove(accaunt);
             return Ok(accaunt);
         }
 
