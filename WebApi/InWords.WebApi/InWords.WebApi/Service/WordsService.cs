@@ -129,9 +129,9 @@ namespace InWords.WebApi.Service
 
         public async Task<int> DeleteUserWordPair(int userID, int userWordPairID)
         {
-            var userwordpair = await userWordPairRepository.FindById(userWordPairID);
+            var userwordpairs = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID);
 
-            return userwordpair == null ? 0 : await userWordPairRepository.Remove(userwordpair); ;
+            return userwordpairs.Count() == 0 ? 0 : await userWordPairRepository.Remove(userwordpairs.ToArray()); ;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace InWords.Data.Interpface
         Task<TEntity> FindById(int id);
         IEnumerable<TEntity> Get();
         IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
-        Task<int> Remove(TEntity item);
+        Task<int> Remove(params TEntity[] item);
         Task<TEntity> Update(TEntity item);
     }
 }

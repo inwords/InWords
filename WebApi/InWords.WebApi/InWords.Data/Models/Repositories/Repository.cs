@@ -45,9 +45,12 @@
         /// Async remove from DataBase
         /// </summary>
         /// <param name="item"></param>
-        public async Task<int> Remove(TEntity item)
+        public async Task<int> Remove(params TEntity[] item)
         {
-            context.Entry(item).State = EntityState.Deleted;
+            foreach (TEntity currentItem in item)
+            {
+                context.Entry(currentItem).State = EntityState.Deleted;
+            }
             return await context.SaveChangesAsync();
         }
 
