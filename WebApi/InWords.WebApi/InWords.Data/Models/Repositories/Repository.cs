@@ -47,7 +47,7 @@
         /// <param name="item"></param>
         public async Task<int> Remove(TEntity item)
         {
-            context.Entry(item).State = EntityState.Modified;
+            context.Entry(item).State = EntityState.Deleted;
             return await context.SaveChangesAsync();
         }
 
