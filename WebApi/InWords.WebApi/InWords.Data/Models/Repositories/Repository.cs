@@ -45,10 +45,10 @@
         /// Async remove from DataBase
         /// </summary>
         /// <param name="item"></param>
-        public async void Remove(TEntity item)
+        public async Task<int> Remove(TEntity item)
         {
             context.Entry(item).State = EntityState.Modified;
-            await context.SaveChangesAsync();
+            return await context.SaveChangesAsync();
         }
 
         public async Task<TEntity> Update(TEntity item)

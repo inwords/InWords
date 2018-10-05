@@ -37,5 +37,17 @@ namespace InWords.WebApi.Controllers
 
             return Ok(answer);
         }
+
+        [Authorize]
+        [Route("deletepair")]
+        [HttpDelete]
+        public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> userWordPairIDs)
+        {
+            int authorizedID = AuthProvider.GetUserID(User);
+
+            var answer = await wordsService.DeleteUserWordPair(authorizedID, userWordPairIDs);
+
+            return Ok(answer);
+        }
     }
 }

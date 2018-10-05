@@ -27,7 +27,7 @@ namespace InWords.WebApi.Service
 
             foreach (WordTranslation wordTranslation in wordTranslations)
             {
-                await AddWord(userID, wordTranslation, answer);
+                await AddUserWordPair(userID, wordTranslation, answer);
             }
 
             return answer;
@@ -69,7 +69,7 @@ namespace InWords.WebApi.Service
             return wordTranslations;
         }
 
-        private async Task AddWord(int userID, WordTranslation wordTranslation, List<WordTranslationBase> answer)
+        private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<WordTranslationBase> answer)
         {
             Word firstWordForeign = new Word
             {
@@ -115,6 +115,22 @@ namespace InWords.WebApi.Service
             {
                 answer.Add(resultPair);
             }
+        }
+
+        public async Task<int> DeleteUserWordPair(int userID, IEnumerable<int> userWordPairIDs)
+        {
+            int wordsRemoved = 0;
+            foreach (int uwpID in userWordPairIDs)
+            {
+                wordsRemoved += await DeleteUserWordPair(userID, uwpID);
+            }
+            return wordsRemoved;
+        }
+
+        public async Task<int> DeleteUserWordPair(int userID, int userWordPairID)
+        {
+            var userwordpair = await userWordPairRepository.FindById(userWordPairID);
+            return await userWordPairRepository.Remove(userwordpair);
         }
     }
 }
