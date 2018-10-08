@@ -1,5 +1,6 @@
 package com.dreamproject.inwords.data.repository.Translation;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
@@ -10,22 +11,11 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class TranslationWordsMainRepository implements TranslationWordsProvider {
+public class TranslationWordsMainRepository implements TranslationWordsProvider { //TODO make it Interactor
     private TranslationWordsLocalRepository inMemoryRepository;
 
-    public TranslationWordsMainRepository(Application application) {
-        inMemoryRepository = new TranslationWordsCacheRepository();
-        TranslationWordsLocalRepository localRepository = new TranslationWordsDatabaseRepository(application);
-        TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository();
-
-        SyncController syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
-        syncController.presyncOnStart()
-                .blockingSubscribe((wordTranslations) -> {
-                }, Throwable::printStackTrace);
-        syncController.trySyncAllReposWithCache()
-                .blockingSubscribe((wordTranslations) -> {
-                }, Throwable::printStackTrace);
-
+    public TranslationWordsMainRepository(Application application, TranslationWordsLocalRepository inMemoryRepository) {
+        this.inMemoryRepository = inMemoryRepository;
     }
 
     @Override

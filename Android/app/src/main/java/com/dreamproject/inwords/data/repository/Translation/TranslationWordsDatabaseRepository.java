@@ -6,6 +6,7 @@ import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -36,6 +37,14 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
     public Observable<List<WordTranslation>> getList() {
         return wordTranslationDao.getAllWords()
                 .subscribeOn(Schedulers.io())
+                .map(wordTranslations -> {
+                    if (wordTranslations.isEmpty()) { //TODO::
+                        return Arrays.asList(new WordTranslation(15, 0, "HEllo1", "из DBRepos"),
+                                new WordTranslation(16, 0, "Hellooo2", "из DBRepos"));
+                    }
+
+                    return wordTranslations;
+                })
                 //.filter(wordTranslations -> !wordTranslations.isEmpty())
                 .toObservable();
     }

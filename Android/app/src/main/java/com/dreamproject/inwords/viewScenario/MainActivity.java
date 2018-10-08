@@ -6,7 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dreamproject.inwords.R;
-import com.dreamproject.inwords.viewScenario.login.LoginFragment;
+import com.dreamproject.inwords.viewScenario.Authorisation.login.LoginFragment;
 import com.dreamproject.inwords.viewScenario.main.MainFragment;
 import com.dreamproject.inwords.viewScenario.translation.TranslationMainFragment;
 
@@ -40,4 +40,17 @@ public class MainActivity extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    /*
+    lateinit var image: Drawable
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        image = lastCustomNonConfigurationInstance as Drawable? ?: resources.getDrawable(R.drawable.mem, theme)
+    }
+
+    override fun onRetainCustomNonConfigurationInstance() = image
+     */
 }

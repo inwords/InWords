@@ -21,7 +21,14 @@ public class MainPresenterImpl extends BasicPresenter implements MainPresenter {
 
     @Override
     public void getAllHandler(Observable<Object> obs) {
-        obs.subscribe(o -> model.getAllWords().subscribe(System.out::println));
+        compositeDisposable.add(
+                obs.subscribe(o -> {
+                    model.sync(application);
+
+                    compositeDisposable.add(
+                            model.getAllWords().subscribe(System.out::println)
+                    );
+                }));
     }
 
 }

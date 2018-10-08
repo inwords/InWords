@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class PullWordsAnswer {
-    @SerializedName("server_ids")
+    @SerializedName("removedServerIds")
     private List<Integer> removedServerIds;
-    @SerializedName("words")
+    @SerializedName("addedWords")
     private List<WordTranslation> addedWords;
 
     public PullWordsAnswer(List<Integer> removedServerIds, List<WordTranslation> addedWords) {

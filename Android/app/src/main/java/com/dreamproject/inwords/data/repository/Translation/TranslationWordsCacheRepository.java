@@ -3,7 +3,9 @@ package com.dreamproject.inwords.data.repository.Translation;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +45,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     public Observable<List<WordTranslation>> getList() {
         return behaviorSubject
                 .subscribeOn(Schedulers.computation())
-                .filter(wordTranslations -> !wordTranslations.isEmpty())
+                //.filter(wordTranslations -> !wordTranslations.isEmpty())
                 .map(ArrayList::new);
     }
 

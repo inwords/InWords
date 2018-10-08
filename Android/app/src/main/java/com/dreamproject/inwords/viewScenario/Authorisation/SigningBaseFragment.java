@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.login;
+package com.dreamproject.inwords.viewScenario.Authorisation;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,45 +10,33 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.jakewharton.rxbinding2.view.RxView;
-
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import com.dreamproject.inwords.viewScenario.Authorisation.login.LoginFragment;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import io.reactivex.Observable;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LoginFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class LoginFragment extends Fragment implements LoginView {
+public abstract class SigningBaseFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    protected static final String ARG_PARAM1 = "param1";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    protected String mParam1;
 
-    private NavController navController;
+    protected NavController navController;
 
-    private TextInputEditText editTextEmail;
-    private TextInputEditText editTextPassword;
+    protected Button entryButton;
+    protected TextInputEditText editTextEmail;
+    protected TextInputEditText editTextPassword;
 
-    private LoginPresenter presenter;
+    protected LoginFragment.OnFragmentInteractionListener mListener;
 
-    private OnFragmentInteractionListener mListener;
-
-    public LoginFragment() {
+    public SigningBaseFragment() {
         // Required empty public constructor
     }
 
@@ -68,7 +56,6 @@ public class LoginFragment extends Fragment implements LoginView {
         return fragment;
     }
 
-
     public Observable<UserCredentials> getCredentials() { //TODO: validate input
         return Observable.zip(
                 Observable.fromCallable(() -> editTextEmail.getText().toString()),
@@ -77,32 +64,22 @@ public class LoginFragment extends Fragment implements LoginView {
     }
 
     @Override
-    public void loginSuccess() {
-        navController.navigate(R.id.action_loginFragment_to_mainFragment_pop);
-    }
-
-    @Override
-    public void loginError() {
-        //TODO
-    }
-
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
 
-        presenter = new LoginPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_authorization, container, false);
+        return inflater.inflate(getLayout(), container, false);
     }
+
+    protected abstract int getLayout();
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -115,29 +92,18 @@ public class LoginFragment extends Fragment implements LoginView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Observable<Object> logInBtnObs = (RxView.clicks(view.findViewById(R.id.buttonEntry))
-                .debounce(200, TimeUnit.MILLISECONDS));
-
         navController = Navigation.findNavController(view);
 
-        presenter.logInHandler(logInBtnObs);
-
+        entryButton = view.findViewById(R.id.buttonEntry);
         editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        presenter.dispose();
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof LoginFragment.OnFragmentInteractionListener) {
+            mListener = (LoginFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

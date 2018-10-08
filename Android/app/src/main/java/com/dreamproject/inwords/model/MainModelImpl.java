@@ -5,16 +5,25 @@ import android.app.Application;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsDatabaseRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsMainRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsProvider;
-import com.dreamproject.inwords.data.source.WebService.AuthToken;
-import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRemoteRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsWebApiRepository;
+import com.dreamproject.inwords.data.source.WebService.AuthorisationInteractor;
+import com.dreamproject.inwords.data.source.WebService.AuthorisationWebInteractor;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.data.sync.SyncController;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class MainModelImpl implements MainModel {
@@ -23,12 +32,13 @@ public class MainModelImpl implements MainModel {
 
     private static MainModelImpl INSTANCE;
 
+    private TranslationWordsLocalRepository inMemoryRepository;
+
     private TranslationWordsProvider translationWordsProvider;
+    private AuthorisationInteractor authorisationInteractor;
 
     //data flow between model and view (reemits last element on new subscription)
     private BehaviorSubject<User> userBehaviorSubject;
-
-    private WebRequests webRequests;
 
     public static MainModelImpl getInstance(final Application application) {
         if (INSTANCE == null) {
@@ -43,20 +53,27 @@ public class MainModelImpl implements MainModel {
 
     private MainModelImpl(Application application) {
         userBehaviorSubject = BehaviorSubject.create();
-        webRequests = WebRequests.INSTANCE;
 
-        translationWordsProvider = new TranslationWordsMainRepository(application);
+        WebRequests webRequests = WebRequests.INSTANCE;
 
-        /*WebRequests.INSTANCE.getToken(Credentials.basic("mail@mail.ru", "qwerty")).subscribe(authToken -> System.out.println(authToken.getAccessToken()),
+        authorisationInteractor = new AuthorisationWebInteractor(webRequests);
+        //signIn(new UserCredentials("admin@mail.ru", "asdasd")).blockingGet();
+
+        inMemoryRepository = new TranslationWordsCacheRepository();
+
+        translationWordsProvider = new TranslationWordsMainRepository(application, inMemoryRepository);
+
+
+        /*webRequests.getToken(Credentials.basic("mail@mail.ru", "qwerty")).subscribe(authToken -> System.out.println(authToken.getAccessToken()),
                 Throwable::printStackTrace);*/
 
-        /*Throwable t = WebRequests.INSTANCE.registerUser(new UserCredentials("mail2@mail.ru", "qwerty")).blockingGet();
+        /*Throwable t = webRequests.registerUser(new UserCredentials("mail2@mail.ru", "qwerty")).blockingGet();
         if (t != null)
             t.printStackTrace();*/
 
-        /*WebRequests.INSTANCE.setCredentials(new UserCredentials("mail@mail.ru", "qwerty"));
+        /*webRequests.setCredentials(new UserCredentials("mail@mail.ru", "qwerty"));
 
-        WebRequests.INSTANCE.getLogin()
+        webRequests.getLogin()
                 .subscribe(str -> System.out.println(str),
                         Throwable::printStackTrace);*/
         /*try {
@@ -72,24 +89,45 @@ public class MainModelImpl implements MainModel {
 
     }
 
-    public Completable logIn(UserCredentials userCredentials) {
-        return Completable.create((emitter) -> {
-            webRequests.setCredentials(userCredentials);
-            AuthToken authToken = webRequests.updateToken();
+    @Override
+    public void sync(Application application) {
+        TranslationWordsLocalRepository localRepository = new TranslationWordsDatabaseRepository(application);
+        TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository();
 
-            if (authToken.isValid())
-                emitter.onComplete();
-            else
-                emitter.onError(new AuthenticationError());
-        });
+        SyncController syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
+
+        localRepository.getList().flatMapSingle(inMemoryRepository::addAll).blockingFirst();
+
+        Throwable throwable = syncController.presyncOnStart()
+                .subscribeOn(Schedulers.io())
+                .doOnError(Throwable::printStackTrace)
+                .ignoreElement()
+                .blockingGet();
+        if (throwable != null)
+            throwable.printStackTrace();
+
+        syncController.trySyncAllReposWithCache()
+                .subscribeOn(Schedulers.io())
+                .onErrorReturnItem(Collections.emptyList())
+                .ignoreElements()
+                .blockingGet();
+    }
+
+    public Completable signIn(UserCredentials userCredentials) {
+        return authorisationInteractor.signIn(userCredentials);
+    }
+
+    public Completable signUp(UserCredentials userCredentials) {
+        return authorisationInteractor.signUp(userCredentials);
     }
 
     public Observable<List<WordTranslation>> getAllWords() {
         return translationWordsProvider.getList().map(wordTranslations ->
-        {
-            Observable.fromIterable(wordTranslations).filter(wordTranslation -> wordTranslation.getServerId() > 0).toList();
-            return wordTranslations;
-        });
+                Observable.fromIterable(wordTranslations)
+                        .filter(wordTranslation -> wordTranslation.getServerId() >= 0)
+                        .toList()
+                        .onErrorReturnItem(Collections.emptyList()) //TODO think
+                        .blockingGet());
     }
 
     void addUser() //TODO for example only; remove later
