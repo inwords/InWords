@@ -63,14 +63,15 @@ public class WordTranslation extends WordIdentificator {
         this.wordNative = wordNative;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "WordTranslation{" +
                 "id=" + id +
-                ", serverId=" + serverId +
-                ", wordForeign='" + wordForeign + '\'' +
-                ", wordNative='" + wordNative + '\'' +
-                '}';
+                ", sId=" + serverId +
+                ", wf='" + wordForeign + '\'' +
+                ", wn='" + wordNative + '\'' +
+                "}\n";
     }
 
     @Override

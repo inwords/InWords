@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Credentials;
@@ -108,14 +107,7 @@ public class WebRequests {
     }
 
     public Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
-        return Single.defer(() -> {
-            Thread.sleep(2000);
-
-            return Single.just(wordTranslations)
-                    .flatMapObservable(Observable::fromIterable)
-                    .cast(WordIdentificator.class)
-                    .toList(); //TODO
-        })
+        return apiService.addPairs(authInfo.getAuthToken().getBearer(), wordTranslations)
                 .subscribeOn(Schedulers.io());
     }
 

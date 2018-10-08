@@ -39,8 +39,8 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
                 .subscribeOn(Schedulers.io())
                 .map(wordTranslations -> {
                     if (wordTranslations.isEmpty()) { //TODO::
-                        return Arrays.asList(new WordTranslation(1, 0, "onErrorReturnItem", "из DBRepos"),
-                                new WordTranslation(2, 0, "onErrorReturnItem2", "из DBRepos"));
+                        return Arrays.asList(new WordTranslation(15, 0, "HEllo1", "из DBRepos"),
+                                new WordTranslation(16, 0, "Hellooo2", "из DBRepos"));
                     }
 
                     return wordTranslations;

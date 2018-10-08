@@ -59,7 +59,7 @@ public class SyncController {
         for (WordTranslation wordTranslation : list) {
             for (WordIdentificator wordIdentificator : listIds) {
                 if (wordIdentificator.getId() == wordTranslation.getId()) {
-                    wordTranslation.setId(wordIdentificator.getId());
+                    wordTranslation.setServerId((wordIdentificator.getServerId()));
                 }
             }
         }
@@ -84,16 +84,20 @@ public class SyncController {
                 localRepository.addAll(list)
                         .doOnSuccess(wordTranslations -> remoteRepository.addAll(wordTranslations)
                                 .doOnSuccess(wordIdentificatorsRemote -> {
-                                    mergeIds(wordTranslations, wordIdentificatorsRemote);
+                                    if (!wordTranslations.isEmpty() && !wordIdentificatorsRemote.isEmpty()) {
+                                        mergeIds(wordTranslations, wordIdentificatorsRemote);
 
-                                    Single.mergeDelayError(
-                                            localRepository.addAll(wordTranslations),
-                                            inMemoryRepository.addAll(wordTranslations))
-                                            .blockingSubscribe();
+                                        Single.mergeDelayError(
+                                                localRepository.addAll(wordTranslations),
+                                                inMemoryRepository.addAll(wordTranslations))
+                                                .blockingSubscribe();
+                                    }
                                 })
                                 .doOnError((throwable) -> {
-                                    inMemoryRepository.addAll(wordTranslations).blockingGet();
-                                    throwable.printStackTrace();
+                                    if (!wordTranslations.isEmpty()) {
+                                        inMemoryRepository.addAll(wordTranslations).blockingGet();
+                                        throwable.printStackTrace();
+                                    }
                                 })
                                 .blockingGet()
                         )
@@ -105,8 +109,10 @@ public class SyncController {
                 List<Integer> serverIds = serverIdsFromWordTranslations(list);
                 Throwable throwable = remoteRepository.removeAllServerIds(serverIds)
                         .doOnComplete(() -> { //TODO
-                            inMemoryRepository.removeAllServerIds(serverIds);
-                            localRepository.removeAllServerIds(serverIds);
+                            if (!serverIds.isEmpty()) {
+                                inMemoryRepository.removeAllServerIds(serverIds).blockingGet();
+                                localRepository.removeAllServerIds(serverIds).blockingGet();
+                            }
                         })
                         .doOnError(Throwable::printStackTrace)
                         .blockingGet();
@@ -133,21 +139,25 @@ public class SyncController {
                 .doOnSuccess(pullWordsAnswer -> {
                     List<WordTranslation> addedWords = pullWordsAnswer.getAddedWords();
                     List<Integer> removedServerIds = pullWordsAnswer.getRemovedServerIds();
-                    Single.mergeDelayError(
-                            localRepository.addAll(addedWords),
-                            inMemoryRepository.addAll(addedWords))
-                            .blockingSubscribe(wordTranslations -> {
-                            }, Throwable::printStackTrace);
 
-                    Throwable throwable = Completable.mergeDelayError(
-                            Arrays.asList(
-                                    localRepository.removeAllServerIds(removedServerIds),
-                                    inMemoryRepository.removeAllServerIds(removedServerIds)
-                            ))
-                            .blockingGet();
+                    if (!addedWords.isEmpty())
+                        Single.mergeDelayError(
+                                localRepository.addAll(addedWords),
+                                inMemoryRepository.addAll(addedWords))
+                                .blockingSubscribe(wordTranslations -> {
+                                }, Throwable::printStackTrace);
 
-                    if (throwable != null)
-                        throwable.printStackTrace();
+                    if (!removedServerIds.isEmpty()) {
+                        Throwable throwable = Completable.mergeDelayError(
+                                Arrays.asList(
+                                        localRepository.removeAllServerIds(removedServerIds),
+                                        inMemoryRepository.removeAllServerIds(removedServerIds)
+                                ))
+                                .blockingGet();
+
+                        if (throwable != null)
+                            throwable.printStackTrace();
+                    }
                 })
                 .subscribeOn(Schedulers.io());
     }

@@ -3,12 +3,13 @@ package com.dreamproject.inwords.data.source.WebService;
 import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
+import com.dreamproject.inwords.data.entity.WordIdentificator;
+import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -23,6 +24,9 @@ import retrofit2.http.POST;
 
 
 public interface WebApiService {
+    @POST("/api/words/addpair")
+    Single<List<WordIdentificator>> addPairs(@Header("Authorization") String bearerToken, @Body List<WordTranslation> wordTranslations);
+
     @POST("/api/sync/pullwordpairs")
     Single<PullWordsAnswer> pullWordsPairs(@Header("Authorization") String bearerToken, @Body List<Integer> serverIds);
 

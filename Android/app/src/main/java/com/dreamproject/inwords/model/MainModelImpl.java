@@ -22,6 +22,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -98,6 +99,7 @@ public class MainModelImpl implements MainModel {
         localRepository.getList().flatMapSingle(inMemoryRepository::addAll).blockingFirst();
 
         Throwable throwable = syncController.presyncOnStart()
+                .subscribeOn(Schedulers.io())
                 .doOnError(Throwable::printStackTrace)
                 .ignoreElement()
                 .blockingGet();
@@ -106,7 +108,9 @@ public class MainModelImpl implements MainModel {
 
         syncController.trySyncAllReposWithCache()
                 .subscribeOn(Schedulers.io())
-                .blockingFirst();
+                .onErrorReturnItem(Collections.emptyList())
+                .ignoreElements()
+                .blockingGet();
     }
 
     public Completable signIn(UserCredentials userCredentials) {

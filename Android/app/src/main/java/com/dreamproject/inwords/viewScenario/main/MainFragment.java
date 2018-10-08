@@ -74,7 +74,6 @@ public class MainFragment extends Fragment implements MainView {
             mParam1 = getArguments().getString(ARG_PARAM1);
 
         navController = Navigation.findNavController(getActivity(), R.id.main_nav_host_fragment);
-        presenter = new MainPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
     }
 
     @Override
@@ -89,6 +88,7 @@ public class MainFragment extends Fragment implements MainView {
         buttonGoTranslation.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_translationMainFragment, null));
         buttonGoLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null));
 
+        presenter = new MainPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
         presenter.getAllHandler(RxView.clicks(buttonGetWordList));
 
         BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
