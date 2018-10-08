@@ -11,7 +11,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class TranslationWordsMainRepository implements TranslationWordsProvider {
+public class TranslationWordsMainRepository implements TranslationWordsProvider { //TODO make it Interactor
     private TranslationWordsLocalRepository inMemoryRepository;
 
     public TranslationWordsMainRepository(Application application, TranslationWordsLocalRepository inMemoryRepository) {
