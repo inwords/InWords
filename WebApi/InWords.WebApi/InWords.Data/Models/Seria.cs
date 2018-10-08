@@ -14,6 +14,10 @@ namespace InWords.Data.Models
         [StringLength(64)]
         public string SeriaName { get; set; }
 
+        [Required]
+        [StringLength(64)]
+        public string Disctiprion { get; set; }
+
         [ForeignKey("User")]
         public int CreatorID { get; set; }
 
