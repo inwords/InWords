@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.data.source.WebService;
+package com.dreamproject.inwords.data.entity;
 
 public class UserCredentials { //TODO: reimplement next time
     private final String email;

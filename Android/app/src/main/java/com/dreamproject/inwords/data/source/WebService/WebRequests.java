@@ -1,9 +1,13 @@
 package com.dreamproject.inwords.data.source.WebService;
 
 import com.dreamproject.inwords.data.entity.User;
+import com.dreamproject.inwords.data.entity.UserCredentials;
+import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -93,21 +97,40 @@ public class WebRequests {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Completable insertWord(WordTranslation wordTranslation) {
-        return Completable.fromCallable(() -> {
+    public Single<WordTranslation> insertWord(WordTranslation wordTranslation) {
+        return Single.defer(() -> {
             Thread.sleep(2000);
-            return true;
+
+            return Single.just(wordTranslation); //TODO
         })
                 .subscribeOn(Schedulers.io());
     }
 
-    public Completable insertAllWords(List<WordTranslation> wordTranslations) {
-        return Completable.fromCallable(() -> {
+    public Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
+        return Single.defer(() -> {
             Thread.sleep(2000);
-            return true;
+
+            return Single.just(wordTranslations)
+                    .flatMapObservable(Observable::fromIterable)
+                    .cast(WordIdentificator.class)
+                    .toList(); //TODO
         })
                 .subscribeOn(Schedulers.io());
     }
 
+    public Observable<PullWordsAnswer> getPresyncData() { //TODO its a mock
+        return Observable.fromCallable(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+            return new PullWordsAnswer(Collections.singletonList(12), Arrays.asList(
+                    new WordTranslation(1, 12, "asd", "ку"),
+                    new WordTranslation(3, 14, "asdddd", "qwe"),
+                    new WordTranslation(2, 13, "sdg", "укеу")));
+        })
+                .subscribeOn(Schedulers.io());
+    }
 }

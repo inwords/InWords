@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.dreamproject.inwords.R;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.Objects;
 
@@ -46,6 +47,7 @@ public class MainFragment extends Fragment implements MainView {
     private TextView textMessage;
     private Button buttonGoTranslation;
     private Button buttonGoLogin;
+    private Button buttonGetWordList;
 
     public MainFragment() {
         // Required empty public constructor
@@ -88,8 +90,12 @@ public class MainFragment extends Fragment implements MainView {
         textMessage = view.findViewById(R.id.message);
         buttonGoTranslation = view.findViewById(R.id.buttonGoTranslation);
         buttonGoLogin = view.findViewById(R.id.buttonGoLogin);
+        buttonGetWordList = view.findViewById(R.id.buttonGetWordList);
+
         buttonGoTranslation.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_translationMainFragment, null));
         buttonGoLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null));
+
+        presenter.getAllHandler(RxView.clicks(buttonGetWordList));
 
         BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
         //presenter.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));

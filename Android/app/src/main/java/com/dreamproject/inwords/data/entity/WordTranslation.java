@@ -4,18 +4,15 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.util.Objects;
 
 @Entity(tableName = "word_translation_table",
-        indices = {@Index("word_native")})
-public class WordTranslation {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    private int id;
-
+        indices = {
+                @Index(value = {"word_foreign", "word_native"}, unique = true)
+        })
+public class WordTranslation extends WordIdentificator {
     @NonNull
     @ColumnInfo(name = "word_foreign")
     private String wordForeign;
@@ -24,29 +21,28 @@ public class WordTranslation {
     @ColumnInfo(name = "word_native")
     private String wordNative;
 
-    @ColumnInfo(name = "server_id")
-    private int serverId;
-
     @Ignore
     public WordTranslation(@NonNull String wordForeign, @NonNull String wordNative) {
+        super();
         this.wordForeign = wordForeign;
         this.wordNative = wordNative;
-        this.serverId = 0;
     }
 
-    public WordTranslation(int id, @NonNull String wordForeign, @NonNull String wordNative, int serverId) {
-        this.id = id;
+    @Ignore
+    public WordTranslation(WordIdentificator wordIdentificator, @NonNull String wordForeign, @NonNull String wordNative) {
+        super(wordIdentificator);
         this.wordForeign = wordForeign;
         this.wordNative = wordNative;
-        this.serverId = serverId;
     }
 
-    public int getId() {
-        return id;
+    public WordTranslation(int id, int serverId, @NonNull String wordForeign, @NonNull String wordNative) {
+        super(id, serverId);
+        this.wordForeign = wordForeign;
+        this.wordNative = wordNative;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public WordIdentificator getWordIdentificator() {
+        return this; //TODO
     }
 
     @NonNull
@@ -67,15 +63,18 @@ public class WordTranslation {
         this.wordNative = wordNative;
     }
 
-    public int getServerId() {
-        return serverId;
+    @Override
+    public String toString() {
+        return "WordTranslation{" +
+                "id=" + id +
+                ", serverId=" + serverId +
+                ", wordForeign='" + wordForeign + '\'' +
+                ", wordNative='" + wordNative + '\'' +
+                '}';
     }
 
-    public void setServerId(int serverId) {
-        this.serverId = serverId;
-    }
-
-    public boolean equalsActual(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WordTranslation that = (WordTranslation) o;
@@ -84,18 +83,7 @@ public class WordTranslation {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        WordTranslation that = (WordTranslation) o;
-        return id == that.id &&
-                serverId == that.serverId &&
-                wordForeign.equals(that.wordForeign) &&
-                wordNative.equals(that.wordNative);
-    }
-
-    @Override
     public int hashCode() {
-        return Objects.hash(id, wordForeign, wordNative, serverId);
+        return Objects.hash(wordForeign, wordNative);
     }
 }

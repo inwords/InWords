@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.dreamproject.inwords.BasicPresenter;
 
+import io.reactivex.Observable;
+
 //compositeDisposable, model and application are available from BasicPresenter
 public class MainPresenterImpl extends BasicPresenter implements MainPresenter {
     // Tag used for debugging/logging
@@ -17,6 +19,9 @@ public class MainPresenterImpl extends BasicPresenter implements MainPresenter {
         this.mainView = mainView;
     }
 
-
+    @Override
+    public void getAllHandler(Observable<Object> obs) {
+        obs.subscribe(o -> model.getAllWords().subscribe(System.out::println));
+    }
 
 }

@@ -7,8 +7,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-//Here any methods connected with manipulating data needed for Translation
-public interface TranslationWordsRepository {
+public interface TranslationWordsProvider {
     Observable<WordTranslation> getTranslation(String word);
 
     Observable<WordTranslation> getByOne();

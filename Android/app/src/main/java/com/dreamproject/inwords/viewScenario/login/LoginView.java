@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.viewScenario.login;
 
-import com.dreamproject.inwords.data.source.WebService.UserCredentials;
+import com.dreamproject.inwords.data.entity.UserCredentials;
 
 import io.reactivex.Observable;
 
