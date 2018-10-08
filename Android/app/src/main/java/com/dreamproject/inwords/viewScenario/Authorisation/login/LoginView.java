@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.login;
+package com.dreamproject.inwords.viewScenario.Authorisation.login;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
 
@@ -8,4 +8,5 @@ public interface LoginView {
     Observable<UserCredentials> getCredentials();
     void loginSuccess();
     void loginError();
+    void navigateToRegistration();
 }

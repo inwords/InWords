@@ -46,7 +46,7 @@ public class TranslationWordsWebApiRepository implements TranslationWordsRemoteR
     }
 
     @Override
-    public Observable<PullWordsAnswer> getPresyncData(List<WordTranslation> wordTranslations) {
-        return webRequests.getPresyncData();
+    public Single<PullWordsAnswer> pullWords(List<Integer> wordTranslations) {
+        return webRequests.pullWords(wordTranslations);
     }
 }

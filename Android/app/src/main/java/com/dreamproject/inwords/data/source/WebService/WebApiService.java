@@ -3,6 +3,7 @@ package com.dreamproject.inwords.data.source.WebService;
 import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
+import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -22,21 +23,24 @@ import retrofit2.http.POST;
 
 
 public interface WebApiService {
+    @POST("/api/sync/pullwordpairs")
+    Single<PullWordsAnswer> pullWordsPairs(@Header("Authorization") String bearerToken, @Body List<Integer> serverIds);
+
     @POST("/api/auth/registration")
     @Headers({"Content-Type: application/json"})
-    Observable<AuthToken> registerUser(@Body UserCredentials userCredentials); //TODO: test
+    Single<AuthToken> registerUser(@Body UserCredentials userCredentials); //TODO: test
 
     @POST("/api/auth/token")
-    Observable<AuthToken> getToken(@Header("Authorization") String credentials); //TODO: test
+    Single<AuthToken> getToken(@Header("Authorization") String credentials); //TODO: test
 
     @GET("/api/values/getlogin")
-    Observable<String> getLogin(@Header("Authorization") String bearerToken); //TODO: test
+    Single<String> getLogin(@Header("Authorization") String bearerToken); //TODO: test
 
     @GET("/api/values")
-    Observable<List<String>> getValues();
+    Single<List<String>> getValues();
 
     @GET("/api/users")
-    Observable<List<User>> getUsers();
+    Single<List<User>> getUsers();
 
     @POST("/api/users")
     Single<User> addUser(@Body User user);

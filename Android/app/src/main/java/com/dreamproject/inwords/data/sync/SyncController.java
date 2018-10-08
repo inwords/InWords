@@ -121,15 +121,16 @@ public class SyncController {
         }
     }
 
-    public Observable<PullWordsAnswer> presyncOnStart() {
+    public Single<PullWordsAnswer> presyncOnStart() {
         return localRepository.getList()
                 .flatMap(Observable::fromIterable)
-                .filter(wordTranslation -> wordTranslation.getServerId() != 0)
+                .map(WordIdentificator::getServerId)
+                .filter(serverId -> serverId != 0)
                 .toList()
                 .doOnError(Throwable::printStackTrace)
-                .flatMapObservable(remoteRepository::getPresyncData)
+                .flatMap(remoteRepository::pullWords)
                 .doOnError(Throwable::printStackTrace)
-                .doOnNext(pullWordsAnswer -> {
+                .doOnSuccess(pullWordsAnswer -> {
                     List<WordTranslation> addedWords = pullWordsAnswer.getAddedWords();
                     List<Integer> removedServerIds = pullWordsAnswer.getRemovedServerIds();
                     Single.mergeDelayError(

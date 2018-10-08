@@ -16,5 +16,5 @@ public interface TranslationWordsRemoteRepository {
 
     Completable removeAllServerIds(List<Integer> serverIds);
 
-    Observable<PullWordsAnswer> getPresyncData(List<WordTranslation> wordTranslations);
+    Single<PullWordsAnswer> pullWords(List<Integer> wordTranslations);
 }

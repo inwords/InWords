@@ -18,6 +18,10 @@ public class AuthToken {
         this.email = email;
     }
 
+    public static AuthToken errorToken() {
+        return new AuthToken("error_token", "error_mail");
+    }
+
     public boolean isValid() {
         return access_token.length() > 30; //TODO think about more convenient check
     }

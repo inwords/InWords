@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.login;
+package com.dreamproject.inwords.viewScenario.Authorisation.login;
 
 import android.app.Application;
 
@@ -21,14 +21,22 @@ public class LoginPresenterImpl extends BasicPresenter implements LoginPresenter
     }
 
     @Override
-    public void logInHandler(Observable<Object> obs) {
+    public void signUpHandler(Observable<Object> obs) {
+        Disposable d = obs.doOnNext(o -> loginView.navigateToRegistration()).subscribe();
+
+        compositeDisposable.add(d);
+    }
+
+    @Override
+    public void signInHandler(Observable<Object> obs) {
         Disposable d = obs.switchMap((o) -> loginView.getCredentials())
-                .subscribe(temporaryUser -> model.logIn(temporaryUser)
-                        .subscribe(loginView::loginSuccess,
-                                t -> {
-                                    t.printStackTrace();
-                                    loginView.loginError();
-                                })
+                .subscribe(temporaryUser ->
+                        compositeDisposable.add(model.signIn(temporaryUser)
+                                .subscribe(loginView::loginSuccess,
+                                        t -> {
+                                            t.printStackTrace();
+                                            loginView.loginError();
+                                        }))
                 );
 
         compositeDisposable.add(d);
