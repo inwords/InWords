@@ -42,14 +42,22 @@
         private void RecreateDb()
         {
 
-            if (!_created)
+            lock (Database)
             {
-                _created = true;
-                Database.EnsureDeleted();
-                Database.EnsureCreated();
-                Accounts.Add(new Account() { Email = "admin@gmail.com", Password = "1234", Role = RoleType.Admin, RegistrationDate = DateTime.Now });
-                Accounts.Add(new Account() { Email = "user@gmail.com", Password = "1234", Role = RoleType.User, RegistrationDate = DateTime.Now });
-                SaveChanges();
+                if (!_created)
+                {
+                    _created = true;
+                    //TODO MIGRATE -script
+                    if (Database.EnsureCreated())
+                    {
+                        var testAdmin = Accounts.Add(new Account() { Email = "admin@mail.ru", Password = "admin", Role = RoleType.Admin, RegistrationDate = DateTime.Now });
+                        var testUser = Accounts.Add(new Account() { Email = "user@gmail.com", Password = "1234", Role = RoleType.User, RegistrationDate = DateTime.Now });
+                        SaveChanges();
+                        Users.Add(new User() { UserID = testAdmin.Entity.AccountID, NickName = "testAdmin" });
+                        Users.Add(new User() { UserID = testUser.Entity.AccountID, NickName = "testUser" });
+                        SaveChanges();
+                    }
+                }
             }
         }
     }

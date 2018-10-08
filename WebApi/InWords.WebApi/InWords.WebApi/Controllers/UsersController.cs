@@ -9,6 +9,7 @@ using InWords.Data;
 using InWords.Data.Enums;
 using System.Security.Claims;
 using System.Linq;
+using InWords.Auth.Providers;
 
 namespace InWords.WebApi.Controllers
 {
@@ -55,12 +56,10 @@ namespace InWords.WebApi.Controllers
 
         // PUT: api/Users/5
         [HttpPut]
-        [Authorize]
+        [Authorize]//User
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
-            // todo check claims exist
-            Claim nameIdentifier = User.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First();
-            int authorizedID = int.Parse(nameIdentifier.Value); //todo Extention
+            int authorizedID = AuthProvider.GetUserID(User);
 
             /// Authorized
             if (!ModelState.IsValid)
@@ -123,7 +122,7 @@ namespace InWords.WebApi.Controllers
                 return NotFound();
             }
 
-            accauntRepositoty.Remove(accaunt);
+            await accauntRepositoty.Remove(accaunt);
             return Ok(accaunt);
         }
 

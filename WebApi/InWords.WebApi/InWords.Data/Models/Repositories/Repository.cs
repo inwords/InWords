@@ -45,10 +45,13 @@
         /// Async remove from DataBase
         /// </summary>
         /// <param name="item"></param>
-        public async void Remove(TEntity item)
+        public async Task<int> Remove(params TEntity[] item)
         {
-            context.Entry(item).State = EntityState.Modified;
-            await context.SaveChangesAsync();
+            foreach (TEntity currentItem in item)
+            {
+                context.Entry(currentItem).State = EntityState.Deleted;
+            }
+            return await context.SaveChangesAsync();
         }
 
         public async Task<TEntity> Update(TEntity item)
@@ -56,6 +59,21 @@
             context.Entry(item).State = EntityState.Modified;
             await context.SaveChangesAsync();
             return item;
+        }
+
+        public async Task<TEntity> Stack(TEntity item, Func<TEntity, bool> predicate)
+        {
+            TEntity stackedWord = null;
+            IEnumerable<TEntity> query = Get(predicate);
+            if (query.Count() == 0)
+            {
+                stackedWord = await Create(item);
+            }
+            else
+            {
+                stackedWord = query.First();
+            }
+            return stackedWord;
         }
 
         #region Include

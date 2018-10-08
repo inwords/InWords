@@ -1,9 +1,9 @@
-﻿using InWords.Data.Enums;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace InWords.Data.Models
+﻿namespace InWords.Data.Models
 {
+    using InWords.Data.Enums;
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class Account
     {
         public int AccountID { get; set; }
@@ -15,7 +15,7 @@ namespace InWords.Data.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(32)] 
+        [StringLength(32)]
         public string Password { get; set; }
 
         [Required]
