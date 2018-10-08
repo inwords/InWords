@@ -1,28 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
-namespace InWords.Data.Models
+﻿namespace InWords.Data.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    /// <summary>
+    /// Words Set with levels
+    /// </summary>
     public class Seria
     {
+        [Key]
         public int SeriaID { get; set; }
 
+        /// <summary>
+        /// Seria's Title
+        /// </summary>
         [Required]
         [StringLength(64)]
         public string SeriaName { get; set; }
 
-        [Required]
-        [StringLength(64)]
-        public string Disctiprion { get; set; }
-
+        /// <summary>
+        /// User created this Seria
+        /// </summary>
         [ForeignKey("User")]
         public int CreatorID { get; set; }
 
-        [ForeignKey("CreatorID")]
-        [Required]
         public virtual User Creator { get; set; }
+
+        /// <summary>
+        /// List of Description on different langs
+        /// </summary>
+        public virtual ICollection<SeriaDescription> SeriaDescriptions { get; set; }
     }
 }
