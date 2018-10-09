@@ -30,7 +30,7 @@ public abstract class SigningBaseFragment extends Fragment {
 
     protected NavController navController;
 
-    protected Button entryButton;
+    protected Button enterButtonSignIn;
     protected TextInputEditText editTextEmail;
     protected TextInputEditText editTextPassword;
 
@@ -94,7 +94,7 @@ public abstract class SigningBaseFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-        entryButton = view.findViewById(R.id.buttonEntry);
+        enterButtonSignIn = view.findViewById(R.id.buttonEnterSignIn);
         editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
     }

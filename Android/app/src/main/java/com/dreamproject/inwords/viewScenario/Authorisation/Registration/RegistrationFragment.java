@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.Button;
 
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.UserCredentials;
@@ -22,7 +21,7 @@ import io.reactivex.Observable;
 public class RegistrationFragment extends SigningBaseFragment implements RegistrationView {
     private RegistrationPresenter presenter;
 
-    private TextInputEditText editTextRepeatedPassword;
+    private TextInputEditText editTextConfirmPassword;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -46,7 +45,7 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
 
     @Override
     public Observable<UserCredentials> getCredentials() { //TODO show info
-        return super.getCredentials().filter(userCredentials -> userCredentials.getPassword().equals(editTextRepeatedPassword.getText().toString()));
+        return super.getCredentials().filter(userCredentials -> userCredentials.getPassword().equals(editTextConfirmPassword.getText().toString()));
     }
 
     @Override
@@ -65,9 +64,9 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        editTextRepeatedPassword = view.findViewById(R.id.editTextRepeatedPassword);
+        editTextConfirmPassword = view.findViewById(R.id.editTextConfirmPassword);
 
-        Observable<Object> logInBtnObs = (RxView.clicks(view.findViewById(R.id.buttonEntry))
+        Observable<Object> logInBtnObs = (RxView.clicks(view.findViewById(R.id.buttonEnterSignUp))
                 .debounce(200, TimeUnit.MILLISECONDS));
 
         presenter.signUpHandler(logInBtnObs);

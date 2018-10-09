@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.viewScenario.Authorisation.SigningBaseFragment;
@@ -29,7 +29,7 @@ import io.reactivex.Observable;
 public class LoginFragment extends SigningBaseFragment implements LoginView {
     private LoginPresenter presenter;
 
-    private Button buttonCreateNewAccount;
+    private TextView textViewSignUp;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -72,13 +72,13 @@ public class LoginFragment extends SigningBaseFragment implements LoginView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        buttonCreateNewAccount = view.findViewById(R.id.buttonCreateNewAccount);
+        textViewSignUp = view.findViewById(R.id.textViewSignUp);
 
-        Observable<Object> signInBtnObs = (RxView.clicks(entryButton).debounce(200, TimeUnit.MILLISECONDS));
-        Observable<Object> signUpBtnObs = (RxView.clicks(buttonCreateNewAccount).debounce(200, TimeUnit.MILLISECONDS));
+        Observable<Object> signInBtnObs = (RxView.clicks(enterButtonSignIn).debounce(200, TimeUnit.MILLISECONDS));
+        Observable<Object> signUpTxtVwObs = (RxView.clicks(textViewSignUp).debounce(200, TimeUnit.MILLISECONDS));
 
         presenter.signInHandler(signInBtnObs);
-        presenter.signUpHandler(signUpBtnObs);
+        presenter.signUpHandler(signUpTxtVwObs);
     }
 
     @Override
