@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
+import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.viewScenario.Authorisation.SigningBaseFragment;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -56,16 +57,15 @@ public class LoginFragment extends SigningBaseFragment implements LoginView {
         navController.navigate(R.id.action_loginFragment_to_registrationFragment, null);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        presenter = new LoginPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
-    }
 
     @Override
     protected int getLayout() {
         return R.layout.fragment_sign_in;
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return (BasePresenter) (presenter = new LoginPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this));
     }
 
     @Override
@@ -79,12 +79,5 @@ public class LoginFragment extends SigningBaseFragment implements LoginView {
 
         presenter.signInHandler(signInBtnObs);
         presenter.signUpHandler(signUpTxtVwObs);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        presenter.dispose();
     }
 }

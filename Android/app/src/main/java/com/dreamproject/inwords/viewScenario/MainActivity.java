@@ -6,9 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dreamproject.inwords.R;
-import com.dreamproject.inwords.viewScenario.Authorisation.login.LoginFragment;
 import com.dreamproject.inwords.viewScenario.main.MainFragment;
-import com.dreamproject.inwords.viewScenario.translation.TranslationMainFragment;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,8 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity implements
         MainFragment.OnFragmentInteractionListener,
-        LoginFragment.OnFragmentInteractionListener,
-        TranslationMainFragment.OnFragmentInteractionListener {
+        PresenterNavFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

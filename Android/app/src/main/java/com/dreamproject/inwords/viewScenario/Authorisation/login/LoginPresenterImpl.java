@@ -2,13 +2,14 @@ package com.dreamproject.inwords.viewScenario.Authorisation.login;
 
 import android.app.Application;
 
+import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.BasicPresenter;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 //compositeDisposable, model and application are available from BasicPresenter
-public class LoginPresenterImpl extends BasicPresenter implements LoginPresenter {
+public class LoginPresenterImpl extends BasicPresenter implements LoginPresenter, BasePresenter {
     // Tag used for debugging/logging
     public static final String TAG = "LoginPresenterImpl";
 

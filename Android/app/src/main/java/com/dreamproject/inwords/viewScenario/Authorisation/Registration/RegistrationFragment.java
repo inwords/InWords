@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.viewScenario.Authorisation.SigningBaseFragment;
@@ -49,15 +49,13 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        presenter = new RegistrationPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
+    protected int getLayout() {
+        return R.layout.fragment_sign_up;
     }
 
     @Override
-    protected int getLayout() {
-        return R.layout.fragment_sign_up;
+    protected BasePresenter getPresenter() {
+        return (BasePresenter) (presenter = new RegistrationPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this));
     }
 
     @Override
@@ -70,12 +68,5 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
                 .debounce(200, TimeUnit.MILLISECONDS));
 
         presenter.signUpHandler(logInBtnObs);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        presenter.dispose();
     }
 }
