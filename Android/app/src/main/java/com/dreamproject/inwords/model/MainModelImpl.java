@@ -32,10 +32,10 @@ public class MainModelImpl implements MainModel {
 
     private static MainModelImpl INSTANCE;
 
-    private TranslationWordsLocalRepository inMemoryRepository;
+    private final TranslationWordsLocalRepository inMemoryRepository;
 
-    private TranslationWordsProvider translationWordsProvider;
-    private AuthorisationInteractor authorisationInteractor;
+    private final TranslationWordsProvider translationWordsProvider;
+    private final AuthorisationInteractor authorisationInteractor;
 
     //data flow between model and view (reemits last element on new subscription)
     private BehaviorSubject<User> userBehaviorSubject;
