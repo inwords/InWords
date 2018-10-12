@@ -75,13 +75,19 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
     }
 
     @Override
-    public Completable remove(WordTranslation wordTranslation) { //TODO
-        return Completable.fromCallable(() -> wordTranslationDao.delete(wordTranslation))
+    public Completable update(WordTranslation wordTranslation) { //TODO
+        return Completable.fromCallable(() -> wordTranslationDao.update(wordTranslation))
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable removeAll(List<WordTranslation> wordTranslations) { //TODO
+    public Completable updateAll(List<WordTranslation> wordTranslations) { //TODO
+        return Completable.fromCallable(() -> wordTranslationDao.updateAll(wordTranslations))
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable removeAll(List<WordTranslation> wordTranslations) {
         return Completable.fromCallable(() -> wordTranslationDao.deleteAll(wordTranslations))
                 .subscribeOn(Schedulers.io());
     }

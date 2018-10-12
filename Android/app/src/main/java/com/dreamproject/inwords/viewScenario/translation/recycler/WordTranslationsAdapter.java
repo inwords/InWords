@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
     }
 
     public WordTranslationsAdapter(Context context) {
-        this(Collections.emptyList(), context);
+        this(new ArrayList<>(), context);
     }
 
     private void setWordTranslations(List<WordTranslation> wordTranslations) {
@@ -46,13 +47,15 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
     @Override
     public Completable updateWordTranslations(List<WordTranslation> wordTranslations) {
         return Single.fromCallable(() -> {
-            WordTranslationsDiffUtilCallback diffUtilCallback = new WordTranslationsDiffUtilCallback(getWordTranslations(), wordTranslations);
-            setWordTranslations(wordTranslations);
+            WordTranslationsDiffUtilCallback diffUtilCallback = new WordTranslationsDiffUtilCallback(wordTranslations, getWordTranslations());
             return DiffUtil.calculateDiff(diffUtilCallback);
         })
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(diffResult -> diffResult.dispatchUpdatesTo(this))
+                .doOnSuccess(diffResult -> {
+                    setWordTranslations(wordTranslations);
+                    diffResult.dispatchUpdatesTo(this);
+                })
                 .ignoreElement();
     }
 

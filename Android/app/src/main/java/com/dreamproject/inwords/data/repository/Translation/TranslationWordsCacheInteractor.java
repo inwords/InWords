@@ -1,20 +1,16 @@
 package com.dreamproject.inwords.data.repository.Translation;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
-
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.sync.SyncController;
 
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class TranslationWordsMainRepository implements TranslationWordsProvider { //TODO make it Interactor
+public class TranslationWordsCacheInteractor implements TranslationWordsInteractor {
     private TranslationWordsLocalRepository inMemoryRepository;
 
-    public TranslationWordsMainRepository(Application application, TranslationWordsLocalRepository inMemoryRepository) {
+    public TranslationWordsCacheInteractor(TranslationWordsLocalRepository inMemoryRepository) {
         this.inMemoryRepository = inMemoryRepository;
     }
 
@@ -44,12 +40,24 @@ public class TranslationWordsMainRepository implements TranslationWordsProvider 
     }
 
     @Override
-    public Completable remove(WordTranslation wordTranslation) {
-        return inMemoryRepository.remove(wordTranslation);
+    public Completable markRemoved(WordTranslation wordTranslation) {
+        markWordRemoved(wordTranslation);
+
+        return inMemoryRepository.update(wordTranslation);
     }
 
     @Override
-    public Completable removeAll(List<WordTranslation> wordTranslations) {
-        return inMemoryRepository.removeAll(wordTranslations);
+    public Completable markRemovedAll(List<WordTranslation> wordTranslations) {
+        for (WordTranslation wordTranslation : wordTranslations)
+            markWordRemoved(wordTranslation);
+
+        return inMemoryRepository.updateAll(wordTranslations);
+    }
+
+    private void markWordRemoved(WordTranslation wordTranslation) {
+        if (wordTranslation.getServerId() == 0)
+            wordTranslation.markLocallyDeleted();
+        else
+            wordTranslation.markRemoteDeleted();
     }
 }

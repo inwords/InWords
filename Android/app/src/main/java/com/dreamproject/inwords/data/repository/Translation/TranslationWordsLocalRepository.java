@@ -20,7 +20,9 @@ public interface TranslationWordsLocalRepository {
 
     Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations);
 
-    Completable remove(WordTranslation wordTranslation);
+    Completable update(WordTranslation wordTranslation);
+
+    Completable updateAll(List<WordTranslation> wordTranslations);
 
     Completable removeAll(List<WordTranslation> wordTranslations);
 

@@ -13,12 +13,16 @@ import android.view.View;
 
 import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.R;
+import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.viewScenario.PresenterNavFragment;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperAdapter;
-import com.dreamproject.inwords.viewScenario.translation.recycler.WordListOperations;
+import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperEvents;
 import com.dreamproject.inwords.viewScenario.translation.recycler.WordTranslationsAdapter;
 
+import java.util.List;
 import java.util.Objects;
+
+import io.reactivex.Completable;
 
 public class TranslationMainFragment extends PresenterNavFragment implements TranslationMainView {
     private TranslationWordsPresenter presenter;
@@ -27,8 +31,13 @@ public class TranslationMainFragment extends PresenterNavFragment implements Tra
     private WordTranslationsAdapter adapter;
 
     @Override
-    public WordListOperations getAdapter() { //TODO interface (get, set, etc.)
-        return adapter;
+    public Completable updateWordTranslations(List<WordTranslation> wordTranslations) {
+        return adapter.updateWordTranslations(wordTranslations);
+    }
+
+    @Override
+    public List<WordTranslation> getWordTranslations() {
+        return adapter.getWordTranslations();
     }
 
     void setupRecyclerView(@NonNull View view) {
@@ -44,7 +53,7 @@ public class TranslationMainFragment extends PresenterNavFragment implements Tra
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperAdapter(adapter, presenter);
+        ItemTouchHelper.Callback callback = new ItemTouchHelperAdapter((ItemTouchHelperEvents) presenter); //TODO
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
     }

@@ -3,9 +3,7 @@ package com.dreamproject.inwords.data.repository.Translation;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -69,10 +67,11 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
         });
     }
 
-    //@Override
-    public Completable remove(WordTranslation value) {
+    @Override
+    public Completable update(WordTranslation wordTranslation) {
         return Completable.fromCallable(() -> {
-            list.remove(value);
+            list.remove(wordTranslation);
+            list.add(wordTranslation);
 
             publish();
 
@@ -81,9 +80,21 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     }
 
     @Override
-    public Completable removeAll(List<WordTranslation> values) {
+    public Completable updateAll(List<WordTranslation> wordTranslations) {
         return Completable.fromCallable(() -> {
-            list.removeAll(values);
+            list.removeAll(wordTranslations);
+            list.addAll(wordTranslations);
+
+            publish();
+
+            return true;
+        });
+    }
+
+    @Override
+    public Completable removeAll(List<WordTranslation> wordTranslations) {
+        return Completable.fromCallable(() -> {
+            list.removeAll(wordTranslations);
 
             publish();
 
