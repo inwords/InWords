@@ -7,7 +7,7 @@ import com.dreamproject.inwords.model.MainModelImpl;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class BasicPresenter {
+public class BasicPresenter implements BasePresenter {
     protected Application application;
 
     protected CompositeDisposable compositeDisposable;
@@ -22,6 +22,14 @@ public class BasicPresenter {
         model = MainModelImpl.getInstance(application);
     }
 
+    @Override
+    public void hintReloadDisposedComposite() {
+        if (compositeDisposable == null || compositeDisposable.isDisposed()) {
+            compositeDisposable = new CompositeDisposable();
+        }
+    }
+
+    @Override
     public void dispose() {
         if (compositeDisposable != null && !compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();

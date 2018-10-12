@@ -13,10 +13,19 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
 public interface MainModel {
-    void sync(Application application);
+    Completable presyncOnStart(Application application);
 
     Completable signIn(UserCredentials userCredentials);
+
     Completable signUp(UserCredentials userCredentials);
+
+    Completable addWordTranslation(WordTranslation wordTranslation);
+
+    Completable removeWordTranslation(WordTranslation wordTranslation);
+
+    Completable trySyncAllReposWithCache();
+
     Observable<List<WordTranslation>> getAllWords();
+
     BehaviorSubject<User> getUsers();
 }

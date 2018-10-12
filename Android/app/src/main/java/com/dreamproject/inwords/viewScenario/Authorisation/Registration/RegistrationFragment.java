@@ -5,10 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.Button;
 
+import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.viewScenario.Authorisation.SigningBaseFragment;
@@ -22,7 +21,7 @@ import io.reactivex.Observable;
 public class RegistrationFragment extends SigningBaseFragment implements RegistrationView {
     private RegistrationPresenter presenter;
 
-    private TextInputEditText editTextRepeatedPassword;
+    private TextInputEditText editTextConfirmPassword;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -46,14 +45,7 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
 
     @Override
     public Observable<UserCredentials> getCredentials() { //TODO show info
-        return super.getCredentials().filter(userCredentials -> userCredentials.getPassword().equals(editTextRepeatedPassword.getText().toString()));
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        presenter = new RegistrationPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
+        return super.getCredentials().filter(userCredentials -> userCredentials.getPassword().equals(editTextConfirmPassword.getText().toString()));
     }
 
     @Override
@@ -62,21 +54,19 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        editTextRepeatedPassword = view.findViewById(R.id.editTextRepeatedPassword);
-
-        Observable<Object> logInBtnObs = (RxView.clicks(view.findViewById(R.id.buttonEntry))
-                .debounce(200, TimeUnit.MILLISECONDS));
-
-        presenter.signUpHandler(logInBtnObs);
+    protected BasePresenter getPresenter() {
+        return (BasePresenter) (presenter = new RegistrationPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this));
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        presenter.dispose();
+        editTextConfirmPassword = view.findViewById(R.id.editTextConfirmPassword);
+
+        Observable<Object> logInBtnObs = (RxView.clicks(view.findViewById(R.id.buttonEnterSignUp))
+                .debounce(200, TimeUnit.MILLISECONDS));
+
+        presenter.signUpHandler(logInBtnObs);
     }
 }

@@ -37,12 +37,7 @@ public class TranslationWordsWebApiRepository implements TranslationWordsRemoteR
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
-        return Completable.fromCallable(() -> {
-            Thread.sleep(2000);
-
-            return true;
-        })
-                .subscribeOn(Schedulers.io());
+        return webRequests.removeAllServerIds(serverIds);
     }
 
     @Override

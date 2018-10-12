@@ -13,6 +13,8 @@ import java.util.Objects;
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
 public class WordTranslation extends WordIdentificator {
+    public static final int LOCAL_REMOVE_FLAG = Integer.MIN_VALUE;
+
     @NonNull
     @ColumnInfo(name = "word_foreign")
     private String wordForeign;
@@ -39,6 +41,22 @@ public class WordTranslation extends WordIdentificator {
         super(id, serverId);
         this.wordForeign = wordForeign;
         this.wordNative = wordNative;
+    }
+
+    public void markRemoteDeleted() {
+        serverId = -serverId; //minus
+    }
+
+    public boolean isRemoteDeleted() {
+        return serverId < 0 && !isLocallyDeleted();
+    }
+
+    public void markLocallyDeleted() {
+        serverId = LOCAL_REMOVE_FLAG;
+    }
+
+    public boolean isLocallyDeleted() {
+        return serverId == LOCAL_REMOVE_FLAG;
     }
 
     public WordIdentificator getWordIdentificator() {

@@ -64,4 +64,9 @@
         app:destination="@id/mainFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_translationMainFragment"
+        app:destination="@id/translationMainFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_right" />
 </navigation>

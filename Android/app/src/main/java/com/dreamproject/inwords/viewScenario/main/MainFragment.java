@@ -43,7 +43,6 @@ public class MainFragment extends Fragment implements MainView {
     NavController navController;
     private MainPresenter presenter;
     private TextView textMessage;
-    private Button buttonGoTranslation;
     private Button buttonGoLogin;
     private Button buttonGetWordList;
 
@@ -81,11 +80,9 @@ public class MainFragment extends Fragment implements MainView {
         super.onViewCreated(view, savedInstanceState);
 
         textMessage = view.findViewById(R.id.message);
-        buttonGoTranslation = view.findViewById(R.id.buttonGoTranslation);
         buttonGoLogin = view.findViewById(R.id.buttonGoLogin);
         buttonGetWordList = view.findViewById(R.id.buttonGetWordList);
 
-        buttonGoTranslation.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_translationMainFragment, null));
         buttonGoLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null));
 
         presenter = new MainPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
