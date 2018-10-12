@@ -60,7 +60,7 @@ public class MainModelImpl implements MainModel {
 
         final TranslationWordsLocalRepository inMemoryRepository = new TranslationWordsCacheRepository();
         final TranslationWordsLocalRepository localRepository = new TranslationWordsDatabaseRepository(application);
-        final TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository();
+        final TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository(webRequests);
 
         translationWordsInteractor = new TranslationWordsCacheInteractor(inMemoryRepository);
 

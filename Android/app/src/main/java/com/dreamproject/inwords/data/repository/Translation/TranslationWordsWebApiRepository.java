@@ -15,8 +15,8 @@ import io.reactivex.schedulers.Schedulers;
 public class TranslationWordsWebApiRepository implements TranslationWordsRemoteRepository {
     private WebRequests webRequests;
 
-    public TranslationWordsWebApiRepository() {
-        webRequests = WebRequests.INSTANCE;
+    public TranslationWordsWebApiRepository(WebRequests webRequests) {
+        this.webRequests = webRequests;
     }
 
     public Observable<List<WordTranslation>> getList() {
