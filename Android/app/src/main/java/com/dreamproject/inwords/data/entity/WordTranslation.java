@@ -13,6 +13,8 @@ import java.util.Objects;
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
 public class WordTranslation extends WordIdentificator {
+    public static final int LOCAL_REMOVE_FLAG = Integer.MIN_VALUE;
+
     @NonNull
     @ColumnInfo(name = "word_foreign")
     private String wordForeign;
@@ -50,11 +52,11 @@ public class WordTranslation extends WordIdentificator {
     }
 
     public void markLocallyDeleted() {
-        serverId = Integer.MIN_VALUE;
+        serverId = LOCAL_REMOVE_FLAG;
     }
 
     public boolean isLocallyDeleted() {
-        return serverId == Integer.MIN_VALUE;
+        return serverId == LOCAL_REMOVE_FLAG;
     }
 
     public WordIdentificator getWordIdentificator() {
