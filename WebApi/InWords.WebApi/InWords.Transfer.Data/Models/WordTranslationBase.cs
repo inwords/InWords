@@ -7,7 +7,7 @@ namespace InWords.Transfer.Data
     /// <summary>
     /// Transfer response pack: Id and ServerId
     /// </summary>
-    public class WordTranslationBase : ICloneable
+    public class SyncBase : ICloneable
     {
         public int Id { get; set; }
 
@@ -17,9 +17,9 @@ namespace InWords.Transfer.Data
         /// <summary>
         /// Construnctor part
         /// </summary>
-        public WordTranslationBase() { }
+        public SyncBase() { }
 
-        public WordTranslationBase(WordTranslationBase wordTranslationBase)
+        public SyncBase(SyncBase wordTranslationBase)
         {
             Id = wordTranslationBase.Id;
             ServerId = wordTranslationBase.Id;
@@ -27,7 +27,7 @@ namespace InWords.Transfer.Data
 
         object ICloneable.Clone()
         {
-            return new WordTranslationBase(this);
+            return new SyncBase(this);
         }
     }
 }

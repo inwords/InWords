@@ -12,11 +12,13 @@
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class SeriesController : ControllerBase
+    public class WordsSeriesController : ControllerBase
     {
         // POST api/Series
+        [Authorize]
+        [Route("add")]
         [HttpPost]
-        public void Post([FromBody] Seria seria)
+        public void PostAdd([FromBody] Seria seria)
         {
 
         }

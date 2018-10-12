@@ -13,6 +13,8 @@ namespace InWords.Transfer.Data.Models
 
         public int SeriaID { get; set; }
 
+        public int Level { get; set; }
+
         public WordsSeriaPart(WordTranslation wordTranslation) : base(wordTranslation)
         {
 
