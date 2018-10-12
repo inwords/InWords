@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Auth.Providers;
-using InWords.Data.Models;
-using InWords.Data.Models.Repositories;
-using InWords.Transfer.Data;
-using InWords.WebApi.Service;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace InWords.WebApi.Controllers
+﻿namespace InWords.WebApi.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using InWords.Auth.Providers;
+    using InWords.Transfer.Data;
+    using InWords.WebApi.Service;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiController]
     public class WordsController : ControllerBase

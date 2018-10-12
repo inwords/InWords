@@ -1,13 +1,13 @@
-﻿using InWords.Data.Models;
-using InWords.Data.Models.Repositories;
-using InWords.Transfer.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace InWords.WebApi.Service
+﻿namespace InWords.WebApi.Service
 {
+    using InWords.Data.Models;
+    using InWords.Data.Models.Repositories;
+    using InWords.Transfer.Data;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class WordsService : ServiceBase
     {
         private readonly UserWordPairRepository userWordPairRepository = null;
@@ -21,9 +21,9 @@ namespace InWords.WebApi.Service
             wordRepository = new WordRepository(this.context);
         }
 
-        public async Task<List<SyncModelBase>> AddPair(int userID, IEnumerable<WordTranslation> wordTranslations)
+        public async Task<List<SyncBase>> AddPair(int userID, IEnumerable<WordTranslation> wordTranslations)
         {
-            List<SyncModelBase> answer = new List<SyncModelBase>();
+            List<SyncBase> answer = new List<SyncBase>();
 
             foreach (WordTranslation wordTranslation in wordTranslations)
             {
@@ -69,7 +69,7 @@ namespace InWords.WebApi.Service
             return wordTranslations;
         }
 
-        private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<SyncModelBase> answer)
+        private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<SyncBase> answer)
         {
             Word firstWordForeign = new Word
             {
@@ -105,7 +105,7 @@ namespace InWords.WebApi.Service
 
             CreatedPair = await userWordPairRepository.Stack(CreatedPair);
 
-            SyncModelBase resultPair = new SyncModelBase()
+            SyncBase resultPair = new SyncBase()
             {
                 Id = wordTranslation.Id,
                 ServerId = CreatedPair.UserWordPairID

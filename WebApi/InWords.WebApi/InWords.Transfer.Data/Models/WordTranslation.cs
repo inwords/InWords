@@ -9,6 +9,8 @@
 
         public string WordNative { get; set; }
 
+        public WordTranslation() { }
+
         public WordTranslation(WordTranslation WordTranslation) : base((WordTranslation as SyncBase))
         {
             WordForeign = WordTranslation.WordForeign;
