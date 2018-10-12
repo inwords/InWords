@@ -112,7 +112,7 @@ public class WebRequests {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Single<List<Integer>> removeAllServerIds(List<Integer> serverIds) {
+    public Single<Integer> removeAllServerIds(List<Integer> serverIds) {
         return apiService.deletePairs(authInfo.getAuthToken().getBearer(), serverIds)
                 .subscribeOn(Schedulers.io());
     }
