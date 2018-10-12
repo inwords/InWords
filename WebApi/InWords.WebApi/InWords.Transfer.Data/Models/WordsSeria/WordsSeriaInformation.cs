@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Transfer.Data.Models
+﻿
+namespace InWords.Transfer.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    
+    /// <summary>
+    /// Transfer packet that contain Title, description
+    /// </summary>
     public class WordsSeriaInformation : SyncBase
     {
         /// <summary>
@@ -26,6 +30,5 @@ namespace InWords.Transfer.Data.Models
             Title = wordsSetInformation.Title;
             Description = wordsSetInformation.Description;
         }
-
     }
 }

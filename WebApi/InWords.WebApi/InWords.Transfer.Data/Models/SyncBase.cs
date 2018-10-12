@@ -19,6 +19,18 @@ namespace InWords.Transfer.Data
         /// </summary>
         public SyncBase() { }
 
+        public SyncBase(int serverID)
+        {
+            ServerId = serverID;
+        }
+
+        public SyncBase(int serverID, int onClientID)
+        {
+            Id = onClientID;
+            ServerId = serverID;
+        }
+
+
         public SyncBase(SyncBase wordTranslationBase)
         {
             Id = wordTranslationBase.Id;

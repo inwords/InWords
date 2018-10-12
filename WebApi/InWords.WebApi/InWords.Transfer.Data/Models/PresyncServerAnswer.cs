@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InWords.Transfer.Data.Models
+namespace InWords.Transfer.Data
 {
     public class PullWordsAnswer
     {
