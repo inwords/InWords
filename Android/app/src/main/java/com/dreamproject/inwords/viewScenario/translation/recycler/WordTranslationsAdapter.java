@@ -39,7 +39,7 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
         this(Collections.emptyList(), context);
     }
 
-    public void setWordTranslations(List<WordTranslation> wordTranslations) {
+    private void setWordTranslations(List<WordTranslation> wordTranslations) {
         this.wordTranslations = wordTranslations;
     }
 
