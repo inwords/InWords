@@ -9,32 +9,32 @@ import java.util.List;
 
 public class WordTranslationsDiffUtilCallback extends DiffUtil.Callback {
 
-    private List<WordTranslation> oldWordTranslationsPersons;
-    private List<WordTranslation> newWordTranslationsPersons;
+    private List<WordTranslation> oldWordTranslations;
+    private List<WordTranslation> newWordTranslations;
 
-    public WordTranslationsDiffUtilCallback(List<WordTranslation> newWordTranslationsPersons, List<WordTranslation> oldWordTranslationsPersons) {
-        this.newWordTranslationsPersons = newWordTranslationsPersons;
-        this.oldWordTranslationsPersons = oldWordTranslationsPersons;
+    public WordTranslationsDiffUtilCallback(List<WordTranslation> newWordTranslations, List<WordTranslation> oldWordTranslations) {
+        this.newWordTranslations = newWordTranslations;
+        this.oldWordTranslations = oldWordTranslations;
     }
 
     @Override
     public int getOldListSize() {
-        return oldWordTranslationsPersons.size();
+        return oldWordTranslations.size();
     }
 
     @Override
     public int getNewListSize() {
-        return newWordTranslationsPersons.size();
+        return newWordTranslations.size();
     }
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldWordTranslationsPersons.get(oldItemPosition).getWordNative().equals(newWordTranslationsPersons.get(newItemPosition).getWordNative());
+        return oldWordTranslations.get(oldItemPosition).getWordNative().equals(newWordTranslations.get(newItemPosition).getWordNative());
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldWordTranslationsPersons.get(oldItemPosition).equals(newWordTranslationsPersons.get(newItemPosition));
+        return oldWordTranslations.get(oldItemPosition).equals(newWordTranslations.get(newItemPosition));
     }
 
     @Nullable

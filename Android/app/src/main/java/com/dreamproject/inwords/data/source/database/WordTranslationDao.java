@@ -27,7 +27,7 @@ public interface WordTranslationDao {
 
     @Delete
     int deleteAll(List<WordTranslation> wordTranslation);
-    
+
     @Query("DELETE FROM word_translation_table")
     int deleteAll();
 
