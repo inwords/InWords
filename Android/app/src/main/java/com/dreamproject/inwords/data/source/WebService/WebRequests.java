@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -108,6 +109,15 @@ public class WebRequests {
 
     public Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
         return apiService.addPairs(authInfo.getAuthToken().getBearer(), wordTranslations)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Completable removeAllServerIds(List<Integer> serverIds) {
+        return Completable.fromCallable(() -> {
+            Thread.sleep(1300);
+
+            return true;
+        })
                 .subscribeOn(Schedulers.io());
     }
 
