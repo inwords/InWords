@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using InWords.Auth.Providers;
 using InWords.Data.Models.Repositories;
 using InWords.Transfer.Data;
-using InWords.Transfer.Data.Models;
 using InWords.WebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
