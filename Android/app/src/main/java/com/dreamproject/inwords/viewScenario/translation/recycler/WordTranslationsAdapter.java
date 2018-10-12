@@ -21,7 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslationsAdapter.TaskViewHolder>
-        implements ItemTouchHelperEvents, WordListOperations {
+        implements WordListOperations {
     // Tag used for debugging/logging
     public static final String TAG = "WordTranslationsAdapter";
 
@@ -79,18 +79,6 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
     @Override
     public int getItemCount() {
         return wordTranslations.size();
-    }
-
-    @Override
-    public void onItemMove(int fromPosition, int toPosition) {
-        /*Collections.swap(wordTranslations, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);*/
-    }
-
-    @Override
-    public void onItemDismiss(int position) {
-        wordTranslations.remove(position);
-        notifyItemRemoved(position);
     }
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
