@@ -13,5 +13,19 @@ namespace InWords.Transfer.Data.Models
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public WordsSetInformation() { }
+
+        public WordsSetInformation(WordTranslationBase wordTranslationBase) : base(wordTranslationBase)
+        {
+
+        }
+
+        public WordsSetInformation(WordsSetInformation wordsSetInformation) : base((wordsSetInformation as WordTranslationBase))
+        {
+            Title = wordsSetInformation.Title;
+            Description = wordsSetInformation.Description;
+        }
+
     }
 }

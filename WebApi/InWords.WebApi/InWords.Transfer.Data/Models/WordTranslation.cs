@@ -9,9 +9,10 @@
 
         public string WordNative { get; set; }
 
-        public WordTranslation(WordTranslation WordTranslation) : base ((WordTranslation as WordTranslationBase))
+        public WordTranslation(WordTranslation WordTranslation) : base((WordTranslation as WordTranslationBase))
         {
-
+            WordForeign = WordTranslation.WordForeign;
+            WordNative = WordTranslation.WordNative;
         }
     }
 }
