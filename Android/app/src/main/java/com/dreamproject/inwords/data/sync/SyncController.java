@@ -125,9 +125,10 @@ public class SyncController {
         if (list.isEmpty())
             return;
 
+        Throwable throwable = null;
         switch (group(list.get(0))) { //Узнаём какой группе принадлежит лист
-            case ADD:
-                localRepository.addAll(list)
+            case ADD: {
+                throwable = localRepository.addAll(list)
                         .doOnSuccess(wordTranslations -> remoteRepository.addAll(wordTranslations)
                                 .doOnSuccess(wordIdentificatorsRemote -> {
                                     if (!wordTranslations.isEmpty() && !wordIdentificatorsRemote.isEmpty()) {
@@ -139,43 +140,53 @@ public class SyncController {
                                                 .blockingSubscribe();
                                     }
                                 })
-                                .doOnError((throwable) -> {
-                                    if (!wordTranslations.isEmpty()) {
+                                .doOnError((t) -> {
+                                    if (!wordTranslations.isEmpty())
                                         inMemoryRepository.addAll(wordTranslations).blockingGet();
-                                        throwable.printStackTrace();
-                                    }
                                 })
                                 .blockingGet()
                         )
-                        .doOnError(Throwable::printStackTrace)
+                        .ignoreElement()
                         .blockingGet();
-                break;
 
-            case REMOVE_REMOTE:
+                break;
+            }
+
+            case REMOVE_REMOTE: {
                 List<Integer> serverIds = serverIdsFromWordTranslations(list);
-                Throwable throwable = remoteRepository.removeAllServerIds(serverIds)
+                throwable = remoteRepository.removeAllServerIds(serverIds)
                         .doOnComplete(() -> { //TODO
                             if (!serverIds.isEmpty()) {
-                                inMemoryRepository.removeAllServerIds(serverIds).blockingGet();
-                                localRepository.removeAllServerIds(serverIds).blockingGet();
+                                Throwable t = Completable.mergeDelayError(Arrays.asList(
+                                        inMemoryRepository.removeAllServerIds(serverIds),
+                                        localRepository.removeAllServerIds(serverIds)))
+                                        .blockingGet();
+
+                                if (t != null)
+                                    t.printStackTrace();
                             }
                         })
-                        .doOnError(Throwable::printStackTrace)
                         .blockingGet();
 
-                if (throwable != null)
-                    throwable.printStackTrace();
                 break;
+            }
 
-            case REMOVE_LOCAL:
-                inMemoryRepository.removeAll(list).blockingGet();
-                localRepository.removeAll(list).blockingGet();
+            case REMOVE_LOCAL: {
+                throwable = Completable.mergeDelayError(Arrays.asList(
+                        inMemoryRepository.removeAll(list),
+                        localRepository.removeAll(list)))
+                        .blockingGet();
+
                 break;
+            }
 
             case NORMAL:
             default:
                 break;
         }
+
+        if (throwable != null)
+            throwable.printStackTrace();
     }
 
     private void mergeIds(List<WordTranslation> list, List<WordIdentificator> listIds) {
