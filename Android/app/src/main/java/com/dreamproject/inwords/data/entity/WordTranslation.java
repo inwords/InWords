@@ -41,6 +41,22 @@ public class WordTranslation extends WordIdentificator {
         this.wordNative = wordNative;
     }
 
+    public void markRemoteDeleted() {
+        serverId = -serverId; //minus
+    }
+
+    public boolean isRemoteDeleted() {
+        return serverId < 0 && !isLocallyDeleted();
+    }
+
+    public void markLocallyDeleted() {
+        serverId = Integer.MIN_VALUE;
+    }
+
+    public boolean isLocallyDeleted() {
+        return serverId == Integer.MIN_VALUE;
+    }
+
     public WordIdentificator getWordIdentificator() {
         return this; //TODO
     }
