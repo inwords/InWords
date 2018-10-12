@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 import static com.dreamproject.inwords.data.sync.SyncController.Groups.ADD;
 
@@ -23,14 +26,38 @@ public class SyncController {
     private TranslationWordsLocalRepository localRepository;
     private TranslationWordsRemoteRepository remoteRepository;
 
+    private AtomicInteger dataChangesCounter;
+    private PublishSubject<Integer> dataChangedNotifier;
+
     public SyncController(TranslationWordsLocalRepository inMemoryRepository, TranslationWordsLocalRepository localRepository, TranslationWordsRemoteRepository remoteRepository) {
         this.inMemoryRepository = inMemoryRepository;
         this.localRepository = localRepository;
         this.remoteRepository = remoteRepository;
+
+        this.dataChangedNotifier = PublishSubject.create();
+        this.dataChangesCounter = new AtomicInteger();
+
+        establishSyncAllReposWithCacheWatcher();
     }
 
     enum Groups {
         REMOVE_REMOTE, REMOVE_LOCAL, ADD, NORMAL
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void establishSyncAllReposWithCacheWatcher() {
+        dataChangedNotifier
+                .debounce(3, TimeUnit.SECONDS)
+                .doOnNext(o -> trySyncAllReposWithCache().subscribeOn(Schedulers.io())
+                        .onErrorReturnItem(Collections.emptyList())
+                        .ignoreElements()
+                        .subscribe(() -> {
+                        }))
+                .subscribe();
+    }
+
+    public void notifyDataChanged() {
+        dataChangedNotifier.onNext(dataChangesCounter.incrementAndGet());
     }
 
     public Single<PullWordsAnswer> presyncOnStart() {

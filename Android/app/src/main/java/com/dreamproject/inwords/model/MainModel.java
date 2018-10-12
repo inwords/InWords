@@ -25,6 +25,8 @@ public interface MainModel {
 
     Completable trySyncAllReposWithCache();
 
+    void notifyDataChanged();
+
     Observable<List<WordTranslation>> getAllWords();
 
     BehaviorSubject<User> getUsers();

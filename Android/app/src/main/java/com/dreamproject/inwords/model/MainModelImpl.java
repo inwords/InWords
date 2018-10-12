@@ -19,6 +19,7 @@ import com.dreamproject.inwords.data.sync.SyncController;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -116,6 +117,11 @@ public class MainModelImpl implements MainModel {
                 .subscribeOn(Schedulers.io())
                 .onErrorReturnItem(Collections.emptyList())
                 .ignoreElements();
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        syncController.notifyDataChanged();
     }
 
     @Override
