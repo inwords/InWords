@@ -45,7 +45,7 @@ namespace InWords.WebApi.Controllers
         /// <returns></returns>
         [Authorize]
         [Route("deletepair")]
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {
             int authorizedID = AuthProvider.GetUserID(User);

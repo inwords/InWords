@@ -39,6 +39,8 @@
 
         public DbSet<UserSeria> UsersSerias { get; set; }
 
+        public DbSet<SeriaDescription> SeriaDescription { get; set; }
+
         private void RecreateDb()
         {
 
