@@ -24,6 +24,9 @@ import retrofit2.http.POST;
 
 
 public interface WebApiService {
+    @POST("/api/sync/deletepair")
+    Single<List<Integer>> deletePairs(@Header("Authorization") String bearerToken, @Body List<Integer> serverIds);
+
     @POST("/api/words/addpair")
     Single<List<WordIdentificator>> addPairs(@Header("Authorization") String bearerToken, @Body List<WordTranslation> wordTranslations);
 

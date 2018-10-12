@@ -10,7 +10,6 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 
 public class TranslationWordsWebApiRepository implements TranslationWordsRemoteRepository {
     private WebRequests webRequests;
@@ -21,7 +20,7 @@ public class TranslationWordsWebApiRepository implements TranslationWordsRemoteR
 
     public Observable<List<WordTranslation>> getList() {
         return webRequests.getAllWords()
-               // .filter(wordTranslations -> !wordTranslations.isEmpty())
+                // .filter(wordTranslations -> !wordTranslations.isEmpty())
                 .toObservable();
     }
 
@@ -37,7 +36,8 @@ public class TranslationWordsWebApiRepository implements TranslationWordsRemoteR
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
-        return webRequests.removeAllServerIds(serverIds);
+        return webRequests.removeAllServerIds(serverIds)
+                .ignoreElement();
     }
 
     @Override

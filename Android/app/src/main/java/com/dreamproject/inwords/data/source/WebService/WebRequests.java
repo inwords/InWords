@@ -112,12 +112,8 @@ public class WebRequests {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Completable removeAllServerIds(List<Integer> serverIds) {
-        return Completable.fromCallable(() -> {
-            Thread.sleep(1300);
-
-            return true;
-        })
+    public Single<List<Integer>> removeAllServerIds(List<Integer> serverIds) {
+        return apiService.deletePairs(authInfo.getAuthToken().getBearer(), serverIds)
                 .subscribeOn(Schedulers.io());
     }
 

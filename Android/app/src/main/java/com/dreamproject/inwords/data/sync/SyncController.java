@@ -203,7 +203,7 @@ public class SyncController {
         List<Integer> serverIds = new ArrayList<>();
 
         for (WordIdentificator wordTranslation : wordIdentificators) {
-            serverIds.add(wordTranslation.getId());
+            serverIds.add(wordTranslation.getServerId());
         }
 
         return serverIds;
