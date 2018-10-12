@@ -8,5 +8,10 @@
         public string WordForeign { get; set; }
 
         public string WordNative { get; set; }
+
+        public WordTranslation(WordTranslation WordTranslation) : base ((WordTranslation as WordTranslationBase))
+        {
+
+        }
     }
 }

@@ -21,9 +21,9 @@ namespace InWords.WebApi.Service
             wordRepository = new WordRepository(this.context);
         }
 
-        public async Task<List<WordTranslationBase>> AddPair(int userID, IEnumerable<WordTranslation> wordTranslations)
+        public async Task<List<SyncModelBase>> AddPair(int userID, IEnumerable<WordTranslation> wordTranslations)
         {
-            List<WordTranslationBase> answer = new List<WordTranslationBase>();
+            List<SyncModelBase> answer = new List<SyncModelBase>();
 
             foreach (WordTranslation wordTranslation in wordTranslations)
             {
@@ -69,7 +69,7 @@ namespace InWords.WebApi.Service
             return wordTranslations;
         }
 
-        private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<WordTranslationBase> answer)
+        private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<SyncModelBase> answer)
         {
             Word firstWordForeign = new Word
             {
@@ -105,7 +105,7 @@ namespace InWords.WebApi.Service
 
             CreatedPair = await userWordPairRepository.Stack(CreatedPair);
 
-            WordTranslationBase resultPair = new WordTranslationBase()
+            SyncModelBase resultPair = new SyncModelBase()
             {
                 Id = wordTranslation.Id,
                 ServerId = CreatedPair.UserWordPairID

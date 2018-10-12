@@ -5,9 +5,11 @@
     using System.Linq;
     using System.Threading.Tasks;
     using InWords.Data.Models;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SeriesController : ControllerBase
