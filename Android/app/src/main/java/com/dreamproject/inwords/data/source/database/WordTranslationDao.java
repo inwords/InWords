@@ -27,15 +27,15 @@ public interface WordTranslationDao {
 
     @Delete
     int deleteAll(List<WordTranslation> wordTranslation);
+    
+    @Query("DELETE FROM word_translation_table")
+    int deleteAll();
 
     @Update
     int update(WordTranslation word);
 
     @Update
     int updateAll(List<WordTranslation> wordTranslation);
-
-    @Query("DELETE FROM word_translation_table")
-    int deleteAll();
 
     @Query("DELETE FROM word_translation_table WHERE server_id IN (:serverIds)")
     int deleteAllServerIds(List<Integer> serverIds);
