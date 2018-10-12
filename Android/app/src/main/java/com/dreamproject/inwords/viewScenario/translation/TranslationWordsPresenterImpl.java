@@ -25,7 +25,7 @@ public class TranslationWordsPresenterImpl extends BasicPresenter implements
         //model.presyncOnStart(application);
 
         Disposable d = model.getAllWords()
-                .flatMapCompletable(translationMainView::updateWordTranslations)
+                .concatMapCompletable(wordTranslations -> translationMainView.updateWordTranslations(wordTranslations))
                 .subscribe(() -> {
                 }, Throwable::printStackTrace);
 
@@ -44,7 +44,7 @@ public class TranslationWordsPresenterImpl extends BasicPresenter implements
     @Override
     public void addWordTranslation(WordTranslation wordTranslation) {
         Disposable d = model.addWordTranslation(wordTranslation)
-                .subscribe(() -> {
+                .subscribe(() -> {model.trySyncAllReposWithCache().blockingGet();
                 }, Throwable::printStackTrace);
 
         compositeDisposable.add(d);

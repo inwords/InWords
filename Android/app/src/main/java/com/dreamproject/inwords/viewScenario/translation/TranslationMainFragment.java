@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.dreamproject.inwords.viewScenario.translation.recycler.WordTranslatio
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import io.reactivex.Completable;
 
@@ -64,6 +66,12 @@ public class TranslationMainFragment extends PresenterNavFragment implements Tra
 
         setupRecyclerView(view);
         presenter.loadData(); //TODO
+
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        Random rnd = new Random(System.currentTimeMillis());
+        fab.setOnClickListener(fabView -> presenter.addWordTranslation(
+                new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000))
+        ));
     }
 
     @Override

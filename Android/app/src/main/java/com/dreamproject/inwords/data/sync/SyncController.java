@@ -143,6 +143,7 @@ public class SyncController {
             case REMOVE_LOCAL:
                 inMemoryRepository.removeAll(list).blockingGet();
                 localRepository.removeAll(list).blockingGet();
+                break;
 
             case NORMAL:
             default:
