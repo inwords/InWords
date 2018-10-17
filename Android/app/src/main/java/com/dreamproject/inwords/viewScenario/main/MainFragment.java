@@ -30,7 +30,7 @@ import androidx.navigation.Navigation;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment implements MainView {
+public class MainFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,7 +41,7 @@ public class MainFragment extends Fragment implements MainView {
     private OnFragmentInteractionListener mListener;
 
     NavController navController;
-    private MainPresenter presenter;
+    private MainPresenter viewModel;
     private TextView textMessage;
     private Button buttonGoLogin;
     private Button buttonGetWordList;
@@ -85,11 +85,11 @@ public class MainFragment extends Fragment implements MainView {
 
         buttonGoLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null));
 
-        presenter = new MainViewModel(Objects.requireNonNull(getActivity()).getApplication());
-        presenter.onGetAllHandler(RxView.clicks(buttonGetWordList));
+        viewModel = new MainViewModel(Objects.requireNonNull(getActivity()).getApplication());
+        viewModel.onGetAllHandler(RxView.clicks(buttonGetWordList));
 
         BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
-        //presenter.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
+        //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
     }
 
     @Override
@@ -152,7 +152,7 @@ public class MainFragment extends Fragment implements MainView {
     public void onDestroyView() {
         super.onDestroyView();
 
-        presenter.dispose();
+        viewModel.dispose();
     }
 
     /**
