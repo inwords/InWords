@@ -29,8 +29,6 @@ public class MainModelImpl implements MainModel {
     // Tag used for debugging/logging
     public static final String TAG = "MainModelImpl";
 
-    private static MainModelImpl INSTANCE;
-
     private final TranslationWordsInteractor translationWordsInteractor;
     private final AuthorisationInteractor authorisationInteractor;
 
@@ -39,21 +37,8 @@ public class MainModelImpl implements MainModel {
     //data flow between model and view (reemits last element on new subscription)
     private BehaviorSubject<User> userBehaviorSubject;
 
-    public static MainModelImpl getInstance(final Application application) {
-        if (INSTANCE == null) {
-            synchronized (MainModelImpl.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new MainModelImpl(application);
-                }
-            }
-        }
-        return INSTANCE;
-    }
-
-    private MainModelImpl(Application application) {
+    MainModelImpl(Application application, WebRequests webRequests) {
         userBehaviorSubject = BehaviorSubject.create();
-
-        final WebRequests webRequests = WebRequests.INSTANCE;
 
         authorisationInteractor = new AuthorisationWebInteractor(webRequests);
 
@@ -103,7 +88,7 @@ public class MainModelImpl implements MainModel {
     }
 
     @Override
-    public Completable presyncOnStart(Application application) {
+    public Completable presyncOnStart() {
         return syncController.presyncOnStart()
                 .subscribeOn(Schedulers.io())
                 .doOnError(Throwable::printStackTrace)

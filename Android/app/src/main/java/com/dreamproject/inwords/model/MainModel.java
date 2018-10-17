@@ -13,7 +13,7 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 
 public interface MainModel {
-    Completable presyncOnStart(Application application);
+    Completable presyncOnStart();
 
     Completable signIn(UserCredentials userCredentials);
 

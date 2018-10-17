@@ -23,7 +23,7 @@ public class MainPresenterImpl extends BasicPresenter implements MainPresenter {
     public void getAllHandler(Observable<Object> obs) {
         compositeDisposable.add(
                 obs.subscribe(o -> {
-                    model.presyncOnStart(application).blockingGet();
+                    model.presyncOnStart().blockingGet();
 
                     model.trySyncAllReposWithCache().blockingGet();
 
