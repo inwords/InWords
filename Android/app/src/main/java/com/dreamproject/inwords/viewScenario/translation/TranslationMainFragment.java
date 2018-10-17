@@ -65,7 +65,7 @@ public class TranslationMainFragment extends PresenterNavFragment implements Tra
         super.onViewCreated(view, savedInstanceState);
 
         setupRecyclerView(view);
-        presenter.onLoadData(); //TODO
+        presenter.onViewCreated(); //TODO
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         Random rnd = new Random(System.currentTimeMillis());

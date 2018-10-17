@@ -21,7 +21,7 @@ public class TranslationWordsPresenterImpl extends BasicPresenter implements
     }
 
     @Override
-    public void onLoadData() {
+    public void onViewCreated() {
         //model.presyncOnStart(application);
 
         Disposable d = model.getAllWords()
