@@ -85,8 +85,8 @@ public class MainFragment extends Fragment implements MainView {
 
         buttonGoLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null));
 
-        presenter = new MainPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this);
-        presenter.getAllHandler(RxView.clicks(buttonGetWordList));
+        presenter = new MainViewModel(Objects.requireNonNull(getActivity()).getApplication());
+        presenter.onGetAllHandler(RxView.clicks(buttonGetWordList));
 
         BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
         //presenter.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
@@ -118,7 +118,7 @@ public class MainFragment extends Fragment implements MainView {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false);

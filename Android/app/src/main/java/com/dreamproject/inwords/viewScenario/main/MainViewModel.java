@@ -7,20 +7,16 @@ import com.dreamproject.inwords.BasicPresenter;
 import io.reactivex.Observable;
 
 //compositeDisposable, model and application are available from BasicPresenter
-public class MainPresenterImpl extends BasicPresenter implements MainPresenter {
+public class MainViewModel extends BasicPresenter implements MainPresenter {
     // Tag used for debugging/logging
-    public static final String TAG = "MainPresenterImpl";
+    public static final String TAG = "MainViewModel";
 
-    private MainView mainView;
-
-    public MainPresenterImpl(Application application, MainView mainView) {
+    public MainViewModel(Application application) {
         super(application);
-
-        this.mainView = mainView;
     }
 
     @Override
-    public void getAllHandler(Observable<Object> obs) {
+    public void onGetAllHandler(Observable<Object> obs) {
         compositeDisposable.add(
                 obs.subscribe(o -> {
                     model.presyncOnStart().blockingGet();
