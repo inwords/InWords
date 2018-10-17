@@ -21,7 +21,7 @@ public class TranslationWordsPresenterImpl extends BasicPresenter implements
     }
 
     @Override
-    public void loadData() {
+    public void onLoadData() {
         //model.presyncOnStart(application);
 
         Disposable d = model.getAllWords()
@@ -33,18 +33,20 @@ public class TranslationWordsPresenterImpl extends BasicPresenter implements
     }
 
     @Override
-    public void removeWordTranslation(WordTranslation wordTranslation) {
+    public void onRemoveWordTranslation(WordTranslation wordTranslation) {
         Disposable d = model.removeWordTranslation(wordTranslation)
-                .subscribe(() -> {model.trySyncAllReposWithCache().blockingGet();
+                .subscribe(() -> {
+                    model.trySyncAllReposWithCache().blockingGet();
                 }, Throwable::printStackTrace);
 
         compositeDisposable.add(d);
     }
 
     @Override
-    public void addWordTranslation(WordTranslation wordTranslation) {
+    public void onAddWordTranslation(WordTranslation wordTranslation) {
         Disposable d = model.addWordTranslation(wordTranslation)
-                .subscribe(() -> {model.trySyncAllReposWithCache().blockingGet();
+                .subscribe(() -> {
+                    model.trySyncAllReposWithCache().blockingGet();
                 }, Throwable::printStackTrace);
 
         compositeDisposable.add(d);
@@ -52,6 +54,6 @@ public class TranslationWordsPresenterImpl extends BasicPresenter implements
 
     @Override
     public void onItemDismiss(int position) {
-        removeWordTranslation(translationMainView.getWordTranslations().get(position));
+        onRemoveWordTranslation(translationMainView.getWordTranslations().get(position));
     }
 }

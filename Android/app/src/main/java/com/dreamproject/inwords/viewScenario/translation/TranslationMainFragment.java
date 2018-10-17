@@ -65,11 +65,11 @@ public class TranslationMainFragment extends PresenterNavFragment implements Tra
         super.onViewCreated(view, savedInstanceState);
 
         setupRecyclerView(view);
-        presenter.loadData(); //TODO
+        presenter.onLoadData(); //TODO
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         Random rnd = new Random(System.currentTimeMillis());
-        fab.setOnClickListener(fabView -> presenter.addWordTranslation(
+        fab.setOnClickListener(fabView -> presenter.onAddWordTranslation(
                 new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000))
         ));
     }
