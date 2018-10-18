@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
 import static com.dreamproject.inwords.data.sync.SyncController.Groups.ADD;
 
@@ -23,14 +26,38 @@ public class SyncController {
     private TranslationWordsLocalRepository localRepository;
     private TranslationWordsRemoteRepository remoteRepository;
 
+    private AtomicInteger dataChangesCounter;
+    private PublishSubject<Integer> dataChangedNotifier;
+
     public SyncController(TranslationWordsLocalRepository inMemoryRepository, TranslationWordsLocalRepository localRepository, TranslationWordsRemoteRepository remoteRepository) {
         this.inMemoryRepository = inMemoryRepository;
         this.localRepository = localRepository;
         this.remoteRepository = remoteRepository;
+
+        this.dataChangedNotifier = PublishSubject.create();
+        this.dataChangesCounter = new AtomicInteger();
+
+        establishSyncAllReposWithCacheWatcher();
     }
 
     enum Groups {
         REMOVE_REMOTE, REMOVE_LOCAL, ADD, NORMAL
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void establishSyncAllReposWithCacheWatcher() {
+        dataChangedNotifier
+                .debounce(3, TimeUnit.SECONDS)
+                .doOnNext(o -> trySyncAllReposWithCache().subscribeOn(Schedulers.io())
+                        .onErrorReturnItem(Collections.emptyList())
+                        .ignoreElements()
+                        .subscribe(() -> {
+                        }))
+                .subscribe();
+    }
+
+    public void notifyDataChanged() {
+        dataChangedNotifier.onNext(dataChangesCounter.incrementAndGet());
     }
 
     public Single<PullWordsAnswer> presyncOnStart() {
@@ -98,9 +125,10 @@ public class SyncController {
         if (list.isEmpty())
             return;
 
+        Throwable throwable = null;
         switch (group(list.get(0))) { //Узнаём какой группе принадлежит лист
-            case ADD:
-                localRepository.addAll(list)
+            case ADD: {
+                throwable = localRepository.addAll(list)
                         .doOnSuccess(wordTranslations -> remoteRepository.addAll(wordTranslations)
                                 .doOnSuccess(wordIdentificatorsRemote -> {
                                     if (!wordTranslations.isEmpty() && !wordIdentificatorsRemote.isEmpty()) {
@@ -112,43 +140,53 @@ public class SyncController {
                                                 .blockingSubscribe();
                                     }
                                 })
-                                .doOnError((throwable) -> {
-                                    if (!wordTranslations.isEmpty()) {
+                                .doOnError((t) -> {
+                                    if (!wordTranslations.isEmpty())
                                         inMemoryRepository.addAll(wordTranslations).blockingGet();
-                                        throwable.printStackTrace();
-                                    }
                                 })
                                 .blockingGet()
                         )
-                        .doOnError(Throwable::printStackTrace)
+                        .ignoreElement()
                         .blockingGet();
-                break;
 
-            case REMOVE_REMOTE:
+                break;
+            }
+
+            case REMOVE_REMOTE: {
                 List<Integer> serverIds = serverIdsFromWordTranslations(list);
-                Throwable throwable = remoteRepository.removeAllServerIds(serverIds)
+                throwable = remoteRepository.removeAllServerIds(serverIds)
                         .doOnComplete(() -> { //TODO
                             if (!serverIds.isEmpty()) {
-                                inMemoryRepository.removeAllServerIds(serverIds).blockingGet();
-                                localRepository.removeAllServerIds(serverIds).blockingGet();
+                                Throwable t = Completable.mergeDelayError(Arrays.asList(
+                                        inMemoryRepository.removeAllServerIds(serverIds),
+                                        localRepository.removeAllServerIds(serverIds)))
+                                        .blockingGet();
+
+                                if (t != null)
+                                    t.printStackTrace();
                             }
                         })
-                        .doOnError(Throwable::printStackTrace)
                         .blockingGet();
 
-                if (throwable != null)
-                    throwable.printStackTrace();
                 break;
+            }
 
-            case REMOVE_LOCAL:
-                inMemoryRepository.removeAll(list).blockingGet();
-                localRepository.removeAll(list).blockingGet();
+            case REMOVE_LOCAL: {
+                throwable = Completable.mergeDelayError(Arrays.asList(
+                        inMemoryRepository.removeAll(list),
+                        localRepository.removeAll(list)))
+                        .blockingGet();
+
                 break;
+            }
 
             case NORMAL:
             default:
                 break;
         }
+
+        if (throwable != null)
+            throwable.printStackTrace();
     }
 
     private void mergeIds(List<WordTranslation> list, List<WordIdentificator> listIds) {
@@ -165,7 +203,7 @@ public class SyncController {
         List<Integer> serverIds = new ArrayList<>();
 
         for (WordIdentificator wordTranslation : wordIdentificators) {
-            serverIds.add(wordTranslation.getId());
+            serverIds.add(wordTranslation.getServerId());
         }
 
         return serverIds;

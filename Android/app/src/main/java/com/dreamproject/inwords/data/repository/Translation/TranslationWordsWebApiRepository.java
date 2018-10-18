@@ -5,23 +5,23 @@ import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 
 public class TranslationWordsWebApiRepository implements TranslationWordsRemoteRepository {
     private WebRequests webRequests;
 
-    public TranslationWordsWebApiRepository() {
-        webRequests = WebRequests.INSTANCE;
+    public TranslationWordsWebApiRepository(WebRequests webRequests) {
+        this.webRequests = webRequests;
     }
 
     public Observable<List<WordTranslation>> getList() {
         return webRequests.getAllWords()
-               // .filter(wordTranslations -> !wordTranslations.isEmpty())
+                // .filter(wordTranslations -> !wordTranslations.isEmpty())
                 .toObservable();
     }
 
@@ -37,7 +37,16 @@ public class TranslationWordsWebApiRepository implements TranslationWordsRemoteR
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
-        return webRequests.removeAllServerIds(serverIds);
+        return Single.fromCallable(() -> {
+            List<Integer> adsServerIds = new ArrayList<>(serverIds.size());
+
+            for (int i = 0, serverIdsSize = serverIds.size(); i < serverIdsSize; i++) {
+                adsServerIds.add(Math.abs(serverIds.get(i)));
+            }
+            return adsServerIds;
+        })
+                .flatMap(webRequests::removeAllServerIds)
+                .ignoreElement();
     }
 
     @Override

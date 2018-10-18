@@ -19,6 +19,7 @@ import com.dreamproject.inwords.data.sync.SyncController;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -44,7 +45,7 @@ public class MainModelImpl implements MainModel {
 
         final TranslationWordsLocalRepository inMemoryRepository = new TranslationWordsCacheRepository();
         final TranslationWordsLocalRepository localRepository = new TranslationWordsDatabaseRepository(application);
-        final TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository();
+        final TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository(webRequests);
 
         translationWordsInteractor = new TranslationWordsCacheInteractor(inMemoryRepository);
 
@@ -101,6 +102,11 @@ public class MainModelImpl implements MainModel {
                 .subscribeOn(Schedulers.io())
                 .onErrorReturnItem(Collections.emptyList())
                 .ignoreElements();
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        syncController.notifyDataChanged();
     }
 
     @Override

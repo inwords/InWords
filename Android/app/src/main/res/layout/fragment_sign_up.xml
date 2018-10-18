@@ -14,16 +14,14 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp">
+            android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_enter_email"
-                android:inputType="textEmailAddress"
-                android:padding="12dp" />
+                android:inputType="textEmailAddress" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -37,8 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_enter_password"
-                android:inputType="textPassword"
-                android:padding="12dp" />
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -52,8 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_confirm_password"
-                android:inputType="textPassword"
-                android:padding="12dp" />
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -64,11 +60,11 @@
             android:layout_marginTop="32dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="@string/sign_up_enter"
-            android:textColor="@color/colorPrimaryTextLight" />
+            android:textColor="@android:color/primary_text_dark" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="54dp"
             android:gravity="center"
             android:orientation="horizontal">
