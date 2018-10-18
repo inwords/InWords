@@ -84,37 +84,12 @@ public class MainFragment extends Fragment {
         buttonGetWordList = view.findViewById(R.id.buttonGetWordList);
 
         buttonGoLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null));
-
+//TODO это не по паттерну. перенести навигацию в модель. но это пока костыль так что оставить как есть
         viewModel = new MainViewModel(Objects.requireNonNull(getActivity()).getApplication());
         viewModel.onGetAllHandler(RxView.clicks(buttonGetWordList));
 
         BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
         //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
-    }
-
-    @Override
-    public void showText(String text) {
-        textMessage.setText(text);
-    }
-
-    @Override
-    public void navigateToHome() {
-        navController.navigate(R.id.action_global_mainFragment, null);
-    }
-
-    @Override
-    public void navigateToLogin() {
-        navController.navigate(R.id.action_mainFragment_to_loginFragment, null);
-    }
-
-    @Override
-    public void showTextNotifications() {
-        textMessage.setText(R.string.title_notifications);
-    }
-
-    @Override
-    public void appendText(String text) {
-        textMessage.append(text);
     }
 
     @Override

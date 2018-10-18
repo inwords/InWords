@@ -4,7 +4,7 @@ import io.reactivex.Observable;
 
 public interface LoginPresenter {
 
-    void signUpHandler(Observable<Object> obs);
+    void onSignUpHandler(Observable<Object> obs);
 
-    void signInHandler(Observable<Object> obs);
+    void onSignInHandler(Observable<Object> obs);
 }

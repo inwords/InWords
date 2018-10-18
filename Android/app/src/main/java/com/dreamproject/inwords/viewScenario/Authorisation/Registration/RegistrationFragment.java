@@ -14,7 +14,6 @@ import com.dreamproject.inwords.viewScenario.Authorisation.SigningBaseFragment;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 
@@ -34,6 +33,11 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
         View view = getView();
         if (view != null)
             Snackbar.make(view, "Sign up success", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void navigateToLogin() {
+        navController.navigate(R.id.action_registrationFragment_to_loginFragment_pop, null);
     }
 
     @Override
@@ -64,9 +68,7 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
 
         editTextConfirmPassword = view.findViewById(R.id.editTextConfirmPassword);
 
-        Observable<Object> logInBtnObs = (RxView.clicks(view.findViewById(R.id.buttonEnterSignUp))
-                .debounce(200, TimeUnit.MILLISECONDS));
-
-        presenter.signUpHandler(logInBtnObs);
+        presenter.onSignUpHandler(RxView.clicks(view.findViewById(R.id.buttonEnterSignUp)));
+        presenter.onSignInHandler(RxView.clicks(view.findViewById(R.id.textViewSignIn)));
     }
 }

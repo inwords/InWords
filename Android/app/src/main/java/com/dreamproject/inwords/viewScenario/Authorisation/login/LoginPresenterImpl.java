@@ -22,14 +22,14 @@ public class LoginPresenterImpl extends BasicPresenter implements LoginPresenter
     }
 
     @Override
-    public void signUpHandler(Observable<Object> obs) {
+    public void onSignUpHandler(Observable<Object> obs) {
         Disposable d = obs.doOnNext(o -> loginView.navigateToRegistration()).subscribe();
 
         compositeDisposable.add(d);
     }
 
     @Override
-    public void signInHandler(Observable<Object> obs) {
+    public void onSignInHandler(Observable<Object> obs) {
         Disposable d = obs.switchMap((o) -> loginView.getCredentials())
                 .subscribe(temporaryUser ->
                         compositeDisposable.add(model.signIn(temporaryUser)

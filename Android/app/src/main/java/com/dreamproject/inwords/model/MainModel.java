@@ -1,7 +1,5 @@
 package com.dreamproject.inwords.model;
 
-import android.app.Application;
-
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;

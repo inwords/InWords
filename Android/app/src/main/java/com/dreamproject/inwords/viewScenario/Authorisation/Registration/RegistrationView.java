@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 
 public interface RegistrationView {
     Observable<UserCredentials> getCredentials();
+    void navigateToLogin();
     void registrationSuccess();
     void registrationError();
 }

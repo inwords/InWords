@@ -57,7 +57,6 @@ public class LoginFragment extends SigningBaseFragment implements LoginView {
         navController.navigate(R.id.action_loginFragment_to_registrationFragment, null);
     }
 
-
     @Override
     protected int getLayout() {
         return R.layout.fragment_sign_in;
@@ -77,7 +76,7 @@ public class LoginFragment extends SigningBaseFragment implements LoginView {
         Observable<Object> signInBtnObs = (RxView.clicks(enterButtonSignIn).debounce(200, TimeUnit.MILLISECONDS));
         Observable<Object> signUpTxtVwObs = (RxView.clicks(textViewSignUp).debounce(200, TimeUnit.MILLISECONDS));
 
-        presenter.signInHandler(signInBtnObs);
-        presenter.signUpHandler(signUpTxtVwObs);
+        presenter.onSignInHandler(signInBtnObs);
+        presenter.onSignUpHandler(signUpTxtVwObs);
     }
 }

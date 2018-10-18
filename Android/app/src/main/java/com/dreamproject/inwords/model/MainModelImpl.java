@@ -5,11 +5,11 @@ import android.app.Application;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheInteractor;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsDatabaseRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheInteractor;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsInteractor;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRemoteRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsWebApiRepository;
 import com.dreamproject.inwords.data.source.WebService.AuthorisationInteractor;
@@ -19,7 +19,6 @@ import com.dreamproject.inwords.data.sync.SyncController;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;

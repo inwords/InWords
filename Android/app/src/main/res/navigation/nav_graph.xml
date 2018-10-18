@@ -11,6 +11,9 @@
         android:label="fragment_registration"
         tools:layout="@layout/fragment_sign_up">
         <action
+            android:id="@+id/action_registrationFragment_to_loginFragment_pop"
+            app:popUpTo="@id/loginFragment" />
+        <action
             android:id="@+id/action_registrationFragment_to_mainFragment_pop"
             app:popUpTo="@id/mainFragment" />
     </fragment>

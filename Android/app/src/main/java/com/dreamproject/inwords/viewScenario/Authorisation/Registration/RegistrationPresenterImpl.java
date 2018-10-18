@@ -5,6 +5,8 @@ import android.app.Application;
 import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.BasicPresenter;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
@@ -22,8 +24,10 @@ public class RegistrationPresenterImpl extends BasicPresenter implements Registr
     }
 
     @Override
-    public void signUpHandler(Observable<Object> obs) {
-        Disposable d = obs.switchMap((o) -> registrationView.getCredentials())
+    public void onSignUpHandler(Observable<Object> obs) {
+        Disposable d = obs
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .switchMap((o) -> registrationView.getCredentials())
                 .subscribe(userCredentials ->
                         compositeDisposable.add(model.signUp(userCredentials)
                                 .subscribe(registrationView::registrationSuccess,
@@ -32,6 +36,13 @@ public class RegistrationPresenterImpl extends BasicPresenter implements Registr
                                             registrationView.registrationError();
                                         }))
                 );
+
+        compositeDisposable.add(d);
+    }
+
+    @Override
+    public void onSignInHandler(Observable<Object> obs) {
+        Disposable d = obs.doOnNext(o -> registrationView.navigateToLogin()).subscribe();
 
         compositeDisposable.add(d);
     }
