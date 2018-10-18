@@ -2,8 +2,8 @@ package com.dreamproject.inwords.viewScenario.authorisation.Registration;
 
 import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.BasicModelPresenter;
-import com.dreamproject.inwords.model.DependenciesComponent;
 import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
+import com.dreamproject.inwords.util.DependenciesComponent;
 
 import java.util.concurrent.TimeUnit;
 

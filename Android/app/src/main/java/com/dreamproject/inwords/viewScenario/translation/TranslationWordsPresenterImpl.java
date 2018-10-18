@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.dreamproject.inwords.BasicModelPresenter;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.model.DependenciesComponent;
 import com.dreamproject.inwords.model.MainModel;
+import com.dreamproject.inwords.util.DependenciesComponent;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperEvents;
 
 import io.reactivex.disposables.Disposable;

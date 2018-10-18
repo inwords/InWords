@@ -1,8 +1,10 @@
-package com.dreamproject.inwords.model;
+package com.dreamproject.inwords.util;
 
 import android.app.Application;
 
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.model.MainModelFactory;
+import com.dreamproject.inwords.model.MainModelImpl;
 import com.dreamproject.inwords.model.authorisation.AuthorisationWebInteractor;
 
 public class DependenciesComponent {
@@ -25,7 +27,7 @@ public class DependenciesComponent {
         if (MAIN_MODEL_INSTANCE == null) {
             synchronized (MainModelImpl.class) {
                 if (MAIN_MODEL_INSTANCE == null) {
-                    MAIN_MODEL_INSTANCE = new MainModelImpl(application, getWebRequestsInstance());
+                    MAIN_MODEL_INSTANCE = MainModelFactory.createOne(application, getWebRequestsInstance());
                 }
             }
         }
@@ -35,4 +37,5 @@ public class DependenciesComponent {
     private static WebRequests getWebRequestsInstance() {
         return WEB_REQUESTS_INSTANCE;
     }
+
 }

@@ -3,8 +3,8 @@ package com.dreamproject.inwords.viewScenario.main;
 import android.app.Application;
 
 import com.dreamproject.inwords.BasicModelPresenter;
-import com.dreamproject.inwords.model.DependenciesComponent;
 import com.dreamproject.inwords.model.MainModel;
+import com.dreamproject.inwords.util.DependenciesComponent;
 
 import io.reactivex.Observable;
 

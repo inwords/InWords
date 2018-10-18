@@ -2,8 +2,8 @@ package com.dreamproject.inwords.viewScenario.authorisation.login;
 
 import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.BasicModelPresenter;
-import com.dreamproject.inwords.model.DependenciesComponent;
 import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
+import com.dreamproject.inwords.util.DependenciesComponent;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
