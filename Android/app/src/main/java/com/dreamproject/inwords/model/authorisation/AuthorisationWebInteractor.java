@@ -7,6 +7,7 @@ import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
+import io.reactivex.Single;
 
 public class AuthorisationWebInteractor implements AuthorisationInteractor {
     private WebRequests webRequests;
@@ -19,27 +20,26 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
     public Completable signIn(UserCredentials userCredentials) {
         return Completable.create((emitter) -> {
             webRequests.setCredentials(userCredentials);
-            AuthToken authToken = webRequests.updateToken();
 
-            checkAuthToken(emitter, authToken);
+            checkAuthToken(emitter, webRequests.updateToken());
         });
     }
 
     @Override
     public Completable signUp(UserCredentials userCredentials) {
         return Completable.create((emitter) -> {
-            AuthToken authToken = webRequests.registerUser(userCredentials)
-                    .onErrorReturnItem(AuthToken.errorToken())
-                    .blockingGet();
-
-            checkAuthToken(emitter, authToken);
+            checkAuthToken(emitter, webRequests.registerUser(userCredentials));
         });
     }
 
-    private void checkAuthToken(CompletableEmitter emitter, AuthToken authToken) {
-        if (authToken.isValid())
-            emitter.onComplete();
-        else
-            emitter.onError(new AuthenticationError("error"));
+    private void checkAuthToken(CompletableEmitter emitter, Single<AuthToken> authTokenSingle) {
+        try {
+            AuthToken authToken = authTokenSingle.blockingGet();
+
+            if (authToken.isValid())
+                emitter.onComplete();
+        } catch (Exception e) {
+            emitter.onError(new AuthenticationError(e.getMessage()));
+        }
     }
 }

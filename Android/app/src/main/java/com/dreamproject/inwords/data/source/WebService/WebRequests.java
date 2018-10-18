@@ -8,7 +8,6 @@ import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import io.reactivex.Maybe;
 import io.reactivex.Single;
@@ -34,24 +33,11 @@ public class WebRequests {
         this.authInfo.setAuthToken(authToken);
     }
 
-    private AuthToken updateToken(Single<AuthToken> authTokenSingle) {
-        AuthToken authToken;
-        try {
-            authToken = authTokenSingle
-                    //.onErrorReturnItem(new AuthToken("error_token", "error_mail"))
-                    .blockingGet();
-        } catch (NoSuchElementException e) {
-            authToken = AuthToken.errorToken(); //TODO: think
-            e.printStackTrace();
-        }
-        setAuthToken(authToken);
-
-        return authToken;
-    }
-
     private Single<AuthToken> getToken() {
         return apiService.getToken(authInfo.getCredentials())
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io())
+                .doOnError(throwable -> setAuthToken(AuthToken.errorToken()))
+                .doOnSuccess(this::setAuthToken);
     }
 
     public void setCredentials(UserCredentials userCredentials) {
@@ -61,11 +47,12 @@ public class WebRequests {
     public Single<AuthToken> registerUser(UserCredentials userCredentials) {
         return apiService.registerUser(userCredentials)
                 .subscribeOn(Schedulers.io())
-                .map(authToken -> updateToken(Single.just(authToken)));
+                .doOnError(throwable -> setAuthToken(AuthToken.errorToken()))
+                .doOnSuccess(this::setAuthToken);
     }
 
-    public AuthToken updateToken() {
-        return updateToken(getToken());
+    public Single<AuthToken> updateToken() {
+        return getToken();
     }
 
     public Single<String> getLogin() {

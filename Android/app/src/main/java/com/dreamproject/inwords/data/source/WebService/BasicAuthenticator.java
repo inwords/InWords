@@ -17,7 +17,9 @@ public class BasicAuthenticator implements Authenticator {
             return null; // Give up, we've already failed to authenticate.
         }*/
 
-        AuthToken authToken = WebRequests.INSTANCE.updateToken();
+        AuthToken authToken = WebRequests.INSTANCE.updateToken()
+                .onErrorReturnItem(AuthToken.errorToken())
+                .blockingGet();
 
         return response.request().newBuilder()
                 .header("Authorization", authToken.getBearer())
