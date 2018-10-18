@@ -7,7 +7,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public interface MainModel {
+public interface TranslationModel {
     Completable presyncOnStart();
 
     Completable addWordTranslation(WordTranslation wordTranslation);

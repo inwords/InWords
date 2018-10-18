@@ -12,8 +12,8 @@ import com.dreamproject.inwords.data.repository.Translation.TranslationWordsWebA
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.data.sync.SyncController;
 
-public class MainModelFactory {
-    public static MainModelImpl createOne(Application application, WebRequests webRequests) {
+public class TranslationModelFactory {
+    public static TranslationModelImpl createOne(Application application, WebRequests webRequests) {
         final TranslationWordsLocalRepository inMemoryRepository = new TranslationWordsCacheRepository();
         final TranslationWordsLocalRepository localRepository = new TranslationWordsDatabaseRepository(application);
         final TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository(webRequests);
@@ -22,6 +22,6 @@ public class MainModelFactory {
 
         SyncController syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
 
-        return new MainModelImpl(translationWordsInteractor, syncController);
+        return new TranslationModelImpl(translationWordsInteractor, syncController);
     }
 }

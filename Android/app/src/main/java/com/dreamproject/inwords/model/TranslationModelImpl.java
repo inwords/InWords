@@ -11,16 +11,16 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainModelImpl implements MainModel {
+public class TranslationModelImpl implements TranslationModel {
     // Tag used for debugging/logging
-    public static final String TAG = "MainModelImpl";
+    public static final String TAG = "TranslationModelImpl";
 
     private final TranslationWordsInteractor translationWordsInteractor;
 
     private final SyncController syncController;
 
-    MainModelImpl(final TranslationWordsInteractor translationWordsInteractor,
-                  final SyncController syncController) {
+    TranslationModelImpl(final TranslationWordsInteractor translationWordsInteractor,
+                         final SyncController syncController) {
 
         this.translationWordsInteractor = translationWordsInteractor;
 
