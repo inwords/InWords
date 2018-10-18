@@ -40,6 +40,6 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
         if (authToken.isValid())
             emitter.onComplete();
         else
-            emitter.onError(new AuthenticationError());
+            emitter.onError(new AuthenticationError("error"));
     }
 }

@@ -8,5 +8,5 @@ public interface RegistrationView {
     Observable<UserCredentials> getCredentials();
     void navigateToLogin();
     void registrationSuccess();
-    void registrationError();
+    void registrationError(String message);
 }

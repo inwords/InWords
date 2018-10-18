@@ -25,6 +25,11 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
     }
 
     @Override
+    public void navigateToLogin() {
+        navController.navigate(R.id.action_registrationFragment_to_loginFragment_pop, null);
+    }
+
+    @Override
     public void registrationSuccess() {
         navController.navigate(R.id.action_registrationFragment_to_mainFragment_pop);
 
@@ -34,15 +39,10 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
     }
 
     @Override
-    public void navigateToLogin() {
-        navController.navigate(R.id.action_registrationFragment_to_loginFragment_pop, null);
-    }
-
-    @Override
-    public void registrationError() {
+    public void registrationError(String message) {
         View view = getView();
         if (view != null)
-            Snackbar.make(view, "Sign up error", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view, "Sign up error: " + message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

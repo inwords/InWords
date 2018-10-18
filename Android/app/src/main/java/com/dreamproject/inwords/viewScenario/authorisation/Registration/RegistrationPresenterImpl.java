@@ -33,7 +33,7 @@ public class RegistrationPresenterImpl extends BasicModelPresenter<Authorisation
                                 .subscribe(registrationView::registrationSuccess,
                                         t -> {
                                             t.printStackTrace();
-                                            registrationView.registrationError();
+                                            registrationView.registrationError(t.getMessage());
                                         }))
                 );
 
