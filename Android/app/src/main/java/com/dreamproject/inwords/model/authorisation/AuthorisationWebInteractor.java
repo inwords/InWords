@@ -1,6 +1,9 @@
-package com.dreamproject.inwords.data.source.WebService;
+package com.dreamproject.inwords.model.authorisation;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
+import com.dreamproject.inwords.data.source.WebService.AuthToken;
+import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
+import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;

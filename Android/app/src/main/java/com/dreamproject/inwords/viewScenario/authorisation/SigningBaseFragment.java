@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.Authorisation;
+package com.dreamproject.inwords.viewScenario.authorisation;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dreamproject.inwords.BasePresenter;
-import com.dreamproject.inwords.viewScenario.Authorisation.login.LoginFragment;
+import com.dreamproject.inwords.viewScenario.authorisation.login.LoginFragment;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;

@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.Authorisation.Registration;
+package com.dreamproject.inwords.viewScenario.authorisation.Registration;
 
 import io.reactivex.Observable;
 

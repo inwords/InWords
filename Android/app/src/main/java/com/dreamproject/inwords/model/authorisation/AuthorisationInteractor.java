@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.data.source.WebService;
+package com.dreamproject.inwords.model.authorisation;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
 

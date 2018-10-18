@@ -1,9 +1,9 @@
-package com.dreamproject.inwords.viewScenario.Authorisation.Registration;
-
-import android.app.Application;
+package com.dreamproject.inwords.viewScenario.authorisation.Registration;
 
 import com.dreamproject.inwords.BasePresenter;
-import com.dreamproject.inwords.BasicPresenter;
+import com.dreamproject.inwords.BasicModelPresenter;
+import com.dreamproject.inwords.model.DependenciesComponent;
+import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,14 +11,14 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 //compositeDisposable, model and application are available from BasicPresenter
-public class RegistrationPresenterImpl extends BasicPresenter implements RegistrationPresenter, BasePresenter {
+public class RegistrationPresenterImpl extends BasicModelPresenter<AuthorisationInteractor> implements RegistrationPresenter, BasePresenter {
     // Tag used for debugging/logging
     public static final String TAG = "RegistrationPresenterImpl";
 
     private RegistrationView registrationView;
 
-    public RegistrationPresenterImpl(Application application, RegistrationView registrationView) {
-        super(application);
+    public RegistrationPresenterImpl(RegistrationView registrationView) {
+        super(DependenciesComponent.getAuthorisationInteractorInstance());
 
         this.registrationView = registrationView;
     }

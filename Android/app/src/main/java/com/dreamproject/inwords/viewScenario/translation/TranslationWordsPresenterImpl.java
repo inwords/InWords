@@ -2,20 +2,22 @@ package com.dreamproject.inwords.viewScenario.translation;
 
 import android.app.Application;
 
-import com.dreamproject.inwords.BasicPresenter;
+import com.dreamproject.inwords.BasicModelPresenter;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.model.DependenciesComponent;
+import com.dreamproject.inwords.model.MainModel;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperEvents;
 
 import io.reactivex.disposables.Disposable;
 
-public class TranslationWordsPresenterImpl extends BasicPresenter implements
+public class TranslationWordsPresenterImpl extends BasicModelPresenter<MainModel> implements
         TranslationWordsPresenter,
         ItemTouchHelperEvents {
 
     private TranslationMainView translationMainView;
 
     TranslationWordsPresenterImpl(Application application, TranslationMainView translationMainView) {
-        super(application);
+        super(DependenciesComponent.getMainModelInstance(application));
 
         this.translationMainView = translationMainView;
     }

@@ -2,8 +2,6 @@ package com.dreamproject.inwords.model;
 
 import android.app.Application;
 
-import com.dreamproject.inwords.data.entity.User;
-import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheInteractor;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheRepository;
@@ -12,8 +10,6 @@ import com.dreamproject.inwords.data.repository.Translation.TranslationWordsInte
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRemoteRepository;
 import com.dreamproject.inwords.data.repository.Translation.TranslationWordsWebApiRepository;
-import com.dreamproject.inwords.data.source.WebService.AuthorisationInteractor;
-import com.dreamproject.inwords.data.source.WebService.AuthorisationWebInteractor;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.data.sync.SyncController;
 
@@ -23,25 +19,16 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.BehaviorSubject;
 
 public class MainModelImpl implements MainModel {
     // Tag used for debugging/logging
     public static final String TAG = "MainModelImpl";
 
     private final TranslationWordsInteractor translationWordsInteractor;
-    private final AuthorisationInteractor authorisationInteractor;
 
     private final SyncController syncController;
 
-    //data flow between model and view (reemits last element on new subscription)
-    private BehaviorSubject<User> userBehaviorSubject;
-
     MainModelImpl(Application application, WebRequests webRequests) {
-        userBehaviorSubject = BehaviorSubject.create();
-
-        authorisationInteractor = new AuthorisationWebInteractor(webRequests);
-
         final TranslationWordsLocalRepository inMemoryRepository = new TranslationWordsCacheRepository();
         final TranslationWordsLocalRepository localRepository = new TranslationWordsDatabaseRepository(application);
         final TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository(webRequests);
@@ -49,32 +36,6 @@ public class MainModelImpl implements MainModel {
         translationWordsInteractor = new TranslationWordsCacheInteractor(inMemoryRepository);
 
         syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
-
-        /*webRequests.getToken(Credentials.basic("mail@mail.ru", "qwerty")).subscribe(authToken -> System.out.println(authToken.getAccessToken()),
-                Throwable::printStackTrace);*/
-
-        /*Throwable t = webRequests.registerUser(new UserCredentials("mail2@mail.ru", "qwerty")).blockingGet();
-        if (t != null)
-            t.printStackTrace();*/
-
-        /*webRequests.setCredentials(new UserCredentials("mail@mail.ru", "qwerty"));
-
-        webRequests.getLogin()
-                .subscribe(str -> System.out.println(str),
-                        Throwable::printStackTrace);*/
-        /*try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    public Completable signIn(UserCredentials userCredentials) {
-        return authorisationInteractor.signIn(userCredentials);
-    }
-
-    public Completable signUp(UserCredentials userCredentials) {
-        return authorisationInteractor.signUp(userCredentials);
     }
 
     @Override
@@ -118,18 +79,4 @@ public class MainModelImpl implements MainModel {
                         .blockingGet());
     }
 
-    void addUser() //TODO for example only; update later
-    {
-        User user = new User(0, "Vasilii", "Shumilov", null, "12345", "eeeerock");
-        //Disposable d = webRequests.addUser(user).subscribe(System.out::println, Throwable::printStackTrace);
-    }
-
-    public BehaviorSubject<User> getUsers() { //TODO for example only; update later
-        /*Disposable d = loadUsersFromRemoteSource()
-                .onErrorResumeNext(loadUsersFromLocalSource().toObservable()) //костыль
-                .flatMap(Observable::fromIterable)
-                .subscribe(userBehaviorSubject::onNext); *///Вся эта тема с BehaviourSubject для того, чтобы поток не прерывался при ошибке
-
-        return userBehaviorSubject;
-    }
 }

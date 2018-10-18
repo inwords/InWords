@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.Authorisation.Registration;
+package com.dreamproject.inwords.viewScenario.authorisation.Registration;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,10 +10,8 @@ import android.view.View;
 import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.viewScenario.Authorisation.SigningBaseFragment;
+import com.dreamproject.inwords.viewScenario.authorisation.SigningBaseFragment;
 import com.jakewharton.rxbinding2.view.RxView;
-
-import java.util.Objects;
 
 import io.reactivex.Observable;
 
@@ -59,7 +57,7 @@ public class RegistrationFragment extends SigningBaseFragment implements Registr
 
     @Override
     protected BasePresenter getPresenter() {
-        return (BasePresenter) (presenter = new RegistrationPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this));
+        return (BasePresenter) (presenter = new RegistrationPresenterImpl(this));
     }
 
     @Override

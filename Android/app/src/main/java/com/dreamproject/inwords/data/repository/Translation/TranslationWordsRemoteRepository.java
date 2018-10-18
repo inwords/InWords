@@ -7,7 +7,6 @@ import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 
 //Here any methods connected with manipulating data needed for Translation

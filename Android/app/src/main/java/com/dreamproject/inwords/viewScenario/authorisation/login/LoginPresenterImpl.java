@@ -1,22 +1,22 @@
-package com.dreamproject.inwords.viewScenario.Authorisation.login;
-
-import android.app.Application;
+package com.dreamproject.inwords.viewScenario.authorisation.login;
 
 import com.dreamproject.inwords.BasePresenter;
-import com.dreamproject.inwords.BasicPresenter;
+import com.dreamproject.inwords.BasicModelPresenter;
+import com.dreamproject.inwords.model.DependenciesComponent;
+import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 //compositeDisposable, model and application are available from BasicPresenter
-public class LoginPresenterImpl extends BasicPresenter implements LoginPresenter, BasePresenter {
+public class LoginPresenterImpl extends BasicModelPresenter<AuthorisationInteractor> implements LoginPresenter, BasePresenter {
     // Tag used for debugging/logging
     public static final String TAG = "LoginPresenterImpl";
 
     private LoginView loginView;
 
-    public LoginPresenterImpl(Application application, LoginView loginView) {
-        super(application);
+    public LoginPresenterImpl(LoginView loginView) {
+        super(DependenciesComponent.getAuthorisationInteractorInstance());
 
         this.loginView = loginView;
     }
