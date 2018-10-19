@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.viewScenario.main;
 
-import android.app.Application;
+import android.content.Context;
 
 import com.dreamproject.inwords.BasicModelPresenter;
 import com.dreamproject.inwords.model.TranslationModel;
@@ -13,8 +13,8 @@ public class MainViewModel extends BasicModelPresenter<TranslationModel> impleme
     // Tag used for debugging/logging
     public static final String TAG = "MainViewModel";
 
-    public MainViewModel(Application application) {
-        super(DependenciesComponent.getTranslationModelInstance(application));
+    public MainViewModel(Context context) {
+        super(DependenciesComponent.getTranslationModelInstance(context));
     }
 
     @Override

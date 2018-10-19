@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.viewScenario.translation;
 
-import android.app.Application;
+import android.content.Context;
 
 import com.dreamproject.inwords.BasicModelPresenter;
 import com.dreamproject.inwords.data.entity.WordTranslation;
@@ -16,8 +16,8 @@ public class TranslationWordsPresenterImpl extends BasicModelPresenter<Translati
 
     private TranslationMainView translationMainView;
 
-    TranslationWordsPresenterImpl(Application application, TranslationMainView translationMainView) {
-        super(DependenciesComponent.getTranslationModelInstance(application));
+    TranslationWordsPresenterImpl(Context context, TranslationMainView translationMainView) {
+        super(DependenciesComponent.getTranslationModelInstance(context));
 
         this.translationMainView = translationMainView;
     }

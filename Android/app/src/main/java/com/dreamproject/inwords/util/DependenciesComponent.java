@@ -1,8 +1,10 @@
 package com.dreamproject.inwords.util;
 
-import android.app.Application;
+import android.content.Context;
 
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
+import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 import com.dreamproject.inwords.model.TranslationModelFactory;
 import com.dreamproject.inwords.model.TranslationModelImpl;
 import com.dreamproject.inwords.model.authorisation.AuthorisationWebInteractor;
@@ -23,11 +25,11 @@ public class DependenciesComponent {
         return AUTHORISATION_INTERACTOR_INSTANCE;
     }
 
-    public static TranslationModelImpl getTranslationModelInstance(final Application application) {
+    public static TranslationModelImpl getTranslationModelInstance(final Context context) {
         if (MAIN_MODEL_INSTANCE == null) {
             synchronized (TranslationModelImpl.class) {
                 if (MAIN_MODEL_INSTANCE == null) {
-                    MAIN_MODEL_INSTANCE = TranslationModelFactory.createOne(application, getWebRequestsInstance());
+                    MAIN_MODEL_INSTANCE = TranslationModelFactory.createOne(context, getWebRequestsInstance());
                 }
             }
         }

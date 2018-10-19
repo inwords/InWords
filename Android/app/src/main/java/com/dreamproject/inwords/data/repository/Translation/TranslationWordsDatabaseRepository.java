@@ -1,9 +1,6 @@
 package com.dreamproject.inwords.data.repository.Translation;
 
-import android.content.Context;
-
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
 import java.util.Arrays;
@@ -17,15 +14,14 @@ import io.reactivex.schedulers.Schedulers;
 public class TranslationWordsDatabaseRepository implements TranslationWordsLocalRepository {
     private WordTranslationDao wordTranslationDao;
 
-    public TranslationWordsDatabaseRepository(Context context) {
-        AppRoomDatabase db = AppRoomDatabase.getDatabase(context);
-        wordTranslationDao = db.wordTranslationDao();
+    public TranslationWordsDatabaseRepository(WordTranslationDao wordTranslationDao) {
+        this.wordTranslationDao = wordTranslationDao;
     }
 
     @Override
     public Observable<WordTranslation> getTranslation(String word) {
         return null;
-    }
+    } //TODO
 
     @Override
     public Observable<WordTranslation> getByOne() {
