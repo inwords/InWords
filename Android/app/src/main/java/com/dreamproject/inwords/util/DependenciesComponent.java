@@ -3,10 +3,8 @@ package com.dreamproject.inwords.util;
 import android.content.Context;
 
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
-import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
-import com.dreamproject.inwords.data.source.database.WordTranslationDao;
-import com.dreamproject.inwords.model.TranslationModelFactory;
-import com.dreamproject.inwords.model.TranslationModelImpl;
+import com.dreamproject.inwords.model.translation.TranslationModelFactory;
+import com.dreamproject.inwords.model.translation.TranslationModelImpl;
 import com.dreamproject.inwords.model.authorisation.AuthorisationWebInteractor;
 
 public class DependenciesComponent {

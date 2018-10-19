@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.model;
+package com.dreamproject.inwords.model.translation;
 
 import android.content.Context;
 

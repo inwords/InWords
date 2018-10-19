@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.dreamproject.inwords.BasicModelPresenter;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.model.TranslationModel;
+import com.dreamproject.inwords.model.translation.TranslationModel;
 import com.dreamproject.inwords.util.DependenciesComponent;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperEvents;
 
