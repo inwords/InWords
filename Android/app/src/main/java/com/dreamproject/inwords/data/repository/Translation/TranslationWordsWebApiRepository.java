@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.data.repository.Translation;
+package com.dreamproject.inwords.data.repository.translation;
 
 import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;

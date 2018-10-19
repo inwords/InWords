@@ -1,7 +1,7 @@
 package com.dreamproject.inwords.model.translation;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsInteractor;
+import com.dreamproject.inwords.data.interactor.translation.TranslationWordsInteractor;
 import com.dreamproject.inwords.data.sync.SyncController;
 
 import java.util.Collections;

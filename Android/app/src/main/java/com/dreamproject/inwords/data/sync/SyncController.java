@@ -2,8 +2,8 @@ package com.dreamproject.inwords.data.sync;
 
 import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRemoteRepository;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
