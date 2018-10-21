@@ -14,19 +14,14 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Credentials;
 
-import static com.dreamproject.inwords.AppConfig.BASE_API_URL;
-
 public class WebRequests {
-    // a simple static-field singleton
-    public static final WebRequests INSTANCE = new WebRequests();
-
     private WebApiService apiService;
 
     private AuthInfo authInfo;
 
-    private WebRequests() {
+    public WebRequests(WebApiService apiService) {
         authInfo = new AuthInfo();
-        apiService = WebApiService.Factory.create(BASE_API_URL);
+        this.apiService = apiService;
     }
 
     private void setAuthToken(AuthToken authToken) {
