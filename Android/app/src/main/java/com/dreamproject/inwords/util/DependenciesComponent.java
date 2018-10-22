@@ -2,13 +2,12 @@ package com.dreamproject.inwords.util;
 
 import android.content.Context;
 
+import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.data.source.WebService.WebApiService;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.model.authorisation.AuthorisationWebInteractor;
 import com.dreamproject.inwords.model.translation.TranslationModelFactory;
 import com.dreamproject.inwords.model.translation.TranslationModelImpl;
-
-import static com.dreamproject.inwords.AppConfig.BASE_API_URL;
 
 public class DependenciesComponent {
     private static AuthorisationWebInteractor AUTHORISATION_INTERACTOR_INSTANCE;
@@ -41,7 +40,7 @@ public class DependenciesComponent {
         if (WEB_REQUESTS_INSTANCE == null) {
             synchronized (WebRequests.class) {
                 if (WEB_REQUESTS_INSTANCE == null) {
-                    WEB_REQUESTS_INSTANCE = new WebRequests(WebApiService.Factory.create(BASE_API_URL));
+                    WEB_REQUESTS_INSTANCE = new WebRequests(WebApiService.Factory.create(BuildConfig.API_URL));
                 }
             }
         }
