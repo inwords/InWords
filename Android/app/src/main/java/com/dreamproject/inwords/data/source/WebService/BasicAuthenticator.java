@@ -14,13 +14,15 @@ public class BasicAuthenticator implements Authenticator {
     @Nullable
     @Override
     public Request authenticate(@NonNull Route route, @NonNull Response response) {
-        /*String header = response.request().header("Authorization");
-        if (header != null && header.contains("error_token")) { //TODO: think about COSTIL
+        final AuthToken errorToken = AuthToken.errorToken();
+
+        String header = response.request().header("Authorization");
+        if (header != null && header.contains(errorToken.getAccessToken())) { //TODO: think about COSTIL
             return null; // Give up, we've already failed to authenticate.
-        }*/
+        }
 
         AuthToken authToken = DependenciesComponent.getWebRequestsInstance().updateToken()
-                .onErrorReturnItem(AuthToken.errorToken())
+                .onErrorReturnItem(errorToken)
                 .blockingGet();
 
         return response.request().newBuilder()
