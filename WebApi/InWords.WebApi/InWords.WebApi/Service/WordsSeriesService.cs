@@ -29,13 +29,20 @@ namespace InWords.WebApi.Service
         {
             Seria wordsSeria = new Seria
             {
-#warning Continue Here
-                //todo create disctiption
-                //wordsSeria.SeriaDescriptions = information.Description;
-                Title = information.Title
+                Title = information.Title,
+                CreatorID = userID
             };
 
             wordsSeria = await seriaRepository.Create(wordsSeria);
+
+            SeriaDescription seriaDescription = new SeriaDescription()
+            {
+                SeriaID = wordsSeria.SeriaID,
+                Description = information.Description,
+                LanguageID = 1
+            };
+
+            await seriaDescriptionRepository.Create(seriaDescription);
 
             SyncBase answer = new SyncBase(wordsSeria.SeriaID);
 

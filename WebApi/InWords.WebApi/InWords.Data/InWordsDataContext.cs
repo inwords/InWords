@@ -13,7 +13,6 @@
         public InWordsDataContext()
         {
             RecreateDb();
-            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
@@ -43,13 +42,13 @@
 
         private void RecreateDb()
         {
-
             lock (Database)
             {
                 if (!_created)
                 {
+                    Database.EnsureDeleted();
+
                     _created = true;
-                    //TODO MIGRATE -script
                     if (Database.EnsureCreated())
                     {
                         var testAdmin = Accounts.Add(new Account() { Email = "admin@mail.ru", Password = "admin", Role = RoleType.Admin, RegistrationDate = DateTime.Now });
@@ -57,6 +56,8 @@
                         SaveChanges();
                         Users.Add(new User() { UserID = testAdmin.Entity.AccountID, NickName = "testAdmin" });
                         Users.Add(new User() { UserID = testUser.Entity.AccountID, NickName = "testUser" });
+                        Languages.Add(new Language() { Title = "English" });
+                        Languages.Add(new Language() { Title = "Russian" });
                         SaveChanges();
                     }
                 }

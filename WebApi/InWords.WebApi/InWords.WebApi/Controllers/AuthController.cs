@@ -50,9 +50,12 @@
 
             if (identity == null)
             {
-                return BadRequest("Invalid username or password.");
+                return BadRequest(new TokenResponse("IdentityFail"));
             }
-
+            else if (identity.Name == RoleType.Unknown.ToString())
+            {
+                return BadRequest(new TokenResponse("Unknown user", identity));
+            }
             TokenResponse tokenResponse = new TokenResponse(identity);
 
             return Ok(tokenResponse);

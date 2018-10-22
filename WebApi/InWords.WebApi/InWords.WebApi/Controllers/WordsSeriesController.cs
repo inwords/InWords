@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using InWords.Auth.Providers;
     using InWords.Data.Models;
     using InWords.Transfer.Data;
     using InWords.WebApi.Service;
@@ -30,9 +31,13 @@
         [Authorize]
         [Route("add")]
         [HttpPost]
-        public void PostAdd([FromBody] WordsSeriaInformation seria)
+        public async Task<IActionResult> PostAdd([FromBody] WordsSeriaInformation wordsSeriaInformation)
         {
+            int authorizedID = AuthProvider.GetUserID(User);
 
+            var answer = await wordsService.AddSeries(authorizedID, wordsSeriaInformation);
+
+            return Ok(answer);
         }
     }
 }
