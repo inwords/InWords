@@ -33,6 +33,13 @@ namespace InWords.Auth
             ErrorMsg = errorMsg;
         }
 
+        public TokenResponse(string errorMsg, string email)
+        {
+            Access_token = "";
+            Email = email;
+            ErrorMsg = errorMsg;
+        }
+
         private string Cheked(string encodedJwt, out string errorMsg)
         {
             errorMsg = "";
