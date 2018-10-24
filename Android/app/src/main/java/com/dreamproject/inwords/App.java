@@ -1,7 +1,5 @@
 package com.dreamproject.inwords;
 
-import android.content.Context;
-
 import com.dreamproject.inwords.dagger.DaggerAppComponent;
 
 import dagger.android.AndroidInjector;

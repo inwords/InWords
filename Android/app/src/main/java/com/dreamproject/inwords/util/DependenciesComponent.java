@@ -3,6 +3,7 @@ package com.dreamproject.inwords.util;
 import android.content.Context;
 
 import com.dreamproject.inwords.BuildConfig;
+import com.dreamproject.inwords.dagger.DaggerDataComponent;
 import com.dreamproject.inwords.data.source.WebService.WebApiService;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.model.authorisation.AuthorisationWebInteractor;
@@ -40,7 +41,7 @@ public class DependenciesComponent {
         if (WEB_REQUESTS_INSTANCE == null) {
             synchronized (WebRequests.class) {
                 if (WEB_REQUESTS_INSTANCE == null) {
-                    WEB_REQUESTS_INSTANCE = new WebRequests(WebApiService.Factory.create(BuildConfig.API_URL));
+                    WEB_REQUESTS_INSTANCE = new WebRequests(DaggerDataComponent.create().getApiService());
                 }
             }
         }
