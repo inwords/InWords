@@ -12,7 +12,7 @@ import dagger.Provides;
 public class DataModule {
     @Provides
     @Singleton
-    public WebApiService provideApiService() {
+    WebApiService provideApiService() {
         return WebApiService.Factory.create(BuildConfig.API_URL);
     }
 }

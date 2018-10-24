@@ -3,6 +3,7 @@ package com.dreamproject.inwords.data.source.WebService;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.dreamproject.inwords.dagger.DaggerDataComponent;
 import com.dreamproject.inwords.util.DependenciesComponent;
 
 import okhttp3.Authenticator;
@@ -21,7 +22,7 @@ public class BasicAuthenticator implements Authenticator {
             return null; // Give up, we've already failed to authenticate.
         }
 
-        AuthToken authToken = DependenciesComponent.getWebRequestsInstance().updateToken()
+        AuthToken authToken = DaggerDataComponent.create().getWebRequests().updateToken() //TODO COSTIL
                 .onErrorReturnItem(errorToken)
                 .blockingGet();
 

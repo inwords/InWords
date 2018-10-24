@@ -9,6 +9,8 @@ import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -19,6 +21,7 @@ public class WebRequests {
 
     private AuthInfo authInfo;
 
+    @Inject
     public WebRequests(WebApiService apiService) {
         authInfo = new AuthInfo();
         this.apiService = apiService;

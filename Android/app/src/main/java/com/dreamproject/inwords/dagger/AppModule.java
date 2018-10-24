@@ -1,7 +1,6 @@
 package com.dreamproject.inwords.dagger;
 
 
-import android.app.Application;
 import android.content.Context;
 
 import com.dreamproject.inwords.App;

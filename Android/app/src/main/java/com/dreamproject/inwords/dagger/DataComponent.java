@@ -1,13 +1,15 @@
 package com.dreamproject.inwords.dagger;
 
-import com.dreamproject.inwords.data.source.WebService.WebApiService;
+import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
 
 @Singleton
-@Component(modules = DataModule.class)
+@Component(modules = {DataModule.class, DataAbstractModule.class})
 public interface DataComponent {
-    WebApiService getApiService();
+    WebRequests getWebRequests();
+    AuthorisationInteractor getAuthorisationWebInteractor();
 }
