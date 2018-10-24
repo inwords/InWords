@@ -2,6 +2,7 @@ package com.dreamproject.inwords.model.translation;
 
 import android.content.Context;
 
+import com.dreamproject.inwords.dagger.DaggerAppComponent;
 import com.dreamproject.inwords.data.interactor.translation.TranslationWordsCacheInteractor;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsCacheRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsDatabaseRepository;
@@ -11,8 +12,11 @@ import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemo
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsWebApiRepository;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
+import com.dreamproject.inwords.data.source.database.DatabaseComponent;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 import com.dreamproject.inwords.data.sync.SyncController;
+
+import javax.inject.Inject;
 
 public class TranslationModelFactory {
     public static TranslationModelImpl createOne(Context context, WebRequests webRequests) {
@@ -27,8 +31,9 @@ public class TranslationModelFactory {
         return new TranslationModelImpl(translationWordsInteractor, syncController);
     }
 
+    @Inject
     private static WordTranslationDao getWordTranslationDao(Context context) {
-        AppRoomDatabase db = AppRoomDatabase.getDatabase(context);
+        AppRoomDatabase db = DaggerAppComponent.builder().build().(;
         return db.wordTranslationDao();
     }
 }

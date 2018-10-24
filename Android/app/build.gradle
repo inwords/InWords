@@ -40,7 +40,8 @@ ext.versions = [
         RETROFIT         : '2.4.0',
         OK_HTTP          : '3.11.0',
         ROOM             : '1.1.1',
-        LIFECYCLE        : '1.1.1'
+        LIFECYCLE        : '1.1.1',
+        DAGGER           : '2.18'
 ]
 
 dependencies {
@@ -81,6 +82,13 @@ dependencies {
     // Lifecycle components
     //implementation "android.arch.lifecycle:extensions:$versions.LIFECYCLE"
     //annotationProcessor "android.arch.lifecycle:compiler:$versions.LIFECYCLE"
+
+    implementation "com.google.dagger:dagger:$versions.DAGGER"
+    annotationProcessor "com.google.dagger:dagger-compiler:$versions.DAGGER"
+    implementation "com.google.dagger:dagger-android:$versions.DAGGER"
+    // if you use the support libraries
+    implementation "com.google.dagger:dagger-android-support:$versions.DAGGER"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$versions.DAGGER"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
