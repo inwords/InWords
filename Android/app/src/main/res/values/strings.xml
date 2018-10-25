@@ -22,9 +22,20 @@
     <string name="sign_up_sign_in">Войти</string>
     <!-- sign up end -->
 
-    <!-- password recovery start -->
-    <string name="password_recovery_enter_email">Введите адрес электронной почты</string>
-    <string name="password_recovery_enter">Восстановить пароль</string>
-    <!-- password recovery end -->
+    <!-- password recovery part1 start -->
+    <string name="password_recovery_part1_enter_email">Введите адрес электронной почты</string>
+    <string name="password_recovery_part1_enter">Восстановить пароль</string>
+    <!-- password recovery part1 end -->
+
+    <!-- password recovery part2 start -->
+    <string name="password_recovery_part2_info">На адрес электронной почты был отправлен код восстановления</string>
+    <string name="password_recovery_part2_enter_key">Введите полученный код</string>
+    <string name="password_recovery_part2_enter">Отправить</string>
+    <!-- password recovery part2 end -->
+
+    <!-- password recovery part3 start -->
+    <string name="password_recovery_part3_enter_new_password">Введите новый пароль</string>
+    <string name="password_recovery_part3_enter">Поменять пароль</string>
+    <!-- password recovery part3 end -->
 
 </resources>

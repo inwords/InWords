@@ -58,7 +58,6 @@
             android:text="@string/sign_in_enter"
             android:textColor="@android:color/primary_text_dark" />
 
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
