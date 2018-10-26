@@ -17,7 +17,8 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            optionbuilder.UseSqlite(@"Data Source=InWordsDatabase.db");
+            //optionbuilder.UseSql(defaultconnectionstring);
+            optionbuilder.UseMySQL("");
         }
 
         public DbSet<User> Users { get; set; }
