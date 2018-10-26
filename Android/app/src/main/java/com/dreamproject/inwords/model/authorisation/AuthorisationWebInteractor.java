@@ -1,8 +1,7 @@
 package com.dreamproject.inwords.model.authorisation;
 
-import com.dreamproject.inwords.App;
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.data.source.WebService.AuthToken;
+import com.dreamproject.inwords.data.source.WebService.TokenResponse;
 import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
@@ -36,11 +35,11 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
         });
     }
 
-    private void checkAuthToken(CompletableEmitter emitter, Single<AuthToken> authTokenSingle) {
+    private void checkAuthToken(CompletableEmitter emitter, Single<TokenResponse> authTokenSingle) {
         try {
-            AuthToken authToken = authTokenSingle.blockingGet();
+            TokenResponse tokenResponse = authTokenSingle.blockingGet();
 
-            if (authToken.isValid())
+            if (tokenResponse.isValid())
                 emitter.onComplete();
         } catch (Exception e) {
             emitter.onError(new AuthenticationError(e.getMessage()));

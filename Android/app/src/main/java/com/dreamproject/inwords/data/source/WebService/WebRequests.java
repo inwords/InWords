@@ -22,19 +22,23 @@ public class WebRequests {
     private AuthInfo authInfo;
 
     @Inject
-    public WebRequests(WebApiService apiService) {
-        authInfo = new AuthInfo();
+    public WebRequests(WebApiService apiService, BasicAuthenticator authenticator) {
+        this.authInfo = new AuthInfo();
         this.apiService = apiService;
+
+        authenticator.setOnUnauthorisedCallback(() -> updateToken() //TODO COSTIL
+                .onErrorReturnItem(TokenResponse.errorToken())
+                .blockingGet());
     }
 
-    private void setAuthToken(AuthToken authToken) {
-        this.authInfo.setAuthToken(authToken);
+    private void setAuthToken(TokenResponse tokenResponse) {
+        this.authInfo.setTokenResponse(tokenResponse);
     }
 
-    private Single<AuthToken> getToken() {
+    private Single<TokenResponse> getToken() {
         return apiService.getToken(authInfo.getCredentials())
                 .subscribeOn(Schedulers.io())
-                .doOnError(throwable -> setAuthToken(AuthToken.errorToken()))
+                .doOnError(throwable -> setAuthToken(TokenResponse.errorToken()))
                 .doOnSuccess(this::setAuthToken);
     }
 
@@ -42,19 +46,19 @@ public class WebRequests {
         this.authInfo.setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword()));
     }
 
-    public Single<AuthToken> registerUser(UserCredentials userCredentials) {
+    public Single<TokenResponse> registerUser(UserCredentials userCredentials) {
         return apiService.registerUser(userCredentials)
                 .subscribeOn(Schedulers.io())
-                .doOnError(throwable -> setAuthToken(AuthToken.errorToken()))
+                .doOnError(throwable -> setAuthToken(TokenResponse.errorToken()))
                 .doOnSuccess(this::setAuthToken);
     }
 
-    public Single<AuthToken> updateToken() {
+    public Single<TokenResponse> updateToken() {
         return getToken();
     }
 
     public Single<String> getLogin() {
-        return apiService.getLogin(authInfo.getAuthToken().getBearer())
+        return apiService.getLogin(authInfo.getTokenResponse().getBearer())
                 .subscribeOn(Schedulers.io());
     }
 
@@ -92,17 +96,17 @@ public class WebRequests {
     }
 
     public Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
-        return apiService.addPairs(authInfo.getAuthToken().getBearer(), wordTranslations)
+        return apiService.addPairs(authInfo.getTokenResponse().getBearer(), wordTranslations)
                 .subscribeOn(Schedulers.io());
     }
 
     public Single<Integer> removeAllServerIds(List<Integer> serverIds) {
-        return apiService.deletePairs(authInfo.getAuthToken().getBearer(), serverIds)
+        return apiService.deletePairs(authInfo.getTokenResponse().getBearer(), serverIds)
                 .subscribeOn(Schedulers.io());
     }
 
     public Single<PullWordsAnswer> pullWords(List<Integer> serverIds) { //TODO its a mock
-        return apiService.pullWordsPairs(authInfo.getAuthToken().getBearer(), serverIds)
+        return apiService.pullWordsPairs(authInfo.getTokenResponse().getBearer(), serverIds)
                 .subscribeOn(Schedulers.io());
     }
 }

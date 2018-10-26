@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.dagger.DaggerDataComponent;
+import com.dreamproject.inwords.dagger.costil;
 import com.dreamproject.inwords.data.source.WebService.WebApiService;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
@@ -19,7 +20,7 @@ public class DependenciesComponent {
         if (AUTHORISATION_INTERACTOR_INSTANCE == null) {
             synchronized (AuthorisationWebInteractor.class) {
                 if (AUTHORISATION_INTERACTOR_INSTANCE == null) {
-                    AUTHORISATION_INTERACTOR_INSTANCE =  DaggerDataComponent.create().getAuthorisationWebInteractor();
+                    AUTHORISATION_INTERACTOR_INSTANCE =  costil.component.getAuthorisationWebInteractor();
                 }
             }
         }
@@ -30,7 +31,7 @@ public class DependenciesComponent {
         if (MAIN_MODEL_INSTANCE == null) {
             synchronized (TranslationModelImpl.class) {
                 if (MAIN_MODEL_INSTANCE == null) {
-                    MAIN_MODEL_INSTANCE = TranslationModelFactory.createOne(context, DaggerDataComponent.create().getWebRequests());
+                    MAIN_MODEL_INSTANCE = TranslationModelFactory.createOne(context, costil.component.getWebRequests());
                 }
             }
         }
