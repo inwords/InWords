@@ -3,6 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     public class Word
     {
+        [Key]
         public int WordID { get; set; }
 
         [Required]

@@ -5,7 +5,7 @@
     public static class AuthOptions
     {
         public const string ISSUER = "InWords.Auth"; // издатель токена
-        public const string AUDIENCE = "http://localhost"; // потребитель токена http://localhost:5000/
+        public const string AUDIENCE = "http://localhost:80/"; // потребитель токена http://localhost:5000/
         public const int LIFETIME = 60; // время жизни токена в минутах
 
         public static readonly IJWTProvider TokenProvider = null;

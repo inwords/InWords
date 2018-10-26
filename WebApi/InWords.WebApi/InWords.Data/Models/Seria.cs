@@ -19,9 +19,9 @@
         /// <summary>
         /// User created this Seria
         /// </summary>
-        [ForeignKey("User")]
         public int CreatorID { get; set; }
 
+        [ForeignKey("CreatorID")]
         public virtual User Creator { get; set; }
 
         /// <summary>
