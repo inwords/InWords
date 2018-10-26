@@ -28,13 +28,14 @@
     <!-- password recovery part1 end -->
 
     <!-- password recovery part2 start -->
-    <string name="password_recovery_part2_info">На адрес электронной почты был отправлен код восстановления</string>
+    <string name="password_recovery_part2_info">Код для восстановления пароля был отправлен на адрес электронной почты</string>
     <string name="password_recovery_part2_enter_key">Введите полученный код</string>
     <string name="password_recovery_part2_enter">Отправить</string>
     <!-- password recovery part2 end -->
 
     <!-- password recovery part3 start -->
     <string name="password_recovery_part3_enter_new_password">Введите новый пароль</string>
+    <string name="password_recovery_part3_confirm_new_password">Повторите новый пароль</string>
     <string name="password_recovery_part3_enter">Поменять пароль</string>
     <!-- password recovery part3 end -->
 
