@@ -7,7 +7,7 @@ namespace InWords.Transfer.Data
     /// <summary>
     /// Transfer response pack: Id and ServerId
     /// </summary>
-    public class SyncBase : ResultException, ICloneable
+    public class SyncBase : ICloneable
     {
         public int Id { get; set; }
 
