@@ -46,7 +46,7 @@
             {
                 if (!_created)
                 {
-                    Database.EnsureDeleted();
+                    //Database.EnsureDeleted();
 
                     _created = true;
                     if (Database.EnsureCreated())

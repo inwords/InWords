@@ -20,7 +20,6 @@
 
         public virtual UserWordPair UserWordPair { get; set; }
 
-
         public int Level { get; set; }
     }
 }

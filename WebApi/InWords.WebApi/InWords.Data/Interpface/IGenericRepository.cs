@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace InWords.Data.Interpface
+﻿namespace InWords.Data.Interpface
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         Task<TEntity> Create(TEntity item);
