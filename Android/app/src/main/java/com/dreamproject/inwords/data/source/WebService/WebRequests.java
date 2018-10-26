@@ -1,15 +1,16 @@
 package com.dreamproject.inwords.data.source.WebService;
 
 import com.dreamproject.inwords.data.entity.User;
+import com.dreamproject.inwords.data.entity.UserCredentials;
+import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import io.reactivex.Completable;
 import io.reactivex.Maybe;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Credentials;
@@ -33,18 +34,14 @@ public class WebRequests {
         this.authInfo.setAuthToken(authToken);
     }
 
-    public void setCredentials(UserCredentials userCredentials) {
-        this.authInfo.setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword()));
-    }
-
-    public AuthToken updateToken() {
+    private AuthToken updateToken(Single<AuthToken> authTokenSingle) {
         AuthToken authToken;
         try {
-            authToken = getToken()
+            authToken = authTokenSingle
                     //.onErrorReturnItem(new AuthToken("error_token", "error_mail"))
-                    .blockingFirst();
+                    .blockingGet();
         } catch (NoSuchElementException e) {
-            authToken = new AuthToken("error_token", "error_mail"); //TODO: think
+            authToken = AuthToken.errorToken(); //TODO: think
             e.printStackTrace();
         }
         setAuthToken(authToken);
@@ -52,24 +49,31 @@ public class WebRequests {
         return authToken;
     }
 
-    public Completable registerUser(UserCredentials userCredentials) {
-        return apiService.registerUser(userCredentials)
-                .subscribeOn(Schedulers.io())
-                .doOnNext(this::setAuthToken)
-                .ignoreElements(); //TODO security leak? )0)
-    }
-
-    private Observable<AuthToken> getToken() {
+    private Single<AuthToken> getToken() {
         return apiService.getToken(authInfo.getCredentials())
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<String> getLogin() {
+    public void setCredentials(UserCredentials userCredentials) {
+        this.authInfo.setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword()));
+    }
+
+    public Single<AuthToken> registerUser(UserCredentials userCredentials) {
+        return apiService.registerUser(userCredentials)
+                .subscribeOn(Schedulers.io())
+                .map(authToken -> updateToken(Single.just(authToken)));
+    }
+
+    public AuthToken updateToken() {
+        return updateToken(getToken());
+    }
+
+    public Single<String> getLogin() {
         return apiService.getLogin(authInfo.getAuthToken().getBearer())
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<List<User>> getUsers() {
+    public Single<List<User>> getUsers() {
         return apiService.getUsers()
                 //.flatMap(Observable::fromIterable)
                 .subscribeOn(Schedulers.io());
@@ -93,21 +97,27 @@ public class WebRequests {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Completable insertWord(WordTranslation wordTranslation) {
-        return Completable.fromCallable(() -> {
+    public Single<WordTranslation> insertWord(WordTranslation wordTranslation) {
+        return Single.defer(() -> {
             Thread.sleep(2000);
-            return true;
+
+            return Single.just(wordTranslation); //TODO
         })
                 .subscribeOn(Schedulers.io());
     }
 
-    public Completable insertAllWords(List<WordTranslation> wordTranslations) {
-        return Completable.fromCallable(() -> {
-            Thread.sleep(2000);
-            return true;
-        })
+    public Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
+        return apiService.addPairs(authInfo.getAuthToken().getBearer(), wordTranslations)
                 .subscribeOn(Schedulers.io());
     }
 
+    public Single<Integer> removeAllServerIds(List<Integer> serverIds) {
+        return apiService.deletePairs(authInfo.getAuthToken().getBearer(), serverIds)
+                .subscribeOn(Schedulers.io());
+    }
 
+    public Single<PullWordsAnswer> pullWords(List<Integer> serverIds) { //TODO its a mock
+        return apiService.pullWordsPairs(authInfo.getAuthToken().getBearer(), serverIds)
+                .subscribeOn(Schedulers.io());
+    }
 }

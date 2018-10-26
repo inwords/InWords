@@ -1,63 +1,30 @@
 package com.dreamproject.inwords.data.repository.Translation;
 
-import android.app.Application;
-
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
-import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.Single;
 
-public class TranslationWordsLocalRepository implements TranslationWordsRepository {
-    private WordTranslationDao wordTranslationDao;
+//Here any methods connected with manipulating data needed for Translation
+public interface TranslationWordsLocalRepository {
+    Observable<WordTranslation> getTranslation(String word);
 
-    public TranslationWordsLocalRepository(Application application) {
-        AppRoomDatabase db = AppRoomDatabase.getDatabase(application);
-        wordTranslationDao = db.wordTranslationDao();
-    }
+    Observable<WordTranslation> getByOne();
 
-    @Override
-    public Observable<WordTranslation> getTranslation(String word) {
-        return null;
-    }
+    Observable<List<WordTranslation>> getList();
 
-    @Override
-    public Observable<WordTranslation> getByOne() {
-        return getList()
-                .flatMap(Observable::fromIterable);
-    }
+    Single<WordTranslation> add(WordTranslation wordTranslation);
 
-    @Override
-    public Observable<List<WordTranslation>> getList() {
-        return wordTranslationDao.getAllWords()
-                .subscribeOn(Schedulers.io())
-                //.filter(wordTranslations -> !wordTranslations.isEmpty())
-                .toObservable();
-    }
+    Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations);
 
-    @Override
-    public Completable add(WordTranslation wordTranslation) {
-        return Completable.fromCallable(() -> wordTranslationDao.insert(wordTranslation))
-                .subscribeOn(Schedulers.io());
-    }
+    Completable update(WordTranslation wordTranslation);
 
-    @Override
-    public Completable addAll(List<WordTranslation> wordTranslations) {
-        return Completable.fromCallable(() -> wordTranslationDao.insertAll(wordTranslations))
-                .subscribeOn(Schedulers.io());
-    }
+    Completable updateAll(List<WordTranslation> wordTranslations);
 
-    @Override
-    public Completable remove(WordTranslation value) {
-        return null;
-    }
+    Completable removeAll(List<WordTranslation> wordTranslations);
 
-    @Override
-    public Completable removeAll(List<WordTranslation> values) {
-        return null;
-    }
+    Completable removeAllServerIds(List<Integer> serverIds);
 }

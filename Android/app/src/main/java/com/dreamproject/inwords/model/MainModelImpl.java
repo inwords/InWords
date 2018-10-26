@@ -3,60 +3,63 @@ package com.dreamproject.inwords.model;
 import android.app.Application;
 
 import com.dreamproject.inwords.data.entity.User;
+import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsMainRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRepository;
-import com.dreamproject.inwords.data.source.WebService.AuthToken;
-import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
-import com.dreamproject.inwords.data.source.WebService.UserCredentials;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheInteractor;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsDatabaseRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsInteractor;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRemoteRepository;
+import com.dreamproject.inwords.data.repository.Translation.TranslationWordsWebApiRepository;
+import com.dreamproject.inwords.data.source.WebService.AuthorisationInteractor;
+import com.dreamproject.inwords.data.source.WebService.AuthorisationWebInteractor;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.data.sync.SyncController;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class MainModelImpl implements MainModel {
     // Tag used for debugging/logging
     public static final String TAG = "MainModelImpl";
 
-    private static MainModelImpl INSTANCE;
+    private final TranslationWordsInteractor translationWordsInteractor;
+    private final AuthorisationInteractor authorisationInteractor;
 
-    private TranslationWordsRepository translationWordsRepository;
+    private final SyncController syncController;
 
     //data flow between model and view (reemits last element on new subscription)
     private BehaviorSubject<User> userBehaviorSubject;
 
-    WebRequests webRequests;
-
-    public static MainModelImpl getInstance(final Application application) {
-        if (INSTANCE == null) {
-            synchronized (MainModelImpl.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new MainModelImpl(application);
-                }
-            }
-        }
-        return INSTANCE;
-    }
-
-    private MainModelImpl(Application application) {
+    MainModelImpl(Application application, WebRequests webRequests) {
         userBehaviorSubject = BehaviorSubject.create();
-        webRequests = WebRequests.INSTANCE;
 
-        translationWordsRepository = new TranslationWordsMainRepository(application);
+        authorisationInteractor = new AuthorisationWebInteractor(webRequests);
 
-        /*WebRequests.INSTANCE.getToken(Credentials.basic("mail@mail.ru", "qwerty")).subscribe(authToken -> System.out.println(authToken.getAccessToken()),
+        final TranslationWordsLocalRepository inMemoryRepository = new TranslationWordsCacheRepository();
+        final TranslationWordsLocalRepository localRepository = new TranslationWordsDatabaseRepository(application);
+        final TranslationWordsRemoteRepository remoteRepository = new TranslationWordsWebApiRepository(webRequests);
+
+        translationWordsInteractor = new TranslationWordsCacheInteractor(inMemoryRepository);
+
+        syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
+
+        /*webRequests.getToken(Credentials.basic("mail@mail.ru", "qwerty")).subscribe(authToken -> System.out.println(authToken.getAccessToken()),
                 Throwable::printStackTrace);*/
 
-        /*Throwable t = WebRequests.INSTANCE.registerUser(new UserCredentials("mail2@mail.ru", "qwerty")).blockingGet();
+        /*Throwable t = webRequests.registerUser(new UserCredentials("mail2@mail.ru", "qwerty")).blockingGet();
         if (t != null)
             t.printStackTrace();*/
 
-        /*WebRequests.INSTANCE.setCredentials(new UserCredentials("mail@mail.ru", "qwerty"));
+        /*webRequests.setCredentials(new UserCredentials("mail@mail.ru", "qwerty"));
 
-        WebRequests.INSTANCE.getLogin()
+        webRequests.getLogin()
                 .subscribe(str -> System.out.println(str),
                         Throwable::printStackTrace);*/
         /*try {
@@ -64,41 +67,64 @@ public class MainModelImpl implements MainModel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-
-        /*getAllWords()
-                .observeOn(Schedulers.io())
-                .subscribe(wordTranslations -> System.out.println(wordTranslations));*/
-
-
     }
 
-    public Completable logIn(UserCredentials userCredentials) {
-        return Completable.create((emitter) -> {
-            webRequests.setCredentials(userCredentials);
-            AuthToken authToken = webRequests.updateToken();
-
-            if (authToken.isValid())
-                emitter.onComplete();
-            else
-                emitter.onError(new AuthenticationError());
-        });
+    public Completable signIn(UserCredentials userCredentials) {
+        return authorisationInteractor.signIn(userCredentials);
     }
 
+    public Completable signUp(UserCredentials userCredentials) {
+        return authorisationInteractor.signUp(userCredentials);
+    }
+
+    @Override
+    public Completable addWordTranslation(WordTranslation wordTranslation) {
+        return translationWordsInteractor.add(wordTranslation);
+    }
+
+    @Override
+    public Completable removeWordTranslation(WordTranslation wordTranslation) {
+        return translationWordsInteractor.markRemoved(wordTranslation);
+    }
+
+    @Override
+    public Completable presyncOnStart() {
+        return syncController.presyncOnStart()
+                .subscribeOn(Schedulers.io())
+                .doOnError(Throwable::printStackTrace)
+                .ignoreElement();
+    }
+
+    @Override
+    public Completable trySyncAllReposWithCache() {
+        return syncController.trySyncAllReposWithCache()
+                .subscribeOn(Schedulers.io())
+                .onErrorReturnItem(Collections.emptyList())
+                .ignoreElements();
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        syncController.notifyDataChanged();
+    }
+
+    @Override
     public Observable<List<WordTranslation>> getAllWords() {
-        return translationWordsRepository.getList().map(wordTranslations ->
-        {
-            Observable.fromIterable(wordTranslations).filter(wordTranslation -> wordTranslation.getServerId() > 0).toList();
-            return wordTranslations;
-        });
+        return translationWordsInteractor.getList().map(wordTranslations ->
+                Observable.fromIterable(wordTranslations)
+                        .filter(wordTranslation -> wordTranslation.getServerId() >= 0)
+                        .toList()
+                        .onErrorReturnItem(Collections.emptyList()) //TODO think
+                        .blockingGet());
     }
 
-    void addUser() //TODO for example only; remove later
+    void addUser() //TODO for example only; update later
     {
         User user = new User(0, "Vasilii", "Shumilov", null, "12345", "eeeerock");
         //Disposable d = webRequests.addUser(user).subscribe(System.out::println, Throwable::printStackTrace);
     }
 
-    public BehaviorSubject<User> getUsers() { //TODO for example only; remove later
+    public BehaviorSubject<User> getUsers() { //TODO for example only; update later
         /*Disposable d = loadUsersFromRemoteSource()
                 .onErrorResumeNext(loadUsersFromLocalSource().toObservable()) //костыль
                 .flatMap(Observable::fromIterable)

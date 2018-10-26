@@ -6,13 +6,33 @@
     app:startDestination="@id/mainFragment">
 
     <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.dreamproject.inwords.viewScenario.Authorisation.Registration.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment_pop"
+            app:popUpTo="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registrationFragment_to_mainFragment_pop"
+            app:popUpTo="@id/mainFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/loginFragment"
-        android:name="com.dreamproject.inwords.viewScenario.login.LoginFragment"
+        android:name="com.dreamproject.inwords.viewScenario.Authorisation.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login">
+        tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_loginFragment_to_mainFragment_pop"
             app:popUpTo="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -45,6 +65,11 @@
     <action
         android:id="@+id/action_global_mainFragment"
         app:destination="@id/mainFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_translationMainFragment"
+        app:destination="@id/translationMainFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_right" />
 </navigation>
