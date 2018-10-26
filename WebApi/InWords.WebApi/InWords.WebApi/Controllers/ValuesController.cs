@@ -18,9 +18,8 @@
 
         private readonly WordPairRepository wordPairRepository = null;
 
-        public ValuesController()
+        public ValuesController(InWordsDataContext context)
         {
-            var context = new InWordsDataContext();
             userRepository = new UserRepository(context);
             wordRepository = new WordRepository(context);
             wordPairRepository = new WordPairRepository(context);

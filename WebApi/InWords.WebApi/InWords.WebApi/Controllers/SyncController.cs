@@ -20,9 +20,9 @@ namespace InWords.WebApi.Controllers
         private readonly SyncService syncSercive = null;
 
 
-        public SyncController()
+        public SyncController(Data.InWordsDataContext context)
         {
-            context = new Data.InWordsDataContext();
+            this.context = context;
             syncSercive = new SyncService(context);
         }
 

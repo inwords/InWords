@@ -17,9 +17,9 @@
         private readonly Data.InWordsDataContext context = null;
         private readonly WordsService wordsService = null;
 
-        public WordsController()
+        public WordsController(Data.InWordsDataContext context)
         {
-            context = new Data.InWordsDataContext();
+            this.context = context;
             wordsService = new WordsService(context);
         }
 

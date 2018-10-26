@@ -31,9 +31,9 @@
         #endregion
 
         #region Ctor
-        public AuthController()
+        public AuthController(InWordsDataContext context)
         {
-            accountRepository = new AccountRepository(new InWordsDataContext());
+            accountRepository = new AccountRepository(context);
             accountIdentityProvider = new AccountIdentityProvider(accountRepository);
         }
         #endregion

@@ -3,6 +3,7 @@
     using InWords.Data.Enums;
     using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using System;
     using System.Diagnostics;
 
@@ -10,15 +11,17 @@
     {
         private static bool _created = false;
 
-        public InWordsDataContext()
+        private readonly string connectionString;
+
+        public InWordsDataContext(string connectionString) : base()
         {
+            this.connectionString = connectionString;
             RecreateDb();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            //optionbuilder.UseSql(defaultconnectionstring);
-            optionbuilder.UseMySQL("");
+            optionbuilder.UseMySQL(connectionString);
         }
 
         public DbSet<User> Users { get; set; }

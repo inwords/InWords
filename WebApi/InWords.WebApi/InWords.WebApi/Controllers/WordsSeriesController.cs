@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using InWords.Auth.Providers;
+    using InWords.Data;
     using InWords.Data.Models;
     using InWords.Transfer.Data;
     using InWords.WebApi.Service;
@@ -17,12 +18,12 @@
     [ApiController]
     public class WordsSeriesController : ControllerBase
     {
-        private readonly Data.InWordsDataContext context = null;
+        private readonly InWordsDataContext context = null;
         private readonly WordsSeriesService wordsService = null;
 
-        public WordsSeriesController()
+        public WordsSeriesController(InWordsDataContext context)
         {
-            context = new Data.InWordsDataContext();
+            this.context = context;
             wordsService = new WordsSeriesService(context);
         }
 
