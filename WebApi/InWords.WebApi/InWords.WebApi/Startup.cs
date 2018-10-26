@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using InWords.Auth;
+    using InWords.Data;
 
     public class Startup
     {
@@ -29,8 +30,10 @@
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSingleton(_ => Configuration);
-            services.AddSingleton<Data.InWordsDataContext>(_ => new Data.InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
+
+            // 'scoped' in ASP.NET means "per HTTP request"
+            services.AddScoped<InWordsDataContext>(
+                _ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
