@@ -4,6 +4,7 @@ import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
 import com.dreamproject.inwords.data.source.WebService.TokenResponse;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.util.ErrorBodyFormatter;
 
 import javax.inject.Inject;
 
@@ -31,9 +32,7 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
 
     @Override
     public Completable signUp(UserCredentials userCredentials) {
-        return Completable.create((emitter) -> {
-            checkAuthToken(emitter, webRequests.registerUser(userCredentials));
-        });
+        return Completable.create((emitter) -> checkAuthToken(emitter, webRequests.registerUser(userCredentials)));
     }
 
     private void checkAuthToken(CompletableEmitter emitter, Single<TokenResponse> authTokenSingle) {
@@ -43,11 +42,7 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
             if (tokenResponse.isValid())
                 emitter.onComplete();
         } catch (HttpException e) {
-            try {
-                emitter.onError(new AuthenticationError(e.response().errorBody().string()));
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
+            emitter.onError(new AuthenticationError(ErrorBodyFormatter.getErrorMessage(e)));
         }
     }
 }
