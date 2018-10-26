@@ -1,9 +1,11 @@
 ﻿namespace InWords.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class SeriaWord
     {
+        [Key]
         public int SeriaWordID { get; set; }
 
         /// <summary>
@@ -11,6 +13,7 @@
         /// </summary>
         public int SeriaID { get; set; }
 
+        [ForeignKey("SeriaID")]
         public virtual Seria Seria { get; set; }
 
         /// <summary>
@@ -18,6 +21,7 @@
         /// </summary>
         public int UserWordPairID { get; set; }
 
+        [ForeignKey("UserWordPairID")]
         public virtual UserWordPair UserWordPair { get; set; }
 
         public int Level { get; set; }

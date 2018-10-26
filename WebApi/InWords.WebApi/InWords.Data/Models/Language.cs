@@ -7,6 +7,7 @@
 
     public class Language
     {
+        [Key]
         public int LanguageID { get; set; }
 
         [StringLength(32)]

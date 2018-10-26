@@ -3,9 +3,7 @@
     using InWords.Data.Enums;
     using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
     using System;
-    using System.Diagnostics;
 
     public class InWordsDataContext : DbContext
     {

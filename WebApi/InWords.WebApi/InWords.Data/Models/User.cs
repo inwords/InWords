@@ -15,6 +15,7 @@
 
         public int Expirience { get; set; }
 
+        //[ForeignKey("UserID")] private
         public virtual Account Account { get; set; }
     }
 }

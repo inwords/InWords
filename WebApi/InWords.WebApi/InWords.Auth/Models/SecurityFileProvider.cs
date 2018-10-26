@@ -10,7 +10,6 @@ namespace InWords.Auth
     internal class SecurityFileProvider
     {
         #region Props
-
         private readonly static string alphabetFIlePath = null;
 
         internal readonly string FilePath = null;
@@ -46,7 +45,7 @@ namespace InWords.Auth
             }
             catch (Exception)
             {
-
+                //TODO jurnal
             }
             return result;
         }
@@ -63,7 +62,7 @@ namespace InWords.Auth
             }
             catch (Exception)
             {
-                throw;
+                throw; //todo jurnal
             }
         }
 
