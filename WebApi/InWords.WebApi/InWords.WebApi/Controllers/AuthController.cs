@@ -67,7 +67,7 @@
         public async Task<IActionResult> Registration([FromBody] BasicAuthClaims user)
         {
             //check if accaunt exist;
-            if (accountRepository.ExistAny(a => a.Email == user.Email))
+            if (accountRepository.ExistAny(a => a.Email.GetHashCode() == user.Email.GetHashCode()))
             {
                 return BadRequest(new TokenResponse("User already exist", user.Email));
             }
