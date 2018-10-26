@@ -21,7 +21,7 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            optionbuilder.UseMySQL(connectionString);
+            optionbuilder.UseMySql(connectionString);
         }
 
         public DbSet<User> Users { get; set; }

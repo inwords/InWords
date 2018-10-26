@@ -50,12 +50,12 @@
 
             if (identity == null)
             {
-                return BadRequest(new TokenResponse("500 Identity fail"));
+                return BadRequest("500 Identity fail");
             }
             else if (identity.Name == RoleType.Unknown.ToString())
             {
-                return BadRequest(new TokenResponse("401 Unauthorized: Access is denied due to invalid credentials," +
-                                                    " bad username or password", identity));
+                return BadRequest("401 Unauthorized: Access is denied due to invalid credentials," +
+                                                    " bad username or password");
             }
             TokenResponse tokenResponse = new TokenResponse(identity);
 
@@ -67,9 +67,9 @@
         public async Task<IActionResult> Registration([FromBody] BasicAuthClaims user)
         {
             //check if accaunt exist;
-            if (accountRepository.ExistAny(a => a.Email.GetHashCode() == user.Email.GetHashCode()))
+            if (accountRepository.ExistAny(a => a.Email == user.Email))
             {
-                return BadRequest(new TokenResponse("User already exist", user.Email));
+                return BadRequest($"User already exist{user.Email}");
             }
 
             //Create account in repository;
