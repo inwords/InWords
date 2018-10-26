@@ -17,7 +17,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class DataModule {
+class DataModule {
     @Provides
     @Singleton
     WebApiService provideApiService(Retrofit retrofit) {

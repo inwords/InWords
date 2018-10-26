@@ -14,8 +14,6 @@ import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 import com.dreamproject.inwords.data.sync.SyncController;
 
-import javax.inject.Inject;
-
 public class TranslationModelFactory {
     public static TranslationModelImpl createOne(Context context, WebRequests webRequests) {
         final TranslationWordsLocalRepository inMemoryRepository = new TranslationWordsCacheRepository();

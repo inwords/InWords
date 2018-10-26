@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsImpl;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 
 import org.junit.After;
@@ -20,7 +21,7 @@ import static org.junit.Assert.fail;
 
 public class DataFlowTest {
     private AppRoomDatabase mDatabase;
-    private WebRequests mWebRequests = WebRequests.INSTANCE;
+    private WebRequests mWebRequests = WebRequestsImpl.INSTANCE;
 
     private static final WordTranslation WORD_TRANSLATION = new WordTranslation("HELlo", "ыва");
     private static final User USER = new User(0, "rockk", "v", "", "s", "123");

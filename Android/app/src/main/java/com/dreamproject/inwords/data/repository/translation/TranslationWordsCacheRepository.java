@@ -60,6 +60,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     @Override
     public Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations) {
         return Single.defer(() -> {
+            //list.removeAll(wordTranslations);
             list.addAll(wordTranslations);
 
             return Single.just(wordTranslations)
@@ -70,7 +71,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     @Override
     public Completable update(WordTranslation wordTranslation) {
         return Completable.fromCallable(() -> {
-            list.remove(wordTranslation);
+            list.remove(wordTranslation); //TODO it is not right logic. Not for update but for insert with strategy replace on conflict
             list.add(wordTranslation);
 
             publish();

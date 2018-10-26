@@ -1,5 +1,7 @@
 package com.dreamproject.inwords.dagger;
 
+import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsImpl;
 import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
 import com.dreamproject.inwords.model.authorisation.AuthorisationWebInteractor;
 
@@ -15,4 +17,8 @@ public interface DataAbstractModule {
     // Singleton annotation isn't necessary (in this case since Application instance is unique)
     // but is here for convention.
     AuthorisationInteractor provideAuthorisationWebInteractor(AuthorisationWebInteractor interactor);
+
+    @Binds
+    @Singleton
+    WebRequests provideWebRequests(WebRequestsImpl webRequests);
 }

@@ -1,6 +1,5 @@
 package com.dreamproject.inwords.data.source.WebService;
 
-import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordIdentificator;
@@ -8,14 +7,8 @@ import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

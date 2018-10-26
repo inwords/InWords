@@ -1,8 +1,8 @@
 package com.dreamproject.inwords.model.authorisation;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.data.source.WebService.TokenResponse;
 import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
+import com.dreamproject.inwords.data.source.WebService.TokenResponse;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 
 import javax.inject.Inject;
@@ -10,12 +10,13 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
 import io.reactivex.Single;
+import retrofit2.HttpException;
 
 public class AuthorisationWebInteractor implements AuthorisationInteractor {
     private WebRequests webRequests;
 
     @Inject
-    public AuthorisationWebInteractor(WebRequests webRequests) {
+    AuthorisationWebInteractor(WebRequests webRequests) {
         this.webRequests = webRequests;
     }
 
@@ -41,8 +42,12 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
 
             if (tokenResponse.isValid())
                 emitter.onComplete();
-        } catch (Exception e) {
-            emitter.onError(new AuthenticationError(e.getMessage()));
+        } catch (HttpException e) {
+            try {
+                emitter.onError(new AuthenticationError(e.response().errorBody().string()));
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }

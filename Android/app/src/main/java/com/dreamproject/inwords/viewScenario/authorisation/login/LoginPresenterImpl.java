@@ -15,7 +15,7 @@ public class LoginPresenterImpl extends BasicModelPresenter<AuthorisationInterac
 
     private LoginView loginView;
 
-    public LoginPresenterImpl(LoginView loginView) {
+    LoginPresenterImpl(LoginView loginView) {
         super(DependenciesComponent.getAuthorisationInteractorInstance());
 
         this.loginView = loginView;
