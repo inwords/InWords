@@ -3,6 +3,7 @@
     using InWords.Data.Enums;
     using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using System;
     using System.Diagnostics;
 
@@ -10,15 +11,17 @@
     {
         private static bool _created = false;
 
-        public InWordsDataContext()
+        private readonly string connectionString;
+
+        public InWordsDataContext(string connectionString) : base()
         {
+            this.connectionString = connectionString;
             RecreateDb();
-            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            optionbuilder.UseSqlite(@"Data Source=InWordsDatabase.db");
+            optionbuilder.UseMySql(connectionString);
         }
 
         public DbSet<User> Users { get; set; }
@@ -39,15 +42,17 @@
 
         public DbSet<UserSeria> UsersSerias { get; set; }
 
+        public DbSet<SeriaDescription> SeriaDescription { get; set; }
+
         private void RecreateDb()
         {
-
             lock (Database)
             {
                 if (!_created)
                 {
+                    //Database.EnsureDeleted();
+
                     _created = true;
-                    //TODO MIGRATE -script
                     if (Database.EnsureCreated())
                     {
                         var testAdmin = Accounts.Add(new Account() { Email = "admin@mail.ru", Password = "admin", Role = RoleType.Admin, RegistrationDate = DateTime.Now });
@@ -55,6 +60,8 @@
                         SaveChanges();
                         Users.Add(new User() { UserID = testAdmin.Entity.AccountID, NickName = "testAdmin" });
                         Users.Add(new User() { UserID = testUser.Entity.AccountID, NickName = "testUser" });
+                        Languages.Add(new Language() { Title = "English" });
+                        Languages.Add(new Language() { Title = "Russian" });
                         SaveChanges();
                     }
                 }

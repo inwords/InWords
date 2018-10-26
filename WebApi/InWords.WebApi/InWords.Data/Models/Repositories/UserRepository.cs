@@ -3,15 +3,17 @@
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
 
-    public class UserRepository  : Repository<User>
+    public class UserRepository : Repository<User>
     {
-        public UserRepository(DbContext context) : base(context)
+        InWordsDataContext context;
+        public UserRepository(InWordsDataContext context) : base(context)
         {
+            this.context = context;
         }
 
         public int Count()
         {
-            return new InWordsDataContext().Accounts.Count();
+            return context.Accounts.Count();
         }
     }
 }
