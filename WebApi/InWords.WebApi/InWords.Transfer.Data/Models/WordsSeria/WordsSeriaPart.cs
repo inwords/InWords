@@ -17,7 +17,7 @@ namespace InWords.Transfer.Data
 
         public WordsSeriaPart(WordTranslation wordTranslation) : base(wordTranslation)
         {
-
+            //base Id = onClientID; ServerId = serverID;
         }
     }
 }
