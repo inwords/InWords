@@ -5,7 +5,7 @@
     <string name="title_notifications">Notifications</string>
 
     <!-- sign in start -->
-    <string name="sign_in_email">Адрес электронной почты</string>
+    <string name="sign_in_email">E-mail</string>
     <string name="sign_in_password">Пароль</string>
     <string name="sign_in_enter">Войти</string>
     <string name="sign_in_no_account">Нет аккаунта?</string>
@@ -14,8 +14,8 @@
     <!-- sign in end -->
 
     <!-- sign up start -->
-    <string name="sign_up_enter_email">Введите адрес электронной почты</string>
-    <string name="sign_up_enter_password">Введите пароль</string>
+    <string name="sign_up_email">Введите e-mail</string>
+    <string name="sign_up_password">Введите пароль</string>
     <string name="sign_up_confirm_password">Повторите пароль</string>
     <string name="sign_up_enter">Создать аккаунт</string>
     <string name="sign_up_have_account">Уже есть аккаунт?</string>
@@ -23,18 +23,18 @@
     <!-- sign up end -->
 
     <!-- password recovery part1 start -->
-    <string name="password_recovery_part1_enter_email">Введите адрес электронной почты</string>
+    <string name="password_recovery_part1_email">Введите e-mail</string>
     <string name="password_recovery_part1_enter">Восстановить пароль</string>
     <!-- password recovery part1 end -->
 
     <!-- password recovery part2 start -->
     <string name="password_recovery_part2_info">Код для восстановления пароля был отправлен на адрес электронной почты</string>
-    <string name="password_recovery_part2_enter_key">Введите полученный код</string>
+    <string name="password_recovery_part2_key">Введите полученный код</string>
     <string name="password_recovery_part2_enter">Отправить</string>
     <!-- password recovery part2 end -->
 
     <!-- password recovery part3 start -->
-    <string name="password_recovery_part3_enter_new_password">Введите новый пароль</string>
+    <string name="password_recovery_part3_new_password">Введите новый пароль</string>
     <string name="password_recovery_part3_confirm_new_password">Повторите новый пароль</string>
     <string name="password_recovery_part3_enter">Поменять пароль</string>
     <!-- password recovery part3 end -->
