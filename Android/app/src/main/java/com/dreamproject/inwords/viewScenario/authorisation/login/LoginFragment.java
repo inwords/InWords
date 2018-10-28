@@ -30,8 +30,6 @@ public class LoginFragment extends DaggerFragment {
     @Inject
     LoginModelFactory modelFactory;
 
-    private TextView textViewSignUp;
-
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -93,11 +91,10 @@ public class LoginFragment extends DaggerFragment {
         editTextPassword = view.findViewById(R.id.editTextPassword);
         navController = Navigation.findNavController(view);
 
-
         ///
         viewModel = ViewModelProviders.of(this, modelFactory).get(LoginViewModel.class);
 
-        textViewSignUp = view.findViewById(R.id.textViewSignUp);
+        TextView textViewSignUp = view.findViewById(R.id.textViewSignUp);
 
         Observable<Object> signInBtnObs = (RxView.clicks(enterButtonSignIn).debounce(200, TimeUnit.MILLISECONDS));
         Observable<Object> signUpBtnObs = (RxView.clicks(textViewSignUp).debounce(200, TimeUnit.MILLISECONDS));
@@ -128,5 +125,4 @@ public class LoginFragment extends DaggerFragment {
                 break;
         }
     }
-
 }
