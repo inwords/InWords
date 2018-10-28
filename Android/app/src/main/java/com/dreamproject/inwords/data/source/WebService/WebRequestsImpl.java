@@ -22,7 +22,7 @@ public class WebRequestsImpl implements WebRequests {
     private AuthInfo authInfo;
 
     @Inject
-    public WebRequestsImpl(WebApiService apiService, BasicAuthenticator authenticator) {
+    WebRequestsImpl(WebApiService apiService, BasicAuthenticator authenticator) {
         this.authInfo = new AuthInfo();
         this.apiService = apiService;
 

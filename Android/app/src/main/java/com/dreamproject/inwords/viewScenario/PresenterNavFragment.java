@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dreamproject.inwords.BasePresenter;
-import com.dreamproject.inwords.viewScenario.authorisation.login.LoginFragment;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -28,7 +27,7 @@ public abstract class PresenterNavFragment extends Fragment {
 
     protected BasePresenter presenter;
 
-    protected LoginFragment.OnFragmentInteractionListener mListener;
+    protected PresenterNavFragment.OnFragmentInteractionListener mListener;
 
     public PresenterNavFragment() {
         // Required empty public constructor
@@ -82,8 +81,8 @@ public abstract class PresenterNavFragment extends Fragment {
 
         presenter = getPresenter();
 
-        if (context instanceof LoginFragment.OnFragmentInteractionListener) {
-            mListener = (LoginFragment.OnFragmentInteractionListener) context;
+        if (context instanceof PresenterNavFragment.OnFragmentInteractionListener) {
+            mListener = (PresenterNavFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

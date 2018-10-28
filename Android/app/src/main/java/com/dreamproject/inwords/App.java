@@ -13,6 +13,15 @@ public class App extends DaggerApplication {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+        DaggerAppComponent
+                .builder()
+                .create()
+    }
+
+    @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         return DaggerAppComponent.builder()
                 .create(this);

@@ -80,8 +80,8 @@ dependencies {
     //androidTestImplementation "android.arch.persistence.room:testing:$versions.ROOM"
 
     // Lifecycle components
-    //implementation "android.arch.lifecycle:extensions:$versions.LIFECYCLE"
-    //annotationProcessor "android.arch.lifecycle:compiler:$versions.LIFECYCLE"
+    implementation "android.arch.lifecycle:extensions:$versions.LIFECYCLE"
+    annotationProcessor "android.arch.lifecycle:compiler:$versions.LIFECYCLE"
 
     implementation "com.google.dagger:dagger:$versions.DAGGER"
     annotationProcessor "com.google.dagger:dagger-compiler:$versions.DAGGER"
