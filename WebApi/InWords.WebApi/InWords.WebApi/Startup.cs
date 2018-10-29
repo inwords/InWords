@@ -8,6 +8,9 @@
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using InWords.Auth;
     using InWords.Data;
+    using Microsoft.Extensions.Logging;
+    using InWords.WebApi.Providers;
+    using System.IO;
 
     public class Startup
     {
@@ -32,18 +35,20 @@
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // 'scoped' in ASP.NET means "per HTTP request"
-            services.AddScoped<InWordsDataContext>(
+            services.AddScoped(
                 _ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             //if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
+            var logger = loggerFactory.CreateLogger("FileLogger");
+            logger.LogInformation("Processing request {0}", 0);
             app.UseAuthentication();
             app.UseMvc();
         }

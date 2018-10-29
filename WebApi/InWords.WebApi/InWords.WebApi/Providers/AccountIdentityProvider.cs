@@ -2,6 +2,7 @@
 using InWords.Data.Models;
 using InWords.Data.Models.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,15 @@ namespace InWords.WebApi.Providers
     {
         public readonly AccountRepository accountRepository = null;
 
+        readonly ILogger logger;
 
         /// <summary>
         /// Create provider via repository
         /// </summary>
         /// <param name="repository"></param>
-        public AccountIdentityProvider(AccountRepository repository)
+        public AccountIdentityProvider(AccountRepository repository, ILogger logger)
         {
+            this.logger = logger;
             accountRepository = repository;
         }
 
@@ -33,6 +36,7 @@ namespace InWords.WebApi.Providers
         public ClaimsIdentity GetIdentity(HttpRequest request)
         {
             BasicAuthClaims x = request.GetBasicAuthorizationCalms();
+            logger.Log(LogLevel.Debug, "Get Token from {0}", x?.Email, x?.Password);
             ClaimsIdentity identity = accountRepository.GetIdentity(x?.Email, x?.Password);
             return identity;
         }

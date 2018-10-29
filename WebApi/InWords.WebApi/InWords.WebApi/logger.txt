@@ -1,0 +1,43 @@
+Processing request 0
+Request starting HTTP/1.1 GET http://localhost:53636/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:53636/  0
+Request finished in 88.9646ms 200 
+Route matched with {action = "Get", controller = "Values"}. Executing action InWords.WebApi.Controllers.ValuesController.Get (InWords.WebApi)
+Executing action method InWords.WebApi.Controllers.ValuesController.Get (InWords.WebApi) - Validation state: Valid
+Executed action method InWords.WebApi.Controllers.ValuesController.Get (InWords.WebApi), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 528.925ms.
+Executing ObjectResult, writing value of type 'System.Int32'.
+Executed action InWords.WebApi.Controllers.ValuesController.Get (InWords.WebApi) in 3774.7814ms
+Request finished in 4532.3097ms 200 application/json; charset=utf-8
+Request starting HTTP/1.1 GET http://localhost:53636/api/favicon.ico  
+Request finished in 8.1868ms 404 
+Request starting HTTP/1.1 GET http://localhost:53636/favicon.ico  
+Request finished in 5.8035ms 404 
+Request starting HTTP/1.1 POST http://localhost:53636/api/auth/token  0
+Route matched with {action = "Token", controller = "Auth"}. Executing action InWords.WebApi.Controllers.AuthController.Token (InWords.WebApi)
+Executed action InWords.WebApi.Controllers.AuthController.Token (InWords.WebApi) in 3.7098ms
+An unhandled exception has occurred while executing the request.
+Request finished in 294.9785ms 500 text/html; charset=utf-8
+Request starting HTTP/1.1 POST http://localhost:53636/api/auth/token  0
+Route matched with {action = "Token", controller = "Auth"}. Executing action InWords.WebApi.Controllers.AuthController.Token (InWords.WebApi)
+Executed action InWords.WebApi.Controllers.AuthController.Token (InWords.WebApi) in 15.808ms
+An unhandled exception has occurred while executing the request.
+Request finished in 111.563ms 500 text/html; charset=utf-8
+Processing request 0
+Request starting HTTP/1.1 DEBUG http://localhost:53636/  0
+Request starting HTTP/1.1 GET http://localhost:53636/api/values  
+Request finished in 66.5113ms 200 
+Route matched with {action = "Get", controller = "Values"}. Executing action InWords.WebApi.Controllers.ValuesController.Get (InWords.WebApi)
+Request starting HTTP/1.1 POST http://localhost:53636/api/auth/token  0
+Route matched with {action = "Token", controller = "Auth"}. Executing action InWords.WebApi.Controllers.AuthController.Token (InWords.WebApi)
+Executing action method InWords.WebApi.Controllers.AuthController.Token (InWords.WebApi) - Validation state: Valid
+Get Token from Microsoft.AspNetCore.Http.Internal.DefaultHttpRequest
+Get Token from user@gmail.com
+Executing action method InWords.WebApi.Controllers.ValuesController.Get (InWords.WebApi) - Validation state: Valid
+Executed action method InWords.WebApi.Controllers.ValuesController.Get (InWords.WebApi), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 272.142ms.
+Executed action method InWords.WebApi.Controllers.AuthController.Token (InWords.WebApi), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 756.8524ms.
+Executing ObjectResult, writing value of type 'System.Int32'.
+Executing ObjectResult, writing value of type 'InWords.Auth.TokenResponse'.
+Executed action InWords.WebApi.Controllers.ValuesController.Get (InWords.WebApi) in 3282.0164ms
+Executed action InWords.WebApi.Controllers.AuthController.Token (InWords.WebApi) in 876.9254ms
+Request finished in 3743.0062ms 200 application/json; charset=utf-8
+Request finished in 930.0305ms 200 application/json; charset=utf-8
