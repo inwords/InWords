@@ -50,8 +50,6 @@
         [HttpPost]
         public IActionResult Token()
         {
-            logger.Log(LogLevel.Debug, "Get Token from {0}", Request);
-
             ClaimsIdentity identity = accountIdentityProvider.GetIdentity(Request);
 
             if (identity == null)

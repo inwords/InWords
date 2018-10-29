@@ -36,7 +36,7 @@ namespace InWords.WebApi.Providers
         public ClaimsIdentity GetIdentity(HttpRequest request)
         {
             BasicAuthClaims x = request.GetBasicAuthorizationCalms();
-            logger.Log(LogLevel.Debug, "Get Token from {0}", x?.Email, x?.Password);
+            logger.Log(LogLevel.Information, "#GetIdentity {0}", x?.Email, x?.Password);
             ClaimsIdentity identity = accountRepository.GetIdentity(x?.Email, x?.Password);
             return identity;
         }

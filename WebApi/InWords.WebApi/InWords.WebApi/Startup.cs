@@ -11,6 +11,7 @@
     using Microsoft.Extensions.Logging;
     using InWords.WebApi.Providers;
     using System.IO;
+    using System;
 
     public class Startup
     {
@@ -42,15 +43,22 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            LoggerConfiguration(loggerFactory);
+
             //if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
-            var logger = loggerFactory.CreateLogger("FileLogger");
-            logger.LogInformation("Processing request {0}", 0);
+
             app.UseAuthentication();
             app.UseMvc();
+        }
+
+        private void LoggerConfiguration(ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/#log-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.txt"));
+            var logger = loggerFactory.CreateLogger("FileLogger");
+            logger.LogInformation("Processing request {0}", 0);
         }
     }
 }
