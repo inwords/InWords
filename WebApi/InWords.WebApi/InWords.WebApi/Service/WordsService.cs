@@ -88,7 +88,7 @@
 
             if (wordpair.WordForeign == null)
             {
-                wordForeign = await wordRepository.FindById(wordpair.WordNativeID);
+                wordForeign = await wordRepository.FindById(wordpair.WordForeignID);
             }
 
             if (wordpair.WordNative == null)
