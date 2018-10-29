@@ -12,32 +12,45 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.viewScenario.PresenterNavFragment;
+import com.dreamproject.inwords.viewScenario.FragmentWithViewModelAndNav;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperAdapter;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperEvents;
 import com.dreamproject.inwords.viewScenario.translation.recycler.WordTranslationsAdapter;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
-import io.reactivex.Completable;
+import io.reactivex.disposables.Disposable;
 
-public class TranslationMainFragment extends PresenterNavFragment implements TranslationMainView {
-    private TranslationWordsPresenter presenter;
-
+public class TranslationMainFragment extends FragmentWithViewModelAndNav<TranslationViewModel, TranslationViewModelFactory> implements
+        ItemTouchHelperEvents {
     private RecyclerView recyclerView;
     private WordTranslationsAdapter adapter;
 
     @Override
-    public Completable updateWordTranslations(List<WordTranslation> wordTranslations) {
-        return adapter.updateWordTranslations(wordTranslations);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        setupRecyclerView(view);
+
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        Random rnd = new Random(System.currentTimeMillis());
+        fab.setOnClickListener(fabView -> viewModel.onAddWordTranslation(
+                new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000))
+        ));
+
+        viewModel.onViewCreated();
+
+        viewModel.getTranslationWordsLiveData().observe(this, this::updateWordTranslations);
     }
 
-    @Override
+    public void updateWordTranslations(List<WordTranslation> wordTranslations) {
+        Disposable d = adapter.updateWordTranslations(wordTranslations).subscribe(() -> {
+        }, Throwable::printStackTrace);
+    }
+
     public List<WordTranslation> getWordTranslations() {
         return adapter.getWordTranslations();
     }
@@ -55,23 +68,15 @@ public class TranslationMainFragment extends PresenterNavFragment implements Tra
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperAdapter((ItemTouchHelperEvents) presenter); //TODO
+        ItemTouchHelper.Callback callback = new ItemTouchHelperAdapter(this); //TODO
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
     }
 
+
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        setupRecyclerView(view);
-        presenter.onViewCreated(); //TODO
-
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-        Random rnd = new Random(System.currentTimeMillis());
-        fab.setOnClickListener(fabView -> presenter.onAddWordTranslation(
-                new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000))
-        ));
+    public void onItemDismiss(int position) {
+        viewModel.onItemDismiss(getWordTranslations().get(position));
     }
 
     @Override
@@ -79,8 +84,9 @@ public class TranslationMainFragment extends PresenterNavFragment implements Tra
         return R.layout.fragment_translation_main;
     }
 
+    @NonNull
     @Override
-    protected BasePresenter getPresenter() {
-        return (BasePresenter) (presenter = new TranslationWordsPresenterImpl(Objects.requireNonNull(getActivity()).getApplication(), this));
+    protected Class<TranslationViewModel> getClassType() {
+        return TranslationViewModel.class;
     }
 }

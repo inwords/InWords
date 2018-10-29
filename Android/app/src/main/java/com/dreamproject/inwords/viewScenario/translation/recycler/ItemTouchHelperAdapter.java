@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 public class ItemTouchHelperAdapter extends ItemTouchHelper.Callback {
-    private final ItemTouchHelperEvents presenter;
+    private final ItemTouchHelperEvents touchHelperEvents;
 
-    public ItemTouchHelperAdapter(ItemTouchHelperEvents presenter) {
-        this.presenter = presenter;
+    public ItemTouchHelperAdapter(ItemTouchHelperEvents touchHelperEvents) {
+        this.touchHelperEvents = touchHelperEvents;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ItemTouchHelperAdapter extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        presenter.onItemDismiss(viewHolder.getAdapterPosition());
+        touchHelperEvents.onItemDismiss(viewHolder.getAdapterPosition());
     }
 
     @Override
