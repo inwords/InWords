@@ -20,7 +20,7 @@
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/sign_up_enter_email"
+                android:hint="@string/sign_up_email"
                 android:inputType="textEmailAddress" />
 
         </android.support.design.widget.TextInputLayout>
@@ -31,10 +31,10 @@
             android:layout_marginTop="16dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/editTextConfirmPassword"
+                android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/sign_up_enter_password"
+                android:hint="@string/sign_up_password"
                 android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
@@ -45,7 +45,7 @@
             android:layout_marginTop="16dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/editTextConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_confirm_password"

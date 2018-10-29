@@ -2,8 +2,8 @@ package com.dreamproject.inwords.data.sync;
 
 import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRemoteRepository;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,17 +71,11 @@ public class SyncController {
                 .flatMap(remoteRepository::pullWords)
                 .doOnError(Throwable::printStackTrace)
                 .doOnSuccess(pullWordsAnswer -> {
-                    List<WordTranslation> addedWords = pullWordsAnswer.getAddedWords();
                     List<Integer> removedServerIds = pullWordsAnswer.getRemovedServerIds();
+                    List<WordTranslation> addedWords = pullWordsAnswer.getAddedWords();
 
-                    if (!addedWords.isEmpty())
-                        Single.mergeDelayError(
-                                localRepository.addAll(addedWords),
-                                inMemoryRepository.addAll(addedWords))
-                                .blockingSubscribe(wordTranslations -> {
-                                }, Throwable::printStackTrace);
-
-                    if (!removedServerIds.isEmpty()) {
+                    if (!removedServerIds.isEmpty()) {  //Its IMPORTANT to remove before add because
+                                                        //its important
                         Throwable throwable = Completable.mergeDelayError(
                                 Arrays.asList(
                                         localRepository.removeAllServerIds(removedServerIds),
@@ -92,6 +86,13 @@ public class SyncController {
                         if (throwable != null)
                             throwable.printStackTrace();
                     }
+
+                    if (!addedWords.isEmpty())
+                        Single.mergeDelayError(
+                                localRepository.addAll(addedWords),
+                                inMemoryRepository.addAll(addedWords))
+                                .blockingSubscribe(wordTranslations -> {
+                                }, Throwable::printStackTrace);
                 })
                 .subscribeOn(Schedulers.io());
     }

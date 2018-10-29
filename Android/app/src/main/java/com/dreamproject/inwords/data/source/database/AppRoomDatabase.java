@@ -8,6 +8,8 @@ import android.content.Context;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
+import javax.inject.Inject;
+
 @Database(entities = {WordTranslation.class, User.class}, version = 1)
 public abstract class AppRoomDatabase extends RoomDatabase {
 

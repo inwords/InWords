@@ -4,12 +4,12 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsCacheRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsDatabaseRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsLocalRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsRemoteRepository;
-import com.dreamproject.inwords.data.repository.Translation.TranslationWordsWebApiRepository;
-import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsCacheRepository;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsDatabaseRepository;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
+import com.dreamproject.inwords.data.repository.translation.TranslationWordsWebApiRepository;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsImpl;
 import com.dreamproject.inwords.data.sync.SyncController;
 
 import org.junit.Before;
@@ -31,7 +31,7 @@ public class RepositoriesTest {
     public void init() {
         inMemoryRepository = new TranslationWordsCacheRepository();
         localRepository = new TranslationWordsDatabaseRepository(InstrumentationRegistry.getTargetContext());
-        remoteRepository = new TranslationWordsWebApiRepository(WebRequests.INSTANCE);
+        remoteRepository = new TranslationWordsWebApiRepository(WebRequestsImpl.INSTANCE);
 
         /*allListController = new RepositorySyncController<>(
                 behaviorSubject,

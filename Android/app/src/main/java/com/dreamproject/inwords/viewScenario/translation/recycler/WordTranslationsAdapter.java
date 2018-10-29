@@ -13,7 +13,6 @@ import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Completable;
