@@ -8,9 +8,15 @@
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using InWords.Auth;
     using InWords.Data;
+    using Microsoft.Extensions.Logging;
+    using InWords.WebApi.Providers;
+    using System.IO;
+    using System;
 
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -22,8 +28,6 @@
             Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -32,13 +36,15 @@
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // 'scoped' in ASP.NET means "per HTTP request"
-            services.AddScoped<InWordsDataContext>(
+            services.AddScoped(
                 _ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            LoggerConfiguration(loggerFactory);
+
             //if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -47,9 +53,15 @@
             app.UseAuthentication();
             app.UseMvc();
         }
+
+        private void LoggerConfiguration(ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/#log-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.txt"));
+            var logger = loggerFactory.CreateLogger("FileLogger");
+            logger.LogInformation("Processing request {0}", 0);
+        }
     }
 }
-
 
 ///feature — используется при добавлении новой функциональности уровня приложения
 ///fix — если исправили какую-то серьезную багу

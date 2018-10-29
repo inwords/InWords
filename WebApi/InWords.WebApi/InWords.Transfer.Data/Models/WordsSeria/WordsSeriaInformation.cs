@@ -4,7 +4,7 @@ namespace InWords.Transfer.Data
     using System;
     using System.Collections.Generic;
     using System.Text;
-    
+
     /// <summary>
     /// Transfer packet that contain Title, description
     /// </summary>
@@ -22,7 +22,7 @@ namespace InWords.Transfer.Data
 
         public WordsSeriaInformation(SyncBase wordTranslationBase) : base(wordTranslationBase)
         {
-
+            //base Id = onClientID; ServerId = serverID;
         }
 
         public WordsSeriaInformation(WordsSeriaInformation wordsSetInformation) : base((wordsSetInformation as SyncBase))

@@ -16,6 +16,7 @@
     using InWords.WebApi.Providers;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
     using Newtonsoft.Json;
 
@@ -30,11 +31,14 @@
         private readonly AccountIdentityProvider accountIdentityProvider = null;
         #endregion
 
+        readonly ILogger logger;
+
         #region Ctor
-        public AuthController(InWordsDataContext context)
+        public AuthController(InWordsDataContext context, ILogger<AuthController> logger)
         {
+            this.logger = logger;
             accountRepository = new AccountRepository(context);
-            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository, logger);
         }
         #endregion
 
@@ -69,7 +73,7 @@
             //check if accaunt exist;
             if (accountRepository.ExistAny(a => a.Email == user.Email))
             {
-                return BadRequest($"User already exist{user.Email}");
+                return BadRequest($"User already exist {user.Email}");
             }
 
             //Create account in repository;

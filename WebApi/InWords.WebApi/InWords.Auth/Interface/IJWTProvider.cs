@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Security.Claims;
-
-namespace InWords.Auth.Interface
+﻿namespace InWords.Auth.Interface
 {
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using System.Security.Claims;
+
     public interface IJWTProvider
     {
         string GenerateToken(ClaimsIdentity identity);

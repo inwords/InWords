@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using InWords.Auth.Providers;
+    using InWords.Data;
     using InWords.Transfer.Data;
     using InWords.WebApi.Service;
     using Microsoft.AspNetCore.Authorization;
@@ -14,10 +15,10 @@
     [ApiController]
     public class WordsController : ControllerBase
     {
-        private readonly Data.InWordsDataContext context = null;
+        private readonly InWordsDataContext context = null;
         private readonly WordsService wordsService = null;
 
-        public WordsController(Data.InWordsDataContext context)
+        public WordsController(InWordsDataContext context)
         {
             this.context = context;
             wordsService = new WordsService(context);

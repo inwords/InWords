@@ -13,9 +13,9 @@ namespace InWords.Transfer.Data
 
         public int ServerId { get; set; }
 
-
+        #region Ctor
         /// <summary>
-        /// Construnctor part
+        /// Constructor part
         /// </summary>
         public SyncBase() { }
 
@@ -36,6 +36,7 @@ namespace InWords.Transfer.Data
             Id = wordTranslationBase.Id;
             ServerId = wordTranslationBase.Id;
         }
+        #endregion
 
         object ICloneable.Clone()
         {

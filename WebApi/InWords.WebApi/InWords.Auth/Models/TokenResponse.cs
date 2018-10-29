@@ -8,9 +8,14 @@ namespace InWords.Auth
 {
     public class TokenResponse
     {
+        #region Props
+
         public string Access_token { get; private set; }
 
         public string Email { get; private set; }
+
+        #endregion
+
 
         public TokenResponse(ClaimsIdentity identity)
         {
@@ -19,7 +24,7 @@ namespace InWords.Auth
 
             Access_token = Cheked(encodedJwt, out string errMsg);
             Email = identity.Name;
-            
+
             // подготовка ответа
             // для тестирования // todo
         }

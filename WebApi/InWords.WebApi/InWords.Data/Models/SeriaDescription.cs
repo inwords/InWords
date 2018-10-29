@@ -17,17 +17,16 @@ namespace InWords.Data.Models
         /// <summary>
         /// Description to this seria
         /// </summary>
-        [ForeignKey("Seria")]
         public int SeriaID { get; set; }
+
         [ForeignKey("SeriaID")]
         public virtual Seria Seria { get; set; }
-
 
         /// <summary>
         /// Description on this lang
         /// </summary>
-        [ForeignKey("Language")]
         public int LanguageID { get; set; }
+
         [ForeignKey("LanguageID")]
         public virtual Language Language { get; set; }
     }
