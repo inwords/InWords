@@ -14,7 +14,9 @@ namespace InWords.WebApi.Providers
         public FileLogger(string path)
         {
             filePath = path;
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
         }
+
         public IDisposable BeginScope<TState>(TState state)
         {
             return null;
