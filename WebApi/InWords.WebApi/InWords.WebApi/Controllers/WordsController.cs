@@ -24,6 +24,11 @@
             wordsService = new WordsService(context);
         }
 
+        /// <summary>
+        /// Add list of words in dictinaty
+        /// </summary>
+        /// <param name="wordTranslations"></param>
+        /// <returns></returns>
         [Authorize]
         [Route("addpair")]
         [HttpPost]
