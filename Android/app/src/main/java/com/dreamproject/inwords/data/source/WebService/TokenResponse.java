@@ -2,22 +2,18 @@ package com.dreamproject.inwords.data.source.WebService;
 
 import android.support.annotation.NonNull;
 
-import com.google.gson.annotations.SerializedName;
-
 public class TokenResponse {
     @NonNull
     private String access_token;
     @NonNull
     private String email;
-    @SerializedName("ErrorMsg")
-    private String errorMsg;
 
     TokenResponse() {
         this.access_token = "";
         this.email = "";
     }
 
-    TokenResponse(@NonNull String access_token, @NonNull String email) {
+    private TokenResponse(@NonNull String access_token, @NonNull String email) {
         this.access_token = access_token;
         this.email = email;
     }
@@ -36,14 +32,5 @@ public class TokenResponse {
 
     String getAccessToken() {
         return access_token;
-    }
-
-    @NonNull
-    public String getEmail() {
-        return email;
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
     }
 }

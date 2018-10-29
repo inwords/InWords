@@ -1,6 +1,4 @@
-package com.dreamproject.inwords.dagger;
-
-import com.dreamproject.inwords.viewScenario.authorisation.login.LoginFragment;
+package com.dreamproject.inwords.viewScenario.authorisation.login;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;

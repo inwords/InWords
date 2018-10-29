@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.authorisation.login;
+package com.dreamproject.inwords.viewScenario.authorisation.Registration;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
@@ -6,14 +6,14 @@ import com.dreamproject.inwords.viewScenario.authorisation.AuthorisationViewMode
 
 import io.reactivex.Completable;
 
-public class LoginViewModel extends AuthorisationViewModel {
+public class RegistrationViewModel extends AuthorisationViewModel {
 
-    LoginViewModel(AuthorisationInteractor authorisationInteractor) {
+    RegistrationViewModel(AuthorisationInteractor authorisationInteractor) {
         super(authorisationInteractor);
     }
 
     @Override
     protected Completable performAuthAction(UserCredentials userCredentials) {
-        return authorisationInteractor.signIn(userCredentials);
+        return authorisationInteractor.signUp(userCredentials);
     }
 }

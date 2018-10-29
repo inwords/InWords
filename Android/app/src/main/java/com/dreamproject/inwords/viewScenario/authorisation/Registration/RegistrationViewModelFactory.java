@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.authorisation.login;
+package com.dreamproject.inwords.viewScenario.authorisation.Registration;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -8,21 +8,20 @@ import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
 
 import javax.inject.Inject;
 
-public class LoginModelFactory implements ViewModelProvider.Factory {
+public class RegistrationViewModelFactory implements ViewModelProvider.Factory {
     private final AuthorisationInteractor authorisationInteractor;
 
     @Inject
-    LoginModelFactory(AuthorisationInteractor authorisationInteractor) {
+    RegistrationViewModelFactory(AuthorisationInteractor authorisationInteractor) {
         this.authorisationInteractor = authorisationInteractor;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-            return (T) new LoginViewModel(authorisationInteractor);
+        if (modelClass.isAssignableFrom(RegistrationViewModel.class)) {
+            return (T) new RegistrationViewModel(authorisationInteractor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
-
 }
