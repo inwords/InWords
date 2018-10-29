@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import com.dreamproject.inwords.BasicViewModel;
 import com.dreamproject.inwords.Event;
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
+import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
 
 import java.util.concurrent.TimeUnit;
 

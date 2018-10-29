@@ -3,8 +3,8 @@ package com.dreamproject.inwords.util;
 import android.content.Context;
 
 import com.dreamproject.inwords.App;
-import com.dreamproject.inwords.model.translation.TranslationModelFactory;
-import com.dreamproject.inwords.model.translation.TranslationModelImpl;
+import com.dreamproject.inwords.data.useCase.translation.TranslationModelFactory;
+import com.dreamproject.inwords.data.useCase.translation.TranslationModelImpl;
 
 public class DependenciesComponent {
     private static TranslationModelImpl MAIN_MODEL_INSTANCE;

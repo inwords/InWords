@@ -2,8 +2,8 @@ package com.dreamproject.inwords.dagger;
 
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.data.source.WebService.WebRequestsImpl;
-import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
-import com.dreamproject.inwords.model.authorisation.AuthorisationWebInteractor;
+import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
+import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationWebInteractor;
 
 import javax.inject.Singleton;
 

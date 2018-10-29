@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.model.translation;
+package com.dreamproject.inwords.data.useCase.translation;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.interactor.translation.TranslationWordsInteractor;
