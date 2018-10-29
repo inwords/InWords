@@ -1,7 +1,7 @@
 package com.dreamproject.inwords.viewScenario.authorisation.Registration;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
+import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
 import com.dreamproject.inwords.viewScenario.authorisation.AuthorisationViewModel;
 
 import io.reactivex.Completable;
