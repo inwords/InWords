@@ -116,7 +116,7 @@ public class WebRequestsImpl implements WebRequests {
     }
 
     @Override
-    public Single<PullWordsAnswer> pullWords(List<Integer> serverIds) { //TODO its a mock
+    public Single<PullWordsAnswer> pullWords(List<Integer> serverIds) {
         return apiService.pullWordsPairs(authInfo.getTokenResponse().getBearer(), serverIds)
                 .subscribeOn(Schedulers.io());
     }
