@@ -6,6 +6,8 @@ import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -14,6 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 public class TranslationWordsDatabaseRepository implements TranslationWordsLocalRepository {
     private WordTranslationDao wordTranslationDao;
 
+    @Inject
     public TranslationWordsDatabaseRepository(WordTranslationDao wordTranslationDao) {
         this.wordTranslationDao = wordTranslationDao;
     }

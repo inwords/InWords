@@ -1,5 +1,7 @@
 package com.dreamproject.inwords.data.sync;
 
+import com.dreamproject.inwords.dagger.qualifiers.CacheRepositoryQualifier;
+import com.dreamproject.inwords.dagger.qualifiers.LocalRepositoryQualifier;
 import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
@@ -12,6 +14,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -19,9 +23,9 @@ import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
-import static com.dreamproject.inwords.data.sync.SyncController.Groups.ADD;
+import static com.dreamproject.inwords.data.sync.TranslationSyncController.Groups.ADD;
 
-public class SyncController {
+public class TranslationSyncController {
     private TranslationWordsLocalRepository inMemoryRepository;
     private TranslationWordsLocalRepository localRepository;
     private TranslationWordsRemoteRepository remoteRepository;
@@ -29,7 +33,11 @@ public class SyncController {
     private AtomicInteger dataChangesCounter;
     private PublishSubject<Integer> dataChangedNotifier;
 
-    public SyncController(TranslationWordsLocalRepository inMemoryRepository, TranslationWordsLocalRepository localRepository, TranslationWordsRemoteRepository remoteRepository) {
+    @Inject
+    public TranslationSyncController(
+            @CacheRepositoryQualifier TranslationWordsLocalRepository inMemoryRepository,
+            @LocalRepositoryQualifier TranslationWordsLocalRepository localRepository,
+            TranslationWordsRemoteRepository remoteRepository) {
         this.inMemoryRepository = inMemoryRepository;
         this.localRepository = localRepository;
         this.remoteRepository = remoteRepository;
