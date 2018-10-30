@@ -28,13 +28,13 @@ public interface WebApiService {
 
     @POST("/api/auth/registration")
     @Headers({"Content-Type: application/json"})
-    Single<TokenResponse> registerUser(@Body UserCredentials userCredentials); //TODO: test
+    Single<TokenResponse> registerUser(@Body UserCredentials userCredentials);
 
     @POST("/api/auth/token")
-    Single<TokenResponse> getToken(@Header("Authorization") String credentials); //TODO: test
+    Single<TokenResponse> getToken(@Header("Authorization") String credentials);
 
     @GET("/api/values/getlogin")
-    Single<String> getLogin(@Header("Authorization") String bearerToken); //TODO: test
+    Single<String> getLogin(@Header("Authorization") String bearerToken);
 
     @GET("/api/values")
     Single<List<String>> getValues();

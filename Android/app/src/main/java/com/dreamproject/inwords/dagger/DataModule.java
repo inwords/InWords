@@ -1,8 +1,13 @@
 package com.dreamproject.inwords.dagger;
 
+import android.arch.persistence.room.Room;
+import android.content.Context;
+
 import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.data.source.WebService.BasicAuthenticator;
 import com.dreamproject.inwords.data.source.WebService.WebApiService;
+import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
+import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +23,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 class DataModule {
+    @Provides
+    @Singleton
+    WordTranslationDao wordTranslationDao(AppRoomDatabase database) {
+        return database.wordTranslationDao();
+    }
+
+    @Provides
+    @Singleton
+    AppRoomDatabase database(Context context){
+        return Room.inMemoryDatabaseBuilder(context, //context is ApplicationContext btw
+                AppRoomDatabase.class)//, "word_database")
+                .build();
+    }
+
     @Provides
     @Singleton
     WebApiService provideApiService(Retrofit retrofit) {

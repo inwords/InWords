@@ -1,30 +1,31 @@
 package com.dreamproject.inwords.viewScenario.main;
 
-import android.content.Context;
-
 import com.dreamproject.inwords.BasicViewModel;
-import com.dreamproject.inwords.model.translation.TranslationModel;
-import com.dreamproject.inwords.util.DependenciesComponent;
+import com.dreamproject.inwords.data.interactor.translation.TranslationSyncInteractor;
+import com.dreamproject.inwords.data.interactor.translation.TranslationWordsInteractor;
 
 import io.reactivex.Observable;
 
 //compositeDisposable, model and application are available from BasicPresenter
 public class MainViewModel extends BasicViewModel {
-    private TranslationModel model;
+    private final TranslationWordsInteractor translationWordsInteractor;
+    private final TranslationSyncInteractor translationSyncInteractor;
 
-    public MainViewModel(Context context) {
-        model = DependenciesComponent.getTranslationModelInstance(context);
+    MainViewModel(final TranslationWordsInteractor translationWordsInteractor,
+                  final TranslationSyncInteractor translationSyncInteractor) {
+        this.translationWordsInteractor = translationWordsInteractor;
+        this.translationSyncInteractor = translationSyncInteractor;
     }
 
     public void onGetAllHandler(Observable<Object> obs) {
         compositeDisposable.add(
                 obs.subscribe(o -> {
-                    model.presyncOnStart().blockingGet();
+                    translationSyncInteractor.presyncOnStart().blockingGet();
 
-                    model.trySyncAllReposWithCache().blockingGet();
+                    translationSyncInteractor.trySyncAllReposWithCache().blockingGet();
 
                     compositeDisposable.add(
-                            model.getAllWords().subscribe(System.out::println)
+                            translationWordsInteractor.getAllWords().subscribe(System.out::println)
                     );
                 }));
     }

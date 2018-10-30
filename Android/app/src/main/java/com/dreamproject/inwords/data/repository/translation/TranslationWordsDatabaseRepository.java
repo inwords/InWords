@@ -3,8 +3,9 @@ package com.dreamproject.inwords.data.repository.translation;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
-import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -14,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 public class TranslationWordsDatabaseRepository implements TranslationWordsLocalRepository {
     private WordTranslationDao wordTranslationDao;
 
+    @Inject
     public TranslationWordsDatabaseRepository(WordTranslationDao wordTranslationDao) {
         this.wordTranslationDao = wordTranslationDao;
     }
@@ -33,14 +35,14 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
     public Observable<List<WordTranslation>> getList() {
         return wordTranslationDao.getAllWords()
                 .subscribeOn(Schedulers.io())
-                .map(wordTranslations -> {
+                /*.map(wordTranslations -> {
                     if (wordTranslations.isEmpty()) { //TODO::
                         return Arrays.asList(new WordTranslation(15, 0, "HEllo1", "из DBRepos"),
                                 new WordTranslation(16, 0, "Hellooo2", "из DBRepos"));
                     }
 
                     return wordTranslations;
-                })
+                })*/
                 //.filter(wordTranslations -> !wordTranslations.isEmpty())
                 .toObservable();
     }
@@ -71,13 +73,13 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
     }
 
     @Override
-    public Completable update(WordTranslation wordTranslation) { //TODO
+    public Completable update(WordTranslation wordTranslation) { //TODO check
         return Completable.fromCallable(() -> wordTranslationDao.update(wordTranslation))
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable updateAll(List<WordTranslation> wordTranslations) { //TODO
+    public Completable updateAll(List<WordTranslation> wordTranslations) { //TODO check
         return Completable.fromCallable(() -> wordTranslationDao.updateAll(wordTranslations))
                 .subscribeOn(Schedulers.io());
     }

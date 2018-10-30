@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.model.authorisation;
+package com.dreamproject.inwords.data.interactor.authorisation;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
 

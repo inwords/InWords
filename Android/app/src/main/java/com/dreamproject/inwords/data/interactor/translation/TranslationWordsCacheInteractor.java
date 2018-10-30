@@ -1,17 +1,21 @@
 package com.dreamproject.inwords.data.interactor.translation;
 
+import com.dreamproject.inwords.dagger.qualifiers.CacheRepositoryQualifier;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 
-public class TranslationWordsCacheInteractor implements TranslationWordsInteractor {
+public class TranslationWordsCacheInteractor implements TranslationWordsRepositoryInteractor {
     private TranslationWordsLocalRepository inMemoryRepository;
 
-    public TranslationWordsCacheInteractor(TranslationWordsLocalRepository inMemoryRepository) {
+    @Inject
+    TranslationWordsCacheInteractor(@CacheRepositoryQualifier TranslationWordsLocalRepository inMemoryRepository) {
         this.inMemoryRepository = inMemoryRepository;
     }
 
