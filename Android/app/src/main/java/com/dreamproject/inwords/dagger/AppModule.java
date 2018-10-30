@@ -17,12 +17,9 @@ import dagger.android.support.AndroidSupportInjectionModule;
         DataModule.class,
         DataAbstractModule.class})
 abstract class AppModule {
-
     @Binds
     @Singleton
     // Singleton annotation isn't necessary (in this case since Application instance is unique)
     // but is here for convention.
-    abstract Context provideApplicationContext(App app);
-
-
+    abstract Context applicationContext(App app);
 }

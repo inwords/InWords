@@ -8,6 +8,8 @@ import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -15,6 +17,7 @@ import io.reactivex.Single;
 public class TranslationWordsWebApiRepository implements TranslationWordsRemoteRepository {
     private WebRequests webRequests;
 
+    @Inject
     public TranslationWordsWebApiRepository(WebRequests webRequests) {
         this.webRequests = webRequests;
     }

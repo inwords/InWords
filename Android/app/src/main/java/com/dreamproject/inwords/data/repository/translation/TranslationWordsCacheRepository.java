@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -20,6 +22,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     private BehaviorSubject<Set<WordTranslation>> behaviorSubject;
 
+    @Inject
     public TranslationWordsCacheRepository() {
         this.list = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
