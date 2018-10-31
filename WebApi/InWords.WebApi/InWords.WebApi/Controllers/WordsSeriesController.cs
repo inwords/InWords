@@ -40,5 +40,18 @@
 
             return Ok(answer);
         }
+
+        // POST api/Series
+        [Authorize]
+        [Route("addwords")]
+        [HttpPost]
+        public async Task<IActionResult> PostAddWords([FromBody] IEnumerable<WordsSeriaPart> wordsSeriaInformation)
+        {
+            int authorizedID = AuthProvider.GetUserID(User);
+
+            //var answer = await wordsService.AddSeries(authorizedID, wordsSeriaInformation);
+
+            return Ok();
+        }
     }
 }
