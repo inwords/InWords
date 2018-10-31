@@ -42,4 +42,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- password recovery part3 end -->
 
+    <!-- word addition start -->
+    <string name="word_addition_word">Слово или фраза</string>
+    <string name="word_addition_translation">Перевод</string>
+    <string name="word_addition_enter">Добавить</string>
+    <!-- word addition end -->
+
 </resources>
