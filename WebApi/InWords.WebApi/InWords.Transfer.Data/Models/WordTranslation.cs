@@ -5,9 +5,9 @@
     /// </summary>
     public class WordTranslation : SyncBase
     {
-        public string WordForeign { get; set; }
+        public string WordForeign { get; protected set; }
 
-        public string WordNative { get; set; }
+        public string WordNative { get; protected set; }
 
         #region Ctor
 

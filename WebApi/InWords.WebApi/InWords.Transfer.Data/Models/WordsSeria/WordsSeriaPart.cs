@@ -4,20 +4,28 @@ using System.Text;
 
 namespace InWords.Transfer.Data
 {
-    public class WordsSeriaPart : WordTranslation
+    /// <summary>
+    /// Provide wordpair, serverid, clientid, 
+    /// </summary>
+    public class WordsSeriaPart
     {
-        ///public int Id
-        ///public string WordForeign
-        ///public string WordNative
-        ///public int ServerId
+        public int SeriaID { get; protected set; }
 
-        public int SeriaID { get; set; }
+        public int Level { get; protected set; }
 
-        public int Level { get; set; }
+        public readonly List<WordTranslation> WordTranslations = null;
 
-        public WordsSeriaPart(WordTranslation wordTranslation) : base(wordTranslation)
+        public WordsSeriaPart() { }
+
+        public WordsSeriaPart(int seriaID, int level, params WordTranslation[] wordTranslation)
         {
-            //base Id = onClientID; ServerId = serverID;
+            SeriaID = seriaID;
+            Level = level;
+            WordTranslations = new List<WordTranslation>();
+            foreach (WordTranslation wordsPair in wordTranslation)
+            {
+                WordTranslations.Add(wordsPair);
+            }
         }
     }
 }
