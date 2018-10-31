@@ -5,7 +5,6 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
@@ -23,19 +22,10 @@ public interface WordTranslationDao {
     List<Long> insertAll(List<WordTranslation> wordTranslation);
 
     @Delete
-    int delete(WordTranslation wordTranslation);
-
-    @Delete
     int deleteAll(List<WordTranslation> wordTranslation);
 
     @Query("DELETE FROM word_translation_table")
     int deleteAll();
-
-    @Update
-    int update(WordTranslation word);
-
-    @Update
-    int updateAll(List<WordTranslation> wordTranslation);
 
     @Query("DELETE FROM word_translation_table WHERE server_id IN (:serverIds)")
     int deleteAllServerIds(List<Integer> serverIds);

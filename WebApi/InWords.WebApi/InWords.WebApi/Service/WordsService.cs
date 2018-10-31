@@ -1,13 +1,13 @@
-﻿using InWords.Data.Models;
-using InWords.Data.Models.Repositories;
-using InWords.Transfer.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace InWords.WebApi.Service
+﻿namespace InWords.WebApi.Service
 {
+    using InWords.Data.Models;
+    using InWords.Data.Models.Repositories;
+    using InWords.Transfer.Data;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class WordsService : ServiceBase
     {
         private readonly UserWordPairRepository userWordPairRepository = null;
@@ -21,9 +21,9 @@ namespace InWords.WebApi.Service
             wordRepository = new WordRepository(this.context);
         }
 
-        public async Task<List<WordTranslationBase>> AddPair(int userID, IEnumerable<WordTranslation> wordTranslations)
+        public async Task<List<SyncBase>> AddPair(int userID, IEnumerable<WordTranslation> wordTranslations)
         {
-            List<WordTranslationBase> answer = new List<WordTranslationBase>();
+            List<SyncBase> answer = new List<SyncBase>();
 
             foreach (WordTranslation wordTranslation in wordTranslations)
             {
@@ -69,7 +69,7 @@ namespace InWords.WebApi.Service
             return wordTranslations;
         }
 
-        private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<WordTranslationBase> answer)
+        private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<SyncBase> answer)
         {
             Word firstWordForeign = new Word
             {
@@ -105,7 +105,7 @@ namespace InWords.WebApi.Service
 
             CreatedPair = await userWordPairRepository.Stack(CreatedPair);
 
-            WordTranslationBase resultPair = new WordTranslationBase()
+            SyncBase resultPair = new SyncBase()
             {
                 Id = wordTranslation.Id,
                 ServerId = CreatedPair.UserWordPairID
@@ -129,9 +129,18 @@ namespace InWords.WebApi.Service
 
         public async Task<int> DeleteUserWordPair(int userID, int userWordPairID)
         {
-            var userwordpairs = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID).First();
+            var userwordpairs = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID);
 
-            return userwordpairs == null ? 0 : await userWordPairRepository.Remove(userwordpairs); ;
+            if (userwordpairs.Count() == 1)
+            {
+                UserWordPair pairToDelete = null;
+                pairToDelete = userwordpairs.First();
+                return await userWordPairRepository.Remove(pairToDelete);
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

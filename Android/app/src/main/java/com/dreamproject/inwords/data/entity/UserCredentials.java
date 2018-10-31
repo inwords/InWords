@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.entity;
 
-public class UserCredentials { //TODO: reimplement next time
+public class UserCredentials {
     private final String email;
     private final String password;
 

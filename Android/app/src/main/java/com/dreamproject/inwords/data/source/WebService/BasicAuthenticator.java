@@ -3,8 +3,7 @@ package com.dreamproject.inwords.data.source.WebService;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.dreamproject.inwords.dagger.DaggerDataComponent;
-import com.dreamproject.inwords.util.DependenciesComponent;
+import javax.inject.Inject;
 
 import okhttp3.Authenticator;
 import okhttp3.Request;
@@ -12,22 +11,34 @@ import okhttp3.Response;
 import okhttp3.Route;
 
 public class BasicAuthenticator implements Authenticator {
+    interface OnUnauthorisedCallback {
+        TokenResponse perform();
+    }
+
+    private OnUnauthorisedCallback callback;
+
+    @Inject
+    BasicAuthenticator() {
+    }
+
+    void setOnUnauthorisedCallback(OnUnauthorisedCallback callback) {
+        this.callback = callback;
+    }
+
     @Nullable
     @Override
     public Request authenticate(@NonNull Route route, @NonNull Response response) {
-        final AuthToken errorToken = AuthToken.errorToken();
+        final TokenResponse errorToken = TokenResponse.errorToken();
 
         String header = response.request().header("Authorization");
-        if (header != null && header.contains(errorToken.getAccessToken())) { //TODO: think about COSTIL
+        if (callback == null || (header != null && header.contains(errorToken.getAccessToken()))) { //TODO: think about COSTIL
             return null; // Give up, we've already failed to authenticate.
         }
 
-        AuthToken authToken = DaggerDataComponent.create().getWebRequests().updateToken() //TODO COSTIL
-                .onErrorReturnItem(errorToken)
-                .blockingGet();
+        TokenResponse tokenResponse = callback.perform();
 
         return response.request().newBuilder()
-                .header("Authorization", authToken.getBearer())
+                .header("Authorization", tokenResponse.getBearer())
                 .build();
     }
 }

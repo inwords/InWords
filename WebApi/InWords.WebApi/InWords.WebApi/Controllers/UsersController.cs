@@ -21,9 +21,9 @@ namespace InWords.WebApi.Controllers
         private readonly AccountRepository accauntRepositoty;
 
 
-        public UsersController()
+        public UsersController(InWordsDataContext context)
         {
-            var dataContext = new InWordsDataContext();
+            var dataContext = context;
             usersRepository = new UserRepository(dataContext);
             accauntRepositoty = new AccountRepository(dataContext);
         }

@@ -17,10 +17,21 @@ namespace InWords.Auth
             // получение токена
             var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
 
+            Access_token = Cheked(encodedJwt, out string errMsg);
+            Email = identity.Name;
+            
             // подготовка ответа
-            Access_token = encodedJwt;
-            Email = identity.Name; 
             // для тестирования // todo
+        }
+
+        private string Cheked(string encodedJwt, out string errorMsg)
+        {
+            errorMsg = "";
+            if (encodedJwt == null)
+            {
+                errorMsg = "Token fail";
+            }
+            return encodedJwt;
         }
     }
 }

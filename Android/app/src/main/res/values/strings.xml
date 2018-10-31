@@ -37,6 +37,9 @@
     <string name="password_recovery_part3_new_password">Введите новый пароль</string>
     <string name="password_recovery_part3_confirm_new_password">Повторите новый пароль</string>
     <string name="password_recovery_part3_enter">Поменять пароль</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- password recovery part3 end -->
 
     <!-- word addition start -->

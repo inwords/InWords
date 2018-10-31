@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Auth.Providers;
-using InWords.Data.Models;
-using InWords.Data.Models.Repositories;
-using InWords.Transfer.Data;
-using InWords.WebApi.Service;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace InWords.WebApi.Controllers
+﻿namespace InWords.WebApi.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using InWords.Auth.Providers;
+    using InWords.Transfer.Data;
+    using InWords.WebApi.Service;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiController]
     public class WordsController : ControllerBase
@@ -20,9 +17,9 @@ namespace InWords.WebApi.Controllers
         private readonly Data.InWordsDataContext context = null;
         private readonly WordsService wordsService = null;
 
-        public WordsController()
+        public WordsController(Data.InWordsDataContext context)
         {
-            context = new Data.InWordsDataContext();
+            this.context = context;
             wordsService = new WordsService(context);
         }
 
@@ -38,16 +35,21 @@ namespace InWords.WebApi.Controllers
             return Ok(answer);
         }
 
+        /// <summary>
+        /// Delete UserWordPair from server database.
+        /// </summary>
+        /// <param name="server_IDs">List ofUserWordPair.UserWordPairID</param>
+        /// <returns></returns>
         [Authorize]
         [Route("deletepair")]
-        [HttpDelete]
-        public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> userWordPairIDs)
+        [HttpPost]
+        public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {
             int authorizedID = AuthProvider.GetUserID(User);
 
-            var answer = await wordsService.DeleteUserWordPair(authorizedID, userWordPairIDs);
+            int pairDeleted = await wordsService.DeleteUserWordPair(authorizedID, server_IDs);
 
-            return Ok(answer);
+            return Ok(pairDeleted);
         }
     }
 }

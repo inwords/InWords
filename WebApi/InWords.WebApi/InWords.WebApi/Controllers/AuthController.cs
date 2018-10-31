@@ -31,9 +31,9 @@
         #endregion
 
         #region Ctor
-        public AuthController()
+        public AuthController(InWordsDataContext context)
         {
-            accountRepository = new AccountRepository(new InWordsDataContext());
+            accountRepository = new AccountRepository(context);
             accountIdentityProvider = new AccountIdentityProvider(accountRepository);
         }
         #endregion
@@ -50,9 +50,13 @@
 
             if (identity == null)
             {
-                return BadRequest("Invalid username or password.");
+                return BadRequest("500 Identity fail");
             }
-
+            else if (identity.Name == RoleType.Unknown.ToString())
+            {
+                return BadRequest("401 Unauthorized: Access is denied due to invalid credentials," +
+                                                    " bad username or password");
+            }
             TokenResponse tokenResponse = new TokenResponse(identity);
 
             return Ok(tokenResponse);
@@ -65,7 +69,7 @@
             //check if accaunt exist;
             if (accountRepository.ExistAny(a => a.Email == user.Email))
             {
-                return BadRequest($"User already exist {user.Email}");
+                return BadRequest($"User already exist{user.Email}");
             }
 
             //Create account in repository;
@@ -80,9 +84,6 @@
             //send token
             return Ok(response);
         }
-
-
-
 
         #region Adaptor
 

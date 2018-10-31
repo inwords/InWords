@@ -1,5 +1,4 @@
 ﻿using InWords.Transfer.Data;
-using InWords.Transfer.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

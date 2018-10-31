@@ -6,103 +6,31 @@ import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
-import java.util.Arrays;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.Maybe;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.Credentials;
 
-public class WebRequests {
-    private WebApiService apiService;
+public interface WebRequests {
+    void setCredentials(UserCredentials userCredentials);
 
-    private AuthInfo authInfo;
+    Single<TokenResponse> registerUser(UserCredentials userCredentials);
 
-    @Inject
-    public WebRequests(WebApiService apiService) {
-        authInfo = new AuthInfo();
-        this.apiService = apiService;
-    }
+    Single<TokenResponse> updateToken();
 
-    private void setAuthToken(AuthToken authToken) {
-        this.authInfo.setAuthToken(authToken);
-    }
+    Single<String> getLogin();
 
-    private Single<AuthToken> getToken() {
-        return apiService.getToken(authInfo.getCredentials())
-                .subscribeOn(Schedulers.io())
-                .doOnError(throwable -> setAuthToken(AuthToken.errorToken()))
-                .doOnSuccess(this::setAuthToken);
-    }
+    Single<List<User>> getUsers();
 
-    public void setCredentials(UserCredentials userCredentials) {
-        this.authInfo.setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword()));
-    }
+    Single<User> addUser(User user);
 
-    public Single<AuthToken> registerUser(UserCredentials userCredentials) {
-        return apiService.registerUser(userCredentials)
-                .subscribeOn(Schedulers.io())
-                .doOnError(throwable -> setAuthToken(AuthToken.errorToken()))
-                .doOnSuccess(this::setAuthToken);
-    }
+    Maybe<List<WordTranslation>> getAllWords();
 
-    public Single<AuthToken> updateToken() {
-        return getToken();
-    }
+    Single<WordTranslation> insertWord(WordTranslation wordTranslation);
 
-    public Single<String> getLogin() {
-        return apiService.getLogin(authInfo.getAuthToken().getBearer())
-                .subscribeOn(Schedulers.io());
-    }
+    Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations);
 
-    public Single<List<User>> getUsers() {
-        return apiService.getUsers()
-                //.flatMap(Observable::fromIterable)
-                .subscribeOn(Schedulers.io());
-    }
+    Single<Integer> removeAllServerIds(List<Integer> serverIds);
 
-    public Single<User> addUser(User user) {
-        return apiService.addUser(user)
-                .subscribeOn(Schedulers.io());
-    }
-
-    public Maybe<List<WordTranslation>> getAllWords() {
-        return Maybe.fromCallable(() -> {
-            try {
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return Arrays.asList(new WordTranslation("asd", "ку"), new WordTranslation("sdg", "укеу"));
-        })
-                .subscribeOn(Schedulers.io());
-    }
-
-    public Single<WordTranslation> insertWord(WordTranslation wordTranslation) {
-        return Single.defer(() -> {
-            Thread.sleep(2000);
-
-            return Single.just(wordTranslation); //TODO
-        })
-                .subscribeOn(Schedulers.io());
-    }
-
-    public Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
-        return apiService.addPairs(authInfo.getAuthToken().getBearer(), wordTranslations)
-                .subscribeOn(Schedulers.io());
-    }
-
-    public Single<Integer> removeAllServerIds(List<Integer> serverIds) {
-        return apiService.deletePairs(authInfo.getAuthToken().getBearer(), serverIds)
-                .subscribeOn(Schedulers.io());
-    }
-
-    public Single<PullWordsAnswer> pullWords(List<Integer> serverIds) { //TODO its a mock
-        return apiService.pullWordsPairs(authInfo.getAuthToken().getBearer(), serverIds)
-                .subscribeOn(Schedulers.io());
-    }
+    Single<PullWordsAnswer> pullWords(List<Integer> serverIds);
 }

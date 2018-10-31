@@ -3,47 +3,42 @@ package com.dreamproject.inwords.viewScenario.authorisation.login;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.dreamproject.inwords.BasePresenter;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.viewScenario.authorisation.SigningBaseFragment;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-
-public class LoginFragment extends SigningBaseFragment implements LoginView {
-    private LoginPresenter presenter;
-
-    private TextView textViewSignUp;
-
+public class LoginFragment extends SigningBaseFragment<LoginViewModel, LoginViewModelFactory> {
     public LoginFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void loginSuccess() {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Button buttonEnterSignIn = view.findViewById(R.id.buttonEnterSignIn);
+        TextView textViewSignUp = view.findViewById(R.id.textViewSignUp);
+
+        viewModel.onSignHandler(RxView.clicks(buttonEnterSignIn), getCredentials());
+        viewModel.onNavigateHandler(RxView.clicks(textViewSignUp));
+    }
+
+    @Override
+    protected void navigateAction() {
+        navigateToRegistration();
+    }
+
+    @Override
+    protected void navigateOnSuccess() {
         navController.navigate(R.id.action_loginFragment_to_mainFragment_pop);
-
-        View view = getView();
-        if (view != null)
-            Snackbar.make(view, "Sign in success", Snackbar.LENGTH_LONG).show();
     }
 
-    @Override
-    public void loginError() {
-        View view = getView();
-        if (view != null)
-            Snackbar.make(view, "Sign in error", Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void navigateToRegistration() {
-        navController.navigate(R.id.action_loginFragment_to_registrationFragment, null);
+    private void navigateToRegistration() {
+        navController.navigate(R.id.action_loginFragment_to_registrationFragment);
     }
 
     @Override
@@ -51,21 +46,9 @@ public class LoginFragment extends SigningBaseFragment implements LoginView {
         return R.layout.fragment_sign_in;
     }
 
+    @NonNull
     @Override
-    protected BasePresenter getPresenter() {
-        return (BasePresenter) (presenter = new LoginPresenterImpl(this));
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        textViewSignUp = view.findViewById(R.id.textViewSignUp);
-
-        Observable<Object> signInBtnObs = (RxView.clicks(enterButtonSignIn).debounce(200, TimeUnit.MILLISECONDS));
-        Observable<Object> signUpTxtVwObs = (RxView.clicks(textViewSignUp).debounce(200, TimeUnit.MILLISECONDS));
-
-        presenter.onSignInHandler(signInBtnObs);
-        presenter.onSignUpHandler(signUpTxtVwObs);
+    protected Class<LoginViewModel> getClassType() {
+        return LoginViewModel.class;
     }
 }

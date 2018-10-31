@@ -1,29 +1,29 @@
 package com.dreamproject.inwords.data.source.WebService;
 
 public class AuthInfo {
-    private AuthToken authToken;
+    private TokenResponse tokenResponse;
     private String credentials;
 
     AuthInfo() {
-        this.authToken = new AuthToken();
+        this.tokenResponse = new TokenResponse();
         this.credentials = "";
     }
 
-    public AuthInfo(AuthToken authToken, String credentials) {
-        this.authToken = authToken;
+    public AuthInfo(TokenResponse tokenResponse, String credentials) {
+        this.tokenResponse = tokenResponse;
         this.credentials = credentials;
     }
 
-    AuthToken getAuthToken() {
-        return authToken;
+    TokenResponse getTokenResponse() {
+        return tokenResponse;
     }
 
     String getCredentials() {
         return credentials;
     }
 
-    public void setAuthToken(AuthToken authToken) {
-        this.authToken = authToken;
+    public void setTokenResponse(TokenResponse tokenResponse) {
+        this.tokenResponse = tokenResponse;
     }
 
     public void setCredentials(String credentials) {

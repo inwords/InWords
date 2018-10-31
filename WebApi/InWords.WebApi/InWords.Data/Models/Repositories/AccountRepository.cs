@@ -21,23 +21,32 @@
         /// <returns></returns>
         public ClaimsIdentity GetIdentity(string email, string password)
         {
-            Account account = Get().FirstOrDefault(x => x.Email == email && x.Password == password);
+            Account account = Get(x => x.Email == email && x.Password == password).FirstOrDefault();
+
+            IEnumerable<Claim> claims = null;
+
+            string defaultrole = email;
+            string defaultname = RoleType.Unknown.ToString();
+            string nameId = "-1";
+
             if (account != null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, account.Email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, account.Role.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier,account.AccountID.ToString())
-                };
-                ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
+                defaultrole = account.AccountID.ToString();
+                defaultname = account.Email;
+                nameId = account.AccountID.ToString();
             }
 
-            // если пользователя не найдено
-            return null;
+            claims = new List<Claim>
+            {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType,defaultname),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, defaultrole),
+                    new Claim(ClaimTypes.NameIdentifier,nameId)
+            };
+
+            ClaimsIdentity claimsIdentity =
+                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+            return claimsIdentity;
         }
 
         public async Task<Account> CreateUserAccaunt(string email, string password)

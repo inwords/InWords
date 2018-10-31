@@ -9,8 +9,8 @@ import com.dreamproject.inwords.data.repository.translation.TranslationWordsData
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsWebApiRepository;
-import com.dreamproject.inwords.data.source.WebService.WebRequests;
-import com.dreamproject.inwords.data.sync.SyncController;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsImpl;
+import com.dreamproject.inwords.data.sync.TranslationSyncController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class RepositoriesTest {
     public void init() {
         inMemoryRepository = new TranslationWordsCacheRepository();
         localRepository = new TranslationWordsDatabaseRepository(InstrumentationRegistry.getTargetContext());
-        remoteRepository = new TranslationWordsWebApiRepository(WebRequests.INSTANCE);
+        remoteRepository = new TranslationWordsWebApiRepository(WebRequestsImpl.INSTANCE);
 
         /*allListController = new RepositorySyncController<>(
                 behaviorSubject,
@@ -39,10 +39,10 @@ public class RepositoriesTest {
                 new WordsAllList(localRepository),
                 new WordsAllList(remoteRepository));*/
 
-        SyncController syncController = new SyncController(inMemoryRepository, localRepository, remoteRepository);
-        syncController.presyncOnStart()
+        TranslationSyncController translationSyncController = new TranslationSyncController(inMemoryRepository, localRepository, remoteRepository);
+        translationSyncController.presyncOnStart()
                 .blockingGet();
-        syncController.trySyncAllReposWithCache()
+        translationSyncController.trySyncAllReposWithCache()
                 .blockingSubscribe((wordTranslations) -> {
                 }, Throwable::printStackTrace);
     }

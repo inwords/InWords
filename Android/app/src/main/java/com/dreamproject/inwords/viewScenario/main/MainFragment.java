@@ -5,20 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.dreamproject.inwords.R;
+import com.dreamproject.inwords.viewScenario.FragmentWithViewModelAndNav;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.Objects;
-
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 
@@ -30,7 +24,7 @@ import androidx.navigation.Navigation;
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends FragmentWithViewModelAndNav<MainViewModel, MainViewModelFactory> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,12 +33,6 @@ public class MainFragment extends Fragment {
     private String mParam1;
 
     private OnFragmentInteractionListener mListener;
-
-    NavController navController;
-    private MainPresenter viewModel;
-    private TextView textMessage;
-    private Button buttonGoLogin;
-    private Button buttonGetWordList;
 
     public MainFragment() {
         // Required empty public constructor
@@ -71,32 +59,33 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
             mParam1 = getArguments().getString(ARG_PARAM1);
-
-        navController = Navigation.findNavController(getActivity(), R.id.main_nav_host_fragment);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        textMessage = view.findViewById(R.id.message);
-        buttonGoLogin = view.findViewById(R.id.buttonGoLogin);
-        buttonGetWordList = view.findViewById(R.id.buttonGetWordList);
+        Button buttonGoLogin = view.findViewById(R.id.buttonGoLogin);
+        Button buttonGetWordList = view.findViewById(R.id.buttonGetWordList);
 
-        buttonGoLogin.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null));
+        buttonGoLogin.setOnClickListener(
+                Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null));
 //TODO это не по паттерну. перенести навигацию в модель. но это пока костыль так что оставить как есть
-        viewModel = new MainViewModel(Objects.requireNonNull(getActivity()).getApplication());
         viewModel.onGetAllHandler(RxView.clicks(buttonGetWordList));
 
-        BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
+        //BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
         //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+    protected int getLayout() {
+        return R.layout.fragment_main;
+    }
+
+    @NonNull
+    @Override
+    protected Class<MainViewModel> getClassType() {
+        return MainViewModel.class;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -121,13 +110,6 @@ public class MainFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        viewModel.dispose();
     }
 
     /**
