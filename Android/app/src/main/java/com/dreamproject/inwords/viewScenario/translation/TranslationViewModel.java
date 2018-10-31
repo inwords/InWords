@@ -14,8 +14,6 @@ import io.reactivex.disposables.Disposable;
 
 public class TranslationViewModel extends BasicViewModel {
     private final MutableLiveData<List<WordTranslation>> translationWordsLiveData;
-    private final MutableLiveData<WordTranslation> addEditWordLiveData;
-
     private final TranslationWordsInteractor translationWordsInteractor;
     private TranslationSyncInteractor translationSyncInteractor;
 
@@ -25,7 +23,6 @@ public class TranslationViewModel extends BasicViewModel {
         this.translationSyncInteractor = translationSyncInteractor;
 
         this.translationWordsLiveData = new MutableLiveData<>();
-        this.addEditWordLiveData = new MutableLiveData<>();
     }
 
     public void onViewCreated() {
@@ -49,20 +46,7 @@ public class TranslationViewModel extends BasicViewModel {
         compositeDisposable.add(d);
     }
 
-    public void onAddEditWord(WordTranslation wordTranslation){
-        addEditWordLiveData.postValue(wordTranslation);
-    }
-
-    public void onAddEditWordDone(WordTranslation wordTranslation){
-        if (wordTranslation != null)
-            translationWordsInteractor.addWordTranslation(wordTranslation);
-    }
-
     public LiveData<List<WordTranslation>> getTranslationWordsLiveData() {
         return translationWordsLiveData;
-    }
-
-    public LiveData<WordTranslation> getAddEditWordLiveData() {
-        return addEditWordLiveData;
     }
 }
