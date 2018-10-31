@@ -16,13 +16,9 @@ public interface TranslationWordsLocalRepository {
 
     Observable<List<WordTranslation>> getList();
 
-    Single<WordTranslation> add(WordTranslation wordTranslation);
+    Single<WordTranslation> addReplace(WordTranslation wordTranslation);
 
-    Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations);
-
-    Completable update(WordTranslation wordTranslation);
-
-    Completable updateAll(List<WordTranslation> wordTranslations);
+    Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations);
 
     Completable removeAll(List<WordTranslation> wordTranslations);
 

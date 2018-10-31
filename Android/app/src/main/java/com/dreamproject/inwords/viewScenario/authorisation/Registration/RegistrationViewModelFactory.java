@@ -20,6 +20,7 @@ public class RegistrationViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(RegistrationViewModel.class)) {
+            //noinspection unchecked
             return (T) new RegistrationViewModel(authorisationInteractor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");

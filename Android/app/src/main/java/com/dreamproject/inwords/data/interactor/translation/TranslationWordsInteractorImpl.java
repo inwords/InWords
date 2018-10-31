@@ -14,26 +14,31 @@ public class TranslationWordsInteractorImpl implements TranslationWordsInteracto
     // Tag used for debugging/logging
     public static final String TAG = "TranslationWordsInteractorImpl";
 
-    private final TranslationWordsRepositoryInteractor translationWordsRepositoryInteractor;
+    private final TranslationWordsRepositoryInteractor repositoryInteractor;
 
     @Inject
-    TranslationWordsInteractorImpl(final TranslationWordsRepositoryInteractor translationWordsRepositoryInteractor) {
-        this.translationWordsRepositoryInteractor = translationWordsRepositoryInteractor;
+    TranslationWordsInteractorImpl(final TranslationWordsRepositoryInteractor repositoryInteractor) {
+        this.repositoryInteractor = repositoryInteractor;
     }
 
     @Override
-    public Completable addWordTranslation(WordTranslation wordTranslation) {
-        return translationWordsRepositoryInteractor.add(wordTranslation);
+    public Completable addReplace(WordTranslation wordTranslation) {
+        return repositoryInteractor.add(wordTranslation);
     }
 
     @Override
-    public Completable removeWordTranslation(WordTranslation wordTranslation) {
-        return translationWordsRepositoryInteractor.markRemoved(wordTranslation);
+    public Completable remove(WordTranslation wordTranslation) {
+        return repositoryInteractor.markRemoved(wordTranslation);
+    }
+
+    @Override
+    public Completable update(WordTranslation oldWord, WordTranslation newWord) {
+        return Completable.concatArray(remove(oldWord), addReplace(newWord));
     }
 
     @Override
     public Observable<List<WordTranslation>> getAllWords() {
-        return translationWordsRepositoryInteractor.getList().map(wordTranslations ->
+        return repositoryInteractor.getList().map(wordTranslations ->
                 Observable.fromIterable(wordTranslations)
                         .filter(wordTranslation -> wordTranslation.getServerId() >= 0)
                         .toList()

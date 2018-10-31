@@ -48,7 +48,7 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
     }
 
     @Override
-    public Single<WordTranslation> add(WordTranslation wordTranslation) {
+    public Single<WordTranslation> addReplace(WordTranslation wordTranslation) {
         return Single.defer(() -> {
             long id = wordTranslationDao.insert(wordTranslation);
             wordTranslation.getWordIdentificator().setId((int) id);
@@ -59,7 +59,7 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
     }
 
     @Override
-    public Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations) {
+    public Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations) {
         return Single.defer(() -> Observable.zip(
                 Observable.fromIterable(wordTranslationDao.insertAll(wordTranslations)),
                 Observable.fromIterable(wordTranslations),
@@ -69,18 +69,6 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
                     return wordTranslation;
                 })
                 .toList())
-                .subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Completable update(WordTranslation wordTranslation) { //TODO check
-        return Completable.fromCallable(() -> wordTranslationDao.update(wordTranslation))
-                .subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Completable updateAll(List<WordTranslation> wordTranslations) { //TODO check
-        return Completable.fromCallable(() -> wordTranslationDao.updateAll(wordTranslations))
                 .subscribeOn(Schedulers.io());
     }
 

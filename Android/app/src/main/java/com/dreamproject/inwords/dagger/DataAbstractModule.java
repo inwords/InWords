@@ -1,7 +1,7 @@
 package com.dreamproject.inwords.dagger;
 
-import com.dreamproject.inwords.dagger.qualifiers.CacheRepositoryQualifier;
-import com.dreamproject.inwords.dagger.qualifiers.LocalRepositoryQualifier;
+import com.dreamproject.inwords.dagger.annotations.CacheRepositoryQualifier;
+import com.dreamproject.inwords.dagger.annotations.LocalRepositoryQualifier;
 import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
 import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationWebInteractor;
 import com.dreamproject.inwords.data.interactor.translation.TranslationSyncInteractor;

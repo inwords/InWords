@@ -20,6 +20,7 @@ public class LoginViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
+            //noinspection unchecked
             return (T) new LoginViewModel(authorisationInteractor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");

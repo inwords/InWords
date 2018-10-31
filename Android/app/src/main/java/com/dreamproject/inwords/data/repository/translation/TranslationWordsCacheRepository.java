@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
@@ -18,20 +17,20 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 public class TranslationWordsCacheRepository implements TranslationWordsLocalRepository {
-    private Set<WordTranslation> list;
+    private ConcurrentHashMap<WordTranslation, WordTranslation> list;
 
-    private BehaviorSubject<Set<WordTranslation>> behaviorSubject;
+    private BehaviorSubject<List<WordTranslation>> behaviorSubject;
 
     @Inject
     public TranslationWordsCacheRepository() {
-        this.list = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        this.list = new ConcurrentHashMap<>();
 
-        behaviorSubject = BehaviorSubject.createDefault(list);
+        behaviorSubject = BehaviorSubject.createDefault(Collections.list(list.elements()));
     }
 
     @Override
     public Observable<WordTranslation> getTranslation(String word) {
-        return Observable.fromIterable(list)
+        return Observable.fromIterable(list.values())
                 .filter(wordTranslation -> wordTranslation.getWordForeign().equals(word) ||
                         wordTranslation.getWordNative().equals(word));
     }
@@ -51,9 +50,9 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     }
 
     @Override
-    public Single<WordTranslation> add(WordTranslation wordTranslation) {
+    public Single<WordTranslation> addReplace(WordTranslation wordTranslation) {
         return Single.defer(() -> {
-            list.add(wordTranslation);
+            list.put(wordTranslation, wordTranslation);
 
             return Single.just(wordTranslation)
                     .doOnSuccess((o) -> publish());
@@ -61,10 +60,11 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     }
 
     @Override
-    public Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations) {
+    public Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations) {
         return Single.defer(() -> {
             //list.removeAll(wordTranslations);
-            list.addAll(wordTranslations);
+            for (WordTranslation wordTranslation : wordTranslations)
+                list.put(wordTranslation, wordTranslation);
 
             return Single.just(wordTranslations)
                     .doOnSuccess((o) -> publish());
@@ -72,33 +72,9 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     }
 
     @Override
-    public Completable update(WordTranslation wordTranslation) {
-        return Completable.fromCallable(() -> {
-            list.remove(wordTranslation); //TODO it is not right logic. Not for update but for insert with strategy replace on conflict
-            list.add(wordTranslation);
-
-            publish();
-
-            return true;
-        });
-    }
-
-    @Override
-    public Completable updateAll(List<WordTranslation> wordTranslations) {
-        return Completable.fromCallable(() -> {
-            list.removeAll(wordTranslations);
-            list.addAll(wordTranslations);
-
-            publish();
-
-            return true;
-        });
-    }
-
-    @Override
     public Completable removeAll(List<WordTranslation> wordTranslations) {
         return Completable.fromCallable(() -> {
-            list.removeAll(wordTranslations);
+            list.keySet().removeAll(wordTranslations);
 
             publish();
 
@@ -110,7 +86,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     public Completable removeAllServerIds(List<Integer> serverIds) {
         return Completable.fromCallable(() -> {
             for (Integer serverId : serverIds) {
-                for (Iterator<WordTranslation> it = list.iterator(); it.hasNext(); ) {
+                for (Iterator<WordTranslation> it = list.values().iterator(); it.hasNext(); ) {
                     WordTranslation next = it.next();
                     if (next.getServerId() == serverId) {
                         it.remove();
@@ -125,6 +101,6 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     }
 
     private void publish() {
-        behaviorSubject.onNext(list);
+        behaviorSubject.onNext(Collections.list(list.elements()));
     }
 }

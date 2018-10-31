@@ -24,6 +24,7 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MainViewModel.class)) {
+            //noinspection unchecked
             return (T) new MainViewModel(translationWordsInteractor, translationSyncInteractor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");

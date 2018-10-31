@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.translation;
+package com.dreamproject.inwords.viewScenario.translation.translationMain;
 
 
 import android.content.Context;
@@ -15,12 +15,14 @@ import android.view.View;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.viewScenario.FragmentWithViewModelAndNav;
+import com.dreamproject.inwords.viewScenario.translation.TranslationViewModel;
+import com.dreamproject.inwords.viewScenario.translation.TranslationViewModelFactory;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperAdapter;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperEvents;
 import com.dreamproject.inwords.viewScenario.translation.recycler.WordTranslationsAdapter;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
-import java.util.Random;
 
 import io.reactivex.disposables.Disposable;
 
@@ -36,14 +38,17 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
         setupRecyclerView(view);
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
-        Random rnd = new Random(System.currentTimeMillis());
-        fab.setOnClickListener(fabView -> viewModel.onAddWordTranslation(
-                new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000))
-        ));
+
+        viewModel.getAddEditWordLiveData().observe(this, event -> {
+            if (event != null && event.handle()) {
+                navController.navigate(R.id.action_translationMainFragment_to_addEditWordFragment);
+            }
+        });
 
         viewModel.onViewCreated();
 
         viewModel.getTranslationWordsLiveData().observe(this, this::updateWordTranslations);
+        viewModel.onAddClickedHandler(RxView.clicks(fab));
     }
 
     public void updateWordTranslations(List<WordTranslation> wordTranslations) {

@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.interactor.translation;
 
-import com.dreamproject.inwords.dagger.qualifiers.CacheRepositoryQualifier;
+import com.dreamproject.inwords.dagger.annotations.CacheRepositoryQualifier;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 
@@ -36,19 +36,19 @@ public class TranslationWordsCacheInteractor implements TranslationWordsReposito
 
     @Override
     public Completable add(WordTranslation wordTranslation) {
-        return inMemoryRepository.add(wordTranslation).ignoreElement();
+        return inMemoryRepository.addReplace(wordTranslation).ignoreElement();
     }
 
     @Override
     public Completable addAll(List<WordTranslation> wordTranslations) {
-        return inMemoryRepository.addAll(wordTranslations).ignoreElement();
+        return inMemoryRepository.addReplaceAll(wordTranslations).ignoreElement();
     }
 
     @Override
     public Completable markRemoved(WordTranslation wordTranslation) {
         markWordRemoved(wordTranslation);
 
-        return inMemoryRepository.update(wordTranslation);
+        return add(wordTranslation);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TranslationWordsCacheInteractor implements TranslationWordsReposito
         for (WordTranslation wordTranslation : wordTranslations)
             markWordRemoved(wordTranslation);
 
-        return inMemoryRepository.updateAll(wordTranslations);
+        return addAll(wordTranslations);
     }
 
     private void markWordRemoved(WordTranslation wordTranslation) {

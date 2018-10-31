@@ -8,7 +8,9 @@ import com.dreamproject.inwords.data.interactor.translation.TranslationSyncInter
 import com.dreamproject.inwords.data.interactor.translation.TranslationWordsInteractor;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class TranslationViewModelFactory implements ViewModelProvider.Factory {
     private final TranslationWordsInteractor translationWordsInteractor;
     private final TranslationSyncInteractor translationSyncInteractor;
@@ -24,6 +26,7 @@ public class TranslationViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(TranslationViewModel.class)) {
+            //noinspection unchecked
             return (T) new TranslationViewModel(translationWordsInteractor, translationSyncInteractor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
