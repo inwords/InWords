@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data
 {
+    using System.Collections.Generic;
     /// <summary>
     /// Provide wordpair, serverid, clientid, 
     /// </summary>
