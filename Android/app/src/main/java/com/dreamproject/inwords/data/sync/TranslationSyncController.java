@@ -1,7 +1,7 @@
 package com.dreamproject.inwords.data.sync;
 
-import com.dreamproject.inwords.dagger.qualifiers.CacheRepositoryQualifier;
-import com.dreamproject.inwords.dagger.qualifiers.LocalRepositoryQualifier;
+import com.dreamproject.inwords.dagger.annotations.CacheRepositoryQualifier;
+import com.dreamproject.inwords.dagger.annotations.LocalRepositoryQualifier;
 import com.dreamproject.inwords.data.entity.WordIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
@@ -70,7 +70,7 @@ public class TranslationSyncController {
 
     public Single<PullWordsAnswer> presyncOnStart() {
         return localRepository.getList()
-                .flatMapSingle(inMemoryRepository::addAll)
+                .flatMapSingle(inMemoryRepository::addReplaceAll)
                 .flatMap(Observable::fromIterable)
                 .map(WordIdentificator::getServerId)
                 .filter(serverId -> serverId != 0)
@@ -82,7 +82,7 @@ public class TranslationSyncController {
                     List<Integer> removedServerIds = pullWordsAnswer.getRemovedServerIds();
                     List<WordTranslation> addedWords = pullWordsAnswer.getAddedWords();
 
-                    if (!removedServerIds.isEmpty()) {  //Its IMPORTANT to remove before add because
+                    if (!removedServerIds.isEmpty()) {  //Its IMPORTANT to remove before addReplace because
                                                         //its important
                         Throwable throwable = Completable.mergeDelayError(
                                 Arrays.asList(
@@ -97,8 +97,8 @@ public class TranslationSyncController {
 
                     if (!addedWords.isEmpty())
                         Single.mergeDelayError(
-                                localRepository.addAll(addedWords),
-                                inMemoryRepository.addAll(addedWords))
+                                localRepository.addReplaceAll(addedWords),
+                                inMemoryRepository.addReplaceAll(addedWords))
                                 .blockingSubscribe(wordTranslations -> {
                                 }, Throwable::printStackTrace);
                 })
@@ -137,21 +137,21 @@ public class TranslationSyncController {
         Throwable throwable = null;
         switch (group(list.get(0))) { //Узнаём какой группе принадлежит лист
             case ADD: {
-                throwable = localRepository.addAll(list)
+                throwable = localRepository.addReplaceAll(list)
                         .doOnSuccess(wordTranslations -> remoteRepository.addAll(wordTranslations)
                                 .doOnSuccess(wordIdentificatorsRemote -> {
                                     if (!wordTranslations.isEmpty() && !wordIdentificatorsRemote.isEmpty()) {
                                         mergeIds(wordTranslations, wordIdentificatorsRemote);
 
                                         Single.mergeDelayError(
-                                                localRepository.addAll(wordTranslations),
-                                                inMemoryRepository.addAll(wordTranslations))
+                                                localRepository.addReplaceAll(wordTranslations),
+                                                inMemoryRepository.addReplaceAll(wordTranslations))
                                                 .blockingSubscribe();
                                     }
                                 })
                                 .doOnError((t) -> {
                                     if (!wordTranslations.isEmpty())
-                                        inMemoryRepository.addAll(wordTranslations).blockingGet();
+                                        inMemoryRepository.addReplaceAll(wordTranslations).blockingGet();
                                 })
                                 .blockingGet()
                         )

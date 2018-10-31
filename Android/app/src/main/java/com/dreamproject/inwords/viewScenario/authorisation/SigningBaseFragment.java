@@ -35,8 +35,8 @@ public abstract class SigningBaseFragment
         editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
 
-        viewModel.getNavigateToLiveData().observe(this, voidEvent -> {
-            if (voidEvent != null && voidEvent.getContentIfNotHandled() != null) {
+        viewModel.getNavigateToLiveData().observe(this, event -> {
+            if (event != null && event.getContentIfNotHandled() != null) {
                 navigateAction();
             }
         });

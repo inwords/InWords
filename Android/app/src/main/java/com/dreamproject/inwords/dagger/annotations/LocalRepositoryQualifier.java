@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.dagger.qualifiers;
+package com.dreamproject.inwords.dagger.annotations;
 
 import javax.inject.Qualifier;
 

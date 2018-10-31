@@ -58,9 +58,23 @@
     </fragment>
     <fragment
         android:id="@+id/translationMainFragment"
-        android:name="com.dreamproject.inwords.viewScenario.translation.TranslationMainFragment"
+        android:name="com.dreamproject.inwords.viewScenario.translation.translationMain.TranslationMainFragment"
         android:label="fragment_translation_main"
-        tools:layout="@layout/fragment_translation_main" />
+        tools:layout="@layout/fragment_translation_main">
+        <action
+            android:id="@+id/action_translationMainFragment_to_addEditWordFragment"
+            app:destination="@id/addEditWordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditWordFragment"
+        android:name="com.dreamproject.inwords.viewScenario.translation.addEditWord.AddEditWordFragment"
+        android:label="fragment_add_edit_word"
+        tools:layout="@layout/fragment_add_edit_word" />
 
     <action
         android:id="@+id/action_global_mainFragment"

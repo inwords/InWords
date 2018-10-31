@@ -8,9 +8,11 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 public interface TranslationWordsInteractor {
-    Completable addWordTranslation(WordTranslation wordTranslation);
+    Completable addReplace(WordTranslation wordTranslation);
 
-    Completable removeWordTranslation(WordTranslation wordTranslation);
+    Completable remove(WordTranslation wordTranslation);
+
+    Completable update(WordTranslation oldWord, WordTranslation newWord);
 
     Observable<List<WordTranslation>> getAllWords();
 }

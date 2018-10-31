@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Objects;
 
-public class WordIdentificator {
+public class WordIdentificator implements Cloneable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     protected int id;
@@ -65,7 +65,20 @@ public class WordIdentificator {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, serverId);
+    }
+
+    @Override
+    public Object clone() {
+        final WordTranslation clone;
+        try {
+            clone = (WordTranslation) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Superclass messed up", e);
+        }
+        clone.id = this.id;
+        clone.serverId = this.serverId;
+
+        return clone;
     }
 }

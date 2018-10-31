@@ -12,7 +12,7 @@ import java.util.Objects;
         indices = {
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
-public class WordTranslation extends WordIdentificator {
+public class WordTranslation extends WordIdentificator implements Cloneable {
     public static final int LOCAL_REMOVE_FLAG = Integer.MIN_VALUE;
 
     @NonNull
@@ -104,5 +104,15 @@ public class WordTranslation extends WordIdentificator {
     @Override
     public int hashCode() {
         return Objects.hash(wordForeign, wordNative);
+    }
+
+    @Override
+    public WordTranslation clone() {
+        final WordTranslation clone = (WordTranslation) super.clone();
+
+        clone.wordForeign = this.wordForeign;
+        clone.wordNative = this.wordNative;
+
+        return clone;
     }
 }

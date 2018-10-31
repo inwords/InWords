@@ -3,6 +3,7 @@ package com.dreamproject.inwords.viewScenario;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +43,11 @@ public abstract class FragmentWithViewModelAndNav
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
-        viewModel = ViewModelProviders.of(this, modelFactory).get(getClassType());
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        viewModel = ViewModelProviders.of(getActivity(), modelFactory).get(getClassType());
     }
 }

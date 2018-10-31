@@ -23,6 +23,14 @@ public class Event<T> {
         }
     }
 
+    public boolean handle() {
+        if (hasBeenHandled) {
+            return false;
+        } else {
+            return hasBeenHandled = true;
+        }
+    }
+
     /**
      * Returns the content, even if it's already been handled.
      */
