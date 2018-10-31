@@ -45,7 +45,7 @@
         [Authorize]
         [Route("addwords")]
         [HttpPost]
-        public async Task<IActionResult> PostAddWords([FromBody] IEnumerable<WordsSeriaPart> wordsSeriaInformation)
+        public async Task<IActionResult> PostAddWords([FromBody] IEnumerable<WordsSeriaPart> wordsSeriaParts)
         {
             int authorizedID = AuthProvider.GetUserID(User);
 

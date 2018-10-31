@@ -9,11 +9,11 @@ namespace InWords.Transfer.Data
     /// </summary>
     public class WordsSeriaPart
     {
-        public int SeriaID { get; protected set; }
+        public int SeriaID { get; set; }
 
-        public int Level { get; protected set; }
+        public int Level { get; set; }
 
-        public readonly List<WordTranslation> WordTranslations = null;
+        public List<WordTranslation> WordTranslations { get; set; }
 
         public WordsSeriaPart() { }
 
