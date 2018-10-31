@@ -12,10 +12,6 @@
         [Key]
         public int SeriaID { get; set; }
 
-        [Required]
-        [StringLength(64)]
-        public string Title { get; set; }
-
         /// <summary>
         /// User created this Seria
         /// </summary>

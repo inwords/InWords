@@ -1,4 +1,4 @@
-﻿namespace InWords.Transfer.Data.Models.WordsSeria
+﻿namespace InWords.Transfer.Data
 {
     public class WordSeriaDescription
     {

@@ -1,5 +1,4 @@
-﻿
-namespace InWords.WebApi.Service
+﻿namespace InWords.WebApi.Service
 {
     using InWords.Data.Models;
     using InWords.Data.Models.Repositories;
@@ -29,20 +28,22 @@ namespace InWords.WebApi.Service
         {
             Seria wordsSeria = new Seria
             {
-                Title = information.Title,
                 CreatorID = userID
             };
 
             wordsSeria = await seriaRepository.Create(wordsSeria);
 
-            SeriaDescription seriaDescription = new SeriaDescription()
+            foreach (WordSeriaDescription wordSeriaDescription in information.WordSeriaDescriptions)
             {
-                SeriaID = wordsSeria.SeriaID,
-                Description = information.Description,
-                LanguageID = 1
-            };
-
-            await seriaDescriptionRepository.Create(seriaDescription);
+                SeriaDescription seriaDescription = new SeriaDescription()
+                {
+                    SeriaID = wordsSeria.SeriaID,
+                    Description = wordSeriaDescription.Description,
+                    LanguageID = wordSeriaDescription.LangID,
+                    Title = wordSeriaDescription.Title
+                };
+                await seriaDescriptionRepository.Create(seriaDescription);
+            }
 
             SyncBase answer = new SyncBase(wordsSeria.SeriaID);
 
