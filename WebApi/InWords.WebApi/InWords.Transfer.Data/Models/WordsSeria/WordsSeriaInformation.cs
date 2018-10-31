@@ -6,18 +6,16 @@ namespace InWords.Transfer.Data
     using System.Text;
 
     /// <summary>
-    /// Transfer packet that contain Title, description
+    /// Transfer packet that contain Title, description. 
+    /// Extends <see cref="SyncBase"/>
     /// </summary>
-    public class WordsSeriaInformation : SyncBase
+    public class WordsSeriaInformation : SyncBase, ICloneable
     {
-        /// <summary>
-        /// int id ServerId
-        /// </summary>
-
         public string Title { get; set; }
 
         public string Description { get; set; }
 
+        #region ctors
         public WordsSeriaInformation() { }
 
         public WordsSeriaInformation(SyncBase wordTranslationBase) : base(wordTranslationBase)
@@ -30,5 +28,6 @@ namespace InWords.Transfer.Data
             Title = wordsSetInformation.Title;
             Description = wordsSetInformation.Description;
         }
+        #endregion
     }
 }

@@ -19,12 +19,12 @@
     public class WordsSeriesController : ControllerBase
     {
         private readonly InWordsDataContext context = null;
-        private readonly WordsSeriesService wordsService = null;
+        private readonly WordsSeriesService wordsSeriesService = null;
 
         public WordsSeriesController(InWordsDataContext context)
         {
             this.context = context;
-            wordsService = new WordsSeriesService(context);
+            wordsSeriesService = new WordsSeriesService(context);
         }
 
 
@@ -36,21 +36,19 @@
         {
             int authorizedID = AuthProvider.GetUserID(User);
 
-            var answer = await wordsService.AddSeries(authorizedID, wordsSeriaInformation);
+            var answer = await wordsSeriesService.AddSeries(authorizedID, wordsSeriaInformation);
 
             return Ok(answer);
         }
 
         // POST api/Series
         [Authorize]
-        [Route("addwords")]
+        [Route("{id:int}/addwords")]
         [HttpPost]
-        public async Task<IActionResult> PostAddWords([FromBody] IEnumerable<WordsSeriaPart> wordsSeriaParts)
+        public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] IEnumerable<WordsSeriaPart> wordsSeriaParts)
         {
             int authorizedID = AuthProvider.GetUserID(User);
-
-            //var answer = await wordsService.AddSeries(authorizedID, wordsSeriaInformation);
-
+            //var answer = await wordsSeriesService.AddSeries(authorizedID, wordsser);
             return Ok();
         }
     }
