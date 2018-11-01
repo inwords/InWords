@@ -19,17 +19,16 @@
     public class WordsSeriesController : ControllerBase
     {
         private readonly InWordsDataContext context = null;
-        private readonly WordsSeriesService wordsSeriesService = null;
+        private readonly WordsSetsService wordsSeriesService = null;
 
         public WordsSeriesController(InWordsDataContext context)
         {
             this.context = context;
-            wordsSeriesService = new WordsSeriesService(context);
+            wordsSeriesService = new WordsSetsService(context);
         }
 
 
         // POST api/Series
-        [Authorize]
         [Route("add")]
         [HttpPost]
         public async Task<IActionResult> PostAdd([FromBody] WordsSeriaInformation wordsSeriaInformation)
@@ -41,8 +40,19 @@
             return Ok(answer);
         }
 
+        // Get api/Series
+        [AllowAnonymous]
+        [Route("{id:int}")]
+        [HttpGet]
+        public async Task<IActionResult> Get([FromRoute]int id)
+        {
+            //int authorizedID = AuthProvider.GetUserID(User);
+            //var answer = await wordsSeriesService.Get(authorizedID, id);
+            var answer = await wordsSeriesService.Get(0, id);
+            return Ok(answer);
+        }
+
         // POST api/Series
-        [Authorize]
         [Route("{id:int}/addwords")]
         [HttpPost]
         public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] IEnumerable<WordsSeriaPart> wordsSeriaParts)
