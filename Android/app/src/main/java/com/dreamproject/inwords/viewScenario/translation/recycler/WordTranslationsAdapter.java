@@ -22,14 +22,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslationsAdapter.TaskViewHolder>
         implements WordListOperations {
-    // Tag used for debugging/logging
-    public static final String TAG = "WordTranslationsAdapter";
-
     private final LayoutInflater inflater;
     private final int actionLayout;
     private List<WordTranslation> wordTranslations;
 
-    public WordTranslationsAdapter(List<WordTranslation> wordTranslations, Context context) {
+    private WordTranslationsAdapter(List<WordTranslation> wordTranslations, Context context) {
         this.inflater = LayoutInflater.from(context);
         this.actionLayout = R.layout.list_item_word;
         this.wordTranslations = wordTranslations;
@@ -44,7 +41,7 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
     }
 
     @Override
-    public Completable updateWordTranslations(List<WordTranslation> wordTranslations) {
+    public Completable applyUpdatedWordTranslations(List<WordTranslation> wordTranslations) {
         return Single.fromCallable(() -> {
             WordTranslationsDiffUtilCallback diffUtilCallback = new WordTranslationsDiffUtilCallback(wordTranslations, getWordTranslations());
             return DiffUtil.calculateDiff(diffUtilCallback);
@@ -52,8 +49,10 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(diffResult -> {
-                    setWordTranslations(wordTranslations);
-                    diffResult.dispatchUpdatesTo(this);
+                    synchronized (WordTranslationsAdapter.class) { //TODO care
+                        setWordTranslations(wordTranslations);
+                        diffResult.dispatchUpdatesTo(this);
+                    }
                 })
                 .ignoreElement();
     }
@@ -83,7 +82,7 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
         return wordTranslations.size();
     }
 
-    public static class TaskViewHolder extends RecyclerView.ViewHolder {
+    static class TaskViewHolder extends RecyclerView.ViewHolder {
         TextView tv_word_native;
         TextView tv_word_foreign;
 
