@@ -74,7 +74,7 @@
         android:id="@+id/addEditWordFragment"
         android:name="com.dreamproject.inwords.viewScenario.translation.addEditWord.AddEditWordFragment"
         android:label="fragment_add_edit_word"
-        tools:layout="@layout/fragment_word_addition">
+        tools:layout="@layout/fragment_add_edit_word">
         <action
             android:id="@+id/action_addEditWordFragment_to_translationMainFragment_pop"
             app:popUpTo="@id/translationMainFragment" />

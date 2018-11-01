@@ -93,7 +93,7 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_word_addition;
+        return R.layout.fragment_add_edit_word;
     }
 
     @NonNull
