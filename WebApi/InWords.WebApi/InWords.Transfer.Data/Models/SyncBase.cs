@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data
 {
+    using System;
+    
     /// <summary>
     /// Transfer response pack: Id and ServerId
     /// </summary>

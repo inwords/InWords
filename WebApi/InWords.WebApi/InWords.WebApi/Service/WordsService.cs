@@ -56,13 +56,11 @@
 
                 if (uwp.IsInvertPair)
                 {
-                    addedWord.WordNative = word1.Content;
-                    addedWord.WordForeign = word2.Content;
+                    addedWord = new WordTranslation(word2.Content, word1.Content);
                 }
                 else
                 {
-                    addedWord.WordNative = word2.Content;
-                    addedWord.WordForeign = word1.Content;
+                    addedWord = new WordTranslation(word1.Content, word2.Content);
                 }
                 wordTranslations.Add(addedWord);
             }
@@ -129,6 +127,7 @@
 
         public async Task<int> DeleteUserWordPair(int userID, int userWordPairID)
         {
+            //todo union.expect
             var userwordpairs = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID);
 
             if (userwordpairs.Count() == 1)

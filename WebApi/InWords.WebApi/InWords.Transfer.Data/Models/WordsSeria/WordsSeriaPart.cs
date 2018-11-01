@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data
 {
-    public class WordsSeriaPart : WordTranslation
+    using System.Collections.Generic;
+    /// <summary>
+    /// Provide wordpair, serverid, clientid, 
+    /// </summary>
+    public class WordsSeriaPart
     {
-        ///public int Id
-        ///public string WordForeign
-        ///public string WordNative
-        ///public int ServerId
-
         public int SeriaID { get; set; }
 
         public int Level { get; set; }
 
-        public WordsSeriaPart(WordTranslation wordTranslation) : base(wordTranslation)
+        public List<WordTranslation> WordTranslations { get; set; }
+
+        public WordsSeriaPart() { }
+
+        public WordsSeriaPart(int seriaID, int level, params WordTranslation[] wordTranslation)
         {
-            //base Id = onClientID; ServerId = serverID;
+            SeriaID = seriaID;
+            Level = level;
+            WordTranslations = new List<WordTranslation>();
+            foreach (WordTranslation wordsPair in wordTranslation)
+            {
+                WordTranslations.Add(wordsPair);
+            }
         }
     }
 }

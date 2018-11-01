@@ -13,6 +13,12 @@
 
         public WordTranslation() { }
 
+        public WordTranslation(string wordForeign, string wordNative)
+        {
+            WordForeign = wordForeign;
+            WordNative = wordNative;
+        }
+
         public WordTranslation(WordTranslation WordTranslation) : base((WordTranslation as SyncBase))
         {
             WordForeign = WordTranslation.WordForeign;

@@ -19,26 +19,48 @@
     public class WordsSeriesController : ControllerBase
     {
         private readonly InWordsDataContext context = null;
-        private readonly WordsSeriesService wordsService = null;
+        private readonly WordsSetsService wordsSeriesService = null;
 
         public WordsSeriesController(InWordsDataContext context)
         {
             this.context = context;
-            wordsService = new WordsSeriesService(context);
+            wordsSeriesService = new WordsSetsService(context);
         }
 
 
         // POST api/Series
-        [Authorize]
         [Route("add")]
         [HttpPost]
         public async Task<IActionResult> PostAdd([FromBody] WordsSeriaInformation wordsSeriaInformation)
         {
             int authorizedID = AuthProvider.GetUserID(User);
 
-            var answer = await wordsService.AddSeries(authorizedID, wordsSeriaInformation);
+            var answer = await wordsSeriesService.AddSeries(authorizedID, wordsSeriaInformation);
 
             return Ok(answer);
+        }
+
+        // Get api/Series
+#warning disable anonimouse
+        [AllowAnonymous] 
+        [Route("{id:int}")]
+        [HttpGet]
+        public async Task<IActionResult> Get([FromRoute]int id)
+        {
+            //int authorizedID = AuthProvider.GetUserID(User);
+            //var answer = await wordsSeriesService.Get(authorizedID, id);
+            var answer = await wordsSeriesService.Get(0, id);
+            return Ok(answer);
+        }
+
+        // POST api/Series
+        [Route("{id:int}/addwords")]
+        [HttpPost]
+        public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] IEnumerable<WordsSeriaPart> wordsSeriaParts)
+        {
+            int authorizedID = AuthProvider.GetUserID(User);
+            //var answer = await wordsSeriesService.AddSeries(authorizedID, wordsser);
+            return Ok();
         }
     }
 }
