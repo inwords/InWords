@@ -45,7 +45,7 @@ public abstract class AuthorisationViewModel extends BasicViewModel {
     public void onSignHandler(Observable<Object> clicksObservable, Observable<UserCredentials> userCredentialsObservable) {
         Disposable d = clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .doOnSubscribe(__ -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.loading())))
+                .doOnNext(__ -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.loading())))
                 .switchMap(__ -> userCredentialsObservable)
                 .subscribe(userCredentials ->
                         compositeDisposable.add(performAuthAction(userCredentials)

@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.dreamproject.inwords.Event;
 import com.dreamproject.inwords.R;
+import com.dreamproject.inwords.button.iml.ActionProcessButton;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.viewScenario.FragmentWithViewModelAndNav;
 
@@ -20,6 +21,7 @@ public abstract class SigningBaseFragment
         extends FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory> {
     protected TextInputEditText editTextEmail;
     protected TextInputEditText editTextPassword;
+    protected ActionProcessButton buttonTrySign;
 
     protected Observable<UserCredentials> getCredentials() { //TODO: validate input
         return Observable.zip(
@@ -34,6 +36,8 @@ public abstract class SigningBaseFragment
 
         editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
+        buttonTrySign = view.findViewById(getButtonId());
+        buttonTrySign.setMode(ActionProcessButton.Mode.ENDLESS);
 
         viewModel.getNavigateToLiveData().observe(this, event -> {
             if (event != null && event.getContentIfNotHandled() != null) {
@@ -47,12 +51,15 @@ public abstract class SigningBaseFragment
 
     protected abstract void navigateOnSuccess();
 
-    private void renderLoadingState() {
-        //greetingTextView.setVisibility(View.GONE);
-        //loadingIndicator.setVisibility(View.VISIBLE);
+    protected abstract int getButtonId();
+
+    protected void renderLoadingState(){
+        buttonTrySign.setProgress(50);
     }
 
     private void renderSuccessState() {
+        buttonTrySign.setProgress(100);
+
         navigateOnSuccess();
 
         View view = getView();
@@ -61,6 +68,9 @@ public abstract class SigningBaseFragment
     }
 
     private void renderErrorState(Throwable throwable) {
+        buttonTrySign.setProgress(0);
+        buttonTrySign.setError("Ошибка авторизации");
+
         View view = getView();
         if (view != null)
             Snackbar.make(view, "Sign error: " + throwable.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();

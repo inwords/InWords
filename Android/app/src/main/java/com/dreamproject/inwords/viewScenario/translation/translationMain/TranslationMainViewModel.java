@@ -45,17 +45,16 @@ public class TranslationMainViewModel extends BasicViewModel {
     }
 
     public void onAddClickedHandler(Observable<Object> clicksObservable) { //fab clicked
-        onAddEditClicked(clicksObservable, null);
-    }
-
-    public void onEditClicked(Observable<Object> clicksObservable, WordTranslation wordTranslation) { //clickListener on item
-        onAddEditClicked(clicksObservable, wordTranslation);
-    }
-
-    private void onAddEditClicked(Observable<Object> clicksObservable, WordTranslation wordTranslation) {
         Disposable d = clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe(__ -> addEditWordLiveData.postValue(new Event<>(wordTranslation)));
+                .subscribe(__ -> addEditWordLiveData.postValue(new Event<>(null)));
+        compositeDisposable.add(d);
+    }
+
+    public void onEditClicked(Observable<WordTranslation> clicksObservable) { //clickListener on item
+        Disposable d = clicksObservable
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .subscribe(wordTranslation -> addEditWordLiveData.postValue(new Event<>(wordTranslation)));
         compositeDisposable.add(d);
     }
 

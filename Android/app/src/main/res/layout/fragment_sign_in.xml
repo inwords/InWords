@@ -47,14 +47,11 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <Button
+        <com.dreamproject.inwords.button.iml.ActionProcessButton
             android:id="@+id/buttonEnterSignIn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="@color/colorPrimary"
+            style="@style/AuthorisationButton"
             android:text="@string/sign_in_enter"
-            android:textColor="@android:color/primary_text_dark" />
+            app:pb_textProgress="Авторизация" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -82,10 +79,10 @@
         </LinearLayout>
 
         <TextView
-            android:layout_marginTop="16dp"
             android:id="@+id/textViewRestorePassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/sign_in_restore_password"
             android:textStyle="bold" />
 

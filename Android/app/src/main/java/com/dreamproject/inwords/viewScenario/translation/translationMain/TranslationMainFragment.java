@@ -1,6 +1,7 @@
 package com.dreamproject.inwords.viewScenario.translation.translationMain;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +23,8 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.subjects.PublishSubject;
 
 public class TranslationMainFragment extends FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationMainViewModelFactory> implements
         ItemTouchHelperEvents {
@@ -33,7 +35,8 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupRecyclerView(view);
+        PublishSubject<WordTranslation> onItemClickedListener = PublishSubject.create();
+        setupRecyclerView(view, onItemClickedListener);
 
         viewModel.getAddEditWordLiveData().observe(this, event -> {
             if (event != null && event.handle()) {
@@ -53,11 +56,14 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         viewModel.onAddClickedHandler(RxView.clicks(fab));
+        viewModel.onEditClicked(onItemClickedListener.toFlowable(BackpressureStrategy.DROP).toObservable());
     }
 
 
+    @SuppressLint("CheckResult")
     private void applyUpdatedWordTranslations(List<WordTranslation> wordTranslations) {
-        Disposable d = adapter.applyUpdatedWordTranslations(wordTranslations).subscribe(() -> {
+        //noinspection ResultOfMethodCallIgnored
+        adapter.applyUpdatedWordTranslations(wordTranslations).subscribe(() -> {
         }, Throwable::printStackTrace);
     }
 
@@ -65,12 +71,12 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
         return adapter.getWordTranslations();
     }
 
-    void setupRecyclerView(@NonNull View view) {
+    void setupRecyclerView(@NonNull View view, PublishSubject<WordTranslation> onItemClickedListener) {
         recyclerView = view.findViewById(R.id.recycler_view);
 
         Context context = view.getContext();
 
-        adapter = new WordTranslationsAdapter(context);
+        adapter = new WordTranslationsAdapter(context, onItemClickedListener);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, layoutManager.getOrientation());
 
