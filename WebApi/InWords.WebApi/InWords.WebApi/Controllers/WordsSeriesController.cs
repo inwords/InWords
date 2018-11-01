@@ -41,7 +41,8 @@
         }
 
         // Get api/Series
-        [AllowAnonymous]
+#warning disable anonimouse
+        [AllowAnonymous] 
         [Route("{id:int}")]
         [HttpGet]
         public async Task<IActionResult> Get([FromRoute]int id)

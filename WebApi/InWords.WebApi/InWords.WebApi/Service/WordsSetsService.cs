@@ -52,9 +52,31 @@
 
         public async Task<WordsSeriaInformation> Get(int userID, int seriaID)
         {
-            Seria wordsSeria = await seriaRepository.FindById(seriaID);
+            WordsSeriaInformation wordsSeriaInformation = null;
 
-            WordsSeriaInformation wordsSeriaInformation = new WordsSeriaInformation();
+            Seria seria = seriaRepository.GetInclude(s => s.SeriaID == seriaID).FirstOrDefault();
+
+            if (seria == null) { return null; }
+
+            wordsSeriaInformation = new WordsSeriaInformation()
+            {
+                //todo creator id = 
+                CreatorNick = seria.Creator.NickName,
+                ServerId = seria.SeriaID
+            };
+
+
+            wordsSeriaInformation.WordSeriaDescriptions = new List<WordSeriaDescription>();
+            foreach (SeriaDescription desc in seria.SeriaDescriptions)
+            {
+                wordsSeriaInformation.WordSeriaDescriptions
+                    .Add(new WordSeriaDescription()
+                    {
+                        LangID = desc.LanguageID,
+                        Title = desc.Title,
+                        Description = desc.Description
+                    });
+            }
 
             return wordsSeriaInformation;
         }

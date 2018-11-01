@@ -9,6 +9,8 @@
     /// </summary>
     public class WordsSeriaInformation : SyncBase, ICloneable
     {
+        public string CreatorNick { get; set; }
+
         public ICollection<WordSeriaDescription> WordSeriaDescriptions { get; set; }
 
         #region ctors
