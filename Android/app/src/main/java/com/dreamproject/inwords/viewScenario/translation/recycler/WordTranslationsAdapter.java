@@ -19,21 +19,24 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 
-public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslationsAdapter.TaskViewHolder>
+public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslationsAdapter.WordViewHolder>
         implements WordListOperations {
     private final LayoutInflater inflater;
     private final int actionLayout;
     private List<WordTranslation> wordTranslations;
+    private PublishSubject<WordTranslation> onItemClickedListener;
 
-    private WordTranslationsAdapter(List<WordTranslation> wordTranslations, Context context) {
+    private WordTranslationsAdapter(List<WordTranslation> wordTranslations, Context context, PublishSubject<WordTranslation> onItemClickedListener) {
         this.inflater = LayoutInflater.from(context);
         this.actionLayout = R.layout.list_item_word;
         this.wordTranslations = wordTranslations;
+        this.onItemClickedListener = onItemClickedListener;
     }
 
-    public WordTranslationsAdapter(Context context) {
-        this(new ArrayList<>(), context);
+    public WordTranslationsAdapter(Context context, PublishSubject<WordTranslation> onItemClickedListener) {
+        this(new ArrayList<>(), context, onItemClickedListener);
     }
 
     private void setWordTranslations(List<WordTranslation> wordTranslations) {
@@ -64,17 +67,16 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
 
     @NonNull
     @Override
-    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = inflater.inflate(actionLayout, parent, false);
 
-        return new TaskViewHolder(v);
+        return new WordViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final TaskViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final WordViewHolder holder, int position) {
         WordTranslation wordTranslation = wordTranslations.get(position);
-        holder.tv_word_native.setText(wordTranslation.getWordNative());
-        holder.tv_word_foreign.setText(wordTranslation.getWordForeign());
+        holder.bind(wordTranslation, onItemClickedListener);
     }
 
     @Override
@@ -82,14 +84,32 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
         return wordTranslations.size();
     }
 
-    static class TaskViewHolder extends RecyclerView.ViewHolder {
+    static class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_word_native;
         TextView tv_word_foreign;
+        PublishSubject<WordTranslation> onItemClickedListener;
+        WordTranslation wordTranslation;
 
-        TaskViewHolder(View itemView) {
+        WordViewHolder(View itemView) {
             super(itemView);
             tv_word_native = itemView.findViewById(R.id.tv_word_native);
             tv_word_foreign = itemView.findViewById(R.id.tv_word_foreign);
+
+            itemView.setOnClickListener(this);
+        }
+
+        void bind(WordTranslation wordTranslation, PublishSubject<WordTranslation> onItemClickedListener) {
+            tv_word_native.setText(wordTranslation.getWordNative());
+            tv_word_foreign.setText(wordTranslation.getWordForeign());
+            this.wordTranslation = wordTranslation;
+            this.onItemClickedListener = onItemClickedListener;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (onItemClickedListener != null) {
+                onItemClickedListener.onNext(wordTranslation);
+            }
         }
     }
 

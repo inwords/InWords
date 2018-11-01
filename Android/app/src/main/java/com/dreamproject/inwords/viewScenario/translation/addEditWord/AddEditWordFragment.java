@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.dreamproject.inwords.Event;
@@ -25,6 +26,7 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
     boolean isEditing;
     EditText editTextNativeWord;
     EditText editTextForeignWord;
+    Button buttonConfirm;
 
     WordTranslation wordToEdit;
 
@@ -48,17 +50,20 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
 
         editTextNativeWord = view.findViewById(R.id.editTextNativeWord);
         editTextForeignWord = view.findViewById(R.id.editTextForeignWord);
+        buttonConfirm = view.findViewById(R.id.buttonConfirm);
 
         setUpViewState();
 
         viewModel.getAddEditDoneLiveData().observe(this, this::popBackToTranslationMain);
 
-        onDoneClickedHandler(RxView.clicks(view.findViewById(R.id.buttonConfirm)));
+        onDoneClickedHandler(RxView.clicks(buttonConfirm));
     }
 
     private void setUpViewState() {
         if (wordToEdit == null) {
             isEditing = false;
+
+            buttonConfirm.setText("Добавить"); //TODO not to hardcode
 
             Random rnd = new Random(System.currentTimeMillis());
             WordTranslation wordTranslation = new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000));
@@ -67,7 +72,11 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
             editTextForeignWord.setText(wordTranslation.getWordForeign());
         } else {
             isEditing = true;
-            //textView.setText("Надо редактировать слово");
+
+            buttonConfirm.setText("Изменить"); //TODO not to hardcode
+
+            editTextNativeWord.setText(wordToEdit.getWordNative());
+            editTextForeignWord.setText(wordToEdit.getWordForeign());
         }
     }
 

@@ -1,6 +1,5 @@
 package com.dreamproject.inwords.viewScenario.translation.addEditWord;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
@@ -12,6 +11,7 @@ import com.dreamproject.inwords.data.interactor.translation.TranslationWordsInte
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
@@ -29,13 +29,6 @@ public class AddEditWordViewModel extends BasicViewModel {
         this.addEditDoneLiveData = new MutableLiveData<>();
     }
 
-    @SuppressLint("CheckResult")
-    private void addWordTranslation(WordTranslation wordTranslation) {
-        //noinspection ResultOfMethodCallIgnored
-        translationWordsInteractor.addReplace(wordTranslation)
-                .subscribe(translationSyncInteractor::notifyDataChanged, Throwable::printStackTrace);
-    }
-
     public void onEditWordDoneHandler(Observable<Object> clicksObservable,
                                       Observable<WordTranslation> wordTranslationObs,
                                       WordTranslation wordToEdit) {
@@ -46,7 +39,7 @@ public class AddEditWordViewModel extends BasicViewModel {
     public void onAddWordDoneHandler(Observable<Object> clicksObservable,
                                      Observable<WordTranslation> wordTranslationObs) {
         onAddEditWordDoneHandler(clicksObservable, wordTranslationObs, null,
-                this::addWordTranslation);
+                translationWordsInteractor::addReplace);
     }
 
     private void onAddEditWordDoneHandler(Observable<Object> clicksObservable,
@@ -59,7 +52,9 @@ public class AddEditWordViewModel extends BasicViewModel {
                 .subscribe(wordTranslation ->
                         {
                             if (wordTranslation != null && !wordTranslation.equals(wordToEdit))
-                                action.perform(wordTranslation);
+                                //noinspection ResultOfMethodCallIgnored
+                                action.perform(wordTranslation)
+                                        .subscribe(translationSyncInteractor::notifyDataChanged, Throwable::printStackTrace);
                             addEditDoneLiveData.postValue(new Event<>(true));
                         }
                 );
@@ -71,6 +66,6 @@ public class AddEditWordViewModel extends BasicViewModel {
     }
 
     interface Action {
-        void perform(WordTranslation wordTranslation);
+        Completable perform(WordTranslation wordTranslation);
     }
 }
