@@ -4,9 +4,10 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class WordIdentificator implements Cloneable {
+public class WordIdentificator implements Cloneable, Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     protected int id;

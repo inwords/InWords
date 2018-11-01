@@ -15,8 +15,6 @@ import android.view.View;
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.viewScenario.FragmentWithViewModelAndNav;
-import com.dreamproject.inwords.viewScenario.translation.TranslationViewModel;
-import com.dreamproject.inwords.viewScenario.translation.TranslationViewModelFactory;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperAdapter;
 import com.dreamproject.inwords.viewScenario.translation.recycler.ItemTouchHelperEvents;
 import com.dreamproject.inwords.viewScenario.translation.recycler.WordTranslationsAdapter;
@@ -26,7 +24,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 
-public class TranslationMainFragment extends FragmentWithViewModelAndNav<TranslationViewModel, TranslationViewModelFactory> implements
+public class TranslationMainFragment extends FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationMainViewModelFactory> implements
         ItemTouchHelperEvents {
     private RecyclerView recyclerView;
     private WordTranslationsAdapter adapter;
@@ -37,22 +35,29 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
 
         setupRecyclerView(view);
 
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-
         viewModel.getAddEditWordLiveData().observe(this, event -> {
             if (event != null && event.handle()) {
-                navController.navigate(R.id.action_translationMainFragment_to_addEditWordFragment);
+                Bundle args;
+                WordTranslation wordTranslation = event.peekContent();
+                if (wordTranslation == null) {
+                    args = null;
+                } else {
+                    args = new Bundle();
+                    args.putSerializable(WordTranslation.class.getCanonicalName(), wordTranslation);
+                }
+                navController.navigate(R.id.action_translationMainFragment_to_addEditWordFragment, args);
             }
         });
 
-        viewModel.onViewCreated();
+        viewModel.getTranslationWordsLiveData().observe(this, this::applyUpdatedWordTranslations);
 
-        viewModel.getTranslationWordsLiveData().observe(this, this::updateWordTranslations);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
         viewModel.onAddClickedHandler(RxView.clicks(fab));
     }
 
-    public void updateWordTranslations(List<WordTranslation> wordTranslations) {
-        Disposable d = adapter.updateWordTranslations(wordTranslations).subscribe(() -> {
+
+    private void applyUpdatedWordTranslations(List<WordTranslation> wordTranslations) {
+        Disposable d = adapter.applyUpdatedWordTranslations(wordTranslations).subscribe(() -> {
         }, Throwable::printStackTrace);
     }
 
@@ -91,7 +96,7 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
 
     @NonNull
     @Override
-    protected Class<TranslationViewModel> getClassType() {
-        return TranslationViewModel.class;
+    protected Class<TranslationMainViewModel> getClassType() {
+        return TranslationMainViewModel.class;
     }
 }

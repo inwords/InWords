@@ -6,13 +6,14 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity(tableName = "word_translation_table",
         indices = {
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
-public class WordTranslation extends WordIdentificator implements Cloneable {
+public class WordTranslation extends WordIdentificator implements Cloneable, Serializable {
     public static final int LOCAL_REMOVE_FLAG = Integer.MIN_VALUE;
 
     @NonNull

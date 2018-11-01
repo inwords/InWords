@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.translation;
+package com.dreamproject.inwords.viewScenario.translation.addEditWord;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -11,12 +11,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class TranslationViewModelFactory implements ViewModelProvider.Factory {
+public class AddEditWordViewModelFactory implements ViewModelProvider.Factory {
     private final TranslationWordsInteractor translationWordsInteractor;
     private final TranslationSyncInteractor translationSyncInteractor;
 
     @Inject
-    TranslationViewModelFactory(TranslationWordsInteractor translationWordsInteractor,
+    AddEditWordViewModelFactory(TranslationWordsInteractor translationWordsInteractor,
                                 TranslationSyncInteractor translationSyncInteractor) {
         this.translationWordsInteractor = translationWordsInteractor;
         this.translationSyncInteractor = translationSyncInteractor;
@@ -25,9 +25,9 @@ public class TranslationViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(TranslationViewModel.class)) {
+        if (modelClass.isAssignableFrom(AddEditWordViewModel.class)) {
             //noinspection unchecked
-            return (T) new TranslationViewModel(translationWordsInteractor, translationSyncInteractor);
+            return (T) new AddEditWordViewModel(translationWordsInteractor, translationSyncInteractor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

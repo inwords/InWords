@@ -48,6 +48,6 @@ public abstract class FragmentWithViewModelAndNav
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        viewModel = ViewModelProviders.of(getActivity(), modelFactory).get(getClassType());
+        viewModel = ViewModelProviders.of(this, modelFactory).get(getClassType());
     }
 }
