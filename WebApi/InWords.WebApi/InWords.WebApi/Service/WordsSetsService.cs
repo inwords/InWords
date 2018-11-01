@@ -8,7 +8,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class WordsSeriesService : ServiceBase
+    public class WordsSetsService : ServiceBase
     {
         private readonly WordsService wordsService = null;
 
@@ -16,7 +16,7 @@
         private readonly SeriaDescriptionRepository seriaDescriptionRepository = null;
         private readonly SeriaWordRepository seriaWordRepository = null;
 
-        public WordsSeriesService(Data.InWordsDataContext context) : base(context)
+        public WordsSetsService(Data.InWordsDataContext context) : base(context)
         {
             wordsService = new WordsService(this.context);
             seriaRepository = new SeriaRepository(context);
@@ -49,5 +49,15 @@
 
             return answer;
         }
+
+        public async Task<WordsSeriaInformation> Get(int userID, int seriaID)
+        {
+            Seria wordsSeria = await seriaRepository.FindById(seriaID);
+
+            WordsSeriaInformation wordsSeriaInformation = new WordsSeriaInformation();
+
+            return wordsSeriaInformation;
+        }
+
     }
 }
