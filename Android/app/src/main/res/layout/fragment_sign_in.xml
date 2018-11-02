@@ -51,7 +51,7 @@
             android:id="@+id/buttonEnterSignIn"
             style="@style/AuthorisationButton"
             android:text="@string/sign_in_enter"
-            app:pb_textProgress="Авторизация" />
+            app:pb_textProgress="@string/sign_in_in_process" />
 
         <LinearLayout
             android:layout_width="wrap_content"
