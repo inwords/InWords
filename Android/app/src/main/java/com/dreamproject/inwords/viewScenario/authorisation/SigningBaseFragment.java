@@ -4,12 +4,12 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
 
 import com.dreamproject.inwords.Event;
 import com.dreamproject.inwords.R;
+import com.dreamproject.inwords.button.iml.ActionProcessButton;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.viewScenario.FragmentWithViewModelAndNav;
 
@@ -20,6 +20,7 @@ public abstract class SigningBaseFragment
         extends FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory> {
     protected TextInputEditText editTextEmail;
     protected TextInputEditText editTextPassword;
+    protected ActionProcessButton buttonTrySign;
 
     protected Observable<UserCredentials> getCredentials() { //TODO: validate input
         return Observable.zip(
@@ -34,9 +35,11 @@ public abstract class SigningBaseFragment
 
         editTextEmail = view.findViewById(R.id.editTextEmail);
         editTextPassword = view.findViewById(R.id.editTextPassword);
+        buttonTrySign = view.findViewById(getButtonId());
+        buttonTrySign.setMode(ActionProcessButton.Mode.ENDLESS);
 
-        viewModel.getNavigateToLiveData().observe(this, voidEvent -> {
-            if (voidEvent != null && voidEvent.getContentIfNotHandled() != null) {
+        viewModel.getNavigateToLiveData().observe(this, event -> {
+            if (event != null && event.getContentIfNotHandled() != null) {
                 navigateAction();
             }
         });
@@ -47,23 +50,21 @@ public abstract class SigningBaseFragment
 
     protected abstract void navigateOnSuccess();
 
-    private void renderLoadingState() {
-        //greetingTextView.setVisibility(View.GONE);
-        //loadingIndicator.setVisibility(View.VISIBLE);
+    protected abstract int getButtonId();
+
+    protected void renderLoadingState(){
+        buttonTrySign.setProgress(50);
     }
 
     private void renderSuccessState() {
-        navigateOnSuccess();
+        buttonTrySign.setProgress(100);
 
-        View view = getView();
-        if (view != null)
-            Snackbar.make(view, "Sign success", Snackbar.LENGTH_LONG).show();
+        navigateOnSuccess();
     }
 
     private void renderErrorState(Throwable throwable) {
-        View view = getView();
-        if (view != null)
-            Snackbar.make(view, "Sign error: " + throwable.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+        buttonTrySign.setErrorText("Попробуйте ещё раз\nОшибка: " + throwable.getLocalizedMessage());
+        buttonTrySign.setProgress(-1);
     }
 
     private void processViewState(Event<AuthorisationViewState> viewStateEvent) {

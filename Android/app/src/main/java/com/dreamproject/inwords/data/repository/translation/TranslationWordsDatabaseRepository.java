@@ -3,8 +3,9 @@ package com.dreamproject.inwords.data.repository.translation;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
-import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -14,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 public class TranslationWordsDatabaseRepository implements TranslationWordsLocalRepository {
     private WordTranslationDao wordTranslationDao;
 
+    @Inject
     public TranslationWordsDatabaseRepository(WordTranslationDao wordTranslationDao) {
         this.wordTranslationDao = wordTranslationDao;
     }
@@ -33,20 +35,20 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
     public Observable<List<WordTranslation>> getList() {
         return wordTranslationDao.getAllWords()
                 .subscribeOn(Schedulers.io())
-                .map(wordTranslations -> {
+                /*.map(wordTranslations -> {
                     if (wordTranslations.isEmpty()) { //TODO::
                         return Arrays.asList(new WordTranslation(15, 0, "HEllo1", "из DBRepos"),
                                 new WordTranslation(16, 0, "Hellooo2", "из DBRepos"));
                     }
 
                     return wordTranslations;
-                })
+                })*/
                 //.filter(wordTranslations -> !wordTranslations.isEmpty())
                 .toObservable();
     }
 
     @Override
-    public Single<WordTranslation> add(WordTranslation wordTranslation) {
+    public Single<WordTranslation> addReplace(WordTranslation wordTranslation) {
         return Single.defer(() -> {
             long id = wordTranslationDao.insert(wordTranslation);
             wordTranslation.getWordIdentificator().setId((int) id);
@@ -57,7 +59,7 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
     }
 
     @Override
-    public Single<List<WordTranslation>> addAll(List<WordTranslation> wordTranslations) {
+    public Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations) {
         return Single.defer(() -> Observable.zip(
                 Observable.fromIterable(wordTranslationDao.insertAll(wordTranslations)),
                 Observable.fromIterable(wordTranslations),
@@ -67,18 +69,6 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
                     return wordTranslation;
                 })
                 .toList())
-                .subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Completable update(WordTranslation wordTranslation) { //TODO
-        return Completable.fromCallable(() -> wordTranslationDao.update(wordTranslation))
-                .subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Completable updateAll(List<WordTranslation> wordTranslations) { //TODO
-        return Completable.fromCallable(() -> wordTranslationDao.updateAll(wordTranslations))
                 .subscribeOn(Schedulers.io());
     }
 

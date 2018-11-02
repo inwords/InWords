@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">InWords</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Профиль</string>
+    <string name="title_dictionary">Словарь</string>
+    <string name="title_notifications">OctoGame</string>
+
+    <string name="sign_success">Успешно</string>
 
     <!-- sign in start -->
     <string name="sign_in_email">E-mail</string>
@@ -37,6 +39,19 @@
     <string name="password_recovery_part3_new_password">Введите новый пароль</string>
     <string name="password_recovery_part3_confirm_new_password">Повторите новый пароль</string>
     <string name="password_recovery_part3_enter">Поменять пароль</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <!-- password recovery part3 end -->
+
+    <!-- word addition start -->
+    <string name="word_addition_word">Слово или фраза</string>
+    <string name="word_addition_translation">Перевод</string>
+    <string name="word_addition_enter">Добавить</string>
+    <string name="sign_in_in_process">Авторизация</string>
+    <string name="sign_up_in_process">Создание аккаунта</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- word addition end -->
 
 </resources>

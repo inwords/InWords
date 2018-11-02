@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dreamproject.inwords.R;
@@ -28,11 +27,10 @@ public class RegistrationFragment extends SigningBaseFragment<RegistrationViewMo
 
         editTextConfirmPassword = view.findViewById(R.id.editTextConfirmPassword);
 
-        Button buttonEnterSignUp = view.findViewById(R.id.buttonEnterSignUp);
         TextView textViewSignIn = view.findViewById(R.id.textViewSignIn);
 
         viewModel.onNavigateHandler(RxView.clicks(textViewSignIn));
-        viewModel.onSignHandler(RxView.clicks(buttonEnterSignUp), getCredentials());
+        viewModel.onSignHandler(RxView.clicks(buttonTrySign), getCredentials());
     }
 
     @Override
@@ -48,6 +46,11 @@ public class RegistrationFragment extends SigningBaseFragment<RegistrationViewMo
     @Override
     protected void navigateOnSuccess() {
         navController.navigate(R.id.action_registrationFragment_to_mainFragment_pop);
+    }
+
+    @Override
+    protected int getButtonId() {
+        return R.id.buttonEnterSignUp;
     }
 
     private void navigateToLogin() {
