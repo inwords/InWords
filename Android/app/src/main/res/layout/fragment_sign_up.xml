@@ -58,6 +58,7 @@
             android:id="@+id/buttonEnterSignUp"
             style="@style/AuthorisationButton"
             android:text="@string/sign_up_enter"
+            app:pb_textError="Повторить"
             app:pb_textProgress="@string/sign_up_in_process" />
 
         <LinearLayout
