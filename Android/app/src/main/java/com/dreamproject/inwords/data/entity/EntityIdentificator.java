@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class WordIdentificator implements Cloneable, Serializable {
+public class EntityIdentificator implements Cloneable, Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     protected int id;
@@ -16,17 +16,17 @@ public class WordIdentificator implements Cloneable, Serializable {
     protected int serverId;
 
     @Ignore
-    public WordIdentificator() {
+    public EntityIdentificator() {
         this.id = 0;
         this.serverId = 0;
     }
 
-    public WordIdentificator(WordIdentificator wordIdentificator) {
-        this.id = wordIdentificator.id;
-        this.serverId = wordIdentificator.serverId;
+    public EntityIdentificator(EntityIdentificator entityIdentificator) {
+        this.id = entityIdentificator.id;
+        this.serverId = entityIdentificator.serverId;
     }
 
-    public WordIdentificator(int id, int serverId) {
+    public EntityIdentificator(int id, int serverId) {
         this.id = id;
         this.serverId = serverId;
     }
@@ -49,7 +49,7 @@ public class WordIdentificator implements Cloneable, Serializable {
 
     @Override
     public String toString() {
-        return "WordIdentificator{" +
+        return "EntityIdentificator{" +
                 "id=" + id +
                 ", serverId=" + serverId +
                 '}';
@@ -59,7 +59,7 @@ public class WordIdentificator implements Cloneable, Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WordIdentificator that = (WordIdentificator) o;
+        EntityIdentificator that = (EntityIdentificator) o;
         return id == that.id &&
                 serverId == that.serverId;
     }

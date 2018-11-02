@@ -2,7 +2,7 @@ package com.dreamproject.inwords.data.source.WebService;
 
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.data.entity.WordIdentificator;
+import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
@@ -104,7 +104,7 @@ public class WebRequestsImpl implements WebRequests {
     }
 
     @Override
-    public Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
+    public Single<List<EntityIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
         return apiService.addPairs(authInfo.getTokenResponse().getBearer(), wordTranslations)
                 .subscribeOn(Schedulers.io());
     }

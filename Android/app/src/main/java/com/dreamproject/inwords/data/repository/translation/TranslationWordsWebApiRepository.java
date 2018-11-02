@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.repository.translation;
 
-import com.dreamproject.inwords.data.entity.WordIdentificator;
+import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
@@ -34,7 +34,7 @@ public class TranslationWordsWebApiRepository implements TranslationWordsRemoteR
     }
 
     @Override
-    public Single<List<WordIdentificator>> addAll(List<WordTranslation> wordTranslations) {
+    public Single<List<EntityIdentificator>> addAll(List<WordTranslation> wordTranslations) {
         return webRequests.insertAllWords(wordTranslations);
     }
 
