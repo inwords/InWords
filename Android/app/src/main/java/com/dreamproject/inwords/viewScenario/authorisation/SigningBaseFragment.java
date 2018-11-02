@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
 
@@ -61,19 +60,11 @@ public abstract class SigningBaseFragment
         buttonTrySign.setProgress(100);
 
         navigateOnSuccess();
-
-        View view = getView();
-        if (view != null)
-            Snackbar.make(view, "Sign success", Snackbar.LENGTH_LONG).show();
     }
 
     private void renderErrorState(Throwable throwable) {
-        buttonTrySign.setProgress(0);
-        buttonTrySign.setError("Ошибка авторизации");
-
-        View view = getView();
-        if (view != null)
-            Snackbar.make(view, "Sign error: " + throwable.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+        buttonTrySign.setErrorText("Попробуйте ещё раз\nОшибка: " + throwable.getLocalizedMessage());
+        buttonTrySign.setProgress(-1);
     }
 
     private void processViewState(Event<AuthorisationViewState> viewStateEvent) {
