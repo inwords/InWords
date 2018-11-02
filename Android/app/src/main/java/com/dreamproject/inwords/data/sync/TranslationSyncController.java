@@ -2,7 +2,7 @@ package com.dreamproject.inwords.data.sync;
 
 import com.dreamproject.inwords.dagger.annotations.CacheRepositoryQualifier;
 import com.dreamproject.inwords.dagger.annotations.LocalRepositoryQualifier;
-import com.dreamproject.inwords.data.entity.WordIdentificator;
+import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
@@ -72,7 +72,7 @@ public class TranslationSyncController {
         return localRepository.getList()
                 .flatMapSingle(inMemoryRepository::addReplaceAll)
                 .flatMap(Observable::fromIterable)
-                .map(WordIdentificator::getServerId)
+                .map(EntityIdentificator::getServerId)
                 .filter(serverId -> serverId != 0)
                 .toList()
                 .doOnError(Throwable::printStackTrace)
@@ -198,20 +198,20 @@ public class TranslationSyncController {
             throwable.printStackTrace();
     }
 
-    private void mergeIds(List<WordTranslation> list, List<WordIdentificator> listIds) {
+    private void mergeIds(List<WordTranslation> list, List<EntityIdentificator> listIds) {
         for (WordTranslation wordTranslation : list) {
-            for (WordIdentificator wordIdentificator : listIds) {
-                if (wordIdentificator.getId() == wordTranslation.getId()) {
-                    wordTranslation.setServerId((wordIdentificator.getServerId()));
+            for (EntityIdentificator entityIdentificator : listIds) {
+                if (entityIdentificator.getId() == wordTranslation.getId()) {
+                    wordTranslation.setServerId((entityIdentificator.getServerId()));
                 }
             }
         }
     }
 
-    private List<Integer> serverIdsFromWordTranslations(List<? extends WordIdentificator> wordIdentificators) {
+    private List<Integer> serverIdsFromWordTranslations(List<? extends EntityIdentificator> wordIdentificators) {
         List<Integer> serverIds = new ArrayList<>();
 
-        for (WordIdentificator wordTranslation : wordIdentificators) {
+        for (EntityIdentificator wordTranslation : wordIdentificators) {
             serverIds.add(wordTranslation.getServerId());
         }
 

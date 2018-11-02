@@ -13,7 +13,7 @@ import java.util.Objects;
         indices = {
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
-public class WordTranslation extends WordIdentificator implements Cloneable, Serializable {
+public class WordTranslation extends EntityIdentificator implements Cloneable, Serializable {
     public static final int LOCAL_REMOVE_FLAG = Integer.MIN_VALUE;
 
     @NonNull
@@ -32,8 +32,8 @@ public class WordTranslation extends WordIdentificator implements Cloneable, Ser
     }
 
     @Ignore
-    public WordTranslation(WordIdentificator wordIdentificator, @NonNull String wordForeign, @NonNull String wordNative) {
-        super(wordIdentificator);
+    public WordTranslation(EntityIdentificator entityIdentificator, @NonNull String wordForeign, @NonNull String wordNative) {
+        super(entityIdentificator);
         this.wordForeign = wordForeign;
         this.wordNative = wordNative;
     }
@@ -60,7 +60,7 @@ public class WordTranslation extends WordIdentificator implements Cloneable, Ser
         return serverId == LOCAL_REMOVE_FLAG;
     }
 
-    public WordIdentificator getWordIdentificator() {
+    public EntityIdentificator getWordIdentificator() {
         return this; //TODO
     }
 
