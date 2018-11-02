@@ -2,7 +2,7 @@
     <string name="app_name">InWords</string>
     <string name="title_home">Профиль</string>
     <string name="title_dictionary">Словарь</string>
-    <string name="title_notifications">Игра</string>
+    <string name="title_notifications">OctoGame</string>
 
     <string name="sign_success">Успешно</string>
 
@@ -49,6 +49,9 @@
     <string name="word_addition_enter">Добавить</string>
     <string name="sign_in_in_process">Авторизация</string>
     <string name="sign_up_in_process">Создание аккаунта</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- word addition end -->
 
 </resources>
