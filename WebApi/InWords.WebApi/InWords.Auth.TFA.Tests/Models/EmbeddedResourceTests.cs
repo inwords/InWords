@@ -8,12 +8,23 @@ namespace InWords.Auth.TFA.Tests.Models
 
     public class EmbeddedResourceTests
     {
+        public const string RESOURCE = "InWords.Auth.TFA.Resource.EmailConfigTest.security.json";
+
         [Theory]
-        [InlineData("InWords.Auth.TFA.Resource.EmailConfig.security.json")]
-        public void ResourceReadTest(string resourceMame)
+        [InlineData(RESOURCE)]
+        public string ResourceReadTest(string resourceMame)
         {
-            var x = EmbeddedResource.GetApiRequestFile(resourceMame);
+            string x = EmbeddedResource.GetApiRequestFile(resourceMame);
             Assert.True(x != null);
+            return x;
+        }
+
+        [Fact]
+        public void JsonConverterTest()
+        {
+            string x = ResourceReadTest(RESOURCE);
+            var config = new StringJsonConverter<EmailConfig>().Convert(x);
+            Assert.True(config.Login == "testlogin" && config.Password == "testpassword");
         }
     }
 }

@@ -7,10 +7,16 @@
 
   <ItemGroup>
     <None Remove="EmailConfig.security.json" />
+    <None Remove="Resource\EmailConfigTest.security.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resource\EmailConfigTest.security.json" />
     <EmbeddedResource Include="Resource\EmailConfig.security.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
 </Project>
