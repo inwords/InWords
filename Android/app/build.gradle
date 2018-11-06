@@ -33,8 +33,8 @@ android {
 ext.versions = [
         ANDROID_SUPPORT  : '28.0.0',
         CONSTRAINT_LAYOUT: '1.1.3',
-        NAVIGATION       : '1.0.0-alpha06',
-        RX_JAVA          : '2.2.2',
+        NAVIGATION       : '1.0.0-alpha07',
+        RX_JAVA          : '2.2.3',
         RX_ANDROID       : '2.1.0',
         RX_BINDING       : '2.1.1',
         RETROFIT         : '2.4.0',
