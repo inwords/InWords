@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>InWords.Auth.TFA</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="EmailConfig.security.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resource\EmailConfig.security.json" />
+  </ItemGroup>
+
+</Project>
