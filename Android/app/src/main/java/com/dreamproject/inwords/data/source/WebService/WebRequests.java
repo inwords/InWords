@@ -2,7 +2,7 @@ package com.dreamproject.inwords.data.source.WebService;
 
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.data.entity.WordIdentificator;
+import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
@@ -28,7 +28,7 @@ public interface WebRequests {
 
     Single<WordTranslation> insertWord(WordTranslation wordTranslation);
 
-    Single<List<WordIdentificator>> insertAllWords(List<WordTranslation> wordTranslations);
+    Single<List<EntityIdentificator>> insertAllWords(List<WordTranslation> wordTranslations);
 
     Single<Integer> removeAllServerIds(List<Integer> serverIds);
 

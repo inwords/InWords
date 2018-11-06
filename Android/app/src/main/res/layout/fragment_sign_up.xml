@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -53,14 +54,12 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <Button
+        <com.dreamproject.inwords.button.iml.ActionProcessButton
             android:id="@+id/buttonEnterSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="@color/colorPrimary"
+            style="@style/AuthorisationButton"
             android:text="@string/sign_up_enter"
-            android:textColor="@android:color/primary_text_dark" />
+            app:pb_textError="Повторить"
+            app:pb_textProgress="@string/sign_up_in_process" />
 
         <LinearLayout
             android:layout_width="wrap_content"

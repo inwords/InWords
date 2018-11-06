@@ -6,13 +6,14 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity(tableName = "word_translation_table",
         indices = {
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
-public class WordTranslation extends WordIdentificator {
+public class WordTranslation extends EntityIdentificator implements Cloneable, Serializable {
     public static final int LOCAL_REMOVE_FLAG = Integer.MIN_VALUE;
 
     @NonNull
@@ -31,8 +32,8 @@ public class WordTranslation extends WordIdentificator {
     }
 
     @Ignore
-    public WordTranslation(WordIdentificator wordIdentificator, @NonNull String wordForeign, @NonNull String wordNative) {
-        super(wordIdentificator);
+    public WordTranslation(EntityIdentificator entityIdentificator, @NonNull String wordForeign, @NonNull String wordNative) {
+        super(entityIdentificator);
         this.wordForeign = wordForeign;
         this.wordNative = wordNative;
     }
@@ -59,7 +60,7 @@ public class WordTranslation extends WordIdentificator {
         return serverId == LOCAL_REMOVE_FLAG;
     }
 
-    public WordIdentificator getWordIdentificator() {
+    public EntityIdentificator getWordIdentificator() {
         return this; //TODO
     }
 
@@ -104,5 +105,15 @@ public class WordTranslation extends WordIdentificator {
     @Override
     public int hashCode() {
         return Objects.hash(wordForeign, wordNative);
+    }
+
+    @Override
+    public WordTranslation clone() {
+        final WordTranslation clone = (WordTranslation) super.clone();
+
+        clone.wordForeign = this.wordForeign;
+        clone.wordNative = this.wordNative;
+
+        return clone;
     }
 }

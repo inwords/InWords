@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.dreamproject.inwords.dagger.DaggerAppComponent;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
-import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
+import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
 
 import javax.inject.Inject;
 

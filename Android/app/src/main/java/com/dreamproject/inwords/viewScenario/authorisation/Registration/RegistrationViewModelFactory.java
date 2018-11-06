@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import com.dreamproject.inwords.model.authorisation.AuthorisationInteractor;
+import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
 
 import javax.inject.Inject;
 
@@ -20,6 +20,7 @@ public class RegistrationViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(RegistrationViewModel.class)) {
+            //noinspection unchecked
             return (T) new RegistrationViewModel(authorisationInteractor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");

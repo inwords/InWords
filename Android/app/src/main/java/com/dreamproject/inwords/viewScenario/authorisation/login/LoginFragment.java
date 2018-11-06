@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dreamproject.inwords.R;
@@ -20,10 +19,9 @@ public class LoginFragment extends SigningBaseFragment<LoginViewModel, LoginView
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button buttonEnterSignIn = view.findViewById(R.id.buttonEnterSignIn);
         TextView textViewSignUp = view.findViewById(R.id.textViewSignUp);
 
-        viewModel.onSignHandler(RxView.clicks(buttonEnterSignIn), getCredentials());
+        viewModel.onSignHandler(RxView.clicks(buttonTrySign), getCredentials());
         viewModel.onNavigateHandler(RxView.clicks(textViewSignUp));
     }
 
@@ -35,6 +33,11 @@ public class LoginFragment extends SigningBaseFragment<LoginViewModel, LoginView
     @Override
     protected void navigateOnSuccess() {
         navController.navigate(R.id.action_loginFragment_to_mainFragment_pop);
+    }
+
+    @Override
+    protected int getButtonId() {
+        return R.id.buttonEnterSignIn;
     }
 
     private void navigateToRegistration() {
@@ -51,4 +54,5 @@ public class LoginFragment extends SigningBaseFragment<LoginViewModel, LoginView
     protected Class<LoginViewModel> getClassType() {
         return LoginViewModel.class;
     }
+
 }
