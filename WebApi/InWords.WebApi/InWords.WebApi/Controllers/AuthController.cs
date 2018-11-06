@@ -73,7 +73,7 @@
             //check if accaunt exist;
             if (accountRepository.ExistAny(a => a.Email == user.Email))
             {
-                return BadRequest($"User already exist {user.Email}");
+                return BadRequest($"User already exists {user.Email}");
             }
 
             //Create account in repository;
