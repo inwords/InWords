@@ -9,10 +9,12 @@
     using System.Reflection;
     using System.Linq;
     using System.Text;
-
+    using InWords.Auth.TFA.Models;
 
     public class EmailProvider : I2FAProvider
     {
+        public const string RESOURCE = "InWords.Auth.TFA.Resource.EmailConfig.security.json";
+
         string I2FAProvider.GetKey(string identity)
         {
             throw new NotImplementedException();
@@ -25,17 +27,22 @@
 
         public void SendMail()
         {
-            SmtpClient client = new SmtpClient("mysmtpserver")
+            EmailConfig config = new StringJsonConverter<EmailConfig>()
+                .Convert(EmbeddedResource.GetApiRequestFile(RESOURCE));
+
+            SmtpClient client = new SmtpClient(config.SMTPserver, config.Port)
             {
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("username", "password")
+                Credentials = new NetworkCredential(config.Login, config.Password)
             };
 
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("whoever@me.com");
-            mailMessage.To.Add("receiver@me.com");
-            mailMessage.Body = "body";
-            mailMessage.Subject = "subject";
+            MailMessage mailMessage = new MailMessage
+            {
+                From = new MailAddress("no-reply@InWords.ru")
+            };
+            mailMessage.To.Add("anzer987@ya.ru");
+            mailMessage.Body = "Здорова, бать";
+            mailMessage.Subject = "Авторизация";
             client.Send(mailMessage);
         }
     }
