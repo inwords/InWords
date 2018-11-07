@@ -1,7 +1,7 @@
 package com.dreamproject.inwords.dagger;
 
 import com.dreamproject.inwords.App;
-import com.dreamproject.inwords.viewScenario.authorisation.Registration.RegistrationFragmentModule;
+import com.dreamproject.inwords.viewScenario.authorisation.registration.RegistrationFragmentModule;
 import com.dreamproject.inwords.viewScenario.authorisation.login.LoginFragmentModule;
 import com.dreamproject.inwords.viewScenario.main.MainFragmentModule;
 import com.dreamproject.inwords.viewScenario.octoGame.GameLevelsFragmentModule;

@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.authorisation.Registration;
+package com.dreamproject.inwords.viewScenario.authorisation.registration;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

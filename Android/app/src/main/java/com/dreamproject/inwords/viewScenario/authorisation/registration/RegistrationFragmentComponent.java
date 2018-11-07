@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.authorisation.Registration;
+package com.dreamproject.inwords.viewScenario.authorisation.registration;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;

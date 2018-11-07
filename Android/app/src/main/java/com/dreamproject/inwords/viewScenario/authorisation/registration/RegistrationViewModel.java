@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.viewScenario.authorisation.Registration;
+package com.dreamproject.inwords.viewScenario.authorisation.registration;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
