@@ -25,16 +25,15 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
 
     @Override
     public Completable signIn(UserCredentials userCredentials) {
-        return webRequests.setCredentials(userCredentials)
-                .andThen(checkAuthToken(webRequests.getToken()));
+        return applyCheckAuthToken(webRequests.getToken(userCredentials));
     }
 
     @Override
     public Completable signUp(UserCredentials userCredentials) {
-        return checkAuthToken(webRequests.registerUser(userCredentials));
+        return applyCheckAuthToken(webRequests.registerUser(userCredentials));
     }
 
-    private Completable checkAuthToken(Single<TokenResponse> authTokenSingle) {
+    private Completable applyCheckAuthToken(Single<TokenResponse> authTokenSingle) {
         return authTokenSingle
                 .onErrorResumeNext(e -> {
                     e.printStackTrace();

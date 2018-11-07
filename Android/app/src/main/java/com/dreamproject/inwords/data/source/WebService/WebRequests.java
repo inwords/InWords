@@ -1,23 +1,20 @@
 package com.dreamproject.inwords.data.source.WebService;
 
+import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 public interface WebRequests {
-    Completable setCredentials(UserCredentials userCredentials);
+    Single<TokenResponse> getToken(UserCredentials userCredentials);
 
     Single<TokenResponse> registerUser(UserCredentials userCredentials);
-
-    Single<TokenResponse> getToken();
 
     Single<String> getLogin();
 
