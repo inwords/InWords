@@ -14,6 +14,8 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+import static com.dreamproject.inwords.util.WordsUtil.absList;
+
 public class TranslationWordsWebApiRepository implements TranslationWordsRemoteRepository {
     private WebRequests webRequests;
 
@@ -40,15 +42,8 @@ public class TranslationWordsWebApiRepository implements TranslationWordsRemoteR
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
-        return Single.fromCallable(() -> {
-            List<Integer> adsServerIds = new ArrayList<>(serverIds.size());
-
-            for (int i = 0, serverIdsSize = serverIds.size(); i < serverIdsSize; i++) {
-                adsServerIds.add(Math.abs(serverIds.get(i)));
-            }
-            return adsServerIds;
-        })
-                .flatMap(webRequests::removeAllServerIds)
+        return Single.fromCallable(() -> absList(serverIds))
+                .flatMap(serverIds1 -> webRequests.removeAllServerIds(serverIds1))
                 .ignoreElement();
     }
 

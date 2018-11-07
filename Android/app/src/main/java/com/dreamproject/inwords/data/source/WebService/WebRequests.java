@@ -8,11 +8,12 @@ import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 public interface WebRequests {
-    void setCredentials(UserCredentials userCredentials);
+    Completable setCredentials(UserCredentials userCredentials);
 
     Single<TokenResponse> registerUser(UserCredentials userCredentials);
 

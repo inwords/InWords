@@ -9,7 +9,7 @@ import com.dreamproject.inwords.util.ErrorBodyFormatter;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableObserver;
 import io.reactivex.Single;
 import retrofit2.HttpException;
 
@@ -23,26 +23,23 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
 
     @Override
     public Completable signIn(UserCredentials userCredentials) {
-        return Completable.create((emitter) -> {
-            webRequests.setCredentials(userCredentials);
-
-            checkAuthToken(emitter, webRequests.updateToken());
-        });
+        return webRequests.setCredentials(userCredentials)
+                .andThen(checkAuthToken(webRequests.updateToken()));
     }
 
     @Override
     public Completable signUp(UserCredentials userCredentials) {
-        return Completable.create((emitter) -> checkAuthToken(emitter, webRequests.registerUser(userCredentials)));
+        return checkAuthToken(webRequests.registerUser(userCredentials));
     }
 
-    private void checkAuthToken(CompletableEmitter emitter, Single<TokenResponse> authTokenSingle) {
-        try {
-            TokenResponse tokenResponse = authTokenSingle.blockingGet();
+    private Completable checkAuthToken(Single<TokenResponse> authTokenSingle) {
+        return authTokenSingle
+                .onErrorResumeNext(e -> Single.error(new AuthenticationError(ErrorBodyFormatter.getErrorMessage((HttpException) e))))
+                .flatMapCompletable(tokenResponse -> {
+                    if (tokenResponse.isValid())
+                        return CompletableObserver::onComplete;
 
-            if (tokenResponse.isValid())
-                emitter.onComplete();
-        } catch (HttpException e) {
-            emitter.onError(new AuthenticationError(ErrorBodyFormatter.getErrorMessage(e)));
-        }
+                    return Completable.error(new RuntimeException("unhandled")); //TODO think
+                });
     }
 }

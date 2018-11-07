@@ -1,8 +1,8 @@
 package com.dreamproject.inwords.data.source.WebService;
 
+import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
-import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -27,32 +28,35 @@ public class WebRequestsImpl implements WebRequests {
         this.apiService = apiService;
 
         authenticator.setOnUnauthorisedCallback(() -> updateToken() //TODO COSTIL
-                .onErrorReturnItem(TokenResponse.errorToken())
                 .blockingGet());
     }
 
-    private void setAuthToken(TokenResponse tokenResponse) {
-        this.authInfo.setTokenResponse(tokenResponse);
+    private Single<TokenResponse> setAuthToken(TokenResponse tokenResponse) {
+        return Single.fromCallable(() -> {
+            this.authInfo.setTokenResponse(tokenResponse);
+            return tokenResponse;
+        });
     }
 
     private Single<TokenResponse> getToken() {
         return apiService.getToken(authInfo.getCredentials())
                 .subscribeOn(Schedulers.io())
-                .doOnError(throwable -> setAuthToken(TokenResponse.errorToken()))
-                .doOnSuccess(this::setAuthToken);
+                .doOnError(__ -> setAuthToken(TokenResponse.errorToken()))
+                .flatMap(this::setAuthToken);
     }
 
     @Override
-    public void setCredentials(UserCredentials userCredentials) {
-        this.authInfo.setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword()));
+    public Completable setCredentials(UserCredentials userCredentials) {
+        return Completable.fromAction(() -> this.authInfo
+                .setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword())));
     }
 
     @Override
     public Single<TokenResponse> registerUser(UserCredentials userCredentials) {
         return apiService.registerUser(userCredentials)
                 .subscribeOn(Schedulers.io())
-                .doOnError(throwable -> setAuthToken(TokenResponse.errorToken()))
-                .doOnSuccess(this::setAuthToken);
+                .doOnError(__ -> setAuthToken(TokenResponse.errorToken()))
+                .flatMap(this::setAuthToken);
     }
 
     @Override

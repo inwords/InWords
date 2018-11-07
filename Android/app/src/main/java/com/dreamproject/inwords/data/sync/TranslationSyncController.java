@@ -7,7 +7,6 @@ import com.dreamproject.inwords.data.entity.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 import static com.dreamproject.inwords.data.sync.TranslationSyncController.Groups.ADD;
+import static com.dreamproject.inwords.util.WordsUtil.serverIdsFromWordTranslations;
 
 public class TranslationSyncController {
     private TranslationWordsLocalRepository inMemoryRepository;
@@ -83,7 +83,7 @@ public class TranslationSyncController {
                     List<WordTranslation> addedWords = pullWordsAnswer.getAddedWords();
 
                     if (!removedServerIds.isEmpty()) {  //Its IMPORTANT to remove before addReplace because
-                                                        //its important
+                        //its important
                         Throwable throwable = Completable.mergeDelayError(
                                 Arrays.asList(
                                         localRepository.removeAllServerIds(removedServerIds),
@@ -206,16 +206,6 @@ public class TranslationSyncController {
                 }
             }
         }
-    }
-
-    private List<Integer> serverIdsFromWordTranslations(List<? extends EntityIdentificator> wordIdentificators) {
-        List<Integer> serverIds = new ArrayList<>();
-
-        for (EntityIdentificator wordTranslation : wordIdentificators) {
-            serverIds.add(wordTranslation.getServerId());
-        }
-
-        return serverIds;
     }
 
 }
