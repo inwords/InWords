@@ -121,14 +121,12 @@
 
         public async Task<int> DeleteUserWordPair(int userID, int userWordPairID)
         {
-            //todo union.expect
-            var userwordpairs = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID);
+            //todo union.expect ??
+            var userwordpair = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID).SingleOrDefault();
 
-            if (userwordpairs.Count() == 1)
+            if (userwordpair != null)
             {
-                UserWordPair pairToDelete = null;
-                pairToDelete = userwordpairs.First();
-                return await userWordPairRepository.Remove(pairToDelete);
+                return await userWordPairRepository.Remove(userwordpair);
             }
             else
             {

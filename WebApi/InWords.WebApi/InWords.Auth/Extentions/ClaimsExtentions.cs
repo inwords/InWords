@@ -11,23 +11,20 @@
     {
         public static int GetUserID(this IEnumerable<Claim> claims)
         {
-            // todo check claims exist
-            Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.NameIdentifier).First();
-            int authorizedID = int.Parse(nameIdentifier.Value);
+            Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.NameIdentifier).SingleOrDefault();
+            int authorizedID = int.Parse(nameIdentifier.Value); //todo tryparse
             return authorizedID;
         }
 
         public static string GetUserEmail(this IEnumerable<Claim> claims)
         {
-            // todo check claims exist
-            Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.Email).First();
-            return nameIdentifier.Value;
+            Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.Email).SingleOrDefault();
+            return nameIdentifier?.Value;
         }
 
         public static string GetUserRole(this IEnumerable<Claim> claims)
         {
             throw new NotImplementedException();
-            // todo check claims exist
             //Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.Role).First();
             //int authorizedID = int.Parse(nameIdentifier.Value); //todo Extention
             //return null;
