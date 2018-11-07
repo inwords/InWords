@@ -55,11 +55,11 @@
                 WordTranslation addedWord = null;
                 if (uwp.IsInvertPair)
                 {
-                    addedWord = new WordTranslation(wordForeign, wordNative);
+                    addedWord = new WordTranslation(wordNative, wordForeign);
                 }
                 else
                 {
-                    addedWord = new WordTranslation(wordNative, wordForeign);
+                    addedWord = new WordTranslation(wordForeign, wordNative);
                 }
 
                 addedWord.ServerId = id;
