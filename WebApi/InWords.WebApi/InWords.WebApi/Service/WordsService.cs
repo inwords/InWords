@@ -44,21 +44,26 @@
 
             foreach (int id in ids)
             {
-                var uwp = await userWordPairRepository.FindById(id);
-                var wordpair = await wordPairRepository.FindById(uwp.WordPairID);
-                var word1 = await wordRepository.FindById(wordpair.WordForeignID);
-                var word2 = await wordRepository.FindById(wordpair.WordNativeID);
+                var uwp = userWordPairRepository.GetWithInclude(x => x.UserWordPairID == id,
+                    wp => wp.WordPair,
+                    wf => wf.WordPair.WordForeign,
+                    wn => wn.WordPair.WordNative).Single();
+
+                string wordForeign = uwp.WordPair.WordForeign.Content;
+                string wordNative = uwp.WordPair.WordNative.Content;
 
                 WordTranslation addedWord = null;
                 if (uwp.IsInvertPair)
                 {
-                    addedWord = new WordTranslation(word2.Content, word1.Content);
+                    addedWord = new WordTranslation(wordForeign, wordNative);
                 }
                 else
                 {
-                    addedWord = new WordTranslation(word1.Content, word2.Content);
+                    addedWord = new WordTranslation(wordNative, wordForeign);
                 }
+
                 addedWord.ServerId = id;
+
                 wordTranslations.Add(addedWord);
             }
             return wordTranslations;
@@ -76,25 +81,17 @@
                 Content = wordTranslation.WordNative
             };
 
-            var wordpair = await wordPairRepository.Stack(firstWordForeign, secondWordNative);
+            var wordpairID = (await wordPairRepository.Stack(firstWordForeign, secondWordNative)).WordPairID;
 
-            Word wordForeign = wordpair.WordForeign;
-            Word native = wordpair.WordNative;
-
-            if (wordpair.WordForeign == null)
-            {
-                wordForeign = await wordRepository.FindById(wordpair.WordForeignID);
-            }
-
-            if (wordpair.WordNative == null)
-            {
-                native = await wordRepository.FindById(wordpair.WordNativeID);
-            }
+            var wordPair = wordPairRepository.GetWithInclude(wp => wp.WordPairID == wordpairID,
+                f => f.WordForeign,
+                n => n.WordNative)
+                .Single();
 
             UserWordPair CreatedPair = new UserWordPair()
             {
-                WordPairID = wordpair.WordPairID,
-                IsInvertPair = wordForeign.Content == firstWordForeign.Content,
+                WordPairID = wordpairID,
+                IsInvertPair = wordPair.WordForeign.Content != wordTranslation.WordForeign,
                 UserID = userID
             };
 
