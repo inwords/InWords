@@ -64,9 +64,9 @@ class DataModule {
                                 HttpLoggingInterceptor.Level.BODY :
                                 HttpLoggingInterceptor.Level.NONE))
                 .authenticator(authenticator)
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .writeTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
                 .build();
     }
 }
