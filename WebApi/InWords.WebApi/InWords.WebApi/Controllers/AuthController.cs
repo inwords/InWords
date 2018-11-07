@@ -54,7 +54,7 @@
 
             if (identity == null)
             {
-                return BadRequest("500 Identity fail");
+                return BadRequest("500 Identity lost on Request");
             }
             else if (identity.Name == RoleType.Unknown.ToString())
             {

@@ -77,7 +77,7 @@
             return Ok($"Ваш логин: {User.Identity.Name}");
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [Route("getrole")]
         public IActionResult GetRole()
         {

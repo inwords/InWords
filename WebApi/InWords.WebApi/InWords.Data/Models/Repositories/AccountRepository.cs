@@ -21,31 +21,28 @@
         /// <returns></returns>
         public ClaimsIdentity GetIdentity(string email, string password)
         {
-            Account account = Get(x => x.Email == email && x.Password == password).FirstOrDefault();
+            Account account = Get(x => x.Email == email && x.Password == password).Single();
 
             IEnumerable<Claim> claims = null;
 
-            string defaultrole = email;
-            string defaultname = RoleType.Unknown.ToString();
             string nameId = "-1";
+            string defaultrole = RoleType.Unknown.ToString();
 
             if (account != null)
             {
-                defaultrole = account.AccountID.ToString();
-                defaultname = account.Email;
                 nameId = account.AccountID.ToString();
+                email = account.Email;
+                defaultrole = account.Role.ToString();
             }
 
             claims = new List<Claim>
             {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType,defaultname),
+                    new Claim(ClaimTypes.NameIdentifier, nameId),
+                    new Claim(ClaimTypes.Email, email),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, defaultrole),
-                    new Claim(ClaimTypes.NameIdentifier,nameId)
             };
 
-            ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
             return claimsIdentity;
         }
 
