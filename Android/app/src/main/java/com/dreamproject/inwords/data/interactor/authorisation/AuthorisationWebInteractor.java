@@ -6,6 +6,8 @@ import com.dreamproject.inwords.data.source.WebService.TokenResponse;
 import com.dreamproject.inwords.data.source.WebService.WebRequests;
 import com.dreamproject.inwords.util.ErrorBodyFormatter;
 
+import java.net.UnknownHostException;
+
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
@@ -24,7 +26,7 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
     @Override
     public Completable signIn(UserCredentials userCredentials) {
         return webRequests.setCredentials(userCredentials)
-                .andThen(checkAuthToken(webRequests.updateToken()));
+                .andThen(checkAuthToken(webRequests.getToken()));
     }
 
     @Override
@@ -34,7 +36,20 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
 
     private Completable checkAuthToken(Single<TokenResponse> authTokenSingle) {
         return authTokenSingle
-                .onErrorResumeNext(e -> Single.error(new AuthenticationError(ErrorBodyFormatter.getErrorMessage((HttpException) e))))
+                .onErrorResumeNext(e -> {
+                    e.printStackTrace();
+
+                    Throwable t;
+                    if (e instanceof HttpException)
+                        t = new AuthenticationError(ErrorBodyFormatter.getErrorMessage((HttpException) e));
+                    else if (e instanceof UnknownHostException)
+                        t = new RuntimeException("Network troubles");
+                    else
+                        t = new RuntimeException(e.getMessage());
+
+                    return Single.error(t);
+
+                })
                 .flatMapCompletable(tokenResponse -> {
                     if (tokenResponse.isValid())
                         return CompletableObserver::onComplete;

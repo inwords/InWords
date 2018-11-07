@@ -27,7 +27,7 @@ public class WebRequestsImpl implements WebRequests {
         this.authInfo = new AuthInfo();
         this.apiService = apiService;
 
-        authenticator.setOnUnauthorisedCallback(() -> updateToken() //TODO COSTIL
+        authenticator.setOnUnauthorisedCallback(() -> getToken() //TODO COSTIL
                 .blockingGet());
     }
 
@@ -38,8 +38,9 @@ public class WebRequestsImpl implements WebRequests {
         });
     }
 
-    private Single<TokenResponse> getToken() {
-        return apiService.getToken(authInfo.getCredentials())
+    public Single<TokenResponse> getToken() {
+        return Single.fromCallable(() -> authInfo.getCredentials())
+                .flatMap(apiService::getToken)
                 .subscribeOn(Schedulers.io())
                 .doOnError(__ -> setAuthToken(TokenResponse.errorToken()))
                 .flatMap(this::setAuthToken);
@@ -47,8 +48,8 @@ public class WebRequestsImpl implements WebRequests {
 
     @Override
     public Completable setCredentials(UserCredentials userCredentials) {
-        return Completable.fromAction(() -> this.authInfo
-                .setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword())));
+        return Completable.fromAction(() ->
+                this.authInfo.setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword())));
     }
 
     @Override
@@ -57,11 +58,6 @@ public class WebRequestsImpl implements WebRequests {
                 .subscribeOn(Schedulers.io())
                 .doOnError(__ -> setAuthToken(TokenResponse.errorToken()))
                 .flatMap(this::setAuthToken);
-    }
-
-    @Override
-    public Single<TokenResponse> updateToken() {
-        return getToken();
     }
 
     @Override

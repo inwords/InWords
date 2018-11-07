@@ -17,7 +17,7 @@ public interface WebRequests {
 
     Single<TokenResponse> registerUser(UserCredentials userCredentials);
 
-    Single<TokenResponse> updateToken();
+    Single<TokenResponse> getToken();
 
     Single<String> getLogin();
 

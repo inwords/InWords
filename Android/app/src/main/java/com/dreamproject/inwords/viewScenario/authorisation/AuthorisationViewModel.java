@@ -50,10 +50,7 @@ public abstract class AuthorisationViewModel extends BasicViewModel {
                 .subscribe(userCredentials ->
                         compositeDisposable.add(performAuthAction(userCredentials)
                                 .subscribe(() -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.success())),
-                                        t -> {
-                                            t.printStackTrace();
-                                            authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.error(t)));
-                                        }))
+                                        t -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.error(t)))))
                 );
 
         compositeDisposable.add(d);
