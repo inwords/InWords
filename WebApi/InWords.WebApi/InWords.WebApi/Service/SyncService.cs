@@ -40,7 +40,7 @@ namespace InWords.WebApi.Service
             var pullResponce = new PullWordsAnswer
             {
                 RemovedServerIds = idsToDelete_OnClient.ToList(),
-                AddedWords = addedWords
+                AddedWords = addedWords,
             };
 
             return pullResponce;

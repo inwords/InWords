@@ -49,11 +49,7 @@
                 var word1 = await wordRepository.FindById(wordpair.WordForeignID);
                 var word2 = await wordRepository.FindById(wordpair.WordNativeID);
 
-                WordTranslation addedWord = new WordTranslation
-                {
-                    ServerId = id
-                };
-
+                WordTranslation addedWord = null;
                 if (uwp.IsInvertPair)
                 {
                     addedWord = new WordTranslation(word2.Content, word1.Content);
@@ -62,6 +58,7 @@
                 {
                     addedWord = new WordTranslation(word1.Content, word2.Content);
                 }
+                addedWord.ServerId = id;
                 wordTranslations.Add(addedWord);
             }
             return wordTranslations;

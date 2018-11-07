@@ -38,10 +38,10 @@
 
             MailMessage mailMessage = new MailMessage
             {
-                From = new MailAddress("no-reply@InWords.ru")
+                From = new MailAddress("no-reply@inwords.ru")
             };
             mailMessage.To.Add("anzer987@ya.ru");
-            mailMessage.Body = "Здорова, бать";
+            mailMessage.Body = "Это тестовое сообщение на него не нужно отвечать! Мы стараемся улучшить наши сервисы";
             mailMessage.Subject = "Авторизация";
             client.Send(mailMessage);
         }
