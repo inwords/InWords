@@ -18,6 +18,7 @@
 
                 result = new BasicAuthClaims(userNamePass);
             }
+
             return result;
         }
     }
