@@ -56,7 +56,7 @@
             {
                 return BadRequest("500 Identity lost on Request");
             }
-            else if (identity.Name == RoleType.Unknown.ToString())
+            else if (identity.RoleClaimType == RoleType.Unknown.ToString())
             {
                 return BadRequest("401 Unauthorized: Access is denied due to invalid credentials," +
                                                     " bad username or password");

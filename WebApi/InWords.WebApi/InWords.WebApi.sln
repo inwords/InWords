@@ -16,9 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth", "InWords.Aut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Transfer.Data", "InWords.Transfer.Data\InWords.Transfer.Data.csproj", "{6E42FB8C-B54B-4E86-9677-BC6AEA78CE7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Auth.TFA", "InWords.Auth.2FA\InWords.Auth.TFA.csproj", "{8E5CBBE1-5A97-49D4-A13A-B60B1DC61F6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth.TFA", "InWords.Auth.2FA\InWords.Auth.TFA.csproj", "{8E5CBBE1-5A97-49D4-A13A-B60B1DC61F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Auth.TFA.Tests", "InWords.Auth.TFA.Tests\InWords.Auth.TFA.Tests.csproj", "{1B5B6BF3-2FE3-4C01-9679-FEA395B673C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth.TFA.Tests", "InWords.Auth.TFA.Tests\InWords.Auth.TFA.Tests.csproj", "{1B5B6BF3-2FE3-4C01-9679-FEA395B673C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Service.Encryption", "InWords.Service.Encryption\InWords.Service.Encryption.csproj", "{21A744E8-498E-4E25-8EDD-B43E21626600}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{1B5B6BF3-2FE3-4C01-9679-FEA395B673C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B5B6BF3-2FE3-4C01-9679-FEA395B673C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B5B6BF3-2FE3-4C01-9679-FEA395B673C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21A744E8-498E-4E25-8EDD-B43E21626600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A744E8-498E-4E25-8EDD-B43E21626600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A744E8-498E-4E25-8EDD-B43E21626600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A744E8-498E-4E25-8EDD-B43E21626600}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

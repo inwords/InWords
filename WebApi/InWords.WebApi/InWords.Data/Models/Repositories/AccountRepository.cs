@@ -7,10 +7,16 @@
     using System.Threading.Tasks;
     using InWords.Data.Enums;
     using System;
+    using InWords.Service.Encryption;
 
     public class AccountRepository : Repository<Account>
     {
-        public AccountRepository(DbContext context) : base(context) { }
+        private readonly IPasswordDerivator passwordDerivator;
+
+        public AccountRepository(DbContext context) : base(context)
+        {
+            passwordDerivator = new SaltProvider();
+        }
 
         /// <summary>
         /// Get identity from database
@@ -21,14 +27,16 @@
         /// <returns></returns>
         public ClaimsIdentity GetIdentity(string email, string password)
         {
-            Account account = Get(x => x.Email == email && x.Password == password).Single();
+            Account account = Get(x => x.Email == email).SingleOrDefault();
+#warning auth errors
+            bool isValidPassword = passwordDerivator.IsEquals(password, account.Password);
 
             IEnumerable<Claim> claims = null;
 
             string nameId = "-1";
             string defaultrole = RoleType.Unknown.ToString();
 
-            if (account != null)
+            if (account != null && isValidPassword)
             {
                 nameId = account.AccountID.ToString();
                 email = account.Email;
@@ -48,6 +56,8 @@
 
         public async Task<Account> CreateUserAccaunt(string email, string password)
         {
+            password = passwordDerivator.Translate(password);
+
             Account newAccount = new Account()
             {
                 Email = email,
