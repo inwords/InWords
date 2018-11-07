@@ -28,9 +28,9 @@
         {
             throw new NotImplementedException();
             // todo check claims exist
-            Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.Role).First();
-            int authorizedID = int.Parse(nameIdentifier.Value); //todo Extention
-            return null;
+            //Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.Role).First();
+            //int authorizedID = int.Parse(nameIdentifier.Value); //todo Extention
+            //return null;
         }
     }
 }

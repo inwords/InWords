@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Auth.Providers;
-using InWords.Data.Models.Repositories;
-using InWords.Transfer.Data;
-using InWords.WebApi.Service;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace InWords.WebApi.Controllers
+﻿namespace InWords.WebApi.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using InWords.Auth;
+    using InWords.Data.Models.Repositories;
+    using InWords.Transfer.Data;
+    using InWords.WebApi.Service;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class SyncController : ControllerBase
@@ -56,7 +57,7 @@ namespace InWords.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> PullWordPairs([FromBody] IEnumerable<int> server_ids)
         {
-            int authorizedID = AuthProvider.GetUserID(User);
+            int authorizedID = User.Claims.GetUserID();
 
             var pullResponce = await syncSercive.PullWordPairs(authorizedID, server_ids);
 

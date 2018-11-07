@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using InWords.Auth.Providers;
+    using InWords.Auth;
     using InWords.Data;
     using InWords.Data.Models;
     using InWords.Transfer.Data;
@@ -33,7 +33,7 @@
         [HttpPost]
         public async Task<IActionResult> PostAdd([FromBody] WordsSeriaInformation wordsSeriaInformation)
         {
-            int authorizedID = AuthProvider.GetUserID(User);
+            int authorizedID = User.Claims.GetUserID();
 
             var answer = await wordsSeriesService.AddSeries(authorizedID, wordsSeriaInformation);
 
@@ -58,7 +58,7 @@
         [HttpPost]
         public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] IEnumerable<WordsSeriaPart> wordsSeriaParts)
         {
-            int authorizedID = AuthProvider.GetUserID(User);
+            int authorizedID = User.Claims.GetUserID();
             //var answer = await wordsSeriesService.AddSeries(authorizedID, wordsser);
             return Ok();
         }

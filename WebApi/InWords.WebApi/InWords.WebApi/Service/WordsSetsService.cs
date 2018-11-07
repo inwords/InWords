@@ -60,7 +60,7 @@
 
             wordsSeriaInformation = new WordsSeriaInformation()
             {
-                //todo creator id = 
+                //todo creator id =
                 CreatorNick = seria.Creator.NickName,
                 ServerId = seria.SeriaID
             };

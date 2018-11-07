@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using InWords.Auth.Providers;
+    using InWords.Auth;
     using InWords.Data;
     using InWords.Transfer.Data;
     using InWords.WebApi.Service;
@@ -34,7 +34,7 @@
         [HttpPost]
         public async Task<IActionResult> AddPair([FromBody] List<WordTranslation> wordTranslations)
         {
-            int authorizedID = AuthProvider.GetUserID(User);
+            int authorizedID = User.Claims.GetUserID();
 
             var answer = await wordsService.AddPair(authorizedID, wordTranslations);
 
@@ -51,7 +51,7 @@
         [HttpPost]
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {
-            int authorizedID = AuthProvider.GetUserID(User);
+            int authorizedID = User.Claims.GetUserID();
 
             int pairDeleted = await wordsService.DeleteUserWordPair(authorizedID, server_IDs);
 
