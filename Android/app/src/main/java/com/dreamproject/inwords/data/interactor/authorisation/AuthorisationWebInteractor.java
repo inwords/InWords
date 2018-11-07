@@ -2,8 +2,8 @@ package com.dreamproject.inwords.data.interactor.authorisation;
 
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.source.WebService.AuthenticationError;
-import com.dreamproject.inwords.data.source.WebService.TokenResponse;
-import com.dreamproject.inwords.data.source.WebService.WebRequests;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsManager;
+import com.dreamproject.inwords.data.source.WebService.session.TokenResponse;
 import com.dreamproject.inwords.util.ErrorBodyFormatter;
 
 import java.net.UnknownHostException;
@@ -16,21 +16,21 @@ import io.reactivex.Single;
 import retrofit2.HttpException;
 
 public class AuthorisationWebInteractor implements AuthorisationInteractor {
-    private WebRequests webRequests;
+    private WebRequestsManager webRequestsManager;
 
     @Inject
-    AuthorisationWebInteractor(WebRequests webRequests) {
-        this.webRequests = webRequests;
+    AuthorisationWebInteractor(WebRequestsManager webRequestsManager) {
+        this.webRequestsManager = webRequestsManager;
     }
 
     @Override
     public Completable signIn(UserCredentials userCredentials) {
-        return applyCheckAuthToken(webRequests.getToken(userCredentials));
+        return applyCheckAuthToken(webRequestsManager.getToken(userCredentials));
     }
 
     @Override
     public Completable signUp(UserCredentials userCredentials) {
-        return applyCheckAuthToken(webRequests.registerUser(userCredentials));
+        return applyCheckAuthToken(webRequestsManager.registerUser(userCredentials));
     }
 
     private Completable applyCheckAuthToken(Single<TokenResponse> authTokenSingle) {

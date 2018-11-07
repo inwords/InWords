@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.data.source.WebService;
+package com.dreamproject.inwords.data.source.WebService.session;
 
 import android.support.annotation.NonNull;
 
@@ -18,7 +18,7 @@ public class TokenResponse {
         this.email = email;
     }
 
-    static TokenResponse errorToken() {
+    public static TokenResponse errorToken() {
         return new TokenResponse("error_token", "error_mail");
     }
 
@@ -26,11 +26,11 @@ public class TokenResponse {
         return access_token.length() > 30; //TODO think about more convenient check
     }
 
-    String getBearer() {
+    public String getBearer() {
         return "Bearer " + access_token;
     }
 
-    String getAccessToken() {
+    public String getAccessToken() {
         return access_token;
     }
 }

@@ -1,10 +1,10 @@
-package com.dreamproject.inwords.data.source.WebService;
+package com.dreamproject.inwords.data.source.WebService.session;
 
 public class AuthInfo {
     private TokenResponse tokenResponse;
     private String credentials;
 
-    AuthInfo() {
+    public AuthInfo() {
         this.tokenResponse = new TokenResponse();
         this.credentials = "";
     }
@@ -14,11 +14,11 @@ public class AuthInfo {
         this.credentials = credentials;
     }
 
-    TokenResponse getTokenResponse() {
+    public TokenResponse getTokenResponse() {
         return tokenResponse;
     }
 
-    String getCredentials() {
+    public String getCredentials() {
         return credentials;
     }
 

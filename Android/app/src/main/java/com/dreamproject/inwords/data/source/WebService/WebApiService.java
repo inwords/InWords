@@ -4,6 +4,7 @@ import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.source.WebService.session.TokenResponse;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.List;

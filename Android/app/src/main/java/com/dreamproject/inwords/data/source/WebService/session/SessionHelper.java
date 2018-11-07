@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.data.source.WebService;
+package com.dreamproject.inwords.data.source.WebService.session;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

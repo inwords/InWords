@@ -4,8 +4,8 @@ import android.support.test.InstrumentationRegistry;
 
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.source.WebService.WebRequests;
-import com.dreamproject.inwords.data.source.WebService.WebRequestsImpl;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsManager;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsManagerImpl;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 
 import org.junit.After;
@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
 
 public class DataFlowTest {
     private AppRoomDatabase mDatabase;
-    private WebRequests mWebRequests = WebRequestsImpl.INSTANCE;
+    private WebRequestsManager mWebRequestsManager = WebRequestsManagerImpl.INSTANCE;
 
     private static final WordTranslation WORD_TRANSLATION = new WordTranslation("HELlo", "ыва");
     private static final User USER = new User(0, "rockk", "v", "", "s", "123");
@@ -31,7 +31,7 @@ public class DataFlowTest {
         mDatabase.userDao().insert(USER);
 
 
-        mWebRequests
+        mWebRequestsManager
                 .getUsers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

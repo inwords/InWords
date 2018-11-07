@@ -9,7 +9,7 @@ import com.dreamproject.inwords.data.repository.translation.TranslationWordsData
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsWebApiRepository;
-import com.dreamproject.inwords.data.source.WebService.WebRequestsImpl;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsManagerImpl;
 import com.dreamproject.inwords.data.sync.TranslationSyncController;
 
 import org.junit.Before;
@@ -31,7 +31,7 @@ public class RepositoriesTest {
     public void init() {
         inMemoryRepository = new TranslationWordsCacheRepository();
         localRepository = new TranslationWordsDatabaseRepository(InstrumentationRegistry.getTargetContext());
-        remoteRepository = new TranslationWordsWebApiRepository(WebRequestsImpl.INSTANCE);
+        remoteRepository = new TranslationWordsWebApiRepository(WebRequestsManagerImpl.INSTANCE);
 
         /*allListController = new RepositorySyncController<>(
                 behaviorSubject,

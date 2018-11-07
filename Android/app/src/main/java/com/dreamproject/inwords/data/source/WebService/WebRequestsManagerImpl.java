@@ -4,6 +4,9 @@ import com.dreamproject.inwords.data.entity.EntityIdentificator;
 import com.dreamproject.inwords.data.entity.User;
 import com.dreamproject.inwords.data.entity.UserCredentials;
 import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.source.WebService.session.AuthInfo;
+import com.dreamproject.inwords.data.source.WebService.session.SessionHelper;
+import com.dreamproject.inwords.data.source.WebService.session.TokenResponse;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.Arrays;
@@ -16,13 +19,13 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Credentials;
 
-public class WebRequestsImpl implements WebRequests {
+public class WebRequestsManagerImpl implements WebRequestsManager {
     private WebApiService apiService;
     private SessionHelper sessionHelper;
     private AuthInfo authInfo;
 
     @Inject
-    WebRequestsImpl(WebApiService apiService, BasicAuthenticator authenticator, SessionHelper sessionHelper) {
+    WebRequestsManagerImpl(WebApiService apiService, BasicAuthenticator authenticator, SessionHelper sessionHelper) {
         this.apiService = apiService;
         this.sessionHelper = sessionHelper;
         this.authInfo = new AuthInfo();

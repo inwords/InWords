@@ -15,8 +15,8 @@ import com.dreamproject.inwords.data.repository.translation.TranslationWordsData
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsWebApiRepository;
-import com.dreamproject.inwords.data.source.WebService.WebRequests;
-import com.dreamproject.inwords.data.source.WebService.WebRequestsImpl;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsManager;
+import com.dreamproject.inwords.data.source.WebService.WebRequestsManagerImpl;
 
 import javax.inject.Singleton;
 
@@ -32,7 +32,7 @@ public interface DataAbstractModule {
 
     @Binds
     @Singleton
-    WebRequests webRequests(WebRequestsImpl webRequests);
+    WebRequestsManager webRequests(WebRequestsManagerImpl webRequests);
 
     //interactors
     @Binds
