@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {DataModule.class, DataAbstractModule.class})
+@Component(modules = {DataSourcesModule.class, DataAbstractModule.class})
 public interface DataComponent {
     WebRequests getWebRequests();
     AuthorisationInteractor getAuthorisationWebInteractor();
