@@ -15,9 +15,10 @@
 
         public AccountRepository(DbContext context) : base(context)
         {
-            passwordDerivator = new SaltProvider();
+            passwordDerivator = new SaltManager();
         }
 
+        //todo replace in better place
         /// <summary>
         /// Get identity from database
         /// Email as Name & Id as NameIdentifier
@@ -25,18 +26,14 @@
         /// <param name="email"></param>
         /// <param name="password">raw password</param>
         /// <returns></returns>
-        public ClaimsIdentity GetIdentity(string email, string password)
+        public ClaimsIdentity GetIdentity(Account account)
         {
-            Account account = Get(x => x.Email == email).SingleOrDefault();
-#warning auth errors
-            bool isValidPassword = passwordDerivator.IsEquals(password, account.Password);
-
             IEnumerable<Claim> claims = null;
 
             string nameId = "-1";
             string defaultrole = RoleType.Unknown.ToString();
 
-            if (account != null && isValidPassword)
+            if (account != null)
             {
                 nameId = account.AccountID.ToString();
                 email = account.Email;
@@ -51,18 +48,18 @@
             };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
+
             return claimsIdentity;
         }
 
         public async Task<Account> CreateUserAccaunt(string email, string password)
         {
-#warning encryption
-            //password = passwordDerivator.Translate(password);
+            byte[] saltedkey = passwordDerivator.SaltPassword(password);
 
             Account newAccount = new Account()
             {
                 Email = email,
-                Password = password,
+                Hash = saltedkey,
                 Role = RoleType.User,
                 RegistrationDate = DateTime.Now,
                 User = null
@@ -80,6 +77,6 @@
             return newAccount;
         }
 
-        //todo override remove or test cascade remove
+        //todo cascade account removing
     }
 }
