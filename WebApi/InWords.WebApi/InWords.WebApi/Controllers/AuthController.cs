@@ -38,7 +38,7 @@
         {
             this.logger = logger;
             accountRepository = new AccountRepository(context);
-            accountIdentityProvider = new AccountIdentityProvider(accountRepository, logger);
+            accountIdentityProvider = new AccountIdentityProvider(new AccountRepository(context), logger);
         }
         #endregion
 
@@ -52,8 +52,7 @@
         {
             try
             {
-                ClaimsIdentity identity = accountIdentityProvider.GetIdentity(Request);
-                TokenResponse tokenResponse = new TokenResponse(identity);
+                TokenResponse tokenResponse = accountIdentityProvider.GetIdentity(Request);
                 return Ok(tokenResponse);
             }
             catch (ArgumentException ex)
@@ -84,14 +83,10 @@
         private async Task<TokenResponse> CreateUserAccaunt(BasicAuthClaims basicAuthClaims)
         {
             //Create account in repository;
-            await accountRepository.CreateUserAccaunt(basicAuthClaims.Email, basicAuthClaims.Password);
-
-            //Get identity;
-            ClaimsIdentity identity = accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
+            await accountIdentityProvider.CreateUserAccaunt(basicAuthClaims.Email, basicAuthClaims.Password);
 
             //Create token
-            TokenResponse response = new TokenResponse(identity);
-
+            TokenResponse response = accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
             return response;
         }
 

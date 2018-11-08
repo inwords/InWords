@@ -11,6 +11,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
+    using System.Threading.Tasks;
 
     public class AccountIdentityProvider
     {
@@ -18,6 +19,7 @@
 
         private readonly ILogger logger;
         private readonly IPasswordDerivator passwordDerivator;
+
         /// <summary>
         /// Create provider via repository
         /// </summary>
@@ -40,8 +42,8 @@
             if (x != null)
             {
                 logger.Log(LogLevel.Information, "#GetIdentity {0}", x.Email, x.Password);
-                ClaimsIdentity identity = GetIdentity(x.Email, x.Password);
-                return new TokenResponse(identity);
+                TokenResponse responce = this.GetIdentity(x.Email, x.Password);
+                return responce;
             }
             else
             {
@@ -57,7 +59,7 @@
         /// <param name="password"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public ClaimsIdentity GetIdentity(string email, string password)
+        public TokenResponse GetIdentity(string email, string password)
         {
             Account account = accountRepository.Get(x => x.Email == email).SingleOrDefault();
             if (account == null)
@@ -89,7 +91,33 @@
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
 
-            return claimsIdentity;
+            TokenResponse responce = new TokenResponse(claimsIdentity);
+
+            return responce;
+        }
+
+        public async Task<Account> CreateUserAccaunt(string email, string password)
+        {
+            byte[] saltedkey = passwordDerivator.SaltPassword(password);
+            Account newAccount = new Account()
+            {
+                Email = email,
+                Hash = saltedkey,
+                Role = RoleType.User,
+                RegistrationDate = DateTime.Now,
+                User = null
+            };
+
+            newAccount.User = new User()
+            {
+                NickName = "Yournick",
+                Expirience = 0,
+            };
+
+            await accountRepository.Create(newAccount);
+            //await Update(newAccount);
+
+            return newAccount;
         }
     }
 }
