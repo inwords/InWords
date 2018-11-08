@@ -16,7 +16,7 @@
     {
         public readonly AccountRepository accountRepository = null;
 
-        readonly ILogger logger;
+        private readonly ILogger logger;
         private readonly IPasswordDerivator passwordDerivator;
         /// <summary>
         /// Create provider via repository
@@ -33,7 +33,7 @@
         /// Check identity in repository from [Request]
         /// </summary>
         /// <returns>null or ClaimsIdentity</returns>
-        public ClaimsIdentity GetIdentity(HttpRequest request)
+        public TokenResponse GetIdentity(HttpRequest request)
         {
             BasicAuthClaims x = request.GetBasicAuthorizationCalms();
 
@@ -41,7 +41,7 @@
             {
                 logger.Log(LogLevel.Information, "#GetIdentity {0}", x.Email, x.Password);
                 ClaimsIdentity identity = GetIdentity(x.Email, x.Password);
-                return identity;
+                return new TokenResponse(identity);
             }
             else
             {
