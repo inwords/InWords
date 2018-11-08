@@ -4,6 +4,11 @@
 
     public static class StringExtentions
     {
+        /// <summary>
+        /// Get byte[] from UTF8 String
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public static byte[] ToByteArray(this string password)
         {
             return Encoding.UTF8.GetBytes(password);

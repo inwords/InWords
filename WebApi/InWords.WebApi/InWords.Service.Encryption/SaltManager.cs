@@ -1,37 +1,42 @@
 ﻿namespace InWords.Service.Encryption
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography;
-    using System.Text;
 
-    public class SaltManager
+    public class SaltManager : IPasswordDerivator
     {
-        public static byte[] SaltPassword(string password)
+        private const int MYSQL_BUFFER = 128;
+        private const int SALT_BUFFER = 32;
+        private const int KEY_BUFFER = MYSQL_BUFFER - SALT_BUFFER;
+
+        public byte[] SaltPassword(string password)
         {
-            var saltbuffer = new byte[32];
+            byte[] salt, key;
 
-            using (var rnd = RandomNumberGenerator.Create())
+            // specify that we want to randomly generate a 32-byte salt
+            using (var deriveBytes = new Rfc2898DeriveBytes(password, SALT_BUFFER))
             {
-                rnd.GetBytes(saltbuffer);
+                salt = deriveBytes.Salt;
+                key = deriveBytes.GetBytes(KEY_BUFFER);  // derive a 96-byte key
             }
-            var salt = password.ToByteArray();
 
-            var saltedpassword = password + salt;
+            byte[] saltedkey = salt.Concat(key).ToArray(); ;
 
-            SHA256 sha = SHA256.Create();
+            return saltedkey;
+        }
 
-            var byteAray = saltedpassword.ToByteArray();
+        public bool EqualsSequence(string password, byte[] saltedkey)
+        {
+            byte[] key = saltedkey.Skip(SALT_BUFFER).ToArray();
+            byte[] salt = saltedkey.Take(SALT_BUFFER).ToArray();
 
-            var shahash = sha.ComputeHash(byteAray);
+            using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
+            {
+                byte[] newKey = deriveBytes.GetBytes(KEY_BUFFER);  // derive a 96-byte key
 
-            password = BitConverter.ToString(shahash);
-
-            var saltPassword = salt + password;
-#warning needtest
-#warning need fix
-            return null;
+                return newKey.SequenceEqual(key);
+            }
         }
     }
 }

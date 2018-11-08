@@ -56,7 +56,8 @@
 
         public async Task<Account> CreateUserAccaunt(string email, string password)
         {
-            password = passwordDerivator.Translate(password);
+#warning encryption
+            //password = passwordDerivator.Translate(password);
 
             Account newAccount = new Account()
             {
