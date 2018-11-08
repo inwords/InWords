@@ -9,7 +9,7 @@ using InWords.Data;
 using InWords.Data.Enums;
 using System.Security.Claims;
 using System.Linq;
-using InWords.Auth.Providers;
+using InWords.Auth;
 
 namespace InWords.WebApi.Controllers
 {
@@ -59,7 +59,7 @@ namespace InWords.WebApi.Controllers
         [Authorize]//User
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
-            int authorizedID = AuthProvider.GetUserID(User);
+            int authorizedID = User.Claims.GetUserID();
 
             /// Authorized
             if (!ModelState.IsValid)

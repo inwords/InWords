@@ -1,6 +1,7 @@
 ﻿using InWords.Auth.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -23,7 +24,7 @@ namespace InWords.Auth
             var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
 
             Access_token = Cheked(encodedJwt, out string errMsg);
-            Email = identity.Name;
+            Email = identity.Claims.Where(c => c.Type == ClaimTypes.Email).First().Value; // GetUserEmail();
 
             // подготовка ответа
             // для тестирования // todo

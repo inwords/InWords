@@ -53,11 +53,12 @@
                     _created = true;
                     if (Database.EnsureCreated())
                     {
-                        var testAdmin = Accounts.Add(new Account() { Email = "admin@mail.ru", Password = "admin", Role = RoleType.Admin, RegistrationDate = DateTime.Now });
-                        var testUser = Accounts.Add(new Account() { Email = "user@gmail.com", Password = "1234", Role = RoleType.User, RegistrationDate = DateTime.Now });
-                        SaveChanges();
-                        Users.Add(new User() { UserID = testAdmin.Entity.AccountID, NickName = "testAdmin" });
-                        Users.Add(new User() { UserID = testUser.Entity.AccountID, NickName = "testUser" });
+                        //todo generate hash 
+                        //var testAdmin = Accounts.Add(new Account() { Email = "admin@mail.ru", Role = RoleType.Admin, RegistrationDate = DateTime.Now });
+                        //var testUser = Accounts.Add(new Account() { Email = "user@gmail.com", Role = RoleType.User, RegistrationDate = DateTime.Now });
+                        //SaveChanges();
+                        //Users.Add(new User() { UserID = testAdmin.Entity.AccountID, NickName = "testAdmin" });
+                        //Users.Add(new User() { UserID = testUser.Entity.AccountID, NickName = "testUser" });
                         Languages.Add(new Language() { Title = "English" });
                         Languages.Add(new Language() { Title = "Russian" });
                         SaveChanges();

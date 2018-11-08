@@ -50,20 +50,15 @@
         [HttpPost]
         public IActionResult Token()
         {
-            ClaimsIdentity identity = accountIdentityProvider.GetIdentity(Request);
-
-            if (identity == null)
+            try
             {
-                return BadRequest("500 Identity fail");
+                TokenResponse tokenResponse = accountIdentityProvider.GetIdentity(Request);
+                return Ok(tokenResponse);
             }
-            else if (identity.Name == RoleType.Unknown.ToString())
+            catch (ArgumentException ex)
             {
-                return BadRequest("401 Unauthorized: Access is denied due to invalid credentials," +
-                                                    " bad username or password");
+                return BadRequest(ex.Message);
             }
-            TokenResponse tokenResponse = new TokenResponse(identity);
-
-            return Ok(tokenResponse);
         }
 
         [Route("registration")]
@@ -76,14 +71,8 @@
                 return BadRequest($"User already exists {user.Email}");
             }
 
-            //Create account in repository;
-            Account newAccaunt = await CreateUserAccaunt(user);
-
-            //Get identity;
-            ClaimsIdentity identity = accountIdentityProvider.GetIdentity(newAccaunt);
-
             //Create token
-            TokenResponse response = new TokenResponse(identity);
+            TokenResponse response = await CreateUserAccaunt(user);
 
             //send token
             return Ok(response);
@@ -91,9 +80,14 @@
 
         #region Adaptor
 
-        private async Task<Account> CreateUserAccaunt(BasicAuthClaims basicAuthClaims)
+        private async Task<TokenResponse> CreateUserAccaunt(BasicAuthClaims basicAuthClaims)
         {
-            return await accountRepository.CreateUserAccaunt(basicAuthClaims.Email, basicAuthClaims.Password);
+            //Create account in repository;
+            await accountIdentityProvider.CreateUserAccaunt(basicAuthClaims.Email, basicAuthClaims.Password);
+
+            //Create token
+            TokenResponse response = accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
+            return response;
         }
 
         #endregion

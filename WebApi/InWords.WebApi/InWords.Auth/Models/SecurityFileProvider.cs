@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.IdentityModel.Tokens;
-
-namespace InWords.Auth
+﻿namespace InWords.Auth
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.IdentityModel.Tokens;
+
     internal class SecurityFileProvider
     {
         #region Props
@@ -70,7 +70,6 @@ namespace InWords.Auth
         {
             try
             {
-                //todo multilevel check
                 string dirName = new DirectoryInfo(FilePath).Name;
                 if (!Directory.Exists(dirName))
                 {

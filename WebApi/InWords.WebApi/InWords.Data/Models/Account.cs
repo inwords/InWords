@@ -15,9 +15,8 @@
         public string Email { get; set; }
 
         [Required]
-        [DataType(DataType.Password)]
-        [StringLength(32)]
-        public string Password { get; set; }
+        [MaxLength(128)]
+        public byte[] Hash { get; set; }
 
         [Required]
         public RoleType Role { get; set; }

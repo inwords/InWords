@@ -54,14 +54,13 @@
         {
             WordsSeriaInformation wordsSeriaInformation = null;
 
-            Seria seria = seriaRepository.GetInclude(s => s.SeriaID == seriaID).FirstOrDefault();
+            Seria seria = seriaRepository.GetInclude(s => s.SeriaID == seriaID).SingleOrDefault();
 
             if (seria == null) { return null; }
 
             wordsSeriaInformation = new WordsSeriaInformation()
             {
-                //todo creator id = 
-                CreatorNick = seria.Creator.NickName,
+                CreatorNick = $"{seria.Creator.NickName}@{seria.CreatorID}",
                 ServerId = seria.SeriaID
             };
 
