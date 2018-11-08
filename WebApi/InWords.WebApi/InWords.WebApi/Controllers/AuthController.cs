@@ -38,7 +38,7 @@
         {
             this.logger = logger;
             accountRepository = new AccountRepository(context);
-            accountIdentityProvider = new AccountIdentityProvider(new AccountRepository(context), logger);
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository, logger);
         }
         #endregion
 
