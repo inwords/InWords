@@ -40,7 +40,7 @@
             if (x != null)
             {
                 logger.Log(LogLevel.Information, "#GetIdentity {0}", x.Email, x.Password);
-                ClaimsIdentity identity = accountRepository.GetIdentity(x?.Email, x?.Password);
+                ClaimsIdentity identity = GetIdentity(x.Email, x.Password);
                 return identity;
             }
             else
