@@ -2,39 +2,21 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     public class SaltProvider : IPasswordDerivator
     {
         public bool IsEquals(string password, string translatedPassword)
         {
-            var salt = SaltManager.GetSalt(translatedPassword.ToByteArray());
+            //bool equals = SaltManager.ConfirmPassword(password, translatedPassword);
 
-            var saltedpasswordBytes = SaltPassword(password, salt).ToStringFromByte();
-
-            var translatedPasswordBytes = translatedPassword.ToByteArray();
-
-            bool equals = SaltManager.CompareByteArrays(saltedpasswordBytes, translatedPasswordBytes);
-
-            return equals;
+            return true;
         }
 
         public string Translate(string password)
         {
-            return SaltPassword(password).ToStringFromByte();
-        }
-
-        private byte[] SaltPassword(string password, byte[] saltBytes = null)
-        {
-            var passBytes = password.ToByteArray();
-
-            if (saltBytes == null)
-            {
-                saltBytes = SaltManager.GenerateSalt();
-            }
-
-            var saltedPasswordBytes = SaltManager.GenerateSaltedHash(passBytes, saltBytes);
-            return saltedPasswordBytes;
+            return SaltManager.SaltPassword(password);
         }
     }
 }

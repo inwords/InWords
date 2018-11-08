@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth.TFA", "InWords
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth.TFA.Tests", "InWords.Auth.TFA.Tests\InWords.Auth.TFA.Tests.csproj", "{1B5B6BF3-2FE3-4C01-9679-FEA395B673C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Service.Encryption", "InWords.Service.Encryption\InWords.Service.Encryption.csproj", "{21A744E8-498E-4E25-8EDD-B43E21626600}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Encryption", "InWords.Service.Encryption\InWords.Service.Encryption.csproj", "{21A744E8-498E-4E25-8EDD-B43E21626600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Service.Encryption.Tests", "InWords.Service.Encryption.Tests\InWords.Service.Encryption.Tests.csproj", "{E12BD208-BC79-4F4A-B473-1D3680DA7EC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{21A744E8-498E-4E25-8EDD-B43E21626600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21A744E8-498E-4E25-8EDD-B43E21626600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21A744E8-498E-4E25-8EDD-B43E21626600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E12BD208-BC79-4F4A-B473-1D3680DA7EC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12BD208-BC79-4F4A-B473-1D3680DA7EC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E12BD208-BC79-4F4A-B473-1D3680DA7EC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E12BD208-BC79-4F4A-B473-1D3680DA7EC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

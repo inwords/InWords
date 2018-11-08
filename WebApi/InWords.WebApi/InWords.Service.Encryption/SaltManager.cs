@@ -1,40 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace InWords.Service.Encryption
+﻿namespace InWords.Service.Encryption
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public class SaltManager
     {
-        public static byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
+        public static byte[] SaltPassword(string password)
         {
-            HashAlgorithm algorithm = new SHA256Managed();
+            var saltbuffer = new byte[32];
 
-            var plainTextWithSaltBytes = plainText.Concat(salt);
-
-            return algorithm.ComputeHash(plainTextWithSaltBytes.ToArray());
-        }
-
-        public static bool CompareByteArrays(byte[] array1, byte[] array2)
-        {
-            return array1.Length == array2.Length && !array1.Where((t, i) => t != array2[i]).Any();
-        }
-
-        public static byte[] GenerateSalt()
-        {
-            var saltBytes = new byte[16];
             using (var rnd = RandomNumberGenerator.Create())
             {
-                rnd.GetBytes(saltBytes);
+                rnd.GetBytes(saltbuffer);
             }
-            return saltBytes;
-        }
+            var salt = password.ToByteArray();
 
-        public static byte[] GetSalt(byte[] saltedText)
-        {
-            return saltedText.Skip(saltedText.Length - 16).ToArray();
+            var saltedpassword = password + salt;
+
+            SHA256 sha = SHA256.Create();
+
+            var byteAray = saltedpassword.ToByteArray();
+
+            var shahash = sha.ComputeHash(byteAray);
+
+            password = BitConverter.ToString(shahash);
+
+            var saltPassword = salt + password;
+#warning needtest
+#warning need fix
+            return null;
         }
     }
 }
