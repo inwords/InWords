@@ -11,7 +11,6 @@
     public class WordsSetsService : ServiceBase
     {
         private readonly WordsService wordsService = null;
-
         private readonly SeriaRepository seriaRepository = null;
         private readonly SeriaDescriptionRepository seriaDescriptionRepository = null;
         private readonly SeriaWordRepository seriaWordRepository = null;
@@ -50,11 +49,35 @@
             return answer;
         }
 
+        /// <summary>
+        /// This is to add words in WordSet,
+        /// wordsSeriaPack contains seriaID
+        /// </summary>
+        /// <param name="userID">UserIdentity that add the words</param>
+        /// <param name="wordsSeriaPack">seria id and words list from request</param>
+        /// <returns></returns>
+        public async Task AddWords(int userID, WordsSeriaPart wordsSeriaPack)
+        {
+            var seriaId = wordsSeriaPack.SeriaID;
+
+            var uwpList = await wordsService.AddPair(userID, wordsSeriaPack.WordTranslations);
+
+            foreach (var uwp in uwpList)
+            {
+                var sw = new SeriaWord()
+                {
+                    SeriaID = seriaId,
+                    UserWordPairID = uwp.ServerId
+                };
+                await seriaWordRepository.Create(sw);
+            }
+        }
+
         public async Task<WordsSeriaInformation> Get(int userID, int seriaID)
         {
             WordsSeriaInformation wordsSeriaInformation = null;
 
-            Seria seria = seriaRepository.GetInclude(s => s.SeriaID == seriaID).SingleOrDefault();
+            Seria seria = await seriaRepository.GetInclude(s => s.SeriaID == seriaID).ToAsyncEnumerable().SingleOrDefault();
 
             if (seria == null) { return null; }
 

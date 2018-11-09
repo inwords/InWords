@@ -42,7 +42,7 @@
 
         // Get api/Series
 #warning disable anonimouse
-        [AllowAnonymous] 
+        [AllowAnonymous]
         [Route("{id:int}")]
         [HttpGet]
         public async Task<IActionResult> Get([FromRoute]int id)
@@ -56,10 +56,10 @@
         // POST api/Series
         [Route("{id:int}/addwords")]
         [HttpPost]
-        public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] IEnumerable<WordsSeriaPart> wordsSeriaParts)
+        public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] WordsSeriaPart wordsSeriaPart)
         {
             int authorizedID = User.Claims.GetUserID();
-            //var answer = await wordsSeriesService.AddSeries(authorizedID, wordsser);
+            await wordsSeriesService.AddWords(authorizedID, wordsSeriaPart);
             return Ok();
         }
     }
