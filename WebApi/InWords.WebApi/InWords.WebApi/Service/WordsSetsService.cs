@@ -118,11 +118,16 @@
         }
 
 
-        public async Task<WordsSeria> GetSeriaWords(int userId, int seriaID)
+        public async Task<SeriaWords> GetSeriaWords(int userId, int seriaID)
         {
-            var seriaLevelWords = new SeriaOneLevelWords();
+            var seriaWords = new SeriaWords();
 
-            List<SeriaWord> seria = await seriaWordRepository.Get(sw => sw.SeriaID == seriaID).ToAsyncEnumerable().ToList();
+            List<SeriaWord> seriaWordsList = await seriaWordRepository.Get(sw => sw.SeriaID == seriaID).ToAsyncEnumerable().ToList();
+
+            foreach (var seriaWord in seriaWordsList)
+            {
+                seriaWords.WordsLevels.a
+            }
 
             return seriaLevelWords;
         }

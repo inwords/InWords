@@ -1,4 +1,4 @@
-﻿namespace InWords.Transfer.Data.WordsSeria
+﻿namespace InWords.Transfer.Data
 {
     using System;
     using System.Collections.Generic;
