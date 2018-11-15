@@ -23,6 +23,12 @@
             seriaWordRepository = new SeriaWordRepository(context);
         }
 
+        /// <summary>
+        /// This is to add Seria in database
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="information"></param>
+        /// <returns></returns>
         public async Task<SyncBase> AddSeries(int userID, WordsSeriaInformation information)
         {
             Seria wordsSeria = new Seria
@@ -56,7 +62,7 @@
         /// <param name="userID">UserIdentity that add the words</param>
         /// <param name="wordsSeriaPack">seria id and words list from request</param>
         /// <returns></returns>
-        public async Task AddWords(int userID, WordsSeriaPart wordsSeriaPack)
+        public async Task AddWords(int userID, SeriaOneLevelWords wordsSeriaPack)
         {
             var seriaId = wordsSeriaPack.SeriaID;
 
@@ -73,6 +79,14 @@
             }
         }
 
+
+        /// <summary>
+        /// This is to return information and description about seria by seriaID.
+        /// See also <seealso cref="WordsSeriaInformation"/>
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="seriaID"></param>
+        /// <returns></returns>
         public async Task<WordsSeriaInformation> Get(int userID, int seriaID)
         {
             WordsSeriaInformation wordsSeriaInformation = null;
@@ -103,5 +117,14 @@
             return wordsSeriaInformation;
         }
 
+
+        public async Task<WordsSeria> GetSeriaWords(int userId, int seriaID)
+        {
+            var seriaLevelWords = new SeriaOneLevelWords();
+
+            List<SeriaWord> seria = await seriaWordRepository.Get(sw => sw.SeriaID == seriaID).ToAsyncEnumerable().ToList();
+
+            return seriaLevelWords;
+        }
     }
 }
