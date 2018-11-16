@@ -55,7 +55,7 @@
 
         [Route("token"), MapToApiVersion("2.0")]
         [HttpPost]
-        public IActionResult TokenV2([FromBody] BasicAuthClaims user)
+        public IActionResult Token([FromBody] BasicAuthClaims user)
         {
             try
             {

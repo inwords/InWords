@@ -12,6 +12,7 @@
     using InWords.WebApi.Providers;
     using System.IO;
     using System;
+    using Microsoft.AspNetCore.Mvc.Versioning;
 
     public class Startup
     {
@@ -40,7 +41,9 @@
                 _ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
 
             // api versioning
-            services.AddApiVersioning(o => {
+            services.AddApiVersioning(o =>
+            {
+                o.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
                 o.ReportApiVersions = true;
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
