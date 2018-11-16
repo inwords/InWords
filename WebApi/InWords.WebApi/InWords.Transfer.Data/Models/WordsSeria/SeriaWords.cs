@@ -19,13 +19,13 @@
             {
                 wordsLevel = new WordsLevel();
 
-                wordsLevel.AddWords(level,wordForeign, wordsNative);
+                wordsLevel.AddWords(level, wordForeign, wordsNative);
 
                 WordsLevels.Add(wordsLevel);
             }
             else
             {
-                wordsLevel.AddWords(wordForeign, wordsNative);
+                wordsLevel.AddWords(level, wordForeign, wordsNative);
             }
         }
 

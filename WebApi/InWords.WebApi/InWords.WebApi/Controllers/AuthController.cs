@@ -61,6 +61,21 @@
             }
         }
 
+        [Route("token")]
+        [HttpPost]
+        public IActionResult Token([FromBody] BasicAuthClaims user)
+        {
+            try
+            {
+                TokenResponse tokenResponse = accountIdentityProvider.GetIdentity(user);
+                return Ok(tokenResponse);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Route("registration")]
         [HttpPost]
         public async Task<IActionResult> Registration([FromBody] BasicAuthClaims user)
