@@ -1,25 +1,17 @@
 ﻿namespace InWords.WebApi.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
     using System.Threading.Tasks;
     using InWords.Auth;
-    using InWords.Auth.Interface;
     using InWords.Data;
-    using InWords.Data.Enums;
-    using InWords.Data.Models;
     using InWords.Data.Models.Repositories;
     using InWords.WebApi.Providers;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using Microsoft.IdentityModel.Tokens;
-    using Newtonsoft.Json;
 
+
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -61,9 +53,9 @@
             }
         }
 
-        [Route("token")]
+        [Route("token"), MapToApiVersion("2.0")]
         [HttpPost]
-        public IActionResult Token([FromBody] BasicAuthClaims user)
+        public IActionResult TokenV2([FromBody] BasicAuthClaims user)
         {
             try
             {

@@ -10,6 +10,7 @@
 
     [Route("api/[controller]")]
     [ApiController]
+    [ApiVersionNeutral]
     public class ValuesController : ControllerBase
     {
         private readonly UserRepository userRepository = null;
@@ -24,6 +25,14 @@
             wordRepository = new WordRepository(context);
             wordPairRepository = new WordPairRepository(context);
         }
+
+        /// <summary>
+        /// This is to get requested Api version
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("version")]
+        public ActionResult GetVersion() => Ok(HttpContext.GetRequestedApiVersion());
 
         // GET api/values
         //IEnumerable<string>
