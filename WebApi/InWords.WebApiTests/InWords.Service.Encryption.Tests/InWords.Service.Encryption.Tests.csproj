@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InWords.Auth.2FA\InWords.Auth.TFA.csproj" />
+    <ProjectReference Include="..\..\InWords.WebApi\InWords.Service.Encryption\InWords.Service.Encryption.csproj" />
   </ItemGroup>
 
 </Project>

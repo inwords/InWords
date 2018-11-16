@@ -5,9 +5,13 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.WebApiTests", "InWords.WebApiTests\InWords.WebApiTests.csproj", "{A850A64C-B1AA-4691-9F70-88ACCA26307A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Auth.TFA.Tests", "InWords.Auth.TFA.Tests\InWords.Auth.TFA.Tests.csproj", "{473C2DE9-3536-4027-9E6B-89C8C1C2998F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth.TFA.Tests", "InWords.Auth.TFA.Tests\InWords.Auth.TFA.Tests.csproj", "{473C2DE9-3536-4027-9E6B-89C8C1C2998F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth.TFA", "..\InWords.WebApi\InWords.Auth.TFA\InWords.Auth.TFA.csproj", "{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Encryption.Tests", "InWords.Service.Encryption.Tests\InWords.Service.Encryption.Tests.csproj", "{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Encryption", "..\InWords.WebApi\InWords.Service.Encryption\InWords.Service.Encryption.csproj", "{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,22 @@ Global
 		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Release|x86.ActiveCfg = Release|Any CPU
 		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Release|x86.Build.0 = Release|Any CPU
+		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Release|x86.Build.0 = Release|Any CPU
+		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Debug|x86.Build.0 = Debug|Any CPU
+		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Release|x86.ActiveCfg = Release|Any CPU
+		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
