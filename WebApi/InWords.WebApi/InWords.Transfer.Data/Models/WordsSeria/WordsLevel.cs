@@ -9,5 +9,10 @@
         public int Level { get; set; }
 
         public List<WordTranslation> WordTranslations { get; set; }
+
+        public void AddWords(string foreignWord, string nativeWord)
+        {
+            WordTranslations.Add(new WordTranslation(foreignWord, nativeWord));
+        }
     }
 }

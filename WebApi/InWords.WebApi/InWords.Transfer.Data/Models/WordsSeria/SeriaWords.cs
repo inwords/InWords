@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -12,14 +13,15 @@
     {
         public List<WordsLevel> WordsLevels { get; set; }
 
-        public void Add(string WordsNative, string wordForeign, int serverID)
+        public void Add(int level, string wordForeign, string wordsNative)
         {
-#warning continue here
-            /*Make it possible to add a word, but keep in mind 
-             * that the words should be added to the desired levels.*/
-            //var x = new WordsLevel();
-            //todo WordsLevel.add(?) or not
-            //WordsLevels.Add()
+            var wordsLevel = WordsLevels.Where(w => w.Level == level).SingleOrDefault();
+
+            wordsLevel = wordsLevel ?? new WordsLevel();
+
+            wordsLevel.AddWords(wordForeign, wordsNative);
+
+            WordsLevels.Add(wordsLevel);
         }
     }
 }

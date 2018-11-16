@@ -57,6 +57,16 @@
             return Ok(answer);
         }
 
+        // Get api/WordsSeries/id:int/words
+        [Route("{id:int}/words")]
+        [HttpGet]
+        public async Task<IActionResult> GetWords([FromRoute]int id)
+        {
+            int authorizedID = User.Claims.GetUserID();
+            var answer = await wordsSeriesService.GetSeriaWords(authorizedID, id);
+            return Ok(answer);
+        }
+
         // POST api/Series
         [Route("{id:int}/addwords")]
         [HttpPost]

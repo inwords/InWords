@@ -118,18 +118,34 @@
         }
 
 
+        /// <summary>
+        /// This is to deincapsulate words pairs as text
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="seriaID"></param>
+        /// <returns></returns>
         public async Task<SeriaWords> GetSeriaWords(int userId, int seriaID)
         {
             var seriaWords = new SeriaWords();
 
-            List<SeriaWord> seriaWordsList = await seriaWordRepository.Get(sw => sw.SeriaID == seriaID).ToAsyncEnumerable().ToList();
+            List<SeriaWord> seriaWordsList =
+                await seriaWordRepository
+                .GetWithInclude(sw => sw.SeriaID == seriaID,
+                wf => wf.UserWordPair.WordPair.WordForeign,
+                wn => wn.UserWordPair.WordPair.WordNative)
+                .ToAsyncEnumerable()
+                .ToList();
 
             foreach (var seriaWord in seriaWordsList)
             {
-                seriaWords.WordsLevels.a
+                int level = seriaWord.Level;
+                var wordPair = seriaWord.UserWordPair.WordPair;
+                string foreignWord = wordPair.WordForeign.Content;
+                string nativeWord = wordPair.WordNative.Content;
+                seriaWords.Add(level, foreignWord, nativeWord);
             }
 
-            return seriaLevelWords;
+            return seriaWords;
         }
     }
 }
