@@ -1,7 +1,7 @@
 ﻿namespace InWords.Transfer.Data
 {
     /// <summary>
-    /// Words transfer request pack
+    /// Foreign and Native words pair
     /// </summary>
     public class WordTranslation : SyncBase
     {

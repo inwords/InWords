@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.WebApiTests", "InWords.WebApiTests\InWords.WebApiTests.csproj", "{A850A64C-B1AA-4691-9F70-88ACCA26307A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A850A64C-B1AA-4691-9F70-88ACCA26307A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A850A64C-B1AA-4691-9F70-88ACCA26307A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A850A64C-B1AA-4691-9F70-88ACCA26307A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A850A64C-B1AA-4691-9F70-88ACCA26307A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23F0CE8F-9AB3-42FE-899B-9F8A8260599C}
+	EndGlobalSection
+EndGlobal

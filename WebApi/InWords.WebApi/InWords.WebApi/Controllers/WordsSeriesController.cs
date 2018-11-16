@@ -28,7 +28,14 @@
         }
 
 
-        // POST api/Series
+        /// POST api/Series
+        /// <summary>
+        /// The method that takes <see cref="WordsSeriaInformation"/>
+        /// as <see cref="SeriaDescription"/>
+        /// to update <seealso cref="Seria"/> in database
+        /// </summary>
+        /// <param name="wordsSeriaInformation">Description of words seria</param>
+        /// <returns></returns>
         [Route("add")]
         [HttpPost]
         public async Task<IActionResult> PostAdd([FromBody] WordsSeriaInformation wordsSeriaInformation)
@@ -40,26 +47,34 @@
             return Ok(answer);
         }
 
-        // Get api/Series
-#warning disable anonimouse
-        [AllowAnonymous] 
+        // Get api/WordsSeries/id:int
         [Route("{id:int}")]
         [HttpGet]
         public async Task<IActionResult> Get([FromRoute]int id)
         {
-            //int authorizedID = AuthProvider.GetUserID(User);
-            //var answer = await wordsSeriesService.Get(authorizedID, id);
-            var answer = await wordsSeriesService.Get(0, id);
+            int authorizedID = User.Claims.GetUserID();
+            var answer = await wordsSeriesService.Get(authorizedID, id);
+            return Ok(answer);
+        }
+
+        // Get api/WordsSeries/id:int/words
+        [Route("{id:int}/words")]
+        [HttpGet]
+        public async Task<IActionResult> GetWords([FromRoute]int id)
+        {
+            int authorizedID = User.Claims.GetUserID();
+            var answer = await wordsSeriesService.GetSeriaWords(authorizedID, id);
             return Ok(answer);
         }
 
         // POST api/Series
         [Route("{id:int}/addwords")]
         [HttpPost]
-        public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] IEnumerable<WordsSeriaPart> wordsSeriaParts)
+        public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] WordsSet wordsSeriaPart)
         {
             int authorizedID = User.Claims.GetUserID();
-            //var answer = await wordsSeriesService.AddSeries(authorizedID, wordsser);
+            wordsSeriaPart.ServerId = id;
+            await wordsSeriesService.AddWords(authorizedID, wordsSeriaPart);
             return Ok();
         }
     }

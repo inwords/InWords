@@ -12,6 +12,7 @@
     using InWords.WebApi.Providers;
     using System.IO;
     using System;
+    using Microsoft.AspNetCore.Mvc.Versioning;
 
     public class Startup
     {
@@ -38,6 +39,15 @@
             // 'scoped' in ASP.NET means "per HTTP request"
             services.AddScoped(
                 _ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
+
+            // api versioning
+            services.AddApiVersioning(o =>
+            {
+                o.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
+                o.ReportApiVersions = true;
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.DefaultApiVersion = new ApiVersion(1, 0);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

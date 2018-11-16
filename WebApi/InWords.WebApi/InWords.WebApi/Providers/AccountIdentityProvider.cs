@@ -32,7 +32,7 @@
         }
 
         /// <summary>
-        /// Check identity in repository from [Request]
+        /// This is to check user identity from [Request]
         /// </summary>
         /// <returns>null or ClaimsIdentity</returns>
         public TokenResponse GetIdentity(HttpRequest request)
@@ -53,7 +53,17 @@
         }
 
         /// <summary>
-        /// CheckIdentity in repository 
+        /// This is to check user identity [FromBody]
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public TokenResponse GetIdentity(BasicAuthClaims user)
+        {
+            return GetIdentity(user.Email, user.Password);
+        }
+
+        /// <summary>
+        /// This is to check user identity
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
