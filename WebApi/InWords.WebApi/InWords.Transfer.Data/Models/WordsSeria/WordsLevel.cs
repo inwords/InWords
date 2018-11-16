@@ -10,8 +10,10 @@
 
         public List<WordTranslation> WordTranslations { get; set; }
 
-        public void AddWords(string foreignWord, string nativeWord)
+        public void AddWords(int level, string foreignWord, string nativeWord)
         {
+            Level = level;
+
             WordTranslations = WordTranslations ?? new List<WordTranslation>();
 
             WordTranslations.Add(new WordTranslation(foreignWord, nativeWord));
