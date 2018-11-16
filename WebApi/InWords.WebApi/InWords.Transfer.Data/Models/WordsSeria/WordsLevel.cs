@@ -12,6 +12,8 @@
 
         public void AddWords(string foreignWord, string nativeWord)
         {
+            WordTranslations = WordTranslations ?? new List<WordTranslation>();
+
             WordTranslations.Add(new WordTranslation(foreignWord, nativeWord));
         }
     }

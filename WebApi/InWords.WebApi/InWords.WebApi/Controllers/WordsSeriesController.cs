@@ -70,9 +70,10 @@
         // POST api/Series
         [Route("{id:int}/addwords")]
         [HttpPost]
-        public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] SeriaOneLevelWords wordsSeriaPart)
+        public async Task<IActionResult> PostAddWords([FromRoute]int id, [FromBody] WordsSet wordsSeriaPart)
         {
             int authorizedID = User.Claims.GetUserID();
+            wordsSeriaPart.ServerId = id;
             await wordsSeriesService.AddWords(authorizedID, wordsSeriaPart);
             return Ok();
         }

@@ -62,20 +62,23 @@
         /// <param name="userID">UserIdentity that add the words</param>
         /// <param name="wordsSeriaPack">seria id and words list from request</param>
         /// <returns></returns>
-        public async Task AddWords(int userID, SeriaOneLevelWords wordsSeriaPack)
+        public async Task AddWords(int userID, WordsSet wordsSet)
         {
-            var seriaId = wordsSeriaPack.SeriaID;
+            var seriaId = wordsSet.ServerId;
 
-            var uwpList = await wordsService.AddPair(userID, wordsSeriaPack.WordTranslations);
-
-            foreach (var uwp in uwpList)
+            foreach (var wordsLevel in wordsSet.WordsLevels)
             {
-                var sw = new SeriaWord()
+                var uwpList = await wordsService.AddPair(userID, wordsLevel.WordTranslations);
+                foreach (var uwp in uwpList)
                 {
-                    SeriaID = seriaId,
-                    UserWordPairID = uwp.ServerId
-                };
-                await seriaWordRepository.Create(sw);
+                    var sw = new SeriaWord()
+                    {
+                        Level = wordsLevel.Level,
+                        SeriaID = seriaId,
+                        UserWordPairID = uwp.ServerId
+                    };
+                    await seriaWordRepository.Create(sw);
+                }
             }
         }
 
@@ -124,9 +127,12 @@
         /// <param name="userId"></param>
         /// <param name="seriaID"></param>
         /// <returns></returns>
-        public async Task<SeriaWords> GetSeriaWords(int userId, int seriaID)
+        public async Task<WordsSet> GetSeriaWords(int userId, int seriaID)
         {
-            var seriaWords = new SeriaWords();
+            var seriaWords = new WordsSet
+            {
+                ServerId = seriaID,
+            };
 
             List<SeriaWord> seriaWordsList =
                 await seriaWordRepository

@@ -1,15 +1,13 @@
 ﻿namespace InWords.Transfer.Data
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
-    /// This is the list of words without a description of the series
+    /// This is the list of words
     /// //todo add discription or more classes
     /// </summary>
-    public class SeriaWords : SyncBase
+    public class WordsSet : SyncBase
     {
         public List<WordsLevel> WordsLevels { get; set; }
 
@@ -17,11 +15,28 @@
         {
             var wordsLevel = WordsLevels.Where(w => w.Level == level).SingleOrDefault();
 
-            wordsLevel = wordsLevel ?? new WordsLevel();
+            if (wordsLevel == null)
+            {
+                wordsLevel = new WordsLevel();
 
-            wordsLevel.AddWords(wordForeign, wordsNative);
+                wordsLevel.AddWords(wordForeign, wordsNative);
 
-            WordsLevels.Add(wordsLevel);
+                WordsLevels.Add(wordsLevel);
+            }
+            else
+            {
+                wordsLevel.AddWords(wordForeign, wordsNative);
+            }
         }
+
+        #region ctor
+        /// <summary>
+        /// This is default constructor
+        /// </summary>
+        public WordsSet()
+        {
+            WordsLevels = new List<WordsLevel>(0);
+        }
+        #endregion
     }
 }
