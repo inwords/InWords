@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.WebApiTests", "InWords.WebApiTests\InWords.WebApiTests.csproj", "{A850A64C-B1AA-4691-9F70-88ACCA26307A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth.TFA.Tests", "InWords.Auth.TFA.Tests\InWords.Auth.TFA.Tests.csproj", "{473C2DE9-3536-4027-9E6B-89C8C1C2998F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Auth.TFA", "..\InWords.WebApi\InWords.Auth.TFA\InWords.Auth.TFA.csproj", "{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.TFA.Tests", "InWords.Auth.TFA.Tests\InWords.Service.TFA.Tests.csproj", "{473C2DE9-3536-4027-9E6B-89C8C1C2998F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Encryption.Tests", "InWords.Service.Encryption.Tests\InWords.Service.Encryption.Tests.csproj", "{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Encryption", "..\InWords.WebApi\InWords.Service.Encryption\InWords.Service.Encryption.csproj", "{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.TFA", "..\InWords.WebApi\InWords.Service.TFA\InWords.Service.TFA.csproj", "{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +37,6 @@ Global
 		{473C2DE9-3536-4027-9E6B-89C8C1C2998F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{473C2DE9-3536-4027-9E6B-89C8C1C2998F}.Release|x86.ActiveCfg = Release|Any CPU
 		{473C2DE9-3536-4027-9E6B-89C8C1C2998F}.Release|x86.Build.0 = Release|Any CPU
-		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Debug|x86.Build.0 = Debug|Any CPU
-		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Release|x86.ActiveCfg = Release|Any CPU
-		{6A610613-0C51-4F1F-B3AB-DDABA5EF6B80}.Release|x86.Build.0 = Release|Any CPU
 		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC0DCA1C-1A22-4587-9B4F-2DAA0BEAE40E}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -61,6 +53,14 @@ Global
 		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Release|x86.ActiveCfg = Release|Any CPU
 		{B72B477F-4445-4DF1-B067-3FE1FFBDD3A9}.Release|x86.Build.0 = Release|Any CPU
+		{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}.Debug|x86.Build.0 = Debug|Any CPU
+		{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE70B8A4-C08C-445F-A7E3-4E249EF5B99C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

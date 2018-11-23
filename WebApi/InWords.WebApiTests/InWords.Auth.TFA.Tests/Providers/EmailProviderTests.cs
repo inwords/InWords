@@ -1,6 +1,7 @@
-﻿namespace InWords.Auth.TFA.Tests
+﻿namespace InWords.Service.TFA.Tests
 {
-    using InWords.Auth.TFA.Providers;
+    using InWords.Service.TFA;
+    using InWords.Service.TFA.Providers;
     using Xunit;
 
     public class EmailProviderTests

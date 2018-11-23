@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>InWords.Service.TFA.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\InWords.WebApi\InWords.Auth.TFA\InWords.Auth.TFA.csproj" />
+    <ProjectReference Include="..\..\InWords.WebApi\InWords.Service.TFA\InWords.Service.TFA.csproj" />
   </ItemGroup>
 
 </Project>

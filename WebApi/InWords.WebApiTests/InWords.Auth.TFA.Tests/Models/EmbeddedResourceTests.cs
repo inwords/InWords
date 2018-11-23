@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-namespace InWords.Auth.TFA.Tests.Models
+namespace InWords.Service.TFA.Tests.Models
 {
-    using InWords.Auth.TFA.Models;
+    using InWords.Service.TFA.Models;
     using Xunit;
 
     public class EmbeddedResourceTests

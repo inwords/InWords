@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>InWords.Auth.TFA</RootNamespace>
+    <RootNamespace>InWords.Service.TFA</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
