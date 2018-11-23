@@ -2,48 +2,61 @@
 {
     using InWords.Auth.TFA.Interface;
     using System;
-    using System.Collections.Generic;
-    using System.IO;
     using System.Net;
     using System.Net.Mail;
-    using System.Reflection;
-    using System.Linq;
-    using System.Text;
     using InWords.Auth.TFA.Models;
+    using System.Collections.Generic;
 
-    public class EmailProvider : I2FAProvider
+    public class EmailProvider : IEmailProvider
     {
-        public const string RESOURCE = "InWords.Auth.TFA.Resource.EmailConfig.security.json";
+        private readonly EmailConfig Config = null;
 
-        string I2FAProvider.GetKey(string identity)
+        private EventHandler<Email> OnGetMailEvent = null;
+
+        event EventHandler<Email> IEmailProvider.OnGetMail
         {
-            throw new NotImplementedException();
+            add
+            {
+                OnGetMailEvent += value;
+            }
+
+            remove
+            {
+                OnGetMailEvent -= value;
+            }
         }
 
-        bool I2FAProvider.IsValidKey(string identity, string key)
+        void IEmailProvider.Send(Email mail)
         {
-            throw new NotImplementedException();
-        }
-
-        public void SendMail()
-        {
-            EmailConfig config = new StringJsonConverter<EmailConfig>()
-                .Convert(EmbeddedResource.GetApiRequestFile(RESOURCE));
-
-            SmtpClient client = new SmtpClient(config.SMTPserver, config.Port)
+            SmtpClient client = new SmtpClient(Config.SMTPserver, Config.Port)
             {
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(config.Login, config.Password)
+                Credentials = new NetworkCredential(Config.Login, Config.Password)
             };
 
             MailMessage mailMessage = new MailMessage
             {
-                From = new MailAddress("no-reply@inwords.ru")
+                From = new MailAddress(mail.Sender)
             };
-            mailMessage.To.Add("anzer987@ya.ru");
-            mailMessage.Body = "Это тестовое сообщение на него не нужно отвечать! Мы стараемся улучшить наши сервисы";
-            mailMessage.Subject = "Авторизация";
+            mailMessage.To.Add(mail.Recipient);//todo add RecipienеS
+            mailMessage.Body = mail.Body;
+            mailMessage.Subject = mail.Subject;
             client.Send(mailMessage);
         }
+
+        IEnumerable<Email> IEmailProvider.GetMail(string msg)
+        {
+            throw new NotImplementedException();
+        }
+
+        #region Ctor
+
+        public EmailProvider(string configRes = null)
+        {
+            configRes = configRes ?? "InWords.Auth.TFA.Resource.EmailConfig.security.json";
+
+            Config = new StringJsonConverter<EmailConfig>().Convert(EmbeddedResource.GetApiRequestFile(configRes));
+        }
+        #endregion
     }
 }

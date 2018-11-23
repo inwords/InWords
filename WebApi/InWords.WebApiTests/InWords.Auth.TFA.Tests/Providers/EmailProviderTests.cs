@@ -8,16 +8,14 @@
         [Fact]
         public void SendMailTest1()
         {
-            var EmailProvider = new EmailProvider();
+            IEmailProvider emailProvider = new EmailProvider();
 
-            EmailProvider.SendMail();
-        }
+            Email email = new Email()
+            {
 
-        [Theory]
-        [InlineData("anzer987@ya.ru")]
-        public void SendMailMailgunSMTP(string email)
-        {
-            MailgunProvider.SendMessageSmtp(email);
+            };
+
+            emailProvider.Send(email);
         }
     }
 }
