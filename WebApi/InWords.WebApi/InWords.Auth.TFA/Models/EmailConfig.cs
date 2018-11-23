@@ -15,7 +15,5 @@
         public string APIUrl { get; set; }
 
         public string Domain { get; set; }
-
-        public int Port { get; set; }
     }
 }
