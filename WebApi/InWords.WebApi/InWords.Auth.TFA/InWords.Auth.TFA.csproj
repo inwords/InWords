@@ -8,15 +8,18 @@
   <ItemGroup>
     <None Remove="EmailConfig.security.json" />
     <None Remove="Resource\EmailConfigTest.security.json" />
+    <None Remove="Resource\MailgunConfig.security.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resource\MailgunConfig.security.json" />
     <EmbeddedResource Include="Resource\EmailConfigTest.security.json" />
     <EmbeddedResource Include="Resource\EmailConfig.security.json" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="RestSharp" Version="106.5.4" />
   </ItemGroup>
 
 </Project>

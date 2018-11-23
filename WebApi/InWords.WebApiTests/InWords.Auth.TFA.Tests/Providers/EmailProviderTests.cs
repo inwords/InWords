@@ -1,7 +1,6 @@
 ﻿namespace InWords.Auth.TFA.Tests
 {
     using InWords.Auth.TFA.Providers;
-    using System;
     using Xunit;
 
     public class EmailProviderTests
@@ -12,6 +11,13 @@
             var EmailProvider = new EmailProvider();
 
             EmailProvider.SendMail();
+        }
+
+        [Theory]
+        [InlineData("anzer987@ya.ru")]
+        public void SendMailMailgunSMTP(string email)
+        {
+            MailgunProvider.SendMessageSmtp(email);
         }
     }
 }
