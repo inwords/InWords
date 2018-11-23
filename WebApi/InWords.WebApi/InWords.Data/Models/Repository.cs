@@ -1,4 +1,4 @@
-﻿namespace InWords.Data.Models.Repositories
+﻿namespace InWords.Data.Models
 {
     using System;
     using System.Collections.Generic;

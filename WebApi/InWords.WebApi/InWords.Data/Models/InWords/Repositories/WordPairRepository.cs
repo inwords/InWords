@@ -1,16 +1,12 @@
-﻿namespace InWords.Data.Models.Repositories
+﻿namespace InWords.Data.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
 
     public class WordPairRepository : Repository<WordPair>
     {
         private readonly WordRepository wordRepository = null;
 
-        public WordPairRepository(DbContext context) : base(context)
+        public WordPairRepository(InWordsDataContext context) : base(context)
         {
             wordRepository = new WordRepository(context);
         }

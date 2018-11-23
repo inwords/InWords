@@ -1,15 +1,13 @@
-﻿namespace InWords.Data.Models.Repositories
+﻿namespace InWords.Data.Models
 {
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class SeriaRepository : Repository<Seria>
     {
-        public SeriaRepository(DbContext context) : base(context)
+        public SeriaRepository(InWordsDataContext context) : base(context)
         {
 
         }

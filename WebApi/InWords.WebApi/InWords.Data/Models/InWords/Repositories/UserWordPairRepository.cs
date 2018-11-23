@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-
-namespace InWords.Data.Models.Repositories
+﻿namespace InWords.Data.Models
 {
+    using System.Threading.Tasks;
+
     public class UserWordPairRepository : Repository<UserWordPair>
     {
-        public UserWordPairRepository(DbContext context) : base(context) { }
+        public UserWordPairRepository(InWordsDataContext context) : base(context) { }
 
         public async Task<UserWordPair> Stack(UserWordPair pair)
         {

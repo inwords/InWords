@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-
-namespace InWords.Data.Models.Repositories
+﻿namespace InWords.Data.Models
 {
+    using System.Threading.Tasks;
+
     public class WordRepository : Repository<Word>
     {
-        public WordRepository(DbContext context) : base(context)
+        public WordRepository(InWordsDataContext context) : base(context)
         {
 
         }

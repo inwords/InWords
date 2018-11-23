@@ -1,7 +1,6 @@
-﻿namespace InWords.Data.Models.Repositories
+﻿namespace InWords.Data.Models
 {
     using System.Linq;
-    using Microsoft.EntityFrameworkCore;
 
     public class UserRepository : Repository<User>
     {

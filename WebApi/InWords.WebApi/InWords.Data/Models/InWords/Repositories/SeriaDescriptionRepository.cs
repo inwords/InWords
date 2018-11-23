@@ -4,7 +4,7 @@
 
     public class SeriaDescriptionRepository : Repository<SeriaDescription>
     {
-        public SeriaDescriptionRepository(DbContext context) : base(context)
+        public SeriaDescriptionRepository(InWordsDataContext context) : base(context)
         {
         }
     }
