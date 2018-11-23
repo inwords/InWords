@@ -12,7 +12,10 @@
 
             Email email = new Email()
             {
-
+                Recipients = { "anzer987@ya.ru" },
+                Subject = "Авторизация",
+                Body = "Это тестовое сообщение на него не нужно отвечать",
+                Sender = "no-reply@inwords.ru"
             };
 
             emailProvider.Send(email);

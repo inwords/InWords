@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Auth.TFA.Models
+﻿namespace InWords.Auth.TFA.Models
 {
     public class EmailConfig
     {
