@@ -94,7 +94,12 @@
         {
             WordsSeriaInformation wordsSeriaInformation = null;
 
-            Seria seria = await seriaRepository.GetInclude(s => s.SeriaID == seriaID).ToAsyncEnumerable().SingleOrDefault();
+            Seria seria = await seriaRepository
+                .GetWithInclude(s => s.Creator,
+                se => se.SeriaDescriptions,
+                ser => ser.SeriaID == seriaID)
+                .ToAsyncEnumerable()
+                .SingleOrDefault();
 
             if (seria == null) { return null; }
 

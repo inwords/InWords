@@ -1,9 +1,7 @@
 ﻿namespace InWords.Data
 {
-    using InWords.Data.Enums;
     using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
-    using System;
 
     public class InWordsDataContext : DbContext
     {

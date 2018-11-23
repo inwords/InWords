@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InWords.Auth.TFA
+namespace InWords.Service.TFA.Data
 {
     public class Class1
     {

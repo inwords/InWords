@@ -1,4 +1,4 @@
-﻿namespace InWords.Auth.TFA
+﻿namespace InWords.Service.TFA
 {
     using System;
     using System.Collections.Generic;

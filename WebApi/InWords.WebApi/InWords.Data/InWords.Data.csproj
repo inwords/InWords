@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\InWordsAuh\" />
+    <ProjectReference Include="..\InWords.DataCommon\InWords.DataCommon.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace InWords.Auth.TFA.Models
+namespace InWords.Service.TFA.Models
 {
     public class StringJsonConverter<T> where T : class
     {

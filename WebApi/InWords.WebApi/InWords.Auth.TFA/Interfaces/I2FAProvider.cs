@@ -1,9 +1,5 @@
-﻿namespace InWords.Auth.TFA.Interface
+﻿namespace InWords.Service.TFA
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     interface I2FAProvider
     {
         string GetKey(string identity);

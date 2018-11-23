@@ -1,4 +1,4 @@
-﻿namespace InWords.Auth.TFA.Models
+﻿namespace InWords.Service.TFA.Models
 {
     public class EmailConfig
     {

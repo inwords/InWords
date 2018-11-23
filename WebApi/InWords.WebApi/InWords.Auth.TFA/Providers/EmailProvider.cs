@@ -1,9 +1,9 @@
-﻿namespace InWords.Auth.TFA.Providers
+﻿namespace InWords.Service.TFA.Providers
 {
     using System;
     using System.Net;
     using System.Net.Mail;
-    using InWords.Auth.TFA.Models;
+    using InWords.Service.TFA.Models;
     using System.Collections.Generic;
 
     public class EmailProvider : IEmailProvider
@@ -57,7 +57,7 @@
 
         public EmailProvider(string configRes = null)
         {
-            configRes = configRes ?? "InWords.Auth.TFA.Resource.EmailConfig.security.json";
+            configRes = configRes ?? "InWords.Service.TFA.Resource.EmailConfig.security.json";
 
             Config = new StringJsonConverter<EmailConfig>().Convert(EmbeddedResource.GetApiRequestFile(configRes));
         }

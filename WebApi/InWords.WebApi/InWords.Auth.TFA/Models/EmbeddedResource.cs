@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace InWords.Auth.TFA.Models
+namespace InWords.Service.TFA.Models
 {
     public static class EmbeddedResource
     {
