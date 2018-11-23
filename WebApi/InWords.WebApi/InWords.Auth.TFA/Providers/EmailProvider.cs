@@ -1,6 +1,5 @@
 ﻿namespace InWords.Auth.TFA.Providers
 {
-    using InWords.Auth.TFA.Interface;
     using System;
     using System.Net;
     using System.Net.Mail;
@@ -38,7 +37,12 @@
             {
                 From = new MailAddress(mail.Sender)
             };
-            mailMessage.To.Add(mail.Recipient);//todo add RecipienеS
+
+            foreach (var recipent in mail.Recipients)
+            {
+                mailMessage.To.Add(recipent);
+            }
+
             mailMessage.Body = mail.Body;
             mailMessage.Subject = mail.Subject;
             client.Send(mailMessage);
