@@ -8,11 +8,9 @@
   <ItemGroup>
     <None Remove="EmailConfig.security.json" />
     <None Remove="Resource\EmailConfigTest.security.json" />
-    <None Remove="Resource\MailgunConfig.security.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resource\MailgunConfig.security.json" />
     <EmbeddedResource Include="Resource\EmailConfigTest.security.json" />
     <EmbeddedResource Include="Resource\EmailConfig.security.json" />
   </ItemGroup>
