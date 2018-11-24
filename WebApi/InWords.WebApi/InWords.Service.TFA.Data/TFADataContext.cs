@@ -18,11 +18,13 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            var resource = Common.EmbeddedResource.GetApiRequestFile(AppConfig.DATACONFIG);
+            var assembly = typeof(TFADataContext).Assembly;
 
-            DatabaseConfig databaseConfig = new Common.StringJsonConverter<DatabaseConfig>().Convert(resource);
+            var resource = Common.EmbeddedResource.GetApiRequestFile(AppConfig.DATACONFIG, assembly);
 
-            string connectionString = databaseConfig.ConnectionStrings[AppConfig.DefaultConnection];
+            ConnectionStrings connectionStrings = new Common.StringJsonConverter<ConnectionStrings>().Convert(resource);
+
+            string connectionString = connectionStrings.DefaultConnection;
 
             optionbuilder.UseMySql(connectionString);
         }

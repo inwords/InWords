@@ -7,11 +7,11 @@
 
     public static class EmbeddedResource
     {
-        public static string GetApiRequestFile(string namespaceAndFileName)
+        public static string GetApiRequestFile(string namespaceAndFileName, Assembly assembly)
         {
             try
             {
-                using (var stream = typeof(EmbeddedResource).GetTypeInfo().Assembly.GetManifestResourceStream(namespaceAndFileName))
+                using (var stream = assembly.GetManifestResourceStream(namespaceAndFileName))
                 {
                     using (var reader = new StreamReader(stream, Encoding.UTF8))
                     {

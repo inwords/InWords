@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\TFADatabase.security.json" />
+    <None Remove="Resource\TFADatabase.security.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\TFADatabase.security.json" />
+    <EmbeddedResource Include="Resource\TFADatabase.security.json" />
   </ItemGroup>
 
   <ItemGroup>

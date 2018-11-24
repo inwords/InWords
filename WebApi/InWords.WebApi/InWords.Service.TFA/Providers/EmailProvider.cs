@@ -59,8 +59,8 @@
         public EmailProvider(string configRes = null)
         {
             configRes = configRes ?? "InWords.Service.TFA.Resource.EmailConfig.security.json";
-
-            Config = new StringJsonConverter<EmailConfig>().Convert(EmbeddedResource.GetApiRequestFile(configRes));
+            var assembly = typeof(EmailConfig).Assembly;
+            Config = new StringJsonConverter<EmailConfig>().Convert(EmbeddedResource.GetApiRequestFile(configRes, assembly));
         }
         #endregion
     }
