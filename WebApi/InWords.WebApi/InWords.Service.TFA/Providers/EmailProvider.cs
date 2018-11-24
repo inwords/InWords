@@ -5,6 +5,7 @@
     using System.Net.Mail;
     using InWords.Service.TFA.Models;
     using System.Collections.Generic;
+    using InWords.Common;
 
     public class EmailProvider : IEmailProvider
     {

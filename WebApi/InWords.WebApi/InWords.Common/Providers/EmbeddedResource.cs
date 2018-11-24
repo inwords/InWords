@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text;
-
-namespace InWords.Service.TFA.Models
+﻿namespace InWords.Common
 {
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using System.Text;
+
     public static class EmbeddedResource
     {
         public static string GetApiRequestFile(string namespaceAndFileName)
