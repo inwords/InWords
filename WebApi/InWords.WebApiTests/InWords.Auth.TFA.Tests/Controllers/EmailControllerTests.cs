@@ -1,18 +1,16 @@
-﻿using InWords.Service.TFA.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-
-namespace InWords.Service.TFA.Tests.Controllers
+﻿namespace InWords.Service.TFA.Tests.Controllers
 {
+    using InWords.Service.TFA.Controllers;
+    using Xunit;
     public class EmailControllerTests
     {
-        [Fact]
-        public void TestAddRequest()
+        [Theory]
+        [InlineData("anzer987@ya.ru")]
+        public async void SendKeyLength6ToEmail(string email)
         {
             var emailController = new EmailController();
-            emailController.ConfirmEmail("anzer987@ya.ru");
+            var key = await emailController.ConfirmEmail(email);
+            Assert.True(key.Length == 6);
         }
     }
 }

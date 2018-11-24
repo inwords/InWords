@@ -1,29 +1,35 @@
-﻿using InWords.Service.TFA.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Service.TFA.Controllers
+﻿namespace InWords.Service.TFA.Controllers
 {
-    public class EmailController
+    using InWords.Service.TFA.Data;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    public class EmailController : I2FAProvider
     {
-        private readonly AuthRequestRepository authRequestRepository = null;
+        private readonly EmailService emailService = null;
 
         public EmailController()
         {
-            TFADataContext context = new TFADataContext();
-            authRequestRepository = new AuthRequestRepository(context);
+            var context = new TFADataContext();
+            emailService = new EmailService(context);
         }
 
-        public async void ConfirmEmail(string Email)
+        public async Task<string> ConfirmEmail(string email)
         {
-            AuthRequest request = new AuthRequest()
-            {
-                Identity = Email,
-                Code = "5000",
-                TimeToLive = DateTime.Now.AddMinutes(10)
-            };
-            await authRequestRepository.Create(request);
+            var key = await emailService.GetKey(email); //todo async
+            return key;
+        }
+
+        Task<string> I2FAProvider.GetKey(string identity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> I2FAProvider.IsValidKey(string identity, string key)
+        {
+            throw new NotImplementedException();
         }
     }
 }

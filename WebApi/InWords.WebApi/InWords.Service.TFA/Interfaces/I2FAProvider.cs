@@ -1,9 +1,11 @@
 ﻿namespace InWords.Service.TFA
 {
+    using System.Threading.Tasks;
+
     interface I2FAProvider
     {
-        string GetKey(string identity);
+        Task<string> GetKey(string identity);
 
-        bool IsValidKey(string identity, string key);
+        Task<bool> IsValidKey(string identity, string key);
     }
 }
