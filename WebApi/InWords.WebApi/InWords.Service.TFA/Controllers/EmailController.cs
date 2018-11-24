@@ -2,11 +2,12 @@
 {
     using InWords.Service.TFA.Data;
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
 
-    public class EmailController : I2FAProvider
+    /// <summary>
+    /// Controller to confirm email address
+    /// </summary>
+    public class EmailController : I2FAProvider //todo : Base2FAProvider + common IsValidKey
     {
         private readonly EmailService emailService = null;
 
