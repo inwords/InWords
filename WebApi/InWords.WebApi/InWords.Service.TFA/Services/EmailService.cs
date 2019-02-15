@@ -49,15 +49,8 @@
 
         public async Task<bool> IsValidKey(string identity, string key)
         {
-            var request = authRequestRepository.Get(a => a.Identity == identity && a.Code == key);
-            if (request != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var request = authRequestRepository.ExistAny(a => a.Identity == identity && a.Code == key);
+            return request;
         }
 
         private string KeyGen()

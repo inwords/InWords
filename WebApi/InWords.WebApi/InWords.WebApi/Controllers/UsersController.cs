@@ -1,25 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using InWords.Data.Models;
-using InWords.Data.Models.Repositories;
-using Microsoft.AspNetCore.Authorization;
-using InWords.Data;
-using InWords.Data.Enums;
-using System.Security.Claims;
-using System.Linq;
-using InWords.Auth;
-
-namespace InWords.WebApi.Controllers
+﻿namespace InWords.WebApi.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using InWords.Data.Models;
+    using Microsoft.AspNetCore.Authorization;
+    using InWords.Data;
+    using InWords.Data.Enums;
+    using System.Linq;
+    using InWords.Auth;
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly UserRepository usersRepository;
         private readonly AccountRepository accauntRepositoty;
-
 
         public UsersController(InWordsDataContext context)
         {
@@ -72,7 +69,6 @@ namespace InWords.WebApi.Controllers
                 //one to one return null?
                 var authorizedUser = await usersRepository.FindById(authorizedID);
 
-
                 if (authorizedUser == null)
                 {
                     return BadRequest("User doesn't exist. Send this problem to admin");
@@ -87,8 +83,9 @@ namespace InWords.WebApi.Controllers
                 //Update uri
                 if (user.AvatarPath != null)
                 {
-                    authorizedUser.NickName = user.NickName;
+                    authorizedUser.AvatarPath = user.AvatarPath;
                 }
+
                 await usersRepository.Update(authorizedUser);
             }
             catch (DbUpdateConcurrencyException)

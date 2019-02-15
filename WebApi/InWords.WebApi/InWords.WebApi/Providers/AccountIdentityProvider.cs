@@ -85,12 +85,9 @@
             string nameId = "-1";
             string defaultrole = RoleType.Unknown.ToString();
 
-            if (account != null)
-            {
-                nameId = account.AccountID.ToString();
-                email = account.Email;
-                defaultrole = account.Role.ToString();
-            }
+            nameId = account.AccountID.ToString();
+            email = account.Email;
+            defaultrole = account.Role.ToString();
 
             claims = new List<Claim>
             {
