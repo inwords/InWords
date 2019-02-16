@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="styles/signup.css">
     </head>
     <body>
-        <!-- <form onsubmit="validateAndPost(this);">
+        <form onsubmit="validateAndPost(this);">
             <div class="topbar">
                 <h1>InWords <small>PREALPHA</small></h1>
             </div>
@@ -31,10 +31,13 @@
             <div class="container signin">
                 <p>Уже есть аккаунт? <a href="#">Войти</a></p>
             </div>
-        </form> -->
+        </form>
         
         <script>
-            var xhr = new XMLHttpRequest();
+            var request = new XMLHttpRequest();
+            
+            function validateAndPost(form) {
+                var xhr = new XMLHttpRequest();
                 var url = 'http://chatqq.ru/api/auth/registration';
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader("Content-Type", "application/json");
@@ -43,8 +46,9 @@
                         //
                     }
                 };
-                var data = JSON.stringify({'Email': '1@2.ru', 'Password': '1'});
+                var data = JSON.stringify({'Email': '1@1.ru', 'Password': '1'});
                 xhr.send(data);
+            }
         </script>
     </body>
 </html>
