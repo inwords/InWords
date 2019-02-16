@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using InWords.Auth;
     using InWords.Data;
-    using InWords.Data.Models.Repositories;
+    using InWords.Data.Models;
     using InWords.WebApi.Providers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;

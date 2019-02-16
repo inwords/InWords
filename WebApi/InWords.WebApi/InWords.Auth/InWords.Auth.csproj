@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="Filter\**" />
+    <Compile Remove="Providers\**" />
     <EmbeddedResource Remove="Filter\**" />
+    <EmbeddedResource Remove="Providers\**" />
     <None Remove="Filter\**" />
+    <None Remove="Providers\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,10 +36,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Providers\" />
   </ItemGroup>
 
 </Project>

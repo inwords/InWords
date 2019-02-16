@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>InWords</title>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+        <link rel="stylesheet" type="text/css" href="styles/signup.css">
+    </head>
+    <body>
+        <form onsubmit="validateAndPost(this);">
+            <div class="topbar">
+                <h1>InWords <small>PREALPHA</small></h1>
+            </div>
+            
+            <div class="container">
+                <h1>Регистрация</h1>
+                <hr>
+
+                <label for="email"><b>Email</b></label>
+                <input name="email" type="email" required>
+
+                <label for="psw"><b>Пароль</b></label>
+                <input name="psw" type="password"  required>
+
+                <label for="psw-repeat"><b>Повторите пароль</b></label>
+                <input name="psw-repeat" type="password"  required>
+
+                <button class="registerbtn" type="submit" >Зарегистрироваться</button>
+            </div>
+
+            <div class="container signin">
+                <p>Уже есть аккаунт? <a href="#">Войти</a></p>
+            </div>
+        </form>
+        
+        <script>
+            var request = new XMLHttpRequest();
+            
+            function validateAndPost(form) {
+                var xhr = new XMLHttpRequest();
+                var url = 'http://chatqq.ru/api/auth/registration';
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        //
+                    }
+                };
+                var data = JSON.stringify({'Email': '1@1.ru', 'Password': '1'});
+                xhr.send(data);
+            }
+        </script>
+    </body>
+</html>
