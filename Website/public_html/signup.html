@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>InWords</title>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles/signup.css">
+
+</head>
+
+<body>
+    <!-- <form onsubmit="validateAndPost(this);">
+        <div class="topbar">
+            <h1>InWords <small>PREALPHA</small></h1>
+        </div>
+
+        <div class="container">
+            <h1>Регистрация</h1>
+            <hr>
+
+            <label for="email"><b>Email</b></label>
+            <input name="email" type="email" required>
+
+            <label for="psw"><b>Пароль</b></label>
+            <input name="psw" type="password" required>
+
+            <label for="psw-repeat"><b>Повторите пароль</b></label>
+            <input name="psw-repeat" type="password" required>
+
+            <button class="registerbtn" type="submit">Зарегистрироваться</button>
+        </div>
+
+        <div class="container signin">
+            <p>Уже есть аккаунт? <a href="#">Войти</a></p>
+        </div>
+    </form> -->
+
+    <script>
+        var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
+
+        var xhr = new XHR();
+
+        // (2) запрос на другой домен :)
+        xhr.open('GET', 'http://chatqq.ru/api/reqistration', true);
+        xhr.data = JSON.stringify({
+            "Email": "1@1",
+            "Password": "1"
+        });
+        xhr.onload = function () {
+            alert(this.responseText);
+        }
+
+        xhr.onerror = function () {
+            alert('Ошибка ' + this.status);
+        }
+
+        xhr.send();
+    </script>
+</body>
+
+</html>
