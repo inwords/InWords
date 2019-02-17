@@ -1,40 +1,31 @@
 package com.dreamproject.inwords.viewScenario.translation.recycler;
 
 import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
 
+import com.dreamproject.inwords.core.ObjectsUtil;
+import com.dreamproject.inwords.core.SimpleDiffUtilCallback;
 import com.dreamproject.inwords.data.entity.WordTranslation;
 
 import java.util.List;
 
-public class WordTranslationsDiffUtilCallback extends DiffUtil.Callback {
-
-    private List<WordTranslation> oldWordTranslations;
-    private List<WordTranslation> newWordTranslations;
+public class WordTranslationsDiffUtilCallback extends SimpleDiffUtilCallback<WordTranslation> {
+    public static WordTranslationsDiffUtilCallback create(List<WordTranslation> oldItems,
+                                                          List<WordTranslation> newItems) {
+        return new WordTranslationsDiffUtilCallback(oldItems, newItems);
+    }
 
     public WordTranslationsDiffUtilCallback(List<WordTranslation> newWordTranslations, List<WordTranslation> oldWordTranslations) {
-        this.newWordTranslations = newWordTranslations;
-        this.oldWordTranslations = oldWordTranslations;
+        super(oldWordTranslations, newWordTranslations);
     }
 
     @Override
-    public int getOldListSize() {
-        return oldWordTranslations.size();
+    public boolean areItemsTheSame(WordTranslation oldItem, WordTranslation newItem) {
+        return ObjectsUtil.equals(oldItem.getWordNative(), newItem.getWordNative());
     }
 
     @Override
-    public int getNewListSize() {
-        return newWordTranslations.size();
-    }
-
-    @Override
-    public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldWordTranslations.get(oldItemPosition).getWordNative().equals(newWordTranslations.get(newItemPosition).getWordNative());
-    }
-
-    @Override
-    public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldWordTranslations.get(oldItemPosition).equals(newWordTranslations.get(newItemPosition));
+    protected boolean areContentsTheSame(WordTranslation oldItem, WordTranslation newItem) {
+        return ObjectsUtil.equals(oldItem, newItem);
     }
 
     @Nullable

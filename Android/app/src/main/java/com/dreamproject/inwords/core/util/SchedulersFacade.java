@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.util;
+package com.dreamproject.inwords.core.util;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;

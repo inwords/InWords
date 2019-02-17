@@ -29,6 +29,7 @@ public class TranslationWordsInteractorImpl implements TranslationWordsInteracto
     @Override
     public Completable remove(WordTranslation wordTranslation) {
         return repositoryInteractor.markRemoved(wordTranslation);
+//        return Completable.complete();
     }
 
     @Override

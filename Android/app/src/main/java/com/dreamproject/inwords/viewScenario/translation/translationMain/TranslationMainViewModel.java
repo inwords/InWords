@@ -17,24 +17,23 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 public class TranslationMainViewModel extends BasicViewModel {
-    private final MutableLiveData<List<WordTranslation>> translationWordsLiveData;
+    private final Observable<List<WordTranslation>> translationWordsStream;
     private final MutableLiveData<Event<WordTranslation>> addEditWordLiveData;
 
     private final TranslationWordsInteractor translationWordsInteractor;
     private TranslationSyncInteractor translationSyncInteractor;
 
-    @SuppressLint("CheckResult")
     TranslationMainViewModel(final TranslationWordsInteractor translationWordsInteractor,
                              final TranslationSyncInteractor translationSyncInteractor) {
         this.translationWordsInteractor = translationWordsInteractor;
         this.translationSyncInteractor = translationSyncInteractor;
 
-        this.translationWordsLiveData = new MutableLiveData<>();
         this.addEditWordLiveData = new MutableLiveData<>();
 
         //noinspection ResultOfMethodCallIgnored
-        translationWordsInteractor.getAllWords()
-                .subscribe(translationWordsLiveData::postValue, Throwable::printStackTrace);
+        translationWordsStream = translationWordsInteractor.getAllWords()
+                .share()
+                .debounce(200, TimeUnit.MILLISECONDS);
     }
 
     @SuppressLint("CheckResult")
@@ -58,8 +57,8 @@ public class TranslationMainViewModel extends BasicViewModel {
         compositeDisposable.add(d);
     }
 
-    public LiveData<List<WordTranslation>> getTranslationWordsLiveData() {
-        return translationWordsLiveData;
+    public Observable<List<WordTranslation>> getTranslationWordsStream() {
+        return translationWordsStream;
     }
 
     public LiveData<Event<WordTranslation>> getAddEditWordLiveData() {

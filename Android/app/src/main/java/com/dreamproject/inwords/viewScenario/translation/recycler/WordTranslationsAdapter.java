@@ -1,9 +1,9 @@
 package com.dreamproject.inwords.viewScenario.translation.recycler;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,52 +15,34 @@ import com.dreamproject.inwords.data.entity.WordTranslation;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 
 public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslationsAdapter.WordViewHolder>
-        implements WordListOperations {
+        implements Consumer<Pair<List<WordTranslation>, DiffUtil.DiffResult>> {
     private final LayoutInflater inflater;
     private final int actionLayout;
     private List<WordTranslation> wordTranslations;
     private PublishSubject<WordTranslation> onItemClickedListener;
 
-    private WordTranslationsAdapter(List<WordTranslation> wordTranslations, Context context, PublishSubject<WordTranslation> onItemClickedListener) {
-        this.inflater = LayoutInflater.from(context);
+    private WordTranslationsAdapter(List<WordTranslation> wordTranslations,
+                                    LayoutInflater layoutInflater, PublishSubject<WordTranslation> onItemClickedListener) {
+        this.inflater = layoutInflater;
         this.actionLayout = R.layout.list_item_word;
         this.wordTranslations = wordTranslations;
         this.onItemClickedListener = onItemClickedListener;
     }
 
-    public WordTranslationsAdapter(Context context, PublishSubject<WordTranslation> onItemClickedListener) {
-        this(new ArrayList<>(), context, onItemClickedListener);
-    }
-
-    private void setWordTranslations(List<WordTranslation> wordTranslations) {
-        this.wordTranslations = wordTranslations;
+    public WordTranslationsAdapter(LayoutInflater layoutInflater, PublishSubject<WordTranslation> onItemClickedListener) {
+        this(new ArrayList<>(), layoutInflater, onItemClickedListener);
     }
 
     @Override
-    public Completable applyUpdatedWordTranslations(List<WordTranslation> wordTranslations) {
-        return Single.fromCallable(() -> {
-            WordTranslationsDiffUtilCallback diffUtilCallback = new WordTranslationsDiffUtilCallback(wordTranslations, getWordTranslations());
-            return DiffUtil.calculateDiff(diffUtilCallback);
-        })
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(diffResult -> {
-                    synchronized (WordTranslationsAdapter.class) { //TODO care
-                        setWordTranslations(wordTranslations);
-                        diffResult.dispatchUpdatesTo(this);
-                    }
-                })
-                .ignoreElement();
+    public void accept(Pair<List<WordTranslation>, DiffUtil.DiffResult> pair) {
+        this.wordTranslations = pair.first;
+        pair.second.dispatchUpdatesTo(this);
     }
 
-    @Override
     public List<WordTranslation> getWordTranslations() {
         return wordTranslations;
     }
@@ -84,7 +66,7 @@ public class WordTranslationsAdapter extends RecyclerView.Adapter<WordTranslatio
         return wordTranslations.size();
     }
 
-    static class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static final class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_word_native;
         TextView tv_word_foreign;
         PublishSubject<WordTranslation> onItemClickedListener;
