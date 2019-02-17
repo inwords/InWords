@@ -2,8 +2,6 @@ package com.dreamproject.inwords.data.interactor.translation;
 
 import com.dreamproject.inwords.data.sync.TranslationSyncController;
 
-import java.util.Collections;
-
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
@@ -28,9 +26,7 @@ public class TranslationSyncInteractorImpl implements TranslationSyncInteractor 
     @Override
     public Completable trySyncAllReposWithCache() {
         return syncController.trySyncAllReposWithCache()
-                .subscribeOn(Schedulers.io())
-                .onErrorReturnItem(Collections.emptyList())
-                .ignoreElements();
+                .subscribeOn(Schedulers.io());
     }
 
     @Override

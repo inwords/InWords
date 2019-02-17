@@ -14,13 +14,14 @@ public class WordTranslationsDiffUtilCallback extends SimpleDiffUtilCallback<Wor
         return new WordTranslationsDiffUtilCallback(oldItems, newItems);
     }
 
-    public WordTranslationsDiffUtilCallback(List<WordTranslation> newWordTranslations, List<WordTranslation> oldWordTranslations) {
+    public WordTranslationsDiffUtilCallback(List<WordTranslation> oldWordTranslations, List<WordTranslation> newWordTranslations) {
         super(oldWordTranslations, newWordTranslations);
     }
 
     @Override
     public boolean areItemsTheSame(WordTranslation oldItem, WordTranslation newItem) {
-        return ObjectsUtil.equals(oldItem.getWordNative(), newItem.getWordNative());
+        return ObjectsUtil.equals(oldItem.getWordNative(), newItem.getWordNative()) &&
+                ObjectsUtil.equals(oldItem.getWordForeign(), newItem.getWordForeign());
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.dreamproject.inwords.viewScenario.translation.translationMain;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 public class TranslationMainViewModel extends BasicViewModel {
     private final Observable<List<WordTranslation>> translationWordsStream;
@@ -30,31 +28,26 @@ public class TranslationMainViewModel extends BasicViewModel {
 
         this.addEditWordLiveData = new MutableLiveData<>();
 
-        //noinspection ResultOfMethodCallIgnored
         translationWordsStream = translationWordsInteractor.getAllWords()
                 .share()
                 .debounce(200, TimeUnit.MILLISECONDS);
     }
 
-    @SuppressLint("CheckResult")
     public void onItemDismiss(WordTranslation wordTranslation) {
-        //noinspection ResultOfMethodCallIgnored
-        translationWordsInteractor.remove(wordTranslation)
-                .subscribe(translationSyncInteractor::notifyDataChanged, Throwable::printStackTrace);
+        compositeDisposable.add(translationWordsInteractor.remove(wordTranslation)
+                .subscribe(translationSyncInteractor::notifyDataChanged, Throwable::printStackTrace));
     }
 
     public void onAddClickedHandler(Observable<Object> clicksObservable) { //fab clicked
-        Disposable d = clicksObservable
+        compositeDisposable.add(clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe(__ -> addEditWordLiveData.postValue(new Event<>(null)));
-        compositeDisposable.add(d);
+                .subscribe(__ -> addEditWordLiveData.postValue(new Event<>(null))));
     }
 
     public void onEditClicked(Observable<WordTranslation> clicksObservable) { //clickListener on item
-        Disposable d = clicksObservable
+        compositeDisposable.add(clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe(wordTranslation -> addEditWordLiveData.postValue(new Event<>(wordTranslation)));
-        compositeDisposable.add(d);
+                .subscribe(wordTranslation -> addEditWordLiveData.postValue(new Event<>(wordTranslation))));
     }
 
     public Observable<List<WordTranslation>> getTranslationWordsStream() {

@@ -26,7 +26,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
-import io.reactivex.BackpressureStrategy;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -64,7 +63,7 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
 
         FloatingActionButton fab = view.findViewById(R.id.fab);
         viewModel.onAddClickedHandler(RxView.clicks(fab));
-        viewModel.onEditClicked(onItemClickedListener.toFlowable(BackpressureStrategy.DROP).toObservable());
+        viewModel.onEditClicked(onItemClickedListener);
     }
 
     public List<WordTranslation> getWordTranslations() {

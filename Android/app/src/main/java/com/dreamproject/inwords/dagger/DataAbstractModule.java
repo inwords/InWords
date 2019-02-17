@@ -1,7 +1,7 @@
 package com.dreamproject.inwords.dagger;
 
-import com.dreamproject.inwords.dagger.annotations.CacheRepositoryQualifier;
-import com.dreamproject.inwords.dagger.annotations.LocalRepositoryQualifier;
+import com.dreamproject.inwords.dagger.annotations.CacheRepository;
+import com.dreamproject.inwords.dagger.annotations.LocalRepository;
 import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
 import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationWebInteractor;
 import com.dreamproject.inwords.data.interactor.translation.TranslationSyncInteractor;
@@ -50,12 +50,12 @@ public interface DataAbstractModule {
     //repos
     @Binds
     @Singleton
-    @LocalRepositoryQualifier
+    @LocalRepository
     TranslationWordsLocalRepository translationWordsDatabaseRepository(TranslationWordsDatabaseRepository repository);
 
     @Binds
     @Singleton
-    @CacheRepositoryQualifier
+    @CacheRepository
     TranslationWordsLocalRepository translationWordsCacheRepository(TranslationWordsCacheRepository repository);
 
     @Binds
