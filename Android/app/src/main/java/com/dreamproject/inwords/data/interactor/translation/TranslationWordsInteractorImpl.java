@@ -16,9 +16,21 @@ public class TranslationWordsInteractorImpl implements TranslationWordsInteracto
 
     private final TranslationWordsRepositoryInteractor repositoryInteractor;
 
+    private final Observable<List<WordTranslation>> wordsStream;
+
     @Inject
     TranslationWordsInteractorImpl(final TranslationWordsRepositoryInteractor repositoryInteractor) {
         this.repositoryInteractor = repositoryInteractor;
+
+        this.wordsStream = repositoryInteractor.getList().map(wordTranslations ->
+                Observable.fromIterable(wordTranslations)
+                        .filter(wordTranslation -> wordTranslation.getServerId() >= 0)
+                        .toList()
+                        .onErrorReturnItem(Collections.emptyList()) //TODO think
+                        .blockingGet())
+                .share()
+                .replay(1)
+                .autoConnect();
     }
 
     @Override
@@ -29,7 +41,6 @@ public class TranslationWordsInteractorImpl implements TranslationWordsInteracto
     @Override
     public Completable remove(WordTranslation wordTranslation) {
         return repositoryInteractor.markRemoved(wordTranslation);
-//        return Completable.complete();
     }
 
     @Override
@@ -39,12 +50,7 @@ public class TranslationWordsInteractorImpl implements TranslationWordsInteracto
 
     @Override
     public Observable<List<WordTranslation>> getAllWords() {
-        return repositoryInteractor.getList().map(wordTranslations ->
-                Observable.fromIterable(wordTranslations)
-                        .filter(wordTranslation -> wordTranslation.getServerId() >= 0)
-                        .toList()
-                        .onErrorReturnItem(Collections.emptyList()) //TODO think
-                        .blockingGet());
+        return wordsStream;
     }
 
 }

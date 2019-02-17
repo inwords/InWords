@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 
 public class TranslationMainViewModel extends BasicViewModel {
-    private final Observable<List<WordTranslation>> translationWordsStream;
     private final MutableLiveData<Event<WordTranslation>> addEditWordLiveData;
 
     private final TranslationWordsInteractor translationWordsInteractor;
@@ -27,10 +26,6 @@ public class TranslationMainViewModel extends BasicViewModel {
         this.translationSyncInteractor = translationSyncInteractor;
 
         this.addEditWordLiveData = new MutableLiveData<>();
-
-        translationWordsStream = translationWordsInteractor.getAllWords()
-                .share()
-                .debounce(200, TimeUnit.MILLISECONDS);
     }
 
     public void onItemDismiss(WordTranslation wordTranslation) {
@@ -51,7 +46,7 @@ public class TranslationMainViewModel extends BasicViewModel {
     }
 
     public Observable<List<WordTranslation>> getTranslationWordsStream() {
-        return translationWordsStream;
+        return translationWordsInteractor.getAllWords();
     }
 
     public LiveData<Event<WordTranslation>> getAddEditWordLiveData() {

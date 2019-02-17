@@ -15,11 +15,12 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
 public class TranslationWordsCacheRepository implements TranslationWordsLocalRepository {
     private ConcurrentHashMap<WordTranslation, WordTranslation> list;
 
-    private BehaviorSubject<List<WordTranslation>> behaviorSubject;
+    private Subject<List<WordTranslation>> behaviorSubject;
 
     @Inject
     public TranslationWordsCacheRepository() {
