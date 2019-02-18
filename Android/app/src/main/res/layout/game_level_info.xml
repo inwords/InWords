@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="110dp"
-    android:layout_height="110dp"
-    android:background="@color/blue_normal">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="80dp"
+    android:layout_columnWeight="1"
+    android:layout_gravity="fill_horizontal"
+    android:layout_margin="@dimen/half_margin"
+    android:padding="@dimen/half_margin">
+
+    <TextView
+        android:id="@+id/title"
+        style="?android:attr/textAppearanceInverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        tools:text="Введение" />
 
     <LinearLayout
-        android:id="@+id/gameLevelsStars"
-        android:layout_width="match_parent"
+        android:id="@+id/stars"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:gravity="center"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center_horizontal"
         android:orientation="horizontal" />
 
 </FrameLayout>
