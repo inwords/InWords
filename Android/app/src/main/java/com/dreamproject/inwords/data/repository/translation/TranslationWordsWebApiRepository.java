@@ -1,8 +1,8 @@
 package com.dreamproject.inwords.data.repository.translation;
 
-import com.dreamproject.inwords.data.entity.EntityIdentificator;
-import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.source.WebService.WebRequestsManager;
+import com.dreamproject.inwords.data.dto.EntityIdentificator;
+import com.dreamproject.inwords.data.dto.WordTranslation;
+import com.dreamproject.inwords.data.source.webService.WebRequestsManager;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
-import static com.dreamproject.inwords.util.WordsUtil.absList;
+import static com.dreamproject.inwords.domain.util.WordsUtil.absList;
 
 public class TranslationWordsWebApiRepository implements TranslationWordsRemoteRepository {
     private WebRequestsManager webRequestsManager;

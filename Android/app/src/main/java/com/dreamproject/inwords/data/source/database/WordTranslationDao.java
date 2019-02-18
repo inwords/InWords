@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.dto.WordTranslation;
 
 import java.util.List;
 

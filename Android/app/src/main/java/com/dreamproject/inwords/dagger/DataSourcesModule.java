@@ -4,8 +4,8 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.dreamproject.inwords.BuildConfig;
-import com.dreamproject.inwords.data.source.WebService.BasicAuthenticator;
-import com.dreamproject.inwords.data.source.WebService.WebApiService;
+import com.dreamproject.inwords.data.source.webService.BasicAuthenticator;
+import com.dreamproject.inwords.data.source.webService.WebApiService;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 

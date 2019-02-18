@@ -3,9 +3,9 @@ package com.dreamproject.inwords.data.source.database;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.dreamproject.inwords.data.entity.User;
-import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.entity.WordsSeria;
+import com.dreamproject.inwords.data.dto.User;
+import com.dreamproject.inwords.data.dto.WordTranslation;
+import com.dreamproject.inwords.data.dto.WordsSeria;
 
 @Database(entities = {WordTranslation.class, User.class, WordsSeria.class}, version = 1)
 public abstract class AppRoomDatabase extends RoomDatabase {

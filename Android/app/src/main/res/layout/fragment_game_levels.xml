@@ -3,12 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".viewScenario.octoGame.GameLevelsFragment">
+    tools:context=".presentation.viewScenario.octoGame.GameLevelsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />
+
+    <!-- TODO: remove 100dp -->
+    <GridLayout
+        android:id="@+id/levelsGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:columnCount="3">
+
+    </GridLayout>
 
 </FrameLayout>

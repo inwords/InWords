@@ -2,21 +2,21 @@ package com.dreamproject.inwords.dagger;
 
 import com.dreamproject.inwords.dagger.annotations.CacheRepository;
 import com.dreamproject.inwords.dagger.annotations.LocalRepository;
-import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationInteractor;
-import com.dreamproject.inwords.data.interactor.authorisation.AuthorisationWebInteractor;
-import com.dreamproject.inwords.data.interactor.translation.TranslationSyncInteractor;
-import com.dreamproject.inwords.data.interactor.translation.TranslationSyncInteractorImpl;
-import com.dreamproject.inwords.data.interactor.translation.TranslationWordsCacheInteractor;
-import com.dreamproject.inwords.data.interactor.translation.TranslationWordsInteractor;
-import com.dreamproject.inwords.data.interactor.translation.TranslationWordsInteractorImpl;
-import com.dreamproject.inwords.data.interactor.translation.TranslationWordsRepositoryInteractor;
+import com.dreamproject.inwords.domain.interactor.authorisation.AuthorisationInteractor;
+import com.dreamproject.inwords.domain.interactor.authorisation.AuthorisationWebInteractor;
+import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractor;
+import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractorImpl;
+import com.dreamproject.inwords.domain.interactor.translation.TranslationWordsCacheInteractor;
+import com.dreamproject.inwords.domain.interactor.translation.TranslationWordsInteractor;
+import com.dreamproject.inwords.domain.interactor.translation.TranslationWordsInteractorImpl;
+import com.dreamproject.inwords.domain.interactor.translation.TranslationWordsRepositoryInteractor;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsCacheRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsDatabaseRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsWebApiRepository;
-import com.dreamproject.inwords.data.source.WebService.WebRequestsManager;
-import com.dreamproject.inwords.data.source.WebService.WebRequestsManagerImpl;
+import com.dreamproject.inwords.data.source.webService.WebRequestsManager;
+import com.dreamproject.inwords.data.source.webService.WebRequestsManagerImpl;
 
 import javax.inject.Singleton;
 

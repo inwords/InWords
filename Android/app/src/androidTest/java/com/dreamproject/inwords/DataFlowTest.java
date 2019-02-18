@@ -2,10 +2,10 @@ package com.dreamproject.inwords;
 
 import android.support.test.InstrumentationRegistry;
 
-import com.dreamproject.inwords.data.entity.User;
-import com.dreamproject.inwords.data.entity.WordTranslation;
-import com.dreamproject.inwords.data.source.WebService.WebRequestsManager;
-import com.dreamproject.inwords.data.source.WebService.WebRequestsManagerImpl;
+import com.dreamproject.inwords.data.dto.User;
+import com.dreamproject.inwords.data.dto.WordTranslation;
+import com.dreamproject.inwords.data.source.webService.WebRequestsManager;
+import com.dreamproject.inwords.data.source.webService.WebRequestsManagerImpl;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 
 import org.junit.After;

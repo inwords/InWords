@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".viewScenario.MainActivity">
+    tools:context=".presentation.viewScenario.MainActivity">
 
     <fragment
         android:id="@+id/main_nav_host_fragment"

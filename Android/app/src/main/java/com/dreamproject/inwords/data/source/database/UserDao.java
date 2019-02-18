@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.dreamproject.inwords.data.entity.User;
+import com.dreamproject.inwords.data.dto.User;
 
 import java.util.List;
 

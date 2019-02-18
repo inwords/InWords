@@ -2,8 +2,8 @@ package com.dreamproject.inwords.data.sync;
 
 import com.dreamproject.inwords.dagger.annotations.CacheRepository;
 import com.dreamproject.inwords.dagger.annotations.LocalRepository;
-import com.dreamproject.inwords.data.entity.EntityIdentificator;
-import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.dto.EntityIdentificator;
+import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 
@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 import static com.dreamproject.inwords.data.sync.TranslationSyncController.Groups.ADD;
-import static com.dreamproject.inwords.util.WordsUtil.serverIdsFromWordTranslations;
+import static com.dreamproject.inwords.domain.util.WordsUtil.serverIdsFromWordTranslations;
 
 public class TranslationSyncController {
     private TranslationWordsLocalRepository inMemoryRepository;

@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.repository.translation;
 
-import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
 import java.util.List;
