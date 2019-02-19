@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
-<!-- Active URL: http://ondras.zarovi.cz/sql/demo/ -->
+<!-- Active URL: http://ondras.zarovi.cz/sql/demo/?keyword=default -->
 <sql>
 <datatypes db="mysql">
 	<group label="Numeric" color="rgb(238,238,170)">
@@ -37,7 +37,7 @@
 		<type label="SET" length="1" sql="SET" quote=""/>
 		<type label="Bit" length="0" sql="bit" quote=""/>
 	</group>
-</datatypes><table x="68" y="304" name="Account">
+</datatypes><table x="57" y="306" name="Account">
 <row name="AccountID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -60,7 +60,7 @@
 <part>AccountID</part>
 </key>
 </table>
-<table x="65" y="683" name="Language">
+<table x="62" y="724" name="Language">
 <row name="LanguageID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -71,12 +71,9 @@
 <part>LanguageID</part>
 </key>
 </table>
-<table x="466" y="338" name="Seria">
-<row name="SeriaID" null="1" autoincrement="1">
+<table x="633" y="334" name="GameBox">
+<row name="GameBoxID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="SeriaName" null="1" autoincrement="0">
-<datatype>CHAR(64)</datatype>
 <default>NULL</default></row>
 <row name="Creator_ID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -84,26 +81,26 @@
 <comment>Creator</comment>
 </row>
 <key type="PRIMARY" name="">
-<part>SeriaID</part>
+<part>GameBoxID</part>
 </key>
 </table>
-<table x="668" y="484" name="SeriaWord">
-<row name="SeriaWordID" null="1" autoincrement="1">
+<table x="1115" y="588" name="GameLevelWord">
+<row name="GameLevelWordID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
+<row name="GameLevelID" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="GameLevel" row="GameLevelID" />
+</row>
 <row name="WordPair_ID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="WordPair" row="WordPairID" />
 </row>
-<row name="Seria_ID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Seria" row="SeriaID" />
-</row>
 <key type="PRIMARY" name="">
-<part>SeriaWordID</part>
+<part>GameLevelWordID</part>
 </key>
 </table>
-<table x="250" y="234" name="User">
+<table x="270" y="323" name="User">
 <row name="UserID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Account" row="AccountID" />
@@ -121,39 +118,42 @@
 <part>UserID</part>
 </key>
 </table>
-<table x="647" y="265" name="UserSeria">
-<row name="UserSeriaID" null="1" autoincrement="1">
+<table x="897" y="138" name="UserGameBox">
+<row name="UserGameBoxID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="Seria_ID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Seria" row="SeriaID" />
-</row>
-<row name="User_ID" null="1" autoincrement="0">
+<row name="UserID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="User" row="UserID" />
 </row>
+<row name="GameBoxID" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="GameBox" row="GameBoxID" />
+</row>
+<row name="new field" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
-<part>UserSeriaID</part>
+<part>UserGameBoxID</part>
 </key>
 </table>
-<table x="403" y="514" name="UserWordPair">
+<table x="533" y="576" name="UserWordPair">
 <row name="UserWordPairID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="WordPair_ID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="WordPair" row="WordPairID" />
-</row>
 <row name="User_ID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="User" row="UserID" />
+</row>
+<row name="WordPair_ID" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="WordPair" row="WordPairID" />
 </row>
 <key type="PRIMARY" name="">
 <part>UserWordPairID</part>
 </key>
 </table>
-<table x="248" y="637" name="Word">
+<table x="233" y="727" name="Word">
 <row name="WordID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -168,7 +168,7 @@
 <part>WordID</part>
 </key>
 </table>
-<table x="414" y="673" name="WordPair">
+<table x="352" y="713" name="WordPair">
 <row name="WordPairID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -185,6 +185,49 @@
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>WordPairID</part>
+</key>
+</table>
+<table x="878" y="403" name="GameLevel">
+<row name="GameLevelID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="GameBoxID" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="GameBox" row="GameBoxID" />
+</row>
+<row name="Title" null="1" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>NULL</default></row>
+<row name="TotalStars" null="1" autoincrement="0">
+<datatype>INT</datatype>
+<default>NULL</default></row>
+<row name="MinStarsToUnlock" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="new field" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>GameLevelID</part>
+</key>
+</table>
+<table x="1177" y="183" name="UserGameLevel">
+<row name="UserGameLevelID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="UserGameBoxID" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="UserGameBox" row="UserGameBoxID" />
+</row>
+<row name="GameLevelID" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="GameLevel" row="GameLevelID" />
+</row>
+<row name="UserStars" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>UserGameLevelID</part>
 </key>
 </table>
 </sql>
