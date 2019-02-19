@@ -1,4 +1,4 @@
-﻿namespace InWords.Data.Models.InWords
+﻿namespace InWords.Data.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
