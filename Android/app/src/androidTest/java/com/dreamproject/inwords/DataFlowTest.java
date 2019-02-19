@@ -1,17 +1,16 @@
 package com.dreamproject.inwords;
 
-import android.support.test.InstrumentationRegistry;
-
 import com.dreamproject.inwords.data.dto.User;
 import com.dreamproject.inwords.data.dto.WordTranslation;
+import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.webService.WebRequestsManager;
 import com.dreamproject.inwords.data.source.webService.WebRequestsManagerImpl;
-import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import androidx.test.InstrumentationRegistry;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

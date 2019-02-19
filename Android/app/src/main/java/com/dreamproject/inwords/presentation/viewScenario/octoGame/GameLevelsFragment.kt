@@ -3,10 +3,10 @@ package com.dreamproject.inwords.presentation.viewScenario.octoGame
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.ColorUtil
 import com.dreamproject.inwords.domain.GameLevelInfo

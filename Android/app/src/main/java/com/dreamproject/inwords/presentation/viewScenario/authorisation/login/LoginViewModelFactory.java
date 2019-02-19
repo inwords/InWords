@@ -1,12 +1,12 @@
 package com.dreamproject.inwords.presentation.viewScenario.authorisation.login;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
-
 import com.dreamproject.inwords.domain.interactor.authorisation.AuthorisationInteractor;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 public class LoginViewModelFactory implements ViewModelProvider.Factory {
     private final AuthorisationInteractor authorisationInteractor;

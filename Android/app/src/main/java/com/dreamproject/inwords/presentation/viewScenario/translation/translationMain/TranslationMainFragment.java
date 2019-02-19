@@ -3,13 +3,6 @@ package com.dreamproject.inwords.presentation.viewScenario.translation.translati
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -22,10 +15,17 @@ import com.dreamproject.inwords.presentation.viewScenario.translation.recycler.I
 import com.dreamproject.inwords.presentation.viewScenario.translation.recycler.ItemTouchHelperEvents;
 import com.dreamproject.inwords.presentation.viewScenario.translation.recycler.WordTranslationsAdapter;
 import com.dreamproject.inwords.presentation.viewScenario.translation.recycler.WordTranslationsDiffUtilCallback;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
 

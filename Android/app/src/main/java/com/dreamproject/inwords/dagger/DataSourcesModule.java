@@ -1,18 +1,18 @@
 package com.dreamproject.inwords.dagger;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.dreamproject.inwords.BuildConfig;
-import com.dreamproject.inwords.data.source.webService.BasicAuthenticator;
-import com.dreamproject.inwords.data.source.webService.WebApiService;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
+import com.dreamproject.inwords.data.source.webService.BasicAuthenticator;
+import com.dreamproject.inwords.data.source.webService.WebApiService;
 
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
+import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;

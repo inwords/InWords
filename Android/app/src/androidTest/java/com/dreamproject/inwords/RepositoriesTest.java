@@ -1,8 +1,5 @@
 package com.dreamproject.inwords;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsCacheRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsDatabaseRepository;
@@ -19,6 +16,8 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 import io.reactivex.observers.TestObserver;
 
 @RunWith(AndroidJUnit4.class)

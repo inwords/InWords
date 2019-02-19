@@ -1,11 +1,11 @@
 package com.dreamproject.inwords.presentation.viewScenario.octoGame;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 @Singleton
 public class GameLevelsViewModelFactory implements ViewModelProvider.Factory {

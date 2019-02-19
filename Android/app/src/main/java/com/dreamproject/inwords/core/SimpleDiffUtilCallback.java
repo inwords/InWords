@@ -1,8 +1,8 @@
 package com.dreamproject.inwords.core;
 
-import android.support.v7.util.DiffUtil;
-
 import java.util.List;
+
+import androidx.recyclerview.widget.DiffUtil;
 
 public abstract class SimpleDiffUtilCallback<T> extends DiffUtil.Callback {
 

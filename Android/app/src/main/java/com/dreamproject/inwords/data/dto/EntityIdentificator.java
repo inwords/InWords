@@ -1,12 +1,12 @@
 package com.dreamproject.inwords.data.dto;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 public class EntityIdentificator implements Cloneable, Serializable {
     @PrimaryKey(autoGenerate = true)

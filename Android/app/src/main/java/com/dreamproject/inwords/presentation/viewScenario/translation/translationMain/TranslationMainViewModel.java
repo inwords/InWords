@@ -1,17 +1,16 @@
 package com.dreamproject.inwords.presentation.viewScenario.translation.translationMain;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-
-import com.dreamproject.inwords.presentation.viewScenario.BasicViewModel;
 import com.dreamproject.inwords.core.util.Event;
 import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractor;
 import com.dreamproject.inwords.domain.interactor.translation.TranslationWordsInteractor;
+import com.dreamproject.inwords.presentation.viewScenario.BasicViewModel;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Observable;
 
 public class TranslationMainViewModel extends BasicViewModel {

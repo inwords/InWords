@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.source.webService.session;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class TokenResponse {
     @NonNull

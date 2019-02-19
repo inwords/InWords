@@ -1,11 +1,11 @@
 package com.dreamproject.inwords.core;
 
-import android.support.v7.util.DiffUtil;
 import android.util.Pair;
 
 import java.util.Collections;
 import java.util.List;
 
+import androidx.recyclerview.widget.DiffUtil;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.functions.BiFunction;
 

@@ -1,7 +1,6 @@
 package com.dreamproject.inwords.presentation.viewScenario;
 
-import android.arch.lifecycle.ViewModel;
-
+import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class BasicViewModel extends ViewModel {

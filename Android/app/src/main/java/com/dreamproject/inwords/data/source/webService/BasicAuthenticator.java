@@ -1,12 +1,11 @@
 package com.dreamproject.inwords.data.source.webService;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import okhttp3.Authenticator;
 import okhttp3.Request;
 import okhttp3.Response;

@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -15,6 +14,8 @@ import android.view.animation.Interpolator;
 
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.presentation.button.ProcessButton;
+
+import androidx.core.view.ViewCompat;
 
 public class ActionProcessButton extends ProcessButton {
 

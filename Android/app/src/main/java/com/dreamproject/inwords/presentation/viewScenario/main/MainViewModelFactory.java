@@ -1,13 +1,13 @@
 package com.dreamproject.inwords.presentation.viewScenario.main;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
-
 import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractor;
 import com.dreamproject.inwords.domain.interactor.translation.TranslationWordsInteractor;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 public class MainViewModelFactory implements ViewModelProvider.Factory {
     private final TranslationWordsInteractor translationWordsInteractor;

@@ -1,12 +1,12 @@
 package com.dreamproject.inwords.presentation.viewScenario.translation.recycler;
 
-import android.support.annotation.Nullable;
-
 import com.dreamproject.inwords.core.ObjectsUtil;
 import com.dreamproject.inwords.core.SimpleDiffUtilCallback;
 import com.dreamproject.inwords.data.dto.WordTranslation;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public class WordTranslationsDiffUtilCallback extends SimpleDiffUtilCallback<WordTranslation> {
     public static WordTranslationsDiffUtilCallback create(List<WordTranslation> oldItems,
