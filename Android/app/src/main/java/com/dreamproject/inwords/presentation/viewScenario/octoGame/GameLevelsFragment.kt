@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import com.dreamproject.inwords.R
+import com.dreamproject.inwords.domain.BundleKeys
 import com.dreamproject.inwords.domain.ColoringUtil
 import com.dreamproject.inwords.domain.GameLevelInfo
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
@@ -23,7 +24,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         super.onViewCreated(view, savedInstanceState)
 
         compositeDisposable.add(viewModel.navigateToGameLevel
-                .subscribe { navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment) })
+                .subscribe(::navigateToGameLevel))
 
         compositeDisposable.add(viewModel.screenInfoStream()
                 .map { it.gameLevelsInfo }
@@ -34,6 +35,12 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         super.onDestroyView()
 
         compositeDisposable.clear()
+    }
+
+    private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
+        val bundle = Bundle()
+        bundle.putSerializable(BundleKeys.GAME_LEVEL_INFO, gameLevelInfo)
+        navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
     }
 
     private fun renderGameLevelsInfo(gameLevelsInfo: List<GameLevelInfo>) {

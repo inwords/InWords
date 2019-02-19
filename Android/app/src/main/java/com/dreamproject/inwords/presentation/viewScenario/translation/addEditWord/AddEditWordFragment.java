@@ -39,9 +39,10 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
         super.onCreate(savedInstanceState);
         wordToEdit = null;
 
-        if (getArguments() != null)
+        if (getArguments() != null) {
             wordToEdit = (WordTranslation) getArguments()
                     .getSerializable(WordTranslation.class.getCanonicalName());
+        }
     }
 
     @Override
