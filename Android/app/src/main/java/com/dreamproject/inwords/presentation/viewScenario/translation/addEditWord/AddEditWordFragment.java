@@ -23,12 +23,12 @@ import io.reactivex.Observable;
  * A simple {@link Fragment} subclass.
  */
 public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWordViewModel, AddEditWordViewModelFactory> {
-    boolean isEditing;
-    EditText editTextNativeWord;
-    EditText editTextForeignWord;
-    Button buttonConfirm;
+    private boolean isEditing;
+    private EditText editTextNativeWord;
+    private EditText editTextForeignWord;
+    private Button buttonConfirm;
 
-    WordTranslation wordToEdit;
+    private WordTranslation wordToEdit;
 
     public AddEditWordFragment() {
         // Required empty public constructor
