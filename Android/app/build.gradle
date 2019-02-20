@@ -49,6 +49,7 @@ ext.versions = [
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
+    implementation 'eu.davidea:flipview:1.2.0'
     //support
     implementation "androidx.appcompat:appcompat:$versions.ANDROID_SUPPORT"
 
