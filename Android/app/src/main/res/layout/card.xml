@@ -6,6 +6,9 @@
     android:layout_height="100dp"
     android:clickable="true"
     android:focusable="true"
+    app:checked="true"
+    android:animateFirstView="true"
+    app:enableInitialAnimation="true"
     app:animateDesignLayoutOnly="true">
 
     <include layout="@layout/card_front" />
