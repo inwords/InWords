@@ -10,6 +10,7 @@ import com.dreamproject.inwords.R
 import com.dreamproject.inwords.data.dto.WordTranslation
 import com.dreamproject.inwords.domain.BundleKeys
 import com.dreamproject.inwords.domain.GameLevelInfo
+import eu.davidea.flipview.FlipView
 import kotlinx.android.synthetic.main.card_front.view.*
 import kotlinx.android.synthetic.main.fragment_game_level.*
 import java.util.*
@@ -39,7 +40,7 @@ class GameLevelFragment : Fragment() {
                 listOf(WordTranslation("car", "мошниа"),
                         WordTranslation("box", "каропка"))
 
-        val words = prepairWordsForCards(wordTranslations)
+        val words = prepareWordsForCards(wordTranslations)
 
         val rows = words.size / 2
         for (i in 0 until rows) {
@@ -48,9 +49,10 @@ class GameLevelFragment : Fragment() {
                     ViewGroup.LayoutParams.WRAP_CONTENT)
 
             for (j in 0 until 2) {
-                val card = layoutInflater.inflate(R.layout.card, tableRow, false)
-                card
+                val card = layoutInflater.inflate(R.layout.card, tableRow, false) as FlipView
+                card.tag = words[j + i * 2]
                 card.frontText.text = words[j + i * 2]
+                card.setOnClickListener { if (it is FlipView && it.isFlipped) println("asdasd $tag") }
 
                 tableRow.addView(card, j)
             }
@@ -59,7 +61,7 @@ class GameLevelFragment : Fragment() {
         }
     }
 
-    private fun prepairWordsForCards(wordTranslations: List<WordTranslation>): List<String> {
+    private fun prepareWordsForCards(wordTranslations: List<WordTranslation>): List<String> {
         val words = ArrayList<String>(wordTranslations.size)
 
         for (wordTranslation in wordTranslations) {
@@ -68,6 +70,6 @@ class GameLevelFragment : Fragment() {
         }
         words.shuffle()
 
-        return words;
+        return words
     }
 }
