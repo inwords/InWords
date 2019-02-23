@@ -5,6 +5,6 @@
     public class UserGameBoxRepository : Repository<UserGameBox>
     {
         InWordsDataContext context = null;
-        public UserGameBoxRepository(InWordsDataContext context) : base(context) { };
+        public UserGameBoxRepository(InWordsDataContext context) : base(context) { }
     }
 }
