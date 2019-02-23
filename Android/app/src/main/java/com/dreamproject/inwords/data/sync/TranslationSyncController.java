@@ -54,8 +54,8 @@ public class TranslationSyncController {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void establishSyncAllReposWithCacheWatcher() {
         dataChangedNotifier
-                .debounce(3, TimeUnit.SECONDS)
-                .doOnNext(o -> trySyncAllReposWithCache()
+                .debounce(2, TimeUnit.SECONDS)
+                .doOnNext(__ -> trySyncAllReposWithCache()
                         .subscribeOn(Schedulers.io())
                         .subscribe(() -> {
                         }))
