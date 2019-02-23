@@ -12,7 +12,6 @@ public class BasicViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        compositeDisposable.dispose();
         compositeDisposable.clear();
     }
 }

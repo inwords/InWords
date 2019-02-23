@@ -1,46 +1,48 @@
 package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
-import androidx.fragment.app.Fragment
 import com.dreamproject.inwords.R
-import com.dreamproject.inwords.data.dto.WordTranslation
+import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.domain.BundleKeys
+import com.dreamproject.inwords.domain.CardsData
 import com.dreamproject.inwords.domain.GameLevelInfo
+import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import eu.davidea.flipview.FlipView
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.card_front.view.*
 import kotlinx.android.synthetic.main.fragment_game_level.*
-import java.util.*
+import java.util.concurrent.TimeUnit
 
 
-class GameLevelFragment : Fragment() {
+class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLevelViewModelFactory>() {
+    private val compositeDisposable = CompositeDisposable()
+
     private lateinit var gameLevelInfo: GameLevelInfo
+    private var openedCard: FlipView? = null
+    private var showing: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
 
         gameLevelInfo = arguments?.getSerializable(BundleKeys.GAME_LEVEL_INFO) as GameLevelInfo
-    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_game_level, container, false)
+        viewModel.onGameLevelSelected(gameLevelInfo.id)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         text.text = gameLevelInfo.toString()
 
-        val wordTranslations: List<WordTranslation> =
-                listOf(WordTranslation("car", "мошниа"),
-                        WordTranslation("box", "каропка"))
+        compositeDisposable.add(viewModel.cardsStream().subscribe(::render))
+    }
 
-        val words = prepareWordsForCards(wordTranslations)
+    private fun render(cardsData: CardsData) {
+        val words = cardsData.words
 
         val rows = words.size / 2
         for (i in 0 until rows) {
@@ -50,9 +52,16 @@ class GameLevelFragment : Fragment() {
 
             for (j in 0 until 2) {
                 val card = layoutInflater.inflate(R.layout.card, tableRow, false) as FlipView
-                card.tag = words[j + i * 2]
-                card.frontText.text = words[j + i * 2]
-                card.setOnClickListener { if (it is FlipView && it.isFlipped) println("asdasd $tag") }
+
+                card.apply {
+                    flip(true)
+
+                    val word = words[j + i * 2]
+
+                    tag = word
+                    frontText.text = word
+                    setOnClickListener(CardClickListener(cardsData))
+                }
 
                 tableRow.addView(card, j)
             }
@@ -61,15 +70,35 @@ class GameLevelFragment : Fragment() {
         }
     }
 
-    private fun prepareWordsForCards(wordTranslations: List<WordTranslation>): List<String> {
-        val words = ArrayList<String>(wordTranslations.size)
+    private inner class CardClickListener(private val cardsData: CardsData) : View.OnClickListener {
+        override fun onClick(v: View?) {
+            if (v is FlipView && v.isFlipped && !showing) {
+                v.flip(false)
 
-        for (wordTranslation in wordTranslations) {
-            words.add(wordTranslation.wordForeign)
-            words.add(wordTranslation.wordNative)
+                val word = v.tag as String
+
+                when {
+                    openedCard == null -> openedCard = v
+                    word == cardsData.getCorrespondingWord(openedCard?.tag as String) -> openedCard = null
+                    else -> {
+                        showing = true
+                        Observable.timer(2, TimeUnit.SECONDS)
+                                .observeOn(SchedulersFacade.ui())
+                                .subscribe {
+                                    v.flip(true)
+                                    openedCard?.flip(true)
+                                    openedCard = null
+                                    showing = false
+                                }
+                    }
+                }
+
+                println("clicked ${v.tag}")
+            }
         }
-        words.shuffle()
-
-        return words
     }
+
+    override fun getLayout() = R.layout.fragment_game_level
+
+    override fun getClassType() = GameLevelViewModel::class.java
 }

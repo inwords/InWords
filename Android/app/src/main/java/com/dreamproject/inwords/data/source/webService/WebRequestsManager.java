@@ -4,6 +4,9 @@ import com.dreamproject.inwords.data.dto.EntityIdentificator;
 import com.dreamproject.inwords.data.dto.User;
 import com.dreamproject.inwords.data.dto.UserCredentials;
 import com.dreamproject.inwords.data.dto.WordTranslation;
+import com.dreamproject.inwords.data.dto.game.Game;
+import com.dreamproject.inwords.data.dto.game.GameInfo;
+import com.dreamproject.inwords.data.dto.game.GameLevel;
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
@@ -32,4 +35,10 @@ public interface WebRequestsManager {
     Single<Integer> removeAllServerIds(List<Integer> serverIds);
 
     Single<PullWordsAnswer> pullWords(List<Integer> serverIds);
+
+    Single<List<GameInfo>> getGameInfos();
+
+    Single<Game> getGame(int gameId);
+
+    Single<GameLevel> getLevel(int levelId);
 }

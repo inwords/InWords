@@ -4,12 +4,10 @@
     android:id="@+id/flip_view"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    android:clickable="true"
+    android:layout_margin="3dp"
     android:focusable="true"
-    app:checked="true"
-    android:animateFirstView="true"
-    app:enableInitialAnimation="true"
-    app:animateDesignLayoutOnly="true">
+    app:animateDesignLayoutOnly="true"
+    app:enableInitialAnimation="true">
 
     <include layout="@layout/card_front" />
 

@@ -1,9 +1,13 @@
 package com.dreamproject.inwords.data.source.webService;
 
+import com.dreamproject.inwords.core.util.SchedulersFacade;
 import com.dreamproject.inwords.data.dto.EntityIdentificator;
 import com.dreamproject.inwords.data.dto.User;
 import com.dreamproject.inwords.data.dto.UserCredentials;
 import com.dreamproject.inwords.data.dto.WordTranslation;
+import com.dreamproject.inwords.data.dto.game.Game;
+import com.dreamproject.inwords.data.dto.game.GameInfo;
+import com.dreamproject.inwords.data.dto.game.GameLevel;
 import com.dreamproject.inwords.data.source.webService.session.AuthInfo;
 import com.dreamproject.inwords.data.source.webService.session.SessionHelper;
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
@@ -59,7 +63,7 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
     public Single<TokenResponse> getToken(UserCredentials userCredentials) {
         return setCredentials(userCredentials)
                 .flatMap(s -> applyAuthSessionHelper(apiService.getToken(s)))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
@@ -72,20 +76,20 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
     @Override
     public Single<String> getLogin() {
         return applySessionHelper(apiService.getLogin(authInfo.getTokenResponse().getBearer()))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<List<User>> getUsers() {
         return applySessionHelper(apiService.getUsers())
                 //.flatMap(Observable::fromIterable)
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<User> addUser(User user) {
         return applySessionHelper(apiService.addUser(user))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
@@ -99,7 +103,7 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
 
             return Arrays.asList(new WordTranslation("asd", "ку"), new WordTranslation("sdg", "укеу"));
         })
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
@@ -109,25 +113,48 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
 
             return Single.just(wordTranslation); //TODO
         })
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<List<EntityIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
         return applySessionHelper(apiService.addPairs(authInfo.getTokenResponse().getBearer(), wordTranslations))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<Integer> removeAllServerIds(List<Integer> serverIds) {
         return applySessionHelper(apiService.deletePairs(authInfo.getTokenResponse().getBearer(), serverIds))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<PullWordsAnswer> pullWords(List<Integer> serverIds) {
         return applySessionHelper(apiService.pullWordsPairs(authInfo.getTokenResponse().getBearer(), serverIds))
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
+    }
+
+    @Override
+    public Single<List<GameInfo>> getGameInfos() {
+        return applySessionHelper(apiService.getGameInfos(authInfo.getTokenResponse().getBearer()))
+                .subscribeOn(SchedulersFacade.io());
+    }
+
+    @Override
+    public Single<Game> getGame(int gameId) {
+        return applySessionHelper(apiService.getGame(authInfo.getTokenResponse().getBearer(), gameId))
+                .subscribeOn(SchedulersFacade.io());
+    }
+
+    @Override
+    public Single<GameLevel> getLevel(int levelId) {
+        return Single.just(new GameLevel(0, Arrays.asList(new WordTranslation("car", "мошина"),
+                new WordTranslation("box", "каропка"),
+                new WordTranslation("plane", "самолёт"),
+                new WordTranslation("bath", "ванна"))));
+
+//        return applySessionHelper(apiService.getLevel(authInfo.getTokenResponse().getBearer(), levelId))
+//                .subscribeOn(SchedulersFacade.io());
     }
 
     private <T> Single<T> applySessionHelper(Single<T> query) {
