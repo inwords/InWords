@@ -3,7 +3,7 @@
     using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class InWordsDataContext : DbContext
+    public partial class InWordsDataContext : DbContext
     {
         private static bool _created = false;
 
