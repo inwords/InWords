@@ -32,6 +32,10 @@
 
         public DbSet<UserWordPair> UserWordPairs { get; set; }
 
+        public DbSet<Creation> Creation { get; set; }
+
+        public DbSet<CreationDescription> CreationDescriptions { get; set; }
+
         private void RecreateDb()
         {
             if (!_created)
