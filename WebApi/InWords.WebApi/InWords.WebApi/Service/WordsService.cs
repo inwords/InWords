@@ -1,7 +1,6 @@
 ﻿namespace InWords.WebApi.Service
 {
     using InWords.Data.Models;
-    using InWords.Data.Models.Repositories;
     using InWords.Transfer.Data;
     using System;
     using System.Collections.Generic;

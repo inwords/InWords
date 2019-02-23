@@ -32,14 +32,6 @@
 
         public DbSet<UserWordPair> UserWordPairs { get; set; }
 
-        public DbSet<Seria> Series { get; set; }
-
-        public DbSet<SeriaWord> SeriaWords { get; set; }
-
-        public DbSet<UserSeria> UsersSerias { get; set; }
-
-        public DbSet<SeriaDescription> SeriaDescription { get; set; }
-
         private void RecreateDb()
         {
             if (!_created)

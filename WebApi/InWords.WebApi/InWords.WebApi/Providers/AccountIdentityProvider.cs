@@ -3,7 +3,6 @@
     using InWords.Auth;
     using InWords.Data.Enums;
     using InWords.Data.Models;
-    using InWords.Data.Models.Repositories;
     using InWords.Service.Encryption;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
