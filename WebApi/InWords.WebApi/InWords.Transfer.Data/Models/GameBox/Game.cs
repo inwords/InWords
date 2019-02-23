@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data
 {
-    class Game
+    using System.Collections.Generic;
+    public class Game
     {
+        public int GameID { get; set; }
+
+        public string Creator { get; set; }
+
+        public List<LevelInfo> LevelInfos { get; set; }
     }
 }

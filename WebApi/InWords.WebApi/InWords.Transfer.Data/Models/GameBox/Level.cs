@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data
 {
-    class Level
+    using System.Collections.Generic;
+
+    public class Level
     {
+        public int LevelID { get; set; }
+
+        public List<WordTranslation> WordTranslations { get; set; }
     }
 }

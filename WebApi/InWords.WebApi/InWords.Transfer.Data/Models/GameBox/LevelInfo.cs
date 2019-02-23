@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data
 {
-    class LevelInfo
+    public class LevelInfo
     {
+        public int LevelID { get; set; }
+
+        public int TotalStars { get; set; }
+
+        public int PlayerStars { get; set; }
+
+        public int SuccessStars { get; set; }
+
+        public int IsAvaliable { get; set; }
     }
 }

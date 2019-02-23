@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data
 {
-    class GameInfo
+    public class GameInfo
     {
+        public int GameID { get; set; }
+
+        public string Title { get; set; }
+
+        public string IsAvaliable { get; set; }
     }
 }
