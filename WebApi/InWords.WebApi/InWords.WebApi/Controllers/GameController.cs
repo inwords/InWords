@@ -28,7 +28,7 @@
         {
             int authorizedID = User.Claims.GetUserID();
 
-            var answer = await wordsService.AddPair(authorizedID, wordTranslations);
+            var answer = await ga.AddPair(authorizedID, wordTranslations);
 
             return Ok(answer);
         }

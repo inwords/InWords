@@ -5,7 +5,7 @@ namespace InWords.Transfer.Data.Models.GameBox
 
     public class GamePack
     {
-        public string Title { get; set; }
+        public ICollection<CreationDescription> CreationDescriptions { get; set; }
 
         public List<LevelPack> LevelPacks { get; set; }
     }
