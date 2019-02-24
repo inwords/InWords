@@ -6,6 +6,7 @@ import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 import com.dreamproject.inwords.data.source.webService.BasicAuthenticator;
+import com.dreamproject.inwords.data.source.webService.HeadersInterceptor;
 import com.dreamproject.inwords.data.source.webService.WebApiService;
 
 import java.util.concurrent.TimeUnit;
@@ -57,13 +58,14 @@ class DataSourcesModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(BasicAuthenticator authenticator) {
+    OkHttpClient provideOkHttpClient(BasicAuthenticator authenticator, HeadersInterceptor headersInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().
                         setLevel((BuildConfig.DEBUG) ?
                                 HttpLoggingInterceptor.Level.BODY :
                                 HttpLoggingInterceptor.Level.NONE))
                 .authenticator(authenticator)
+                .addInterceptor(headersInterceptor)
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)

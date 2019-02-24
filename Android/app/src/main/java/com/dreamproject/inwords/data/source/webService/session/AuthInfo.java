@@ -1,15 +1,17 @@
 package com.dreamproject.inwords.data.source.webService.session;
 
+import com.dreamproject.inwords.data.dto.UserCredentials;
+
 public class AuthInfo {
     private TokenResponse tokenResponse;
-    private String credentials;
+    private UserCredentials credentials;
 
     public AuthInfo() {
         this.tokenResponse = new TokenResponse();
-        this.credentials = "";
+        this.credentials = new UserCredentials();
     }
 
-    public AuthInfo(TokenResponse tokenResponse, String credentials) {
+    public AuthInfo(TokenResponse tokenResponse, UserCredentials credentials) {
         this.tokenResponse = tokenResponse;
         this.credentials = credentials;
     }
@@ -18,7 +20,7 @@ public class AuthInfo {
         return tokenResponse;
     }
 
-    public String getCredentials() {
+    public UserCredentials getCredentials() {
         return credentials;
     }
 
@@ -26,7 +28,7 @@ public class AuthInfo {
         this.tokenResponse = tokenResponse;
     }
 
-    public void setCredentials(String credentials) {
+    public void setCredentials(UserCredentials credentials) {
         this.credentials = credentials;
     }
 }

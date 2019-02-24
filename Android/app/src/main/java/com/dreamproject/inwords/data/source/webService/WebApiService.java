@@ -45,7 +45,7 @@ public interface WebApiService {
     Single<TokenResponse> registerUser(@Body UserCredentials userCredentials);
 
     @POST("/api/auth/token")
-    Single<TokenResponse> getToken(@Body String credentials);
+    Single<TokenResponse> getToken(@Body UserCredentials credentials);
 
     @GET("/api/values/getlogin")
     Single<String> getLogin(@Header("Authorization") String bearerToken);

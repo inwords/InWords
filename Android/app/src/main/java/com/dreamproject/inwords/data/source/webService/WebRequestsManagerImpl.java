@@ -21,7 +21,6 @@ import javax.inject.Inject;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Credentials;
 
 public class WebRequestsManagerImpl implements WebRequestsManager {
     private WebApiService apiService;
@@ -35,7 +34,7 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
         this.authInfo = new AuthInfo();
 
         authenticator.setOnUnauthorisedCallback(() -> getCredentials()
-                .flatMap(s -> applyAuthSessionHelper(apiService.getToken(s))) //TODO COSTIL
+                .flatMap(credentials -> applyAuthSessionHelper(apiService.getToken(credentials))) //TODO COSTIL
                 .blockingGet());
     }
 
@@ -46,15 +45,15 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
         });
     }
 
-    private Single<String> setCredentials(UserCredentials userCredentials) {
+    private Single<UserCredentials> setCredentials(UserCredentials userCredentials) {
         return Single.fromCallable(() ->
         {
-            authInfo.setCredentials(Credentials.basic(userCredentials.getEmail(), userCredentials.getPassword()));
+            authInfo.setCredentials(userCredentials);
             return authInfo.getCredentials();
         });
     }
 
-    private Single<String> getCredentials() {
+    private Single<UserCredentials> getCredentials() {
         return Single.fromCallable(() ->
                 authInfo.getCredentials());
     }
