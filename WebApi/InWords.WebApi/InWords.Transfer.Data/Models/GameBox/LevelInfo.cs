@@ -4,6 +4,8 @@
     {
         public int LevelID { get; set; }
 
+        public string Title { get; set; }
+
         public int TotalStars { get; set; }
 
         public int PlayerStars { get; set; }
