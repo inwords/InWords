@@ -78,9 +78,9 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
                 val word = v.tag as String
 
                 when {
-                    openedCard == null -> openedCard = v
-                    word == cardsData.getCorrespondingWord(openedCard?.tag as String) -> openedCard = null
-                    else -> {
+                    openedCard == null -> openedCard = v //first card opened
+                    word == cardsData.getCorrespondingWord(openedCard?.tag as String) -> openedCard = null //second correct card opened
+                    else -> { //second incorrect card opened
                         showing = true
                         Observable.timer(2, TimeUnit.SECONDS)
                                 .observeOn(SchedulersFacade.ui())
@@ -92,8 +92,6 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
                                 }
                     }
                 }
-
-                println("clicked ${v.tag}")
             }
         }
     }
