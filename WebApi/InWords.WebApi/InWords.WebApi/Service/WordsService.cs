@@ -2,7 +2,6 @@
 {
     using InWords.Data.Models;
     using InWords.Transfer.Data;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -30,6 +29,21 @@
             }
 
             return answer;
+        }
+
+        public async Task<WordPair> AddPair(WordTranslation wordTranslation)
+        {
+            Word firstWordForeign = new Word
+            {
+                Content = wordTranslation.WordForeign
+            };
+
+            Word secondWordNative = new Word
+            {
+                Content = wordTranslation.WordNative
+            };
+
+            return await wordPairRepository.Stack(firstWordForeign, secondWordNative);
         }
 
         public IEnumerable<int> UserWordsID(int userID)
@@ -68,19 +82,35 @@
             return wordTranslations;
         }
 
+        public async Task<int> DeleteUserWordPair(int userID, IEnumerable<int> userWordPairIDs)
+        {
+            int wordsRemoved = 0;
+            foreach (int uwpID in userWordPairIDs)
+            {
+                wordsRemoved += await DeleteUserWordPair(userID, uwpID);
+            }
+            return wordsRemoved;
+        }
+
+        public async Task<int> DeleteUserWordPair(int userID, int userWordPairID)
+        {
+            //todo union.expect ??
+            var userwordpair = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID).SingleOrDefault();
+
+            if (userwordpair != null)
+            {
+                return await userWordPairRepository.Remove(userwordpair);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<SyncBase> answer)
         {
-            Word firstWordForeign = new Word
-            {
-                Content = wordTranslation.WordForeign
-            };
-
-            Word secondWordNative = new Word
-            {
-                Content = wordTranslation.WordNative
-            };
-
-            var wordpairID = (await wordPairRepository.Stack(firstWordForeign, secondWordNative)).WordPairID;
+            var wordpair = await AddPair(wordTranslation);
+            int wordpairID = wordpair.WordPairID;
 
             var wordPair = wordPairRepository.GetWithInclude(wp => wp.WordPairID == wordpairID,
                 f => f.WordForeign,
@@ -105,31 +135,6 @@
             lock (answer)
             {
                 answer.Add(resultPair);
-            }
-        }
-
-        public async Task<int> DeleteUserWordPair(int userID, IEnumerable<int> userWordPairIDs)
-        {
-            int wordsRemoved = 0;
-            foreach (int uwpID in userWordPairIDs)
-            {
-                wordsRemoved += await DeleteUserWordPair(userID, uwpID);
-            }
-            return wordsRemoved;
-        }
-
-        public async Task<int> DeleteUserWordPair(int userID, int userWordPairID)
-        {
-            //todo union.expect ??
-            var userwordpair = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID).SingleOrDefault();
-
-            if (userwordpair != null)
-            {
-                return await userWordPairRepository.Remove(userwordpair);
-            }
-            else
-            {
-                return 0;
             }
         }
     }

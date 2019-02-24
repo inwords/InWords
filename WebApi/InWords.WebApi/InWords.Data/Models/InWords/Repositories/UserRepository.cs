@@ -4,7 +4,7 @@
 
     public class UserRepository : Repository<User>
     {
-        InWordsDataContext context;
+        private InWordsDataContext context = null;
         public UserRepository(InWordsDataContext context) : base(context)
         {
             this.context = context;

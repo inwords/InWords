@@ -19,10 +19,5 @@
 
         [ForeignKey("CreatorID")]
         public virtual User Creator { get; set; }
-
-        /// <summary>
-        /// List of Description on different langs
-        /// </summary>
-        public virtual ICollection<CreationDescription> CreationDescriptions { get; set; }
     }
 }

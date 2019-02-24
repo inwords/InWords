@@ -3,7 +3,7 @@
     using InWords.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public class InWordsDataContext : DbContext
+    public partial class InWordsDataContext : DbContext
     {
         private static bool _created = false;
 
@@ -31,6 +31,10 @@
         public DbSet<WordPair> WordPairs { get; set; }
 
         public DbSet<UserWordPair> UserWordPairs { get; set; }
+
+        public DbSet<Creation> Creations { get; set; }
+
+        public DbSet<CreationDescription> CreationDescriptions { get; set; }
 
         private void RecreateDb()
         {
