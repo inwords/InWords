@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using InWords.Auth;
+    using InWords.Transfer.Data;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +21,17 @@
         //TODO: Get Level
 
         //TODO: Add Game
+        [Authorize]
+        [Route("add")]
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] Game wordTranslations)
+        {
+            int authorizedID = User.Claims.GetUserID();
+
+            var answer = await wordsService.AddPair(authorizedID, wordTranslations);
+
+            return Ok(answer);
+        }
 
         //TODO: Delete Game
     }
