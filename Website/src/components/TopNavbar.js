@@ -1,21 +1,20 @@
-import React from 'react'
-import { Nav, Navbar } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Navbar, Nav } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
-class TopNavbar extends React.Component {
+export class TopNavbar extends Component {
     render() {
         return (
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="signin">InWords</Navbar.Brand>
+                <NavLink className="navbar-brand" to="/">InWords</NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="signin">Авторизация</Nav.Link>
-                        <Nav.Link href="signup">Регистрация</Nav.Link>
+                        <NavLink className="nav-link" to="/signin">Авторизация</NavLink>
+                        <NavLink className="nav-link" to="/signup">Регистрация</NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
         )
     }
 }
-
-export default TopNavbar
