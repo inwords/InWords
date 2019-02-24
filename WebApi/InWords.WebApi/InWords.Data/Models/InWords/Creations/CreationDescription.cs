@@ -3,26 +3,26 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     
-    public class SeriaDescription
+    public class CreationDescription
     {
-        public int SeriaDescriptionID { get; set; }
+        public int CreationDescriptionID { get; set; }
 
         [Required]
-        [StringLength(256)]
+        [StringLength(32)]
         public string Title { get; set; }
 
 
         [Required]
-        [StringLength(256)]
+        [StringLength(64)]
         public string Description { get; set; }
 
         /// <summary>
         /// Description to this seria
         /// </summary>
-        public int SeriaID { get; set; }
+        public int CreationID { get; set; }
 
-        [ForeignKey("SeriaID")]
-        public virtual Seria Seria { get; set; }
+        [ForeignKey("CreationID")]
+        public virtual Creation Creation { get; set; }
 
         /// <summary>
         /// Description on this lang
