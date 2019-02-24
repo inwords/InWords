@@ -143,5 +143,26 @@
 
             return game;
         }
+
+        public async Task<Level> GetLevel(int userID, int levelID)
+        {
+            // TODO: Add level to user
+
+            var gameLevelWords = gameLevelWordRepository.Get(l => l.GameLevelID == levelID);
+
+            List<WordTranslation> wordTranslations = new List<WordTranslation>();
+
+            var ids = gameLevelWords.Select(gl => gl.WordPairID);
+
+            wordTranslations.AddRange((await wordsService.GetWordsByID(ids)));
+
+            Level level = new Level()
+            {
+                LevelID = levelID,
+                WordTranslations = wordTranslations
+            };
+
+            return level;
+        }
     }
 }

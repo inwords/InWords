@@ -59,7 +59,16 @@
         }
 
         //TODO: Get Level
+        [Route("level/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetLevel(int id)
+        {
+            var userID = User.Claims.GetUserID();
 
+            var answer = await gameService.GetLevel(userID, id);
+
+            return Ok(answer);
+        }
 
         //TODO: Delete Game
     }

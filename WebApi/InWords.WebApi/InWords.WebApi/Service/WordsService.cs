@@ -51,7 +51,7 @@
             return userWordPairRepository.Get(uwp => uwp.UserID == userID).Select(uwp => uwp.UserWordPairID);
         }
 
-        public async Task<List<WordTranslation>> GetWordsByID(IEnumerable<int> ids)
+        public async Task<List<WordTranslation>> GetUserWordsByID(IEnumerable<int> ids)
         {
             List<WordTranslation> wordTranslations = new List<WordTranslation>();
 
@@ -81,6 +81,29 @@
             }
             return wordTranslations;
         }
+
+        public async Task<List<WordTranslation>> GetWordsByID(IEnumerable<int> ids)
+        {
+            List<WordTranslation> wordTranslations = new List<WordTranslation>();
+
+            foreach (int id in ids)
+            {
+                var uwp = wordPairRepository.GetWithInclude(x => x.WordPairID == id,
+                    wf => wf.WordForeign,
+                    wn => wn.WordNative).Single();
+
+                WordTranslation addedWord = new WordTranslation()
+                {
+                    WordForeign = uwp.WordForeign.Content,
+                    WordNative = uwp.WordNative.Content,
+                    ServerId = id
+                };
+
+                wordTranslations.Add(addedWord);
+            }
+            return wordTranslations;
+        }
+
 
         public async Task<int> DeleteUserWordPair(int userID, IEnumerable<int> userWordPairIDs)
         {
