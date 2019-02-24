@@ -7,10 +7,10 @@
     /// <summary>
     /// Words Set with levels
     /// </summary>
-    public class Seria
+    public class Creation
     {
         [Key]
-        public int SeriaID { get; set; }
+        public int CreationID { get; set; }
 
         /// <summary>
         /// User created this Seria
@@ -19,10 +19,5 @@
 
         [ForeignKey("CreatorID")]
         public virtual User Creator { get; set; }
-
-        /// <summary>
-        /// List of Description on different langs
-        /// </summary>
-        public virtual ICollection<SeriaDescription> SeriaDescriptions { get; set; }
     }
 }
