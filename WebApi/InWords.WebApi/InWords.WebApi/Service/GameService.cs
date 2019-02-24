@@ -80,5 +80,9 @@
             return answer;
         }
 
+        public async Task<IAsyncEnumerable<GameInfo>> GetGameInfo()
+        {
+            Game
+        }
     }
 }

@@ -37,7 +37,14 @@
         }
 
         //TODO: Get GameInfo
+        [Route("GameInfo")]
+        [HttpGet]
+        public async Task<IActionResult> GetGameInfo()
+        {
+            var answer = await gameService.GetGameInfo();
 
+            return Ok(answer);
+        }
         //TODO: Get Game
 
         //TODO: Get Level

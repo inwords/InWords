@@ -75,9 +75,9 @@
 <row name="GameBoxID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="CreationsID" null="1" autoincrement="0">
+<row name="CreationID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Creations" row="CreationsID" />
+<default>NULL</default><relation table="Creations" row="CreationID" />
 </row>
 <key type="PRIMARY" name="">
 <part>GameBoxID</part>
@@ -197,6 +197,12 @@
 <row name="TotalStars" null="1" autoincrement="0">
 <datatype>INT</datatype>
 <default>NULL</default></row>
+<row name="SuccessStars" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Level" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>GameLevelID</part>
 </key>
@@ -224,9 +230,9 @@
 <row name="CreationDescriptionID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="CreationsID" null="1" autoincrement="0">
+<row name="CreationID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Creations" row="CreationsID" />
+<default>NULL</default><relation table="Creations" row="CreationID" />
 </row>
 <row name="LanguageID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -243,7 +249,7 @@
 </key>
 </table>
 <table x="515" y="379" name="Creations">
-<row name="CreationsID" null="1" autoincrement="1">
+<row name="CreationID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="CreatorID" null="1" autoincrement="0">
@@ -251,7 +257,7 @@
 <default>NULL</default><relation table="Users" row="UserID" />
 </row>
 <key type="PRIMARY" name="">
-<part>CreationsID</part>
+<part>CreationID</part>
 </key>
 </table>
 </sql>
