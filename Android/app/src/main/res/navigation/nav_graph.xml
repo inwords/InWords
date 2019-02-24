@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.dreamproject.inwords.viewScenario.authorisation.Registration.RegistrationFragment"
+        android:name="com.dreamproject.inwords.presentation.viewScenario.authorisation.registration.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_sign_up">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.dreamproject.inwords.viewScenario.authorisation.login.LoginFragment"
+        android:name="com.dreamproject.inwords.presentation.viewScenario.authorisation.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_sign_in">
         <action
@@ -30,13 +30,13 @@
             app:destination="@id/registrationFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.dreamproject.inwords.viewScenario.main.MainFragment"
+        android:name="com.dreamproject.inwords.presentation.viewScenario.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main">
         <action
@@ -44,21 +44,13 @@
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_mainFragment_to_translationMainFragment"
-            app:destination="@+id/translationMainFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@+id/mainFragment" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/translationMainFragment"
-        android:name="com.dreamproject.inwords.viewScenario.translation.translationMain.TranslationMainFragment"
+        android:name="com.dreamproject.inwords.presentation.viewScenario.translation.translationMain.TranslationMainFragment"
         android:label="fragment_translation_main"
         tools:layout="@layout/fragment_translation_main">
         <action
@@ -66,13 +58,13 @@
             app:destination="@id/addEditWordFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/addEditWordFragment"
-        android:name="com.dreamproject.inwords.viewScenario.translation.addEditWord.AddEditWordFragment"
+        android:name="com.dreamproject.inwords.presentation.viewScenario.translation.addEditWord.AddEditWordFragment"
         android:label="fragment_add_edit_word"
         tools:layout="@layout/fragment_add_edit_word">
         <action
@@ -81,8 +73,21 @@
     </fragment>
     <fragment
         android:id="@+id/gameLevelsFragment"
-        android:name="com.dreamproject.inwords.viewScenario.octoGame.GameLevelsFragment"
+        android:name="com.dreamproject.inwords.presentation.viewScenario.octoGame.GameLevelsFragment"
         android:label="fragment_game_levels"
+        tools:layout="@layout/fragment_game_levels">
+        <action
+            android:id="@+id/action_gameLevelsFragment_to_gameLevelFragment"
+            app:destination="@id/gameLevelFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameLevelFragment"
+        android:name="com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel.GameLevelFragment"
+        android:label="fragment_game_level"
         tools:layout="@layout/fragment_game_levels">
     </fragment>
 

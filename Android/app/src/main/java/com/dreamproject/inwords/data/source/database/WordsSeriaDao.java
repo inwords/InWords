@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.source.database;
 
-import android.arch.persistence.room.Dao;
+import androidx.room.Dao;
 
 @Dao
 public interface WordsSeriaDao {

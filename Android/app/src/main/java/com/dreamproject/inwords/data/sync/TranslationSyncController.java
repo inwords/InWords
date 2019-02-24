@@ -1,15 +1,13 @@
 package com.dreamproject.inwords.data.sync;
 
-import com.dreamproject.inwords.dagger.annotations.CacheRepositoryQualifier;
-import com.dreamproject.inwords.dagger.annotations.LocalRepositoryQualifier;
-import com.dreamproject.inwords.data.entity.EntityIdentificator;
-import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.dagger.annotations.CacheRepository;
+import com.dreamproject.inwords.dagger.annotations.LocalRepository;
+import com.dreamproject.inwords.data.dto.EntityIdentificator;
+import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 import static com.dreamproject.inwords.data.sync.TranslationSyncController.Groups.ADD;
+import static com.dreamproject.inwords.domain.util.WordsUtil.serverIdsFromWordTranslations;
 
 public class TranslationSyncController {
     private TranslationWordsLocalRepository inMemoryRepository;
@@ -35,8 +34,8 @@ public class TranslationSyncController {
 
     @Inject
     public TranslationSyncController(
-            @CacheRepositoryQualifier TranslationWordsLocalRepository inMemoryRepository,
-            @LocalRepositoryQualifier TranslationWordsLocalRepository localRepository,
+            @CacheRepository TranslationWordsLocalRepository inMemoryRepository,
+            @LocalRepository TranslationWordsLocalRepository localRepository,
             TranslationWordsRemoteRepository remoteRepository) {
         this.inMemoryRepository = inMemoryRepository;
         this.localRepository = localRepository;
@@ -55,10 +54,9 @@ public class TranslationSyncController {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void establishSyncAllReposWithCacheWatcher() {
         dataChangedNotifier
-                .debounce(3, TimeUnit.SECONDS)
-                .doOnNext(o -> trySyncAllReposWithCache().subscribeOn(Schedulers.io())
-                        .onErrorReturnItem(Collections.emptyList())
-                        .ignoreElements()
+                .debounce(2, TimeUnit.SECONDS)
+                .doOnNext(__ -> trySyncAllReposWithCache()
+                        .subscribeOn(Schedulers.io())
                         .subscribe(() -> {
                         }))
                 .subscribe();
@@ -83,7 +81,7 @@ public class TranslationSyncController {
                     List<WordTranslation> addedWords = pullWordsAnswer.getAddedWords();
 
                     if (!removedServerIds.isEmpty()) {  //Its IMPORTANT to remove before addReplace because
-                                                        //its important
+                        //its important
                         Throwable throwable = Completable.mergeDelayError(
                                 Arrays.asList(
                                         localRepository.removeAllServerIds(removedServerIds),
@@ -105,7 +103,7 @@ public class TranslationSyncController {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<List<WordTranslation>> trySyncAllReposWithCache() {
+    public Completable trySyncAllReposWithCache() {
         return inMemoryRepository.getList()
                 .observeOn(Schedulers.computation())
                 .firstElement() //Берём все элементы только 1 раз
@@ -114,7 +112,7 @@ public class TranslationSyncController {
                 .flatMapSingle(GroupedObservable::toList) //Каждую группу пихаем в List
                 .filter(wordTranslations -> !wordTranslations.isEmpty()) //Смотрим, чтобы он был не пустой
                 .observeOn(Schedulers.io())
-                .doOnNext(this::groupedListHandler);
+                .flatMapCompletable(this::groupedListHandler);
     }
 
     private Groups group(WordTranslation wordTranslation) {
@@ -130,75 +128,54 @@ public class TranslationSyncController {
         return Groups.NORMAL;
     }
 
-    private void groupedListHandler(List<WordTranslation> list) {
-        if (list.isEmpty())
-            return;
+    private Completable groupedListHandler(List<WordTranslation> list) {
+        if (list.isEmpty()) {
+            return Completable.complete();
+        }
 
-        Throwable throwable = null;
         switch (group(list.get(0))) { //Узнаём какой группе принадлежит лист
             case ADD: {
-                throwable = localRepository.addReplaceAll(list)
-                        .doOnSuccess(wordTranslations -> remoteRepository.addAll(wordTranslations)
-                                .doOnSuccess(wordIdentificatorsRemote -> {
-                                    if (!wordTranslations.isEmpty() && !wordIdentificatorsRemote.isEmpty()) {
-                                        mergeIds(wordTranslations, wordIdentificatorsRemote);
+                return localRepository
+                        .addReplaceAll(list)
+                        .flatMapCompletable(wordTranslations -> remoteRepository
+                                .addAll(wordTranslations)
+                                .flatMapCompletable(wordIdentificatorsRemote -> {
+                                    mergeIds(wordTranslations, wordIdentificatorsRemote);
 
-                                        Single.mergeDelayError(
-                                                localRepository.addReplaceAll(wordTranslations),
-                                                inMemoryRepository.addReplaceAll(wordTranslations))
-                                                .blockingSubscribe();
-                                    }
-                                })
-                                .doOnError((t) -> {
-                                    if (!wordTranslations.isEmpty())
-                                        inMemoryRepository.addReplaceAll(wordTranslations).blockingGet();
-                                })
-                                .blockingGet()
-                        )
-                        .ignoreElement()
-                        .blockingGet();
+                                    return Single.mergeDelayError(
+                                            localRepository.addReplaceAll(wordTranslations),
+                                            inMemoryRepository.addReplaceAll(wordTranslations)).ignoreElements();
 
-                break;
+                                })
+                                .onErrorResumeNext(__ -> inMemoryRepository.addReplaceAll(wordTranslations).ignoreElement())
+                        );
             }
 
             case REMOVE_REMOTE: {
                 List<Integer> serverIds = serverIdsFromWordTranslations(list);
-                throwable = remoteRepository.removeAllServerIds(serverIds)
-                        .doOnComplete(() -> { //TODO
-                            if (!serverIds.isEmpty()) {
-                                Throwable t = Completable.mergeDelayError(Arrays.asList(
-                                        inMemoryRepository.removeAllServerIds(serverIds),
-                                        localRepository.removeAllServerIds(serverIds)))
-                                        .blockingGet();
-
-                                if (t != null)
-                                    t.printStackTrace();
-                            }
-                        })
-                        .blockingGet();
-
-                break;
+                return remoteRepository.removeAllServerIds(serverIds)
+                        .andThen(Completable.mergeDelayError(Arrays.asList(
+                                inMemoryRepository.removeAllServerIds(serverIds),
+                                localRepository.removeAllServerIds(serverIds))));
             }
 
             case REMOVE_LOCAL: {
-                throwable = Completable.mergeDelayError(Arrays.asList(
+                return Completable.mergeDelayError(Arrays.asList(
                         inMemoryRepository.removeAll(list),
-                        localRepository.removeAll(list)))
-                        .blockingGet();
-
-                break;
+                        localRepository.removeAll(list)));
             }
 
             case NORMAL:
             default:
-                break;
+                return Completable.complete();
         }
-
-        if (throwable != null)
-            throwable.printStackTrace();
     }
 
     private void mergeIds(List<WordTranslation> list, List<EntityIdentificator> listIds) {
+        if (list.isEmpty() || listIds.isEmpty()) {
+            return;
+        }
+
         for (WordTranslation wordTranslation : list) {
             for (EntityIdentificator entityIdentificator : listIds) {
                 if (entityIdentificator.getId() == wordTranslation.getId()) {
@@ -206,16 +183,6 @@ public class TranslationSyncController {
                 }
             }
         }
-    }
-
-    private List<Integer> serverIdsFromWordTranslations(List<? extends EntityIdentificator> wordIdentificators) {
-        List<Integer> serverIds = new ArrayList<>();
-
-        for (EntityIdentificator wordTranslation : wordIdentificators) {
-            serverIds.add(wordTranslation.getServerId());
-        }
-
-        return serverIds;
     }
 
 }

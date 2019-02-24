@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.sync;
 
-import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -16,19 +16,11 @@ public class PullWordsAnswer {
         this.addedWords = addedWords;
     }
 
-    public List<Integer> getRemovedServerIds() {
+    List<Integer> getRemovedServerIds() {
         return removedServerIds;
     }
 
-    public void setRemovedServerIds(List<Integer> removedServerIds) {
-        this.removedServerIds = removedServerIds;
-    }
-
-    public List<WordTranslation> getAddedWords() {
+    List<WordTranslation> getAddedWords() {
         return addedWords;
-    }
-
-    public void setAddedWords(List<WordTranslation> addedWords) {
-        this.addedWords = addedWords;
     }
 }
