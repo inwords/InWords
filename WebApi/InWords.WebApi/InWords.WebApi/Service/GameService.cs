@@ -80,9 +80,28 @@
             return answer;
         }
 
-        public async Task<IAsyncEnumerable<GameInfo>> GetGameInfo()
+        public List<GameInfo> GetGameInfo()
         {
-            Game
+            List<GameInfo> gameInfos = new List<GameInfo>();
+
+            var games = gameBoxRepository.Get().ToList();
+
+            foreach (var game in games)
+            {
+                // TODO: (LNG) title 
+                var description = GetDescriptions(game.CreationID).FirstOrDefault();
+
+                GameInfo gameInfo = new GameInfo()
+                {
+                    GameID = game.GameBoxID,
+                    IsAvaliable = true,
+                    Title = description?.Title
+                };
+
+                gameInfos.Add(gameInfo);
+            }
+
+            return gameInfos;
         }
     }
 }

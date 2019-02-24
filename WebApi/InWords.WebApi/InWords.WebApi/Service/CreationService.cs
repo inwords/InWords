@@ -71,5 +71,11 @@ namespace InWords.WebApi.Service
 
             return creationInfo;
         }
+
+        protected List<CreationDescription> GetDescriptions(int CreationID)
+        {
+            var descriptions = creationDescriptionRepository.Get(c => c.CreationID == CreationID);
+            return descriptions.ToList();
+        }
     }
 }

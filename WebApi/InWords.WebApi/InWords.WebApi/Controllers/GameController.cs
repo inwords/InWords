@@ -39,9 +39,9 @@
         //TODO: Get GameInfo
         [Route("GameInfo")]
         [HttpGet]
-        public async Task<IActionResult> GetGameInfo()
+        public IActionResult GetGameInfo()
         {
-            var answer = await gameService.GetGameInfo();
+            var answer = gameService.GetGameInfo();
 
             return Ok(answer);
         }

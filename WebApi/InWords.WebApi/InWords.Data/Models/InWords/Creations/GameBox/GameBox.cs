@@ -15,12 +15,6 @@
         public int CreationID { get; set; }
 
         [ForeignKey("CreationID")]
-        public virtual Creation Creator { get; set; }
-
-        /// <summary>
-        /// List of Description on different langs
-        /// </summary>
-        public virtual ICollection<CreationDescription> CreationDescriptions { get; set; }
-
+        public virtual Creation Creation { get; set; }
     }
 }

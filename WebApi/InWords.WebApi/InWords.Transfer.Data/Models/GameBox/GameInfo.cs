@@ -6,6 +6,6 @@
 
         public string Title { get; set; }
 
-        public string IsAvaliable { get; set; }
+        public bool IsAvaliable { get; set; }
     }
 }
