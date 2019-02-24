@@ -1,11 +1,11 @@
 ﻿
-namespace InWords.Transfer.Data.Models.GameBox
+namespace InWords.Transfer.Data
 {
     using System.Collections.Generic;
 
     public class GamePack
     {
-        public ICollection<CreationDescription> CreationDescriptions { get; set; }
+        public CreationInfo CreationInfo { get; set; }
 
         public List<LevelPack> LevelPacks { get; set; }
     }

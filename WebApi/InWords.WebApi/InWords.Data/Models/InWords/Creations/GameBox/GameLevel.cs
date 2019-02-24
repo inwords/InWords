@@ -17,5 +17,9 @@
         public string Title { get; set; }
 
         public int TotalStars { get; set; }
+
+        public int SuccessStars { get; set; }
+
+        public int Level { get; set; }
     }
 }

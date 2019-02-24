@@ -11,7 +11,7 @@
     {
         public string CreatorNick { get; set; }
 
-        public ICollection<CreationDescription> WordSeriaDescriptions { get; set; }
+        public ICollection<CreationInfo> WordSeriaDescriptions { get; set; }
 
         #region ctors
         public WordsSeriaInformation() { }
