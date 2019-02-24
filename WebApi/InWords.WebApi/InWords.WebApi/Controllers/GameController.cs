@@ -45,7 +45,18 @@
 
             return Ok(answer);
         }
+
         //TODO: Get Game
+        [Route("{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetGame(int id)
+        {
+            var userID = User.Claims.GetUserID();
+
+            var answer = await gameService.GetGameInfo(userID, id);
+
+            return Ok(answer);
+        }
 
         //TODO: Get Level
 

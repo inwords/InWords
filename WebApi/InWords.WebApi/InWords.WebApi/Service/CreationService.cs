@@ -10,8 +10,8 @@ namespace InWords.WebApi.Service
 {
     public abstract class CreationService : ServiceBase
     {
-        private CreationRepository creationRepository = null;
-        private CreationDescriptionRepository creationDescriptionRepository = null;
+        private readonly CreationRepository creationRepository = null;
+        private readonly CreationDescriptionRepository creationDescriptionRepository = null;
 
         public CreationService(InWordsDataContext context) : base(context)
         {

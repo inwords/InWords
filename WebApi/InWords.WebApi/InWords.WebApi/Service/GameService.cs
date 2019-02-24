@@ -14,6 +14,7 @@
         private readonly GameBoxRepository gameBoxRepository = null;//seriaRepository
         private readonly GameLevelRepository gameLevelRepository = null; //seriaWordRepository
         private readonly GameLevelWordRepository gameLevelWordRepository = null;
+        private readonly UserRepository usersRepository = null;
 
         public GameService(InWordsDataContext context) : base(context)
         {
@@ -21,6 +22,8 @@
             gameBoxRepository = new GameBoxRepository(context);
             gameLevelRepository = new GameLevelRepository(context);
             gameLevelWordRepository = new GameLevelWordRepository(context);
+            usersRepository = new UserRepository(context);
+
         }
 
         /// <summary>
@@ -102,6 +105,43 @@
             }
 
             return gameInfos;
+        }
+
+        public async Task<Game> GetGameInfo(int userID, int gameID)
+        {
+            // TODO: Add level to user
+
+            var gameBox = await gameBoxRepository.FindById(gameID);
+            var creation = await GetCreation(gameBox.CreationID);
+            var userCreator = await usersRepository.FindById(creation.CreatorID);
+
+
+            List<LevelInfo> levelinfos = new List<LevelInfo>();
+
+            var gamelevels = gameLevelRepository.Get(l => l.GameBoxID == gameBox.GameBoxID);
+            foreach (var level in gamelevels)
+            {
+                var levelInfo = new LevelInfo()
+                {
+                    IsAvaliable = true,
+                    LevelID = level.GameLevelID,
+                    Level = level.Level,
+                    PlayerStars = 0,
+                    SuccessStars = level.SuccessStars,
+                    Title = level.Title,
+                    TotalStars = level.TotalStars
+                };
+                levelinfos.Add(levelInfo);
+            }
+
+            Game game = new Game()
+            {
+                GameID = gameBox.GameBoxID,
+                Creator = userCreator.NickName,
+                LevelInfos = levelinfos
+            };
+
+            return game;
         }
     }
 }
