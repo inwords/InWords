@@ -1,4 +1,6 @@
 package com.dreamproject.inwords.data.dto.game
 
-data class GameLevelInfo(val levelId: Int, val totalStars: Int, val playerStars: Int,
-                         val successStars: Int, val isAvailable: Boolean)
+import java.io.Serializable
+
+data class GameLevelInfo(val levelId: Int, val title: String, val totalStars: Int,
+                         val playerStars: Int, val minStarsToUnlock: Int, val available: Boolean) : Serializable

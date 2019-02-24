@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel
 
-import com.dreamproject.inwords.data.repository.GameRepository
+import com.dreamproject.inwords.data.repository.GameRemoteRepository
 import com.dreamproject.inwords.domain.CardsData
 import com.dreamproject.inwords.presentation.viewScenario.BasicViewModel
 import io.reactivex.Observable
@@ -8,19 +8,19 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
-class GameLevelViewModel(private val gameRepository: GameRepository) : BasicViewModel() {
-    private val _navigateToGameLevelSubject: Subject<CardsData> = BehaviorSubject.create()
+class GameLevelViewModel(private val gameRepository: GameRemoteRepository) : BasicViewModel() {
+    private val _cardsDataSubject: Subject<CardsData> = BehaviorSubject.create()
 
     val navigateToGameLevel: Observable<CardsData>
-        get() = _navigateToGameLevelSubject
+        get() = _cardsDataSubject
 
-    fun onGameLevelSelected(gameLevelInfoId: Int) {
+    fun onGameLevelSelected(gameLevelId: Int) {
         compositeDisposable.clear()
 
-        compositeDisposable.add(gameRepository.getLevel(gameLevelInfoId)
+        compositeDisposable.add(gameRepository.getLevel(gameLevelId)
                 .map { CardsData(it.wordTranslations) }
-                .subscribe(_navigateToGameLevelSubject::onNext))
+                .subscribe(_cardsDataSubject::onNext))
     }
 
-    fun cardsStream(): Single<CardsData> = _navigateToGameLevelSubject.firstOrError()
+    fun cardsStream(): Single<CardsData> = _cardsDataSubject.firstOrError()
 }

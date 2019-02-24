@@ -8,7 +8,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 
-class GameRepository @Inject constructor(private val webRequestsManager: WebRequestsManager) {
+class GameRemoteRepository @Inject constructor(private val webRequestsManager: WebRequestsManager) {
     fun getGameInfos(): Single<List<GameInfo>> {
         return webRequestsManager.gameInfos
     }
