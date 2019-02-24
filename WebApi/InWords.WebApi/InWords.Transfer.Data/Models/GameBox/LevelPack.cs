@@ -8,5 +8,13 @@ namespace InWords.Transfer.Data
         public int Level { get; set; }
 
         public List<WordTranslation> WordTranslations { get; set; }
+
+        // Don't forget BaseInfo
+
+        // TotalStars
+
+        // Title
+
+        // SuccessStars
     }
 }

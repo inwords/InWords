@@ -23,7 +23,5 @@
 
         [ForeignKey("WordPairID")]
         public virtual WordPair WordPair { get; set; }
-
-        public int Level { get; set; }
     }
 }

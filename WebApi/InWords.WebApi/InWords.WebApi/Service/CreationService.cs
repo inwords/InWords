@@ -28,8 +28,6 @@ namespace InWords.WebApi.Service
 
             creation = await creationRepository.Create(creation);
 
-            List<CreationDescription> creationDescriptions = new List<CreationDescription>();
-
             foreach (var cdi in creationInfo.Descriptions)
             {
                 CreationDescription cd = new CreationDescription()
