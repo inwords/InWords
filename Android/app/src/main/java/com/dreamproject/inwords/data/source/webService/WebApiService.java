@@ -18,17 +18,18 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface WebApiService {
     //GAME
-    @GET("sdfsdfsdf")
+    @GET("/api/Game/GameInfo")
     Single<List<GameInfo>> getGameInfos(@Header("Authorization") String bearerToken);
 
-    @GET("asdasd")
-    Single<Game> getGame(@Header("Authorization") String bearerToken, @Body int gameId);
+    @GET("api/Game/{gameId}")
+    Single<Game> getGame(@Header("Authorization") String bearerToken, @Path("gameId") int gameId);
 
-    @GET("asdasd")
-    Single<GameLevel> getLevel(@Header("Authorization") String bearerToken, @Body int levelId);
+    @GET("api/Game/level/{levelId}")
+    Single<GameLevel> getLevel(@Header("Authorization") String bearerToken, @Path("levelId") int levelId);
 
     //
     @POST("/api/words/DeletePair")

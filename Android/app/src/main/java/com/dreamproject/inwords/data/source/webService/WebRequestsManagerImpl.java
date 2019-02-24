@@ -8,7 +8,6 @@ import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.dto.game.Game;
 import com.dreamproject.inwords.data.dto.game.GameInfo;
 import com.dreamproject.inwords.data.dto.game.GameLevel;
-import com.dreamproject.inwords.data.dto.game.GameLevelInfo;
 import com.dreamproject.inwords.data.source.webService.session.AuthInfo;
 import com.dreamproject.inwords.data.source.webService.session.SessionHelper;
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
@@ -142,25 +141,25 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
 
     @Override
     public Single<Game> getGame(int gameId) {
-        return Single.just(new Game(gameId, "creator", Arrays.asList(
+        /*return Single.just(new Game(gameId, "creator", Arrays.asList(
                 new GameLevelInfo(0, "Introduction", 2, 3, 3, true),
                 new GameLevelInfo(1, "Beginning", 0, 3, 3, false),
                 new GameLevelInfo(2, "Super level", 5, 3, 5, true),
-                new GameLevelInfo(3, "Extra notes", 2, 3, 5, false))));
+                new GameLevelInfo(3, "Extra notes", 2, 3, 5, false))));*/
 
-//        return applySessionHelper(apiService.getGame(authInfo.getTokenResponse().getBearer(), gameId))
-//                .subscribeOn(SchedulersFacade.io());
+        return applySessionHelper(apiService.getGame(authInfo.getTokenResponse().getBearer(), gameId))
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<GameLevel> getLevel(int levelId) {
-        return Single.just(new GameLevel(levelId, Arrays.asList(new WordTranslation("car", "мошина"),
+        /*return Single.just(new GameLevel(levelId, Arrays.asList(new WordTranslation("car", "мошина"),
                 new WordTranslation("box", "каропка"),
                 new WordTranslation("plane", "самолёт"),
-                new WordTranslation("bath", "ванна"))));
+                new WordTranslation("bath", "ванна"))));*/
 
-//        return applySessionHelper(apiService.getLevel(authInfo.getTokenResponse().getBearer(), levelId))
-//                .subscribeOn(SchedulersFacade.io());
+        return applySessionHelper(apiService.getLevel(authInfo.getTokenResponse().getBearer(), levelId))
+                .subscribeOn(SchedulersFacade.io());
     }
 
     private <T> Single<T> applySessionHelper(Single<T> query) {

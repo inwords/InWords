@@ -33,12 +33,16 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
 
         viewModel.onGameLevelSelected(gameLevelInfo.levelId)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         text.text = gameLevelInfo.toString()
 
-        compositeDisposable.add(viewModel.cardsStream().subscribe(::render))
+        compositeDisposable.add(viewModel
+                .cardsStream()
+                .observeOn(SchedulersFacade.ui())
+                .subscribe(::render, Throwable::printStackTrace))
     }
 
     private fun render(cardsData: CardsData) {

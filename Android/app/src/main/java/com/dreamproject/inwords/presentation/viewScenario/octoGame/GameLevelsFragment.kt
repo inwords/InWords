@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import com.dreamproject.inwords.R
+import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
 import com.dreamproject.inwords.domain.BundleKeys
 import com.dreamproject.inwords.domain.ColoringUtil
@@ -26,9 +27,10 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         compositeDisposable.add(viewModel.navigateToGameLevel
                 .subscribe(::navigateToGameLevel))
 
-        compositeDisposable.add(viewModel.screenInfoStream(0)
+        compositeDisposable.add(viewModel.screenInfoStream(3)
                 .map { it.game.gameLevelInfos }
-                .subscribe(::renderGameLevelsInfo))
+                .observeOn(SchedulersFacade.ui())
+                .subscribe(::renderGameLevelsInfo, Throwable::printStackTrace))
     }
 
     override fun onDestroyView() {
@@ -43,8 +45,8 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
     }
 
-    private fun renderGameLevelsInfo(gameLevelsInfo: List<GameLevelInfo>) {
-        gameLevelsInfo.forEach { gameLevelInfo ->
+    private fun renderGameLevelsInfo(gameLevelsInfos: List<GameLevelInfo>) {
+        gameLevelsInfos.forEach { gameLevelInfo ->
             layoutInflater.inflate(R.layout.game_level_info, levelsGrid, false).apply {
                 //                tag = gameLevelInfo
 
@@ -54,7 +56,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
                         .getColorForGameLevelInfo("0x225465", gameLevelInfo.available))
 
                 addStars(stars, gameLevelInfo.playerStars, Color.YELLOW)
-                addStars(stars, gameLevelInfo.totalStars - gameLevelInfo.playerStars, Color.GRAY)
+                addStars(stars, (if (gameLevelInfo.totalStars > 10) 10 else gameLevelInfo.totalStars) - gameLevelInfo.playerStars, Color.GRAY)
             }.let { view ->
                 view.setOnClickListener { viewModel.onGameLevelSelected(gameLevelInfo) }
                 levelsGrid.addView(view)

@@ -1,3 +1,8 @@
 package com.dreamproject.inwords.data.dto.game
 
-data class GameInfo(val gameId: Int, val title: String, val available: Boolean)
+import com.google.gson.annotations.SerializedName
+
+data class GameInfo(
+        @SerializedName("gameID") val gameId: Int,
+        @SerializedName("title")  val title: String,
+        @SerializedName("isAvaliable") val available: Boolean)
