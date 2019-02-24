@@ -8,9 +8,12 @@ class HeadersInterceptor @Inject internal constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
 
+        request.header("x-api-version")?.also { return chain.proceed(request) }
+
         val newRequest = request.newBuilder()
-                .addHeader("x-api-version", "2.0")
+                .addHeader("x-api-version", "1.0") //TODO think about it
                 .build()
+
         return chain.proceed(newRequest)
     }
 }

@@ -41,10 +41,11 @@ public interface WebApiService {
     Single<PullWordsAnswer> pullWordsPairs(@Header("Authorization") String bearerToken, @Body List<Integer> serverIds);
 
     @POST("/api/auth/registration")
-    @Headers({"Content-Type: application/json"})
+    @Headers({"Content-Type: application/json", "x-api-version: 2.0"}) //TODO think about it
     Single<TokenResponse> registerUser(@Body UserCredentials userCredentials);
 
     @POST("/api/auth/token")
+    @Headers({"x-api-version: 2.0"}) //TODO think about it
     Single<TokenResponse> getToken(@Body UserCredentials credentials);
 
     @GET("/api/values/getlogin")
