@@ -80,7 +80,7 @@
             return answer;
         }
 
-        public List<GameInfo> GetGameInfo()
+        public async Task<List<GameInfo>> GetGameInfo()
         {
             List<GameInfo> gameInfos = new List<GameInfo>();
 
