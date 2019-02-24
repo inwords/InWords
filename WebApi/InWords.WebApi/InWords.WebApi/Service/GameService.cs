@@ -7,7 +7,6 @@
     using InWords.Data;
     using InWords.Data.Models;
     using InWords.Transfer.Data;
-    using InWords.Transfer.Data.Models.GameBox;
 
     public class GameService : CreationService
     {
@@ -30,6 +29,11 @@
         /// <returns></returns>
         public async Task<SyncBase> AddGamePack(int userID, GamePack gamePack)
         {
+            // TODO: if admin then any creators id
+
+            // else
+            gamePack.CreationInfo.CreatorID = userID;
+            
             //Add creation
             int creationID = await AddCreation(gamePack.CreationInfo);
 

@@ -1,5 +1,5 @@
 ﻿
-namespace InWords.Transfer.Data.Models.GameBox
+namespace InWords.Transfer.Data
 {
     using System.Collections.Generic;
 
