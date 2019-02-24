@@ -8,12 +8,12 @@
         public int CreationDescriptionID { get; set; }
 
         [Required]
-        [StringLength(256)]
+        [StringLength(32)]
         public string Title { get; set; }
 
 
         [Required]
-        [StringLength(256)]
+        [StringLength(64)]
         public string Description { get; set; }
 
         /// <summary>

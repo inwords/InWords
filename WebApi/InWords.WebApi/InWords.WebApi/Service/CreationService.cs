@@ -37,7 +37,7 @@ namespace InWords.WebApi.Service
                     CreationID = creation.CreationID,
                     LanguageID = cdi.LangID,
                     Title = cdi.Title,
-                    Description = cdi.Title
+                    Description = cdi.Description
                 };
                 await creationDescriptionRepository.Create(cd);
             }

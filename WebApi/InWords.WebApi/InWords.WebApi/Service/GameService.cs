@@ -38,43 +38,45 @@
             int creationID = await AddCreation(gamePack.CreationInfo);
 
             //Add game
-            GameBox gameBox = new GameBox()
-            {
-                CreationID = creationID
-            };
-            gameBox = await gameBoxRepository.Create(gameBox);
+            //GameBox gameBox = new GameBox()
+            //{
+            //    CreationID = creationID
+            //};
+            //gameBox = await gameBoxRepository.Create(gameBox);
 
-            //Add level
+            ////Add level
 
-            foreach (var levelPack in gamePack.LevelPacks)
-            {
-                GameLevel gameLevel = new GameLevel()
-                {
-                    GameBoxID = gameBox.GameBoxID,
-                    Title = levelPack.Title,
-                    TotalStars = levelPack.TotalStars,
-                    SuccessStars = levelPack.SuccessStars,
-                    Level = levelPack.Level
-                };
-                gameLevel = await gameLevelRepository.Create(gameLevel);
+            //foreach (var levelPack in gamePack.LevelPacks)
+            //{
+            //    GameLevel gameLevel = new GameLevel()
+            //    {
+            //        GameBoxID = gameBox.GameBoxID,
+            //        Title = levelPack.Title,
+            //        TotalStars = levelPack.TotalStars,
+            //        SuccessStars = levelPack.SuccessStars,
+            //        Level = levelPack.Level
+            //    };
+            //    gameLevel = await gameLevelRepository.Create(gameLevel);
 
-                //add words
+            //    //add words
 
-                foreach (var pair in levelPack.WordTranslations)
-                {
-                    var wordPair = await wordsService.AddPair(pair);
+            //    foreach (var pair in levelPack.WordTranslations)
+            //    {
+            //        var wordPair = await wordsService.AddPair(pair);
 
-                    GameLevelWord gameLevelWord = new GameLevelWord()
-                    {
-                        GameLevelID = gameLevel.GameLevelID,
-                        WordPairID = wordPair.WordPairID
-                    };
-                }
-            }
+            //        GameLevelWord gameLevelWord = new GameLevelWord()
+            //        {
+            //            GameLevelID = gameLevel.GameLevelID,
+            //            WordPairID = wordPair.WordPairID
+            //        };
+            //    }
+            //}
 
-            SyncBase answer = new SyncBase(gameBox.GameBoxID);
+            //SyncBase answer = new SyncBase(gameBox.GameBoxID);
 
-            return answer;
+            //return answer;
+
+            return null;
         }
 
     }

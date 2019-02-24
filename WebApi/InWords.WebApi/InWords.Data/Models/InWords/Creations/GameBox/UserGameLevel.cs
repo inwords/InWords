@@ -16,7 +16,7 @@
         public int GameLevelID { get; set; }
 
         [ForeignKey("GameLevelID")]
-        public virtual GameLevel GameBox { get; set; }
+        public virtual GameLevel GameLevel { get; set; }
 
         public int UserStars { get; set; }
     }
