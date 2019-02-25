@@ -25,6 +25,7 @@ import dagger.android.AndroidInjector;
         GameLevelsFragmentModule.class,
         GameLevelFragmentModule.class})
 public interface AppComponent extends AndroidInjector<App> {
+    GsonSubcomponent.Builder gsonSubcomponent();
 
     @Component.Builder
     abstract class Builder extends AndroidInjector.Builder<App> {

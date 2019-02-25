@@ -8,6 +8,7 @@ import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 import com.dreamproject.inwords.data.source.webService.BasicAuthenticator;
 import com.dreamproject.inwords.data.source.webService.HeadersInterceptor;
 import com.dreamproject.inwords.data.source.webService.WebApiService;
+import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +25,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 class DataSourcesModule {
+    @Provides
+    @Singleton
+    Gson gson(){
+        return new Gson();
+    }
+
     @Provides
     @Singleton
     WordTranslationDao wordTranslationDao(AppRoomDatabase database) {
@@ -46,10 +53,10 @@ class DataSourcesModule {
 
     @Provides
     @Singleton
-    Retrofit provideRetrofit(OkHttpClient client) {
+    Retrofit provideRetrofit(OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .baseUrl(BuildConfig.API_URL)
 
