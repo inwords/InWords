@@ -15,7 +15,7 @@ export class Login extends Component {
             <div className="alert alert-danger" role="alert">
                 {error}
             </div> :
-            <div />
+            <div />;
         return (
             <Form onSubmit={this.handleSubmit}>
                 {errorMessage}
@@ -31,7 +31,7 @@ export class Login extends Component {
                     Войти
                 </Button>
             </Form>
-        )
+        );
     }
 }
 

@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { stringifyFormData } from '../helpers/stringifyFormData';
 
-export class Registration extends Component {
+export class Register extends Component {
+    state = {
+        requestCompleted: false
+    };
+
     handleSubmit = event => {
         event.preventDefault();
         this.props.register(stringifyFormData(new FormData(event.target)));
+        this.setState({ requestCompleted: true });
     }
 
     render() {
-        const { error } = this.props;
+        const { redirect, error } = this.props;
         const errorMessage = error ?
             <div className="alert alert-danger" role="alert">
                 {error}
             </div> :
-            <div />
+            redirect ?
+                <Redirect to="/login" /> :
+                <div />;
         return (
             <Form onSubmit={this.handleSubmit}>
                 {errorMessage}
@@ -31,11 +39,12 @@ export class Registration extends Component {
                     Зарегистрироваться
                 </Button>
             </Form>
-        )
+        );
     }
 }
 
-Registration.propTypes = {
+Register.propTypes = {
+    redirect: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
     register: PropTypes.func.isRequired
 }

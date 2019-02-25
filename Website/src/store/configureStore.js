@@ -1,5 +1,14 @@
 import { createStore, applyMiddleware } from 'redux';
 import { rootReducer } from '../reducers';
+import logger from 'redux-logger';
 import thunk from 'redux-thunk';
+import { loadState, saveState } from './localStorage'
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+const persistedState = loadState();
+export const store = createStore(rootReducer, persistedState, applyMiddleware(thunk, logger));
+
+store.subscribe(() => {
+    saveState({
+        authToken: store.getState().authToken
+    });
+});

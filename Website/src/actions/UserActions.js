@@ -3,9 +3,7 @@ import { userConstants } from '../constants/userConstants'
 
 function login(userdata) {
     return dispatch => {
-        dispatch({
-            type: userConstants.LOGIN_REQUEST
-        });
+        dispatch({ type: userConstants.LOGIN_REQUEST });
 
         fetch(API_HOST + '/api/auth/token', {
             method: 'POST',
@@ -16,14 +14,14 @@ function login(userdata) {
             body: userdata
         })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
+                if (!response.ok) {
+                    throw new Error(response.statusText);
                 }
-                throw new Error(response.statusText);
+                return response.json();
             })
             .then(json => {
                 dispatch({
-                    type: userConstants.LOGIN_SUCCESS,
+                    type: userConstants.AUTH_TOKEN_VALID,
                     payload: json.access_token
                 });
             })
@@ -38,14 +36,14 @@ function login(userdata) {
 }
 
 function logout() {
-
+    return dispatch => {
+        dispatch({ type: userConstants.AUTH_TOKEN_INVALID });
+    }
 }
 
 function register(userdata) {
     return dispatch => {
-        dispatch({
-            type: userConstants.REGISTER_REQUEST
-        });
+        dispatch({ type: userConstants.REGISTER_REQUEST });
 
         fetch(API_HOST + '/api/auth/registration', {
             method: 'POST',
@@ -55,17 +53,11 @@ function register(userdata) {
             body: userdata
         })
             .then(response => {
-                console.log(response)
-                console.log(userdata)
-                if (response.ok) {
-                    return response.json();
+                if (!response.ok) {
+                    throw new Error(response.statusText);
                 }
-                throw new Error(response.statusText);
-            })
-            .then(json => {
-                dispatch({
-                    type: userConstants.REGISTER_SUCCESS,
-                });
+                dispatch({ type: userConstants.REGISTER_SUCCESS });
+                dispatch({ type: userConstants.REGISTER_REDIRECTED });
             })
             .catch(err => {
                 console.log(err);
