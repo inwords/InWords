@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.repository.translation;
 
-import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 
 import java.util.List;
@@ -60,6 +60,10 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
 
     @Override
     public Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations) {
+        if (wordTranslations.isEmpty()){
+            return Single.just(wordTranslations);
+        }
+
         return Single.defer(() -> Observable.zip(
                 Observable.fromIterable(wordTranslationDao.insertAll(wordTranslations)),
                 Observable.fromIterable(wordTranslations),
@@ -74,12 +78,20 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
 
     @Override
     public Completable removeAll(List<WordTranslation> wordTranslations) {
+        if (wordTranslations.isEmpty()){
+            return Completable.complete();
+        }
+
         return Completable.fromCallable(() -> wordTranslationDao.deleteAll(wordTranslations))
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
+        if (serverIds.isEmpty()){
+            return Completable.complete();
+        }
+
         return Completable.fromCallable(() -> wordTranslationDao.deleteAllServerIds(serverIds))
                 .subscribeOn(Schedulers.io());
     }

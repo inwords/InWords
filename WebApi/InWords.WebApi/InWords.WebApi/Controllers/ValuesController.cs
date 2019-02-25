@@ -1,7 +1,6 @@
 ﻿namespace InWords.WebApi.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using InWords.Data.Models.Repositories;
     using Microsoft.AspNetCore.Authorization;
     using InWords.Data.Enums;
     using InWords.Data;

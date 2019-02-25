@@ -14,7 +14,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 
 @Module(includes = {AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
-        DataModule.class,
+        DataSourcesModule.class,
         DataAbstractModule.class})
 abstract class AppModule {
     @Binds

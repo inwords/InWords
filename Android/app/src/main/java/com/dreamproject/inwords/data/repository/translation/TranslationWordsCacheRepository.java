@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.repository.translation;
 
-import com.dreamproject.inwords.data.entity.WordTranslation;
+import com.dreamproject.inwords.data.dto.WordTranslation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,11 +15,12 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.Subject;
 
 public class TranslationWordsCacheRepository implements TranslationWordsLocalRepository {
     private ConcurrentHashMap<WordTranslation, WordTranslation> list;
 
-    private BehaviorSubject<List<WordTranslation>> behaviorSubject;
+    private Subject<List<WordTranslation>> behaviorSubject;
 
     @Inject
     public TranslationWordsCacheRepository() {
@@ -61,6 +62,10 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     @Override
     public Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations) {
+        if (wordTranslations.isEmpty()){
+            return Single.just(wordTranslations);
+        }
+
         return Single.defer(() -> {
             //list.removeAll(wordTranslations);
             for (WordTranslation wordTranslation : wordTranslations)
@@ -73,6 +78,10 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     @Override
     public Completable removeAll(List<WordTranslation> wordTranslations) {
+        if (wordTranslations.isEmpty()){
+            return Completable.complete();
+        }
+
         return Completable.fromCallable(() -> {
             list.keySet().removeAll(wordTranslations);
 
@@ -84,6 +93,10 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
+        if (serverIds.isEmpty()){
+            return Completable.complete();
+        }
+
         return Completable.fromCallable(() -> {
             for (Integer serverId : serverIds) {
                 for (Iterator<WordTranslation> it = list.values().iterator(); it.hasNext(); ) {
