@@ -2,6 +2,7 @@ package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
@@ -53,6 +54,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
             val tableRow = TableRow(context)
             tableRow.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT)
+            tableRow.gravity = Gravity.CENTER
 
             for (j in 0 until 2) {
                 val card = layoutInflater.inflate(R.layout.card, tableRow, false) as FlipView

@@ -56,7 +56,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
                         .getColorForGameLevelInfo("0x225465", gameLevelInfo.available))
 
                 addStars(stars, gameLevelInfo.playerStars, Color.YELLOW)
-                addStars(stars, (if (gameLevelInfo.totalStars > 10) 10 else gameLevelInfo.totalStars) - gameLevelInfo.playerStars, Color.GRAY)
+                addStars(stars, (if (gameLevelInfo.totalStars > 8) 8 else gameLevelInfo.totalStars) - gameLevelInfo.playerStars, Color.GRAY)
             }.let { view ->
                 view.setOnClickListener { viewModel.onGameLevelSelected(gameLevelInfo) }
                 levelsGrid.addView(view)
