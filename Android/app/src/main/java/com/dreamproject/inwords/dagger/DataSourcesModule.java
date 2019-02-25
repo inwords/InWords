@@ -5,6 +5,9 @@ import android.content.Context;
 import com.dreamproject.inwords.BuildConfig;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
+import com.dreamproject.inwords.data.source.database.game.GameDao;
+import com.dreamproject.inwords.data.source.database.game.GameLevelDao;
+import com.dreamproject.inwords.data.source.database.game.GameLevelInfoDao;
 import com.dreamproject.inwords.data.source.webService.BasicAuthenticator;
 import com.dreamproject.inwords.data.source.webService.HeadersInterceptor;
 import com.dreamproject.inwords.data.source.webService.WebApiService;
@@ -27,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 class DataSourcesModule {
     @Provides
     @Singleton
-    Gson gson(){
+    Gson gson() {
         return new Gson();
     }
 
@@ -39,7 +42,25 @@ class DataSourcesModule {
 
     @Provides
     @Singleton
-    AppRoomDatabase database(Context context){
+    GameDao gameDao(AppRoomDatabase database) {
+        return database.gameDao();
+    }
+
+    @Provides
+    @Singleton
+    GameLevelDao gameLevelDao(AppRoomDatabase database) {
+        return database.gameLevelDao();
+    }
+
+    @Provides
+    @Singleton
+    GameLevelInfoDao gameLevelInfoDao(AppRoomDatabase database) {
+        return database.gameLevelInfoDaoDao();
+    }
+
+    @Provides
+    @Singleton
+    AppRoomDatabase database(Context context) {
         return Room.inMemoryDatabaseBuilder(context, //context is ApplicationContext btw
                 AppRoomDatabase.class)//, "word_database")
                 .build();
