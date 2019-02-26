@@ -1,17 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'react-bootstrap';
-import { UserActions } from '../actions/UserActions';
+import { WordlistActions } from '../actions/WordlistActions';
 import { Wordlist } from '../components/Wordlist';
 
 class WordlistContainer extends Component {
     render() {
+        const { authToken, wordlist, pullwordpairsAction } = this.props;
         return (
-            <Container>
-                <Wordlist />
-            </Container>
+            <div className="container">
+                <Wordlist token={authToken.token} wordPairs={wordlist.wordPairs}
+                    pullwordpairs={pullwordpairsAction} />
+            </div>
         );
     }
 }
 
-export default WordlistContainer;
+const mapStateToProps = store => {
+    return {
+        authToken: store.authToken,
+        wordlist: store.wordlist
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        pullwordpairsAction: (token) => dispatch(WordlistActions.pullwordpairs(token))
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(WordlistContainer);

@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { NavLink, Redirect } from 'react-router-dom';
+import { Navbar } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export class TopNavbar extends Component {
-    handleClick = () => {
+    handleLogout = () => {
         this.props.logout();
     }
 
     render() {
         const { token } = this.props;
-        const exitButton = token ?
-            <Button variant="outline-light" onClick={this.handleClick}>Выйти</Button> :
-            <div />;
+        const redirection = token ? <div /> : <Redirect to="/login" />;
         const authLink = token ?
             <div /> :
             <NavLink className="nav-link" activeClassName="selected" to="/login">Авторизация</NavLink>;
@@ -22,18 +20,21 @@ export class TopNavbar extends Component {
         const wordlistLink = token ?
             <NavLink className="nav-link" activeClassName="selected" to="/wordlist">Словарь</NavLink> :
             <div />;
-        console.log(token);
+        const logoutButton = token ?
+            <button type="button" className="btn btn-primary" onClick={this.handleLogout}>Выйти</button> :
+            <div />;
         return (
             <Navbar bg="primary" variant="dark" expand="lg">
+                {redirection}
                 <NavLink className="navbar-brand" to="/">InWords</NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
+                    <ul className="navbar-nav mr-auto">
                         {authLink}
                         {registerLink}
                         {wordlistLink}
-                    </Nav>
-                    {exitButton}
+                    </ul>
+                    {logoutButton}
                 </Navbar.Collapse>
             </Navbar>
         );

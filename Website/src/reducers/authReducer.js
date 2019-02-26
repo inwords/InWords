@@ -1,15 +1,20 @@
 import { userConstants } from '../constants/userConstants'
 
 const initialState = {
+    redirect: false,
     error: ''
 };
 
 export function auth(state = initialState, action) {
     switch (action.type) {
         case userConstants.LOGIN_REQUEST:
-            return { ...state, error: '' };
+            return { ...state, redirect: false, error: '' };
+        case userConstants.LOGIN_SUCCESS:
+            return { ...state, redirect: true };
+        case userConstants.LOGIN_REDIRECTED:
+            return { ...state, redirect: false };
         case userConstants.LOGIN_FAILURE:
-            return { ...state, error: action.payload.message };
+            return { ...state, redirect: false, error: action.payload.message };
         default:
             return state;
     }

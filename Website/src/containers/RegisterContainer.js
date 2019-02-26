@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import { UserActions } from '../actions/UserActions';
 import { Register } from '../components/Register';
 
@@ -8,9 +7,10 @@ class RegisterContainer extends Component {
     render() {
         const { register, registerAction } = this.props;
         return (
-            <Container>
-                <Register redirect={register.redirect} error={register.error} register={registerAction} />
-            </Container>
+            <div className="container">
+                <Register redirect={register.redirect} error={register.error}
+                    register={registerAction} />
+            </div>
         );
     }
 }

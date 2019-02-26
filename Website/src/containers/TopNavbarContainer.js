@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form } from 'react-bootstrap';
 import { UserActions } from '../actions/UserActions';
 import { TopNavbar } from '../components/TopNavbar';
 
@@ -8,9 +7,9 @@ class TopNavbarContainer extends Component {
     render() {
         const { authToken, logoutAction } = this.props;
         return (
-            <Form.Group>
+            <div className="form-group">
                 <TopNavbar token={authToken.token} logout={logoutAction} />
-            </Form.Group>
+            </div>
         );
     }
 }

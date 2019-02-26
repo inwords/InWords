@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { stringifyFormData } from '../helpers/stringifyFormData';
 
@@ -17,28 +16,28 @@ export class Register extends Component {
 
     render() {
         const { redirect, error } = this.props;
+        const redirection = redirect ? <Redirect to="/login" /> : <div />;
         const errorMessage = error ?
-            <div className="alert alert-danger" role="alert">
-                {error}
-            </div> :
-            redirect ?
-                <Redirect to="/login" /> :
-                <div />;
+            <div className="alert alert-danger" role="alert">{error}</div> :
+            <div />;
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
+                {redirection}
                 {errorMessage}
-                <Form.Group>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Введите email" name="Email" required="required" />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Пароль</Form.Label>
-                    <Form.Control type="password" placeholder="Введите пароль" name="Password" required="required" />
-                </Form.Group>
-                <Button variant="primary" type="submit">
+                <div className="form-group">
+                    <label>Email</label>
+                    <input type="email" className="form-control"
+                        placeholder="Введите email" name="Email" required="required" />
+                </div>
+                <div className="form-group">
+                    <label>Пароль</label>
+                    <input type="password" className="form-control"
+                        placeholder="Введите пароль" name="Password" required="required" />
+                </div>
+                <button type="submit" className="btn btn-primary">
                     Зарегистрироваться
-                </Button>
-            </Form>
+            </button>
+            </form>
         );
     }
 }
