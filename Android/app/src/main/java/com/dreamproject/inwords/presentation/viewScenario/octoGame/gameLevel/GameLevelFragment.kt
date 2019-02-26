@@ -9,8 +9,8 @@ import android.widget.TableRow
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
-import com.dreamproject.inwords.domain.BundleKeys
 import com.dreamproject.inwords.domain.CardsData
+import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
@@ -30,7 +30,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        gameLevelInfo = arguments?.getSerializable(BundleKeys.GAME_LEVEL_INFO) as GameLevelInfo
+        gameLevelInfo = arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
 
         viewModel.onGameLevelSelected(gameLevelInfo.levelId)
     }

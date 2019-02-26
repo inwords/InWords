@@ -11,8 +11,8 @@ import androidx.core.content.ContextCompat
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
-import com.dreamproject.inwords.domain.BundleKeys
-import com.dreamproject.inwords.domain.ColoringUtil
+import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
+import com.dreamproject.inwords.domain.util.getColorForGameLevelInfo
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_game_levels.*
@@ -41,7 +41,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
 
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
         val bundle = Bundle()
-        bundle.putSerializable(BundleKeys.GAME_LEVEL_INFO, gameLevelInfo)
+        bundle.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
         navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
     }
 
@@ -52,12 +52,11 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
 
                 title.text = gameLevelInfo.title
 
-                setBackgroundColor(ColoringUtil
-                        .getColorForGameLevelInfo("0x225465", gameLevelInfo.available))
+                setBackgroundColor(getColorForGameLevelInfo("0x225465", gameLevelInfo.available))
 
                 addStars(stars, gameLevelInfo.playerStars, Color.YELLOW)
                 addStars(stars, (if (gameLevelInfo.totalStars > 8) 8 else gameLevelInfo.totalStars) - gameLevelInfo.playerStars, Color.GRAY)
-            }.let { view ->
+            }.also { view ->
                 view.setOnClickListener { viewModel.onGameLevelSelected(gameLevelInfo) }
                 levelsGrid.addView(view)
             }
