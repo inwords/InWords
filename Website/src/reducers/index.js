@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
-import { auth } from './authReducer';
-import { authToken } from './authTokenReducer';
+import { login } from './loginReducer';
+import { credentials } from './credentialsReducer';
 import { register } from './registerReducer';
-import { wordlist } from './wordlistReducer';
+import { pullWordPairs } from './pullWordPairsReducer';
+import { delWordPairs } from './delWordPairsReducer';
 
 export const rootReducer = combineReducers({
-    auth: auth,
-    authToken: authToken,
+    login: login,
     register: register,
-    wordlist: wordlist
+    credentials: credentials,
+    pullWordPairs: pullWordPairs,
+    delWordPairs: delWordPairs,
 });

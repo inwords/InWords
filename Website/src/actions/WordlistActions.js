@@ -1,9 +1,10 @@
 import { API_HOST } from '../api-info';
 import { wordlistConstants } from '../constants/wordlistConstants';
+import { credentialsConstants } from '../constants/credentialsConstants';
 
-function pullwordpairs(token) {
+function pullWordPairs(token) {
     return dispatch => {
-        dispatch({ type: wordlistConstants.WORDPAIRS_REQUEST });
+        dispatch({ type: wordlistConstants.PULL_PAIRS_REQUEST });
 
         fetch(API_HOST + '/api/sync/pullwordpairs', {
             method: 'POST',
@@ -15,26 +16,63 @@ function pullwordpairs(token) {
         })
             .then(response => {
                 if (!response.ok) {
+                    if (response.status === 401) {
+                        dispatch({ type: credentialsConstants.TOKEN_INVALID });
+                    }
                     throw new Error(response.statusText);
                 }
                 return response.json();
             })
             .then(json => {
                 dispatch({
-                    type: wordlistConstants.WORDPAIRS_SUCCESS,
+                    type: wordlistConstants.PULL_PAIRS_SUCCESS,
                     payload: json.addedWords
                 });
             })
             .catch(err => {
                 console.error(err);
                 dispatch({
-                    type: wordlistConstants.WORDPAIRS_FAILURE,
+                    type: wordlistConstants.PULL_PAIRS_FAILURE,
                     payload: new Error('Ошибка загрузки слов')
                 });
             });
     }
 }
 
+function deleteWordPairs(token, pairsIds) {
+    return dispatch => {
+        dispatch({ type: wordlistConstants.DEL_PAIRS_REQUEST });
+
+        console.log(pairsIds)
+        fetch(API_HOST + '/api/words/deletepair', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: pairsIds
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        dispatch({ type: credentialsConstants.TOKEN_INVALID });
+                    }
+                    throw new Error(response.statusText);
+                }
+                dispatch({ type: wordlistConstants.DEL_PAIRS_SUCCESS });
+                return response.json();
+            })
+            .catch(err => {
+                console.error(err);
+                dispatch({
+                    type: wordlistConstants.DEL_PAIRS_FAILURE,
+                    payload: new Error('Ошибка удаления слов')
+                });
+            });
+    }
+}
+
 export const WordlistActions = {
-    pullwordpairs
+    pullWordPairs,
+    deleteWordPairs
 };

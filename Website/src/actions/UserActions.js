@@ -1,5 +1,6 @@
 import { API_HOST } from '../api-info';
 import { userConstants } from '../constants/userConstants';
+import { credentialsConstants } from '../constants/credentialsConstants';
 
 function login(userdata) {
     return dispatch => {
@@ -21,7 +22,7 @@ function login(userdata) {
             })
             .then(json => {
                 dispatch({
-                    type: userConstants.AUTH_TOKEN_VALID,
+                    type: credentialsConstants.TOKEN_VALID,
                     payload: json.access_token
                 });
                 dispatch({ type: userConstants.LOGIN_SUCCESS });
@@ -39,7 +40,7 @@ function login(userdata) {
 
 function logout() {
     return dispatch => {
-        dispatch({ type: userConstants.AUTH_TOKEN_INVALID });
+        dispatch({ type: credentialsConstants.TOKEN_INVALID });
     }
 }
 

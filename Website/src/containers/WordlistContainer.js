@@ -5,11 +5,12 @@ import { Wordlist } from '../components/Wordlist';
 
 class WordlistContainer extends Component {
     render() {
-        const { authToken, wordlist, pullwordpairsAction } = this.props;
+        const { credentials, pullWordPairs, pullWordPairsAction, delWordPairsAction } = this.props;
+        console.log(credentials, pullWordPairs, pullWordPairsAction)
         return (
             <div className="container">
-                <Wordlist token={authToken.token} wordPairs={wordlist.wordPairs}
-                    pullwordpairs={pullwordpairsAction} />
+                <Wordlist token={credentials.token} pairs={pullWordPairs.pairs} error={pullWordPairs.error}
+                    pullWordPairs={pullWordPairsAction} deleteWordPairs={delWordPairsAction}/>
             </div>
         );
     }
@@ -17,14 +18,15 @@ class WordlistContainer extends Component {
 
 const mapStateToProps = store => {
     return {
-        authToken: store.authToken,
-        wordlist: store.wordlist
+        credentials: store.credentials,
+        pullWordPairs: store.pullWordPairs
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        pullwordpairsAction: (token) => dispatch(WordlistActions.pullwordpairs(token))
+        pullWordPairsAction: (token) => dispatch(WordlistActions.pullWordPairs(token)),
+        delWordPairsAction: (token) => dispatch(WordlistActions.deleteWordPairs(token))
     };
 }
 

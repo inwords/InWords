@@ -5,7 +5,7 @@ const initialState = {
     error: ''
 };
 
-export function auth(state = initialState, action) {
+export function login(state = initialState, action) {
     switch (action.type) {
         case userConstants.LOGIN_REQUEST:
             return { ...state, redirect: false, error: '' };

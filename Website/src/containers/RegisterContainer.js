@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
-import { Register } from '../components/Register';
+import { RegisterPage } from '../components/RegisterPage';
 
 class RegisterContainer extends Component {
     render() {
         const { register, registerAction } = this.props;
         return (
             <div className="container">
-                <Register redirect={register.redirect} error={register.error}
+                <RegisterPage redirect={register.redirect} error={register.error}
                     register={registerAction} />
             </div>
         );

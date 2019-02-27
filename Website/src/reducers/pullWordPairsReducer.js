@@ -1,17 +1,17 @@
 import { wordlistConstants } from '../constants/wordlistConstants'
 
 const initialState = {
-    wordPairs: [],
+    pairs: [],
     error: ''
 };
 
-export function wordlist(state = initialState, action) {
+export function pullWordPairs(state = initialState, action) {
     switch (action.type) {
-        case wordlistConstants.WORDPAIRS_REQUEST:
+        case wordlistConstants.PULL_PAIRS_REQUEST:
             return { ...state, error: '' };
-        case wordlistConstants.WORDPAIRS_SUCCESS:
-            return { ...state, wordPairs: action.payload };
-        case wordlistConstants.WORDPAIRS_FAILURE:
+        case wordlistConstants.PULL_PAIRS_SUCCESS:
+            return { ...state, pairs: action.payload };
+        case wordlistConstants.PULL_PAIRS_FAILURE:
             return { ...state, error: action.payload.message };
         default:
             return state;

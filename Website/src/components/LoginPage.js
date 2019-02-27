@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { stringifyFormData } from '../helpers/stringifyFormData';
 
-export class Login extends Component {
+export class LoginPage extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.props.login(stringifyFormData(new FormData(event.target)));
@@ -37,7 +37,7 @@ export class Login extends Component {
     }
 }
 
-Login.propTypes = {
+LoginPage.propTypes = {
     redirect: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
     login: PropTypes.func.isRequired

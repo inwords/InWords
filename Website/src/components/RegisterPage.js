@@ -3,15 +3,10 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { stringifyFormData } from '../helpers/stringifyFormData';
 
-export class Register extends Component {
-    state = {
-        requestCompleted: false
-    };
-
+export class RegisterPage extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.props.register(stringifyFormData(new FormData(event.target)));
-        this.setState({ requestCompleted: true });
     }
 
     render() {
@@ -42,7 +37,7 @@ export class Register extends Component {
     }
 }
 
-Register.propTypes = {
+RegisterPage.propTypes = {
     redirect: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
     register: PropTypes.func.isRequired

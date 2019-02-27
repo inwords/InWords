@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
-import { Login } from '../components/Login';
+import { LoginPage } from '../components/LoginPage';
 
 class LoginContainer extends Component {
     render() {
-        const { auth, loginAction } = this.props;
+        const { login, loginAction } = this.props;
         return (
             <div className="container">
-                <Login redirect={auth.redirect} error={auth.error}
+                <LoginPage redirect={login.redirect} error={login.error}
                     login={loginAction} />
             </div>
         );
@@ -17,7 +17,7 @@ class LoginContainer extends Component {
 
 const mapStateToProps = store => {
     return {
-        auth: store.auth
+        login: store.login
     };
 }
 
