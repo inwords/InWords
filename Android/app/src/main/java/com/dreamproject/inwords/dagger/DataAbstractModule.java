@@ -11,6 +11,8 @@ import com.dreamproject.inwords.data.source.webService.WebRequestsManager;
 import com.dreamproject.inwords.data.source.webService.WebRequestsManagerImpl;
 import com.dreamproject.inwords.domain.interactor.authorisation.AuthorisationInteractor;
 import com.dreamproject.inwords.domain.interactor.authorisation.AuthorisationWebInteractor;
+import com.dreamproject.inwords.domain.interactor.game.GameInteractor;
+import com.dreamproject.inwords.domain.interactor.game.GameInteractorImpl;
 import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractor;
 import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractorImpl;
 import com.dreamproject.inwords.domain.interactor.translation.TranslationWordsCacheInteractor;
@@ -35,6 +37,10 @@ public interface DataAbstractModule {
     WebRequestsManager webRequests(WebRequestsManagerImpl webRequests);
 
     //interactors
+    @Binds
+    @Singleton
+    GameInteractor gameInteractor(GameInteractorImpl interactor);
+
     @Binds
     @Singleton
     TranslationSyncInteractor translationSyncInteractor(TranslationSyncInteractorImpl interactor);

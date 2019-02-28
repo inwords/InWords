@@ -3,11 +3,20 @@ package com.dreamproject.inwords.dagger;
 import android.content.Context;
 
 import com.dreamproject.inwords.BuildConfig;
+import com.dreamproject.inwords.dagger.annotations.QGame;
+import com.dreamproject.inwords.dagger.annotations.QGameInfo;
+import com.dreamproject.inwords.dagger.annotations.QGameLevel;
+import com.dreamproject.inwords.data.dto.game.Game;
+import com.dreamproject.inwords.data.dto.game.GameInfo;
+import com.dreamproject.inwords.data.dto.game.GameLevel;
+import com.dreamproject.inwords.data.repository.game.GameDatabaseRepository;
+import com.dreamproject.inwords.data.repository.game.GameEntityCacheRepository;
+import com.dreamproject.inwords.data.repository.game.GameEntityProvider;
+import com.dreamproject.inwords.data.repository.game.GameListCacheRepository;
+import com.dreamproject.inwords.data.repository.game.GameListProvider;
+import com.dreamproject.inwords.data.repository.game.GameRemoteRepository;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
-import com.dreamproject.inwords.data.source.database.game.GameDao;
-import com.dreamproject.inwords.data.source.database.game.GameLevelDao;
-import com.dreamproject.inwords.data.source.database.game.GameLevelInfoDao;
 import com.dreamproject.inwords.data.source.webService.BasicAuthenticator;
 import com.dreamproject.inwords.data.source.webService.HeadersInterceptor;
 import com.dreamproject.inwords.data.source.webService.WebApiService;
@@ -40,22 +49,31 @@ class DataSourcesModule {
         return database.wordTranslationDao();
     }
 
+    @QGame
     @Provides
     @Singleton
-    GameDao gameDao(AppRoomDatabase database) {
-        return database.gameDao();
+    GameEntityProvider<Game> gameRep(AppRoomDatabase database,
+                                     GameRemoteRepository gameRemoteRepository) {
+        return new GameEntityCacheRepository<>(new GameDatabaseRepository<>(database.gameDao()),
+                gameRemoteRepository::getGame);
     }
 
+    @QGameLevel
     @Provides
     @Singleton
-    GameLevelDao gameLevelDao(AppRoomDatabase database) {
-        return database.gameLevelDao();
+    GameEntityProvider<GameLevel> gameLevelRep(AppRoomDatabase database,
+                                               GameRemoteRepository gameRemoteRepository) {
+        return new GameEntityCacheRepository<>(new GameDatabaseRepository<>(database.gameLevelDao()),
+                gameRemoteRepository::getLevel);
     }
 
+    @QGameInfo
     @Provides
     @Singleton
-    GameLevelInfoDao gameLevelInfoDao(AppRoomDatabase database) {
-        return database.gameLevelInfoDaoDao();
+    GameListProvider<GameInfo> gameInfoRep(AppRoomDatabase database,
+                                                GameRemoteRepository gameRemoteRepository) {
+        return new GameListCacheRepository<>(new GameDatabaseRepository<>(database.gameInfoDao()),
+                gameRemoteRepository::getGameInfos);
     }
 
     @Provides
