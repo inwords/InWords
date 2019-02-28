@@ -4,6 +4,7 @@ import { credentials } from './credentialsReducer';
 import { register } from './registerReducer';
 import { pullWordPairs } from './pullWordPairsReducer';
 import { delWordPairs } from './delWordPairsReducer';
+import { wordPairsRelevance } from './wordPairsRelevanceReducer';
 
 export const rootReducer = combineReducers({
     login: login,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
     credentials: credentials,
     pullWordPairs: pullWordPairs,
     delWordPairs: delWordPairs,
+    wordPairsRelevance: wordPairsRelevance
 });

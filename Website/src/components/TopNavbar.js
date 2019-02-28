@@ -10,7 +10,6 @@ export class TopNavbar extends Component {
 
     render() {
         const { token } = this.props;
-        const redirection = token ? <div /> : <Redirect to="/login" />;
         const loginLink = token ?
             <div /> :
             <NavLink className="nav-link" activeClassName="selected" to="/login">Авторизация</NavLink>;
@@ -22,12 +21,12 @@ export class TopNavbar extends Component {
             <div />;
         const logoutButton = token ?
             <button type="button" className="btn btn-outline-light" onClick={this.handleLogout}>
-                Выход
+                Выйти
             </button> :
             <div />;
         return (
             <Navbar expand="lg" bg="primary" variant="dark">
-                {redirection}
+                {token ? <div /> : <Redirect to="/login" />}
                 <NavLink className="navbar-brand" to="/">InWords</NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

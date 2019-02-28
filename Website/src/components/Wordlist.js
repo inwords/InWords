@@ -1,32 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { WordPair } from './WordPair';
+import { prepareErrorAlert } from '../helpers/prepareErrorAlert';
 
 export class Wordlist extends Component {
-    componentDidMount() {
-        const { token } = this.props;
-        this.props.pullWordPairs(token);
-    }
-
     render() {
-        const { pairs, error } = this.props;
-        const wordPairs = pairs.map((pair, index) =>
-            <WordPair key={index} id={pair.serverId}
+        const SmartWordPair = this.props.smartWordPair;
+        const wordPairs = this.props.pairs.map((pair, index) =>
+            <SmartWordPair key={index} id={pair.serverId}
                 wordForeign={pair.wordForeign} wordNative={pair.wordNative} />);
-        const errorMessage = error ?
-            <div className="alert alert-danger" role="alert">{error}</div> :
-            <div />;
         return (
             <div>
-                <div className="form-group sticky-top">
-                    <nav className="navbar navbar-light bg-light">
-                        <div className="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <button type="button" className="btn btn-outline-primary btn">Добавить</button>
-                        </div>
-                    </nav>
-                </div>
-                {errorMessage}
                 <ul className="list-group list-group-flush">
+                    {prepareErrorAlert(this.props.error)}
                     {wordPairs}
                 </ul>
             </div>
@@ -35,8 +20,6 @@ export class Wordlist extends Component {
 }
 
 Wordlist.propTypes = {
-    token: PropTypes.string.isRequired,
     pairs: PropTypes.array.isRequired,
-    error: PropTypes.string.isRequired,
-    pullWordPairs: PropTypes.func.isRequired
+    error: PropTypes.object.isRequired
 }

@@ -28,12 +28,13 @@ function pullWordPairs(token) {
                     type: wordlistConstants.PULL_PAIRS_SUCCESS,
                     payload: json.addedWords
                 });
+                dispatch({ type: wordlistConstants.PAIRS_RELEVANT });
             })
             .catch(err => {
                 console.error(err);
                 dispatch({
                     type: wordlistConstants.PULL_PAIRS_FAILURE,
-                    payload: new Error('Ошибка загрузки слов')
+                    payload: new Error('Ошибка загрузки')
                 });
             });
     }
@@ -43,7 +44,6 @@ function deleteWordPairs(token, pairsIds) {
     return dispatch => {
         dispatch({ type: wordlistConstants.DEL_PAIRS_REQUEST });
 
-        console.log(pairsIds)
         fetch(API_HOST + '/api/words/deletepair', {
             method: 'POST',
             headers: {
@@ -60,13 +60,14 @@ function deleteWordPairs(token, pairsIds) {
                     throw new Error(response.statusText);
                 }
                 dispatch({ type: wordlistConstants.DEL_PAIRS_SUCCESS });
+                dispatch({ type: wordlistConstants.PAIRS_IRRELEVANT });
                 return response.json();
             })
             .catch(err => {
                 console.error(err);
                 dispatch({
                     type: wordlistConstants.DEL_PAIRS_FAILURE,
-                    payload: new Error('Ошибка удаления слов')
+                    payload: new Error('Ошибка удаления')
                 });
             });
     }
