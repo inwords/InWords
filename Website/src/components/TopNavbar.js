@@ -1,48 +1,63 @@
 import React, { Component } from 'react';
 import { NavLink, Redirect } from 'react-router-dom';
-import { Navbar } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export class TopNavbar extends Component {
     handleLogout = () => {
         this.props.logout();
-    }
+    };
 
     render() {
-        const { token } = this.props;
-        const loginLink = token ?
+        const { accessToken } = this.props;
+
+        const loginLink = accessToken ?
             <div /> :
-            <NavLink className="nav-link" activeClassName="selected" to="/login">Авторизация</NavLink>;
-        const registerLink = token ?
+            <NavLink className="nav-link" activeClassName="selected" to="/login">
+                Авторизация
+            </NavLink>;
+
+        const registerLink = accessToken ?
             <div /> :
-            <NavLink className="nav-link" activeClassName="selected" to="/register">Регистрация</NavLink>
-        const wordlistLink = token ?
-            <NavLink className="nav-link" activeClassName="selected" to="/wordlist">Словарь</NavLink> :
+            <NavLink className="nav-link" activeClassName="selected" to="/register">
+                Регистрация
+            </NavLink>
+
+        const wordlistLink = accessToken ?
+            <NavLink className="nav-link" activeClassName="selected" to="/wordlist">
+                Словарь
+            </NavLink> :
             <div />;
-        const logoutButton = token ?
+
+        const logoutButton = accessToken ?
             <button type="button" className="btn btn-outline-light" onClick={this.handleLogout}>
                 Выйти
             </button> :
             <div />;
+
         return (
-            <Navbar expand="lg" bg="primary" variant="dark">
-                {token ? <div /> : <Redirect to="/login" />}
-                <NavLink className="navbar-brand" to="/">InWords</NavLink>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+                {accessToken ? <div /> : <Redirect to="/login" />}
+                <a className="navbar-brand" href="/">
+                    InWords
+                </a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon" />
+                </button>
+                <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav mr-auto">
                         {loginLink}
                         {registerLink}
                         {wordlistLink}
                     </ul>
                     {logoutButton}
-                </Navbar.Collapse>
-            </Navbar>
+                </div>
+            </nav>
         );
     }
 }
 
 TopNavbar.propTypes = {
-    token: PropTypes.string.isRequired,
+    accessToken: PropTypes.string,
     logout: PropTypes.func.isRequired
 }

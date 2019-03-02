@@ -2,28 +2,36 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export class WordPair extends Component {
-    handleDelWordPairs = () => {
-        const { token, id } = this.props;
-        this.props.deleteWordPairs(token, JSON.stringify(Array('' + id)));
-    }
+    handleDelWordPair = () => {
+        const { accessToken, id, deleteWordPair } = this.props;
+
+        deleteWordPair(accessToken, id);
+    };
 
     render() {
+        const { wordForeign, wordNative } = this.props;
+
         return (
             <li className="list-group-item list-group-item-action">
                 <div className="row">
-                    <div className="col-5">
+                    <div className="col">
                         <p className="font-weight-bold">
-                            {this.props.wordForeign}
+                            {wordForeign}
                         </p>
                     </div>
-                    <div className="col-5">
-                        {this.props.wordNative}
-                    </div>
                     <div className="col">
-                        <button type="button" className="close" aria-label="Close"
-                            onClick={this.handleDelWordPairs}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        {wordNative}
+                    </div>
+                    <div className="col-md-auto">
+                        <div className="btn-group btn-group-sm" role="group">
+                            <button type="button" className="btn btn-outline-primary">
+                                Редактировать
+                            </button>
+                            <button type="button" className="btn btn-outline-danger"
+                                onClick={this.handleDelWordPair}>
+                                Удалить
+                            </button>
+                        </div>
                     </div>
                 </div>
             </li>
@@ -35,6 +43,6 @@ WordPair.propTypes = {
     id: PropTypes.number.isRequired,
     wordForeign: PropTypes.string.isRequired,
     wordNative: PropTypes.string.isRequired,
-    token: PropTypes.string.isRequired,
-    deleteWordPairs: PropTypes.func.isRequired
+    accessToken: PropTypes.string,
+    deleteWordPair: PropTypes.func.isRequired
 }

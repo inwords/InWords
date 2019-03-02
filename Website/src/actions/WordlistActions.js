@@ -1,10 +1,11 @@
 import { API_HOST } from '../api-info';
+import { ErrorActions } from '../actions/ErrorActions';
+import { AccessTokenActions } from '../actions/AccessTokenActions';
 import { wordlistConstants } from '../constants/wordlistConstants';
-import { credentialsConstants } from '../constants/credentialsConstants';
 
 function pullWordPairs(token) {
     return dispatch => {
-        dispatch({ type: wordlistConstants.PULL_PAIRS_REQUEST });
+        dispatch(pairsPullRequest());
 
         fetch(API_HOST + '/api/sync/pullwordpairs', {
             method: 'POST',
@@ -17,63 +18,96 @@ function pullWordPairs(token) {
             .then(response => {
                 if (!response.ok) {
                     if (response.status === 401) {
-                        dispatch({ type: credentialsConstants.TOKEN_INVALID });
+                        dispatch(AccessTokenActions.accessTokenInvalid());
                     }
+
                     throw new Error(response.statusText);
                 }
+
                 return response.json();
             })
             .then(json => {
-                dispatch({
-                    type: wordlistConstants.PULL_PAIRS_SUCCESS,
-                    payload: json.addedWords
-                });
-                dispatch({ type: wordlistConstants.PAIRS_RELEVANT });
+                dispatch(pairsPullSuccess());
+                dispatch(pairsPullLocalRefresh(json.addedWords));
+                dispatch(ErrorActions.resetErrorMessage());
             })
             .catch(err => {
                 console.error(err);
-                dispatch({
-                    type: wordlistConstants.PULL_PAIRS_FAILURE,
-                    payload: new Error('Ошибка загрузки')
-                });
+                dispatch(pairsPullFailure(new Error('Ошибка загрузки словаря')));
             });
     }
 }
 
-function deleteWordPairs(token, pairsIds) {
-    return dispatch => {
-        dispatch({ type: wordlistConstants.DEL_PAIRS_REQUEST });
+const pairsPullRequest = () => ({
+    type: wordlistConstants.PAIRS_PULL_REQUEST
+});
 
+const pairsPullSuccess = () => ({
+    type: wordlistConstants.PAIRS_PULL_SUCCESS
+});
+
+const pairsPullLocalRefresh = (wordPairs) => ({
+    type: wordlistConstants.PAIRS_PULL_LOCAL_REFRESH,
+    payload: wordPairs
+});
+
+const pairsPullFailure = (error) => ({
+    type: wordlistConstants.PAIRS_PULL_FAILURE,
+    error: error.message
+});
+
+function deleteWordPair(token, pairId) {
+    return dispatch => {
+        dispatch(pairsDelRequest());
+
+        console.log(pairId)
         fetch(API_HOST + '/api/words/deletepair', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
-            body: pairsIds
+            body: JSON.stringify([pairId])
         })
             .then(response => {
                 if (!response.ok) {
                     if (response.status === 401) {
-                        dispatch({ type: credentialsConstants.TOKEN_INVALID });
+                        dispatch(AccessTokenActions.accessTokenInvalid());
                     }
+                    
                     throw new Error(response.statusText);
                 }
-                dispatch({ type: wordlistConstants.DEL_PAIRS_SUCCESS });
-                dispatch({ type: wordlistConstants.PAIRS_IRRELEVANT });
-                return response.json();
+
+                dispatch(pairsDelSuccess());
+                dispatch(pairsDelLocalRefresh(pairId));
+                dispatch(ErrorActions.resetErrorMessage());
             })
             .catch(err => {
                 console.error(err);
-                dispatch({
-                    type: wordlistConstants.DEL_PAIRS_FAILURE,
-                    payload: new Error('Ошибка удаления')
-                });
+                dispatch(pairsDelFailure(new Error('Ошибка удаления')));
             });
     }
 }
 
+const pairsDelRequest = () => ({
+    type: wordlistConstants.PAIRS_DEL_REQUEST
+});
+
+const pairsDelSuccess = () => ({
+    type: wordlistConstants.PAIRS_DEL_SUCCESS
+});
+
+const pairsDelLocalRefresh = (pairId) => ({
+    type: wordlistConstants.PAIRS_DEL_LOCAL_REFRESH,
+    pairId: pairId
+});
+
+const pairsDelFailure = (error) => ({
+    type: wordlistConstants.PAIRS_DEL_FAILURE,
+    error: error.message
+});
+
 export const WordlistActions = {
     pullWordPairs,
-    deleteWordPairs
+    deleteWordPair
 };

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
+import { ErrorActions } from '../actions/ErrorActions';
 import { LoginPage } from '../components/LoginPage';
 
 class LoginContainer extends Component {
     render() {
-        const { login, loginAction } = this.props;
+        const { login, loginAction, errorMessage, resetErrorMessageAction } = this.props;
+        
         return (
             <div className="container">
-                <LoginPage redirect={login.redirect} error={login.error}
-                    login={loginAction} />
+                <LoginPage redirect={login.redirect} login={loginAction}
+                    errorMessage={errorMessage} resetErrorMessage={resetErrorMessageAction} />
             </div>
         );
     }
@@ -17,13 +19,15 @@ class LoginContainer extends Component {
 
 const mapStateToProps = store => {
     return {
-        login: store.login
+        login: store.user.login,
+        errorMessage: store.errorMessage
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        loginAction: userdata => dispatch(UserActions.login(userdata))
+        loginAction: userdata => dispatch(UserActions.login(userdata)),
+        resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
-export function prepareErrorAlert(error) {
-    return error.constructor === Error ?
-        <div className="alert alert-danger" role="alert">{error.message}</div> :
+export function prepareErrorAlert(errorMessage) {
+    return errorMessage ?
+        <div className="alert alert-danger" role="alert">{errorMessage}</div> :
         <div />;
 };

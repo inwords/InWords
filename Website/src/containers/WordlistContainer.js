@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { WordlistActions } from '../actions/WordlistActions';
+import { ErrorActions } from '../actions/ErrorActions';
 import { WordlistTools } from '../components/WordlistTools';
-import { WordlistReceiver } from '../components/WordlistReceiver';
 import { Wordlist } from '../components/Wordlist';
 import { WordPair } from '../components/WordPair';
 
 class WordlistContainer extends Component {
     render() {
-        const { credentials, pullWordPairs, delWordPairs, wordPairsRelevance,
-            pullWordPairsAction, delWordPairsAction } = this.props;
+        const { accessToken, wordPairs, pullWordPairsAction,
+            deleteWordPairAction, errorMessage, resetErrorMessageAction } = this.props;
 
         const SmartWordPair = ({ id, wordForeign, wordNative }) =>
             <WordPair id={id} wordForeign={wordForeign} wordNative={wordNative}
-                token={credentials.token} error={delWordPairs.error} deleteWordPairs={delWordPairsAction} />;
-                
+                accessToken={accessToken} deleteWordPair={deleteWordPairAction} />;
+
         return (
             <div className="container">
                 <WordlistTools />
-                <WordlistReceiver token={credentials.token} relevant={wordPairsRelevance.relevant}
-                    error={pullWordPairs.error} pullWordPairs={pullWordPairsAction} />
-                <Wordlist smartWordPair={SmartWordPair} pairs={pullWordPairs.pairs} error={delWordPairs.error} />
+                <Wordlist smartWordPair={SmartWordPair} accessToken={accessToken}
+                    wordPairs={wordPairs} pullWordPairs={pullWordPairsAction}
+                    errorMessage={errorMessage} resetErrorMessage={resetErrorMessageAction} />
             </div>
         );
     }
@@ -28,17 +28,17 @@ class WordlistContainer extends Component {
 
 const mapStateToProps = store => {
     return {
-        credentials: store.credentials,
-        pullWordPairs: store.pullWordPairs,
-        delWordPairs: store.delWordPairs,
-        wordPairsRelevance: store.wordPairsRelevance
+        accessToken: store.accessToken,
+        wordPairs: store.wordlist.wordPairs,
+        errorMessage: store.errorMessage
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         pullWordPairsAction: (token) => dispatch(WordlistActions.pullWordPairs(token)),
-        delWordPairsAction: (token, pairsIds) => dispatch(WordlistActions.deleteWordPairs(token, pairsIds))
+        deleteWordPairAction: (token, pairId) => dispatch(WordlistActions.deleteWordPair(token, pairId)),
+        resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
 }
 

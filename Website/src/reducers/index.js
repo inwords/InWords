@@ -1,16 +1,12 @@
 import { combineReducers } from 'redux';
-import { login } from './loginReducer';
-import { credentials } from './credentialsReducer';
-import { register } from './registerReducer';
-import { pullWordPairs } from './pullWordPairsReducer';
-import { delWordPairs } from './delWordPairsReducer';
-import { wordPairsRelevance } from './wordPairsRelevanceReducer';
+import { accessToken } from './accessToken';
+import { user } from './user';
+import { wordlist } from './wordlist';
+import { errorMessage } from './errorMessage';
 
 export const rootReducer = combineReducers({
-    login: login,
-    register: register,
-    credentials: credentials,
-    pullWordPairs: pullWordPairs,
-    delWordPairs: delWordPairs,
-    wordPairsRelevance: wordPairsRelevance
+    accessToken: accessToken,
+    user: user,
+    wordlist: wordlist,
+    errorMessage: errorMessage
 });

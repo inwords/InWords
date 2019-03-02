@@ -5,10 +5,11 @@ import { TopNavbar } from '../components/TopNavbar';
 
 class TopNavbarContainer extends Component {
     render() {
-        const { credentials, logoutAction } = this.props;
+        const { accessToken, logoutAction } = this.props;
+        
         return (
             <div className="form-group">
-                <TopNavbar token={credentials.token} logout={logoutAction} />
+                <TopNavbar accessToken={accessToken} logout={logoutAction} />
             </div>
         );
     }
@@ -16,7 +17,7 @@ class TopNavbarContainer extends Component {
 
 const mapStateToProps = store => {
     return {
-        credentials: store.credentials
+        accessToken: store.accessToken
     };
 }
 
