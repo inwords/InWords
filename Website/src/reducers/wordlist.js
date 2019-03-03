@@ -7,6 +7,8 @@ function wordPairs(state = [], action) {
             return action.payload;
         case wordlistConstants.PAIRS_DEL_LOCAL_REFRESH:
             return state.filter(pair => pair.serverId !== action.pairId);
+        case wordlistConstants.PAIRS_ADD_LOCAL_REFRESH:
+            return state; //TODO
         default:
             return state;
     }
@@ -42,8 +44,22 @@ function wordPairsDel(state = initialState, action) {
     }
 };
 
+function wordPairsAdd(state = initialState, action) {
+    switch (action.type) {
+        case wordlistConstants.PAIRS_ADD_REQUEST:
+            return { ...state, isFetching: true };
+        case wordlistConstants.PAIRS_ADD_SUCCESS:
+            return { ...state, isFetching: false };
+        case wordlistConstants.PAIRS_ADD_FAILURE:
+            return { ...state, isFetching: false };
+        default:
+            return state;
+    }
+};
+
 export const wordlist = combineReducers({
     wordPairs: wordPairs,
     wordPairsPull: wordPairsPull,
-    wordPairsDel: wordPairsDel
+    wordPairsDel: wordPairsDel,
+    wordPairsAdd: wordPairsAdd
 });

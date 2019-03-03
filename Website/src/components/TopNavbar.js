@@ -3,7 +3,7 @@ import { NavLink, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export class TopNavbar extends Component {
-    handleLogout = () => {
+    handleClickLogout = () => {
         this.props.logout();
     };
 
@@ -29,7 +29,7 @@ export class TopNavbar extends Component {
             <div />;
 
         const logoutButton = accessToken ?
-            <button type="button" className="btn btn-outline-light" onClick={this.handleLogout}>
+            <button type="button" className="btn btn-outline-light" onClick={this.handleClickLogout}>
                 Выйти
             </button> :
             <div />;

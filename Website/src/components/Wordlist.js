@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { prepareErrorAlert } from '../helpers/prepareErrorAlert';
 
 export class Wordlist extends Component {
     componentDidMount() {
-        const { accessToken, pullWordPairs, errorMessage, resetErrorMessage } = this.props;
-
-        if (errorMessage) {
-            resetErrorMessage()
-        }
-
+        const { accessToken, pullWordPairs } = this.props;
         pullWordPairs(accessToken);
     }
 
@@ -23,7 +17,6 @@ export class Wordlist extends Component {
         return (
             <div>
                 <ul className="list-group list-group-flush">
-                    {prepareErrorAlert(this.props.errorMessage)}
                     {wordPairs}
                 </ul>
             </div>
@@ -35,7 +28,5 @@ Wordlist.propTypes = {
     smartWordPair: PropTypes.func.isRequired,
     accessToken: PropTypes.string,
     wordPairs: PropTypes.array.isRequired,
-    pullWordPairs: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    resetErrorMessage: PropTypes.func.isRequired
+    pullWordPairs: PropTypes.func.isRequired
 }

@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
 import { ErrorActions } from '../actions/ErrorActions';
+import { WrapperWithErrorHandling } from '../components/WrapperWithErrorHandling';
 import { RegisterPage } from '../components/RegisterPage';
 
 class RegisterContainer extends Component {
     render() {
         const { register, registerAction, errorMessage, resetErrorMessageAction } = this.props;
-        
+
         return (
-            <div className="container">
-                <RegisterPage redirect={register.redirect} register={registerAction}
-                    errorMessage={errorMessage} resetErrorMessage={resetErrorMessageAction} />
-            </div>
+            <WrapperWithErrorHandling errorMessage={errorMessage}
+                resetErrorMessage={resetErrorMessageAction}>
+                <RegisterPage redirect={register.redirect} register={registerAction} />
+            </WrapperWithErrorHandling>
         );
     }
 }

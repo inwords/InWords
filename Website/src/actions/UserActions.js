@@ -1,5 +1,4 @@
 import { API_HOST } from '../api-info';
-import { ErrorActions } from '../actions/ErrorActions';
 import { AccessTokenActions } from '../actions/AccessTokenActions';
 import { userConstants } from '../constants/userConstants';
 
@@ -25,7 +24,6 @@ function login(userdata) {
             .then(json => {
                 dispatch(AccessTokenActions.accessTokenValid(json.access_token));
                 dispatch(loginSuccess());
-                dispatch(ErrorActions.resetErrorMessage());
                 dispatch(loginRedirected());
             })
             .catch(err => {
@@ -75,7 +73,6 @@ function register(userdata) {
                 }
 
                 dispatch(registerSuccess());
-                dispatch(ErrorActions.resetErrorMessage());
                 dispatch(registerRedirected());
             })
             .catch(err => {

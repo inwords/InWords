@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export class WordlistTools extends Component {
+    state = {
+        addMode: false
+    };
+
+    han
+
     render() {
         return (
             <div className="form-group sticky-top">

@@ -2,30 +2,20 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { stringifyFormData } from '../helpers/stringifyFormData';
-import { prepareErrorAlert } from '../helpers/prepareErrorAlert';
 
 export class LoginPage extends Component {
-    componentDidMount() {
-        const { errorMessage, resetErrorMessage } = this.props;
-
-        if (errorMessage) {
-            resetErrorMessage()
-        }
-    }
-
     handleSubmit = event => {
         event.preventDefault();
 
         this.props.login(stringifyFormData(new FormData(event.target)));
-    }
+    };
 
     render() {
-        const { redirect, errorMessage } = this.props;
+        const { redirect } = this.props;
 
         return (
             <form onSubmit={this.handleSubmit}>
                 {redirect ? <Redirect to="/wordlist" /> : <div />}
-                {prepareErrorAlert(errorMessage)}
                 <div className="form-group">
                     <label htmlFor="inputEmail">
                         Email
@@ -50,7 +40,5 @@ export class LoginPage extends Component {
 
 LoginPage.propTypes = {
     redirect: PropTypes.bool.isRequired,
-    login: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
-    resetErrorMessage: PropTypes.func.isRequired
+    login: PropTypes.func.isRequired
 }

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export class WordPair extends Component {
-    handleDelWordPair = () => {
+    handleClickDelWordPair = () => {
         const { accessToken, id, deleteWordPair } = this.props;
 
-        deleteWordPair(accessToken, id);
+        deleteWordPair(accessToken, JSON.stringify([id]));
     };
 
     render() {
@@ -28,7 +28,7 @@ export class WordPair extends Component {
                                 Редактировать
                             </button>
                             <button type="button" className="btn btn-outline-danger"
-                                onClick={this.handleDelWordPair}>
+                                onClick={this.handleClickDelWordPair}>
                                 Удалить
                             </button>
                         </div>

@@ -6,20 +6,20 @@ import RegisterContainer from './RegisterContainer';
 import WordlistContainer from './WordlistContainer';
 
 class App extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <div className="container">
-          <TopNavbarContainer />
-          <Switch>
-            <Route path="/login" component={LoginContainer} />
-            <Route path="/register" component={RegisterContainer} />
-            <Route path="/wordlist" component={WordlistContainer} />
-          </Switch>
-        </div>
-      </BrowserRouter>
-    );
-  }
+    render() {
+        return (
+            <BrowserRouter>
+                <div className="container">
+                    <TopNavbarContainer />
+                    <Switch>
+                        <Route path="/login" component={LoginContainer} />
+                        <Route path="/register" component={RegisterContainer} />
+                        <Route path="/wordlist" component={WordlistContainer} />
+                    </Switch>
+                </div>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default App;

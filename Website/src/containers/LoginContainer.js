@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
 import { ErrorActions } from '../actions/ErrorActions';
+import { WrapperWithErrorHandling } from '../components/WrapperWithErrorHandling';
 import { LoginPage } from '../components/LoginPage';
 
 class LoginContainer extends Component {
     render() {
         const { login, loginAction, errorMessage, resetErrorMessageAction } = this.props;
-        
+
         return (
-            <div className="container">
-                <LoginPage redirect={login.redirect} login={loginAction}
-                    errorMessage={errorMessage} resetErrorMessage={resetErrorMessageAction} />
-            </div>
+            <WrapperWithErrorHandling errorMessage={errorMessage}
+                resetErrorMessage={resetErrorMessageAction}>
+                <LoginPage redirect={login.redirect} login={loginAction} />
+            </WrapperWithErrorHandling>
         );
     }
 }

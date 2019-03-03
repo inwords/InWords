@@ -60,14 +60,13 @@ function deleteWordPair(token, pairId) {
     return dispatch => {
         dispatch(pairsDelRequest());
 
-        console.log(pairId)
         fetch(API_HOST + '/api/words/deletepair', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
-            body: JSON.stringify([pairId])
+            body: pairId
         })
             .then(response => {
                 if (!response.ok) {
@@ -79,7 +78,7 @@ function deleteWordPair(token, pairId) {
                 }
 
                 dispatch(pairsDelSuccess());
-                dispatch(pairsDelLocalRefresh(pairId));
+                dispatch(pairsDelLocalRefresh(JSON.parse(pairId)[0]));
                 dispatch(ErrorActions.resetErrorMessage());
             })
             .catch(err => {
@@ -107,7 +106,58 @@ const pairsDelFailure = (error) => ({
     error: error.message
 });
 
+function addWordPair(token, wordPair) {
+    return dispatch => {
+        dispatch(pairsAddRequest());
+
+        fetch(API_HOST + '/api/words/addpair', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: wordPair
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        dispatch(AccessTokenActions.accessTokenInvalid());
+                    }
+                    
+                    throw new Error(response.statusText);
+                }
+
+                dispatch(pairsAddSuccess());
+                dispatch(pairsAddLocalRefresh(JSON.parse(wordPair)));
+                dispatch(ErrorActions.resetErrorMessage());
+            })
+            .catch(err => {
+                console.error(err);
+                dispatch(pairsAddFailure(new Error('Ошибка удаления')));
+            });
+    }
+}
+
+const pairsAddRequest = () => ({
+    type: wordlistConstants.PAIRS_DEL_REQUEST
+});
+
+const pairsAddSuccess = () => ({
+    type: wordlistConstants.PAIRS_DEL_SUCCESS
+});
+
+const pairsAddLocalRefresh = (wordPair) => ({
+    type: wordlistConstants.PAIRS_DEL_LOCAL_REFRESH,
+    wordPair: wordPair
+});
+
+const pairsAddFailure = (error) => ({
+    type: wordlistConstants.PAIRS_DEL_FAILURE,
+    error: error.message
+});
+
 export const WordlistActions = {
     pullWordPairs,
-    deleteWordPair
+    deleteWordPair,
+    addWordPair
 };

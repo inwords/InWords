@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { WordlistActions } from '../actions/WordlistActions';
 import { ErrorActions } from '../actions/ErrorActions';
+import { WrapperWithErrorHandling } from '../components/WrapperWithErrorHandling';
 import { WordlistTools } from '../components/WordlistTools';
 import { Wordlist } from '../components/Wordlist';
 import { WordPair } from '../components/WordPair';
@@ -16,12 +17,12 @@ class WordlistContainer extends Component {
                 accessToken={accessToken} deleteWordPair={deleteWordPairAction} />;
 
         return (
-            <div className="container">
+            <WrapperWithErrorHandling errorMessage={errorMessage}
+                resetErrorMessage={resetErrorMessageAction}>
                 <WordlistTools />
                 <Wordlist smartWordPair={SmartWordPair} accessToken={accessToken}
-                    wordPairs={wordPairs} pullWordPairs={pullWordPairsAction}
-                    errorMessage={errorMessage} resetErrorMessage={resetErrorMessageAction} />
-            </div>
+                    wordPairs={wordPairs} pullWordPairs={pullWordPairsAction} />
+            </WrapperWithErrorHandling>
         );
     }
 }
