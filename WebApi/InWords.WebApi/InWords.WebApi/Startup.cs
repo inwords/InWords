@@ -56,7 +56,8 @@
         {
             LoggerConfiguration(loggerFactory);
 
-            //if (env.IsDevelopment())
+            // TODO: remove on Release
+            // if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

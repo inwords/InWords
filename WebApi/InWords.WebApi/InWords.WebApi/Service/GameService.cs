@@ -55,7 +55,6 @@
                 GameLevel gameLevel = new GameLevel()
                 {
                     GameBoxID = gameBox.GameBoxID,
-                    Title = levelPack.Title,
                     TotalStars = levelPack.TotalStars,
                     SuccessStars = levelPack.SuccessStars,
                     Level = levelPack.Level
@@ -97,7 +96,7 @@
                 GameInfo gameInfo = new GameInfo()
                 {
                     GameID = game.GameBoxID,
-                    IsAvaliable = true,
+                    IsAvailable = true,
                     Title = description?.Title
                 };
 
@@ -123,12 +122,11 @@
             {
                 var levelInfo = new LevelInfo()
                 {
-                    IsAvaliable = true,
+                    IsAvailable = true,
                     LevelID = level.GameLevelID,
                     Level = level.Level,
                     PlayerStars = 0,
                     SuccessStars = level.SuccessStars,
-                    Title = level.Title,
                     TotalStars = level.TotalStars
                 };
                 levelinfos.Add(levelInfo);

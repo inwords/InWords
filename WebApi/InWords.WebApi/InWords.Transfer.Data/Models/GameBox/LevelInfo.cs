@@ -6,7 +6,7 @@
 
         public int PlayerStars { get; set; }
 
-        public bool IsAvaliable { get; set; }
+        public bool IsAvailable { get; set; }
 
         public int Level { get; set; }
     }
