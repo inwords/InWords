@@ -1,6 +1,6 @@
 ﻿namespace InWords.Transfer.Data
 {
-    public class LevelInfo : BaseInfo
+    public class LevelInfo : StarsInfo
     {
         public int LevelID { get; set; }
 
