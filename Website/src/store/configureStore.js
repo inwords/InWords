@@ -9,6 +9,6 @@ export const store = createStore(rootReducer, persistedState, applyMiddleware(th
 
 store.subscribe(() => {
     saveState({
-        authToken: store.getState().authToken
+        accessToken: store.getState().accessToken
     });
 });

@@ -1,9 +1,11 @@
-import { API_HOST } from '../api-info'
-import { userConstants } from '../constants/userConstants'
+import { API_HOST } from '../api-info';
+import { FetchingActions } from '../actions/FetchingActions';
+import { AccessTokenActions } from '../actions/AccessTokenActions';
+import { userConstants } from '../constants/userConstants';
 
 function login(userdata) {
     return dispatch => {
-        dispatch({ type: userConstants.LOGIN_REQUEST });
+        dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/auth/token', {
             method: 'POST',
@@ -17,33 +19,39 @@ function login(userdata) {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
+
                 return response.json();
             })
             .then(json => {
-                dispatch({
-                    type: userConstants.AUTH_TOKEN_VALID,
-                    payload: json.access_token
-                });
+                dispatch(AccessTokenActions.accessTokenValid(json.access_token));
+                dispatch(FetchingActions.fetchingSuccess());
+                dispatch(loginRedirect());
+                dispatch(loginRedirected());
             })
             .catch(err => {
-                console.log(err);
-                dispatch({
-                    type: userConstants.LOGIN_FAILURE,
-                    payload: new Error('Ошибка авторизации')
-                });
+                console.error(err);
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка авторизации')));
             });
     }
 }
 
+const loginRedirect = () => ({
+    type: userConstants.LOGIN_REDIRECT
+});
+
+const loginRedirected = () => ({
+    type: userConstants.LOGIN_REDIRECTED
+});
+
 function logout() {
     return dispatch => {
-        dispatch({ type: userConstants.AUTH_TOKEN_INVALID });
+        dispatch(AccessTokenActions.accessTokenInvalid());
     }
 }
 
 function register(userdata) {
     return dispatch => {
-        dispatch({ type: userConstants.REGISTER_REQUEST });
+        dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/auth/registration', {
             method: 'POST',
@@ -56,18 +64,25 @@ function register(userdata) {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-                dispatch({ type: userConstants.REGISTER_SUCCESS });
-                dispatch({ type: userConstants.REGISTER_REDIRECTED });
+
+                dispatch(FetchingActions.fetchingSuccess());
+                dispatch(registerRedirect());
+                dispatch(registerRedirected());
             })
             .catch(err => {
-                console.log(err);
-                dispatch({
-                    type: userConstants.REGISTER_FAILURE,
-                    payload: new Error('Ошибка регистрации')
-                });
+                console.error(err);
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка регистрации')));
             });
     }
 }
+
+const registerRedirect = () => ({
+    type: userConstants.REGISTER_REDIRECT
+});
+
+const registerRedirected = () => ({
+    type: userConstants.REGISTER_REDIRECTED
+});
 
 export const UserActions = {
     login,

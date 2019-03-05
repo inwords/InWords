@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
-import { auth } from './authReducer';
-import { authToken } from './authTokenReducer';
-import { register } from './registerReducer';
+import { accessToken } from './accessToken';
+import { user } from './user';
+import { wordlist } from './wordlist';
+import { fetching } from './fetching';
+import { errorMessage } from './errorMessage';
 
 export const rootReducer = combineReducers({
-    auth: auth,
-    authToken: authToken,
-    register: register
+    accessToken: accessToken,
+    user: user,
+    wordlist: wordlist,
+    fetching: fetching,
+    errorMessage: errorMessage
 });

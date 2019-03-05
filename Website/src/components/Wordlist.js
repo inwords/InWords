@@ -1,14 +1,35 @@
 import React, { Component } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { stringifyFormData } from '../helpers/stringifyFormData';
 
 export class Wordlist extends Component {
+    componentDidMount() {
+        const { accessToken, pullWordPairs } = this.props;
+        pullWordPairs(accessToken);
+    }
+
     render() {
+        const SmartWordPair = this.props.smartWordPair;
+
+        const wordPairs = this.props.wordPairs.map((pair, index) =>
+            <SmartWordPair
+                key={index}
+                id={pair.serverId}
+                wordForeign={pair.wordForeign}
+                wordNative={pair.wordNative} />);
+
         return (
             <div>
-                TODO
+                <ul className="list-group list-group-flush">
+                    {wordPairs}
+                </ul>
             </div>
         );
     }
+}
+
+Wordlist.propTypes = {
+    smartWordPair: PropTypes.func.isRequired,
+    accessToken: PropTypes.string,
+    wordPairs: PropTypes.array.isRequired,
+    pullWordPairs: PropTypes.func.isRequired
 }

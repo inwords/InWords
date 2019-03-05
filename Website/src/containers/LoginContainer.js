@@ -1,31 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import { UserActions } from '../actions/UserActions';
-import { Login } from '../components/Login';
+import { ErrorActions } from '../actions/ErrorActions';
+import { WrapperWithErrorHandling } from '../components/WrapperWithErrorHandling';
+import { LoginPage } from '../components/LoginPage';
 
 class LoginContainer extends Component {
     render() {
-        const { auth, loginAction } = this.props;
+        const { login, loginAction, errorMessage, resetErrorMessageAction } = this.props;
+
         return (
-            <Container>
-                <Login error={auth.error} login={loginAction} />
-            </Container>
+            <WrapperWithErrorHandling
+                errorMessage={errorMessage}
+                resetErrorMessage={resetErrorMessageAction}>
+
+                <LoginPage
+                    redirect={login.redirect}
+                    login={loginAction} />
+                    
+            </WrapperWithErrorHandling>
         );
     }
 }
 
 const mapStateToProps = store => {
     return {
-        auth: store.auth
+        login: store.user.login,
+        errorMessage: store.errorMessage
     };
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
-        loginAction: userdata => dispatch(UserActions.login(userdata))
+        loginAction: userdata => dispatch(UserActions.login(userdata)),
+        resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
-}
+};
 
 export default connect(
     mapStateToProps,

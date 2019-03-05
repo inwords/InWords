@@ -1,0 +1,7 @@
+$theme-colors: (
+  primary: #512da8,
+  secondary: #26a69a,
+  danger: #d32f2f
+) !default;
+
+@import '~bootstrap/scss/bootstrap.scss';

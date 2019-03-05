@@ -1,31 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import { UserActions } from '../actions/UserActions';
-import { Register } from '../components/Register';
+import { ErrorActions } from '../actions/ErrorActions';
+import { WrapperWithErrorHandling } from '../components/WrapperWithErrorHandling';
+import { RegisterPage } from '../components/RegisterPage';
 
 class RegisterContainer extends Component {
     render() {
-        const { register, registerAction } = this.props;
+        const { register, registerAction, errorMessage, resetErrorMessageAction } = this.props;
+
         return (
-            <Container>
-                <Register redirect={register.redirect} error={register.error} register={registerAction} />
-            </Container>
+            <WrapperWithErrorHandling
+                errorMessage={errorMessage}
+                resetErrorMessage={resetErrorMessageAction}>
+                
+                <RegisterPage
+                    redirect={register.redirect}
+                    register={registerAction} />
+
+            </WrapperWithErrorHandling>
         );
     }
 }
 
 const mapStateToProps = store => {
     return {
-        register: store.register
+        register: store.user.register,
+        errorMessage: store.errorMessage
     };
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
-        registerAction: userdata => dispatch(UserActions.register(userdata))
+        registerAction: userdata => dispatch(UserActions.register(userdata)),
+        resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
-}
+};
 
 export default connect(
     mapStateToProps,
