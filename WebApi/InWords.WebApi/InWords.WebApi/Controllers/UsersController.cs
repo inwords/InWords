@@ -3,33 +3,36 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using InWords.Data.Models;
     using Microsoft.AspNetCore.Authorization;
     using InWords.Data;
     using InWords.Data.Enums;
-    using System.Linq;
     using InWords.Auth;
+    using InWords.WebApi.Service;
 
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserRepository usersRepository;
-        private readonly AccountRepository accauntRepositoty;
+        private readonly UserRepository usersRepository = null;
+        private readonly AccountRepository accauntRepositoty = null;
+        private readonly UserService userService = null;
 
         public UsersController(InWordsDataContext context)
         {
             var dataContext = context;
+            userService = new UserService(dataContext);
+
+            // TODO: remove
             usersRepository = new UserRepository(dataContext);
             accauntRepositoty = new AccountRepository(dataContext);
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public IEnumerable<User> GetUsers()
+        // GET: api/Users/
+        [HttpGet("find/{nick}")]
+        public IEnumerable<User> GetUsers(string nick)
         {
-            return usersRepository.Get().Take(50);
+            return userService.GetUsers(nick);
         }
 
         // GET: api/Users/5
@@ -51,54 +54,39 @@
             return Ok(user);
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Users
         [HttpPut]
-        [Authorize]//User
+        [Authorize]
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
             int authorizedID = User.Claims.GetUserID();
 
-            /// Authorized
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
+            // check is user exist
+            var authorizedUser = await usersRepository.FindById(authorizedID);
+
+            if (authorizedUser == null)
             {
-                //one to one return null?
-                var authorizedUser = await usersRepository.FindById(authorizedID);
-
-                if (authorizedUser == null)
-                {
-                    return BadRequest("User doesn't exist. Send this problem to admin");
-                }
-
-                // UpdateNickname
-                if (user.NickName != null)
-                {
-                    authorizedUser.NickName = user.NickName;
-                }
-
-                //Update uri
-                if (user.AvatarPath != null)
-                {
-                    authorizedUser.AvatarPath = user.AvatarPath;
-                }
-
-                await usersRepository.Update(authorizedUser);
+                return NotFound("User doesn't exist. Send this problem to admin");
             }
-            catch (DbUpdateConcurrencyException)
+
+            // UpdateNickname
+            if (user.NickName != null)
             {
-                if (!UserExists(authorizedID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                authorizedUser.NickName = user.NickName;
             }
+
+            // Update avatar
+            if (user.AvatarPath != null)
+            {
+                authorizedUser.AvatarPath = user.AvatarPath;
+            }
+
+            await usersRepository.Update(authorizedUser);
 
             return NoContent();
         }
