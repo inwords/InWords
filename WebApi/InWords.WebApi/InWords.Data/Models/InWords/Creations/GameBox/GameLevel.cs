@@ -13,9 +13,6 @@
         [ForeignKey("GameBoxID")]
         public virtual GameBox GameBox { get; set; }
 
-        [StringLength(32)]
-        public string Title { get; set; }
-
         public int TotalStars { get; set; }
 
         public int SuccessStars { get; set; }
