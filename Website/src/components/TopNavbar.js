@@ -32,7 +32,7 @@ export class TopNavbar extends Component {
 
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
-                {accessToken ? <div /> : <Redirect to="/login" />}
+                {!accessToken ? <Redirect to="/login" /> : <Redirect to="/wordlist" />}
                 <a className="navbar-brand" href=".">
                     InWords
                 </a>

@@ -56,25 +56,31 @@ export class WordlistTools extends Component {
             </div>;
 
         const wordPairInputField =
-            <div className="input-group">
-                <input type="text" className="form-control" placeholder="Слово или фраза"
-                    onChange={this.handleChangeWordForeign} />
-                <input type="text" className="form-control" placeholder="Перевод"
-                    onChange={this.handleChangeWordNative} />
-                <div className="input-group-append">
-                    <button type="button" className="btn btn-outline-primary"
-                        onClick={this.handleClickAddWordPair}>
-                        Сохранить
-                </button>
-                    <button type="button" className="btn btn-outline-primary"
-                        onClick={this.handleClickSwitchAddMode}>
-                        Отменить
-                </button>
+            <div className="row">
+                <div className="col">
+                    <div className="input-group">
+                        <input type="text" className="form-control" placeholder="Слово или фраза"
+                            onChange={this.handleChangeWordForeign} />
+                        <input type="text" className="form-control" placeholder="Перевод"
+                            onChange={this.handleChangeWordNative} />
+                    </div>
+                </div>
+                <div className="col-md-auto">
+                    <div class="btn-group" role="group">
+                        <button type="button" className="btn btn-outline-primary"
+                            onClick={this.handleClickAddWordPair}>
+                            Сохранить
+                        </button>
+                        <button type="button" className="btn btn-outline-primary"
+                            onClick={this.handleClickSwitchAddMode}>
+                            Отменить
+                        </button>
+                    </div>
                 </div>
             </div>;
 
         return (
-            <div className="navbar navbar-light bg-light mb-2 sticky-top">
+            <div className="container bg-light mb-2 pb-2 pt-2 sticky-top">
                 {!addModeActivated ?
                     toolbar :
                     wordPairInputField}
