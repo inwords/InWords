@@ -37,7 +37,7 @@
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser([FromRoute] int id)
+        public async Task<IActionResult> GetUserID([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -53,6 +53,24 @@
 
             return Ok(user);
         }
+
+        // GET: api/Users/authorizedUser
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetUser()
+        {
+            var userID = User.Claims.GetUserID();
+
+            var user = await usersRepository.FindById(userID);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
 
         // PUT: api/Users
         [HttpPut]
