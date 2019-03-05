@@ -8,7 +8,7 @@ export class TopNavbar extends Component {
     };
 
     render() {
-        const { accessToken } = this.props;
+        const { accessToken, fetching } = this.props;
 
         const loginLink = accessToken ?
             <div /> :
@@ -35,11 +35,14 @@ export class TopNavbar extends Component {
             <div />;
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
                 {accessToken ? <div /> : <Redirect to="/login" />}
                 <a className="navbar-brand" href="/">
                     InWords
                 </a>
+                {fetching ?
+                    <div className="spinner-border spinner-border-sm text-secondary visible" role="status" /> :
+                    <div className="spinner-border spinner-border-sm text-secondary invisible" role="status" />}
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon" />
@@ -59,5 +62,6 @@ export class TopNavbar extends Component {
 
 TopNavbar.propTypes = {
     accessToken: PropTypes.string,
+    fetching: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired
 }

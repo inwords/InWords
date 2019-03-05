@@ -1,10 +1,11 @@
 import { API_HOST } from '../api-info';
+import { FetchingActions } from '../actions/FetchingActions';
 import { AccessTokenActions } from '../actions/AccessTokenActions';
 import { userConstants } from '../constants/userConstants';
 
 function login(userdata) {
     return dispatch => {
-        dispatch(loginRequest());
+        dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/auth/token', {
             method: 'POST',
@@ -23,31 +24,23 @@ function login(userdata) {
             })
             .then(json => {
                 dispatch(AccessTokenActions.accessTokenValid(json.access_token));
-                dispatch(loginSuccess());
+                dispatch(FetchingActions.fetchingSuccess());
+                dispatch(loginRedirect());
                 dispatch(loginRedirected());
             })
             .catch(err => {
                 console.error(err);
-                dispatch(loginFailure(new Error('Ошибка авторизации')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка авторизации')));
             });
     }
 }
 
-const loginRequest = () => ({
-    type: userConstants.LOGIN_REQUEST
-});
-
-const loginSuccess = () => ({
-    type: userConstants.LOGIN_SUCCESS
+const loginRedirect = () => ({
+    type: userConstants.LOGIN_REDIRECT
 });
 
 const loginRedirected = () => ({
     type: userConstants.LOGIN_REDIRECTED
-});
-
-const loginFailure = (error) => ({
-    type: userConstants.LOGIN_FAILURE,
-    error: error.message
 });
 
 function logout() {
@@ -58,7 +51,7 @@ function logout() {
 
 function register(userdata) {
     return dispatch => {
-        dispatch(registerRequest());
+        dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/auth/registration', {
             method: 'POST',
@@ -72,31 +65,23 @@ function register(userdata) {
                     throw new Error(response.statusText);
                 }
 
-                dispatch(registerSuccess());
+                dispatch(FetchingActions.fetchingSuccess());
+                dispatch(registerRedirect());
                 dispatch(registerRedirected());
             })
             .catch(err => {
                 console.error(err);
-                dispatch(registerFailure(new Error('Ошибка регистрации')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка регистрации')));
             });
     }
 }
 
-const registerRequest = () => ({
-    type: userConstants.REGISTER_REQUEST
-});
-
-const registerSuccess = () => ({
-    type: userConstants.REGISTER_SUCCESS
+const registerRedirect = () => ({
+    type: userConstants.REGISTER_REDIRECT
 });
 
 const registerRedirected = () => ({
     type: userConstants.REGISTER_REDIRECTED
-});
-
-const registerFailure = (error) => ({
-    type: userConstants.REGISTER_FAILURE,
-    error: error.message
 });
 
 export const UserActions = {

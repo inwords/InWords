@@ -11,8 +11,11 @@ export class Wordlist extends Component {
         const SmartWordPair = this.props.smartWordPair;
 
         const wordPairs = this.props.wordPairs.map((pair, index) =>
-            <SmartWordPair key={index} id={pair.serverId}
-                wordForeign={pair.wordForeign} wordNative={pair.wordNative} />);
+            <SmartWordPair
+                key={index}
+                id={pair.serverId}
+                wordForeign={pair.wordForeign}
+                wordNative={pair.wordNative} />);
 
         return (
             <div>

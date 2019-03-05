@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { prepareErrorAlert } from '../helpers/prepareErrorAlert';
 
 export class WrapperWithErrorHandling extends Component {
     componentDidMount() {
@@ -16,7 +15,11 @@ export class WrapperWithErrorHandling extends Component {
 
         return (
             <div className="container">
-                {prepareErrorAlert(errorMessage)}
+                {errorMessage ?
+                    <div className="alert alert-danger" role="alert">
+                        {errorMessage}
+                    </div> :
+                    <div />}
                 {children}
             </div>
         );

@@ -1,11 +1,12 @@
 import { API_HOST } from '../api-info';
-import { ErrorActions } from '../actions/ErrorActions';
+import { FetchingActions } from '../actions/FetchingActions';
 import { AccessTokenActions } from '../actions/AccessTokenActions';
+import { ErrorActions } from '../actions/ErrorActions';
 import { wordlistConstants } from '../constants/wordlistConstants';
 
 function pullWordPairs(token) {
     return dispatch => {
-        dispatch(pairsPullRequest());
+        dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/sync/pullwordpairs', {
             method: 'POST',
@@ -27,38 +28,25 @@ function pullWordPairs(token) {
                 return response.json();
             })
             .then(json => {
-                dispatch(pairsPullSuccess());
+                dispatch(FetchingActions.fetchingSuccess());
                 dispatch(pairsPullLocalRefresh(json.addedWords));
                 dispatch(ErrorActions.resetErrorMessage());
             })
             .catch(err => {
                 console.error(err);
-                dispatch(pairsPullFailure(new Error('Ошибка загрузки словаря')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки словаря')));
             });
     }
 }
-
-const pairsPullRequest = () => ({
-    type: wordlistConstants.PAIRS_PULL_REQUEST
-});
-
-const pairsPullSuccess = () => ({
-    type: wordlistConstants.PAIRS_PULL_SUCCESS
-});
 
 const pairsPullLocalRefresh = (wordPairs) => ({
     type: wordlistConstants.PAIRS_PULL_LOCAL_REFRESH,
     payload: wordPairs
 });
 
-const pairsPullFailure = (error) => ({
-    type: wordlistConstants.PAIRS_PULL_FAILURE,
-    error: error.message
-});
-
 function deleteWordPair(token, pairId) {
     return dispatch => {
-        dispatch(pairsDelRequest());
+        dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/words/deletepair', {
             method: 'POST',
@@ -73,42 +61,29 @@ function deleteWordPair(token, pairId) {
                     if (response.status === 401) {
                         dispatch(AccessTokenActions.accessTokenInvalid());
                     }
-                    
+
                     throw new Error(response.statusText);
                 }
 
-                dispatch(pairsDelSuccess());
+                dispatch(FetchingActions.fetchingSuccess());
                 dispatch(pairsDelLocalRefresh(JSON.parse(pairId)[0]));
                 dispatch(ErrorActions.resetErrorMessage());
             })
             .catch(err => {
                 console.error(err);
-                dispatch(pairsDelFailure(new Error('Ошибка удаления')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления')));
             });
     }
 }
-
-const pairsDelRequest = () => ({
-    type: wordlistConstants.PAIRS_DEL_REQUEST
-});
-
-const pairsDelSuccess = () => ({
-    type: wordlistConstants.PAIRS_DEL_SUCCESS
-});
 
 const pairsDelLocalRefresh = (pairId) => ({
     type: wordlistConstants.PAIRS_DEL_LOCAL_REFRESH,
     pairId: pairId
 });
 
-const pairsDelFailure = (error) => ({
-    type: wordlistConstants.PAIRS_DEL_FAILURE,
-    error: error.message
-});
-
 function addWordPair(token, wordPair) {
     return dispatch => {
-        dispatch(pairsAddRequest());
+        dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/words/addpair', {
             method: 'POST',
@@ -123,41 +98,109 @@ function addWordPair(token, wordPair) {
                     if (response.status === 401) {
                         dispatch(AccessTokenActions.accessTokenInvalid());
                     }
-                    
+
                     throw new Error(response.statusText);
                 }
 
-                dispatch(pairsAddSuccess());
-                dispatch(pairsAddLocalRefresh(JSON.parse(wordPair)));
+                return response.json();
+            })
+            .then(json => {
+                const wordPairToAdd = JSON.parse(wordPair)[0];
+                const addedWordPair = {
+                    serverId: json[0].serverId,
+                    wordForeign: wordPairToAdd.WordForeign,
+                    wordNative: wordPairToAdd.WordNative
+                }
+
+                dispatch(FetchingActions.fetchingSuccess());
+                dispatch(pairsAddLocalRefresh(addedWordPair));
                 dispatch(ErrorActions.resetErrorMessage());
             })
             .catch(err => {
                 console.error(err);
-                dispatch(pairsAddFailure(new Error('Ошибка удаления')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления')));
             });
     }
 }
 
-const pairsAddRequest = () => ({
-    type: wordlistConstants.PAIRS_DEL_REQUEST
-});
-
-const pairsAddSuccess = () => ({
-    type: wordlistConstants.PAIRS_DEL_SUCCESS
-});
-
 const pairsAddLocalRefresh = (wordPair) => ({
-    type: wordlistConstants.PAIRS_DEL_LOCAL_REFRESH,
+    type: wordlistConstants.PAIRS_ADD_LOCAL_REFRESH,
     wordPair: wordPair
 });
 
-const pairsAddFailure = (error) => ({
-    type: wordlistConstants.PAIRS_DEL_FAILURE,
-    error: error.message
+function editWordPair(token, pairId, wordPair) {
+    return dispatch => {
+        dispatch(FetchingActions.fetchingRequest());
+
+        fetch(API_HOST + '/api/words/deletepair', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: pairId
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        dispatch(AccessTokenActions.accessTokenInvalid());
+                    }
+
+                    throw new Error(response.statusText);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования')));
+            });
+
+        fetch(API_HOST + '/api/words/addpair', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: wordPair
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        dispatch(AccessTokenActions.accessTokenInvalid());
+                    }
+
+                    throw new Error(response.statusText);
+                }
+
+                return response.json();
+            })
+            .then(json => {
+                const wordPairToEdit = JSON.parse(wordPair)[0];
+                const editedWordPair = {
+                    serverId: json[0].serverId,
+                    wordForeign: wordPairToEdit.WordForeign,
+                    wordNative: wordPairToEdit.WordNative
+                }
+
+                dispatch(FetchingActions.fetchingSuccess());
+                dispatch(pairsEditLocalRefresh(JSON.parse(pairId)[0], editedWordPair));
+                dispatch(ErrorActions.resetErrorMessage());
+            })
+            .catch(err => {
+                console.error(err);
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования')));
+            });
+    }
+}
+
+const pairsEditLocalRefresh = (pairId, wordPair) => ({
+    type: wordlistConstants.PAIRS_EDIT_LOCAL_REFRESH,
+    pairId: pairId,
+    wordPair: wordPair
 });
 
 export const WordlistActions = {
     pullWordPairs,
     deleteWordPair,
-    addWordPair
+    addWordPair,
+    editWordPair
 };

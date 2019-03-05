@@ -10,9 +10,14 @@ class RegisterContainer extends Component {
         const { register, registerAction, errorMessage, resetErrorMessageAction } = this.props;
 
         return (
-            <WrapperWithErrorHandling errorMessage={errorMessage}
+            <WrapperWithErrorHandling
+                errorMessage={errorMessage}
                 resetErrorMessage={resetErrorMessageAction}>
-                <RegisterPage redirect={register.redirect} register={registerAction} />
+                
+                <RegisterPage
+                    redirect={register.redirect}
+                    register={registerAction} />
+
             </WrapperWithErrorHandling>
         );
     }
@@ -23,14 +28,14 @@ const mapStateToProps = store => {
         register: store.user.register,
         errorMessage: store.errorMessage
     };
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         registerAction: userdata => dispatch(UserActions.register(userdata)),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
-}
+};
 
 export default connect(
     mapStateToProps,

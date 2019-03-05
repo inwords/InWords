@@ -10,9 +10,14 @@ class LoginContainer extends Component {
         const { login, loginAction, errorMessage, resetErrorMessageAction } = this.props;
 
         return (
-            <WrapperWithErrorHandling errorMessage={errorMessage}
+            <WrapperWithErrorHandling
+                errorMessage={errorMessage}
                 resetErrorMessage={resetErrorMessageAction}>
-                <LoginPage redirect={login.redirect} login={loginAction} />
+
+                <LoginPage
+                    redirect={login.redirect}
+                    login={loginAction} />
+                    
             </WrapperWithErrorHandling>
         );
     }
@@ -23,14 +28,14 @@ const mapStateToProps = store => {
         login: store.user.login,
         errorMessage: store.errorMessage
     };
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         loginAction: userdata => dispatch(UserActions.login(userdata)),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
-}
+};
 
 export default connect(
     mapStateToProps,
