@@ -60,45 +60,47 @@ export class WordPair extends Component {
     render() {
         const { editModeActivated } = this.state;
 
-        const wordPairRow = <div className="row">
-            <div className="col">
-                <p className="font-weight-bold">
-                    {this.props.wordForeign}
-                </p>
-            </div>
-            <div className="col">
-                {this.props.wordNative}
-            </div>
-            <div className="col-md-auto">
-                <div className="btn-group btn-group-sm" role="group">
-                    <button type="button" className="btn btn-outline-primary"
-                        onClick={this.handleClickSwitchEditMode}>
-                        Редактировать
+        const wordPairRow =
+            <div className="row">
+                <div className="col">
+                    <p className="font-weight-bold">
+                        {this.props.wordForeign}
+                    </p>
+                </div>
+                <div className="col">
+                    {this.props.wordNative}
+                </div>
+                <div className="col-md-auto">
+                    <div className="btn-group btn-group-sm" role="group">
+                        <button type="button" className="btn btn-outline-primary"
+                            onClick={this.handleClickSwitchEditMode}>
+                            Редактировать
                     </button>
-                    <button type="button" className="btn btn-outline-danger"
-                        onClick={this.handleClickDelWordPair}>
-                        Удалить
+                        <button type="button" className="btn btn-outline-danger"
+                            onClick={this.handleClickDelWordPair}>
+                            Удалить
                     </button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        const wordPairInputField = <div className="input-group">
-            <input type="text" className="form-control" placeholder="Слово или фраза"
-                value={this.state.wordForeign} onChange={this.handleChangeWordForeign} />
-            <input type="text" className="form-control" placeholder="Перевод"
-                value={this.state.wordNative} onChange={this.handleChangeWordNative} />
-            <div className="input-group-append">
-                <button type="button" className="btn btn-outline-primary"
-                    onClick={this.handleClickEditWordPair}>
-                    Сохранить
-                </button>
-                <button type="button" className="btn btn-outline-primary"
-                    onClick={this.handleClickSwitchEditMode}>
-                    Отменить
-                </button>
-            </div>
-        </div>;
+        const wordPairInputField =
+            <div className="input-group">
+                <input type="text" className="form-control" placeholder="Слово или фраза"
+                    value={this.state.wordForeign} onChange={this.handleChangeWordForeign} />
+                <input type="text" className="form-control" placeholder="Перевод"
+                    value={this.state.wordNative} onChange={this.handleChangeWordNative} />
+                <div className="input-group-append">
+                    <button type="button" className="btn btn-outline-primary"
+                        onClick={this.handleClickEditWordPair}>
+                        Сохранить
+                    </button>
+                    <button type="button" className="btn btn-outline-primary"
+                        onClick={this.handleClickSwitchEditMode}>
+                        Отменить
+                    </button>
+                </div>
+            </div>;
 
         return (
             <li className="list-group-item list-group-item-action">

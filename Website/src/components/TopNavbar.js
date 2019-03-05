@@ -10,34 +10,30 @@ export class TopNavbar extends Component {
     render() {
         const { accessToken, fetching } = this.props;
 
-        const loginLink = accessToken ?
-            <div /> :
+        const loginLink =
             <NavLink className="nav-link" activeClassName="selected" to="/login">
                 Авторизация
             </NavLink>;
 
-        const registerLink = accessToken ?
-            <div /> :
+        const registerLink =
             <NavLink className="nav-link" activeClassName="selected" to="/register">
                 Регистрация
-            </NavLink>
+            </NavLink>;
 
-        const wordlistLink = accessToken ?
+        const wordlistLink =
             <NavLink className="nav-link" activeClassName="selected" to="/wordlist">
                 Словарь
-            </NavLink> :
-            <div />;
+            </NavLink>;
 
-        const logoutButton = accessToken ?
+        const logoutButton =
             <button type="button" className="btn btn-outline-light" onClick={this.handleClickLogout}>
                 Выйти
-            </button> :
-            <div />;
+            </button>;
 
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
                 {accessToken ? <div /> : <Redirect to="/login" />}
-                <a className="navbar-brand" href="/">
+                <a className="navbar-brand" href=".">
                     InWords
                 </a>
                 {fetching ?
@@ -49,11 +45,11 @@ export class TopNavbar extends Component {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav mr-auto">
-                        {loginLink}
-                        {registerLink}
-                        {wordlistLink}
+                        {!accessToken ? loginLink : <div />}
+                        {!accessToken ? registerLink : <div />}
+                        {accessToken ? wordlistLink : <div />}
                     </ul>
-                    {logoutButton}
+                    {accessToken ? logoutButton : <div />}
                 </div>
             </nav>
         );
