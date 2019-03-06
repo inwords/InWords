@@ -17,6 +17,7 @@ import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelA
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_game_levels.*
 import kotlinx.android.synthetic.main.game_level_info.view.*
+import kotlinx.android.synthetic.main.game_no_content.*
 
 class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, GameLevelsViewModelFactory>() {
     private val compositeDisposable = CompositeDisposable()
@@ -27,10 +28,14 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         compositeDisposable.add(viewModel.navigateToGameLevel
                 .subscribe(::navigateToGameLevel))
 
-        compositeDisposable.add(viewModel.screenInfoStream(3)
+        compositeDisposable.add(viewModel.screenInfoStream(6)
                 .map { it.game.gameLevelInfos }
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(::renderGameLevelsInfo, Throwable::printStackTrace))
+                .subscribe(::renderGameLevelsInfo) {
+                    it.printStackTrace()
+                    game_no_content.visibility = View.VISIBLE
+                    game_content.visibility = View.GONE
+                })
     }
 
     override fun onDestroyView() {
@@ -46,11 +51,19 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
     }
 
     private fun renderGameLevelsInfo(gameLevelsInfos: List<GameLevelInfo>) {
+        if (!gameLevelsInfos.isEmpty()) {
+            game_no_content.visibility = View.GONE
+            game_content.visibility = View.VISIBLE
+        }
+
+        var counter = 1
+
         gameLevelsInfos.forEach { gameLevelInfo ->
             layoutInflater.inflate(R.layout.game_level_info, levelsGrid, false).apply {
                 //                tag = gameLevelInfo
 
-                title.text = gameLevelInfo.title
+                title.text = counter.toString()
+                counter++
 
                 setBackgroundColor(getColorForGameLevelInfo("0x225465", gameLevelInfo.available))
 
