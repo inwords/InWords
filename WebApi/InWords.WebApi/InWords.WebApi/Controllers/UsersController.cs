@@ -12,6 +12,7 @@
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly UserRepository usersRepository = null;
@@ -54,9 +55,9 @@
             return Ok(user);
         }
 
-        // GET: api/Users/authorizedUser
+        // GET: api/Users/ 
+        // return authorized user data
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetUser()
         {
             var userID = User.Claims.GetUserID();
@@ -74,7 +75,6 @@
 
         // PUT: api/Users
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
             int authorizedID = User.Claims.GetUserID();
