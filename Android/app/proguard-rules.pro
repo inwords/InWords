@@ -20,5 +20,3 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keepattributes Signature
--keep class com.dreamproject.inwords.data.dto.game.** { *; }
