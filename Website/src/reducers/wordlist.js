@@ -18,6 +18,9 @@ function wordPairs(state = [], action) {
             return refreshedWordPairs;
 
         case wordlistConstants.PAIRS_EDIT_LOCAL_REFRESH:
+            if (state.find((wordPair) => wordPair.serverId === action.wordPair.serverId)) {
+                return state;
+            }
             return state.map((wordPair) => {
                 return wordPair.serverId !== action.pairId ?
                     wordPair :

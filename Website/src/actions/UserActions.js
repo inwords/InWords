@@ -1,6 +1,7 @@
 import { API_HOST } from '../api-info';
 import { FetchingActions } from './FetchingActions';
 import { AccessTokenActions } from './AccessTokenActions';
+import { ErrorActions } from './ErrorActions';
 import { userConstants } from '../constants/userConstants';
 import { stringifyFormData } from '../helpers/stringifyFormData';
 
@@ -138,6 +139,10 @@ function changeUserInfo(userInfo) {
 
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(userInfoChanged(JSON.parse(stringifyFormData(userInfo))));
+
+                if (getState().errorMessage) {
+                    dispatch(ErrorActions.resetErrorMessage());
+                }
             })
             .catch(err => {
                 console.error(err);

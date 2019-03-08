@@ -9,14 +9,12 @@ class Wordlist extends Component {
     render() {
         const SmartWordPair = this.props.smartWordPair;
 
-        const wordPairs = this.props.wordPairs.slice().reverse().map((pair) =>
-            <SmartWordPair
-                key={pair.serverId}
-                wordPair={pair} />);
-
         return (
             <ul className="list-group list-group-flush">
-                {wordPairs}
+                {this.props.wordPairs.slice().reverse().map((pair) =>
+                    <SmartWordPair
+                        key={pair.serverId}
+                        wordPair={pair} />)}
             </ul>
         );
     }

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class RegisterPage extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
-        
+
         this.props.register(new FormData(event.target));
     };
 
@@ -17,7 +17,7 @@ class RegisterPage extends Component {
                 {redirect ? <Redirect to="/login" /> : <Fragment />}
                 <div className="form-group">
                     <label htmlFor="inputEmail">
-                        Email
+                        Электронная почта
                     </label>
                     <input type="email" className="form-control" id="inputEmail"
                         placeholder="Введите email" name="Email" required="required" />
