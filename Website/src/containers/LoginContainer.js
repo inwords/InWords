@@ -2,22 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
 import { ErrorActions } from '../actions/ErrorActions';
-import { WrapperWithErrorHandling } from '../components/WrapperWithErrorHandling';
-import { LoginPage } from '../components/LoginPage';
+import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
+import LoginPage from '../components/LoginPage';
 
 class LoginContainer extends Component {
     render() {
-        const { login, loginAction, errorMessage, resetErrorMessageAction } = this.props;
+        const {
+            login,
+            loginAction,
+            errorMessage,
+            resetErrorMessageAction } = this.props;
 
         return (
             <WrapperWithErrorHandling
                 errorMessage={errorMessage}
-                resetErrorMessage={resetErrorMessageAction}>
+                resetErrorMessage={resetErrorMessageAction} >
 
                 <LoginPage
                     redirect={login.redirect}
                     login={loginAction} />
-                    
+
             </WrapperWithErrorHandling>
         );
     }
@@ -32,7 +36,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        loginAction: userdata => dispatch(UserActions.login(userdata)),
+        loginAction: (userdata) => dispatch(UserActions.login(userdata)),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
 };

@@ -1,11 +1,7 @@
 import { combineReducers } from 'redux';
 import { userConstants } from '../constants/userConstants';
 
-const initialState = {
-    redirect: false
-};
-
-function login(state = initialState, action) {
+function login(state = { redirect: false }, action) {
     switch (action.type) {
         case userConstants.LOGIN_REDIRECT:
             return { ...state, redirect: true };
@@ -16,7 +12,7 @@ function login(state = initialState, action) {
     }
 };
 
-function register(state = initialState, action) {
+function register(state = { redirect: false }, action) {
     switch (action.type) {
         case userConstants.REGISTER_REDIRECT:
             return { ...state, redirect: true };
@@ -27,7 +23,34 @@ function register(state = initialState, action) {
     }
 };
 
+const emptyUserInfo = {
+    userId: null,
+    nickName: '',
+    avatarPath: null
+};
+
+function userInfo(state = emptyUserInfo, action) {
+    switch (action.type) {
+        case userConstants.USER_INFO_RECEIVED:
+            return {
+                ...state,
+                userId: action.userInfo.userID,
+                nickName: action.userInfo.nickName,
+                avatarPath: action.userInfo.avatarPath
+            };
+        case userConstants.USER_INFO_CHANGED:
+            return {
+                ...state,
+                nickName: action.userInfo.NickName,
+                avatarPath: action.userInfo.AvatarPath
+            };
+        default:
+            return state;
+    }
+};
+
 export const user = combineReducers({
     login: login,
-    register: register
+    register: register,
+    userInfo: userInfo
 });

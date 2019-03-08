@@ -1,14 +1,26 @@
-import React, { Component } from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import { NavLink, Redirect, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export class TopNavbar extends Component {
+class TopNavbar extends Component {
+    componentDidMount() {
+        if (this.props.accessToken) {
+            this.props.receiveUserInfo();
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.accessToken !== prevProps.accessToken && this.props.accessToken) {
+            this.props.receiveUserInfo();
+        }
+    }
+
     handleClickLogout = () => {
         this.props.logout();
     };
 
     render() {
-        const { accessToken, fetching } = this.props;
+        const { accessToken, fetching, avatarPath, location } = this.props;
 
         const loginLink =
             <NavLink className="nav-link" activeClassName="selected" to="/login">
@@ -25,14 +37,26 @@ export class TopNavbar extends Component {
                 Словарь
             </NavLink>;
 
+        const accountLink =
+            <NavLink className="nav-link" activeClassName="selected" to="/user-info">
+                Аккаунт
+            </NavLink>;
+
         const logoutButton =
             <button type="button" className="btn btn-outline-light" onClick={this.handleClickLogout}>
                 Выйти
             </button>;
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
-                {!accessToken ? <Redirect to="/login" /> : <Redirect to="/wordlist" />}
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-3 sticky-top">
+                {!accessToken && location.pathname !== "/login" ? <Redirect to="/login" /> :
+                    accessToken && location.pathname === "/" ? <Redirect to="/wordlist" /> :
+                        <Fragment />}
+                {accessToken && avatarPath ?
+                    <a className="navbar-brand" href=".">
+                        <img className="rounded-circle" src={avatarPath} width="30" height="30" alt="" />
+                    </a> :
+                    <Fragment />}
                 <a className="navbar-brand" href=".">
                     InWords
                 </a>
@@ -45,11 +69,12 @@ export class TopNavbar extends Component {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav mr-auto">
-                        {!accessToken ? loginLink : <div />}
-                        {!accessToken ? registerLink : <div />}
-                        {accessToken ? wordlistLink : <div />}
+                        {!accessToken ? loginLink : <Fragment />}
+                        {!accessToken ? registerLink : <Fragment />}
+                        {accessToken ? wordlistLink : <Fragment />}
+                        {accessToken ? accountLink : <Fragment />}
                     </ul>
-                    {accessToken ? logoutButton : <div />}
+                    {accessToken ? logoutButton : <Fragment />}
                 </div>
             </nav>
         );
@@ -58,6 +83,10 @@ export class TopNavbar extends Component {
 
 TopNavbar.propTypes = {
     accessToken: PropTypes.string,
+    avatarPath: PropTypes.string,
     fetching: PropTypes.bool.isRequired,
-    logout: PropTypes.func.isRequired
-}
+    logout: PropTypes.func.isRequired,
+    receiveUserInfo: PropTypes.func.isRequired
+};
+
+export default withRouter(TopNavbar);

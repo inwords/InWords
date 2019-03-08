@@ -3,24 +3,24 @@ import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
 import { ErrorActions } from '../actions/ErrorActions';
 import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
-import RegisterPage from '../components/RegisterPage';
+import UserInfoPage from '../components/UserInfoPage';
 
-class RegisterContainer extends Component {
+class UserInfoContainer extends Component {
     render() {
         const {
-            register,
-            registerAction,
+            userInfo,
+            changeUserInfoAction,
             errorMessage,
             resetErrorMessageAction } = this.props;
 
         return (
             <WrapperWithErrorHandling
                 errorMessage={errorMessage}
-                resetErrorMessage={resetErrorMessageAction}>
-                
-                <RegisterPage
-                    redirect={register.redirect}
-                    register={registerAction} />
+                resetErrorMessage={resetErrorMessageAction} >
+
+                <UserInfoPage
+                    userInfo={userInfo}
+                    changeUserInfo={changeUserInfoAction} />
 
             </WrapperWithErrorHandling>
         );
@@ -29,14 +29,14 @@ class RegisterContainer extends Component {
 
 const mapStateToProps = store => {
     return {
-        register: store.user.register,
+        userInfo: store.user.userInfo,
         errorMessage: store.errorMessage
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        registerAction: (userdata) => dispatch(UserActions.register(userdata)),
+        changeUserInfoAction: (userInfo) => dispatch(UserActions.changeUserInfo(userInfo)),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
 };
@@ -44,4 +44,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(RegisterContainer);
+)(UserInfoContainer);

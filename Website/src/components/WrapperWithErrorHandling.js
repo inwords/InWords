@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-export class WrapperWithErrorHandling extends Component {
+class WrapperWithErrorHandling extends Component {
     componentDidMount() {
-        const { errorMessage, resetErrorMessage } = this.props;
-
-        if (errorMessage) {
-            resetErrorMessage();
+        if (this.props.errorMessage) {
+            this.props.resetErrorMessage();
         }
     }
 
@@ -19,7 +17,7 @@ export class WrapperWithErrorHandling extends Component {
                     <div className="alert alert-danger" role="alert">
                         {errorMessage}
                     </div> :
-                    <div />}
+                    <Fragment />}
                 {children}
             </div>
         );
@@ -29,4 +27,6 @@ export class WrapperWithErrorHandling extends Component {
 WrapperWithErrorHandling.propTypes = {
     errorMessage: PropTypes.string,
     resetErrorMessage: PropTypes.func.isRequired
-}
+};
+
+export default WrapperWithErrorHandling;

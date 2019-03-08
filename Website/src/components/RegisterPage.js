@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { stringifyFormData } from '../helpers/stringifyFormData';
 
-export class RegisterPage extends Component {
-    handleSubmit = event => {
+class RegisterPage extends Component {
+    handleSubmit = (event) => {
         event.preventDefault();
-
-        this.props.register(stringifyFormData(new FormData(event.target)));
+        
+        this.props.register(new FormData(event.target));
     };
 
     render() {
@@ -15,19 +14,19 @@ export class RegisterPage extends Component {
 
         return (
             <form onSubmit={this.handleSubmit}>
-                {redirect ? <Redirect to="/login" /> : <div />}
+                {redirect ? <Redirect to="/login" /> : <Fragment />}
                 <div className="form-group">
                     <label htmlFor="inputEmail">
                         Email
                     </label>
-                    <input type="email" id="inputEmail" className="form-control"
+                    <input type="email" className="form-control" id="inputEmail"
                         placeholder="Введите email" name="Email" required="required" />
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputPassword">
                         Пароль
                     </label>
-                    <input type="password" id="inputPassword" className="form-control"
+                    <input type="password" className="form-control" id="inputPassword"
                         placeholder="Введите пароль" name="Password" required="required" />
                 </div>
                 <button type="submit" className="btn btn-primary">
@@ -41,4 +40,6 @@ export class RegisterPage extends Component {
 RegisterPage.propTypes = {
     redirect: PropTypes.bool.isRequired,
     register: PropTypes.func.isRequired
-}
+};
+
+export default RegisterPage;

@@ -1,10 +1,11 @@
 import { API_HOST } from '../api-info';
-import { FetchingActions } from '../actions/FetchingActions';
-import { AccessTokenActions } from '../actions/AccessTokenActions';
+import { FetchingActions } from './FetchingActions';
+import { AccessTokenActions } from './AccessTokenActions';
 import { userConstants } from '../constants/userConstants';
+import { stringifyFormData } from '../helpers/stringifyFormData';
 
-function login(userdata) {
-    return dispatch => {
+function login(formUserdata) {
+    return (dispatch) => {
         dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/auth/token', {
@@ -13,18 +14,17 @@ function login(userdata) {
                 'Content-Type': 'application/json',
                 'X-API-Version': '2.0'
             },
-            body: userdata
+            body: stringifyFormData(formUserdata)
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-
                 return response.json();
             })
-            .then(json => {
-                dispatch(AccessTokenActions.accessTokenValid(json.access_token));
+            .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
+                dispatch(AccessTokenActions.accessTokenValid(data.access_token));
                 dispatch(loginRedirect());
                 dispatch(loginRedirected());
             })
@@ -44,13 +44,13 @@ const loginRedirected = () => ({
 });
 
 function logout() {
-    return dispatch => {
+    return (dispatch) => {
         dispatch(AccessTokenActions.accessTokenInvalid());
     }
 }
 
-function register(userdata) {
-    return dispatch => {
+function register(formUserdata) {
+    return (dispatch) => {
         dispatch(FetchingActions.fetchingRequest());
 
         fetch(API_HOST + '/api/auth/registration', {
@@ -58,7 +58,7 @@ function register(userdata) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: userdata
+            body: stringifyFormData(formUserdata)
         })
             .then(response => {
                 if (!response.ok) {
@@ -84,8 +84,77 @@ const registerRedirected = () => ({
     type: userConstants.REGISTER_REDIRECTED
 });
 
+function receiveUserInfo() {
+    return (dispatch, getState) => {
+        dispatch(FetchingActions.fetchingRequest());
+
+        fetch(API_HOST + '/api/Users/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getState().accessToken
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    AccessTokenActions.handleAccessError(response, dispatch);
+                    throw new Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                dispatch(FetchingActions.fetchingSuccess());
+                dispatch(userInfoReceived(data));
+            })
+            .catch(err => {
+                console.error(err);
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки профиля')));
+            });
+    }
+}
+
+const userInfoReceived = (userInfo) => ({
+    type: userConstants.USER_INFO_RECEIVED,
+    userInfo: userInfo
+});
+
+function changeUserInfo(userInfo) {
+    return (dispatch, getState) => {
+        dispatch(FetchingActions.fetchingRequest());
+
+        fetch(API_HOST + '/api/Users/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getState().accessToken
+            },
+            body: stringifyFormData(userInfo)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    AccessTokenActions.handleAccessError(response, dispatch);
+                    throw new Error(response.statusText);
+                }
+
+                dispatch(FetchingActions.fetchingSuccess());
+                dispatch(userInfoChanged(JSON.parse(stringifyFormData(userInfo))));
+            })
+            .catch(err => {
+                console.error(err);
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка обновления профиля')));
+            });
+    }
+}
+
+const userInfoChanged = (userInfo) => ({
+    type: userConstants.USER_INFO_CHANGED,
+    userInfo: userInfo
+});
+
 export const UserActions = {
     login,
     logout,
-    register
+    register,
+    receiveUserInfo,
+    changeUserInfo
 };
