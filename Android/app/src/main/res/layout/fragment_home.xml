@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.viewScenario.main.MainFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".presentation.viewScenario.main.MainFragment">
 
     <TextView
         android:id="@+id/message"
@@ -16,16 +16,18 @@
 
     <Button
         android:id="@+id/buttonGoLogin"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="to Login" />
 
     <Button
         android:id="@+id/buttonGetWordList"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="get WordList" />
+
+    <include layout="@layout/profile" />
 
 </LinearLayout>

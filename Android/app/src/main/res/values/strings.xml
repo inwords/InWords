@@ -55,6 +55,7 @@
     <string name="no_content">К сожалению, что-то пошло не так</string>
     <string name="no_content_solutions">Возможно, отсутствует интернет, а возможно, вы не вошли в аккаунт</string>
     <string name="choose_level">Выберите уровень</string>
+    <string name="avatar">Avatar</string>
     <!-- word addition end -->
 
 </resources>

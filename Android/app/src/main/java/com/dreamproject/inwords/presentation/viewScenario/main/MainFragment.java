@@ -79,7 +79,7 @@ public class MainFragment extends FragmentWithViewModelAndNav<MainViewModel, Mai
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_main;
+        return R.layout.fragment_home;
     }
 
     @NonNull
