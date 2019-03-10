@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import GameField from './GameField';
 
 class Game extends Component {
     componentDidMount() {
@@ -11,6 +10,7 @@ class Game extends Component {
         const { gamesInfo, gameInfo, gameLevel } = this.props;
         const SmartGameInfoCard = this.props.smartGameInfoCard;
         const SmartGameLevelCard = this.props.smartGameLevelCard;
+        const SmartGameField = this.props.smartGameField;
 
         return (
             <Fragment>
@@ -20,8 +20,7 @@ class Game extends Component {
                             <SmartGameInfoCard
                                 key={gameInfo.gameID}
                                 gameInfo={gameInfo}
-                            />)
-                        }
+                            />)}
                     </div> :
                     !gameLevel ?
                         <div className="row">
@@ -29,11 +28,9 @@ class Game extends Component {
                                 <SmartGameLevelCard
                                     key={levelInfo.levelID}
                                     levelInfo={levelInfo}
-                                />)
-                            }
+                                />)}
                         </div> :
-                        <GameField gameLevel={gameLevel} />
-                }
+                        <SmartGameField gameLevel={gameLevel} />}
             </Fragment>
         );
     }
@@ -41,6 +38,8 @@ class Game extends Component {
 
 Game.propTypes = {
     smartGameInfoCard: PropTypes.func.isRequired,
+    smartGameLevelCard: PropTypes.func.isRequired,
+    smartGameField: PropTypes.func.isRequired,
     gamesInfo: PropTypes.array.isRequired,
     gameInfo: PropTypes.object,
     gameLevel: PropTypes.object,

@@ -26,8 +26,7 @@ class WordlistTools extends Component {
                     < WordlistToolsPairAdding
                         handleClickSwitchAddMode={this.handleClickSwitchAddMode}
                         addWordPair={this.props.addWordPair}
-                    />
-                }
+                    />}
             </div>
         );
     }

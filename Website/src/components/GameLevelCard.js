@@ -8,31 +8,19 @@ class GameLevelCard extends Component {
 
     render() {
         const { levelInfo } = this.props;
-        
+
         return (
             <div className="col-sm-4">
                 <div className="card text-center text-white bg-primary mb-3">
                     <div className="card-body">
-                        <h5 className="card-title">
-                            Уровень {levelInfo.level}
-                        </h5>
+                        <h5 className="card-title">Уровень {levelInfo.level}</h5>
                         <p className="card-text">
                             {Array(levelInfo.playerStars).fill().map((item, index) =>
-                                <Fragment key={index}>&#9733;</Fragment>)
-                            }
+                                <Fragment key={index}>&#9733;</Fragment>)}
                             {Array(levelInfo.totalStars - levelInfo.playerStars).fill().map((item, index) =>
-                                <Fragment key={index}>&#9734;</Fragment>)
-                            }
+                                <Fragment key={index}>&#9734;</Fragment>)}
                         </p>
-                        {levelInfo.isAvailable ?
-                            <button type="button" className="btn btn-outline-secondary"
-                                onClick={this.handleClickPullGameLevel} >
-                                Выбрать
-                            </button> :
-                            <button type="button" className="btn btn-outline-secondary" disabled>
-                                Выбрать
-                            </button>
-                        }
+                        <button type="button" className="btn btn-outline-secondary" disabled={!levelInfo.isAvailable} onClick={this.handleClickPullGameLevel}>Выбрать</button>
                     </div>
                 </div>
             </div>

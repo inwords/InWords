@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
-import MainNavbarUserInfoReceiver from '../components/MainNavbarUserInfoReceiver';
+import MainAutoRedirector from '../components/MainAutoRedirector';
+import MainUserInfoReceiver from '../components/MainUserInfoReceiver';
 import MainNavbar from '../components/MainNavbar';
 
-class MainNavbarContainer extends Component {
+class MainContainer extends Component {
     render() {
         const {
             accessToken,
@@ -16,7 +17,8 @@ class MainNavbarContainer extends Component {
 
         return (
             <Fragment>
-                <MainNavbarUserInfoReceiver
+                <MainAutoRedirector accessToken={accessToken} />
+                <MainUserInfoReceiver
                     accessToken={accessToken}
                     receiveUserInfo={receiveUserInfoAction}
                 />
@@ -50,4 +52,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(MainNavbarContainer);
+)(MainContainer);

@@ -13,18 +13,8 @@ class GameInfoCard extends Component {
             <div className="col-sm-4">
                 <div className="card text-center text-white bg-primary mb-3">
                     <div className="card-body">
-                        <h5 className="card-title">
-                            {gameInfo.title}
-                        </h5>
-                        {gameInfo.isAvailable ?
-                            <button type="button" className="btn btn-outline-secondary"
-                                onClick={this.handleClickPullGameInfo} >
-                                Выбрать
-                            </button> :
-                            <button type="button" className="btn btn-outline-secondary" disabled>
-                                Выбрать
-                            </button>
-                        }
+                        <h5 className="card-title">{gameInfo.title}</h5>
+                        <button type="button" className="btn btn-outline-secondary" disabled={!gameInfo.isAvailable} onClick={this.handleClickPullGameInfo}>Выбрать</button>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import MainNavbarContainer from './MainNavbarContainer';
+import MainContainer from './MainContainer';
 import LoginContainer from './LoginContainer';
 import RegisterContainer from './RegisterContainer';
 import WordlistContainer from './WordlistContainer';
@@ -12,7 +12,7 @@ class App extends Component {
         return (
             <HashRouter>
                 <Fragment>
-                    <MainNavbarContainer />
+                    <MainContainer />
                     <Switch>
                         <Route path="/login" component={LoginContainer} />
                         <Route path="/register" component={RegisterContainer} />

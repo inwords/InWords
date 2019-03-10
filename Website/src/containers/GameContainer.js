@@ -6,6 +6,7 @@ import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
 import Game from '../components/Game';
 import GameInfoCard from '../components/GameInfoCard';
 import GameLevelCard from '../components/GameLevelCard';
+import GameField from '../components/GameField';
 
 class GameContainer extends Component {
     render() {
@@ -17,6 +18,7 @@ class GameContainer extends Component {
             pullGamesInfoAction,
             pullGameInfoAction,
             pullGameLevelAction,
+            completeGameAction,
             resetErrorMessageAction
         } = this.props;
 
@@ -32,6 +34,11 @@ class GameContainer extends Component {
                 pullGameLevel={pullGameLevelAction}
             />;
 
+        const SmartGameField = ({ gameLevel }) =>
+            <GameField
+                gameLevel={gameLevel}
+                completeGame={completeGameAction} />
+
         return (
             <WrapperWithErrorHandling
                 errorMessage={errorMessage}
@@ -39,6 +46,7 @@ class GameContainer extends Component {
                 <Game
                     smartGameInfoCard={SmartGameInfoCard}
                     smartGameLevelCard={SmartGameLevelCard}
+                    smartGameField={SmartGameField}
                     gamesInfo={gamesInfo}
                     gameInfo={gameInfo}
                     gameLevel={gameLevel}
@@ -63,6 +71,7 @@ const mapDispatchToProps = dispatch => {
         pullGamesInfoAction: () => dispatch(GameActions.pullGamesInfo()),
         pullGameInfoAction: (gameId) => dispatch(GameActions.pullGameInfo(gameId)),
         pullGameLevelAction: (levelId) => dispatch(GameActions.pullGameLevel(levelId)),
+        completeGameAction: () => dispatch(GameActions.completeGame()),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
 };

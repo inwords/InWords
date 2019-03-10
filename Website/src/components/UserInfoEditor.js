@@ -41,31 +41,16 @@ class UserInfoEditor extends Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="inputNickName">
-                        Никнейм
-                    </label>
-                    <input type="text" className="form-control" id="inputNickName"
-                        name="NickName" required="required"
-                        value={nickName} onChange={this.handleChangeNickName}
-                    />
+                    <label htmlFor="inputNickName">Никнейм</label>
+                    <input type="text" className="form-control" id="inputNickName" name="NickName" required="required" value={nickName} onChange={this.handleChangeNickName} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="inputAvatarPath">
-                        URL-адрес аватара
-                    </label>
-                    <input type="text" className="form-control" id="inputAvatarPath"
-                        name="AvatarPath"
-                        value={avatarPath} onChange={this.handleChangeAvatarPath}
-                    />
+                    <label htmlFor="inputAvatarPath">URL-адрес аватара</label>
+                    <input type="text" className="form-control" id="inputAvatarPath" name="AvatarPath" value={avatarPath} onChange={this.handleChangeAvatarPath} />
                 </div>
                 <div className="btn-group" role="group">
-                    <button type="submit" className="btn btn-primary" >
-                        Сохранить
-                    </button>
-                    <button type="button" className="btn btn-outline-primary"
-                        onClick={this.props.handleClickSwitchEditMode}>
-                        Отменить
-                    </button>
+                    <button type="submit" className="btn btn-primary">Сохранить</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={this.props.handleClickSwitchEditMode}>Отменить</button>
                 </div>
             </form>
         );

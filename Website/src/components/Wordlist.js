@@ -15,8 +15,7 @@ class Wordlist extends Component {
                     <SmartWordPair
                         key={wordPair.serverId}
                         wordPair={wordPair}
-                    />)
-                }
+                    />)}
             </ul>
         );
     }

@@ -16,24 +16,14 @@ class Register extends Component {
             <form onSubmit={this.handleSubmit}>
                 {redirect ? <Redirect to="/login" /> : <Fragment />}
                 <div className="form-group">
-                    <label htmlFor="inputEmail">
-                        Электронная почта
-                    </label>
-                    <input type="email" className="form-control" id="inputEmail"
-                        placeholder="Введите email" name="Email" required="required"
-                    />
+                    <label htmlFor="inputEmail">Электронная почта</label>
+                    <input type="email" className="form-control" id="inputEmail" placeholder="Введите email" name="Email" required="required" />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="inputPassword">
-                        Пароль
-                    </label>
-                    <input type="password" className="form-control" id="inputPassword"
-                        placeholder="Введите пароль" name="Password" required="required"
-                    />
+                    <label htmlFor="inputPassword">Пароль</label>
+                    <input type="password" className="form-control" id="inputPassword" placeholder="Введите пароль" name="Password" required="required" />
                 </div>
-                <button type="submit" className="btn btn-primary" >
-                    Зарегистрироваться
-                </button>
+                <button type="submit" className="btn btn-primary">Зарегистрироваться</button>
             </form>
         );
     }

@@ -30,8 +30,7 @@ class WordPair extends Component {
                         wordPair={wordPair}
                         handleClickSwitchEditMode={this.handleClickSwitchEditMode}
                         editWordPair={this.props.editWordPair}
-                    />
-                }
+                    />}
             </li>
         );
     }

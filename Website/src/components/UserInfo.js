@@ -29,8 +29,7 @@ class UserInfo extends Component {
                         userInfo={userInfo}
                         handleClickSwitchEditMode={this.handleClickSwitchEditMode}
                         changeUserInfo={this.props.changeUserInfo}
-                    />
-                }
+                    />}
             </Fragment>
         );
     }

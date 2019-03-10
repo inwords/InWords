@@ -13,9 +13,7 @@ function wordPairs(state = [], action) {
             if (state.find((wordPair) => wordPair.serverId === action.wordPair.serverId)) {
                 return state;
             }
-            const refreshedWordPairs = state.slice();
-            refreshedWordPairs.push(action.wordPair);
-            return refreshedWordPairs;
+            return state.concat(action.wordPair);
 
         case wordlistConstants.PAIRS_EDIT_LOCAL_REFRESH:
             if (state.find((wordPair) => wordPair.serverId === action.wordPair.serverId)) {

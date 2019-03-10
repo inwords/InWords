@@ -8,6 +8,14 @@ function pullGamesInfo() {
     return (dispatch, getState) => {
         dispatch(FetchingActions.fetchingRequest());
 
+        if (getState().game.gameInfo) {
+            dispatch(gameInfoReset());
+
+            if (getState().game.gameLevel) {
+                dispatch(gameLevelReset());
+            }
+        }
+
         fetch(API_HOST + '/api/Game/GameInfo', {
             method: 'GET',
             headers: {
@@ -40,6 +48,20 @@ function pullGamesInfo() {
 const gamesInfoReceived = (gamesInfo) => ({
     type: gameConstants.GAMES_INFO_RECEIVED,
     gamesInfo: gamesInfo
+});
+
+const gameInfoReset = () => ({
+    type: gameConstants.GAME_INFO_RESET
+});
+
+function completeGame() {
+    return (dispatch) => {
+        dispatch(gameLevelReset());
+    }
+}
+
+const gameLevelReset = () => ({
+    type: gameConstants.GAME_LEVEL_RESET
 });
 
 function pullGameInfo(gameId) {
@@ -121,5 +143,6 @@ const gameLevelReceived = (gameLevel) => ({
 export const GameActions = {
     pullGamesInfo,
     pullGameInfo,
-    pullGameLevel
+    pullGameLevel,
+    completeGame
 };

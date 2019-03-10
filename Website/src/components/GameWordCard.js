@@ -3,24 +3,16 @@ import PropTypes from 'prop-types';
 
 class GameWordCard extends Component {
     render() {
-        const { randomWord, opened } = this.props;
+        const { id, word, visible, successfulPair } = this.props;
 
         return (
-            <div className="col">
-                <div className="card text-center text-white bg-primary mb-3"
-                    onClick={() => this.props.handleClick(randomWord.id)}>
-                    {opened ?
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                {randomWord.word}
-                            </h5>
-                        </div> :
-                        <div className="card-body">
-                            <h5 className="card-title invisible">
-                                {randomWord.word}
-                            </h5>
-                        </div>
-                    }
+            <div className="col-6 col-sm-4 col-md-3 col-lg">
+                <div className={successfulPair ? "card text-center text-white bg-primary border-secondary mb-3" : "card text-center text-white bg-primary mb-3"} onClick={() => this.props.handleClick(id, word)}>
+                    <div className="card-body">
+                        {visible || successfulPair ?
+                            <h5 className={successfulPair ? "card-title text-secondary" : "card-title"}>{word}</h5> :
+                            <h5 className="card-title invisible">...</h5>}
+                    </div>
                 </div>
             </div>
         );
@@ -28,9 +20,10 @@ class GameWordCard extends Component {
 }
 
 GameWordCard.propTypes = {
-    randomWord: PropTypes.object.isRequired,
-    opened: PropTypes.bool.isRequired,
+    id: PropTypes.number.isRequired,
+    word: PropTypes.string.isRequired,
     visible: PropTypes.bool.isRequired,
+    successfulPair: PropTypes.bool.isRequired,
     handleClick: PropTypes.func.isRequired
 };
 
