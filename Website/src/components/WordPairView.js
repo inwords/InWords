@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class WordPairViewFragment extends Component {
+class WordPairView extends Component {
     handleClickDelWordPair = () => {
         this.props.deleteWordPair(this.props.wordPair.serverId);
     };
@@ -34,10 +34,10 @@ class WordPairViewFragment extends Component {
     }
 }
 
-WordPairViewFragment.propTypes = {
+WordPairView.propTypes = {
     wordPair: PropTypes.object.isRequired,
     handleClickSwitchEditMode: PropTypes.func.isRequired,
     deleteWordPair: PropTypes.func.isRequired
 };
 
-export default WordPairViewFragment;
+export default WordPairView;

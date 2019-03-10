@@ -13,7 +13,7 @@ function handleAccessError(response, dispatch) {
     if (response.status === 401) {
         dispatch(accessTokenInvalid());
     }
-};
+}
 
 export const AccessTokenActions = {
     accessTokenValid,

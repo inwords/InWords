@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class WordlistToolsAddFragment extends Component {
+class WordPairEditor extends Component {
     state = {
         wordForeign: '',
         wordNative: ''
     };
+
+    componentDidMount() {
+        const { wordPair } = this.props;
+
+        this.setState({
+            wordForeign: wordPair.wordForeign,
+            wordNative: wordPair.wordNative
+        });
+    }
 
     handleChangeWordForeign = (event) => {
         this.setState({
@@ -19,11 +28,11 @@ class WordlistToolsAddFragment extends Component {
         });
     };
 
-    handleClickAddWordPair = () => {
+    handleClickEditWordPair = () => {
         const { wordForeign, wordNative } = this.state;
 
         if (wordForeign && wordNative) {
-            this.props.addWordPair({
+            this.props.editWordPair(this.props.wordPair.serverId, {
                 WordForeign: wordForeign,
                 WordNative: wordNative
             });
@@ -31,24 +40,26 @@ class WordlistToolsAddFragment extends Component {
     };
 
     render() {
+        const { wordForeign, wordNative } = this.state;
+
         return (
             <div className="row">
                 <div className="col">
-                    <div className="input-group">
+                    <div className="input-group input-group-sm">
                         <input type="text" className="form-control" placeholder="Слово или фраза"
-                            onChange={this.handleChangeWordForeign} />
+                            value={wordForeign} onChange={this.handleChangeWordForeign} />
                         <input type="text" className="form-control" placeholder="Перевод"
-                            onChange={this.handleChangeWordNative} />
+                            value={wordNative} onChange={this.handleChangeWordNative} />
                     </div>
                 </div>
                 <div className="col-md-auto">
-                    <div className="btn-group" role="group">
+                    <div className="btn-group btn-group-sm" role="group">
                         <button type="button" className="btn btn-primary"
-                            onClick={this.handleClickAddWordPair}>
+                            onClick={this.handleClickEditWordPair}>
                             Сохранить
                         </button>
                         <button type="button" className="btn btn-outline-primary"
-                            onClick={this.props.handleClickSwitchAddMode}>
+                            onClick={this.props.handleClickSwitchEditMode}>
                             Отменить
                         </button>
                     </div>
@@ -58,9 +69,10 @@ class WordlistToolsAddFragment extends Component {
     }
 }
 
-WordlistToolsAddFragment.propTypes = {
-    handleClickSwitchAddMode: PropTypes.func.isRequired,
-    addWordPair: PropTypes.func.isRequired
+WordPairEditor.propTypes = {
+    wordPair: PropTypes.object.isRequired,
+    handleClickSwitchEditMode: PropTypes.func.isRequired,
+    editWordPair: PropTypes.func.isRequired
 };
 
-export default WordlistToolsAddFragment;
+export default WordPairEditor;

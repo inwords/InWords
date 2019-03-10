@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
 import { ErrorActions } from '../actions/ErrorActions';
 import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
-import LoginPage from '../components/LoginPage';
+import Login from '../components/Login';
 
 class LoginContainer extends Component {
     render() {
@@ -11,17 +11,17 @@ class LoginContainer extends Component {
             login,
             loginAction,
             errorMessage,
-            resetErrorMessageAction } = this.props;
+            resetErrorMessageAction
+        } = this.props;
 
         return (
             <WrapperWithErrorHandling
                 errorMessage={errorMessage}
                 resetErrorMessage={resetErrorMessageAction} >
-
-                <LoginPage
+                <Login
                     redirect={login.redirect}
-                    login={loginAction} />
-
+                    login={loginAction}
+                />
             </WrapperWithErrorHandling>
         );
     }

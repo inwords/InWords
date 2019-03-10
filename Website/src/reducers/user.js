@@ -39,12 +39,14 @@ function userInfo(state = emptyUserInfo, action) {
                 nickName: action.userInfo.nickName,
                 avatarPath: action.userInfo.avatarPath
             };
+            
         case userConstants.USER_INFO_CHANGED:
             return {
                 ...state,
                 nickName: action.userInfo.NickName,
                 avatarPath: action.userInfo.AvatarPath
             };
+
         default:
             return state;
     }

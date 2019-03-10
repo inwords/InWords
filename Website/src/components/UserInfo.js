@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import UserInfoViewFragment from './UserInfoViewFragment';
-import UserInfoEditFragment from './UserInfoEditFragment';
+import UserInfoView from './UserInfoView';
+import UserInfoEditor from './UserInfoEditor';
 
-class UserInfoPage extends Component {
+class UserInfo extends Component {
     state = {
         editModeActivated: false
     };
@@ -21,21 +21,24 @@ class UserInfoPage extends Component {
         return (
             <Fragment>
                 {!editModeActivated ?
-                    <UserInfoViewFragment
-                        userInfo={userInfo}
-                        handleClickSwitchEditMode={this.handleClickSwitchEditMode} /> :
-                    <UserInfoEditFragment
+                    <UserInfoView
                         userInfo={userInfo}
                         handleClickSwitchEditMode={this.handleClickSwitchEditMode}
-                        changeUserInfo={this.props.changeUserInfo} />}
+                    /> :
+                    <UserInfoEditor
+                        userInfo={userInfo}
+                        handleClickSwitchEditMode={this.handleClickSwitchEditMode}
+                        changeUserInfo={this.props.changeUserInfo}
+                    />
+                }
             </Fragment>
         );
     }
 }
 
-UserInfoPage.propTypes = {
+UserInfo.propTypes = {
     userInfo: PropTypes.object.isRequired,
     changeUserInfo: PropTypes.func.isRequired
 }
 
-export default UserInfoPage;
+export default UserInfo;

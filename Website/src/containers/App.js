@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import TopNavbarContainer from './TopNavbarContainer';
+import MainNavbarContainer from './MainNavbarContainer';
 import LoginContainer from './LoginContainer';
 import RegisterContainer from './RegisterContainer';
 import WordlistContainer from './WordlistContainer';
-import LearningContainer from './LearningContainer';
+import GameContainer from './GameContainer';
 import UserInfoContainer from './UserInfoContainer';
 
 class App extends Component {
@@ -12,13 +12,13 @@ class App extends Component {
         return (
             <HashRouter>
                 <Fragment>
-                    <TopNavbarContainer />
+                    <MainNavbarContainer />
                     <Switch>
                         <Route path="/login" component={LoginContainer} />
                         <Route path="/register" component={RegisterContainer} />
                         <Route path="/wordlist" component={WordlistContainer} />
-                        <Route path="/learning" component={LearningContainer} />
-                        <Route path="/user-info" component={UserInfoContainer} />
+                        <Route path="/game" component={GameContainer} />
+                        <Route path="/user_info" component={UserInfoContainer} />
                     </Switch>
                 </Fragment>
             </HashRouter>

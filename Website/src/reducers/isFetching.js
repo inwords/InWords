@@ -1,6 +1,6 @@
 import { fetchingConstants } from '../constants/fetchingConstants';
 
-export const fetching = (state = false, action) => {
+export const isFetching = (state = false, action) => {
     switch (action.type) {
         case fetchingConstants.FETHING_REQUEST:
             return true;

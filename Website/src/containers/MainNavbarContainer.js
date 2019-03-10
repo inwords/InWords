@@ -1,31 +1,32 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
-import TopNavbarUserInfoReceiver from '../components/TopNavbarUserInfoReceiver';
-import TopNavbar from '../components/TopNavbar';
+import MainNavbarUserInfoReceiver from '../components/MainNavbarUserInfoReceiver';
+import MainNavbar from '../components/MainNavbar';
 
-class TopNavbarContainer extends Component {
+class MainNavbarContainer extends Component {
     render() {
         const {
             accessToken,
             userInfo,
-            fetching,
+            isFetching,
             logoutAction,
-            receiveUserInfoAction } = this.props;
+            receiveUserInfoAction
+        } = this.props;
 
         return (
             <Fragment>
-                <TopNavbarUserInfoReceiver
+                <MainNavbarUserInfoReceiver
                     accessToken={accessToken}
-                    receiveUserInfo={receiveUserInfoAction} />
-
-                <TopNavbar
+                    receiveUserInfo={receiveUserInfoAction}
+                />
+                <MainNavbar
                     accessToken={accessToken}
                     avatarPath={userInfo.avatarPath}
-                    fetching={fetching}
+                    isFetching={isFetching}
                     logout={logoutAction}
-                    receiveUserInfo={receiveUserInfoAction} />
-
+                    receiveUserInfo={receiveUserInfoAction}
+                />
             </Fragment>
         );
     }
@@ -34,7 +35,7 @@ class TopNavbarContainer extends Component {
 const mapStateToProps = store => {
     return {
         accessToken: store.accessToken,
-        fetching: store.fetching,
+        isFetching: store.isFetching,
         userInfo: store.user.userInfo
     };
 };
@@ -49,4 +50,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TopNavbarContainer);
+)(MainNavbarContainer);

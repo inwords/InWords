@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
 import { ErrorActions } from '../actions/ErrorActions';
 import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
-import RegisterPage from '../components/RegisterPage';
+import Register from '../components/Register';
 
 class RegisterContainer extends Component {
     render() {
@@ -11,17 +11,17 @@ class RegisterContainer extends Component {
             register,
             registerAction,
             errorMessage,
-            resetErrorMessageAction } = this.props;
+            resetErrorMessageAction
+        } = this.props;
 
         return (
             <WrapperWithErrorHandling
                 errorMessage={errorMessage}
                 resetErrorMessage={resetErrorMessageAction}>
-                
-                <RegisterPage
+                <Register
                     redirect={register.redirect}
-                    register={registerAction} />
-
+                    register={registerAction}
+                />
             </WrapperWithErrorHandling>
         );
     }

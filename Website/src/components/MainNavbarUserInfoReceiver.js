@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-class TopNavbarUserInfoReceiver extends Component {
+class MainNavbarUserInfoReceiver extends Component {
     componentDidMount() {
         if (this.props.accessToken) {
             this.props.receiveUserInfo();
@@ -21,9 +21,9 @@ class TopNavbarUserInfoReceiver extends Component {
     }
 }
 
-TopNavbarUserInfoReceiver.propTypes = {
+MainNavbarUserInfoReceiver.propTypes = {
     accessToken: PropTypes.string,
     receiveUserInfo: PropTypes.func.isRequired
 };
 
-export default TopNavbarUserInfoReceiver;
+export default MainNavbarUserInfoReceiver;

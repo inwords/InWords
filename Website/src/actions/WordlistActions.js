@@ -157,7 +157,7 @@ function editWordPair(pairId, wordPair) {
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(pairsEditLocalRefresh(pairId, configureWordPair(data, wordPair)));
-                
+
                 if (getState().errorMessage) {
                     dispatch(ErrorActions.resetErrorMessage());
                 }
@@ -175,13 +175,11 @@ const pairsEditLocalRefresh = (pairId, wordPair) => ({
     wordPair: wordPair
 });
 
-const configureWordPair = (serverData, localWordPair) => {
-    return {
-        serverId: serverData[0].serverId,
-        wordForeign: localWordPair.WordForeign,
-        wordNative: localWordPair.WordNative
-    }
-}
+const configureWordPair = (serverData, localWordPair) => ({
+    serverId: serverData[0].serverId,
+    wordForeign: localWordPair.WordForeign,
+    wordNative: localWordPair.WordNative
+});
 
 export const WordlistActions = {
     pullWordPairs,

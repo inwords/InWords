@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import WordPairViewFragment from './WordPairViewFragment';
-import WordPairEditFragment from './WordPairEditFragment';
+import WordPairView from './WordPairView';
+import WordPairEditor from './WordPairEditor';
 
 class WordPair extends Component {
     state = {
@@ -21,14 +21,17 @@ class WordPair extends Component {
         return (
             <li className="list-group-item list-group-item-action">
                 {!editModeActivated ?
-                    <WordPairViewFragment
+                    <WordPairView
                         wordPair={wordPair}
                         handleClickSwitchEditMode={this.handleClickSwitchEditMode}
-                        deleteWordPair={this.props.deleteWordPair} /> :
-                    <WordPairEditFragment
+                        deleteWordPair={this.props.deleteWordPair}
+                    /> :
+                    <WordPairEditor
                         wordPair={wordPair}
                         handleClickSwitchEditMode={this.handleClickSwitchEditMode}
-                        editWordPair={this.props.editWordPair} />}
+                        editWordPair={this.props.editWordPair}
+                    />
+                }
             </li>
         );
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import WordlistToolsBar from './WordlistToolsBar';
-import WordlistToolsAddFragment from './WordlistToolsAddFragment';
+import  WordlistToolsPairAdding from './WordlistToolsPairAdding';
 
 class WordlistTools extends Component {
     state = {
@@ -18,13 +18,16 @@ class WordlistTools extends Component {
         const { addModeActivated } = this.state;
 
         return (
-            <div className="container bg-light mb-3 pb-2 pt-2">
+            <div className="container bg-light pb-2 pt-2 mb-3">
                 {!addModeActivated ?
                     <WordlistToolsBar
-                        handleClickSwitchAddMode={this.handleClickSwitchAddMode} /> :
-                    <WordlistToolsAddFragment
                         handleClickSwitchAddMode={this.handleClickSwitchAddMode}
-                        addWordPair={this.props.addWordPair} />}
+                    /> :
+                    < WordlistToolsPairAdding
+                        handleClickSwitchAddMode={this.handleClickSwitchAddMode}
+                        addWordPair={this.props.addWordPair}
+                    />
+                }
             </div>
         );
     }

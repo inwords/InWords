@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-class RegisterPage extends Component {
+class Register extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
@@ -20,16 +20,18 @@ class RegisterPage extends Component {
                         Электронная почта
                     </label>
                     <input type="email" className="form-control" id="inputEmail"
-                        placeholder="Введите email" name="Email" required="required" />
+                        placeholder="Введите email" name="Email" required="required"
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputPassword">
                         Пароль
                     </label>
                     <input type="password" className="form-control" id="inputPassword"
-                        placeholder="Введите пароль" name="Password" required="required" />
+                        placeholder="Введите пароль" name="Password" required="required"
+                    />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" >
                     Зарегистрироваться
                 </button>
             </form>
@@ -37,9 +39,9 @@ class RegisterPage extends Component {
     }
 }
 
-RegisterPage.propTypes = {
+Register.propTypes = {
     redirect: PropTypes.bool.isRequired,
     register: PropTypes.func.isRequired
 };
 
-export default RegisterPage;
+export default Register;

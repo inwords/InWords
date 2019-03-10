@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class UserInfoEditFragment extends Component {
+class UserInfoEditor extends Component {
     state = {
         nickName: '',
         avatarPath: ''
@@ -30,7 +30,7 @@ class UserInfoEditFragment extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        
+
         this.props.changeUserInfo(new FormData(event.target));
         this.props.handleClickSwitchEditMode();
     };
@@ -46,7 +46,8 @@ class UserInfoEditFragment extends Component {
                     </label>
                     <input type="text" className="form-control" id="inputNickName"
                         name="NickName" required="required"
-                        value={nickName} onChange={this.handleChangeNickName} />
+                        value={nickName} onChange={this.handleChangeNickName}
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputAvatarPath">
@@ -54,10 +55,11 @@ class UserInfoEditFragment extends Component {
                     </label>
                     <input type="text" className="form-control" id="inputAvatarPath"
                         name="AvatarPath"
-                        value={avatarPath} onChange={this.handleChangeAvatarPath} />
+                        value={avatarPath} onChange={this.handleChangeAvatarPath}
+                    />
                 </div>
                 <div className="btn-group" role="group">
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary" >
                         Сохранить
                     </button>
                     <button type="button" className="btn btn-outline-primary"
@@ -70,10 +72,10 @@ class UserInfoEditFragment extends Component {
     }
 }
 
-UserInfoEditFragment.propTypes = {
+UserInfoEditor.propTypes = {
     userInfo: PropTypes.object.isRequired,
     handleClickSwitchEditMode: PropTypes.func.isRequired,
     changeUserInfo: PropTypes.func.isRequired
 };
 
-export default UserInfoEditFragment;
+export default UserInfoEditor;

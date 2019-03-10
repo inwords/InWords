@@ -16,27 +16,26 @@ class WordlistContainer extends Component {
             addWordPairAction,
             editWordPairAction,
             errorMessage,
-            resetErrorMessageAction } = this.props;
+            resetErrorMessageAction
+        } = this.props;
 
         const SmartWordPair = ({ wordPair }) =>
             <WordPair
                 wordPair={wordPair}
                 deleteWordPair={deleteWordPairAction}
-                editWordPair={editWordPairAction} />;
+                editWordPair={editWordPairAction}
+            />;
 
         return (
             <WrapperWithErrorHandling
                 errorMessage={errorMessage}
                 resetErrorMessage={resetErrorMessageAction}>
-
-                <WordlistTools
-                    addWordPair={addWordPairAction} />
-
+                <WordlistTools addWordPair={addWordPairAction} />
                 <Wordlist
                     smartWordPair={SmartWordPair}
                     wordPairs={wordPairs}
-                    pullWordPairs={pullWordPairsAction} />
-
+                    pullWordPairs={pullWordPairsAction}
+                />
             </WrapperWithErrorHandling>
         );
     }
@@ -54,8 +53,7 @@ const mapDispatchToProps = dispatch => {
         pullWordPairsAction: () => dispatch(WordlistActions.pullWordPairs()),
         deleteWordPairAction: (pairId) => dispatch(WordlistActions.deleteWordPair(pairId)),
         addWordPairAction: (wordPair) => dispatch(WordlistActions.addWordPair(wordPair)),
-        editWordPairAction: (pairId, wordPair) =>
-            dispatch(WordlistActions.editWordPair(pairId, wordPair)),
+        editWordPairAction: (pairId, wordPair) => dispatch(WordlistActions.editWordPair(pairId, wordPair)),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
     };
 };

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
 import { ErrorActions } from '../actions/ErrorActions';
 import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
-import UserInfoPage from '../components/UserInfoPage';
+import UserInfo from '../components/UserInfo';
 
 class UserInfoContainer extends Component {
     render() {
@@ -11,17 +11,17 @@ class UserInfoContainer extends Component {
             userInfo,
             changeUserInfoAction,
             errorMessage,
-            resetErrorMessageAction } = this.props;
+            resetErrorMessageAction
+        } = this.props;
 
         return (
             <WrapperWithErrorHandling
                 errorMessage={errorMessage}
                 resetErrorMessage={resetErrorMessageAction} >
-
-                <UserInfoPage
+                <UserInfo
                     userInfo={userInfo}
-                    changeUserInfo={changeUserInfoAction} />
-
+                    changeUserInfo={changeUserInfoAction}
+                />
             </WrapperWithErrorHandling>
         );
     }
