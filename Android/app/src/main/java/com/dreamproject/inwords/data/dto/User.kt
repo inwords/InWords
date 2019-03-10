@@ -2,13 +2,13 @@ package com.dreamproject.inwords.data.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "user_table")
 data class User(
         @PrimaryKey
-        val userId: Int,
-        val userName: String,
-        val firstName: String,
-        val middleName: String,
-        val lastName: String,
-        val password: String)
+        @SerializedName("UserID") val userId: Int,
+        @SerializedName("nickName") val userName: String,
+        @SerializedName("avatarPath") val avatar: String,
+        @SerializedName("expirience") val experience: String,
+        @SerializedName("account") val account: String)

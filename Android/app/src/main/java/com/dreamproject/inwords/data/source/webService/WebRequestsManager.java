@@ -22,9 +22,9 @@ public interface WebRequestsManager {
 
     Single<String> getLogin();
 
-    Single<List<User>> getUsers();
+    Single<User> getAuthorisedUser();
 
-    Single<User> addUser(User user);
+    Single<User> getUserById(int id);
 
     Maybe<List<WordTranslation>> getAllWords();
 

@@ -1,5 +1,6 @@
 package com.dreamproject.inwords.data.source.webService;
 
+import com.dreamproject.inwords.core.util.Function;
 import com.dreamproject.inwords.core.util.SchedulersFacade;
 import com.dreamproject.inwords.data.dto.EntityIdentificator;
 import com.dreamproject.inwords.data.dto.User;
@@ -54,8 +55,7 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
     }
 
     private Single<UserCredentials> getCredentials() {
-        return Single.fromCallable(() ->
-                authInfo.getCredentials());
+        return Single.fromCallable(() -> authInfo.getCredentials());
     }
 
     @Override
@@ -74,20 +74,21 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
 
     @Override
     public Single<String> getLogin() {
-        return applySessionHelper(apiService.getLogin(authInfo.getTokenResponse().getBearer()))
+        return applySessionHelper(b -> apiService.getLogin(b))
                 .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
-    public Single<List<User>> getUsers() {
-        return applySessionHelper(apiService.getUsers())
+    public Single<User> getAuthorisedUser() {
+        return applySessionHelper(b -> apiService.getAuthorisedUser(b))
                 //.flatMap(Observable::fromIterable)
                 .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
-    public Single<User> addUser(User user) {
-        return applySessionHelper(apiService.addUser(user))
+    public Single<User> getUserById(int id) {
+        return applySessionHelper(b -> apiService.getUserById(b, id))
+                //.flatMap(Observable::fromIterable)
                 .subscribeOn(SchedulersFacade.io());
     }
 
@@ -117,25 +118,25 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
 
     @Override
     public Single<List<EntityIdentificator>> insertAllWords(List<WordTranslation> wordTranslations) {
-        return applySessionHelper(apiService.addPairs(authInfo.getTokenResponse().getBearer(), wordTranslations))
+        return applySessionHelper(b -> apiService.addPairs(b, wordTranslations))
                 .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<Integer> removeAllServerIds(List<Integer> serverIds) {
-        return applySessionHelper(apiService.deletePairs(authInfo.getTokenResponse().getBearer(), serverIds))
+        return applySessionHelper(b -> apiService.deletePairs(b, serverIds))
                 .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<PullWordsAnswer> pullWords(List<Integer> serverIds) {
-        return applySessionHelper(apiService.pullWordsPairs(authInfo.getTokenResponse().getBearer(), serverIds))
+        return applySessionHelper(b -> apiService.pullWordsPairs(b, serverIds))
                 .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<List<GameInfo>> getGameInfos() {
-        return applySessionHelper(apiService.getGameInfos(authInfo.getTokenResponse().getBearer()))
+        return applySessionHelper(b -> apiService.getGameInfos(b))
                 .subscribeOn(SchedulersFacade.io());
     }
 
@@ -147,7 +148,7 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
                 new GameLevelInfo(2, "Super level", 5, 3, 5, true),
                 new GameLevelInfo(3, "Extra notes", 2, 3, 5, false))));*/
 
-        return applySessionHelper(apiService.getGame(authInfo.getTokenResponse().getBearer(), gameId))
+        return applySessionHelper(b -> apiService.getGame(b, gameId))
                 .subscribeOn(SchedulersFacade.io());
     }
 
@@ -158,14 +159,18 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
                 new WordTranslation("plane", "самолёт"),
                 new WordTranslation("bath", "ванна"))));*/
 
-        return applySessionHelper(apiService.getLevel(authInfo.getTokenResponse().getBearer(), levelId))
+        return applySessionHelper(b -> apiService.getLevel(b, levelId))
                 .subscribeOn(SchedulersFacade.io());
     }
 
-    private <T> Single<T> applySessionHelper(Single<T> query) {
+    private String getBearer() {
+        return authInfo.getTokenResponse().getBearer();
+    }
+
+    private <R> Single<R> applySessionHelper(Function<String, Single<R>> func) {
         return sessionHelper
                 .requireThreshold()
-                .andThen(query)
+                .andThen(Single.defer(() -> func.apply(getBearer())))
                 .doOnError(throwable -> sessionHelper.interceptError(throwable).blockingAwait());
     }
 

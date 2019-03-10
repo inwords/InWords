@@ -10,9 +10,9 @@ import com.dreamproject.inwords.data.dto.game.Game;
 import com.dreamproject.inwords.data.dto.game.GameInfo;
 import com.dreamproject.inwords.data.dto.game.GameLevel;
 import com.dreamproject.inwords.data.repository.game.GameDatabaseRepository;
-import com.dreamproject.inwords.data.repository.game.GameEntityCacheRepository;
+import com.dreamproject.inwords.data.repository.game.GameEntityCachingRepository;
 import com.dreamproject.inwords.data.repository.game.GameEntityProvider;
-import com.dreamproject.inwords.data.repository.game.GameListCacheRepository;
+import com.dreamproject.inwords.data.repository.game.GameListCachingRepository;
 import com.dreamproject.inwords.data.repository.game.GameListProvider;
 import com.dreamproject.inwords.data.repository.game.GameRemoteRepository;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
@@ -54,7 +54,7 @@ class DataSourcesModule {
     @Singleton
     GameEntityProvider<Game> gameRep(AppRoomDatabase database,
                                      GameRemoteRepository gameRemoteRepository) {
-        return new GameEntityCacheRepository<>(new GameDatabaseRepository<>(database.gameDao()),
+        return new GameEntityCachingRepository<>(new GameDatabaseRepository<>(database.gameDao()),
                 gameRemoteRepository::getGame);
     }
 
@@ -63,7 +63,7 @@ class DataSourcesModule {
     @Singleton
     GameEntityProvider<GameLevel> gameLevelRep(AppRoomDatabase database,
                                                GameRemoteRepository gameRemoteRepository) {
-        return new GameEntityCacheRepository<>(new GameDatabaseRepository<>(database.gameLevelDao()),
+        return new GameEntityCachingRepository<>(new GameDatabaseRepository<>(database.gameLevelDao()),
                 gameRemoteRepository::getLevel);
     }
 
@@ -72,7 +72,7 @@ class DataSourcesModule {
     @Singleton
     GameListProvider<GameInfo> gameInfoRep(AppRoomDatabase database,
                                                 GameRemoteRepository gameRemoteRepository) {
-        return new GameListCacheRepository<>(new GameDatabaseRepository<>(database.gameInfoDao()),
+        return new GameListCachingRepository<>(new GameDatabaseRepository<>(database.gameInfoDao()),
                 gameRemoteRepository::getGameInfos);
     }
 
