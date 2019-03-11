@@ -67,7 +67,7 @@ function deleteWordPair(pairId) {
             })
             .catch(err => {
                 console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления слова')));
             });
     }
 }
@@ -106,7 +106,7 @@ function addWordPair(wordPair) {
             })
             .catch(err => {
                 console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления слова')));
             });
     }
 }
@@ -136,7 +136,7 @@ function editWordPair(pairId, wordPair) {
             })
             .catch(err => {
                 console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
             });
 
         fetch(API_HOST + '/api/words/addpair', {
@@ -164,7 +164,7 @@ function editWordPair(pairId, wordPair) {
             })
             .catch(err => {
                 console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
             });
     }
 }

@@ -31,6 +31,8 @@ class WordlistToolsPairAdding extends Component {
     };
 
     render() {
+        const { handleClickSwitchAddMode } = this.props;
+
         return (
             <div className="row">
                 <div className="col">
@@ -42,7 +44,7 @@ class WordlistToolsPairAdding extends Component {
                 <div className="col-md-auto">
                     <div className="btn-group" role="group">
                         <button type="button" className="btn btn-primary" onClick={this.handleClickAddWordPair}>Сохранить</button>
-                        <button type="button" className="btn btn-outline-primary" onClick={this.props.handleClickSwitchAddMode}>Отменить</button>
+                        <button type="button" className="btn btn-outline-primary" onClick={handleClickSwitchAddMode}>Отменить</button>
                     </div>
                 </div>
             </div>

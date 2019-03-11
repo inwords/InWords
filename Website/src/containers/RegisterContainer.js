@@ -27,14 +27,14 @@ class RegisterContainer extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = (store) => {
     return {
         register: store.user.register,
         errorMessage: store.errorMessage
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         registerAction: (userdata) => dispatch(UserActions.register(userdata)),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())

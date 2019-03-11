@@ -27,14 +27,14 @@ class UserInfoContainer extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = (store) => {
     return {
         userInfo: store.user.userInfo,
         errorMessage: store.errorMessage
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         changeUserInfoAction: (userInfo) => dispatch(UserActions.changeUserInfo(userInfo)),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())

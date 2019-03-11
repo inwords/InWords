@@ -15,6 +15,7 @@ class WordlistTools extends Component {
     };
 
     render() {
+        const { addWordPair } = this.props;
         const { addModeActivated } = this.state;
 
         return (
@@ -25,7 +26,7 @@ class WordlistTools extends Component {
                     /> :
                     < WordlistToolsPairAdding
                         handleClickSwitchAddMode={this.handleClickSwitchAddMode}
-                        addWordPair={this.props.addWordPair}
+                        addWordPair={addWordPair}
                     />}
             </div>
         );

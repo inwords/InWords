@@ -40,6 +40,7 @@ class WordPairEditor extends Component {
     };
 
     render() {
+        const { handleClickSwitchEditMode } = this.props;
         const { wordForeign, wordNative } = this.state;
 
         return (
@@ -53,7 +54,7 @@ class WordPairEditor extends Component {
                 <div className="col-md-auto">
                     <div className="btn-group btn-group-sm" role="group">
                         <button type="button" className="btn btn-primary" onClick={this.handleClickEditWordPair}>Сохранить</button>
-                        <button type="button" className="btn btn-outline-primary" onClick={this.props.handleClickSwitchEditMode}>Отменить</button>
+                        <button type="button" className="btn btn-outline-primary" onClick={handleClickSwitchEditMode}>Отменить</button>
                     </div>
                 </div>
             </div>

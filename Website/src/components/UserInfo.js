@@ -15,7 +15,7 @@ class UserInfo extends Component {
     };
 
     render() {
-        const { userInfo } = this.props;
+        const { userInfo, changeUserInfo } = this.props;
         const { editModeActivated } = this.state;
 
         return (
@@ -28,7 +28,7 @@ class UserInfo extends Component {
                     <UserInfoEditor
                         userInfo={userInfo}
                         handleClickSwitchEditMode={this.handleClickSwitchEditMode}
-                        changeUserInfo={this.props.changeUserInfo}
+                        changeUserInfo={changeUserInfo}
                     />}
             </Fragment>
         );
@@ -38,6 +38,6 @@ class UserInfo extends Component {
 UserInfo.propTypes = {
     userInfo: PropTypes.object.isRequired,
     changeUserInfo: PropTypes.func.isRequired
-}
+};
 
 export default UserInfo;

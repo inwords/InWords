@@ -22,22 +22,26 @@ class GameContainer extends Component {
             resetErrorMessageAction
         } = this.props;
 
-        const SmartGameInfoCard = ({ gameInfo }) =>
-            <GameInfoCard
+        function SmartGameInfoCard({ gameInfo }) {
+            return <GameInfoCard
                 gameInfo={gameInfo}
                 pullGameInfo={pullGameInfoAction}
             />;
+        }
 
-        const SmartGameLevelCard = ({ levelInfo }) =>
-            <GameLevelCard
+        function SmartGameLevelCard({ levelInfo }) {
+            return <GameLevelCard
                 levelInfo={levelInfo}
                 pullGameLevel={pullGameLevelAction}
             />;
+        }
 
-        const SmartGameField = ({ gameLevel }) =>
-            <GameField
+        function SmartGameField({ gameLevel }) {
+            return <GameField
                 gameLevel={gameLevel}
-                completeGame={completeGameAction} />
+                completeGame={completeGameAction}
+            />;
+        }
 
         return (
             <WrapperWithErrorHandling
@@ -57,7 +61,7 @@ class GameContainer extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = (store) => {
     return {
         gamesInfo: store.game.gamesInfo,
         gameInfo: store.game.gameInfo,
@@ -66,7 +70,7 @@ const mapStateToProps = store => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         pullGamesInfoAction: () => dispatch(GameActions.pullGamesInfo()),
         pullGameInfoAction: (gameId) => dispatch(GameActions.pullGameInfo(gameId)),

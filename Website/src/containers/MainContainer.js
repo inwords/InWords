@@ -34,7 +34,7 @@ class MainContainer extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = (store) => {
     return {
         accessToken: store.accessToken,
         isFetching: store.isFetching,
@@ -42,7 +42,7 @@ const mapStateToProps = store => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         logoutAction: () => dispatch(UserActions.logout()),
         receiveUserInfoAction: () => dispatch(UserActions.receiveUserInfo())

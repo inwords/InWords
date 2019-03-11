@@ -36,6 +36,7 @@ class UserInfoEditor extends Component {
     };
 
     render() {
+        const { handleClickSwitchEditMode } = this.props;
         const { nickName, avatarPath } = this.state;
 
         return (
@@ -50,7 +51,7 @@ class UserInfoEditor extends Component {
                 </div>
                 <div className="btn-group" role="group">
                     <button type="submit" className="btn btn-primary">Сохранить</button>
-                    <button type="button" className="btn btn-outline-primary" onClick={this.props.handleClickSwitchEditMode}>Отменить</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={handleClickSwitchEditMode}>Отменить</button>
                 </div>
             </form>
         );

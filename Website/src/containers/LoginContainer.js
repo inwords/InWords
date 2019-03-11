@@ -27,14 +27,14 @@ class LoginContainer extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = (store) => {
     return {
         login: store.user.login,
         errorMessage: store.errorMessage
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         loginAction: (userdata) => dispatch(UserActions.login(userdata)),
         resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())

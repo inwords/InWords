@@ -130,7 +130,7 @@ function pullGameLevel(levelId) {
             })
             .catch(err => {
                 console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об игре')));
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки уровня')));
             });
     }
 }

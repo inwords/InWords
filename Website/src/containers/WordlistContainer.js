@@ -19,12 +19,13 @@ class WordlistContainer extends Component {
             resetErrorMessageAction
         } = this.props;
 
-        const SmartWordPair = ({ wordPair }) =>
-            <WordPair
+        function SmartWordPair ({ wordPair }) {
+            return <WordPair
                 wordPair={wordPair}
                 deleteWordPair={deleteWordPairAction}
                 editWordPair={editWordPairAction}
             />;
+        }
 
         return (
             <WrapperWithErrorHandling
@@ -41,14 +42,14 @@ class WordlistContainer extends Component {
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = (store) => {
     return {
         wordPairs: store.wordlist.wordPairs,
         errorMessage: store.errorMessage
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         pullWordPairsAction: () => dispatch(WordlistActions.pullWordPairs()),
         deleteWordPairAction: (pairId) => dispatch(WordlistActions.deleteWordPair(pairId)),

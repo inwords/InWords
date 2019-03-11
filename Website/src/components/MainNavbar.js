@@ -38,8 +38,6 @@ class MainNavbar extends Component {
                                     <a className="nav-link" href="#/register">Регистрация</a>
                                 </li>
                             </Fragment> :
-                            <Fragment />}
-                        {accessToken ?
                             <Fragment>
                                 <li className="nav-item">
                                     <a className="nav-link" href="#/wordlist">Словарь</a>
@@ -50,8 +48,7 @@ class MainNavbar extends Component {
                                 <li className="nav-item">
                                     <a className="nav-link" href="#/user_info">Аккаунт</a>
                                 </li>
-                            </Fragment> :
-                            <Fragment />}
+                            </Fragment>}
                     </ul>
                     {accessToken ?
                         <button type="button" className="btn btn-outline-secondary" onClick={this.handleClickLogout}>

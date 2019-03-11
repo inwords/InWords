@@ -27,7 +27,8 @@ class GameField extends Component {
                 }, {
                     id: wordPair.serverId,
                     word: wordPair.wordNative
-                }])).sort(() => Math.random() - 0.5)
+                }]
+            )).sort(() => Math.random() - 0.5)
         });
     }
 
