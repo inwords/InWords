@@ -28,7 +28,7 @@ function wordPairs(state = [], action) {
         default:
             return state;
     }
-};
+}
 
 export const wordlist = combineReducers({
     wordPairs: wordPairs

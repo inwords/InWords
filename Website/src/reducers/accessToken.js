@@ -1,12 +1,9 @@
-import { accessTokenConstants } from '../constants/accessTokenConstants';
+import { accessConstants } from '../constants/accessConstants';
 
 export const accessToken = (state = null, action) => {
-    switch (action.type) {
-        case accessTokenConstants.ACCESS_TOKEN_VALID:
-            return action.payload;
-        case accessTokenConstants.ACCESS_TOKEN_INVALID:
-            return null;
-        default:
-            return state;
+    if (action.type === accessConstants.ACCESS_GRANTED) {
+        return action.payload;
     }
+
+    return state;
 };

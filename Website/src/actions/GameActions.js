@@ -1,7 +1,7 @@
 import { API_HOST } from '../api-info';
 import { FetchingActions } from './FetchingActions';
-import { AccessTokenActions } from './AccessTokenActions';
-import { ErrorActions } from './ErrorActions';
+import { AccessActions } from './AccessActions';
+import { ErrorMessageActions } from './ErrorMessageActions';
 import { gameConstants } from '../constants/gameConstants';
 
 function pullGamesInfo() {
@@ -25,7 +25,7 @@ function pullGamesInfo() {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
                 return response.json();
@@ -35,7 +35,7 @@ function pullGamesInfo() {
                 dispatch(gamesInfoReceived(data));
 
                 if (getState().errorMessage) {
-                    dispatch(ErrorActions.resetErrorMessage());
+                    dispatch(ErrorMessageActions.resetErrorMessage());
                 }
             })
             .catch(err => {
@@ -45,24 +45,11 @@ function pullGamesInfo() {
     }
 }
 
-const gamesInfoReceived = (gamesInfo) => ({
-    type: gameConstants.GAMES_INFO_RECEIVED,
-    gamesInfo: gamesInfo
-});
-
-const gameInfoReset = () => ({
-    type: gameConstants.GAME_INFO_RESET
-});
-
 function completeGame() {
     return (dispatch) => {
         dispatch(gameLevelReset());
     }
 }
-
-const gameLevelReset = () => ({
-    type: gameConstants.GAME_LEVEL_RESET
-});
 
 function pullGameInfo(gameId) {
     return (dispatch, getState) => {
@@ -77,7 +64,7 @@ function pullGameInfo(gameId) {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
                 return response.json();
@@ -87,7 +74,7 @@ function pullGameInfo(gameId) {
                 dispatch(gameInfoReceived(data));
 
                 if (getState().errorMessage) {
-                    dispatch(ErrorActions.resetErrorMessage());
+                    dispatch(ErrorMessageActions.resetErrorMessage());
                 }
             })
             .catch(err => {
@@ -96,11 +83,6 @@ function pullGameInfo(gameId) {
             });
     }
 }
-
-const gameInfoReceived = (gameInfo) => ({
-    type: gameConstants.GAME_INFO_RECEIVED,
-    gameInfo: gameInfo
-});
 
 function pullGameLevel(levelId) {
     return (dispatch, getState) => {
@@ -115,7 +97,7 @@ function pullGameLevel(levelId) {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
                 return response.json();
@@ -125,7 +107,7 @@ function pullGameLevel(levelId) {
                 dispatch(gameLevelReceived(data));
 
                 if (getState().errorMessage) {
-                    dispatch(ErrorActions.resetErrorMessage());
+                    dispatch(ErrorMessageActions.resetErrorMessage());
                 }
             })
             .catch(err => {
@@ -135,9 +117,27 @@ function pullGameLevel(levelId) {
     }
 }
 
+const gamesInfoReceived = (gamesInfo) => ({
+    type: gameConstants.GAMES_INFO_RECEIVED,
+    gamesInfo: gamesInfo
+});
+
+const gameInfoReceived = (gameInfo) => ({
+    type: gameConstants.GAME_INFO_RECEIVED,
+    gameInfo: gameInfo
+});
+
+const gameInfoReset = () => ({
+    type: gameConstants.GAME_INFO_RESET
+});
+
 const gameLevelReceived = (gameLevel) => ({
     type: gameConstants.GAME_LEVEL_RECEIVED,
     gameLevel: gameLevel
+});
+
+const gameLevelReset = () => ({
+    type: gameConstants.GAME_LEVEL_RESET
 });
 
 export const GameActions = {

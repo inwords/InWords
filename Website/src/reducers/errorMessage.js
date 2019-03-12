@@ -1,7 +1,7 @@
-import { errorConstants } from '../constants/errorConstants';
+import { errorMessageConstants } from '../constants/errorMessageConstants';
 
 export const errorMessage = (state = null, action) => {
-    if (action.type === errorConstants.RESET_ERROR_MESSAGE) {
+    if (action.type === errorMessageConstants.ERROR_MESSAGE_RESET) {
         return null;
     } else if (action.error) {
         return action.error;

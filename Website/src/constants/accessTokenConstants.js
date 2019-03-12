@@ -1,4 +1,0 @@
-export const accessTokenConstants = {
-    ACCESS_TOKEN_VALID: 'ACCESS_TOKEN_VALID',
-    ACCESS_TOKEN_INVALID: 'ACCESS_TOKEN_INVALID'
-};

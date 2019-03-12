@@ -10,7 +10,7 @@ function login(state = { redirect: false }, action) {
         default:
             return state;
     }
-};
+}
 
 function register(state = { redirect: false }, action) {
     switch (action.type) {
@@ -21,7 +21,7 @@ function register(state = { redirect: false }, action) {
         default:
             return state;
     }
-};
+}
 
 const emptyUserInfo = {
     userId: null,
@@ -39,7 +39,7 @@ function userInfo(state = emptyUserInfo, action) {
                 nickName: action.userInfo.nickName,
                 avatarPath: action.userInfo.avatarPath
             };
-            
+
         case userConstants.USER_INFO_CHANGED:
             return {
                 ...state,
@@ -50,7 +50,7 @@ function userInfo(state = emptyUserInfo, action) {
         default:
             return state;
     }
-};
+}
 
 export const user = combineReducers({
     login: login,

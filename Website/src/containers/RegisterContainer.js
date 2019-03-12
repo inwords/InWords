@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { UserActions } from '../actions/UserActions';
-import { ErrorActions } from '../actions/ErrorActions';
+import { ErrorMessageActions } from '../actions/ErrorMessageActions';
 import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
 import Register from '../components/Register';
 
@@ -37,7 +37,7 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         registerAction: (userdata) => dispatch(UserActions.register(userdata)),
-        resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
+        resetErrorMessageAction: () => dispatch(ErrorMessageActions.resetErrorMessage())
     };
 };
 

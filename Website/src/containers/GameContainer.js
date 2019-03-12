@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GameActions } from '../actions/GameActions';
-import { ErrorActions } from '../actions/ErrorActions';
+import { ErrorMessageActions } from '../actions/ErrorMessageActions';
 import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
 import Game from '../components/Game';
 import GameInfoCard from '../components/GameInfoCard';
@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch) => {
         pullGameInfoAction: (gameId) => dispatch(GameActions.pullGameInfo(gameId)),
         pullGameLevelAction: (levelId) => dispatch(GameActions.pullGameLevel(levelId)),
         completeGameAction: () => dispatch(GameActions.completeGame()),
-        resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
+        resetErrorMessageAction: () => dispatch(ErrorMessageActions.resetErrorMessage())
     };
 };
 

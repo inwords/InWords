@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { WordlistActions } from '../actions/WordlistActions';
-import { ErrorActions } from '../actions/ErrorActions';
+import { ErrorMessageActions } from '../actions/ErrorMessageActions';
 import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
 import WordlistTools from '../components/WordlistTools';
 import Wordlist from '../components/Wordlist';
@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch) => {
         deleteWordPairAction: (pairId) => dispatch(WordlistActions.deleteWordPair(pairId)),
         addWordPairAction: (wordPair) => dispatch(WordlistActions.addWordPair(wordPair)),
         editWordPairAction: (pairId, wordPair) => dispatch(WordlistActions.editWordPair(pairId, wordPair)),
-        resetErrorMessageAction: () => dispatch(ErrorActions.resetErrorMessage())
+        resetErrorMessageAction: () => dispatch(ErrorMessageActions.resetErrorMessage())
     };
 };
 

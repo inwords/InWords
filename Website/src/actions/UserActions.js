@@ -1,7 +1,7 @@
 import { API_HOST } from '../api-info';
 import { FetchingActions } from './FetchingActions';
-import { AccessTokenActions } from './AccessTokenActions';
-import { ErrorActions } from './ErrorActions';
+import { AccessActions } from './AccessActions';
+import { ErrorMessageActions } from './ErrorMessageActions';
 import { userConstants } from '../constants/userConstants';
 import { stringifyFormData } from '../helpers/stringifyFormData';
 
@@ -25,7 +25,7 @@ function login(formUserdata) {
             })
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
-                dispatch(AccessTokenActions.accessTokenValid(data.access_token));
+                dispatch(AccessActions.accessGranted(data.access_token));
                 dispatch(loginRedirect());
                 dispatch(loginRedirected());
             })
@@ -33,20 +33,6 @@ function login(formUserdata) {
                 console.error(err);
                 dispatch(FetchingActions.fetchingFailure(new Error('Ошибка авторизации')));
             });
-    }
-}
-
-const loginRedirect = () => ({
-    type: userConstants.LOGIN_REDIRECT
-});
-
-const loginRedirected = () => ({
-    type: userConstants.LOGIN_REDIRECTED
-});
-
-function logout() {
-    return (dispatch) => {
-        dispatch(AccessTokenActions.accessTokenInvalid());
     }
 }
 
@@ -77,14 +63,6 @@ function register(formUserdata) {
     }
 }
 
-const registerRedirect = () => ({
-    type: userConstants.REGISTER_REDIRECT
-});
-
-const registerRedirected = () => ({
-    type: userConstants.REGISTER_REDIRECTED
-});
-
 function receiveUserInfo() {
     return (dispatch, getState) => {
         dispatch(FetchingActions.fetchingRequest());
@@ -98,7 +76,7 @@ function receiveUserInfo() {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
                 return response.json();
@@ -114,11 +92,6 @@ function receiveUserInfo() {
     }
 }
 
-const userInfoReceived = (userInfo) => ({
-    type: userConstants.USER_INFO_RECEIVED,
-    userInfo: userInfo
-});
-
 function changeUserInfo(userInfo) {
     return (dispatch, getState) => {
         dispatch(FetchingActions.fetchingRequest());
@@ -133,7 +106,7 @@ function changeUserInfo(userInfo) {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
 
@@ -141,7 +114,7 @@ function changeUserInfo(userInfo) {
                 dispatch(userInfoChanged(JSON.parse(stringifyFormData(userInfo))));
 
                 if (getState().errorMessage) {
-                    dispatch(ErrorActions.resetErrorMessage());
+                    dispatch(ErrorMessageActions.resetErrorMessage());
                 }
             })
             .catch(err => {
@@ -150,6 +123,33 @@ function changeUserInfo(userInfo) {
             });
     }
 }
+
+function logout() {
+    return (dispatch) => {
+        dispatch(AccessActions.accessDenied());
+    }
+}
+
+const loginRedirect = () => ({
+    type: userConstants.LOGIN_REDIRECT
+});
+
+const loginRedirected = () => ({
+    type: userConstants.LOGIN_REDIRECTED
+});
+
+const registerRedirect = () => ({
+    type: userConstants.REGISTER_REDIRECT
+});
+
+const registerRedirected = () => ({
+    type: userConstants.REGISTER_REDIRECTED
+});
+
+const userInfoReceived = (userInfo) => ({
+    type: userConstants.USER_INFO_RECEIVED,
+    userInfo: userInfo
+});
 
 const userInfoChanged = (userInfo) => ({
     type: userConstants.USER_INFO_CHANGED,

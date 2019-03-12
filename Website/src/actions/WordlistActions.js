@@ -1,7 +1,7 @@
 import { API_HOST } from '../api-info';
 import { FetchingActions } from './FetchingActions';
-import { AccessTokenActions } from './AccessTokenActions';
-import { ErrorActions } from './ErrorActions';
+import { AccessActions } from './AccessActions';
+import { ErrorMessageActions } from './ErrorMessageActions';
 import { wordlistConstants } from '../constants/wordlistConstants';
 
 function pullWordPairs() {
@@ -18,7 +18,7 @@ function pullWordPairs() {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
                 return response.json();
@@ -28,7 +28,7 @@ function pullWordPairs() {
                 dispatch(pairsPullLocalRefresh(data.addedWords));
 
                 if (getState().errorMessage) {
-                    dispatch(ErrorActions.resetErrorMessage());
+                    dispatch(ErrorMessageActions.resetErrorMessage());
                 }
             })
             .catch(err => {
@@ -37,11 +37,6 @@ function pullWordPairs() {
             });
     }
 }
-
-const pairsPullLocalRefresh = (wordPairs) => ({
-    type: wordlistConstants.PAIRS_PULL_LOCAL_REFRESH,
-    wordPairs: wordPairs
-});
 
 function deleteWordPair(pairId) {
     return (dispatch, getState) => {
@@ -56,13 +51,13 @@ function deleteWordPair(pairId) {
             body: JSON.stringify([pairId])
         })
             .then(response => {
-                AccessTokenActions.handleAccessError(response, dispatch);
+                AccessActions.handleAccessError(response, dispatch);
 
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(pairsDelLocalRefresh(pairId));
 
                 if (getState().errorMessage) {
-                    dispatch(ErrorActions.resetErrorMessage());
+                    dispatch(ErrorMessageActions.resetErrorMessage());
                 }
             })
             .catch(err => {
@@ -71,11 +66,6 @@ function deleteWordPair(pairId) {
             });
     }
 }
-
-const pairsDelLocalRefresh = (pairId) => ({
-    type: wordlistConstants.PAIRS_DEL_LOCAL_REFRESH,
-    pairId: pairId
-});
 
 function addWordPair(wordPair) {
     return (dispatch, getState) => {
@@ -91,7 +81,7 @@ function addWordPair(wordPair) {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
                 return response.json();
@@ -101,7 +91,7 @@ function addWordPair(wordPair) {
                 dispatch(pairsAddLocalRefresh(configureWordPair(data, wordPair)));
 
                 if (getState().errorMessage) {
-                    dispatch(ErrorActions.resetErrorMessage());
+                    dispatch(ErrorMessageActions.resetErrorMessage());
                 }
             })
             .catch(err => {
@@ -110,11 +100,6 @@ function addWordPair(wordPair) {
             });
     }
 }
-
-const pairsAddLocalRefresh = (wordPair) => ({
-    type: wordlistConstants.PAIRS_ADD_LOCAL_REFRESH,
-    wordPair: wordPair
-});
 
 function editWordPair(pairId, wordPair) {
     return (dispatch, getState) => {
@@ -130,7 +115,7 @@ function editWordPair(pairId, wordPair) {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
             })
@@ -149,7 +134,7 @@ function editWordPair(pairId, wordPair) {
         })
             .then(response => {
                 if (!response.ok) {
-                    AccessTokenActions.handleAccessError(response, dispatch);
+                    AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
                 }
                 return response.json();
@@ -159,7 +144,7 @@ function editWordPair(pairId, wordPair) {
                 dispatch(pairsEditLocalRefresh(pairId, configureWordPair(data, wordPair)));
 
                 if (getState().errorMessage) {
-                    dispatch(ErrorActions.resetErrorMessage());
+                    dispatch(ErrorMessageActions.resetErrorMessage());
                 }
             })
             .catch(err => {
@@ -168,6 +153,21 @@ function editWordPair(pairId, wordPair) {
             });
     }
 }
+
+const pairsPullLocalRefresh = (wordPairs) => ({
+    type: wordlistConstants.PAIRS_PULL_LOCAL_REFRESH,
+    wordPairs: wordPairs
+});
+
+const pairsDelLocalRefresh = (pairId) => ({
+    type: wordlistConstants.PAIRS_DEL_LOCAL_REFRESH,
+    pairId: pairId
+});
+
+const pairsAddLocalRefresh = (wordPair) => ({
+    type: wordlistConstants.PAIRS_ADD_LOCAL_REFRESH,
+    wordPair: wordPair
+});
 
 const pairsEditLocalRefresh = (pairId, wordPair) => ({
     type: wordlistConstants.PAIRS_EDIT_LOCAL_REFRESH,
