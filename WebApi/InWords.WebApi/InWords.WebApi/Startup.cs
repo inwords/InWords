@@ -13,6 +13,7 @@
     using System.IO;
     using System;
     using Microsoft.AspNetCore.Mvc.Versioning;
+    using Microsoft.AspNetCore.Http;
 
     public class Startup
     {
