@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const UserInfoView = ({ userInfo, handleClickSwitchEditMode }) => (
+const AccountView = ({ userInfo, handleClickSwitchEditMode }) => (
     <div className="text-center">
         <div className="container mb-4">
             {userInfo.avatarPath ?
@@ -16,9 +17,17 @@ const UserInfoView = ({ userInfo, handleClickSwitchEditMode }) => (
     </div>
 );
 
-UserInfoView.propTypes = {
+AccountView.propTypes = {
     userInfo: PropTypes.object.isRequired,
     handleClickSwitchEditMode: PropTypes.func.isRequired
 };
 
-export default UserInfoView;
+const mapStateToProps = (store) => {
+    return {
+        userInfo: store.user.userInfo
+    };
+};
+
+export default connect(
+    mapStateToProps
+)(AccountView);

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { WordlistActions } from '../actions/WordlistActions';
 import { ErrorMessageActions } from '../actions/ErrorMessageActions';
-import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
-import WordlistTools from '../components/WordlistTools';
 import Wordlist from '../components/Wordlist';
 import WordPair from '../components/WordPair';
 
@@ -11,15 +9,15 @@ class WordlistContainer extends Component {
     render() {
         const {
             wordPairs,
+            searchPattern,
             pullWordPairsAction,
             deleteWordPairAction,
             addWordPairAction,
             editWordPairAction,
-            errorMessage,
-            resetErrorMessageAction
+            findWordPairsAction
         } = this.props;
 
-        function SmartWordPair ({ wordPair }) {
+        function SmartWordPair({ wordPair }) {
             return <WordPair
                 wordPair={wordPair}
                 deleteWordPair={deleteWordPairAction}
@@ -28,16 +26,14 @@ class WordlistContainer extends Component {
         }
 
         return (
-            <WrapperWithErrorHandling
-                errorMessage={errorMessage}
-                resetErrorMessage={resetErrorMessageAction}>
-                <WordlistTools addWordPair={addWordPairAction} />
-                <Wordlist
-                    smartWordPair={SmartWordPair}
-                    wordPairs={wordPairs}
-                    pullWordPairs={pullWordPairsAction}
-                />
-            </WrapperWithErrorHandling>
+            <Wordlist
+                smartWordPair={SmartWordPair}
+                wordPairs={wordPairs}
+                searchPattern={searchPattern}
+                pullWordPairs={pullWordPairsAction}
+                addWordPair={addWordPairAction}
+                findWordPairs={findWordPairsAction}
+            />
         );
     }
 }
@@ -45,6 +41,7 @@ class WordlistContainer extends Component {
 const mapStateToProps = (store) => {
     return {
         wordPairs: store.wordlist.wordPairs,
+        searchPattern: store.wordlist.searchPattern,
         errorMessage: store.errorMessage
     };
 };
@@ -55,6 +52,7 @@ const mapDispatchToProps = (dispatch) => {
         deleteWordPairAction: (pairId) => dispatch(WordlistActions.deleteWordPair(pairId)),
         addWordPairAction: (wordPair) => dispatch(WordlistActions.addWordPair(wordPair)),
         editWordPairAction: (pairId, wordPair) => dispatch(WordlistActions.editWordPair(pairId, wordPair)),
+        findWordPairsAction: (pattern) => dispatch(WordlistActions.findWordPairs(pattern)),
         resetErrorMessageAction: () => dispatch(ErrorMessageActions.resetErrorMessage())
     };
 };

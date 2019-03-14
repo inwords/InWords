@@ -1,17 +1,22 @@
 import React, { Component, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { UserActions } from '../actions/UserActions';
 
-class Register extends Component {
+class RegisterPage extends Component {
+    static propTypes = {
+        redirect: PropTypes.bool.isRequired,
+        register: PropTypes.func.isRequired
+    };
+
     handleSubmit = (event) => {
         event.preventDefault();
-
         this.props.register(new FormData(event.target));
     };
 
     render() {
         const { redirect } = this.props;
-
         return (
             <form onSubmit={this.handleSubmit}>
                 {redirect ? <Redirect to="/login" /> : <Fragment />}
@@ -29,9 +34,19 @@ class Register extends Component {
     }
 }
 
-Register.propTypes = {
-    redirect: PropTypes.bool.isRequired,
-    register: PropTypes.func.isRequired
+const mapStateToProps = (store) => {
+    return {
+        redirect: store.user.register.redirect
+    };
 };
 
-export default Register;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        register: (userdata) => dispatch(UserActions.register(userdata))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RegisterPage);

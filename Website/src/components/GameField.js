@@ -76,8 +76,8 @@ class GameField extends Component {
                         key={index}
                         id={randomWord.id}
                         word={randomWord.word}
-                        visible={!!selectedWords.find((visibleWord) =>
-                            visibleWord.id === randomWord.id && visibleWord.word === randomWord.word)}
+                        selected={!!selectedWords.find((selectedWord) =>
+                            selectedWord.id === randomWord.id && selectedWord.word === randomWord.word)}
                         successfulPair={successfulPairIds.find((successfulPairId) =>
                             successfulPairId === randomWord.id)}
                         handleClick={this.handleClick}

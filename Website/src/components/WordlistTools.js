@@ -15,7 +15,7 @@ class WordlistTools extends Component {
     };
 
     render() {
-        const { addWordPair } = this.props;
+        const { addWordPair, findWordPairs } = this.props;
         const { addModeActivated } = this.state;
 
         return (
@@ -23,6 +23,7 @@ class WordlistTools extends Component {
                 {!addModeActivated ?
                     <WordlistToolsBar
                         handleClickSwitchAddMode={this.handleClickSwitchAddMode}
+                        findWordPairs={findWordPairs}
                     /> :
                     < WordlistToolsPairAdding
                         handleClickSwitchAddMode={this.handleClickSwitchAddMode}
@@ -34,7 +35,8 @@ class WordlistTools extends Component {
 }
 
 WordlistTools.propTypes = {
-    addWordPair: PropTypes.func.isRequired
+    addWordPair: PropTypes.func.isRequired,
+    findWordPairs: PropTypes.func.isRequired
 };
 
 export default WordlistTools;

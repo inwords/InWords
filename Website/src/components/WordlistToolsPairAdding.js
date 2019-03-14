@@ -53,8 +53,8 @@ class WordlistToolsPairAdding extends Component {
 }
 
 WordlistToolsPairAdding.propTypes = {
-    handleClickSwitchAddMode: PropTypes.func.isRequired,
-    addWordPair: PropTypes.func.isRequired
+    addWordPair: PropTypes.func.isRequired,
+    handleClickSwitchAddMode: PropTypes.func.isRequired
 };
 
 export default WordlistToolsPairAdding;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { GameActions } from '../actions/GameActions';
 import { ErrorMessageActions } from '../actions/ErrorMessageActions';
-import WrapperWithErrorHandling from '../components/WrapperWithErrorHandling';
 import Game from '../components/Game';
 import GameInfoCard from '../components/GameInfoCard';
 import GameLevelCard from '../components/GameLevelCard';
@@ -11,15 +10,13 @@ import GameField from '../components/GameField';
 class GameContainer extends Component {
     render() {
         const {
-            errorMessage,
             gamesInfo,
             gameInfo,
             gameLevel,
             pullGamesInfoAction,
             pullGameInfoAction,
             pullGameLevelAction,
-            completeGameAction,
-            resetErrorMessageAction
+            completeGameAction
         } = this.props;
 
         function SmartGameInfoCard({ gameInfo }) {
@@ -44,19 +41,15 @@ class GameContainer extends Component {
         }
 
         return (
-            <WrapperWithErrorHandling
-                errorMessage={errorMessage}
-                resetErrorMessage={resetErrorMessageAction} >
-                <Game
-                    smartGameInfoCard={SmartGameInfoCard}
-                    smartGameLevelCard={SmartGameLevelCard}
-                    smartGameField={SmartGameField}
-                    gamesInfo={gamesInfo}
-                    gameInfo={gameInfo}
-                    gameLevel={gameLevel}
-                    pullGamesInfo={pullGamesInfoAction}
-                />
-            </WrapperWithErrorHandling>
+            <Game
+                smartGameInfoCard={SmartGameInfoCard}
+                smartGameLevelCard={SmartGameLevelCard}
+                smartGameField={SmartGameField}
+                gamesInfo={gamesInfo}
+                gameInfo={gameInfo}
+                gameLevel={gameLevel}
+                pullGamesInfo={pullGamesInfoAction}
+            />
         );
     }
 }

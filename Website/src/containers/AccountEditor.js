@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { UserActions } from '../actions/UserActions';
 
-class UserInfoEditor extends Component {
+class AccountEditor extends Component {
+    static propTypes = {
+        userInfo: PropTypes.object.isRequired,
+        changeUserInfo: PropTypes.func.isRequired,
+        handleClickSwitchEditMode: PropTypes.func.isRequired
+    };
+
     state = {
         nickName: '',
         avatarPath: ''
@@ -9,7 +17,6 @@ class UserInfoEditor extends Component {
 
     componentDidMount() {
         const { userInfo } = this.props;
-
         this.setState({
             nickName: userInfo.nickName,
             avatarPath: userInfo.avatarPath ? userInfo.avatarPath : ""
@@ -30,7 +37,6 @@ class UserInfoEditor extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-
         this.props.changeUserInfo(new FormData(event.target));
         this.props.handleClickSwitchEditMode();
     };
@@ -38,7 +44,6 @@ class UserInfoEditor extends Component {
     render() {
         const { handleClickSwitchEditMode } = this.props;
         const { nickName, avatarPath } = this.state;
-
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
@@ -58,10 +63,19 @@ class UserInfoEditor extends Component {
     }
 }
 
-UserInfoEditor.propTypes = {
-    userInfo: PropTypes.object.isRequired,
-    handleClickSwitchEditMode: PropTypes.func.isRequired,
-    changeUserInfo: PropTypes.func.isRequired
+const mapStateToProps = (store) => {
+    return {
+        userInfo: store.user.userInfo
+    };
 };
 
-export default UserInfoEditor;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeUserInfo: (userInfo) => dispatch(UserActions.changeUserInfo(userInfo))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AccountEditor);
