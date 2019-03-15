@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.dreamproject.inwords.dagger.AppComponent;
 import com.dreamproject.inwords.dagger.DaggerAppComponent;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,8 @@ public class App extends Application implements HasSupportFragmentInjector {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fresco.initialize(this);
+
         DaggerAppComponent.builder().create(this).inject(this);
 
         appComponent = _appComponent;

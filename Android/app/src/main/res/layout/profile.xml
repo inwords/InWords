@@ -2,13 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="4dp"
     tools:showIn="@layout/fragment_home">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/avatar"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -17,7 +18,8 @@
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/avatar"
         android:elevation="5dp"
-        android:src="@drawable/ic_octopus3" />
+        app:failureImage="@drawable/avatar_placeholder"
+        app:placeholderImage="@drawable/avatar_placeholder" />
 
     <TextView
         android:id="@+id/name"
