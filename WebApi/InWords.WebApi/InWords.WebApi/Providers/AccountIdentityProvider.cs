@@ -117,7 +117,7 @@
             newAccount.User = new User()
             {
                 NickName = "Yournick",
-                Expirience = 0,
+                Experience = 0,
             };
 
             await accountRepository.Create(newAccount);
