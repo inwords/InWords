@@ -10,5 +10,5 @@ data class User(
         @SerializedName("UserId") val userId: Int,
         @SerializedName("nickName") val userName: String,
         @SerializedName("avatarPath") val avatar: String?,
-        @SerializedName("experience") val experience: String,
+        @SerializedName("experience") val experience: Int,
         @SerializedName("account") val account: String?)
