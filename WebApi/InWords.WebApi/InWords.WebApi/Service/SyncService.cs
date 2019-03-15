@@ -1,6 +1,4 @@
-﻿using InWords.Transfer.Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models;
@@ -10,12 +8,11 @@ namespace InWords.WebApi.Service
 {
     public class SyncService : ServiceBase
     {
-        private readonly WordsService wordsService = null;
+        private readonly WordsService wordsService;
 
         public SyncService(InWordsDataContext context) : base(context)
         {
             wordsService = new WordsService(context);
-
         }
 
         public async Task<PullWordsAnswer> PullWordPairs(int userID, IEnumerable<int> serverIDs)
@@ -40,7 +37,7 @@ namespace InWords.WebApi.Service
             var pullResponse = new PullWordsAnswer
             {
                 RemovedServerIds = idsToDelete_OnClient.ToList(),
-                AddedWords = addedWords,
+                AddedWords = addedWords
             };
 
             return pullResponse;

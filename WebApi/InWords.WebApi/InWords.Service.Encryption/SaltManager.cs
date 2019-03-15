@@ -1,11 +1,9 @@
-﻿using InWords.Service.Encryption.Interfaces;
+﻿using System.Linq;
+using System.Security.Cryptography;
+using InWords.Service.Encryption.Interfaces;
 
 namespace InWords.Service.Encryption
 {
-    using System;
-    using System.Linq;
-    using System.Security.Cryptography;
-
     public class SaltManager : IPasswordSalter
     {
         private const int MysqlBuffer = 128;
@@ -20,10 +18,11 @@ namespace InWords.Service.Encryption
             using (var deriveBytes = new Rfc2898DeriveBytes(password, SaltBuffer))
             {
                 salt = deriveBytes.Salt;
-                key = deriveBytes.GetBytes(KeyBuffer);  // derive a 96-byte key
+                key = deriveBytes.GetBytes(KeyBuffer); // derive a 96-byte key
             }
 
-            byte[] saltedKey = salt.Concat(key).ToArray(); ;
+            byte[] saltedKey = salt.Concat(key).ToArray();
+            ;
 
             return saltedKey;
         }
@@ -35,7 +34,7 @@ namespace InWords.Service.Encryption
 
             using (var deriveBytes = new Rfc2898DeriveBytes(password, salt))
             {
-                byte[] newKey = deriveBytes.GetBytes(KeyBuffer);  // derive a 96-byte key
+                byte[] newKey = deriveBytes.GetBytes(KeyBuffer); // derive a 96-byte key
 
                 return newKey.SequenceEqual(key);
             }

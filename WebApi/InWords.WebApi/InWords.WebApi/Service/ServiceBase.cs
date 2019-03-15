@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.Models;
+﻿using InWords.Data.Models;
 
 namespace InWords.WebApi.Service
 {
     public class ServiceBase
     {
-        protected readonly InWordsDataContext context = null;
+        protected readonly InWordsDataContext context;
 
         public ServiceBase(InWordsDataContext context)
         {

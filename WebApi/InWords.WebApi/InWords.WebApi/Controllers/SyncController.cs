@@ -1,27 +1,20 @@
-﻿using InWords.Auth.Extensions;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
+using InWords.WebApi.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using InWords.Auth;
-    using InWords.Transfer.Data;
-    using InWords.WebApi.Service;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-
-
     [Route("api/[controller]")]
     [ApiController]
     public class SyncController : ControllerBase
     {
-        private readonly InWordsDataContext context = null;
-        private readonly SyncService syncService = null;
+        private readonly InWordsDataContext context;
+        private readonly SyncService syncService;
 
 
         public SyncController(InWordsDataContext context)
@@ -31,7 +24,8 @@ namespace InWords.WebApi.Controllers
         }
 
         [Route("WordPairs")]
-        [HttpPost]//todo PushRequest (list<wordTranslation> + serverId_toDelete)
+        [HttpPost]
+        //todo PushRequest (list<wordTranslation> + serverId_toDelete)
         public IActionResult PushWordPairs([FromBody] IEnumerable<WordTranslation> wordTranslationList)
         {
             //foreach (WordTranslation WordTranslation in wordTranslationList)

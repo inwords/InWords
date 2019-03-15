@@ -11,7 +11,7 @@ namespace InWords.Common.Providers
         {
             try
             {
-                using (var stream = assembly.GetManifestResourceStream(namespaceAndFileName))
+                using (Stream stream = assembly.GetManifestResourceStream(namespaceAndFileName))
                 {
                     using (var reader = new StreamReader(stream, Encoding.UTF8))
                     {
@@ -24,9 +24,8 @@ namespace InWords.Common.Providers
             {
                 //ApplicationProvider.WriteToLog<EmbeddedResource>().Error(exception.Message);
                 throw new Exception($"Failed to read Embedded Resource {namespaceAndFileName}" +
-                    $"{Environment.NewLine} {exception.Message}");
+                                    $"{Environment.NewLine} {exception.Message}");
             }
         }
     }
-
 }

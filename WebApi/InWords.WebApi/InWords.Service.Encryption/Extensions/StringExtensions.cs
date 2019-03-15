@@ -5,7 +5,7 @@ namespace InWords.Service.Encryption.Extensions
     public static class StringExtensions
     {
         /// <summary>
-        /// Get byte[] from UTF8 String
+        ///     Get byte[] from UTF8 String
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>

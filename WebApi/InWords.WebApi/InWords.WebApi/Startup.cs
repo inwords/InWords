@@ -1,34 +1,33 @@
-﻿using InWords.Auth;
+﻿using System;
+using System.IO;
+using InWords.Auth;
 using InWords.Data.Models;
 using InWords.WebApi.Providers.FIleLogger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi
 {
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.Extensions.Logging;
-    using System.IO;
-    using System;
-    using Microsoft.AspNetCore.Mvc.Versioning;
-
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
+            IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings{env.EnvironmentName}.json", optional: true)
-                .AddJsonFile("appsettings.security.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings{env.EnvironmentName}.json", true)
+                .AddJsonFile("appsettings.security.json", false, true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
+
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -65,15 +64,16 @@ namespace InWords.WebApi
 
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyOrigin()
-                                          .AllowAnyMethod()
-                                          .AllowAnyHeader()
-                                          .AllowCredentials());
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             app.UseMvc();
         }
 
         public void LoggerConfiguration(ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/#log-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.txt"));
+            loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                $"log/#log-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.txt"));
             ILogger logger = loggerFactory.CreateLogger("FileLogger");
             logger.LogInformation("Processing request {0}", 0);
         }

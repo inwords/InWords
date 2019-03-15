@@ -16,4 +16,3 @@ namespace InWords.Data.Models
         public DbSet<UserGameLevel> UserGameLevels { get; set; }
     }
 }
-

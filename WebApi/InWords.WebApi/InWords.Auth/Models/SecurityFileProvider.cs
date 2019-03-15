@@ -9,29 +9,6 @@ namespace InWords.Auth.Models
 {
     internal class SecurityFileProvider
     {
-        #region Props
-        private static readonly string AlphabetFIlePath = null;
-
-        internal readonly string FilePath = null;
-
-        internal string SymmetricSecurityKey { get; private set; }
-
-        private static readonly Random Random = null;
-        #endregion
-
-        #region Ctor
-        static SecurityFileProvider()
-        {
-            AlphabetFIlePath = "alphabet.security";
-            Random = new Random();
-        }
-
-        internal SecurityFileProvider(string filePath)
-        {
-            FilePath = filePath;
-        }
-        #endregion
-
         internal async Task<string> ReadAllFromFile(string filePath)
         {
             EnsureFileFolder();
@@ -47,22 +24,16 @@ namespace InWords.Auth.Models
             {
                 //TODO journal
             }
+
             return result;
         }
 
         internal async void WriteAllInFIle(string filePath, string key)
         {
             EnsureFileFolder();
-            try
+            using (var writer = new StreamWriter(filePath))
             {
-                using (var writer = new StreamWriter(filePath))
-                {
-                    await writer.WriteAsync(key);
-                }
-            }
-            catch (Exception)
-            {
-                throw; //todo journal
+                await writer.WriteAsync(key);
             }
         }
 
@@ -71,14 +42,8 @@ namespace InWords.Auth.Models
             try
             {
                 string dirName = new DirectoryInfo(FilePath).Name;
-                if (!Directory.Exists(dirName))
-                {
-                    Directory.CreateDirectory(dirName);
-                }
-                if (!File.Exists(FilePath))
-                {
-                    File.Create(FilePath);
-                }
+                if (!Directory.Exists(dirName)) Directory.CreateDirectory(dirName);
+                if (!File.Exists(FilePath)) File.Create(FilePath);
             }
             catch
             {
@@ -98,16 +63,41 @@ namespace InWords.Auth.Models
             WriteAllInFIle(AlphabetFIlePath, chars);
 
             return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[Random.Next(s.Length)]).ToArray());
+                .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
 
         internal SecurityKey GetSymmetricSecurityKey()
         {
             if (string.IsNullOrEmpty(SymmetricSecurityKey))
-            {
                 SymmetricSecurityKey = Task.Run(() => RandomString(Random.Next(128, 256))).Result;
-            }
             return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SymmetricSecurityKey));
         }
+
+        #region Props
+
+        private static readonly string AlphabetFIlePath;
+
+        internal readonly string FilePath;
+
+        internal string SymmetricSecurityKey { get; private set; }
+
+        private static readonly Random Random;
+
+        #endregion
+
+        #region Ctor
+
+        static SecurityFileProvider()
+        {
+            AlphabetFIlePath = "alphabet.security";
+            Random = new Random();
+        }
+
+        internal SecurityFileProvider(string filePath)
+        {
+            FilePath = filePath;
+        }
+
+        #endregion
     }
 }

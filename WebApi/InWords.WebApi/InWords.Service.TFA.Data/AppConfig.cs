@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace InWords.Service.TFA.Data
+﻿namespace InWords.Service.TFA.Data
 {
     public static class AppConfig
     {

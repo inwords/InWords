@@ -1,44 +1,35 @@
-﻿using InWords.Auth.Models;
+﻿using System;
+using System.Threading.Tasks;
+using InWords.Auth.Models;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Repositories;
+using InWords.WebApi.Providers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi.Controllers
 {
-    using System;
-    using System.Threading.Tasks;
-    using InWords.Auth;
-    using InWords.Data;
-    using InWords.WebApi.Providers;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-
-
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        #region props
-
-        private readonly AccountRepository accountRepository = null;
-
-        private readonly AccountIdentityProvider accountIdentityProvider = null;
-        #endregion
-
         private readonly ILogger logger;
 
         #region Ctor
+
         public AuthController(InWordsDataContext context, ILogger<AuthController> logger)
         {
             this.logger = logger;
             accountRepository = new AccountRepository(context);
             accountIdentityProvider = new AccountIdentityProvider(accountRepository, logger);
         }
+
         #endregion
 
         /// <summary>
-        /// From Request Basic Authorization
+        ///     From Request Basic Authorization
         /// </summary>
         /// <returns></returns>
         [Route("token")]
@@ -56,7 +47,8 @@ namespace InWords.WebApi.Controllers
             }
         }
 
-        [Route("token"), MapToApiVersion("2.0")]
+        [Route("token")]
+        [MapToApiVersion("2.0")]
         [HttpPost]
         public IActionResult Token([FromBody] BasicAuthClaims user)
         {
@@ -77,9 +69,7 @@ namespace InWords.WebApi.Controllers
         {
             //check if accaunt exist;
             if (accountRepository.ExistAny(a => a.Email == user.Email))
-            {
                 return BadRequest($"User already exists {user.Email}");
-            }
 
             //Create token
             TokenResponse response = await CreateUserAccaunt(user);
@@ -96,9 +86,18 @@ namespace InWords.WebApi.Controllers
             await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password);
 
             //Create token
-            TokenResponse response = accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
+            TokenResponse response =
+                accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
             return response;
         }
+
+        #endregion
+
+        #region props
+
+        private readonly AccountRepository accountRepository;
+
+        private readonly AccountIdentityProvider accountIdentityProvider;
 
         #endregion
     }

@@ -10,13 +10,13 @@ namespace InWords.Data
 {
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private readonly DbContext context = null;
+        private readonly DbContext context;
         protected readonly DbSet<TEntity> DbSet;
 
         public Repository(DbContext context)
         {
             this.context = context;
-            this.DbSet = context.Set<TEntity>();
+            DbSet = context.Set<TEntity>();
         }
 
         public async Task<TEntity> Create(TEntity item)
@@ -42,15 +42,12 @@ namespace InWords.Data
         }
 
         /// <summary>
-        /// Async remove from DataBase
+        ///     Async remove from DataBase
         /// </summary>
         /// <param name="item"></param>
         public async Task<int> Remove(params TEntity[] item)
         {
-            foreach (TEntity currentItem in item)
-            {
-                context.Entry(currentItem).State = EntityState.Deleted;
-            }
+            foreach (TEntity currentItem in item) context.Entry(currentItem).State = EntityState.Deleted;
             return await context.SaveChangesAsync();
         }
 
@@ -66,20 +63,21 @@ namespace InWords.Data
             TEntity stackedWord = null;
             IEnumerable<TEntity> query = Get(predicate);
             if (query.Count() == 0)
-            {
                 stackedWord = await Create(item);
-            }
             else
-            {
                 stackedWord = query.First();
-            }
             return stackedWord;
+        }
+
+        public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DbSet.Any(predicate);
         }
 
         #region Include
 
         /// <summary>
-        /// Exapmle: IEnumerable<Phone> phones = phoneRepo.GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company);
+        ///     Exapmle: IEnumerable<Phone> phones = phoneRepo.GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company);
         /// </summary>
         /// <param name="includeProperties"></param>
         /// <returns></returns>
@@ -91,7 +89,7 @@ namespace InWords.Data
         public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
             params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            var query = Include(includeProperties);
+            IQueryable<TEntity> query = Include(includeProperties);
             return query.Where(predicate).ToList();
         }
 
@@ -103,10 +101,5 @@ namespace InWords.Data
         }
 
         #endregion
-
-        public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
-        {
-            return DbSet.Any(predicate);
-        }
     }
 }

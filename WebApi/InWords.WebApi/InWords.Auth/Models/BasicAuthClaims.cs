@@ -5,22 +5,14 @@ using System.ComponentModel.DataAnnotations;
 namespace InWords.Auth.Models
 {
     /// <summary>
-    ///  Email and Password
-    ///  data transfer class
+    ///     Email and Password
+    ///     data transfer class
     /// </summary>
     public class BasicAuthClaims
     {
-        [Required]
-        [EmailAddress]
-        [StringLength(64)]
-        public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [StringLength(32)]
-        public string Password { get; set; }
-
-        public BasicAuthClaims() { }
+        public BasicAuthClaims()
+        {
+        }
 
         public BasicAuthClaims(string email, string password)
         {
@@ -40,5 +32,15 @@ namespace InWords.Auth.Models
                 throw new ArgumentException("Need args.lengths == 2 is email and pass");
             }
         }
+
+        [Required]
+        [EmailAddress]
+        [StringLength(64)]
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(32)]
+        public string Password { get; set; }
     }
 }

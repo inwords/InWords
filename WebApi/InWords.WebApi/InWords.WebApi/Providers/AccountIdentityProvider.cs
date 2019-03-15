@@ -1,31 +1,29 @@
-﻿using InWords.Auth.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using InWords.Auth.Extensions;
 using InWords.Auth.Models;
+using InWords.Data.Enums;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
+using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi.Providers
 {
-    using InWords.Auth;
-    using InWords.Data.Enums;
-    using InWords.Service.Encryption;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.Logging;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-
     public class AccountIdentityProvider
     {
-        public readonly AccountRepository AccountRepository = null;
+        public readonly AccountRepository AccountRepository;
 
         private readonly ILogger logger;
         private readonly IPasswordSalter passwordSalter;
 
         /// <summary>
-        /// Create provider via repository
+        ///     Create provider via repository
         /// </summary>
         /// <param name="repository"></param>
         public AccountIdentityProvider(AccountRepository repository, ILogger logger)
@@ -36,7 +34,7 @@ namespace InWords.WebApi.Providers
         }
 
         /// <summary>
-        /// This is to check user identity from [Request]
+        ///     This is to check user identity from [Request]
         /// </summary>
         /// <returns>null or ClaimsIdentity</returns>
         public TokenResponse GetIdentity(HttpRequest request)
@@ -46,18 +44,16 @@ namespace InWords.WebApi.Providers
             if (x != null)
             {
                 logger.Log(LogLevel.Information, "#GetIdentity {0}", x.Email, x.Password);
-                TokenResponse response = this.GetIdentity(x.Email, x.Password);
+                TokenResponse response = GetIdentity(x.Email, x.Password);
                 return response;
             }
-            else
-            {
-                logger.Log(LogLevel.Error, $"Identity lost on Request {request.Headers}");
-                return null;
-            }
+
+            logger.Log(LogLevel.Error, $"Identity lost on Request {request.Headers}");
+            return null;
         }
 
         /// <summary>
-        /// This is to check user identity [FromBody]
+        ///     This is to check user identity [FromBody]
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -67,7 +63,7 @@ namespace InWords.WebApi.Providers
         }
 
         /// <summary>
-        /// This is to check user identity
+        ///     This is to check user identity
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
@@ -93,9 +89,9 @@ namespace InWords.WebApi.Providers
 
             claims = new List<Claim>
             {
-                    new Claim(ClaimTypes.NameIdentifier, nameId),
-                    new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, defaultRole),
+                new Claim(ClaimTypes.NameIdentifier, nameId),
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, defaultRole)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims);
@@ -108,7 +104,7 @@ namespace InWords.WebApi.Providers
         public async Task<Account> CreateUserAccount(string email, string password)
         {
             byte[] saltedKey = passwordSalter.SaltPassword(password);
-            Account newAccount = new Account()
+            var newAccount = new Account
             {
                 Email = email,
                 Hash = saltedKey,
@@ -117,10 +113,10 @@ namespace InWords.WebApi.Providers
                 User = null
             };
 
-            newAccount.User = new User()
+            newAccount.User = new User
             {
                 NickName = "YourNick",
-                Experience = 0,
+                Experience = 0
             };
 
             await AccountRepository.Create(newAccount);

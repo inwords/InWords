@@ -6,7 +6,7 @@ namespace InWords.Common.Converters
     {
         public T Convert(string jsonString)
         {
-            T tmp = JsonConvert.DeserializeObject<T>(jsonString);
+            var tmp = JsonConvert.DeserializeObject<T>(jsonString);
             return tmp;
         }
     }

@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using InWords.Transfer.Data.Models.Creation;
 
 namespace InWords.Transfer.Data.Models.GameBox

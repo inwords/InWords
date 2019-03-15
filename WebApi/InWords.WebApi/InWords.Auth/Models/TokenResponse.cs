@@ -5,15 +5,6 @@ namespace InWords.Auth.Models
 {
     public class TokenResponse
     {
-        #region Props
-
-        public string Access_token { get; private set; }
-
-        public string Email { get; private set; }
-
-        #endregion
-
-
         public TokenResponse(ClaimsIdentity identity)
         {
             // receive token
@@ -28,11 +19,16 @@ namespace InWords.Auth.Models
         private static string Cheeked(string encodedJwt, out string errorMsg)
         {
             errorMsg = "";
-            if (encodedJwt == null)
-            {
-                errorMsg = "Token fail";
-            }
+            if (encodedJwt == null) errorMsg = "Token fail";
             return encodedJwt;
         }
+
+        #region Props
+
+        public string Access_token { get; }
+
+        public string Email { get; }
+
+        #endregion
     }
 }

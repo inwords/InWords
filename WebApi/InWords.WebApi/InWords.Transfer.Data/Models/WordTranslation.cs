@@ -2,7 +2,7 @@
 {
     /// <inheritdoc />
     /// <summary>
-    /// Foreign and Native words pair
+    ///     Foreign and Native words pair
     /// </summary>
     public class WordTranslation : SyncBase
     {
@@ -12,7 +12,9 @@
 
         #region Ctor
 
-        public WordTranslation() { }
+        public WordTranslation()
+        {
+        }
 
         public WordTranslation(string wordForeign, string wordNative)
         {
@@ -20,11 +22,12 @@
             WordNative = wordNative;
         }
 
-        public WordTranslation(WordTranslation WordTranslation) : base((WordTranslation as SyncBase))
+        public WordTranslation(WordTranslation WordTranslation) : base(WordTranslation)
         {
             WordForeign = WordTranslation.WordForeign;
             WordNative = WordTranslation.WordNative;
         }
+
         #endregion
     }
 }

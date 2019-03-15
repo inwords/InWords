@@ -1,31 +1,28 @@
-﻿using InWords.Auth.Extensions;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using InWords.Auth.Extensions;
+using InWords.Data.Enums;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
+using InWords.WebApi.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers
 {
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
-    using InWords.Data;
-    using InWords.Data.Enums;
-    using InWords.Auth;
-    using InWords.WebApi.Service;
-
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class UsersController : ControllerBase
     {
-        private readonly UserRepository usersRepository = null;
-        private readonly AccountRepository accountRepository = null;
-        private readonly UserService userService = null;
+        private readonly AccountRepository accountRepository;
+        private readonly UserService userService;
+        private readonly UserRepository usersRepository;
 
         public UsersController(InWordsDataContext context)
         {
-            var dataContext = context;
+            InWordsDataContext dataContext = context;
             userService = new UserService(dataContext);
 
             // TODO: remove
@@ -44,17 +41,11 @@ namespace InWords.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserID([FromRoute] int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await usersRepository.FindById(id);
+            User user = await usersRepository.FindById(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == null) return NotFound();
 
             return Ok(user);
         }
@@ -64,14 +55,11 @@ namespace InWords.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
-            var userID = User.Claims.GetUserId();
+            int userID = User.Claims.GetUserId();
 
-            var user = await usersRepository.FindById(userID);
+            User user = await usersRepository.FindById(userID);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == null) return NotFound();
 
             return Ok(user);
         }
@@ -83,30 +71,18 @@ namespace InWords.WebApi.Controllers
         {
             int authorizedID = User.Claims.GetUserId();
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             // check is user exist
-            var authorizedUser = await usersRepository.FindById(authorizedID);
+            User authorizedUser = await usersRepository.FindById(authorizedID);
 
-            if (authorizedUser == null)
-            {
-                return NotFound("User doesn't exist. Send this problem to admin");
-            }
+            if (authorizedUser == null) return NotFound("User doesn't exist. Send this problem to admin");
 
             // UpdateNickname
-            if (user.NickName != null)
-            {
-                authorizedUser.NickName = user.NickName;
-            }
+            if (user.NickName != null) authorizedUser.NickName = user.NickName;
 
             // Update avatar
-            if (user.AvatarPath != null)
-            {
-                authorizedUser.AvatarPath = user.AvatarPath;
-            }
+            if (user.AvatarPath != null) authorizedUser.AvatarPath = user.AvatarPath;
 
             await usersRepository.Update(authorizedUser);
 
@@ -118,16 +94,10 @@ namespace InWords.WebApi.Controllers
         [Authorize(Roles = nameof(RoleType.Admin))]
         public async Task<IActionResult> AdminDeleteUser([FromRoute] int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var accaunt = await accountRepository.FindById(id);
-            if (accaunt == null)
-            {
-                return NotFound();
-            }
+            Account accaunt = await accountRepository.FindById(id);
+            if (accaunt == null) return NotFound();
 
             await accountRepository.Remove(accaunt);
             return Ok(accaunt);

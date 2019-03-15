@@ -5,7 +5,7 @@ namespace InWords.Data.Models.InWords.Repositories
 {
     public class WordPairRepository : Repository<WordPair>
     {
-        private readonly WordRepository wordRepository = null;
+        private readonly WordRepository wordRepository;
 
         public WordPairRepository(InWordsDataContext context) : base(context)
         {
@@ -16,10 +16,10 @@ namespace InWords.Data.Models.InWords.Repositories
         {
             first = await wordRepository.Stack(first);
             second = await wordRepository.Stack(second);
-            WordPair result = new WordPair()
+            var result = new WordPair
             {
                 WordForeignId = first.WordId,
-                WordNativeId = second.WordId,
+                WordNativeId = second.WordId
             };
 
             return await Stack(result);
@@ -28,10 +28,10 @@ namespace InWords.Data.Models.InWords.Repositories
         public async Task<WordPair> Stack(WordPair pair)
         {
             return await Stack(pair, words =>
-            words.WordForeignId == pair.WordForeignId
-            && words.WordNativeId == pair.WordNativeId
-            || words.WordForeignId == pair.WordNativeId
-            && words.WordNativeId == pair.WordForeignId
+                words.WordForeignId == pair.WordForeignId
+                && words.WordNativeId == pair.WordNativeId
+                || words.WordForeignId == pair.WordNativeId
+                && words.WordNativeId == pair.WordForeignId
             );
         }
     }

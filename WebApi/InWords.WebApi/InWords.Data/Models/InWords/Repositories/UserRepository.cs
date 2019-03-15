@@ -5,7 +5,8 @@ namespace InWords.Data.Models.InWords.Repositories
 {
     public class UserRepository : Repository<User>
     {
-        private readonly InWordsDataContext context = null;
+        private readonly InWordsDataContext context;
+
         public UserRepository(InWordsDataContext context) : base(context)
         {
             this.context = context;

@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations;
 using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data;
 using InWords.Transfer.Data.Models.Creation;
 
 namespace InWords.WebApi.Service
 {
     public abstract class CreationService : ServiceBase
     {
-        private readonly CreationRepository creationRepository = null;
-        private readonly CreationDescriptionRepository creationDescriptionRepository = null;
+        private readonly CreationDescriptionRepository creationDescriptionRepository;
+        private readonly CreationRepository creationRepository;
 
         protected CreationService(InWordsDataContext context) : base(context)
         {
@@ -24,7 +21,7 @@ namespace InWords.WebApi.Service
 
         protected async Task<int> AddCreation(CreationInfo creationInfo)
         {
-            var creation = new Creation()
+            var creation = new Creation
             {
                 CreatorId = creationInfo.CreatorId
             };
@@ -33,7 +30,7 @@ namespace InWords.WebApi.Service
 
             foreach (DescriptionInfo cdi in creationInfo.Descriptions)
             {
-                var cd = new CreationDescription()
+                var cd = new CreationDescription
                 {
                     CreationId = creation.CreationId,
                     LanguageId = cdi.LangId,
@@ -52,12 +49,13 @@ namespace InWords.WebApi.Service
 
             if (creation == null) return null;
 
-            List<CreationDescription> descriptionList = creationDescriptionRepository.Get(cd => cd.CreationId == creation.CreationId).ToList();
+            List<CreationDescription> descriptionList =
+                creationDescriptionRepository.Get(cd => cd.CreationId == creation.CreationId).ToList();
 
-            List<DescriptionInfo> descriptions = new List<DescriptionInfo>();
-            foreach (var desc in descriptionList)
+            var descriptions = new List<DescriptionInfo>();
+            foreach (CreationDescription desc in descriptionList)
             {
-                DescriptionInfo descriptionInfo = new DescriptionInfo()
+                var descriptionInfo = new DescriptionInfo
                 {
                     LangId = desc.LanguageId,
                     Description = desc.Title,
@@ -66,7 +64,7 @@ namespace InWords.WebApi.Service
                 descriptions.Add(descriptionInfo);
             }
 
-            CreationInfo creationInfo = new CreationInfo()
+            var creationInfo = new CreationInfo
             {
                 CreatorId = creation.CreatorId,
                 Descriptions = descriptions
@@ -77,7 +75,8 @@ namespace InWords.WebApi.Service
 
         protected List<CreationDescription> GetDescriptions(int creationId)
         {
-            IEnumerable<CreationDescription> descriptions = creationDescriptionRepository.Get(c => c.CreationId == creationId);
+            IEnumerable<CreationDescription> descriptions =
+                creationDescriptionRepository.Get(c => c.CreationId == creationId);
             return descriptions.ToList();
         }
     }

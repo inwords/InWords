@@ -3,7 +3,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
 using InWords.Auth.Interfaces;
-using InWords.Auth.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,15 +10,17 @@ namespace InWords.Auth.Models
 {
     public class SymmetricJwtTokenProvider : IJwtProvider
     {
-        public readonly string Issuer = null;
-        public readonly string Audience = null;
-        public readonly int MinutesLifetime = 0;
+        private static readonly string SecretFilePath =
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security");
 
-        private static readonly string SecretFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security");
+        public readonly string Audience;
+        public readonly string Issuer;
+        public readonly int MinutesLifetime;
 
-        private readonly SecurityFileProvider securefileProvider = null;
+        private readonly SecurityFileProvider securefileProvider;
 
-        public SymmetricJwtTokenProvider(string issuer = "issuerServer",string audience = "http://audienc.e",int minutesLifetime = 9)
+        public SymmetricJwtTokenProvider(string issuer = "issuerServer", string audience = "http://audienc.e",
+            int minutesLifetime = 9)
         {
             Issuer = issuer;
             Audience = audience;
@@ -32,12 +33,13 @@ namespace InWords.Auth.Models
             DateTime now = DateTime.UtcNow;
             // create a JWT token
             var jwt = new JwtSecurityToken(
-                    issuer: Issuer,
-                    audience: Audience,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(MinutesLifetime)),
-                    signingCredentials: new SigningCredentials(securefileProvider.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                Issuer,
+                Audience,
+                notBefore: now,
+                claims: identity.Claims,
+                expires: now.Add(TimeSpan.FromMinutes(MinutesLifetime)),
+                signingCredentials: new SigningCredentials(securefileProvider.GetSymmetricSecurityKey(),
+                    SecurityAlgorithms.HmacSha256));
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
@@ -61,7 +63,7 @@ namespace InWords.Auth.Models
                 // security key installation
                 IssuerSigningKey = securefileProvider.GetSymmetricSecurityKey(),
                 // validation of the security key
-                ValidateIssuerSigningKey = true,
+                ValidateIssuerSigningKey = true
             };
         }
     }
