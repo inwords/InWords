@@ -1,43 +1,34 @@
-﻿using InWords.Auth.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using System.Text;
 
-namespace InWords.Auth
+namespace InWords.Auth.Models
 {
     public class TokenResponse
     {
-        #region Props
-
-        public string Access_token { get; private set; }
-
-        public string Email { get; private set; }
-
-        #endregion
-
-
         public TokenResponse(ClaimsIdentity identity)
         {
-            // получение токена
-            var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
+            // receive token
+            string encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
 
-            Access_token = Cheked(encodedJwt, out string errMsg);
-            Email = identity.Claims.Where(c => c.Type == ClaimTypes.Email).First().Value; // GetUserEmail();
+            Access_token = Cheeked(encodedJwt, out string errMsg);
+            Email = identity.Claims.First(c => c.Type == ClaimTypes.Email).Value; // GetUserEmail();
 
-            // подготовка ответа
-            // для тестирования // todo
+            // preparing response
         }
 
-        private string Cheked(string encodedJwt, out string errorMsg)
+        private static string Cheeked(string encodedJwt, out string errorMsg)
         {
             errorMsg = "";
-            if (encodedJwt == null)
-            {
-                errorMsg = "Token fail";
-            }
+            if (encodedJwt == null) errorMsg = "Token fail";
             return encodedJwt;
         }
+
+        #region Props
+
+        public string Access_token { get; }
+
+        public string Email { get; }
+
+        #endregion
     }
 }

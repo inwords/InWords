@@ -1,56 +1,53 @@
-﻿namespace InWords.Data.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
-    using InWords.Data.Interpface;
-    using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using InWords.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
+namespace InWords.Data
+{
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private readonly DbContext context = null;
-        protected readonly DbSet<TEntity> dbSet;
+        private readonly DbContext context;
+        protected readonly DbSet<TEntity> DbSet;
 
         public Repository(DbContext context)
         {
             this.context = context;
-            this.dbSet = context.Set<TEntity>();
+            DbSet = context.Set<TEntity>();
         }
 
         public async Task<TEntity> Create(TEntity item)
         {
-            dbSet.Add(item);
+            DbSet.Add(item);
             await context.SaveChangesAsync();
             return item;
         }
 
         public async Task<TEntity> FindById(int id)
         {
-            return await dbSet.FindAsync(id);
+            return await DbSet.FindAsync(id);
         }
 
         public IEnumerable<TEntity> Get()
         {
-            return dbSet.AsNoTracking().AsEnumerable();
+            return DbSet.AsNoTracking().AsEnumerable();
         }
 
         public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
-            return dbSet.AsNoTracking().Where(predicate).ToList();
+            return DbSet.AsNoTracking().Where(predicate).ToList();
         }
 
         /// <summary>
-        /// Async remove from DataBase
+        ///     Async remove from DataBase
         /// </summary>
         /// <param name="item"></param>
         public async Task<int> Remove(params TEntity[] item)
         {
-            foreach (TEntity currentItem in item)
-            {
-                context.Entry(currentItem).State = EntityState.Deleted;
-            }
+            foreach (TEntity currentItem in item) context.Entry(currentItem).State = EntityState.Deleted;
             return await context.SaveChangesAsync();
         }
 
@@ -66,20 +63,21 @@
             TEntity stackedWord = null;
             IEnumerable<TEntity> query = Get(predicate);
             if (query.Count() == 0)
-            {
                 stackedWord = await Create(item);
-            }
             else
-            {
                 stackedWord = query.First();
-            }
             return stackedWord;
+        }
+
+        public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DbSet.Any(predicate);
         }
 
         #region Include
 
         /// <summary>
-        /// Exapmle: IEnumerable<Phone> phones = phoneRepo.GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company);
+        ///     Exapmle: IEnumerable<Phone> phones = phoneRepo.GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company);
         /// </summary>
         /// <param name="includeProperties"></param>
         /// <returns></returns>
@@ -91,22 +89,17 @@
         public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
             params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            var query = Include(includeProperties);
+            IQueryable<TEntity> query = Include(includeProperties);
             return query.Where(predicate).ToList();
         }
 
         private IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> query = dbSet.AsNoTracking();
+            IQueryable<TEntity> query = DbSet.AsNoTracking();
             return includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
 
         #endregion
-
-        public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
-        {
-            return dbSet.Any(predicate);
-        }
     }
 }

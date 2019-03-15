@@ -1,44 +1,44 @@
-﻿namespace InWords.WebApi.Service
-{
-    using InWords.Data.Models;
-    using InWords.Transfer.Data;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using InWords.Data.Models;
+using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
+using InWords.Transfer.Data.Models;
 
+namespace InWords.WebApi.Service
+{
     public class WordsService : ServiceBase
     {
-        private readonly UserWordPairRepository userWordPairRepository = null;
-        private readonly WordPairRepository wordPairRepository = null;
-        private readonly WordRepository wordRepository = null;
+        private readonly UserWordPairRepository userWordPairRepository;
+        private readonly WordPairRepository wordPairRepository;
+        private readonly WordRepository wordRepository;
 
-        public WordsService(Data.InWordsDataContext context) : base(context)
+        public WordsService(InWordsDataContext context) : base(context)
         {
             userWordPairRepository = new UserWordPairRepository(this.context);
             wordPairRepository = new WordPairRepository(this.context);
             wordRepository = new WordRepository(this.context);
         }
 
-        public async Task<List<SyncBase>> AddPair(int userID, IEnumerable<WordTranslation> wordTranslations)
+        public async Task<List<SyncBase>> AddPair(int userId, IEnumerable<WordTranslation> wordTranslations)
         {
-            List<SyncBase> answer = new List<SyncBase>();
+            var answer = new List<SyncBase>();
 
             foreach (WordTranslation wordTranslation in wordTranslations)
-            {
-                await AddUserWordPair(userID, wordTranslation, answer);
-            }
+                await AddUserWordPair(userId, wordTranslation, answer);
 
             return answer;
         }
 
         public async Task<WordPair> AddPair(WordTranslation wordTranslation)
         {
-            Word firstWordForeign = new Word
+            var firstWordForeign = new Word
             {
                 Content = wordTranslation.WordForeign
             };
 
-            Word secondWordNative = new Word
+            var secondWordNative = new Word
             {
                 Content = wordTranslation.WordNative
             };
@@ -46,18 +46,18 @@
             return await wordPairRepository.Stack(firstWordForeign, secondWordNative);
         }
 
-        public IEnumerable<int> UserWordsID(int userID)
+        public IEnumerable<int> UserWordsId(int userId)
         {
-            return userWordPairRepository.Get(uwp => uwp.UserID == userID).Select(uwp => uwp.UserWordPairID);
+            return userWordPairRepository.Get(uwp => uwp.UserId == userId).Select(uwp => uwp.UserWordPairId);
         }
 
-        public async Task<List<WordTranslation>> GetUserWordsByID(IEnumerable<int> ids)
+        public List<WordTranslation> GetUserWordsById(IEnumerable<int> ids)
         {
-            List<WordTranslation> wordTranslations = new List<WordTranslation>();
+            var wordTranslations = new List<WordTranslation>();
 
             foreach (int id in ids)
             {
-                var uwp = userWordPairRepository.GetWithInclude(x => x.UserWordPairID == id,
+                UserWordPair uwp = userWordPairRepository.GetWithInclude(x => x.UserWordPairId == id,
                     wp => wp.WordPair,
                     wf => wf.WordPair.WordForeign,
                     wn => wn.WordPair.WordNative).Single();
@@ -66,93 +66,73 @@
                 string wordNative = uwp.WordPair.WordNative.Content;
 
                 WordTranslation addedWord = null;
-                if (uwp.IsInvertPair)
-                {
-                    addedWord = new WordTranslation(wordNative, wordForeign);
-                }
-                else
-                {
-                    addedWord = new WordTranslation(wordForeign, wordNative);
-                }
+                addedWord = uwp.IsInvertPair
+                    ? new WordTranslation(wordNative, wordForeign)
+                    : new WordTranslation(wordForeign, wordNative);
 
                 addedWord.ServerId = id;
 
                 wordTranslations.Add(addedWord);
             }
+
             return wordTranslations;
         }
 
-        public async Task<List<WordTranslation>> GetWordsByID(IEnumerable<int> ids)
+        public List<WordTranslation> GetWordsById(IEnumerable<int> ids)
         {
-            List<WordTranslation> wordTranslations = new List<WordTranslation>();
-
-            foreach (int id in ids)
-            {
-                var uwp = wordPairRepository.GetWithInclude(x => x.WordPairID == id,
-                    wf => wf.WordForeign,
-                    wn => wn.WordNative).Single();
-
-                WordTranslation addedWord = new WordTranslation()
+            return (from id in ids
+                let uwp = wordPairRepository
+                    .GetWithInclude(x => x.WordPairId == id, wf => wf.WordForeign, wn => wn.WordNative).Single()
+                select new WordTranslation
                 {
                     WordForeign = uwp.WordForeign.Content,
                     WordNative = uwp.WordNative.Content,
                     ServerId = id
-                };
-
-                wordTranslations.Add(addedWord);
-            }
-            return wordTranslations;
+                }).ToList();
         }
 
 
-        public async Task<int> DeleteUserWordPair(int userID, IEnumerable<int> userWordPairIDs)
+        public async Task<int> DeleteUserWordPair(int userId, IEnumerable<int> userWordPairIDs)
         {
-            int wordsRemoved = 0;
-            foreach (int uwpID in userWordPairIDs)
-            {
-                wordsRemoved += await DeleteUserWordPair(userID, uwpID);
-            }
+            var wordsRemoved = 0;
+            foreach (int uwpId in userWordPairIDs) wordsRemoved += await DeleteUserWordPair(userId, uwpId);
             return wordsRemoved;
         }
 
-        public async Task<int> DeleteUserWordPair(int userID, int userWordPairID)
+        public async Task<int> DeleteUserWordPair(int userId, int userWordPairId)
         {
             //todo union.expect ??
-            var userwordpair = userWordPairRepository.Get(uwp => uwp.UserWordPairID == userWordPairID && uwp.UserID == userID).SingleOrDefault();
+            UserWordPair userWordsPair = userWordPairRepository
+                .Get(uwp => uwp.UserWordPairId == userWordPairId && uwp.UserId == userId).SingleOrDefault();
 
-            if (userwordpair != null)
-            {
-                return await userWordPairRepository.Remove(userwordpair);
-            }
-            else
-            {
-                return 0;
-            }
+            if (userWordsPair != null)
+                return await userWordPairRepository.Remove(userWordsPair);
+            return 0;
         }
 
-        private async Task AddUserWordPair(int userID, WordTranslation wordTranslation, List<SyncBase> answer)
+        private async Task AddUserWordPair(int userId, WordTranslation wordTranslation, List<SyncBase> answer)
         {
-            var wordpair = await AddPair(wordTranslation);
-            int wordpairID = wordpair.WordPairID;
+            WordPair wordpair = await AddPair(wordTranslation);
+            int wordPairId = wordpair.WordPairId;
 
-            var wordPair = wordPairRepository.GetWithInclude(wp => wp.WordPairID == wordpairID,
-                f => f.WordForeign,
-                n => n.WordNative)
+            WordPair wordPair = wordPairRepository.GetWithInclude(wp => wp.WordPairId == wordPairId,
+                    f => f.WordForeign,
+                    n => n.WordNative)
                 .Single();
 
-            UserWordPair CreatedPair = new UserWordPair()
+            var createdPair = new UserWordPair
             {
-                WordPairID = wordpairID,
+                WordPairId = wordPairId,
                 IsInvertPair = wordPair.WordForeign.Content != wordTranslation.WordForeign,
-                UserID = userID
+                UserId = userId
             };
 
-            CreatedPair = await userWordPairRepository.Stack(CreatedPair);
+            createdPair = await userWordPairRepository.Stack(createdPair);
 
-            SyncBase resultPair = new SyncBase()
+            var resultPair = new SyncBase
             {
                 Id = wordTranslation.Id,
-                ServerId = CreatedPair.UserWordPairID
+                ServerId = createdPair.UserWordPairId
             };
 
             lock (answer)

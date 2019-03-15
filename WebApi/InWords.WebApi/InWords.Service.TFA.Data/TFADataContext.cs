@@ -1,40 +1,38 @@
-﻿namespace InWords.Service.TFA.Data
-{
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System.Reflection;
+using InWords.Common.Converters;
+using InWords.Common.Providers;
+using InWords.Service.TFA.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
+namespace InWords.Service.TFA.Data
+{
     public class TFADataContext : DbContext
     {
-        public DbSet<AuthRequest> AuthRequests { get; set; }
+        private static bool _created;
 
-        private static bool _created = false;
-
-        public TFADataContext() : base()
+        public TFADataContext()
         {
             RecreateDb();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
+        public DbSet<AuthRequest> AuthRequests { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-            var assembly = typeof(TFADataContext).Assembly;
+            Assembly assembly = typeof(TFADataContext).Assembly;
 
-            var resource = Common.EmbeddedResource.GetApiRequestFile(AppConfig.DATACONFIG, assembly);
+            string resource = EmbeddedResource.GetApiRequestFile(AppConfig.DataConfig, assembly);
 
-            ConnectionStrings connectionStrings = new Common.StringJsonConverter<ConnectionStrings>().Convert(resource);
+            ConnectionStrings connectionStrings = new StringJsonConverter<ConnectionStrings>().Convert(resource);
 
             string connectionString = connectionStrings.DefaultConnection;
 
-            optionbuilder.UseMySql(connectionString);
+            optionBuilder.UseMySql(connectionString);
         }
 
         private void RecreateDb()
         {
-            if (_created)
-            {
-                return;
-            }
+            if (_created) return;
 
             _created = true;
             if (Database.EnsureCreated())

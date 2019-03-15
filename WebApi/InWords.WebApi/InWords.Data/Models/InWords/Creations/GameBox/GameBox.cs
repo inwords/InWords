@@ -1,20 +1,14 @@
-﻿namespace InWords.Data.Models
-{
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace InWords.Data.Models.InWords.Creations.GameBox
+{
     public class GameBox
     {
-        [Key]
-        public int GameBoxID { get; set; }
+        [Key] public int GameBoxId { get; set; }
 
-        /// <summary>
-        /// User created this Seria
-        /// </summary>
-        public int CreationID { get; set; }
+        public int CreationId { get; set; }
 
-        [ForeignKey("CreationID")]
-        public virtual Creation Creation { get; set; }
+        [ForeignKey(nameof(CreationId))] public virtual Creation Creation { get; set; }
     }
 }

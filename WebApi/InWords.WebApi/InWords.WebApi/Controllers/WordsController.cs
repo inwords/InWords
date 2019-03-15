@@ -1,22 +1,20 @@
-﻿namespace InWords.WebApi.Controllers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using InWords.Auth;
-    using InWords.Data;
-    using InWords.Transfer.Data;
-    using InWords.WebApi.Service;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using InWords.Auth.Extensions;
+using InWords.Data.Models;
+using InWords.Transfer.Data.Models;
+using InWords.WebApi.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
+namespace InWords.WebApi.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     public class WordsController : ControllerBase
     {
-        private readonly InWordsDataContext context = null;
-        private readonly WordsService wordsService = null;
+        private readonly InWordsDataContext context;
+        private readonly WordsService wordsService;
 
         public WordsController(InWordsDataContext context)
         {
@@ -25,24 +23,24 @@
         }
 
         /// <summary>
-        /// Add list of words in dictinaty
+        ///     Add list of words in dictionary
         /// </summary>
         /// <param name="wordTranslations"></param>
         /// <returns></returns>
         [Authorize]
-        [Route("addpair")]
+        [Route("addPair")]
         [HttpPost]
         public async Task<IActionResult> AddPair([FromBody] List<WordTranslation> wordTranslations)
         {
-            int authorizedID = User.Claims.GetUserID();
+            int authorizedId = User.Claims.GetUserId();
 
-            var answer = await wordsService.AddPair(authorizedID, wordTranslations);
+            List<SyncBase> answer = await wordsService.AddPair(authorizedId, wordTranslations);
 
             return Ok(answer);
         }
 
         /// <summary>
-        /// Delete UserWordPair from server database.
+        ///     Delete UserWordPair from server database.
         /// </summary>
         /// <param name="server_IDs">List ofUserWordPair.UserWordPairID</param>
         /// <returns></returns>
@@ -51,7 +49,7 @@
         [HttpPost]
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {
-            int authorizedID = User.Claims.GetUserID();
+            int authorizedID = User.Claims.GetUserId();
 
             int pairDeleted = await wordsService.DeleteUserWordPair(authorizedID, server_IDs);
 

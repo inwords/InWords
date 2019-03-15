@@ -1,23 +1,19 @@
-﻿namespace InWords.Data
-{
-    using InWords.Data.Models;
-    using Microsoft.EntityFrameworkCore;
+﻿using InWords.Data.Models.InWords.Creations;
+using InWords.Data.Models.InWords.Domains;
+using Microsoft.EntityFrameworkCore;
 
+namespace InWords.Data.Models
+{
     public partial class InWordsDataContext : DbContext
     {
-        private static bool _created = false;
+        private static bool _created;
 
         private readonly string connectionString;
 
-        public InWordsDataContext(string connectionString) : base()
+        public InWordsDataContext(string connectionString)
         {
             this.connectionString = connectionString;
             RecreateDb();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
-        {
-            optionbuilder.UseMySql(connectionString);
         }
 
         public DbSet<User> Users { get; set; }
@@ -36,6 +32,11 @@
 
         public DbSet<CreationDescription> CreationDescriptions { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
+        {
+            optionBuilder.UseMySql(connectionString);
+        }
+
         private void RecreateDb()
         {
             if (!_created)
@@ -43,12 +44,11 @@
                 _created = true;
                 if (Database.EnsureCreated())
                 {
-                    Languages.Add(new Language() { Title = "English" });
-                    Languages.Add(new Language() { Title = "Russian" });
+                    Languages.Add(new Language {Title = "English"});
+                    Languages.Add(new Language {Title = "Russian"});
                     SaveChanges();
                 }
             }
         }
     }
 }
-

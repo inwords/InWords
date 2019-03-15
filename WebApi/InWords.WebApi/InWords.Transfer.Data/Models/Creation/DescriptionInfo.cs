@@ -1,8 +1,8 @@
-﻿namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data.Models.Creation
 {
     public class DescriptionInfo
     {
-        public int LangID { get; set; }
+        public int LangId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }

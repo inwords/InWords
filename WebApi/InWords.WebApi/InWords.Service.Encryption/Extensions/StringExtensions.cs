@@ -1,11 +1,11 @@
-﻿namespace InWords.Service.Encryption
-{
-    using System.Text;
+﻿using System.Text;
 
-    public static class StringExtentions
+namespace InWords.Service.Encryption.Extensions
+{
+    public static class StringExtensions
     {
         /// <summary>
-        /// Get byte[] from UTF8 String
+        ///     Get byte[] from UTF8 String
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>

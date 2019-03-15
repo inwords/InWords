@@ -1,6 +1,6 @@
-﻿namespace InWords.Service.Encryption
+﻿namespace InWords.Service.Encryption.Interfaces
 {
-    public interface IPasswordDerivator
+    public interface IPasswordSalter
     {
         byte[] SaltPassword(string password);
 

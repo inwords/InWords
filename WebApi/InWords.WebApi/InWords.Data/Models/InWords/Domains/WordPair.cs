@@ -1,22 +1,21 @@
-﻿namespace InWords.Data.Models
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿// ReSharper disable once CheckNamespace
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace InWords.Data.Models.InWords.Domains
+{
     public class WordPair
     {
-        [Key]
-        public int WordPairID { get; set; }
+        [Key] public int WordPairId { get; set; }
 
-        public int WordForeignID { get; set; }
+        public int WordForeignId { get; set; }
 
-        [ForeignKey("WordForeignID")]
-        public virtual Word WordForeign { get; set; }
+        [ForeignKey("WordForeignId")] public virtual Word WordForeign { get; set; }
 
-        public int WordNativeID { get; set; }
+        public int WordNativeId { get; set; }
 
-        [ForeignKey("WordNativeID")]
-        public virtual Word WordNative { get; set; }
+        [ForeignKey("WordNativeId")] public virtual Word WordNative { get; set; }
 
         public int Rating { get; set; }
     }

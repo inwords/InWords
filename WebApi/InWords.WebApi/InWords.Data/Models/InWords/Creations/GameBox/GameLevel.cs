@@ -1,20 +1,15 @@
-﻿namespace InWords.Data.Models
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace InWords.Data.Models.InWords.Creations.GameBox
+{
     public class GameLevel
     {
-        [Key]
-        public int GameLevelID { get; set; }
+        [Key] public int GameLevelId { get; set; }
 
-        public int GameBoxID { get; set; }
+        public int GameBoxId { get; set; }
 
-        [ForeignKey("GameBoxID")]
-        public virtual GameBox GameBox { get; set; }
-
-        [StringLength(32)]
-        public string Title { get; set; }
+        [ForeignKey(nameof(GameBoxId))] public virtual GameBox GameBox { get; set; }
 
         public int TotalStars { get; set; }
 

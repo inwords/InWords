@@ -1,8 +1,9 @@
-﻿namespace InWords.Service.TFA
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using InWords.Service.TFA.Models.Email;
 
+namespace InWords.Service.TFA.Interfaces
+{
     public interface IEmailProvider
     {
         void Send(Email email);

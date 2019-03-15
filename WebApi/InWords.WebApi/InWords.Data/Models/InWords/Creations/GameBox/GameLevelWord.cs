@@ -1,27 +1,19 @@
-﻿namespace InWords.Data.Models
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using InWords.Data.Models.InWords.Domains;
 
+namespace InWords.Data.Models.InWords.Creations.GameBox
+{
     public class GameLevelWord
     {
-        [Key]
-        public int GameLevelWordID { get; set; }
+        [Key] public int GameLevelWordId { get; set; }
 
-        /// <summary>
-        /// Seria owner of word pair;
-        /// </summary>
-        public int GameLevelID { get; set; }
+        public int GameLevelId { get; set; }
 
-        [ForeignKey("GameLevelID")]
-        public virtual GameLevel GameLevel { get; set; }
+        [ForeignKey(nameof(GameLevelId))] public virtual GameLevel GameLevel { get; set; }
 
-        /// <summary>
-        /// Word pairs provided by user who config Seria
-        /// </summary>
-        public int WordPairID { get; set; }
+        public int WordPairId { get; set; }
 
-        [ForeignKey("WordPairID")]
-        public virtual WordPair WordPair { get; set; }
+        [ForeignKey(nameof(WordPairId))] public virtual WordPair WordPair { get; set; }
     }
 }
