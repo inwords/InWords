@@ -14,7 +14,7 @@
 
         public int CreatorId { get; set; }
 
-        [ForeignKey("CreatorId")]
+        [ForeignKey(nameof(CreatorId))]
         public virtual User Creator { get; set; }
     }
 }

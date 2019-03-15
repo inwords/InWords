@@ -10,14 +10,14 @@
 
         public int WordPairId { get; set; }
 
-        [ForeignKey("WordPairID")]
+        [ForeignKey(nameof(WordPairId))]
         public virtual WordPair WordPair { get; set; }
 
         public bool IsInvertPair { get; set; }
 
         public int UserId { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
     }
 }

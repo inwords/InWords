@@ -12,7 +12,7 @@
         public string NickName { get; set; }
 
         public string AvatarPath { get; set; }
-        //Experience
+        
         public int Experience { get; set; }
 
         public virtual Account Account { get; set; }

@@ -1,4 +1,5 @@
-﻿namespace InWords.Data.Models
+﻿// ReSharper disable once CheckNamespace
+namespace InWords.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -10,12 +11,12 @@
 
         public int WordForeignId { get; set; }
 
-        [ForeignKey("WordForeignID")]
+        [ForeignKey("WordForeignId")]
         public virtual Word WordForeign { get; set; }
 
         public int WordNativeId { get; set; }
 
-        [ForeignKey("WordNativeID")]
+        [ForeignKey("WordNativeId")]
         public virtual Word WordNative { get; set; }
 
         public int Rating { get; set; }

@@ -10,12 +10,12 @@
 
         public int GameLevelId { get; set; }
 
-        [ForeignKey("GameLevelID")]
+        [ForeignKey(nameof(GameLevelId))]
         public virtual GameLevel GameLevel { get; set; }
 
         public int WordPairId { get; set; }
 
-        [ForeignKey("WordPairID")]
+        [ForeignKey(nameof(WordPairId))]
         public virtual WordPair WordPair { get; set; }
     }
 }

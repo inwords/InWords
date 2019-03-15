@@ -30,12 +30,12 @@ namespace InWords.WebApi.Service
             //"IBM", "Samsung" //ids to delete
 
             IEnumerable<int> userWordsIDs = serverIDs;
-            IEnumerable<int> serverWordsIDs = wordsService.UserWordsID(userID);
+            IEnumerable<int> serverWordsIDs = wordsService.UserWordsId(userID);
 
             IEnumerable<int> idsToAdd_OnClient = serverWordsIDs.Except(userWordsIDs);
             IEnumerable<int> idsToDelete_OnClient = userWordsIDs.Except(serverWordsIDs);
 
-            List<WordTranslation> addedWords = await wordsService.GetUserWordsByID(idsToAdd_OnClient);
+            List<WordTranslation> addedWords = wordsService.GetUserWordsById(idsToAdd_OnClient);
 
             var pullResponce = new PullWordsAnswer
             {

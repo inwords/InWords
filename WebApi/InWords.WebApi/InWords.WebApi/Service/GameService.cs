@@ -152,7 +152,7 @@
 
             var ids = gameLevelWords.Select(gl => gl.WordPairId);
 
-            wordTranslations.AddRange((await wordsService.GetWordsByID(ids)));
+            wordTranslations.AddRange((wordsService.GetWordsById(ids)));
 
             Level level = new Level()
             {

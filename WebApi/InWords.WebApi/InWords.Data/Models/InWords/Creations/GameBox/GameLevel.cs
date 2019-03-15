@@ -10,7 +10,7 @@
 
         public int GameBoxId { get; set; }
 
-        [ForeignKey("GameBoxID")]
+        [ForeignKey(nameof(GameBoxId))]
         public virtual GameBox GameBox { get; set; }
 
         public int TotalStars { get; set; }

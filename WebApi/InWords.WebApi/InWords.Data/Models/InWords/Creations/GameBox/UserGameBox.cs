@@ -13,7 +13,7 @@
         /// </summary>
         public int UserId { get; set; }
 
-        [ForeignKey("UserID")]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
         /// <summary>
@@ -21,7 +21,7 @@
         /// </summary>
         public int GameBoxId { get; set; }
 
-        [ForeignKey("GameBoxID")]
+        [ForeignKey(nameof(GameBoxId))]
         public virtual GameBox GameBox { get; set; }
     }
 }

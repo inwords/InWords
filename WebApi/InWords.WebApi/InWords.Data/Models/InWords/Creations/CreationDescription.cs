@@ -18,7 +18,7 @@
 
         public int CreationId { get; set; }
 
-        [ForeignKey("CreationID")]
+        [ForeignKey(nameof(CreationId))]
         public virtual Creation Creation { get; set; }
 
         /// <summary>
@@ -26,7 +26,7 @@
         /// </summary>
         public int LanguageId { get; set; }
 
-        [ForeignKey("LanguageID")]
+        [ForeignKey(nameof(LanguageId))]
         public virtual Language Language { get; set; }
     }
 }
