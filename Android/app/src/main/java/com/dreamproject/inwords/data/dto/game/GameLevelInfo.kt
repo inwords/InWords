@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class GameLevelInfo(
-        @SerializedName("levelID") val levelId: Int,
+        @SerializedName("levelId") val levelId: Int,
         @SerializedName("title") val title: String,
         @SerializedName("level") val level: Int,
         @SerializedName("totalStars") val totalStars: Int,

@@ -8,7 +8,7 @@ import java.io.Serializable
 @Entity(tableName = "game_table")
 data class Game(
         @PrimaryKey
-        @SerializedName("gameID") val gameId: Int,
+        @SerializedName("gameId") val gameId: Int,
         @SerializedName("title") val title: String?,
         @SerializedName("creator") val creator: String,
         @SerializedName("levelInfos") val gameLevelInfos: List<GameLevelInfo>) : Serializable

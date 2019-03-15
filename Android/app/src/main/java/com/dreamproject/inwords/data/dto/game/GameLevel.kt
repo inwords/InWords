@@ -8,5 +8,5 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "game_level_table")
 data class GameLevel(
         @PrimaryKey
-        @SerializedName("levelID") val levelId: Int,
+        @SerializedName("levelId") val levelId: Int,
         @SerializedName("wordTranslations") val wordTranslations: List<WordTranslation>)
