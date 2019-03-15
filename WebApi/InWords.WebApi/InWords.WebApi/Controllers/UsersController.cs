@@ -1,4 +1,4 @@
-﻿using InWords.Auth.Extentions;
+﻿using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
@@ -20,7 +20,7 @@ namespace InWords.WebApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserRepository usersRepository = null;
-        private readonly AccountRepository accauntRepositoty = null;
+        private readonly AccountRepository accountRepository = null;
         private readonly UserService userService = null;
 
         public UsersController(InWordsDataContext context)
@@ -30,7 +30,7 @@ namespace InWords.WebApi.Controllers
 
             // TODO: remove
             usersRepository = new UserRepository(dataContext);
-            accauntRepositoty = new AccountRepository(dataContext);
+            accountRepository = new AccountRepository(dataContext);
         }
 
         // GET: api/Users/
@@ -123,13 +123,13 @@ namespace InWords.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var accaunt = await accauntRepositoty.FindById(id);
+            var accaunt = await accountRepository.FindById(id);
             if (accaunt == null)
             {
                 return NotFound();
             }
 
-            await accauntRepositoty.Remove(accaunt);
+            await accountRepository.Remove(accaunt);
             return Ok(accaunt);
         }
 

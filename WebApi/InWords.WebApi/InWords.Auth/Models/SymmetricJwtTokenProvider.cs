@@ -2,34 +2,35 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
-using InWords.Auth.Interface;
+using InWords.Auth.Interfaces;
+using InWords.Auth.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 namespace InWords.Auth.Models
 {
-    public class SimmetricJWTTokenProvider : IJWTProvider
+    public class SymmetricJwtTokenProvider : IJwtProvider
     {
         public readonly string Issuer = null;
         public readonly string Audience = null;
         public readonly int MinutesLifetime = 0;
 
-        private static readonly string SecretfilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security");
+        private static readonly string SecretFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security");
 
         private readonly SecurityFileProvider securefileProvider = null;
 
-        public SimmetricJWTTokenProvider(string issuer = "issuerServer",string audience = "http://audienc.e",int minutesLifetime = 9)
+        public SymmetricJwtTokenProvider(string issuer = "issuerServer",string audience = "http://audienc.e",int minutesLifetime = 9)
         {
             Issuer = issuer;
             Audience = audience;
             MinutesLifetime = minutesLifetime;
-            securefileProvider = new SecurityFileProvider(SecretfilePath);
+            securefileProvider = new SecurityFileProvider(SecretFilePath);
         }
 
         public string GenerateToken(ClaimsIdentity identity)
         {
-            var now = DateTime.UtcNow;
-            // создаем JWT-токен
+            DateTime now = DateTime.UtcNow;
+            // create a JWT token
             var jwt = new JwtSecurityToken(
                     issuer: Issuer,
                     audience: Audience,
@@ -42,24 +43,24 @@ namespace InWords.Auth.Models
 
         public void ValidateOptions(JwtBearerOptions options)
         {
-            options.RequireHttpsMetadata = false; //SSL при отправке токена не используется
+            options.RequireHttpsMetadata = false; //SSL is not used when sending a token
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                // укзывает, будет ли валидироваться издатель при валидации токена
+                // specifies whether publisher when validating the token
                 ValidateIssuer = true,
-                // строка, представляющая издателя
+                // a string that represents the publisher
                 ValidIssuer = Issuer,
 
-                // будет ли валидироваться потребитель токена
+                // will validation consumer token
                 ValidateAudience = true,
-                // установка потребителя токена
+                // set consumer token
                 ValidAudience = Audience,
-                // будет ли валидироваться время существования
+                // will the lifetime be validated
                 ValidateLifetime = true,
 
-                // установка ключа безопасности
+                // security key installation
                 IssuerSigningKey = securefileProvider.GetSymmetricSecurityKey(),
-                // валидация ключа безопасности
+                // validation of the security key
                 ValidateIssuerSigningKey = true,
             };
         }

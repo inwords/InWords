@@ -85,14 +85,14 @@ namespace InWords.WebApi.Controllers
         [Route("getlogin")]
         public IActionResult GetLogin()
         {
-            return Ok($"Ваш логин: {User.Identity.Name}");
+            return Ok($"login: {User.Identity.Name}");
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("getrole")]
+        [Route("getRole")]
         public IActionResult GetRole()
         {
-            return Ok($"Ваша роль: администратор");
+            return Ok($"Role: Admin");
         }
     }
 }

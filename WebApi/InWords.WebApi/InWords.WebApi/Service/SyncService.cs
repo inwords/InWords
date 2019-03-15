@@ -20,13 +20,11 @@ namespace InWords.WebApi.Service
 
         public async Task<PullWordsAnswer> PullWordPairs(int userID, IEnumerable<int> serverIDs)
         {
-            ///string[] server = { "Microsoft", "Google", "Apple" };
+            //string[] server = { "Microsoft", "Google", "Apple" };
             //string[] user = { "Apple", "IBM", "Samsung" };
 
-            // разность множеств
             //var idsToAdd = server.Except(user);
             //Microsoft Google -> idsToAdd
-
 
             //var result = user.Except(server);
             //"IBM", "Samsung" //ids to delete
@@ -39,13 +37,13 @@ namespace InWords.WebApi.Service
 
             List<WordTranslation> addedWords = wordsService.GetUserWordsById(idsToAdd_OnClient);
 
-            var pullResponce = new PullWordsAnswer
+            var pullResponse = new PullWordsAnswer
             {
                 RemovedServerIds = idsToDelete_OnClient.ToList(),
                 AddedWords = addedWords,
             };
 
-            return pullResponce;
+            return pullResponse;
         }
     }
 }

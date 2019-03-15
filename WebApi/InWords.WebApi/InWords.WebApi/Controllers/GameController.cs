@@ -1,4 +1,4 @@
-﻿using InWords.Auth.Extentions;
+﻿using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 
@@ -24,7 +24,7 @@ namespace InWords.WebApi.Controllers
         }
 
         //TODO: Add Game
-        [Route("addgamepack")]
+        [Route("addGamePack")]
         [HttpPost]
         public async Task<IActionResult> AddGamePack([FromBody] GamePack gamePack)
         {
@@ -40,7 +40,7 @@ namespace InWords.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGameInfo()
         {
-            var answer = await gameService.GetGameInfo();
+            var answer = gameService.GetGameInfo();
 
             return Ok(answer);
         }
@@ -64,7 +64,7 @@ namespace InWords.WebApi.Controllers
         {
             var userID = User.Claims.GetUserId();
 
-            var answer = await gameService.GetLevel(userID, id);
+            var answer = gameService.GetLevel(userID, id);
 
             return Ok(answer);
         }

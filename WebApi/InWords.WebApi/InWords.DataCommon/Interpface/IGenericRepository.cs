@@ -1,4 +1,4 @@
-﻿namespace InWords.Data.Interpface
+﻿namespace InWords.Data.Interfaces
 {
     using System;
     using System.Threading.Tasks;

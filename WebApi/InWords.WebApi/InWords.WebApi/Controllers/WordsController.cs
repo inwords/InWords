@@ -1,4 +1,4 @@
-﻿using InWords.Auth.Extentions;
+﻿using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 
@@ -29,18 +29,18 @@ namespace InWords.WebApi.Controllers
         }
 
         /// <summary>
-        /// Add list of words in dictinaty
+        /// Add list of words in dictionary
         /// </summary>
         /// <param name="wordTranslations"></param>
         /// <returns></returns>
         [Authorize]
-        [Route("addpair")]
+        [Route("addPair")]
         [HttpPost]
         public async Task<IActionResult> AddPair([FromBody] List<WordTranslation> wordTranslations)
         {
-            int authorizedID = User.Claims.GetUserId();
+            int authorizedId = User.Claims.GetUserId();
 
-            var answer = await wordsService.AddPair(authorizedID, wordTranslations);
+            List<SyncBase> answer = await wordsService.AddPair(authorizedId, wordTranslations);
 
             return Ok(answer);
         }

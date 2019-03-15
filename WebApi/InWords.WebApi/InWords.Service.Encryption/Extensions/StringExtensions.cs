@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-namespace InWords.Service.Encryption.Extentions
+namespace InWords.Service.Encryption.Extensions
 {
-    public static class StringExtentions
+    public static class StringExtensions
     {
         /// <summary>
         /// Get byte[] from UTF8 String

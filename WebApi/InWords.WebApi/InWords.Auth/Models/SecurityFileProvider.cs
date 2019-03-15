@@ -10,20 +10,20 @@ namespace InWords.Auth.Models
     internal class SecurityFileProvider
     {
         #region Props
-        private readonly static string alphabetFIlePath = null;
+        private static readonly string AlphabetFIlePath = null;
 
         internal readonly string FilePath = null;
 
         internal string SymmetricSecurityKey { get; private set; }
 
-        private static readonly Random random = null;
+        private static readonly Random Random = null;
         #endregion
 
         #region Ctor
         static SecurityFileProvider()
         {
-            alphabetFIlePath = "alphabet.security";
-            random = new Random();
+            AlphabetFIlePath = "alphabet.security";
+            Random = new Random();
         }
 
         internal SecurityFileProvider(string filePath)
@@ -40,12 +40,12 @@ namespace InWords.Auth.Models
             {
                 using (var reader = new StreamReader(filePath))
                 {
-                    result = await reader.ReadToEndAsync(); //do i need readtoend async?
+                    result = await reader.ReadToEndAsync(); //do i need read to end async?
                 }
             }
             catch (Exception)
             {
-                //TODO jurnal
+                //TODO journal
             }
             return result;
         }
@@ -62,7 +62,7 @@ namespace InWords.Auth.Models
             }
             catch (Exception)
             {
-                throw; //todo jurnal
+                throw; //todo journal
             }
         }
 
@@ -88,23 +88,24 @@ namespace InWords.Auth.Models
 
         private async Task<string> RandomString(int length)
         {
-            string chars = await ReadAllFromFile(alphabetFIlePath);
+            string chars = await ReadAllFromFile(AlphabetFIlePath);
 
-            if (string.IsNullOrEmpty(chars))
-            {
-                chars = "asdfghjkl;'zxcvbnm,./qwertyuiop[]";
-                WriteAllInFIle(alphabetFIlePath, chars);
-            }
+            if (!string.IsNullOrEmpty(chars))
+                return new string(Enumerable.Repeat(chars, length)
+                    .Select(s => s[Random.Next(s.Length)]).ToArray());
+
+            chars = "asdfghjkl;'zxcvbnm,./qwertyuiop[]";
+            WriteAllInFIle(AlphabetFIlePath, chars);
 
             return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
+              .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
 
         internal SecurityKey GetSymmetricSecurityKey()
         {
             if (string.IsNullOrEmpty(SymmetricSecurityKey))
             {
-                SymmetricSecurityKey = Task.Run(() => RandomString(random.Next(128, 256))).Result;
+                SymmetricSecurityKey = Task.Run(() => RandomString(Random.Next(128, 256))).Result;
             }
             return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SymmetricSecurityKey));
         }

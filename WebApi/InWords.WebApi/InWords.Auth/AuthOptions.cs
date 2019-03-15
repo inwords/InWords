@@ -1,20 +1,21 @@
-﻿using InWords.Auth.Models;
+﻿using InWords.Auth.Interfaces;
+using InWords.Auth.Models;
 
 namespace InWords.Auth
 {
-    using InWords.Auth.Interface;
+    using InWords.Auth.Interfaces;
 
     public static class AuthOptions
     {
-        public const string ISSUER = "InWords.Auth"; // издатель токена
-        public const string AUDIENCE = "http://localhost:80/"; // потребитель токена http://localhost:5000/
-        public const int LIFETIME = 60; // время жизни токена в минутах
+        public const string ISSUER = "InWords.Auth"; // token publisher
+        public const string AUDIENCE = "http://localhost:80/"; // the consumer token http://localhost:5000/
+        public const int LIFETIME = 60; // the token lifetime, in minutes
 
-        public static readonly IJWTProvider TokenProvider = null;
+        public static readonly IJwtProvider TokenProvider = null;
 
         static AuthOptions()
         {
-            TokenProvider = new SimmetricJWTTokenProvider(
+            TokenProvider = new SymmetricJwtTokenProvider(
                 issuer: ISSUER,
                 audience: AUDIENCE,
                 minutesLifetime: LIFETIME);

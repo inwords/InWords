@@ -26,7 +26,7 @@ namespace InWords.WebApi.Controllers
         private readonly AccountIdentityProvider accountIdentityProvider = null;
         #endregion
 
-        readonly ILogger logger;
+        private readonly ILogger logger;
 
         #region Ctor
         public AuthController(InWordsDataContext context, ILogger<AuthController> logger)
@@ -93,7 +93,7 @@ namespace InWords.WebApi.Controllers
         private async Task<TokenResponse> CreateUserAccaunt(BasicAuthClaims basicAuthClaims)
         {
             //Create account in repository;
-            await accountIdentityProvider.CreateUserAccaunt(basicAuthClaims.Email, basicAuthClaims.Password);
+            await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password);
 
             //Create token
             TokenResponse response = accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);

@@ -1,4 +1,4 @@
-﻿using InWords.Auth.Extentions;
+﻿using InWords.Auth.Extensions;
 using InWords.Auth.Models;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
@@ -19,10 +19,10 @@ namespace InWords.WebApi.Providers
 
     public class AccountIdentityProvider
     {
-        public readonly AccountRepository accountRepository = null;
+        public readonly AccountRepository AccountRepository = null;
 
         private readonly ILogger logger;
-        private readonly IPasswordDerivator passwordDerivator;
+        private readonly IPasswordSalter passwordSalter;
 
         /// <summary>
         /// Create provider via repository
@@ -31,8 +31,8 @@ namespace InWords.WebApi.Providers
         public AccountIdentityProvider(AccountRepository repository, ILogger logger)
         {
             this.logger = logger;
-            accountRepository = repository;
-            passwordDerivator = new SaltManager();
+            AccountRepository = repository;
+            passwordSalter = new SaltManager();
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace InWords.WebApi.Providers
             if (x != null)
             {
                 logger.Log(LogLevel.Information, "#GetIdentity {0}", x.Email, x.Password);
-                TokenResponse responce = this.GetIdentity(x.Email, x.Password);
-                return responce;
+                TokenResponse response = this.GetIdentity(x.Email, x.Password);
+                return response;
             }
             else
             {
@@ -75,45 +75,43 @@ namespace InWords.WebApi.Providers
         /// <exception cref="ArgumentException"></exception>
         public TokenResponse GetIdentity(string email, string password)
         {
-            Account account = accountRepository.Get(x => x.Email == email).SingleOrDefault();
+            Account account = AccountRepository.Get(x => x.Email == email).SingleOrDefault();
             if (account == null)
                 throw new ArgumentNullException($"Email not found {email}");
 
-            bool isValidPassword = passwordDerivator.EqualsSequence(password, account.Hash);
+            bool isValidPassword = passwordSalter.EqualsSequence(password, account.Hash);
 
             if (!isValidPassword)
                 throw new ArgumentException("Invalid password");
 
             IEnumerable<Claim> claims = null;
 
-            string nameId = "-1";
-            string defaultrole = RoleType.Unknown.ToString();
-
+            var nameId = "-1";
             nameId = account.AccountId.ToString();
             email = account.Email;
-            defaultrole = account.Role.ToString();
+            string defaultRole = account.Role.ToString();
 
             claims = new List<Claim>
             {
                     new Claim(ClaimTypes.NameIdentifier, nameId),
                     new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, defaultrole),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, defaultRole),
             };
 
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
+            var claimsIdentity = new ClaimsIdentity(claims);
 
-            TokenResponse responce = new TokenResponse(claimsIdentity);
+            var response = new TokenResponse(claimsIdentity);
 
-            return responce;
+            return response;
         }
 
-        public async Task<Account> CreateUserAccaunt(string email, string password)
+        public async Task<Account> CreateUserAccount(string email, string password)
         {
-            byte[] saltedkey = passwordDerivator.SaltPassword(password);
+            byte[] saltedKey = passwordSalter.SaltPassword(password);
             Account newAccount = new Account()
             {
                 Email = email,
-                Hash = saltedkey,
+                Hash = saltedKey,
                 Role = RoleType.User,
                 RegistrationDate = DateTime.Now,
                 User = null
@@ -121,11 +119,11 @@ namespace InWords.WebApi.Providers
 
             newAccount.User = new User()
             {
-                NickName = "Yournick",
+                NickName = "YourNick",
                 Experience = 0,
             };
 
-            await accountRepository.Create(newAccount);
+            await AccountRepository.Create(newAccount);
             //await Update(newAccount);
 
             return newAccount;

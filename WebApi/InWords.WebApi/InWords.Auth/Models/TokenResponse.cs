@@ -16,17 +16,16 @@ namespace InWords.Auth.Models
 
         public TokenResponse(ClaimsIdentity identity)
         {
-            // получение токена
-            var encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
+            // receive token
+            string encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
 
-            Access_token = Cheked(encodedJwt, out string errMsg);
-            Email = identity.Claims.Where(c => c.Type == ClaimTypes.Email).First().Value; // GetUserEmail();
+            Access_token = Cheeked(encodedJwt, out string errMsg);
+            Email = identity.Claims.First(c => c.Type == ClaimTypes.Email).Value; // GetUserEmail();
 
-            // подготовка ответа
-            // для тестирования // todo
+            // preparing response
         }
 
-        private string Cheked(string encodedJwt, out string errorMsg)
+        private static string Cheeked(string encodedJwt, out string errorMsg)
         {
             errorMsg = "";
             if (encodedJwt == null)

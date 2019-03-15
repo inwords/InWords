@@ -1,7 +1,10 @@
 ﻿using InWords.Data.Models;
+using InWords.Data.Models.InWords.Creations;
 using InWords.Data.Models.InWords.Creations.GameBox;
+using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
+using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
 
 namespace InWords.WebApi.Service
@@ -16,8 +19,8 @@ namespace InWords.WebApi.Service
     public class GameService : CreationService
     {
         private readonly WordsService wordsService = null;
-        private readonly GameBoxRepository gameBoxRepository = null;//seriaRepository
-        private readonly GameLevelRepository gameLevelRepository = null; //seriaWordRepository
+        private readonly GameBoxRepository gameBoxRepository = null;
+        private readonly GameLevelRepository gameLevelRepository = null; 
         private readonly GameLevelWordRepository gameLevelWordRepository = null;
         private readonly UserRepository usersRepository = null;
 
@@ -87,16 +90,16 @@ namespace InWords.WebApi.Service
             return answer;
         }
 
-        public async Task<List<GameInfo>> GetGameInfo()
+        public List<GameInfo> GetGameInfo()
         {
             List<GameInfo> gameInfos = new List<GameInfo>();
 
-            var games = gameBoxRepository.Get().ToList();
+            List<GameBox> games = gameBoxRepository.Get().ToList();
 
-            foreach (var game in games)
+            foreach (GameBox game in games)
             {
                 // TODO: (LNG) title 
-                var description = GetDescriptions(game.CreationId).FirstOrDefault();
+                CreationDescription description = GetDescriptions(game.CreationId).FirstOrDefault();
 
                 GameInfo gameInfo = new GameInfo()
                 {
@@ -115,17 +118,14 @@ namespace InWords.WebApi.Service
         {
             // TODO: Add level to user
 
-            var gameBox = await gameBoxRepository.FindById(gameID);
-            var creation = await GetCreation(gameBox.CreationId);
-            var userCreator = await usersRepository.FindById(creation.CreatorId);
+            GameBox gameBox = await gameBoxRepository.FindById(gameID);
+            CreationInfo creation = await GetCreation(gameBox.CreationId);
+            User userCreator = await usersRepository.FindById(creation.CreatorId);
 
 
-            List<LevelInfo> levelinfos = new List<LevelInfo>();
+            IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
-            var gamelevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
-            foreach (var level in gamelevels)
-            {
-                var levelInfo = new LevelInfo()
+            List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo()
                 {
                     IsAvailable = true,
                     LevelId = level.GameLevelId,
@@ -133,35 +133,34 @@ namespace InWords.WebApi.Service
                     PlayerStars = 0,
                     SuccessStars = level.SuccessStars,
                     TotalStars = level.TotalStars
-                };
-                levelinfos.Add(levelInfo);
-            }
+                })
+                .ToList();
 
-            Game game = new Game()
+            var game = new Game()
             {
                 GameId = gameBox.GameBoxId,
                 Creator = userCreator.NickName,
-                LevelInfos = levelinfos
+                LevelInfos = levelInfos
             };
 
             return game;
         }
 
-        public async Task<Level> GetLevel(int userID, int levelID)
+        public Level GetLevel(int userId, int levelId)
         {
             // TODO: Add level to user
 
-            var gameLevelWords = gameLevelWordRepository.Get(l => l.GameLevelId == levelID);
+            IEnumerable<GameLevelWord> gameLevelWords = gameLevelWordRepository.Get(l => l.GameLevelId == levelId);
 
             List<WordTranslation> wordTranslations = new List<WordTranslation>();
 
-            var ids = gameLevelWords.Select(gl => gl.WordPairId);
+            IEnumerable<int> ids = gameLevelWords.Select(gl => gl.WordPairId);
 
             wordTranslations.AddRange((wordsService.GetWordsById(ids)));
 
-            Level level = new Level()
+            var level = new Level()
             {
-                LevelId = levelID,
+                LevelId = levelId,
                 WordTranslations = wordTranslations
             };
 

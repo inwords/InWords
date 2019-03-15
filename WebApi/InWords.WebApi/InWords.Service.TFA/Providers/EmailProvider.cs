@@ -1,4 +1,5 @@
-﻿using InWords.Common.Converters;
+﻿using System.Diagnostics;
+using InWords.Common.Converters;
 using InWords.Common.Providers;
 using InWords.Service.TFA.Interfaces;
 using InWords.Service.TFA.Models.Email;
@@ -14,29 +15,29 @@ namespace InWords.Service.TFA.Providers
 
     public class EmailProvider : IEmailProvider
     {
-        private readonly EmailConfig Config = null;
+        private readonly EmailConfig config = null;
 
-        private EventHandler<Email> OnGetMailEvent = null;
+        private EventHandler<Email> onGetMailEvent = null;
 
         event EventHandler<Email> IEmailProvider.OnGetMail
         {
             add
             {
-                OnGetMailEvent += value;
+                if (onGetMailEvent != null) onGetMailEvent += value;
             }
 
             remove
             {
-                OnGetMailEvent -= value;
+                if (onGetMailEvent != null) onGetMailEvent -= value;
             }
         }
 
         void IEmailProvider.Send(Email mail)
         {
-            SmtpClient client = new SmtpClient(Config.SMTPserver, Config.Port)
+            SmtpClient client = new SmtpClient(config.SmtpServer, config.Port)
             {
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(Config.Login, Config.Password)
+                Credentials = new NetworkCredential(config.Login, config.Password)
             };
 
             MailMessage mailMessage = new MailMessage
@@ -65,7 +66,7 @@ namespace InWords.Service.TFA.Providers
         {
             configRes = configRes ?? "InWords.Service.TFA.Resource.EmailConfig.security.json";
             var assembly = typeof(EmailConfig).Assembly;
-            Config = new StringJsonConverter<EmailConfig>().Convert(EmbeddedResource.GetApiRequestFile(configRes, assembly));
+            config = new StringJsonConverter<EmailConfig>().Convert(EmbeddedResource.GetApiRequestFile(configRes, assembly));
         }
         #endregion
     }

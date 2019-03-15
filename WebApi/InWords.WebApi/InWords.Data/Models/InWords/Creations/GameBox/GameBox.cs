@@ -8,9 +8,6 @@ namespace InWords.Data.Models.InWords.Creations.GameBox
         [Key]
         public int GameBoxId { get; set; }
 
-        /// <summary>
-        /// User created this Seria
-        /// </summary>
         public int CreationId { get; set; }
 
         [ForeignKey(nameof(CreationId))]

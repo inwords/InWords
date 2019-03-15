@@ -1,4 +1,4 @@
-﻿using InWords.Auth.Extentions;
+﻿using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 
@@ -21,27 +21,27 @@ namespace InWords.WebApi.Controllers
     public class SyncController : ControllerBase
     {
         private readonly InWordsDataContext context = null;
-        private readonly SyncService syncSercive = null;
+        private readonly SyncService syncService = null;
 
 
         public SyncController(InWordsDataContext context)
         {
             this.context = context;
-            syncSercive = new SyncService(context);
+            syncService = new SyncService(context);
         }
 
         [Route("WordPairs")]
-        [HttpPost]//todo PushRequest (list<wordtransltaion> + serverId_todelete)
+        [HttpPost]//todo PushRequest (list<wordTranslation> + serverId_toDelete)
         public IActionResult PushWordPairs([FromBody] IEnumerable<WordTranslation> wordTranslationList)
         {
-            //foreach (WordTranslation wordtranstation in wordTranslationList)
+            //foreach (WordTranslation WordTranslation in wordTranslationList)
             //{
             //    //ServerID = 0;
-            //    if (wordtranstation.ServerId == 0)
+            //    if (WordTranslation.ServerId == 0)
             //    {
             //        //add
             //    }
-            //    else if (wordtranstation.ServerId < 0)
+            //    else if (WordTranslation.ServerId < 0)
             //    {
             //        //delete
             //    }
@@ -56,15 +56,15 @@ namespace InWords.WebApi.Controllers
         }
 
         [Authorize]
-        [Route("pullwordpairs")]
+        [Route("pullWordPairs")]
         [HttpPost]
         public async Task<IActionResult> PullWordPairs([FromBody] IEnumerable<int> server_ids)
         {
-            int authorizedID = User.Claims.GetUserId();
+            int authorizedId = User.Claims.GetUserId();
 
-            var pullResponce = await syncSercive.PullWordPairs(authorizedID, server_ids);
+            PullWordsAnswer pullAnswer = await syncService.PullWordPairs(authorizedId, server_ids);
 
-            return Ok(pullResponce);
+            return Ok(pullAnswer);
         }
     }
 }

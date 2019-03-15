@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using InWords.Data.Interpface;
+using InWords.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace InWords.Data
@@ -11,34 +11,34 @@ namespace InWords.Data
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly DbContext context = null;
-        protected readonly DbSet<TEntity> dbSet;
+        protected readonly DbSet<TEntity> DbSet;
 
         public Repository(DbContext context)
         {
             this.context = context;
-            this.dbSet = context.Set<TEntity>();
+            this.DbSet = context.Set<TEntity>();
         }
 
         public async Task<TEntity> Create(TEntity item)
         {
-            dbSet.Add(item);
+            DbSet.Add(item);
             await context.SaveChangesAsync();
             return item;
         }
 
         public async Task<TEntity> FindById(int id)
         {
-            return await dbSet.FindAsync(id);
+            return await DbSet.FindAsync(id);
         }
 
         public IEnumerable<TEntity> Get()
         {
-            return dbSet.AsNoTracking().AsEnumerable();
+            return DbSet.AsNoTracking().AsEnumerable();
         }
 
         public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
-            return dbSet.AsNoTracking().Where(predicate).ToList();
+            return DbSet.AsNoTracking().Where(predicate).ToList();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace InWords.Data
 
         private IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> query = dbSet.AsNoTracking();
+            IQueryable<TEntity> query = DbSet.AsNoTracking();
             return includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
@@ -106,7 +106,7 @@ namespace InWords.Data
 
         public bool ExistAny(Expression<Func<TEntity, bool>> predicate)
         {
-            return dbSet.Any(predicate);
+            return DbSet.Any(predicate);
         }
     }
 }

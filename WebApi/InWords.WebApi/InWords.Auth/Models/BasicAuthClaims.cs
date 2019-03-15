@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace InWords.Auth.Models
@@ -27,16 +28,16 @@ namespace InWords.Auth.Models
             Password = password;
         }
 
-        public BasicAuthClaims(object[] args)
+        public BasicAuthClaims(IReadOnlyList<string> args)
         {
-            if (args.Length == 2)
+            if (args.Count == 2)
             {
-                Email = args[0].ToString();
-                Password = args[1].ToString();
+                Email = args[0];
+                Password = args[1];
             }
             else
             {
-                throw new ArgumentException("Neded args.lengs == 2 is email and pass");
+                throw new ArgumentException("Need args.lengths == 2 is email and pass");
             }
         }
     }

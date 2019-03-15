@@ -1,4 +1,5 @@
-﻿using InWords.Data.Models;
+﻿using InWords.Auth;
+using InWords.Data.Models;
 using InWords.WebApi.Providers.FIleLogger;
 
 namespace InWords.WebApi
@@ -9,14 +10,10 @@ namespace InWords.WebApi
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using InWords.Auth;
-    using InWords.Data;
     using Microsoft.Extensions.Logging;
-    using InWords.WebApi.Providers;
     using System.IO;
     using System;
     using Microsoft.AspNetCore.Mvc.Versioning;
-    using Microsoft.AspNetCore.Http;
 
     public class Startup
     {
@@ -74,19 +71,19 @@ namespace InWords.WebApi
             app.UseMvc();
         }
 
-        private void LoggerConfiguration(ILoggerFactory loggerFactory)
+        public void LoggerConfiguration(ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/#log-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.txt"));
-            var logger = loggerFactory.CreateLogger("FileLogger");
+            loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/#log-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.txt"));
+            ILogger logger = loggerFactory.CreateLogger("FileLogger");
             logger.LogInformation("Processing request {0}", 0);
         }
     }
 }
 
-///feature — используется при добавлении новой функциональности уровня приложения
-///fix — если исправили какую-то серьезную багу
-///docs — всё, что касается документации
-///style — исправляем опечатки, исправляем форматирование
-///refactor — рефакторинг кода приложения
-///test — всё, что связано с тестированием
-///chore — обычное обслуживание кода
+// feature-used when adding new application-level functionality
+// fix - if fixed some serious bug
+// docs — all the documentation
+// style - correct typos, correct formatting
+// refactor-refactor application code
+// test — all that is connected with the testing
+// chore-normal code maintenance

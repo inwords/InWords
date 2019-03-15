@@ -1,6 +1,6 @@
 ﻿using InWords.Auth.Models;
 
-namespace InWords.Auth.Interface
+namespace InWords.Auth.Interfaces
 {
     public interface IClaimsValidator
     {

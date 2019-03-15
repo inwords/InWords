@@ -3,9 +3,9 @@ using System.Text;
 using InWords.Auth.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace InWords.Auth.Extentions
+namespace InWords.Auth.Extensions
 {
-    public static class RequestExtentions
+    public static class RequestExtention
     {
         public static BasicAuthClaims GetBasicAuthorizationCalms(this HttpRequest request)
         {
@@ -13,9 +13,9 @@ namespace InWords.Auth.Extentions
             var header = request.Headers["Authorization"];
             if (header.ToString().StartsWith("Basic"))
             {
-                var credval = header.ToString().Substring("basic".Length + 1).Trim();
-                var usercred = Encoding.UTF8.GetString(Convert.FromBase64String(credval));
-                var userNamePass = usercred.Split(":");
+                var credentialValue = header.ToString().Substring("basic".Length + 1).Trim();
+                var userCredentials = Encoding.UTF8.GetString(Convert.FromBase64String(credentialValue));
+                var userNamePass = userCredentials.Split(":");
 
                 result = new BasicAuthClaims(userNamePass);
             }
