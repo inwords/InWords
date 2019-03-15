@@ -7,12 +7,12 @@
     public class GameBox
     {
         [Key]
-        public int GameBoxID { get; set; }
+        public int GameBoxId { get; set; }
 
         /// <summary>
         /// User created this Seria
         /// </summary>
-        public int CreationID { get; set; }
+        public int CreationId { get; set; }
 
         [ForeignKey("CreationID")]
         public virtual Creation Creation { get; set; }

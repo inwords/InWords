@@ -17,8 +17,8 @@
             second = await wordRepository.Stack(second);
             WordPair result = new WordPair()
             {
-                WordForeignID = first.WordID,
-                WordNativeID = second.WordID,
+                WordForeignId = first.WordId,
+                WordNativeId = second.WordId,
             };
 
             return await Stack(result);
@@ -27,10 +27,10 @@
         public async Task<WordPair> Stack(WordPair pair)
         {
             return await Stack(pair, words =>
-            words.WordForeignID == pair.WordForeignID
-            && words.WordNativeID == pair.WordNativeID
-            || words.WordForeignID == pair.WordNativeID
-            && words.WordNativeID == pair.WordForeignID
+            words.WordForeignId == pair.WordForeignId
+            && words.WordNativeId == pair.WordNativeId
+            || words.WordForeignId == pair.WordNativeId
+            && words.WordNativeId == pair.WordForeignId
             );
         }
     }

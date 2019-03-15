@@ -16,17 +16,17 @@
             RecreateDb();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
             var assembly = typeof(TFADataContext).Assembly;
 
-            var resource = Common.EmbeddedResource.GetApiRequestFile(AppConfig.DATACONFIG, assembly);
+            var resource = Common.EmbeddedResource.GetApiRequestFile(AppConfig.DataConfig, assembly);
 
-            ConnectionStrings connectionStrings = new Common.StringJsonConverter<ConnectionStrings>().Convert(resource);
+            var connectionStrings = new Common.StringJsonConverter<ConnectionStrings>().Convert(resource);
 
-            string connectionString = connectionStrings.DefaultConnection;
+            var connectionString = connectionStrings.DefaultConnection;
 
-            optionbuilder.UseMySql(connectionString);
+            optionBuilder.UseMySql(connectionString);
         }
 
         private void RecreateDb()

@@ -6,9 +6,9 @@
     public class GameLevel
     {
         [Key]
-        public int GameLevelID { get; set; }
+        public int GameLevelId { get; set; }
 
-        public int GameBoxID { get; set; }
+        public int GameBoxId { get; set; }
 
         [ForeignKey("GameBoxID")]
         public virtual GameBox GameBox { get; set; }

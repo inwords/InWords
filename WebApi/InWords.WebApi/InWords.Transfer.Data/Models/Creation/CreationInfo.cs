@@ -6,7 +6,7 @@ namespace InWords.Transfer.Data
 {
     public class CreationInfo
     {
-        public int CreatorID { get; set; }
+        public int CreatorId { get; set; }
 
         public List<DescriptionInfo> Descriptions { get; set; }
     }

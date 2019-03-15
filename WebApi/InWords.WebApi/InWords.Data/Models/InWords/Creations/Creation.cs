@@ -10,14 +10,11 @@
     public class Creation
     {
         [Key]
-        public int CreationID { get; set; }
+        public int CreationId { get; set; }
 
-        /// <summary>
-        /// User created this Seria
-        /// </summary>
-        public int CreatorID { get; set; }
+        public int CreatorId { get; set; }
 
-        [ForeignKey("CreatorID")]
+        [ForeignKey("CreatorId")]
         public virtual User Creator { get; set; }
     }
 }

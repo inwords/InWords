@@ -6,14 +6,14 @@
     public class WordPair
     {
         [Key]
-        public int WordPairID { get; set; }
+        public int WordPairId { get; set; }
 
-        public int WordForeignID { get; set; }
+        public int WordForeignId { get; set; }
 
         [ForeignKey("WordForeignID")]
         public virtual Word WordForeign { get; set; }
 
-        public int WordNativeID { get; set; }
+        public int WordNativeId { get; set; }
 
         [ForeignKey("WordNativeID")]
         public virtual Word WordNative { get; set; }

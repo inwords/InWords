@@ -2,7 +2,7 @@
 {
     public class LevelInfo : StarsInfo
     {
-        public int LevelID { get; set; }
+        public int LevelId { get; set; }
 
         public int PlayerStars { get; set; }
 

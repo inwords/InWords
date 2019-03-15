@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     public class Game
     {
-        public int GameID { get; set; }
+        public int GameId { get; set; }
 
         public string Creator { get; set; }
 

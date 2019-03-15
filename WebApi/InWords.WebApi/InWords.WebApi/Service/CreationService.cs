@@ -23,7 +23,7 @@ namespace InWords.WebApi.Service
         {
             Creation creation = new Creation()
             {
-                CreatorID = creationInfo.CreatorID
+                CreatorId = creationInfo.CreatorId
             };
 
             creation = await creationRepository.Create(creation);
@@ -32,15 +32,15 @@ namespace InWords.WebApi.Service
             {
                 CreationDescription cd = new CreationDescription()
                 {
-                    CreationID = creation.CreationID,
-                    LanguageID = cdi.LangID,
+                    CreationId = creation.CreationId,
+                    LanguageId = cdi.LangId,
                     Title = cdi.Title,
                     Description = cdi.Description
                 };
                 await creationDescriptionRepository.Create(cd);
             }
 
-            return creation.CreationID;
+            return creation.CreationId;
         }
 
         protected async Task<CreationInfo> GetCreation(int id)
@@ -49,14 +49,14 @@ namespace InWords.WebApi.Service
 
             if (creation == null) return null;
 
-            var descriptionlist = creationDescriptionRepository.Get(cd => cd.CreationID == creation.CreationID).ToList();
+            var descriptionlist = creationDescriptionRepository.Get(cd => cd.CreationId == creation.CreationId).ToList();
 
             List<DescriptionInfo> descriptions = new List<DescriptionInfo>();
             foreach (var desc in descriptionlist)
             {
                 DescriptionInfo descinfo = new DescriptionInfo()
                 {
-                    LangID = desc.LanguageID,
+                    LangId = desc.LanguageId,
                     Description = desc.Title,
                     Title = desc.Title
                 };
@@ -65,7 +65,7 @@ namespace InWords.WebApi.Service
 
             CreationInfo creationInfo = new CreationInfo()
             {
-                CreatorID = creation.CreatorID,
+                CreatorId = creation.CreatorId,
                 Descriptions = descriptions
             };
 
@@ -74,7 +74,7 @@ namespace InWords.WebApi.Service
 
         protected List<CreationDescription> GetDescriptions(int CreationID)
         {
-            var descriptions = creationDescriptionRepository.Get(c => c.CreationID == CreationID);
+            var descriptions = creationDescriptionRepository.Get(c => c.CreationId == CreationID);
             return descriptions.ToList();
         }
     }

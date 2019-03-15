@@ -2,6 +2,7 @@
 {
     using System;
     
+    /// <inheritdoc />
     /// <summary>
     /// Transfer response pack: Id and ServerId
     /// </summary>

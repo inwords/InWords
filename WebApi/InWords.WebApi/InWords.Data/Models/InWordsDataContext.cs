@@ -15,9 +15,9 @@
             RecreateDb();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-            optionbuilder.UseMySql(connectionString);
+            optionBuilder.UseMySql(connectionString);
         }
 
         public DbSet<User> Users { get; set; }

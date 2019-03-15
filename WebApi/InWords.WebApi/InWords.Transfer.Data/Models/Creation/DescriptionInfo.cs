@@ -2,7 +2,7 @@
 {
     public class DescriptionInfo
     {
-        public int LangID { get; set; }
+        public int LangId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }

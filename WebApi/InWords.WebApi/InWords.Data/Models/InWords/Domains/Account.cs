@@ -7,7 +7,7 @@
     public class Account
     {
         [Key]
-        public int AccountID { get; set; }
+        public int AccountId { get; set; }
 
         [Required]
         [EmailAddress]

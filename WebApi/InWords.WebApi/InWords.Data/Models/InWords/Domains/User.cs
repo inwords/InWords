@@ -6,7 +6,7 @@
     public class User
     {
         [ForeignKey("Account")]
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         [StringLength(32)]
         public string NickName { get; set; }

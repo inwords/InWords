@@ -8,7 +8,7 @@
     public class Language
     {
         [Key]
-        public int LanguageID { get; set; }
+        public int LanguageId { get; set; }
 
         [StringLength(32)]
         public string Title { get; set; }

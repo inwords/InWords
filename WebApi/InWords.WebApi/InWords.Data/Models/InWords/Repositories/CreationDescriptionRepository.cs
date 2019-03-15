@@ -4,7 +4,10 @@
 
     public class CreationDescriptionRepository : Repository<CreationDescription>
     {
-        InWordsDataContext context = null;
-        public CreationDescriptionRepository(InWordsDataContext context) : base(context) { }
+        private readonly InWordsDataContext context;
+        public CreationDescriptionRepository(InWordsDataContext context) : base(context)
+        {
+            this.context = context;
+        }
     }
 }

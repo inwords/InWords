@@ -4,7 +4,10 @@
 
     public class GameBoxRepository : Repository<GameBox>
     {
-        InWordsDataContext context = null;
-        public GameBoxRepository(InWordsDataContext context) : base(context) { }
+        private readonly InWordsDataContext context;
+        public GameBoxRepository(InWordsDataContext context) : base(context)
+        {
+            this.context = context;
+        }
     }
 }

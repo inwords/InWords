@@ -37,7 +37,7 @@
             // TODO: if admin then any creators id
 
             // else
-            gamePack.CreationInfo.CreatorID = userID;
+            gamePack.CreationInfo.CreatorId = userID;
 
             // Add creation description
             int creationID = await AddCreation(gamePack.CreationInfo);
@@ -45,7 +45,7 @@
             // Add game information
             GameBox gameBox = new GameBox()
             {
-                CreationID = creationID
+                CreationId = creationID
             };
             gameBox = await gameBoxRepository.Create(gameBox);
 
@@ -54,7 +54,7 @@
             {
                 GameLevel gameLevel = new GameLevel()
                 {
-                    GameBoxID = gameBox.GameBoxID,
+                    GameBoxId = gameBox.GameBoxId,
                     TotalStars = levelPack.TotalStars,
                     SuccessStars = levelPack.SuccessStars,
                     Level = levelPack.Level
@@ -69,15 +69,15 @@
 
                     GameLevelWord gameLevelWord = new GameLevelWord()
                     {
-                        GameLevelID = gameLevel.GameLevelID,
-                        WordPairID = wordPair.WordPairID
+                        GameLevelId = gameLevel.GameLevelId,
+                        WordPairId = wordPair.WordPairId
                     };
 
                     await gameLevelWordRepository.Create(gameLevelWord);
                 }
             }
 
-            SyncBase answer = new SyncBase(gameBox.GameBoxID);
+            SyncBase answer = new SyncBase(gameBox.GameBoxId);
 
             return answer;
         }
@@ -91,11 +91,11 @@
             foreach (var game in games)
             {
                 // TODO: (LNG) title 
-                var description = GetDescriptions(game.CreationID).FirstOrDefault();
+                var description = GetDescriptions(game.CreationId).FirstOrDefault();
 
                 GameInfo gameInfo = new GameInfo()
                 {
-                    GameID = game.GameBoxID,
+                    GameId = game.GameBoxId,
                     IsAvailable = true,
                     Title = description?.Title
                 };
@@ -111,19 +111,19 @@
             // TODO: Add level to user
 
             var gameBox = await gameBoxRepository.FindById(gameID);
-            var creation = await GetCreation(gameBox.CreationID);
-            var userCreator = await usersRepository.FindById(creation.CreatorID);
+            var creation = await GetCreation(gameBox.CreationId);
+            var userCreator = await usersRepository.FindById(creation.CreatorId);
 
 
             List<LevelInfo> levelinfos = new List<LevelInfo>();
 
-            var gamelevels = gameLevelRepository.Get(l => l.GameBoxID == gameBox.GameBoxID);
+            var gamelevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
             foreach (var level in gamelevels)
             {
                 var levelInfo = new LevelInfo()
                 {
                     IsAvailable = true,
-                    LevelID = level.GameLevelID,
+                    LevelId = level.GameLevelId,
                     Level = level.Level,
                     PlayerStars = 0,
                     SuccessStars = level.SuccessStars,
@@ -134,7 +134,7 @@
 
             Game game = new Game()
             {
-                GameID = gameBox.GameBoxID,
+                GameId = gameBox.GameBoxId,
                 Creator = userCreator.NickName,
                 LevelInfos = levelinfos
             };
@@ -146,17 +146,17 @@
         {
             // TODO: Add level to user
 
-            var gameLevelWords = gameLevelWordRepository.Get(l => l.GameLevelID == levelID);
+            var gameLevelWords = gameLevelWordRepository.Get(l => l.GameLevelId == levelID);
 
             List<WordTranslation> wordTranslations = new List<WordTranslation>();
 
-            var ids = gameLevelWords.Select(gl => gl.WordPairID);
+            var ids = gameLevelWords.Select(gl => gl.WordPairId);
 
             wordTranslations.AddRange((await wordsService.GetWordsByID(ids)));
 
             Level level = new Level()
             {
-                LevelID = levelID,
+                LevelId = levelID,
                 WordTranslations = wordTranslations
             };
 

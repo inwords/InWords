@@ -6,7 +6,7 @@
     public class AuthRequest
     {
         [Key]
-        public int AuthRequestID { get; set; }
+        public int AuthRequestId { get; set; }
 
         [StringLength(64)]
         public string Identity { get; set; }

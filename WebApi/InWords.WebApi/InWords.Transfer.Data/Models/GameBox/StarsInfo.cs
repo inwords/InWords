@@ -1,4 +1,5 @@
-﻿namespace InWords.Transfer.Data
+﻿// ReSharper disable once CheckNamespace
+namespace InWords.Transfer.Data
 {
     /// <summary>
     /// Describe Title, TotalStars, SuccessStars

@@ -1,5 +1,6 @@
 ﻿namespace InWords.Transfer.Data
 {
+    /// <inheritdoc />
     /// <summary>
     /// Foreign and Native words pair
     /// </summary>

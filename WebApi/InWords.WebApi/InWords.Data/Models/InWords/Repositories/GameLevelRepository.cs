@@ -4,7 +4,10 @@
 
     public class GameLevelRepository : Repository<GameLevel>
     {
-        InWordsDataContext context = null;
-        public GameLevelRepository(InWordsDataContext context) : base(context) { }
+        private readonly InWordsDataContext context;
+        public GameLevelRepository(InWordsDataContext context) : base(context)
+        {
+            this.context = context;
+        }
     }
 }

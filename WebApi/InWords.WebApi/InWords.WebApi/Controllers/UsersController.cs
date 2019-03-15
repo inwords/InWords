@@ -131,7 +131,7 @@
 
         private bool UserExists(int id)
         {
-            return usersRepository.ExistAny(e => e.UserID == id);
+            return usersRepository.ExistAny(e => e.UserId == id);
         }
     }
 }

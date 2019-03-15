@@ -6,16 +6,16 @@
     public class UserWordPair
     {
         [Key]
-        public int UserWordPairID { get; set; }
+        public int UserWordPairId { get; set; }
 
-        public int WordPairID { get; set; }
+        public int WordPairId { get; set; }
 
         [ForeignKey("WordPairID")]
         public virtual WordPair WordPair { get; set; }
 
         public bool IsInvertPair { get; set; }
 
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey("UserID")]
         public virtual User User { get; set; }

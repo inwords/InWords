@@ -4,7 +4,10 @@
 
     public class CreationRepository : Repository<Creation>
     {
-        InWordsDataContext context = null;
-        public CreationRepository(InWordsDataContext context) : base(context) { }
+        private readonly InWordsDataContext context;
+        public CreationRepository(InWordsDataContext context) : base(context)
+        {
+            this.context = context;
+        }
     }
 }

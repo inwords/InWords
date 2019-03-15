@@ -6,12 +6,12 @@
     public class UserGameBox
     {
         [Key]
-        public int UserGameBoxID { get; set; }
+        public int UserGameBoxId { get; set; }
 
         /// <summary>
         /// User created this Seria
         /// </summary>
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey("UserID")]
         public virtual User User { get; set; }
@@ -19,7 +19,7 @@
         /// <summary>
         /// User created this Seria
         /// </summary>
-        public int GameBoxID { get; set; }
+        public int GameBoxId { get; set; }
 
         [ForeignKey("GameBoxID")]
         public virtual GameBox GameBox { get; set; }
