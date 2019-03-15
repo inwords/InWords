@@ -1,8 +1,8 @@
-﻿namespace InWords.Service.TFA
-{
-    using System;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+namespace InWords.Service.TFA.Models.Email
+{
     public class Email
     {
         public string Subject { get; set; }

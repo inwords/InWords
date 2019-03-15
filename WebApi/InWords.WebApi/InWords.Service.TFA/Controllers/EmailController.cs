@@ -1,4 +1,7 @@
-﻿namespace InWords.Service.TFA.Controllers
+﻿using InWords.Service.TFA.Interfaces;
+using InWords.Service.TFA.Services;
+
+namespace InWords.Service.TFA.Controllers
 {
     using InWords.Service.TFA.Data;
     using System;

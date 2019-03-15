@@ -1,4 +1,4 @@
-﻿namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data.Models.GameBox
 {
     public class LevelInfo : StarsInfo
     {

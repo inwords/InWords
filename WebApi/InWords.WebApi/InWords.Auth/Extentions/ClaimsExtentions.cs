@@ -1,15 +1,13 @@
-﻿namespace InWords.Auth
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+
+namespace InWords.Auth.Extentions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-
-
     public static class ClaimsExtentions
     {
-        public static int GetUserID(this IEnumerable<Claim> claims)
+        public static int GetUserId(this IEnumerable<Claim> claims)
         {
             Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.NameIdentifier).SingleOrDefault();
             int authorizedID = int.Parse(nameIdentifier.Value); //todo tryparse

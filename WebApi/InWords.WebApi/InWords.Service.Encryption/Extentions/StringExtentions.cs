@@ -1,7 +1,7 @@
-﻿namespace InWords.Service.Encryption
-{
-    using System.Text;
+﻿using System.Text;
 
+namespace InWords.Service.Encryption.Extentions
+{
     public static class StringExtentions
     {
         /// <summary>

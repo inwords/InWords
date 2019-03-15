@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data.Models;
+using InWords.Transfer.Data.Models;
 
 namespace InWords.WebApi.Service
 {
@@ -10,7 +12,7 @@ namespace InWords.WebApi.Service
     {
         private readonly WordsService wordsService = null;
 
-        public SyncService(Data.InWordsDataContext context) : base(context)
+        public SyncService(InWordsDataContext context) : base(context)
         {
             wordsService = new WordsService(context);
 

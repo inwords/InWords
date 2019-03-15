@@ -1,4 +1,4 @@
-﻿namespace InWords.Service.Encryption
+﻿namespace InWords.Service.Encryption.Interfaces
 {
     public interface IPasswordDerivator
     {

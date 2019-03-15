@@ -1,4 +1,4 @@
-﻿namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data.Models
 {
     /// <inheritdoc />
     /// <summary>

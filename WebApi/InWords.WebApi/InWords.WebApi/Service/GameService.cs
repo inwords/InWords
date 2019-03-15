@@ -1,11 +1,16 @@
-﻿namespace InWords.WebApi.Service
+﻿using InWords.Data.Models;
+using InWords.Data.Models.InWords.Creations.GameBox;
+using InWords.Data.Models.InWords.Repositories;
+using InWords.Transfer.Data.Models;
+using InWords.Transfer.Data.Models.GameBox;
+
+namespace InWords.WebApi.Service
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using InWords.Data;
-    using InWords.Data.Models;
     using InWords.Transfer.Data;
 
     public class GameService : CreationService

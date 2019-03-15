@@ -1,4 +1,6 @@
-﻿namespace InWords.Auth
+﻿using InWords.Auth.Models;
+
+namespace InWords.Auth
 {
     using InWords.Auth.Interface;
 

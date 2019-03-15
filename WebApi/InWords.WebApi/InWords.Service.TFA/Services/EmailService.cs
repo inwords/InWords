@@ -1,11 +1,14 @@
-﻿namespace InWords.Service.TFA
-{
-    using InWords.Service.TFA.Data;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using InWords.Service.TFA.Data;
+using InWords.Service.TFA.Data.Models;
+using InWords.Service.TFA.Data.Models.Repositories;
+using InWords.Service.TFA.Interfaces;
+using InWords.Service.TFA.Models.Email;
 
+namespace InWords.Service.TFA.Services
+{
     /// <summary>
     /// This is an email service configured for two-factor authentication
     /// Not for sending normal messages

@@ -1,9 +1,10 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace InWords.Data.Models
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace InWords.Data.Models.InWords.Creations.GameBox
+{
     public class UserGameLevel
     {
         [Key]

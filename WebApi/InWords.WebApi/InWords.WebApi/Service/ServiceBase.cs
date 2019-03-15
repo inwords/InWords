@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data.Models;
 
 namespace InWords.WebApi.Service
 {
     public class ServiceBase
     {
-        protected readonly Data.InWordsDataContext context = null;
+        protected readonly InWordsDataContext context = null;
 
-        public ServiceBase(Data.InWordsDataContext context)
+        public ServiceBase(InWordsDataContext context)
         {
             this.context = context;
         }

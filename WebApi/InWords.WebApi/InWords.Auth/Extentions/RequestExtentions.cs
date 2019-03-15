@@ -1,9 +1,10 @@
-﻿namespace InWords.Auth
-{
-    using Microsoft.AspNetCore.Http;
-    using System;
-    using System.Text;
+﻿using System;
+using System.Text;
+using InWords.Auth.Models;
+using Microsoft.AspNetCore.Http;
 
+namespace InWords.Auth.Extentions
+{
     public static class RequestExtentions
     {
         public static BasicAuthClaims GetBasicAuthorizationCalms(this HttpRequest request)

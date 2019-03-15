@@ -1,10 +1,7 @@
-﻿namespace InWords.Data.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace InWords.Data.Models.InWords.Domains
+{
     public class Language
     {
         [Key]

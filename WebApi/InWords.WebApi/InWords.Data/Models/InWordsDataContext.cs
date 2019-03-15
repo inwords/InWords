@@ -1,8 +1,9 @@
-﻿namespace InWords.Data
-{
-    using InWords.Data.Models;
-    using Microsoft.EntityFrameworkCore;
+﻿using InWords.Data.Models.InWords.Creations;
+using InWords.Data.Models.InWords.Domains;
+using Microsoft.EntityFrameworkCore;
 
+namespace InWords.Data.Models
+{
     public partial class InWordsDataContext : DbContext
     {
         private static bool _created = false;

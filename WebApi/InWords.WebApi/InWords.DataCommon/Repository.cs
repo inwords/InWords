@@ -1,13 +1,13 @@
-﻿namespace InWords.Data.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
-    using InWords.Data.Interpface;
-    using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using InWords.Data.Interpface;
+using Microsoft.EntityFrameworkCore;
 
+namespace InWords.Data
+{
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly DbContext context = null;

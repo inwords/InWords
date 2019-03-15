@@ -1,8 +1,13 @@
-﻿namespace InWords.WebApi.Providers
+﻿using InWords.Auth.Extentions;
+using InWords.Auth.Models;
+using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
+using InWords.Service.Encryption.Interfaces;
+
+namespace InWords.WebApi.Providers
 {
     using InWords.Auth;
     using InWords.Data.Enums;
-    using InWords.Data.Models;
     using InWords.Service.Encryption;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;

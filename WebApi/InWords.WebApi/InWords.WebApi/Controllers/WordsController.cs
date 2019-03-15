@@ -1,4 +1,8 @@
-﻿namespace InWords.WebApi.Controllers
+﻿using InWords.Auth.Extentions;
+using InWords.Data.Models;
+using InWords.Transfer.Data.Models;
+
+namespace InWords.WebApi.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -34,7 +38,7 @@
         [HttpPost]
         public async Task<IActionResult> AddPair([FromBody] List<WordTranslation> wordTranslations)
         {
-            int authorizedID = User.Claims.GetUserID();
+            int authorizedID = User.Claims.GetUserId();
 
             var answer = await wordsService.AddPair(authorizedID, wordTranslations);
 
@@ -51,7 +55,7 @@
         [HttpPost]
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {
-            int authorizedID = User.Claims.GetUserID();
+            int authorizedID = User.Claims.GetUserId();
 
             int pairDeleted = await wordsService.DeleteUserWordPair(authorizedID, server_IDs);
 

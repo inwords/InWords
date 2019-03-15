@@ -1,9 +1,13 @@
-﻿namespace InWords.WebApi.Controllers
+﻿using InWords.Auth.Extentions;
+using InWords.Data.Models;
+using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
+
+namespace InWords.WebApi.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using InWords.Data.Models;
     using Microsoft.AspNetCore.Authorization;
     using InWords.Data;
     using InWords.Data.Enums;
@@ -60,7 +64,7 @@
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
-            var userID = User.Claims.GetUserID();
+            var userID = User.Claims.GetUserId();
 
             var user = await usersRepository.FindById(userID);
 
@@ -77,7 +81,7 @@
         [HttpPut]
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
-            int authorizedID = User.Claims.GetUserID();
+            int authorizedID = User.Claims.GetUserId();
 
             if (!ModelState.IsValid)
             {

@@ -1,4 +1,9 @@
-﻿namespace InWords.Service.TFA.Providers
+﻿using InWords.Common.Converters;
+using InWords.Common.Providers;
+using InWords.Service.TFA.Interfaces;
+using InWords.Service.TFA.Models.Email;
+
+namespace InWords.Service.TFA.Providers
 {
     using System;
     using System.Net;

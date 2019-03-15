@@ -1,7 +1,7 @@
-﻿namespace InWords.WebApi.Providers
-{
-    using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
+namespace InWords.WebApi.Providers.FIleLogger
+{
     public static class FileLoggerExtensions
     {
         public static ILoggerFactory AddFile(this ILoggerFactory factory,

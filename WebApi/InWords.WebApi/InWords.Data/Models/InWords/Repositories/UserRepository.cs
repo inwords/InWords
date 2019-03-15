@@ -1,7 +1,8 @@
-﻿namespace InWords.Data.Models
-{
-    using System.Linq;
+﻿using System.Linq;
+using InWords.Data.Models.InWords.Domains;
 
+namespace InWords.Data.Models.InWords.Repositories
+{
     public class UserRepository : Repository<User>
     {
         private readonly InWordsDataContext context = null;

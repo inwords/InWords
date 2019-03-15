@@ -1,7 +1,7 @@
-﻿namespace InWords.Transfer.Data
+﻿using System;
+
+namespace InWords.Transfer.Data.Models
 {
-    using System;
-    
     /// <inheritdoc />
     /// <summary>
     /// Transfer response pack: Id and ServerId

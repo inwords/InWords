@@ -1,10 +1,13 @@
-﻿namespace InWords.WebApi.Controllers
+﻿using InWords.Data.Models;
+using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
+
+namespace InWords.WebApi.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using InWords.Data.Enums;
     using InWords.Data;
-    using InWords.Data.Models;
     using System.Threading.Tasks;
 
     [Route("api/[controller]")]

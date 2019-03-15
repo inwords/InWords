@@ -1,8 +1,8 @@
 ﻿
-namespace InWords.Transfer.Data
-{
-    using System.Collections.Generic;
+using System.Collections.Generic;
 
+namespace InWords.Transfer.Data.Models.GameBox
+{
     public class LevelPack : StarsInfo
     {
         public int Level { get; set; }

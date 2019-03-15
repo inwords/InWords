@@ -1,8 +1,8 @@
-﻿namespace InWords.Service.TFA.Data
-{
-    using System;
-    using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
+namespace InWords.Service.TFA.Data.Models
+{
     public class AuthRequest
     {
         [Key]

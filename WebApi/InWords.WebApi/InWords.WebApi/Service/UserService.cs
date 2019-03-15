@@ -1,11 +1,14 @@
-﻿namespace InWords.WebApi.Service
+﻿using InWords.Data.Models;
+using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
+
+namespace InWords.WebApi.Service
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using InWords.Data;
-    using InWords.Data.Models;
 
     public class UserService : ServiceBase
     {

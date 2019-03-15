@@ -1,4 +1,8 @@
-﻿namespace InWords.WebApi.Controllers
+﻿using InWords.Auth.Extentions;
+using InWords.Data.Models;
+using InWords.Transfer.Data.Models.GameBox;
+
+namespace InWords.WebApi.Controllers
 {
     using System.Threading.Tasks;
     using InWords.Auth;
@@ -24,7 +28,7 @@
         [HttpPost]
         public async Task<IActionResult> AddGamePack([FromBody] GamePack gamePack)
         {
-            int authorizedID = User.Claims.GetUserID();
+            int authorizedID = User.Claims.GetUserId();
 
             var answer = await gameService.AddGamePack(authorizedID, gamePack);
 
@@ -46,7 +50,7 @@
         [HttpGet]
         public async Task<IActionResult> GetGame(int id)
         {
-            var userID = User.Claims.GetUserID();
+            var userID = User.Claims.GetUserId();
 
             var answer = await gameService.GetGameInfo(userID, id);
 
@@ -58,7 +62,7 @@
         [HttpGet]
         public async Task<IActionResult> GetLevel(int id)
         {
-            var userID = User.Claims.GetUserID();
+            var userID = User.Claims.GetUserId();
 
             var answer = await gameService.GetLevel(userID, id);
 

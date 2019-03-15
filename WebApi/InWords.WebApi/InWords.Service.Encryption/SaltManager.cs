@@ -1,4 +1,6 @@
-﻿namespace InWords.Service.Encryption
+﻿using InWords.Service.Encryption.Interfaces;
+
+namespace InWords.Service.Encryption
 {
     using System;
     using System.Linq;

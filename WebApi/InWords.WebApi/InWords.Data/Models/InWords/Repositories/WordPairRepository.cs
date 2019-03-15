@@ -1,7 +1,8 @@
-﻿namespace InWords.Data.Models
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using InWords.Data.Models.InWords.Domains;
 
+namespace InWords.Data.Models.InWords.Repositories
+{
     public class WordPairRepository : Repository<WordPair>
     {
         private readonly WordRepository wordRepository = null;

@@ -1,8 +1,8 @@
-﻿namespace InWords.Data
-{
-    using InWords.Data.Models;
-    using Microsoft.EntityFrameworkCore;
+﻿using InWords.Data.Models.InWords.Creations.GameBox;
+using Microsoft.EntityFrameworkCore;
 
+namespace InWords.Data.Models
+{
     public partial class InWordsDataContext : DbContext
     {
         public DbSet<GameBox> GameBoxs { get; set; }

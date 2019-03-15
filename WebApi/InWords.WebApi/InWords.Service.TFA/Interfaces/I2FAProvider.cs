@@ -1,7 +1,7 @@
-﻿namespace InWords.Service.TFA
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace InWords.Service.TFA.Interfaces
+{
     interface I2FAProvider
     {
         Task<string> GetKey(string identity);

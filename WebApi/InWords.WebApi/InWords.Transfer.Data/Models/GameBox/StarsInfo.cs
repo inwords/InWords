@@ -1,5 +1,5 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace InWords.Transfer.Data
+namespace InWords.Transfer.Data.Models.GameBox
 {
     /// <summary>
     /// Describe Title, TotalStars, SuccessStars

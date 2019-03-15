@@ -1,8 +1,8 @@
-﻿namespace InWords.Auth
-{
-    using System;
-    using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
+namespace InWords.Auth.Models
+{
     /// <summary>
     ///  Email and Password
     ///  data transfer class

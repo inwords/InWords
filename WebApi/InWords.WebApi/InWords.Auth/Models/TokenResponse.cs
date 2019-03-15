@@ -1,11 +1,7 @@
-﻿using InWords.Auth.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using System.Text;
 
-namespace InWords.Auth
+namespace InWords.Auth.Models
 {
     public class TokenResponse
     {

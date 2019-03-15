@@ -1,6 +1,7 @@
-﻿namespace InWords.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace InWords.Data.Models.InWords.Domains
 {
-    using System.ComponentModel.DataAnnotations;
     public class Word
     {
         [Key]

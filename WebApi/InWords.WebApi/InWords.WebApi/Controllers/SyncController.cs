@@ -1,4 +1,8 @@
-﻿namespace InWords.WebApi.Controllers
+﻿using InWords.Auth.Extentions;
+using InWords.Data.Models;
+using InWords.Transfer.Data.Models;
+
+namespace InWords.WebApi.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -16,11 +20,11 @@
     [ApiController]
     public class SyncController : ControllerBase
     {
-        private readonly Data.InWordsDataContext context = null;
+        private readonly InWordsDataContext context = null;
         private readonly SyncService syncSercive = null;
 
 
-        public SyncController(Data.InWordsDataContext context)
+        public SyncController(InWordsDataContext context)
         {
             this.context = context;
             syncSercive = new SyncService(context);
@@ -56,7 +60,7 @@
         [HttpPost]
         public async Task<IActionResult> PullWordPairs([FromBody] IEnumerable<int> server_ids)
         {
-            int authorizedID = User.Claims.GetUserID();
+            int authorizedID = User.Claims.GetUserId();
 
             var pullResponce = await syncSercive.PullWordPairs(authorizedID, server_ids);
 

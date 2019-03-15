@@ -1,10 +1,13 @@
-﻿namespace InWords.WebApi.Controllers
+﻿using InWords.Auth.Models;
+using InWords.Data.Models;
+using InWords.Data.Models.InWords.Repositories;
+
+namespace InWords.WebApi.Controllers
 {
     using System;
     using System.Threading.Tasks;
     using InWords.Auth;
     using InWords.Data;
-    using InWords.Data.Models;
     using InWords.WebApi.Providers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;

@@ -1,7 +1,7 @@
-﻿namespace InWords.WebApi.Providers
-{
-    using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
+namespace InWords.WebApi.Providers.FIleLogger
+{
     public class FileLoggerProvider : ILoggerProvider
     {
         private string path;

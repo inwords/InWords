@@ -1,7 +1,7 @@
-﻿namespace InWords.Data.Models
-{
-    using System.Linq;
+﻿using InWords.Data.Models.InWords.Creations;
 
+namespace InWords.Data.Models.InWords.Repositories
+{
     public class CreationDescriptionRepository : Repository<CreationDescription>
     {
         private readonly InWordsDataContext context;

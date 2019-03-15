@@ -1,10 +1,10 @@
-﻿namespace InWords.Common
-{
-    using System;
-    using System.IO;
-    using System.Reflection;
-    using System.Text;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
+namespace InWords.Common.Providers
+{
     public static class EmbeddedResource
     {
         public static string GetApiRequestFile(string namespaceAndFileName, Assembly assembly)

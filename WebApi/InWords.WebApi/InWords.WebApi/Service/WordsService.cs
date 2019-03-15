@@ -1,6 +1,10 @@
-﻿namespace InWords.WebApi.Service
+﻿using InWords.Data.Models;
+using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
+using InWords.Transfer.Data.Models;
+
+namespace InWords.WebApi.Service
 {
-    using InWords.Data.Models;
     using InWords.Transfer.Data;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,7 +16,7 @@
         private readonly WordPairRepository wordPairRepository = null;
         private readonly WordRepository wordRepository = null;
 
-        public WordsService(Data.InWordsDataContext context) : base(context)
+        public WordsService(InWordsDataContext context) : base(context)
         {
             userWordPairRepository = new UserWordPairRepository(this.context);
             wordPairRepository = new WordPairRepository(this.context);

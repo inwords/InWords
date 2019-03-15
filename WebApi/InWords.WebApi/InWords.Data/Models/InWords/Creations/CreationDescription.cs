@@ -1,8 +1,9 @@
-﻿namespace InWords.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using InWords.Data.Models.InWords.Domains;
+
+namespace InWords.Data.Models.InWords.Creations
 {
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    
     public class CreationDescription
     {
         public int CreationDescriptionId { get; set; }

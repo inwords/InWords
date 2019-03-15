@@ -1,12 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace InWords.Service.TFA.Data
-{
-    using InWords.Data.Models;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
 
+using InWords.Data;
+
+namespace InWords.Service.TFA.Data.Models.Repositories
+{
     public class AuthRequestRepository : Repository<AuthRequest>
     {
         private readonly TFADataContext context;

@@ -1,9 +1,9 @@
-﻿namespace InWords.Data.Models
-{
-    using InWords.Data.Enums;
-    using System;
-    using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using InWords.Data.Enums;
 
+namespace InWords.Data.Models.InWords.Domains
+{
     public class Account
     {
         [Key]

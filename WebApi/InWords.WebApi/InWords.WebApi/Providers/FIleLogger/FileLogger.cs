@@ -1,11 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
-namespace InWords.WebApi.Providers
+namespace InWords.WebApi.Providers.FIleLogger
 {
     public class FileLogger : ILogger
     {

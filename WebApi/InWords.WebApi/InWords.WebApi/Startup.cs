@@ -1,4 +1,7 @@
-﻿namespace InWords.WebApi
+﻿using InWords.Data.Models;
+using InWords.WebApi.Providers.FIleLogger;
+
+namespace InWords.WebApi
 {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;

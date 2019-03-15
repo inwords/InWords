@@ -1,7 +1,7 @@
-﻿namespace InWords.Data.Models
-{
-    using System.Linq;
+﻿using InWords.Data.Models.InWords.Creations.GameBox;
 
+namespace InWords.Data.Models.InWords.Repositories
+{
     public class GameLevelRepository : Repository<GameLevel>
     {
         private readonly InWordsDataContext context;

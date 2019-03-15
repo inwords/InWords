@@ -1,8 +1,9 @@
-﻿namespace InWords.Data.Models
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using InWords.Data.Models.InWords.Domains;
 
+namespace InWords.Data.Models.InWords.Creations.GameBox
+{
     public class GameLevelWord
     {
         [Key]

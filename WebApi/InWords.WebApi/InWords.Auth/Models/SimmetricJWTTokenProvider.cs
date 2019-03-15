@@ -1,13 +1,13 @@
-﻿namespace InWords.Auth
-{
-    using InWords.Auth.Interface;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.IdentityModel.Tokens;
-    using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.IO;
-    using System.Security.Claims;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Security.Claims;
+using InWords.Auth.Interface;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
+namespace InWords.Auth.Models
+{
     public class SimmetricJWTTokenProvider : IJWTProvider
     {
         public readonly string Issuer = null;

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace InWords.Transfer.Data
+namespace InWords.Transfer.Data.Models.Creation
 {
     public class CreationInfo
     {

@@ -1,7 +1,7 @@
-﻿namespace InWords.Transfer.Data
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace InWords.Transfer.Data.Models.GameBox
+{
     public class Level
     {
         public int LevelId { get; set; }

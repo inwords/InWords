@@ -1,9 +1,10 @@
-﻿namespace InWords.Service.TFA.Data
+﻿using InWords.Common.Converters;
+using InWords.Common.Providers;
+using InWords.Service.TFA.Data.Models;
+
+namespace InWords.Service.TFA.Data
 {
     using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     public class TFADataContext : DbContext
     {
@@ -20,9 +21,9 @@
         {
             var assembly = typeof(TFADataContext).Assembly;
 
-            var resource = Common.EmbeddedResource.GetApiRequestFile(AppConfig.DataConfig, assembly);
+            var resource = EmbeddedResource.GetApiRequestFile(AppConfig.DataConfig, assembly);
 
-            var connectionStrings = new Common.StringJsonConverter<ConnectionStrings>().Convert(resource);
+            var connectionStrings = new StringJsonConverter<ConnectionStrings>().Convert(resource);
 
             var connectionString = connectionStrings.DefaultConnection;
 
