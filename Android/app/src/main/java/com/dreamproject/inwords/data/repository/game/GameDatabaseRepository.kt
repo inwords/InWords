@@ -5,7 +5,7 @@ import com.dreamproject.inwords.data.source.database.game.GameEntityDao
 import io.reactivex.Single
 
 class GameDatabaseRepository<T> constructor(private val gameEntityDao: GameEntityDao<T>) {
-    fun getbyId(id: Int): Single<T> = gameEntityDao.getById(id)
+    fun getById(id: Int): Single<T> = gameEntityDao.getById(id)
             .subscribeOn(SchedulersFacade.io())
 
     fun getAll(): Single<List<T>> = gameEntityDao.all

@@ -15,6 +15,10 @@ import com.dreamproject.inwords.data.repository.game.GameEntityProvider;
 import com.dreamproject.inwords.data.repository.game.GameListCachingRepository;
 import com.dreamproject.inwords.data.repository.game.GameListProvider;
 import com.dreamproject.inwords.data.repository.game.GameRemoteRepository;
+import com.dreamproject.inwords.data.repository.profile.UserCachingRepository;
+import com.dreamproject.inwords.data.repository.profile.UserDatabaseRepository;
+import com.dreamproject.inwords.data.repository.profile.UserRemoteRepository;
+import com.dreamproject.inwords.data.repository.profile.UserRepository;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
 import com.dreamproject.inwords.data.source.webService.BasicAuthenticator;
@@ -49,6 +53,13 @@ class DataSourcesModule {
         return database.wordTranslationDao();
     }
 
+    @Provides
+    @Singleton
+    UserRepository userRep(AppRoomDatabase database,
+                           UserRemoteRepository userRemoteRepository) {
+        return new UserCachingRepository(new UserDatabaseRepository(database.userDao()), userRemoteRepository);
+    }
+
     @QGame
     @Provides
     @Singleton
@@ -71,7 +82,7 @@ class DataSourcesModule {
     @Provides
     @Singleton
     GameListProvider<GameInfo> gameInfoRep(AppRoomDatabase database,
-                                                GameRemoteRepository gameRemoteRepository) {
+                                           GameRemoteRepository gameRemoteRepository) {
         return new GameListCachingRepository<>(new GameDatabaseRepository<>(database.gameInfoDao()),
                 gameRemoteRepository::getGameInfos);
     }

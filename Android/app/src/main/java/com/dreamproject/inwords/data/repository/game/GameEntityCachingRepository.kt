@@ -8,5 +8,5 @@ class GameEntityCachingRepository<T>(
 
     override fun getById(id: Int) = dataProvider(id)
             .flatMap { item -> databaseRepository.insertAll(listOf(item)).map { item } }
-            .onErrorResumeNext(databaseRepository.getbyId(id))
+            .onErrorResumeNext(databaseRepository.getById(id))
 }
