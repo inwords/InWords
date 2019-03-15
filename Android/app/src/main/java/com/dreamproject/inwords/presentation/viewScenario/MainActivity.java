@@ -1,10 +1,8 @@
 package com.dreamproject.inwords.presentation.viewScenario;
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import com.dreamproject.inwords.R;
-import com.dreamproject.inwords.presentation.viewScenario.main.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +10,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity implements
-        MainFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +27,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onSupportNavigateUp() {
         return Navigation.findNavController(this, R.id.main_nav_host_fragment).navigateUp();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     /*

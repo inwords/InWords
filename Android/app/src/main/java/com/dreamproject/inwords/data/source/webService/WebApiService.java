@@ -31,7 +31,7 @@ public interface WebApiService {
     @GET("api/Game/level/{levelId}")
     Single<GameLevel> getLevel(@Header("Authorization") String bearerToken, @Path("levelId") int levelId);
 
-    //
+    //Words
     @POST("/api/words/DeletePair")
     Single<Integer> deletePairs(@Header("Authorization") String bearerToken, @Body List<Integer> serverIds);
 
@@ -41,23 +41,25 @@ public interface WebApiService {
     @POST("/api/sync/pullwordpairs")
     Single<PullWordsAnswer> pullWordsPairs(@Header("Authorization") String bearerToken, @Body List<Integer> serverIds);
 
-    @POST("/api/auth/registration")
-    @Headers({"Content-Type: application/json", "x-api-version: 2.0"}) //TODO think about it
-    Single<TokenResponse> registerUser(@Body UserCredentials userCredentials);
-
-    @POST("/api/auth/token")
-    @Headers({"x-api-version: 2.0"}) //TODO think about it
-    Single<TokenResponse> getToken(@Body UserCredentials credentials);
-
-    @GET("/api/values/getlogin")
-    Single<String> getLogin(@Header("Authorization") String bearerToken);
-
     @GET("/api/values")
     Single<List<String>> getValues();
 
-    @GET("/api/users")
-    Single<List<User>> getUsers();
+    //USERS
+    @POST("/api/auth/registration")
+    @Headers({"Content-Type: application/json", "x-api-version: 2.0"})
+    Single<TokenResponse> registerUser(@Body UserCredentials userCredentials);
 
-    @POST("/api/users")
-    Single<User> addUser(@Body User user);
+    @POST("/api/auth/token")
+    //TODO think about it
+    @Headers({"x-api-version: 2.0"})
+    Single<TokenResponse> getToken(@Body UserCredentials credentials);
+
+    @GET("/api/users")
+    Single<User> getAuthorisedUser(@Header("Authorization") String bearerToken);
+
+    @GET("/api/users/{id}")
+    Single<User> getUserById(@Header("Authorization") String bearerToken, @Path("id") int id);
+
+    @GET("/api/values/getlogin")
+    Single<String> getLogin(@Header("Authorization") String bearerToken);
 }

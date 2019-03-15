@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 public class EntityIdentificator implements Cloneable, Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    protected int id;
+    protected long id;
 
     @ColumnInfo(name = "server_id")
     protected int serverId;
@@ -27,16 +27,16 @@ public class EntityIdentificator implements Cloneable, Serializable {
         this.serverId = entityIdentificator.serverId;
     }
 
-    public EntityIdentificator(int id, int serverId) {
+    public EntityIdentificator(long id, int serverId) {
         this.id = id;
         this.serverId = serverId;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

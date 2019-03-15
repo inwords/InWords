@@ -2,14 +2,15 @@ package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
-import com.dreamproject.inwords.domain.BundleKeys
 import com.dreamproject.inwords.domain.CardsData
+import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
@@ -29,7 +30,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        gameLevelInfo = arguments?.getSerializable(BundleKeys.GAME_LEVEL_INFO) as GameLevelInfo
+        gameLevelInfo = arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
 
         viewModel.onGameLevelSelected(gameLevelInfo.levelId)
     }
@@ -53,6 +54,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
             val tableRow = TableRow(context)
             tableRow.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT)
+            tableRow.gravity = Gravity.CENTER
 
             for (j in 0 until 2) {
                 val card = layoutInflater.inflate(R.layout.card, tableRow, false) as FlipView

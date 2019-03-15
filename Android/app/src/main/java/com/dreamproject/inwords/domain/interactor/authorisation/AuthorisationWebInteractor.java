@@ -4,7 +4,7 @@ import com.dreamproject.inwords.data.dto.UserCredentials;
 import com.dreamproject.inwords.data.source.webService.AuthenticationError;
 import com.dreamproject.inwords.data.source.webService.WebRequestsManager;
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
-import com.dreamproject.inwords.domain.util.ErrorBodyFormatter;
+import com.dreamproject.inwords.domain.util.ErrorBodyFormatterKt;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -41,7 +41,7 @@ public class AuthorisationWebInteractor implements AuthorisationInteractor {
 
                     Throwable t;
                     if (e instanceof HttpException)
-                        t = new AuthenticationError(ErrorBodyFormatter.getErrorMessage((HttpException) e));
+                        t = new AuthenticationError(ErrorBodyFormatterKt.getErrorMessage((HttpException) e));
                     else if (e instanceof UnknownHostException || e instanceof SocketTimeoutException)
                         t = new RuntimeException("Network troubles");
                     else

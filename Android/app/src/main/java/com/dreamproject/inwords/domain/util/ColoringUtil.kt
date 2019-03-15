@@ -1,15 +1,13 @@
-package com.dreamproject.inwords.domain
+package com.dreamproject.inwords.domain.util
 
 import androidx.annotation.ColorInt
 import com.dreamproject.inwords.core.ColorUtil
 
-object ColoringUtil {
-    @ColorInt
-    fun getColorForGameLevelInfo(color: String, available: Boolean): Int {
-        return if (available) {
+@ColorInt
+fun getColorForGameLevelInfo(color: String, available: Boolean): Int =
+        if (available) {
             ColorUtil.decodeColor(color)
         } else {
             ColorUtil.decodeColor(color, 0x88000000)
         }
-    }
-}
+
