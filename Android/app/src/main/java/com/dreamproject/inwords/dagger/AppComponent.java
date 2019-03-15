@@ -1,6 +1,7 @@
 package com.dreamproject.inwords.dagger;
 
 import com.dreamproject.inwords.App;
+import com.dreamproject.inwords.data.source.database.RoomTypeConverter;
 import com.dreamproject.inwords.presentation.viewScenario.authorisation.login.LoginFragmentModule;
 import com.dreamproject.inwords.presentation.viewScenario.authorisation.registration.RegistrationFragmentModule;
 import com.dreamproject.inwords.presentation.viewScenario.main.MainFragmentModule;
@@ -25,7 +26,7 @@ import dagger.android.AndroidInjector;
         GameLevelsFragmentModule.class,
         GameLevelFragmentModule.class})
 public interface AppComponent extends AndroidInjector<App> {
-    GsonSubcomponent.Builder gsonSubcomponent();
+    void inject(RoomTypeConverter roomTypeConverter);
 
     @Component.Builder
     abstract class Builder extends AndroidInjector.Builder<App> {

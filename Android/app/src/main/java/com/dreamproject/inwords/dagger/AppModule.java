@@ -15,8 +15,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Module(includes = {AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
         DataSourcesModule.class,
-        DataAbstractModule.class},
-        subcomponents = GsonSubcomponent.class)
+        DataAbstractModule.class})
 abstract class AppModule {
     @Binds
     @Singleton

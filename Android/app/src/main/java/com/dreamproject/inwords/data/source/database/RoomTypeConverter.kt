@@ -14,7 +14,7 @@ class RoomTypeConverter {
     internal lateinit var gson: Gson
 
     init {
-        App.appComponent.gsonSubcomponent().build().inject(this)
+        App.appComponent.inject(this)
     }
 
     @TypeConverter
