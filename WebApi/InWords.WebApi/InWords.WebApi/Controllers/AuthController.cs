@@ -67,7 +67,7 @@ namespace InWords.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration([FromBody] BasicAuthClaims user)
         {
-            //check if accaunt exist;
+            //check if account exist;
             if (accountRepository.ExistAny(a => a.Email == user.Email))
                 return BadRequest($"User already exists {user.Email}");
 
