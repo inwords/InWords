@@ -19,7 +19,7 @@ namespace InWords.WebApi.Controllers
 
         #region Ctor
 
-        public AuthController(InWordsDataContext context, ILogger<AuthController> logger)
+        public AuthController(InWordsDataContext context, ILogger logger)
         {
             this.logger = logger;
             accountRepository = new AccountRepository(context);
