@@ -32,7 +32,8 @@ class WordlistPairsSearch extends Component {
         const { query } = this.state;
         return (
             <form className="form-inline" onSubmit={this.handleSubmit}>
-                <input type="search" className="form-control mr-sm-2" placeholder="Поиск слов" aria-label="Поиск" value={query} onChange={this.handleChange} />
+                <input type="search" className="form-control mr-sm-2" placeholder="Поиск слов" aria-label="Поиск"
+                    value={query} onChange={this.handleChange} />
                 <button type="submit" className="btn btn-outline-primary">Найти</button>
             </form>
         );

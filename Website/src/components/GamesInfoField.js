@@ -6,10 +6,9 @@ function GamesInfoField({ gamesInfo }) {
     return (
         <div className="row">
             {gamesInfo.map((gameInfo) =>
-                <GameInfo
-                    key={gameInfo.gameId}
-                    gameInfo={gameInfo}
-                />)}
+                <div className="col-sm-4" key={gameInfo.gameId}>
+                    <GameInfo gameInfo={gameInfo} />
+                </div>)}
         </div>
     );
 }

@@ -27,7 +27,8 @@ class AccountPage extends Component {
             !editModeActivated ?
                 <div className="text-center">
                     <AccountView userInfo={userInfo} />
-                    <button type="button" className="btn btn-outline-primary" onClick={this.handleClickSwitchEditMode}>Редактировать</button>
+                    <button type="button" className="btn btn-outline-primary"
+                        onClick={this.handleClickSwitchEditMode}>Редактировать</button>
                 </div> :
                 <AccountEditor handleClickCancel={this.handleClickSwitchEditMode} />
         );

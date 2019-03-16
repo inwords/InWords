@@ -6,10 +6,9 @@ function GameLevelsField({ gameInfo }) {
     return (
         <div className="row">
             {gameInfo.levelInfos.map((levelInfo) =>
-                <GameLevel
-                    key={levelInfo.levelId}
-                    levelInfo={levelInfo}
-                />)}
+                <div className="col-sm-4" key={levelInfo.levelId}>
+                    <GameLevel levelInfo={levelInfo} />
+                </div>)}
         </div>
     );
 }

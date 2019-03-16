@@ -30,22 +30,22 @@ class WordPair extends Component {
         const { editModeActivated } = this.state;
 
         return (
-            <li className="list-group-item list-group-item-action">
-                {!editModeActivated ?
-                    <div className="row">
-                        <WordPairView wordPair={wordPair} />
-                        <div className="col-md-auto">
-                            <div className="btn-group btn-group-sm" role="group">
-                                <button type="button" className="btn btn-outline-primary" onClick={this.handleClickSwitchEditMode}>Редактировать</button>
-                                <button type="button" className="btn btn-outline-danger" onClick={this.handleClickDelWordPair}>Удалить</button>
-                            </div>
+            !editModeActivated ?
+                <div className="row">
+                    <WordPairView wordPair={wordPair} />
+                    <div className="col-md-auto">
+                        <div className="btn-group btn-group-sm" role="group">
+                            <button type="button" className="btn btn-outline-primary"
+                                onClick={this.handleClickSwitchEditMode}>Редактировать</button>
+                            <button type="button" className="btn btn-outline-danger"
+                                onClick={this.handleClickDelWordPair}>Удалить</button>
                         </div>
-                    </div> :
-                    <WordPairEditor
-                        wordPair={wordPair}
-                        handleClickCancel={this.handleClickSwitchEditMode}
-                    />}
-            </li>
+                    </div>
+                </div> :
+                <WordPairEditor
+                    wordPair={wordPair}
+                    handleClickCancel={this.handleClickSwitchEditMode}
+                />
         );
     }
 }

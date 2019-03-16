@@ -33,10 +33,9 @@ class WordlistPage extends Component {
                 <WordlistTools />
                 <ul className="list-group list-group-flush">
                     {wordPairsRevercedCopy.map((wordPair) =>
-                        <WordPair
-                            key={wordPair.serverId}
-                            wordPair={wordPair}
-                        />)}
+                        <li className="list-group-item list-group-item-action" key={wordPair.serverId}>
+                            <WordPair wordPair={wordPair} />
+                        </li>)}
                 </ul>
             </Fragment>
         );

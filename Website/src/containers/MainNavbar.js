@@ -47,9 +47,7 @@ class MainNavbar extends Component {
                     </a> :
                     <Fragment />}
                 <a className="navbar-brand" href="/#">InWords</a>
-                <div className={isFetching ?
-                    "spinner-border spinner-border-sm text-secondary" :
-                    "spinner-border spinner-border-sm text-secondary invisible"} role="status" />
+                <div className={"spinner-border spinner-border-sm text-secondary" + (isFetching ? "" : " invisible")} role="status" />
                 <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon" />

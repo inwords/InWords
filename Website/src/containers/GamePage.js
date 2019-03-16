@@ -36,8 +36,10 @@ class GamePage extends Component {
                     <div className="p-2 mb-3">
                         <div className="btn-group" role="group">
                             {gameInfo && !gameLevel ?
-                                <button type="button" className="btn btn-outline-primary" onClick={this.handleClickResetGameInfo}>Назад к играм</button> :
-                                <button type="button" className="btn btn-outline-primary" onClick={this.handleClickResetGameLevel}>Назад к уровням</button>}
+                                <button type="button" className="btn btn-outline-primary"
+                                    onClick={this.handleClickResetGameInfo}>Назад к играм</button> :
+                                <button type="button" className="btn btn-outline-primary"
+                                    onClick={this.handleClickResetGameLevel}>Назад к уровням</button>}
                         </div>
                     </div> :
                     <Fragment />}

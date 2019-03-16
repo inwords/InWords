@@ -17,18 +17,17 @@ class GameLevel extends Component {
         const { levelInfo } = this.props;
 
         return (
-            <div className="col-sm-4">
-                <div className="card text-center text-white bg-primary mb-3">
-                    <div className="card-body">
-                        <h5 className="card-title">Уровень {levelInfo.level}</h5>
-                        <p className="card-text">
-                            {Array(levelInfo.playerStars).fill().map((item, index) =>
-                                <Fragment key={index}>&#9733;</Fragment>)}
-                            {Array(levelInfo.totalStars - levelInfo.playerStars).fill().map((item, index) =>
-                                <Fragment key={index}>&#9734;</Fragment>)}
-                        </p>
-                        <button type="button" className="btn btn-outline-secondary" disabled={!levelInfo.isAvailable} onClick={this.handleClickPullGameLevel}>Выбрать</button>
-                    </div>
+            <div className="card text-center text-white bg-primary mb-3">
+                <div className="card-body">
+                    <h5 className="card-title">Уровень {levelInfo.level}</h5>
+                    <p className="card-text">
+                        {Array(levelInfo.playerStars).fill().map((item, index) =>
+                            <Fragment key={index}>&#9733;</Fragment>)}
+                        {Array(levelInfo.totalStars - levelInfo.playerStars).fill().map((item, index) =>
+                            <Fragment key={index}>&#9734;</Fragment>)}
+                    </p>
+                    <button type="button" className="btn btn-outline-secondary"
+                        disabled={!levelInfo.isAvailable} onClick={this.handleClickPullGameLevel}>Выбрать</button>
                 </div>
             </div>
         );

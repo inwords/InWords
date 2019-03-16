@@ -40,7 +40,7 @@ class AccountEditor extends Component {
             NickName: this.state.nickName,
             AvatarPath: this.state.avatarPath
         });
-        
+
         event.preventDefault();
         this.props.handleClickCancel();
     };
@@ -48,20 +48,23 @@ class AccountEditor extends Component {
     render() {
         const { handleClickCancel } = this.props;
         const { nickName, avatarPath } = this.state;
-        
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="inputNickName">Никнейм</label>
-                    <input type="text" className="form-control" id="inputNickName" required="required" value={nickName} onChange={this.handleChangeNickName} />
+                    <input type="text" className="form-control" id="inputNickName" required="required"
+                        value={nickName} onChange={this.handleChangeNickName} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputAvatarPath">URL-адрес аватара</label>
-                    <input type="text" className="form-control" id="inputAvatarPath" value={avatarPath} onChange={this.handleChangeAvatarPath} />
+                    <input type="text" className="form-control" id="inputAvatarPath"
+                        value={avatarPath} onChange={this.handleChangeAvatarPath} />
                 </div>
                 <div className="btn-group" role="group">
                     <button type="submit" className="btn btn-primary">Сохранить</button>
-                    <button type="button" className="btn btn-outline-primary" onClick={handleClickCancel}>Отменить</button>
+                    <button type="button" className="btn btn-outline-primary"
+                        onClick={handleClickCancel}>Отменить</button>
                 </div>
             </form>
         );

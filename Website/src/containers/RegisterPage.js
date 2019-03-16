@@ -32,7 +32,7 @@ class RegisterPage extends Component {
             Email: this.state.email,
             Password: this.state.password
         });
-        
+
         event.preventDefault();
     };
 
@@ -48,11 +48,13 @@ class RegisterPage extends Component {
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="inputEmail">Электронная почта</label>
-                    <input type="email" className="form-control" id="inputEmail" placeholder="Введите email" required="required" value={email} onChange={this.handleChangeEmail} />
+                    <input type="email" className="form-control" id="inputEmail" placeholder="Введите email" required="required"
+                        value={email} onChange={this.handleChangeEmail} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputPassword">Пароль</label>
-                    <input type="password" className="form-control" id="inputPassword" placeholder="Введите пароль" required="required" value={password} onChange={this.handleChangePassword} />
+                    <input type="password" className="form-control" id="inputPassword" placeholder="Введите пароль" required="required"
+                        value={password} onChange={this.handleChangePassword} />
                 </div>
                 <button type="submit" className="btn btn-primary">Зарегистрироваться</button>
             </form>
