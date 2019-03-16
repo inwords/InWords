@@ -1,11 +1,9 @@
 import { API_HOST } from '../api-info';
 import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
-import { ErrorMessageActions } from './ErrorMessageActions';
 import { userConstants } from '../constants/userConstants';
-import { stringifyFormData } from '../helpers/stringifyFormData';
 
-function login(formUserdata) {
+function login(userdata) {
     return (dispatch) => {
         dispatch(FetchingActions.fetchingRequest());
 
@@ -15,7 +13,7 @@ function login(formUserdata) {
                 'Content-Type': 'application/json',
                 'X-API-Version': '2.0'
             },
-            body: stringifyFormData(formUserdata)
+            body: JSON.stringify(userdata)
         })
             .then(response => {
                 if (!response.ok) {
@@ -36,7 +34,7 @@ function login(formUserdata) {
     }
 }
 
-function register(formUserdata) {
+function register(userdata) {
     return (dispatch) => {
         dispatch(FetchingActions.fetchingRequest());
 
@@ -45,7 +43,7 @@ function register(formUserdata) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: stringifyFormData(formUserdata)
+            body: JSON.stringify(userdata)
         })
             .then(response => {
                 if (!response.ok) {
@@ -60,6 +58,12 @@ function register(formUserdata) {
                 console.error(err);
                 dispatch(FetchingActions.fetchingFailure(new Error('Ошибка регистрации')));
             });
+    }
+}
+
+function logout() {
+    return (dispatch) => {
+        dispatch(AccessActions.accessDenied());
     }
 }
 
@@ -102,7 +106,7 @@ function changeUserInfo(userInfo) {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + getState().accessToken
             },
-            body: stringifyFormData(userInfo)
+            body: JSON.stringify(userInfo)
         })
             .then(response => {
                 if (!response.ok) {
@@ -111,22 +115,12 @@ function changeUserInfo(userInfo) {
                 }
 
                 dispatch(FetchingActions.fetchingSuccess());
-                dispatch(userInfoChanged(JSON.parse(stringifyFormData(userInfo))));
-
-                if (getState().errorMessage) {
-                    dispatch(ErrorMessageActions.resetErrorMessage());
-                }
+                dispatch(userInfoChanged(userInfo));
             })
             .catch(err => {
                 console.error(err);
                 dispatch(FetchingActions.fetchingFailure(new Error('Ошибка обновления профиля')));
             });
-    }
-}
-
-function logout() {
-    return (dispatch) => {
-        dispatch(AccessActions.accessDenied());
     }
 }
 

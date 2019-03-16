@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { WordlistActions } from '../actions/WordlistActions';
 
-class Search extends Component {
+class WordlistPairsSearch extends Component {
     static propTypes = {
-        searchAction: PropTypes.func.isRequired
+        findWordPairs: PropTypes.func.isRequired
     };
 
     state = {
         query: ''
     };
 
+    componentWillUnmount() {
+        this.props.findWordPairs('');
+    }
+
     handleChange = (event) => {
         this.setState({
             query: event.target.value
+        }, () => {
+            this.props.findWordPairs(this.state.query)
         });
-    };
-
-    handleClick = () => {
-        this.props.searchAction(this.state.query);
     };
 
     render() {
@@ -25,10 +29,18 @@ class Search extends Component {
         return (
             <form className="form-inline">
                 <input type="search" className="form-control mr-sm-2" placeholder="Поиск" aria-label="Поиск" value={query} onChange={this.handleChange} />
-                <button type="button" className="btn btn-outline-primary" onClick={this.handleClick}>Найти</button>
             </form>
         );
     }
 }
 
-export default Search;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        findWordPairs: (pattern) => dispatch(WordlistActions.findWordPairs(pattern))
+    };
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(WordlistPairsSearch);

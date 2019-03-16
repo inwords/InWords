@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import MainNavbar from './MainNavbar';
-import WrapperWithErrorHandling from './WrapperWithErrorHandling';
+import WrapperWithErrorAlert from './WrapperWithErrorAlert';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
-import WordlistContainer from './WordlistContainer';
-import GameContainer from './GameContainer';
+import WordlistPage from './WordlistPage';
+import GamePage from './GamePage';
 import AccountPage from './AccountPage';
 
 class App extends Component {
@@ -15,13 +15,13 @@ class App extends Component {
                 <Fragment>
                     <MainNavbar />
                     <Switch>
-                        <WrapperWithErrorHandling>
+                        <WrapperWithErrorAlert>
                             <Route path="/login" component={LoginPage} />
                             <Route path="/register" component={RegisterPage} />
-                            <Route path="/wordlist" component={WordlistContainer} />
-                            <Route path="/game" component={GameContainer} />
+                            <Route path="/wordlist" component={WordlistPage} />
+                            <Route path="/game" component={GamePage} />
                             <Route path="/account" component={AccountPage} />
-                        </WrapperWithErrorHandling>
+                        </WrapperWithErrorAlert>
                     </Switch>
                 </Fragment>
             </HashRouter>

@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const GameWordCard = ({ id, word, selected, successfulPair, handleClick }) => (
-    <div className="col-6 col-sm-4 col-md-3 col-lg">
+    <div className="col-6 col-sm-4 col-md-4 col-lg-3 d-flex">
         <div className={successfulPair ?
-            "card text-center text-white bg-primary border-secondary mb-3" :
-            "card text-center text-white bg-primary mb-3"} onClick={() => handleClick(id, word)}>
+            "card flex-fill text-center text-white bg-primary border-secondary mb-3" :
+            "card flex-fill text-center text-white bg-primary mb-3"} onClick={() => handleClick(id, word)}>
             <div className="card-body">
                 {selected || successfulPair ?
                     <h5 className={successfulPair ?

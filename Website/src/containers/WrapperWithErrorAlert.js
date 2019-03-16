@@ -3,15 +3,25 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ErrorMessageActions } from '../actions/ErrorMessageActions';
 
-class WrapperWithErrorHandling extends Component {
+class WrapperWithErrorAlert extends Component {
     static propTypes = {
         errorMessage: PropTypes.string,
         resetErrorMessage: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-        if (this.props.errorMessage) {
-            this.props.resetErrorMessage();
+    timerId = null;
+
+    componentDidUpdate(prevProps) {
+        if (this.props.errorMessage !== prevProps.errorMessage) {
+            if (this.props.errorMessage) {
+                if (this.timerId) {
+                    clearTimeout(this.timerId);
+                }
+
+                this.timerId = setTimeout(() => {
+                    this.props.resetErrorMessage();
+                }, 2000);
+            }
         }
     }
 
@@ -45,4 +55,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(WrapperWithErrorHandling);
+)(WrapperWithErrorAlert);

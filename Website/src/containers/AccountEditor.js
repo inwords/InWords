@@ -7,7 +7,7 @@ class AccountEditor extends Component {
     static propTypes = {
         userInfo: PropTypes.object.isRequired,
         changeUserInfo: PropTypes.func.isRequired,
-        handleClickSwitchEditMode: PropTypes.func.isRequired
+        handleClickCancel: PropTypes.func.isRequired
     };
 
     state = {
@@ -36,27 +36,32 @@ class AccountEditor extends Component {
     };
 
     handleSubmit = (event) => {
+        this.props.changeUserInfo({
+            NickName: this.state.nickName,
+            AvatarPath: this.state.avatarPath
+        });
+        
         event.preventDefault();
-        this.props.changeUserInfo(new FormData(event.target));
-        this.props.handleClickSwitchEditMode();
+        this.props.handleClickCancel();
     };
 
     render() {
-        const { handleClickSwitchEditMode } = this.props;
+        const { handleClickCancel } = this.props;
         const { nickName, avatarPath } = this.state;
+        
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="inputNickName">Никнейм</label>
-                    <input type="text" className="form-control" id="inputNickName" name="NickName" required="required" value={nickName} onChange={this.handleChangeNickName} />
+                    <input type="text" className="form-control" id="inputNickName" required="required" value={nickName} onChange={this.handleChangeNickName} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputAvatarPath">URL-адрес аватара</label>
-                    <input type="text" className="form-control" id="inputAvatarPath" name="AvatarPath" value={avatarPath} onChange={this.handleChangeAvatarPath} />
+                    <input type="text" className="form-control" id="inputAvatarPath" value={avatarPath} onChange={this.handleChangeAvatarPath} />
                 </div>
                 <div className="btn-group" role="group">
                     <button type="submit" className="btn btn-primary">Сохранить</button>
-                    <button type="button" className="btn btn-outline-primary" onClick={handleClickSwitchEditMode}>Отменить</button>
+                    <button type="button" className="btn btn-outline-primary" onClick={handleClickCancel}>Отменить</button>
                 </div>
             </form>
         );

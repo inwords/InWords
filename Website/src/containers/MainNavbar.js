@@ -32,19 +32,21 @@ class MainNavbar extends Component {
 
     render() {
         const { accessToken, avatarPath, isFetching, location } = this.props;
+
+        if (!accessToken && location.pathname !== "/login" && location.pathname !== "/register") {
+            return <Redirect to="/login" />;
+        } else if (accessToken && location.pathname === "/") {
+            return <Redirect to="/wordlist" />;
+        }
+
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-3 sticky-top">
-                {!accessToken && location.pathname !== "/login" ? <Redirect to="/login" /> :
-                    accessToken && location.pathname === "/" ? <Redirect to="/wordlist" /> :
-                        <Fragment />}
                 {accessToken && avatarPath ?
-                    <a className="navbar-brand" href=".">
+                    <a className="navbar-brand" href="/#">
                         <img className="rounded-circle" src={avatarPath} width="30" height="30" alt="&#128565;" />
                     </a> :
                     <Fragment />}
-                <a className="navbar-brand" href=".">
-                    InWords
-                </a>
+                <a className="navbar-brand" href="/#">InWords</a>
                 <div className={isFetching ?
                     "spinner-border spinner-border-sm text-secondary" :
                     "spinner-border spinner-border-sm text-secondary invisible"} role="status" />

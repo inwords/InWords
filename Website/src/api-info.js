@@ -1,1 +1,1 @@
-export const API_HOST = "https://chatqq.ru";
+export const API_HOST = "https://api.inwords.ru";

@@ -1,7 +1,6 @@
 import { API_HOST } from '../api-info';
 import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
-import { ErrorMessageActions } from './ErrorMessageActions';
 import { wordlistConstants } from '../constants/wordlistConstants';
 
 function pullWordPairs() {
@@ -26,10 +25,6 @@ function pullWordPairs() {
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(pairsPullLocalRefresh(data.addedWords));
-
-                if (getState().errorMessage) {
-                    dispatch(ErrorMessageActions.resetErrorMessage());
-                }
             })
             .catch(err => {
                 console.error(err);
@@ -55,10 +50,6 @@ function deleteWordPair(pairId) {
 
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(pairsDelLocalRefresh(pairId));
-
-                if (getState().errorMessage) {
-                    dispatch(ErrorMessageActions.resetErrorMessage());
-                }
             })
             .catch(err => {
                 console.error(err);
@@ -89,10 +80,6 @@ function addWordPair(wordPair) {
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(pairsAddLocalRefresh(configureWordPair(data, wordPair)));
-
-                if (getState().errorMessage) {
-                    dispatch(ErrorMessageActions.resetErrorMessage());
-                }
             })
             .catch(err => {
                 console.error(err);
@@ -142,10 +129,6 @@ function editWordPair(pairId, wordPair) {
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(pairsEditLocalRefresh(pairId, configureWordPair(data, wordPair)));
-
-                if (getState().errorMessage) {
-                    dispatch(ErrorMessageActions.resetErrorMessage());
-                }
             })
             .catch(err => {
                 console.error(err);
@@ -156,7 +139,7 @@ function editWordPair(pairId, wordPair) {
 
 function findWordPairs(pattern) {
     return (dispatch) => {
-        dispatch(pairsSearchPatternUpdate(pattern))
+        dispatch(pairsSearchPatternChange(pattern))
     }
 }
 
@@ -181,8 +164,8 @@ const pairsEditLocalRefresh = (pairId, wordPair) => ({
     wordPair: wordPair
 });
 
-const pairsSearchPatternUpdate = (pattern) => ({
-    type: wordlistConstants.PAIRS_SEARCH_PATTERN_UPDATE,
+const pairsSearchPatternChange = (pattern) => ({
+    type: wordlistConstants.PAIRS_SEARCH_PATTERN_CHANGE,
     pattern: pattern
 });
 

@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { GameActions } from '../actions/GameActions';
 
 class GameInfoCard extends Component {
+    static propTypes = {
+        gameInfo: PropTypes.object.isRequired,
+        pullGameInfo: PropTypes.func.isRequired
+    };
+
     handleClickPullGameInfo = () => {
-        this.props.pullGameInfo(this.props.gameInfo.gameID);
+        this.props.pullGameInfo(this.props.gameInfo.gameId);
     };
 
     render() {
@@ -22,9 +29,13 @@ class GameInfoCard extends Component {
     }
 }
 
-GameInfoCard.propTypes = {
-    gameInfo: PropTypes.object.isRequired,
-    pullGameInfo: PropTypes.func.isRequired
+const mapDispatchToProps = (dispatch) => {
+    return {
+        pullGameInfo: (gameId) => dispatch(GameActions.pullGameInfo(gameId))
+    };
 };
 
-export default GameInfoCard;
+export default connect(
+    null,
+    mapDispatchToProps
+)(GameInfoCard);

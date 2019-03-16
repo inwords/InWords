@@ -37,7 +37,8 @@ function userInfo(state = emptyUserInfo, action) {
                 ...state,
                 userId: action.userInfo.userID,
                 nickName: action.userInfo.nickName,
-                avatarPath: action.userInfo.avatarPath
+                avatarPath: action.userInfo.avatarPath,
+                experience: action.userInfo.experience
             };
 
         case userConstants.USER_INFO_CHANGED:

@@ -1,37 +1,19 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-class WordPairView extends Component {
-    handleClickDelWordPair = () => {
-        this.props.deleteWordPair(this.props.wordPair.serverId);
-    };
-
-    render() {
-        const { wordPair, handleClickSwitchEditMode } = this.props;
-
-        return (
-            <div className="row">
-                <div className="col">
-                    <strong>{wordPair.wordForeign}</strong>
-                </div>
-                <div className="col">
-                    {wordPair.wordNative}
-                </div>
-                <div className="col-md-auto">
-                    <div className="btn-group btn-group-sm" role="group">
-                        <button type="button" className="btn btn-outline-primary" onClick={handleClickSwitchEditMode}>Редактировать</button>
-                        <button type="button" className="btn btn-outline-danger" onClick={this.handleClickDelWordPair}>Удалить</button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+const WordPairView = ({ wordPair }) => (
+    <Fragment>
+        <div className="col">
+            <strong>{wordPair.wordForeign}</strong>
+        </div>
+        <div className="col">
+            {wordPair.wordNative}
+        </div>
+    </Fragment>
+);
 
 WordPairView.propTypes = {
-    wordPair: PropTypes.object.isRequired,
-    handleClickSwitchEditMode: PropTypes.func.isRequired,
-    deleteWordPair: PropTypes.func.isRequired
+    wordPair: PropTypes.object.isRequired
 };
 
 export default WordPairView;

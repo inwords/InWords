@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import GameWordCard from './GameWordCard';
+import { GameActions } from '../actions/GameActions';
+import GameWordCard from '../components/GameWordCard';
 
 class GameField extends Component {
+    static propTypes = {
+        gameLevel: PropTypes.object.isRequired,
+        completeGame: PropTypes.func.isRequired
+    };
+
     state = {
         randomWords: [],
         selectedWords: [],
@@ -10,11 +17,12 @@ class GameField extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.successfulPairIds !== prevState.successfulPairIds
-            && this.state.successfulPairIds.length === this.props.gameLevel.wordTranslations.length) {
-            setTimeout(() => {
-                this.props.completeGame();
-            }, 1000);
+        if (this.state.successfulPairIds !== prevState.successfulPairIds) {
+            if (this.state.successfulPairIds.length === this.props.gameLevel.wordTranslations.length) {
+                setTimeout(() => {
+                    this.props.completeGame();
+                }, 1000);
+            }
         }
     }
 
@@ -78,7 +86,7 @@ class GameField extends Component {
                         word={randomWord.word}
                         selected={!!selectedWords.find((selectedWord) =>
                             selectedWord.id === randomWord.id && selectedWord.word === randomWord.word)}
-                        successfulPair={successfulPairIds.find((successfulPairId) =>
+                        successfulPair={!!successfulPairIds.find((successfulPairId) =>
                             successfulPairId === randomWord.id)}
                         handleClick={this.handleClick}
                     />)}
@@ -87,9 +95,13 @@ class GameField extends Component {
     }
 }
 
-GameField.propTypes = {
-    gameLevel: PropTypes.object.isRequired,
-    completeGame: PropTypes.func.isRequired
+const mapDispatchToProps = (dispatch) => {
+    return {
+        completeGame: () => dispatch(GameActions.completeGame())
+    };
 };
 
-export default GameField;
+export default connect(
+    null,
+    mapDispatchToProps
+)(GameField);
