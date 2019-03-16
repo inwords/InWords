@@ -1,15 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace InWords.Common
+namespace InWords.Common.Converters
 {
     public class StringJsonConverter<T> where T : class
     {
         public T Convert(string jsonString)
         {
-            T tmp = JsonConvert.DeserializeObject<T>(jsonString);
+            var tmp = JsonConvert.DeserializeObject<T>(jsonString);
             return tmp;
         }
     }

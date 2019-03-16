@@ -15,19 +15,19 @@ import io.reactivex.Single;
 public interface WordTranslationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(WordTranslation wordTranslation);
+    Single<Long> insert(WordTranslation wordTranslation);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertAll(List<WordTranslation> wordTranslation);
+    Single<List<Long>> insertAll(List<WordTranslation> wordTranslation);
 
     @Delete
-    int deleteAll(List<WordTranslation> wordTranslation);
+    Single<Integer> deleteAll(List<WordTranslation> wordTranslation);
 
     @Query("DELETE FROM word_translation_table")
-    int deleteAll();
+    Single<Integer> deleteAll();
 
     @Query("DELETE FROM word_translation_table WHERE server_id IN (:serverIds)")
-    int deleteAllServerIds(List<Integer> serverIds);
+    Single<Integer> deleteAllServerIds(List<Integer> serverIds);
 
     @Query("SELECT * from word_translation_table ORDER BY word_native ASC")
     Single<List<WordTranslation>> getAllWords();

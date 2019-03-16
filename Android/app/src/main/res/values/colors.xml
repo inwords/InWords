@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#225465</color>
-    <color name="colorPrimaryDark">#18301e</color>
-    <color name="colorAccent">#AA66CC</color>
+    <color name="colorPrimary">#FF225465</color>
+    <color name="colorPrimaryDark">#FF18301e</color>
+    <color name="colorAccent">#FFAA66CC</color>
 
-    <color name="blue_pressed">#ff1B4350</color>
-    <color name="blue_normal">#225465</color>
+    <color name="blue_pressed">#FF1B4350</color>
+    <color name="blue_normal">@color/colorPrimary</color>
     <color name="green_complete">#FF668C79</color>
     <color name="purple_progress">#FFAA66CC</color>
     <color name="red_error">#FFA44A4A</color>

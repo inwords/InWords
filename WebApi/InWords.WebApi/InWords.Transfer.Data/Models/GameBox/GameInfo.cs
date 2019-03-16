@@ -1,11 +1,11 @@
-﻿namespace InWords.Transfer.Data
+﻿namespace InWords.Transfer.Data.Models.GameBox
 {
     public class GameInfo
     {
-        public int GameID { get; set; }
+        public int GameId { get; set; }
 
         public string Title { get; set; }
 
-        public bool IsAvaliable { get; set; }
+        public bool IsAvailable { get; set; }
     }
 }

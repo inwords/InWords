@@ -1,21 +1,18 @@
-﻿namespace InWords.Data.Models
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace InWords.Data.Models.InWords.Domains
+{
     public class User
     {
-        [ForeignKey("Account")]
-        public int UserID { get; set; }
+        [ForeignKey("Account")] public int UserId { get; set; }
 
-        [StringLength(32)]
-        public string NickName { get; set; }
+        [StringLength(32)] public string NickName { get; set; }
 
         public string AvatarPath { get; set; }
 
-        public int Expirience { get; set; }
+        public int Experience { get; set; }
 
-        //[ForeignKey("UserID")] private
         public virtual Account Account { get; set; }
     }
 }

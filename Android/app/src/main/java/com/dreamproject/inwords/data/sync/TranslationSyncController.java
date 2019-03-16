@@ -6,6 +6,7 @@ import com.dreamproject.inwords.data.dto.EntityIdentificator;
 import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsRemoteRepository;
+import com.dreamproject.inwords.domain.util.WordsUtilKt;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,6 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
 import static com.dreamproject.inwords.data.sync.TranslationSyncController.Groups.ADD;
-import static com.dreamproject.inwords.domain.util.WordsUtil.serverIdsFromWordTranslations;
 
 public class TranslationSyncController {
     private TranslationWordsLocalRepository inMemoryRepository;
@@ -55,7 +55,7 @@ public class TranslationSyncController {
     private void establishSyncAllReposWithCacheWatcher() {
         dataChangedNotifier
                 .debounce(2, TimeUnit.SECONDS)
-                .doOnNext(__ -> trySyncAllReposWithCache()
+                .doOnNext(o -> trySyncAllReposWithCache()
                         .subscribeOn(Schedulers.io())
                         .subscribe(() -> {
                         }))
@@ -152,7 +152,7 @@ public class TranslationSyncController {
             }
 
             case REMOVE_REMOTE: {
-                List<Integer> serverIds = serverIdsFromWordTranslations(list);
+                List<Integer> serverIds = WordsUtilKt.serverIdsFromWordTranslations(list);
                 return remoteRepository.removeAllServerIds(serverIds)
                         .andThen(Completable.mergeDelayError(Arrays.asList(
                                 inMemoryRepository.removeAllServerIds(serverIds),

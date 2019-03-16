@@ -1,19 +1,14 @@
-﻿
-namespace InWords.Transfer.Data
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-    public class LevelPack : BaseInfo
+namespace InWords.Transfer.Data.Models.GameBox
+{
+    public class LevelPack : StarsInfo
     {
         public int Level { get; set; }
 
         public List<WordTranslation> WordTranslations { get; set; }
 
-        // Don't forget BaseInfo
-
         // TotalStars
-
-        // Title
 
         // SuccessStars
     }

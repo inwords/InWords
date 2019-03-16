@@ -1,23 +1,20 @@
-﻿namespace InWords.Data.Models
-{
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace InWords.Data.Models.InWords.Domains
+{
     public class UserWordPair
     {
-        [Key]
-        public int UserWordPairID { get; set; }
+        [Key] public int UserWordPairId { get; set; }
 
-        public int WordPairID { get; set; }
+        public int WordPairId { get; set; }
 
-        [ForeignKey("WordPairID")]
-        public virtual WordPair WordPair { get; set; }
+        [ForeignKey(nameof(WordPairId))] public virtual WordPair WordPair { get; set; }
 
         public bool IsInvertPair { get; set; }
 
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
-        [ForeignKey("UserID")]
-        public virtual User User { get; set; }
+        [ForeignKey(nameof(UserId))] public virtual User User { get; set; }
     }
 }

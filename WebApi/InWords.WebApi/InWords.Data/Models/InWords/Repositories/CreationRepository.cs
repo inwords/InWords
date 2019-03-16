@@ -1,10 +1,14 @@
-﻿namespace InWords.Data.Models
-{
-    using System.Linq;
+﻿using InWords.Data.Models.InWords.Creations;
 
+namespace InWords.Data.Models.InWords.Repositories
+{
     public class CreationRepository : Repository<Creation>
     {
-        InWordsDataContext context = null;
-        public CreationRepository(InWordsDataContext context) : base(context) { }
+        private readonly InWordsDataContext context;
+
+        public CreationRepository(InWordsDataContext context) : base(context)
+        {
+            this.context = context;
+        }
     }
 }

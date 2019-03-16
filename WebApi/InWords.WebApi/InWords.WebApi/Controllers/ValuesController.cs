@@ -1,22 +1,22 @@
-﻿namespace InWords.WebApi.Controllers
-{
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
-    using InWords.Data.Enums;
-    using InWords.Data;
-    using InWords.Data.Models;
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using InWords.Data.Models;
+using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
+namespace InWords.WebApi.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersionNeutral]
     public class ValuesController : ControllerBase
     {
-        private readonly UserRepository userRepository = null;
+        private readonly UserRepository userRepository;
 
-        private readonly WordRepository wordRepository = null;
+        private readonly WordPairRepository wordPairRepository;
 
-        private readonly WordPairRepository wordPairRepository = null;
+        private readonly WordRepository wordRepository;
 
         public ValuesController(InWordsDataContext context)
         {
@@ -26,12 +26,15 @@
         }
 
         /// <summary>
-        /// This is to get requested Api version
+        ///     This is to get requested Api version
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Route("version")]
-        public ActionResult GetVersion() => Ok(HttpContext.GetRequestedApiVersion());
+        public ActionResult GetVersion()
+        {
+            return Ok(HttpContext.GetRequestedApiVersion());
+        }
 
         // GET api/values
         //IEnumerable<string>
@@ -47,12 +50,12 @@
         {
             string[] wordsArr = words.Split('.');
 
-            Word first = new Word
+            var first = new Word
             {
                 Content = wordsArr[0]
             };
 
-            Word second = new Word
+            var second = new Word
             {
                 Content = wordsArr[1]
             };
@@ -82,14 +85,14 @@
         [Route("getlogin")]
         public IActionResult GetLogin()
         {
-            return Ok($"Ваш логин: {User.Identity.Name}");
+            return Ok($"login: {User.Identity.Name}");
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("getrole")]
+        [Route("getRole")]
         public IActionResult GetRole()
         {
-            return Ok($"Ваша роль: администратор");
+            return Ok("Role: Admin");
         }
     }
 }

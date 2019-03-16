@@ -38,7 +38,7 @@ public class WordTranslation extends EntityIdentificator implements Cloneable, S
         this.wordNative = wordNative;
     }
 
-    public WordTranslation(int id, int serverId, @NonNull String wordForeign, @NonNull String wordNative) {
+    public WordTranslation(long id, int serverId, @NonNull String wordForeign, @NonNull String wordNative) {
         super(id, serverId);
         this.wordForeign = wordForeign;
         this.wordNative = wordNative;

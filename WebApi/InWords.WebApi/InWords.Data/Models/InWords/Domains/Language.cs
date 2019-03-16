@@ -1,16 +1,11 @@
-﻿namespace InWords.Data.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace InWords.Data.Models.InWords.Domains
+{
     public class Language
     {
-        [Key]
-        public int LanguageID { get; set; }
+        [Key] public int LanguageId { get; set; }
 
-        [StringLength(32)]
-        public string Title { get; set; }
+        [StringLength(32)] public string Title { get; set; }
     }
 }

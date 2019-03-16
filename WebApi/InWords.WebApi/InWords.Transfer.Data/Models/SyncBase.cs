@@ -1,9 +1,10 @@
-﻿namespace InWords.Transfer.Data
+﻿using System;
+
+namespace InWords.Transfer.Data.Models
 {
-    using System;
-    
+    /// <inheritdoc />
     /// <summary>
-    /// Transfer response pack: Id and ServerId
+    ///     Transfer response pack: Id and ServerId
     /// </summary>
     public class SyncBase : ICloneable
     {
@@ -11,11 +12,19 @@
 
         public int ServerId { get; set; }
 
+        object ICloneable.Clone()
+        {
+            return new SyncBase(this);
+        }
+
         #region Ctor
+
         /// <summary>
-        /// Constructor part
+        ///     Constructor part
         /// </summary>
-        public SyncBase() { }
+        public SyncBase()
+        {
+        }
 
         public SyncBase(int serverID)
         {
@@ -34,11 +43,7 @@
             Id = wordTranslationBase.Id;
             ServerId = wordTranslationBase.Id;
         }
-        #endregion
 
-        object ICloneable.Clone()
-        {
-            return new SyncBase(this);
-        }
+        #endregion
     }
 }

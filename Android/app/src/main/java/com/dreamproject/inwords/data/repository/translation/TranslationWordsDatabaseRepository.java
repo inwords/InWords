@@ -49,50 +49,51 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
 
     @Override
     public Single<WordTranslation> addReplace(WordTranslation wordTranslation) {
-        return Single.defer(() -> {
-            long id = wordTranslationDao.insert(wordTranslation);
-            wordTranslation.getWordIdentificator().setId((int) id);
+        return wordTranslationDao.insert(wordTranslation).map(id -> {
+            wordTranslation.getWordIdentificator().setId(id);
 
-            return Single.just(wordTranslation);
+            return wordTranslation;
         })
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations) {
-        if (wordTranslations.isEmpty()){
+        if (wordTranslations.isEmpty()) {
             return Single.just(wordTranslations);
         }
 
-        return Single.defer(() -> Observable.zip(
-                Observable.fromIterable(wordTranslationDao.insertAll(wordTranslations)),
-                Observable.fromIterable(wordTranslations),
-                (id, wordTranslation) -> {
-                    wordTranslation.setId(id.intValue());
+        return Single.defer(() -> wordTranslationDao.insertAll(wordTranslations)
+                .flatMapObservable(Observable::fromIterable)
+                .zipWith(Observable.fromIterable(wordTranslations),
+                        (id, wordTranslation) -> {
+                            wordTranslation.setId(id);
 
-                    return wordTranslation;
-                })
+                            return wordTranslation;
+                        })
                 .toList())
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Completable removeAll(List<WordTranslation> wordTranslations) {
-        if (wordTranslations.isEmpty()){
+        if (wordTranslations.isEmpty()) {
             return Completable.complete();
         }
 
-        return Completable.fromCallable(() -> wordTranslationDao.deleteAll(wordTranslations))
+        return wordTranslationDao.deleteAll(wordTranslations)
+                .ignoreElement()
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
-        if (serverIds.isEmpty()){
+        if (serverIds.isEmpty()) {
             return Completable.complete();
         }
 
-        return Completable.fromCallable(() -> wordTranslationDao.deleteAllServerIds(serverIds))
+        return wordTranslationDao.deleteAllServerIds(serverIds)
+                .ignoreElement()
                 .subscribeOn(Schedulers.io());
     }
 }

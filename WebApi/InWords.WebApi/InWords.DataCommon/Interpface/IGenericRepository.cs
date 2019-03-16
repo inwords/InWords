@@ -1,9 +1,9 @@
-﻿namespace InWords.Data.Interpface
-{
-    using System;
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
+namespace InWords.Data.Interfaces
+{
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         Task<TEntity> Create(TEntity item);

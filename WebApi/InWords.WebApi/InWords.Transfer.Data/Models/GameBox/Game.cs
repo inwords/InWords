@@ -1,9 +1,10 @@
-﻿namespace InWords.Transfer.Data
+﻿using System.Collections.Generic;
+
+namespace InWords.Transfer.Data.Models.GameBox
 {
-    using System.Collections.Generic;
     public class Game
     {
-        public int GameID { get; set; }
+        public int GameId { get; set; }
 
         public string Creator { get; set; }
 

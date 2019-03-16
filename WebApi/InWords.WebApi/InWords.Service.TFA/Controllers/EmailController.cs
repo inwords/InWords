@@ -1,26 +1,22 @@
-﻿namespace InWords.Service.TFA.Controllers
-{
-    using InWords.Service.TFA.Data;
-    using System;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using InWords.Service.TFA.Data;
+using InWords.Service.TFA.Interfaces;
+using InWords.Service.TFA.Services;
 
+namespace InWords.Service.TFA.Controllers
+{
     /// <summary>
-    /// Controller to confirm email address
+    ///     Controller to confirm email address
     /// </summary>
     public class EmailController : I2FAProvider //todo : Base2FAProvider + common IsValidKey
     {
-        private readonly EmailService emailService = null;
+        private readonly EmailService emailService;
 
         public EmailController()
         {
             var context = new TFADataContext();
             emailService = new EmailService(context);
-        }
-
-        public async Task<string> ConfirmEmail(string email)
-        {
-            var key = await emailService.GetKey(email); //todo async
-            return key;
         }
 
         Task<string> I2FAProvider.GetKey(string identity)
@@ -31,6 +27,12 @@
         Task<bool> I2FAProvider.IsValidKey(string identity, string key)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<string> ConfirmEmail(string email)
+        {
+            string key = await emailService.GetKey(email); //todo async
+            return key;
         }
     }
 }
