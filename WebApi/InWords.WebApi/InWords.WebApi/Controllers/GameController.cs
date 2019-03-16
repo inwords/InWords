@@ -4,6 +4,7 @@ using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
+using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 using InWords.WebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,17 +28,31 @@ namespace InWords.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> AddGamePack([FromBody] GamePack gamePack)
         {
-            int authorizedID = User.Claims.GetUserId();
+            int authorizedId = User.Claims.GetUserId();
 
-            SyncBase answer = await gameService.AddGamePack(authorizedID, gamePack);
+            SyncBase answer = await gameService.AddGamePack(authorizedId, gamePack);
 
             return Ok(answer);
+        }
+
+        //TODO: Add Game
+        [Route("score")]
+        [HttpPost]
+        public async Task<IActionResult> PostScore(LevelResult levelResult)
+        {
+            int authorizedId = User.Claims.GetUserId();
+
+            SyncBase answer = await gameService.LevelResultToScore(authorizedId, levelResult);
+
+            //return Ok(answer);
+
+            return NoContent();
         }
 
         //TODO: Get GameInfo
         [Route("GameInfo")]
         [HttpGet]
-        public async Task<IActionResult> GetGameInfo()
+        public IActionResult GetGameInfo()
         {
             List<GameInfo> answer = gameService.GetGameInfo();
 
@@ -49,9 +64,9 @@ namespace InWords.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGame(int id)
         {
-            int userID = User.Claims.GetUserId();
+            int userId = User.Claims.GetUserId();
 
-            Game answer = await gameService.GetGameInfo(userID, id);
+            Game answer = await gameService.GetGameInfo(userId, id);
 
             return Ok(answer);
         }
@@ -59,11 +74,11 @@ namespace InWords.WebApi.Controllers
         //TODO: Get Level
         [Route("level/{id}")]
         [HttpGet]
-        public async Task<IActionResult> GetLevel(int id)
+        public IActionResult GetLevel(int id)
         {
-            int userID = User.Claims.GetUserId();
+            int userId = User.Claims.GetUserId();
 
-            Level answer = gameService.GetLevel(userID, id);
+            Level answer = gameService.GetLevel(userId, id);
 
             return Ok(answer);
         }
