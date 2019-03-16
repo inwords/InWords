@@ -1,30 +1,18 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { GameActions } from '../actions/GameActions';
-import GameWordCard from '../components/GameWordCard';
+import GameWord from './GameWord';
 
-class GameField extends Component {
+class GameWordsField extends Component {
     static propTypes = {
-        gameLevel: PropTypes.object.isRequired,
-        completeGame: PropTypes.func.isRequired
+        gameLevel: PropTypes.object.isRequired
     };
 
     state = {
         randomWords: [],
         selectedWords: [],
-        successfulPairIds: []
+        successfulPairIds: [],
+        successfulSelectedPairId: -1
     };
-
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.successfulPairIds !== prevState.successfulPairIds) {
-            if (this.state.successfulPairIds.length === this.props.gameLevel.wordTranslations.length) {
-                setTimeout(() => {
-                    this.props.completeGame();
-                }, 1000);
-            }
-        }
-    }
 
     componentDidMount() {
         this.setState({
@@ -43,8 +31,16 @@ class GameField extends Component {
     handleClick = (id, word) => {
         const { selectedWords, successfulPairIds } = this.state;
 
-        if (selectedWords.length === 2 || selectedWords.find((visibleWord) =>
-            visibleWord.id === id && visibleWord.word === word)) {
+        if (successfulPairIds.find((successfulPairId) => successfulPairId === id)) {
+            this.setState({
+                successfulSelectedPairId: id
+            });
+
+            return;
+        }
+
+        if (selectedWords.length === 2 ||
+            selectedWords.find((selectedWord) => selectedWord.id === id && selectedWord.word === word)) {
             return;
         }
 
@@ -58,11 +54,12 @@ class GameField extends Component {
         }
 
         if (selectedWords.length > 0) {
-            if (selectedWords.find((visibleWord) =>
-                visibleWord.id === id)) {
+            if (selectedWords.find((visibleWord) => visibleWord.id === id) &&
+                !successfulPairIds.find((successfulPairId) => successfulPairId === id)) {
                 this.setState({
                     successfulPairIds: [...successfulPairIds, id],
-                    selectedWords: []
+                    selectedWords: [],
+                    successfulSelectedPairId: id
                 });
             } else {
                 setTimeout(() => {
@@ -75,33 +72,25 @@ class GameField extends Component {
     };
 
     render() {
-        const { randomWords, selectedWords, successfulPairIds } = this.state;
+        const { randomWords, selectedWords, successfulPairIds, successfulSelectedPairId } = this.state;
 
         return (
             <div className="row">
                 {randomWords.map((randomWord, index) =>
-                    <GameWordCard
+                    <GameWord
                         key={index}
                         id={randomWord.id}
                         word={randomWord.word}
                         selected={!!selectedWords.find((selectedWord) =>
                             selectedWord.id === randomWord.id && selectedWord.word === randomWord.word)}
-                        successfulPair={!!successfulPairIds.find((successfulPairId) =>
-                            successfulPairId === randomWord.id)}
+                        successful={!!~successfulPairIds.indexOf(randomWord.id)}
+                        successfulSelected={successfulSelectedPairId === randomWord.id}
                         handleClick={this.handleClick}
                     />)}
             </div>
+
         );
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        completeGame: () => dispatch(GameActions.completeGame())
-    };
-};
-
-export default connect(
-    null,
-    mapDispatchToProps
-)(GameField);
+export default GameWordsField;

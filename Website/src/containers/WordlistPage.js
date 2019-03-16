@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { WordlistActions } from '../actions/WordlistActions';
 import PropTypes from 'prop-types';
-import WordlistTools from './WordlistTools';
+import WordlistTools from '../components/WordlistTools';
 import WordPair from './WordPair';
 
 class WordlistPage extends Component {
@@ -19,13 +19,12 @@ class WordlistPage extends Component {
     render() {
         const { wordPairs, searchPattern } = this.props;
 
-        let wordPairsRevercedCopy = wordPairs.slice().sort((firstWordPair, secondWordPair) =>
-            firstWordPair.wordForeign > secondWordPair.wordForeign
-        );
+        let wordPairsRevercedCopy = wordPairs.slice().reverse();
 
         if (searchPattern) {
             wordPairsRevercedCopy = wordPairsRevercedCopy.filter((wordPair) =>
-                wordPair.wordForeign.includes(searchPattern) || wordPair.wordNative.includes(searchPattern)
+                wordPair.wordForeign.toUpperCase().includes(searchPattern.toUpperCase()) ||
+                wordPair.wordNative.toUpperCase().includes(searchPattern.toUpperCase())
             );
         }
 
@@ -40,7 +39,6 @@ class WordlistPage extends Component {
                         />)}
                 </ul>
             </Fragment>
-            
         );
     }
 }

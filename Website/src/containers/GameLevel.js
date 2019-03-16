@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GameActions } from '../actions/GameActions';
 
-class GameLevelCard extends Component {
+class GameLevel extends Component {
     static propTypes = {
         levelInfo: PropTypes.object.isRequired,
         pullGameLevel: PropTypes.func.isRequired
@@ -44,4 +44,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     null,
     mapDispatchToProps
-)(GameLevelCard);
+)(GameLevel);

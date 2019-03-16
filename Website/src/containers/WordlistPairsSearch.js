@@ -19,16 +19,21 @@ class WordlistPairsSearch extends Component {
     handleChange = (event) => {
         this.setState({
             query: event.target.value
-        }, () => {
-            this.props.findWordPairs(this.state.query)
         });
+    };
+
+    handleSubmit = (event) => {
+        this.props.findWordPairs(this.state.query)
+
+        event.preventDefault();
     };
 
     render() {
         const { query } = this.state;
         return (
-            <form className="form-inline">
-                <input type="search" className="form-control mr-sm-2" placeholder="Поиск" aria-label="Поиск" value={query} onChange={this.handleChange} />
+            <form className="form-inline" onSubmit={this.handleSubmit}>
+                <input type="search" className="form-control mr-sm-2" placeholder="Поиск слов" aria-label="Поиск" value={query} onChange={this.handleChange} />
+                <button type="submit" className="btn btn-outline-primary">Найти</button>
             </form>
         );
     }

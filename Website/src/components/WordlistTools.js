@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import WordlistPairAdding from './WordlistPairAdding';
-import WordlistPairsSearch from './WordlistPairsSearch';
+import WordlistPairAdding from '../containers/WordlistPairAdding';
+import WordlistPairsSearch from '../containers/WordlistPairsSearch';
 
 class WordlistTools extends Component {
     state = {
@@ -17,7 +17,7 @@ class WordlistTools extends Component {
         const { addModeActivated } = this.state;
 
         return (
-            <div className="container bg-light pb-2 pt-2 mb-3">
+            <div className="bg-light p-2 mb-3">
                 {!addModeActivated ?
                     <div className="row">
                         <div className="col">

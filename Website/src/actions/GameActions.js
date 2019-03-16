@@ -8,14 +8,6 @@ function pullGamesInfo() {
     return (dispatch, getState) => {
         dispatch(FetchingActions.fetchingRequest());
 
-        if (getState().game.gameInfo) {
-            dispatch(gameInfoReset());
-
-            if (getState().game.gameLevel) {
-                dispatch(gameLevelReset());
-            }
-        }
-
         fetch(API_HOST + '/api/Game/GameInfo', {
             method: 'GET',
             headers: {
@@ -42,12 +34,6 @@ function pullGamesInfo() {
                 console.error(err);
                 dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об играх')));
             });
-    }
-}
-
-function completeGame() {
-    return (dispatch) => {
-        dispatch(gameLevelReset());
     }
 }
 
@@ -117,6 +103,18 @@ function pullGameLevel(levelId) {
     }
 }
 
+function resetGameInfo() {
+    return (dispatch) => {
+        dispatch(gameInfoReset());
+    }
+}
+
+function resetGameLevel() {
+    return (dispatch) => {
+        dispatch(gameLevelReset());
+    }
+}
+
 const gamesInfoReceived = (gamesInfo) => ({
     type: gameConstants.GAMES_INFO_RECEIVED,
     gamesInfo: gamesInfo
@@ -144,5 +142,6 @@ export const GameActions = {
     pullGamesInfo,
     pullGameInfo,
     pullGameLevel,
-    completeGame
+    resetGameInfo,
+    resetGameLevel
 };

@@ -34,6 +34,11 @@ class WordlistPairAdding extends Component {
                 WordForeign: wordForeign,
                 WordNative: wordNative
             });
+
+            this.setState({
+                wordForeign: '',
+                wordNative: ''
+            });
         }
 
         event.preventDefault();
@@ -41,14 +46,15 @@ class WordlistPairAdding extends Component {
 
     render() {
         const { handleClickCancel } = this.props;
+        const { wordForeign, wordNative } = this.state;
 
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="row">
                     <div className="col">
                         <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Слово или фраза" onChange={this.handleChangeWordForeign} />
-                            <input type="text" className="form-control" placeholder="Перевод" onChange={this.handleChangeWordNative} />
+                            <input type="text" className="form-control" placeholder="Слово или фраза" value={wordForeign} onChange={this.handleChangeWordForeign} />
+                            <input type="text" className="form-control" placeholder="Перевод" value={wordNative} onChange={this.handleChangeWordNative} />
                         </div>
                     </div>
                     <div className="col-md-auto">
