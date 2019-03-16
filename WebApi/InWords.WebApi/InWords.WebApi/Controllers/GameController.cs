@@ -42,11 +42,9 @@ namespace InWords.WebApi.Controllers
         {
             int authorizedId = User.Claims.GetUserId();
 
-            SyncBase answer = await gameService.LevelResultToScore(authorizedId, levelResult);
+            LevelScore answer = await gameService.LevelResultToScore(authorizedId, levelResult);
 
-            //return Ok(answer);
-
-            return NoContent();
+            return Ok(answer);
         }
 
         //TODO: Get GameInfo

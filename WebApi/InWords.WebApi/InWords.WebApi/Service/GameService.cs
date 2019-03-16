@@ -16,6 +16,8 @@ namespace InWords.WebApi.Service
 {
     public class GameService : CreationService
     {
+        #region PropsAndCtor
+
         private readonly GameBoxRepository gameBoxRepository;
         private readonly GameLevelRepository gameLevelRepository;
         private readonly GameLevelWordRepository gameLevelWordRepository;
@@ -34,6 +36,8 @@ namespace InWords.WebApi.Service
             userGameBoxRepository = new UserGameBoxRepository(context);
             userGameLevelRepository = new UserGameLevelRepository(context);
         }
+        
+        #endregion
 
         /// <summary>
         ///     This is to add game pack to database with UserID as CreationID
@@ -91,6 +95,10 @@ namespace InWords.WebApi.Service
             return answer;
         }
 
+        /// <summary>
+        ///     This is to get short information about all created games
+        /// </summary>
+        /// <returns></returns>
         public List<GameInfo> GetGameInfo()
         {
             var gameInfos = new List<GameInfo>();
