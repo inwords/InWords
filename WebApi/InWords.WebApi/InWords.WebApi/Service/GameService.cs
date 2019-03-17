@@ -36,7 +36,7 @@ namespace InWords.WebApi.Service
             userGameBoxRepository = new UserGameBoxRepository(context);
             userGameLevelRepository = new UserGameLevelRepository(context);
         }
-        
+
         #endregion
 
         /// <summary>
@@ -60,35 +60,40 @@ namespace InWords.WebApi.Service
             {
                 CreationId = creationId
             };
+
             gameBox = await gameBoxRepository.Create(gameBox);
 
-            // Add levels
-            foreach (LevelPack levelPack in gamePack.LevelPacks)
+            // Loading behind the scenes, the level will be processed on the server
+            // Does not affect user experience
+            Task.Run(async () =>
             {
-                var gameLevel = new GameLevel
+                // Add levels
+                foreach (LevelPack levelPack in gamePack.LevelPacks)
                 {
-                    GameBoxId = gameBox.GameBoxId,
-                    TotalStars = levelPack.TotalStars,
-                    SuccessStars = levelPack.SuccessStars,
-                    Level = levelPack.Level
-                };
-                gameLevel = await gameLevelRepository.Create(gameLevel);
-
-                //add words
-
-                foreach (WordTranslation pair in levelPack.WordTranslations)
-                {
-                    WordPair wordPair = await wordsService.AddPair(pair);
-
-                    var gameLevelWord = new GameLevelWord
+                    var gameLevel = new GameLevel
                     {
-                        GameLevelId = gameLevel.GameLevelId,
-                        WordPairId = wordPair.WordPairId
+                        GameBoxId = gameBox.GameBoxId,
+                        Level = levelPack.Level
                     };
+                    gameLevel = await gameLevelRepository.Create(gameLevel);
 
-                    await gameLevelWordRepository.Create(gameLevelWord);
+                    //add words
+
+                    foreach (WordTranslation pair in levelPack.WordTranslations)
+                    {
+                        WordPair wordPair = await wordsService.AddPair(pair);
+
+                        var gameLevelWord = new GameLevelWord
+                        {
+                            GameLevelId = gameLevel.GameLevelId,
+                            WordPairId = wordPair.WordPairId
+                        };
+
+                        await gameLevelWordRepository.Create(gameLevelWord);
+                    }
                 }
-            }
+
+            }).Start();
 
             var answer = new SyncBase(gameBox.GameBoxId);
 
