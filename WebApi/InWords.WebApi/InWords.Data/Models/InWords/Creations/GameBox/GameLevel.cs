@@ -11,10 +11,6 @@ namespace InWords.Data.Models.InWords.Creations.GameBox
 
         [ForeignKey(nameof(GameBoxId))] public virtual GameBox GameBox { get; set; }
 
-        public int TotalStars { get; set; }
-
-        public int SuccessStars { get; set; }
-
         public int Level { get; set; }
     }
 }

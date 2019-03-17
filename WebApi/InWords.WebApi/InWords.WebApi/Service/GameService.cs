@@ -145,8 +145,6 @@ namespace InWords.WebApi.Service
                 LevelId = level.GameLevelId,
                 Level = level.Level,
                 PlayerStars = 0,
-                SuccessStars = level.SuccessStars,
-                TotalStars = level.TotalStars
             })
                 .ToList();
 

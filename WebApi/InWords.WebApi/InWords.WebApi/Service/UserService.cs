@@ -8,13 +8,11 @@ namespace InWords.WebApi.Service
 {
     public class UserService : ServiceBase
     {
-        private readonly AccountRepository accountRepository;
         private readonly UserRepository usersRepository;
 
         public UserService(InWordsDataContext context) : base(context)
         {
             usersRepository = new UserRepository(context);
-            accountRepository = new AccountRepository(context);
         }
 
         public IEnumerable<User> GetUsers(string nickLike)
