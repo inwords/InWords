@@ -9,7 +9,7 @@ class GameLevel extends Component {
         pullGameLevel: PropTypes.func.isRequired
     };
 
-    handleClickPullGameLevel = () => {
+    handlePullGameLevel = () => {
         this.props.pullGameLevel(this.props.levelInfo.levelId);
     };
 
@@ -27,7 +27,7 @@ class GameLevel extends Component {
                             <Fragment key={index}>&#9734;</Fragment>)}
                     </p>
                     <button type="button" className="btn btn-outline-secondary"
-                        disabled={!levelInfo.isAvailable} onClick={this.handleClickPullGameLevel}>Выбрать</button>
+                        disabled={!levelInfo.isAvailable} onClick={this.handlePullGameLevel}>Выбрать</button>
                 </div>
             </div>
         );

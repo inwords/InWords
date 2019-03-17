@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 class WordPairEditor extends Component {
     static propTypes = {
         wordPair: PropTypes.object.isRequired,
-        handleClickCancel: PropTypes.func.isRequired,
+        handleCancel: PropTypes.func.isRequired,
         editWordPair: PropTypes.func.isRequired
     };
 
     state = {
-        wordForeign: '',
-        wordNative: ''
+        wordForeign: "",
+        wordNative: ""
     };
 
     componentDidMount() {
@@ -50,7 +50,7 @@ class WordPairEditor extends Component {
     };
 
     render() {
-        const { handleClickCancel } = this.props;
+        const { handleCancel } = this.props;
         const { wordForeign, wordNative } = this.state;
 
         return (
@@ -68,7 +68,7 @@ class WordPairEditor extends Component {
                         <div className="btn-group btn-group-sm" role="group">
                             <button type="submit" className="btn btn-primary">Сохранить</button>
                             <button type="button" className="btn btn-outline-primary"
-                                onClick={handleClickCancel}>Отменить</button>
+                                onClick={handleCancel}>Отменить</button>
                         </div>
                     </div>
                 </div>

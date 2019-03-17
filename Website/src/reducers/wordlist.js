@@ -30,7 +30,7 @@ function wordPairs(state = [], action) {
     }
 }
 
-function searchPattern(state = '', action) {
+function searchPattern(state = "", action) {
     if (action.type === wordlistConstants.PAIRS_SEARCH_PATTERN_CHANGE) {
         return action.pattern;
     }

@@ -1,53 +1,41 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { GameActions } from '../actions/GameActions';
-import GamesInfoField from '../components/GamesInfoField';
-import GameLevelsField from '../components/GameLevelsField';
-import GameWordsField from '../components/GameWordsField';
+import GameContainer from './GameContainer';
+import GamePackAdding from './GamePackAdding';
 
 class GamePage extends Component {
     static propTypes = {
-        gameInfo: PropTypes.object,
-        gameLevel: PropTypes.object,
-        pullGamesInfo: PropTypes.func.isRequired,
-        resetGameInfo: PropTypes.func.isRequired,
-        resetGameLevel: PropTypes.func.isRequired
+        gameInfo: PropTypes.object
     };
 
-    componentDidMount() {
-        this.props.pullGamesInfo();
-    }
-
-    handleClickResetGameInfo = () => {
-        this.props.resetGameInfo();
+    state = {
+        addModeActivated: false,
     };
 
-    handleClickResetGameLevel = () => {
-        this.props.resetGameLevel();
+    handleSwitchAddMode = () => {
+        this.setState({
+            addModeActivated: !this.state.addModeActivated
+        });
     };
 
     render() {
-        const { gamesInfo, gameInfo, gameLevel } = this.props;
+        const { gameInfo } = this.props;
+        const { addModeActivated } = this.state;
 
         return (
             <Fragment>
-                {gameInfo ?
+                {!addModeActivated && !gameInfo ?
                     <div className="p-2 mb-3">
                         <div className="btn-group" role="group">
-                            {gameInfo && !gameLevel ?
-                                <button type="button" className="btn btn-outline-primary"
-                                    onClick={this.handleClickResetGameInfo}>Назад к играм</button> :
-                                <button type="button" className="btn btn-outline-primary"
-                                    onClick={this.handleClickResetGameLevel}>Назад к уровням</button>}
+                            <button type="button" className="btn btn-outline-primary"
+                                onClick={this.handleSwitchAddMode}>Создать игру</button>
                         </div>
                     </div> :
                     <Fragment />}
-                {!gameInfo ?
-                    <GamesInfoField gamesInfo={gamesInfo} /> :
-                    !gameLevel ?
-                        <GameLevelsField gameInfo={gameInfo} /> :
-                        <GameWordsField gameLevel={gameLevel} />}
+                {!addModeActivated ?
+                    <GameContainer /> :
+                    <GamePackAdding handleCancel={this.handleSwitchAddMode} />}
             </Fragment>
         );
     }
@@ -55,21 +43,10 @@ class GamePage extends Component {
 
 const mapStateToProps = (store) => {
     return {
-        gamesInfo: store.game.gamesInfo,
-        gameInfo: store.game.gameInfo,
-        gameLevel: store.game.gameLevel
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        pullGamesInfo: () => dispatch(GameActions.pullGamesInfo()),
-        resetGameInfo: () => dispatch(GameActions.resetGameInfo()),
-        resetGameLevel: () => dispatch(GameActions.resetGameLevel())
+        gameInfo: store.game.gameInfo
     };
 };
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(GamePage);

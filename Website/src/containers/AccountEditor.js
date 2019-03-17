@@ -7,12 +7,12 @@ class AccountEditor extends Component {
     static propTypes = {
         userInfo: PropTypes.object.isRequired,
         changeUserInfo: PropTypes.func.isRequired,
-        handleClickCancel: PropTypes.func.isRequired
+        handleCancel: PropTypes.func.isRequired
     };
 
     state = {
-        nickName: '',
-        avatarPath: ''
+        nickName: "",
+        avatarPath: ""
     };
 
     componentDidMount() {
@@ -21,6 +21,12 @@ class AccountEditor extends Component {
             nickName: userInfo.nickName,
             avatarPath: userInfo.avatarPath ? userInfo.avatarPath : ""
         });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.userInfo !== prevProps.userInfo) {
+            this.props.handleCancel();
+        }
     }
 
     handleChangeNickName = (event) => {
@@ -42,11 +48,10 @@ class AccountEditor extends Component {
         });
 
         event.preventDefault();
-        this.props.handleClickCancel();
     };
 
     render() {
-        const { handleClickCancel } = this.props;
+        const { handleCancel } = this.props;
         const { nickName, avatarPath } = this.state;
 
         return (
@@ -64,7 +69,7 @@ class AccountEditor extends Component {
                 <div className="btn-group" role="group">
                     <button type="submit" className="btn btn-primary">Сохранить</button>
                     <button type="button" className="btn btn-outline-primary"
-                        onClick={handleClickCancel}>Отменить</button>
+                        onClick={handleCancel}>Отменить</button>
                 </div>
             </form>
         );

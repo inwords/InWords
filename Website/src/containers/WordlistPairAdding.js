@@ -5,14 +5,24 @@ import PropTypes from 'prop-types';
 
 class WordlistPairAdding extends Component {
     static propTypes = {
+        wordPairs: PropTypes.array.isRequired,
         addWordPair: PropTypes.func.isRequired,
-        handleClickCancel: PropTypes.func.isRequired
+        handleCancel: PropTypes.func.isRequired
     };
 
     state = {
-        wordForeign: '',
-        wordNative: ''
+        wordForeign: "",
+        wordNative: ""
     };
+
+    componentDidUpdate(prevProps) {
+        if (this.props.wordPairs !== prevProps.wordPairs) {
+            this.setState({
+                wordForeign: "",
+                wordNative: ""
+            });
+        }
+    }
 
     handleChangeWordForeign = (event) => {
         this.setState({
@@ -34,18 +44,13 @@ class WordlistPairAdding extends Component {
                 WordForeign: wordForeign,
                 WordNative: wordNative
             });
-
-            this.setState({
-                wordForeign: '',
-                wordNative: ''
-            });
         }
 
         event.preventDefault();
     };
 
     render() {
-        const { handleClickCancel } = this.props;
+        const { handleCancel } = this.props;
         const { wordForeign, wordNative } = this.state;
 
         return (
@@ -63,7 +68,7 @@ class WordlistPairAdding extends Component {
                         <div className="btn-group" role="group">
                             <button type="submit" className="btn btn-primary">Сохранить</button>
                             <button type="button" className="btn btn-outline-primary"
-                                onClick={handleClickCancel}>Отменить</button>
+                                onClick={handleCancel}>Отменить</button>
                         </div>
                     </div>
                 </div>
@@ -72,6 +77,12 @@ class WordlistPairAdding extends Component {
     }
 }
 
+const mapStateToProps = (store) => {
+    return {
+        wordPairs: store.wordlist.wordPairs
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         addWordPair: (wordPair) => dispatch(WordlistActions.addWordPair(wordPair))
@@ -79,6 +90,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(WordlistPairAdding);

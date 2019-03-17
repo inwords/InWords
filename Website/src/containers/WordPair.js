@@ -15,11 +15,11 @@ class WordPair extends Component {
         editModeActivated: false
     };
 
-    handleClickDelWordPair = () => {
+    handleDelWordPair = () => {
         this.props.deleteWordPair(this.props.wordPair.serverId);
     };
 
-    handleClickSwitchEditMode = () => {
+    handleSwitchEditMode = () => {
         this.setState({
             editModeActivated: !this.state.editModeActivated
         });
@@ -36,15 +36,15 @@ class WordPair extends Component {
                     <div className="col-md-auto">
                         <div className="btn-group btn-group-sm" role="group">
                             <button type="button" className="btn btn-outline-primary"
-                                onClick={this.handleClickSwitchEditMode}>Редактировать</button>
+                                onClick={this.handleSwitchEditMode}>Редактировать</button>
                             <button type="button" className="btn btn-outline-danger"
-                                onClick={this.handleClickDelWordPair}>Удалить</button>
+                                onClick={this.handleDelWordPair}>Удалить</button>
                         </div>
                     </div>
                 </div> :
                 <WordPairEditor
                     wordPair={wordPair}
-                    handleClickCancel={this.handleClickSwitchEditMode}
+                    handleCancel={this.handleSwitchEditMode}
                 />
         );
     }

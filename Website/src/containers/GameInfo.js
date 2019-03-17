@@ -9,7 +9,7 @@ class GameInfo extends Component {
         pullGameInfo: PropTypes.func.isRequired
     };
 
-    handleClickPullGameInfo = () => {
+    handlePullGameInfo = () => {
         this.props.pullGameInfo(this.props.gameInfo.gameId);
     };
 
@@ -21,7 +21,7 @@ class GameInfo extends Component {
                 <div className="card-body">
                     <h5 className="card-title">{gameInfo.title}</h5>
                     <button type="button" className="btn btn-outline-secondary"
-                        disabled={!gameInfo.isAvailable} onClick={this.handleClickPullGameInfo}>Выбрать</button>
+                        disabled={!gameInfo.isAvailable} onClick={this.handlePullGameInfo}>Выбрать</button>
                 </div>
             </div>
         );

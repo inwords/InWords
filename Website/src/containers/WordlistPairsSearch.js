@@ -5,15 +5,18 @@ import { WordlistActions } from '../actions/WordlistActions';
 
 class WordlistPairsSearch extends Component {
     static propTypes = {
+        searchPattern: PropTypes.string.isRequired,
         findWordPairs: PropTypes.func.isRequired
     };
 
     state = {
-        query: ''
+        query: ""
     };
 
     componentWillUnmount() {
-        this.props.findWordPairs('');
+        if (this.props.searchPattern) {
+            this.props.findWordPairs("")
+        }
     }
 
     handleChange = (event) => {
@@ -40,6 +43,12 @@ class WordlistPairsSearch extends Component {
     }
 }
 
+const mapStateToProps = (store) => {
+    return {
+        searchPattern: store.wordlist.searchPattern
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         findWordPairs: (pattern) => dispatch(WordlistActions.findWordPairs(pattern))
@@ -47,6 +56,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(WordlistPairsSearch);

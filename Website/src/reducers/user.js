@@ -25,7 +25,7 @@ function register(state = { redirect: false }, action) {
 
 const emptyUserInfo = {
     userId: null,
-    nickName: '',
+    nickName: "",
     avatarPath: null,
     experience: 0
 };
@@ -35,7 +35,7 @@ function userInfo(state = emptyUserInfo, action) {
         case userConstants.USER_INFO_RECEIVED:
             return {
                 ...state,
-                userId: action.userInfo.userID,
+                userId: action.userInfo.userId,
                 nickName: action.userInfo.nickName,
                 avatarPath: action.userInfo.avatarPath,
                 experience: action.userInfo.experience

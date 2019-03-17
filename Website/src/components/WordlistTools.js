@@ -7,7 +7,7 @@ class WordlistTools extends Component {
         addModeActivated: false,
     };
 
-    handleClickSwitchAddMode = () => {
+    handleSwitchAddMode = () => {
         this.setState({
             addModeActivated: !this.state.addModeActivated
         });
@@ -23,14 +23,14 @@ class WordlistTools extends Component {
                         <div className="col">
                             <div className="btn-group" role="group">
                                 <button type="button" className="btn btn-outline-primary"
-                                    onClick={this.handleClickSwitchAddMode}>Добавить</button>
+                                    onClick={this.handleSwitchAddMode}>Добавить</button>
                             </div>
                         </div>
                         <div className="col-md-auto">
                             <WordlistPairsSearch />
                         </div>
                     </div> :
-                    <WordlistPairAdding handleClickCancel={this.handleClickSwitchAddMode} />}
+                    <WordlistPairAdding handleCancel={this.handleSwitchAddMode} />}
             </div>
         );
     }

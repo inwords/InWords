@@ -11,8 +11,8 @@ class RegisterPage extends Component {
     };
 
     state = {
-        email: '',
-        password: ''
+        email: "",
+        password: ""
     };
 
     handleChangeEmail = (event) => {

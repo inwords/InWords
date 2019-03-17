@@ -13,7 +13,7 @@ class AccountPage extends Component {
         editModeActivated: false
     };
 
-    handleClickSwitchEditMode = () => {
+    handleSwitchEditMode = () => {
         this.setState({
             editModeActivated: !this.state.editModeActivated
         });
@@ -28,9 +28,9 @@ class AccountPage extends Component {
                 <div className="text-center">
                     <AccountView userInfo={userInfo} />
                     <button type="button" className="btn btn-outline-primary"
-                        onClick={this.handleClickSwitchEditMode}>Редактировать</button>
+                        onClick={this.handleSwitchEditMode}>Редактировать</button>
                 </div> :
-                <AccountEditor handleClickCancel={this.handleClickSwitchEditMode} />
+                <AccountEditor handleCancel={this.handleSwitchEditMode} />
         );
     }
 }

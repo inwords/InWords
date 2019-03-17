@@ -1,7 +1,6 @@
 import { API_HOST } from '../api-info';
 import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
-import { ErrorMessageActions } from './ErrorMessageActions';
 import { gameConstants } from '../constants/gameConstants';
 
 function pullGamesInfo() {
@@ -25,10 +24,6 @@ function pullGamesInfo() {
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(gamesInfoReceived(data));
-
-                if (getState().errorMessage) {
-                    dispatch(ErrorMessageActions.resetErrorMessage());
-                }
             })
             .catch(err => {
                 console.error(err);
@@ -58,10 +53,6 @@ function pullGameInfo(gameId) {
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(gameInfoReceived(data));
-
-                if (getState().errorMessage) {
-                    dispatch(ErrorMessageActions.resetErrorMessage());
-                }
             })
             .catch(err => {
                 console.error(err);
@@ -91,14 +82,41 @@ function pullGameLevel(levelId) {
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
                 dispatch(gameLevelReceived(data));
-
-                if (getState().errorMessage) {
-                    dispatch(ErrorMessageActions.resetErrorMessage());
-                }
             })
             .catch(err => {
                 console.error(err);
                 dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки уровня')));
+            });
+    }
+}
+
+function addGamePack(gamePack) {
+    return (dispatch, getState) => {
+        dispatch(FetchingActions.fetchingRequest());
+
+        gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId
+        fetch(API_HOST + '/api/Game/AddGamePack', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getState().accessToken
+            },
+            body: JSON.stringify(gamePack)
+        })
+            .then(response => {
+                console.log(response)
+                if (!response.ok) {
+                    AccessActions.handleAccessError(response, dispatch);
+                    throw new Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                dispatch(FetchingActions.fetchingSuccess());
+            })
+            .catch(err => {
+                console.error(err);
+                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
             });
     }
 }
@@ -143,5 +161,6 @@ export const GameActions = {
     pullGameInfo,
     pullGameLevel,
     resetGameInfo,
-    resetGameLevel
+    resetGameLevel,
+    addGamePack
 };

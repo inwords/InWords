@@ -26,7 +26,7 @@ class MainNavbar extends Component {
         }
     }
 
-    handleClickLogout = () => {
+    handleLogout = () => {
         this.props.logout();
     };
 
@@ -76,7 +76,7 @@ class MainNavbar extends Component {
                             </Fragment>}
                     </ul>
                     {accessToken ?
-                        <button type="button" className="btn btn-outline-secondary" onClick={this.handleClickLogout}>
+                        <button type="button" className="btn btn-outline-secondary" onClick={this.handleLogout}>
                             Выйти
                         </button> :
                         <Fragment />}

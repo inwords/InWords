@@ -17,7 +17,7 @@ class GameWordsField extends Component {
                 word: wordPair.wordNative
             }]
         )).sort(() => Math.random() - 0.5),
-        maxCol: Math.round(Math.sqrt(this.props.gameLevel.wordTranslations.length * 2)),
+        maxCol: Math.ceil(Math.sqrt(this.props.gameLevel.wordTranslations.length * 2)),
         selectedWords: [],
         successfulPairIds: [],
         successfulSelectedPairId: -1
