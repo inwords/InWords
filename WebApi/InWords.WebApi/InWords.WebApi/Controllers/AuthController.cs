@@ -15,11 +15,11 @@ namespace InWords.WebApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly ILogger logger;
+        private readonly ILogger<AuthController> logger;
 
         #region Ctor
 
-        public AuthController(InWordsDataContext context, ILogger logger)
+        public AuthController(InWordsDataContext context, ILogger<AuthController> logger)
         {
             this.logger = logger;
             accountRepository = new AccountRepository(context);
