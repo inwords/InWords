@@ -5,6 +5,8 @@ function gamesInfo(state = [], action) {
     switch (action.type) {
         case gameConstants.GAMES_INFO_RECEIVED:
             return action.gamesInfo;
+        case gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH:
+            return state.concat(action.gamesInfo);
         default:
             return state;
     }

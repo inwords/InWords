@@ -94,7 +94,7 @@ function addGamePack(gamePack) {
     return (dispatch, getState) => {
         dispatch(FetchingActions.fetchingRequest());
 
-        gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId
+        gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId;
         fetch(API_HOST + '/api/Game/AddGamePack', {
             method: 'POST',
             headers: {
@@ -104,7 +104,6 @@ function addGamePack(gamePack) {
             body: JSON.stringify(gamePack)
         })
             .then(response => {
-                console.log(response)
                 if (!response.ok) {
                     AccessActions.handleAccessError(response, dispatch);
                     throw new Error(response.statusText);
@@ -113,6 +112,11 @@ function addGamePack(gamePack) {
             })
             .then(data => {
                 dispatch(FetchingActions.fetchingSuccess());
+                dispatch(gamesInfoAddLocalRefresh({
+                    gameId: data.serverId,
+                    isAvailable: true,
+                    title: gamePack.CreationInfo.Descriptions[0].Title
+                }));
             })
             .catch(err => {
                 console.error(err);
@@ -135,6 +139,11 @@ function resetGameLevel() {
 
 const gamesInfoReceived = (gamesInfo) => ({
     type: gameConstants.GAMES_INFO_RECEIVED,
+    gamesInfo: gamesInfo
+});
+
+const gamesInfoAddLocalRefresh = (gamesInfo) => ({
+    type: gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH,
     gamesInfo: gamesInfo
 });
 

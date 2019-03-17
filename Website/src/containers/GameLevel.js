@@ -23,7 +23,7 @@ class GameLevel extends Component {
                     <p className="card-text">
                         {Array(levelInfo.playerStars).fill().map((item, index) =>
                             <Fragment key={index}>&#9733;</Fragment>)}
-                        {Array(levelInfo.totalStars - levelInfo.playerStars).fill().map((item, index) =>
+                        {Array(3 - levelInfo.playerStars).fill().map((item, index) =>
                             <Fragment key={index}>&#9734;</Fragment>)}
                     </p>
                     <button type="button" className="btn btn-outline-secondary"

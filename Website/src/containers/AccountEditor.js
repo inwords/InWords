@@ -29,15 +29,9 @@ class AccountEditor extends Component {
         }
     }
 
-    handleChangeNickName = (event) => {
+    handleChange = (propertyName) => (event) => {
         this.setState({
-            nickName: event.target.value
-        });
-    };
-
-    handleChangeAvatarPath = (event) => {
-        this.setState({
-            avatarPath: event.target.value
+            [propertyName]: event.target.value
         });
     };
 
@@ -59,12 +53,12 @@ class AccountEditor extends Component {
                 <div className="form-group">
                     <label htmlFor="inputNickName">Никнейм</label>
                     <input type="text" className="form-control" id="inputNickName" required="required"
-                        value={nickName} onChange={this.handleChangeNickName} />
+                        value={nickName} onChange={this.handleChange("nickName")} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputAvatarPath">URL-адрес аватара</label>
                     <input type="text" className="form-control" id="inputAvatarPath"
-                        value={avatarPath} onChange={this.handleChangeAvatarPath} />
+                        value={avatarPath} onChange={this.handleChange("avatarPath")} />
                 </div>
                 <div className="btn-group" role="group">
                     <button type="submit" className="btn btn-primary">Сохранить</button>

@@ -23,16 +23,10 @@ class WordPairEditor extends Component {
             wordNative: wordPair.wordNative
         });
     }
-
-    handleChangeWordForeign = (event) => {
+    
+    handleChange = (propertyName) => (event) => {
         this.setState({
-            wordForeign: event.target.value
-        });
-    };
-
-    handleChangeWordNative = (event) => {
-        this.setState({
-            wordNative: event.target.value
+            [propertyName]: event.target.value
         });
     };
 
@@ -59,9 +53,9 @@ class WordPairEditor extends Component {
                     <div className="col">
                         <div className="input-group input-group-sm">
                             <input type="text" className="form-control" placeholder="Слово или фраза"
-                                value={wordForeign} onChange={this.handleChangeWordForeign} />
+                                value={wordForeign} onChange={this.handleChange("wordForeign")} />
                             <input type="text" className="form-control" placeholder="Перевод"
-                                value={wordNative} onChange={this.handleChangeWordNative} />
+                                value={wordNative} onChange={this.handleChange("wordNative")} />
                         </div>
                     </div>
                     <div className="col-md-auto">

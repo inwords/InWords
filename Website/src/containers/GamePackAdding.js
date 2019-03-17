@@ -5,6 +5,7 @@ import { GameActions } from '../actions/GameActions';
 
 class GamePackAdding extends Component {
     static propTypes = {
+        gamesInfo: PropTypes.array.isRequired,
         addGamePack: PropTypes.func.isRequired,
         handleCancel: PropTypes.func.isRequired
     };
@@ -24,27 +25,19 @@ class GamePackAdding extends Component {
         }]
     };
 
-    handleChangeDescriptionsTitle = (sourceIndex) => (event) => {
+    componentDidUpdate(prevProps) {
+        if (this.props.gamesInfo !== prevProps.gamesInfo) {
+            this.props.handleCancel();
+        }
+    }
+
+    handleChangeDescriptions = (sourceIndex, propertyName) => (event) => {
         const newDescriptions = this.state.descriptions.map((description, destinationIndex) => {
             if (sourceIndex !== destinationIndex) {
                 return description;
             };
 
-            return { ...description, title: event.target.value };
-        });
-
-        this.setState({
-            descriptions: newDescriptions
-        });
-    };
-
-    handleChangeDescriptionsDescription = (sourceIndex) => (event) => {
-        const newDescriptions = this.state.descriptions.map((description, destinationIndex) => {
-            if (sourceIndex !== destinationIndex) {
-                return description;
-            };
-
-            return { ...description, description: event.target.value };
+            return { ...description, [propertyName]: event.target.value };
         });
 
         this.setState({
@@ -81,7 +74,7 @@ class GamePackAdding extends Component {
         });
     };
 
-    handleChangeWordForeign = (sourceLevelPackIndex, sourceWordTranslationIndex) => (event) => {
+    handleChangeWordTranslations = (sourceLevelPackIndex, sourceWordTranslationIndex, propertyName) => (event) => {
         const newLevelPacks = this.state.levelPacks.map((levelPack, destinationLevelPackIndex) => {
             if (sourceLevelPackIndex !== destinationLevelPackIndex) {
                 return levelPack;
@@ -94,35 +87,7 @@ class GamePackAdding extends Component {
 
                 return {
                     ...wordTranslation,
-                    wordForeign: event.target.value
-                };
-            });
-
-            return {
-                ...levelPack,
-                wordTranslations: newWordTranslations
-            };
-        });
-
-        this.setState({
-            levelPacks: newLevelPacks
-        });
-    };
-
-    handleChangeWordNative = (sourceLevelPackIndex, sourceWordTranslationIndex) => (event) => {
-        const newLevelPacks = this.state.levelPacks.map((levelPack, destinationLevelPackIndex) => {
-            if (sourceLevelPackIndex !== destinationLevelPackIndex) {
-                return levelPack;
-            };
-
-            const newWordTranslations = levelPack.wordTranslations.map((wordTranslation, destinationWordTranslationIndex) => {
-                if (sourceWordTranslationIndex !== destinationWordTranslationIndex) {
-                    return wordTranslation;
-                };
-
-                return {
-                    ...wordTranslation,
-                    wordNative: event.target.value
+                    [propertyName]: event.target.value
                 };
             });
 
@@ -198,7 +163,6 @@ class GamePackAdding extends Component {
         });
 
         event.preventDefault();
-        //this.props.handleCancel();
     };
 
     render() {
@@ -207,65 +171,60 @@ class GamePackAdding extends Component {
 
         return (
             <form onSubmit={this.handleSubmit}>
-                <h2 className="text-center">Экспериментальная версия!</h2>
-                <h4 className="text-center">Работает не стабильно!</h4>
-                {descriptions.map((description, index) =>
-                    <Fragment key={index}>
-                        <h5 className="font-weight-bold">Описание {index + 1}</h5>
-                        <div className="form-group">
-                            <input type="text" className="form-control form-control-sm" required="required" placeholder="Название"
-                                value={description.title} onChange={this.handleChangeDescriptionsTitle(index)} />
-                        </div>
-                        <div className="form-group">
-                            <input type="text" className="form-control form-control-sm" placeholder="Описание"
-                                value={description.description} onChange={this.handleChangeDescriptionsDescription(index)} />
-                        </div>
-                    </Fragment>
-                )}
-                <div className="form-group">
-                    <div className="btn-group btn-group-sm" role="group">
-                        <button type="button" className="btn btn-outline-primary"
-                            onClick={this.handleAddDescription}>Добавить описание</button>
+                <ul className="list-group">
+                    {descriptions.map((description, index) =>
+                        <li className="list-group-item mb-3" key={index}>
+                            <h5 className="font-weight-bold">Описание {index + 1}</h5>
+                            <input type="text" className="form-control form-control-sm mb-2" required="required" placeholder="Название"
+                                value={description.title} onChange={this.handleChangeDescriptions(index, "title")} />
+                            <textarea className="form-control form-control-sm" placeholder="Описание"
+                                value={description.description} onChange={this.handleChangeDescriptions(index, "description")} />
+                        </li>
+                    )}
+                </ul>
+                <div className="btn-group btn-group-sm mb-3" role="group">
+                    <button type="button" className="btn btn-outline-primary"
+                        onClick={this.handleAddDescription}>Добавить описание</button>
+                    {descriptions.length > 1 ?
                         <button type="button" className="btn btn-outline-primary"
                             onClick={this.handleDelDescription}>Удалить описание</button>
-                    </div>
+                        : <Fragment />}
                 </div>
-                {levelPacks.map((levelPack, levelPackIndex) =>
-                    <Fragment key={levelPackIndex}>
-                        <h5 className="font-weight-bold">Уровень {levelPackIndex + 1}</h5>
-                        <div className="container">
+                <ul className="list-group">
+                    {levelPacks.map((levelPack, levelPackIndex) =>
+                        <li className="list-group-item mb-3" key={levelPackIndex}>
+                            <h5 className="font-weight-bold">Уровень {levelPackIndex + 1}</h5>
                             {levelPack.wordTranslations.map((wordTranslation, wordTranslationIndex) =>
-                                <Fragment key={wordTranslationIndex}>
-                                    <h6 className="font-weight-bold">Пара слов {wordTranslationIndex + 1}</h6>
-                                    <div className="form-group">
-                                        <input type="text" className="form-control form-control-sm" required="required" placeholder="Слово или фраза"
-                                            value={wordTranslation.wordForeign} onChange={this.handleChangeWordForeign(levelPackIndex, wordTranslationIndex)} />
+                                <div className="input-group input-group-sm mb-2" key={wordTranslationIndex}>
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text">{wordTranslationIndex + 1}</span>
                                     </div>
-                                    <div className="form-group">
-                                        <input type="text" className="form-control form-control-sm" placeholder="Перевод"
-                                            value={wordTranslation.wordNative} onChange={this.handleChangeWordNative(levelPackIndex, wordTranslationIndex)} />
-                                    </div>
-                                </Fragment>
+                                    <input type="text" className="form-control" required="required" placeholder="Слово или фраза"
+                                        value={wordTranslation.wordForeign} onChange={this.handleChangeWordTranslations(levelPackIndex, wordTranslationIndex, "wordForeign")} />
+                                    <input type="text" className="form-control" required="required" placeholder="Перевод"
+                                        value={wordTranslation.wordNative} onChange={this.handleChangeWordTranslations(levelPackIndex, wordTranslationIndex, "wordNative")} />
+                                </div>
                             )}
-                            <div className="form-group">
-                                <div className="btn-group btn-group-sm" role="group">
-                                    <button type="button" className="btn btn-outline-primary"
-                                        onClick={() => this.handleAddWordTranslation(levelPackIndex)}>Добавить пару слов</button>
+                            <div className="btn-group btn-group-sm" role="group">
+                                <button type="button" className="btn btn-outline-primary"
+                                    onClick={() => this.handleAddWordTranslation(levelPackIndex)}>Добавить пару слов</button>
+                                {levelPacks[levelPackIndex].wordTranslations.length > 1 ?
                                     <button type="button" className="btn btn-outline-primary"
                                         onClick={() => this.handleDelWordTranslation(levelPackIndex)}>Удалить пару слов</button>
-                                </div>
+                                    : <Fragment />}
                             </div>
-                        </div>
-                    </Fragment>
-                )}
-                <div className="form-group">
-                    <div className="btn-group btn-group-sm" role="group">
-                        <button type="button" className="btn btn-outline-primary"
-                            onClick={this.handleAddLevelPack}>Добавить уровень</button>
+                        </li>
+                    )}
+                </ul>
+                <div className="btn-group btn-group-sm mb-3" role="group">
+                    <button type="button" className="btn btn-outline-primary"
+                        onClick={this.handleAddLevelPack}>Добавить уровень</button>
+                    {levelPacks.length > 1 ?
                         <button type="button" className="btn btn-outline-primary"
                             onClick={this.handleDelLevelPack}>Удалить уровень</button>
-                    </div>
+                        : <Fragment />}
                 </div>
+                <br />
                 <div className="btn-group" role="group">
                     <button type="submit" className="btn btn-primary">Сохранить</button>
                     <button type="button" className="btn btn-outline-primary"
@@ -278,6 +237,7 @@ class GamePackAdding extends Component {
 
 const mapStateToProps = (store) => {
     return {
+        gamesInfo: store.game.gamesInfo,
         userInfo: store.user.userInfo
     };
 };

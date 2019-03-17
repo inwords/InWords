@@ -15,15 +15,9 @@ class RegisterPage extends Component {
         password: ""
     };
 
-    handleChangeEmail = (event) => {
+    handleChange = (propertyName) => (event) => {
         this.setState({
-            email: event.target.value
-        });
-    };
-
-    handleChangePassword = (event) => {
-        this.setState({
-            password: event.target.value
+            [propertyName]: event.target.value
         });
     };
 
@@ -49,12 +43,12 @@ class RegisterPage extends Component {
                 <div className="form-group">
                     <label htmlFor="inputEmail">Электронная почта</label>
                     <input type="email" className="form-control" id="inputEmail" placeholder="Введите email" required="required"
-                        value={email} onChange={this.handleChangeEmail} />
+                        value={email} onChange={this.handleChange("email")} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="inputPassword">Пароль</label>
                     <input type="password" className="form-control" id="inputPassword" placeholder="Введите пароль" required="required"
-                        value={password} onChange={this.handleChangePassword} />
+                        value={password} onChange={this.handleChange("password")} />
                 </div>
                 <button type="submit" className="btn btn-primary">Зарегистрироваться</button>
             </form>
