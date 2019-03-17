@@ -65,7 +65,7 @@ namespace InWords.WebApi.Service
 
             // Loading behind the scenes, the level will be processed on the server
             // Does not affect user experience
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 // Add levels
                 foreach (LevelPack levelPack in gamePack.LevelPacks)
@@ -93,7 +93,7 @@ namespace InWords.WebApi.Service
                     }
                 }
 
-            }).Start();
+            });
 
             var answer = new SyncBase(gameBox.GameBoxId);
 
