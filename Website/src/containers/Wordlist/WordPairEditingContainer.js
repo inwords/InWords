@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { WordlistActions } from '../actions/WordlistActions';
 import PropTypes from 'prop-types';
+import { WordlistActions } from '../../actions/WordlistActions';
+import WordPairEditing from '../../components/Wordlist/WordPairEditing';
 
-class WordPairEditor extends Component {
+class WordPairEditingContainer extends Component {
     static propTypes = {
         wordPair: PropTypes.object.isRequired,
         handleCancel: PropTypes.func.isRequired,
@@ -23,7 +24,7 @@ class WordPairEditor extends Component {
             wordNative: wordPair.wordNative
         });
     }
-    
+
     handleChange = (propertyName) => (event) => {
         this.setState({
             [propertyName]: event.target.value
@@ -48,25 +49,13 @@ class WordPairEditor extends Component {
         const { wordForeign, wordNative } = this.state;
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="row">
-                    <div className="col">
-                        <div className="input-group input-group-sm">
-                            <input type="text" className="form-control" placeholder="Слово или фраза"
-                                value={wordForeign} onChange={this.handleChange("wordForeign")} />
-                            <input type="text" className="form-control" placeholder="Перевод"
-                                value={wordNative} onChange={this.handleChange("wordNative")} />
-                        </div>
-                    </div>
-                    <div className="col-md-auto">
-                        <div className="btn-group btn-group-sm" role="group">
-                            <button type="submit" className="btn btn-primary">Сохранить</button>
-                            <button type="button" className="btn btn-outline-primary"
-                                onClick={handleCancel}>Отменить</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <WordPairEditing
+                wordForeign={wordForeign}
+                wordNative={wordNative}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+                handleCancel={handleCancel}
+            />
         );
     }
 }
@@ -80,4 +69,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     null,
     mapDispatchToProps
-)(WordPairEditor);
+)(WordPairEditingContainer);

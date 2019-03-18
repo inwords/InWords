@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { WordlistActions } from '../actions/WordlistActions';
+import { WordlistActions } from '../../actions/WordlistActions';
+import LiveSearch from '../../components/LiveSearch';
 
-class WordlistPairsSearch extends Component {
+class WordlistPairsSearchContainer extends Component {
     static propTypes = {
         searchPattern: PropTypes.string.isRequired,
         findWordPairs: PropTypes.func.isRequired
@@ -22,23 +23,16 @@ class WordlistPairsSearch extends Component {
     handleChange = (event) => {
         this.setState({
             query: event.target.value
-        });
-    };
-
-    handleSubmit = (event) => {
-        this.props.findWordPairs(this.state.query)
-
-        event.preventDefault();
+        }, () => this.props.findWordPairs(this.state.query));
     };
 
     render() {
         const { query } = this.state;
         return (
-            <form className="form-inline" onSubmit={this.handleSubmit}>
-                <input type="search" className="form-control mr-sm-2" placeholder="Поиск слов"
-                    value={query} onChange={this.handleChange} />
-                <button type="submit" className="btn btn-outline-primary">Найти</button>
-            </form>
+            <LiveSearch
+                query={query}
+                handleChange={this.handleChange}
+            />
         );
     }
 }
@@ -58,4 +52,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(WordlistPairsSearch);
+)(WordlistPairsSearchContainer);

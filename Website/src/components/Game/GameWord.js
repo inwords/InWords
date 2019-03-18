@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 function GameWord({ id, word, selected, successful, successfulSelected, handleClick }) {
     return (
-        <div className={"card flex-fill text-center text-white bg-primary" +
-            (successfulSelected ? " border-secondary" : "")} onClick={() => handleClick(id, word)}>
+        <div className={"card flex-fill text-center text-white bg-primary" + (successfulSelected ? " border-secondary" : "")}
+            onClick={() => handleClick(id, word)}>
             <div className="card-body">
                 {selected || successful ?
                     <h5 className={"card-title" + (successfulSelected ? " text-secondary" : "")}>{word}</h5> :

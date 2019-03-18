@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ErrorMessageActions } from '../actions/ErrorMessageActions';
+import WrapperWithErrorAlert from '../components/WrapperWithErrorAlert';
 
-class WrapperWithErrorAlert extends Component {
+class WrapperWithErrorAlertContainer extends Component {
     static propTypes = {
         errorMessage: PropTypes.string,
         resetErrorMessage: PropTypes.func.isRequired
@@ -28,14 +29,10 @@ class WrapperWithErrorAlert extends Component {
     render() {
         const { errorMessage, children } = this.props;
         return (
-            <div className="container">
-                {errorMessage ?
-                    <div className="alert alert-danger" role="alert">
-                        {errorMessage}
-                    </div> :
-                    <Fragment />}
-                {children}
-            </div>
+            <WrapperWithErrorAlert
+                errorMessage={errorMessage}
+                children={children}
+            />
         );
     }
 }
@@ -55,4 +52,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(WrapperWithErrorAlert);
+)(WrapperWithErrorAlertContainer);

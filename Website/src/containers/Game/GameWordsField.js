@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import GameWord from './GameWord';
+import GameWord from '../../components/Game/GameWord';
 
 class GameWordsField extends Component {
     static propTypes = {

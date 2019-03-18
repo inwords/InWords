@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserActions } from '../actions/UserActions';
+import Register from '../components/Register';
 
 class RegisterPage extends Component {
     static propTypes = {
@@ -35,23 +36,16 @@ class RegisterPage extends Component {
         const { email, password } = this.state;
 
         if (redirect) {
-            return <Redirect to="/login" />;
+            return <Redirect to="/wordlist" />;
         }
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="inputEmail">Электронная почта</label>
-                    <input type="email" className="form-control" id="inputEmail" placeholder="Введите email" required="required"
-                        value={email} onChange={this.handleChange("email")} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="inputPassword">Пароль</label>
-                    <input type="password" className="form-control" id="inputPassword" placeholder="Введите пароль" required="required"
-                        value={password} onChange={this.handleChange("password")} />
-                </div>
-                <button type="submit" className="btn btn-primary">Зарегистрироваться</button>
-            </form>
+            <Register
+                email={email}
+                password={password}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+            />
         );
     }
 }

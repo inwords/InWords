@@ -16,10 +16,10 @@ const appReducer = combineReducers({
     errorMessage: errorMessage
 });
 
-export function rootReducer (state, action) {
+export const rootReducer = (state, action) => {
     if (action.type === accessConstants.ACCESS_DENIED) {
         state = undefined
     }
 
     return appReducer(state, action);
-}
+};

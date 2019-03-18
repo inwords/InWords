@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../actions/UserActions';
+import { UserActions } from '../../actions/UserActions';
+import AccountEditing from '../../components/Account/AccountEditing';
 
-class AccountEditor extends Component {
+class AccountEditingContainer extends Component {
     static propTypes = {
         userInfo: PropTypes.object.isRequired,
         changeUserInfo: PropTypes.func.isRequired,
@@ -49,23 +50,13 @@ class AccountEditor extends Component {
         const { nickName, avatarPath } = this.state;
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="inputNickName">Никнейм</label>
-                    <input type="text" className="form-control" id="inputNickName" required="required"
-                        value={nickName} onChange={this.handleChange("nickName")} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="inputAvatarPath">URL-адрес аватара</label>
-                    <input type="text" className="form-control" id="inputAvatarPath"
-                        value={avatarPath} onChange={this.handleChange("avatarPath")} />
-                </div>
-                <div className="btn-group" role="group">
-                    <button type="submit" className="btn btn-primary">Сохранить</button>
-                    <button type="button" className="btn btn-outline-primary"
-                        onClick={handleCancel}>Отменить</button>
-                </div>
-            </form>
+            <AccountEditing
+                nickName={nickName}
+                avatarPath={avatarPath}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+                handleCancel={handleCancel}
+            />
         );
     }
 }
@@ -85,4 +76,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(AccountEditor);
+)(AccountEditingContainer);

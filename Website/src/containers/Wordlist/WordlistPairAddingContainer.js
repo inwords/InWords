@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { WordlistActions } from '../actions/WordlistActions';
 import PropTypes from 'prop-types';
+import { WordlistActions } from '../../actions/WordlistActions';
+import WordPairAdding from '../../components/Wordlist/WordlistPairAdding';
 
-class WordlistPairAdding extends Component {
+class WordlistPairAddingContainer extends Component {
     static propTypes = {
         wordPairs: PropTypes.array.isRequired,
         addWordPair: PropTypes.func.isRequired,
@@ -48,25 +49,13 @@ class WordlistPairAdding extends Component {
         const { wordForeign, wordNative } = this.state;
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="row">
-                    <div className="col">
-                        <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Слово или фраза"
-                                value={wordForeign} onChange={this.handleChange("wordForeign")} />
-                            <input type="text" className="form-control" placeholder="Перевод"
-                                value={wordNative} onChange={this.handleChange("wordNative")} />
-                        </div>
-                    </div>
-                    <div className="col-md-auto">
-                        <div className="btn-group" role="group">
-                            <button type="submit" className="btn btn-primary">Сохранить</button>
-                            <button type="button" className="btn btn-outline-primary"
-                                onClick={handleCancel}>Отменить</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <WordPairAdding
+                wordForeign={wordForeign}
+                wordNative={wordNative}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+                handleCancel={handleCancel}
+            />
         );
     }
 }
@@ -86,4 +75,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(WordlistPairAdding);
+)(WordlistPairAddingContainer);
