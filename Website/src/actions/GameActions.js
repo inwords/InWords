@@ -6,11 +6,11 @@ import { gameConstants } from '../constants/gameConstants';
 const pullGamesInfo = () => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Game/GameInfo', {
+    fetch(`${API_HOST}/api/Game/GameInfo`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         }
     })
         .then(response => {
@@ -33,11 +33,11 @@ const pullGamesInfo = () => (dispatch, getState) => {
 const pullGameInfo = (gameId) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Game/' + gameId, {
+    fetch(`${API_HOST}/api/Game/${gameId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         }
     })
         .then(response => {
@@ -60,11 +60,11 @@ const pullGameInfo = (gameId) => (dispatch, getState) => {
 const pullGameLevel = (levelId) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Game/level/' + levelId, {
+    fetch(`${API_HOST}/api/Game/level/${levelId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         }
     })
         .then(response => {
@@ -88,11 +88,11 @@ const addGamePack = (gamePack) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId;
-    fetch(API_HOST + '/api/Game/AddGamePack', {
+    fetch(`${API_HOST}/api/Game/AddGamePack`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify(gamePack)
     })

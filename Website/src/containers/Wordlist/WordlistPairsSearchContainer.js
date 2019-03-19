@@ -23,9 +23,7 @@ class WordlistPairsSearchContainer extends Component {
     handleChange = (event) => {
         this.setState({
             query: event.target.value
-        },
-            () => this.props.findWordPairs(this.state.query)
-        );
+        }, () => this.props.findWordPairs(this.state.query));
     };
 
     render() {

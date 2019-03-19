@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GameActions } from '../../actions/GameActions';
-import GameInfo from '../../components/Game/GameInfo';
+import GameInfoCard from '../../components/Game/GameInfoCard';
 
-class GameInfoContainer extends Component {
+class GameInfoCardContainer extends Component {
     static propTypes = {
         gameInfo: PropTypes.object.isRequired,
         pullGameInfo: PropTypes.func.isRequired
@@ -18,7 +18,7 @@ class GameInfoContainer extends Component {
         const { gameInfo } = this.props;
 
         return (
-            <GameInfo
+            <GameInfoCard
                 gameInfo={gameInfo}
                 handlePullGameInfo={this.handlePullGameInfo}
             />
@@ -35,4 +35,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     null,
     mapDispatchToProps
-)(GameInfoContainer);
+)(GameInfoCardContainer);

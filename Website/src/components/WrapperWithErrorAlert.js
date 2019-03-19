@@ -18,4 +18,8 @@ WrapperWithErrorAlert.propTypes = {
     errorMessage: PropTypes.string
 };
 
+WrapperWithErrorAlert.defaultProps = {
+    errorMessage: null
+};
+
 export default WrapperWithErrorAlert;

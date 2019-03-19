@@ -10,6 +10,10 @@ class WrapperWithErrorAlertContainer extends Component {
         resetErrorMessage: PropTypes.func.isRequired
     };
 
+    static defaultProps = {
+        errorMessage: null
+    };
+
     timerId = null;
 
     componentDidUpdate(prevProps) {

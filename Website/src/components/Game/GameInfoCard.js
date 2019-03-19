@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GameInfo({ gameInfo, handlePullGameInfo }) {
+function GameInfoCard({ gameInfo, handlePullGameInfo }) {
     const { title, isAvailable } = gameInfo;
 
     return (
@@ -15,9 +15,9 @@ function GameInfo({ gameInfo, handlePullGameInfo }) {
     );
 }
 
-GameInfo.propTypes = {
+GameInfoCard.propTypes = {
     gameInfo: PropTypes.object.isRequired,
     handlePullGameInfo: PropTypes.func.isRequired
 };
 
-export default GameInfo;
+export default GameInfoCard;

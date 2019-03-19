@@ -6,11 +6,11 @@ import { wordlistConstants } from '../constants/wordlistConstants';
 const pullWordPairs = () => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/sync/pullwordpairs', {
+    fetch(`${API_HOST}/api/sync/pullwordpairs`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: '[]'
     })
@@ -34,11 +34,11 @@ const pullWordPairs = () => (dispatch, getState) => {
 const deleteWordPair = (pairId) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/words/deletepair', {
+    fetch(`${API_HOST}/api/words/deletepair`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify([pairId])
     })
@@ -57,11 +57,11 @@ const deleteWordPair = (pairId) => (dispatch, getState) => {
 const addWordPair = (wordPair) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/words/addpair', {
+    fetch(`${API_HOST}/api/words/addpair`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify([wordPair])
     })
@@ -85,11 +85,11 @@ const addWordPair = (wordPair) => (dispatch, getState) => {
 const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/words/deletepair', {
+    fetch(`${API_HOST}/api/words/deletepair`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify([pairId])
     })
@@ -104,11 +104,11 @@ const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
         });
 
-    fetch(API_HOST + '/api/words/addpair', {
+    fetch(`${API_HOST}/api/words/addpair`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify([wordPair])
     })

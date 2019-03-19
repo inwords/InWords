@@ -6,7 +6,7 @@ import { userConstants } from '../constants/userConstants';
 const login = (userdata) => (dispatch) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/auth/token', {
+    fetch(`${API_HOST}/api/auth/token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const login = (userdata) => (dispatch) => {
 const register = (userdata) => (dispatch) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/auth/registration', {
+    fetch(`${API_HOST}/api/auth/registration`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -64,11 +64,11 @@ const logout = () => (dispatch) => {
 const receiveUserInfo = () => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Users/', {
+    fetch(`${API_HOST}/api/Users/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         }
     })
         .then(response => {
@@ -91,11 +91,11 @@ const receiveUserInfo = () => (dispatch, getState) => {
 const changeUserInfo = (userInfo) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Users/', {
+    fetch(`${API_HOST}/api/Users/`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify(userInfo)
     })

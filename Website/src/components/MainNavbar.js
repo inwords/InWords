@@ -10,7 +10,7 @@ function MainNavbar({ accessToken, avatarPath, isFetching, handleLogout }) {
                 </a> :
                 null}
             <a className="navbar-brand" href="/#">InWords</a>
-            <div className={"spinner-border spinner-border-sm text-secondary" + (isFetching ? "" : " invisible")} role="status" />
+            <div className={`spinner-border spinner-border-sm text-secondary${isFetching ? "" : " invisible"}`} role="status" />
             <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon" />
@@ -51,6 +51,11 @@ MainNavbar.propTypes = {
     avatarPath: PropTypes.string,
     isFetching: PropTypes.bool.isRequired,
     handleLogout: PropTypes.func.isRequired
+};
+
+MainNavbar.defaultProps = {
+    accessToken: null,
+    avatarPath: null
 };
 
 export default MainNavbar;

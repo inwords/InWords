@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GameWord({ id, word, selected, successful, successfulSelected, handleClick }) {
+function GameWordCard({ id, word, selected, successful, successfulSelected, handleClick }) {
     return (
-        <div className={"card flex-fill text-center text-white bg-primary" + (successfulSelected ? " border-secondary" : "")}
+        <div className={`card flex-fill text-center text-white bg-primary${successfulSelected ? " border-secondary" : ""}`}
             onClick={() => handleClick(id, word)}>
             <div className="card-body">
                 {selected || successful ?
-                    <h5 className={"card-title" + (successfulSelected ? " text-secondary" : "")}>{word}</h5> :
+                    <h5 className={`card-title${successfulSelected ? " text-secondary" : ""}`}>{word}</h5> :
                     <h5 className="card-title invisible">...</h5>}
             </div>
         </div>
     );
 }
 
-GameWord.propTypes = {
+GameWordCard.propTypes = {
     id: PropTypes.number.isRequired,
     word: PropTypes.string.isRequired,
     selected: PropTypes.bool.isRequired,
@@ -23,4 +23,4 @@ GameWord.propTypes = {
     handleClick: PropTypes.func.isRequired
 };
 
-export default GameWord;
+export default GameWordCard;

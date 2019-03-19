@@ -13,6 +13,11 @@ class MainNavbarContainer extends Component {
         logout: PropTypes.func.isRequired
     };
 
+    static defaultProps = {
+        accessToken: null,
+        avatarPath: null
+    };
+
     componentDidMount() {
         if (this.props.accessToken) {
             this.props.receiveUserInfo();
