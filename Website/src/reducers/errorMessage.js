@@ -1,6 +1,6 @@
 import { errorMessageConstants } from '../constants/errorMessageConstants';
 
-export function errorMessage (state = null, action) {
+export const errorMessage = (state = null, action) => {
     if (action.type === errorMessageConstants.ERROR_MESSAGE_RESET) {
         return null;
     } else if (action.error) {
@@ -8,4 +8,4 @@ export function errorMessage (state = null, action) {
     }
     
     return state;
-}
+};

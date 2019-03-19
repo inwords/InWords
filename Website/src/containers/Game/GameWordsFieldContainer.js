@@ -1,32 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import GameWord from './GameWord';
+import GameWordsField from '../../components/Game/GameWordsField';
 
-class GameWordsField extends Component {
+class GameWordsFieldContainer extends Component {
     static propTypes = {
         gameLevel: PropTypes.object.isRequired
     };
 
     state = {
-        randomWords: [],
+        randomWords: [].concat.apply([], this.props.gameLevel.wordTranslations.map((wordPair) =>
+            [{
+                id: wordPair.serverId,
+                word: wordPair.wordForeign
+            }, {
+                id: wordPair.serverId,
+                word: wordPair.wordNative
+            }]
+        )).sort(() => Math.random() - 0.5),
         selectedWords: [],
         successfulPairIds: [],
         successfulSelectedPairId: -1
     };
-
-    componentDidMount() {
-        this.setState({
-            randomWords: [].concat.apply([], this.props.gameLevel.wordTranslations.map((wordPair) =>
-                [{
-                    id: wordPair.serverId,
-                    word: wordPair.wordForeign
-                }, {
-                    id: wordPair.serverId,
-                    word: wordPair.wordNative
-                }]
-            )).sort(() => Math.random() - 0.5)
-        });
-    }
 
     handleClick = (id, word) => {
         const { selectedWords, successfulPairIds } = this.state;
@@ -75,22 +69,15 @@ class GameWordsField extends Component {
         const { randomWords, selectedWords, successfulPairIds, successfulSelectedPairId } = this.state;
 
         return (
-            <div className="row">
-                {randomWords.map((randomWord, index) =>
-                    <GameWord
-                        key={index}
-                        id={randomWord.id}
-                        word={randomWord.word}
-                        selected={!!selectedWords.find((selectedWord) =>
-                            selectedWord.id === randomWord.id && selectedWord.word === randomWord.word)}
-                        successful={!!~successfulPairIds.indexOf(randomWord.id)}
-                        successfulSelected={successfulSelectedPairId === randomWord.id}
-                        handleClick={this.handleClick}
-                    />)}
-            </div>
-
+            <GameWordsField
+                randomWords={randomWords}
+                selectedWords={selectedWords}
+                successfulPairIds={successfulPairIds}
+                successfulSelectedPairId={successfulSelectedPairId}
+                handleClick={this.handleClick}
+            />
         );
     }
 }
 
-export default GameWordsField;
+export default GameWordsFieldContainer;

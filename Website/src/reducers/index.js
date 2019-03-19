@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
+import { accessConstants } from '../constants/accessConstants';
 import { isFetching } from './isFetching';
 import { accessToken } from './accessToken';
 import { user } from './user';
 import { wordlist } from './wordlist';
 import { game } from './game';
 import { errorMessage } from './errorMessage';
-import { accessConstants } from '../constants/accessConstants';
 
 const appReducer = combineReducers({
     isFetching: isFetching,
@@ -16,10 +16,10 @@ const appReducer = combineReducers({
     errorMessage: errorMessage
 });
 
-export function rootReducer (state, action) {
+export const rootReducer = (state, action) => {
     if (action.type === accessConstants.ACCESS_DENIED) {
-        state = undefined
+        state = undefined;
     }
 
     return appReducer(state, action);
-}
+};

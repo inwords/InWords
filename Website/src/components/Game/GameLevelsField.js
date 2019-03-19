@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GameLevel from '../containers/GameLevel';
+import GameLevelContainer from '../../containers/Game/GameLevelContainer';
 
 function GameLevelsField({ gameInfo }) {
     return (
         <div className="row">
             {gameInfo.levelInfos.map((levelInfo) =>
-                <GameLevel
-                    key={levelInfo.levelId}
-                    levelInfo={levelInfo}
-                />)}
+                <div className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex" key={levelInfo.levelId}>
+                    <GameLevelContainer levelInfo={levelInfo} />
+                </div>)}
         </div>
     );
 }

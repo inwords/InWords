@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserActions } from '../actions/UserActions';
+import Login from '../components/Login';
 
 class LoginPage extends Component {
     static propTypes = {
@@ -15,15 +16,9 @@ class LoginPage extends Component {
         password: ''
     };
 
-    handleChangeEmail = (event) => {
+    handleChange = (propertyName) => (event) => {
         this.setState({
-            email: event.target.value
-        });
-    };
-
-    handleChangePassword = (event) => {
-        this.setState({
-            password: event.target.value
+            [propertyName]: event.target.value
         });
     };
 
@@ -32,7 +27,7 @@ class LoginPage extends Component {
             Email: this.state.email,
             Password: this.state.password
         });
-        
+
         event.preventDefault();
     };
 
@@ -45,17 +40,12 @@ class LoginPage extends Component {
         }
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="inputEmail">Электронная почта</label>
-                    <input type="email" className="form-control" id="inputEmail" placeholder="Введите email" required="required" value={email} onChange={this.handleChangeEmail} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="inputPassword">Пароль</label>
-                    <input type="password" className="form-control" id="inputPassword" placeholder="Введите пароль" required="required" value={password} onChange={this.handleChangePassword} />
-                </div>
-                <button type="submit" className="btn btn-primary">Войти</button>
-            </form>
+            <Login
+                email={email}
+                password={password}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+            />
         );
     }
 }

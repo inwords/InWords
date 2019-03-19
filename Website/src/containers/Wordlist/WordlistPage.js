@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { WordlistActions } from '../actions/WordlistActions';
 import PropTypes from 'prop-types';
-import WordlistTools from '../components/WordlistTools';
-import WordPair from './WordPair';
+import { WordlistActions } from '../../actions/WordlistActions';
+import WordlistToolsWrapper from '../../components/Wordlist/WordlistToolsWrapper';
+import WordPairWrapper from '../../components/Wordlist/WordPairWrapper';
+import WordlistWrapper from '../../components/Wordlist/WordlistWrapper';
+import WordlistToolsContainer from './WordlistToolsContainer';
+import WordPairContainer from './WordPairContainer';
 
 class WordlistPage extends Component {
     static propTypes = {
@@ -30,14 +33,15 @@ class WordlistPage extends Component {
 
         return (
             <Fragment>
-                <WordlistTools />
-                <ul className="list-group list-group-flush">
+                <WordlistToolsWrapper>
+                    <WordlistToolsContainer />
+                </WordlistToolsWrapper>
+                <WordlistWrapper>
                     {wordPairsRevercedCopy.map((wordPair) =>
-                        <WordPair
-                            key={wordPair.serverId}
-                            wordPair={wordPair}
-                        />)}
-                </ul>
+                        <WordPairWrapper key={wordPair.serverId}>
+                            <WordPairContainer wordPair={wordPair} />
+                        </WordPairWrapper>)}
+                </WordlistWrapper>
             </Fragment>
         );
     }

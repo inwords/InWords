@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 import { gameConstants } from '../constants/gameConstants';
 
-function gamesInfo(state = [], action) {
+const gamesInfo = (state = [], action) => {
     switch (action.type) {
         case gameConstants.GAMES_INFO_RECEIVED:
             return action.gamesInfo;
+        case gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH:
+            return state.concat(action.gamesInfo);
         default:
             return state;
     }
 };
 
-function gameInfo(state = null, action) {
+const gameInfo = (state = null, action) => {
     switch (action.type) {
         case gameConstants.GAME_INFO_RECEIVED:
             return action.gameInfo;
@@ -21,7 +23,7 @@ function gameInfo(state = null, action) {
     }
 };
 
-function gameLevel(state = null, action) {
+const gameLevel = (state = null, action) => {
     switch (action.type) {
         case gameConstants.GAME_LEVEL_RECEIVED:
             return action.gameLevel;

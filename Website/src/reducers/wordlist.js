@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { wordlistConstants } from '../constants/wordlistConstants';
 
-function wordPairs(state = [], action) {
+const wordPairs = (state = [], action) => {
     switch (action.type) {
         case wordlistConstants.PAIRS_PULL_LOCAL_REFRESH:
             return action.wordPairs;
@@ -28,15 +28,15 @@ function wordPairs(state = [], action) {
         default:
             return state;
     }
-}
+};
 
-function searchPattern(state = '', action) {
+const searchPattern = (state = '', action) => {
     if (action.type === wordlistConstants.PAIRS_SEARCH_PATTERN_CHANGE) {
         return action.pattern;
     }
 
     return state;
-}
+};
 
 export const wordlist = combineReducers({
     wordPairs: wordPairs,
