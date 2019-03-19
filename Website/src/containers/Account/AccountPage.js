@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import AccountEditingContainer from './AccountEditingContainer';
 import AccountViewContainer from './AccountViewContainer';
 
 class AccountPage extends Component {
-    static propTypes = {
-        userInfo: PropTypes.object.isRequired
-    };
-
     state = {
         editModeActivated: false
     };

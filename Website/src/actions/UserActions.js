@@ -3,125 +3,115 @@ import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
 import { userConstants } from '../constants/userConstants';
 
-function login(userdata) {
-    return (dispatch) => {
-        dispatch(FetchingActions.fetchingRequest());
+const login = (userdata) => (dispatch) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        fetch(API_HOST + '/api/auth/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-API-Version': '2.0'
-            },
-            body: JSON.stringify(userdata)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(AccessActions.accessGranted(data.access_token));
-                dispatch(loginRedirect());
-                dispatch(loginRedirected());
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка авторизации')));
-            });
-    }
-}
-
-function register(userdata) {
-    return (dispatch) => {
-        dispatch(FetchingActions.fetchingRequest());
-
-        fetch(API_HOST + '/api/auth/registration', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userdata)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(registerRedirect());
-                dispatch(registerRedirected());
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка регистрации')));
-            });
-    }
-}
-
-function logout() {
-    return (dispatch) => {
-        dispatch(AccessActions.accessDenied());
-    }
-}
-
-function receiveUserInfo() {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
-
-        fetch(API_HOST + '/api/Users/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
+    fetch(API_HOST + '/api/auth/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-API-Version': '2.0'
+        },
+        body: JSON.stringify(userdata)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
             }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(userInfoReceived(data));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки профиля')));
-            });
-    }
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(AccessActions.accessGranted(data.access_token));
+            dispatch(loginRedirect());
+            dispatch(loginRedirected());
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка авторизации')));
+        });
 }
 
-function changeUserInfo(userInfo) {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
+const register = (userdata) => (dispatch) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        fetch(API_HOST + '/api/Users/', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
-            },
-            body: JSON.stringify(userInfo)
+    fetch(API_HOST + '/api/auth/registration', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userdata)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(registerRedirect());
+            dispatch(registerRedirected());
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка регистрации')));
+        });
+}
 
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(userInfoChanged(userInfo));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка обновления профиля')));
-            });
-    }
+const logout = () => (dispatch) => {
+    dispatch(AccessActions.accessDenied());
+}
+
+const receiveUserInfo = () => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
+
+    fetch(API_HOST + '/api/Users/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(userInfoReceived(data));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки профиля')));
+        });
+}
+
+const changeUserInfo = (userInfo) => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
+
+    fetch(API_HOST + '/api/Users/', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        },
+        body: JSON.stringify(userInfo)
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
+            }
+
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(userInfoChanged(userInfo));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка обновления профиля')));
+        });
 }
 
 const loginRedirect = () => ({

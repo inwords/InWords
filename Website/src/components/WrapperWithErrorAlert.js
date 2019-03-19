@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 function WrapperWithErrorAlert({ errorMessage, children }) {
@@ -8,7 +8,7 @@ function WrapperWithErrorAlert({ errorMessage, children }) {
                 <div className="alert alert-danger" role="alert">
                     {errorMessage}
                 </div> :
-                <Fragment />}
+                null}
             {children}
         </div>
     );

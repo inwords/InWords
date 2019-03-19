@@ -3,126 +3,118 @@ import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
 import { gameConstants } from '../constants/gameConstants';
 
-function pullGamesInfo() {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
+const pullGamesInfo = () => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        fetch(API_HOST + '/api/Game/GameInfo', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
+    fetch(API_HOST + '/api/Game/GameInfo', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
             }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(gamesInfoReceived(data));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об играх')));
-            });
-    }
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(gamesInfoReceived(data));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об играх')));
+        });
 }
 
-function pullGameInfo(gameId) {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
+const pullGameInfo = (gameId) => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        fetch(API_HOST + '/api/Game/' + gameId, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
+    fetch(API_HOST + '/api/Game/' + gameId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
             }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(gameInfoReceived(data));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об игре')));
-            });
-    }
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(gameInfoReceived(data));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об игре')));
+        });
 }
 
-function pullGameLevel(levelId) {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
+const pullGameLevel = (levelId) => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        fetch(API_HOST + '/api/Game/level/' + levelId, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
+    fetch(API_HOST + '/api/Game/level/' + levelId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
             }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(gameLevelReceived(data));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки уровня')));
-            });
-    }
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(gameLevelReceived(data));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки уровня')));
+        });
 }
 
-function addGamePack(gamePack) {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
+const addGamePack = (gamePack) => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId;
-        fetch(API_HOST + '/api/Game/AddGamePack', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
-            },
-            body: JSON.stringify(gamePack)
+    gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId;
+    fetch(API_HOST + '/api/Game/AddGamePack', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        },
+        body: JSON.stringify(gamePack)
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
+            }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(gamesInfoAddLocalRefresh({
-                    gameId: data.serverId,
-                    isAvailable: true,
-                    title: gamePack.CreationInfo.Descriptions[0].Title
-                }));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
-            });
-    }
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(gamesInfoAddLocalRefresh({
+                gameId: data.serverId,
+                isAvailable: true,
+                title: gamePack.CreationInfo.Descriptions[0].Title
+            }));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
+        });
 }
 
 function resetGameInfo() {

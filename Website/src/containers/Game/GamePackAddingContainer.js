@@ -14,14 +14,14 @@ class GamePackAddingContainer extends Component {
     state = {
         descriptions: [{
             langId: 1,
-            title: "",
-            description: ""
+            title: '',
+            description: ''
         }],
         levelPacks: [{
             level: 1,
             wordTranslations: [{
-                wordForeign: "",
-                wordNative: ""
+                wordForeign: '',
+                wordNative: ''
             }]
         }]
     };
@@ -49,7 +49,7 @@ class GamePackAddingContainer extends Component {
     handleAddDescription = () => {
         this.setState({
             descriptions: this.state.descriptions.concat({
-                langId: this.state.descriptions.length + 1, title: "", description: ""
+                langId: this.state.descriptions.length + 1, title: '', description: ''
             })
         });
     };
@@ -64,7 +64,7 @@ class GamePackAddingContainer extends Component {
         this.setState({
             levelPacks: this.state.levelPacks.concat({
                 level: this.state.levelPacks.length + 1,
-                wordTranslations: [{ wordForeign: "", wordNative: "" }]
+                wordTranslations: [{ wordForeign: '', wordNative: '' }]
             })
         });
     };
@@ -111,8 +111,8 @@ class GamePackAddingContainer extends Component {
 
             return {
                 ...levelPack, wordTranslations: levelPack.wordTranslations.concat({
-                    wordForeign: "",
-                    wordNative: ""
+                    wordForeign: '',
+                    wordNative: ''
                 })
             };
         });

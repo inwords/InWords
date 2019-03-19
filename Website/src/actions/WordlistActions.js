@@ -3,144 +3,134 @@ import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
 import { wordlistConstants } from '../constants/wordlistConstants';
 
-function pullWordPairs() {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
+const pullWordPairs = () => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        fetch(API_HOST + '/api/sync/pullwordpairs', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
-            },
-            body: '[]'
-        })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(pairsPullLocalRefresh(data.addedWords));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки словаря')));
-            });
-    }
-}
-
-function deleteWordPair(pairId) {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
-
-        fetch(API_HOST + '/api/words/deletepair', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
-            },
-            body: JSON.stringify([pairId])
-        })
-            .then(response => {
+    fetch(API_HOST + '/api/sync/pullwordpairs', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        },
+        body: '[]'
+    })
+        .then(response => {
+            if (!response.ok) {
                 AccessActions.handleAccessError(response, dispatch);
-
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(pairsDelLocalRefresh(pairId));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления слова')));
-            });
-    }
+                throw new Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(pairsPullLocalRefresh(data.addedWords));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки словаря')));
+        });
 }
 
-function addWordPair(wordPair) {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
+const deleteWordPair = (pairId) => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        fetch(API_HOST + '/api/words/addpair', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
-            },
-            body: JSON.stringify([wordPair])
+    fetch(API_HOST + '/api/words/deletepair', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        },
+        body: JSON.stringify([pairId])
+    })
+        .then(response => {
+            AccessActions.handleAccessError(response, dispatch);
+
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(pairsDelLocalRefresh(pairId));
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(pairsAddLocalRefresh(configureWordPair(data, wordPair)));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления слова')));
-            });
-    }
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления слова')));
+        });
 }
 
-function editWordPair(pairId, wordPair) {
-    return (dispatch, getState) => {
-        dispatch(FetchingActions.fetchingRequest());
+const addWordPair = (wordPair) => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
 
-        fetch(API_HOST + '/api/words/deletepair', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
-            },
-            body: JSON.stringify([pairId])
+    fetch(API_HOST + '/api/words/addpair', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        },
+        body: JSON.stringify([wordPair])
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
+            }
+            return response.json();
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
-            });
-
-        fetch(API_HOST + '/api/words/addpair', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getState().accessToken
-            },
-            body: JSON.stringify([wordPair])
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(pairsAddLocalRefresh(configureWordPair(data, wordPair)));
         })
-            .then(response => {
-                if (!response.ok) {
-                    AccessActions.handleAccessError(response, dispatch);
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                dispatch(FetchingActions.fetchingSuccess());
-                dispatch(pairsEditLocalRefresh(pairId, configureWordPair(data, wordPair)));
-            })
-            .catch(err => {
-                console.error(err);
-                dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
-            });
-    }
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления слова')));
+        });
 }
 
-function findWordPairs(pattern) {
-    return (dispatch) => {
-        dispatch(pairsSearchPatternChange(pattern))
-    }
+const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
+    dispatch(FetchingActions.fetchingRequest());
+
+    fetch(API_HOST + '/api/words/deletepair', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        },
+        body: JSON.stringify([pairId])
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
+        });
+
+    fetch(API_HOST + '/api/words/addpair', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getState().accessToken
+        },
+        body: JSON.stringify([wordPair])
+    })
+        .then(response => {
+            if (!response.ok) {
+                AccessActions.handleAccessError(response, dispatch);
+                throw new Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(pairsEditLocalRefresh(pairId, configureWordPair(data, wordPair)));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
+        });
+}
+
+const findWordPairs = (pattern) => (dispatch) => {
+    dispatch(pairsSearchPatternChange(pattern))
 }
 
 const pairsPullLocalRefresh = (wordPairs) => ({

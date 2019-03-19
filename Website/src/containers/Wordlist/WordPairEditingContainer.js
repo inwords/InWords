@@ -12,8 +12,8 @@ class WordPairEditingContainer extends Component {
     };
 
     state = {
-        wordForeign: "",
-        wordNative: ""
+        wordForeign: '',
+        wordNative: ''
     };
 
     componentDidMount() {

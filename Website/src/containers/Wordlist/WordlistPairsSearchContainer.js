@@ -11,19 +11,21 @@ class WordlistPairsSearchContainer extends Component {
     };
 
     state = {
-        query: ""
+        query: ''
     };
 
     componentWillUnmount() {
         if (this.props.searchPattern) {
-            this.props.findWordPairs("")
+            this.props.findWordPairs('');
         }
     }
 
     handleChange = (event) => {
         this.setState({
             query: event.target.value
-        }, () => this.props.findWordPairs(this.state.query));
+        },
+            () => this.props.findWordPairs(this.state.query)
+        );
     };
 
     render() {

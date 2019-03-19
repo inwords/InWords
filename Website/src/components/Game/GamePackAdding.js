@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, handleChangeWordTranslations, handleAddDescription,
@@ -22,8 +22,8 @@ function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, ha
                     onClick={handleAddDescription}>Добавить описание</button>
                 {descriptions.length > 1 ?
                     <button type="button" className="btn btn-outline-danger"
-                        onClick={handleDelDescription}>Удалить описание</button>
-                    : <Fragment />}
+                        onClick={handleDelDescription}>Удалить описание</button> :
+                    null}
             </div>
             <ul className="list-group">
                 {levelPacks.map((levelPack, levelPackIndex) =>
@@ -45,8 +45,8 @@ function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, ha
                                 onClick={() => handleAddWordTranslation(levelPackIndex)}>Добавить пару слов</button>
                             {levelPacks[levelPackIndex].wordTranslations.length > 1 ?
                                 <button type="button" className="btn btn-outline-danger"
-                                    onClick={() => handleDelWordTranslation(levelPackIndex)}>Удалить пару слов</button>
-                                : <Fragment />}
+                                    onClick={() => handleDelWordTranslation(levelPackIndex)}>Удалить пару слов</button> :
+                                null}
                         </div>
                     </li>
                 )}
@@ -56,8 +56,8 @@ function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, ha
                     onClick={handleAddLevelPack}>Добавить уровень</button>
                 {levelPacks.length > 1 ?
                     <button type="button" className="btn btn-outline-danger"
-                        onClick={handleDelLevelPack}>Удалить уровень</button>
-                    : <Fragment />}
+                        onClick={handleDelLevelPack}>Удалить уровень</button> :
+                    null}
             </div>
             <br />
             <div className="btn-group" role="group">

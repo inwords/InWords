@@ -12,15 +12,15 @@ class AccountEditingContainer extends Component {
     };
 
     state = {
-        nickName: "",
-        avatarPath: ""
+        nickName: '',
+        avatarPath: ''
     };
 
     componentDidMount() {
         const { userInfo } = this.props;
         this.setState({
             nickName: userInfo.nickName,
-            avatarPath: userInfo.avatarPath ? userInfo.avatarPath : ""
+            avatarPath: userInfo.avatarPath ? userInfo.avatarPath : ''
         });
     }
 

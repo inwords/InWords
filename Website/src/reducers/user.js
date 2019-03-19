@@ -25,7 +25,7 @@ const register = (state = { redirect: false }, action) => {
 
 const emptyUserInfo = {
     userId: null,
-    nickName: "",
+    nickName: '',
     avatarPath: null,
     experience: 0
 };

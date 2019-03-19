@@ -30,7 +30,7 @@ const wordPairs = (state = [], action) => {
     }
 };
 
-const searchPattern = (state = "", action) => {
+const searchPattern = (state = '', action) => {
     if (action.type === wordlistConstants.PAIRS_SEARCH_PATTERN_CHANGE) {
         return action.pattern;
     }

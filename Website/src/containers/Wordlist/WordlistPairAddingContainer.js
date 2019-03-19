@@ -12,15 +12,15 @@ class WordlistPairAddingContainer extends Component {
     };
 
     state = {
-        wordForeign: "",
-        wordNative: ""
+        wordForeign: '',
+        wordNative: ''
     };
 
     componentDidUpdate(prevProps) {
         if (this.props.wordPairs !== prevProps.wordPairs) {
             this.setState({
-                wordForeign: "",
-                wordNative: ""
+                wordForeign: '',
+                wordNative: ''
             });
         }
     }

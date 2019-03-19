@@ -8,7 +8,7 @@ function MainNavbar({ accessToken, avatarPath, isFetching, handleLogout }) {
                 <a className="navbar-brand" href="/#">
                     <img className="rounded-circle" src={avatarPath} width="30" height="30" alt="&#128565;" />
                 </a> :
-                <Fragment />}
+                null}
             <a className="navbar-brand" href="/#">InWords</a>
             <div className={"spinner-border spinner-border-sm text-secondary" + (isFetching ? "" : " invisible")} role="status" />
             <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"
@@ -39,10 +39,8 @@ function MainNavbar({ accessToken, avatarPath, isFetching, handleLogout }) {
                         </Fragment>}
                 </ul>
                 {accessToken ?
-                    <button type="button" className="btn btn-outline-secondary" onClick={handleLogout}>
-                        Выйти
-                        </button> :
-                    <Fragment />}
+                    <button type="button" className="btn btn-outline-secondary" onClick={handleLogout}>Выйти</button> :
+                    null}
             </div>
         </nav >
     );

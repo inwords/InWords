@@ -28,6 +28,7 @@ class WrapperWithErrorAlertContainer extends Component {
 
     render() {
         const { errorMessage, children } = this.props;
+        
         return (
             <WrapperWithErrorAlert
                 errorMessage={errorMessage}

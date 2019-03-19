@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 function AccountView({ userInfo, handleSwitchEditMode }) {
@@ -11,7 +11,7 @@ function AccountView({ userInfo, handleSwitchEditMode }) {
                     <div className="col-md-4 offset-md-4">
                         <img className="img-fluid" src={avatarPath} alt="&#128565;" />
                     </div> :
-                    <Fragment />}
+                    null}
                 <h2>{nickName}</h2>
                 <h6>{experience} опыта</h6>
             </div>

@@ -2,9 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GameActions } from '../../actions/GameActions';
+import GamesInfoTools from '../../components/Game/GamesInfoTools';
+import GameLevelsTools from '../../components/Game/GameLevelsTools';
+import GameWordsTools from '../../components/Game/GameWordsTools';
 import GamesInfoField from '../../components/Game/GamesInfoField';
 import GameLevelsField from '../../components/Game/GameLevelsField';
-import GameWordsField from './GameWordsField';
+import GameWordsFieldContainer from './GameWordsFieldContainer';
 import GamePackAdding from './GamePackAddingContainer';
 
 class GamePage extends Component {
@@ -45,30 +48,20 @@ class GamePage extends Component {
 
         return (
             !addModeActivated ?
-                gameInfo ?
+                (!gameInfo ?
                     <Fragment>
-                        <div className="p-2 mb-3">
-                            <div className="btn-group" role="group">
-                                {!gameLevel ?
-                                    <button type="button" className="btn btn-outline-primary"
-                                        onClick={this.handleResetGameInfo}>Назад к играм</button> :
-                                    <button type="button" className="btn btn-outline-primary"
-                                        onClick={this.handleResetGameLevel}>Назад к уровням</button>}
-                            </div>
-                        </div>
-                        {!gameLevel ?
-                            <GameLevelsField gameInfo={gameInfo} /> :
-                            <GameWordsField gameLevel={gameLevel} />}
-                    </Fragment> :
-                    <Fragment>
-                        <div className="p-2 mb-3">
-                            <div className="btn-group" role="group">
-                                <button type="button" className="btn btn-outline-primary"
-                                    onClick={this.handleSwitchAddMode}>Создать игру</button>
-                            </div>
-                        </div>
+                        <GamesInfoTools handleSwitchAddMode={this.handleSwitchAddMode} />
                         <GamesInfoField gamesInfo={gamesInfo} />
                     </Fragment> :
+                    (!gameLevel ?
+                        <Fragment>
+                            <GameLevelsTools handleResetGameInfo={this.handleResetGameInfo} />
+                            <GameLevelsField gameInfo={gameInfo} />
+                        </Fragment> :
+                        <Fragment>
+                            <GameWordsTools handleResetGameLevel={this.handleResetGameLevel} />
+                            <GameWordsFieldContainer gameLevel={gameLevel} />
+                        </Fragment>)) :
                 <GamePackAdding handleCancel={this.handleSwitchAddMode} />
         );
     }
