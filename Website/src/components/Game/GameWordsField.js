@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GameWordCard from '../../components/Game/GameWordCard';
 
-function GameWordsField({ randomWords, selectedWords, successfulPairIds, successfulSelectedPairId, handleClick }) {
+function GameWordsField({ randomWords, selectedWordsInfo, successfulPairIds, successfulSelectedPairId, handleClick }) {
     const cardsInRow = Math.ceil(Math.sqrt(randomWords.length));
 
     return (
@@ -11,12 +11,11 @@ function GameWordsField({ randomWords, selectedWords, successfulPairIds, success
                 <div className={`col-6 col-sm-${cardsInRow < 3 ? 12 / cardsInRow : 4} col-md-${cardsInRow < 3 ? 12 / cardsInRow : 4} col-lg-${cardsInRow < 4 ? 12 / cardsInRow : 3} d-flex py-2`}
                     key={index}>
                     <GameWordCard
-                        id={randomWord.id}
-                        word={randomWord.word}
-                        selected={!!selectedWords.find((selectedWord) =>
-                            selectedWord.id === randomWord.id && selectedWord.word === randomWord.word)}
-                        successful={!!~successfulPairIds.indexOf(randomWord.id)}
-                        successfulSelected={successfulSelectedPairId === randomWord.id}
+                        wordId={index}
+                        {...randomWord}
+                        selected={!!selectedWordsInfo.find((selectedWordInfo) => selectedWordInfo.wordId === index)}
+                        successful={!!~successfulPairIds.indexOf(randomWord.pairId)}
+                        successfulSelected={successfulSelectedPairId === randomWord.pairId}
                         handleClick={handleClick}
                     />
                 </div>)}
@@ -26,7 +25,7 @@ function GameWordsField({ randomWords, selectedWords, successfulPairIds, success
 
 GameWordsField.propTypes = {
     randomWords: PropTypes.array.isRequired,
-    selectedWords: PropTypes.array.isRequired,
+    selectedWordsInfo: PropTypes.array.isRequired,
     successfulPairIds: PropTypes.array.isRequired,
     successfulSelectedPairId: PropTypes.number.isRequired,
     handleClick: PropTypes.func.isRequired

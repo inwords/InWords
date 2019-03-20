@@ -103,7 +103,7 @@ class GamePackAddingContainer extends Component {
         });
     };
 
-    handleAddWordTranslation = (sourceIndex) => {
+    handleAddWordTranslation = (sourceIndex) => () => {
         const newLevelPacks = this.state.levelPacks.map((levelPack, destinationIndex) => {
             if (sourceIndex !== destinationIndex) {
                 return levelPack;
@@ -122,7 +122,7 @@ class GamePackAddingContainer extends Component {
         });
     };
 
-    handleDelWordTranslation = (sourceIndex) => {
+    handleDelWordTranslation = (sourceIndex) => () => {
         const newLevelPacks = this.state.levelPacks.map((levelPack, destinationIndex) => {
             if (sourceIndex !== destinationIndex) {
                 return levelPack;

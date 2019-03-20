@@ -19,7 +19,8 @@ class GameInfoCardContainer extends Component {
 
         return (
             <GameInfoCard
-                gameInfo={gameInfo}
+                title={gameInfo.title}
+                isAvailable={gameInfo.isAvailable}
                 handlePullGameInfo={this.handlePullGameInfo}
             />
         );

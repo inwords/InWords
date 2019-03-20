@@ -12,18 +12,9 @@ class WordPairEditingContainer extends Component {
     };
 
     state = {
-        wordForeign: '',
-        wordNative: ''
+        wordForeign: this.props.wordPair.wordForeign,
+        wordNative: this.props.wordPair.wordNative
     };
-
-    componentDidMount() {
-        const { wordPair } = this.props;
-
-        this.setState({
-            wordForeign: wordPair.wordForeign,
-            wordNative: wordPair.wordNative
-        });
-    }
 
     handleChange = (propertyName) => (event) => {
         this.setState({

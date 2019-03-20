@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GameInfoCard({ gameInfo, handlePullGameInfo }) {
-    const { title, isAvailable } = gameInfo;
-
+function GameInfoCard({ title, isAvailable, handlePullGameInfo }) {
     return (
         <div className="card flex-fill text-center text-white bg-primary mb-3">
             <div className="card-body">
@@ -16,7 +14,8 @@ function GameInfoCard({ gameInfo, handlePullGameInfo }) {
 }
 
 GameInfoCard.propTypes = {
-    gameInfo: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
+    isAvailable: PropTypes.bool.isRequired,
     handlePullGameInfo: PropTypes.func.isRequired
 };
 

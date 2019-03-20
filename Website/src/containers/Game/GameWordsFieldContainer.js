@@ -10,55 +10,55 @@ class GameWordsFieldContainer extends Component {
     state = {
         randomWords: [].concat.apply([], this.props.gameLevel.wordTranslations.map((wordPair) =>
             [{
-                id: wordPair.serverId,
+                pairId: wordPair.serverId,
                 word: wordPair.wordForeign
             }, {
-                id: wordPair.serverId,
+                pairId: wordPair.serverId,
                 word: wordPair.wordNative
             }]
         )).sort(() => Math.random() - 0.5),
-        selectedWords: [],
+        selectedWordsInfo: [],
         successfulPairIds: [],
         successfulSelectedPairId: -1
     };
 
-    handleClick = (id, word) => {
-        const { selectedWords, successfulPairIds } = this.state;
+    handleClick = (pairId, wordId) => () => {
+        const { selectedWordsInfo, successfulPairIds } = this.state;
 
-        if (successfulPairIds.find((successfulPairId) => successfulPairId === id)) {
+        if (successfulPairIds.find((successfulPairId) => successfulPairId === pairId)) {
             this.setState({
-                successfulSelectedPairId: id
+                successfulSelectedPairId: pairId
             });
 
             return;
         }
 
-        if (selectedWords.length === 2 ||
-            selectedWords.find((selectedWord) => selectedWord.id === id && selectedWord.word === word)) {
+        if (selectedWordsInfo.length === 2 ||
+            selectedWordsInfo.find((selectedWordInfo) => selectedWordInfo.wordId === wordId)) {
             return;
         }
 
-        if (selectedWords.length < 2) {
+        if (selectedWordsInfo.length < 2) {
             this.setState({
-                selectedWords: selectedWords.concat({
-                    id: id,
-                    word: word
+                selectedWordsInfo: selectedWordsInfo.concat({
+                    pairId: pairId,
+                    wordId: wordId
                 })
             });
         }
 
-        if (selectedWords.length > 0) {
-            if (selectedWords.find((visibleWord) => visibleWord.id === id) &&
-                !successfulPairIds.find((successfulPairId) => successfulPairId === id)) {
+        if (selectedWordsInfo.length > 0) {
+            if (selectedWordsInfo.find((selectedWordInfo) => selectedWordInfo.pairId === pairId) &&
+                !successfulPairIds.find((successfulPairId) => successfulPairId === pairId)) {
                 this.setState({
-                    successfulPairIds: [...successfulPairIds, id],
-                    selectedWords: [],
-                    successfulSelectedPairId: id
+                    successfulPairIds: [...successfulPairIds, pairId],
+                    selectedWordsInfo: [],
+                    successfulSelectedPairId: pairId
                 });
             } else {
                 setTimeout(() => {
                     this.setState({
-                        selectedWords: []
+                        selectedWordsInfo: []
                     })
                 }, 1000);
             }
@@ -66,12 +66,12 @@ class GameWordsFieldContainer extends Component {
     };
 
     render() {
-        const { randomWords, selectedWords, successfulPairIds, successfulSelectedPairId } = this.state;
+        const { randomWords, selectedWordsInfo, successfulPairIds, successfulSelectedPairId } = this.state;
 
         return (
             <GameWordsField
                 randomWords={randomWords}
-                selectedWords={selectedWords}
+                selectedWordsInfo={selectedWordsInfo}
                 successfulPairIds={successfulPairIds}
                 successfulSelectedPairId={successfulSelectedPairId}
                 handleClick={this.handleClick}

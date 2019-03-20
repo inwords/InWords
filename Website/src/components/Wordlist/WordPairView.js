@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function WordPairView({ wordPair, handleSwitchEditMode, handleDelWordPair }) {
-    const { wordForeign, wordNative } = wordPair;
-
+function WordPairView({ wordForeign, wordNative, handleSwitchEditMode, handleDelWordPair }) {
     return (
         <div className="row">
             <div className="col">
@@ -25,7 +23,8 @@ function WordPairView({ wordPair, handleSwitchEditMode, handleDelWordPair }) {
 }
 
 WordPairView.propTypes = {
-    wordPair: PropTypes.object.isRequired,
+    wordForeign: PropTypes.string.isRequired,
+    wordNative: PropTypes.string.isRequired,
     handleSwitchEditMode: PropTypes.func.isRequired,
     handleDelWordPair: PropTypes.func.isRequired
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, handleChangeWordTranslations, handleAddDescription,
-    handleDelDescription, handleAddLevelPack, handleDelLevelPack, handleAddWordTranslation, handleDelWordTranslation,
-    handleSubmit, handleCancel }) {
+function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, handleChangeWordTranslations,
+    handleAddDescription, handleDelDescription, handleAddLevelPack, handleDelLevelPack, handleAddWordTranslation,
+    handleDelWordTranslation, handleSubmit, handleCancel }) {
     return (
         <form onSubmit={handleSubmit}>
             <ul className="list-group">
@@ -42,10 +42,10 @@ function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, ha
                         )}
                         <div className="btn-group btn-group-sm" role="group">
                             <button type="button" className="btn btn-outline-primary"
-                                onClick={() => handleAddWordTranslation(levelPackIndex)}>Добавить пару слов</button>
+                                onClick={handleAddWordTranslation(levelPackIndex)}>Добавить пару слов</button>
                             {levelPacks[levelPackIndex].wordTranslations.length > 1 ?
                                 <button type="button" className="btn btn-outline-danger"
-                                    onClick={() => handleDelWordTranslation(levelPackIndex)}>Удалить пару слов</button> :
+                                    onClick={handleDelWordTranslation(levelPackIndex)}>Удалить пару слов</button> :
                                 null}
                         </div>
                     </li>

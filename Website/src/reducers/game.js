@@ -35,7 +35,7 @@ const gameLevel = (state = null, action) => {
 };
 
 export const game = combineReducers({
-    gamesInfo: gamesInfo,
-    gameInfo: gameInfo,
-    gameLevel: gameLevel
+    gamesInfo,
+    gameInfo,
+    gameLevel
 });

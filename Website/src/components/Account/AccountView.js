@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function AccountView({ userInfo, handleSwitchEditMode }) {
-    const { avatarPath, nickName, experience } = userInfo;
-
+function AccountView({ avatarPath, nickName, experience, handleSwitchEditMode }) {
     return (
         <div className="text-center">
             <div className="mb-4">
@@ -22,8 +20,14 @@ function AccountView({ userInfo, handleSwitchEditMode }) {
 }
 
 AccountView.propTypes = {
-    userInfo: PropTypes.object.isRequired,
+    avatarPath: PropTypes.string,
+    nickName: PropTypes.string.isRequired,
+    experience: PropTypes.number.isRequired,
     handleSwitchEditMode: PropTypes.func.isRequired
+};
+
+AccountView.defaultProps = {
+    avatarPath: null
 };
 
 export default AccountView;

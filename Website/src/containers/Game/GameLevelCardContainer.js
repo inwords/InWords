@@ -19,7 +19,9 @@ class GameLevelCardContainer extends Component {
 
         return (
             <GameLevelCard
-                levelInfo={levelInfo}
+                level={levelInfo.level}
+                playerStars={levelInfo.playerStars}
+                isAvailable={levelInfo.isAvailable}
                 handlePullGameLevel={this.handlePullGameLevel}
             />
         );
