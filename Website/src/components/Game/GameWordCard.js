@@ -5,13 +5,13 @@ import './GameWordCard.css';
 
 function GameWordCard({ wordId, pairId, word, selected, successful, successfulSelected, handleClick }) {
     return (
-        <div className="word-card-square bg-primary"
+        <div className="word-card-square"
             onClick={handleClick(pairId, wordId)}>
             <div className="word-card-content">
                 <div className="word-card-table">
-                    <div className="word-card-table-cell text-white">
+                    <div className={`word-card-table-cell bg-primary text-white ${successfulSelected ? " border border-secondary" : ""}`}>
                         {selected || successful ?
-                            <h5 className={`font-weight-bold${successfulSelected ? " text-secondary" : ""}`}>
+                            <h5 className={successfulSelected ? " text-secondary" : ""}>
                                 {word.lengt <= 10 ? word : word.match(/.{1,10}/g).join('\n')}
                             </h5> :
                             null}

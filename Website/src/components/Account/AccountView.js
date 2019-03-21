@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 
 function AccountView({ avatarPath, nickName, experience, handleSwitchEditMode }) {
     return (
-        <div className="text-center">
-            <div className="mb-4">
+        <div className="col-sm-8 col-md-6 col-lg-4 offset-sm-2 offset-md-3 offset-lg-4 text-center">
+            <div className="card mb-4">
                 {avatarPath ?
-                    <div className="col-md-4 offset-md-4">
-                        <img className="img-fluid" src={avatarPath} alt="&#128565;" />
-                    </div> :
+                    <img className="card-img-top" src={avatarPath} alt="&#128565;" /> :
                     null}
-                <h2>{nickName}</h2>
-                <h6>{experience} опыта</h6>
+                <div className="card-body">
+                    <h3>{nickName}</h3>
+                    <h6>{experience} опыта</h6>
+                </div>
             </div>
             <button type="button" className="btn btn-outline-primary"
                 onClick={handleSwitchEditMode}>Редактировать</button>
