@@ -52,7 +52,7 @@ public abstract class SigningBaseFragment
 
     protected abstract int getButtonId();
 
-    protected void renderLoadingState(){
+    protected void renderLoadingState() {
         buttonTrySign.setProgress(50);
     }
 
@@ -68,7 +68,11 @@ public abstract class SigningBaseFragment
     }
 
     private void processViewState(Event<AuthorisationViewState> viewStateEvent) {
-        switch (viewStateEvent.peekContent().status) {
+        editTextEmail.setError(null);
+        editTextPassword.setError(null);
+
+        AuthorisationViewState authorisationViewState = viewStateEvent.peekContent();
+        switch (authorisationViewState.status) {
             case LOADING:
                 renderLoadingState();
                 break;
@@ -81,6 +85,22 @@ public abstract class SigningBaseFragment
                 AuthorisationViewState viewState = viewStateEvent.getContentIfNotHandled();
                 if (viewState != null && viewState.throwable != null)
                     renderErrorState(viewState.throwable);
+                break;
+
+            case INVALID_EMAIL:
+                editTextEmail.setError(authorisationViewState.invalidEmailMessage);
+                buttonTrySign.setProgress(-1);
+                break;
+
+            case INVALID_PASSWORD:
+                editTextPassword.setError(authorisationViewState.invalidPasswordMessage);
+                buttonTrySign.setProgress(-1);
+                break;
+
+            case INVALID_INPUT:
+                editTextEmail.setError(authorisationViewState.invalidEmailMessage);
+                editTextPassword.setError(authorisationViewState.invalidPasswordMessage);
+                buttonTrySign.setProgress(-1);
                 break;
         }
     }

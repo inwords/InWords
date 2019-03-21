@@ -46,14 +46,51 @@ public abstract class AuthorisationViewModel extends BasicViewModel {
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .doOnNext(__ -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.loading())))
                 .switchMap(__ -> userCredentialsObservable)
-                .subscribe(userCredentials ->
-                        compositeDisposable.add(performAuthAction(userCredentials)
-                                .subscribe(() -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.success())),
-                                        t -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.error(t)))))
+                .subscribe(userCredentials -> {
+                            if (validateInput(userCredentials)) {
+                                compositeDisposable.add(performAuthAction(userCredentials)
+                                        .subscribe(() -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.success())),
+                                                t -> authorisationStateLiveData.postValue(new Event<>(AuthorisationViewState.error(t)))));
+                            }
+                        }
                 );
 
         compositeDisposable.add(d);
     }
 
     protected abstract Completable performAuthAction(UserCredentials userCredentials);
+
+    private boolean validateInput(UserCredentials userCredentials) {
+        String emailError = validateEmail(userCredentials);
+        String passwordError = validatePassword(userCredentials);
+
+        if (emailError != null && passwordError != null) {
+            authorisationStateLiveData.postValue(new Event<>(
+                    AuthorisationViewState.invalidInput(emailError, passwordError)));
+        } else if (emailError != null) {
+            authorisationStateLiveData.postValue(new Event<>(
+                    AuthorisationViewState.invalidEmail(emailError)));
+        } else if (passwordError != null) {
+            authorisationStateLiveData.postValue(new Event<>(
+                    AuthorisationViewState.invalidPassword(passwordError)));
+        }
+
+        return emailError == null && passwordError == null;
+    }
+
+    private String validateEmail(UserCredentials userCredentials) {
+        if (userCredentials.getEmail().length() < 3) {
+            return "Invalid email";
+        }
+
+        return null;
+    }
+
+    private String validatePassword(UserCredentials userCredentials) {
+        if (userCredentials.getPassword().isEmpty()) {
+            return "Invalid password";
+        }
+
+        return null;
+    }
 }
