@@ -15,8 +15,9 @@ import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelA
 import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.card_front.view.*
 import kotlinx.android.synthetic.main.fragment_game_level.*
+import kotlinx.android.synthetic.main.game_card_front.view.*
+import kotlinx.android.synthetic.main.game_welcome.*
 import java.util.concurrent.TimeUnit
 
 
@@ -47,6 +48,21 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
     }
 
     private fun render(cardsData: CardsData) {
+        showIntro(cardsData)
+//        renderCards(cardsData)
+    }
+
+    private fun showIntro(cardsData: CardsData) {
+        welcome_screen.visibility = View.VISIBLE
+
+        startButton.setOnClickListener { renderCards(cardsData) }
+    }
+
+    private fun renderCards(cardsData: CardsData) {
+        welcome_screen.animate()
+                .alpha(0f)
+                .withEndAction { welcome_screen?.visibility = View.GONE }
+
         val words = cardsData.words
 
         val rows = words.size / 2
@@ -57,7 +73,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
             tableRow.gravity = Gravity.CENTER
 
             for (j in 0 until 2) {
-                val card = layoutInflater.inflate(R.layout.card, tableRow, false) as FlipView
+                val card = layoutInflater.inflate(R.layout.game_card, tableRow, false) as FlipView
 
                 card.apply {
                     flip(true)
@@ -84,9 +100,9 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
                 val word = v.tag as String
 
                 when {
-                    openedCard == null -> openedCard = v //first card opened
-                    word == cardsData.getCorrespondingWord(openedCard?.tag as String) -> openedCard = null //second correct card opened
-                    else -> { //second incorrect card opened
+                    openedCard == null -> openedCard = v //first game_card opened
+                    word == cardsData.getCorrespondingWord(openedCard?.tag as String) -> openedCard = null //second correct game_card opened
+                    else -> { //second incorrect game_card opened
                         showing = true
                         Observable.timer(2, TimeUnit.SECONDS)
                                 .observeOn(SchedulersFacade.ui())

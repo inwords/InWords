@@ -8,13 +8,17 @@
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent" />
 
     <TableLayout
         android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center" />
+
+    <include
+        android:id="@+id/welcome_screen"
+        layout="@layout/game_welcome"
+        android:visibility="gone" />
 
 </FrameLayout>

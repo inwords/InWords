@@ -18,16 +18,17 @@
         android:id="@+id/buttonGoLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:text="to Login" />
 
     <Button
         android:id="@+id/buttonGetWordList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:text="get WordList" />
 
-    <include layout="@layout/profile" />
+    <include layout="@layout/card_profile" android:id="@+id/profile" />
+    <include layout="@layout/card_dictionary" android:id="@+id/dictionary"/>
 
 </LinearLayout>

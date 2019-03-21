@@ -9,8 +9,12 @@ class UserCachingRepository(
         private val remoteRepository: UserRemoteRepository) : UserRepository {
 
     override fun getAuthorisedUser(): Single<User> = remoteRepository.getAuthorisedUser()
-            .flatMap { item -> databaseRepository.insert(item).map { item } }
-            .doOnError { Log.d(TAG, it.message) }
+            .flatMap { item ->
+                databaseRepository.insert(item)
+                        .doOnError { Log.d(TAG, it.message) }
+                        .onErrorReturnItem(0)
+                        .map { item }
+            }
             .onErrorResumeNext(databaseRepository.getAuthorisedUser())
 
     override fun getUserById(id: Int): Single<User> {

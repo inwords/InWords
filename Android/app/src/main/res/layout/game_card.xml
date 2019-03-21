@@ -10,8 +10,8 @@
     app:animateDesignLayoutOnly="true"
     app:enableInitialAnimation="true">
 
-    <include layout="@layout/card_front" />
+    <include layout="@layout/game_card_front" />
 
-    <include layout="@layout/card_rear" />
+    <include layout="@layout/game_card_rear" />
 
 </eu.davidea.flipview.FlipView>

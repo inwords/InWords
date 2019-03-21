@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/half_margin"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    tools:showIn="@layout/fragment_home">
+
+    <ImageView
+        android:id="@+id/dict"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_marginBottom="@dimen/half_margin"
+        android:contentDescription="@string/avatar"
+        android:elevation="5dp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="@dimen/half_margin"
+        android:elevation="5dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="@dimen/half_margin"
+        android:paddingEnd="@dimen/half_margin"
+        android:textSize="24sp"
+        tools:text="Ваш словарь" />
+
+    <TextView
+        android:id="@+id/dictSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="72dp"
+        android:layout_marginBottom="@dimen/half_margin"
+        android:elevation="5dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingStart="@dimen/half_margin"
+        android:paddingEnd="@dimen/half_margin"
+        android:textColor="@color/colorPrimary"
+        tools:text="@string/words_in_dictionary" />
+
+</androidx.cardview.widget.CardView>
