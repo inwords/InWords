@@ -6,6 +6,5 @@ export const errorMessage = (state = null, action) => {
     } else if (action.error) {
         return action.error;
     }
-    
     return state;
 };

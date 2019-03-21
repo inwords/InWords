@@ -1,4 +1,4 @@
-import { API_HOST } from '../api-info';
+import { API_ROOT } from '../api';
 import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
 import { gameConstants } from '../constants/gameConstants';
@@ -6,7 +6,7 @@ import { gameConstants } from '../constants/gameConstants';
 const pullGamesInfo = () => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(`${API_HOST}/api/Game/GameInfo`, {
+    fetch(`${API_ROOT}/Game/GameInfo`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -15,7 +15,9 @@ const pullGamesInfo = () => (dispatch, getState) => {
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -33,7 +35,7 @@ const pullGamesInfo = () => (dispatch, getState) => {
 const pullGameInfo = (gameId) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(`${API_HOST}/api/Game/${gameId}`, {
+    fetch(`${API_ROOT}/Game/${gameId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -42,7 +44,9 @@ const pullGameInfo = (gameId) => (dispatch, getState) => {
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -60,7 +64,7 @@ const pullGameInfo = (gameId) => (dispatch, getState) => {
 const pullGameLevel = (levelId) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(`${API_HOST}/api/Game/level/${levelId}`, {
+    fetch(`${API_ROOT}/Game/Level/${levelId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -69,7 +73,9 @@ const pullGameLevel = (levelId) => (dispatch, getState) => {
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -88,7 +94,7 @@ const addGamePack = (gamePack) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId;
-    fetch(`${API_HOST}/api/Game/AddGamePack`, {
+    fetch(`${API_ROOT}/Game/AddGamePack`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -98,7 +104,9 @@ const addGamePack = (gamePack) => (dispatch, getState) => {
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();

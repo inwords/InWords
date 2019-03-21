@@ -36,7 +36,7 @@ class RegisterPage extends Component {
         const { email, password } = this.state;
 
         if (redirect) {
-            return <Redirect to="/wordlist" />;
+            return <Redirect to="/login" />;
         }
 
         return (

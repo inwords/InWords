@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './GameWordCard.css';
+
 function GameWordCard({ wordId, pairId, word, selected, successful, successfulSelected, handleClick }) {
     return (
-        <div className={`card flex-fill text-center text-white bg-primary${successfulSelected ? " border-secondary" : ""}`}
+        <div className="word-card-square bg-primary"
             onClick={handleClick(pairId, wordId)}>
-            <div className="card-body">
-                {selected || successful ?
-                    <h5 className={`card-title${successfulSelected ? " text-secondary" : ""}`}>{word}</h5> :
-                    <h5 className="card-title invisible">...</h5>}
+            <div className="word-card-content">
+                <div className="word-card-table">
+                    <div className="word-card-table-cell text-white">
+                        {selected || successful ?
+                            <h5 className={`font-weight-bold${successfulSelected ? " text-secondary" : ""}`}>
+                                {word.lengt <= 10 ? word : word.match(/.{1,10}/g).join('\n')}
+                            </h5> :
+                            null}
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -1,0 +1,63 @@
+@media (min-width: 0px) {
+	.word-card-square {
+		float: left;
+		position: relative;
+		width: 45%;
+		padding-bottom: 45%;
+		margin: 2.5%;
+		overflow: hidden;
+	}
+}
+
+@media (min-width: 576px) {
+	.word-card-square {
+		float: left;
+		position: relative;
+		width: 30%;
+		padding-bottom: 30%;
+		margin: 1.66%;
+		overflow: hidden;
+	}
+}
+
+@media (min-width: 768px) {
+	.word-card-square {
+		float: left;
+		position: relative;
+		width: 22.5%;
+		padding-bottom: 22.5%;
+		margin: 1.25%;
+		overflow: hidden;
+	}
+}
+
+@media (min-width: 992px) {
+	.word-card-square {
+		float: left;
+		position: relative;
+		width: 18%;
+		padding-bottom: 18%;
+		margin: 1%;
+		overflow: hidden;
+	}
+}
+
+.word-card-content {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.word-card-table {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.word-card-table-cell {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	height: 100%;
+	width: 100%;
+}

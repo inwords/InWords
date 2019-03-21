@@ -40,14 +40,12 @@ const userInfo = (state = emptyUserInfo, action) => {
                 avatarPath: action.userInfo.avatarPath,
                 experience: action.userInfo.experience
             };
-
         case userConstants.USER_INFO_CHANGED:
             return {
                 ...state,
                 nickName: action.userInfo.NickName,
                 avatarPath: action.userInfo.AvatarPath
             };
-
         default:
             return state;
     }

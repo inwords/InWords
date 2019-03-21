@@ -1,5 +1,5 @@
-import './styles/custom_bootstrap.scss';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import './index.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
