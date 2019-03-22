@@ -125,6 +125,44 @@ const addGamePack = (gamePack) => (dispatch, getState) => {
         });
 }
 
+const delGamePack = (gameId) => (dispatch, getState) => {
+    /*
+    dispatch(FetchingActions.fetchingRequest());
+
+    fetch(`${API_ROOT}/Game/AddGamePack`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getState().accessToken}`
+        },
+        body: JSON.stringify(gamePack)
+    })
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
+                throw new Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(gamesInfoAddLocalRefresh({
+                gameId: data.serverId,
+                isAvailable: true,
+                title: gamePack.CreationInfo.Descriptions[0].Title
+            }));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
+        });
+        */
+
+    dispatch(gamesInfoDelLocalRefresh(gameId));
+}
+
 function resetGameInfo() {
     return (dispatch) => {
         dispatch(gameInfoReset());
@@ -145,6 +183,11 @@ const gamesInfoReceived = (gamesInfo) => ({
 const gamesInfoAddLocalRefresh = (gamesInfo) => ({
     type: gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH,
     gamesInfo: gamesInfo
+});
+
+const gamesInfoDelLocalRefresh = (gameId) => ({
+    type: gameConstants.GAMES_INFO_DEL_LOCAL_REFRESH,
+    gameId: gameId
 });
 
 const gameInfoReceived = (gameInfo) => ({
@@ -171,5 +214,6 @@ export const GameActions = {
     pullGameLevel,
     resetGameInfo,
     resetGameLevel,
-    addGamePack
+    addGamePack,
+    delGamePack
 };

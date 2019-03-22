@@ -7,6 +7,8 @@ const gamesInfo = (state = [], action) => {
             return action.gamesInfo;
         case gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH:
             return state.concat(action.gamesInfo);
+        case gameConstants.GAMES_INFO_DEL_LOCAL_REFRESH:
+            return state.filter((gameInfo) => gameInfo.gameId !== action.gameId);
         default:
             return state;
     }

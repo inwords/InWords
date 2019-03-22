@@ -12,7 +12,7 @@ function MainNavbar({ accessToken, avatarPath, isFetching, handleLogout }) {
             <a className="navbar-brand" href="/#">InWords</a>
             <div className={`spinner-border spinner-border-sm text-secondary ${isFetching ? "" : "invisible"}`} role="status" />
             <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Навигация">
                 <span className="navbar-toggler-icon" />
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">

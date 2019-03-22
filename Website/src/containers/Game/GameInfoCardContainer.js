@@ -14,6 +14,11 @@ class GameInfoCardContainer extends Component {
         this.props.pullGameInfo(this.props.gameInfo.gameId);
     };
 
+    handleDelGamePack = () => {
+        alert("На сервере не реализовано, поэтому пока только локально");
+        this.props.delGamePack(this.props.gameInfo.gameId);
+    };
+
     render() {
         const { gameInfo } = this.props;
 
@@ -22,6 +27,7 @@ class GameInfoCardContainer extends Component {
                 title={gameInfo.title}
                 isAvailable={gameInfo.isAvailable}
                 handlePullGameInfo={this.handlePullGameInfo}
+                handleDelGamePack={this.handleDelGamePack}
             />
         );
     }
@@ -29,7 +35,8 @@ class GameInfoCardContainer extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        pullGameInfo: (gameId) => dispatch(GameActions.pullGameInfo(gameId))
+        pullGameInfo: (gameId) => dispatch(GameActions.pullGameInfo(gameId)),
+        delGamePack: (gameId) => dispatch(GameActions.delGamePack(gameId))
     };
 };
 
