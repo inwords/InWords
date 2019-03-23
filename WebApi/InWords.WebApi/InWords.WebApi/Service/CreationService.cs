@@ -43,7 +43,13 @@ namespace InWords.WebApi.Service
             return creation.CreationId;
         }
 
-        protected async Task<CreationInfo> GetCreation(int id)
+        /// <summary>
+        ///     This is to get short info about creation
+        /// </summary>
+        /// <see cref="Creation" />
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected async Task<CreationInfo> GetCreationInfo(int id)
         {
             Creation creation = await creationRepository.FindById(id);
 
@@ -78,6 +84,22 @@ namespace InWords.WebApi.Service
             IEnumerable<CreationDescription> descriptions =
                 creationDescriptionRepository.Get(c => c.CreationId == creationId);
             return descriptions.ToList();
+        }
+
+        /// <summary>
+        ///     This is to delete creation by id
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        protected async Task DeleteCreation(IEnumerable<int> ids)
+        {
+            foreach (int id in ids) await DeleteCreation(id);
+        }
+
+        protected async Task DeleteCreation(int id)
+        {
+            Creation creation = await creationRepository.FindById(id);
+            await creationRepository.Remove(creation);
         }
     }
 }

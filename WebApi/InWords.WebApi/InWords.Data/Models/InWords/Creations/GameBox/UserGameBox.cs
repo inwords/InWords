@@ -10,7 +10,7 @@ namespace InWords.Data.Models.InWords.Creations.GameBox
 
         public int UserId { get; set; }
 
-        [ForeignKey("UserId")] public virtual User User { get; set; }
+        [ForeignKey(nameof(UserId))] public virtual User User { get; set; }
 
         public int GameBoxId { get; set; }
 

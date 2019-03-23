@@ -39,7 +39,7 @@ namespace InWords.WebApi.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserID([FromRoute] int id)
+        public async Task<IActionResult> GetUserId([FromRoute] int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -55,9 +55,9 @@ namespace InWords.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
-            int userID = User.Claims.GetUserId();
+            int userId = User.Claims.GetUserId();
 
-            User user = await usersRepository.FindById(userID);
+            User user = await usersRepository.FindById(userId);
 
             if (user == null) return NotFound();
 
@@ -69,12 +69,12 @@ namespace InWords.WebApi.Controllers
         [HttpPut]
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
-            int authorizedID = User.Claims.GetUserId();
+            int authorizedId = User.Claims.GetUserId();
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             // check is user exist
-            User authorizedUser = await usersRepository.FindById(authorizedID);
+            User authorizedUser = await usersRepository.FindById(authorizedId);
 
             if (authorizedUser == null) return NotFound("User doesn't exist. Send this problem to admin");
 
@@ -96,16 +96,11 @@ namespace InWords.WebApi.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            Account accaunt = await accountRepository.FindById(id);
-            if (accaunt == null) return NotFound();
+            Account account = await accountRepository.FindById(id);
+            if (account == null) return NotFound();
 
-            await accountRepository.Remove(accaunt);
-            return Ok(accaunt);
-        }
-
-        private bool UserExists(int id)
-        {
-            return usersRepository.ExistAny(e => e.UserId == id);
+            await accountRepository.Remove(account);
+            return Ok(account);
         }
     }
 }

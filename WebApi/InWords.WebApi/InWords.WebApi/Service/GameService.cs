@@ -16,29 +16,6 @@ namespace InWords.WebApi.Service
 {
     public class GameService : CreationService
     {
-        #region PropsAndCtor
-
-        private readonly GameBoxRepository gameBoxRepository;
-        private readonly GameLevelRepository gameLevelRepository;
-        private readonly GameLevelWordRepository gameLevelWordRepository;
-        private readonly UserGameBoxRepository userGameBoxRepository;
-        private readonly UserGameLevelRepository userGameLevelRepository;
-        private readonly UserRepository usersRepository;
-        private readonly WordsService wordsService;
-
-        public GameService(InWordsDataContext context) : base(context)
-        {
-            usersRepository = new UserRepository(context);
-            wordsService = new WordsService(this.context);
-            gameBoxRepository = new GameBoxRepository(context);
-            gameLevelRepository = new GameLevelRepository(context);
-            gameLevelWordRepository = new GameLevelWordRepository(context);
-            userGameBoxRepository = new UserGameBoxRepository(context);
-            userGameLevelRepository = new UserGameLevelRepository(context);
-        }
-        
-        #endregion
-
         /// <summary>
         ///     This is to add game pack to database with UserID as CreationID
         /// </summary>
@@ -60,35 +37,39 @@ namespace InWords.WebApi.Service
             {
                 CreationId = creationId
             };
+
             gameBox = await gameBoxRepository.Create(gameBox);
 
-            // Add levels
-            foreach (LevelPack levelPack in gamePack.LevelPacks)
+            // Loading behind the scenes, the level will be processed on the server
+            // Does not affect user experience
+            await Task.Run(async () =>
             {
-                var gameLevel = new GameLevel
+                // Add levels
+                foreach (LevelPack levelPack in gamePack.LevelPacks)
                 {
-                    GameBoxId = gameBox.GameBoxId,
-                    TotalStars = levelPack.TotalStars,
-                    SuccessStars = levelPack.SuccessStars,
-                    Level = levelPack.Level
-                };
-                gameLevel = await gameLevelRepository.Create(gameLevel);
-
-                //add words
-
-                foreach (WordTranslation pair in levelPack.WordTranslations)
-                {
-                    WordPair wordPair = await wordsService.AddPair(pair);
-
-                    var gameLevelWord = new GameLevelWord
+                    var gameLevel = new GameLevel
                     {
-                        GameLevelId = gameLevel.GameLevelId,
-                        WordPairId = wordPair.WordPairId
+                        GameBoxId = gameBox.GameBoxId,
+                        Level = levelPack.Level
                     };
+                    gameLevel = await gameLevelRepository.Create(gameLevel);
 
-                    await gameLevelWordRepository.Create(gameLevelWord);
+                    //add words
+
+                    foreach (WordTranslation pair in levelPack.WordTranslations)
+                    {
+                        WordPair wordPair = await wordsService.AddPair(pair);
+
+                        var gameLevelWord = new GameLevelWord
+                        {
+                            GameLevelId = gameLevel.GameLevelId,
+                            WordPairId = wordPair.WordPairId
+                        };
+
+                        await gameLevelWordRepository.Create(gameLevelWord);
+                    }
                 }
-            }
+            });
 
             var answer = new SyncBase(gameBox.GameBoxId);
 
@@ -99,7 +80,7 @@ namespace InWords.WebApi.Service
         ///     This is to get short information about all created games
         /// </summary>
         /// <returns></returns>
-        public List<GameInfo> GetGameInfo()
+        public List<GameInfo> GetGamesInfos()
         {
             var gameInfos = new List<GameInfo>();
 
@@ -123,26 +104,34 @@ namespace InWords.WebApi.Service
             return gameInfos;
         }
 
-        public async Task<Game> GetGameInfo(int userId, int gameId)
+        /// <summary>
+        ///     This is to get full information about certain game
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
+        public async Task<Game> GetGame(int userId, int gameId)
         {
-            // TODO: Add level to user
-
+            // find game in database
             GameBox gameBox = await gameBoxRepository.FindById(gameId);
-            CreationInfo creation = await GetCreation(gameBox.CreationId);
+
+            if (gameBox == null) throw new ArgumentNullException();
+
+            // find the creator of the game
+            CreationInfo creation = await GetCreationInfo(gameBox.CreationId);
+
             User userCreator = await usersRepository.FindById(creation.CreatorId);
 
-
+            // find all game levels 
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-            {
-                IsAvailable = true,
-                LevelId = level.GameLevelId,
-                Level = level.Level,
-                PlayerStars = 0,
-                SuccessStars = level.SuccessStars,
-                TotalStars = level.TotalStars
-            })
+                {
+                    IsAvailable = true,
+                    LevelId = level.GameLevelId,
+                    Level = level.Level,
+                    PlayerStars = 0
+                })
                 .ToList();
 
             var game = new Game
@@ -174,6 +163,36 @@ namespace InWords.WebApi.Service
             };
 
             return level;
+        }
+
+
+        /// <summary>
+        ///     This is to delete the whole game and levels.
+        ///     Method doesn't delete words and word pairs
+        ///     Need review.
+        /// </summary>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <param name="gameId"></param>
+        public async Task<int> DeleteGames(params int[] gameId)
+        {
+            IEnumerable<int> creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId))
+                .Select(c => c.CreationId).ToArray();
+
+            await DeleteCreation(creationsId);
+
+            return creationsId.Count();
+        }
+
+        public async Task<int> DeleteGames(int userId, params int[] gameId)
+        {
+            IQueryable<int> id = from games in Context.GameBoxs
+                join creations in Context.Creations on games.CreationId equals creations.CreationId
+                where creations.CreationId == userId && gameId.Contains(games.GameBoxId)
+                select creations.CreationId;
+
+            await DeleteCreation(id);
+
+            return id.Count();
         }
 
         /// <summary>
@@ -262,5 +281,29 @@ namespace InWords.WebApi.Service
 
             return levelScore;
         }
+
+        #region PropsAndCtor
+
+        private readonly GameBoxRepository gameBoxRepository;
+        private readonly GameLevelRepository gameLevelRepository;
+        private readonly GameLevelWordRepository gameLevelWordRepository;
+        private readonly UserGameBoxRepository userGameBoxRepository;
+        private readonly UserGameLevelRepository userGameLevelRepository;
+        private readonly UserRepository usersRepository;
+        private readonly WordsService wordsService;
+
+
+        public GameService(InWordsDataContext context) : base(context)
+        {
+            usersRepository = new UserRepository(context);
+            wordsService = new WordsService(context);
+            gameBoxRepository = new GameBoxRepository(context);
+            gameLevelRepository = new GameLevelRepository(context);
+            gameLevelWordRepository = new GameLevelWordRepository(context);
+            userGameBoxRepository = new UserGameBoxRepository(context);
+            userGameLevelRepository = new UserGameLevelRepository(context);
+        }
+
+        #endregion
     }
 }

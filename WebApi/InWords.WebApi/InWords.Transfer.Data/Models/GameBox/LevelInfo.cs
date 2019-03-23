@@ -1,6 +1,6 @@
 ﻿namespace InWords.Transfer.Data.Models.GameBox
 {
-    public class LevelInfo : StarsInfo
+    public class LevelInfo
     {
         public int LevelId { get; set; }
 
