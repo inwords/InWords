@@ -5,6 +5,7 @@ using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models.Creation;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Service
 {
@@ -91,16 +92,18 @@ namespace InWords.WebApi.Service
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        protected void DeleteCreation(IEnumerable<int> ids)
+        protected async Task DeleteCreation(IEnumerable<int> ids)
         {
-            Parallel.ForEach(ids, DeleteCreation);
+            foreach (int id in ids)
+            {
+                await DeleteCreation(id);
+            }
         }
 
-        protected async void DeleteCreation(int id)
+        protected async Task DeleteCreation(int id)
         {
             Creation creation = await creationRepository.FindById(id);
             await creationRepository.Remove(creation);
         }
-
     }
 }

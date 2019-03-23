@@ -80,31 +80,35 @@ namespace InWords.WebApi.Controllers
             return Ok(answer);
         }
 
+
+
+        /// <summary>
+        ///     This is api to delete game box
+        ///     Deletion allow only if it is your game
+        ///     of if your are admin
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("Delete/{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return DeleteRange(id);
+            return await DeleteRange(id);
         }
 
         [HttpPost]
         [Route("DeleteRange")]
-        public IActionResult DeleteRange(params int[] ids)
+        public async Task<IActionResult> DeleteRange(params int[] ids)
         {
             int userId = HttpContext.User.Claims.GetUserId();
 
             string role = HttpContext.User.Claims.GetUserRole();
 
-            if (role == RoleType.Admin.ToString())
-            {
-                gameService.DeleteGames(ids);
-            }
-            else
-            {
-                gameService.DeleteGames(userId, ids);
-            }
+            int count = role == RoleType.Admin.ToString()
+                ? await gameService.DeleteGames(ids)
+                : await gameService.DeleteGames(userId, ids);
 
-            return NoContent();
+            return count == 0 ? (IActionResult)NotFound() : Ok(count);
         }
     }
 }

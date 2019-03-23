@@ -12,6 +12,7 @@ using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Service
 {
@@ -152,12 +153,12 @@ namespace InWords.WebApi.Service
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-                {
-                    IsAvailable = true,
-                    LevelId = level.GameLevelId,
-                    Level = level.Level,
-                    PlayerStars = 0,
-                })
+            {
+                IsAvailable = true,
+                LevelId = level.GameLevelId,
+                Level = level.Level,
+                PlayerStars = 0,
+            })
                 .ToList();
 
             var game = new Game
@@ -199,26 +200,25 @@ namespace InWords.WebApi.Service
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="gameId"></param>
-        public void DeleteGames(params int[] gameId)
+        public async Task<int> DeleteGames(params int[] gameId)
         {
-            int creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId)
-                .SingleOrDefault();
+            IEnumerable<int> creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId).ToArray();
 
-            if (creationsId == 0) return;
+            await DeleteCreation(creationsId);
 
-            DeleteCreation(creationsId);
+            return creationsId.Count();
         }
 
-        public void DeleteGames(int userId, params int[] gameId)
+        public async Task<int> DeleteGames(int userId, params int[] gameId)
         {
-            int id = (from games in Context.GameBoxs
-                join creations in Context.Creations on games.CreationId equals creations.CreationId
-                where creations.CreationId == userId && gameId.Contains(games.GameBoxId)
-                select creations.CreationId).SingleOrDefault();
+            IQueryable<int> id = (from games in Context.GameBoxs
+                                  join creations in Context.Creations on games.CreationId equals creations.CreationId
+                                  where creations.CreationId == userId && gameId.Contains(games.GameBoxId)
+                                  select creations.CreationId);
 
-            if (id == 0) throw new NullReferenceException();
+            await DeleteCreation(id);
 
-            DeleteCreation(id);
+            return id.Count();
         }
 
         /// <summary>

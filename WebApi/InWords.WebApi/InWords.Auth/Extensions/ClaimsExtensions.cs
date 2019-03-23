@@ -25,10 +25,8 @@ namespace InWords.Auth.Extensions
 
         public static string GetUserRole(this IEnumerable<Claim> claims)
         {
-            throw new NotImplementedException();
-            //Claim nameIdentifier = claims.Where(c => c.Type == ClaimTypes.Role).First();
-            //int authorizedID = int.Parse(nameIdentifier.Value); //todo Extensions
-            //return null;
+            Claim nameIdentifier = claims.First(c => c.Type == ClaimTypes.Role);
+            return nameIdentifier?.Value;
         }
     }
 }
