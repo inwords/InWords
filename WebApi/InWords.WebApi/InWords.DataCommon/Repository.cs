@@ -38,7 +38,7 @@ namespace InWords.Data
 
         public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
         {
-            return DbSet.AsNoTracking().Where(predicate).ToList();
+            return DbSet.AsNoTracking().AsEnumerable().Where(predicate).ToList();
         }
 
         /// <summary>
@@ -60,13 +60,12 @@ namespace InWords.Data
 
         public async Task<TEntity> Stack(TEntity item, Func<TEntity, bool> predicate)
         {
-            TEntity stackedWord = null;
-            IEnumerable<TEntity> query = Get(predicate);
-            if (query.Count() == 0)
-                stackedWord = await Create(item);
-            else
-                stackedWord = query.First();
-            return stackedWord;
+            TEntity entity = null;
+            entity = Get(predicate).SingleOrDefault();
+
+            entity = entity ?? await Create(item);
+
+            return entity;
         }
 
         public bool ExistAny(Expression<Func<TEntity, bool>> predicate)

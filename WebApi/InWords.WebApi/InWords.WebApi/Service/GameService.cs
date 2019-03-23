@@ -104,7 +104,7 @@ namespace InWords.WebApi.Service
         ///     This is to get short information about all created games
         /// </summary>
         /// <returns></returns>
-        public List<GameInfo> GetGameInfo()
+        public List<GameInfo> GetGamesInfos()
         {
             var gameInfos = new List<GameInfo>();
 
@@ -128,17 +128,25 @@ namespace InWords.WebApi.Service
             return gameInfos;
         }
 
-        public async Task<Game> GetGameInfo(int userId, int gameId)
+        /// <summary>
+        ///     This is to get full information about certain game
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
+        public async Task<Game> GetGame(int userId, int gameId)
         {
-            // TODO: Add level to user
-
+            // find game in database
             GameBox gameBox = await gameBoxRepository.FindById(gameId);
-            if (gameBox == null)
-                return null;
-            CreationInfo creation = await GetCreation(gameBox.CreationId);
+
+            if (gameBox == null) throw new ArgumentNullException();
+
+            // find the creator of the game
+            CreationInfo creation = await GetCreationInfo(gameBox.CreationId);
+
             User userCreator = await usersRepository.FindById(creation.CreatorId);
 
-
+            // find all game levels 
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
@@ -180,6 +188,25 @@ namespace InWords.WebApi.Service
 
             return level;
         }
+
+
+        /// <summary>
+        ///     This is to delete the whole game and levels.
+        ///     Method doesn't delete words and word pairs
+        ///     Need review. 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="gameId"></param>
+        public async void DeleteGame(int userId, int gameId)
+        {
+            // find game in database
+            GameBox gameBox = await gameBoxRepository.FindById(gameId);
+
+            if (gameBox == null) throw new ArgumentNullException();
+
+            CreationInfo creation = await GetCreationInfo(gameBox.CreationId);
+        }
+
 
         /// <summary>
         ///     This is to update user score on game level

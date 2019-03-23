@@ -52,7 +52,7 @@ namespace InWords.WebApi.Controllers
         [HttpGet]
         public IActionResult GetGameInfo()
         {
-            List<GameInfo> answer = gameService.GetGameInfo();
+            List<GameInfo> answer = gameService.GetGamesInfos();
 
             return Ok(answer);
         }
@@ -64,7 +64,7 @@ namespace InWords.WebApi.Controllers
         {
             int userId = User.Claims.GetUserId();
 
-            Game answer = await gameService.GetGameInfo(userId, id);
+            Game answer = await gameService.GetGame(userId, id);
 
             if (answer == null) return NotFound();
 
