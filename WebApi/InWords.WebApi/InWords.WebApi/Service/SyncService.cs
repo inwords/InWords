@@ -15,7 +15,7 @@ namespace InWords.WebApi.Service
             wordsService = new WordsService(context);
         }
 
-        public Task<PullWordsAnswer> PullWordPairs(int userId, IEnumerable<int> serverIDs)
+        public PullWordsAnswer PullWordPairs(int userId, IEnumerable<int> serverIDs)
         {
             //string[] server = { "Microsoft", "Google", "Apple" };
             //string[] user = { "Apple", "IBM", "Samsung" };
@@ -26,9 +26,8 @@ namespace InWords.WebApi.Service
             //var result = user.Except(server);
             //"IBM", "Samsung" //ids to delete
 
-
-            IEnumerable<int> userWordsIds = serverIDs;
-            IEnumerable<int> serverWordsIds = wordsService.UserWordsId(userId);
+            int[] userWordsIds = serverIDs.ToArray();
+            int[] serverWordsIds = wordsService.UserWordsId(userId).ToArray();
 
             IEnumerable<int> idsToAddOnClient = serverWordsIds.Except(userWordsIds);
             IEnumerable<int> idsToDeleteOnClient = userWordsIds.Except(serverWordsIds);

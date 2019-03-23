@@ -52,11 +52,11 @@ namespace InWords.WebApi.Controllers
         [Authorize]
         [Route("pullWordPairs")]
         [HttpPost]
-        public async Task<IActionResult> PullWordPairs([FromBody] IEnumerable<int> server_ids)
+        public IActionResult PullWordPairs([FromBody] IEnumerable<int> server_ids)
         {
             int authorizedId = User.Claims.GetUserId();
 
-            PullWordsAnswer pullAnswer = await syncService.PullWordPairs(authorizedId, server_ids);
+            PullWordsAnswer pullAnswer = syncService.PullWordPairs(authorizedId, server_ids);
 
             return Ok(pullAnswer);
         }
