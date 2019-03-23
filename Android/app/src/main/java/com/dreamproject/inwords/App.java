@@ -5,6 +5,8 @@ import android.app.Application;
 import com.dreamproject.inwords.dagger.AppComponent;
 import com.dreamproject.inwords.dagger.DaggerAppComponent;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import javax.inject.Inject;
 
@@ -12,10 +14,13 @@ import androidx.fragment.app.Fragment;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import okhttp3.OkHttpClient;
 
 public class App extends Application implements HasSupportFragmentInjector {
     public static AppComponent appComponent;
-    
+
+    @Inject
+    OkHttpClient okHttpClient;
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingActivityInjector;
     @Inject
@@ -24,9 +29,13 @@ public class App extends Application implements HasSupportFragmentInjector {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fresco.initialize(this);
 
         DaggerAppComponent.builder().create(this).inject(this);
+
+        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory
+                .newBuilder(this, okHttpClient)
+                .build();
+        Fresco.initialize(this, config);
 
         appComponent = _appComponent;
     }
