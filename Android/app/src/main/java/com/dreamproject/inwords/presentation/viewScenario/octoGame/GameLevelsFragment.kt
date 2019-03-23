@@ -62,25 +62,23 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         var counter = 1
 
         gameLevelsInfos.forEach { gameLevelInfo ->
-            layoutInflater.inflate(R.layout.game_level_info, levelsGrid, false).apply {
-                //                tag = gameLevelInfo
-
+            with(layoutInflater.inflate(R.layout.game_level_info, levelsGrid, false)) {
                 title.text = counter.toString()
                 counter++
 
                 setBackgroundColor(coloringUtil.getColorForGameLevelInfo(gameLevelInfo.available))
 
                 addStars(stars, gameLevelInfo.playerStars, Color.YELLOW)
-                addStars(stars, (if (gameLevelInfo.totalStars > 8) 8 else gameLevelInfo.totalStars) - gameLevelInfo.playerStars, Color.GRAY)
-            }.also { view ->
-                view.setOnClickListener { viewModel.onGameLevelSelected(gameLevelInfo) }
-                levelsGrid.addView(view)
+                addStars(stars, 3 - gameLevelInfo.playerStars, Color.GRAY) //TODO hardcoded 3
+
+                setOnClickListener { viewModel.onGameLevelSelected(gameLevelInfo) }
+                levelsGrid.addView(this)
             }
         }
     }
 
     private fun addStars(stars: ViewGroup, count: Int, @ColorInt color: Int) {
-        val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12.0f, resources.displayMetrics).toInt()
+        val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16.0f, resources.displayMetrics).toInt()
 
         for (i: Int in 1..count) {
             stars.addView(View(context).apply {
