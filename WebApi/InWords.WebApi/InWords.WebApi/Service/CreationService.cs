@@ -79,26 +79,28 @@ namespace InWords.WebApi.Service
             return creationInfo;
         }
 
-        /// <summary>
-        ///     This is to delete creation by id
-        /// </summary>
-        /// <see cref="Creation"/>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        protected async Task<Creation> DeleteCreation(int id)
-        {
-
-            Creation creation = await creationRepository.Remove(id);
-
-            return creation;
-        }
-
-
         protected List<CreationDescription> GetDescriptions(int creationId)
         {
             IEnumerable<CreationDescription> descriptions =
                 creationDescriptionRepository.Get(c => c.CreationId == creationId);
             return descriptions.ToList();
         }
+
+        /// <summary>
+        ///     This is to delete creation by id
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        protected void DeleteCreation(IEnumerable<int> ids)
+        {
+            Parallel.ForEach(ids, DeleteCreation);
+        }
+
+        protected async void DeleteCreation(int id)
+        {
+            Creation creation = await creationRepository.FindById(id);
+            await creationRepository.Remove(creation);
+        }
+
     }
 }

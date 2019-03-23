@@ -15,7 +15,7 @@ namespace InWords.WebApi.Service
             wordsService = new WordsService(context);
         }
 
-        public async Task<PullWordsAnswer> PullWordPairs(int userID, IEnumerable<int> serverIDs)
+        public Task<PullWordsAnswer> PullWordPairs(int userId, IEnumerable<int> serverIDs)
         {
             //string[] server = { "Microsoft", "Google", "Apple" };
             //string[] user = { "Apple", "IBM", "Samsung" };
@@ -26,17 +26,18 @@ namespace InWords.WebApi.Service
             //var result = user.Except(server);
             //"IBM", "Samsung" //ids to delete
 
-            IEnumerable<int> userWordsIDs = serverIDs;
-            IEnumerable<int> serverWordsIDs = wordsService.UserWordsId(userID);
 
-            IEnumerable<int> idsToAdd_OnClient = serverWordsIDs.Except(userWordsIDs);
-            IEnumerable<int> idsToDelete_OnClient = userWordsIDs.Except(serverWordsIDs);
+            IEnumerable<int> userWordsIds = serverIDs;
+            IEnumerable<int> serverWordsIds = wordsService.UserWordsId(userId);
 
-            List<WordTranslation> addedWords = wordsService.GetUserWordsById(idsToAdd_OnClient);
+            IEnumerable<int> idsToAddOnClient = serverWordsIds.Except(userWordsIds);
+            IEnumerable<int> idsToDeleteOnClient = userWordsIds.Except(serverWordsIds);
+
+            List<WordTranslation> addedWords = wordsService.GetUserWordsById(idsToAddOnClient);
 
             var pullResponse = new PullWordsAnswer
             {
-                RemovedServerIds = idsToDelete_OnClient.ToList(),
+                RemovedServerIds = idsToDeleteOnClient.ToList(),
                 AddedWords = addedWords
             };
 

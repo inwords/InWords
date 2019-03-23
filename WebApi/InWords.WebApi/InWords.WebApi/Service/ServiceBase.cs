@@ -4,11 +4,11 @@ namespace InWords.WebApi.Service
 {
     public class ServiceBase
     {
-        protected readonly InWordsDataContext context;
+        protected readonly InWordsDataContext Context;
 
         public ServiceBase(InWordsDataContext context)
         {
-            this.context = context;
+            this.Context = context;
         }
     }
 }

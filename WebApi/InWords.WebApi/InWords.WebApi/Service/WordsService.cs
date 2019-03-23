@@ -16,9 +16,9 @@ namespace InWords.WebApi.Service
 
         public WordsService(InWordsDataContext context) : base(context)
         {
-            userWordPairRepository = new UserWordPairRepository(this.context);
-            wordPairRepository = new WordPairRepository(this.context);
-            wordRepository = new WordRepository(this.context);
+            userWordPairRepository = new UserWordPairRepository(context);
+            wordPairRepository = new WordPairRepository(context);
+            wordRepository = new WordRepository(context);
         }
 
         public async Task<List<SyncBase>> AddPair(int userId, IEnumerable<WordTranslation> wordTranslations)

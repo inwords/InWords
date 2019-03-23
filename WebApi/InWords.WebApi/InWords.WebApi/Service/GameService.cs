@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models;
@@ -26,10 +27,11 @@ namespace InWords.WebApi.Service
         private readonly UserRepository usersRepository;
         private readonly WordsService wordsService;
 
+
         public GameService(InWordsDataContext context) : base(context)
         {
             usersRepository = new UserRepository(context);
-            wordsService = new WordsService(this.context);
+            wordsService = new WordsService(context);
             gameBoxRepository = new GameBoxRepository(context);
             gameLevelRepository = new GameLevelRepository(context);
             gameLevelWordRepository = new GameLevelWordRepository(context);
@@ -150,12 +152,12 @@ namespace InWords.WebApi.Service
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-            {
-                IsAvailable = true,
-                LevelId = level.GameLevelId,
-                Level = level.Level,
-                PlayerStars = 0,
-            })
+                {
+                    IsAvailable = true,
+                    LevelId = level.GameLevelId,
+                    Level = level.Level,
+                    PlayerStars = 0,
+                })
                 .ToList();
 
             var game = new Game
@@ -195,18 +197,29 @@ namespace InWords.WebApi.Service
         ///     Method doesn't delete words and word pairs
         ///     Need review. 
         /// </summary>
-        /// <param name="userId"></param>
+        /// <exception cref="NullReferenceException"></exception>
         /// <param name="gameId"></param>
-        public async void DeleteGame(int userId, int gameId)
+        public void DeleteGames(params int[] gameId)
         {
-            // find game in database
-            GameBox gameBox = await gameBoxRepository.FindById(gameId);
+            int creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId)
+                .SingleOrDefault();
 
-            if (gameBox == null) throw new ArgumentNullException();
+            if (creationsId == 0) return;
 
-            CreationInfo creation = await GetCreationInfo(gameBox.CreationId);
+            DeleteCreation(creationsId);
         }
 
+        public void DeleteGames(int userId, params int[] gameId)
+        {
+            int id = (from games in Context.GameBoxs
+                join creations in Context.Creations on games.CreationId equals creations.CreationId
+                where creations.CreationId == userId && gameId.Contains(games.GameBoxId)
+                select creations.CreationId).SingleOrDefault();
+
+            if (id == 0) throw new NullReferenceException();
+
+            DeleteCreation(id);
+        }
 
         /// <summary>
         ///     This is to update user score on game level
