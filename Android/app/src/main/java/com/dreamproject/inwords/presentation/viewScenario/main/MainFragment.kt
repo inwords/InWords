@@ -6,10 +6,10 @@ import android.view.View
 import androidx.navigation.Navigation
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
+import com.dreamproject.inwords.data.dto.User
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.card_dictionary.view.*
@@ -22,8 +22,7 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        buttonGoLogin.setOnClickListener(
-                Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null))
+        buttonGoLogin.setOnClickListener(toLoginClickListener())
 //TODO это не дело. перенести навигацию в модель. но это пока костыль
         viewModel.onGetAllHandler(RxView.clicks(buttonGetWordList))
 
@@ -39,41 +38,60 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
         compositeDisposable.clear()
     }
 
+    private fun toLoginClickListener() =
+            Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null)
+
     private fun subscribeProfile(): Disposable {
+        fun renderUser(user: User) {
+            if (user.avatar != null) {
+                val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(user.avatar))
+                        .setProgressiveRenderingEnabled(true)
+                        .setLocalThumbnailPreviewsEnabled(true)
+                        .build()
+
+                profile.avatar.setImageRequest(request)
+            }
+
+            profile.experience.text = getString(R.string.user_experience, 15)
+            profile.name.text = user.userName
+        }
+
+        fun renderError() {
+            val errorText = getString(R.string.error_text_placeholder)
+            profile.name.text = errorText
+            profile.experience.text = errorText
+        }
+
+        fun renderLoading() {
+            val loadingText = getString(R.string.loading_text_placeholder)
+            profile.name.text = loadingText
+            profile.experience.text = loadingText
+        }
+
         return viewModel.profileDataSubject
                 .observeOn(SchedulersFacade.ui())
-                .subscribe({ u ->
-                    if (u.avatar != null) {
-                        val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(u.avatar))
-                                .setLocalThumbnailPreviewsEnabled(true)
-                                .build()
-
-                        profile.avatar.setImageRequest(request)
-                    }
-
-                    profile.experience.text = getString(R.string.user_experience, 228)
-                    profile.name.text = u.userName
-                }) {
-                    val errorText = getString(R.string.error_text_placeholder)
-                    profile.name.text = errorText
-                    profile.experience.text = errorText
-                }
+                .doOnSubscribe { renderLoading() }
+                .subscribe(::renderUser) { renderError() }
     }
 
     private fun subscribeDictionary(): Disposable {
-        return Observable.just(0)
-                .observeOn(SchedulersFacade.ui())
-                .subscribe({ u ->
-                    dictionary.setOnClickListener { navController.navigate(R.id.action_mainFragment_to_translationMainFragment) }
-                    dictionary.dict.setImageResource(R.drawable.ic_dictionary)
+        fun applyListener() {
+            dictionary.setOnClickListener { navController.navigate(R.id.action_mainFragment_to_translationMainFragment) }
+        }
 
-                    dictionary.dictSize.text = getString(R.string.words_in_dictionary, 228)
-                    dictionary.title.text = "Ваш словарь"
-                }) {
-                    val errorText = getString(R.string.error_text_placeholder)
-                    dictionary.title.text = errorText
-                    dictionary.dictSize.text = errorText
-                }
+        fun renderCount(count: Int) {
+            dictionary.dictSize.text = getString(R.string.words_in_dictionary, count)
+        }
+
+        fun renderError() {
+            val errorText = getString(R.string.error_text_placeholder)
+            dictionary.dictSize.text = errorText
+        }
+
+        return viewModel.wordsCountSubject
+                .observeOn(SchedulersFacade.ui())
+                .doOnSubscribe { applyListener() }
+                .subscribe(::renderCount) { renderError() }
     }
 
     override fun getLayout(): Int {

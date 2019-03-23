@@ -18,8 +18,8 @@
         android:layout_marginBottom="@dimen/half_margin"
         android:contentDescription="@string/avatar"
         android:elevation="5dp"
-        app:failureImage="@drawable/avatar_placeholder"
-        app:placeholderImage="@drawable/avatar_placeholder" />
+        app:failureImage="@drawable/ic_octopus1"
+        app:placeholderImage="@drawable/ic_octopus1" />
 
     <TextView
         android:id="@+id/name"

@@ -10,5 +10,6 @@
     <dimen name="card_corner_radius">4dp</dimen>
 
     <dimen name="half_margin">8dp</dimen>
+    <dimen name="quarter_margin">4dp</dimen>
 
 </resources>

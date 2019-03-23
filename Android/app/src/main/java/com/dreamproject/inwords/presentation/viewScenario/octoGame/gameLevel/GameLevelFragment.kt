@@ -12,6 +12,7 @@ import com.dreamproject.inwords.data.dto.game.GameLevelInfo
 import com.dreamproject.inwords.domain.CardsData
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -53,6 +54,11 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
     }
 
     private fun showIntro(cardsData: CardsData) {
+        val imageRequest = ImageRequestBuilder
+                .newBuilderWithResourceId(R.drawable.ic_octopus_1)
+                .build()
+
+        welcome_image.setImageRequest(imageRequest)
         welcome_screen.visibility = View.VISIBLE
 
         startButton.setOnClickListener { renderCards(cardsData) }

@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="0dp"
+    tools:layout_width="wrap_content"
     android:layout_height="80dp"
     android:layout_columnWeight="1"
     android:layout_gravity="fill_horizontal"
@@ -15,14 +16,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="24sp"
-        tools:text="Введение" />
+        tools:text="1" />
 
     <LinearLayout
         android:id="@+id/stars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:orientation="horizontal" />
 
 </FrameLayout>

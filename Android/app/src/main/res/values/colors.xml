@@ -17,7 +17,7 @@
     <color name="purple_progress">@color/colorAccent</color>
     <color name="red_error">#FFA44A4A</color>
 
-    <color name="holo_blue_bright">@color/colorPrimary</color>
+    <color name="holo_blue_bright">@color/colorPrimaryDark</color>
     <color name="holo_green_light">#FF99cc00</color>
     <color name="holo_orange_light">#FFFFBB33</color>
     <color name="holo_red_light">@color/colorAccent</color>

@@ -57,8 +57,10 @@
 
     <!-- home start -->
     <string name="avatar">Аватар</string>
+    <string name="dictionary_title">Ваш словарь</string>
     <string name="words_in_dictionary">В вашем словаре %1$d слов</string>
     <string name="error_text_placeholder">Не удалось загрузить данные</string>
+    <string name="loading_text_placeholder">Загрузка профиля</string>
     <string name="user_experience">Ваш опыт на сегодня: %1$d</string>
     <!-- home end -->
 

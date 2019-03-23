@@ -16,12 +16,8 @@ import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import io.reactivex.Observable;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWordViewModel, AddEditWordViewModelFactory> {
     private boolean isEditing;
     private EditText editTextNativeWord;
@@ -69,16 +65,19 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
             Random rnd = new Random(System.currentTimeMillis());
             WordTranslation wordTranslation = new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000));
 
-            editTextNativeWord.setText(wordTranslation.getWordNative());
-            editTextForeignWord.setText(wordTranslation.getWordForeign());
+            renderEditingWords(wordTranslation);
         } else {
             isEditing = true;
 
             buttonConfirm.setText("Изменить"); //TODO not to hardcode
 
-            editTextNativeWord.setText(wordToEdit.getWordNative());
-            editTextForeignWord.setText(wordToEdit.getWordForeign());
+            renderEditingWords(wordToEdit);
         }
+    }
+
+    private void renderEditingWords(WordTranslation wordTranslation) {
+        editTextNativeWord.setText(wordTranslation.getWordNative());
+        editTextForeignWord.setText(wordTranslation.getWordForeign());
     }
 
     private void popBackToTranslationMain(Event<Boolean> booleanEvent) {

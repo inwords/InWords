@@ -19,6 +19,7 @@
         android:layout_marginTop="@dimen/half_margin"
         android:layout_marginBottom="@dimen/half_margin"
         android:contentDescription="@string/avatar"
+        android:src="@drawable/ic_dictionary"
         android:elevation="5dp" />
 
     <TextView
@@ -33,7 +34,7 @@
         android:paddingStart="@dimen/half_margin"
         android:paddingEnd="@dimen/half_margin"
         android:textSize="24sp"
-        tools:text="Ваш словарь" />
+        android:text="@string/dictionary_title" />
 
     <TextView
         android:id="@+id/dictSize"
