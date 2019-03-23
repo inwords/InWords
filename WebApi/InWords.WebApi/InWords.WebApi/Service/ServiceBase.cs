@@ -8,7 +8,7 @@ namespace InWords.WebApi.Service
 
         public ServiceBase(InWordsDataContext context)
         {
-            this.Context = context;
+            Context = context;
         }
     }
 }

@@ -5,7 +5,6 @@ using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models.Creation;
-using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Service
 {
@@ -47,7 +46,7 @@ namespace InWords.WebApi.Service
         /// <summary>
         ///     This is to get short info about creation
         /// </summary>
-        /// <see cref="Creation"/>
+        /// <see cref="Creation" />
         /// <param name="id"></param>
         /// <returns></returns>
         protected async Task<CreationInfo> GetCreationInfo(int id)
@@ -94,10 +93,7 @@ namespace InWords.WebApi.Service
         /// <returns></returns>
         protected async Task DeleteCreation(IEnumerable<int> ids)
         {
-            foreach (int id in ids)
-            {
-                await DeleteCreation(id);
-            }
+            foreach (int id in ids) await DeleteCreation(id);
         }
 
         protected async Task DeleteCreation(int id)

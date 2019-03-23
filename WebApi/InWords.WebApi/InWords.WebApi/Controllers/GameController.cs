@@ -81,7 +81,6 @@ namespace InWords.WebApi.Controllers
         }
 
 
-
         /// <summary>
         ///     This is api to delete game box
         ///     Deletion allow only if it is your game
@@ -108,7 +107,7 @@ namespace InWords.WebApi.Controllers
                 ? await gameService.DeleteGames(ids)
                 : await gameService.DeleteGames(userId, ids);
 
-            return count == 0 ? (IActionResult)NotFound() : Ok(count);
+            return count == 0 ? (IActionResult) NotFound() : Ok(count);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models;
@@ -12,36 +11,11 @@ using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
-using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Service
 {
     public class GameService : CreationService
     {
-        #region PropsAndCtor
-
-        private readonly GameBoxRepository gameBoxRepository;
-        private readonly GameLevelRepository gameLevelRepository;
-        private readonly GameLevelWordRepository gameLevelWordRepository;
-        private readonly UserGameBoxRepository userGameBoxRepository;
-        private readonly UserGameLevelRepository userGameLevelRepository;
-        private readonly UserRepository usersRepository;
-        private readonly WordsService wordsService;
-
-
-        public GameService(InWordsDataContext context) : base(context)
-        {
-            usersRepository = new UserRepository(context);
-            wordsService = new WordsService(context);
-            gameBoxRepository = new GameBoxRepository(context);
-            gameLevelRepository = new GameLevelRepository(context);
-            gameLevelWordRepository = new GameLevelWordRepository(context);
-            userGameBoxRepository = new UserGameBoxRepository(context);
-            userGameLevelRepository = new UserGameLevelRepository(context);
-        }
-
-        #endregion
-
         /// <summary>
         ///     This is to add game pack to database with UserID as CreationID
         /// </summary>
@@ -95,7 +69,6 @@ namespace InWords.WebApi.Service
                         await gameLevelWordRepository.Create(gameLevelWord);
                     }
                 }
-
             });
 
             var answer = new SyncBase(gameBox.GameBoxId);
@@ -153,12 +126,12 @@ namespace InWords.WebApi.Service
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-            {
-                IsAvailable = true,
-                LevelId = level.GameLevelId,
-                Level = level.Level,
-                PlayerStars = 0,
-            })
+                {
+                    IsAvailable = true,
+                    LevelId = level.GameLevelId,
+                    Level = level.Level,
+                    PlayerStars = 0
+                })
                 .ToList();
 
             var game = new Game
@@ -196,13 +169,14 @@ namespace InWords.WebApi.Service
         /// <summary>
         ///     This is to delete the whole game and levels.
         ///     Method doesn't delete words and word pairs
-        ///     Need review. 
+        ///     Need review.
         /// </summary>
         /// <exception cref="NullReferenceException"></exception>
         /// <param name="gameId"></param>
         public async Task<int> DeleteGames(params int[] gameId)
         {
-            IEnumerable<int> creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId).ToArray();
+            IEnumerable<int> creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId))
+                .Select(c => c.CreationId).ToArray();
 
             await DeleteCreation(creationsId);
 
@@ -211,10 +185,10 @@ namespace InWords.WebApi.Service
 
         public async Task<int> DeleteGames(int userId, params int[] gameId)
         {
-            IQueryable<int> id = (from games in Context.GameBoxs
-                                  join creations in Context.Creations on games.CreationId equals creations.CreationId
-                                  where creations.CreationId == userId && gameId.Contains(games.GameBoxId)
-                                  select creations.CreationId);
+            IQueryable<int> id = from games in Context.GameBoxs
+                join creations in Context.Creations on games.CreationId equals creations.CreationId
+                where creations.CreationId == userId && gameId.Contains(games.GameBoxId)
+                select creations.CreationId;
 
             await DeleteCreation(id);
 
@@ -307,5 +281,29 @@ namespace InWords.WebApi.Service
 
             return levelScore;
         }
+
+        #region PropsAndCtor
+
+        private readonly GameBoxRepository gameBoxRepository;
+        private readonly GameLevelRepository gameLevelRepository;
+        private readonly GameLevelWordRepository gameLevelWordRepository;
+        private readonly UserGameBoxRepository userGameBoxRepository;
+        private readonly UserGameLevelRepository userGameLevelRepository;
+        private readonly UserRepository usersRepository;
+        private readonly WordsService wordsService;
+
+
+        public GameService(InWordsDataContext context) : base(context)
+        {
+            usersRepository = new UserRepository(context);
+            wordsService = new WordsService(context);
+            gameBoxRepository = new GameBoxRepository(context);
+            gameLevelRepository = new GameLevelRepository(context);
+            gameLevelWordRepository = new GameLevelWordRepository(context);
+            userGameBoxRepository = new UserGameBoxRepository(context);
+            userGameLevelRepository = new UserGameLevelRepository(context);
+        }
+
+        #endregion
     }
 }
