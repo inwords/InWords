@@ -16,19 +16,19 @@ class RegisterPage extends Component {
         password: ''
     };
 
-    handleChange = (propertyName) => (event) => {
+    handleChange = (propertyName) => (e) => {
         this.setState({
-            [propertyName]: event.target.value
+            [propertyName]: e.target.value
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = (e) => {
         this.props.register({
             Email: this.state.email,
             Password: this.state.password
         });
 
-        event.preventDefault();
+        e.preventDefault();
     };
 
     render() {

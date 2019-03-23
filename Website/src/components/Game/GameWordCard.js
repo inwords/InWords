@@ -9,15 +9,11 @@ function GameWordCard({ wordId, pairId, word, selected, successful, successfulSe
             onClick={handleClick(pairId, wordId)}>
             <div className="word-card-content">
                 <div className="word-card-table">
-                    <div className={`word-card-table-cell bg-primary text-white rounded ${selected || successful ?
-                        `word-card-border ${successfulSelected ?
-                            "border-secondary" : ""}`
-                        : ""}`}>
-                        {selected || successful ?
+                    <div className="word-card-table-cell rounded bg-primary text-white">
+                        {(selected || successful) &&
                             <h5 className={successfulSelected ? "text-secondary" : ""}>
                                 {word.lengt <= 10 ? word : word.match(/.{1,10}/g).join('\n')}
-                            </h5> :
-                            null}
+                            </h5>}
                     </div>
                 </div>
             </div>

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function WrapperWithErrorAlert({ errorMessage, children }) {
+function WrapperWithErrorAlert({ errorMessage = null, children }) {
     return (
         <div className="container">
-            {errorMessage ?
+            {errorMessage &&
                 <div className="alert alert-danger" role="alert">
                     {errorMessage}
-                </div> :
-                null}
+                </div>}
             {children}
         </div>
     );
@@ -16,10 +15,6 @@ function WrapperWithErrorAlert({ errorMessage, children }) {
 
 WrapperWithErrorAlert.propTypes = {
     errorMessage: PropTypes.string
-};
-
-WrapperWithErrorAlert.defaultProps = {
-    errorMessage: null
 };
 
 export default WrapperWithErrorAlert;

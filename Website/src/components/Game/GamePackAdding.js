@@ -20,10 +20,9 @@ function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, ha
             <div className="btn-group btn-group-sm mb-3" role="group">
                 <button type="button" className="btn btn-outline-primary"
                     onClick={handleAddDescription}>Добавить описание</button>
-                {descriptions.length > 1 ?
+                {descriptions.length > 1 &&
                     <button type="button" className="btn btn-outline-danger"
-                        onClick={handleDelDescription}>Удалить описание</button> :
-                    null}
+                        onClick={handleDelDescription}>Удалить описание</button>}
             </div>
             <ul className="list-group">
                 {levelPacks.map((levelPack, levelPackIndex) =>
@@ -43,10 +42,9 @@ function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, ha
                         <div className="btn-group btn-group-sm" role="group">
                             <button type="button" className="btn btn-outline-primary"
                                 onClick={handleAddWordTranslation(levelPackIndex)}>Добавить пару слов</button>
-                            {levelPacks[levelPackIndex].wordTranslations.length > 1 ?
+                            {levelPacks[levelPackIndex].wordTranslations.length > 1 &&
                                 <button type="button" className="btn btn-outline-danger"
-                                    onClick={handleDelWordTranslation(levelPackIndex)}>Удалить пару слов</button> :
-                                null}
+                                    onClick={handleDelWordTranslation(levelPackIndex)}>Удалить пару слов</button>}
                         </div>
                     </li>
                 )}
@@ -54,10 +52,9 @@ function GamePackAdding({ descriptions, levelPacks, handleChangeDescriptions, ha
             <div className="btn-group btn-group-sm mb-3" role="group">
                 <button type="button" className="btn btn-outline-primary"
                     onClick={handleAddLevelPack}>Добавить уровень</button>
-                {levelPacks.length > 1 ?
+                {levelPacks.length > 1 &&
                     <button type="button" className="btn btn-outline-danger"
-                        onClick={handleDelLevelPack}>Удалить уровень</button> :
-                    null}
+                        onClick={handleDelLevelPack}>Удалить уровень</button>}
             </div>
             <br />
             <div className="btn-group" role="group">

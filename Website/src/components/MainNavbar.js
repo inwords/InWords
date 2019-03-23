@@ -1,15 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-function MainNavbar({ accessToken, avatarPath, isFetching, handleLogout }) {
+function MainNavbar({ accessToken = null, avatarPath = null, isFetching, handleLogout }) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-3 sticky-top">
-            {accessToken && avatarPath ?
-                <a className="navbar-brand" href="/#">
+            {accessToken && avatarPath &&
+                <a className="navbar-brand" href="#/">
                     <img className="rounded-circle" src={avatarPath} width="30" height="30" alt="&#128565;" />
-                </a> :
-                null}
-            <a className="navbar-brand" href="/#">InWords</a>
+                </a>}
+            <a className="navbar-brand" href="#/">InWords</a>
             <div className={`spinner-border spinner-border-sm text-secondary ${isFetching ? "" : "invisible"}`} role="status" />
             <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Навигация">
@@ -20,27 +19,26 @@ function MainNavbar({ accessToken, avatarPath, isFetching, handleLogout }) {
                     {!accessToken ?
                         <Fragment>
                             <li className="nav-item">
-                                <a className="nav-link" href="#/login">Авторизация</a>
+                                <a className="nav-link" href="#login">Авторизация</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#/register">Регистрация</a>
+                                <a className="nav-link" href="#register">Регистрация</a>
                             </li>
                         </Fragment> :
                         <Fragment>
                             <li className="nav-item">
-                                <a className="nav-link" href="#/wordlist">Словарь</a>
+                                <a className="nav-link" href="#wordlist">Словарь</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#/game">Игра</a>
+                                <a className="nav-link" href="#game">Игра</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#/account">Аккаунт</a>
+                                <a className="nav-link" href="#account">Аккаунт</a>
                             </li>
                         </Fragment>}
                 </ul>
-                {accessToken ?
-                    <button type="button" className="btn btn-outline-secondary" onClick={handleLogout}>Выйти</button> :
-                    null}
+                {accessToken &&
+                    <button type="button" className="btn btn-outline-secondary" onClick={handleLogout}>Выйти</button>}
             </div>
         </nav >
     );
@@ -51,11 +49,6 @@ MainNavbar.propTypes = {
     avatarPath: PropTypes.string,
     isFetching: PropTypes.bool.isRequired,
     handleLogout: PropTypes.func.isRequired
-};
-
-MainNavbar.defaultProps = {
-    accessToken: null,
-    avatarPath: null
 };
 
 export default MainNavbar;

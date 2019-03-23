@@ -22,19 +22,19 @@ class AccountEditingContainer extends Component {
         }
     }
 
-    handleChange = (propertyName) => (event) => {
+    handleChange = (propertyName) => (e) => {
         this.setState({
-            [propertyName]: event.target.value
+            [propertyName]: e.target.value
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = (e) => {
         this.props.changeUserInfo({
             NickName: this.state.nickName,
             AvatarPath: this.state.avatarPath
         });
 
-        event.preventDefault();
+        e.preventDefault();
     };
 
     render() {

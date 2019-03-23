@@ -6,10 +6,10 @@ function GameInfoCard({ title, isAvailable, handlePullGameInfo, handleDelGamePac
         <div className="card flex-fill text-center text-white bg-primary mb-3">
             <div className="card-body">
                 <h5 className="card-title">{title}</h5>
-                <div className="btn-group dropright">
+                <div className="btn-group">
                     <button type="button" className="btn btn-outline-secondary"
                         disabled={!isAvailable} onClick={handlePullGameInfo}>Выбрать</button>
-                    <button type="button" className="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span className="sr-only">Дополнительно</span>
                     </button>
                     <div className="dropdown-menu">

@@ -16,13 +16,13 @@ class WordPairEditingContainer extends Component {
         wordNative: this.props.wordPair.wordNative
     };
 
-    handleChange = (propertyName) => (event) => {
+    handleChange = (propertyName) => (e) => {
         this.setState({
-            [propertyName]: event.target.value
+            [propertyName]: e.target.value
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = (e) => {
         const { wordForeign, wordNative } = this.state;
 
         if (wordForeign && wordNative) {
@@ -32,7 +32,7 @@ class WordPairEditingContainer extends Component {
             });
         }
 
-        event.preventDefault();
+        e.preventDefault();
     };
 
     render() {
