@@ -1,13 +1,19 @@
 package com.dreamproject.inwords.domain.util
 
-import androidx.annotation.ColorInt
-import com.dreamproject.inwords.core.ColorUtil
+import android.content.Context
+import androidx.core.content.ContextCompat.getColor
+import com.dreamproject.inwords.R
+import javax.inject.Inject
 
-@ColorInt
-fun getColorForGameLevelInfo(color: String, available: Boolean): Int =
-        if (available) {
-            ColorUtil.decodeColor(color)
-        } else {
-            ColorUtil.decodeColor(color, 0x88000000)
-        }
+class ColoringUtil @Inject constructor(context: Context) {
+    private val gameLevelInfoAvailableColor: Int = getColor(context, R.color.colorPrimary)
+    private val gameLevelInfoUnavailableColor: Int = getColor(context, R.color.colorPrimaryTransparent)
+
+    fun getColorForGameLevelInfo(available: Boolean): Int =
+            if (available) {
+                gameLevelInfoAvailableColor
+            } else {
+                gameLevelInfoUnavailableColor
+            }
+}
 

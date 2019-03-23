@@ -1,10 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
     </style>
@@ -16,7 +17,7 @@
         <item name="android:textColor">@drawable/button_text_color</item>
         <item name="pb_textComplete">"Успешно"</item>
         <item name="pb_colorComplete">@color/green_complete</item>
-        <item name="pb_colorNormal">@color/blue_normal</item>
+        <item name="pb_colorNormal">@color/colorPrimary</item>
         <item name="pb_colorPressed">@color/blue_pressed</item>
         <item name="pb_colorProgress">@color/purple_progress</item>
     </style>

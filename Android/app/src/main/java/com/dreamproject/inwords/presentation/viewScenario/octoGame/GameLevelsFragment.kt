@@ -12,14 +12,17 @@ import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
-import com.dreamproject.inwords.domain.util.getColorForGameLevelInfo
+import com.dreamproject.inwords.domain.util.ColoringUtil
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_game_levels.*
 import kotlinx.android.synthetic.main.game_level_info.view.*
 import kotlinx.android.synthetic.main.game_no_content.*
+import javax.inject.Inject
 
 class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, GameLevelsViewModelFactory>() {
+    @Inject
+    lateinit var coloringUtil: ColoringUtil
     private val compositeDisposable = CompositeDisposable()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +68,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
                 title.text = counter.toString()
                 counter++
 
-                setBackgroundColor(getColorForGameLevelInfo("0x225465", gameLevelInfo.available))
+                setBackgroundColor(coloringUtil.getColorForGameLevelInfo(gameLevelInfo.available))
 
                 addStars(stars, gameLevelInfo.playerStars, Color.YELLOW)
                 addStars(stars, (if (gameLevelInfo.totalStars > 8) 8 else gameLevelInfo.totalStars) - gameLevelInfo.playerStars, Color.GRAY)
