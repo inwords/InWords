@@ -133,6 +133,8 @@ namespace InWords.WebApi.Service
             // TODO: Add level to user
 
             GameBox gameBox = await gameBoxRepository.FindById(gameId);
+            if (gameBox == null)
+                return null;
             CreationInfo creation = await GetCreation(gameBox.CreationId);
             User userCreator = await usersRepository.FindById(creation.CreatorId);
 

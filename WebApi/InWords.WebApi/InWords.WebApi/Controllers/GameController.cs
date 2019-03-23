@@ -66,6 +66,8 @@ namespace InWords.WebApi.Controllers
 
             Game answer = await gameService.GetGameInfo(userId, id);
 
+            if (answer == null) return NotFound();
+
             return Ok(answer);
         }
 
