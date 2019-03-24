@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.User
+import com.dreamproject.inwords.data.dto.noUser
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.jakewharton.rxbinding2.view.RxView
@@ -22,7 +23,6 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        buttonGoLogin.setOnClickListener(toLoginClickListener())
 //TODO это не дело. перенести навигацию в модель. но это пока костыль
         viewModel.onGetAllHandler(RxView.clicks(buttonGetWordList))
 
@@ -38,10 +38,28 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
         compositeDisposable.clear()
     }
 
-    private fun toLoginClickListener() =
-            Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null)
+    private fun toLoginClickListener() = Navigation
+            .createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null)
 
     private fun subscribeProfile(): Disposable {
+        fun showProfile() {
+            profile.avatar.visibility = View.VISIBLE
+            profile.experience.visibility = View.VISIBLE
+            profile.name.visibility = View.VISIBLE
+            profile.clickToLogin.visibility = View.GONE
+
+            profile.setOnClickListener(toLoginClickListener()) //TODO show profile listener here
+        }
+
+        fun showLoginHint() {
+            profile.avatar.visibility = View.GONE
+            profile.experience.visibility = View.GONE
+            profile.name.visibility = View.GONE
+            profile.clickToLogin.visibility = View.VISIBLE
+
+            profile.setOnClickListener(toLoginClickListener())
+        }
+
         fun renderUser(user: User) {
             if (user.avatar != null) {
                 val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(user.avatar))
@@ -54,24 +72,38 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
 
             profile.experience.text = getString(R.string.user_experience, 15)
             profile.name.text = user.userName
+
+            showProfile()
         }
 
-        fun renderError() {
-            val errorText = getString(R.string.error_text_placeholder)
-            profile.name.text = errorText
-            profile.experience.text = errorText
+        fun renderNoUser() {
+            val hintText = getString(R.string.sign_up_proposal)
+            profile.name.text = hintText
+            profile.experience.text = "Войдите в аккаунт, чтобы использовать приложение по полной"
+
+            showLoginHint()
+        }
+
+        fun renderSuccess(user: User) {
+            if (user.userId == noUser.userId) {
+                renderNoUser()
+            } else {
+                renderUser(user)
+            }
         }
 
         fun renderLoading() {
             val loadingText = getString(R.string.loading_text_placeholder)
             profile.name.text = loadingText
             profile.experience.text = loadingText
+
+            showProfile()
         }
 
         return viewModel.profileDataSubject
                 .observeOn(SchedulersFacade.ui())
                 .doOnSubscribe { renderLoading() }
-                .subscribe(::renderUser) { renderError() }
+                .subscribe(::renderSuccess)
     }
 
     private fun subscribeDictionary(): Disposable {

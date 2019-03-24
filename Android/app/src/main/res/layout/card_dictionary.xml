@@ -19,8 +19,8 @@
         android:layout_marginTop="@dimen/half_margin"
         android:layout_marginBottom="@dimen/half_margin"
         android:contentDescription="@string/avatar"
-        android:src="@drawable/ic_dictionary"
-        android:elevation="5dp" />
+        android:elevation="5dp"
+        android:src="@drawable/ic_dictionary" />
 
     <TextView
         android:id="@+id/title"
@@ -33,8 +33,8 @@
         android:lines="1"
         android:paddingStart="@dimen/half_margin"
         android:paddingEnd="@dimen/half_margin"
-        android:textSize="24sp"
-        android:text="@string/dictionary_title" />
+        android:text="@string/dictionary_title"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/dictSize"
@@ -49,6 +49,7 @@
         android:paddingStart="@dimen/half_margin"
         android:paddingEnd="@dimen/half_margin"
         android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
         tools:text="@string/words_in_dictionary" />
 
 </androidx.cardview.widget.CardView>

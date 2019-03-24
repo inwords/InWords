@@ -15,6 +15,7 @@ class UserCachingRepository(
                         .onErrorReturnItem(0)
                         .map { item }
             }
+            .doOnError { Log.d(TAG, it.message) }
             .onErrorResumeNext(databaseRepository.getAuthorisedUser())
 
     override fun getUserById(id: Int): Single<User> {

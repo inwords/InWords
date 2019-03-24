@@ -9,6 +9,17 @@
     app:cardCornerRadius="@dimen/card_corner_radius"
     tools:showIn="@layout/fragment_home">
 
+    <TextView
+        android:id="@+id/clickToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/half_margin"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:text="@string/sign_up_proposal"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/avatar"
         android:layout_width="64dp"
@@ -44,9 +55,10 @@
         android:layout_marginBottom="@dimen/half_margin"
         android:elevation="5dp"
         android:ellipsize="end"
-        android:lines="1"
+        android:maxLines="1"
         android:paddingStart="@dimen/half_margin"
         android:paddingEnd="@dimen/half_margin"
         android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
         tools:text="@string/user_experience" />
 </androidx.cardview.widget.CardView>

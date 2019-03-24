@@ -1,6 +1,7 @@
 package com.dreamproject.inwords.domain.interactor.profile
 
 import com.dreamproject.inwords.data.dto.User
+import com.dreamproject.inwords.data.dto.noUser
 import com.dreamproject.inwords.data.repository.profile.UserRepository
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -14,7 +15,9 @@ internal constructor(private val userRepository: UserRepository) : ProfileIntera
 
     override fun getAuthorisedUser(forceUpdate: Boolean): Observable<User> {
         if (forceUpdate) {
-            userRepository.getAuthorisedUser().subscribe(userSubject::onNext)
+            val d = userRepository.getAuthorisedUser()
+                    .onErrorReturn { noUser }
+                    .subscribe(userSubject::onNext)
         }
 
         return userSubject

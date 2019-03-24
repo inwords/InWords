@@ -13,7 +13,8 @@ class MainViewModel internal constructor(
         private val translationSyncInteractor: TranslationSyncInteractor,
         private val profileInteractor: ProfileInteractor) : BasicViewModel() {
 
-    val profileDataSubject: Observable<User> get() = profileInteractor.getAuthorisedUser()
+    //caches
+    val profileDataSubject: Observable<User> get() = profileInteractor.getAuthorisedUser(true)
 
     val wordsCountSubject: Observable<Int> get() = translationWordsInteractor.allWords.map { it.size }
 
