@@ -7,9 +7,9 @@ using InWords.WebApi.Providers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace InWords.WebApi.Controllers
+namespace InWords.WebApi.Controllers.Native
 {
-    [ApiVersion("1.0")]
+    [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
     [Route("api/[controller]")]
     [ApiController]
@@ -34,22 +34,6 @@ namespace InWords.WebApi.Controllers
         /// <returns></returns>
         [Route("token")]
         [HttpPost]
-        public IActionResult Token()
-        {
-            try
-            {
-                TokenResponse tokenResponse = accountIdentityProvider.GetIdentity(Request);
-                return Ok(tokenResponse);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [Route("token")]
-        [MapToApiVersion("2.0")]
-        [HttpPost]
         public IActionResult Token([FromBody] BasicAuthClaims user)
         {
             try
@@ -72,7 +56,7 @@ namespace InWords.WebApi.Controllers
                 return BadRequest($"User already exists {user.Email}");
 
             //Create token
-            TokenResponse response = await CreateUserAccaunt(user);
+            TokenResponse response = await CreateUserAccount(user);
 
             //send token
             return Ok(response);
@@ -80,7 +64,7 @@ namespace InWords.WebApi.Controllers
 
         #region Adaptor
 
-        private async Task<TokenResponse> CreateUserAccaunt(BasicAuthClaims basicAuthClaims)
+        private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {
             //Create account in repository;
             await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password);

@@ -10,7 +10,7 @@ using InWords.WebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InWords.WebApi.Controllers
+namespace InWords.WebApi.Controllers.Native
 {
     [Authorize]
     [Route("api/[controller]")]

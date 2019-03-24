@@ -5,11 +5,11 @@ using InWords.Data.Models.InWords.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InWords.WebApi.Controllers
+namespace InWords.WebApi.Controllers.v1
 {
-    [Route("api/[controller]")]
     [ApiController]
-    [ApiVersionNeutral]
+    [ApiVersion("1.0", Deprecated = true)]
+    [Route("v{version:apiVersion}/[controller]")]
     public class ValuesController : ControllerBase
     {
         private readonly UserRepository userRepository;
@@ -63,32 +63,16 @@ namespace InWords.WebApi.Controllers
             return await wordPairRepository.Stack(first, second);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
         [Authorize]
-        [Route("getlogin")]
+        [HttpGet]
+        [Route("getLogin")]
         public IActionResult GetLogin()
         {
             return Ok($"login: {User.Identity.Name}");
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpGet]
         [Route("getRole")]
         public IActionResult GetRole()
         {

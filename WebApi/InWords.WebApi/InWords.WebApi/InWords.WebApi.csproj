@@ -5,22 +5,37 @@
     <UserSecretsId>40828328-da8a-4ef5-adfb-5289dc326f59</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\InWords.WebApi.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\aasle\YandexDisk\!Source\InWords\WebApi\InWords.WebApi\InWords.WebApi\InWords.WebApi.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="App_Data\**" />
-    <Compile Remove="wwwroot\**" />
     <Content Remove="App_Data\**" />
-    <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="App_Data\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="App_Data\**" />
-    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\swagger\ui\swagger-ui-bundle.js" />
+    <None Include="wwwroot\swagger\ui\swagger-ui-bundle.js.map" />
+    <None Include="wwwroot\swagger\ui\swagger-ui-standalone-preset.js" />
+    <None Include="wwwroot\swagger\ui\swagger-ui-standalone-preset.js.map" />
+    <None Include="wwwroot\swagger\ui\swagger-ui.css.map" />
+    <None Include="wwwroot\swagger\ui\swagger-ui.js" />
+    <None Include="wwwroot\swagger\ui\swagger-ui.js.map" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>

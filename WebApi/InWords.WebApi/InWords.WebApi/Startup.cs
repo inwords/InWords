@@ -1,21 +1,34 @@
-﻿using System;
-using System.IO;
-using InWords.Auth;
+﻿using InWords.Auth;
 using InWords.Data.Models;
 using InWords.WebApi.Providers.FIleLogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using InWords.WebApi.Swagger;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace InWords.WebApi
 {
+    /// <summary>
+    /// Main startup class
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Startup constructor
+        /// </summary>
+        /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
@@ -27,9 +40,15 @@ namespace InWords.WebApi
             Configuration = builder.Build();
         }
 
+        /// <summary>
+        ///     This is the service configuration 
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        ///     This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
@@ -49,11 +68,58 @@ namespace InWords.WebApi
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
             });
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1.0", new Info { Version = "v1.0", Title = "API V1.0" });
+                c.SwaggerDoc("v1.1", new Info { Version = "v1.1", Title = "API V1.1" });
+
+                string filePath = Path.Combine(AppContext.BaseDirectory, "InWords.WebApi.xml");
+                c.IncludeXmlComments(filePath);
+                c.DocInclusionPredicate((docName, apiDesc) =>
+                {
+                    if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+
+                    IEnumerable<ApiVersion> versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions);
+
+                    return versions.Any(v => $"v{v.ToString()}" == docName);
+                });
+
+                c.OperationFilter<RemoveVersionParameters>();
+                c.DocumentFilter<SetVersionInPaths>();
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            // To design Swashbuckle components in a corporate style,
+            // you need to add resources to serve static files
+            // and then build a folder structure to accommodate them.
+            app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "My API V1.1");
+                c.RoutePrefix = string.Empty;
+            });
+
+            // Enable middleware to generated logs as a text file.
             LoggerConfiguration(loggerFactory);
 
             // TODO: remove on Release
@@ -61,7 +127,7 @@ namespace InWords.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -70,6 +136,10 @@ namespace InWords.WebApi
             app.UseMvc();
         }
 
+        /// <summary>
+        /// Configure the logger data format and file location
+        /// </summary>
+        /// <param name="loggerFactory"></param>
         public void LoggerConfiguration(ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,

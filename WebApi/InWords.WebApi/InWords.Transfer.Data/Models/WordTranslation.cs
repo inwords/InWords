@@ -1,4 +1,6 @@
-﻿namespace InWords.Transfer.Data.Models
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace InWords.Transfer.Data.Models
 {
     /// <inheritdoc />
     /// <summary>
@@ -22,10 +24,10 @@
             WordNative = wordNative;
         }
 
-        public WordTranslation(WordTranslation WordTranslation) : base(WordTranslation)
+        public WordTranslation(WordTranslation wordTranslation) : base(wordTranslation)
         {
-            WordForeign = WordTranslation.WordForeign;
-            WordNative = WordTranslation.WordNative;
+            WordForeign = wordTranslation.WordForeign;
+            WordNative = wordTranslation.WordNative;
         }
 
         #endregion

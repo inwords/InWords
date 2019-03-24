@@ -34,25 +34,6 @@ namespace InWords.WebApi.Providers
         }
 
         /// <summary>
-        ///     This is to check user identity from [Request]
-        /// </summary>
-        /// <returns>null or ClaimsIdentity</returns>
-        public TokenResponse GetIdentity(HttpRequest request)
-        {
-            BasicAuthClaims x = request.GetBasicAuthorizationCalms();
-
-            if (x != null)
-            {
-                logger.Log(LogLevel.Information, "#GetIdentity {0}", x.Email, x.Password);
-                TokenResponse response = GetIdentity(x.Email, x.Password);
-                return response;
-            }
-
-            logger.Log(LogLevel.Error, $"Identity lost on Request {request.Headers}");
-            return null;
-        }
-
-        /// <summary>
         ///     This is to check user identity [FromBody]
         /// </summary>
         /// <param name="user"></param>
@@ -80,14 +61,11 @@ namespace InWords.WebApi.Providers
             if (!isValidPassword)
                 throw new ArgumentException("Invalid password");
 
-            IEnumerable<Claim> claims = null;
-
-            var nameId = "-1";
-            nameId = account.AccountId.ToString();
+            string nameId = account.AccountId.ToString();
             email = account.Email;
             string defaultRole = account.Role.ToString();
 
-            claims = new List<Claim>
+            IEnumerable<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, nameId),
                 new Claim(ClaimTypes.Email, email),
