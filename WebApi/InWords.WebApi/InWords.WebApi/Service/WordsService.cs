@@ -117,21 +117,15 @@ namespace InWords.WebApi.Service
         private async Task AddUserWordPair(int userId, WordTranslation wordTranslation, List<SyncBase> answer)
         {
             // add word pair in repository
-            WordPair wordpair = await AddPair(wordTranslation);
-            int wordPairId = wordpair.WordPairId;
+            WordPair wordPair = await AddPair(wordTranslation);
 
-            // load words content
-            Word word = await wordRepository.FindById(wordpair.WordForeignId);
-            WordPair wordPair = wordPairRepository.GetWithInclude(wp => wp.WordPairId == wordPairId,
-                    f => f.WordForeign,
-                    n => n.WordNative)
-                .Single();
+            Word wordInForeign = await wordRepository.FindById(wordPair.WordForeignId);
 
             // flip words
             var createdPair = new UserWordPair
             {
-                WordPairId = wordPairId,
-                IsInvertPair = wordPair.WordForeign.Content != wordTranslation.WordForeign,
+                WordPairId = wordPair.WordPairId,
+                IsInvertPair = wordInForeign.Content != wordTranslation.WordForeign,
                 UserId = userId
             };
 

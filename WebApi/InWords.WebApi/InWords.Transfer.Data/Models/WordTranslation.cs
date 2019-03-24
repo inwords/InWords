@@ -8,19 +8,9 @@ namespace InWords.Transfer.Data.Models
     /// </summary>
     public class WordTranslation : SyncBase
     {
-        private string wordForeign = null;
-        public string WordForeign
-        {
-            get => wordForeign;
-            set => wordForeign = value.ToLower();
-        }
+        public string WordForeign { get; set; }
 
-        private string wordNative = null;
-        public string WordNative
-        {
-            get => wordNative;
-            set => wordNative = value.ToLower();
-        }
+        public string WordNative { get; set; }
 
         #region Ctor
 
