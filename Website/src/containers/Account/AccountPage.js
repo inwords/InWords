@@ -1,27 +1,32 @@
 import React, { Component } from 'react';
-import AccountEditingContainer from './AccountEditingContainer';
-import AccountViewContainer from './AccountViewContainer';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import AccountView from '../../components/Account/Account';
 
 class AccountPage extends Component {
-    state = {
-        editModeActivated: false
-    };
-
-    handleSwitchEditMode = () => {
-        this.setState({
-            editModeActivated: !this.state.editModeActivated
-        });
+    static propTypes = {
+        userInfo: PropTypes.object.isRequired
     };
 
     render() {
-        const { editModeActivated } = this.state;
+        const { userInfo } = this.props;
 
         return (
-            !editModeActivated ?
-                <AccountViewContainer handleSwitchEditMode={this.handleSwitchEditMode} /> :
-                <AccountEditingContainer handleCancel={this.handleSwitchEditMode} />
+            <AccountView
+                avatarPath={userInfo.avatarPath}
+                nickName={userInfo.nickName}
+                experience={userInfo.experience}
+            />
         );
     }
 }
 
-export default AccountPage;
+const mapStateToProps = (store) => {
+    return {
+        userInfo: store.user.userInfo
+    };
+};
+
+export default connect(
+    mapStateToProps
+)(AccountPage);

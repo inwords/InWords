@@ -14,40 +14,14 @@ class MainAppBarContainer extends Component {
         accessToken: null,
     };
 
-    state = {
-        anchorEl: null
-    };
-
     handleLogout = () => {
         this.props.logout();
     };
 
-    handleMenu = (e) => {
-        this.setState({
-            anchorEl: e.currentTarget
-        });
-    };
-
-    handleClose = () => {
-        this.setState({
-            anchorEl: null
-        });
-    };
-
     render() {
         const { accessToken } = this.props;
-        const { anchorEl } = this.state;
 
-        return (
-            accessToken && (
-                <ProfileMenu
-                    anchorEl={anchorEl}
-                    handleMenu={this.handleMenu}
-                    handleClose={this.handleClose}
-                    handleLogout={this.handleLogout}
-                />
-            )
-        );
+        return accessToken && <ProfileMenu handleLogout={this.handleLogout} />;
     }
 }
 

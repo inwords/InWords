@@ -126,16 +126,14 @@ const addGamePack = (gamePack) => (dispatch, getState) => {
 }
 
 const delGamePack = (gameId) => (dispatch, getState) => {
-    /*
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(`${API_ROOT}/Game/AddGamePack`, {
-        method: 'POST',
+    fetch(`${API_ROOT}/Game/Delete/${gameId}`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getState().accessToken}`
-        },
-        body: JSON.stringify(gamePack)
+        }
     })
         .then(response => {
             if (!response.ok) {
@@ -147,20 +145,14 @@ const delGamePack = (gameId) => (dispatch, getState) => {
             return response.json();
         })
         .then(data => {
+            console.log('----', data)
             dispatch(FetchingActions.fetchingSuccess());
-            dispatch(gamesInfoAddLocalRefresh({
-                gameId: data.serverId,
-                isAvailable: true,
-                title: gamePack.CreationInfo.Descriptions[0].Title
-            }));
+            dispatch(gamesInfoDelLocalRefresh(gameId));
         })
         .catch(err => {
             console.error(err);
-            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления игры')));
         });
-        */
-
-    dispatch(gamesInfoDelLocalRefresh(gameId));
 }
 
 function resetGameInfo() {

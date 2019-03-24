@@ -3,18 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LinksList from '../../components/MainAppBar/LinksList';
 
-function LinksListContainer({ accessToken = null, onClick = null }) {
+function LinksListContainer(props) {
     return (
-        <LinksList
-            accessToken={accessToken}
-            onClick={onClick}
-        />
+        <LinksList {...props} />
     );
 }
 
 LinksListContainer.propTypes = {
     accessToken: PropTypes.string,
     onClick: PropTypes.func
+};
+
+LinksListContainer.defaultProps = {
+    accessToken: null,
+    onClick: null
 };
 
 const mapStateToProps = (store) => {

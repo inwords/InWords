@@ -2,25 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserActions } from '../../actions/UserActions';
-import AccountEditing from '../../components/Account/AccountEditing';
+import AccountSettings from '../../components/Account/AccountSettings';
 
-class AccountEditingContainer extends Component {
+class AccountSettingsPage extends Component {
     static propTypes = {
         userInfo: PropTypes.object.isRequired,
-        changeUserInfo: PropTypes.func.isRequired,
-        handleCancel: PropTypes.func.isRequired
+        changeUserInfo: PropTypes.func.isRequired
     };
 
     state = {
         nickName: this.props.userInfo.nickName,
         avatarPath: this.props.userInfo.avatarPath ? this.props.userInfo.avatarPath : ''
     };
-
-    componentDidUpdate(prevProps) {
-        if (this.props.userInfo !== prevProps.userInfo) {
-            this.props.handleCancel();
-        }
-    }
 
     handleChange = (propertyName) => (e) => {
         this.setState({
@@ -38,16 +31,14 @@ class AccountEditingContainer extends Component {
     };
 
     render() {
-        const { handleCancel } = this.props;
         const { nickName, avatarPath } = this.state;
 
         return (
-            <AccountEditing
+            <AccountSettings
                 nickName={nickName}
                 avatarPath={avatarPath}
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
-                handleCancel={handleCancel}
             />
         );
     }
@@ -68,4 +59,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(AccountEditingContainer);
+)(AccountSettingsPage);

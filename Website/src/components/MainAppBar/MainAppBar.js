@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -61,7 +61,17 @@ const styles = theme => ({
     },
 });
 
-function MainAppBar({ open, handleDrawerToggle, classes, children }) {
+function MainAppBar({ classes, children }) {
+    const [open, setOpen] = useState(false);
+
+    function handleDrawerOpen() {
+        setOpen(true);
+    }
+
+    function handleDrawerClose() {
+        setOpen(false);
+    }
+
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -74,7 +84,7 @@ function MainAppBar({ open, handleDrawerToggle, classes, children }) {
                     <IconButton
                         color="inherit"
                         aria-label="Open drawer"
-                        onClick={handleDrawerToggle(!open)}
+                        onClick={handleDrawerOpen}
                         className={classes.menuButton}
                     >
                         <MenuIcon />
@@ -88,26 +98,19 @@ function MainAppBar({ open, handleDrawerToggle, classes, children }) {
                     className={classes.drawer}
                     anchor="left"
                     open={open}
-                    onClose={handleDrawerToggle(false)}
-                    onOpen={handleDrawerToggle(true)}
+                    onClose={handleDrawerClose}
+                    onOpen={handleDrawerOpen}
                     classes={{
                         paper: classes.drawerPaper,
                     }}
                 >
                     <div className={classes.drawerHeader}>
-                        <div
-                            tabIndex={0}
-                            role="button"
-                            onClick={handleDrawerToggle(false)}
-                            onKeyDown={handleDrawerToggle(false)}
-                        >
-                            <Typography variant="h6" color="inherit" noWrap>
-                                InWords
-                            </Typography>
-                        </div>
+                        <Typography variant="h6" color="inherit" noWrap>
+                            InWords
+                        </Typography>
                     </div>
                     <Divider />
-                    <LinksListContainer onClick={handleDrawerToggle(false)} />
+                    <LinksListContainer onClick={handleDrawerClose} />
                 </SwipeableDrawer>
             </Hidden>
             <Hidden mdDown implementation="css">
@@ -140,9 +143,6 @@ function MainAppBar({ open, handleDrawerToggle, classes, children }) {
 };
 
 MainAppBar.propTypes = {
-    avatarPath: PropTypes.string,
-    open: PropTypes.bool.isRequired,
-    handleDrawerToggle: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     children: PropTypes.node
 };

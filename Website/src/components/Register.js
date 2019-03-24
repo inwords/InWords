@@ -37,7 +37,7 @@ const styles = theme => ({
     },
 });
 
-function Register({ email, password, handleSubmit, handleChange, classes }) {
+function Register({ email, password, handleChange, handleSubmit, classes }) {
     return (
         <main className={classes.main}>
             <CssBaseline />
@@ -46,7 +46,7 @@ function Register({ email, password, handleSubmit, handleChange, classes }) {
                     Регистрация
                 </Typography>
                 <form onSubmit={handleSubmit} className={classes.form}>
-                <FormControl margin="normal" required fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
                             id="email"

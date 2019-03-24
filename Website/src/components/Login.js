@@ -37,7 +37,7 @@ const styles = theme => ({
     },
 });
 
-function Login({ email, password, handleSubmit, handleChange, classes }) {
+function Login({ email, password, handleChange, handleSubmit, classes }) {
     return (
         <main className={classes.main}>
             <CssBaseline />

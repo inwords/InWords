@@ -1,1 +1,1 @@
-export const API_ROOT = "https://api.inwords.ru/api";
+export const API_ROOT = "https://api.inwords.ru/v1.0";

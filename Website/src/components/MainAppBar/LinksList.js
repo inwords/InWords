@@ -1,31 +1,29 @@
 import React, { Fragment } from 'react';
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemLink from '../ListItemLink';
 
 function LinksList({ accessToken = null, onClick = null }) {
     return (
         <List onClick={onClick}>
             {!accessToken ?
                 <Fragment>
-                    <ListItemLink href="#login">
+                    <ListItem button component={Link} to="/login">
                         <ListItemText primary="Вход" />
-                    </ListItemLink>
-                    <ListItemLink href="#register">
+                    </ListItem>
+                    <ListItem button component={Link} to="/register">
                         <ListItemText primary="Регистрация" />
-                    </ListItemLink>
+                    </ListItem>
                 </Fragment> :
                 <Fragment>
-                    <ListItemLink href="#wordlist">
+                    <ListItem button component={Link} to="/wordlist">
                         <ListItemText primary="Словарь" />
-                    </ListItemLink>
-                    <ListItemLink href="#game">
+                    </ListItem>
+                    <ListItem button component={Link} to="/game">
                         <ListItemText primary="Игра" />
-                    </ListItemLink>
-                    <ListItemLink href="#account">
-                        <ListItemText primary="Профиль" />
-                    </ListItemLink>
+                    </ListItem>
                 </Fragment>}
         </List>
     );

@@ -8,20 +8,13 @@ import MainAppBar from '../../components/MainAppBar/MainAppBar';
 class MainAppBarContainer extends Component {
     static propTypes = {
         accessToken: PropTypes.string,
-        avatarPath: PropTypes.string,
-        logout: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired,
         children: PropTypes.node
     };
 
     static defaultProps = {
         accessToken: null,
-        avatarPath: null,
         children: null
-    };
-
-    state = {
-        open: false
     };
 
     componentDidMount() {
@@ -38,19 +31,8 @@ class MainAppBarContainer extends Component {
         }
     }
 
-    handleLogout = () => {
-        this.props.logout();
-    };
-
-    handleDrawerToggle = (open) => () => {
-        this.setState({
-            open: open
-        });
-    };
-
     render() {
         const { accessToken, location, children } = this.props;
-        const { open } = this.state;
 
         if (!accessToken && location.pathname !== '/login' && location.pathname !== '/register') {
             return <Redirect to='/login' />;
@@ -59,27 +41,19 @@ class MainAppBarContainer extends Component {
         }
 
         return (
-            <MainAppBar
-                accessToken={accessToken}
-                handleLogout={this.handleLogout}
-                open={open}
-                handleDrawerToggle={this.handleDrawerToggle}
-                children={children}
-            />
+            <MainAppBar children={children} />
         );
     }
 }
 
 const mapStateToProps = (store) => {
     return {
-        accessToken: store.accessToken,
-        avatarPath: store.user.userInfo.avatarPath
+        accessToken: store.accessToken
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: () => dispatch(UserActions.logout()),
         receiveUserInfo: () => dispatch(UserActions.receiveUserInfo())
     };
 };
