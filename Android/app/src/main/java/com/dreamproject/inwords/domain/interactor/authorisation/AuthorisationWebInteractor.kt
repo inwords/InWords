@@ -1,11 +1,10 @@
 package com.dreamproject.inwords.domain.interactor.authorisation
 
 import com.dreamproject.inwords.data.dto.UserCredentials
-import com.dreamproject.inwords.data.source.webService.AuthenticationError
+import com.dreamproject.inwords.data.source.webService.AuthenticationException
 import com.dreamproject.inwords.data.source.webService.WebRequestsManager
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse
-import com.dreamproject.inwords.domain.interactor.profile.ProfileInteractor
-import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractor
+import com.dreamproject.inwords.domain.IntegrationInteractor
 import com.dreamproject.inwords.domain.util.getErrorMessage
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -16,43 +15,37 @@ import javax.inject.Inject
 
 class AuthorisationWebInteractor @Inject
 internal constructor(private val webRequestsManager: WebRequestsManager,
-                     private val translationSyncInteractor: TranslationSyncInteractor,
-                     private val profileInteractor: ProfileInteractor) : AuthorisationInteractor {
+                     private val integrationInteractor: IntegrationInteractor) : AuthorisationInteractor {
 
     override fun signIn(userCredentials: UserCredentials): Completable {
-        return applyCheckAuthToken(webRequestsManager.getToken(userCredentials))
+        return webRequestsManager.getToken(userCredentials).interceptError().checkAuthToken()
     }
 
     override fun signUp(userCredentials: UserCredentials): Completable {
-        return applyCheckAuthToken(webRequestsManager.registerUser(userCredentials))
+        return webRequestsManager.registerUser(userCredentials).interceptError().checkAuthToken()
     }
 
-    private fun applyCheckAuthToken(authTokenSingle: Single<TokenResponse>): Completable {
-        return authTokenSingle
-                .onErrorResumeNext { e ->
-                    e.printStackTrace()
+    private fun Single<TokenResponse>.interceptError(): Single<TokenResponse> {
+        return onErrorResumeNext { e ->
+            e.printStackTrace()
 
-                    val t = when (e) {
-                        is HttpException -> AuthenticationError(getErrorMessage(e))
-                        is UnknownHostException, is SocketTimeoutException -> RuntimeException("Network troubles")
-                        else -> RuntimeException(e.message)
-                    }
+            val t = when (e) {
+                is HttpException -> AuthenticationException(getErrorMessage(e), e.code())
+                is UnknownHostException, is SocketTimeoutException -> RuntimeException("Network troubles")
+                else -> RuntimeException(e.message)
+            }
 
-                    Single.error(t)
-                }
-                .flatMapCompletable { tokenResponse ->
-                    if (tokenResponse.isValid) {
-                        Completable.mergeDelayError(listOf(
-                                profileInteractor.getAuthorisedUser(true)
-                                        .firstOrError()
-                                        .ignoreElement(),
-                                translationSyncInteractor.presyncOnStart() //TODO may another order with trySync
-                                        .andThen(translationSyncInteractor.trySyncAllReposWithCache())
-                        ))
-                                .onErrorComplete()
-                    } else {
-                        Completable.error(RuntimeException("unhandled")) //TODO think
-                    }
-                }
+            Single.error(t)
+        }
+    }
+
+    private fun Single<TokenResponse>.checkAuthToken(): Completable {
+        return flatMapCompletable { tokenResponse ->
+            if (tokenResponse.isValid) {
+                integrationInteractor.getOnAuthCallback()
+            } else {
+                Completable.error(RuntimeException("unhandled")) //TODO think
+            }
+        }
     }
 }
