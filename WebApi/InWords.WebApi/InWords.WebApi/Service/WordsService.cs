@@ -26,7 +26,7 @@ namespace InWords.WebApi.Service
             var answer = new List<SyncBase>();
 
             foreach (WordTranslation wordTranslation in wordTranslations)
-                await AddUserWordPair(userId, wordTranslation, answer);
+                answer.Add(await AddUserWordPair(userId, wordTranslation));
 
             return answer;
         }
@@ -114,14 +114,16 @@ namespace InWords.WebApi.Service
             return 0;
         }
 
-        private async Task AddUserWordPair(int userId, WordTranslation wordTranslation, List<SyncBase> answer)
+        private async Task<SyncBase> AddUserWordPair(int userId, WordTranslation wordTranslation)
         {
             // add word pair in repository
             WordPair wordPair = await AddPair(wordTranslation);
 
+            // Load a word from a cell of a foreign word
             Word wordInForeign = await wordRepository.FindById(wordPair.WordForeignId);
 
-            // flip words
+            // If the loaded foreign word does not match the word 
+            // in the repository then the pair is considered inverted
             var createdPair = new UserWordPair
             {
                 WordPairId = wordPair.WordPairId,
@@ -139,16 +141,14 @@ namespace InWords.WebApi.Service
                 ServerId = createdPair.UserWordPairId
             };
 
-            // add answer to List
-            lock (answer)
-            {
-                answer.Add(resultPair);
-            }
+            return resultPair;
         }
 
-        //public async Task<int> UpdateUserWordPair(int userId, int userWordPairId, string WordTra)
-        //{
-        //    return null;
-        //}
+        public async Task<List<SyncBase>> UpdateUserWordPair(int userId, int userWordPairId, WordTranslation wordTranslation)
+        {
+            await DeleteUserWordPair(userId, userWordPairId);
+            SyncBase syncBase = await AddUserWordPair(userId, wordTranslation);
+            return new List<SyncBase>() { syncBase };
+        }
     }
 }

@@ -7,18 +7,16 @@ using InWords.WebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InWords.WebApi.Controllers
+namespace InWords.WebApi.Controllers.v1
 {
     [Route("api/[controller]")]
     [ApiController]
     public class WordsController : ControllerBase
     {
-        private readonly InWordsDataContext context;
         private readonly WordsService wordsService;
 
         public WordsController(InWordsDataContext context)
         {
-            this.context = context;
             wordsService = new WordsService(context);
         }
 
@@ -45,7 +43,7 @@ namespace InWords.WebApi.Controllers
         /// <param name="server_IDs">List ofUserWordPair.UserWordPairID</param>
         /// <returns></returns>
         [Authorize]
-        [Route("deletepair")]
+        [Route("deletePair")]
         [HttpPost]
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {

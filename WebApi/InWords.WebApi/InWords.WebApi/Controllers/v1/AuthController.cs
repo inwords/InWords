@@ -7,7 +7,7 @@ using InWords.WebApi.Providers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace InWords.WebApi.Controllers
+namespace InWords.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]

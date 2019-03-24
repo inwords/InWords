@@ -5,7 +5,7 @@ using InWords.Data.Models.InWords.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InWords.WebApi.Controllers
+namespace InWords.WebApi.Controllers.v1
 {
     [Route("api/[controller]")]
     [ApiController]
