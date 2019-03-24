@@ -1,4 +1,6 @@
-﻿namespace InWords.Transfer.Data.Models
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace InWords.Transfer.Data.Models
 {
     /// <inheritdoc />
     /// <summary>
@@ -6,9 +8,19 @@
     /// </summary>
     public class WordTranslation : SyncBase
     {
-        public string WordForeign { get; set; }
+        private string wordForeign = null;
+        public string WordForeign
+        {
+            get => wordForeign;
+            set => wordForeign = value.ToLower();
+        }
 
-        public string WordNative { get; set; }
+        private string wordNative = null;
+        public string WordNative
+        {
+            get => wordNative;
+            set => wordNative = value.ToLower();
+        }
 
         #region Ctor
 
@@ -22,10 +34,10 @@
             WordNative = wordNative;
         }
 
-        public WordTranslation(WordTranslation WordTranslation) : base(WordTranslation)
+        public WordTranslation(WordTranslation wordTranslation) : base(wordTranslation)
         {
-            WordForeign = WordTranslation.WordForeign;
-            WordNative = WordTranslation.WordNative;
+            WordForeign = wordTranslation.WordForeign;
+            WordNative = wordTranslation.WordNative;
         }
 
         #endregion

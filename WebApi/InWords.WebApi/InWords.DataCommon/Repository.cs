@@ -58,10 +58,15 @@ namespace InWords.Data
             return item;
         }
 
+        /// <summary>
+        ///     Creates an entity or returns if it exists
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public async Task<TEntity> Stack(TEntity item, Func<TEntity, bool> predicate)
         {
-            TEntity entity = null;
-            entity = Get(predicate).SingleOrDefault();
+            TEntity entity = Get(predicate).SingleOrDefault();
 
             entity = entity ?? await Create(item);
 

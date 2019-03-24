@@ -31,6 +31,11 @@ namespace InWords.WebApi.Service
             return answer;
         }
 
+        /// <summary>
+        ///     This method adds the word and its translation to the repository
+        /// </summary>
+        /// <param name="wordTranslation"></param>
+        /// <returns></returns>
         public async Task<WordPair> AddPair(WordTranslation wordTranslation)
         {
             var firstWordForeign = new Word
@@ -81,16 +86,15 @@ namespace InWords.WebApi.Service
         public List<WordTranslation> GetWordsById(IEnumerable<int> ids)
         {
             return (from id in ids
-                let uwp = wordPairRepository
-                    .GetWithInclude(x => x.WordPairId == id, wf => wf.WordForeign, wn => wn.WordNative).Single()
-                select new WordTranslation
-                {
-                    WordForeign = uwp.WordForeign.Content,
-                    WordNative = uwp.WordNative.Content,
-                    ServerId = id
-                }).ToList();
+                    let uwp = wordPairRepository
+                        .GetWithInclude(x => x.WordPairId == id, wf => wf.WordForeign, wn => wn.WordNative).Single()
+                    select new WordTranslation
+                    {
+                        WordForeign = uwp.WordForeign.Content,
+                        WordNative = uwp.WordNative.Content,
+                        ServerId = id
+                    }).ToList();
         }
-
 
         public async Task<int> DeleteUserWordPair(int userId, IEnumerable<int> userWordPairIDs)
         {
@@ -112,14 +116,18 @@ namespace InWords.WebApi.Service
 
         private async Task AddUserWordPair(int userId, WordTranslation wordTranslation, List<SyncBase> answer)
         {
+            // add word pair in repository
             WordPair wordpair = await AddPair(wordTranslation);
             int wordPairId = wordpair.WordPairId;
 
+            // load words content
+            Word word = await wordRepository.FindById(wordpair.WordForeignId);
             WordPair wordPair = wordPairRepository.GetWithInclude(wp => wp.WordPairId == wordPairId,
                     f => f.WordForeign,
                     n => n.WordNative)
                 .Single();
 
+            // flip words
             var createdPair = new UserWordPair
             {
                 WordPairId = wordPairId,
@@ -127,18 +135,26 @@ namespace InWords.WebApi.Service
                 UserId = userId
             };
 
+            // add pair to user dictionary
             createdPair = await userWordPairRepository.Stack(createdPair);
 
+            // create answer
             var resultPair = new SyncBase
             {
                 Id = wordTranslation.Id,
                 ServerId = createdPair.UserWordPairId
             };
 
+            // add answer to List
             lock (answer)
             {
                 answer.Add(resultPair);
             }
         }
+
+        //public async Task<int> UpdateUserWordPair(int userId, int userWordPairId, string WordTra)
+        //{
+        //    return null;
+        //}
     }
 }
