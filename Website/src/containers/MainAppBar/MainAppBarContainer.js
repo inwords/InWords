@@ -2,25 +2,26 @@ import React, { Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../actions/UserActions';
-import MainNavbar from '../components/MainNavbar';
+import { UserActions } from '../../actions/UserActions';
+import MainAppBar from '../../components/MainAppBar/MainAppBar';
 
-class MainNavbarContainer extends Component {
+class MainAppBarContainer extends Component {
     static propTypes = {
         accessToken: PropTypes.string,
         avatarPath: PropTypes.string,
-        isFetching: PropTypes.bool.isRequired,
-        logout: PropTypes.func.isRequired
+        logout: PropTypes.func.isRequired,
+        location: PropTypes.object.isRequired,
+        children: PropTypes.node
     };
 
     static defaultProps = {
         accessToken: null,
-        avatarPath: null
+        avatarPath: null,
+        children: null
     };
 
     state = {
-        open: false,
-        mobileOpen: false
+        open: false
     };
 
     componentDidMount() {
@@ -47,32 +48,22 @@ class MainNavbarContainer extends Component {
         });
     };
 
-    handleDrawerToggleMobile = (mobileOpen) => () => {
-        this.setState({
-            mobileOpen: mobileOpen
-        });
-    };
-
     render() {
-        const { accessToken, avatarPath, isFetching, children, location } = this.props;
-        const { open, mobileOpen } = this.state;
+        const { accessToken, location, children } = this.props;
+        const { open } = this.state;
 
-        if (!accessToken && location.pathname !== "/login" && location.pathname !== "/register") {
-            return <Redirect to="/login" />;
-        } else if (accessToken && location.pathname === "/") {
-            return <Redirect to="/wordlist" />;
+        if (!accessToken && location.pathname !== '/login' && location.pathname !== '/register') {
+            return <Redirect to='/login' />;
+        } else if (accessToken && location.pathname === '/') {
+            return <Redirect to='/wordlist' />;
         }
 
         return (
-            <MainNavbar
+            <MainAppBar
                 accessToken={accessToken}
-                avatarPath={avatarPath}
-                isFetching={isFetching}
                 handleLogout={this.handleLogout}
                 open={open}
-                mobileOpen={mobileOpen}
                 handleDrawerToggle={this.handleDrawerToggle}
-                handleDrawerToggleMobile={this.handleDrawerToggleMobile}
                 children={children}
             />
         );
@@ -82,7 +73,6 @@ class MainNavbarContainer extends Component {
 const mapStateToProps = (store) => {
     return {
         accessToken: store.accessToken,
-        isFetching: store.isFetching,
         avatarPath: store.user.userInfo.avatarPath
     };
 };
@@ -97,4 +87,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(MainNavbarContainer));
+)(MainAppBarContainer));

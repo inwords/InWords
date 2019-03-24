@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import MainNavbarContainer from './MainNavbarContainer';
-import PageContainer from '../components/PageContainer';
 import ErrorAlertContainer from './ErrorAlertContainer';
+import MainAppBarContainer from './MainAppBar/MainAppBarContainer';
+import PageContainer from '../components/PageContainer';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './Wordlist/WordlistPage';
@@ -14,9 +14,9 @@ class App extends Component {
         return (
             <HashRouter>
                 <Fragment>
-                    <ErrorAlertContainer />
+                    <ErrorAlertContainer /> 
                     <Switch>
-                        <MainNavbarContainer>
+                        <MainAppBarContainer>
                             <PageContainer>
                                 <Route path="/login" component={LoginPage} />
                                 <Route path="/register" component={RegisterPage} />
@@ -24,7 +24,7 @@ class App extends Component {
                                 <Route path="/game" component={GamePage} />
                                 <Route path="/account" component={AccountPage} />
                             </PageContainer>
-                        </MainNavbarContainer>
+                        </MainAppBarContainer>
                     </Switch>
                 </Fragment>
             </HashRouter>
