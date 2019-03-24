@@ -9,7 +9,7 @@ namespace InWords.WebApi.Controllers.v1
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ApiVersionNeutral]
+    [ApiVersion("1.0", Deprecated = true)]
     public class ValuesController : ControllerBase
     {
         private readonly UserRepository userRepository;
