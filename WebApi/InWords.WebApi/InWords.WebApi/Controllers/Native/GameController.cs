@@ -10,11 +10,10 @@ using InWords.WebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InWords.WebApi.Controllers.v1
+namespace InWords.WebApi.Controllers.Native
 {
     [Authorize]
-    [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class GameController : ControllerBase
     {
@@ -108,7 +107,7 @@ namespace InWords.WebApi.Controllers.v1
                 ? await gameService.DeleteGames(ids)
                 : await gameService.DeleteGames(userId, ids);
 
-            return count == 0 ? (IActionResult)NotFound() : Ok(count);
+            return count == 0 ? (IActionResult) NotFound() : Ok(count);
         }
     }
 }

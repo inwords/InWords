@@ -1,29 +1,32 @@
-﻿using System.Reflection.Metadata;
-using System.Threading.Tasks;
-using InWords.Data.Enums;
+﻿using System.Threading.Tasks;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InWords.WebApi.Controllers.v2
+namespace InWords.WebApi.Controllers.Native
 {
     [ApiController]
-    [ApiVersion("1.01")]
-    [Route("api/v1.01/[controller]")]
+    [ApiVersion("1.0", Deprecated = true)]
+    [Route("api/[controller]")]
     public class ValuesController : ControllerBase
     {
         private readonly UserRepository userRepository;
 
+        private readonly WordPairRepository wordPairRepository;
+
+        private readonly WordRepository wordRepository;
+
         public ValuesController(InWordsDataContext context)
         {
             userRepository = new UserRepository(context);
+            wordRepository = new WordRepository(context);
+            wordPairRepository = new WordPairRepository(context);
         }
 
         /// <summary>
-        ///    GET api/values/version
-        ///    This is to get requested Api version
+        ///     This is to get requested Api version
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -33,45 +36,47 @@ namespace InWords.WebApi.Controllers.v2
             return Ok(HttpContext.GetRequestedApiVersion());
         }
 
-
+        // GET api/values
+        //IEnumerable<string>
         [HttpGet]
         public ActionResult<int> Get()
         {
             return userRepository.Count();
         }
 
+        // GET api/values/5
+        [HttpGet("{words}")]
+        public async Task<ActionResult<WordPair>> Get(string words)
+        {
+            string[] wordsArr = words.Split('.');
+
+            var first = new Word
+            {
+                Content = wordsArr[0]
+            };
+
+            var second = new Word
+            {
+                Content = wordsArr[1]
+            };
+
+            return await wordPairRepository.Stack(first, second);
+        }
+
         [Authorize]
         [HttpGet]
-        [Route("login")]
+        [Route("getLogin")]
         public IActionResult GetLogin()
         {
             return Ok($"login: {User.Identity.Name}");
         }
-        
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Authorize(Roles = nameof(RoleType.Admin))]
-        [Route("role")]
+        [Route("getRole")]
         public IActionResult GetRole()
         {
             return Ok("Role: Admin");
         }
     }
 }
-
-//// POST api/values
-//[HttpPost]
-//public void Post([FromBody] string value)
-//{
-//}
-
-//// PUT api/values/5
-//[HttpPut("{id}")]
-//public void Put(int id, [FromBody] string value)
-//{
-//}
-
-//// DELETE api/values/5
-//[HttpDelete("{id}")]
-//public void Delete(int id)
-//{
-//}

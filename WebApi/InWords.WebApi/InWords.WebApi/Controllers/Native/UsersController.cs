@@ -9,12 +9,11 @@ using InWords.WebApi.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InWords.WebApi.Controllers
+namespace InWords.WebApi.Controllers.Native
 {
-    [Authorize]
+    [Route("api/[controller]")]
     [ApiController]
-    [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/[controller]")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly AccountRepository accountRepository;

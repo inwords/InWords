@@ -11,7 +11,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using InWords.WebApi.Swagger;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace InWords.WebApi
 {
@@ -45,7 +51,6 @@ namespace InWords.WebApi
             // api versioning
             services.AddApiVersioning(o =>
             {
-                o.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
                 o.ReportApiVersions = true;
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
@@ -54,24 +59,23 @@ namespace InWords.WebApi
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
+                c.SwaggerDoc("v1.0", new Info { Version = "v1.0", Title = "API V1.0" });
+                c.SwaggerDoc("v1.1", new Info { Version = "v1.1", Title = "API V1.1" });
+
+                c.DocInclusionPredicate((docName, apiDesc) =>
                 {
-                    Version = "v1",
-                    Title = "ToDo API",
-                    Description = "A simple example ASP.NET Core Web API",
-                    TermsOfService = "None",
-                    Contact = new Contact
-                    {
-                        Name = "Shayne Boyer",
-                        Email = string.Empty,
-                        Url = "https://twitter.com/spboyer"
-                    },
-                    License = new License
-                    {
-                        Name = "Use under LICX",
-                        Url = "https://example.com/license"
-                    }
+                    if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
+
+                    IEnumerable<ApiVersion> versions = methodInfo.DeclaringType
+                        .GetCustomAttributes(true)
+                        .OfType<ApiVersionAttribute>()
+                        .SelectMany(attr => attr.Versions);
+
+                    return versions.Any(v => $"v{v.ToString()}" == docName);
                 });
+
+                c.OperationFilter<RemoveVersionParameters>();
+                c.DocumentFilter<SetVersionInPaths>();
             });
         }
 
@@ -90,7 +94,8 @@ namespace InWords.WebApi
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "My API V1.1");
                 c.RoutePrefix = string.Empty;
             });
 

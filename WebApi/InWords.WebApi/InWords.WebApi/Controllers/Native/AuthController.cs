@@ -7,10 +7,11 @@ using InWords.WebApi.Providers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace InWords.WebApi.Controllers.v1
+namespace InWords.WebApi.Controllers.Native
 {
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/[controller]")]
+    [ApiVersion("2.0")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
