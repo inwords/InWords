@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,13 +15,19 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using InWords.WebApi.Swagger;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace InWords.WebApi
 {
+    /// <summary>
+    /// Main startup class
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Startup constructor
+        /// </summary>
+        /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
@@ -34,9 +39,15 @@ namespace InWords.WebApi
             Configuration = builder.Build();
         }
 
+        /// <summary>
+        ///     This is the service configuration 
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        ///     This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
@@ -61,7 +72,7 @@ namespace InWords.WebApi
             {
                 c.SwaggerDoc("v1.0", new Info { Version = "v1.0", Title = "API V1.0" });
                 c.SwaggerDoc("v1.1", new Info { Version = "v1.1", Title = "API V1.1" });
-                
+
                 string filePath = Path.Combine(AppContext.BaseDirectory, "InWords.WebApi.xml");
                 c.IncludeXmlComments(filePath);
                 c.DocInclusionPredicate((docName, apiDesc) =>
@@ -81,7 +92,12 @@ namespace InWords.WebApi
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             // To design Swashbuckle components in a corporate style,
@@ -118,6 +134,10 @@ namespace InWords.WebApi
             app.UseMvc();
         }
 
+        /// <summary>
+        /// Configure the logger data format and file location
+        /// </summary>
+        /// <param name="loggerFactory"></param>
         public void LoggerConfiguration(ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
