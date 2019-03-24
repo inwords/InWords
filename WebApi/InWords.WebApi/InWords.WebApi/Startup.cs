@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using InWords.WebApi.Swagger;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace InWords.WebApi
@@ -62,6 +63,7 @@ namespace InWords.WebApi
             // api versioning
             services.AddApiVersioning(o =>
             {
+                o.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
                 o.ReportApiVersions = true;
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);

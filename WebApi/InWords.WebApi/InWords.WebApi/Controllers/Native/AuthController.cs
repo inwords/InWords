@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi.Controllers.Native
 {
-    [ApiVersion("1.0")]
+    [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
     [Route("api/[controller]")]
     [ApiController]
@@ -33,7 +33,6 @@ namespace InWords.WebApi.Controllers.Native
         /// </summary>
         /// <returns></returns>
         [Route("token")]
-        [MapToApiVersion("2.0")]
         [HttpPost]
         public IActionResult Token([FromBody] BasicAuthClaims user)
         {
