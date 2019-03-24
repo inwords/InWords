@@ -61,7 +61,9 @@ namespace InWords.WebApi
             {
                 c.SwaggerDoc("v1.0", new Info { Version = "v1.0", Title = "API V1.0" });
                 c.SwaggerDoc("v1.1", new Info { Version = "v1.1", Title = "API V1.1" });
-
+                
+                string filePath = Path.Combine(AppContext.BaseDirectory, "InWords.WebApi.xml");
+                c.IncludeXmlComments(filePath);
                 c.DocInclusionPredicate((docName, apiDesc) =>
                 {
                     if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;

@@ -5,6 +5,10 @@
     <UserSecretsId>40828328-da8a-4ef5-adfb-5289dc326f59</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\InWords.WebApi.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="App_Data\**" />
     <Content Remove="App_Data\**" />

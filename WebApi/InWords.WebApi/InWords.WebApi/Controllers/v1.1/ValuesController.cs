@@ -19,7 +19,6 @@ namespace InWords.WebApi.Controllers.v1._1
         }
 
         /// <summary>
-        ///    GET api/values/version
         ///    This is to get requested Api version
         /// </summary>
         /// <returns></returns>
@@ -37,6 +36,10 @@ namespace InWords.WebApi.Controllers.v1._1
             return userRepository.Count();
         }
 
+        /// <summary>
+        ///     Get your login
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         [Route("login")]
