@@ -105,7 +105,7 @@ namespace InWords.WebApi.Controllers.Native
 
             int count = role == RoleType.Admin.ToString()
                 ? await gameService.DeleteGames(ids)
-                : await gameService.DeleteGames(userId, ids);
+                : await gameService.DeleteOwnGames(userId, ids);
 
             return count == 0 ? (IActionResult) NotFound() : Ok(count);
         }

@@ -14,6 +14,11 @@ using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 
 namespace InWords.WebApi.Service
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Service that contain CRUD for Game
+    /// </summary>
+    /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
     public class GameService : CreationService
     {
         /// <summary>
@@ -126,12 +131,12 @@ namespace InWords.WebApi.Service
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-                {
-                    IsAvailable = true,
-                    LevelId = level.GameLevelId,
-                    Level = level.Level,
-                    PlayerStars = 0
-                })
+            {
+                IsAvailable = true,
+                LevelId = level.GameLevelId,
+                Level = level.Level,
+                PlayerStars = 0
+            })
                 .ToList();
 
             var game = new Game
@@ -144,6 +149,13 @@ namespace InWords.WebApi.Service
             return game;
         }
 
+        /// <summary>
+        ///     This is to get game level information
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="levelId"></param>
+        /// <see cref="Level"/>
+        /// <returns></returns>
         public Level GetLevel(int userId, int levelId)
         {
             // TODO: Add level to user
@@ -178,21 +190,29 @@ namespace InWords.WebApi.Service
             IEnumerable<int> creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId))
                 .Select(c => c.CreationId).ToArray();
 
-            await DeleteCreation(creationsId);
+            int deletionsCount = await DeleteCreation(creationsId);
 
-            return creationsId.Count();
+            return deletionsCount;
         }
 
-        public async Task<int> DeleteGames(int userId, params int[] gameId)
+        /// <summary>
+        ///      This is to delete games as user, safe delete game if userId os owner
+        /// </summary>
+        /// <param name="userId">game owner user id</param>
+        /// <param name="gameId">server id of the game</param>
+        /// <returns></returns>
+        public async Task<int> DeleteOwnGames(int userId, params int[] gameId)
         {
+            // find all users game that id equals gameId
+
             IQueryable<int> id = from games in Context.GameBoxs
-                join creations in Context.Creations on games.CreationId equals creations.CreationId
-                where creations.CreationId == userId && gameId.Contains(games.GameBoxId)
-                select creations.CreationId;
+                                 join creations in Context.Creations on games.CreationId equals creations.CreationId
+                                 where creations.CreatorId == userId && gameId.Contains(games.GameBoxId)
+                                 select creations.CreationId;
 
-            await DeleteCreation(id);
+            int deletionsCount = await DeleteCreation(id);
 
-            return id.Count();
+            return deletionsCount;
         }
 
         /// <summary>
