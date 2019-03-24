@@ -7,13 +7,19 @@
 
   <ItemGroup>
     <Compile Remove="App_Data\**" />
-    <Compile Remove="wwwroot\**" />
     <Content Remove="App_Data\**" />
-    <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="App_Data\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="App_Data\**" />
-    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\swagger\ui\swagger-ui-bundle.js" />
+    <None Include="wwwroot\swagger\ui\swagger-ui-bundle.js.map" />
+    <None Include="wwwroot\swagger\ui\swagger-ui-standalone-preset.js" />
+    <None Include="wwwroot\swagger\ui\swagger-ui-standalone-preset.js.map" />
+    <None Include="wwwroot\swagger\ui\swagger-ui.css.map" />
+    <None Include="wwwroot\swagger\ui\swagger-ui.js" />
+    <None Include="wwwroot\swagger\ui\swagger-ui.js.map" />
   </ItemGroup>
 
   <ItemGroup>

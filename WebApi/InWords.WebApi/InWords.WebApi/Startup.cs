@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using InWords.Auth;
+﻿using InWords.Auth;
 using InWords.Data.Models;
 using InWords.WebApi.Providers.FIleLogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +9,9 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
 
 namespace InWords.WebApi
 {
@@ -49,11 +50,51 @@ namespace InWords.WebApi
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
             });
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "ToDo API",
+                    Description = "A simple example ASP.NET Core Web API",
+                    TermsOfService = "None",
+                    Contact = new Contact
+                    {
+                        Name = "Shayne Boyer",
+                        Email = string.Empty,
+                        Url = "https://twitter.com/spboyer"
+                    },
+                    License = new License
+                    {
+                        Name = "Use under LICX",
+                        Url = "https://example.com/license"
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            // To design Swashbuckle components in a corporate style,
+            // you need to add resources to serve static files
+            // and then build a folder structure to accommodate them.
+            app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
+
+            // Enable middleware to generated logs as a text file.
             LoggerConfiguration(loggerFactory);
 
             // TODO: remove on Release
