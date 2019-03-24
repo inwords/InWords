@@ -33,21 +33,6 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [Route("token")]
-        [HttpPost]
-        public IActionResult Token()
-        {
-            try
-            {
-                TokenResponse tokenResponse = accountIdentityProvider.GetIdentity(Request);
-                return Ok(tokenResponse);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [Route("token")]
         [MapToApiVersion("2.0")]
         [HttpPost]
         public IActionResult Token([FromBody] BasicAuthClaims user)

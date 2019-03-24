@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace InWords.WebApi.Controllers.v2
 {
     [ApiController]
-    [ApiVersion("1.1")]
-    [Route("api/[controller]")]
+    [ApiVersion("1.01")]
+    [Route("api/v1.01/[controller]")]
     public class ValuesController : ControllerBase
     {
         private readonly UserRepository userRepository;
@@ -41,12 +41,14 @@ namespace InWords.WebApi.Controllers.v2
         }
 
         [Authorize]
+        [HttpGet]
         [Route("login")]
         public IActionResult GetLogin()
         {
             return Ok($"login: {User.Identity.Name}");
         }
-
+        
+        [HttpGet]
         [Authorize(Roles = nameof(RoleType.Admin))]
         [Route("role")]
         public IActionResult GetRole()

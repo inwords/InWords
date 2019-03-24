@@ -82,13 +82,15 @@ namespace InWords.WebApi.Controllers.v1
         }
 
         [Authorize]
-        [Route("getlogin")]
+        [HttpGet]
+        [Route("getLogin")]
         public IActionResult GetLogin()
         {
             return Ok($"login: {User.Identity.Name}");
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpGet]
         [Route("getRole")]
         public IActionResult GetRole()
         {
