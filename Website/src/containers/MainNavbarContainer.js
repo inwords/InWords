@@ -18,6 +18,11 @@ class MainNavbarContainer extends Component {
         avatarPath: null
     };
 
+    state = {
+        open: false,
+        mobileOpen: false
+    };
+
     componentDidMount() {
         if (this.props.accessToken) {
             this.props.receiveUserInfo();
@@ -36,8 +41,21 @@ class MainNavbarContainer extends Component {
         this.props.logout();
     };
 
+    handleDrawerToggle = (open) => () => {
+        this.setState({
+            open: open
+        });
+    };
+
+    handleDrawerToggleMobile = (mobileOpen) => () => {
+        this.setState({
+            mobileOpen: mobileOpen
+        });
+    };
+
     render() {
-        const { accessToken, avatarPath, isFetching, location } = this.props;
+        const { accessToken, avatarPath, isFetching, children, location } = this.props;
+        const { open, mobileOpen } = this.state;
 
         if (!accessToken && location.pathname !== "/login" && location.pathname !== "/register") {
             return <Redirect to="/login" />;
@@ -51,6 +69,11 @@ class MainNavbarContainer extends Component {
                 avatarPath={avatarPath}
                 isFetching={isFetching}
                 handleLogout={this.handleLogout}
+                open={open}
+                mobileOpen={mobileOpen}
+                handleDrawerToggle={this.handleDrawerToggle}
+                handleDrawerToggleMobile={this.handleDrawerToggleMobile}
+                children={children}
             />
         );
     }

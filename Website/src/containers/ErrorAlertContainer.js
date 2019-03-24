@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ErrorMessageActions } from '../actions/ErrorMessageActions';
-import WrapperWithErrorAlert from '../components/WrapperWithErrorAlert';
+import ErrorAlert from '../components/ErrorAlert';
 
-class WrapperWithErrorAlertContainer extends Component {
+class ErrorAlertContainer extends Component {
     static propTypes = {
         errorMessage: PropTypes.string,
         resetErrorMessage: PropTypes.func.isRequired
@@ -14,25 +14,16 @@ class WrapperWithErrorAlertContainer extends Component {
         errorMessage: null
     };
 
-    timerId = null;
-
-    componentDidUpdate(prevProps) {
-        if (this.props.errorMessage !== prevProps.errorMessage) {
-            if (this.props.errorMessage) {
-                if (this.timerId) {
-                    clearTimeout(this.timerId);
-                }
-
-                this.timerId = setTimeout(() => {
-                    this.props.resetErrorMessage();
-                }, 2000);
-            }
-        }
-    }
+    handleClose = () => {
+        this.props.resetErrorMessage();
+    };
 
     render() {
         return (
-            <WrapperWithErrorAlert {...this.props} />
+            <ErrorAlert
+                {...this.props}
+                handleClose={this.handleClose}
+            />
         );
     }
 }
@@ -52,4 +43,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(WrapperWithErrorAlertContainer);
+)(ErrorAlertContainer);
