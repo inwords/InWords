@@ -57,7 +57,7 @@ namespace InWords.WebApi.Controllers.Native
                 return BadRequest($"User already exists {user.Email}");
 
             //Create token
-            TokenResponse response = await CreateUserAccaunt(user);
+            TokenResponse response = await CreateUserAccount(user);
 
             //send token
             return Ok(response);
@@ -65,7 +65,7 @@ namespace InWords.WebApi.Controllers.Native
 
         #region Adaptor
 
-        private async Task<TokenResponse> CreateUserAccaunt(BasicAuthClaims basicAuthClaims)
+        private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {
             //Create account in repository;
             await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password);

@@ -70,8 +70,7 @@ namespace InWords.WebApi.Service
                 string wordForeign = uwp.WordPair.WordForeign.Content;
                 string wordNative = uwp.WordPair.WordNative.Content;
 
-                WordTranslation addedWord = null;
-                addedWord = uwp.IsInvertPair
+                WordTranslation addedWord = uwp.IsInvertPair
                     ? new WordTranslation(wordNative, wordForeign)
                     : new WordTranslation(wordForeign, wordNative);
 
