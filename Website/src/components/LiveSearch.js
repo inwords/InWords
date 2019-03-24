@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function LiveSearch({ query, handleChange }) {
     return (
         <form className="form-inline">
-            <input type="search" className="form-control mr-sm-2" placeholder="Поиск слов"
+            <input type="search" className="form-control" placeholder="Поиск слов" aria-label="Поиск"
                 value={query} onChange={handleChange} />
         </form>
     );

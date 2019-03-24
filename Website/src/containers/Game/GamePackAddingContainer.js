@@ -32,13 +32,13 @@ class GamePackAddingContainer extends Component {
         }
     }
 
-    handleChangeDescriptions = (sourceIndex, propertyName) => (event) => {
+    handleChangeDescriptions = (sourceIndex, propertyName) => (e) => {
         const newDescriptions = this.state.descriptions.map((description, destinationIndex) => {
             if (sourceIndex !== destinationIndex) {
                 return description;
             };
 
-            return { ...description, [propertyName]: event.target.value };
+            return { ...description, [propertyName]: e.target.value };
         });
 
         this.setState({
@@ -75,7 +75,7 @@ class GamePackAddingContainer extends Component {
         });
     };
 
-    handleChangeWordTranslations = (sourceLevelPackIndex, sourceWordTranslationIndex, propertyName) => (event) => {
+    handleChangeWordTranslations = (sourceLevelPackIndex, sourceWordTranslationIndex, propertyName) => (e) => {
         const newLevelPacks = this.state.levelPacks.map((levelPack, destinationLevelPackIndex) => {
             if (sourceLevelPackIndex !== destinationLevelPackIndex) {
                 return levelPack;
@@ -88,7 +88,7 @@ class GamePackAddingContainer extends Component {
 
                 return {
                     ...wordTranslation,
-                    [propertyName]: event.target.value
+                    [propertyName]: e.target.value
                 };
             });
 
@@ -103,7 +103,7 @@ class GamePackAddingContainer extends Component {
         });
     };
 
-    handleAddWordTranslation = (sourceIndex) => {
+    handleAddWordTranslation = (sourceIndex) => () => {
         const newLevelPacks = this.state.levelPacks.map((levelPack, destinationIndex) => {
             if (sourceIndex !== destinationIndex) {
                 return levelPack;
@@ -122,7 +122,7 @@ class GamePackAddingContainer extends Component {
         });
     };
 
-    handleDelWordTranslation = (sourceIndex) => {
+    handleDelWordTranslation = (sourceIndex) => () => {
         const newLevelPacks = this.state.levelPacks.map((levelPack, destinationIndex) => {
             if (sourceIndex !== destinationIndex) {
                 return levelPack;
@@ -139,7 +139,7 @@ class GamePackAddingContainer extends Component {
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = (e) => {
         this.props.addGamePack({
             CreationInfo: {
                 Descriptions: this.state.descriptions.map((description) => {
@@ -163,7 +163,7 @@ class GamePackAddingContainer extends Component {
             })
         });
 
-        event.preventDefault();
+        e.preventDefault();
     };
 
     render() {

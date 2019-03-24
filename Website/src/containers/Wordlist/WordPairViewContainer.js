@@ -20,7 +20,7 @@ class WordPairViewContainer extends Component {
 
         return (
             <WordPairView
-                wordPair={wordPair}
+                {...wordPair}
                 handleSwitchEditMode={handleSwitchEditMode}
                 handleDelWordPair={this.handleDelWordPair}
             />

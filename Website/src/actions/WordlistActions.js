@@ -1,4 +1,4 @@
-import { API_HOST } from '../api-info';
+import { API_ROOT } from '../api';
 import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
 import { wordlistConstants } from '../constants/wordlistConstants';
@@ -6,17 +6,19 @@ import { wordlistConstants } from '../constants/wordlistConstants';
 const pullWordPairs = () => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/sync/pullwordpairs', {
+    fetch(`${API_ROOT}/Sync/PullWordPairs`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: '[]'
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -34,16 +36,18 @@ const pullWordPairs = () => (dispatch, getState) => {
 const deleteWordPair = (pairId) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/words/deletepair', {
+    fetch(`${API_ROOT}/Words/DeletePair`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify([pairId])
     })
         .then(response => {
-            AccessActions.handleAccessError(response, dispatch);
+            if (response.status === 401) {
+                dispatch(AccessActions.accessDenied());
+            }
 
             dispatch(FetchingActions.fetchingSuccess());
             dispatch(pairsDelLocalRefresh(pairId));
@@ -57,17 +61,19 @@ const deleteWordPair = (pairId) => (dispatch, getState) => {
 const addWordPair = (wordPair) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/words/addpair', {
+    fetch(`${API_ROOT}/Words/AddPair`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify([wordPair])
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -85,17 +91,19 @@ const addWordPair = (wordPair) => (dispatch, getState) => {
 const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/words/deletepair', {
+    fetch(`${API_ROOT}/Words/DeletePair`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify([pairId])
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
         })
@@ -104,17 +112,19 @@ const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
         });
 
-    fetch(API_HOST + '/api/words/addpair', {
+    fetch(`${API_ROOT}/Words/AddPair`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify([wordPair])
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();

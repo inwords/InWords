@@ -12,26 +12,17 @@ class WordPairEditingContainer extends Component {
     };
 
     state = {
-        wordForeign: '',
-        wordNative: ''
+        wordForeign: this.props.wordPair.wordForeign,
+        wordNative: this.props.wordPair.wordNative
     };
 
-    componentDidMount() {
-        const { wordPair } = this.props;
-
+    handleChange = (propertyName) => (e) => {
         this.setState({
-            wordForeign: wordPair.wordForeign,
-            wordNative: wordPair.wordNative
-        });
-    }
-
-    handleChange = (propertyName) => (event) => {
-        this.setState({
-            [propertyName]: event.target.value
+            [propertyName]: e.target.value
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = (e) => {
         const { wordForeign, wordNative } = this.state;
 
         if (wordForeign && wordNative) {
@@ -41,7 +32,7 @@ class WordPairEditingContainer extends Component {
             });
         }
 
-        event.preventDefault();
+        e.preventDefault();
     };
 
     render() {

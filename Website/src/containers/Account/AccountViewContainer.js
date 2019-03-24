@@ -14,7 +14,9 @@ class AccountViewContainer extends Component {
 
         return (
             <AccountView
-                userInfo={userInfo}
+                avatarPath={userInfo.avatarPath}
+                nickName={userInfo.nickName}
+                experience={userInfo.experience}
                 handleSwitchEditMode={handleSwitchEditMode}
             />
         );

@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-function GameLevel({ levelInfo, handlePullGameLevel }) {
-    const { level, playerStars, isAvailable } = levelInfo;
-
+function GameLevelCard({ level, playerStars, isAvailable, handlePullGameLevel }) {
     return (
         <div className="card flex-fill text-center text-white bg-primary mb-3">
             <div className="card-body">
@@ -21,9 +19,11 @@ function GameLevel({ levelInfo, handlePullGameLevel }) {
     );
 }
 
-GameLevel.propTypes = {
-    levelInfo: PropTypes.object.isRequired,
+GameLevelCard.propTypes = {
+    level: PropTypes.number.isRequired,
+    playerStars: PropTypes.number.isRequired,
+    isAvailable: PropTypes.bool.isRequired,
     handlePullGameLevel: PropTypes.func.isRequired
 };
 
-export default GameLevel;
+export default GameLevelCard;

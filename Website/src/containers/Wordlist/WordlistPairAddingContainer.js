@@ -25,13 +25,13 @@ class WordlistPairAddingContainer extends Component {
         }
     }
 
-    handleChange = (propertyName) => (event) => {
+    handleChange = (propertyName) => (e) => {
         this.setState({
-            [propertyName]: event.target.value
+            [propertyName]: e.target.value
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = (e) => {
         const { wordForeign, wordNative } = this.state;
 
         if (wordForeign && wordNative) {
@@ -41,7 +41,7 @@ class WordlistPairAddingContainer extends Component {
             });
         }
 
-        event.preventDefault();
+        e.preventDefault();
     };
 
     render() {

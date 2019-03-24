@@ -22,7 +22,7 @@ class WordlistPage extends Component {
     render() {
         const { wordPairs, searchPattern } = this.props;
 
-        let wordPairsRevercedCopy = wordPairs.slice().reverse();
+        let wordPairsRevercedCopy = [...wordPairs].reverse();
 
         if (searchPattern) {
             wordPairsRevercedCopy = wordPairsRevercedCopy.filter((wordPair) =>

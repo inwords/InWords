@@ -1,4 +1,4 @@
-import { API_HOST } from '../api-info';
+import { API_ROOT } from '../api';
 import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
 import { userConstants } from '../constants/userConstants';
@@ -6,7 +6,7 @@ import { userConstants } from '../constants/userConstants';
 const login = (userdata) => (dispatch) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/auth/token', {
+    fetch(`${API_ROOT}/Auth/Token`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const login = (userdata) => (dispatch) => {
 const register = (userdata) => (dispatch) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/auth/registration', {
+    fetch(`${API_ROOT}/Auth/Registration`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -64,16 +64,18 @@ const logout = () => (dispatch) => {
 const receiveUserInfo = () => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Users/', {
+    fetch(`${API_ROOT}/Users`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         }
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -91,17 +93,19 @@ const receiveUserInfo = () => (dispatch, getState) => {
 const changeUserInfo = (userInfo) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Users/', {
+    fetch(`${API_ROOT}/Users`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify(userInfo)
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
 

@@ -1,4 +1,4 @@
-import { API_HOST } from '../api-info';
+import { API_ROOT } from '../api';
 import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
 import { gameConstants } from '../constants/gameConstants';
@@ -6,16 +6,18 @@ import { gameConstants } from '../constants/gameConstants';
 const pullGamesInfo = () => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Game/GameInfo', {
+    fetch(`${API_ROOT}/Game/GameInfo`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         }
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -33,16 +35,18 @@ const pullGamesInfo = () => (dispatch, getState) => {
 const pullGameInfo = (gameId) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Game/' + gameId, {
+    fetch(`${API_ROOT}/Game/${gameId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         }
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -60,16 +64,18 @@ const pullGameInfo = (gameId) => (dispatch, getState) => {
 const pullGameLevel = (levelId) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(API_HOST + '/api/Game/level/' + levelId, {
+    fetch(`${API_ROOT}/Game/Level/${levelId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         }
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -88,17 +94,19 @@ const addGamePack = (gamePack) => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId;
-    fetch(API_HOST + '/api/Game/AddGamePack', {
+    fetch(`${API_ROOT}/Game/AddGamePack`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getState().accessToken
+            'Authorization': `Bearer ${getState().accessToken}`
         },
         body: JSON.stringify(gamePack)
     })
         .then(response => {
             if (!response.ok) {
-                AccessActions.handleAccessError(response, dispatch);
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
                 throw new Error(response.statusText);
             }
             return response.json();
@@ -115,6 +123,44 @@ const addGamePack = (gamePack) => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
         });
+}
+
+const delGamePack = (gameId) => (dispatch, getState) => {
+    /*
+    dispatch(FetchingActions.fetchingRequest());
+
+    fetch(`${API_ROOT}/Game/AddGamePack`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getState().accessToken}`
+        },
+        body: JSON.stringify(gamePack)
+    })
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    dispatch(AccessActions.accessDenied());
+                }
+                throw new Error(response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            dispatch(FetchingActions.fetchingSuccess());
+            dispatch(gamesInfoAddLocalRefresh({
+                gameId: data.serverId,
+                isAvailable: true,
+                title: gamePack.CreationInfo.Descriptions[0].Title
+            }));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
+        });
+        */
+
+    dispatch(gamesInfoDelLocalRefresh(gameId));
 }
 
 function resetGameInfo() {
@@ -137,6 +183,11 @@ const gamesInfoReceived = (gamesInfo) => ({
 const gamesInfoAddLocalRefresh = (gamesInfo) => ({
     type: gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH,
     gamesInfo: gamesInfo
+});
+
+const gamesInfoDelLocalRefresh = (gameId) => ({
+    type: gameConstants.GAMES_INFO_DEL_LOCAL_REFRESH,
+    gameId: gameId
 });
 
 const gameInfoReceived = (gameInfo) => ({
@@ -163,5 +214,6 @@ export const GameActions = {
     pullGameLevel,
     resetGameInfo,
     resetGameLevel,
-    addGamePack
+    addGamePack,
+    delGamePack
 };

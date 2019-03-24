@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GameActions } from '../../actions/GameActions';
-import GameLevel from '../../components/Game/GameLevel';
+import GameLevelCard from '../../components/Game/GameLevelCard';
 
-class GameLevelContainer extends Component {
+class GameLevelCardContainer extends Component {
     static propTypes = {
         levelInfo: PropTypes.object.isRequired,
         pullGameLevel: PropTypes.func.isRequired
@@ -18,8 +18,10 @@ class GameLevelContainer extends Component {
         const { levelInfo } = this.props;
 
         return (
-            <GameLevel
-                levelInfo={levelInfo}
+            <GameLevelCard
+                level={levelInfo.level}
+                playerStars={levelInfo.playerStars}
+                isAvailable={levelInfo.isAvailable}
                 handlePullGameLevel={this.handlePullGameLevel}
             />
         );
@@ -35,4 +37,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     null,
     mapDispatchToProps
-)(GameLevelContainer);
+)(GameLevelCardContainer);

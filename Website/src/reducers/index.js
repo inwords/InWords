@@ -8,18 +8,17 @@ import { game } from './game';
 import { errorMessage } from './errorMessage';
 
 const appReducer = combineReducers({
-    isFetching: isFetching,
-    accessToken: accessToken,
-    user: user,
-    wordlist: wordlist,
-    game: game,
-    errorMessage: errorMessage
+    isFetching,
+    accessToken,
+    user,
+    wordlist,
+    game,
+    errorMessage
 });
 
 export const rootReducer = (state, action) => {
     if (action.type === accessConstants.ACCESS_DENIED) {
         state = undefined;
     }
-
     return appReducer(state, action);
 };

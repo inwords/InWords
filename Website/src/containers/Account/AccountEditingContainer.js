@@ -12,17 +12,9 @@ class AccountEditingContainer extends Component {
     };
 
     state = {
-        nickName: '',
-        avatarPath: ''
+        nickName: this.props.userInfo.nickName,
+        avatarPath: this.props.userInfo.avatarPath ? this.props.userInfo.avatarPath : ''
     };
-
-    componentDidMount() {
-        const { userInfo } = this.props;
-        this.setState({
-            nickName: userInfo.nickName,
-            avatarPath: userInfo.avatarPath ? userInfo.avatarPath : ''
-        });
-    }
 
     componentDidUpdate(prevProps) {
         if (this.props.userInfo !== prevProps.userInfo) {
@@ -30,19 +22,19 @@ class AccountEditingContainer extends Component {
         }
     }
 
-    handleChange = (propertyName) => (event) => {
+    handleChange = (propertyName) => (e) => {
         this.setState({
-            [propertyName]: event.target.value
+            [propertyName]: e.target.value
         });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = (e) => {
         this.props.changeUserInfo({
             NickName: this.state.nickName,
             AvatarPath: this.state.avatarPath
         });
 
-        event.preventDefault();
+        e.preventDefault();
     };
 
     render() {

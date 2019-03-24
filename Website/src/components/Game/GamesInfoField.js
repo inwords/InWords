@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import GameInfoContainer from '../../containers/Game/GameInfoContainer';
+import GameInfoCardContainer from '../../containers/Game/GameInfoCardContainer';
 
 function GamesInfoField({ gamesInfo }) {
     return (
         <div className="row">
             {gamesInfo.map((gameInfo) =>
                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex" key={gameInfo.gameId}>
-                    <GameInfoContainer gameInfo={gameInfo} />
+                    <GameInfoCardContainer gameInfo={gameInfo} />
                 </div>)}
         </div>
     );

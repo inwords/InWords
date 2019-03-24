@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GameActions } from '../../actions/GameActions';
-import GameInfo from '../../components/Game/GameInfo';
+import GameInfoCard from '../../components/Game/GameInfoCard';
 
-class GameInfoContainer extends Component {
+class GameInfoCardContainer extends Component {
     static propTypes = {
         gameInfo: PropTypes.object.isRequired,
         pullGameInfo: PropTypes.func.isRequired
@@ -14,13 +14,20 @@ class GameInfoContainer extends Component {
         this.props.pullGameInfo(this.props.gameInfo.gameId);
     };
 
+    handleDelGamePack = () => {
+        alert("На сервере не реализовано, поэтому пока только локально");
+        this.props.delGamePack(this.props.gameInfo.gameId);
+    };
+
     render() {
         const { gameInfo } = this.props;
 
         return (
-            <GameInfo
-                gameInfo={gameInfo}
+            <GameInfoCard
+                title={gameInfo.title}
+                isAvailable={gameInfo.isAvailable}
                 handlePullGameInfo={this.handlePullGameInfo}
+                handleDelGamePack={this.handleDelGamePack}
             />
         );
     }
@@ -28,11 +35,12 @@ class GameInfoContainer extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        pullGameInfo: (gameId) => dispatch(GameActions.pullGameInfo(gameId))
+        pullGameInfo: (gameId) => dispatch(GameActions.pullGameInfo(gameId)),
+        delGamePack: (gameId) => dispatch(GameActions.delGamePack(gameId))
     };
 };
 
 export default connect(
     null,
     mapDispatchToProps
-)(GameInfoContainer);
+)(GameInfoCardContainer);

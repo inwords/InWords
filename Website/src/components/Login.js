@@ -1,21 +1,84 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Paper from '@material-ui/core/Paper';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
 
-function Login({ email, password, handleSubmit, handleChange }) {
+const styles = theme => ({
+    main: {
+        width: 'auto',
+        display: 'block',
+        marginLeft: theme.spacing.unit * 3,
+        marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+            width: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+    },
+    paper: {
+        marginTop: theme.spacing.unit * 8,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    },
+    form: {
+        width: '100%',
+        marginTop: theme.spacing.unit,
+    },
+    submit: {
+        marginTop: theme.spacing.unit * 3,
+    },
+});
+
+function Login({ email, password, handleSubmit, handleChange, classes }) {
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label htmlFor="inputEmail">Электронная почта</label>
-                <input type="email" className="form-control" id="inputEmail" placeholder="Введите email" required="required"
-                    value={email} onChange={handleChange("email")} />
-            </div>
-            <div className="form-group">
-                <label htmlFor="inputPassword">Пароль</label>
-                <input type="password" className="form-control" id="inputPassword" placeholder="Введите пароль" required="required"
-                    value={password} onChange={handleChange("password")} />
-            </div>
-            <button type="submit" className="btn btn-primary">Войти</button>
-        </form>
+        <main className={classes.main}>
+            <CssBaseline />
+            <Paper className={classes.paper}>
+                <Typography component="h1" variant="h5">
+                    Вход
+                </Typography>
+                <form onSubmit={handleSubmit} className={classes.form}>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="email">Email</InputLabel>
+                        <Input
+                            id="email"
+                            type="email"
+                            autoComplete="email"
+                            autoFocus
+                            value={email}
+                            onChange={handleChange('email')}
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="password">Пароль</InputLabel>
+                        <Input
+                            id="password"
+                            type="password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={handleChange('password')}
+                        />
+                    </FormControl>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Войти
+                    </Button>
+                </form>
+            </Paper>
+        </main>
     );
 }
 
@@ -24,6 +87,7 @@ Login.propTypes = {
     password: PropTypes.string.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-export default Login;
+export default withStyles(styles)(Login);
