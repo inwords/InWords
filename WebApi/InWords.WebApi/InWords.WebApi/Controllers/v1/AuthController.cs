@@ -32,7 +32,6 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [Route("token")]
-        [MapToApiVersion("2.0")]
         [HttpPost]
         public IActionResult Token([FromBody] BasicAuthClaims user)
         {
