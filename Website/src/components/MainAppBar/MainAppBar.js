@@ -3,18 +3,17 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ProgressContainer from '../../containers/MainAppBar/ProgressContainer';
 import PageTitleContainer from '../../containers/MainAppBar/PageTitleContainer';
-import LinksListContainer from '../../containers/MainAppBar/LinksListContainer';
 import ProfileMenuContainer from '../../containers/MainAppBar/ProfileMenuContainer';
+import LinksList from './LinksList';
+import DrawerHeader from './DrawerHeader';
 
 const drawerWidth = 240;
 
@@ -48,7 +47,6 @@ const styles = theme => ({
         alignItems: 'center',
         padding: '0 16px',
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-begin',
     },
     content: {
         flexGrow: 1,
@@ -61,7 +59,7 @@ const styles = theme => ({
     },
 });
 
-function MainAppBar({ classes, children }) {
+function MainAppBar({ accessToken, classes, children }) {
     const [open, setOpen] = useState(false);
 
     function handleDrawerOpen() {
@@ -74,7 +72,6 @@ function MainAppBar({ classes, children }) {
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
             <AppBar
                 position="fixed"
                 className={classes.appBar}
@@ -90,7 +87,7 @@ function MainAppBar({ classes, children }) {
                         <MenuIcon />
                     </IconButton>
                     <PageTitleContainer />
-                    <ProfileMenuContainer />
+                    {accessToken && <ProfileMenuContainer />}
                 </Toolbar>
             </AppBar>
             <Hidden lgUp implementation="css">
@@ -105,12 +102,10 @@ function MainAppBar({ classes, children }) {
                     }}
                 >
                     <div className={classes.drawerHeader}>
-                        <Typography variant="h6" color="inherit" noWrap>
-                            InWords
-                        </Typography>
+                        <DrawerHeader />
                     </div>
                     <Divider />
-                    <LinksListContainer onClick={handleDrawerClose} />
+                    <LinksList accessToken={accessToken} onClick={handleDrawerClose} />
                 </SwipeableDrawer>
             </Hidden>
             <Hidden mdDown implementation="css">
@@ -124,17 +119,13 @@ function MainAppBar({ classes, children }) {
                     }}
                 >
                     <div className={classes.drawerHeader}>
-                        <Typography variant="h6" color="inherit" noWrap>
-                            InWords
-                        </Typography>
+                        <DrawerHeader />
                     </div>
                     <Divider />
-                    <LinksListContainer />
+                    <LinksList accessToken={accessToken} />
                 </Drawer>
             </Hidden>
-            <main
-                className={classes.content}
-            >
+            <main className={classes.content}>
                 <div className={classes.drawerHeader} />
                 {children}
             </main>
@@ -143,11 +134,13 @@ function MainAppBar({ classes, children }) {
 };
 
 MainAppBar.propTypes = {
+    accessToken: PropTypes.string,
     classes: PropTypes.object.isRequired,
     children: PropTypes.node
 };
 
 MainAppBar.defaultProps = {
+    accessToken: null,
     children: null
 };
 

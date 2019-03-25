@@ -6,12 +6,7 @@ import ProfileMenu from '../../components/MainAppBar/ProfileMenu';
 
 class MainAppBarContainer extends Component {
     static propTypes = {
-        accessToken: PropTypes.string,
         logout: PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
-        accessToken: null,
     };
 
     handleLogout = () => {
@@ -19,17 +14,9 @@ class MainAppBarContainer extends Component {
     };
 
     render() {
-        const { accessToken } = this.props;
-
-        return accessToken && <ProfileMenu handleLogout={this.handleLogout} />;
+        return <ProfileMenu handleLogout={this.handleLogout} />;
     }
 }
-
-const mapStateToProps = (store) => {
-    return {
-        accessToken: store.accessToken
-    };
-};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -38,6 +25,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(MainAppBarContainer);

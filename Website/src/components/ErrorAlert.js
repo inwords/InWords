@@ -5,6 +5,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import ErrorIcon from '@material-ui/icons/Error';
 
 const styles = theme => ({
     error: {
@@ -39,6 +40,7 @@ function ErrorAlert({ errorMessage = null, handleClose, classes }) {
                 aria-describedby="client-snackbar"
                 message={
                     <span id="client-snackbar" className={classes.message}>
+                        <ErrorIcon className={classes.iconVariant} />
                         {errorMessage}
                     </span>
                 }

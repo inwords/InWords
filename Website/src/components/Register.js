@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -40,7 +39,6 @@ const styles = theme => ({
 function Register({ email, password, handleChange, handleSubmit, classes }) {
     return (
         <main className={classes.main}>
-            <CssBaseline />
             <Paper className={classes.paper}>
                 <Typography component="h1" variant="h5">
                     Регистрация

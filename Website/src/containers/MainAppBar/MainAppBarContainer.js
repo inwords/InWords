@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../../actions/UserActions';
 import MainAppBar from '../../components/MainAppBar/MainAppBar';
 
 class MainAppBarContainer extends Component {
@@ -17,20 +16,6 @@ class MainAppBarContainer extends Component {
         children: null
     };
 
-    componentDidMount() {
-        if (this.props.accessToken) {
-            this.props.receiveUserInfo();
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.accessToken !== prevProps.accessToken) {
-            if (this.props.accessToken) {
-                this.props.receiveUserInfo();
-            }
-        }
-    }
-
     render() {
         const { accessToken, location, children } = this.props;
 
@@ -41,7 +26,10 @@ class MainAppBarContainer extends Component {
         }
 
         return (
-            <MainAppBar children={children} />
+            <MainAppBar
+                accessToken={accessToken}
+                children={children}
+            />
         );
     }
 }
@@ -52,13 +40,6 @@ const mapStateToProps = (store) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        receiveUserInfo: () => dispatch(UserActions.receiveUserInfo())
-    };
-};
-
 export default withRouter(connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(MainAppBarContainer));

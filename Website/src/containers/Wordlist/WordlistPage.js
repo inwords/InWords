@@ -5,6 +5,7 @@ import { WordlistActions } from '../../actions/WordlistActions';
 import WordlistToolsWrapper from '../../components/Wordlist/WordlistToolsWrapper';
 import WordPairWrapper from '../../components/Wordlist/WordPairWrapper';
 import WordlistWrapper from '../../components/Wordlist/WordlistWrapper';
+import Wordlist from '../../components/Wordlist/Wordlist';
 import WordlistToolsContainer from './WordlistToolsContainer';
 import WordPairContainer from './WordPairContainer';
 
@@ -42,6 +43,7 @@ class WordlistPage extends Component {
                             <WordPairContainer wordPair={wordPair} />
                         </WordPairWrapper>)}
                 </WordlistWrapper>
+                {false && <Wordlist wordPairs={wordPairsRevercedCopy} />}
             </Fragment>
         );
     }

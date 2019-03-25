@@ -43,7 +43,7 @@ function ProfileMenu({ handleLogout }) {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem component={Link} to="/account" onClick={handleClose}>Профиль</MenuItem>
+                <MenuItem component={Link} to="/profile" onClick={handleClose}>Профиль</MenuItem>
                 <MenuItem component={Link} to="/settings" onClick={handleClose}>Настройки</MenuItem>
                 <Divider light />
                 <MenuItem onClick={handleLogout}>Выйти</MenuItem>

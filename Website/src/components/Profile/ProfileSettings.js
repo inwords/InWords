@@ -21,7 +21,7 @@ const styles = theme => ({
     },
 });
 
-function AccountSettings({ nickName, avatarPath, handleChange, handleSubmit, classes }) {
+function ProfileSettings({ nickName, avatarPath, handleChange, handleSubmit, classes }) {
     return (
         <Paper className={classes.paper}>
             <form onSubmit={handleSubmit} className={classes.form}>
@@ -59,7 +59,7 @@ function AccountSettings({ nickName, avatarPath, handleChange, handleSubmit, cla
     );
 }
 
-AccountSettings.propTypes = {
+ProfileSettings.propTypes = {
     nickName: PropTypes.string.isRequired,
     avatarPath: PropTypes.string.isRequired,
     handleChange: PropTypes.func.isRequired,
@@ -67,4 +67,4 @@ AccountSettings.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(AccountSettings);
+export default withStyles(styles)(ProfileSettings);

@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 function LinksList({ accessToken = null, onClick = null }) {
     return (
-        <List onClick={onClick}>
+        <List onClick={onClick} >
             {!accessToken ?
                 <Fragment>
                     <ListItem button component={Link} to="/login">
