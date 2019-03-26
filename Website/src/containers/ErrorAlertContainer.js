@@ -28,13 +28,13 @@ class ErrorAlertContainer extends Component {
     }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
         errorMessage: store.errorMessage
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         resetErrorMessage: () => dispatch(ErrorMessageActions.resetErrorMessage())
     };

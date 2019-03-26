@@ -11,70 +11,39 @@ class ProfileSettingsPage extends Component {
         receiveUserInfo: PropTypes.func.isRequired
     };
 
-    state = {
-        nickName: this.props.userInfo.nickName,
-        avatarPath: this.props.userInfo.avatarPath ? this.props.userInfo.avatarPath : ''
-    };
-
     componentDidMount() {
         this.props.receiveUserInfo();
     }
 
-    componentDidUpdate(prevProps) {
-        const { nickName, avatarPath } = this.props.userInfo;
-
-        if (nickName !== prevProps.userInfo.nickName) {
-            this.setState({
-                nickName: nickName
-            });
-        }
-
-        if (avatarPath !== prevProps.userInfo.avatarPath) {
-            this.setState({
-                avatarPath: avatarPath
-            });
-        }
-    }
-
-    handleChange = (propertyName) => (e) => {
-        this.setState({
-            [propertyName]: e.target.value
-        });
-    };
-
-    handleSubmit = (e) => {
-        this.props.changeUserInfo({
-            NickName: this.state.nickName,
-            AvatarPath: this.state.avatarPath
-        });
-
-        e.preventDefault();
+    handleSubmit = userInfo => event => {
+        this.props.changeUserInfo(userInfo);
+        event.preventDefault();
     };
 
     render() {
-        const { nickName, avatarPath } = this.state;
+        const { userId, nickName, avatarPath } = this.props.userInfo;
 
         return (
-            <ProfileSettings
-                nickName={nickName}
-                avatarPath={avatarPath}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-            />
+            userId && (
+                <ProfileSettings
+                    defaultNickName={nickName}
+                    defaultAvatarPath={avatarPath}
+                    handleSubmit={this.handleSubmit}
+                />)
         );
     }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
         userInfo: store.user.userInfo
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         receiveUserInfo: () => dispatch(UserActions.receiveUserInfo()),
-        changeUserInfo: (userInfo) => dispatch(UserActions.changeUserInfo(userInfo))
+        changeUserInfo: userInfo => dispatch(UserActions.changeUserInfo(userInfo))
     };
 };
 

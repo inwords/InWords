@@ -10,9 +10,9 @@ import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
     card: {
         maxWidth: 240,
-        marginTop: theme.spacing.unit * 4,
         marginLeft: 'auto',
         marginRight: 'auto',
+        marginTop: theme.spacing.unit * 4,
     },
     media: {
         height: 0,
@@ -36,7 +36,7 @@ function Profile({ avatarPath = null, nickName, experience, classes }) {
                     </Typography>
                     <Typography component="p">
                         {experience} опыта
-                        </Typography>
+                    </Typography>
                 </CardContent>
             </CardActionArea>
         </Card>

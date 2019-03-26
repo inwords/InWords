@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
@@ -9,11 +9,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
-    main: {
+    root: {
         width: 'auto',
         display: 'block',
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
         [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
             width: 400,
             marginLeft: 'auto',
@@ -36,14 +36,29 @@ const styles = theme => ({
     },
 });
 
-function Register({ email, password, handleChange, handleSubmit, classes }) {
+function Register({ handleSubmit, classes }) {
+    const [values, setValues] = useState({
+        email: '',
+        password: ''
+    });
+
+    const handleChange = prop => event => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+
     return (
-        <main className={classes.main}>
+        <div className={classes.root}>
             <Paper className={classes.paper}>
                 <Typography component="h1" variant="h5">
                     Регистрация
                 </Typography>
-                <form onSubmit={handleSubmit} className={classes.form}>
+                <form
+                    onSubmit={handleSubmit({
+                        Email: values.email,
+                        Password: values.password
+                    })}
+                    className={classes.form}
+                >
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
@@ -51,7 +66,7 @@ function Register({ email, password, handleChange, handleSubmit, classes }) {
                             type="email"
                             autoComplete="email"
                             autoFocus
-                            value={email}
+                            value={values.email}
                             onChange={handleChange('email')}
                         />
                     </FormControl>
@@ -61,7 +76,7 @@ function Register({ email, password, handleChange, handleSubmit, classes }) {
                             id="password"
                             type="password"
                             autoComplete="current-password"
-                            value={password}
+                            value={values.password}
                             onChange={handleChange('password')}
                         />
                     </FormControl>
@@ -76,14 +91,11 @@ function Register({ email, password, handleChange, handleSubmit, classes }) {
                     </Button>
                 </form>
             </Paper>
-        </main>
+        </div>
     );
 }
 
 Register.propTypes = {
-    email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };

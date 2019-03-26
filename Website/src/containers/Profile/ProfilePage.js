@@ -27,13 +27,13 @@ class ProfilePage extends Component {
     }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
         userInfo: store.user.userInfo
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         receiveUserInfo: () => dispatch(UserActions.receiveUserInfo())
     };

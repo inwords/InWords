@@ -16,12 +16,42 @@ class WordlistPage extends Component {
         pullWordPairs: PropTypes.func.isRequired,
     };
 
+    state = {
+        checked: []
+    };
+
     componentDidMount() {
         this.props.pullWordPairs();
     }
 
+    componentDidUpdate(prevProps) {
+        const { wordPairs } = this.props;
+
+        if (wordPairs.length < prevProps.wordPairs.length) {
+            this.setState({
+                checked: []
+            });
+        }
+    }
+
+    handleToggle = value => () => {
+        const currentIndex = this.state.checked.indexOf(value);
+        const newChecked = [...this.state.checked];
+
+        if (currentIndex === -1) {
+            newChecked.push(value);
+        } else {
+            newChecked.splice(currentIndex, 1);
+        }
+
+        this.setState({
+            checked: newChecked
+        });
+    };
+
     render() {
         const { wordPairs, searchPattern } = this.props;
+        const { checked } = this.state;
 
         let wordPairsRevercedCopy = [...wordPairs].reverse();
 
@@ -34,6 +64,12 @@ class WordlistPage extends Component {
 
         return (
             <Fragment>
+                {false && (
+                    <Wordlist
+                        wordPairs={wordPairsRevercedCopy}
+                        checked={checked}
+                        handleToggle={this.handleToggle}
+                    />)}
                 <WordlistToolsWrapper>
                     <WordlistToolsContainer />
                 </WordlistToolsWrapper>
@@ -43,20 +79,20 @@ class WordlistPage extends Component {
                             <WordPairContainer wordPair={wordPair} />
                         </WordPairWrapper>)}
                 </WordlistWrapper>
-                {false && <Wordlist wordPairs={wordPairsRevercedCopy} />}
             </Fragment>
+            /**/
         );
     }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
         wordPairs: store.wordlist.wordPairs,
         searchPattern: store.wordlist.searchPattern
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         pullWordPairs: () => dispatch(WordlistActions.pullWordPairs())
     };

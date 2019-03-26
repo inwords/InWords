@@ -3,7 +3,6 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ErrorAlertContainer from './ErrorAlertContainer';
 import MainAppBarContainer from './MainAppBar/MainAppBarContainer';
-import PageContainer from '../components/PageContainer';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './Wordlist/WordlistPage';
@@ -20,14 +19,12 @@ class App extends Component {
                     <ErrorAlertContainer />
                     <Switch>
                         <MainAppBarContainer>
-                            <PageContainer>
-                                <Route path="/login" component={LoginPage} />
-                                <Route path="/register" component={RegisterPage} />
-                                <Route path="/wordlist" component={WordlistPage} />
-                                <Route path="/game" component={GamePage} />
-                                <Route path="/profile" component={ProfilePage} />
-                                <Route path="/settings" component={ProfileSettingsPage} />
-                            </PageContainer>
+                            <Route path="/login" component={LoginPage} />
+                            <Route path="/register" component={RegisterPage} />
+                            <Route path="/wordlist" component={WordlistPage} />
+                            <Route path="/game" component={GamePage} />
+                            <Route path="/profile" component={ProfilePage} />
+                            <Route path="/settings" component={ProfileSettingsPage} />
                         </MainAppBarContainer>
                     </Switch>
                 </Fragment>

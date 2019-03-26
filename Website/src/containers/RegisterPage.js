@@ -11,54 +11,31 @@ class RegisterPage extends Component {
         register: PropTypes.func.isRequired
     };
 
-    state = {
-        email: '',
-        password: ''
-    };
-
-    handleChange = (propertyName) => (e) => {
-        this.setState({
-            [propertyName]: e.target.value
-        });
-    };
-
-    handleSubmit = (e) => {
-        this.props.register({
-            Email: this.state.email,
-            Password: this.state.password
-        });
-
-        e.preventDefault();
+    handleSubmit = userdata => event => {
+        this.props.register(userdata);
+        event.preventDefault();
     };
 
     render() {
         const { redirect } = this.props;
-        const { email, password } = this.state;
 
         if (redirect) {
             return <Redirect to="/login" />;
         }
 
-        return (
-            <Register
-                email={email}
-                password={password}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-            />
-        );
+        return <Register handleSubmit={this.handleSubmit} />;
     }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
         redirect: store.user.register.redirect
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
-        register: (userdata) => dispatch(UserActions.register(userdata))
+        register: userdata => dispatch(UserActions.register(userdata))
     };
 };
 

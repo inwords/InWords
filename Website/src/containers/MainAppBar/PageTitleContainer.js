@@ -14,7 +14,7 @@ function PageTitleContainer({ location }) {
                 return 'Словарь';
             case '/game':
                 return 'Игра';
-            case '/account':
+            case '/profile':
                 return 'Профиль';
             case '/settings':
                 return 'Настройки';

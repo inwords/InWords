@@ -8,7 +8,7 @@ const fetchingSuccess = () => ({
     type: fetchingConstants.FETHING_SUCCESS
 });
 
-const fetchingFailure = (error) => ({
+const fetchingFailure = error => ({
     type: fetchingConstants.FETHING_FAILURE,
     error: error.message
 });
