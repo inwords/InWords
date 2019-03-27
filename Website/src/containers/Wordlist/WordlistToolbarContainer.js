@@ -19,7 +19,7 @@ class WordlistToolbarContainer extends Component {
 
         return (
             <WordlistToolbar
-                delAvailable={checked.length}
+                delAvailable={!!checked.length}
                 handleDelWordPairs={this.handleDelWordPairs}
             />
         );

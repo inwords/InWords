@@ -12,8 +12,6 @@ const styles = theme => ({
     root: {
         width: 'auto',
         display: 'block',
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
         [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
             width: 400,
             marginLeft: 'auto',

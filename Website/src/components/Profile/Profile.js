@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import ProfileEdit from './ProfileEdit';
 
 const styles = theme => ({
     card: {
         maxWidth: 240,
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: theme.spacing.unit * 4,
+        marginTop: theme.spacing.unit * 2,
     },
     media: {
         height: 0,
@@ -20,7 +22,9 @@ const styles = theme => ({
     },
 });
 
-function Profile({ avatarPath = null, nickName, experience, classes }) {
+function Profile({ userInfo, classes }) {
+    const { userId, avatarPath, nickName, experience } = userInfo;
+
     return (
         <Card className={classes.card}>
             <CardActionArea>
@@ -39,14 +43,16 @@ function Profile({ avatarPath = null, nickName, experience, classes }) {
                     </Typography>
                 </CardContent>
             </CardActionArea>
+            <CardActions>
+                {userId && (
+                    <ProfileEdit userInfo={userInfo} />)}
+            </CardActions>
         </Card>
     );
 }
 
 Profile.propTypes = {
-    avatarPath: PropTypes.string,
-    nickName: PropTypes.string.isRequired,
-    experience: PropTypes.number.isRequired,
+    userInfo: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
 };
 

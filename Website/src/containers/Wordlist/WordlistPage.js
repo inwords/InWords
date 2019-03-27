@@ -2,12 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { WordlistActions } from '../../actions/WordlistActions';
-import WordlistToolsWrapper from '../../components/Wordlist/WordlistToolsWrapper';
-import WordPairWrapper from '../../components/Wordlist/WordPairWrapper';
-import WordlistWrapper from '../../components/Wordlist/WordlistWrapper';
 import Wordlist from '../../components/Wordlist/Wordlist';
-import WordlistToolsContainer from './WordlistToolsContainer';
-import WordPairContainer from './WordPairContainer';
 
 class WordlistPage extends Component {
     static propTypes = {
@@ -64,23 +59,14 @@ class WordlistPage extends Component {
 
         return (
             <Fragment>
-                {false && (
+                {true && (
                     <Wordlist
                         wordPairs={wordPairsRevercedCopy}
                         checked={checked}
                         handleToggle={this.handleToggle}
                     />)}
-                <WordlistToolsWrapper>
-                    <WordlistToolsContainer />
-                </WordlistToolsWrapper>
-                <WordlistWrapper>
-                    {wordPairsRevercedCopy.map((wordPair) =>
-                        <WordPairWrapper key={wordPair.serverId}>
-                            <WordPairContainer wordPair={wordPair} />
-                        </WordPairWrapper>)}
-                </WordlistWrapper>
+                
             </Fragment>
-            /**/
         );
     }
 }

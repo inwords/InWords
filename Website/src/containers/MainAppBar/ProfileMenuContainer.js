@@ -1,22 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserActions } from '../../actions/UserActions';
 import ProfileMenu from '../../components/MainAppBar/ProfileMenu';
 
-class MainAppBarContainer extends Component {
-    static propTypes = {
-        logout: PropTypes.func.isRequired
+function MainAppBarContainer({ logout }) {
+    const handleLogout = () => {
+        logout();
     };
 
-    handleLogout = () => {
-        this.props.logout();
-    };
-
-    render() {
-        return <ProfileMenu handleLogout={this.handleLogout} />;
-    }
+    return <ProfileMenu handleLogout={handleLogout} />;
 }
+
+MainAppBarContainer.propTypes = {
+    logout: PropTypes.func.isRequired
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {

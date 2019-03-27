@@ -18,11 +18,7 @@ class ProfilePage extends Component {
         const { userInfo } = this.props;
 
         return (
-            <Profile
-                avatarPath={userInfo.avatarPath}
-                nickName={userInfo.nickName}
-                experience={userInfo.experience}
-            />
+            <Profile userInfo={userInfo} />
         );
     }
 }

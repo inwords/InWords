@@ -1,11 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
+import WordPairAdd from './WordPairAdd';
 
 const styles = theme => ({
     button: {
@@ -14,26 +11,9 @@ const styles = theme => ({
 });
 
 function WordlistToolbar({ delAvailable, handleDelWordPairs, classes }) {
-    const [open, setOpen] = useState(false);
-
-    function handleClickOpen() {
-        setOpen(true);
-    }
-
-    function handleClose() {
-        setOpen(false);
-    }
-
     return (
         <Fragment>
-            <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={handleClickOpen}
-            >
-                Добавить
-            </Button>
+            <WordPairAdd />
             <Button
                 variant="contained"
                 color="secondary"

@@ -88,7 +88,7 @@ const addWordPair = wordPair => (dispatch, getState) => {
         });
 };
 
-const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
+const editWordPair = wordPair => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Words/DeletePair`, {
@@ -97,7 +97,7 @@ const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getState().accessToken}`
         },
-        body: JSON.stringify([pairId])
+        body: JSON.stringify([wordPair.id])
     })
         .then(response => {
             if (!response.ok) {
@@ -131,7 +131,7 @@ const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
         })
         .then(data => {
             dispatch(FetchingActions.fetchingSuccess());
-            dispatch(pairsEditLocalRefresh(pairId, configureWordPair(data, wordPair)));
+            dispatch(pairsEditLocalRefresh(wordPair.id, configureWordPair(data, wordPair)));
         })
         .catch(err => {
             console.error(err);
