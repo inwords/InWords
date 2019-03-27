@@ -30,9 +30,9 @@ const pullGamesInfo = () => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об играх')));
         });
-}
+};
 
-const pullGameInfo = (gameId) => (dispatch, getState) => {
+const pullGameInfo = gameId => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Game/${gameId}`, {
@@ -59,9 +59,9 @@ const pullGameInfo = (gameId) => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об игре')));
         });
-}
+};
 
-const pullGameLevel = (levelId) => (dispatch, getState) => {
+const pullGameLevel = levelId => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Game/Level/${levelId}`, {
@@ -88,9 +88,9 @@ const pullGameLevel = (levelId) => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки уровня')));
         });
-}
+};
 
-const addGamePack = (gamePack) => (dispatch, getState) => {
+const addGamePack = gamePack => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId;
@@ -123,19 +123,17 @@ const addGamePack = (gamePack) => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
         });
-}
+};
 
-const delGamePack = (gameId) => (dispatch, getState) => {
-    /*
+const delGamePack = gameId => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
-    fetch(`${API_ROOT}/Game/AddGamePack`, {
-        method: 'POST',
+    fetch(`${API_ROOT}/Game/Delete/${gameId}`, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getState().accessToken}`
-        },
-        body: JSON.stringify(gamePack)
+        }
     })
         .then(response => {
             if (!response.ok) {
@@ -144,24 +142,14 @@ const delGamePack = (gameId) => (dispatch, getState) => {
                 }
                 throw new Error(response.statusText);
             }
-            return response.json();
-        })
-        .then(data => {
             dispatch(FetchingActions.fetchingSuccess());
-            dispatch(gamesInfoAddLocalRefresh({
-                gameId: data.serverId,
-                isAvailable: true,
-                title: gamePack.CreationInfo.Descriptions[0].Title
-            }));
+            dispatch(gamesInfoDelLocalRefresh(gameId));
         })
         .catch(err => {
             console.error(err);
-            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления игры')));
         });
-        */
-
-    dispatch(gamesInfoDelLocalRefresh(gameId));
-}
+};
 
 function resetGameInfo() {
     return (dispatch) => {
@@ -175,22 +163,22 @@ function resetGameLevel() {
     }
 }
 
-const gamesInfoReceived = (gamesInfo) => ({
+const gamesInfoReceived = gamesInfo => ({
     type: gameConstants.GAMES_INFO_RECEIVED,
     gamesInfo: gamesInfo
 });
 
-const gamesInfoAddLocalRefresh = (gamesInfo) => ({
+const gamesInfoAddLocalRefresh = gamesInfo => ({
     type: gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH,
     gamesInfo: gamesInfo
 });
 
-const gamesInfoDelLocalRefresh = (gameId) => ({
+const gamesInfoDelLocalRefresh = gameId => ({
     type: gameConstants.GAMES_INFO_DEL_LOCAL_REFRESH,
     gameId: gameId
 });
 
-const gameInfoReceived = (gameInfo) => ({
+const gameInfoReceived = gameInfo => ({
     type: gameConstants.GAME_INFO_RECEIVED,
     gameInfo: gameInfo
 });
@@ -199,7 +187,7 @@ const gameInfoReset = () => ({
     type: gameConstants.GAME_INFO_RESET
 });
 
-const gameLevelReceived = (gameLevel) => ({
+const gameLevelReceived = gameLevel => ({
     type: gameConstants.GAME_LEVEL_RECEIVED,
     gameLevel: gameLevel
 });

@@ -2,11 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { WordlistActions } from '../../actions/WordlistActions';
-import WordlistToolsWrapper from '../../components/Wordlist/WordlistToolsWrapper';
-import WordPairWrapper from '../../components/Wordlist/WordPairWrapper';
-import WordlistWrapper from '../../components/Wordlist/WordlistWrapper';
-import WordlistToolsContainer from './WordlistToolsContainer';
-import WordPairContainer from './WordPairContainer';
+import Wordlist from '../../components/Wordlist/Wordlist';
 
 class WordlistPage extends Component {
     static propTypes = {
@@ -15,12 +11,42 @@ class WordlistPage extends Component {
         pullWordPairs: PropTypes.func.isRequired,
     };
 
+    state = {
+        checked: []
+    };
+
     componentDidMount() {
         this.props.pullWordPairs();
     }
 
+    componentDidUpdate(prevProps) {
+        const { wordPairs } = this.props;
+
+        if (wordPairs.length < prevProps.wordPairs.length) {
+            this.setState({
+                checked: []
+            });
+        }
+    }
+
+    handleToggle = value => () => {
+        const currentIndex = this.state.checked.indexOf(value);
+        const newChecked = [...this.state.checked];
+
+        if (currentIndex === -1) {
+            newChecked.push(value);
+        } else {
+            newChecked.splice(currentIndex, 1);
+        }
+
+        this.setState({
+            checked: newChecked
+        });
+    };
+
     render() {
         const { wordPairs, searchPattern } = this.props;
+        const { checked } = this.state;
 
         let wordPairsRevercedCopy = [...wordPairs].reverse();
 
@@ -33,28 +59,26 @@ class WordlistPage extends Component {
 
         return (
             <Fragment>
-                <WordlistToolsWrapper>
-                    <WordlistToolsContainer />
-                </WordlistToolsWrapper>
-                <WordlistWrapper>
-                    {wordPairsRevercedCopy.map((wordPair) =>
-                        <WordPairWrapper key={wordPair.serverId}>
-                            <WordPairContainer wordPair={wordPair} />
-                        </WordPairWrapper>)}
-                </WordlistWrapper>
+                {true && (
+                    <Wordlist
+                        wordPairs={wordPairsRevercedCopy}
+                        checked={checked}
+                        handleToggle={this.handleToggle}
+                    />)}
+                
             </Fragment>
         );
     }
 }
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
         wordPairs: store.wordlist.wordPairs,
         searchPattern: store.wordlist.searchPattern
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         pullWordPairs: () => dispatch(WordlistActions.pullWordPairs())
     };

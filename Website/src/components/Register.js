@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -10,11 +9,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
-    main: {
+    root: {
         width: 'auto',
         display: 'block',
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
         [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
             width: 400,
             marginLeft: 'auto',
@@ -37,23 +34,37 @@ const styles = theme => ({
     },
 });
 
-function Register({ email, password, handleSubmit, handleChange, classes }) {
+function Register({ handleSubmit, classes }) {
+    const [values, setValues] = useState({
+        email: '',
+        password: ''
+    });
+
+    const handleChange = prop => event => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+
     return (
-        <main className={classes.main}>
-            <CssBaseline />
+        <div className={classes.root}>
             <Paper className={classes.paper}>
                 <Typography component="h1" variant="h5">
                     Регистрация
                 </Typography>
-                <form onSubmit={handleSubmit} className={classes.form}>
-                <FormControl margin="normal" required fullWidth>
+                <form
+                    onSubmit={handleSubmit({
+                        Email: values.email,
+                        Password: values.password
+                    })}
+                    className={classes.form}
+                >
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
                             id="email"
                             type="email"
                             autoComplete="email"
                             autoFocus
-                            value={email}
+                            value={values.email}
                             onChange={handleChange('email')}
                         />
                     </FormControl>
@@ -63,7 +74,7 @@ function Register({ email, password, handleSubmit, handleChange, classes }) {
                             id="password"
                             type="password"
                             autoComplete="current-password"
-                            value={password}
+                            value={values.password}
                             onChange={handleChange('password')}
                         />
                     </FormControl>
@@ -78,14 +89,11 @@ function Register({ email, password, handleSubmit, handleChange, classes }) {
                     </Button>
                 </form>
             </Paper>
-        </main>
+        </div>
     );
 }
 
 Register.propTypes = {
-    email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };

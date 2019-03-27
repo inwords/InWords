@@ -1,64 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserActions } from '../actions/UserActions';
 import Login from '../components/Login';
 
-class LoginPage extends Component {
-    static propTypes = {
-        redirect: PropTypes.bool.isRequired,
-        login: PropTypes.func.isRequired
+function LoginPage({ redirect, login }) {
+    const handleSubmit = userdata => event => {
+        login(userdata);
+        event.preventDefault();
     };
 
-    state = {
-        email: '',
-        password: ''
-    };
-
-    handleChange = (propertyName) => (e) => {
-        this.setState({
-            [propertyName]: e.target.value
-        });
-    };
-
-    handleSubmit = (e) => {
-        this.props.login({
-            Email: this.state.email,
-            Password: this.state.password
-        });
-
-        e.preventDefault();
-    };
-
-    render() {
-        const { redirect } = this.props;
-        const { email, password } = this.state;
-
-        if (redirect) {
-            return <Redirect to="/wordlist" />;
-        }
-
-        return (
-            <Login
-                email={email}
-                password={password}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-            />
-        );
+    if (redirect) {
+        return <Redirect to="/wordlist" />;
     }
+
+    return <Login handleSubmit={handleSubmit} />;
 }
 
-const mapStateToProps = (store) => {
+LoginPage.propTypes = {
+    redirect: PropTypes.bool.isRequired,
+    login: PropTypes.func.isRequired
+};
+
+const mapStateToProps = store => {
     return {
         redirect: store.user.login.redirect
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
-        login: (userdata) => dispatch(UserActions.login(userdata))
+        login: userdata => dispatch(UserActions.login(userdata))
     };
 };
 

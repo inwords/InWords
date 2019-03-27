@@ -31,9 +31,9 @@ const pullWordPairs = () => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки словаря')));
         });
-}
+};
 
-const deleteWordPair = (pairId) => (dispatch, getState) => {
+const deleteWordPairs = pairIds => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Words/DeletePair`, {
@@ -42,7 +42,7 @@ const deleteWordPair = (pairId) => (dispatch, getState) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getState().accessToken}`
         },
-        body: JSON.stringify([pairId])
+        body: JSON.stringify(pairIds)
     })
         .then(response => {
             if (response.status === 401) {
@@ -50,15 +50,15 @@ const deleteWordPair = (pairId) => (dispatch, getState) => {
             }
 
             dispatch(FetchingActions.fetchingSuccess());
-            dispatch(pairsDelLocalRefresh(pairId));
+            dispatch(pairsDelLocalRefresh(pairIds));
         })
         .catch(err => {
             console.error(err);
-            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления слова')));
+            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления слов')));
         });
-}
+};
 
-const addWordPair = (wordPair) => (dispatch, getState) => {
+const addWordPair = wordPair => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Words/AddPair`, {
@@ -86,9 +86,9 @@ const addWordPair = (wordPair) => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления слова')));
         });
-}
+};
 
-const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
+const editWordPair = wordPair => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Words/DeletePair`, {
@@ -97,7 +97,7 @@ const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getState().accessToken}`
         },
-        body: JSON.stringify([pairId])
+        body: JSON.stringify([wordPair.id])
     })
         .then(response => {
             if (!response.ok) {
@@ -131,29 +131,29 @@ const editWordPair = (pairId, wordPair) => (dispatch, getState) => {
         })
         .then(data => {
             dispatch(FetchingActions.fetchingSuccess());
-            dispatch(pairsEditLocalRefresh(pairId, configureWordPair(data, wordPair)));
+            dispatch(pairsEditLocalRefresh(wordPair.id, configureWordPair(data, wordPair)));
         })
         .catch(err => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка редактирования слова')));
         });
-}
+};
 
-const findWordPairs = (pattern) => (dispatch) => {
+const findWordPairs = pattern => dispatch => {
     dispatch(pairsSearchPatternChange(pattern))
-}
+};
 
-const pairsPullLocalRefresh = (wordPairs) => ({
+const pairsPullLocalRefresh = wordPairs => ({
     type: wordlistConstants.PAIRS_PULL_LOCAL_REFRESH,
     wordPairs: wordPairs
 });
 
-const pairsDelLocalRefresh = (pairId) => ({
+const pairsDelLocalRefresh = pairIds => ({
     type: wordlistConstants.PAIRS_DEL_LOCAL_REFRESH,
-    pairId: pairId
+    pairIds: pairIds
 });
 
-const pairsAddLocalRefresh = (wordPair) => ({
+const pairsAddLocalRefresh = wordPair => ({
     type: wordlistConstants.PAIRS_ADD_LOCAL_REFRESH,
     wordPair: wordPair
 });
@@ -164,7 +164,7 @@ const pairsEditLocalRefresh = (pairId, wordPair) => ({
     wordPair: wordPair
 });
 
-const pairsSearchPatternChange = (pattern) => ({
+const pairsSearchPatternChange = pattern => ({
     type: wordlistConstants.PAIRS_SEARCH_PATTERN_CHANGE,
     pattern: pattern
 });
@@ -177,7 +177,7 @@ const configureWordPair = (serverData, localWordPair) => ({
 
 export const WordlistActions = {
     pullWordPairs,
-    deleteWordPair,
+    deleteWordPairs,
     addWordPair,
     editWordPair,
     findWordPairs

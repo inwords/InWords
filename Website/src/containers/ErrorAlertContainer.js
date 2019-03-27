@@ -1,40 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ErrorMessageActions } from '../actions/ErrorMessageActions';
 import ErrorAlert from '../components/ErrorAlert';
 
-class ErrorAlertContainer extends Component {
-    static propTypes = {
-        errorMessage: PropTypes.string,
-        resetErrorMessage: PropTypes.func.isRequired
+function ErrorAlertContainer(props) {
+    const { resetErrorMessage, ...rest } = props;
+
+    const handleClose = () => {
+        resetErrorMessage();
     };
 
-    static defaultProps = {
-        errorMessage: null
-    };
-
-    handleClose = () => {
-        this.props.resetErrorMessage();
-    };
-
-    render() {
-        return (
-            <ErrorAlert
-                {...this.props}
-                handleClose={this.handleClose}
-            />
-        );
-    }
+    return (
+        <ErrorAlert
+            {...rest}
+            handleClose={handleClose}
+        />
+    );
 }
 
-const mapStateToProps = (store) => {
+ErrorAlertContainer.propTypes = {
+    errorMessage: PropTypes.string,
+    resetErrorMessage: PropTypes.func.isRequired
+};
+
+const mapStateToProps = store => {
     return {
         errorMessage: store.errorMessage
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         resetErrorMessage: () => dispatch(ErrorMessageActions.resetErrorMessage())
     };

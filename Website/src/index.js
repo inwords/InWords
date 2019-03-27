@@ -10,6 +10,7 @@ import App from './containers/App';
 
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './index.scss';
+require('typeface-roboto');
 
 const theme = createMuiTheme({
     palette: {

@@ -15,7 +15,6 @@ class GameInfoCardContainer extends Component {
     };
 
     handleDelGamePack = () => {
-        alert("На сервере не реализовано, поэтому пока только локально");
         this.props.delGamePack(this.props.gameInfo.gameId);
     };
 

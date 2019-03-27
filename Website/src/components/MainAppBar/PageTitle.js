@@ -9,20 +9,16 @@ const styles = {
     },
 };
 
-function PageTitle({ location, classes }) {
+function PageTitle({ title, classes }) {
     return (
         <Typography variant="h6" color="inherit" className={classes.grow}>
-            {location.pathname === '/login' ? 'Вход' :
-                location.pathname === '/register' ? 'Регистрация' :
-                    location.pathname === '/wordlist' ? 'Словарь' :
-                        location.pathname === '/game' ? 'Игра' :
-                            location.pathname === '/account' ? 'Профиль' : ''}
+            {title}
         </Typography>
     );
 };
 
 PageTitle.propTypes = {
-    location: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired
 };
 

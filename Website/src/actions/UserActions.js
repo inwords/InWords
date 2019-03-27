@@ -3,7 +3,7 @@ import { FetchingActions } from './FetchingActions';
 import { AccessActions } from './AccessActions';
 import { userConstants } from '../constants/userConstants';
 
-const login = (userdata) => (dispatch) => {
+const login = userdata => dispatch => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Auth/Token`, {
@@ -30,9 +30,9 @@ const login = (userdata) => (dispatch) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка авторизации')));
         });
-}
+};
 
-const register = (userdata) => (dispatch) => {
+const register = userdata => dispatch => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Auth/Registration`, {
@@ -55,11 +55,11 @@ const register = (userdata) => (dispatch) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка регистрации')));
         });
-}
+};
 
-const logout = () => (dispatch) => {
+const logout = () => dispatch => {
     dispatch(AccessActions.accessDenied());
-}
+};
 
 const receiveUserInfo = () => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
@@ -88,9 +88,9 @@ const receiveUserInfo = () => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки профиля')));
         });
-}
+};
 
-const changeUserInfo = (userInfo) => (dispatch, getState) => {
+const changeUserInfo = userInfo => (dispatch, getState) => {
     dispatch(FetchingActions.fetchingRequest());
 
     fetch(`${API_ROOT}/Users`, {
@@ -116,7 +116,7 @@ const changeUserInfo = (userInfo) => (dispatch, getState) => {
             console.error(err);
             dispatch(FetchingActions.fetchingFailure(new Error('Ошибка обновления профиля')));
         });
-}
+};
 
 const loginRedirect = () => ({
     type: userConstants.LOGIN_REDIRECT
@@ -134,12 +134,12 @@ const registerRedirected = () => ({
     type: userConstants.REGISTER_REDIRECTED
 });
 
-const userInfoReceived = (userInfo) => ({
+const userInfoReceived = userInfo => ({
     type: userConstants.USER_INFO_RECEIVED,
     userInfo: userInfo
 });
 
-const userInfoChanged = (userInfo) => ({
+const userInfoChanged = userInfo => ({
     type: userConstants.USER_INFO_CHANGED,
     userInfo: userInfo
 });

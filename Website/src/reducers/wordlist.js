@@ -6,7 +6,7 @@ const wordPairs = (state = [], action) => {
         case wordlistConstants.PAIRS_PULL_LOCAL_REFRESH:
             return action.wordPairs;
         case wordlistConstants.PAIRS_DEL_LOCAL_REFRESH:
-            return state.filter((pair) => pair.serverId !== action.pairId);
+            return state.filter((pair) => !~action.pairIds.indexOf(pair.serverId));
         case wordlistConstants.PAIRS_ADD_LOCAL_REFRESH:
             if (state.find((wordPair) => wordPair.serverId === action.wordPair.serverId)) {
                 return state;
