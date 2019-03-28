@@ -31,7 +31,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         compositeDisposable.add(viewModel.navigateToGameLevel
                 .subscribe(::navigateToGameLevel))
 
-        compositeDisposable.add(viewModel.screenInfoStream(6)
+        compositeDisposable.add(viewModel.screenInfoStream(43)
                 .map { it.game.gameLevelInfos }
                 .observeOn(SchedulersFacade.ui())
                 .subscribe(::renderGameLevelsInfo) {
@@ -68,8 +68,8 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
 
                 setBackgroundColor(coloringUtil.getColorForGameLevelInfo(gameLevelInfo.available))
 
-                addStars(stars, gameLevelInfo.playerStars, Color.YELLOW)
-                addStars(stars, 3 - gameLevelInfo.playerStars, Color.GRAY) //TODO hardcoded 3
+                addStars(stars, 2+ gameLevelInfo.playerStars, Color.YELLOW)
+                addStars(stars, -2+ 3 - gameLevelInfo.playerStars, Color.GRAY) //TODO hardcoded 3
 
                 setOnClickListener { viewModel.onGameLevelSelected(gameLevelInfo) }
                 levelsGrid.addView(this)
@@ -78,7 +78,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
     }
 
     private fun addStars(stars: ViewGroup, count: Int, @ColorInt color: Int) {
-        val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16.0f, resources.displayMetrics).toInt()
+        val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20.0f, resources.displayMetrics).toInt()
 
         for (i: Int in 1..count) {
             stars.addView(View(context).apply {
