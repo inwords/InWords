@@ -8,9 +8,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { store } from './store/configureStore';
 import App from './containers/App';
 
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import './index.scss';
-require('typeface-roboto');
+import 'typeface-roboto';
 
 const theme = createMuiTheme({
     palette: {

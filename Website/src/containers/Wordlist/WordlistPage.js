@@ -65,7 +65,7 @@ class WordlistPage extends Component {
                         checked={checked}
                         handleToggle={this.handleToggle}
                     />)}
-                
+
             </Fragment>
         );
     }

@@ -1,28 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { WordlistActions } from '../../actions/WordlistActions';
 import WordPairEditDialog from '../../components/Wordlist/WordPairEditDialog';
 
-function WordPairAddDialogContainer(props) {
-    const { addWordPair, ...rest } = props;
+class WordPairAddDialogContainer extends Component {
+    static propTypes = {
+        open: PropTypes.bool.isRequired,
+        addWordPair: PropTypes.func.isRequired
+    };
 
-    const handleSubmit = wordPair => event => {
-        addWordPair(wordPair);
+    state = {
+        wordForeign: '',
+        wordNative: ''
+    };
+
+    componentDidUpdate(prevProps) {
+        if (this.props.open !== prevProps.open) {
+            if (this.props.open) {
+                this.setState({
+                    wordForeign: '',
+                    wordNative: ''
+                });
+            }
+        }
+    }
+
+    handleChange = prop => event => {
+        this.setState({ [prop]: event.target.value });
+    };
+
+    handleSubmit = event => {
+        if (this.state.wordForeign && this.state.wordNative) {
+            this.props.addWordPair({
+                WordForeign: this.state.wordForeign,
+                WordNative: this.state.wordNative
+            });
+        }
+
         event.preventDefault();
     };
 
-    return (
-        <WordPairEditDialog
-            {...rest}
-            handleSubmit={handleSubmit}
-        />
-    );
-}
+    render() {
+        const { open, handleClose } = this.props;
 
-WordPairAddDialogContainer.propTypes = {
-    addWordPair: PropTypes.func.isRequired
-};
+        return (
+            <WordPairEditDialog
+                values={this.state}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+                open={open}
+                handleClose={handleClose}
+            />
+        );
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {

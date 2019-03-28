@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Slide from '@material-ui/core/Slide';
@@ -29,16 +29,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-function ProfileEditDialog({ userInfo, open, handleClose, handleSubmit, classes }) {
-    const [values, setValues] = useState({
-        nickName: userInfo.nickName,
-        avatarPath: userInfo.avatarPath ? userInfo.avatarPath : ''
-    });
-
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
+function ProfileEditDialog({ values, handleChange, handleSubmit, open, handleClose, classes }) {
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
@@ -57,10 +48,7 @@ function ProfileEditDialog({ userInfo, open, handleClose, handleSubmit, classes 
             <main className={classes.content}>
                 <form
                 id="form"
-                onSubmit={handleSubmit({
-                    NickName: values.nickName,
-                    AvatarPath: values.avatarPath
-                })}>
+                onSubmit={handleSubmit}>
                     <TextField
                         required
                         id="nickName"
@@ -87,10 +75,11 @@ function ProfileEditDialog({ userInfo, open, handleClose, handleSubmit, classes 
 }
 
 ProfileEditDialog.propTypes = {
-    userInfo: PropTypes.object.isRequired,
+    values: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 

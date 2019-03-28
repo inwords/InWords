@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,8 +6,20 @@ import { UserActions } from '../actions/UserActions';
 import Login from '../components/Login';
 
 function LoginPage({ redirect, login }) {
-    const handleSubmit = userdata => event => {
-        login(userdata);
+    const [values, setValues] = useState({
+        email: '',
+        password: ''
+    });
+
+    const handleChange = prop => event => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+
+    const handleSubmit = event => {
+        login({
+            Email: values.email,
+            Password: values.password
+        });
         event.preventDefault();
     };
 
@@ -15,7 +27,11 @@ function LoginPage({ redirect, login }) {
         return <Redirect to="/wordlist" />;
     }
 
-    return <Login handleSubmit={handleSubmit} />;
+    return <Login
+        values={values}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+    />;
 }
 
 LoginPage.propTypes = {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Slide from '@material-ui/core/Slide';
@@ -29,16 +29,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-function WordPairEditDialog({ wordPair = { serverId: 0, wordForeign: '', wordNative: '' }, open, handleClose, handleSubmit, classes }) {
-    const [values, setValues] = useState({
-        wordForeign: wordPair.wordForeign,
-        wordNative: wordPair.wordNative
-    });
-
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
+function WordPairEditDialog({ values, handleChange, handleSubmit, open, handleClose, classes }) {
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
@@ -55,15 +46,8 @@ function WordPairEditDialog({ wordPair = { serverId: 0, wordForeign: '', wordNat
                 </Toolbar>
             </AppBar>
             <main className={classes.content}>
-                <form
-                    id="form"
-                    onSubmit={handleSubmit({
-                        id: wordPair.serverId,
-                        WordForeign: values.wordForeign,
-                        WordNative: values.wordNative
-                    })}>
+                <form id="form" onSubmit={handleSubmit}>
                     <TextField
-                        required
                         id="wordForeign"
                         label="Слово или фраза"
                         fullWidth
@@ -88,10 +72,11 @@ function WordPairEditDialog({ wordPair = { serverId: 0, wordForeign: '', wordNat
 }
 
 WordPairEditDialog.propTypes = {
-    wordPair: PropTypes.object,
+    values: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 

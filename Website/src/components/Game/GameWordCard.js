@@ -12,7 +12,7 @@ function GameWordCard({ wordId, pairId, word, selected, successful, successfulSe
                     <div className="word-card-table-cell rounded bg-primary text-white">
                         {(selected || successful) &&
                             <h5 className={successfulSelected ? "text-secondary" : ""}>
-                                {word.lengt <= 10 ? word : word.match(/.{1,10}/g).join('\n')}
+                                {word.lengt <= 10 ? word : word.match(/.{1,10}/g).join('-\n')}
                             </h5>}
                     </div>
                 </div>

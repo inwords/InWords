@@ -10,6 +10,9 @@ import GameLevelsField from '../../components/Game/GameLevelsField';
 import GameWordsFieldContainer from './GameWordsFieldContainer';
 import GamePackAdding from './GamePackAddingContainer';
 
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import '../../index.scss';
+
 class GamePage extends Component {
     static propTypes = {
         gamesInfo: PropTypes.array.isRequired,
