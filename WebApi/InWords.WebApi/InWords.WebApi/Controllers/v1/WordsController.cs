@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1
 {
+    /// <inheritdoc />
+    /// <summary>
+    ///     This is to CRUD words
+    /// </summary>
     [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
@@ -17,6 +21,10 @@ namespace InWords.WebApi.Controllers.v1
     {
         private readonly WordsService wordsService;
 
+        /// <summary>
+        /// Standard injected constructor
+        /// </summary>
+        /// <param name="context"></param>
         public WordsController(InWordsDataContext context)
         {
             wordsService = new WordsService(context);
@@ -47,9 +55,9 @@ namespace InWords.WebApi.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {
-            int authorizedID = User.Claims.GetUserId();
+            int authorizedId = User.Claims.GetUserId();
 
-            int pairDeleted = await wordsService.DeleteUserWordPair(authorizedID, server_IDs);
+            int pairDeleted = await wordsService.DeleteUserWordPair(authorizedId, server_IDs);
 
             return Ok(pairDeleted);
         }

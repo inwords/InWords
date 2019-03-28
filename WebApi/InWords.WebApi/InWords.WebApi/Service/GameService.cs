@@ -47,34 +47,32 @@ namespace InWords.WebApi.Service
 
             // Loading behind the scenes, the level will be processed on the server
             // Does not affect user experience
-            await Task.Run(async () =>
+
+            // Add levels
+            foreach (LevelPack levelPack in gamePack.LevelPacks)
             {
-                // Add levels
-                foreach (LevelPack levelPack in gamePack.LevelPacks)
+                var gameLevel = new GameLevel
                 {
-                    var gameLevel = new GameLevel
+                    GameBoxId = gameBox.GameBoxId,
+                    Level = levelPack.Level
+                };
+                gameLevel = await gameLevelRepository.Create(gameLevel);
+
+                //add words
+
+                foreach (WordTranslation pair in levelPack.WordTranslations)
+                {
+                    WordPair wordPair = await wordsService.AddPair(pair);
+
+                    var gameLevelWord = new GameLevelWord
                     {
-                        GameBoxId = gameBox.GameBoxId,
-                        Level = levelPack.Level
+                        GameLevelId = gameLevel.GameLevelId,
+                        WordPairId = wordPair.WordPairId
                     };
-                    gameLevel = await gameLevelRepository.Create(gameLevel);
 
-                    //add words
-
-                    foreach (WordTranslation pair in levelPack.WordTranslations)
-                    {
-                        WordPair wordPair = await wordsService.AddPair(pair);
-
-                        var gameLevelWord = new GameLevelWord
-                        {
-                            GameLevelId = gameLevel.GameLevelId,
-                            WordPairId = wordPair.WordPairId
-                        };
-
-                        await gameLevelWordRepository.Create(gameLevelWord);
-                    }
+                    await gameLevelWordRepository.Create(gameLevelWord);
                 }
-            });
+            }
 
             var answer = new SyncBase(gameBox.GameBoxId);
 
@@ -125,7 +123,9 @@ namespace InWords.WebApi.Service
             // find the creator of the game
             CreationInfo creation = await GetCreationInfo(gameBox.CreationId);
 
-            User userCreator = await usersRepository.FindById(creation.CreatorId);
+            if (creation.CreatorId == null) throw new ArgumentNullException();
+
+            User userCreator = await usersRepository.FindById((int)creation.CreatorId);
 
             // find all game levels 
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
@@ -147,6 +147,7 @@ namespace InWords.WebApi.Service
             };
 
             return game;
+
         }
 
         /// <summary>

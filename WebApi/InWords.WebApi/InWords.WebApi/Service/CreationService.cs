@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models;
@@ -44,9 +45,11 @@ namespace InWords.WebApi.Service
         /// <returns></returns>
         protected async Task<int> AddCreation(CreationInfo creationInfo)
         {
+            if (creationInfo.CreatorId == null) throw new ArgumentNullException();
+
             var creation = new Creation
             {
-                CreatorId = creationInfo.CreatorId
+                CreatorId = (int)creationInfo.CreatorId
             };
 
             creation = await CreationRepository.Create(creation);
