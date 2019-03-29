@@ -7,7 +7,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import WordlistToolbarContainer from '../../containers/Wordlist/WordlistToolbarContainer';
-import WordPairEdit from './WordPairEdit';
+import WordPairEditContainer from '../../containers/Wordlist/WordPairEditContainer';
 
 const styles = theme => ({
     list: {
@@ -27,7 +27,7 @@ function Wordlist({ wordPairs, checked, handleToggle, classes }) {
                         <Checkbox checked={checked.indexOf(wordPair.serverId) !== -1} tabIndex={-1} disableRipple />
                         <ListItemText primary={wordPair.wordForeign} secondary={wordPair.wordNative} />
                         <ListItemSecondaryAction>
-                            <WordPairEdit wordPair={wordPair}/>
+                            <WordPairEditContainer wordPair={wordPair}/>
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}

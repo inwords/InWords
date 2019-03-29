@@ -27,11 +27,13 @@ function LoginPage({ redirect, login }) {
         return <Redirect to="/wordlist" />;
     }
 
-    return <Login
-        values={values}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-    />;
+    return (
+        <Login
+            values={values}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+        />
+    );
 }
 
 LoginPage.propTypes = {

@@ -29,7 +29,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-function WordPairEditDialog({ values, handleChange, handleSubmit, open, handleClose, classes }) {
+function WordPairEditDialog({ open, handleClose, values, handleChange, handleSubmit, classes }) {
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
@@ -40,7 +40,7 @@ function WordPairEditDialog({ values, handleChange, handleSubmit, open, handleCl
                     <Typography variant="h6" color="inherit" className={classes.flex}>
                         Редактирование
                     </Typography>
-                    <Button type="submit" form="form" color="inherit" onClick={handleClose}>
+                    <Button type="submit" form="form" color="inherit">
                         Сохранить
                     </Button>
                 </Toolbar>
@@ -48,6 +48,7 @@ function WordPairEditDialog({ values, handleChange, handleSubmit, open, handleCl
             <main className={classes.content}>
                 <form id="form" onSubmit={handleSubmit}>
                     <TextField
+                        required
                         id="wordForeign"
                         label="Слово или фраза"
                         fullWidth
@@ -57,6 +58,7 @@ function WordPairEditDialog({ values, handleChange, handleSubmit, open, handleCl
                         variant="outlined"
                     />
                     <TextField
+                        required
                         id="wordNative"
                         label="Перевод"
                         fullWidth
@@ -72,11 +74,11 @@ function WordPairEditDialog({ values, handleChange, handleSubmit, open, handleCl
 }
 
 WordPairEditDialog.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
-    handleClose: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 

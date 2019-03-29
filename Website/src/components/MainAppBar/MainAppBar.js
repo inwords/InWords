@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -58,17 +58,7 @@ const styles = theme => ({
     },
 });
 
-function MainAppBar({ accessToken, classes, children }) {
-    const [open, setOpen] = useState(false);
-
-    function handleDrawerOpen() {
-        setOpen(true);
-    }
-
-    function handleDrawerClose() {
-        setOpen(false);
-    }
-
+function MainAppBar({ accessToken = null, open, handleDrawerOpen, handleDrawerClose, classes, children = null }) {
     return (
         <div className={classes.root}>
             <AppBar
@@ -134,13 +124,11 @@ function MainAppBar({ accessToken, classes, children }) {
 
 MainAppBar.propTypes = {
     accessToken: PropTypes.string,
+    open: PropTypes.bool.isRequired,
+    handleDrawerOpen: PropTypes.func.isRequired,
+    handleDrawerClose: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     children: PropTypes.node
-};
-
-MainAppBar.defaultProps = {
-    accessToken: null,
-    children: null
 };
 
 export default withStyles(styles)(MainAppBar);

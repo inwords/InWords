@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import GameWordCard from './GameWordCard';
 
-const cardDimension = 140;
 const cardsSpacing = 16;
+const cardDimension = 140;
 
 const styles = theme => ({
     gridTwoColumns: {
@@ -53,37 +52,26 @@ function GameWordsField({ randomWords, selectedWordsInfo, successfulPairIds, suc
     const maxColumnsNum = Math.ceil(Math.sqrt(randomWords.length));
 
     return (
-        <div>
-            {/*randomWords.map((randomWord, index) =>
-            <GameWordCard
-                key={index}
-                wordId={index}
-                {...randomWord}
-                selected={!!selectedWordsInfo.find((selectedWordInfo) => selectedWordInfo.wordId === index)}
-                successful={!!~successfulPairIds.indexOf(randomWord.pairId)}
-                successfulSelected={successfulSelectedPairId === randomWord.pairId}
-                handleClick={handleClick}
-            />)*/}
-            <Grid
-                container
-                className={
-                    maxColumnsNum <= 2 ? classes.gridTwoColumns :
-                        maxColumnsNum === 3 ? classes.gridThreeColumns :
-                            classes.gridFourColumns}
-            >
-                <Grid container className={classes.demo} justify="center" spacing={cardsSpacing}>
-                    {randomWords.map((randomWord, index) => (
-                        <Grid key={index} item>
-                            <Paper className={classes.paper}>
-                                <Typography variant="h6" align="center" className={classes.text}>
-                                    {randomWord.word}
-                                </Typography>
-                            </Paper>
-                        </Grid>
-                    ))}
-                </Grid>
+        <Grid
+            container
+            className={
+                maxColumnsNum <= 2 ? classes.gridTwoColumns :
+                    maxColumnsNum === 3 ? classes.gridThreeColumns :
+                        classes.gridFourColumns}
+        >
+            <Grid container className={classes.demo} justify="center" spacing={cardsSpacing}>
+                {randomWords.map((randomWord, index) => (
+                    <Grid key={index} item onClick={handleClick(randomWord.pairId, index)}>
+                        <GameWordCard
+                            word={randomWord.word}
+                            selected={!!selectedWordsInfo.find((selectedWordInfo) => selectedWordInfo.wordId === index)}
+                            successful={!!~successfulPairIds.indexOf(randomWord.pairId)}
+                            successfulSelected={successfulSelectedPairId === randomWord.pairId}
+                        />
+                    </Grid>
+                ))}
             </Grid>
-        </div>
+        </Grid>
     );
 }
 

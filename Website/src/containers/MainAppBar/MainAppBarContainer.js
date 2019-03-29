@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import MainAppBar from '../../components/MainAppBar/MainAppBar';
 
 function MainAppBarContainer({ accessToken = null, location, children }) {
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const  handleDrawerClose = () => {
+        setOpen(false);
+    };
+
     if (!accessToken && location.pathname !== '/login' && location.pathname !== '/register') {
         return <Redirect to='/login' />;
     } else if (accessToken && location.pathname === '/') {
@@ -14,6 +24,9 @@ function MainAppBarContainer({ accessToken = null, location, children }) {
     return (
         <MainAppBar
             accessToken={accessToken}
+            open={open}
+            handleDrawerOpen={handleDrawerOpen}
+            handleDrawerClose={handleDrawerClose}
             children={children}
         />
     );

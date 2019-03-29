@@ -29,7 +29,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-function ProfileEditDialog({ values, handleChange, handleSubmit, open, handleClose, classes }) {
+function ProfileEditDialog({ open, handleClose, values, handleChange, handleSubmit, classes }) {
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
@@ -40,15 +40,13 @@ function ProfileEditDialog({ values, handleChange, handleSubmit, open, handleClo
                     <Typography variant="h6" color="inherit" className={classes.flex}>
                         Редактирование
                     </Typography>
-                    <Button type="submit" form="form" color="inherit" onClick={handleClose}>
+                    <Button type="submit" form="form" color="inherit">
                         Сохранить
                     </Button>
                 </Toolbar>
             </AppBar>
             <main className={classes.content}>
-                <form
-                id="form"
-                onSubmit={handleSubmit}>
+                <form id="form" onSubmit={handleSubmit}>
                     <TextField
                         required
                         id="nickName"
@@ -75,11 +73,11 @@ function ProfileEditDialog({ values, handleChange, handleSubmit, open, handleClo
 }
 
 ProfileEditDialog.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
     values: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
-    handleClose: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 

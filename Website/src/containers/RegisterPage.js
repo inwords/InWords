@@ -24,14 +24,16 @@ function RegisterPage({ redirect, register }) {
     };
 
     if (redirect) {
-        return <Redirect to="/wordlist" />;
+        return <Redirect to="/login" />;
     }
 
-    return <Register
-        values={values}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-    />;
+    return (
+        <Register
+            values={values}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+        />
+    );
 }
 
 RegisterPage.propTypes = {

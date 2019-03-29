@@ -139,10 +139,6 @@ const editWordPair = wordPair => (dispatch, getState) => {
         });
 };
 
-const findWordPairs = pattern => dispatch => {
-    dispatch(pairsSearchPatternChange(pattern))
-};
-
 const pairsPullLocalRefresh = wordPairs => ({
     type: wordlistConstants.PAIRS_PULL_LOCAL_REFRESH,
     wordPairs: wordPairs
@@ -164,11 +160,6 @@ const pairsEditLocalRefresh = (pairId, wordPair) => ({
     wordPair: wordPair
 });
 
-const pairsSearchPatternChange = pattern => ({
-    type: wordlistConstants.PAIRS_SEARCH_PATTERN_CHANGE,
-    pattern: pattern
-});
-
 const configureWordPair = (serverData, localWordPair) => ({
     serverId: serverData[0].serverId,
     wordForeign: localWordPair.WordForeign,
@@ -179,6 +170,5 @@ export const WordlistActions = {
     pullWordPairs,
     deleteWordPairs,
     addWordPair,
-    editWordPair,
-    findWordPairs
+    editWordPair
 };

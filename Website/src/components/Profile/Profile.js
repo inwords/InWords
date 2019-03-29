@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import ProfileEdit from './ProfileEdit';
+import ProfileEditContainer from '../../containers/Profile/ProfileEditContainer';
 
 const styles = theme => ({
     card: {
@@ -45,7 +45,7 @@ function Profile({ userInfo, classes }) {
             </CardActionArea>
             <CardActions>
                 {userId && (
-                    <ProfileEdit userInfo={userInfo} />)}
+                    <ProfileEditContainer userInfo={userInfo} />)}
             </CardActions>
         </Card>
     );

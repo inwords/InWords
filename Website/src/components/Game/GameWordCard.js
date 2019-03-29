@@ -1,34 +1,53 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Grow from '@material-ui/core/Grow';
 
-import './GameWordCard.css';
+const cardDimension = 140;
 
-function GameWordCard({ wordId, pairId, word, selected, successful, successfulSelected, handleClick }) {
+const styles = theme => ({
+    paper: {
+        height: cardDimension,
+        width: cardDimension,
+        display: 'flex',
+        alignItems: 'center',
+    },
+    text: {
+        width: cardDimension,
+        overflowWrap: 'break-word',
+        padding: theme.spacing.unit,
+    },
+});
+
+function GameWordCard({ word, selected, successful, successfulSelected, classes }) {
     return (
-        <div className="word-card-square"
-            onClick={handleClick(pairId, wordId)}>
-            <div className="word-card-content">
-                <div className="word-card-table">
-                    <div className="word-card-table-cell rounded bg-primary text-white">
-                        {(selected || successful) &&
-                            <h5 className={successfulSelected ? "text-secondary" : ""}>
-                                {word.lengt <= 10 ? word : word.match(/.{1,10}/g).join('-\n')}
-                            </h5>}
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Fragment>
+            <Grow in={!(selected || successful)}>
+                {!(selected || successful) ?
+                    <Paper className={classes.paper} /> :
+                    <Paper />}
+            </Grow>
+            <Grow in={(selected || successful)} >
+                {(selected || successful) ?
+                    <Paper className={classes.paper} elevation={(selected || successfulSelected) ? 5 : 2}>
+                        <Typography variant="h6" align="center" className={classes.text}>
+                            {word}
+                        </Typography>
+                    </Paper> :
+                    <Paper />}
+            </Grow>
+        </Fragment>
     );
 }
 
 GameWordCard.propTypes = {
-    wordId: PropTypes.number.isRequired,
-    pairId: PropTypes.number.isRequired,
     word: PropTypes.string.isRequired,
     selected: PropTypes.bool.isRequired,
     successful: PropTypes.bool.isRequired,
     successfulSelected: PropTypes.bool.isRequired,
-    handleClick: PropTypes.func.isRequired
+    classes: PropTypes.object.isRequired
 };
 
-export default GameWordCard;
+export default withStyles(styles)(GameWordCard);

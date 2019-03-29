@@ -1,35 +1,23 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import ProfileEditDialogContainer from '../../containers/Profile/ProfileEditDialogContainer';
+import ProfileEditDialog from './ProfileEditDialog';
 
-function ProfileEdit({ userInfo }) {
-    const [open, setOpen] = useState(false);
-
-    function handleClickOpen() {
-        setOpen(true);
-    }
-
-    function handleClose() {
-        setOpen(false);
-    }
+function ProfileEdit(props) {
+    const { handleOpen, ...rest } = props;
 
     return (
         <Fragment>
-            <Button size="small" color="primary" onClick={handleClickOpen}>
+            <Button size="small" color="primary" onClick={handleOpen}>
                 Редактировать
             </Button>
-            <ProfileEditDialogContainer
-                userInfo={userInfo}
-                open={open}
-                handleClose={handleClose}
-            />
+            <ProfileEditDialog {...rest} />
         </Fragment>
     );
 }
 
 ProfileEdit.propTypes = {
-    userInfo: PropTypes.object.isRequired
+    handleOpen: PropTypes.func.isRequired
 };
 
 export default ProfileEdit;

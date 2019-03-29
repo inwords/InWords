@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
-import WordPairAdd from './WordPairAdd';
+import WordPairAddContainer from '../../containers/Wordlist/WordPairAddContainer';
 
 const styles = theme => ({
     button: {
@@ -13,7 +13,7 @@ const styles = theme => ({
 function WordlistToolbar({ delAvailable, handleDelWordPairs, classes }) {
     return (
         <Fragment>
-            <WordPairAdd />
+            <WordPairAddContainer />
             <Button
                 variant="contained"
                 color="secondary"
