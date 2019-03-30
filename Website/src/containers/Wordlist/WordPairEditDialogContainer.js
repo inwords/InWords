@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { WordlistActions } from '../../actions/WordlistActions';
+import { wordlistApiActions } from '../../actions/wordlistApiActions';
 import WordPairEditDialog from '../../components/Wordlist/WordPairEditDialog';
 
 class WordPairEditDialogContainer extends Component {
@@ -60,7 +60,7 @@ class WordPairEditDialogContainer extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        editWordPair: wordPair => dispatch(WordlistActions.editWordPair(wordPair))
+        editWordPair: wordPair => dispatch(wordlistApiActions.editWordPair(wordPair))
     };
 };
 

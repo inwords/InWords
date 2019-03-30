@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { WordlistActions } from '../../actions/WordlistActions';
+import { wordlistApiActions } from '../../actions/wordlistApiActions';
 import WordPairEdit from '../../components/Wordlist/WordPairEdit';
 
-function WordPairEditContainer({ wordPair, editWordPair }) {
+function WordPairEditContainer({ wordPair, deleteWordPairAsEditPart, addWordPairAsEditPart }) {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -34,7 +34,8 @@ function WordPairEditContainer({ wordPair, editWordPair }) {
     };
 
     const handleSubmit = event => {
-        editWordPair({
+        deleteWordPairAsEditPart(wordPair.serverId);
+        addWordPairAsEditPart({
             id: wordPair.serverId,
             WordForeign: values.wordForeign,
             WordNative: values.wordNative
@@ -58,12 +59,14 @@ function WordPairEditContainer({ wordPair, editWordPair }) {
 
 WordPairEditContainer.propTypes = {
     wordPair: PropTypes.object.isRequired,
-    editWordPair: PropTypes.func.isRequired
+    deleteWordPairAsEditPart: PropTypes.func.isRequired,
+    addWordPairAsEditPart: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        editWordPair: wordPair => dispatch(WordlistActions.editWordPair(wordPair))
+        deleteWordPairAsEditPart: pairId => dispatch(wordlistApiActions.deleteWordPairAsEditPart(pairId)),
+        addWordPairAsEditPart: wordPair => dispatch(wordlistApiActions.addWordPairAsEditPart(wordPair)),
     };
 };
 

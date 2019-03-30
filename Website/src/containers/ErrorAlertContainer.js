@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ErrorMessageActions } from '../actions/ErrorMessageActions';
+import { errorMessageActions } from '../actions/errorMessageActions';
 import ErrorAlert from '../components/ErrorAlert';
 
 function ErrorAlertContainer(props) {
@@ -32,7 +32,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        resetErrorMessage: () => dispatch(ErrorMessageActions.resetErrorMessage())
+        resetErrorMessage: () => dispatch(errorMessageActions.resetErrorMessage())
     };
 };
 

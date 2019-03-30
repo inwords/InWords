@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../actions/UserActions';
+import { userApiActions } from '../actions/userApiActions';
 import Login from '../components/Login';
 
 function LoginPage({ redirect, login }) {
@@ -43,13 +43,13 @@ LoginPage.propTypes = {
 
 const mapStateToProps = store => {
     return {
-        redirect: store.user.login.redirect
+        redirect: store.user.redirect
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: userdata => dispatch(UserActions.login(userdata))
+        login: userdata => dispatch(userApiActions.login(userdata))
     };
 };
 

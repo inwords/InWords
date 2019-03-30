@@ -44,8 +44,7 @@ function Profile({ userInfo, classes }) {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                {userId && (
-                    <ProfileEditContainer userInfo={userInfo} />)}
+                {userId && <ProfileEditContainer userInfo={userInfo} />}
             </CardActions>
         </Card>
     );

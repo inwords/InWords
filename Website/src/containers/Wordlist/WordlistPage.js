@@ -1,13 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { WordlistActions } from '../../actions/WordlistActions';
+import { wordlistApiActions } from '../../actions/wordlistApiActions';
 import Wordlist from '../../components/Wordlist/Wordlist';
 
 class WordlistPage extends Component {
     static propTypes = {
         wordPairs: PropTypes.array.isRequired,
-        searchPattern: PropTypes.string.isRequired,
         pullWordPairs: PropTypes.func.isRequired,
     };
 
@@ -80,7 +79,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        pullWordPairs: () => dispatch(WordlistActions.pullWordPairs())
+        pullWordPairs: () => dispatch(wordlistApiActions.pullWordPairs())
     };
 };
 

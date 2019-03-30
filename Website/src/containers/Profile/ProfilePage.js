@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../../actions/UserActions';
+import { userApiActions } from '../../actions/userApiActions';
 import Profile from '../../components/Profile/Profile';
 
 function ProfilePage({ userInfo, receiveUserInfo }) {
@@ -27,7 +27,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        receiveUserInfo: () => dispatch(UserActions.receiveUserInfo())
+        receiveUserInfo: () => dispatch(userApiActions.receiveUserInfo())
     };
 };
 

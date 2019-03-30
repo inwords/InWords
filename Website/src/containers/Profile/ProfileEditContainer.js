@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../../actions/UserActions';
+import { userApiActions } from '../../actions/userApiActions';
 import ProfileEdit from '../../components/Profile/ProfileEdit';
 
 function ProfileEditContainer({ userInfo, changeUserInfo }) {
@@ -62,7 +62,7 @@ ProfileEditContainer.propTypes = {
 
 const mapDispatchToProps = dispatch => {
     return {
-        changeUserInfo: userInfo => dispatch(UserActions.changeUserInfo(userInfo))
+        changeUserInfo: userInfo => dispatch(userApiActions.changeUserInfo(userInfo))
     };
 };
 

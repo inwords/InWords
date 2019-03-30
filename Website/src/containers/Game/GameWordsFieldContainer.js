@@ -32,7 +32,6 @@ class GameWordsFieldContainer extends Component {
     }
 
     shuffle = (array) => {
-        console.log(array)
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             let temp = array[i];
@@ -44,7 +43,6 @@ class GameWordsFieldContainer extends Component {
     };
 
     handleClick = (pairId, wordId) => () => {
-        console.log(this.state)
         const { selectedWordsInfo, successfulPairIds } = this.state;
 
         if (successfulPairIds.find((successfulPairId) => successfulPairId === pairId)) {

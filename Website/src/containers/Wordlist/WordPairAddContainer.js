@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { WordlistActions } from '../../actions/WordlistActions';
+import { wordlistApiActions } from '../../actions/wordlistApiActions';
 import WordPairAdd from '../../components/Wordlist/WordPairAdd';
 
 function WordPairAddContainer({ addWordPair }) {
@@ -61,7 +61,7 @@ WordPairAddContainer.propTypes = {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addWordPair: wordPair => dispatch(WordlistActions.addWordPair(wordPair))
+        addWordPair: wordPair => dispatch(wordlistApiActions.addWordPair(wordPair))
     };
 };
 

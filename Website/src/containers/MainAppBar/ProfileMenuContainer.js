@@ -1,24 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../../actions/UserActions';
+import { accessActions } from '../../actions/accessActions';
 import ProfileMenu from '../../components/MainAppBar/ProfileMenu';
 
-function MainAppBarContainer({ logout }) {
+function MainAppBarContainer({ denyAccess }) {
     const handleLogout = () => {
-        logout();
+        denyAccess();
     };
 
     return <ProfileMenu handleLogout={handleLogout} />;
 }
 
 MainAppBarContainer.propTypes = {
-    logout: PropTypes.func.isRequired
+    denyAccess: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: () => dispatch(UserActions.logout())
+        denyAccess: () => dispatch(accessActions.denyAccess())
     };
 };
 

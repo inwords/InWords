@@ -1,4 +1,4 @@
 export const accessConstants = {
-    ACCESS_GRANTED: 'ACCESS_GRANTED',
-    ACCESS_DENIED: 'ACCESS_DENIED'
+    ACCESS_GRANT: 'ACCESS_GRANT',
+    ACCESS_DENY: 'ACCESS_DENY'
 };

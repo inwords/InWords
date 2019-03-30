@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../actions/UserActions';
+import { userApiActions } from '../actions/userApiActions';
 import Register from '../components/Register';
 
 function RegisterPage({ redirect, register }) {
@@ -43,13 +43,13 @@ RegisterPage.propTypes = {
 
 const mapStateToProps = store => {
     return {
-        redirect: store.user.register.redirect
+        redirect: store.user.redirect
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        register: userdata => dispatch(UserActions.register(userdata))
+        register: userdata => dispatch(userApiActions.register(userdata))
     };
 };
 

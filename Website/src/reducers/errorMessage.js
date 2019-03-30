@@ -1,10 +1,13 @@
 import { errorMessageConstants } from '../constants/errorMessageConstants';
 
 export const errorMessage = (state = null, action) => {
-    if (action.type === errorMessageConstants.ERROR_MESSAGE_RESET) {
-        return null;
-    } else if (action.error) {
-        return action.error;
+    switch (action.type) {
+        case errorMessageConstants.ERROR_MESSAGE_SET:
+            console.log(action)
+            return action.payload;
+        case errorMessageConstants.ERROR_MESSAGE_RESET:
+            return null;
+        default:
+            return state;
     }
-    return state;
 };

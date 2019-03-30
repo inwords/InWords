@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { GameActions } from '../../actions/GameActions';
+import { gameApiActions } from '../../actions/gameApiActions';
 import GamesInfoTools from '../../components/Game/GamesInfoTools';
 import GameLevelsTools from '../../components/Game/GameLevelsTools';
 import GameWordsTools from '../../components/Game/GameWordsTools';
@@ -80,9 +80,9 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        pullGamesInfo: () => dispatch(GameActions.pullGamesInfo()),
-        resetGameInfo: () => dispatch(GameActions.resetGameInfo()),
-        resetGameLevel: () => dispatch(GameActions.resetGameLevel())
+        pullGamesInfo: () => dispatch(gameApiActions.pullGamesInfo()),
+        resetGameInfo: () => dispatch(gameApiActions.resetGameInfo()),
+        resetGameLevel: () => dispatch(gameApiActions.resetGameLevel())
     };
 };
 
