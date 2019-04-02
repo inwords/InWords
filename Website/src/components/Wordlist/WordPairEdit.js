@@ -4,9 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import WordPairEditDialog from './WordPairEditDialog';
 
-function WordPairEdit(props) {
-    const { handleOpen, ...rest } = props;
-
+function WordPairEdit({ handleOpen, ...rest }) {
     return (
         <Fragment>
             <IconButton aria-label="Edit" onClick={handleOpen}>

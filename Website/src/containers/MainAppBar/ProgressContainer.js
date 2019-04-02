@@ -11,7 +11,7 @@ ProgressContainer.propTypes = {
     dataTransferInProgress: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
         dataTransferInProgress: store.dataTransferInProgress
     };

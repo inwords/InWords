@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import ProfileEditDialog from './ProfileEditDialog';
 
-function ProfileEdit(props) {
-    const { handleOpen, ...rest } = props;
-
+function ProfileEdit({ handleOpen, ...rest }) {
     return (
         <Fragment>
             <Button size="small" color="primary" onClick={handleOpen}>

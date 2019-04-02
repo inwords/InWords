@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { gameApiActions } from '../../actions/gameApiActions';
+import gameApiActions from '../../actions/gameApiActions';
 import GameInfoCard from '../../components/Game/GameInfoCard';
 
 class GameInfoCardContainer extends Component {
@@ -14,8 +14,8 @@ class GameInfoCardContainer extends Component {
         this.props.pullGameInfo(this.props.gameInfo.gameId);
     };
 
-    handleDelGamePack = () => {
-        this.props.delGamePack(this.props.gameInfo.gameId);
+    handleDeleteGamePack = () => {
+        this.props.deleteGamePack(this.props.gameInfo.gameId);
     };
 
     render() {
@@ -26,7 +26,7 @@ class GameInfoCardContainer extends Component {
                 title={gameInfo.title}
                 isAvailable={gameInfo.isAvailable}
                 handlePullGameInfo={this.handlePullGameInfo}
-                handleDelGamePack={this.handleDelGamePack}
+                handleDeleteGamePack={this.handleDeleteGamePack}
             />
         );
     }
@@ -35,7 +35,7 @@ class GameInfoCardContainer extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         pullGameInfo: (gameId) => dispatch(gameApiActions.pullGameInfo(gameId)),
-        delGamePack: (gameId) => dispatch(gameApiActions.delGamePack(gameId))
+        deleteGamePack: (gameId) => dispatch(gameApiActions.deleteGamePack(gameId))
     };
 };
 

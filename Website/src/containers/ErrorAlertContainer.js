@@ -1,19 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { errorMessageActions } from '../actions/errorMessageActions';
+import errorMessageActions from '../actions/errorMessageActions';
 import ErrorAlert from '../components/ErrorAlert';
 
-function ErrorAlertContainer(props) {
-    const { resetErrorMessage, ...rest } = props;
-
+function ErrorAlertContainer({ errorMessage, resetErrorMessage }) {
     const handleClose = () => {
         resetErrorMessage();
     };
 
     return (
         <ErrorAlert
-            {...rest}
+            open={!!errorMessage}
+            errorMessage={errorMessage ? errorMessage : ''}
             handleClose={handleClose}
         />
     );

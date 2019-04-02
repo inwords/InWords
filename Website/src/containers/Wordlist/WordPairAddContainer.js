@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { wordlistApiActions } from '../../actions/wordlistApiActions';
+import wordlistApiActions from '../../actions/wordlistApiActions';
 import WordPairAdd from '../../components/Wordlist/WordPairAdd';
 
 function WordPairAddContainer({ addWordPair }) {

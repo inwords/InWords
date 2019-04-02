@@ -10,9 +10,7 @@ const styles = theme => ({
     },
 });
 
-function WordPairAdd(props) {
-    const { handleOpen, classes, ...rest } = props;
-
+function WordPairAdd({ handleOpen, classes, ...rest }) {
     return (
         <Fragment>
             <Button

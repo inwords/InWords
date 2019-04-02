@@ -3,7 +3,7 @@ import Link from '@material-ui/core/Link';
 
 function DrawerHeader() {
     return (
-        <Link href='https://inwords.ru/' variant="h6" color="textSecondary">
+        <Link href='https://inwords.ru' variant="h6" color="textSecondary">
             InWords
         </Link>
     );

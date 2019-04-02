@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { wordlistApiActions } from '../../actions/wordlistApiActions';
+import wordlistApiActions from '../../actions/wordlistApiActions';
 import WordlistToolbar from '../../components/Wordlist/WordlistToolbar';
 
 class WordlistToolbarContainer extends Component {

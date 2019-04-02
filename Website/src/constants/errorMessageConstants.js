@@ -1,4 +1,6 @@
-export const errorMessageConstants = {
-    ERROR_MESSAGE_SET: 'ERROR_MESSAGE_SET',
+const errorMessageConstants = {
+    ERROR_MESSAGE_SETTING: 'ERROR_MESSAGE_SETTING',
     ERROR_MESSAGE_RESET: 'ERROR_MESSAGE_RESET'
 };
+
+export default errorMessageConstants;

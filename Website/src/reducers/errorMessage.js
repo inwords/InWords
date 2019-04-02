@@ -1,9 +1,8 @@
-import { errorMessageConstants } from '../constants/errorMessageConstants';
+import errorMessageConstants from '../constants/errorMessageConstants';
 
-export const errorMessage = (state = null, action) => {
+const errorMessage = (state = null, action) => {
     switch (action.type) {
-        case errorMessageConstants.ERROR_MESSAGE_SET:
-            console.log(action)
+        case errorMessageConstants.ERROR_MESSAGE_SETTING:
             return action.payload;
         case errorMessageConstants.ERROR_MESSAGE_RESET:
             return null;
@@ -11,3 +10,5 @@ export const errorMessage = (state = null, action) => {
             return state;
     }
 };
+
+export default errorMessage;

@@ -1,4 +1,6 @@
-export const accessConstants = {
+const accessConstants = {
     ACCESS_GRANT: 'ACCESS_GRANT',
-    ACCESS_DENY: 'ACCESS_DENY'
+    ACCESS_DENIAL: 'ACCESS_DENIAL'
 };
+
+export default accessConstants;

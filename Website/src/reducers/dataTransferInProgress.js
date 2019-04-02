@@ -1,6 +1,6 @@
-import { dataTransferConstants } from '../constants/dataTransferConstants';
+import dataTransferConstants from '../constants/dataTransferConstants';
 
-export const dataTransferInProgress = (state = false, action) => {
+const dataTransferInProgress = (state = false, action) => {
     switch (action.type) {
         case dataTransferConstants.DATA_TRANSFER_BEGIN:
             return true;
@@ -10,3 +10,5 @@ export const dataTransferInProgress = (state = false, action) => {
             return state;
     }
 };
+
+export default dataTransferInProgress;

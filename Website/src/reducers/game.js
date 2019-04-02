@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
-import { gameConstants } from '../constants/gameConstants';
+import gameConstants from '../constants/gameConstants';
 
 const gamesInfo = (state = [], action) => {
     switch (action.type) {
-        case gameConstants.GAMES_INFO_RECEIVED:
+        case gameConstants.GAMES_INFO_INITIALIZATION:
             return action.gamesInfo;
-        case gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH:
+        case gameConstants.GAMES_INFO_UPDATE_AFTER_ADDITION:
             return state.concat(action.gamesInfo);
-        case gameConstants.GAMES_INFO_DEL_LOCAL_REFRESH:
+        case gameConstants.GAMES_INFO_UPDATE_AFTER_DELETION:
             return state.filter((gameInfo) => gameInfo.gameId !== action.gameId);
         default:
             return state;
@@ -16,9 +16,9 @@ const gamesInfo = (state = [], action) => {
 
 const gameInfo = (state = null, action) => {
     switch (action.type) {
-        case gameConstants.GAME_INFO_RECEIVED:
+        case gameConstants.GAME_INFO_INITIALIZATION:
             return action.gameInfo;
-        case gameConstants.GAME_INFO_RESET:
+        case gameConstants.GAME_INFO_CLEARING:
             return null;
         default:
             return state;
@@ -27,17 +27,19 @@ const gameInfo = (state = null, action) => {
 
 const gameLevel = (state = null, action) => {
     switch (action.type) {
-        case gameConstants.GAME_LEVEL_RECEIVED:
+        case gameConstants.GAME_LEVEL_INITIALIZATION:
             return action.gameLevel;
-        case gameConstants.GAME_LEVEL_RESET:
+        case gameConstants.GAME_LEVEL_CLEARING:
             return null;
         default:
             return state;
     }
 };
 
-export const game = combineReducers({
+const game = combineReducers({
     gamesInfo,
     gameInfo,
     gameLevel
 });
+
+export default game;

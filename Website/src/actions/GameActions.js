@@ -1,44 +1,46 @@
-import { gameConstants } from '../constants/gameConstants';
+import gameConstants from '../constants/gameConstants';
 
-const gamesInfoReceived = gamesInfo => ({
-    type: gameConstants.GAMES_INFO_RECEIVED,
+const initializeGamesInfo = gamesInfo => ({
+    type: gameConstants.GAMES_INFO_INITIALIZATION,
     gamesInfo: gamesInfo
 });
 
-const gamesInfoAddLocalRefresh = gamesInfo => ({
-    type: gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH,
+const updateGamesInfoAfterAddition = gamesInfo => ({
+    type: gameConstants.GAMES_INFO_UPDATE_AFTER_ADDITION,
     gamesInfo: gamesInfo
 });
 
-const gamesInfoDelLocalRefresh = gameId => ({
-    type: gameConstants.GAMES_INFO_DEL_LOCAL_REFRESH,
+const updateGamesInfoAfterDeletion = gameId => ({
+    type: gameConstants.GAMES_INFO_UPDATE_AFTER_DELETION,
     gameId: gameId
 });
 
-const gameInfoReceived = gameInfo => ({
-    type: gameConstants.GAME_INFO_RECEIVED,
+const initializeGameInfo = gameInfo => ({
+    type: gameConstants.GAME_INFO_INITIALIZATION,
     gameInfo: gameInfo
 });
 
-const gameInfoReset = () => ({
-    type: gameConstants.GAME_INFO_RESET
+const clearGameInfo = () => ({
+    type: gameConstants.GAME_INFO_CLEARING
 });
 
-const gameLevelReceived = gameLevel => ({
-    type: gameConstants.GAME_LEVEL_RECEIVED,
+const initializeGameLevel = gameLevel => ({
+    type: gameConstants.GAME_LEVEL_INITIALIZATION,
     gameLevel: gameLevel
 });
 
-const gameLevelReset = () => ({
-    type: gameConstants.GAME_LEVEL_RESET
+const clearGameLevel = () => ({
+    type: gameConstants.GAME_LEVEL_CLEARING
 });
 
-export const gameActions = {
-    gamesInfoReceived,
-    gamesInfoAddLocalRefresh,
-    gamesInfoDelLocalRefresh,
-    gameInfoReceived,
-    gameInfoReset,
-    gameLevelReceived,
-    gameLevelReset
+const gameActions = {
+    initializeGamesInfo,
+    updateGamesInfoAfterAddition,
+    updateGamesInfoAfterDeletion,
+    initializeGameInfo,
+    clearGameInfo,
+    initializeGameLevel,
+    clearGameLevel
 };
+
+export default gameActions;

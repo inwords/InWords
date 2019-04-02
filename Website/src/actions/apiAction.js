@@ -1,17 +1,21 @@
-export function apiAction({
+import { API_CALL } from '../middleware/apiMiddleware';
+
+export default function apiAction({
     endpoint = '',
     method = 'GET',
     data = null,
-    onSuccess = [],
+    actionsOnSuccess = [],
+    redirection = null,
     errorMessage = null
 }) {
     return {
-        type: 'API',
+        type: API_CALL,
         payload: {
             endpoint,
             method,
             data,
-            onSuccess,
+            actionsOnSuccess,
+            redirection,
             errorMessage
         }
     };

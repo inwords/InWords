@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { userApiActions } from '../actions/userApiActions';
+import userApiActions from '../actions/userApiActions';
 import Login from '../components/Login';
 
-function LoginPage({ redirect, login }) {
+function LoginPage({ login }) {
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -23,10 +22,6 @@ function LoginPage({ redirect, login }) {
         event.preventDefault();
     };
 
-    if (redirect) {
-        return <Redirect to="/wordlist" />;
-    }
-
     return (
         <Login
             values={values}
@@ -37,14 +32,7 @@ function LoginPage({ redirect, login }) {
 }
 
 LoginPage.propTypes = {
-    redirect: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired
-};
-
-const mapStateToProps = store => {
-    return {
-        redirect: store.user.redirect
-    };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -54,6 +42,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(LoginPage);

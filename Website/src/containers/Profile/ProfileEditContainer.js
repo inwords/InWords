@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { userApiActions } from '../../actions/userApiActions';
+import userApiActions from '../../actions/userApiActions';
 import ProfileEdit from '../../components/Profile/ProfileEdit';
 
 function ProfileEditContainer({ userInfo, changeUserInfo }) {

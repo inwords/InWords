@@ -1,18 +1,17 @@
-import { combineReducers } from 'redux';
-import { wordlistConstants } from '../constants/wordlistConstants';
+import wordlistConstants from '../constants/wordlistConstants';
 
 const wordPairs = (state = [], action) => {
     switch (action.type) {
-        case wordlistConstants.PAIRS_PULL_LOCAL_REFRESH:
+        case wordlistConstants.WORD_PAIRS_INITIALIZATION:
             return action.payload.addedWords;
-        case wordlistConstants.PAIRS_DEL_LOCAL_REFRESH:
+        case wordlistConstants.WORD_PAIRS_UPDATE_AFTER_DELETION:
             return state.filter((pair) => !~action.payload.indexOf(pair.serverId));
-        case wordlistConstants.PAIRS_ADD_LOCAL_REFRESH:
+        case wordlistConstants.WORD_PAIRS_UPDATE_AFTER_ADDITION:
             if (state.find((wordPair) => wordPair.serverId === action.payload.serverId)) {
                 return state;
             }
             return state.concat(action.payload);
-        case wordlistConstants.PAIRS_EDIT_LOCAL_REFRESH:
+        case wordlistConstants.WORD_PAIRS_UPDATE_AFTER_EDITING:
             if (state.find((wordPair) => wordPair.serverId === action.payload.wordPair.serverId)) {
                 return state;
             }
@@ -26,6 +25,4 @@ const wordPairs = (state = [], action) => {
     }
 };
 
-export const wordlist = combineReducers({
-    wordPairs
-});
+export default wordPairs;

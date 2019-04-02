@@ -1,4 +1,4 @@
-import { dataTransferConstants } from '../constants/dataTransferConstants';
+import dataTransferConstants from '../constants/dataTransferConstants';
 
 const beginDataTransfer = () => ({
     type: dataTransferConstants.DATA_TRANSFER_BEGIN
@@ -8,7 +8,9 @@ const endDataTransfer = () => ({
     type: dataTransferConstants.DATA_TRANSFER_END
 });
 
-export const dataTransferActions = {
-    beginDataTransfer: beginDataTransfer,
-    endDataTransfer: endDataTransfer
+const dataTransferActions = {
+    beginDataTransfer,
+    endDataTransfer
 };
+
+export default dataTransferActions;

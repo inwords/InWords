@@ -1,17 +1,14 @@
-import { apiAction } from './apiAction';
-import { accessActions } from './accessActions';
-import { userActions } from './userActions';
+import apiAction from './apiAction';
+import accessActions from './accessActions';
+import userActions from './userActions';
 
 function login(userdata) {
     return apiAction({
         endpoint: 'Auth/Token',
         method: 'POST',
         data: JSON.stringify(userdata),
-        onSuccess: [
-            accessActions.grantAccess,
-            userActions.redirect,
-            userActions.redirected
-        ],
+        actionsOnSuccess: [accessActions.grantAccess],
+        redirection: 'wordlist',
         errorMessage: 'Ошибка авторизации'
     });
 }
@@ -21,10 +18,7 @@ function register(userdata) {
         endpoint: 'Auth/Registration',
         method: 'POST',
         data: JSON.stringify(userdata),
-        onSuccess: [
-            userActions.redirect,
-            userActions.redirected
-        ],
+        redirection: 'login',
         errorMessage: 'Ошибка регистрации'
     });
 }
@@ -32,7 +26,7 @@ function register(userdata) {
 function receiveUserInfo() {
     return apiAction({
         endpoint: 'Users',
-        onSuccess: [userActions.userInfoReceived],
+        actionsOnSuccess: [userActions.initializeUserInfo],
         errorMessage: 'Ошибка загрузки профиля'
     });
 };
@@ -42,14 +36,16 @@ function changeUserInfo(userInfo) {
         endpoint: 'Users',
         method: 'PUT',
         data: JSON.stringify(userInfo),
-        onSuccess: [() => userActions.userInfoChanged(userInfo)],
+        actionsOnSuccess: [() => userActions.updateUserInfo(userInfo)],
         errorMessage: 'Ошибка редактирования профиля'
     });
 };
 
-export const userApiActions = {
+const userApiActions = {
     login,
     register,
     receiveUserInfo,
     changeUserInfo
 };
+
+export default userApiActions;

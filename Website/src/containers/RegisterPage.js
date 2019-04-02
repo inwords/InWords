@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { userApiActions } from '../actions/userApiActions';
+import userApiActions from '../actions/userApiActions';
 import Register from '../components/Register';
 
-function RegisterPage({ redirect, register }) {
+function RegisterPage({ register }) {
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -23,10 +22,6 @@ function RegisterPage({ redirect, register }) {
         event.preventDefault();
     };
 
-    if (redirect) {
-        return <Redirect to="/login" />;
-    }
-
     return (
         <Register
             values={values}
@@ -37,14 +32,7 @@ function RegisterPage({ redirect, register }) {
 }
 
 RegisterPage.propTypes = {
-    redirect: PropTypes.bool.isRequired,
     register: PropTypes.func.isRequired
-};
-
-const mapStateToProps = store => {
-    return {
-        redirect: store.user.redirect
-    };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -54,6 +42,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(RegisterPage);

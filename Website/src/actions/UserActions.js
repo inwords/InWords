@@ -1,4 +1,4 @@
-import { userConstants } from '../constants/userConstants';
+import userConstants from '../constants/userConstants';
 
 const redirect = () => ({
     type: userConstants.REDIRECT
@@ -8,19 +8,21 @@ const redirected = () => ({
     type: userConstants.REDIRECTED
 });
 
-const userInfoReceived = userInfo => ({
-    type: userConstants.USER_INFO_RECEIVED,
+const initializeUserInfo = userInfo => ({
+    type: userConstants.USER_INFO_INITIALIZATION,
     userInfo: userInfo
 });
 
-const userInfoChanged = userInfo => ({
-    type: userConstants.USER_INFO_CHANGED,
+const updateUserInfo = userInfo => ({
+    type: userConstants.USER_INFO_UPDATE,
     userInfo: userInfo
 });
 
-export const userActions = {
+const userActions = {
     redirect,
     redirected,
-    userInfoReceived,
-    userInfoChanged
+    initializeUserInfo,
+    updateUserInfo
 };
+
+export default userActions;

@@ -1,4 +1,4 @@
-import { accessConstants } from '../constants/accessConstants';
+import accessConstants from '../constants/accessConstants';
 
 const grantAccess = data => ({
     type: accessConstants.ACCESS_GRANT,
@@ -6,10 +6,12 @@ const grantAccess = data => ({
 });
 
 const denyAccess = () => ({
-    type: accessConstants.ACCESS_DENY
+    type: accessConstants.ACCESS_DENIAL
 });
 
-export const accessActions = {
+const accessActions = {
     grantAccess: grantAccess,
     denyAccess: denyAccess
 };
+
+export default accessActions;

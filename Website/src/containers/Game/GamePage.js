@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { gameApiActions } from '../../actions/gameApiActions';
+import gameApiActions from '../../actions/gameApiActions';
 import GamesInfoTools from '../../components/Game/GamesInfoTools';
 import GameLevelsTools from '../../components/Game/GameLevelsTools';
 import GameWordsTools from '../../components/Game/GameWordsTools';

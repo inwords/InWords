@@ -1,31 +1,33 @@
-import { wordlistConstants } from '../constants/wordlistConstants';
+import wordlistConstants from '../constants/wordlistConstants';
 
-const pairsPullLocalRefresh = data => ({
-    type: wordlistConstants.PAIRS_PULL_LOCAL_REFRESH,
+const initializeWordPairs = data => ({
+    type: wordlistConstants.WORD_PAIRS_INITIALIZATION,
     payload: data
 });
 
-const pairsDelLocalRefresh = pairIds => ({
-    type: wordlistConstants.PAIRS_DEL_LOCAL_REFRESH,
+const updateWordPairsAfterDeletion = pairIds => ({
+    type: wordlistConstants.WORD_PAIRS_UPDATE_AFTER_DELETION,
     payload: pairIds
 });
 
-const pairsAddLocalRefresh = wordPair => ({
-    type: wordlistConstants.PAIRS_ADD_LOCAL_REFRESH,
+const updateWordPairsAfterAddition = wordPair => ({
+    type: wordlistConstants.WORD_PAIRS_UPDATE_AFTER_ADDITION,
     payload: wordPair
 });
 
-const pairsEditLocalRefresh = (pairId, wordPair) => ({
-    type: wordlistConstants.PAIRS_EDIT_LOCAL_REFRESH,
+const updateWordPairsAfterEditing = (pairId, wordPair) => ({
+    type: wordlistConstants.WORD_PAIRS_UPDATE_AFTER_EDITING,
     payload: {
         pairId: pairId,
         wordPair: wordPair
     }
 });
 
-export const wordlistActions = {
-    pairsPullLocalRefresh,
-    pairsDelLocalRefresh,
-    pairsAddLocalRefresh,
-    pairsEditLocalRefresh
+const wordlistActions = {
+    initializeWordPairs,
+    updateWordPairsAfterDeletion,
+    updateWordPairsAfterAddition,
+    updateWordPairsAfterEditing
 };
+
+export default wordlistActions;

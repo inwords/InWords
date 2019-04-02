@@ -1,10 +1,10 @@
-import { gameActions } from './gameActions';
-import { apiAction } from './apiAction';
+import gameActions from './gameActions';
+import apiAction from './apiAction';
 
 function pullGamesInfo() {
     return apiAction({
         endpoint: 'Game/GameInfo',
-        onSuccess: [gameActions.gamesInfoReceived],
+        actionsOnSuccess: [gameActions.initializeGamesInfo],
         errorMessage: 'Ошибка загрузки игр'
     });
 }
@@ -12,7 +12,7 @@ function pullGamesInfo() {
 function pullGameInfo(gameId) {
     return apiAction({
         endpoint: `Game/${gameId}`,
-        onSuccess: [gameActions.gameInfoReceived],
+        actionsOnSuccess: [gameActions.initializeGameInfo],
         errorMessage: 'Ошибка загрузки уровней'
     });
 }
@@ -20,7 +20,7 @@ function pullGameInfo(gameId) {
 function pullGameLevel(levelId) {
     return apiAction({
         endpoint: `Game/Level/${levelId}`,
-        onSuccess: [gameActions.gameLevelReceived],
+        actionsOnSuccess: [gameActions.initializeGameLevel],
         errorMessage: 'Ошибка загрузки уровня'
     });
 }
@@ -30,7 +30,7 @@ function addGamePack(gamePack) {
         endpoint: 'Game/AddGamePack',
         method: 'POST',
         data: JSON.stringify(gamePack),
-        onSuccess: [(data) => gameActions.gamesInfoAddLocalRefresh({
+        actionsOnSuccess: [(data) => gameActions.updateGamesInfoAfterAddition({
             gameId: data.serverId,
             isAvailable: true,
             title: gamePack.CreationInfo.Descriptions[0].Title
@@ -39,33 +39,35 @@ function addGamePack(gamePack) {
     });
 }
 
-function delGamePack(gameId) {
+function deleteGamePack(gameId) {
     return apiAction({
         endpoint: `Game/Delete/${gameId}`,
         method: 'DELETE',
-        onSuccess: [() => gameActions.gamesInfoDelLocalRefresh(gameId)],
+        actionsOnSuccess: [() => gameActions.updateGamesInfoAfterDeletion(gameId)],
         errorMessage: 'Ошибка удаления игры'
     });
 }
 
 function resetGameInfo() {
     return (dispatch) => {
-        dispatch(gameActions.gameInfoReset());
+        dispatch(gameActions.clearGameInfo());
     }
 }
 
 function resetGameLevel() {
     return (dispatch) => {
-        dispatch(gameActions.gameLevelReset());
+        dispatch(gameActions.clearGameLevel());
     }
 }
 
-export const gameApiActions = {
+const gameApiActions = {
     pullGamesInfo,
     pullGameInfo,
     pullGameLevel,
     resetGameInfo,
     resetGameLevel,
     addGamePack,
-    delGamePack
+    deleteGamePack
 };
+
+export default gameApiActions;

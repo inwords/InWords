@@ -58,7 +58,7 @@ const styles = theme => ({
     },
 });
 
-function MainAppBar({ accessToken = null, open, handleDrawerOpen, handleDrawerClose, classes, children = null }) {
+function MainAppBar({ accessToken, open, handleDrawerOpen, handleDrawerClose, classes, children = null }) {
     return (
         <div className={classes.root}>
             <AppBar

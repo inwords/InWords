@@ -1,12 +1,12 @@
-import { wordlistActions } from './wordlistActions';
-import { apiAction } from './apiAction';
+import wordlistActions from './wordlistActions';
+import apiAction from './apiAction';
 
 function pullWordPairs() {
     return apiAction({
         endpoint: 'Sync/PullWordPairs',
         method: 'POST',
         data: JSON.stringify([]),
-        onSuccess: [wordlistActions.pairsPullLocalRefresh],
+        actionsOnSuccess: [wordlistActions.initializeWordPairs],
         errorMessage: 'Ошибка загрузки словаря'
     });
 }
@@ -16,7 +16,7 @@ function deleteWordPairs(pairIds) {
         endpoint: 'Words/DeletePair',
         method: 'POST',
         data: JSON.stringify(pairIds),
-        onSuccess: [() => wordlistActions.pairsDelLocalRefresh(pairIds)],
+        actionsOnSuccess: [() => wordlistActions.updateWordPairsAfterDeletion(pairIds)],
         errorMessage: 'Ошибка удаления слов'
     });
 }
@@ -26,7 +26,7 @@ function addWordPair(wordPair) {
         endpoint: 'Words/AddPair',
         method: 'POST',
         data: JSON.stringify([wordPair]),
-        onSuccess: [(data) => wordlistActions.pairsAddLocalRefresh(configureWordPair(data, wordPair))],
+        actionsOnSuccess: [(data) => wordlistActions.updateWordPairsAfterAddition(configureWordPair(data, wordPair))],
         errorMessage: 'Ошибка добавления слова'
     });
 }
@@ -45,7 +45,7 @@ function addWordPairAsEditPart(wordPair) {
         endpoint: 'Words/AddPair',
         method: 'POST',
         data: JSON.stringify([wordPair]),
-        onSuccess: [(data) => wordlistActions.pairsEditLocalRefresh(wordPair.id, configureWordPair(data, wordPair))],
+        actionsOnSuccess: [(data) => wordlistActions.updateWordPairsAfterEditing(wordPair.id, configureWordPair(data, wordPair))],
         errorMessage: 'Ошибка редактирования слова'
     });
 }
@@ -56,10 +56,12 @@ const configureWordPair = (serverData, localWordPair) => ({
     wordNative: localWordPair.WordNative
 });
 
-export const wordlistApiActions = {
+const wordlistApiActions = {
     pullWordPairs,
     deleteWordPairs,
     addWordPair,
     deleteWordPairAsEditPart,
     addWordPairAsEditPart
 };
+
+export default wordlistApiActions;

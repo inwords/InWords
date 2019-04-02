@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { gameApiActions } from '../../actions/gameApiActions';
+import gameApiActions from '../../actions/gameApiActions';
 import GamePackAdding from '../../components/Game/GamePackAdding';
 
 class GamePackAddingContainer extends Component {

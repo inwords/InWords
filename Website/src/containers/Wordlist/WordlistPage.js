@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { wordlistApiActions } from '../../actions/wordlistApiActions';
+import wordlistApiActions from '../../actions/wordlistApiActions';
 import Wordlist from '../../components/Wordlist/Wordlist';
 
 class WordlistPage extends Component {
@@ -57,23 +57,18 @@ class WordlistPage extends Component {
         }
 
         return (
-            <Fragment>
-                {true && (
-                    <Wordlist
-                        wordPairs={wordPairsRevercedCopy}
-                        checked={checked}
-                        handleToggle={this.handleToggle}
-                    />)}
-
-            </Fragment>
+            <Wordlist
+                wordPairs={wordPairsRevercedCopy}
+                checked={checked}
+                handleToggle={this.handleToggle}
+            />
         );
     }
 }
 
 const mapStateToProps = store => {
     return {
-        wordPairs: store.wordlist.wordPairs,
-        searchPattern: store.wordlist.searchPattern
+        wordPairs: store.wordPairs
     };
 };
 
