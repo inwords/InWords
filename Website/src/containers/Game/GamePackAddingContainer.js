@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { GameActions } from '../../actions/GameActions';
+import gameApiActions from '../../actions/gameApiActions';
 import GamePackAdding from '../../components/Game/GamePackAdding';
 
 class GamePackAddingContainer extends Component {
@@ -198,7 +198,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addGamePack: (gamePack) => dispatch(GameActions.addGamePack(gamePack))
+        addGamePack: (gamePack) => dispatch(gameApiActions.addGamePack(gamePack))
     };
 };
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { WordlistActions } from '../../actions/WordlistActions';
+import wordlistApiActions from '../../actions/wordlistApiActions';
 import WordlistToolbar from '../../components/Wordlist/WordlistToolbar';
 
 class WordlistToolbarContainer extends Component {
@@ -28,7 +28,7 @@ class WordlistToolbarContainer extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deleteWordPairs: pairIds => dispatch(WordlistActions.deleteWordPairs(pairIds))
+        deleteWordPairs: pairIds => dispatch(wordlistApiActions.deleteWordPairs(pairIds))
     };
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
@@ -34,16 +34,7 @@ const styles = theme => ({
     },
 });
 
-function Register({ handleSubmit, classes }) {
-    const [values, setValues] = useState({
-        email: '',
-        password: ''
-    });
-
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
+function Register({ values, handleChange, handleSubmit, classes }) {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
@@ -51,10 +42,7 @@ function Register({ handleSubmit, classes }) {
                     Регистрация
                 </Typography>
                 <form
-                    onSubmit={handleSubmit({
-                        Email: values.email,
-                        Password: values.password
-                    })}
+                    onSubmit={handleSubmit}
                     className={classes.form}
                 >
                     <FormControl margin="normal" required fullWidth>
@@ -94,6 +82,8 @@ function Register({ handleSubmit, classes }) {
 }
 
 Register.propTypes = {
+    values: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };

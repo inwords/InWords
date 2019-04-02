@@ -1,36 +1,40 @@
-import React from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import MainAppBar from '../../components/MainAppBar/MainAppBar';
 
-function MainAppBarContainer({ accessToken = null, location, children }) {
-    if (!accessToken && location.pathname !== '/login' && location.pathname !== '/register') {
-        return <Redirect to='/login' />;
-    } else if (accessToken && location.pathname === '/') {
-        return <Redirect to='/wordlist' />;
-    }
+function MainAppBarContainer(props) {
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
 
     return (
         <MainAppBar
-            accessToken={accessToken}
-            children={children}
+            open={open}
+            handleDrawerOpen={handleDrawerOpen}
+            handleDrawerClose={handleDrawerClose}
+            {...props}
         />
     );
 }
 
 MainAppBarContainer.propTypes = {
     accessToken: PropTypes.string,
-    location: PropTypes.object.isRequired,
     children: PropTypes.node
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
         accessToken: store.accessToken
     };
 };
 
-export default withRouter(connect(
+export default connect(
     mapStateToProps
-)(MainAppBarContainer));
+)(MainAppBarContainer);

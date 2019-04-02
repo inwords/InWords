@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { GameActions } from '../../actions/GameActions';
+import gameApiActions from '../../actions/gameApiActions';
 import GameLevelCard from '../../components/Game/GameLevelCard';
 
 class GameLevelCardContainer extends Component {
@@ -30,7 +30,7 @@ class GameLevelCardContainer extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        pullGameLevel: (levelId) => dispatch(GameActions.pullGameLevel(levelId))
+        pullGameLevel: (levelId) => dispatch(gameApiActions.pullGameLevel(levelId))
     };
 };
 

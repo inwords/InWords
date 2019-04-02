@@ -1,24 +1,26 @@
 import { combineReducers } from 'redux';
-import { accessConstants } from '../constants/accessConstants';
-import { isFetching } from './isFetching';
-import { accessToken } from './accessToken';
-import { user } from './user';
-import { wordlist } from './wordlist';
-import { game } from './game';
-import { errorMessage } from './errorMessage';
+import accessConstants from '../constants/accessConstants';
+import dataTransferInProgress from './dataTransferInProgress';
+import accessToken from './accessToken';
+import userInfo from './userInfo';
+import wordPairs from './wordPairs';
+import game from './game';
+import errorMessage from './errorMessage';
 
 const appReducer = combineReducers({
-    isFetching,
+    dataTransferInProgress,
     accessToken,
-    user,
-    wordlist,
+    userInfo,
+    wordPairs,
     game,
     errorMessage
 });
 
-export const rootReducer = (state, action) => {
-    if (action.type === accessConstants.ACCESS_DENIED) {
+const rootReducer = (state, action) => {
+    if (action.type === accessConstants.ACCESS_DENIAL) {
         state = undefined;
     }
     return appReducer(state, action);
 };
+
+export default rootReducer;

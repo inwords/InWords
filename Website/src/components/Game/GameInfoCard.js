@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GameInfoCard({ title, isAvailable, handlePullGameInfo, handleDelGamePack }) {
+function GameInfoCard({ title, isAvailable, handlePullGameInfo, handleDeleteGamePack }) {
     return (
         <div className="card flex-fill text-center text-white bg-primary mb-3">
             <div className="card-body">
@@ -13,7 +13,7 @@ function GameInfoCard({ title, isAvailable, handlePullGameInfo, handleDelGamePac
                         <span className="sr-only">Дополнительно</span>
                     </button>
                     <div className="dropdown-menu">
-                        <a className="dropdown-item" href="#/game" onClick={handleDelGamePack}>Удалить</a>
+                        <a className="dropdown-item" href="#/game" onClick={handleDeleteGamePack}>Удалить</a>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@ GameInfoCard.propTypes = {
     title: PropTypes.string.isRequired,
     isAvailable: PropTypes.bool.isRequired,
     handlePullGameInfo: PropTypes.func.isRequired,
-    handleDelGamePack: PropTypes.func.isRequired
+    handleDeleteGamePack: PropTypes.func.isRequired
 };
 
 export default GameInfoCard;

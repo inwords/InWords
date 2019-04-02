@@ -8,7 +8,15 @@ class GameWordsFieldContainer extends Component {
     };
 
     state = {
-        randomWords: shuffle([].concat.apply([], this.props.gameLevel.wordTranslations.map((wordPair) =>
+        randomWords: [],
+        selectedWordsInfo: [],
+        successfulPairIds: [],
+        successfulSelectedPairId: -1
+    };
+
+    componentDidMount() {
+        const shuffledWordPairs = this.shuffle(this.props.gameLevel.wordTranslations.slice());
+        const words = [].concat.apply([], shuffledWordPairs.slice(0, 8).map((wordPair) =>
             [{
                 pairId: wordPair.serverId,
                 word: wordPair.wordForeign
@@ -16,10 +24,22 @@ class GameWordsFieldContainer extends Component {
                 pairId: wordPair.serverId,
                 word: wordPair.wordNative
             }]
-        ))),
-        selectedWordsInfo: [],
-        successfulPairIds: [],
-        successfulSelectedPairId: -1
+        ));
+
+        this.setState({
+            randomWords: this.shuffle(words)
+        });
+    }
+
+    shuffle = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            let temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+
+        return array;
     };
 
     handleClick = (pairId, wordId) => () => {
@@ -78,17 +98,6 @@ class GameWordsFieldContainer extends Component {
             />
         );
     }
-}
-
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        let temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-
-    return array;
 }
 
 export default GameWordsFieldContainer;

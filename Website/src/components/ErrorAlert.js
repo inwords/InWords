@@ -24,14 +24,14 @@ const styles = theme => ({
     },
 });
 
-function ErrorAlert({ errorMessage = null, handleClose, classes }) {
+function ErrorAlert({ open, errorMessage, handleClose, classes }) {
     return (
         <Snackbar
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
             }}
-            open={!!errorMessage}
+            open={open}
             autoHideDuration={3000}
             onClose={handleClose}
         >
@@ -61,7 +61,9 @@ function ErrorAlert({ errorMessage = null, handleClose, classes }) {
 }
 
 ErrorAlert.propTypes = {
-    errorMessage: PropTypes.string,
+    open: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string.isRequired,
+    handleClose: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 

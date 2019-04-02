@@ -1,37 +1,33 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UserActions } from '../../actions/UserActions';
+import userApiActions from '../../actions/userApiActions';
 import Profile from '../../components/Profile/Profile';
 
-class ProfilePage extends Component {
-    static propTypes = {
-        userInfo: PropTypes.object.isRequired,
-        receiveUserInfo: PropTypes.func.isRequired
-    };
+function ProfilePage({ userInfo, receiveUserInfo }) {
+    useEffect(() => {
+        receiveUserInfo();
+    }, []);
 
-    componentDidMount() {
-        this.props.receiveUserInfo();
-    }
-
-    render() {
-        const { userInfo } = this.props;
-
-        return (
-            <Profile userInfo={userInfo} />
-        );
-    }
+    return (
+        <Profile userInfo={userInfo} />
+    );
 }
+
+ProfilePage.propTypes = {
+    userInfo: PropTypes.object.isRequired,
+    receiveUserInfo: PropTypes.func.isRequired
+};
 
 const mapStateToProps = store => {
     return {
-        userInfo: store.user.userInfo
+        userInfo: store.userInfo
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        receiveUserInfo: () => dispatch(UserActions.receiveUserInfo())
+        receiveUserInfo: () => dispatch(userApiActions.receiveUserInfo())
     };
 };
 

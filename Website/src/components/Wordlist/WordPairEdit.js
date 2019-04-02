@@ -1,36 +1,24 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
-import WordPairEditDialogContainer from '../../containers/Wordlist/WordPairEditDialogContainer';
+import WordPairEditDialog from './WordPairEditDialog';
 
-function WordPairEdit({ wordPair }) {
-    const [open, setOpen] = useState(false);
-
-    function handleClickOpen() {
-        setOpen(true);
-    }
-
-    function handleClose() {
-        setOpen(false);
-    }
-
+function WordPairEdit({ handleOpen, ...rest }) {
     return (
         <Fragment>
-            <IconButton aria-label="Edit" onClick={handleClickOpen}>
+            <IconButton aria-label="Edit" onClick={handleOpen}>
                 <EditIcon />
             </IconButton>
-            <WordPairEditDialogContainer
-                wordPair={wordPair}
-                open={open}
-                handleClose={handleClose}
+            <WordPairEditDialog
+                {...rest}
             />
         </Fragment>
     );
 }
 
 WordPairEdit.propTypes = {
-    wordPair: PropTypes.object.isRequired
+    handleOpen: PropTypes.func.isRequired
 };
 
 export default WordPairEdit;

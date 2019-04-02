@@ -5,12 +5,10 @@ import deepPurple from '@material-ui/core/colors/deepPurple';
 import amber from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { store } from './store/configureStore';
+import store from './store/configureStore';
 import App from './containers/App';
 
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import './index.scss';
-require('typeface-roboto');
+import 'typeface-roboto';
 
 const theme = createMuiTheme({
     palette: {

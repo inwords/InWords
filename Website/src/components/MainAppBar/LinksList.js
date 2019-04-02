@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-function LinksList({ accessToken = null, onClick = null }) {
+function LinksList({ accessToken, onClick = null }) {
     return (
         <List onClick={onClick} >
             {!accessToken ?

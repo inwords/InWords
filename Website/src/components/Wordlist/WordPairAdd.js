@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
-import WordPairAddDialogContainer from '../../containers/Wordlist/WordPairAddDialogContainer';
+import WordPairEditDialog from './WordPairEditDialog';
 
 const styles = theme => ({
     button: {
@@ -10,36 +10,26 @@ const styles = theme => ({
     },
 });
 
-function WordPairAdd({ classes }) {
-    const [open, setOpen] = useState(false);
-
-    function handleClickOpen() {
-        setOpen(true);
-    }
-
-    function handleClose() {
-        setOpen(false);
-    }
-
+function WordPairAdd({ handleOpen, classes, ...rest }) {
     return (
         <Fragment>
             <Button
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                onClick={handleClickOpen}
+                onClick={handleOpen}
             >
                 Добавить
             </Button>
-            <WordPairAddDialogContainer
-                open={open}
-                handleClose={handleClose}
+            <WordPairEditDialog
+                {...rest}
             />
         </Fragment>
     );
 }
 
 WordPairAdd.propTypes = {
+    handleOpen: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 

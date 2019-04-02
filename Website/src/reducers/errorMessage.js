@@ -1,10 +1,14 @@
-import { errorMessageConstants } from '../constants/errorMessageConstants';
+import errorMessageConstants from '../constants/errorMessageConstants';
 
-export const errorMessage = (state = null, action) => {
-    if (action.type === errorMessageConstants.ERROR_MESSAGE_RESET) {
-        return null;
-    } else if (action.error) {
-        return action.error;
+const errorMessage = (state = null, action) => {
+    switch (action.type) {
+        case errorMessageConstants.ERROR_MESSAGE_SETTING:
+            return action.payload;
+        case errorMessageConstants.ERROR_MESSAGE_RESET:
+            return null;
+        default:
+            return state;
     }
-    return state;
 };
+
+export default errorMessage;

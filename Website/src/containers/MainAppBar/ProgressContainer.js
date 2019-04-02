@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Progress from '../../components/MainAppBar/Progress';
 
-function ProgressContainer({ isFetching }) {
-    return isFetching && <Progress />;
+function ProgressContainer({ dataTransferInProgress }) {
+    return dataTransferInProgress && <Progress />;
 }
 
 ProgressContainer.propTypes = {
-    isFetching: PropTypes.bool.isRequired
+    dataTransferInProgress: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = (store) => {
+const mapStateToProps = store => {
     return {
-        isFetching: store.isFetching
+        dataTransferInProgress: store.dataTransferInProgress
     };
 };
 

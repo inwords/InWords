@@ -1,207 +1,46 @@
-import { API_ROOT } from '../api';
-import { FetchingActions } from './FetchingActions';
-import { AccessActions } from './AccessActions';
-import { gameConstants } from '../constants/gameConstants';
+import gameConstants from '../constants/gameConstants';
 
-const pullGamesInfo = () => (dispatch, getState) => {
-    dispatch(FetchingActions.fetchingRequest());
-
-    fetch(`${API_ROOT}/Game/GameInfo`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getState().accessToken}`
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                if (response.status === 401) {
-                    dispatch(AccessActions.accessDenied());
-                }
-                throw new Error(response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            dispatch(FetchingActions.fetchingSuccess());
-            dispatch(gamesInfoReceived(data));
-        })
-        .catch(err => {
-            console.error(err);
-            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об играх')));
-        });
-};
-
-const pullGameInfo = gameId => (dispatch, getState) => {
-    dispatch(FetchingActions.fetchingRequest());
-
-    fetch(`${API_ROOT}/Game/${gameId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getState().accessToken}`
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                if (response.status === 401) {
-                    dispatch(AccessActions.accessDenied());
-                }
-                throw new Error(response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            dispatch(FetchingActions.fetchingSuccess());
-            dispatch(gameInfoReceived(data));
-        })
-        .catch(err => {
-            console.error(err);
-            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки информации об игре')));
-        });
-};
-
-const pullGameLevel = levelId => (dispatch, getState) => {
-    dispatch(FetchingActions.fetchingRequest());
-
-    fetch(`${API_ROOT}/Game/Level/${levelId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getState().accessToken}`
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                if (response.status === 401) {
-                    dispatch(AccessActions.accessDenied());
-                }
-                throw new Error(response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            dispatch(FetchingActions.fetchingSuccess());
-            dispatch(gameLevelReceived(data));
-        })
-        .catch(err => {
-            console.error(err);
-            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка загрузки уровня')));
-        });
-};
-
-const addGamePack = gamePack => (dispatch, getState) => {
-    dispatch(FetchingActions.fetchingRequest());
-
-    gamePack.CreationInfo.CreatorID = getState().user.userInfo.userId;
-    fetch(`${API_ROOT}/Game/AddGamePack`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getState().accessToken}`
-        },
-        body: JSON.stringify(gamePack)
-    })
-        .then(response => {
-            if (!response.ok) {
-                if (response.status === 401) {
-                    dispatch(AccessActions.accessDenied());
-                }
-                throw new Error(response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            dispatch(FetchingActions.fetchingSuccess());
-            dispatch(gamesInfoAddLocalRefresh({
-                gameId: data.serverId,
-                isAvailable: true,
-                title: gamePack.CreationInfo.Descriptions[0].Title
-            }));
-        })
-        .catch(err => {
-            console.error(err);
-            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка добавления игры')));
-        });
-};
-
-const delGamePack = gameId => (dispatch, getState) => {
-    dispatch(FetchingActions.fetchingRequest());
-
-    fetch(`${API_ROOT}/Game/Delete/${gameId}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getState().accessToken}`
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                if (response.status === 401) {
-                    dispatch(AccessActions.accessDenied());
-                }
-                throw new Error(response.statusText);
-            }
-            dispatch(FetchingActions.fetchingSuccess());
-            dispatch(gamesInfoDelLocalRefresh(gameId));
-        })
-        .catch(err => {
-            console.error(err);
-            dispatch(FetchingActions.fetchingFailure(new Error('Ошибка удаления игры')));
-        });
-};
-
-function resetGameInfo() {
-    return (dispatch) => {
-        dispatch(gameInfoReset());
-    }
-}
-
-function resetGameLevel() {
-    return (dispatch) => {
-        dispatch(gameLevelReset());
-    }
-}
-
-const gamesInfoReceived = gamesInfo => ({
-    type: gameConstants.GAMES_INFO_RECEIVED,
+const initializeGamesInfo = gamesInfo => ({
+    type: gameConstants.GAMES_INFO_INITIALIZATION,
     gamesInfo: gamesInfo
 });
 
-const gamesInfoAddLocalRefresh = gamesInfo => ({
-    type: gameConstants.GAMES_INFO_ADD_LOCAL_REFRESH,
+const updateGamesInfoAfterAddition = gamesInfo => ({
+    type: gameConstants.GAMES_INFO_UPDATE_AFTER_ADDITION,
     gamesInfo: gamesInfo
 });
 
-const gamesInfoDelLocalRefresh = gameId => ({
-    type: gameConstants.GAMES_INFO_DEL_LOCAL_REFRESH,
+const updateGamesInfoAfterDeletion = gameId => ({
+    type: gameConstants.GAMES_INFO_UPDATE_AFTER_DELETION,
     gameId: gameId
 });
 
-const gameInfoReceived = gameInfo => ({
-    type: gameConstants.GAME_INFO_RECEIVED,
+const initializeGameInfo = gameInfo => ({
+    type: gameConstants.GAME_INFO_INITIALIZATION,
     gameInfo: gameInfo
 });
 
-const gameInfoReset = () => ({
-    type: gameConstants.GAME_INFO_RESET
+const clearGameInfo = () => ({
+    type: gameConstants.GAME_INFO_CLEARING
 });
 
-const gameLevelReceived = gameLevel => ({
-    type: gameConstants.GAME_LEVEL_RECEIVED,
+const initializeGameLevel = gameLevel => ({
+    type: gameConstants.GAME_LEVEL_INITIALIZATION,
     gameLevel: gameLevel
 });
 
-const gameLevelReset = () => ({
-    type: gameConstants.GAME_LEVEL_RESET
+const clearGameLevel = () => ({
+    type: gameConstants.GAME_LEVEL_CLEARING
 });
 
-export const GameActions = {
-    pullGamesInfo,
-    pullGameInfo,
-    pullGameLevel,
-    resetGameInfo,
-    resetGameLevel,
-    addGamePack,
-    delGamePack
+const gameActions = {
+    initializeGamesInfo,
+    updateGamesInfoAfterAddition,
+    updateGamesInfoAfterDeletion,
+    initializeGameInfo,
+    clearGameInfo,
+    initializeGameLevel,
+    clearGameLevel
 };
+
+export default gameActions;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import PageTitle from '../../components/MainAppBar/PageTitle';
 
 function PageTitleContainer({ location }) {
-    let title = (() => {
+    const title = (() => {
         switch (location.pathname) {
             case '/login':
                 return 'Вход';
