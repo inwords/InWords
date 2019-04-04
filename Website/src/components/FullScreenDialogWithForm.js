@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -29,7 +28,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-function WordPairEditDialog({ open, handleClose, values, handleChange, handleSubmit, classes }) {
+function FullScreenDialogWithForm({ pageTitle = '', open, handleClose, handleSubmit, children = null, classes }) {
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
@@ -38,7 +37,7 @@ function WordPairEditDialog({ open, handleClose, values, handleChange, handleSub
                         <CloseIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" className={classes.flex}>
-                        Редактирование
+                        {pageTitle}
                     </Typography>
                     <Button type="submit" form="form" color="inherit">
                         Сохранить
@@ -47,39 +46,20 @@ function WordPairEditDialog({ open, handleClose, values, handleChange, handleSub
             </AppBar>
             <main className={classes.content}>
                 <form id="form" onSubmit={handleSubmit}>
-                    <TextField
-                        required
-                        id="wordForeign"
-                        label="Слово или фраза"
-                        fullWidth
-                        value={values.wordForeign}
-                        onChange={handleChange('wordForeign')}
-                        margin="normal"
-                        variant="outlined"
-                    />
-                    <TextField
-                        required
-                        id="wordNative"
-                        label="Перевод"
-                        fullWidth
-                        value={values.wordNative}
-                        onChange={handleChange('wordNative')}
-                        margin="normal"
-                        variant="outlined"
-                    />
+                    {children}
                 </form>
             </main>
         </Dialog>
     );
 }
 
-WordPairEditDialog.propTypes = {
+FullScreenDialogWithForm.propTypes = {
+    pageTitle: PropTypes.string,
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired,
-    handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(WordPairEditDialog);
+export default withStyles(styles)(FullScreenDialogWithForm);

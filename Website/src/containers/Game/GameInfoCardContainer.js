@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameApiActions from '../../actions/gameApiActions';
 import GameInfoCard from '../../components/Game/GameInfoCard';
+import history from '../../history/history';
 
 class GameInfoCardContainer extends Component {
     static propTypes = {
@@ -12,6 +13,7 @@ class GameInfoCardContainer extends Component {
 
     handlePullGameInfo = () => {
         this.props.pullGameInfo(this.props.gameInfo.gameId);
+        history.push(history.location.pathname + '/levels');
     };
 
     handleDeleteGamePack = () => {

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 function ProfileMenu({ handleLogout }) {
     const [anchorEl, setAnchorEl] = useState(null);

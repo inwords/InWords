@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
-import WordPairEditDialog from './WordPairEditDialog';
+import WordPairActionsDialog from './WordPairActionsDialog';
 
 function WordPairEdit({ handleOpen, ...rest }) {
     return (
@@ -10,9 +10,7 @@ function WordPairEdit({ handleOpen, ...rest }) {
             <IconButton aria-label="Edit" onClick={handleOpen}>
                 <EditIcon />
             </IconButton>
-            <WordPairEditDialog
-                {...rest}
-            />
+            <WordPairActionsDialog {...rest} />
         </Fragment>
     );
 }

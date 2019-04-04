@@ -10,8 +10,6 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     root: {
-        width: 'auto',
-        display: 'block',
         [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
             width: 400,
             marginLeft: 'auto',
@@ -26,7 +24,6 @@ const styles = theme => ({
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
     form: {
-        width: '100%',
         marginTop: theme.spacing.unit,
     },
     submit: {
@@ -38,7 +35,7 @@ function Login({ values, handleChange, handleSubmit, classes }) {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <Typography component="h1" variant="h5">
+                <Typography variant="h5">
                     Вход
                 </Typography>
                 <form onSubmit={handleSubmit} className={classes.form}>

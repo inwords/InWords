@@ -192,13 +192,13 @@ class GamePackAddingContainer extends Component {
 const mapStateToProps = (store) => {
     return {
         gamesInfo: store.game.gamesInfo,
-        userInfo: store.user.userInfo
+        userInfo: store.userInfo
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
-        addGamePack: (gamePack) => dispatch(gameApiActions.addGamePack(gamePack))
+        addGamePack: gamePack => dispatch(gameApiActions.addGamePack(gamePack))
     };
 };
 

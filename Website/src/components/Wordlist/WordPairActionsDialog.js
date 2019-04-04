@@ -3,28 +3,29 @@ import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import FullScreenDialogWithForm from '../FullScreenDialogWithForm';
 
-function ProfileEditDialog({ values, handleChange, ...rest }) {
+function WordPairActionsDialog({ values, handleChange, ...rest }) {
     return (
         <FullScreenDialogWithForm
-            pageTitle="Редактирование"
+            pageTitle={values.wordForeign ? 'Редактирование' : 'Добавление'}
             {...rest}
         >
             <TextField
                 required
-                id="nickName"
-                label="Никнейм"
+                id="wordForeign"
+                label="Слово или фраза"
                 fullWidth
-                value={values.nickName}
-                onChange={handleChange('nickName')}
+                value={values.wordForeign}
+                onChange={handleChange('wordForeign')}
                 margin="normal"
                 variant="outlined"
             />
             <TextField
-                id="avatarPath"
-                label="URL-адрес аватара"
+                required
+                id="wordNative"
+                label="Перевод"
                 fullWidth
-                value={values.avatarPath}
-                onChange={handleChange('avatarPath')}
+                value={values.wordNative}
+                onChange={handleChange('wordNative')}
                 margin="normal"
                 variant="outlined"
             />
@@ -32,9 +33,9 @@ function ProfileEditDialog({ values, handleChange, ...rest }) {
     );
 }
 
-ProfileEditDialog.propTypes = {
+WordPairActionsDialog.propTypes = {
     values: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired
 };
 
-export default ProfileEditDialog;
+export default WordPairActionsDialog;

@@ -44,17 +44,10 @@ class WordlistPage extends Component {
     };
 
     render() {
-        const { wordPairs, searchPattern } = this.props;
+        const { wordPairs } = this.props;
         const { checked } = this.state;
 
-        let wordPairsRevercedCopy = [...wordPairs].reverse();
-
-        if (searchPattern) {
-            wordPairsRevercedCopy = wordPairsRevercedCopy.filter((wordPair) =>
-                wordPair.wordForeign.toUpperCase().includes(searchPattern.toUpperCase()) ||
-                wordPair.wordNative.toUpperCase().includes(searchPattern.toUpperCase())
-            );
-        }
+        let wordPairsRevercedCopy = wordPairs.slice().reverse();
 
         return (
             <Wordlist

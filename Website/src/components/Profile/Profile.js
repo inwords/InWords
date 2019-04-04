@@ -51,7 +51,12 @@ function Profile({ userInfo, classes }) {
 }
 
 Profile.propTypes = {
-    userInfo: PropTypes.object.isRequired,
+    userInfo: PropTypes.shape({
+        userId: PropTypes.number,
+        nickName: PropTypes.string.isRequired,
+        avatarPath: PropTypes.string,
+        experience: PropTypes.number.isRequired
+    }).isRequired,
     classes: PropTypes.object.isRequired
 };
 

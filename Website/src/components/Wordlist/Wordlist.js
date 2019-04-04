@@ -6,7 +6,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import WordlistToolbarContainer from '../../containers/Wordlist/WordlistToolbarContainer';
+import WordPairAdditionContainer from '../../containers/Wordlist/WordPairAdditionContainer';
+import WordPairsDeletionContainer from '../../containers/Wordlist/WordPairsDeletionContainer';
 import WordPairEditContainer from '../../containers/Wordlist/WordPairEditContainer';
 
 const styles = theme => ({
@@ -14,20 +15,21 @@ const styles = theme => ({
         width: '100%',
         marginTop: theme.spacing.unit,
         backgroundColor: theme.palette.background.paper,
-    },
+    }
 });
 
 function Wordlist({ wordPairs, checked, handleToggle, classes }) {
     return (
         <Fragment>
-            <WordlistToolbarContainer checked={checked} />
+            <WordPairAdditionContainer />
+            <WordPairsDeletionContainer checked={checked} />
             <List className={classes.list}>
                 {wordPairs.map(wordPair => (
                     <ListItem key={wordPair.serverId} role={undefined} button onClick={handleToggle(wordPair.serverId)}>
                         <Checkbox checked={checked.indexOf(wordPair.serverId) !== -1} tabIndex={-1} disableRipple />
                         <ListItemText primary={wordPair.wordForeign} secondary={wordPair.wordNative} />
                         <ListItemSecondaryAction>
-                            <WordPairEditContainer wordPair={wordPair}/>
+                            <WordPairEditContainer wordPair={wordPair} />
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}

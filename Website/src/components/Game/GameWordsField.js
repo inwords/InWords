@@ -64,8 +64,8 @@ function GameWordsField({ randomWords, selectedWordsInfo, successfulPairIds, suc
                     <Grid key={index} item onClick={handleClick(randomWord.pairId, index)}>
                         <GameWordCard
                             word={randomWord.word}
-                            selected={!!selectedWordsInfo.find((selectedWordInfo) => selectedWordInfo.wordId === index)}
-                            successful={!!~successfulPairIds.indexOf(randomWord.pairId)}
+                            selected={Boolean(selectedWordsInfo.find((selectedWordInfo) => selectedWordInfo.wordId === index))}
+                            successful={Boolean(~successfulPairIds.indexOf(randomWord.pairId))}
                             successfulSelected={successfulSelectedPairId === randomWord.pairId}
                         />
                     </Grid>

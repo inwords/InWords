@@ -2,18 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
-import WordPairAdd from '../../components/Wordlist/WordPairAdd';
+import WordPairAdd from '../../components/Wordlist/WordPairAddition';
 
-function WordPairAddContainer({ addWordPair }) {
+function WordPairAdditionContainer({ addWordPair }) {
     const [open, setOpen] = useState(false);
-
-    const handleOpen = () => {
-        setOpen(true);
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    }
 
     const [values, setValues] = useState({
         wordForeign: '',
@@ -28,6 +20,14 @@ function WordPairAddContainer({ addWordPair }) {
             });
         }
     }, [open]);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
@@ -55,7 +55,7 @@ function WordPairAddContainer({ addWordPair }) {
     );
 }
 
-WordPairAddContainer.propTypes = {
+WordPairAdditionContainer.propTypes = {
     addWordPair: PropTypes.func.isRequired
 };
 
@@ -68,4 +68,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(WordPairAddContainer);
+)(WordPairAdditionContainer);

@@ -2,24 +2,23 @@ import React, { Fragment } from 'react';
 import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import history from '../history/history';
 import ErrorAlertContainer from './ErrorAlertContainer';
-import MainAppBarContainer from './MainAppBar/MainAppBarContainer';
+import RegularAppBarContainer from './AppBar/RegularAppBarContainer';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './Wordlist/WordlistPage';
 import GamePage from './Game/GamePage';
 import ProfilePage from './Profile/ProfilePage';
+//import GamesInfoField from '../components/Game/GamesInfoField';
 
 function App({ accessToken }) {
     return (
-        <Router history={history}>
-            <Fragment>
-                <CssBaseline />
-                <ErrorAlertContainer />
+        <Fragment>
+            <ErrorAlertContainer />
+            <Router history={history}>
                 <Switch>
-                    <MainAppBarContainer>
+                    <RegularAppBarContainer>
                         <Route exact path="/" render={() =>
                             !accessToken ?
                                 <Redirect to="login" /> :
@@ -27,12 +26,12 @@ function App({ accessToken }) {
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistPage} />
-                        <Route path="/game" component={GamePage} />
+                        <Route exact path="/games" component={GamePage} />
                         <Route path="/profile" component={ProfilePage} />
-                    </MainAppBarContainer>
+                    </RegularAppBarContainer>
                 </Switch>
-            </Fragment>
-        </Router>
+            </Router>
+        </Fragment>
     );
 }
 

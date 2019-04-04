@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Progress from '../../components/MainAppBar/Progress';
+import Progress from '../../components/AppBar/Progress';
 
 function ProgressContainer({ dataTransferInProgress }) {
     return dataTransferInProgress && <Progress />;
 }
 
 ProgressContainer.propTypes = {
-    dataTransferInProgress: PropTypes.bool.isRequired
+    dataTransferInProgress: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = store => {

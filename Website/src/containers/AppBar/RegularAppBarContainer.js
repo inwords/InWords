@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import MainAppBar from '../../components/MainAppBar/MainAppBar';
+import RegularAppBar from '../../components/AppBar/RegularAppBar';
 
-function MainAppBarContainer(props) {
+function RegularAppBarContainer({ accessToken, children }) {
     const [open, setOpen] = useState(false);
 
     const handleDrawerOpen = () => {
@@ -15,18 +15,19 @@ function MainAppBarContainer(props) {
     };
 
     return (
-        <MainAppBar
+        <RegularAppBar
+            authorized={Boolean(accessToken)}
             open={open}
             handleDrawerOpen={handleDrawerOpen}
             handleDrawerClose={handleDrawerClose}
-            {...props}
+            children={children}
         />
     );
 }
 
-MainAppBarContainer.propTypes = {
+RegularAppBarContainer.propTypes = {
     accessToken: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
 };
 
 const mapStateToProps = store => {
@@ -37,4 +38,4 @@ const mapStateToProps = store => {
 
 export default connect(
     mapStateToProps
-)(MainAppBarContainer);
+)(RegularAppBarContainer);

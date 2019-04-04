@@ -50,6 +50,7 @@ class GamePage extends Component {
         const { addModeActivated } = this.state;
 
         return (
+            /*
             !addModeActivated ?
                 (!gameInfo ?
                     <Fragment>
@@ -66,6 +67,8 @@ class GamePage extends Component {
                             <GameWordsFieldContainer gameLevel={gameLevel} />
                         </Fragment>)) :
                 <GamePackAdding handleCancel={this.handleSwitchAddMode} />
+                */
+            <GamesInfoField gamesInfo={gamesInfo} />
         );
     }
 }

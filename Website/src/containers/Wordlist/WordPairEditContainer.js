@@ -7,14 +7,6 @@ import WordPairEdit from '../../components/Wordlist/WordPairEdit';
 function WordPairEditContainer({ wordPair, deleteWordPairAsEditPart, addWordPairAsEditPart }) {
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    }
-
     const [values, setValues] = useState({
         wordForeign: '',
         wordNative: ''
@@ -28,6 +20,14 @@ function WordPairEditContainer({ wordPair, deleteWordPairAsEditPart, addWordPair
             });
         }
     }, [open]);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });

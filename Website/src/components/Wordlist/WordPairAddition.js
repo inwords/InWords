@@ -2,15 +2,15 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
-import WordPairEditDialog from './WordPairEditDialog';
+import WordPairActionsDialog from './WordPairActionsDialog';
 
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
-    },
+    }
 });
 
-function WordPairAdd({ handleOpen, classes, ...rest }) {
+function WordPairAddition({ handleOpen, classes, ...rest }) {
     return (
         <Fragment>
             <Button
@@ -21,16 +21,14 @@ function WordPairAdd({ handleOpen, classes, ...rest }) {
             >
                 Добавить
             </Button>
-            <WordPairEditDialog
-                {...rest}
-            />
+            <WordPairActionsDialog {...rest} />
         </Fragment>
     );
 }
 
-WordPairAdd.propTypes = {
+WordPairAddition.propTypes = {
     handleOpen: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(WordPairAdd);
+export default withStyles(styles)(WordPairAddition);

@@ -1,11 +1,11 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import accessActions from '../../actions/accessActions';
-import history from '../../history/history'
-import ProfileMenu from '../../components/MainAppBar/ProfileMenu';
+import ProfileMenu from '../../components/AppBar/ProfileMenu';
 
-function MainAppBarContainer({ denyAccess }) {
+function MainAppBarContainer({ denyAccess, history }) {
     const handleLogout = () => {
         denyAccess();
         history.push('login');
@@ -15,7 +15,8 @@ function MainAppBarContainer({ denyAccess }) {
 }
 
 MainAppBarContainer.propTypes = {
-    denyAccess: PropTypes.func.isRequired
+    denyAccess: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = dispatch => {
@@ -24,7 +25,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
+export default withRouter(connect(
     null,
     mapDispatchToProps
-)(MainAppBarContainer);
+)(MainAppBarContainer));
