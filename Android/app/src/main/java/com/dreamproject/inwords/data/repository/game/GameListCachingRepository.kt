@@ -8,5 +8,7 @@ class GameListCachingRepository<T>(
 
     override fun getAll(): Single<List<T>> = dataProvider()
             .flatMap { list -> databaseRepository.insertAll(list).map { list } }
-            .onErrorResumeNext(databaseRepository.getAll())
+            .onErrorResumeNext(databaseRepository.getAll()
+                    .filter { !it.isEmpty() }
+                    .toSingle())
 }

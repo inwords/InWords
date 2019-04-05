@@ -11,15 +11,12 @@ import com.dreamproject.inwords.data.dto.noUser
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.card_dictionary.view.*
 import kotlinx.android.synthetic.main.card_profile.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFactory>() {
-    private val compositeDisposable = CompositeDisposable()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -30,12 +27,6 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
         compositeDisposable.add(subscribeDictionary())
         //BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
         //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        compositeDisposable.clear()
     }
 
     private fun toLoginClickListener() = Navigation
@@ -90,6 +81,8 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
             } else {
                 renderUser(user)
             }
+
+            profile.visibility = View.VISIBLE
         }
 
         fun renderLoading() {

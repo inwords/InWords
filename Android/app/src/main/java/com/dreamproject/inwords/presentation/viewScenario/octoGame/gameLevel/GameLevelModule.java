@@ -4,7 +4,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class GameLevelFragmentModule {
+public abstract class GameLevelModule {
     @ContributesAndroidInjector
     abstract GameLevelFragment contributeYourActivityInjector();
 }

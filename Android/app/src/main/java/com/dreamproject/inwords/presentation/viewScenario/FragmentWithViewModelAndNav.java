@@ -16,21 +16,32 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import dagger.android.support.DaggerFragment;
+import io.reactivex.disposables.CompositeDisposable;
 
 public abstract class FragmentWithViewModelAndNav
         <ViewModelType extends ViewModel, ViewModelFactory extends ViewModelProvider.Factory>
         extends DaggerFragment {
+
     protected ViewModelType viewModel;
     @Inject
     ViewModelFactory modelFactory;
 
     protected NavController navController;
 
+    protected CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(getLayout(), container, false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        compositeDisposable.clear();
+
+        super.onDestroyView();
     }
 
     protected abstract int getLayout();

@@ -15,7 +15,6 @@ import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelA
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_game_level.*
 import kotlinx.android.synthetic.main.game_card_front.view.*
 import kotlinx.android.synthetic.main.game_welcome.*
@@ -23,8 +22,6 @@ import java.util.concurrent.TimeUnit
 
 
 class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLevelViewModelFactory>() {
-    private val compositeDisposable = CompositeDisposable()
-
     private lateinit var gameLevelInfo: GameLevelInfo
     private var openedCard: FlipView? = null
     private var showing: Boolean = false

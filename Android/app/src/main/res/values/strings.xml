@@ -63,6 +63,7 @@
     <string name="loading_text_placeholder">Загрузка профиля</string>
     <string name="sign_up_proposal">Создайте аккаунт, чтобы использовать больше возможностей приложения</string>
     <string name="user_experience">Ваш опыт на сегодня: %1$d</string>
+    <string name="choose_game">Выберите игру</string>
     <!-- home end -->
 
 </resources>

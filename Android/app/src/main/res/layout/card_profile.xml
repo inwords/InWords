@@ -6,8 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/half_margin"
+    android:visibility="gone"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    tools:showIn="@layout/fragment_home">
+    tools:showIn="@layout/fragment_home"
+    tools:visibility="visible">
 
     <TextView
         android:id="@+id/clickToLogin"
