@@ -11,7 +11,7 @@ namespace InWords.Auth.Models
     public class SymmetricJwtTokenProvider : IJwtProvider
     {
         private static readonly string SecretFilePath =
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security");
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security.txt");
 
         public readonly string Audience;
         public readonly string Issuer;
@@ -39,7 +39,7 @@ namespace InWords.Auth.Models
                 claims: identity.Claims,
                 expires: now.Add(TimeSpan.FromMinutes(MinutesLifetime)),
                 signingCredentials: new SigningCredentials(securefileProvider.GetSymmetricSecurityKey(),
-                    SecurityAlgorithms.HmacSha256));
+                    SecurityAlgorithms.HmacSha256Signature));
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
