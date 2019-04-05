@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<eu.davidea.flipview.FlipView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/flip_view"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:layout_margin="3dp"
-    android:focusable="true"
-    app:animateDesignLayoutOnly="true"
-    app:enableInitialAnimation="true">
+    android:id="@+id/cardView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
-    <include layout="@layout/game_card_front" />
+    <eu.davidea.flipview.FlipView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/flip_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:focusable="true"
+        app:animateDesignLayoutOnly="true"
+        app:enableInitialAnimation="true">
 
-    <include layout="@layout/game_card_rear" />
+        <include layout="@layout/game_card_front" />
 
-</eu.davidea.flipview.FlipView>
+        <include layout="@layout/game_card_rear" />
+
+    </eu.davidea.flipview.FlipView>
+</androidx.cardview.widget.CardView>

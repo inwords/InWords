@@ -5,6 +5,7 @@
     style="?android:attr/textAppearanceInverse"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/rounded_rect"
+    android:backgroundTint="@color/colorPrimary"
     android:gravity="center"
     tools:text="Front" />

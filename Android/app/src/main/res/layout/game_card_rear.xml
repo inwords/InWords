@@ -3,6 +3,7 @@
     android:id="@+id/rearText"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    android:background="@color/colorPrimaryDark"
+    android:background="@drawable/rounded_rect"
+    android:backgroundTint="@color/colorPrimaryDark"
     android:gravity="center"
     tools:text="Rear" />

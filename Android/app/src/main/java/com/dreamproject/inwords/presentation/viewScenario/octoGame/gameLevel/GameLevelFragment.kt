@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
+import androidx.cardview.widget.CardView
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
@@ -16,6 +17,7 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder
 import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_game_level.*
+import kotlinx.android.synthetic.main.game_card.view.*
 import kotlinx.android.synthetic.main.game_card_front.view.*
 import kotlinx.android.synthetic.main.game_welcome.*
 import java.util.concurrent.TimeUnit
@@ -76,9 +78,9 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
             tableRow.gravity = Gravity.CENTER
 
             for (j in 0 until 2) {
-                val card = layoutInflater.inflate(R.layout.game_card, tableRow, false) as FlipView
+                val card = layoutInflater.inflate(R.layout.game_card, tableRow, false) as CardView
 
-                card.apply {
+                with(card.flip_view) {
                     flip(true)
 
                     val word = words[j + i * 2]
