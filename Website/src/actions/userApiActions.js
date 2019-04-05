@@ -8,7 +8,7 @@ function login(userdata) {
         method: 'POST',
         data: JSON.stringify(userdata),
         actionsOnSuccess: [accessActions.grantAccess],
-        redirection: 'wordlist',
+        redirection: '/wordlist',
         errorMessage: 'Ошибка авторизации'
     });
 }
@@ -18,7 +18,7 @@ function register(userdata) {
         endpoint: 'Auth/Registration',
         method: 'POST',
         data: JSON.stringify(userdata),
-        redirection: 'login',
+        redirection: '/login',
         errorMessage: 'Ошибка регистрации'
     });
 }

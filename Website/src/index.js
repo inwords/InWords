@@ -9,8 +9,6 @@ import pink from '@material-ui/core/colors/pink';
 import store from './store/configureStore';
 import App from './containers/App';
 
-import 'typeface-roboto';
-
 const theme = createMuiTheme({
     palette: {
         primary: deepPurple,

@@ -6,7 +6,7 @@ import FullScreenDialogWithForm from '../FullScreenDialogWithForm';
 function WordPairActionsDialog({ values, handleChange, ...rest }) {
     return (
         <FullScreenDialogWithForm
-            pageTitle={values.wordForeign ? 'Редактирование' : 'Добавление'}
+            title={values.wordForeign ? 'Редактирование' : 'Добавление'}
             {...rest}
         >
             <TextField

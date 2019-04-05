@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import gameConstants from '../constants/gameConstants';
 
-const gamesInfo = (state = [], action) => {
+const gamesInfo = (state = null, action) => {
     switch (action.type) {
         case gameConstants.GAMES_INFO_INITIALIZATION:
             return action.gamesInfo;

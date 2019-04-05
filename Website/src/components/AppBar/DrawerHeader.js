@@ -15,7 +15,7 @@ const styles = theme => ({
 function DrawerHeader({ classes }) {
     return (
         <div className={classes.drawerHeader}>
-            <Link href='https://inwords.ru' variant="h6" color="textSecondary">
+            <Link href='https://inwords.ru' variant="h6">
                 InWords
             </Link>
         </div>

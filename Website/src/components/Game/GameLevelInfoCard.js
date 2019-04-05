@@ -5,16 +5,22 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import StarIcon from '@material-ui/icons/Star';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
-function GameInfoCard({ gameInfo, handleRedirection }) {
-    const { gameId, title, isAvailable } = gameInfo;
+function GameLevelInfoCard({ levelInfo, handleRedirection }) {
+    const { levelId, level, isAvailable, playerStars } = levelInfo;
 
     return (
         <Card>
             <CardContent>
-                <Typography gutterBottom={false} variant="h5" component="h2">
-                    {title}
+                <Typography gutterBottom variant="h5" component="h2">
+                    Уровень {level}
                 </Typography>
+                {Array(playerStars).fill().map((item, index) =>
+                    <StarIcon key={index} />)}
+                {Array(3 - playerStars).fill().map((item, index) =>
+                    <StarBorderIcon key={index} />)}
                 <Typography component="p">
                     {}
                 </Typography>
@@ -23,7 +29,7 @@ function GameInfoCard({ gameInfo, handleRedirection }) {
                 <Button
                     size="small"
                     disabled={!isAvailable}
-                    onClick={handleRedirection(gameId)}
+                    onClick={handleRedirection(levelId)}
                 >
                     Выбрать
                 </Button>
@@ -32,13 +38,14 @@ function GameInfoCard({ gameInfo, handleRedirection }) {
     );
 }
 
-GameInfoCard.propTypes = {
-    gameInfo: PropTypes.shape({
-        gameId: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
+GameLevelInfoCard.propTypes = {
+    levelInfo: PropTypes.shape({
+        levelId: PropTypes.number.isRequired,
+        level: PropTypes.number.isRequired,
         isAvailable: PropTypes.bool.isRequired,
+        playerStars: PropTypes.number.isRequired,
     }).isRequired,
     handleRedirection: PropTypes.func.isRequired,
 };
 
-export default GameInfoCard;
+export default GameLevelInfoCard;

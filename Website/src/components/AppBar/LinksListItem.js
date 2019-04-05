@@ -11,14 +11,17 @@ const styles = theme => ({
     item: {
         paddingLeft: theme.spacing.unit * 3,
     },
+    weightedText: {
+        fontWeight: '500',
+    },
 });
 
 function LinksListItem({ to, text, classes, location }) {
     return (
         <ListItem button dense component={Link} to={to} className={classes.item}>
             <ListItemText primary={
-                <Typography variant="subtitle1" color={
-                    location.pathname === to ? 'textPrimary' : 'textSecondary'}>{text}</Typography>} />
+                <Typography className={
+                    location.pathname === to ? classes.weightedText : null}>{text}</Typography>} />
         </ListItem>
     );
 };

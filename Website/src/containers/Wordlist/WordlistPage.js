@@ -21,7 +21,7 @@ class WordlistPage extends Component {
     componentDidUpdate(prevProps) {
         const { wordPairs } = this.props;
 
-        if (wordPairs.length < prevProps.wordPairs.length) {
+        if (wordPairs !== prevProps.wordPairs) {
             this.setState({
                 checked: []
             });

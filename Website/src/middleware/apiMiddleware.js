@@ -51,7 +51,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
             if (error.response && error.response.status === 401) {
                 dispatch(accessActions.denyAccess());
-                history.push('login');
+                history.push('/login');
             }
 
             console.error(error);

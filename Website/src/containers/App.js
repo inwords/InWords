@@ -8,9 +8,10 @@ import RegularAppBarContainer from './AppBar/RegularAppBarContainer';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './Wordlist/WordlistPage';
-import GamePage from './Game/GamePage';
+import GamesPage from './Game/GamesPage';
+import GameLevelsContainer from './Game/GameLevelsContainer';
+import GameFieldContainer from './Game/GameFieldContainer';
 import ProfilePage from './Profile/ProfilePage';
-//import GamesInfoField from '../components/Game/GamesInfoField';
 
 function App({ accessToken }) {
     return (
@@ -21,12 +22,14 @@ function App({ accessToken }) {
                     <RegularAppBarContainer>
                         <Route exact path="/" render={() =>
                             !accessToken ?
-                                <Redirect to="login" /> :
-                                <Redirect to="wordlist" />} />
+                                <Redirect to="/login" /> :
+                                <Redirect to="/wordlist" />} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistPage} />
-                        <Route exact path="/games" component={GamePage} />
+                        <Route exact path="/games" component={GamesPage} />
+                        <Route path="/games/game/:id" component={GameLevelsContainer} />
+                        <Route path="/games/level/:id" component={GameFieldContainer} />
                         <Route path="/profile" component={ProfilePage} />
                     </RegularAppBarContainer>
                 </Switch>
@@ -36,7 +39,7 @@ function App({ accessToken }) {
 }
 
 App.propTypes = {
-    accessToken: PropTypes.string
+    accessToken: PropTypes.string,
 };
 
 const mapStateToProps = store => {

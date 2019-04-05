@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameApiActions from '../../actions/gameApiActions';
-import GameInfoCard from '../../components/Game/GameInfoCard';
+import GameInfoCard from '../../components/Game/GameInfoCard2';
 import history from '../../history/history';
 
 class GameInfoCardContainer extends Component {

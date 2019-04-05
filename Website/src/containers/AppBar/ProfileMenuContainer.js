@@ -8,7 +8,7 @@ import ProfileMenu from '../../components/AppBar/ProfileMenu';
 function MainAppBarContainer({ denyAccess, history }) {
     const handleLogout = () => {
         denyAccess();
-        history.push('login');
+        history.push('/login');
     };
 
     return <ProfileMenu handleLogout={handleLogout} />;

@@ -6,7 +6,7 @@ import FullScreenDialogWithForm from '../FullScreenDialogWithForm';
 function ProfileEditDialog({ values, handleChange, ...rest }) {
     return (
         <FullScreenDialogWithForm
-            pageTitle="Редактирование"
+            title="Редактирование"
             {...rest}
         >
             <TextField

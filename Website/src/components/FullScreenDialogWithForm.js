@@ -28,7 +28,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-function FullScreenDialogWithForm({ pageTitle = '', open, handleClose, handleSubmit, children = null, classes }) {
+function FullScreenDialogWithForm({ title = '', open, handleClose, handleSubmit, children = null, classes }) {
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
@@ -37,7 +37,7 @@ function FullScreenDialogWithForm({ pageTitle = '', open, handleClose, handleSub
                         <CloseIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" className={classes.flex}>
-                        {pageTitle}
+                        {title}
                     </Typography>
                     <Button type="submit" form="form" color="inherit">
                         Сохранить
@@ -54,7 +54,7 @@ function FullScreenDialogWithForm({ pageTitle = '', open, handleClose, handleSub
 }
 
 FullScreenDialogWithForm.propTypes = {
-    pageTitle: PropTypes.string,
+    title: PropTypes.string,
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
