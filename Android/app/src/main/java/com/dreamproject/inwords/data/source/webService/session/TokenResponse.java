@@ -1,36 +1,39 @@
 package com.dreamproject.inwords.data.source.webService.session;
 
+import com.google.gson.annotations.SerializedName;
+
 import androidx.annotation.NonNull;
 
 public class TokenResponse {
     @NonNull
-    private String access_token;
-    @NonNull
-    private String email;
+    @SerializedName("token")
+    private String token;
+    @SerializedName("userId")
+    private int userId;
 
     TokenResponse() {
-        this.access_token = "";
-        this.email = "";
+        this.token = "";
+        this.userId = 0;
     }
 
-    private TokenResponse(@NonNull String access_token, @NonNull String email) {
-        this.access_token = access_token;
-        this.email = email;
+    private TokenResponse(@NonNull String token, @NonNull int userId) {
+        this.token = token;
+        this.userId = userId;
     }
 
     public static TokenResponse errorToken() {
-        return new TokenResponse("error_token", "error_mail");
+        return new TokenResponse("error_token", 0);
     }
 
     public boolean isValid() {
-        return access_token.length() > 30; //TODO think about more convenient check
+        return token.length() > 30; //TODO think about more convenient check
     }
 
     public String getBearer() {
-        return "Bearer " + access_token;
+        return "Bearer " + token;
     }
 
     public String getAccessToken() {
-        return access_token;
+        return token;
     }
 }
