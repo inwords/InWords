@@ -7,6 +7,7 @@ using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 using InWords.WebApi.Service;
+using InWords.WebApi.Service.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -73,9 +74,9 @@ namespace InWords.WebApi.Controllers.v1
         /// <returns></returns>
         [Route("GameInfo")]
         [HttpGet]
-        public IActionResult GetGameInfo()
+        public async Task<IActionResult> GetGameInfo()
         {
-            List<GameInfo> answer = gameService.GetGamesInfos();
+            List<GameInfo> answer = await gameService.GetGames();
 
             return Ok(answer);
         }
@@ -148,7 +149,7 @@ namespace InWords.WebApi.Controllers.v1
                 ? await gameService.DeleteGames(ids)
                 : await gameService.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
+            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }
     }
 }

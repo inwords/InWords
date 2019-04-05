@@ -91,7 +91,7 @@ namespace InWords.WebApi.Service
                 var descriptionInfo = new DescriptionInfo
                 {
                     LangId = desc.LanguageId,
-                    Description = desc.Title,
+                    Description = desc.Description,
                     Title = desc.Title
                 };
                 descriptions.Add(descriptionInfo);

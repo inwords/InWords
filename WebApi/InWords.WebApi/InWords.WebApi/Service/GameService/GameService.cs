@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models;
-using InWords.Data.Models.InWords.Creations;
 using InWords.Data.Models.InWords.Creations.GameBox;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
@@ -12,7 +11,7 @@ using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Service.GameService
 {
     /// <inheritdoc />
     /// <summary>
@@ -22,7 +21,7 @@ namespace InWords.WebApi.Service
     public class GameService : CreationService
     {
         /// <summary>
-        ///     This is to add game pack to database with UserID as CreationID
+        ///     Add a game using the userId as the CreatorId 
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="gamePack"></param>
@@ -80,10 +79,10 @@ namespace InWords.WebApi.Service
         }
 
         /// <summary>
-        ///     This is to get short information about all created games
+        ///     Get information about all existing games
         /// </summary>
         /// <returns></returns>
-        public List<GameInfo> GetGamesInfos()
+        public async Task<List<GameInfo>> GetGames()
         {
             var gameInfos = new List<GameInfo>();
 
@@ -91,14 +90,18 @@ namespace InWords.WebApi.Service
 
             foreach (GameBox game in games)
             {
+                CreationInfo creationInfo = await GetCreationInfo(game.CreationId);
+
                 // TODO: (LNG) title 
-                CreationDescription description = GetDescriptions(game.CreationId).FirstOrDefault();
+                DescriptionInfo russianDescription = creationInfo.Descriptions.GetRus();
 
                 var gameInfo = new GameInfo
                 {
+                    CreatorId = creationInfo.CreatorId ?? 0,
                     GameId = game.GameBoxId,
                     IsAvailable = true,
-                    Title = description?.Title
+                    Title = russianDescription.Title,
+                    Description = russianDescription.Description
                 };
 
                 gameInfos.Add(gameInfo);
@@ -177,7 +180,6 @@ namespace InWords.WebApi.Service
 
             return level;
         }
-
 
         /// <summary>
         ///     This is to delete the whole game and levels.
@@ -313,7 +315,10 @@ namespace InWords.WebApi.Service
         private readonly UserRepository usersRepository;
         private readonly WordsService wordsService;
 
-
+        /// <summary>
+        /// Basic constructor
+        /// </summary>
+        /// <param name="context"></param>
         public GameService(InWordsDataContext context) : base(context)
         {
             usersRepository = new UserRepository(context);
