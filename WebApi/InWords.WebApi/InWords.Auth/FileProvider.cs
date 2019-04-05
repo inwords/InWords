@@ -19,7 +19,6 @@ namespace InWords.Auth
 
         public async void Save(string context)
         {
-            EnsureFileFolder();
             using (var writer = new StreamWriter(FilePath))
             {
                 await writer.WriteAsync(context);
@@ -29,8 +28,10 @@ namespace InWords.Auth
 
         public string Open()
         {
-            EnsureFileFolder();
+            if (!new FileInfo(FilePath).Exists) return string.Empty;
+
             string result = string.Empty;
+
             try
             {
                 using (var reader = new StreamReader(FilePath))
@@ -46,20 +47,5 @@ namespace InWords.Auth
             return result;
         }
 
-        private void EnsureFileFolder()
-        {
-            try
-            {
-                string dirName = new DirectoryInfo(FilePath).Name;
-                if (!Directory.Exists(dirName)) Directory.CreateDirectory(dirName);
-                if (File.Exists(FilePath)) return;
-                FileStream x = File.Create(FilePath);
-                x.Dispose();
-            }
-            catch
-            {
-                //todo log
-            }
-        }
     }
 }

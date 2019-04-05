@@ -11,7 +11,7 @@ namespace InWords.Auth.Models
     public class SymmetricJwtTokenProvider : IJwtProvider
     {
         private static readonly string SecretFilePath =
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security.txt");
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.security");
 
         public readonly string Audience;
         public readonly string Issuer;
