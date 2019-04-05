@@ -1,5 +1,6 @@
 package com.dreamproject.inwords.presentation.viewScenario.octoGame.games
 
+import android.util.Log
 import com.dreamproject.inwords.data.dto.game.GameInfo
 import com.dreamproject.inwords.domain.interactor.game.GameInteractor
 import com.dreamproject.inwords.domain.model.GamesInfoModel
@@ -20,4 +21,8 @@ class GamesViewModel(private val gameInteractor: GameInteractor) : BasicViewMode
     }
 
     fun screenInfoStream(): Single<GamesInfoModel> = gameInteractor.getGamesInfo()
+
+    fun onGameRemoved(gameInfo: GameInfo) {
+        Log.d("onGameRemoved", gameInfo.toString())
+    }
 }

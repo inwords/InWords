@@ -2,6 +2,7 @@ package com.dreamproject.inwords.presentation.viewScenario.octoGame.games
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameInfo
@@ -10,9 +11,10 @@ import com.dreamproject.inwords.domain.model.GamesInfoModel
 import com.dreamproject.inwords.domain.util.ColoringUtil
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import kotlinx.android.synthetic.main.fragment_game_levels.*
-import kotlinx.android.synthetic.main.game_level_info.view.*
+import kotlinx.android.synthetic.main.game_info.view.*
 import kotlinx.android.synthetic.main.game_no_content.*
 import javax.inject.Inject
+
 
 class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, GamesViewModelFactory>() {
     @Inject
@@ -60,7 +62,30 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, GamesViewModel
                 setBackgroundColor(coloringUtil.getColorForGameLevelInfo(gameInfo.available || true)) //TODO
 
                 setOnClickListener { viewModel.onGameSelected(gameInfo) }
+                game_menu.setOnClickListener { showPopupMenu(it) }
+                game_menu.tag = gameInfo
+
                 levelsGrid.addView(this)
+            }
+        }
+    }
+
+    private fun showPopupMenu(v: View) {
+        context?.let {
+            with(PopupMenu(it, v)) {
+                inflate(R.menu.game_actions)
+
+                setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.game_remove -> {
+                            viewModel.onGameRemoved(v.tag as GameInfo)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
+                show()
             }
         }
     }
