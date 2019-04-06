@@ -5,18 +5,30 @@ import PropTypes from 'prop-types';
 import accessActions from '../../actions/accessActions';
 import ProfileMenu from '../../components/AppBar/ProfileMenu';
 
-function MainAppBarContainer({ denyAccess, history }) {
+function ProfileMenuContainer({ userId, denyAccess, history }) {
     const handleLogout = () => {
         denyAccess();
         history.push('/login');
     };
 
-    return <ProfileMenu handleLogout={handleLogout} />;
+    return (
+        <ProfileMenu
+            userId={userId}
+            handleLogout={handleLogout}
+        />
+    );
 }
 
-MainAppBarContainer.propTypes = {
+ProfileMenuContainer.propTypes = {
+    userId: PropTypes.number.isRequired,
     denyAccess: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = store => {
+    return {
+        userId: store.access.userId
+    };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -26,6 +38,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
-)(MainAppBarContainer));
+)(ProfileMenuContainer));

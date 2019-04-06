@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import gameActions from '../../actions/gameActions';
 import gameApiActions from '../../actions/gameApiActions';
 import Games from '../../components/Game/Games';
 
-function GamesPage({ gamesInfo, pullGamesInfo, history }) {
+function GamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, history }) {
     const handleRedirection = gameId => () => {
-        history.push(`/games/game/${gameId}`)
+        clearGameInfo();
+        history.push(`/games_catalog/game/${gameId}`);
     };
 
     useEffect(() => {
@@ -26,6 +28,7 @@ function GamesPage({ gamesInfo, pullGamesInfo, history }) {
 GamesPage.propTypes = {
     gamesInfo: PropTypes.array,
     pullGamesInfo: PropTypes.func.isRequired,
+    clearGameInfo: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };
 
@@ -37,7 +40,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        pullGamesInfo: () => dispatch(gameApiActions.pullGamesInfo())
+        pullGamesInfo: () => dispatch(gameApiActions.pullGamesInfo()),
+        clearGameInfo: () => dispatch(gameActions.clearGameInfo())
     };
 };
 

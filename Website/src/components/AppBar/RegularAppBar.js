@@ -15,7 +15,7 @@ import PageTitle from './PageTitle';
 import DrawerHeader from './DrawerHeader';
 import LinksList from './LinksList';
 
-const drawerWidth = 240;
+export const drawerWidth = 240;
 
 const styles = theme => ({
     root: {

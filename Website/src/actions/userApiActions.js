@@ -23,9 +23,9 @@ function register(userdata) {
     });
 }
 
-function receiveUserInfo() {
+function receiveUserInfo(userId) {
     return apiAction({
-        endpoint: 'Users',
+        endpoint: `Users/${userId}`,
         actionsOnSuccess: [userActions.initializeUserInfo],
         errorMessage: 'Ошибка загрузки профиля'
     });

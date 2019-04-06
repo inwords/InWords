@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import RegularAppBar from '../../components/AppBar/RegularAppBar';
 
-function RegularAppBarContainer({ accessToken, children }) {
+function RegularAppBarContainer({ token, children }) {
     const [open, setOpen] = useState(false);
 
     const handleDrawerOpen = () => {
@@ -16,7 +16,7 @@ function RegularAppBarContainer({ accessToken, children }) {
 
     return (
         <RegularAppBar
-            authorized={Boolean(accessToken)}
+            authorized={Boolean(token)}
             open={open}
             handleDrawerOpen={handleDrawerOpen}
             handleDrawerClose={handleDrawerClose}
@@ -26,13 +26,13 @@ function RegularAppBarContainer({ accessToken, children }) {
 }
 
 RegularAppBarContainer.propTypes = {
-    accessToken: PropTypes.string,
+    token: PropTypes.string,
     children: PropTypes.node,
 };
 
 const mapStateToProps = store => {
     return {
-        accessToken: store.accessToken
+        token: store.access.token
     };
 };
 

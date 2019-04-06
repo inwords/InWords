@@ -33,7 +33,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
         method,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getState().accessToken}`
+            'Authorization': `Bearer ${getState().access.token}`
         },
         [dataOrParams]: data
     })

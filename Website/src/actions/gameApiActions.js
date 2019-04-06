@@ -13,7 +13,7 @@ function pullGameInfo(gameId) {
     return apiAction({
         endpoint: `Game/${gameId}`,
         actionsOnSuccess: [gameActions.initializeGameInfo],
-        errorMessage: 'Ошибка загрузки уровней'
+        errorMessage: 'Ошибка загрузки игры'
     });
 }
 
@@ -25,49 +25,20 @@ function pullGameLevel(levelId) {
     });
 }
 
-function addGamePack(gamePack) {
+function saveLevelResult(levelResult) {
     return apiAction({
-        endpoint: 'Game/AddGamePack',
+        endpoint: `Game/Score`,
         method: 'POST',
-        data: JSON.stringify(gamePack),
-        actionsOnSuccess: [(data) => gameActions.updateGamesInfoAfterAddition({
-            gameId: data.serverId,
-            isAvailable: true,
-            title: gamePack.CreationInfo.Descriptions[0].Title
-        })],
-        errorMessage: 'Ошибка добавления игры'
+        data: JSON.stringify(levelResult),
+        errorMessage: 'Ошибка сохранения результата'
     });
-}
-
-function deleteGamePack(gameId) {
-    return apiAction({
-        endpoint: `Game/Delete/${gameId}`,
-        method: 'DELETE',
-        actionsOnSuccess: [() => gameActions.updateGamesInfoAfterDeletion(gameId)],
-        errorMessage: 'Ошибка удаления игры'
-    });
-}
-
-function resetGameInfo() {
-    return (dispatch) => {
-        dispatch(gameActions.clearGameInfo());
-    }
-}
-
-function resetGameLevel() {
-    return (dispatch) => {
-        dispatch(gameActions.clearGameLevel());
-    }
 }
 
 const gameApiActions = {
     pullGamesInfo,
     pullGameInfo,
     pullGameLevel,
-    resetGameInfo,
-    resetGameLevel,
-    addGamePack,
-    deleteGamePack
+    saveLevelResult
 };
 
 export default gameApiActions;

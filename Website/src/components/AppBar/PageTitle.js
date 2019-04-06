@@ -14,22 +14,24 @@ function PageTitle({ location, classes }) {
     return (
         <Typography variant="h6" color="inherit" className={classes.grow}>
             {(() => {
-                switch (location.pathname) {
-                    case '/login':
-                        return 'Вход';
-                    case '/register':
-                        return 'Регистрация';
-                    case '/wordlist':
-                        return 'Словарь';
-                    case '/games':
-                        return 'Игры';
-                    case '/profile':
-                        return 'Профиль';
-                    case '/settings':
-                        return 'Настройки';
-                    default:
-                        return '';
+                if (location.pathname === '/login') {
+                    return 'Вход';
+                } else if (location.pathname === '/register') {
+                    return 'Регистрация';
+                } else if (location.pathname === '/wordlist') {
+                    return 'Словарь';
+                } else if (location.pathname === '/my_games') {
+                    return 'Мои игры';
+                } else if (location.pathname === '/games_catalog') {
+                    return 'Каталог игр';
+                } else if (location.pathname.startsWith('/games_catalog/game')) {
+                    return 'Игра';
+                } else if (location.pathname.startsWith('/games_catalog/level')) {
+                    return 'Уровень';
+                } else if (location.pathname.startsWith('/profile')) {
+                    return 'Профиль';
                 }
+                return '';
             })()}
         </Typography>
     );

@@ -6,7 +6,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-function ProfileMenu({ handleLogout }) {
+function ProfileMenu({ userId, handleLogout }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -42,7 +42,7 @@ function ProfileMenu({ handleLogout }) {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem component={Link} to="/profile" onClick={handleClose}>Профиль</MenuItem>
+                <MenuItem component={Link} to={`/profile/${userId}`} onClick={handleClose}>Профиль</MenuItem>
                 <MenuItem onClick={handleLogout}>Выйти</MenuItem>
             </Menu>
         </Fragment>
@@ -50,6 +50,7 @@ function ProfileMenu({ handleLogout }) {
 };
 
 ProfileMenu.propTypes = {
+    userId: PropTypes.number.isRequired,
     handleLogout: PropTypes.func.isRequired
 };
 

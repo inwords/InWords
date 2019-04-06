@@ -17,17 +17,17 @@ function GameLevelInfoCard({ levelInfo, handleRedirection }) {
                 <Typography gutterBottom variant="h5" component="h2">
                     Уровень {level}
                 </Typography>
-                {Array(playerStars).fill().map((item, index) =>
-                    <StarIcon key={index} />)}
-                {Array(3 - playerStars).fill().map((item, index) =>
-                    <StarBorderIcon key={index} />)}
-                <Typography component="p">
-                    {}
+                <Typography>
+                    {Array(playerStars).fill().map((item, index) =>
+                        <StarIcon key={index} />)}
+                    {Array(3 - playerStars).fill().map((item, index) =>
+                        <StarBorderIcon key={index} />)}
                 </Typography>
             </CardContent>
             <CardActions>
                 <Button
                     size="small"
+                    color="primary"
                     disabled={!isAvailable}
                     onClick={handleRedirection(levelId)}
                 >

@@ -13,7 +13,7 @@ import GameLevelsContainer from './Game/GameLevelsContainer';
 import GameFieldContainer from './Game/GameFieldContainer';
 import ProfilePage from './Profile/ProfilePage';
 
-function App({ accessToken }) {
+function App({ token }) {
     return (
         <Fragment>
             <ErrorAlertContainer />
@@ -21,16 +21,16 @@ function App({ accessToken }) {
                 <Switch>
                     <RegularAppBarContainer>
                         <Route exact path="/" render={() =>
-                            !accessToken ?
+                            !token ?
                                 <Redirect to="/login" /> :
                                 <Redirect to="/wordlist" />} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistPage} />
-                        <Route exact path="/games" component={GamesPage} />
-                        <Route path="/games/game/:id" component={GameLevelsContainer} />
-                        <Route path="/games/level/:id" component={GameFieldContainer} />
-                        <Route path="/profile" component={ProfilePage} />
+                        <Route exact path="/games_catalog" component={GamesPage} />
+                        <Route path="/games_catalog/game/:id" component={GameLevelsContainer} />
+                        <Route path="/games_catalog/level/:id" component={GameFieldContainer} />
+                        <Route path="/profile/:id" component={ProfilePage} />
                     </RegularAppBarContainer>
                 </Switch>
             </Router>
@@ -39,12 +39,12 @@ function App({ accessToken }) {
 }
 
 App.propTypes = {
-    accessToken: PropTypes.string,
+    token: PropTypes.string,
 };
 
 const mapStateToProps = store => {
     return {
-        accessToken: store.accessToken
+        token: store.access.token
     };
 };
 

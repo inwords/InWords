@@ -16,12 +16,13 @@ const shuffle = array => {
     return array;
 };
 
-function GameFieldContainer({ gameLevel, pullGameLevel, match }) {
+function GameFieldContainer({ gameLevel, pullGameLevel, saveLevelResult, match }) {
     const [values, setValues] = useState({
         randomWords: [],
         selectedWordsInfo: [],
         successfulPairIds: [],
-        successfulSelectedPairId: -1
+        successfulSelectedPairId: -1,
+        closuresQuantity: 0
     });
 
     useEffect(() => {
@@ -43,6 +44,16 @@ function GameFieldContainer({ gameLevel, pullGameLevel, match }) {
         }
     }, [gameLevel]);
 
+    useEffect(() => {
+        if (values.successfulPairIds.length > 0 &&
+            values.successfulPairIds.length === values.randomWords.length / 2) {
+            saveLevelResult({
+                levelId: gameLevel.levelId,
+                openingQuantity: values.closuresQuantity * 2 + values.randomWords.length
+            });
+        }
+    }, [values.successfulPairIds]);
+
     const handleClick = (pairId, wordId) => () => {
         if (values.successfulPairIds.find(successfulPairId => successfulPairId === pairId)) {
             setValues({ ...values, successfulSelectedPairId: pairId });
@@ -56,7 +67,8 @@ function GameFieldContainer({ gameLevel, pullGameLevel, match }) {
 
         if (values.selectedWordsInfo.length < 2) {
             setValues({
-                ...values, selectedWordsInfo: values.selectedWordsInfo.concat({
+                ...values,
+                selectedWordsInfo: values.selectedWordsInfo.concat({
                     pairId: pairId,
                     wordId: wordId
                 })
@@ -74,7 +86,11 @@ function GameFieldContainer({ gameLevel, pullGameLevel, match }) {
                 });
             } else {
                 setTimeout(() => {
-                    setValues({ ...values, selectedWordsInfo: [] });
+                    setValues({
+                        ...values,
+                        selectedWordsInfo: [],
+                        closuresQuantity: values.closuresQuantity + 1
+                    });
                 }, 1000);
             }
         }
@@ -92,7 +108,9 @@ function GameFieldContainer({ gameLevel, pullGameLevel, match }) {
 }
 
 GameFieldContainer.propTypes = {
-    gameLevel: PropTypes.object
+    gameLevel: PropTypes.object,
+    pullGameLevel: PropTypes.func.isRequired,
+    saveLevelResult: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => {
@@ -103,7 +121,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        pullGameLevel: levelId => dispatch(gameApiActions.pullGameLevel(levelId))
+        pullGameLevel: levelId => dispatch(gameApiActions.pullGameLevel(levelId)),
+        saveLevelResult: levelResult => dispatch(gameApiActions.saveLevelResult(levelResult)),
     };
 };
 

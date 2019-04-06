@@ -22,8 +22,8 @@ const styles = theme => ({
     },
 });
 
-function Profile({ userInfo, classes }) {
-    const { userId, avatarPath, nickName, experience } = userInfo;
+function Profile({ editingAvailable, userInfo, classes }) {
+    const { avatarPath, nickName, experience } = userInfo;
 
     return (
         <Card className={classes.card}>
@@ -44,13 +44,14 @@ function Profile({ userInfo, classes }) {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                {userId && <ProfileEditContainer userInfo={userInfo} />}
+                {editingAvailable && <ProfileEditContainer userInfo={userInfo} />}
             </CardActions>
         </Card>
     );
 }
 
 Profile.propTypes = {
+    editingAvailable: PropTypes.bool.isRequired,
     userInfo: PropTypes.shape({
         userId: PropTypes.number,
         nickName: PropTypes.string.isRequired,

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import List from '@material-ui/core/List';
@@ -6,21 +6,29 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
+import { drawerWidth } from '../AppBar/RegularAppBar';
 import WordPairAdditionContainer from '../../containers/Wordlist/WordPairAdditionContainer';
 import WordPairsDeletionContainer from '../../containers/Wordlist/WordPairsDeletionContainer';
 import WordPairEditContainer from '../../containers/Wordlist/WordPairEditContainer';
 
 const styles = theme => ({
+    root: {
+        [theme.breakpoints.up(1100 + drawerWidth + theme.spacing.unit * 3 * 2)]: {
+            width: 1100,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+    },
     list: {
         width: '100%',
         marginTop: theme.spacing.unit,
         backgroundColor: theme.palette.background.paper,
-    }
+    },
 });
 
 function Wordlist({ wordPairs, checked, handleToggle, classes }) {
     return (
-        <Fragment>
+        <div className={classes.root}>
             <WordPairAdditionContainer />
             <WordPairsDeletionContainer checked={checked} />
             <List className={classes.list}>
@@ -34,7 +42,7 @@ function Wordlist({ wordPairs, checked, handleToggle, classes }) {
                     </ListItem>
                 ))}
             </List>
-        </Fragment>
+        </div>
     );
 }
 
