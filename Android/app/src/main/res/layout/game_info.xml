@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="0dp"
     android:layout_height="80dp"
     android:layout_columnWeight="1"
     android:layout_gravity="fill_horizontal"
     android:layout_margin="@dimen/half_margin"
-    tools:background="@color/colorPrimary"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="5dp"
     tools:layout_width="wrap_content">
 
     <View
@@ -20,7 +25,6 @@
 
     <TextView
         android:id="@+id/title"
-        style="?android:attr/textAppearanceInverse"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/half_margin"
@@ -28,4 +32,4 @@
         android:textSize="24sp"
         tools:text="У кого ярче?" />
 
-</FrameLayout>
+</androidx.cardview.widget.CardView>

@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.game_card.view.*
 import kotlinx.android.synthetic.main.game_card_front.view.*
 import kotlinx.android.synthetic.main.game_welcome.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.ceil
 
 
 class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLevelViewModelFactory>() {
@@ -70,20 +71,29 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
 
         val words = cardsData.words
 
-        val rows = words.size / 2
+        val cols = when (words.size) {
+            in 4..6 -> 2
+            else -> 3
+        }
+        val rows = ceil(words.size / cols.toFloat()).toInt()
         for (i in 0 until rows) {
             val tableRow = TableRow(context)
             tableRow.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT)
             tableRow.gravity = Gravity.CENTER
 
-            for (j in 0 until 2) {
+            for (j in 0 until cols) {
+                val cardNum = j + i * cols
+                if (cardNum >= words.size){
+                    break
+                }
+
                 val card = layoutInflater.inflate(R.layout.game_card, tableRow, false) as CardView
 
                 with(card.flip_view) {
                     flip(true)
 
-                    val word = words[j + i * 2]
+                    val word = words[cardNum]
 
                     tag = word
                     frontText.text = word

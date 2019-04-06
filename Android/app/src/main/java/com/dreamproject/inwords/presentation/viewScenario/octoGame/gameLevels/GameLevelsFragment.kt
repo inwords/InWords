@@ -1,14 +1,8 @@
 package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameInfo
@@ -69,26 +63,11 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
                 title.text = counter.toString()
                 counter++
 
-                setBackgroundColor(coloringUtil.getColorForGameLevelInfo(gameLevelInfo.available))
-
-                addStars(stars, 2+ gameLevelInfo.playerStars, Color.YELLOW)
-                addStars(stars, -2+ 3 - gameLevelInfo.playerStars, Color.GRAY) //TODO hardcoded 3
+                ratingBar.rating = gameLevelInfo.playerStars + 2f
 
                 setOnClickListener { viewModel.onGameLevelSelected(gameLevelInfo) }
                 levelsGrid.addView(this)
             }
-        }
-    }
-
-    private fun addStars(stars: ViewGroup, count: Int, @ColorInt color: Int) {
-        val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20.0f, resources.displayMetrics).toInt()
-
-        for (i: Int in 1..count) {
-            stars.addView(View(context).apply {
-                layoutParams = ViewGroup.LayoutParams(size, size)
-                val star = ContextCompat.getDrawable(context, R.drawable.ic_star_black_24dp)
-                star?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP).let { background = star }
-            })
         }
     }
 

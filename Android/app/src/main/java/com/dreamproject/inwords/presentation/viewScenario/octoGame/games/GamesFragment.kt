@@ -59,8 +59,6 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, GamesViewModel
             with(layoutInflater.inflate(R.layout.game_info, levelsGrid, false)) {
                 title.text = gameInfo.title
 
-                setBackgroundColor(coloringUtil.getColorForGameLevelInfo(gameInfo.available || true)) //TODO
-
                 setOnClickListener { viewModel.onGameSelected(gameInfo) }
                 game_menu.setOnClickListener { showPopupMenu(it) }
                 game_menu.tag = gameInfo

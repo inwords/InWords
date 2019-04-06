@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    tools:layout_width="wrap_content"
     android:layout_height="80dp"
     android:layout_columnWeight="1"
     android:layout_gravity="fill_horizontal"
     android:layout_margin="@dimen/half_margin"
-    android:padding="@dimen/half_margin">
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="5dp">
 
     <TextView
         android:id="@+id/title"
-        style="?android:attr/textAppearanceInverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/half_margin"
         android:textSize="24sp"
         tools:text="1" />
 
-    <LinearLayout
-        android:id="@+id/stars"
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="?attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:gravity="center"
-        android:orientation="horizontal" />
+        android:layout_margin="@dimen/half_margin"
+        android:isIndicator="true"
+        android:numStars="3"
+        android:progressBackgroundTint="@android:color/darker_gray"
+        android:progressTint="@color/holo_orange_light"
+        android:stepSize="1"
+        tools:rating="2" />
 
-</FrameLayout>
+</androidx.cardview.widget.CardView>
