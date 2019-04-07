@@ -35,8 +35,6 @@ function Games({ gamesInfo, handleRedirection, classes }) {
 Games.propTypes = {
     gamesInfo: PropTypes.arrayOf(PropTypes.shape({
         gameId: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        isAvailable: PropTypes.bool.isRequired,
     })).isRequired,
     handleRedirection: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,

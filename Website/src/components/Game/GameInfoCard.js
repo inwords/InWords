@@ -12,7 +12,7 @@ function GameInfoCard({ gameInfo, handleRedirection }) {
     return (
         <Card>
             <CardContent>
-                <Typography gutterBottom={Boolean(description)} variant="h5" component="h2">
+                <Typography gutterBottom={Boolean(description)} variant="h5">
                     {title}
                 </Typography>
                 <Typography component="p">

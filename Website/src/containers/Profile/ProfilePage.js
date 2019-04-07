@@ -19,7 +19,7 @@ function ProfilePage({ userId, userInfo, receiveUserInfo, match }) {
 }
 
 ProfilePage.propTypes = {
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.number.isRequired,
     userInfo: PropTypes.object.isRequired,
     receiveUserInfo: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,

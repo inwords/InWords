@@ -12,15 +12,17 @@ function ProfileMenuContainer({ userId, denyAccess, history }) {
     };
 
     return (
-        <ProfileMenu
-            userId={userId}
-            handleLogout={handleLogout}
-        />
+        userId && (
+            <ProfileMenu
+                userId={userId}
+                handleLogout={handleLogout}
+            />
+        )
     );
 }
 
 ProfileMenuContainer.propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.number,
     denyAccess: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 };

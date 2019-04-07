@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import history from '../history/history';
 import ErrorAlertContainer from './ErrorAlertContainer';
-import RegularAppBarContainer from './AppBar/RegularAppBarContainer';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './Wordlist/WordlistPage';
@@ -12,16 +11,17 @@ import GamesPage from './Game/GamesPage';
 import GameLevelsContainer from './Game/GameLevelsContainer';
 import GameFieldContainer from './Game/GameFieldContainer';
 import ProfilePage from './Profile/ProfilePage';
+import RegularAppBar from '../components/AppBar/RegularAppBar';
 
-function App({ token }) {
+function App({ userId }) {
     return (
         <Fragment>
             <ErrorAlertContainer />
             <Router history={history}>
                 <Switch>
-                    <RegularAppBarContainer>
+                    <RegularAppBar>
                         <Route exact path="/" render={() =>
-                            !token ?
+                            !userId ?
                                 <Redirect to="/login" /> :
                                 <Redirect to="/wordlist" />} />
                         <Route path="/login" component={LoginPage} />
@@ -31,7 +31,7 @@ function App({ token }) {
                         <Route path="/games_catalog/game/:id" component={GameLevelsContainer} />
                         <Route path="/games_catalog/level/:id" component={GameFieldContainer} />
                         <Route path="/profile/:id" component={ProfilePage} />
-                    </RegularAppBarContainer>
+                    </RegularAppBar>
                 </Switch>
             </Router>
         </Fragment>
@@ -39,12 +39,12 @@ function App({ token }) {
 }
 
 App.propTypes = {
-    token: PropTypes.string,
+    userId: PropTypes.number,
 };
 
 const mapStateToProps = store => {
     return {
-        token: store.access.token
+        userId: store.access.userId
     };
 };
 

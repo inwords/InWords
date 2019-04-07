@@ -1,17 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 import useOpeningBehavoiur from '../../logic-hooks/useOpeningBehaviour';
 import WordPairActionsDialog from './WordPairActionsDialog';
 
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-    }
-});
-
-function WordPairAddition({ handleReset, handleSubmit, classes, ...rest }) {
+function WordPairEditing({ handleReset, handleSubmit, ...rest }) {
     const [open, handleOpen, handleClose] = useOpeningBehavoiur();
 
     const handleOpenWithReset = () => {
@@ -26,14 +20,9 @@ function WordPairAddition({ handleReset, handleSubmit, classes, ...rest }) {
 
     return (
         <Fragment>
-            <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={handleOpenWithReset}
-            >
-                Добавить
-            </Button>
+            <IconButton aria-label="Edit" onClick={handleOpenWithReset}>
+                <EditIcon />
+            </IconButton>
             <WordPairActionsDialog
                 open={open}
                 handleClose={handleClose}
@@ -44,10 +33,9 @@ function WordPairAddition({ handleReset, handleSubmit, classes, ...rest }) {
     );
 }
 
-WordPairAddition.propTypes = {
+WordPairEditing.propTypes = {
     handleReset: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(WordPairAddition);
+export default WordPairEditing;

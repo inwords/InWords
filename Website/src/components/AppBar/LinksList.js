@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import LinksListItem from './LinksListItem';
 
-function LinksList({ authorized, onClick = null }) {
+function LinksList({ authorized, onClick }) {
     return (
         <List onClick={onClick}>
             {!authorized ?
@@ -22,7 +22,7 @@ function LinksList({ authorized, onClick = null }) {
 
 LinksList.propTypes = {
     authorized: PropTypes.bool.isRequired,
-    onClick: PropTypes.func,
+    onClick: PropTypes.func.isRequired,
 };
 
 export default LinksList;

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
     appBar: {
@@ -36,7 +36,7 @@ function FullScreenDialogWithForm({ title = '', open, handleClose, handleSubmit,
                     <IconButton color="inherit" onClick={handleClose} aria-label="Close">
                         <CloseIcon />
                     </IconButton>
-                    <Typography variant="h6" color="inherit" className={classes.flex}>
+                    <Typography noWrap variant="h6" color="inherit" className={classes.flex}>
                         {title}
                     </Typography>
                     <Button type="submit" form="form" color="inherit">
@@ -58,7 +58,7 @@ FullScreenDialogWithForm.propTypes = {
     open: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     classes: PropTypes.object.isRequired
 };
 

@@ -6,7 +6,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 function GameLevelInfoCard({ levelInfo, handleRedirection }) {
     const { levelId, level, isAvailable, playerStars } = levelInfo;
@@ -14,14 +13,13 @@ function GameLevelInfoCard({ levelInfo, handleRedirection }) {
     return (
         <Card>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h5">
                     Уровень {level}
                 </Typography>
                 <Typography>
-                    {Array(playerStars).fill().map((item, index) =>
-                        <StarIcon key={index} />)}
-                    {Array(3 - playerStars).fill().map((item, index) =>
-                        <StarBorderIcon key={index} />)}
+                    <StarIcon fontSize="small" color={playerStars > 0 ? 'secondary' : 'disabled'} />
+                    <StarIcon fontSize="small" color={playerStars > 1 ? 'secondary' : 'disabled'} />
+                    <StarIcon fontSize="small" color={playerStars > 2 ? 'secondary' : 'disabled'} />
                 </Typography>
             </CardContent>
             <CardActions>

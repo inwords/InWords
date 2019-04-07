@@ -8,7 +8,7 @@ const cardsSpacing = 16;
 const cardDimension = 140;
 
 const styles = theme => ({
-    gridTwoColumns: {
+    gridOfTwoColumns: {
         width: 'auto',
         display: 'block',
         [theme.breakpoints.up(cardDimension * 2 + cardsSpacing * 2 * 2 + theme.spacing.unit * 3 * 2)]: {
@@ -17,7 +17,7 @@ const styles = theme => ({
             marginRight: 'auto',
         },
     },
-    gridThreeColumns: {
+    gridOfThreeColumns: {
         width: 'auto',
         display: 'block',
         [theme.breakpoints.up(cardDimension * 3 + cardsSpacing * 3 * 2 + theme.spacing.unit * 3 * 2)]: {
@@ -26,7 +26,7 @@ const styles = theme => ({
             marginRight: 'auto',
         },
     },
-    gridFourColumns: {
+    gridOfFourColumns: {
         width: 'auto',
         display: 'block',
         [theme.breakpoints.up(cardDimension * 4 + cardsSpacing * 4 * 2 + theme.spacing.unit * 3 * 2)]: {
@@ -48,25 +48,22 @@ const styles = theme => ({
     },
 });
 
-function GameWordsField({ randomWords, selectedWordsInfo, successfulPairIds, successfulSelectedPairId, handleClick, classes }) {
-    const maxColumnsNum = Math.ceil(Math.sqrt(randomWords.length));
-
+function GameField({ columnsNum, infoAboutRandomWords, infoAboutSelectedWords, successfulPairIds, successfulSelectedPairId, handleClick, classes }) {
     return (
         <Grid
             container
-            className={
-                maxColumnsNum <= 2 ? classes.gridTwoColumns :
-                    maxColumnsNum === 3 ? classes.gridThreeColumns :
-                        classes.gridFourColumns}
+            className={columnsNum <= 2 ? classes.gridOfTwoColumns :
+                columnsNum === 3 ? classes.gridOfThreeColumns :
+                    classes.gridOfFourColumns}
         >
             <Grid container className={classes.demo} justify="center" spacing={cardsSpacing}>
-                {randomWords.map((randomWord, index) => (
-                    <Grid key={index} item onClick={handleClick(randomWord.pairId, index)}>
+                {infoAboutRandomWords.map((infoAboutRandomWord, index) => (
+                    <Grid key={index} item onClick={handleClick(infoAboutRandomWord.pairId, index)}>
                         <GameWordCard
-                            word={randomWord.word}
-                            selected={Boolean(selectedWordsInfo.find((selectedWordInfo) => selectedWordInfo.wordId === index))}
-                            successful={Boolean(~successfulPairIds.indexOf(randomWord.pairId))}
-                            successfulSelected={successfulSelectedPairId === randomWord.pairId}
+                            word={infoAboutRandomWord.word}
+                            selected={Boolean(infoAboutSelectedWords.find(selectedWordInfo => selectedWordInfo.wordId === index))}
+                            successful={successfulPairIds.includes(infoAboutRandomWord.pairId)}
+                            successfulSelected={successfulSelectedPairId === infoAboutRandomWord.pairId}
                         />
                     </Grid>
                 ))}
@@ -75,13 +72,22 @@ function GameWordsField({ randomWords, selectedWordsInfo, successfulPairIds, suc
     );
 }
 
-GameWordsField.propTypes = {
-    randomWords: PropTypes.array.isRequired,
-    selectedWordsInfo: PropTypes.array.isRequired,
-    successfulPairIds: PropTypes.array.isRequired,
+GameField.propTypes = {
+    columnsNum: PropTypes.number.isRequired,
+    infoAboutRandomWords: PropTypes.arrayOf(PropTypes.shape({
+        pairId: PropTypes.number.isRequired,
+        word: PropTypes.string.isRequired,
+    })).isRequired,
+    infoAboutSelectedWords: PropTypes.arrayOf(PropTypes.shape({
+        pairId: PropTypes.number.isRequired,
+        wordId: PropTypes.number.isRequired,
+    })).isRequired,
+    successfulPairIds: PropTypes.arrayOf(
+        PropTypes.number.isRequired,
+    ).isRequired,
     successfulSelectedPairId: PropTypes.number.isRequired,
     handleClick: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(GameWordsField);
+export default withStyles(styles)(GameField);

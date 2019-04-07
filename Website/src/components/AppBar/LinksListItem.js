@@ -19,9 +19,10 @@ const styles = theme => ({
 function LinksListItem({ to, text, classes, location }) {
     return (
         <ListItem button dense component={Link} to={to} className={classes.item}>
-            <ListItemText primary={
-                <Typography className={
-                    location.pathname === to ? classes.weightedText : null}>{text}</Typography>} />
+            <ListItemText primary={location.pathname.startsWith(to) ?
+                <Typography color="primary" className={classes.weightedText}>{text}</Typography> :
+                <Typography>{text}</Typography>}
+            />
         </ListItem>
     );
 };

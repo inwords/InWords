@@ -21,7 +21,7 @@ function GameLevels({ gameInfo, handleRedirection, classes }) {
         <div className={classes.root}>
             <Grid container spacing={24}>
                 {gameInfo.levelInfos.map((levelInfo) => (
-                    <Grid key={levelInfo.levelId} item xs={12} sm={6} md={4}>
+                    <Grid key={levelInfo.levelId} item xs={12} sm={4} md={3}>
                         <GameLevelInfoCard
                             levelInfo={levelInfo}
                             handleRedirection={handleRedirection}
@@ -35,13 +35,8 @@ function GameLevels({ gameInfo, handleRedirection, classes }) {
 
 GameLevels.propTypes = {
     gameInfo: PropTypes.shape({
-        gameId: PropTypes.number.isRequired,
-        creator: PropTypes.string.isRequired,
         levelInfos: PropTypes.arrayOf(PropTypes.shape({
             levelId: PropTypes.number.isRequired,
-            level: PropTypes.number.isRequired,
-            isAvailable: PropTypes.bool.isRequired,
-            playerStars: PropTypes.number.isRequired,
         })).isRequired,
     }).isRequired,
     handleRedirection: PropTypes.func.isRequired,

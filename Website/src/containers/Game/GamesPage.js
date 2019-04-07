@@ -17,16 +17,15 @@ function GamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, history }) {
     }, []);
 
     return (
-        gamesInfo && (
-            <Games
-                gamesInfo={gamesInfo}
-                handleRedirection={handleRedirection}
-            />)
+        <Games
+            gamesInfo={gamesInfo}
+            handleRedirection={handleRedirection}
+        />
     );
 }
 
 GamesPage.propTypes = {
-    gamesInfo: PropTypes.array,
+    gamesInfo: PropTypes.array.isRequired,
     pullGamesInfo: PropTypes.func.isRequired,
     clearGameInfo: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,

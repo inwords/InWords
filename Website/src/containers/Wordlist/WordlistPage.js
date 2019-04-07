@@ -1,36 +1,23 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
 import Wordlist from '../../components/Wordlist/Wordlist';
 
-class WordlistPage extends Component {
-    static propTypes = {
-        wordPairs: PropTypes.array.isRequired,
-        pullWordPairs: PropTypes.func.isRequired,
-    };
+function WordlistPage({ wordPairs, pullWordPairs }) {
+    useEffect(() => {
+        pullWordPairs();
+    }, []);
 
-    state = {
-        checked: []
-    };
+    const [checked, setChecked] = useState([]);
 
-    componentDidMount() {
-        this.props.pullWordPairs();
-    }
+    useEffect(() => {
+        setChecked([]);
+    }, [wordPairs]);
 
-    componentDidUpdate(prevProps) {
-        const { wordPairs } = this.props;
-
-        if (wordPairs !== prevProps.wordPairs) {
-            this.setState({
-                checked: []
-            });
-        }
-    }
-
-    handleToggle = value => () => {
-        const currentIndex = this.state.checked.indexOf(value);
-        const newChecked = [...this.state.checked];
+    const handleToggle = value => () => {
+        const currentIndex = checked.indexOf(value);
+        const newChecked = [...checked];
 
         if (currentIndex === -1) {
             newChecked.push(value);
@@ -38,26 +25,22 @@ class WordlistPage extends Component {
             newChecked.splice(currentIndex, 1);
         }
 
-        this.setState({
-            checked: newChecked
-        });
+        setChecked(newChecked);
     };
 
-    render() {
-        const { wordPairs } = this.props;
-        const { checked } = this.state;
-
-        let wordPairsRevercedCopy = wordPairs.slice().reverse();
-
-        return (
-            <Wordlist
-                wordPairs={wordPairsRevercedCopy}
-                checked={checked}
-                handleToggle={this.handleToggle}
-            />
-        );
-    }
+    return (
+        <Wordlist
+            wordPairs={[...wordPairs].reverse()}
+            checked={checked}
+            handleToggle={handleToggle}
+        />
+    );
 }
+
+WordlistPage.propTypes = {
+    wordPairs: PropTypes.array.isRequired,
+    pullWordPairs: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = store => {
     return {

@@ -17,7 +17,7 @@ function GameLevelsContainer({ gameInfo, pullGameInfo, clearGameLevel, history, 
     }, []);
 
     return (
-        gameInfo && (
+        gameInfo.gameId && (
             <GameLevels
                 gameInfo={gameInfo}
                 handleRedirection={handleRedirection}
@@ -26,7 +26,9 @@ function GameLevelsContainer({ gameInfo, pullGameInfo, clearGameLevel, history, 
 }
 
 GameLevelsContainer.propTypes = {
-    gameInfo: PropTypes.object,
+    gameInfo: PropTypes.shape({
+        gameId: PropTypes.number,
+    }).isRequired,
     pullGameInfo: PropTypes.func.isRequired,
     clearGameLevel: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,

@@ -2,12 +2,12 @@ import gameConstants from '../constants/gameConstants';
 
 const initializeGamesInfo = gamesInfo => ({
     type: gameConstants.GAMES_INFO_INITIALIZATION,
-    gamesInfo: gamesInfo
+    payload: gamesInfo
 });
 
 const initializeGameInfo = gameInfo => ({
     type: gameConstants.GAME_INFO_INITIALIZATION,
-    gameInfo: gameInfo
+    payload: gameInfo
 });
 
 const clearGameInfo = () => ({
@@ -16,12 +16,7 @@ const clearGameInfo = () => ({
 
 const initializeGameLevel = gameLevel => ({
     type: gameConstants.GAME_LEVEL_INITIALIZATION,
-    gameLevel: gameLevel
-});
-
-const updateGameLevel = levelResult => ({
-    type: gameConstants.GAME_LEVEL_UPDATE,
-    payload: levelResult
+    payload: gameLevel
 });
 
 const clearGameLevel = () => ({
@@ -33,7 +28,6 @@ const gameActions = {
     initializeGameInfo,
     clearGameInfo,
     initializeGameLevel,
-    updateGameLevel,
     clearGameLevel
 };
 

@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import ProfileEditContainer from '../../containers/Profile/ProfileEditContainer';
+import ProfileEditingContainer from '../../containers/Profile/ProfileEditingContainer';
 
 const styles = theme => ({
     card: {
@@ -35,7 +35,7 @@ function Profile({ editingAvailable, userInfo, classes }) {
                         title="Avatar"
                     />)}
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h5">
                         {nickName}
                     </Typography>
                     <Typography component="p">
@@ -44,7 +44,7 @@ function Profile({ editingAvailable, userInfo, classes }) {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                {editingAvailable && <ProfileEditContainer userInfo={userInfo} />}
+                {editingAvailable && <ProfileEditingContainer userInfo={userInfo} />}
             </CardActions>
         </Card>
     );

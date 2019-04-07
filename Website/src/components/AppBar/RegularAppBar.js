@@ -9,11 +9,12 @@ import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import useDrawerOpeningBehaviour from '../../logic-hooks/useDrawerOpeningBehaviour';
 import ProgressContainer from '../../containers/AppBar/ProgressContainer';
 import ProfileMenuContainer from '../../containers/AppBar/ProfileMenuContainer';
 import PageTitle from './PageTitle';
 import DrawerHeader from './DrawerHeader';
-import LinksList from './LinksList';
+import LinksListContainer from '../../containers/AppBar/LinksListContainer';
 
 export const drawerWidth = 240;
 
@@ -51,7 +52,9 @@ const styles = theme => ({
     },
 });
 
-function RegularAppBar({ authorized, open, handleDrawerOpen, handleDrawerClose, children = null, classes }) {
+function RegularAppBar({ children = null, classes }) {
+    const [open, handleDrawerOpen, handleDrawerClose] = useDrawerOpeningBehaviour();
+
     return (
         <div className={classes.root}>
             <AppBar className={classes.appBar}>
@@ -66,13 +69,12 @@ function RegularAppBar({ authorized, open, handleDrawerOpen, handleDrawerClose, 
                         <MenuIcon />
                     </IconButton>
                     <PageTitle />
-                    {authorized && <ProfileMenuContainer />}
+                    <ProfileMenuContainer />
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer}>
-                <Hidden lgUp implementation="css">
+                <Hidden lgUp>
                     <SwipeableDrawer
-                        anchor="left"
                         open={open}
                         onClose={handleDrawerClose}
                         onOpen={handleDrawerOpen}
@@ -82,12 +84,11 @@ function RegularAppBar({ authorized, open, handleDrawerOpen, handleDrawerClose, 
                     >
                         <DrawerHeader />
                         <Divider />
-                        <LinksList authorized={authorized} onClick={handleDrawerClose} />
+                        <LinksListContainer onClick={handleDrawerClose} />
                     </SwipeableDrawer>
                 </Hidden>
                 <Hidden mdDown implementation="css">
                     <Drawer
-                        anchor="left"
                         variant="permanent"
                         open
                         classes={{
@@ -96,7 +97,7 @@ function RegularAppBar({ authorized, open, handleDrawerOpen, handleDrawerClose, 
                     >
                         <DrawerHeader />
                         <Divider />
-                        <LinksList authorized={authorized} />
+                        <LinksListContainer onClick={() => {}} />
                     </Drawer>
                 </Hidden>
             </nav>
@@ -109,10 +110,6 @@ function RegularAppBar({ authorized, open, handleDrawerOpen, handleDrawerClose, 
 };
 
 RegularAppBar.propTypes = {
-    authorized: PropTypes.bool.isRequired,
-    open: PropTypes.bool.isRequired,
-    handleDrawerOpen: PropTypes.func.isRequired,
-    handleDrawerClose: PropTypes.func.isRequired,
     children: PropTypes.node,
     classes: PropTypes.object.isRequired,
 };

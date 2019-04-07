@@ -12,7 +12,7 @@ const styles = {
 
 function PageTitle({ location, classes }) {
     return (
-        <Typography variant="h6" color="inherit" className={classes.grow}>
+        <Typography noWrap variant="h6" color="inherit" className={classes.grow}>
             {(() => {
                 if (location.pathname === '/login') {
                     return 'Вход';
@@ -24,9 +24,9 @@ function PageTitle({ location, classes }) {
                     return 'Мои игры';
                 } else if (location.pathname === '/games_catalog') {
                     return 'Каталог игр';
-                } else if (location.pathname.startsWith('/games_catalog/game')) {
+                } else if (location.pathname.includes('/game/')) {
                     return 'Игра';
-                } else if (location.pathname.startsWith('/games_catalog/level')) {
+                } else if (location.pathname.includes('/level/')) {
                     return 'Уровень';
                 } else if (location.pathname.startsWith('/profile')) {
                     return 'Профиль';

@@ -1,36 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import userApiActions from '../../actions/userApiActions';
-import ProfileEdit from '../../components/Profile/ProfileEdit';
+import ProfileEditing from '../../components/Profile/ProfileEditing';
 
-function ProfileEditContainer({ userInfo, changeUserInfo }) {
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => {
-        setOpen(true);
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    }
-
+function ProfileEditingContainer({ userInfo, changeUserInfo }) {
     const [values, setValues] = useState({
         nickName: '',
         avatarPath: ''
     });
 
-    useEffect(() => {
-        if (open) {
-            setValues({
-                nickName: userInfo.nickName,
-                avatarPath: userInfo.avatarPath ? userInfo.avatarPath : ''
-            });
-        }
-    }, [open]);
-
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
+    };
+
+    const handleReset = () => {
+        setValues({
+            nickName: userInfo.nickName,
+            avatarPath: userInfo.avatarPath
+        });
     };
 
     const handleSubmit = event => {
@@ -40,24 +28,24 @@ function ProfileEditContainer({ userInfo, changeUserInfo }) {
         });
 
         event.preventDefault();
-        handleClose();
     };
 
     return (
-        <ProfileEdit
-            open={open}
-            handleOpen={handleOpen}
-            handleClose={handleClose}
+        <ProfileEditing
             values={values}
             handleChange={handleChange}
+            handleReset={handleReset}
             handleSubmit={handleSubmit}
         />
     );
 }
 
-ProfileEditContainer.propTypes = {
-    userInfo: PropTypes.object.isRequired,
-    changeUserInfo: PropTypes.func.isRequired
+ProfileEditingContainer.propTypes = {
+    userInfo: PropTypes.shape({
+        nickName: PropTypes.string.isRequired,
+        avatarPath: PropTypes.string.isRequired,
+    }).isRequired,
+    changeUserInfo: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => {
@@ -69,4 +57,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(ProfileEditContainer);
+)(ProfileEditingContainer);

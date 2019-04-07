@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameApiActions from '../../actions/gameApiActions';
-import GameWordsField from '../../components/Game/GameWordsField';
+import GameField from '../../components/Game/GameField';
 
 const shuffle = array => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -17,20 +17,18 @@ const shuffle = array => {
 };
 
 function GameFieldContainer({ gameLevel, pullGameLevel, saveLevelResult, match }) {
-    const [values, setValues] = useState({
-        randomWords: [],
-        selectedWordsInfo: [],
-        successfulPairIds: [],
-        successfulSelectedPairId: -1,
-        closuresQuantity: 0
-    });
+    const [infoAboutRandomWords, setInfoAboutRandomWords] = useState([]);
+    const [infoAboutSelectedWords, setInfoAboutSelectedWords] = useState([]);
+    const [successfulPairIds, setSuccessfulPairIds] = useState([]);
+    const [successfulSelectedPairId, setSuccessfulSelectedPairId] = useState(-1);
+    const [closuresQuantity, setClosuresQuantity] = useState(0);
 
     useEffect(() => {
-        if (!gameLevel) {
+        if (!gameLevel.levelId) {
             pullGameLevel(parseInt(match.params.id));
         } else {
-            const shuffledWordPairs = shuffle(gameLevel.wordTranslations.slice());
-            const words = [].concat.apply([], shuffledWordPairs.slice(0, 8).map(wordPair =>
+            const shuffledWordTranslations = shuffle([...gameLevel.wordTranslations]);
+            const infoAboutWords = [].concat.apply([], shuffledWordTranslations.slice(0, 8).map(wordPair =>
                 [{
                     pairId: wordPair.serverId,
                     word: wordPair.wordForeign
@@ -40,75 +38,73 @@ function GameFieldContainer({ gameLevel, pullGameLevel, saveLevelResult, match }
                 }]
             ));
 
-            setValues({ ...values, randomWords: shuffle(words) });
+            setInfoAboutRandomWords(shuffle(infoAboutWords));
         }
     }, [gameLevel]);
 
     useEffect(() => {
-        if (values.successfulPairIds.length > 0 &&
-            values.successfulPairIds.length === values.randomWords.length / 2) {
+        if (successfulPairIds.length > 0 && successfulPairIds.length === infoAboutRandomWords.length / 2) {
             saveLevelResult({
                 levelId: gameLevel.levelId,
-                openingQuantity: values.closuresQuantity * 2 + values.randomWords.length
+                openingQuantity: closuresQuantity * 2 + infoAboutRandomWords.length
             });
         }
-    }, [values.successfulPairIds]);
+    }, [successfulPairIds]);
 
     const handleClick = (pairId, wordId) => () => {
-        if (values.successfulPairIds.find(successfulPairId => successfulPairId === pairId)) {
-            setValues({ ...values, successfulSelectedPairId: pairId });
+        if (successfulPairIds.find(successfulPairId => successfulPairId === pairId)) {
+            setSuccessfulSelectedPairId(pairId);
             return;
         }
 
-        if (values.selectedWordsInfo.length === 2 ||
-            values.selectedWordsInfo.find(selectedWordInfo => selectedWordInfo.wordId === wordId)) {
+        if (infoAboutSelectedWords.length === 2 ||
+            infoAboutSelectedWords.find(selectedWordInfo => selectedWordInfo.wordId === wordId)) {
             return;
         }
 
-        if (values.selectedWordsInfo.length < 2) {
-            setValues({
-                ...values,
-                selectedWordsInfo: values.selectedWordsInfo.concat({
-                    pairId: pairId,
-                    wordId: wordId
-                })
-            });
+        if (infoAboutSelectedWords.length < 2) {
+            setInfoAboutSelectedWords(infoAboutSelectedWords.concat({
+                pairId: pairId,
+                wordId: wordId
+            }));
         }
 
-        if (values.selectedWordsInfo.length > 0) {
-            if (values.selectedWordsInfo.find(selectedWordInfo => selectedWordInfo.pairId === pairId) &&
-                !values.successfulPairIds.find(successfulPairId => successfulPairId === pairId)) {
-                setValues({
-                    ...values,
-                    successfulPairIds: [...values.successfulPairIds, pairId],
-                    selectedWordsInfo: [],
-                    successfulSelectedPairId: pairId
-                });
+        if (infoAboutSelectedWords.length > 0) {
+            if (infoAboutSelectedWords.find(selectedWordInfo => selectedWordInfo.pairId === pairId) &&
+                !successfulPairIds.find(successfulPairId => successfulPairId === pairId)) {
+                setSuccessfulPairIds([...successfulPairIds, pairId]);
+                setInfoAboutSelectedWords([]);
+                setSuccessfulSelectedPairId(pairId);
             } else {
                 setTimeout(() => {
-                    setValues({
-                        ...values,
-                        selectedWordsInfo: [],
-                        closuresQuantity: values.closuresQuantity + 1
-                    });
+                    setInfoAboutSelectedWords([]);
+                    setClosuresQuantity(closuresQuantity + 1);
                 }, 1000);
             }
         }
     };
 
     return (
-        <GameWordsField
-            randomWords={values.randomWords}
-            selectedWordsInfo={values.selectedWordsInfo}
-            successfulPairIds={values.successfulPairIds}
-            successfulSelectedPairId={values.successfulSelectedPairId}
+        <GameField
+            columnsNum={Math.ceil(Math.sqrt(infoAboutRandomWords.length))}
+            infoAboutRandomWords={infoAboutRandomWords}
+            infoAboutSelectedWords={infoAboutSelectedWords}
+            successfulPairIds={successfulPairIds}
+            successfulSelectedPairId={successfulSelectedPairId}
             handleClick={handleClick}
         />
     );
 }
 
 GameFieldContainer.propTypes = {
-    gameLevel: PropTypes.object,
+    gameLevel: PropTypes.shape({
+        levelId: PropTypes.number,
+        wordTranslations: PropTypes.arrayOf(PropTypes.shape({
+            serverId: PropTypes.number.isRequired,
+            wordForeign: PropTypes.string.isRequired,
+            wordNative: PropTypes.string.isRequired,
+        })).isRequired,
+    }).isRequired,
     pullGameLevel: PropTypes.func.isRequired,
     saveLevelResult: PropTypes.func.isRequired,
 };
@@ -122,7 +118,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         pullGameLevel: levelId => dispatch(gameApiActions.pullGameLevel(levelId)),
-        saveLevelResult: levelResult => dispatch(gameApiActions.saveLevelResult(levelResult)),
+        saveLevelResult: levelResult => dispatch(gameApiActions.saveLevelResult(levelResult))
     };
 };
 

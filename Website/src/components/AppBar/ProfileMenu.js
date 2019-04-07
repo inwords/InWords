@@ -1,22 +1,14 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import useDropdownMenuBehaviour from '../../logic-hooks/useDropdownMenuBehaviour';
 
 function ProfileMenu({ userId, handleLogout }) {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-
-    function handleMenu(event) {
-        setAnchorEl(event.currentTarget);
-    }
-
-    function handleClose() {
-        setAnchorEl(null);
-    }
+    const [open, anchorEl, handleMenu, handleClose] = useDropdownMenuBehaviour();
 
     return (
         <Fragment>

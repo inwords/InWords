@@ -1,36 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
-import WordPairEdit from '../../components/Wordlist/WordPairEdit';
+import WordPairEditing from '../../components/Wordlist/WordPairEditing';
 
-function WordPairEditContainer({ wordPair, deleteWordPairAsEditPart, addWordPairAsEditPart }) {
-    const [open, setOpen] = useState(false);
-
+function WordPairEditingContainer({ wordPair, deleteWordPairAsEditPart, addWordPairAsEditPart }) {
     const [values, setValues] = useState({
         wordForeign: '',
         wordNative: ''
     });
 
-    useEffect(() => {
-        if (open) {
-            setValues({
-                wordForeign: wordPair.wordForeign,
-                wordNative: wordPair.wordNative
-            });
-        }
-    }, [open]);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     const handleChange = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
+    };
+
+    const handleReset = () => {
+        setValues({
+            wordForeign: wordPair.wordForeign,
+            wordNative: wordPair.wordNative
+        });
     };
 
     const handleSubmit = event => {
@@ -42,35 +30,35 @@ function WordPairEditContainer({ wordPair, deleteWordPairAsEditPart, addWordPair
         });
 
         event.preventDefault();
-        handleClose();
     };
 
     return (
-        <WordPairEdit
-            open={open}
-            handleOpen={handleOpen}
-            handleClose={handleClose}
+        <WordPairEditing
             values={values}
             handleChange={handleChange}
+            handleReset={handleReset}
             handleSubmit={handleSubmit}
         />
     );
 }
 
-WordPairEditContainer.propTypes = {
-    wordPair: PropTypes.object.isRequired,
+WordPairEditingContainer.propTypes = {
+    wordPair: PropTypes.shape({
+        wordForeign: PropTypes.string.isRequired,
+        wordNative: PropTypes.string.isRequired,
+    }).isRequired,
     deleteWordPairAsEditPart: PropTypes.func.isRequired,
-    addWordPairAsEditPart: PropTypes.func.isRequired
+    addWordPairAsEditPart: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         deleteWordPairAsEditPart: pairId => dispatch(wordlistApiActions.deleteWordPairAsEditPart(pairId)),
-        addWordPairAsEditPart: wordPair => dispatch(wordlistApiActions.addWordPairAsEditPart(wordPair)),
+        addWordPairAsEditPart: wordPair => dispatch(wordlistApiActions.addWordPairAsEditPart(wordPair))
     };
 };
 
 export default connect(
     null,
     mapDispatchToProps
-)(WordPairEditContainer);
+)(WordPairEditingContainer);

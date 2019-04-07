@@ -9,7 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { drawerWidth } from '../AppBar/RegularAppBar';
 import WordPairAdditionContainer from '../../containers/Wordlist/WordPairAdditionContainer';
 import WordPairsDeletionContainer from '../../containers/Wordlist/WordPairsDeletionContainer';
-import WordPairEditContainer from '../../containers/Wordlist/WordPairEditContainer';
+import WordPairEditingContainer from '../../containers/Wordlist/WordPairEditingContainer';
 
 const styles = theme => ({
     root: {
@@ -37,7 +37,7 @@ function Wordlist({ wordPairs, checked, handleToggle, classes }) {
                         <Checkbox checked={checked.indexOf(wordPair.serverId) !== -1} tabIndex={-1} disableRipple />
                         <ListItemText primary={wordPair.wordForeign} secondary={wordPair.wordNative} />
                         <ListItemSecondaryAction>
-                            <WordPairEditContainer wordPair={wordPair} />
+                            <WordPairEditingContainer wordPair={wordPair} />
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
