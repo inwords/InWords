@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameActions from '../../actions/gameActions';
 import gameApiActions from '../../actions/gameApiActions';
-import Games from '../../components/Game/Games';
+import MyGames from '../../components/Game/MyGames';
 
-function GamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, userId, history }) {
+function MyGamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, deleteGamePack, userId, history }) {
     useEffect(() => {
         pullGamesInfo();
     }, []);
@@ -16,20 +16,26 @@ function GamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, userId, history })
         history.push(`/games_catalog/game/${gameId}`);
     };
 
+    const handleGamePackDeletion = gameId => () => {
+        deleteGamePack(gameId);
+    };
+
     return (
-        <Games
-            gamesInfo={gamesInfo.filter(gameInfo => gameInfo.creatorId !== userId)}
+        <MyGames
+            gamesInfo={gamesInfo.filter(gameInfo => gameInfo.creatorId === userId)}
             handleRedirection={handleRedirection}
+            handleGamePackDeletion={handleGamePackDeletion}
         />
     );
 }
 
-GamesPage.propTypes = {
+MyGamesPage.propTypes = {
     gamesInfo: PropTypes.arrayOf(PropTypes.shape({
         creatorId: PropTypes.number.isRequired,
     })).isRequired,
     pullGamesInfo: PropTypes.func.isRequired,
     clearGameInfo: PropTypes.func.isRequired,
+    deleteGamePack: PropTypes.func.isRequired,
     userId: PropTypes.number.isRequired,
     history: PropTypes.object.isRequired,
 };
@@ -44,11 +50,12 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         pullGamesInfo: () => dispatch(gameApiActions.pullGamesInfo()),
-        clearGameInfo: () => dispatch(gameActions.clearGameInfo())
+        clearGameInfo: () => dispatch(gameActions.clearGameInfo()),
+        deleteGamePack: gameId => dispatch(gameApiActions.deleteGamePack(gameId))
     };
 };
 
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(GamesPage));
+)(MyGamesPage));

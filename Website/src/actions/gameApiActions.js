@@ -34,11 +34,38 @@ function saveLevelResult(levelResult) {
     });
 }
 
+function addGamePack(gamePack) {
+    return apiAction({
+        endpoint: 'Game/AddGamePack',
+        method: 'POST',
+        data: JSON.stringify(gamePack),
+        actionsOnSuccess: [data => gameActions.updateGamesInfoAfterAddition({
+            gameId: data.serverId,
+            creatorId: gamePack.creationInfo.creatorId,
+            isAvailable: true,
+            title: gamePack.creationInfo.descriptions[0].title,
+            description: gamePack.creationInfo.descriptions[0].description,
+        })],
+        errorMessage: 'Ошибка добавления игры'
+    });
+}
+
+function deleteGamePack(gameId) {
+    return apiAction({
+        endpoint: `Game/Delete/${gameId}`,
+        method: 'DELETE',
+        actionsOnSuccess: [() => gameActions.updateGamesInfoAfterDeletion(gameId)],
+        errorMessage: 'Ошибка удаления игры'
+    });
+}
+
 const gameApiActions = {
     pullGamesInfo,
     pullGameInfo,
     pullGameLevel,
-    saveLevelResult
+    saveLevelResult,
+    addGamePack,
+    deleteGamePack
 };
 
 export default gameApiActions;

@@ -2,10 +2,16 @@ import { combineReducers } from 'redux';
 import gameConstants from '../constants/gameConstants';
 
 const gamesInfo = (state = [], action) => {
-    if (action.type === gameConstants.GAMES_INFO_INITIALIZATION) {
-        return action.payload || [];
+    switch (action.type) {
+        case gameConstants.GAMES_INFO_INITIALIZATION:
+            return action.payload || [];
+        case gameConstants.GAMES_INFO_UPDATE_AFTER_ADDITION:
+            return state.concat(action.payload);
+        case gameConstants.GAMES_INFO_UPDATE_AFTER_DELETION:
+            return state.filter(gameInfo => gameInfo.gameId !== action.payload);
+        default:
+            return state;
     }
-    return state;
 };
 
 const initialGameInfoState = {

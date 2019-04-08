@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
-import WordPairAdd from '../../components/Wordlist/WordPairAddition';
+import WordPairAddition from '../../components/Wordlist/WordPairAddition';
 
 function WordPairAdditionContainer({ addWordPair }) {
     const [values, setValues] = useState({
@@ -31,7 +31,7 @@ function WordPairAdditionContainer({ addWordPair }) {
     };
 
     return (
-        <WordPairAdd
+        <WordPairAddition
             values={values}
             handleChange={handleChange}
             handleReset={handleReset}

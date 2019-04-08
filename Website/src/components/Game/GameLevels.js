@@ -1,24 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
-import { drawerWidth } from '../AppBar/RegularAppBar';
 import GameLevelInfoCard from './GameLevelInfoCard';
+import PageContentContainer from '../PageContentContainer';
 
-const styles = theme => ({
-    root: {
-        display: 'flex',
-        [theme.breakpoints.up(1100 + drawerWidth + theme.spacing.unit * 3 * 2)]: {
-            width: 1100,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
-});
-
-function GameLevels({ gameInfo, handleRedirection, classes }) {
+function GameLevels({ gameInfo, handleRedirection }) {
     return (
-        <div className={classes.root}>
+        <PageContentContainer>
             <Grid container spacing={24}>
                 {gameInfo.levelInfos.map((levelInfo) => (
                     <Grid key={levelInfo.levelId} item xs={12} sm={4} md={3}>
@@ -29,7 +17,7 @@ function GameLevels({ gameInfo, handleRedirection, classes }) {
                     </Grid>
                 ))}
             </Grid>
-        </div >
+        </PageContentContainer >
     );
 }
 
@@ -40,7 +28,6 @@ GameLevels.propTypes = {
         })).isRequired,
     }).isRequired,
     handleRedirection: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(GameLevels);
+export default GameLevels;

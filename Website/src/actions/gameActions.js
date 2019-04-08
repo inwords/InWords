@@ -5,6 +5,16 @@ const initializeGamesInfo = gamesInfo => ({
     payload: gamesInfo
 });
 
+const updateGamesInfoAfterAddition = gamesInfo => ({
+    type: gameConstants.GAMES_INFO_UPDATE_AFTER_ADDITION,
+    payload: gamesInfo
+});
+
+const updateGamesInfoAfterDeletion = gameId => ({
+    type: gameConstants.GAMES_INFO_UPDATE_AFTER_DELETION,
+    payload: gameId
+});
+
 const initializeGameInfo = gameInfo => ({
     type: gameConstants.GAME_INFO_INITIALIZATION,
     payload: gameInfo
@@ -25,6 +35,8 @@ const clearGameLevel = () => ({
 
 const gameActions = {
     initializeGamesInfo,
+    updateGamesInfoAfterAddition,
+    updateGamesInfoAfterDeletion,
     initializeGameInfo,
     clearGameInfo,
     initializeGameLevel,

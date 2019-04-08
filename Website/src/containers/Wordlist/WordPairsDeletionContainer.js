@@ -18,7 +18,9 @@ function WordPairsDeletionContainer({ checked, deleteWordPairs }) {
 }
 
 WordPairsDeletionContainer.propTypes = {
-    checked: PropTypes.array.isRequired,
+    checked: PropTypes.arrayOf(
+        PropTypes.number.isRequired
+    ).isRequired,
     deleteWordPairs: PropTypes.func.isRequired
 };
 

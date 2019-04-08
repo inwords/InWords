@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-function GameInfoCard({ gameInfo, handleRedirection }) {
+function GameInfoCard({ gameInfo, handleRedirection, handleGamePackDeletion = null }) {
     const { gameId, title, isAvailable, description } = gameInfo;
 
     return (
@@ -28,6 +28,14 @@ function GameInfoCard({ gameInfo, handleRedirection }) {
                 >
                     Выбрать
                 </Button>
+                {handleGamePackDeletion &&
+                    <Button
+                        size="small"
+                        color="secondary"
+                        onClick={handleGamePackDeletion(gameId)}
+                    >
+                        Удалить
+                    </Button>}
             </CardActions>
         </Card>
     );
@@ -41,6 +49,7 @@ GameInfoCard.propTypes = {
         description: PropTypes.string.isRequired,
     }).isRequired,
     handleRedirection: PropTypes.func.isRequired,
+    handleGamePackDeletion: PropTypes.func,
 };
 
 export default GameInfoCard;

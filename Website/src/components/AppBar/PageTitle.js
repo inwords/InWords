@@ -10,29 +10,36 @@ const styles = {
     },
 };
 
+const guide = pathname => {
+    switch (pathname) {
+        case '/login':
+            return 'Вход';
+        case '/register':
+            return 'Регистрация';
+        case '/wordlist':
+            return 'Словарь';
+        case '/my_games':
+            return 'Мои игры';
+        case '/games_catalog':
+            return 'Каталог игр';
+        case '/sandbox':
+            return 'Песочница';
+        default:
+            if (pathname.startsWith('/profile')) {
+                return 'Профиль';
+            } else if (pathname.includes('/game/')) {
+                return 'Игра';
+            } else if (pathname.includes('/level/')) {
+                return 'Уровень';
+            }
+            return '';
+    }
+};
+
 function PageTitle({ location, classes }) {
     return (
         <Typography noWrap variant="h6" color="inherit" className={classes.grow}>
-            {(() => {
-                if (location.pathname === '/login') {
-                    return 'Вход';
-                } else if (location.pathname === '/register') {
-                    return 'Регистрация';
-                } else if (location.pathname === '/wordlist') {
-                    return 'Словарь';
-                } else if (location.pathname === '/my_games') {
-                    return 'Мои игры';
-                } else if (location.pathname === '/games_catalog') {
-                    return 'Каталог игр';
-                } else if (location.pathname.includes('/game/')) {
-                    return 'Игра';
-                } else if (location.pathname.includes('/level/')) {
-                    return 'Уровень';
-                } else if (location.pathname.startsWith('/profile')) {
-                    return 'Профиль';
-                }
-                return '';
-            })()}
+            {guide(location.pathname)}
         </Typography>
     );
 };

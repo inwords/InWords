@@ -7,6 +7,7 @@ import ErrorAlertContainer from './ErrorAlertContainer';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './Wordlist/WordlistPage';
+import MyGamesPage from './Game/MyGamesPage';
 import GamesPage from './Game/GamesPage';
 import GameLevelsContainer from './Game/GameLevelsContainer';
 import GameFieldContainer from './Game/GameFieldContainer';
@@ -27,6 +28,7 @@ function App({ userId }) {
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistPage} />
+                        <Route exact path="/my_games" component={MyGamesPage} />
                         <Route exact path="/games_catalog" component={GamesPage} />
                         <Route path="/games_catalog/game/:id" component={GameLevelsContainer} />
                         <Route path="/games_catalog/level/:id" component={GameFieldContainer} />

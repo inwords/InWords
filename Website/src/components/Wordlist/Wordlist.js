@@ -6,19 +6,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import { drawerWidth } from '../AppBar/RegularAppBar';
 import WordPairAdditionContainer from '../../containers/Wordlist/WordPairAdditionContainer';
 import WordPairsDeletionContainer from '../../containers/Wordlist/WordPairsDeletionContainer';
 import WordPairEditingContainer from '../../containers/Wordlist/WordPairEditingContainer';
+import PageContentContainer from '../PageContentContainer';
 
 const styles = theme => ({
-    root: {
-        [theme.breakpoints.up(1100 + drawerWidth + theme.spacing.unit * 3 * 2)]: {
-            width: 1100,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
     list: {
         width: '100%',
         marginTop: theme.spacing.unit,
@@ -28,7 +21,7 @@ const styles = theme => ({
 
 function Wordlist({ wordPairs, checked, handleToggle, classes }) {
     return (
-        <div className={classes.root}>
+        <PageContentContainer>
             <WordPairAdditionContainer />
             <WordPairsDeletionContainer checked={checked} />
             <List className={classes.list}>
@@ -42,7 +35,7 @@ function Wordlist({ wordPairs, checked, handleToggle, classes }) {
                     </ListItem>
                 ))}
             </List>
-        </div>
+        </PageContentContainer>
     );
 }
 
