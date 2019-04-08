@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InWords.Data.Models
 {
-    public partial class InWordsDataContext : DbContext
+    public partial class InWordsDataContext
     {
         public DbSet<GameBox> GameBoxs { get; set; }
 

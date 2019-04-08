@@ -17,12 +17,6 @@ namespace InWords.Auth.Extensions
             return authorizedId;
         }
 
-        public static string GetUserEmail(this IEnumerable<Claim> claims)
-        {
-            Claim nameIdentifier = claims.SingleOrDefault(c => c.Type == ClaimTypes.Email);
-            return nameIdentifier?.Value;
-        }
-
         public static string GetUserRole(this IEnumerable<Claim> claims)
         {
             Claim nameIdentifier = claims.First(c => c.Type == ClaimTypes.Role);

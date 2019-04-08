@@ -9,11 +9,17 @@ using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi.Controllers.v1
 {
+    // ReSharper disable once HollowTypeName
+    /// <inheritdoc />
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly AccountRepository accountRepository;
+
+        private readonly AccountIdentityProvider accountIdentityProvider;
+
         private readonly ILogger<AuthController> logger;
 
         #region Ctor
@@ -32,7 +38,6 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [Route("token")]
-        [MapToApiVersion("2.0")]
         [HttpPost]
         public IActionResult Token([FromBody] BasicAuthClaims user)
         {
@@ -62,8 +67,6 @@ namespace InWords.WebApi.Controllers.v1
             return Ok(response);
         }
 
-        #region Adaptor
-
         private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {
             //Create account in repository;
@@ -75,14 +78,5 @@ namespace InWords.WebApi.Controllers.v1
             return response;
         }
 
-        #endregion
-
-        #region props
-
-        private readonly AccountRepository accountRepository;
-
-        private readonly AccountIdentityProvider accountIdentityProvider;
-
-        #endregion
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1
 {
+    /// <inheritdoc />
     [Authorize]
     [ApiController]
     [ApiVersion("1.0")]

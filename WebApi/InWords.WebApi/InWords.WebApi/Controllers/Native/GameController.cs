@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using InWords.Auth.Extensions;
 using InWords.Data.Enums;
@@ -7,6 +8,7 @@ using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 using InWords.WebApi.Service;
+using InWords.WebApi.Service.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,22 +38,33 @@ namespace InWords.WebApi.Controllers.Native
         }
 
         // TODO: add game to user table
+        /// <summary>
+        /// Send user metric to calculate points
+        /// </summary>
+        /// <param name="levelResult"></param>
+        /// <returns></returns>
         [Route("score")]
         [HttpPost]
         public async Task<IActionResult> PostScore(LevelResult levelResult)
         {
-            int authorizedId = User.Claims.GetUserId();
+            IEnumerable<Claim> userClaims = User.Claims;
+
+            int authorizedId = userClaims.GetUserId();
 
             LevelScore answer = await gameService.LevelResultToScore(authorizedId, levelResult);
 
             return Ok(answer);
         }
 
+        /// <summary>
+        /// Get information about all existing games
+        /// </summary>
+        /// <returns></returns>
         [Route("GameInfo")]
         [HttpGet]
-        public IActionResult GetGameInfo()
+        public async Task<IActionResult> GetGameInfo()
         {
-            List<GameInfo> answer = gameService.GetGamesInfos();
+            List<GameInfo> answer = await gameService.GetGames();
 
             return Ok(answer);
         }
@@ -105,9 +118,9 @@ namespace InWords.WebApi.Controllers.Native
 
             int count = role == RoleType.Admin.ToString()
                 ? await gameService.DeleteGames(ids)
-                : await gameService.DeleteGames(userId, ids);
+                : await gameService.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult) NotFound() : Ok(count);
+            return count == 0 ? (IActionResult)NotFound() : Ok(count);
         }
     }
 }

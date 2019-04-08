@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models;
@@ -8,25 +9,50 @@ using InWords.Transfer.Data.Models.Creation;
 
 namespace InWords.WebApi.Service
 {
+    /// <summary>
+    /// Service that contain CRUD for Creations
+    /// </summary>
+    /// <see cref="Creation"/>
     public abstract class CreationService : ServiceBase
     {
-        private readonly CreationDescriptionRepository creationDescriptionRepository;
-        private readonly CreationRepository creationRepository;
+        /// <summary>
+        /// this is creation description repository
+        /// </summary>
+        protected readonly CreationDescriptionRepository CreationDescriptionRepository;
 
+        /// <summary>
+        /// this is creation repository
+        /// </summary>
+        protected readonly CreationRepository CreationRepository;
+
+
+        /// <summary>
+        /// Standard dependency injected constructor 
+        /// </summary>
+        /// <param name="context"></param>
         protected CreationService(InWordsDataContext context) : base(context)
         {
-            creationRepository = new CreationRepository(context);
-            creationDescriptionRepository = new CreationDescriptionRepository(context);
+            CreationRepository = new CreationRepository(context);
+            CreationDescriptionRepository = new CreationDescriptionRepository(context);
         }
 
+
+        /// <summary>
+        /// Allows add creation by creationInformation
+        /// </summary>
+        /// <see cref="CreationInfo"/>
+        /// <param name="creationInfo"></param>
+        /// <returns></returns>
         protected async Task<int> AddCreation(CreationInfo creationInfo)
         {
+            if (creationInfo.CreatorId == null) throw new ArgumentNullException();
+
             var creation = new Creation
             {
-                CreatorId = creationInfo.CreatorId
+                CreatorId = (int)creationInfo.CreatorId
             };
 
-            creation = await creationRepository.Create(creation);
+            creation = await CreationRepository.Create(creation);
 
             foreach (DescriptionInfo cdi in creationInfo.Descriptions)
             {
@@ -37,11 +63,12 @@ namespace InWords.WebApi.Service
                     Title = cdi.Title,
                     Description = cdi.Description
                 };
-                await creationDescriptionRepository.Create(cd);
+                await CreationDescriptionRepository.Create(cd);
             }
 
             return creation.CreationId;
         }
+
 
         /// <summary>
         ///     This is to get short info about creation
@@ -51,12 +78,12 @@ namespace InWords.WebApi.Service
         /// <returns></returns>
         protected async Task<CreationInfo> GetCreationInfo(int id)
         {
-            Creation creation = await creationRepository.FindById(id);
+            Creation creation = await CreationRepository.FindById(id);
 
             if (creation == null) return null;
 
             List<CreationDescription> descriptionList =
-                creationDescriptionRepository.Get(cd => cd.CreationId == creation.CreationId).ToList();
+                CreationDescriptionRepository.Get(cd => cd.CreationId == creation.CreationId).ToList();
 
             var descriptions = new List<DescriptionInfo>();
             foreach (CreationDescription desc in descriptionList)
@@ -64,7 +91,7 @@ namespace InWords.WebApi.Service
                 var descriptionInfo = new DescriptionInfo
                 {
                     LangId = desc.LanguageId,
-                    Description = desc.Title,
+                    Description = desc.Description,
                     Title = desc.Title
                 };
                 descriptions.Add(descriptionInfo);
@@ -79,27 +106,49 @@ namespace InWords.WebApi.Service
             return creationInfo;
         }
 
+
+        /// <summary>
+        /// This is to get Creation description
+        /// </summary>
+        /// <see cref="CreationDescription"/>
+        /// <param name="creationId"></param>
+        /// <returns></returns>
         protected List<CreationDescription> GetDescriptions(int creationId)
         {
             IEnumerable<CreationDescription> descriptions =
-                creationDescriptionRepository.Get(c => c.CreationId == creationId);
+                CreationDescriptionRepository.Get(c => c.CreationId == creationId);
             return descriptions.ToList();
         }
+
 
         /// <summary>
         ///     This is to delete creation by id
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        protected async Task DeleteCreation(IEnumerable<int> ids)
+        protected async Task<int> DeleteCreation(IEnumerable<int> ids)
         {
-            foreach (int id in ids) await DeleteCreation(id);
+            var deletions = 0;
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (int i in ids)
+            {
+                deletions += await DeleteCreation(i);
+            }
+            return deletions;
         }
 
-        protected async Task DeleteCreation(int id)
+
+        /// <summary>
+        ///     This is to cascade delete creations dependency
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected async Task<int> DeleteCreation(int id)
         {
-            Creation creation = await creationRepository.FindById(id);
-            await creationRepository.Remove(creation);
+            var deletionsCount = 0;
+            Creation creation = await CreationRepository.FindById(id);
+            deletionsCount = await CreationRepository.Remove(creation);
+            return deletionsCount;
         }
     }
 }
