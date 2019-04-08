@@ -4,33 +4,49 @@ import gameConstants from '../constants/gameConstants';
 const gamesInfo = (state = [], action) => {
     switch (action.type) {
         case gameConstants.GAMES_INFO_INITIALIZATION:
-            return action.gamesInfo;
+            return action.payload || [];
         case gameConstants.GAMES_INFO_UPDATE_AFTER_ADDITION:
-            return state.concat(action.gamesInfo);
+            return state.concat(action.payload);
         case gameConstants.GAMES_INFO_UPDATE_AFTER_DELETION:
-            return state.filter((gameInfo) => gameInfo.gameId !== action.gameId);
+            return state.filter(gameInfo => gameInfo.gameId !== action.payload);
         default:
             return state;
     }
 };
 
-const gameInfo = (state = null, action) => {
+const initialGameInfoState = {
+    gameId: null,
+    levelInfos: []
+};
+
+const gameInfo = (state = initialGameInfoState, action) => {
     switch (action.type) {
         case gameConstants.GAME_INFO_INITIALIZATION:
-            return action.gameInfo;
+            return {
+                gameId: action.payload.gameId || null,
+                levelInfos: action.payload.levelInfos || []
+            };
         case gameConstants.GAME_INFO_CLEARING:
-            return null;
+            return initialGameInfoState;
         default:
             return state;
     }
 };
 
-const gameLevel = (state = null, action) => {
+const initialGameLevelState = {
+    levelId: null,
+    wordTranslations: []
+};
+
+const gameLevel = (state = initialGameLevelState, action) => {
     switch (action.type) {
         case gameConstants.GAME_LEVEL_INITIALIZATION:
-            return action.gameLevel;
+            return {
+                levelId: action.payload.levelId || null,
+                wordTranslations: action.payload.wordTranslations || []
+            };;
         case gameConstants.GAME_LEVEL_CLEARING:
-            return null;
+            return initialGameLevelState;
         default:
             return state;
     }

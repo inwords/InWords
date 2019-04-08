@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import accessConstants from '../constants/accessConstants';
 import dataTransferInProgress from './dataTransferInProgress';
-import accessToken from './accessToken';
+import access from './access';
 import userInfo from './userInfo';
 import wordPairs from './wordPairs';
 import game from './game';
@@ -9,7 +9,7 @@ import errorMessage from './errorMessage';
 
 const appReducer = combineReducers({
     dataTransferInProgress,
-    accessToken,
+    access,
     userInfo,
     wordPairs,
     game,

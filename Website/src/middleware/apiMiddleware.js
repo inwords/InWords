@@ -33,7 +33,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
         method,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getState().accessToken}`
+            'Authorization': `Bearer ${getState().access.token}`
         },
         [dataOrParams]: data
     })
@@ -51,7 +51,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
             if (error.response && error.response.status === 401) {
                 dispatch(accessActions.denyAccess());
-                history.push('login');
+                history.push('/login');
             }
 
             console.error(error);

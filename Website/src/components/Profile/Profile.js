@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import ProfileEditContainer from '../../containers/Profile/ProfileEditContainer';
+import ProfileEditingContainer from '../../containers/Profile/ProfileEditingContainer';
 
 const styles = theme => ({
     card: {
@@ -22,8 +22,8 @@ const styles = theme => ({
     },
 });
 
-function Profile({ userInfo, classes }) {
-    const { userId, avatarPath, nickName, experience } = userInfo;
+function Profile({ editingAvailable, userInfo, classes }) {
+    const { avatarPath, nickName, experience } = userInfo;
 
     return (
         <Card className={classes.card}>
@@ -35,7 +35,7 @@ function Profile({ userInfo, classes }) {
                         title="Avatar"
                     />)}
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h5">
                         {nickName}
                     </Typography>
                     <Typography component="p">
@@ -44,14 +44,20 @@ function Profile({ userInfo, classes }) {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                {userId && <ProfileEditContainer userInfo={userInfo} />}
+                {editingAvailable && <ProfileEditingContainer userInfo={userInfo} />}
             </CardActions>
         </Card>
     );
 }
 
 Profile.propTypes = {
-    userInfo: PropTypes.object.isRequired,
+    editingAvailable: PropTypes.bool.isRequired,
+    userInfo: PropTypes.shape({
+        userId: PropTypes.number,
+        nickName: PropTypes.string.isRequired,
+        avatarPath: PropTypes.string,
+        experience: PropTypes.number.isRequired
+    }).isRequired,
     classes: PropTypes.object.isRequired
 };
 

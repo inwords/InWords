@@ -11,7 +11,7 @@ function ErrorAlertContainer({ errorMessage, resetErrorMessage }) {
 
     return (
         <ErrorAlert
-            open={!!errorMessage}
+            open={Boolean(errorMessage)}
             errorMessage={errorMessage ? errorMessage : ''}
             handleClose={handleClose}
         />
@@ -20,7 +20,7 @@ function ErrorAlertContainer({ errorMessage, resetErrorMessage }) {
 
 ErrorAlertContainer.propTypes = {
     errorMessage: PropTypes.string,
-    resetErrorMessage: PropTypes.func.isRequired
+    resetErrorMessage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => {

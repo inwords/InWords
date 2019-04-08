@@ -2,47 +2,51 @@ import React, { Fragment } from 'react';
 import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import history from '../history/history';
 import ErrorAlertContainer from './ErrorAlertContainer';
-import MainAppBarContainer from './MainAppBar/MainAppBarContainer';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './Wordlist/WordlistPage';
-import GamePage from './Game/GamePage';
+import MyGamesPage from './Game/MyGamesPage';
+import GamesPage from './Game/GamesPage';
+import GameLevelsContainer from './Game/GameLevelsContainer';
+import GameFieldContainer from './Game/GameFieldContainer';
 import ProfilePage from './Profile/ProfilePage';
+import RegularAppBar from '../components/AppBar/RegularAppBar';
 
-function App({ accessToken }) {
+function App({ userId }) {
     return (
-        <Router history={history}>
-            <Fragment>
-                <CssBaseline />
-                <ErrorAlertContainer />
+        <Fragment>
+            <ErrorAlertContainer />
+            <Router history={history}>
                 <Switch>
-                    <MainAppBarContainer>
+                    <RegularAppBar>
                         <Route exact path="/" render={() =>
-                            !accessToken ?
-                                <Redirect to="login" /> :
-                                <Redirect to="wordlist" />} />
+                            !userId ?
+                                <Redirect to="/login" /> :
+                                <Redirect to="/wordlist" />} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistPage} />
-                        <Route path="/game" component={GamePage} />
-                        <Route path="/profile" component={ProfilePage} />
-                    </MainAppBarContainer>
+                        <Route exact path="/my_games" component={MyGamesPage} />
+                        <Route exact path="/games_catalog" component={GamesPage} />
+                        <Route path="/games_catalog/game/:id" component={GameLevelsContainer} />
+                        <Route path="/games_catalog/level/:id" component={GameFieldContainer} />
+                        <Route path="/profile/:id" component={ProfilePage} />
+                    </RegularAppBar>
                 </Switch>
-            </Fragment>
-        </Router>
+            </Router>
+        </Fragment>
     );
 }
 
 App.propTypes = {
-    accessToken: PropTypes.string
+    userId: PropTypes.number,
 };
 
 const mapStateToProps = store => {
     return {
-        accessToken: store.accessToken
+        userId: store.access.userId
     };
 };
 

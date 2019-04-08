@@ -1,31 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
-function GameInfoCard({ title, isAvailable, handlePullGameInfo, handleDeleteGamePack }) {
+function GameInfoCard({ gameInfo, handleRedirection, handleGamePackDeletion = null }) {
+    const { gameId, title, isAvailable, description } = gameInfo;
+
     return (
-        <div className="card flex-fill text-center text-white bg-primary mb-3">
-            <div className="card-body">
-                <h5 className="card-title">{title}</h5>
-                <div className="btn-group">
-                    <button type="button" className="btn btn-outline-secondary"
-                        disabled={!isAvailable} onClick={handlePullGameInfo}>Выбрать</button>
-                    <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span className="sr-only">Дополнительно</span>
-                    </button>
-                    <div className="dropdown-menu">
-                        <a className="dropdown-item" href="#/game" onClick={handleDeleteGamePack}>Удалить</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Card>
+            <CardContent>
+                <Typography gutterBottom={Boolean(description)} variant="h5">
+                    {title}
+                </Typography>
+                <Typography component="p">
+                    {description}
+                </Typography>
+            </CardContent>
+            <CardActions>
+                <Button
+                    size="small"
+                    color="primary"
+                    disabled={!isAvailable}
+                    onClick={handleRedirection(gameId)}
+                >
+                    Выбрать
+                </Button>
+                {handleGamePackDeletion &&
+                    <Button
+                        size="small"
+                        color="secondary"
+                        onClick={handleGamePackDeletion(gameId)}
+                    >
+                        Удалить
+                    </Button>}
+            </CardActions>
+        </Card>
     );
 }
 
 GameInfoCard.propTypes = {
-    title: PropTypes.string.isRequired,
-    isAvailable: PropTypes.bool.isRequired,
-    handlePullGameInfo: PropTypes.func.isRequired,
-    handleDeleteGamePack: PropTypes.func.isRequired
+    gameInfo: PropTypes.shape({
+        gameId: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        isAvailable: PropTypes.bool.isRequired,
+        description: PropTypes.string.isRequired,
+    }).isRequired,
+    handleRedirection: PropTypes.func.isRequired,
+    handleGamePackDeletion: PropTypes.func,
 };
 
 export default GameInfoCard;
