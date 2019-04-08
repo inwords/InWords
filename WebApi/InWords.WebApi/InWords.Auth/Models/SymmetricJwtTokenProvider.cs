@@ -39,7 +39,7 @@ namespace InWords.Auth.Models
                 claims: identity.Claims,
                 expires: now.Add(TimeSpan.FromMinutes(MinutesLifetime)),
                 signingCredentials: new SigningCredentials(securefileProvider.GetSymmetricSecurityKey(),
-                    SecurityAlgorithms.HmacSha256));
+                    SecurityAlgorithms.HmacSha256Signature));
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 

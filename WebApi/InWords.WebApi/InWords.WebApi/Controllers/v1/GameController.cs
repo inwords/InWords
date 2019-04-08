@@ -7,11 +7,16 @@ using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 using InWords.WebApi.Service;
+using InWords.WebApi.Service.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1
 {
+    /// <inheritdoc />
+    /// <summary>
+    ///     This game controller allow CRUD games
+    /// </summary>
     [Authorize]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
@@ -20,11 +25,21 @@ namespace InWords.WebApi.Controllers.v1
     {
         private readonly GameService gameService;
 
+        /// <summary>
+        ///     Standard injected controller
+        /// </summary>
+        /// <param name="context"></param>
         public GameController(InWordsDataContext context)
         {
             gameService = new GameService(context);
         }
 
+        /// <summary>
+        ///     This is to add game pack from body use Game pack object
+        /// </summary>
+        /// <see cref="GamePack" />
+        /// <param name="gamePack">describe game</param>
+        /// <returns></returns>
         [Route("addGamePack")]
         [HttpPost]
         public async Task<IActionResult> AddGamePack([FromBody] GamePack gamePack)
@@ -36,7 +51,12 @@ namespace InWords.WebApi.Controllers.v1
             return Ok(answer);
         }
 
-        // TODO: add game to user table
+        /// <summary>
+        ///     in dev Didn't work now
+        /// </summary>
+        /// <deprecated>true</deprecated>
+        /// <param name="levelResult"></param>
+        /// <returns></returns>
         [Route("score")]
         [HttpPost]
         public async Task<IActionResult> PostScore(LevelResult levelResult)
@@ -48,15 +68,24 @@ namespace InWords.WebApi.Controllers.v1
             return Ok(answer);
         }
 
+        /// <summary>
+        ///     Returns short information about all games in database
+        /// </summary>
+        /// <returns></returns>
         [Route("GameInfo")]
         [HttpGet]
-        public IActionResult GetGameInfo()
+        public async Task<IActionResult> GetGameInfo()
         {
-            List<GameInfo> answer = gameService.GetGamesInfos();
+            List<GameInfo> answer = await gameService.GetGames();
 
             return Ok(answer);
         }
 
+        /// <summary>
+        ///     Use this to get game information by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> GetGame(int id)
@@ -70,6 +99,13 @@ namespace InWords.WebApi.Controllers.v1
             return Ok(answer);
         }
 
+        /// <summary>
+        ///     This is to get Words translation list of level
+        /// </summary>
+        /// <see cref="Level" />
+        /// <see cref="WordTranslation" />
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("level/{id}")]
         [HttpGet]
         public IActionResult GetLevel(int id)
@@ -96,6 +132,11 @@ namespace InWords.WebApi.Controllers.v1
             return await DeleteRange(id);
         }
 
+        /// <summary>
+        ///     This is to delete more then one game at request
+        /// </summary>
+        /// <param name="ids">array of game to be deleted</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("DeleteRange")]
         public async Task<IActionResult> DeleteRange(params int[] ids)
@@ -106,9 +147,9 @@ namespace InWords.WebApi.Controllers.v1
 
             int count = role == RoleType.Admin.ToString()
                 ? await gameService.DeleteGames(ids)
-                : await gameService.DeleteGames(userId, ids);
+                : await gameService.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult)NotFound() : Ok(count);
+            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }
     }
 }

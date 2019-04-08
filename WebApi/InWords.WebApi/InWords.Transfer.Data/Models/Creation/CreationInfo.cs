@@ -4,7 +4,7 @@ namespace InWords.Transfer.Data.Models.Creation
 {
     public class CreationInfo
     {
-        public int CreatorId { get; set; }
+        public int? CreatorId { get; set; }
 
         public List<DescriptionInfo> Descriptions { get; set; }
     }

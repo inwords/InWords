@@ -68,7 +68,6 @@ namespace InWords.WebApi.Providers
             IEnumerable<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, nameId),
-                new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, defaultRole)
             };
 

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -26,6 +27,11 @@ namespace InWords.WebApi
     public class Startup
     {
         /// <summary>
+        ///     This is the service configuration 
+        /// </summary>
+        public IConfiguration Configuration { get; }
+
+        /// <summary>
         /// Startup constructor
         /// </summary>
         /// <param name="env"></param>
@@ -40,10 +46,6 @@ namespace InWords.WebApi
             Configuration = builder.Build();
         }
 
-        /// <summary>
-        ///     This is the service configuration 
-        /// </summary>
-        public IConfiguration Configuration { get; }
 
         /// <summary>
         ///     This method gets called by the runtime. Use this method to add services to the container.
@@ -63,7 +65,6 @@ namespace InWords.WebApi
             // api versioning
             services.AddApiVersioning(o =>
             {
-                o.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
                 o.ReportApiVersions = true;
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
@@ -76,7 +77,15 @@ namespace InWords.WebApi
                 c.SwaggerDoc("v1.1", new Info { Version = "v1.1", Title = "API V1.1" });
 
                 string filePath = Path.Combine(AppContext.BaseDirectory, "InWords.WebApi.xml");
-                c.IncludeXmlComments(filePath);
+                if (File.Exists(filePath))
+                {
+                    c.IncludeXmlComments(filePath);
+                }
+                else
+                {
+                    Debug.WriteLine("Swagger comments not found");
+                }
+
                 c.DocInclusionPredicate((docName, apiDesc) =>
                 {
                     if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
