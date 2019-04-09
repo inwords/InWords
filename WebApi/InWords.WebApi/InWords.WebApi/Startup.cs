@@ -100,7 +100,6 @@ namespace InWords.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
