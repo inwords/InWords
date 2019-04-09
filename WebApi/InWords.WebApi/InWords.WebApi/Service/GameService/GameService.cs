@@ -190,8 +190,7 @@ namespace InWords.WebApi.Service.GameService
         /// <param name="gameId"></param>
         public async Task<int> DeleteGames(params int[] gameId)
         {
-            IEnumerable<int> creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId))
-                .Select(c => c.CreationId).ToArray();
+            IEnumerable<int> creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId);
 
             int deletionsCount = await DeleteCreation(creationsId);
 
@@ -204,48 +203,43 @@ namespace InWords.WebApi.Service.GameService
         /// <param name="userId">game owner user id</param>
         /// <param name="gameId">server id of the game</param>
         /// <returns></returns>
+        // ReSharper disable once TooManyDeclarations
         public async Task<int> DeleteOwnGames(int userId, params int[] gameId)
         {
             // find all users game that id equals gameId
-
             IQueryable<int> id = from games in Context.GameBoxs
                                  join creations in Context.Creations on games.CreationId equals creations.CreationId
-                                 where creations.CreatorId == userId && gameId.Contains(games.GameBoxId)
+                                 where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
                                  select creations.CreationId;
 
-            int deletionsCount = await DeleteCreation(id);
-
-            return deletionsCount;
+            return await DeleteCreation(id);
         }
 
         /// <summary>
         ///     This is to update user score on game level
         /// </summary>
-        /// <param name="userId"></param>
         /// <param name="levelResult"></param>
         /// <returns></returns>
-        public async Task<LevelScore> LevelResultToScore(int userId, LevelResult levelResult)
+        public LevelScore GetLevelScore(LevelResult levelResult)
         {
-            // Create user game stats
-            GameLevel gameLevel = gameLevelRepository.Get(gl => gl.GameLevelId == levelResult.LevelId).FirstOrDefault();
-
-            // if game level is not exits
-            if (gameLevel == null) throw new ArgumentNullException(nameof(gameLevel));
-
             // get word pairs count
-            int wordPairsCount = gameLevelWordRepository.Get(glw => glw.GameLevelId == levelResult.LevelId).Count();
-
-            // words count is pair multiply by 2 
-            int wordsCount = wordPairsCount * 2;
-
+            int wordsCount = gameLevelWordRepository.Get(glw => glw.GameLevelId == levelResult.LevelId).Count() * 2;
+            // calculate best openings count
+            int bestOpeningsCount = wordsCount * 2 - 2;
             // calculate score
             var score = 0;
-            int quantity = levelResult.OpeningQuantity;
-            if (quantity < wordsCount * 2 - 2)
+            if (levelResult.OpeningQuantity < bestOpeningsCount)
+            {
                 score = 3;
-            else if (quantity < wordsCount * 2.25)
+            }
+            else if (levelResult.OpeningQuantity < wordsCount * 2.25)
+            {
                 score = 2;
-            else if (quantity < wordsCount * 2.5) score = 3;
+            }
+            else if (levelResult.OpeningQuantity < wordsCount * 2.5)
+            {
+                score = 1;
+            }
 
             var levelScore = new LevelScore
             {
@@ -253,56 +247,62 @@ namespace InWords.WebApi.Service.GameService
                 Score = score
             };
 
-            // set results async
-            UserGameBox userGameBox = userGameBoxRepository.Get(ugb => ugb.UserId == userId).SingleOrDefault();
+            return levelScore;
+        }
 
-            // if user never play this game 
-            // create user stats object
-            if (userGameBox == null)
+        /// <summary>
+        /// This is to set level score to user level storage 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="levelScore"></param>
+        /// <exception cref="ArgumentNullException">Null game box is not find</exception>
+        /// <returns></returns>
+        public async Task UpdateUserScore(int userId, LevelScore levelScore)
+        {
+            UserGameBox userGameBox = await EnsureUserGameBox(userId, levelScore);
+
+            await EnsureLevelScore(levelScore, userGameBox);
+        }
+
+        private async Task<UserGameBox> EnsureUserGameBox(int userId, LevelScore levelScore)
+        {
+            // Create user game stats
+            GameLevel gameLevel = gameLevelRepository.Get(gl => gl.GameLevelId == levelScore.LevelId).FirstOrDefault();
+
+            // if game level is not exits
+            if (gameLevel == null) throw new ArgumentNullException(nameof(gameLevel));
+
+            // find user game box that's contains user progress
+            UserGameBox userGameBox = userGameBoxRepository.Get(ugb => ugb.UserId == userId).SingleOrDefault()
+                                      // create if not exists
+                                      ?? await userGameBoxRepository.Create(
+                                          new UserGameBox(userId, gameLevel.GameBoxId));
+            return userGameBox;
+        }
+
+        private async Task EnsureLevelScore(LevelScore levelScore, UserGameBox userGameBox)
+        {
+            // find user game level
+            UserGameLevel userGameLevel = userGameLevelRepository
+                .Get(g => g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.GameBoxId)).SingleOrDefault();
+
+            // create note if user level score information not found
+            if (userGameLevel == null)
             {
-                int gameBoxId = gameLevel.GameBoxId;
-                // Get GameBoxId
-                userGameBox = new UserGameBox
-                {
-                    UserId = userId,
-                    GameBoxId = gameBoxId
-                };
-                await userGameBoxRepository.Create(userGameBox);
+                userGameLevel = new UserGameLevel(userGameBox.UserGameBoxId, levelScore.LevelId, levelScore.Score);
+                await userGameLevelRepository.Create(userGameLevel);
             }
 
-            // if user already play this game
+            // in level score information found 
             else
             {
-                // find level score information
-                UserGameLevel userGameLevel = userGameLevelRepository
-                    .Get(ugl => ugl.UserGameBoxId == userGameBox.GameBoxId && ugl.GameLevelId == levelResult.LevelId)
-                    .FirstOrDefault();
+                // if score less or equals return current score
+                if (userGameLevel.UserStars >= levelScore.Score) return;
 
-                // create note if user level score information not found
-                if (userGameLevel == null)
-                {
-                    userGameLevel = new UserGameLevel
-                    {
-                        UserGameBoxId = userGameBox.UserGameBoxId,
-                        GameLevelId = levelResult.LevelId,
-                        UserStars = score
-                    };
-                    await userGameLevelRepository.Create(userGameLevel);
-                }
-
-                // in level score information found 
-                else
-                {
-                    // if score less or equals return current score
-                    if (userGameLevel.UserStars >= score) return levelScore;
-
-                    // else update score
-                    userGameLevel.UserStars = score;
-                    await userGameLevelRepository.Update(userGameLevel);
-                }
+                // else update score
+                userGameLevel.UserStars = levelScore.Score;
+                await userGameLevelRepository.Update(userGameLevel);
             }
-
-            return levelScore;
         }
 
         #region PropsAndCtor

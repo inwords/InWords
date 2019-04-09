@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using InWords.Auth.Extensions;
 using InWords.Data.Enums;
@@ -6,7 +7,6 @@ using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
-using InWords.WebApi.Service;
 using InWords.WebApi.Service.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +44,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> AddGamePack([FromBody] GamePack gamePack)
         {
-            int authorizedId = User.Claims.GetUserId();
+            int authorizedId = User.GetUserId();
 
             SyncBase answer = await gameService.AddGamePack(authorizedId, gamePack);
 
@@ -61,9 +61,19 @@ namespace InWords.WebApi.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> PostScore(LevelResult levelResult)
         {
-            int authorizedId = User.Claims.GetUserId();
-
+            int authorizedId = User.GetUserId();
+            // calculate score
             LevelScore answer = await gameService.LevelResultToScore(authorizedId, levelResult);
+
+            // save score to user level
+            try
+            {
+                await gameService.UpdateUserScore(authorizedId, answer);
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
 
             return Ok(answer);
         }
@@ -90,7 +100,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetGame(int id)
         {
-            int userId = User.Claims.GetUserId();
+            int userId = User.GetUserId();
 
             Game answer = await gameService.GetGame(userId, id);
 
@@ -110,7 +120,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpGet]
         public IActionResult GetLevel(int id)
         {
-            int userId = User.Claims.GetUserId();
+            int userId = User.GetUserId();
 
             Level answer = gameService.GetLevel(userId, id);
 
@@ -141,9 +151,9 @@ namespace InWords.WebApi.Controllers.v1
         [Route("DeleteRange")]
         public async Task<IActionResult> DeleteRange(params int[] ids)
         {
-            int userId = HttpContext.User.Claims.GetUserId();
+            int userId = User.GetUserId();
 
-            string role = HttpContext.User.Claims.GetUserRole();
+            string role = User.GetUserRole();
 
             int count = role == RoleType.Admin.ToString()
                 ? await gameService.DeleteGames(ids)

@@ -18,5 +18,22 @@ namespace InWords.Data.Models.InWords.Creations.GameBox
         [ForeignKey(nameof(GameLevelId))] public virtual GameLevel GameLevel { get; set; }
 
         public int UserStars { get; set; }
+
+        #region ctor
+
+        public UserGameLevel(UserGameBox userGameBox)
+        {
+            UserGameBoxId = userGameBox.UserGameBoxId;
+        }
+
+        public UserGameLevel(int userGameBoxId, int gameLevelId = 0, int userStars = 0)
+        {
+            UserGameBoxId = userGameBoxId;
+            GameLevelId = gameLevelId;
+            UserStars = userStars;
+        }
+
+        #endregion
+
     }
 }

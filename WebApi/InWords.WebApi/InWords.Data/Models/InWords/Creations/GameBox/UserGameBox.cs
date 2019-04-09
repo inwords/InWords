@@ -15,5 +15,16 @@ namespace InWords.Data.Models.InWords.Creations.GameBox
         public int GameBoxId { get; set; }
 
         [ForeignKey(nameof(GameBoxId))] public virtual GameBox GameBox { get; set; }
+
+        #region Ctor
+
+        public UserGameBox(int userId, int gameBoxId, int userGameBoxId = 0)
+        {
+            UserId = userId;
+            GameBoxId = gameBoxId;
+            UserGameBoxId = userGameBoxId;
+        }
+
+        #endregion
     }
 }
