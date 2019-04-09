@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using InWords.WebApi.Swagger;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace InWords.WebApi
@@ -71,36 +70,7 @@ namespace InWords.WebApi
             });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1.0", new Info { Version = "v1.0", Title = "API V1.0" });
-                c.SwaggerDoc("v1.1", new Info { Version = "v1.1", Title = "API V1.1" });
-
-                string filePath = Path.Combine(AppContext.BaseDirectory, "InWords.WebApi.xml");
-                if (File.Exists(filePath))
-                {
-                    c.IncludeXmlComments(filePath);
-                }
-                else
-                {
-                    Debug.WriteLine("Swagger comments not found");
-                }
-
-                c.DocInclusionPredicate((docName, apiDesc) =>
-                {
-                    if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
-
-                    IEnumerable<ApiVersion> versions = methodInfo.DeclaringType
-                        .GetCustomAttributes(true)
-                        .OfType<ApiVersionAttribute>()
-                        .SelectMany(attr => attr.Versions);
-
-                    return versions.Any(v => $"v{v.ToString()}" == docName);
-                });
-
-                c.OperationFilter<RemoveVersionParameters>();
-                c.DocumentFilter<SetVersionInPaths>();
-            });
+            SwaggerFactory.Configure(services);
         }
 
         /// <summary>
