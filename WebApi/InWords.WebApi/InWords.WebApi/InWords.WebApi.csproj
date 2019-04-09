@@ -21,16 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\swagger\ui\swagger-ui-bundle.js" />
-    <None Include="wwwroot\swagger\ui\swagger-ui-bundle.js.map" />
-    <None Include="wwwroot\swagger\ui\swagger-ui-standalone-preset.js" />
-    <None Include="wwwroot\swagger\ui\swagger-ui-standalone-preset.js.map" />
-    <None Include="wwwroot\swagger\ui\swagger-ui.css.map" />
-    <None Include="wwwroot\swagger\ui\swagger-ui.js" />
-    <None Include="wwwroot\swagger\ui\swagger-ui.js.map" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
@@ -43,6 +33,10 @@
     <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
     <ProjectReference Include="..\InWords.Service.Encryption\InWords.Service.Encryption.csproj" />
     <ProjectReference Include="..\InWords.Transfer.Data\InWords.Transfer.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
