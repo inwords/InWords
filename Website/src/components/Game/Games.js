@@ -1,31 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import GameInfoCard from './GameInfoCard';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import useTabsBehaviour from '../../logic-hooks/useTabsBehaviour';
+import LearningGamesContainer from '../../containers/Game/LearningGamesContainer';
+import SandboxGamesContainer from '../../containers/Game/SandboxGamesContainer';
 import PageContentContainer from '../PageContentContainer';
 
-function Games({ gamesInfo, handleRedirection }) {
+const styles = theme => ({
+    tabContainer: {
+        paddingTop: theme.spacing.unit * 3,
+    },
+});
+
+function Games({ classes }) {
+    const [value, handleChange] = useTabsBehaviour();
+
     return (
         <PageContentContainer>
-            <Grid container spacing={24}>
-                {gamesInfo.map(gameInfo => (
-                    <Grid key={gameInfo.gameId} item xs={12} sm={6} md={4}>
-                        <GameInfoCard
-                            gameInfo={gameInfo}
-                            handleRedirection={handleRedirection}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
+            <Paper>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    centered
+                >
+                    <Tab label="Обучение" />
+                    <Tab label="Песочница" />
+                </Tabs>
+            </Paper>
+            {value === 0 &&
+                <div className={classes.tabContainer}>
+                    <LearningGamesContainer />
+                </div>}
+            {value === 1 &&
+                <div className={classes.tabContainer}>
+                    <SandboxGamesContainer />
+                </div>}
         </PageContentContainer >
     );
 }
 
 Games.propTypes = {
-    gamesInfo: PropTypes.arrayOf(PropTypes.shape({
-        gameId: PropTypes.number.isRequired,
-    })).isRequired,
-    handleRedirection: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-export default Games;
+export default withStyles(styles)(Games);

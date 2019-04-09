@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameActions from '../../actions/gameActions';
 import gameApiActions from '../../actions/gameApiActions';
-import Games from '../../components/Game/Games';
+import LearningGames from '../../components/Game/LearningGames';
 
-function GamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, userId, history }) {
+function LearningGamesContainer({ gamesInfo, pullGamesInfo, clearGameInfo, userId, history }) {
     useEffect(() => {
         pullGamesInfo();
     }, []);
@@ -17,14 +17,14 @@ function GamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, userId, history })
     };
 
     return (
-        <Games
+        <LearningGames
             gamesInfo={gamesInfo.filter(gameInfo => gameInfo.creatorId !== userId)}
             handleRedirection={handleRedirection}
         />
     );
 }
 
-GamesPage.propTypes = {
+LearningGamesContainer.propTypes = {
     gamesInfo: PropTypes.arrayOf(PropTypes.shape({
         creatorId: PropTypes.number.isRequired,
     })).isRequired,
@@ -51,4 +51,4 @@ const mapDispatchToProps = dispatch => {
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(GamesPage));
+)(LearningGamesContainer));

@@ -13,8 +13,7 @@ function LinksList({ authorized, onClick }) {
                 </Fragment> :
                 <Fragment>
                     <LinksListItem to="/wordlist" text="Словарь" />
-                    <LinksListItem to="/my_games" text="Мои игры" />
-                    <LinksListItem to="/games_catalog" text="Каталог игр" />
+                    <LinksListItem to="/games" text="Игры" />
                 </Fragment>}
         </List>
     );

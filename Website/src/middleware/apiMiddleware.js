@@ -39,7 +39,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     })
         .then(({ data }) => {
             dispatch(dataTransferActions.endDataTransfer());
-            actionsOnSuccess.forEach((action) => dispatch(action(data)));
+            actionsOnSuccess.forEach(action => dispatch(action(data)));
 
             if (redirection) {
                 history.push(redirection);

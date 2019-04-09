@@ -117,17 +117,7 @@ function GamePackAdditionContainer({ userId, addGamePack }) {
                     description: descriptionValues.description
                 }]
             },
-            levelPacks: levelPacks.map(levelPack => {
-                return {
-                    level: levelPack.level,
-                    wordTranslations: levelPack.wordTranslations.map(wordTranslation => {
-                        return {
-                            wordForeign: wordTranslation.wordForeign,
-                            wordNative: wordTranslation.wordNative
-                        }
-                    })
-                }
-            })
+            levelPacks: levelPacks
         });
 
         event.preventDefault();

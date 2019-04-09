@@ -1,13 +1,19 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import useOpeningBehavoiur from '../../logic-hooks/useOpeningBehaviour';
 import GamePackAdditionDialog from './GamePackAdditionDialog';
 
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
+    },
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing.unit * 2,
+        right: theme.spacing.unit * 2,
     },
 });
 
@@ -26,14 +32,13 @@ function GamePackAddition({ handleReset, handleSubmit, classes, ...rest }) {
 
     return (
         <Fragment>
-            <Button
-                variant="contained"
+            <Fab
+                className={classes.fab}
                 color="primary"
-                className={classes.button}
                 onClick={handleOpenWithReset}
             >
-                Создать
-            </Button>
+                <AddIcon />
+            </Fab>
             <GamePackAdditionDialog
                 open={open}
                 handleClose={handleClose}

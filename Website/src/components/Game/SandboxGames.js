@@ -1,22 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import GameInfoCard from './GameInfoCard';
-import PageContentContainer from '../PageContentContainer';
 import GamePackAdditionContainer from '../../containers/Game/GamePackAdditionContainer';
 
-const styles = theme => ({
-    grid: {
-        marginTop: theme.spacing.unit,
-    },
-});
-
-function MyGames({ gamesInfo, classes, ...rest }) {
+function SandboxGames({ gamesInfo, ...rest }) {
     return (
-        <PageContentContainer>
+        <Fragment>
             <GamePackAdditionContainer />
-            <Grid container spacing={24} className={classes.grid} >
+            <Grid container spacing={24} >
                 {gamesInfo.map((gameInfo) => (
                     <Grid key={gameInfo.gameId} item xs={12} sm={6} md={4}>
                         <GameInfoCard
@@ -26,17 +18,16 @@ function MyGames({ gamesInfo, classes, ...rest }) {
                     </Grid>
                 ))}
             </Grid>
-        </PageContentContainer>
+        </Fragment>
     );
 }
 
-MyGames.propTypes = {
+SandboxGames.propTypes = {
     gamesInfo: PropTypes.arrayOf(PropTypes.shape({
         gameId: PropTypes.number.isRequired,
     })).isRequired,
     handleRedirection: PropTypes.func.isRequired,
     handleGamePackDeletion: PropTypes.func,
-    classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MyGames);
+export default SandboxGames;

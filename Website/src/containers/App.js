@@ -7,12 +7,11 @@ import ErrorAlertContainer from './ErrorAlertContainer';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './Wordlist/WordlistPage';
-import MyGamesPage from './Game/MyGamesPage';
-import GamesPage from './Game/GamesPage';
 import GameLevelsContainer from './Game/GameLevelsContainer';
 import GameFieldContainer from './Game/GameFieldContainer';
 import ProfilePage from './Profile/ProfilePage';
 import RegularAppBar from '../components/AppBar/RegularAppBar';
+import Games from '../components/Game/Games';
 
 function App({ userId }) {
     return (
@@ -28,8 +27,7 @@ function App({ userId }) {
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistPage} />
-                        <Route exact path="/my_games" component={MyGamesPage} />
-                        <Route exact path="/games_catalog" component={GamesPage} />
+                        <Route exact path="/games" component={Games} />
                         <Route path="/games_catalog/game/:id" component={GameLevelsContainer} />
                         <Route path="/games_catalog/level/:id" component={GameFieldContainer} />
                         <Route path="/profile/:id" component={ProfilePage} />

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameActions from '../../actions/gameActions';
 import gameApiActions from '../../actions/gameApiActions';
-import MyGames from '../../components/Game/MyGames';
+import SandboxGames from '../../components/Game/SandboxGames';
 
-function MyGamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, deleteGamePack, userId, history }) {
+function SandboxGamesContainer({ gamesInfo, pullGamesInfo, clearGameInfo, deleteGamePack, userId, history }) {
     useEffect(() => {
         pullGamesInfo();
     }, []);
@@ -21,7 +21,7 @@ function MyGamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, deleteGamePack, 
     };
 
     return (
-        <MyGames
+        <SandboxGames
             gamesInfo={gamesInfo.filter(gameInfo => gameInfo.creatorId === userId)}
             handleRedirection={handleRedirection}
             handleGamePackDeletion={handleGamePackDeletion}
@@ -29,7 +29,7 @@ function MyGamesPage({ gamesInfo, pullGamesInfo, clearGameInfo, deleteGamePack, 
     );
 }
 
-MyGamesPage.propTypes = {
+SandboxGamesContainer.propTypes = {
     gamesInfo: PropTypes.arrayOf(PropTypes.shape({
         creatorId: PropTypes.number.isRequired,
     })).isRequired,
@@ -58,4 +58,4 @@ const mapDispatchToProps = dispatch => {
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(MyGamesPage));
+)(SandboxGamesContainer));

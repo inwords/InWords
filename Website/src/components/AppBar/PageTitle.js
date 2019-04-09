@@ -18,12 +18,8 @@ const guide = pathname => {
             return 'Регистрация';
         case '/wordlist':
             return 'Словарь';
-        case '/my_games':
-            return 'Мои игры';
-        case '/games_catalog':
-            return 'Каталог игр';
-        case '/sandbox':
-            return 'Песочница';
+        case '/games':
+            return 'Игры';
         default:
             if (pathname.startsWith('/profile')) {
                 return 'Профиль';
