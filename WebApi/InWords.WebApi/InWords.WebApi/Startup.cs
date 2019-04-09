@@ -1,6 +1,9 @@
-﻿using InWords.Auth;
+﻿using System;
+using System.IO;
+using InWords.Auth;
 using InWords.Data.Models;
 using InWords.WebApi.Providers.FIleLogger;
+using InWords.WebApi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,31 +11,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Swagger;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using InWords.WebApi.Swagger;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace InWords.WebApi
 {
     /// <summary>
-    /// Main startup class
+    ///     Main startup class
     /// </summary>
     public class Startup
     {
         /// <summary>
-        ///     This is the service configuration 
-        /// </summary>
-        public IConfiguration Configuration { get; }
-
-        /// <summary>
-        /// Startup constructor
+        ///     Startup constructor
         /// </summary>
         /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
@@ -45,6 +33,11 @@ namespace InWords.WebApi
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
+
+        /// <summary>
+        ///     This is the service configuration
+        /// </summary>
+        public IConfiguration Configuration { get; }
 
 
         /// <summary>
@@ -71,40 +64,11 @@ namespace InWords.WebApi
             });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1.0", new Info { Version = "v1.0", Title = "API V1.0" });
-                c.SwaggerDoc("v1.1", new Info { Version = "v1.1", Title = "API V1.1" });
-
-                string filePath = Path.Combine(AppContext.BaseDirectory, "InWords.WebApi.xml");
-                if (File.Exists(filePath))
-                {
-                    c.IncludeXmlComments(filePath);
-                }
-                else
-                {
-                    Debug.WriteLine("Swagger comments not found");
-                }
-
-                c.DocInclusionPredicate((docName, apiDesc) =>
-                {
-                    if (!apiDesc.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
-
-                    IEnumerable<ApiVersion> versions = methodInfo.DeclaringType
-                        .GetCustomAttributes(true)
-                        .OfType<ApiVersionAttribute>()
-                        .SelectMany(attr => attr.Versions);
-
-                    return versions.Any(v => $"v{v.ToString()}" == docName);
-                });
-
-                c.OperationFilter<RemoveVersionParameters>();
-                c.DocumentFilter<SetVersionInPaths>();
-            });
+            SwaggerFactory.Configure(services);
         }
 
         /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        ///     This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
@@ -136,7 +100,6 @@ namespace InWords.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -146,7 +109,7 @@ namespace InWords.WebApi
         }
 
         /// <summary>
-        /// Configure the logger data format and file location
+        ///     Configure the logger data format and file location
         /// </summary>
         /// <param name="loggerFactory"></param>
         public void LoggerConfiguration(ILoggerFactory loggerFactory)

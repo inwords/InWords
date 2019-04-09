@@ -10,24 +10,24 @@ using InWords.Transfer.Data.Models.Creation;
 namespace InWords.WebApi.Service
 {
     /// <summary>
-    /// Service that contain CRUD for Creations
+    ///     Service that contain CRUD for Creations
     /// </summary>
-    /// <see cref="Creation"/>
+    /// <see cref="Creation" />
     public abstract class CreationService : ServiceBase
     {
         /// <summary>
-        /// this is creation description repository
+        ///     this is creation description repository
         /// </summary>
         protected readonly CreationDescriptionRepository CreationDescriptionRepository;
 
         /// <summary>
-        /// this is creation repository
+        ///     this is creation repository
         /// </summary>
         protected readonly CreationRepository CreationRepository;
 
 
         /// <summary>
-        /// Standard dependency injected constructor 
+        ///     Standard dependency injected constructor
         /// </summary>
         /// <param name="context"></param>
         protected CreationService(InWordsDataContext context) : base(context)
@@ -38,9 +38,9 @@ namespace InWords.WebApi.Service
 
 
         /// <summary>
-        /// Allows add creation by creationInformation
+        ///     Allows add creation by creationInformation
         /// </summary>
-        /// <see cref="CreationInfo"/>
+        /// <see cref="CreationInfo" />
         /// <param name="creationInfo"></param>
         /// <returns></returns>
         protected async Task<int> AddCreation(CreationInfo creationInfo)
@@ -49,7 +49,7 @@ namespace InWords.WebApi.Service
 
             var creation = new Creation
             {
-                CreatorId = (int)creationInfo.CreatorId
+                CreatorId = (int) creationInfo.CreatorId
             };
 
             creation = await CreationRepository.Create(creation);
@@ -108,9 +108,9 @@ namespace InWords.WebApi.Service
 
 
         /// <summary>
-        /// This is to get Creation description
+        ///     This is to get Creation description
         /// </summary>
-        /// <see cref="CreationDescription"/>
+        /// <see cref="CreationDescription" />
         /// <param name="creationId"></param>
         /// <returns></returns>
         protected List<CreationDescription> GetDescriptions(int creationId)
@@ -130,10 +130,7 @@ namespace InWords.WebApi.Service
         {
             var deletions = 0;
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (int i in ids)
-            {
-                deletions += await DeleteCreation(i);
-            }
+            foreach (int i in ids) deletions += await DeleteCreation(i);
             return deletions;
         }
 

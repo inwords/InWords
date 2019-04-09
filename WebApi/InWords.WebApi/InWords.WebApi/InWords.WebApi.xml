@@ -12,14 +12,14 @@
         </member>
         <member name="M:InWords.WebApi.Controllers.Native.GameController.PostScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
             <summary>
-            Send user metric to calculate points
+                Send user metric to calculate points
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Controllers.Native.GameController.GetGameInfo">
             <summary>
-            Get information about all existing games
+                Get information about all existing games
             </summary>
             <returns></returns>
         </member>
@@ -54,7 +54,7 @@
         </member>
         <member name="M:InWords.WebApi.Controllers.v1._1.ValuesController.GetVersion">
             <summary>
-               This is to get requested Api version
+                This is to get requested Api version
             </summary>
             <returns></returns>
         </member>
@@ -63,6 +63,9 @@
                 Get your login
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:InWords.WebApi.Controllers.v1.AuthController">
+            <inheritdoc />
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.AuthController.Token(InWords.Auth.Models.BasicAuthClaims)">
             <summary>
@@ -136,6 +139,9 @@
             <param name="ids">array of game to be deleted</param>
             <returns></returns>
         </member>
+        <member name="T:InWords.WebApi.Controllers.v1.UsersController">
+            <inheritdoc />
+        </member>
         <member name="M:InWords.WebApi.Controllers.v1.ValuesController.GetVersion">
             <summary>
                 This is to get requested Api version
@@ -150,7 +156,7 @@
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.WordsController.#ctor(InWords.Data.Models.InWordsDataContext)">
             <summary>
-            Standard injected constructor
+                Standard injected constructor
             </summary>
             <param name="context"></param>
         </member>
@@ -192,31 +198,31 @@
         </member>
         <member name="T:InWords.WebApi.Service.CreationService">
             <summary>
-            Service that contain CRUD for Creations
+                Service that contain CRUD for Creations
             </summary>
-            <see cref="T:InWords.Data.Models.InWords.Creations.Creation"/>
+            <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
         </member>
         <member name="F:InWords.WebApi.Service.CreationService.CreationDescriptionRepository">
             <summary>
-            this is creation description repository
+                this is creation description repository
             </summary>
         </member>
         <member name="F:InWords.WebApi.Service.CreationService.CreationRepository">
             <summary>
-            this is creation repository
+                this is creation repository
             </summary>
         </member>
         <member name="M:InWords.WebApi.Service.CreationService.#ctor(InWords.Data.Models.InWordsDataContext)">
             <summary>
-            Standard dependency injected constructor 
+                Standard dependency injected constructor
             </summary>
             <param name="context"></param>
         </member>
         <member name="M:InWords.WebApi.Service.CreationService.AddCreation(InWords.Transfer.Data.Models.Creation.CreationInfo)">
             <summary>
-            Allows add creation by creationInformation
+                Allows add creation by creationInformation
             </summary>
-            <see cref="T:InWords.Transfer.Data.Models.Creation.CreationInfo"/>
+            <see cref="T:InWords.Transfer.Data.Models.Creation.CreationInfo" />
             <param name="creationInfo"></param>
             <returns></returns>
         </member>
@@ -230,9 +236,9 @@
         </member>
         <member name="M:InWords.WebApi.Service.CreationService.GetDescriptions(System.Int32)">
             <summary>
-            This is to get Creation description
+                This is to get Creation description
             </summary>
-            <see cref="T:InWords.Data.Models.InWords.Creations.CreationDescription"/>
+            <see cref="T:InWords.Data.Models.InWords.Creations.CreationDescription" />
             <param name="creationId"></param>
             <returns></returns>
         </member>
@@ -252,12 +258,11 @@
         </member>
         <member name="T:InWords.WebApi.Service.GameService.DescriptionInfoExtensions">
             <summary>
-            
             </summary>
         </member>
         <member name="M:InWords.WebApi.Service.GameService.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Transfer.Data.Models.Creation.DescriptionInfo})">
             <summary>
-            Test method returning Russian description
+                Test method returning Russian description
             </summary>
             <param name="descriptionInfos"></param>
             <returns></returns>
@@ -265,13 +270,13 @@
         <member name="T:InWords.WebApi.Service.GameService.GameService">
             <inheritdoc />
             <summary>
-            Service that contain CRUD for Game
+                Service that contain CRUD for Game
             </summary>
             <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
         </member>
         <member name="M:InWords.WebApi.Service.GameService.GameService.AddGamePack(System.Int32,InWords.Transfer.Data.Models.GameBox.GamePack)">
             <summary>
-                Add a game using the userId as the CreatorId 
+                Add a game using the userId as the CreatorId
             </summary>
             <param name="userId"></param>
             <param name="gamePack"></param>
@@ -297,7 +302,7 @@
             </summary>
             <param name="userId"></param>
             <param name="levelId"></param>
-            <see cref="T:InWords.Transfer.Data.Models.GameBox.Level"/>
+            <see cref="T:InWords.Transfer.Data.Models.GameBox.Level" />
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Service.GameService.GameService.DeleteGames(System.Int32[])">
@@ -311,23 +316,31 @@
         </member>
         <member name="M:InWords.WebApi.Service.GameService.GameService.DeleteOwnGames(System.Int32,System.Int32[])">
             <summary>
-                 This is to delete games as user, safe delete game if userId os owner
+                This is to delete games as user, safe delete game if userId os owner
             </summary>
             <param name="userId">game owner user id</param>
             <param name="gameId">server id of the game</param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.LevelResultToScore(System.Int32,InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Service.GameService.GameService.GetLevelScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
             <summary>
                 This is to update user score on game level
             </summary>
-            <param name="userId"></param>
             <param name="levelResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Service.GameService.GameService.UpdateUserScore(System.Int32,InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelScore)">
+            <summary>
+                This is to set level score to user level storage
+            </summary>
+            <param name="userId"></param>
+            <param name="levelScore"></param>
+            <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Service.GameService.GameService.#ctor(InWords.Data.Models.InWordsDataContext)">
             <summary>
-            Basic constructor
+                Basic constructor
             </summary>
             <param name="context"></param>
         </member>
@@ -340,18 +353,18 @@
         </member>
         <member name="T:InWords.WebApi.Startup">
             <summary>
-            Main startup class
+                Main startup class
             </summary>
         </member>
         <member name="M:InWords.WebApi.Startup.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
             <summary>
-            Startup constructor
+                Startup constructor
             </summary>
             <param name="env"></param>
         </member>
         <member name="P:InWords.WebApi.Startup.Configuration">
             <summary>
-                This is the service configuration 
+                This is the service configuration
             </summary>
         </member>
         <member name="M:InWords.WebApi.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
@@ -362,7 +375,7 @@
         </member>
         <member name="M:InWords.WebApi.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
-            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+                This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
             </summary>
             <param name="app"></param>
             <param name="env"></param>
@@ -370,22 +383,36 @@
         </member>
         <member name="M:InWords.WebApi.Startup.LoggerConfiguration(Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
-            Configure the logger data format and file location
+                Configure the logger data format and file location
             </summary>
             <param name="loggerFactory"></param>
         </member>
         <member name="T:InWords.WebApi.Swagger.RemoveVersionParameters">
             <summary>
-            This is need to Remove Version Parameters from url path in Swagger UI.
-            For example v{version}/get replace to v1.1/get
+                This is need to Remove Version Parameters from url path in Swagger UI.
+                For example v{version}/get replace to v1.1/get
             </summary>
         </member>
         <member name="M:InWords.WebApi.Swagger.RemoveVersionParameters.Apply(Swashbuckle.AspNetCore.Swagger.Operation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
             <summary>
-            Operation filter interfere method 
+                Operation filter interfere method
             </summary>
             <param name="operation"></param>
             <param name="context"></param>
+        </member>
+        <member name="M:InWords.WebApi.Swagger.SwaggerFactory.GetApiVersions(System.Reflection.MemberInfo)">
+            <summary>
+                This is to ger api version from member info to swagger configuration
+            </summary>
+            <param name="methodInfo"></param>
+            <returns>ApiVersions</returns>
+        </member>
+        <member name="M:InWords.WebApi.Swagger.SwaggerFactory.ConfigureSwaggerComments(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+                This is to enable swagger external dev xml comments.
+                Warning! To use this enable xml comments output
+            </summary>
+            <param name="c"></param>
         </member>
     </members>
 </doc>

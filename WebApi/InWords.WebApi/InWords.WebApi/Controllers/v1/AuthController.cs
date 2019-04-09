@@ -16,9 +16,8 @@ namespace InWords.WebApi.Controllers.v1
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly AccountRepository accountRepository;
-
         private readonly AccountIdentityProvider accountIdentityProvider;
+        private readonly AccountRepository accountRepository;
 
         private readonly ILogger<AuthController> logger;
 
@@ -77,6 +76,5 @@ namespace InWords.WebApi.Controllers.v1
                 accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
             return response;
         }
-
     }
 }

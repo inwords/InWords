@@ -22,7 +22,7 @@ namespace InWords.WebApi.Controllers.v1
         private readonly WordsService wordsService;
 
         /// <summary>
-        /// Standard injected constructor
+        ///     Standard injected constructor
         /// </summary>
         /// <param name="context"></param>
         public WordsController(InWordsDataContext context)

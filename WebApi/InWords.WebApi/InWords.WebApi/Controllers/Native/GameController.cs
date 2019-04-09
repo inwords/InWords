@@ -7,7 +7,6 @@ using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
-using InWords.WebApi.Service;
 using InWords.WebApi.Service.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +38,7 @@ namespace InWords.WebApi.Controllers.Native
 
         // TODO: add game to user table
         /// <summary>
-        /// Send user metric to calculate points
+        ///     Send user metric to calculate points
         /// </summary>
         /// <param name="levelResult"></param>
         /// <returns></returns>
@@ -51,13 +50,13 @@ namespace InWords.WebApi.Controllers.Native
 
             int authorizedId = userClaims.GetUserId();
 
-            LevelScore answer = await gameService.LevelResultToScore(authorizedId, levelResult);
+            LevelScore answer = gameService.GetLevelScore(levelResult);
 
             return Ok(answer);
         }
 
         /// <summary>
-        /// Get information about all existing games
+        ///     Get information about all existing games
         /// </summary>
         /// <returns></returns>
         [Route("GameInfo")]
@@ -120,7 +119,7 @@ namespace InWords.WebApi.Controllers.Native
                 ? await gameService.DeleteGames(ids)
                 : await gameService.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult)NotFound() : Ok(count);
+            return count == 0 ? (IActionResult) NotFound() : Ok(count);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace InWords.WebApi.Controllers.v1._1
         }
 
         /// <summary>
-        ///    This is to get requested Api version
+        ///     This is to get requested Api version
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -47,7 +47,7 @@ namespace InWords.WebApi.Controllers.v1._1
         {
             return Ok($"login: {User.Identity.Name}");
         }
-        
+
         [HttpGet]
         [Authorize(Roles = nameof(RoleType.Admin))]
         [Route("role")]
