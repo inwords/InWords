@@ -29,11 +29,12 @@ namespace InWords.WebApi.Providers.FIleLogger
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
             Func<TState, Exception, string> formatter)
         {
-            if (formatter != null)
-                lock (_lock)
-                {
-                    File.AppendAllText(filePath, formatter(state, exception) + Environment.NewLine);
-                }
+            if (formatter == null) return;
+            
+            lock (_lock)
+            {
+                File.AppendAllText(filePath, formatter(state, exception) + Environment.NewLine);
+            }
         }
     }
 }

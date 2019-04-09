@@ -15,13 +15,13 @@ namespace InWords.WebApi.Service.GameService
 {
     /// <inheritdoc />
     /// <summary>
-    /// Service that contain CRUD for Game
+    ///     Service that contain CRUD for Game
     /// </summary>
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
     public class GameService : CreationService
     {
         /// <summary>
-        ///     Add a game using the userId as the CreatorId 
+        ///     Add a game using the userId as the CreatorId
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="gamePack"></param>
@@ -128,18 +128,18 @@ namespace InWords.WebApi.Service.GameService
 
             if (creation.CreatorId == null) throw new ArgumentNullException();
 
-            User userCreator = await usersRepository.FindById((int)creation.CreatorId);
+            User userCreator = await usersRepository.FindById((int) creation.CreatorId);
 
             // find all game levels 
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-            {
-                IsAvailable = true,
-                LevelId = level.GameLevelId,
-                Level = level.Level,
-                PlayerStars = 0
-            })
+                {
+                    IsAvailable = true,
+                    LevelId = level.GameLevelId,
+                    Level = level.Level,
+                    PlayerStars = 0
+                })
                 .ToList();
 
             var game = new Game
@@ -150,7 +150,6 @@ namespace InWords.WebApi.Service.GameService
             };
 
             return game;
-
         }
 
         /// <summary>
@@ -158,7 +157,7 @@ namespace InWords.WebApi.Service.GameService
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="levelId"></param>
-        /// <see cref="Level"/>
+        /// <see cref="Level" />
         /// <returns></returns>
         public Level GetLevel(int userId, int levelId)
         {
@@ -190,7 +189,8 @@ namespace InWords.WebApi.Service.GameService
         /// <param name="gameId"></param>
         public async Task<int> DeleteGames(params int[] gameId)
         {
-            IEnumerable<int> creationsId = gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId);
+            IEnumerable<int> creationsId =
+                gameBoxRepository.Get(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId);
 
             int deletionsCount = await DeleteCreation(creationsId);
 
@@ -198,7 +198,7 @@ namespace InWords.WebApi.Service.GameService
         }
 
         /// <summary>
-        ///      This is to delete games as user, safe delete game if userId os owner
+        ///     This is to delete games as user, safe delete game if userId os owner
         /// </summary>
         /// <param name="userId">game owner user id</param>
         /// <param name="gameId">server id of the game</param>
@@ -208,9 +208,9 @@ namespace InWords.WebApi.Service.GameService
         {
             // find all users game that id equals gameId
             IQueryable<int> id = from games in Context.GameBoxs
-                                 join creations in Context.Creations on games.CreationId equals creations.CreationId
-                                 where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
-                                 select creations.CreationId;
+                join creations in Context.Creations on games.CreationId equals creations.CreationId
+                where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
+                select creations.CreationId;
 
             return await DeleteCreation(id);
         }
@@ -229,17 +229,10 @@ namespace InWords.WebApi.Service.GameService
             // calculate score
             var score = 0;
             if (levelResult.OpeningQuantity < bestOpeningsCount)
-            {
                 score = 3;
-            }
             else if (levelResult.OpeningQuantity < wordsCount * 2.25)
-            {
                 score = 2;
-            }
-            else if (levelResult.OpeningQuantity < wordsCount * 2.5)
-            {
-                score = 1;
-            }
+            else if (levelResult.OpeningQuantity < wordsCount * 2.5) score = 1;
 
             var levelScore = new LevelScore
             {
@@ -251,7 +244,7 @@ namespace InWords.WebApi.Service.GameService
         }
 
         /// <summary>
-        /// This is to set level score to user level storage 
+        ///     This is to set level score to user level storage
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="levelScore"></param>
@@ -284,7 +277,8 @@ namespace InWords.WebApi.Service.GameService
         {
             // find user game level
             UserGameLevel userGameLevel = userGameLevelRepository
-                .Get(g => g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.GameBoxId)).SingleOrDefault();
+                .Get(g => g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.GameBoxId))
+                .SingleOrDefault();
 
             // create note if user level score information not found
             if (userGameLevel == null)
@@ -316,7 +310,7 @@ namespace InWords.WebApi.Service.GameService
         private readonly WordsService wordsService;
 
         /// <summary>
-        /// Basic constructor
+        ///     Basic constructor
         /// </summary>
         /// <param name="context"></param>
         public GameService(InWordsDataContext context) : base(context)

@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using InWords.Auth.Extensions;
 using InWords.Auth.Models;
 using InWords.Data.Enums;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi.Providers
@@ -30,7 +28,7 @@ namespace InWords.WebApi.Providers
         {
             this.logger = logger;
             AccountRepository = repository;
-            passwordSalter = new SaltManager();
+            passwordSalter = new SaltGenerator();
         }
 
         /// <summary>

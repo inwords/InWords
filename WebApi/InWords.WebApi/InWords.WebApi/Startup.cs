@@ -1,6 +1,9 @@
-﻿using InWords.Auth;
+﻿using System;
+using System.IO;
+using InWords.Auth;
 using InWords.Data.Models;
 using InWords.WebApi.Providers.FIleLogger;
+using InWords.WebApi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,24 +11,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
-using InWords.WebApi.Swagger;
 
 namespace InWords.WebApi
 {
     /// <summary>
-    /// Main startup class
+    ///     Main startup class
     /// </summary>
     public class Startup
     {
         /// <summary>
-        ///     This is the service configuration 
-        /// </summary>
-        public IConfiguration Configuration { get; }
-
-        /// <summary>
-        /// Startup constructor
+        ///     Startup constructor
         /// </summary>
         /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
@@ -38,6 +33,11 @@ namespace InWords.WebApi
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
+
+        /// <summary>
+        ///     This is the service configuration
+        /// </summary>
+        public IConfiguration Configuration { get; }
 
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace InWords.WebApi
         }
 
         /// <summary>
-        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        ///     This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
@@ -110,7 +110,7 @@ namespace InWords.WebApi
         }
 
         /// <summary>
-        /// Configure the logger data format and file location
+        ///     Configure the logger data format and file location
         /// </summary>
         /// <param name="loggerFactory"></param>
         public void LoggerConfiguration(ILoggerFactory loggerFactory)

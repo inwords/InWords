@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -22,8 +19,8 @@ namespace InWords.WebApi.Swagger
             services.AddSwaggerGen(c =>
             {
                 //declaration api doc versions 
-                c.SwaggerDoc("v1.0", new Info { Version = "v1.0", Title = "API V1.0" });
-                c.SwaggerDoc("v1.1", new Info { Version = "v1.1", Title = "API V1.1" });
+                c.SwaggerDoc("v1.0", new Info {Version = "v1.0", Title = "API V1.0"});
+                c.SwaggerDoc("v1.1", new Info {Version = "v1.1", Title = "API V1.1"});
                 //Enable export XML dev comments to swagger
                 ConfigureSwaggerComments(c);
                 //Provide custom strategy for selecting api 
@@ -44,7 +41,7 @@ namespace InWords.WebApi.Swagger
         }
 
         /// <summary>
-        /// This is to ger api version from member info to swagger configuration
+        ///     This is to ger api version from member info to swagger configuration
         /// </summary>
         /// <param name="methodInfo"></param>
         /// <returns>ApiVersions</returns>
@@ -61,21 +58,17 @@ namespace InWords.WebApi.Swagger
         }
 
         /// <summary>
-        /// This is to enable swagger external dev xml comments.
-        /// Warning! To use this enable xml comments output 
+        ///     This is to enable swagger external dev xml comments.
+        ///     Warning! To use this enable xml comments output
         /// </summary>
         /// <param name="c"></param>
         private static void ConfigureSwaggerComments(SwaggerGenOptions c)
         {
             string filePath = Path.Combine(AppContext.BaseDirectory, "InWords.WebApi.xml");
             if (File.Exists(filePath))
-            {
                 c.IncludeXmlComments(filePath);
-            }
             else
-            {
                 Debug.WriteLine("Swagger comments not found");
-            }
         }
     }
 }

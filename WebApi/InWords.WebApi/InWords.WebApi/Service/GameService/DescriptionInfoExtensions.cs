@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using InWords.Transfer.Data.Models.Creation;
 
 namespace InWords.WebApi.Service.GameService
 {
     /// <summary>
-    /// 
     /// </summary>
     public static class DescriptionInfoExtensions
     {
         /// <summary>
-        /// Test method returning Russian description
+        ///     Test method returning Russian description
         /// </summary>
         /// <param name="descriptionInfos"></param>
         /// <returns></returns>
