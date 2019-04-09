@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using InWords.Auth.Extensions;
 
 namespace InWords.Auth.Models
@@ -13,16 +11,8 @@ namespace InWords.Auth.Models
 
         public TokenResponse(ClaimsIdentity identity)
         {
-            string encodedJwt = AuthOptions.TokenProvider.GenerateToken(identity);
-            Token = Cheeked(encodedJwt, out string errMsg);
+            Token = AuthOptions.TokenProvider.GenerateToken(identity);
             UserId = identity.Claims.GetUserId();
-        }
-
-        private static string Cheeked(string encodedJwt, out string errorMsg)
-        {
-            errorMsg = "";
-            if (encodedJwt == null) errorMsg = "Token fail";
-            return encodedJwt;
         }
     }
 }
