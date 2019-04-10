@@ -1,5 +1,9 @@
 ﻿namespace InWords.Transfer.Data.Models.GameBox
 {
+    /// <summary>
+    /// Provides information about game Id, creator id, description and title.
+    /// Also describe game is that game is available
+    /// </summary>
     public class GameInfo
     {
         public int GameId { get; set; }
