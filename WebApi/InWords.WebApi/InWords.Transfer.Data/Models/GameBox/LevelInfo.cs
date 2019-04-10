@@ -1,5 +1,9 @@
 ﻿namespace InWords.Transfer.Data.Models.GameBox
 {
+    /// <summary>
+    /// Level info provides Level id, player stars, level number.
+    /// Is Available property.
+    /// </summary>
     public class LevelInfo
     {
         public int LevelId { get; set; }

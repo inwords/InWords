@@ -128,18 +128,18 @@ namespace InWords.WebApi.Service.GameService
 
             if (creation.CreatorId == null) throw new ArgumentNullException();
 
-            User userCreator = await usersRepository.FindById((int) creation.CreatorId);
+            User userCreator = await usersRepository.FindById((int)creation.CreatorId);
 
             // find all game levels 
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.Get(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-                {
-                    IsAvailable = true,
-                    LevelId = level.GameLevelId,
-                    Level = level.Level,
-                    PlayerStars = 0
-                })
+            {
+                IsAvailable = true,
+                LevelId = level.GameLevelId,
+                Level = level.Level,
+                PlayerStars = 0
+            })
                 .ToList();
 
             var game = new Game
@@ -150,6 +150,32 @@ namespace InWords.WebApi.Service.GameService
             };
 
             return game;
+        }
+
+        public Game GetGameStars(int userId, Game game)
+        {
+            // find user game box to find all user levels
+            UserGameBox userGameBox = userGameBoxRepository
+                .Get(usb => usb.UserId.Equals(userId) && usb.GameBoxId.Equals(game.GameId))
+                .SingleOrDefault();
+            // if no saves found return default game value
+            if (userGameBox == null) return game;
+
+            // load all saves
+            IEnumerable<UserGameLevel> userLevels =
+                userGameLevelRepository.Get(ugl => ugl.UserGameBoxId.Equals(userGameBox.UserGameBoxId));
+            SetLevelStars(game, userLevels);
+            return game;
+        }
+
+        private static void SetLevelStars(Game game, IEnumerable<UserGameLevel> userLevels)
+        {
+            // merge by level number
+            foreach (UserGameLevel level in userLevels)
+            {
+                LevelInfo userLevel = game.LevelInfos.Find(l => l.LevelId.Equals(level.GameLevelId));
+                userLevel.PlayerStars = level.UserStars;
+            }
         }
 
         /// <summary>
@@ -208,9 +234,9 @@ namespace InWords.WebApi.Service.GameService
         {
             // find all users game that id equals gameId
             IQueryable<int> id = from games in Context.GameBoxs
-                join creations in Context.Creations on games.CreationId equals creations.CreationId
-                where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
-                select creations.CreationId;
+                                 join creations in Context.Creations on games.CreationId equals creations.CreationId
+                                 where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
+                                 select creations.CreationId;
 
             return await DeleteCreation(id);
         }
@@ -228,11 +254,11 @@ namespace InWords.WebApi.Service.GameService
             int bestOpeningsCount = wordsCount * 2 - 2;
             // calculate score
             var score = 0;
-            if (levelResult.OpeningQuantity < bestOpeningsCount)
+            if (levelResult.OpeningQuantity <= bestOpeningsCount)
                 score = 3;
-            else if (levelResult.OpeningQuantity < wordsCount * 2.25)
+            else if (levelResult.OpeningQuantity <= wordsCount * 2.25)
                 score = 2;
-            else if (levelResult.OpeningQuantity < wordsCount * 2.5) score = 1;
+            else if (levelResult.OpeningQuantity <= wordsCount * 2.5) score = 1;
 
             var levelScore = new LevelScore
             {

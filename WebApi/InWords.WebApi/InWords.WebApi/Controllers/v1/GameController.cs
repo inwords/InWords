@@ -101,10 +101,12 @@ namespace InWords.WebApi.Controllers.v1
         public async Task<IActionResult> GetGame(int id)
         {
             int userId = User.GetUserId();
-
+            // find levels
             Game answer = await gameService.GetGame(userId, id);
-
             if (answer == null) return NotFound();
+
+            // set stars
+            answer = gameService.GetGameStars(userId, answer);
 
             return Ok(answer);
         }
@@ -126,7 +128,6 @@ namespace InWords.WebApi.Controllers.v1
 
             return Ok(answer);
         }
-
 
         /// <summary>
         ///     This is api to delete game box
@@ -159,7 +160,7 @@ namespace InWords.WebApi.Controllers.v1
                 ? await gameService.DeleteGames(ids)
                 : await gameService.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
+            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }
     }
 }
