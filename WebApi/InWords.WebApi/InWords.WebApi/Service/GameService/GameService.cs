@@ -163,7 +163,7 @@ namespace InWords.WebApi.Service.GameService
 
             // load all saves
             IEnumerable<UserGameLevel> userLevels =
-                userGameLevelRepository.Get(ugl => ugl.UserGameBoxId.Equals(userGameBox.GameBoxId));
+                userGameLevelRepository.Get(ugl => ugl.UserGameBoxId.Equals(userGameBox.UserGameBoxId));
             SetLevelStars(game, userLevels);
             return game;
         }
