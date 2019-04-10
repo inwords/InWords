@@ -254,11 +254,11 @@ namespace InWords.WebApi.Service.GameService
             int bestOpeningsCount = wordsCount * 2 - 2;
             // calculate score
             var score = 0;
-            if (levelResult.OpeningQuantity < bestOpeningsCount)
+            if (levelResult.OpeningQuantity <= bestOpeningsCount)
                 score = 3;
-            else if (levelResult.OpeningQuantity < wordsCount * 2.25)
+            else if (levelResult.OpeningQuantity <= wordsCount * 2.25)
                 score = 2;
-            else if (levelResult.OpeningQuantity < wordsCount * 2.5) score = 1;
+            else if (levelResult.OpeningQuantity <= wordsCount * 2.5) score = 1;
 
             var levelScore = new LevelScore
             {
