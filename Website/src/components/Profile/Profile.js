@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import ProfileEditingContainer from '../../containers/Profile/ProfileEditingContainer';
+import ProfileEditingButtonContainer from '../../containers/Profile/ProfileEditingButtonContainer';
 
 const styles = theme => ({
     card: {
@@ -44,7 +44,7 @@ function Profile({ editingAvailable, userInfo, classes }) {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                {editingAvailable && <ProfileEditingContainer userInfo={userInfo} />}
+                {editingAvailable && <ProfileEditingButtonContainer userInfo={userInfo} />}
             </CardActions>
         </Card>
     );
@@ -55,7 +55,7 @@ Profile.propTypes = {
     userInfo: PropTypes.shape({
         userId: PropTypes.number,
         nickName: PropTypes.string.isRequired,
-        avatarPath: PropTypes.string,
+        avatarPath: PropTypes.string.isRequired,
         experience: PropTypes.number.isRequired
     }).isRequired,
     classes: PropTypes.object.isRequired

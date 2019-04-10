@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
 import useOpeningBehavoiur from '../../logic-hooks/useOpeningBehaviour';
-import WordPairActionsDialog from './WordPairActionsDialog';
+import ProfileEditingDialog from './ProfileEditingDialog';
 
-function WordPairEditing({ handleReset, handleSubmit, ...rest }) {
+function ProfileEditingButton({ handleReset, handleSubmit, ...rest }) {
     const [open, handleOpen, handleClose] = useOpeningBehavoiur();
 
     const handleOpenWithReset = () => {
@@ -20,10 +19,10 @@ function WordPairEditing({ handleReset, handleSubmit, ...rest }) {
 
     return (
         <Fragment>
-            <IconButton aria-label="Edit" onClick={handleOpenWithReset}>
-                <EditIcon />
-            </IconButton>
-            <WordPairActionsDialog
+            <Button size="small" color="primary" onClick={handleOpenWithReset}>
+                Редактировать
+            </Button>
+            <ProfileEditingDialog
                 open={open}
                 handleClose={handleClose}
                 handleSubmit={handleSubmitWithClose}
@@ -33,9 +32,11 @@ function WordPairEditing({ handleReset, handleSubmit, ...rest }) {
     );
 }
 
-WordPairEditing.propTypes = {
+ProfileEditingButton.propTypes = {
+    values: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
     handleReset: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
 };
 
-export default WordPairEditing;
+export default ProfileEditingButton;

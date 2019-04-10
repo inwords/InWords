@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import GameLevelInfoCard from './GameLevelInfoCard';
-import PageContentContainer from '../PageContentContainer';
+import LargePageContentContainer from '../PageContentContainers/LargePageContentContainer';
 
 function GameLevels({ gameInfo, handleRedirection }) {
     return (
-        <PageContentContainer>
+        <LargePageContentContainer>
             <Grid container spacing={24}>
                 {gameInfo.levelInfos.map((levelInfo) => (
                     <Grid key={levelInfo.levelId} item xs={12} sm={4} md={3}>
@@ -17,7 +17,7 @@ function GameLevels({ gameInfo, handleRedirection }) {
                     </Grid>
                 ))}
             </Grid>
-        </PageContentContainer >
+        </LargePageContentContainer >
     );
 }
 

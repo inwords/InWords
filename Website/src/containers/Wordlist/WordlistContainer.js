@@ -4,16 +4,12 @@ import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
 import Wordlist from '../../components/Wordlist/Wordlist';
 
-function WordlistPage({ wordPairs, pullWordPairs }) {
+function WordlistContainer({ wordPairs, pullWordPairs }) {
     useEffect(() => {
         pullWordPairs();
     }, []);
 
     const [checked, setChecked] = useState([]);
-
-    useEffect(() => {
-        setChecked([]);
-    }, [wordPairs]);
 
     const handleToggle = value => () => {
         const currentIndex = checked.indexOf(value);
@@ -28,6 +24,10 @@ function WordlistPage({ wordPairs, pullWordPairs }) {
         setChecked(newChecked);
     };
 
+    useEffect(() => {
+        setChecked([]);
+    }, [wordPairs]);
+
     return (
         <Wordlist
             wordPairs={[...wordPairs].reverse()}
@@ -37,7 +37,7 @@ function WordlistPage({ wordPairs, pullWordPairs }) {
     );
 }
 
-WordlistPage.propTypes = {
+WordlistContainer.propTypes = {
     wordPairs: PropTypes.array.isRequired,
     pullWordPairs: PropTypes.func.isRequired,
 };
@@ -57,4 +57,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(WordlistPage);
+)(WordlistContainer);

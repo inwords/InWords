@@ -1,17 +1,24 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Zoom from '@material-ui/core/Zoom';
 import useOpeningBehavoiur from '../../logic-hooks/useOpeningBehaviour';
 import WordPairActionsDialog from './WordPairActionsDialog';
 
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
-    }
+    },
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing.unit * 2,
+        right: theme.spacing.unit * 2,
+    },
 });
 
-function WordPairAddition({ handleReset, handleSubmit, classes, ...rest }) {
+function WordPairAdditionButton({ handleReset, handleSubmit, classes, ...rest }) {
     const [open, handleOpen, handleClose] = useOpeningBehavoiur();
 
     const handleOpenWithReset = () => {
@@ -25,29 +32,32 @@ function WordPairAddition({ handleReset, handleSubmit, classes, ...rest }) {
     };
 
     return (
-        <Fragment>
-            <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={handleOpenWithReset}
-            >
-                Добавить
-            </Button>
+        <>
+            <Zoom in>
+                <Fab
+                    className={classes.fab}
+                    color="primary"
+                    onClick={handleOpenWithReset}
+                >
+                    <AddIcon />
+                </Fab>
+            </Zoom>
             <WordPairActionsDialog
                 open={open}
                 handleClose={handleClose}
                 handleSubmit={handleSubmitWithClose}
                 {...rest}
             />
-        </Fragment>
+        </>
     );
 }
 
-WordPairAddition.propTypes = {
+WordPairAdditionButton.propTypes = {
+    values: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
     handleReset: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(WordPairAddition);
+export default withStyles(styles)(WordPairAdditionButton);

@@ -6,10 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import WordPairAdditionContainer from '../../containers/Wordlist/WordPairAdditionContainer';
-import WordPairsDeletionContainer from '../../containers/Wordlist/WordPairsDeletionContainer';
-import WordPairEditingContainer from '../../containers/Wordlist/WordPairEditingContainer';
-import PageContentContainer from '../PageContentContainer';
+import WordPairAdditionButtonContainer from '../../containers/Wordlist/WordPairAdditionButtonContainer';
+import WordPairsDeletionButtonContainer from '../../containers/Wordlist/WordPairsDeletionButtonContainer';
+import WordPairEditingButtonContainer from '../../containers/Wordlist/WordPairEditingButtonContainer';
+import LargePageContentContainer from '../PageContentContainers/LargePageContentContainer';
 
 const styles = theme => ({
     list: {
@@ -21,29 +21,35 @@ const styles = theme => ({
 
 function Wordlist({ wordPairs, checked, handleToggle, classes }) {
     return (
-        <PageContentContainer>
-            <WordPairAdditionContainer />
-            <WordPairsDeletionContainer checked={checked} />
+        <LargePageContentContainer>
+            <WordPairsDeletionButtonContainer checked={checked} />
             <List className={classes.list}>
                 {wordPairs.map(wordPair => (
-                    <ListItem key={wordPair.serverId} role={undefined} button onClick={handleToggle(wordPair.serverId)}>
+                    <ListItem key={wordPair.serverId} button onClick={handleToggle(wordPair.serverId)}>
                         <Checkbox checked={checked.indexOf(wordPair.serverId) !== -1} tabIndex={-1} disableRipple />
                         <ListItemText primary={wordPair.wordForeign} secondary={wordPair.wordNative} />
                         <ListItemSecondaryAction>
-                            <WordPairEditingContainer wordPair={wordPair} />
+                            <WordPairEditingButtonContainer wordPair={wordPair} />
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
             </List>
-        </PageContentContainer>
+            <WordPairAdditionButtonContainer />
+        </LargePageContentContainer>
     );
 }
 
 Wordlist.propTypes = {
-    wordPairs: PropTypes.array.isRequired,
+    wordPairs: PropTypes.arrayOf(
+        PropTypes.shape({
+            serverId: PropTypes.number.isRequired,
+            wordForeign: PropTypes.string.isRequired,
+            wordNative: PropTypes.string.isRequired,
+        }).isRequired,
+    ).isRequired,
     checked: PropTypes.array.isRequired,
     handleToggle: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Wordlist);

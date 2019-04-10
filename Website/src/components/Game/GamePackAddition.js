@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Zoom from '@material-ui/core/Zoom';
 import useOpeningBehavoiur from '../../logic-hooks/useOpeningBehaviour';
 import GamePackAdditionDialog from './GamePackAdditionDialog';
 
@@ -17,7 +18,7 @@ const styles = theme => ({
     },
 });
 
-function GamePackAddition({ handleReset, handleSubmit, classes, ...rest }) {
+function GamePackAddition({ visible, handleReset, handleSubmit, classes, ...rest }) {
     const [open, handleOpen, handleClose] = useOpeningBehavoiur();
 
     const handleOpenWithReset = () => {
@@ -31,21 +32,26 @@ function GamePackAddition({ handleReset, handleSubmit, classes, ...rest }) {
     };
 
     return (
-        <Fragment>
-            <Fab
-                className={classes.fab}
-                color="primary"
-                onClick={handleOpenWithReset}
+        <>
+            <Zoom
+                in={visible}
+                unmountOnExit
             >
-                <AddIcon />
-            </Fab>
+                <Fab
+                    className={classes.fab}
+                    color="primary"
+                    onClick={handleOpenWithReset}
+                >
+                    <AddIcon />
+                </Fab>
+            </Zoom>
             <GamePackAdditionDialog
                 open={open}
                 handleClose={handleClose}
                 handleSubmit={handleSubmitWithClose}
                 {...rest}
             />
-        </Fragment>
+        </>
     );
 }
 

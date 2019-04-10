@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import userApiActions from '../actions/userApiActions';
 import Login from '../components/Login';
 
-function LoginPage({ login }) {
+function LoginContainer({ login }) {
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -31,7 +31,7 @@ function LoginPage({ login }) {
     );
 }
 
-LoginPage.propTypes = {
+LoginContainer.propTypes = {
     login: PropTypes.func.isRequired
 };
 
@@ -44,4 +44,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(LoginPage);
+)(LoginContainer);

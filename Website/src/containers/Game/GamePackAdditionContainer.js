@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import gameApiActions from '../../actions/gameApiActions';
 import GamePackAddition from '../../components/Game/GamePackAddition';
 
-function GamePackAdditionContainer({ userId, addGamePack }) {
+function GamePackAdditionContainer({ visible, userId, addGamePack }) {
     const [descriptionValues, setDescriptionValues] = useState({
         title: '',
         description: ''
@@ -125,6 +125,7 @@ function GamePackAdditionContainer({ userId, addGamePack }) {
 
     return (
         <GamePackAddition
+            visible={visible}
             descriptionValues={descriptionValues}
             handleDescriptionValuesChange={handleDescriptionValuesChange}
             levelPacks={levelPacks}

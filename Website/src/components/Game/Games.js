@@ -4,10 +4,11 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import useTabsBehaviour from '../../logic-hooks/useTabsBehaviour';
+import useChangingBehaviour from '../../logic-hooks/useChangingBehaviour';
 import LearningGamesContainer from '../../containers/Game/LearningGamesContainer';
 import SandboxGamesContainer from '../../containers/Game/SandboxGamesContainer';
-import PageContentContainer from '../PageContentContainer';
+import GamePackAdditionContainer from '../../containers/Game/GamePackAdditionContainer';
+import LargePageContentContainer from '../PageContentContainers/LargePageContentContainer';
 
 const styles = theme => ({
     tabContainer: {
@@ -16,10 +17,10 @@ const styles = theme => ({
 });
 
 function Games({ classes }) {
-    const [value, handleChange] = useTabsBehaviour();
+    const [value, handleChange] = useChangingBehaviour();
 
     return (
-        <PageContentContainer>
+        <LargePageContentContainer>
             <Paper>
                 <Tabs
                     value={value}
@@ -40,7 +41,8 @@ function Games({ classes }) {
                 <div className={classes.tabContainer}>
                     <SandboxGamesContainer />
                 </div>}
-        </PageContentContainer >
+            <GamePackAdditionContainer visible={value === 1} />
+        </LargePageContentContainer >
     );
 }
 

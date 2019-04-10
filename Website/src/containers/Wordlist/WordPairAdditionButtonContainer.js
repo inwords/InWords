@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
-import WordPairAddition from '../../components/Wordlist/WordPairAddition';
+import WordPairAdditionButton from '../../components/Wordlist/WordPairAdditionButton';
 
-function WordPairAdditionContainer({ addWordPair }) {
+function WordPairAdditionButtonContainer({ addWordPair }) {
     const [values, setValues] = useState({
         wordForeign: '',
         wordNative: ''
@@ -31,7 +31,7 @@ function WordPairAdditionContainer({ addWordPair }) {
     };
 
     return (
-        <WordPairAddition
+        <WordPairAdditionButton
             values={values}
             handleChange={handleChange}
             handleReset={handleReset}
@@ -40,7 +40,7 @@ function WordPairAdditionContainer({ addWordPair }) {
     );
 }
 
-WordPairAdditionContainer.propTypes = {
+WordPairAdditionButtonContainer.propTypes = {
     addWordPair: PropTypes.func.isRequired
 };
 
@@ -53,4 +53,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(WordPairAdditionContainer);
+)(WordPairAdditionButtonContainer);

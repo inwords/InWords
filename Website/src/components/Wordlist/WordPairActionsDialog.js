@@ -34,8 +34,14 @@ function WordPairActionsDialog({ values, handleChange, ...rest }) {
 }
 
 WordPairActionsDialog.propTypes = {
-    values: PropTypes.object.isRequired,
-    handleChange: PropTypes.func.isRequired
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    values: PropTypes.shape({
+        wordForeign: PropTypes.string.isRequired,
+        wordNative: PropTypes.string.isRequired,
+    }).isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
 };
 
 export default WordPairActionsDialog;

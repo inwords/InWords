@@ -9,24 +9,23 @@ const styles = theme => ({
     },
 });
 
-function WordPairsDeletion({ available, handleWordPairsDeletion, classes }) {
+function WordPairsDeletionButton({ available, handleWordPairsDeletion, classes }) {
     return (
         <Button
-            variant="contained"
             color="secondary"
             disabled={!available}
             className={classes.button}
             onClick={handleWordPairsDeletion}
         >
-            Удалить
+            Удалить выбранные
         </Button>
     );
 }
 
-WordPairsDeletion.propTypes = {
+WordPairsDeletionButton.propTypes = {
     available: PropTypes.bool.isRequired,
     handleWordPairsDeletion: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(WordPairsDeletion);
+export default withStyles(styles)(WordPairsDeletionButton);

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
-import WordPairEditing from '../../components/Wordlist/WordPairEditing';
+import WordPairEditingButton from '../../components/Wordlist/WordPairEditingButton';
 
-function WordPairEditingContainer({ wordPair, deleteWordPairAsEditPart, addWordPairAsEditPart }) {
+function WordPairEditingButtonContainer({ wordPair, deleteWordPairAsEditPart, addWordPairAsEditPart }) {
     const [values, setValues] = useState({
         wordForeign: '',
         wordNative: ''
@@ -33,7 +33,7 @@ function WordPairEditingContainer({ wordPair, deleteWordPairAsEditPart, addWordP
     };
 
     return (
-        <WordPairEditing
+        <WordPairEditingButton
             values={values}
             handleChange={handleChange}
             handleReset={handleReset}
@@ -42,7 +42,7 @@ function WordPairEditingContainer({ wordPair, deleteWordPairAsEditPart, addWordP
     );
 }
 
-WordPairEditingContainer.propTypes = {
+WordPairEditingButtonContainer.propTypes = {
     wordPair: PropTypes.shape({
         wordForeign: PropTypes.string.isRequired,
         wordNative: PropTypes.string.isRequired,
@@ -61,4 +61,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(WordPairEditingContainer);
+)(WordPairEditingButtonContainer);

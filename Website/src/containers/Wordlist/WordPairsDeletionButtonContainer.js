@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
-import WordPairsDeletion from '../../components/Wordlist/WordPairsDeletion';
+import WordPairsDeletion from '../../components/Wordlist/WordPairsDeletionButton';
 
-function WordPairsDeletionContainer({ checked, deleteWordPairs }) {
+function WordPairsDeletionButtonContainer({ checked, deleteWordPairs }) {
     const handleWordPairsDeletion = () => {
         deleteWordPairs(checked);
     };
@@ -17,7 +17,7 @@ function WordPairsDeletionContainer({ checked, deleteWordPairs }) {
     );
 }
 
-WordPairsDeletionContainer.propTypes = {
+WordPairsDeletionButtonContainer.propTypes = {
     checked: PropTypes.arrayOf(
         PropTypes.number.isRequired
     ).isRequired,
@@ -33,4 +33,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(WordPairsDeletionContainer);
+)(WordPairsDeletionButtonContainer);

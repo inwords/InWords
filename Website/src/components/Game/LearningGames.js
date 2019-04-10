@@ -19,9 +19,11 @@ function LearningGames({ gamesInfo, handleRedirection }) {
 }
 
 LearningGames.propTypes = {
-    gamesInfo: PropTypes.arrayOf(PropTypes.shape({
-        gameId: PropTypes.number.isRequired,
-    })).isRequired,
+    gamesInfo: PropTypes.arrayOf(
+        PropTypes.shape({
+            gameId: PropTypes.number.isRequired,
+        }).isRequired,
+    ).isRequired,
     handleRedirection: PropTypes.func.isRequired,
 };
 

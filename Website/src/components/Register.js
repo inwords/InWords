@@ -7,15 +7,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import SmallPageContentContainer from './PageContentContainers/SmallPageContentContainer';
 
 const styles = theme => ({
-    root: {
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            width: 400,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
     paper: {
         marginTop: theme.spacing.unit * 8,
         display: 'flex',
@@ -33,7 +27,7 @@ const styles = theme => ({
 
 function Register({ values, handleChange, handleSubmit, classes }) {
     return (
-        <div className={classes.root}>
+        <SmallPageContentContainer>
             <Paper className={classes.paper}>
                 <Typography variant="h5">
                     Регистрация
@@ -72,15 +66,18 @@ function Register({ values, handleChange, handleSubmit, classes }) {
                     </Button>
                 </form>
             </Paper>
-        </div>
+        </SmallPageContentContainer>
     );
 }
 
 Register.propTypes = {
-    values: PropTypes.object.isRequired,
+    values: PropTypes.shape({
+        email: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired,
+    }).isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Register);

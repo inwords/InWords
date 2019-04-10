@@ -10,7 +10,7 @@ function LearningGamesContainer({ gamesInfo, pullGamesInfo, clearGameInfo, userI
     useEffect(() => {
         pullGamesInfo();
     }, []);
-    
+
     const handleRedirection = gameId => () => {
         clearGameInfo();
         history.push(`/games_catalog/game/${gameId}`);
@@ -25,9 +25,11 @@ function LearningGamesContainer({ gamesInfo, pullGamesInfo, clearGameInfo, userI
 }
 
 LearningGamesContainer.propTypes = {
-    gamesInfo: PropTypes.arrayOf(PropTypes.shape({
-        creatorId: PropTypes.number.isRequired,
-    })).isRequired,
+    gamesInfo: PropTypes.arrayOf(
+        PropTypes.shape({
+            creatorId: PropTypes.number.isRequired,
+        }).isRequired,
+    ).isRequired,
     pullGamesInfo: PropTypes.func.isRequired,
     clearGameInfo: PropTypes.func.isRequired,
     userId: PropTypes.number.isRequired,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import userApiActions from '../actions/userApiActions';
 import Register from '../components/Register';
 
-function RegisterPage({ register }) {
+function RegisterContainer({ register }) {
     const [values, setValues] = useState({
         email: '',
         password: ''
@@ -31,7 +31,7 @@ function RegisterPage({ register }) {
     );
 }
 
-RegisterPage.propTypes = {
+RegisterContainer.propTypes = {
     register: PropTypes.func.isRequired
 };
 
@@ -44,4 +44,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(RegisterPage);
+)(RegisterContainer);

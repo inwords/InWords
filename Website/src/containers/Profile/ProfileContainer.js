@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import userApiActions from '../../actions/userApiActions';
 import Profile from '../../components/Profile/Profile';
 
-function ProfilePage({ userId, userInfo, receiveUserInfo, match }) {
+function ProfileContainer({ userId, userInfo, receiveUserInfo, match }) {
     useEffect(() => {
         receiveUserInfo(parseInt(match.params.id));
     }, []);
@@ -18,7 +18,7 @@ function ProfilePage({ userId, userInfo, receiveUserInfo, match }) {
     );
 }
 
-ProfilePage.propTypes = {
+ProfileContainer.propTypes = {
     userId: PropTypes.number.isRequired,
     userInfo: PropTypes.shape({
         userId: PropTypes.number,
@@ -43,4 +43,4 @@ const mapDispatchToProps = dispatch => {
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(ProfilePage));
+)(ProfileContainer));

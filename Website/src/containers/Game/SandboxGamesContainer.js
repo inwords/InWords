@@ -10,7 +10,7 @@ function SandboxGamesContainer({ gamesInfo, pullGamesInfo, clearGameInfo, delete
     useEffect(() => {
         pullGamesInfo();
     }, []);
-    
+
     const handleRedirection = gameId => () => {
         clearGameInfo();
         history.push(`/games_catalog/game/${gameId}`);
@@ -30,9 +30,11 @@ function SandboxGamesContainer({ gamesInfo, pullGamesInfo, clearGameInfo, delete
 }
 
 SandboxGamesContainer.propTypes = {
-    gamesInfo: PropTypes.arrayOf(PropTypes.shape({
-        creatorId: PropTypes.number.isRequired,
-    })).isRequired,
+    gamesInfo: PropTypes.arrayOf(
+        PropTypes.shape({
+            creatorId: PropTypes.number.isRequired,
+        }).isRequired,
+    ).isRequired,
     pullGamesInfo: PropTypes.func.isRequired,
     clearGameInfo: PropTypes.func.isRequired,
     deleteGamePack: PropTypes.func.isRequired,

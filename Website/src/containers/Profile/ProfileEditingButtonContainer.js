@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import userApiActions from '../../actions/userApiActions';
-import ProfileEditing from '../../components/Profile/ProfileEditing';
+import ProfileEditingButton from '../../components/Profile/ProfileEditingButton';
 
-function ProfileEditingContainer({ userInfo, changeUserInfo }) {
+function ProfileEditingButtonContainer({ userInfo, changeUserInfo }) {
     const [values, setValues] = useState({
         nickName: '',
         avatarPath: ''
@@ -31,7 +31,7 @@ function ProfileEditingContainer({ userInfo, changeUserInfo }) {
     };
 
     return (
-        <ProfileEditing
+        <ProfileEditingButton
             values={values}
             handleChange={handleChange}
             handleReset={handleReset}
@@ -40,7 +40,7 @@ function ProfileEditingContainer({ userInfo, changeUserInfo }) {
     );
 }
 
-ProfileEditingContainer.propTypes = {
+ProfileEditingButtonContainer.propTypes = {
     userInfo: PropTypes.shape({
         nickName: PropTypes.string.isRequired,
         avatarPath: PropTypes.string.isRequired,
@@ -57,4 +57,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(ProfileEditingContainer);
+)(ProfileEditingButtonContainer);

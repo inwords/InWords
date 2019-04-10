@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { drawerWidth } from './AppBar/RegularAppBar';
 
-const maxWidth = 1100;
+const maxWidth = 400;
 
 const styles = theme => ({
     root: {
-        [theme.breakpoints.up(maxWidth + drawerWidth + theme.spacing.unit * 3 * 2)]: {
+        [theme.breakpoints.up(maxWidth + theme.spacing.unit * 3 * 2)]: {
             width: maxWidth,
             marginLeft: 'auto',
             marginRight: 'auto',
@@ -15,7 +14,7 @@ const styles = theme => ({
     },
 });
 
-function PageContentContainer({ children = null, classes }) {
+function SmallPageContentContainer({ children, classes }) {
     return (
         <div className={classes.root}>
             {children}
@@ -23,9 +22,9 @@ function PageContentContainer({ children = null, classes }) {
     );
 }
 
-PageContentContainer.propTypes = {
-    children: PropTypes.node,
+SmallPageContentContainer.propTypes = {
+    children: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PageContentContainer);
+export default withStyles(styles)(SmallPageContentContainer);
