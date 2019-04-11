@@ -46,6 +46,18 @@ namespace InWords.WebApi.Controllers.v1
             return Ok(answer);
         }
 
+        //[Route("updatePair")]
+        //[HttpPost]
+        //public async Task<IActionResult> UpdatePair([FromBody] List<WordTranslation> wordTranslations)
+        //{
+        //    int authorizedId = User.Claims.GetUserId();
+
+        //    List<SyncBase> answer = await wordsService.UpdateUserWordPair(authorizedId, wordTranslations);
+
+        //    return Ok(answer);
+        //}
+
+
         /// <summary>
         ///     Delete UserWordPair from server database.
         /// </summary>
@@ -53,6 +65,7 @@ namespace InWords.WebApi.Controllers.v1
         /// <returns></returns>
         [Route("deletePair")]
         [HttpPost]
+        // ReSharper disable once InconsistentNaming
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {
             int authorizedId = User.Claims.GetUserId();

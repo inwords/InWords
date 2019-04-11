@@ -16,12 +16,9 @@ namespace InWords.WebApi.Controllers.v1
 
         private readonly WordPairRepository wordPairRepository;
 
-        private readonly WordRepository wordRepository;
-
         public ValuesController(InWordsDataContext context)
         {
             userRepository = new UserRepository(context);
-            wordRepository = new WordRepository(context);
             wordPairRepository = new WordPairRepository(context);
         }
 
@@ -39,28 +36,10 @@ namespace InWords.WebApi.Controllers.v1
         // GET api/values
         //IEnumerable<string>
         [HttpGet]
-        public ActionResult<int> Get()
+        [Route("")]
+        public ActionResult<int> GetUsersCount()
         {
             return userRepository.Count();
-        }
-
-        // GET api/values/5
-        [HttpGet("{words}")]
-        public async Task<ActionResult<WordPair>> Get(string words)
-        {
-            string[] wordsArr = words.Split('.');
-
-            var first = new Word
-            {
-                Content = wordsArr[0]
-            };
-
-            var second = new Word
-            {
-                Content = wordsArr[1]
-            };
-
-            return await wordPairRepository.Stack(first, second);
         }
 
         [Authorize]
