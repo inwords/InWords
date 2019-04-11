@@ -39,7 +39,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> AddPair([FromBody] List<WordTranslation> wordTranslations)
         {
-            int authorizedId = User.Claims.GetUserId();
+            int authorizedId = User.GetUserId();
 
             List<SyncBase> answer = await wordsService.AddPair(authorizedId, wordTranslations);
 
@@ -68,7 +68,7 @@ namespace InWords.WebApi.Controllers.v1
         // ReSharper disable once InconsistentNaming
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> server_IDs)
         {
-            int authorizedId = User.Claims.GetUserId();
+            int authorizedId = User.GetUserId();
 
             int pairDeleted = await wordsService.DeleteUserWordPair(authorizedId, server_IDs);
 
