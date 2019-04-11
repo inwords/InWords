@@ -14,44 +14,49 @@ import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsDiffUtilCallback
-import io.reactivex.subjects.PublishSubject
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_game_levels.*
 import kotlinx.android.synthetic.main.game_no_content.*
+import kotlinx.android.synthetic.main.game_welcome.*
 
 class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, GameLevelsViewModelFactory>() {
     private lateinit var gameInfo: GameInfo
     private lateinit var adapter: GameLevelsAdapter
 
+    private var shownIntro = false
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
         gameInfo = arguments?.getSerializable(GAME_INFO) as GameInfo
-
-        val onItemClickedListener = PublishSubject.create<GameLevelInfo>()
-        compositeDisposable.add(onItemClickedListener.subscribe { viewModel.onGameLevelSelected(it) })
-        adapter = GameLevelsAdapter(layoutInflater, onItemClickedListener)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (!shownIntro) {
+            showIntro()
+            shownIntro = true
+        }
+
+        adapter = GameLevelsAdapter(layoutInflater, viewModel.navigateToGameLevel)
+
         levelsRecycler.layoutManager = GridLayoutManager(context, 3)
         levelsRecycler.adapter = adapter
 
-        compositeDisposable.add(viewModel.navigateToGameLevel
-                .subscribe(::navigateToGameLevel))
+        compositeDisposable.add(viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel))
 
         compositeDisposable.add(viewModel.screenInfoStream(gameInfo.gameId)
-                .map { it.game.gameLevelInfos }
-                .observeOn(SchedulersFacade.ui())
-                .doOnNext(::renderScreenState)
                 .observeOn(SchedulersFacade.computation())
+                .map { it.game.gameLevelInfos }
                 .compose(RxDiffUtil.calculate(GameLevelsDiffUtilCallback.Companion::create))
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(adapter::accept) {
+                .subscribe({
+                    renderScreenState(it.first)
+                    adapter.accept(it)
+                }) {
                     it.printStackTrace()
-                    game_no_content.visibility = View.VISIBLE
-                    game_content.visibility = View.GONE
+                    renderNoContent()
                 })
     }
 
@@ -61,11 +66,34 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
     }
 
+    private fun showIntro() {
+        val imageRequest = ImageRequestBuilder
+                .newBuilderWithResourceId(R.drawable.ic_octopus_1)
+                .build()
+
+        welcome_image.setImageRequest(imageRequest)
+        welcome_text.text = gameInfo.description
+        welcome_screen.visibility = View.VISIBLE
+
+        startButton.setOnClickListener {
+            welcome_screen.animate()
+                    .alpha(0f)
+                    .withEndAction { welcome_screen?.visibility = View.GONE }
+        }
+    }
+
     private fun renderScreenState(gameLevelsInfos: List<GameLevelInfo>) {
-        if (!gameLevelsInfos.isEmpty()) {
+        if (gameLevelsInfos.isNotEmpty()) {
             game_no_content.visibility = View.GONE
             game_content.visibility = View.VISIBLE
+        } else {
+            renderNoContent()
         }
+    }
+
+    private fun renderNoContent() {
+        game_no_content.visibility = View.VISIBLE
+        game_content.visibility = View.GONE
     }
 
     override fun getLayout() = R.layout.fragment_game_levels

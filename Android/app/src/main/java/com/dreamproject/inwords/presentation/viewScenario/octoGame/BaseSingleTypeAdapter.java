@@ -9,25 +9,25 @@ import java.util.List;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.functions.Consumer;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 public abstract class BaseSingleTypeAdapter<T, VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH>
         implements Consumer<Pair<List<T>, DiffUtil.DiffResult>> {
     protected final LayoutInflater inflater;
     protected List<T> values;
-    protected PublishSubject<T> onItemClickedListener;
+    protected Subject<T> onItemClickedListener;
 
     protected BaseSingleTypeAdapter(List<T> values,
                                     LayoutInflater layoutInflater,
-                                    PublishSubject<T> onItemClickedListener) {
+                                    Subject<T> onItemClickedListener) {
         this.inflater = layoutInflater;
         this.values = values;
         this.onItemClickedListener = onItemClickedListener;
     }
 
     protected BaseSingleTypeAdapter(LayoutInflater layoutInflater,
-                                    PublishSubject<T> onItemClickedListener) {
+                                    Subject<T> onItemClickedListener) {
         this(new ArrayList<>(), layoutInflater, onItemClickedListener);
     }
 

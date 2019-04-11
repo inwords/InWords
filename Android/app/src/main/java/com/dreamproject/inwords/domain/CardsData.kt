@@ -2,11 +2,13 @@ package com.dreamproject.inwords.domain
 
 import com.dreamproject.inwords.data.dto.WordTranslation
 
-class CardsData(wordTranslations: List<WordTranslation>) {
+class CardsData(rawWordTranslations: List<WordTranslation>) {
     private val _words: List<String>
     private val _wordsMapping: Map<String, String>
 
     init {
+        val wordTranslations = cropWordTranslations(rawWordTranslations)
+
         _words = ArrayList(wordTranslations.size)
         val wordsMapping = HashMap<String, String>()
 
@@ -25,4 +27,12 @@ class CardsData(wordTranslations: List<WordTranslation>) {
     val words: List<String> get() = _words
 
     fun getCorrespondingWord(word: String): String? = _wordsMapping[word]
+
+    private fun cropWordTranslations(wordTranslations: List<WordTranslation>): List<WordTranslation> {
+        return if (wordTranslations.size > 6) {
+            wordTranslations.shuffled().subList(0, 6)
+        } else {
+            wordTranslations
+        }
+    }
 }

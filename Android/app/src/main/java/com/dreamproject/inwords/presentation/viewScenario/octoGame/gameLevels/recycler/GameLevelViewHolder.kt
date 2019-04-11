@@ -5,12 +5,11 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.game_level_info.view.*
 
 class GameLevelViewHolder internal
-constructor(itemView: View,
-            private val onItemClickedListener: PublishSubject<GameLevelInfo>?) :
+constructor(itemView: View, private val onItemClickedListener: Subject<GameLevelInfo>?) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     private val ratingBar: RatingBar = itemView.ratingBar
@@ -26,7 +25,7 @@ constructor(itemView: View,
         this.gameLevelInfo = gameLevelInfo
 
         title.text = gameLevelInfo.level.toString()
-        ratingBar.numStars = gameLevelInfo.playerStars
+        ratingBar.rating = gameLevelInfo.playerStars.toFloat()
     }
 
     override fun onClick(v: View) {

@@ -76,8 +76,9 @@
         android:label="fragment_add_edit_word"
         tools:layout="@layout/fragment_add_edit_word">
         <action
-            android:id="@+id/action_addEditWordFragment_to_translationMainFragment_pop"
-            app:popUpTo="@id/translationMainFragment" />
+            android:id="@+id/action_addEditWordFragment_pop"
+            app:popUpTo="@id/addEditWordFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/gamesFragment"
@@ -109,7 +110,12 @@
         android:id="@+id/gameLevelFragment"
         android:name="com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel.GameLevelFragment"
         android:label="fragment_game_level"
-        tools:layout="@layout/fragment_game_levels"></fragment>
+        tools:layout="@layout/fragment_game_levels">
+        <action
+            android:id="@+id/action_gameLevelFragment_pop"
+            app:popUpTo="@id/gameLevelFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_mainFragment"
@@ -119,11 +125,6 @@
     <action
         android:id="@+id/action_global_translationMainFragment"
         app:destination="@id/translationMainFragment"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_right" />
-    <action
-        android:id="@+id/action_global_gameLevelsFragment"
-        app:destination="@id/gameLevelsFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_right" />
 </navigation>

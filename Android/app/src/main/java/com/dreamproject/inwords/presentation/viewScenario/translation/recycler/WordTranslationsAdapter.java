@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 public class WordTranslationsAdapter extends
         BaseSingleTypeAdapter<WordTranslation, WordTranslationsAdapter.WordViewHolder> {
@@ -39,10 +40,10 @@ public class WordTranslationsAdapter extends
     static final class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_word_native;
         TextView tv_word_foreign;
-        PublishSubject<WordTranslation> onItemClickedListener;
+        Subject<WordTranslation> onItemClickedListener;
         WordTranslation wordTranslation;
 
-        WordViewHolder(View itemView, PublishSubject<WordTranslation> onItemClickedListener) {
+        WordViewHolder(View itemView, Subject<WordTranslation> onItemClickedListener) {
             super(itemView);
             this.onItemClickedListener = onItemClickedListener;
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:colorBackground"
     tools:context=".presentation.viewScenario.MainActivity">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -15,13 +16,14 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
     <TextView
+        android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="260dp"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:text="Хочешь смешную историю? Как-то дельфинчик из нашей школы забыл портфель дома! Теперь все зовут его Забывалкиным"
+        tools:text="Хочешь смешную историю? Как-то дельфинчик из нашей школы забыл портфель дома! Теперь все зовут его Забывалкиным"
         android:textSize="24sp" />
 
     <Button

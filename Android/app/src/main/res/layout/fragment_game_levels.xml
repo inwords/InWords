@@ -32,4 +32,9 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin" />
     </FrameLayout>
 
+    <include
+        android:id="@+id/welcome_screen"
+        layout="@layout/game_welcome"
+        android:visibility="gone" />
+
 </FrameLayout>

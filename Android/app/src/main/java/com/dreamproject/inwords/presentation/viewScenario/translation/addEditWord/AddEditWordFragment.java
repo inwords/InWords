@@ -82,7 +82,7 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
 
     private void popBackToTranslationMain(Event<Boolean> booleanEvent) {
         if (booleanEvent != null && booleanEvent.handle()) {
-            navController.navigate(R.id.action_addEditWordFragment_to_translationMainFragment_pop);
+            navController.navigate(R.id.action_addEditWordFragment_pop);
         }
     }
 

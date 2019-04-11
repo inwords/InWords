@@ -45,7 +45,7 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, GamesViewModel
     }
 
     private fun renderGameInfos(gameInfos: List<GameInfo>) {
-        if (!gameInfos.isEmpty()) {
+        if (gameInfos.isNotEmpty()) {
             game_no_content.visibility = View.GONE
             game_content.visibility = View.VISIBLE
         }

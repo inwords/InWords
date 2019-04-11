@@ -6,6 +6,9 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class GameLevelModule {
     @ContributesAndroidInjector
-    abstract GameLevelFragment contributeYourActivityInjector();
+    abstract GameLevelFragment gameLevelFragmentInjector();
+
+    @ContributesAndroidInjector
+    abstract GameEndBottomSheet gameEndBottomSheetInjector();
 }
 

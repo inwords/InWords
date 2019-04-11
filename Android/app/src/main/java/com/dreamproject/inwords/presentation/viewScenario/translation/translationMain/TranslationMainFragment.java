@@ -57,7 +57,7 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
         });
 
         compositeDisposable.add(viewModel.getTranslationWordsStream()
-                .compose(RxDiffUtil.calculate(WordTranslationsDiffUtilCallback::create))
+                .compose(RxDiffUtil.INSTANCE.calculate(WordTranslationsDiffUtilCallback::create))
                 .observeOn(SchedulersFacade.ui())
                 .subscribe(adapter));
 
