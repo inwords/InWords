@@ -17,16 +17,14 @@ namespace InWords.WebApi.Providers
     {
         public readonly AccountRepository AccountRepository;
 
-        private readonly ILogger logger;
         private readonly IPasswordSalter passwordSalter;
 
         /// <summary>
         ///     Create provider via repository
         /// </summary>
         /// <param name="repository"></param>
-        public AccountIdentityProvider(AccountRepository repository, ILogger logger)
+        public AccountIdentityProvider(AccountRepository repository)
         {
-            this.logger = logger;
             AccountRepository = repository;
             passwordSalter = new SaltGenerator();
         }

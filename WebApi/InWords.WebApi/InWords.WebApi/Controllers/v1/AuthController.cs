@@ -19,15 +19,12 @@ namespace InWords.WebApi.Controllers.v1
         private readonly AccountIdentityProvider accountIdentityProvider;
         private readonly AccountRepository accountRepository;
 
-        private readonly ILogger<AuthController> logger;
-
         #region Ctor
 
-        public AuthController(InWordsDataContext context, ILogger<AuthController> logger)
+        public AuthController(InWordsDataContext context)
         {
-            this.logger = logger;
             accountRepository = new AccountRepository(context);
-            accountIdentityProvider = new AccountIdentityProvider(accountRepository, logger);
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
         }
 
         #endregion

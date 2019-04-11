@@ -6,9 +6,9 @@ namespace InWords.WebApi.Providers.FIleLogger
     {
         private readonly string path;
 
-        public FileLoggerProvider(string _path)
+        public FileLoggerProvider(string path)
         {
-            path = _path;
+            this.path = path;
         }
 
         public ILogger CreateLogger(string categoryName)

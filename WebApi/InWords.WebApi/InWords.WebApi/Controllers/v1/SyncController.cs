@@ -13,13 +13,11 @@ namespace InWords.WebApi.Controllers.v1
     [Route("v{version:apiVersion}/[controller]")]
     public class SyncController : ControllerBase
     {
-        private readonly InWordsDataContext context;
         private readonly SyncService syncService;
 
 
         public SyncController(InWordsDataContext context)
         {
-            this.context = context;
             syncService = new SyncService(context);
         }
 
@@ -52,6 +50,7 @@ namespace InWords.WebApi.Controllers.v1
         [Authorize]
         [Route("pullWordPairs")]
         [HttpPost]
+        // ReSharper disable once InconsistentNaming
         public IActionResult PullWordPairs([FromBody] IEnumerable<int> server_ids)
         {
             int authorizedId = User.Claims.GetUserId();

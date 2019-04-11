@@ -85,14 +85,14 @@ namespace InWords.WebApi.Service
         public List<WordTranslation> GetWordsById(IEnumerable<int> ids)
         {
             return (from id in ids
-                let uwp = wordPairRepository
-                    .GetWithInclude(x => x.WordPairId == id, wf => wf.WordForeign, wn => wn.WordNative).Single()
-                select new WordTranslation
-                {
-                    WordForeign = uwp.WordForeign.Content,
-                    WordNative = uwp.WordNative.Content,
-                    ServerId = id
-                }).ToList();
+                    let uwp = wordPairRepository
+                        .GetWithInclude(x => x.WordPairId == id, wf => wf.WordForeign, wn => wn.WordNative).Single()
+                    select new WordTranslation
+                    {
+                        WordForeign = uwp.WordForeign.Content,
+                        WordNative = uwp.WordNative.Content,
+                        ServerId = id
+                    }).ToList();
         }
 
         public async Task<int> DeleteUserWordPair(int userId, IEnumerable<int> userWordPairIDs)
@@ -143,12 +143,11 @@ namespace InWords.WebApi.Service
             return resultPair;
         }
 
-        public async Task<List<SyncBase>> UpdateUserWordPair(int userId, int userWordPairId,
-            WordTranslation wordTranslation)
+        private async Task<List<SyncBase>> UpdateUserWordPair(int userId, int userWordPairId, WordTranslation wordTranslation)
         {
             await DeleteUserWordPair(userId, userWordPairId);
             SyncBase syncBase = await AddUserWordPair(userId, wordTranslation);
-            return new List<SyncBase> {syncBase};
+            return new List<SyncBase> { syncBase };
         }
     }
 }
