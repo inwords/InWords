@@ -39,8 +39,6 @@
     <string name="password_recovery_part3_new_password">Введите новый пароль</string>
     <string name="password_recovery_part3_confirm_new_password">Повторите новый пароль</string>
     <string name="password_recovery_part3_enter">Поменять пароль</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <!-- password recovery part3 end -->
 
     <!-- word addition start -->
@@ -49,13 +47,24 @@
     <string name="word_addition_enter">Добавить</string>
     <string name="sign_in_in_process">Авторизация</string>
     <string name="sign_up_in_process">Создание аккаунта</string>
+    <!-- word addition end -->
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- game start -->
     <string name="no_content">К сожалению, что-то пошло не так</string>
     <string name="no_content_solutions">Возможно, отсутствует интернет, а возможно, вы не вошли в аккаунт</string>
     <string name="choose_level">Выберите уровень</string>
-    <string name="avatar">Avatar</string>
-    <!-- word addition end -->
+    <!-- game end -->
+
+    <!-- home start -->
+    <string name="avatar">Аватар</string>
+    <string name="dictionary_title">Ваш словарь</string>
+    <string name="words_in_dictionary">В вашем словаре %1$d слов</string>
+    <string name="error_text_placeholder">Не удалось загрузить данные</string>
+    <string name="loading_text_placeholder">Загрузка профиля</string>
+    <string name="sign_up_proposal">Создайте аккаунт, чтобы использовать больше возможностей приложения</string>
+    <string name="user_experience">Ваш опыт на сегодня: %1$d</string>
+    <string name="choose_game">Выберите игру</string>
+    <string name="game_remove">Удалить</string>
+    <!-- home end -->
 
 </resources>

@@ -6,13 +6,12 @@ import com.dreamproject.inwords.presentation.viewScenario.BasicViewModel
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 
 class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
     private val _cardsDataSubject: Subject<CardsData> = BehaviorSubject.create()
-
-    val navigateToGameLevel: Observable<CardsData>
-        get() = _cardsDataSubject
+    private val _navigationSubject: Subject<FromGameEndPaths> = PublishSubject.create()
 
     fun onGameLevelSelected(gameLevelId: Int) {
         compositeDisposable.clear()
@@ -22,5 +21,15 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
                 .subscribe(_cardsDataSubject::onNext, Throwable::printStackTrace)) //TODO care
     }
 
+    fun navigationStream(): Observable<FromGameEndPaths> = _navigationSubject
+
+    fun onNewNavCommand(path: FromGameEndPaths) {
+        _navigationSubject.onNext(path)
+    }
+
     fun cardsStream(): Single<CardsData> = _cardsDataSubject.firstOrError()
+
+    fun onGameEnd(cardOpenClicks: Int) {
+        +cardOpenClicks
+    }
 }

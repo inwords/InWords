@@ -5,35 +5,36 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="4dp"
+    android:layout_margin="@dimen/half_margin"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="@dimen/card_corner_radius"
     tools:showIn="@layout/fragment_home">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/avatar"
+    <ImageView
+        android:id="@+id/dict"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_marginBottom="@dimen/half_margin"
         android:contentDescription="@string/avatar"
         android:elevation="5dp"
-        app:failureImage="@drawable/avatar_placeholder"
-        app:placeholderImage="@drawable/avatar_placeholder" />
+        android:src="@drawable/ic_dictionary" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/half_margin"
         android:elevation="5dp"
         android:ellipsize="end"
         android:lines="1"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:textSize="24sp"
-        tools:text="Любитель Языков" />
+        android:paddingStart="@dimen/half_margin"
+        android:paddingEnd="@dimen/half_margin"
+        android:text="@string/dictionary_title"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/dictSize"
@@ -41,12 +42,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginStart="72dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/half_margin"
         android:elevation="5dp"
         android:ellipsize="end"
         android:lines="1"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        android:paddingStart="@dimen/half_margin"
+        android:paddingEnd="@dimen/half_margin"
         android:textColor="@color/colorPrimary"
-        tools:text="В вашем словаре 200 слов" />
+        android:textSize="16sp"
+        tools:text="@string/words_in_dictionary" />
+
 </androidx.cardview.widget.CardView>

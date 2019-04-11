@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.presentation.viewScenario.octoGame
+package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

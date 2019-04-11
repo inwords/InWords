@@ -1,5 +1,7 @@
 package com.dreamproject.inwords.data.sync;
 
+import android.util.Log;
+
 import com.dreamproject.inwords.dagger.annotations.CacheRepository;
 import com.dreamproject.inwords.dagger.annotations.LocalRepository;
 import com.dreamproject.inwords.data.dto.EntityIdentificator;
@@ -25,15 +27,15 @@ import io.reactivex.subjects.PublishSubject;
 import static com.dreamproject.inwords.data.sync.TranslationSyncController.Groups.ADD;
 
 public class TranslationSyncController {
-    private TranslationWordsLocalRepository inMemoryRepository;
-    private TranslationWordsLocalRepository localRepository;
-    private TranslationWordsRemoteRepository remoteRepository;
+    private final TranslationWordsLocalRepository inMemoryRepository;
+    private final TranslationWordsLocalRepository localRepository;
+    private final TranslationWordsRemoteRepository remoteRepository;
 
-    private AtomicInteger dataChangesCounter;
-    private PublishSubject<Integer> dataChangedNotifier;
+    private final AtomicInteger dataChangesCounter;
+    private final PublishSubject<Integer> dataChangedNotifier;
 
     @Inject
-    public TranslationSyncController(
+    TranslationSyncController(
             @CacheRepository TranslationWordsLocalRepository inMemoryRepository,
             @LocalRepository TranslationWordsLocalRepository localRepository,
             TranslationWordsRemoteRepository remoteRepository) {
@@ -58,7 +60,7 @@ public class TranslationSyncController {
                 .doOnNext(o -> trySyncAllReposWithCache()
                         .subscribeOn(Schedulers.io())
                         .subscribe(() -> {
-                        }))
+                        }, t -> Log.e("TranslationSync", t.getMessage())))
                 .subscribe();
     }
 

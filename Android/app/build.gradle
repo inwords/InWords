@@ -36,15 +36,15 @@ android {
 ext.versions = [
         ANDROID_SUPPORT  : '1.0.2',
         CONSTRAINT_LAYOUT: '1.1.3',
-        NAVIGATION       : '1.0.0-rc02',
+        NAVIGATION       : '1.0.0',
         RX_JAVA          : '2.2.7',
         RX_ANDROID       : '2.1.1',
         RX_BINDING       : '2.1.1',
         GLIDE            : '4.9.0',
         RETROFIT         : '2.5.0',
         OK_HTTP          : '3.13.1',
-        ROOM             : '2.1.0-alpha04',
-        LIFECYCLE        : '2.1.0-alpha02',
+        ROOM             : '2.1.0-alpha06',
+        LIFECYCLE        : '2.1.0-alpha04',
         DAGGER           : '2.21'
 ]
 
@@ -69,6 +69,7 @@ dependencies {
 
     //Fresco
     implementation 'com.facebook.fresco:fresco:1.13.0'
+    implementation "com.facebook.fresco:imagepipeline-okhttp3:1.13.0"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$versions.RETROFIT"
@@ -100,7 +101,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$versions.DAGGER"
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

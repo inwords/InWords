@@ -7,6 +7,8 @@ import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.dto.game.Game;
 import com.dreamproject.inwords.data.dto.game.GameInfo;
 import com.dreamproject.inwords.data.dto.game.GameLevel;
+import com.dreamproject.inwords.data.dto.game.GameScore;
+import com.dreamproject.inwords.data.dto.game.GameScoreRequest;
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
@@ -22,44 +24,47 @@ import retrofit2.http.Path;
 
 public interface WebApiService {
     //GAME
-    @GET("/api/Game/GameInfo")
+    @GET("/v1.0/Game/GameInfo")
     Single<List<GameInfo>> getGameInfos(@Header("Authorization") String bearerToken);
 
-    @GET("api/Game/{gameId}")
+    @GET("v1.0/Game/{gameId}")
     Single<Game> getGame(@Header("Authorization") String bearerToken, @Path("gameId") int gameId);
 
-    @GET("api/Game/level/{levelId}")
+    @GET("v1.0/Game/level/{levelId}")
     Single<GameLevel> getLevel(@Header("Authorization") String bearerToken, @Path("levelId") int levelId);
 
+    @POST("v1.0/Game/score")
+    Single<GameScore> getGameScore(@Header("Authorization") String bearerToken, @Body GameScoreRequest gameScoreRequest);
+
     //Words
-    @POST("/api/words/DeletePair")
+    @POST("/v1.0/words/DeletePair")
     Single<Integer> deletePairs(@Header("Authorization") String bearerToken, @Body List<Integer> serverIds);
 
-    @POST("/api/words/addpair")
+    @POST("/v1.0/words/addpair")
     Single<List<EntityIdentificator>> addPairs(@Header("Authorization") String bearerToken, @Body List<WordTranslation> wordTranslations);
 
-    @POST("/api/sync/pullwordpairs")
+    @POST("/v1.0/sync/pullwordpairs")
     Single<PullWordsAnswer> pullWordsPairs(@Header("Authorization") String bearerToken, @Body List<Integer> serverIds);
 
-    @GET("/api/values")
+    @GET("/v1.0/values")
     Single<List<String>> getValues();
 
     //USERS
-    @POST("/api/auth/registration")
+    @POST("/v1.0/auth/registration")
     @Headers({"Content-Type: application/json", "x-api-version: 2.0"})
     Single<TokenResponse> registerUser(@Body UserCredentials userCredentials);
 
-    @POST("/api/auth/token")
+    @POST("v1.0/auth/token")
     //TODO think about it
     @Headers({"x-api-version: 2.0"})
     Single<TokenResponse> getToken(@Body UserCredentials credentials);
 
-    @GET("/api/users")
+    @GET("/v1.0/users")
     Single<User> getAuthorisedUser(@Header("Authorization") String bearerToken);
 
-    @GET("/api/users/{id}")
+    @GET("/v1.0/users/{id}")
     Single<User> getUserById(@Header("Authorization") String bearerToken, @Path("id") int id);
 
-    @GET("/api/values/getlogin")
+    @GET("/v1.0/values/getlogin")
     Single<String> getLogin(@Header("Authorization") String bearerToken);
 }
