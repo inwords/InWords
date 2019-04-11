@@ -8,9 +8,7 @@ const endDataTransfer = () => ({
     type: dataTransferConstants.DATA_TRANSFER_END
 });
 
-const dataTransferActions = {
+export default {
     beginDataTransfer,
     endDataTransfer
 };
-
-export default dataTransferActions;

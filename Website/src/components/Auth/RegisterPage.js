@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
-import SmallPageContentContainer from './PageContentContainers/SmallPageContentContainer';
+import SmallPageContentContainer from '../PageContentContainers/SmallPageContentContainer';
 
 const styles = theme => ({
     paper: {
@@ -25,20 +25,22 @@ const styles = theme => ({
     },
 });
 
-function Login({ values, handleChange, handleSubmit, classes }) {
+function RegisterPage({ values, handleChange, handleSubmit, classes }) {
     return (
         <SmallPageContentContainer>
             <Paper className={classes.paper}>
                 <Typography variant="h5">
-                    Вход
+                    Регистрация
                 </Typography>
-                <form onSubmit={handleSubmit} className={classes.form}>
+                <form
+                    onSubmit={handleSubmit}
+                    className={classes.form}
+                >
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
                             id="email"
                             type="email"
-                            autoComplete="email"
                             autoFocus
                             value={values.email}
                             onChange={handleChange('email')}
@@ -49,7 +51,6 @@ function Login({ values, handleChange, handleSubmit, classes }) {
                         <Input
                             id="password"
                             type="password"
-                            autoComplete="current-password"
                             value={values.password}
                             onChange={handleChange('password')}
                         />
@@ -61,7 +62,7 @@ function Login({ values, handleChange, handleSubmit, classes }) {
                         color="primary"
                         className={classes.submit}
                     >
-                        Войти
+                        Зарегистрироваться
                     </Button>
                 </form>
             </Paper>
@@ -69,7 +70,7 @@ function Login({ values, handleChange, handleSubmit, classes }) {
     );
 }
 
-Login.propTypes = {
+RegisterPage.propTypes = {
     values: PropTypes.shape({
         email: PropTypes.string.isRequired,
         password: PropTypes.string.isRequired,
@@ -79,4 +80,4 @@ Login.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(RegisterPage);

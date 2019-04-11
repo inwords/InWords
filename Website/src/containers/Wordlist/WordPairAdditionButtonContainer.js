@@ -1,32 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
 import WordPairAdditionButton from '../../components/Wordlist/WordPairAdditionButton';
+import useSimpleValues from '../../hooks/useSimpleValues';
 
 function WordPairAdditionButtonContainer({ addWordPair }) {
-    const [values, setValues] = useState({
+    const [values, handleChange, handleReset] = useSimpleValues({
         wordForeign: '',
         wordNative: ''
     });
 
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
-    const handleReset = () => {
-        setValues({
-            wordForeign: '',
-            wordNative: ''
-        });
-    };
-
     const handleSubmit = event => {
-        addWordPair({
-            WordForeign: values.wordForeign,
-            WordNative: values.wordNative
-        });
-
+        addWordPair(values);
         event.preventDefault();
     };
 

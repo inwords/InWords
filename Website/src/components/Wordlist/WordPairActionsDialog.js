@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-import FullScreenDialogWithForm from '../FullScreenDialogWithForm';
+import FullScreenDialogWithForm from '../Dialogs/FullScreenDialogWithForm';
 
 function WordPairActionsDialog({ values, handleChange, ...rest }) {
     return (

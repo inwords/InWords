@@ -1,29 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import userApiActions from '../actions/userApiActions';
-import Login from '../components/Login';
+import userApiActions from '../../actions/userApiActions';
+import LoginPage from '../../components/Auth/LoginPage';
+import useSimpleValues from '../../hooks/useSimpleValues';
 
-function LoginContainer({ login }) {
-    const [values, setValues] = useState({
+function LoginPageContainer({ login }) {
+    const [values, handleChange] = useSimpleValues({
         email: '',
         password: ''
     });
 
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
     const handleSubmit = event => {
-        login({
-            Email: values.email,
-            Password: values.password
-        });
+        login(values);
         event.preventDefault();
     };
 
     return (
-        <Login
+        <LoginPage
             values={values}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
@@ -31,7 +25,7 @@ function LoginContainer({ login }) {
     );
 }
 
-LoginContainer.propTypes = {
+LoginPageContainer.propTypes = {
     login: PropTypes.func.isRequired
 };
 
@@ -44,4 +38,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(LoginContainer);
+)(LoginPageContainer);

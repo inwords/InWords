@@ -1,29 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import userApiActions from '../actions/userApiActions';
-import Register from '../components/Register';
+import userApiActions from '../../actions/userApiActions';
+import RegisterPage from '../../components/Auth/RegisterPage';
+import useSimpleValues from '../../hooks/useSimpleValues';
 
-function RegisterContainer({ register }) {
-    const [values, setValues] = useState({
+function RegisterPageContainer({ register }) {
+    const [values, handleChange] = useSimpleValues({
         email: '',
         password: ''
     });
 
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
     const handleSubmit = event => {
-        register({
-            Email: values.email,
-            Password: values.password
-        });
+        register(values);
         event.preventDefault();
     };
 
     return (
-        <Register
+        <RegisterPage
             values={values}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
@@ -31,7 +25,7 @@ function RegisterContainer({ register }) {
     );
 }
 
-RegisterContainer.propTypes = {
+RegisterPageContainer.propTypes = {
     register: PropTypes.func.isRequired
 };
 
@@ -44,4 +38,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(RegisterContainer);
+)(RegisterPageContainer);

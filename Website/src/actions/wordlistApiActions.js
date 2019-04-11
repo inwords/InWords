@@ -52,16 +52,14 @@ function addWordPairAsEditPart(wordPair) {
 
 const configureWordPair = (serverData, localWordPair) => ({
     serverId: serverData[0].serverId,
-    wordForeign: localWordPair.WordForeign,
-    wordNative: localWordPair.WordNative
+    wordForeign: localWordPair.wordForeign,
+    wordNative: localWordPair.wordNative
 });
 
-const wordlistApiActions = {
+export default {
     pullWordPairs,
     deleteWordPairs,
     addWordPair,
     deleteWordPairAsEditPart,
     addWordPairAsEditPart
 };
-
-export default wordlistApiActions;

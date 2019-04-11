@@ -6,7 +6,9 @@ import Wordlist from '../../components/Wordlist/Wordlist';
 
 function WordlistContainer({ wordPairs, pullWordPairs }) {
     useEffect(() => {
-        pullWordPairs();
+        if (!wordPairs.length) {
+            pullWordPairs();
+        }
     }, []);
 
     const [checked, setChecked] = useState([]);

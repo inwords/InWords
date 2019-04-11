@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import history from '../history/history';
 import ErrorAlertContainer from './ErrorAlertContainer';
-import LoginContainer from './LoginContainer';
-import RegisterContainer from './RegisterContainer';
+import LoginPageContainer from './Auth/LoginPageContainer';
+import RegisterPageContainer from './Auth/RegisterPageContainer';
 import WordlistContainer from './Wordlist/WordlistContainer';
 import GameLevelsContainer from './Game/GameLevelsContainer';
 import GameFieldContainer from './Game/GameFieldContainer';
@@ -24,12 +24,12 @@ function App({ userId }) {
                             !userId ?
                                 <Redirect to="/login" /> :
                                 <Redirect to="/wordlist" />} />
-                        <Route path="/login" component={LoginContainer} />
-                        <Route path="/register" component={RegisterContainer} />
+                        <Route path="/login" component={LoginPageContainer} />
+                        <Route path="/register" component={RegisterPageContainer} />
                         <Route path="/wordlist" component={WordlistContainer} />
                         <Route exact path="/games" component={Games} />
-                        <Route path="/games_catalog/game/:id" component={GameLevelsContainer} />
-                        <Route path="/games_catalog/level/:id" component={GameFieldContainer} />
+                        <Route path="/games/game/:id" component={GameLevelsContainer} />
+                        <Route path="/games/level/:id" component={GameFieldContainer} />
                         <Route path="/profile/:id" component={ProfileContainer} />
                     </RegularAppBar>
                 </Switch>

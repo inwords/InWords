@@ -1,32 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
 import WordPairEditingButton from '../../components/Wordlist/WordPairEditingButton';
+import useSimpleValues from '../../hooks/useSimpleValues';
 
 function WordPairEditingButtonContainer({ wordPair, deleteWordPairAsEditPart, addWordPairAsEditPart }) {
-    const [values, setValues] = useState({
-        wordForeign: '',
-        wordNative: ''
+    const [values, handleChange, handleReset] = useSimpleValues({
+        wordForeign: wordPair.wordForeign,
+        wordNative: wordPair.wordNative
     });
-
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
-    const handleReset = () => {
-        setValues({
-            wordForeign: wordPair.wordForeign,
-            wordNative: wordPair.wordNative
-        });
-    };
 
     const handleSubmit = event => {
         deleteWordPairAsEditPart(wordPair.serverId);
         addWordPairAsEditPart({
-            id: wordPair.serverId,
-            WordForeign: values.wordForeign,
-            WordNative: values.wordNative
+            ...values,
+            id: wordPair.serverId
         });
 
         event.preventDefault();

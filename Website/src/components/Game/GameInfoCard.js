@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,13 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import GameInfoCardMenu from './GameInfoCardMenu';
 
-const styles = {
-    root: {
-        paddingBottom: 0,
-    },
-};
-
-function GameInfoCard({ gameInfo, handleRedirection, handleGamePackDeletion = null, classes }) {
+function GameInfoCard({ gameInfo, handleRedirection, handleGamePackDeletion = null }) {
     const { gameId, title, isAvailable, description } = gameInfo;
 
     return (
@@ -29,7 +22,6 @@ function GameInfoCard({ gameInfo, handleRedirection, handleGamePackDeletion = nu
                         />)
                 }
                 title={title}
-                classes={{ root: classes.root }}
             />
             <CardContent>
                 <Typography component="p">
@@ -59,7 +51,6 @@ GameInfoCard.propTypes = {
     }).isRequired,
     handleRedirection: PropTypes.func.isRequired,
     handleGamePackDeletion: PropTypes.func,
-    classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(GameInfoCard);
+export default GameInfoCard;

@@ -24,7 +24,7 @@ function GameFieldContainer({ gameLevel, pullGameLevel, saveLevelResult, match }
     const [closuresQuantity, setClosuresQuantity] = useState(0);
 
     useEffect(() => {
-        if (!gameLevel.levelId) {
+        if (gameLevel.levelId !== parseInt(match.params.id)) {
             pullGameLevel(parseInt(match.params.id));
         } else {
             const shuffledWordTranslations = shuffle([...gameLevel.wordTranslations]);

@@ -23,11 +23,9 @@ const updateWordPairsAfterEditing = (pairId, wordPair) => ({
     }
 });
 
-const wordlistActions = {
+export default {
     initializeWordPairs,
     updateWordPairsAfterDeletion,
     updateWordPairsAfterAddition,
     updateWordPairsAfterEditing
 };
-
-export default wordlistActions;

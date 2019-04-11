@@ -7,7 +7,9 @@ import Profile from '../../components/Profile/Profile';
 
 function ProfileContainer({ userId, userInfo, receiveUserInfo, match }) {
     useEffect(() => {
-        receiveUserInfo(parseInt(match.params.id));
+        if (userInfo.userId !== parseInt(match.params.id)) {
+            receiveUserInfo(parseInt(match.params.id));
+        }
     }, []);
 
     return (

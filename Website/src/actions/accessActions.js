@@ -9,9 +9,7 @@ const denyAccess = () => ({
     type: accessConstants.ACCESS_DENIAL
 });
 
-const accessActions = {
-    grantAccess: grantAccess,
-    denyAccess: denyAccess
+export default {
+    grantAccess,
+    denyAccess
 };
-
-export default accessActions;

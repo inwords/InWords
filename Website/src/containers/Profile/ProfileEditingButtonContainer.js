@@ -1,32 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import userApiActions from '../../actions/userApiActions';
 import ProfileEditingButton from '../../components/Profile/ProfileEditingButton';
+import useSimpleValues from '../../hooks/useSimpleValues';
 
 function ProfileEditingButtonContainer({ userInfo, changeUserInfo }) {
-    const [values, setValues] = useState({
-        nickName: '',
-        avatarPath: ''
+    const [values, handleChange, handleReset] = useSimpleValues({
+        nickName: userInfo.nickName,
+        avatarPath: userInfo.avatarPath
     });
 
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
-    const handleReset = () => {
-        setValues({
-            nickName: userInfo.nickName,
-            avatarPath: userInfo.avatarPath
-        });
-    };
-
     const handleSubmit = event => {
-        changeUserInfo({
-            NickName: values.nickName,
-            AvatarPath: values.avatarPath
-        });
-
+        changeUserInfo(values);
         event.preventDefault();
     };
 

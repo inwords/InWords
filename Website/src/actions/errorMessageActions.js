@@ -9,9 +9,7 @@ const resetErrorMessage = () => ({
     type: errorMessageConstants.ERROR_MESSAGE_RESET
 });
 
-const errorMessageActions = {
+export default {
     setErrorMessage,
     resetErrorMessage
 };
-
-export default errorMessageActions;
