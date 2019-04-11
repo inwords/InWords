@@ -3,33 +3,40 @@ package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import com.dreamproject.inwords.R
+import com.dreamproject.inwords.core.RxDiffUtil
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameInfo
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
 import com.dreamproject.inwords.domain.GAME_INFO
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
-import com.dreamproject.inwords.domain.util.ColoringUtil
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
+import com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter
+import com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsDiffUtilCallback
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_game_levels.*
-import kotlinx.android.synthetic.main.game_level_info.view.*
 import kotlinx.android.synthetic.main.game_no_content.*
-import javax.inject.Inject
 
 class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, GameLevelsViewModelFactory>() {
     private lateinit var gameInfo: GameInfo
-
-    @Inject
-    lateinit var coloringUtil: ColoringUtil
+    private lateinit var adapter: GameLevelsAdapter
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
         gameInfo = arguments?.getSerializable(GAME_INFO) as GameInfo
+
+        val onItemClickedListener = PublishSubject.create<GameLevelInfo>()
+        compositeDisposable.add(onItemClickedListener.subscribe { viewModel.onGameLevelSelected(it) })
+        adapter = GameLevelsAdapter(layoutInflater, onItemClickedListener)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        levelsRecycler.layoutManager = GridLayoutManager(context, 3)
+        levelsRecycler.adapter = adapter
 
         compositeDisposable.add(viewModel.navigateToGameLevel
                 .subscribe(::navigateToGameLevel))
@@ -37,7 +44,11 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         compositeDisposable.add(viewModel.screenInfoStream(gameInfo.gameId)
                 .map { it.game.gameLevelInfos }
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(::renderGameLevelsInfo) {
+                .doOnNext(::renderScreenState)
+                .observeOn(SchedulersFacade.computation())
+                .compose(RxDiffUtil.calculate(GameLevelsDiffUtilCallback.Companion::create))
+                .observeOn(SchedulersFacade.ui())
+                .subscribe(adapter::accept) {
                     it.printStackTrace()
                     game_no_content.visibility = View.VISIBLE
                     game_content.visibility = View.GONE
@@ -50,24 +61,10 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
     }
 
-    private fun renderGameLevelsInfo(gameLevelsInfos: List<GameLevelInfo>) {
+    private fun renderScreenState(gameLevelsInfos: List<GameLevelInfo>) {
         if (!gameLevelsInfos.isEmpty()) {
             game_no_content.visibility = View.GONE
             game_content.visibility = View.VISIBLE
-        }
-
-        var counter = 1
-
-        gameLevelsInfos.forEach { gameLevelInfo ->
-            with(layoutInflater.inflate(R.layout.game_level_info, levelsGrid, false)) {
-                title.text = counter.toString()
-                counter++
-
-                ratingBar.rating = gameLevelInfo.playerStars + 2f
-
-                setOnClickListener { viewModel.onGameLevelSelected(gameLevelInfo) }
-                levelsGrid.addView(this)
-            }
         }
     }
 

@@ -67,10 +67,10 @@ public class TranslationMainFragment extends FragmentWithViewModelAndNav<Transla
     }
 
     public List<WordTranslation> getWordTranslations() {
-        return adapter.getWordTranslations();
+        return adapter.getValues();
     }
 
-    void setupRecyclerView(@NonNull View view, PublishSubject<WordTranslation> onItemClickedListener) {
+    private void setupRecyclerView(@NonNull View view, PublishSubject<WordTranslation> onItemClickedListener) {
         recyclerView = view.findViewById(R.id.recycler_view);
 
         Context context = view.getContext();

@@ -23,10 +23,9 @@
             android:textSize="24sp" />
 
         <!-- TODO: remove 100dp -->
-        <GridLayout
-            android:id="@+id/levelsGrid"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/levelsRecycler"
             android:layout_width="match_parent"
-            android:columnCount="3"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="90dp"

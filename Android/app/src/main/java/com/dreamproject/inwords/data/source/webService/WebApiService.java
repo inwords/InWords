@@ -7,6 +7,8 @@ import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.dto.game.Game;
 import com.dreamproject.inwords.data.dto.game.GameInfo;
 import com.dreamproject.inwords.data.dto.game.GameLevel;
+import com.dreamproject.inwords.data.dto.game.GameScore;
+import com.dreamproject.inwords.data.dto.game.GameScoreRequest;
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
@@ -30,6 +32,9 @@ public interface WebApiService {
 
     @GET("api/Game/level/{levelId}")
     Single<GameLevel> getLevel(@Header("Authorization") String bearerToken, @Path("levelId") int levelId);
+
+    @POST("v1.0/api/Game/score")
+    Single<GameScore> getGameScore(@Header("Authorization") String bearerToken, @Body GameScoreRequest gameScoreRequest);
 
     //Words
     @POST("/api/words/DeletePair")

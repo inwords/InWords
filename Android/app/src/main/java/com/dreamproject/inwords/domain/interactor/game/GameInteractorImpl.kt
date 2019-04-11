@@ -35,4 +35,7 @@ class GameInteractorImpl @Inject constructor(
                 .cache()
     }
 
+    fun getScore(){
+
+    }
 }

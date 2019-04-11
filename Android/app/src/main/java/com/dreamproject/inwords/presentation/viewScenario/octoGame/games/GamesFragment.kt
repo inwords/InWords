@@ -8,18 +8,13 @@ import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameInfo
 import com.dreamproject.inwords.domain.GAME_INFO
 import com.dreamproject.inwords.domain.model.GamesInfoModel
-import com.dreamproject.inwords.domain.util.ColoringUtil
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
-import kotlinx.android.synthetic.main.fragment_game_levels.*
+import kotlinx.android.synthetic.main.fragment_games.*
 import kotlinx.android.synthetic.main.game_info.view.*
 import kotlinx.android.synthetic.main.game_no_content.*
-import javax.inject.Inject
 
 
 class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, GamesViewModelFactory>() {
-    @Inject
-    lateinit var coloringUtil: ColoringUtil
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

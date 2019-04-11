@@ -1,8 +1,6 @@
 package com.dreamproject.inwords.data.repository.game
 
-import com.dreamproject.inwords.data.dto.game.Game
-import com.dreamproject.inwords.data.dto.game.GameInfo
-import com.dreamproject.inwords.data.dto.game.GameLevel
+import com.dreamproject.inwords.data.dto.game.*
 import com.dreamproject.inwords.data.source.webService.WebRequestsManager
 import io.reactivex.Single
 import javax.inject.Inject
@@ -20,5 +18,9 @@ class GameRemoteRepository @Inject constructor(private val webRequestsManager: W
 
     fun getLevel(levelId: Int): Single<GameLevel> {
         return webRequestsManager.getLevel(levelId)
+    }
+
+    fun getScore(gameScoreRequest: GameScoreRequest): Single<GameScore> {
+        return webRequestsManager.getScore(gameScoreRequest)
     }
 }
