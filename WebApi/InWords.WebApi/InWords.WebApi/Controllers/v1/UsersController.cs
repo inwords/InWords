@@ -57,7 +57,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
-            int userId = User.Claims.GetUserId();
+            int userId = User.GetUserId();
 
             User user = await usersRepository.FindById(userId);
 
@@ -71,7 +71,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpPut]
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
-            int authorizedId = User.Claims.GetUserId();
+            int authorizedId = User.GetUserId();
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

@@ -9,7 +9,7 @@ namespace InWords.Service.TFA.Controllers
     /// <summary>
     ///     Controller to confirm email address
     /// </summary>
-    public class EmailController : I2FAProvider //todo : Base2FAProvider + common IsValidKey
+    public class EmailController : I2FaProvider //todo : Base2FAProvider + common IsValidKey
     {
         private readonly EmailService emailService;
 
@@ -19,12 +19,12 @@ namespace InWords.Service.TFA.Controllers
             emailService = new EmailService(context);
         }
 
-        Task<string> I2FAProvider.GetKey(string identity)
+        Task<string> I2FaProvider.GetKey(string identity)
         {
             throw new NotImplementedException();
         }
 
-        Task<bool> I2FAProvider.IsValidKey(string identity, string key)
+        Task<bool> I2FaProvider.IsValidKey(string identity, string key)
         {
             throw new NotImplementedException();
         }

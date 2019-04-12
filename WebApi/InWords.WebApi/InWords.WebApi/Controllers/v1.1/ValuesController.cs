@@ -31,7 +31,8 @@ namespace InWords.WebApi.Controllers.v1._1
 
 
         [HttpGet]
-        public ActionResult<int> Get()
+        [Route("")]
+        public ActionResult<int> GetAll()
         {
             return userRepository.Count();
         }

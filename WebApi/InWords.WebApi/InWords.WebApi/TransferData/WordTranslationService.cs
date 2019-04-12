@@ -8,7 +8,7 @@ namespace InWords.WebApi.TransferData
     public static class UserWordPairExtensions
     {
         /// <summary>
-        /// Convert UserWorkPair to WordTranslation 
+        ///     Convert UserWorkPair to WordTranslation
         /// </summary>
         /// <param name="userWordPairs"></param>
         /// <returns></returns>
@@ -18,7 +18,7 @@ namespace InWords.WebApi.TransferData
         }
 
         /// <summary>
-        /// Convert UserWorkPair to WordTranslation 
+        ///     Convert UserWorkPair to WordTranslation
         /// </summary>
         /// <param name="uwp"></param>
         /// <returns></returns>

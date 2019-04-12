@@ -22,7 +22,7 @@ namespace InWords.Service.TFA.Models.Email
             set
             {
                 body = value;
-                if (Signature != null && Signature != "") body += Environment.NewLine + Signature;
+                if (!string.IsNullOrEmpty(Signature)) body += Environment.NewLine + Signature;
             }
         }
 

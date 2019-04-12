@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models;
-using System.Collections.Generic;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
@@ -60,7 +60,7 @@ namespace InWords.WebApi.Service
 
             return userWordPairs.ToWordTranslations();
         }
-        
+
         public List<WordTranslation> GetWordsById(IEnumerable<int> ids)
         {
             return ids.Select(GetWordTranslationById).ToList();
@@ -69,7 +69,7 @@ namespace InWords.WebApi.Service
         public WordTranslation GetWordTranslationById(int id)
         {
             WordPair wordPair = wordPairRepository.IncludeContent().Single(x => x.WordPairId.Equals(id));
-            return new WordTranslation(wordPair.WordForeign.Content,wordPair.WordNative.Content,id);
+            return new WordTranslation(wordPair.WordForeign.Content, wordPair.WordNative.Content, id);
         }
 
         public async Task<int> DeleteUserWordPair(int userId, IEnumerable<int> userWordPairIDs)
@@ -83,7 +83,8 @@ namespace InWords.WebApi.Service
         {
             //todo union.expect ??
             UserWordPair userWordsPair = userWordPairRepository
-                .GetEntities(uwp => uwp.UserWordPairId.Equals(userWordPairId) && uwp.UserId.Equals(userId)).SingleOrDefault();
+                .GetEntities(uwp => uwp.UserWordPairId.Equals(userWordPairId) && uwp.UserId.Equals(userId))
+                .SingleOrDefault();
 
             if (userWordsPair != null)
                 return await userWordPairRepository.Remove(userWordsPair);
@@ -120,11 +121,12 @@ namespace InWords.WebApi.Service
             return resultPair;
         }
 
-        private async Task<List<SyncBase>> UpdateUserWordPair(int userId, int userWordPairId, WordTranslation wordTranslation)
+        private async Task<List<SyncBase>> UpdateUserWordPair(int userId, int userWordPairId,
+            WordTranslation wordTranslation)
         {
             await DeleteUserWordPair(userId, userWordPairId);
             SyncBase syncBase = await AddUserWordPair(userId, wordTranslation);
-            return new List<SyncBase> { syncBase };
+            return new List<SyncBase> {syncBase};
         }
     }
 }

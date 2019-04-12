@@ -55,7 +55,7 @@ namespace InWords.Service.TFA.Providers
                 From = new MailAddress(mail.Sender)
             };
 
-            foreach (string recipent in mail.Recipients) mailMessage.To.Add(recipent);
+            foreach (string recipient in mail.Recipients) mailMessage.To.Add(recipient);
 
             mailMessage.Body = mail.Body;
             mailMessage.Subject = mail.Subject;

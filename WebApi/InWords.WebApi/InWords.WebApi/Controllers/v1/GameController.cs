@@ -160,7 +160,7 @@ namespace InWords.WebApi.Controllers.v1
                 ? await gameService.DeleteGames(ids)
                 : await gameService.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
+            return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
         }
     }
 }

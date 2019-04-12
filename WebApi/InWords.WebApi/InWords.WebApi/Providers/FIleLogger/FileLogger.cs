@@ -30,7 +30,7 @@ namespace InWords.WebApi.Providers.FIleLogger
             Func<TState, Exception, string> formatter)
         {
             if (formatter == null) return;
-            
+
             lock (_lock)
             {
                 File.AppendAllText(filePath, formatter(state, exception) + Environment.NewLine);

@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace InWords.Transfer.Data.Models
+﻿namespace InWords.Transfer.Data.Models
 {
     /// <inheritdoc />
     /// <summary>

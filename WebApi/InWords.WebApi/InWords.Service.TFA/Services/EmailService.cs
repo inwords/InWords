@@ -14,7 +14,7 @@ namespace InWords.Service.TFA.Services
     ///     This is an email service configured for two-factor authentication
     ///     Not for sending normal messages
     /// </summary>
-    public class EmailService : I2FAProvider
+    public class EmailService : I2FaProvider
     {
         private const string SENDER = "no-reply@inwords.ru";
         private const string SUBJECT = "Подтверждение электронной почты";
@@ -43,7 +43,7 @@ namespace InWords.Service.TFA.Services
             {
                 Sender = SENDER,
                 Subject = SUBJECT,
-                Body = $"Ваш проверочный код {request.Code}",
+                Body = $"Your code {request.Code}",
                 Recipients = new List<string> {identity}
             };
 
@@ -53,7 +53,7 @@ namespace InWords.Service.TFA.Services
 
         public async Task<bool> IsValidKey(string identity, string key)
         {
-            bool request = authRequestRepository.ExistAny(a => a.Identity == identity && a.Code == key);
+            bool request = authRequestRepository.ExistAny(a => a.Identity.Equals(identity) && a.Code.Equals(key));
             return request;
         }
 

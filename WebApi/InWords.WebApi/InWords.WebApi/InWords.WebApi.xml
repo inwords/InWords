@@ -1,418 +1,437 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>InWords.WebApi</name>
-    </assembly>
-    <members>
-        <member name="M:InWords.WebApi.Controllers.Native.AuthController.Token(InWords.Auth.Models.BasicAuthClaims)">
-            <summary>
-                From Request Basic Authorization
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.Native.GameController.PostScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
-            <summary>
-                Send user metric to calculate points
-            </summary>
-            <param name="levelResult"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.Native.GameController.GetGameInfo">
-            <summary>
-                Get information about all existing games
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.Native.GameController.Delete(System.Int32)">
-            <summary>
-                This is api to delete game box
-                Deletion allow only if it is your game
-                of if your are admin
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.Native.ValuesController.GetVersion">
-            <summary>
-                This is to get requested Api version
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.Native.WordsController.AddPair(System.Collections.Generic.List{InWords.Transfer.Data.Models.WordTranslation})">
-            <summary>
-                Add list of words in dictionary
-            </summary>
-            <param name="wordTranslations"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.Native.WordsController.DeletePair(System.Collections.Generic.IEnumerable{System.Int32})">
-            <summary>
-                Delete UserWordPair from server database.
-            </summary>
-            <param name="server_IDs">List ofUserWordPair.UserWordPairID</param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.ValuesController.GetVersion">
-            <summary>
-                This is to get requested Api version
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.ValuesController.GetLogin">
-            <summary>
-                Get your login
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.AuthController">
-            <inheritdoc />
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Token(InWords.Auth.Models.BasicAuthClaims)">
-            <summary>
-                From Request Basic Authorization
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.GameController">
-            <inheritdoc />
-            <summary>
-                This game controller allow CRUD games
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.GameController.#ctor(InWords.Data.Models.InWordsDataContext)">
-            <summary>
-                Standard injected controller
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.GameController.AddGamePack(InWords.Transfer.Data.Models.GameBox.GamePack)">
-            <summary>
-                This is to add game pack from body use Game pack object
-            </summary>
-            <see cref="T:InWords.Transfer.Data.Models.GameBox.GamePack" />
-            <param name="gamePack">describe game</param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.GameController.PostScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
-            <summary>
-                in dev Didn't work now
-            </summary>
-            <deprecated>true</deprecated>
-            <param name="levelResult"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.GameController.GetGameInfo">
-            <summary>
-                Returns short information about all games in database
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.GameController.GetGame(System.Int32)">
-            <summary>
-                Use this to get game information by id
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.GameController.GetLevel(System.Int32)">
-            <summary>
-                This is to get Words translation list of level
-            </summary>
-            <see cref="T:InWords.Transfer.Data.Models.GameBox.Level" />
-            <see cref="T:InWords.Transfer.Data.Models.WordTranslation" />
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.GameController.Delete(System.Int32)">
-            <summary>
-                This is api to delete game box
-                Deletion allow only if it is your game
-                of if your are admin
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.GameController.DeleteRange(System.Int32[])">
-            <summary>
-                This is to delete more then one game at request
-            </summary>
-            <param name="ids">array of game to be deleted</param>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.UsersController">
-            <inheritdoc />
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.ValuesController.GetVersion">
-            <summary>
-                This is to get requested Api version
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.WordsController">
-            <inheritdoc />
-            <summary>
-                This is to CRUD words
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.#ctor(InWords.Data.Models.InWordsDataContext)">
-            <summary>
-                Standard injected constructor
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.AddPair(System.Collections.Generic.List{InWords.Transfer.Data.Models.WordTranslation})">
-            <summary>
-                Add list of words in dictionary
-            </summary>
-            <param name="wordTranslations"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.DeletePair(System.Collections.Generic.IEnumerable{System.Int32})">
-            <summary>
-                Delete UserWordPair from server database.
-            </summary>
-            <param name="server_IDs">List ofUserWordPair.UserWordPairID</param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.#ctor(InWords.Data.Models.InWords.Repositories.AccountRepository,Microsoft.Extensions.Logging.ILogger)">
-            <summary>
-                Create provider via repository
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Auth.Models.BasicAuthClaims)">
-            <summary>
-                This is to check user identity [FromBody]
-            </summary>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(System.String,System.String)">
-            <summary>
-                This is to check user identity
-            </summary>
-            <param name="email"></param>
-            <param name="password"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentException"></exception>
-        </member>
-        <member name="T:InWords.WebApi.Service.CreationService">
-            <summary>
-                Service that contain CRUD for Creations
-            </summary>
-            <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
-        </member>
-        <member name="F:InWords.WebApi.Service.CreationService.CreationDescriptionRepository">
-            <summary>
-                this is creation description repository
-            </summary>
-        </member>
-        <member name="F:InWords.WebApi.Service.CreationService.CreationRepository">
-            <summary>
-                this is creation repository
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Service.CreationService.#ctor(InWords.Data.Models.InWordsDataContext)">
-            <summary>
-                Standard dependency injected constructor
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:InWords.WebApi.Service.CreationService.AddCreation(InWords.Transfer.Data.Models.Creation.CreationInfo)">
-            <summary>
-                Allows add creation by creationInformation
-            </summary>
-            <see cref="T:InWords.Transfer.Data.Models.Creation.CreationInfo" />
-            <param name="creationInfo"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.CreationService.GetCreationInfo(System.Int32)">
-            <summary>
-                This is to get short info about creation
-            </summary>
-            <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.CreationService.GetDescriptions(System.Int32)">
-            <summary>
-                This is to get Creation description
-            </summary>
-            <see cref="T:InWords.Data.Models.InWords.Creations.CreationDescription" />
-            <param name="creationId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.CreationService.DeleteCreation(System.Collections.Generic.IEnumerable{System.Int32})">
-            <summary>
-                This is to delete creation by id
-            </summary>
-            <param name="ids"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.CreationService.DeleteCreation(System.Int32)">
-            <summary>
-                This is to cascade delete creations dependency
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Service.GameService.DescriptionInfoExtensions">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Transfer.Data.Models.Creation.DescriptionInfo})">
-            <summary>
-                Test method returning Russian description
-            </summary>
-            <param name="descriptionInfos"></param>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Service.GameService.GameService">
-            <inheritdoc />
-            <summary>
-                Service that contain CRUD for Game
-            </summary>
-            <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.AddGamePack(System.Int32,InWords.Transfer.Data.Models.GameBox.GamePack)">
-            <summary>
-                Add a game using the userId as the CreatorId
-            </summary>
-            <param name="userId"></param>
-            <param name="gamePack"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.GetGames">
-            <summary>
-                Get information about all existing games
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.GetGame(System.Int32,System.Int32)">
-            <summary>
-                This is to get full information about certain game
-            </summary>
-            <param name="userId"></param>
-            <param name="gameId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.GetLevel(System.Int32,System.Int32)">
-            <summary>
-                This is to get game level information
-            </summary>
-            <param name="userId"></param>
-            <param name="levelId"></param>
-            <see cref="T:InWords.Transfer.Data.Models.GameBox.Level" />
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.DeleteGames(System.Int32[])">
-            <summary>
-                This is to delete the whole game and levels.
-                Method doesn't delete words and word pairs
-                Need review.
-            </summary>
-            <exception cref="T:System.NullReferenceException"></exception>
-            <param name="gameId"></param>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.DeleteOwnGames(System.Int32,System.Int32[])">
-            <summary>
-                This is to delete games as user, safe delete game if userId os owner
-            </summary>
-            <param name="userId">game owner user id</param>
-            <param name="gameId">server id of the game</param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.GetLevelScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
-            <summary>
-                This is to update user score on game level
-            </summary>
-            <param name="levelResult"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.UpdateUserScore(System.Int32,InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelScore)">
-            <summary>
-                This is to set level score to user level storage
-            </summary>
-            <param name="userId"></param>
-            <param name="levelScore"></param>
-            <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.#ctor(InWords.Data.Models.InWordsDataContext)">
-            <summary>
-                Basic constructor
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:InWords.WebApi.Service.WordsService.AddPair(InWords.Transfer.Data.Models.WordTranslation)">
-            <summary>
-                This method adds the word and its translation to the repository
-            </summary>
-            <param name="wordTranslation"></param>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Startup">
-            <summary>
-                Main startup class
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Startup.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
-            <summary>
-                Startup constructor
-            </summary>
-            <param name="env"></param>
-        </member>
-        <member name="P:InWords.WebApi.Startup.Configuration">
-            <summary>
-                This is the service configuration
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-                This method gets called by the runtime. Use this method to add services to the container.
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="M:InWords.WebApi.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-                This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-            </summary>
-            <param name="app"></param>
-            <param name="env"></param>
-            <param name="loggerFactory"></param>
-        </member>
-        <member name="M:InWords.WebApi.Startup.LoggerConfiguration(Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-                Configure the logger data format and file location
-            </summary>
-            <param name="loggerFactory"></param>
-        </member>
-        <member name="T:InWords.WebApi.Swagger.RemoveVersionParameters">
-            <summary>
-                This is need to Remove Version Parameters from url path in Swagger UI.
-                For example v{version}/get replace to v1.1/get
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Swagger.RemoveVersionParameters.Apply(Swashbuckle.AspNetCore.Swagger.Operation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
-            <summary>
-                Operation filter interfere method
-            </summary>
-            <param name="operation"></param>
-            <param name="context"></param>
-        </member>
-        <member name="M:InWords.WebApi.Swagger.SwaggerFactory.GetApiVersions(System.Reflection.MemberInfo)">
-            <summary>
-                This is to ger api version from member info to swagger configuration
-            </summary>
-            <param name="methodInfo"></param>
-            <returns>ApiVersions</returns>
-        </member>
-        <member name="M:InWords.WebApi.Swagger.SwaggerFactory.ConfigureSwaggerComments(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
-            <summary>
-                This is to enable swagger external dev xml comments.
-                Warning! To use this enable xml comments output
-            </summary>
-            <param name="c"></param>
-        </member>
-    </members>
+  <assembly>
+    <name>InWords.WebApi</name>
+  </assembly>
+  <members>
+    <member name="M:InWords.WebApi.Controllers.Native.AuthController.Token(InWords.Auth.Models.BasicAuthClaims)">
+      <summary>
+        From Request Basic Authorization
+      </summary>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Controllers.Native.GameController.PostScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
+      <summary>
+        Send user metric to calculate points
+      </summary>
+      <param name="levelResult"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.Native.GameController.GetGameInfo">
+      <summary>
+        Get information about all existing games
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.Native.GameController.Delete(System.Int32)">
+      <summary>
+        This is api to delete game box
+        Deletion allow only if it is your game
+        of if your are admin
+      </summary>
+      <param name="id"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.Native.ValuesController.GetVersion">
+      <summary>
+        This is to get requested Api version
+      </summary>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Controllers.Native.WordsController.AddPair(System.Collections.Generic.List{InWords.Transfer.Data.Models.WordTranslation})">
+      <summary>
+        Add list of words in dictionary
+      </summary>
+      <param name="wordTranslations"></param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Controllers.Native.WordsController.DeletePair(System.Collections.Generic.IEnumerable{System.Int32})">
+      <summary>
+        Delete UserWordPair from server database.
+      </summary>
+      <param name="server_IDs">List ofUserWordPair.UserWordPairID</param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1._1.ValuesController.GetVersion">
+      <summary>
+        This is to get requested Api version
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1._1.ValuesController.GetLogin">
+      <summary>
+        Get your login
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:InWords.WebApi.Controllers.v1.AuthController">
+      <inheritdoc />
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.AuthController.Token(InWords.Auth.Models.BasicAuthClaims)">
+      <summary>
+        From Request Basic Authorization
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:InWords.WebApi.Controllers.v1.GameController">
+      <inheritdoc />
+      <summary>
+        This game controller allow CRUD games
+      </summary>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.GameController.#ctor(InWords.Data.Models.InWordsDataContext)">
+      <summary>
+        Standard injected controller
+      </summary>
+      <param name="context"></param>
+    </member>
+    <member
+      name="M:InWords.WebApi.Controllers.v1.GameController.AddGamePack(InWords.Transfer.Data.Models.GameBox.GamePack)">
+      <summary>
+        This is to add game pack from body use Game pack object
+      </summary>
+      <see cref="T:InWords.Transfer.Data.Models.GameBox.GamePack" />
+      <param name="gamePack">describe game</param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Controllers.v1.GameController.PostScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
+      <summary>
+        in dev Didn't work now
+      </summary>
+      <deprecated>true</deprecated>
+      <param name="levelResult"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.GameController.GetGameInfo">
+      <summary>
+        Returns short information about all games in database
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.GameController.GetGame(System.Int32)">
+      <summary>
+        Use this to get game information by id
+      </summary>
+      <param name="id"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.GameController.GetLevel(System.Int32)">
+      <summary>
+        This is to get Words translation list of level
+      </summary>
+      <see cref="T:InWords.Transfer.Data.Models.GameBox.Level" />
+      <see cref="T:InWords.Transfer.Data.Models.WordTranslation" />
+      <param name="id"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.GameController.Delete(System.Int32)">
+      <summary>
+        This is api to delete game box
+        Deletion allow only if it is your game
+        of if your are admin
+      </summary>
+      <param name="id"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.GameController.DeleteRange(System.Int32[])">
+      <summary>
+        This is to delete more then one game at request
+      </summary>
+      <param name="ids">array of game to be deleted</param>
+      <returns></returns>
+    </member>
+    <member name="T:InWords.WebApi.Controllers.v1.UsersController">
+      <inheritdoc />
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.ValuesController.GetVersion">
+      <summary>
+        This is to get requested Api version
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="T:InWords.WebApi.Controllers.v1.WordsController">
+      <inheritdoc />
+      <summary>
+        This is to CRUD words
+      </summary>
+    </member>
+    <member name="M:InWords.WebApi.Controllers.v1.WordsController.#ctor(InWords.Data.Models.InWordsDataContext)">
+      <summary>
+        Standard injected constructor
+      </summary>
+      <param name="context"></param>
+    </member>
+    <member
+      name="M:InWords.WebApi.Controllers.v1.WordsController.AddPair(System.Collections.Generic.List{InWords.Transfer.Data.Models.WordTranslation})">
+      <summary>
+        Add list of words in dictionary
+      </summary>
+      <param name="wordTranslations"></param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Controllers.v1.WordsController.DeletePair(System.Collections.Generic.IEnumerable{System.Int32})">
+      <summary>
+        Delete UserWordPair from server database.
+      </summary>
+      <param name="server_IDs">List ofUserWordPair.UserWordPairID</param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Providers.AccountIdentityProvider.#ctor(InWords.Data.Models.InWords.Repositories.AccountRepository,Microsoft.Extensions.Logging.ILogger)">
+      <summary>
+        Create provider via repository
+      </summary>
+      <param name="repository"></param>
+    </member>
+    <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Auth.Models.BasicAuthClaims)">
+      <summary>
+        This is to check user identity [FromBody]
+      </summary>
+      <param name="user"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(System.String,System.String)">
+      <summary>
+        This is to check user identity
+      </summary>
+      <param name="email"></param>
+      <param name="password"></param>
+      <returns></returns>
+      <exception cref="T:System.ArgumentException"></exception>
+    </member>
+    <member name="T:InWords.WebApi.Service.CreationService">
+      <summary>
+        Service that contain CRUD for Creations
+      </summary>
+      <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
+    </member>
+    <member name="F:InWords.WebApi.Service.CreationService.CreationDescriptionRepository">
+      <summary>
+        this is creation description repository
+      </summary>
+    </member>
+    <member name="F:InWords.WebApi.Service.CreationService.CreationRepository">
+      <summary>
+        this is creation repository
+      </summary>
+    </member>
+    <member name="M:InWords.WebApi.Service.CreationService.#ctor(InWords.Data.Models.InWordsDataContext)">
+      <summary>
+        Standard dependency injected constructor
+      </summary>
+      <param name="context"></param>
+    </member>
+    <member
+      name="M:InWords.WebApi.Service.CreationService.AddCreation(InWords.Transfer.Data.Models.Creation.CreationInfo)">
+      <summary>
+        Allows add creation by creationInformation
+      </summary>
+      <see cref="T:InWords.Transfer.Data.Models.Creation.CreationInfo" />
+      <param name="creationInfo"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Service.CreationService.GetCreationInfo(System.Int32)">
+      <summary>
+        This is to get short info about creation
+      </summary>
+      <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
+      <param name="id"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Service.CreationService.GetDescriptions(System.Int32)">
+      <summary>
+        This is to get Creation description
+      </summary>
+      <see cref="T:InWords.Data.Models.InWords.Creations.CreationDescription" />
+      <param name="creationId"></param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Service.CreationService.DeleteCreation(System.Collections.Generic.IEnumerable{System.Int32})">
+      <summary>
+        This is to delete creation by id
+      </summary>
+      <param name="ids"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Service.CreationService.DeleteCreation(System.Int32)">
+      <summary>
+        This is to cascade delete creations dependency
+      </summary>
+      <param name="id"></param>
+      <returns></returns>
+    </member>
+    <member name="T:InWords.WebApi.Service.GameService.DescriptionInfoExtensions">
+      <summary>
+      </summary>
+    </member>
+    <member
+      name="M:InWords.WebApi.Service.GameService.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Transfer.Data.Models.Creation.DescriptionInfo})">
+      <summary>
+        Test method returning Russian description
+      </summary>
+      <param name="descriptionInfos"></param>
+      <returns></returns>
+    </member>
+    <member name="T:InWords.WebApi.Service.GameService.GameService">
+      <inheritdoc />
+      <summary>
+        Service that contain CRUD for Game
+      </summary>
+      <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
+    </member>
+    <member
+      name="M:InWords.WebApi.Service.GameService.GameService.AddGamePack(System.Int32,InWords.Transfer.Data.Models.GameBox.GamePack)">
+      <summary>
+        Add a game using the userId as the CreatorId
+      </summary>
+      <param name="userId"></param>
+      <param name="gamePack"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Service.GameService.GameService.GetGames">
+      <summary>
+        Get information about all existing games
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Service.GameService.GameService.GetGame(System.Int32,System.Int32)">
+      <summary>
+        This is to get full information about certain game
+      </summary>
+      <param name="userId"></param>
+      <param name="gameId"></param>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Service.GameService.GameService.GetLevel(System.Int32,System.Int32)">
+      <summary>
+        This is to get game level information
+      </summary>
+      <param name="userId"></param>
+      <param name="levelId"></param>
+      <see cref="T:InWords.Transfer.Data.Models.GameBox.Level" />
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Service.GameService.GameService.DeleteGames(System.Int32[])">
+      <summary>
+        This is to delete the whole game and levels.
+        Method doesn't delete words and word pairs
+        Need review.
+      </summary>
+      <exception cref="T:System.NullReferenceException"></exception>
+      <param name="gameId"></param>
+    </member>
+    <member name="M:InWords.WebApi.Service.GameService.GameService.DeleteOwnGames(System.Int32,System.Int32[])">
+      <summary>
+        This is to delete games as user, safe delete game if userId os owner
+      </summary>
+      <param name="userId">game owner user id</param>
+      <param name="gameId">server id of the game</param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Service.GameService.GameService.GetLevelScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
+      <summary>
+        This is to update user score on game level
+      </summary>
+      <param name="levelResult"></param>
+      <returns></returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Service.GameService.GameService.UpdateUserScore(System.Int32,InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelScore)">
+      <summary>
+        This is to set level score to user level storage
+      </summary>
+      <param name="userId"></param>
+      <param name="levelScore"></param>
+      <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
+      <returns></returns>
+    </member>
+    <member name="M:InWords.WebApi.Service.GameService.GameService.#ctor(InWords.Data.Models.InWordsDataContext)">
+      <summary>
+        Basic constructor
+      </summary>
+      <param name="context"></param>
+    </member>
+    <member name="M:InWords.WebApi.Service.WordsService.AddPair(InWords.Transfer.Data.Models.WordTranslation)">
+      <summary>
+        This method adds the word and its translation to the repository
+      </summary>
+      <param name="wordTranslation"></param>
+      <returns></returns>
+    </member>
+    <member name="T:InWords.WebApi.Startup">
+      <summary>
+        Main startup class
+      </summary>
+    </member>
+    <member name="M:InWords.WebApi.Startup.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+      <summary>
+        Startup constructor
+      </summary>
+      <param name="env"></param>
+    </member>
+    <member name="P:InWords.WebApi.Startup.Configuration">
+      <summary>
+        This is the service configuration
+      </summary>
+    </member>
+    <member
+      name="M:InWords.WebApi.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>
+        This method gets called by the runtime. Use this method to add services to the container.
+      </summary>
+      <param name="services"></param>
+    </member>
+    <member
+      name="M:InWords.WebApi.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
+      <summary>
+        This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+      </summary>
+      <param name="app"></param>
+      <param name="env"></param>
+      <param name="loggerFactory"></param>
+    </member>
+    <member name="M:InWords.WebApi.Startup.LoggerConfiguration(Microsoft.Extensions.Logging.ILoggerFactory)">
+      <summary>
+        Configure the logger data format and file location
+      </summary>
+      <param name="loggerFactory"></param>
+    </member>
+    <member name="T:InWords.WebApi.Swagger.RemoveVersionParameters">
+      <summary>
+        This is need to Remove Version Parameters from url path in Swagger UI.
+        For example v{version}/get replace to v1.1/get
+      </summary>
+    </member>
+    <member
+      name="M:InWords.WebApi.Swagger.RemoveVersionParameters.Apply(Swashbuckle.AspNetCore.Swagger.Operation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+      <summary>
+        Operation filter interfere method
+      </summary>
+      <param name="operation"></param>
+      <param name="context"></param>
+    </member>
+    <member name="M:InWords.WebApi.Swagger.SwaggerFactory.GetApiVersions(System.Reflection.MemberInfo)">
+      <summary>
+        This is to ger api version from member info to swagger configuration
+      </summary>
+      <param name="methodInfo"></param>
+      <returns>ApiVersions</returns>
+    </member>
+    <member
+      name="M:InWords.WebApi.Swagger.SwaggerFactory.ConfigureSwaggerComments(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+      <summary>
+        This is to enable swagger external dev xml comments.
+        Warning! To use this enable xml comments output
+      </summary>
+      <param name="c"></param>
+    </member>
+  </members>
 </doc>

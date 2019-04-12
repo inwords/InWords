@@ -128,18 +128,18 @@ namespace InWords.WebApi.Service.GameService
 
             if (creation.CreatorId == null) throw new ArgumentNullException();
 
-            User userCreator = await usersRepository.FindById((int)creation.CreatorId);
+            User userCreator = await usersRepository.FindById((int) creation.CreatorId);
 
             // find all game levels 
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetEntities(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-            {
-                IsAvailable = true,
-                LevelId = level.GameLevelId,
-                Level = level.Level,
-                PlayerStars = 0
-            })
+                {
+                    IsAvailable = true,
+                    LevelId = level.GameLevelId,
+                    Level = level.Level,
+                    PlayerStars = 0
+                })
                 .ToList();
 
             var game = new Game
@@ -187,9 +187,9 @@ namespace InWords.WebApi.Service.GameService
         /// <returns></returns>
         public Level GetLevel(int userId, int levelId)
         {
+            IEnumerable<GameLevelWord> gameLevelWords =
+                gameLevelWordRepository.GetEntities(l => l.GameLevelId.Equals(levelId));
 
-            IEnumerable<GameLevelWord> gameLevelWords = gameLevelWordRepository.GetEntities(l => l.GameLevelId.Equals(levelId));
-            
             IEnumerable<int> ids = gameLevelWords.Select(gl => gl.WordPairId);
 
             var wordTranslations = new List<WordTranslation>();
@@ -232,9 +232,9 @@ namespace InWords.WebApi.Service.GameService
         {
             // find all users game that id equals gameId
             IQueryable<int> id = from games in Context.GameBoxs
-                                 join creations in Context.Creations on games.CreationId equals creations.CreationId
-                                 where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
-                                 select creations.CreationId;
+                join creations in Context.Creations on games.CreationId equals creations.CreationId
+                where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
+                select creations.CreationId;
 
             return await DeleteCreation(id);
         }
@@ -247,7 +247,8 @@ namespace InWords.WebApi.Service.GameService
         public LevelScore GetLevelScore(LevelResult levelResult)
         {
             // get word pairs count
-            int wordsCount = gameLevelWordRepository.GetEntities(glw => glw.GameLevelId == levelResult.LevelId).Count() * 2;
+            int wordsCount =
+                gameLevelWordRepository.GetEntities(glw => glw.GameLevelId == levelResult.LevelId).Count() * 2;
             // calculate best openings count
             int bestOpeningsCount = wordsCount * 2 - 2;
             // calculate score
@@ -284,7 +285,8 @@ namespace InWords.WebApi.Service.GameService
         private async Task<UserGameBox> EnsureUserGameBox(int userId, LevelScore levelScore)
         {
             // Create user game stats
-            GameLevel gameLevel = gameLevelRepository.GetEntities(gl => gl.GameLevelId == levelScore.LevelId).FirstOrDefault();
+            GameLevel gameLevel = gameLevelRepository.GetEntities(gl => gl.GameLevelId == levelScore.LevelId)
+                .FirstOrDefault();
 
             // if game level is not exits
             if (gameLevel == null) throw new ArgumentNullException(nameof(gameLevel));
@@ -301,7 +303,8 @@ namespace InWords.WebApi.Service.GameService
         {
             // find user game level
             UserGameLevel userGameLevel = userGameLevelRepository
-                .GetEntities(g => g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.GameBoxId))
+                .GetEntities(g =>
+                    g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.GameBoxId))
                 .SingleOrDefault();
 
             // create note if user level score information not found

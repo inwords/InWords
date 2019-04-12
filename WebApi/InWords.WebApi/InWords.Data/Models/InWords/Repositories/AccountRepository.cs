@@ -1,14 +1,12 @@
 ﻿using InWords.Data.Models.InWords.Domains;
+using Microsoft.EntityFrameworkCore;
 
 namespace InWords.Data.Models.InWords.Repositories
 {
     public class AccountRepository : Repository<Account>
     {
-        private readonly InWordsDataContext context;
-
-        public AccountRepository(InWordsDataContext context) : base(context)
+        public AccountRepository(DbContext context) : base(context)
         {
-            this.context = context;
         }
     }
 }
