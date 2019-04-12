@@ -31,11 +31,6 @@ namespace InWords.WebApi.Service
             return answer;
         }
 
-        /// <summary>
-        ///     This method adds the word and its translation to the repository
-        /// </summary>
-        /// <param name="wordTranslation"></param>
-        /// <returns></returns>
         public async Task<WordPair> AddPair(WordTranslation wordTranslation)
         {
             var firstWordForeign = new Word
@@ -56,30 +51,32 @@ namespace InWords.WebApi.Service
             return userWordPairRepository.Get(uwp => uwp.UserId == userId).Select(uwp => uwp.UserWordPairId);
         }
 
-        public List<WordTranslation> GetUserWordsById(IEnumerable<int> ids)
+        public IEnumerable<WordTranslation> GetUserWordsById(IEnumerable<int> ids)
         {
-            var wordTranslations = new List<WordTranslation>();
+            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWithInclude(
+                x => ids.Contains(x.UserWordPairId),
+                wf => wf.WordPair.WordForeign,
+                wn => wn.WordPair.WordNative);
 
-            foreach (int id in ids)
-            {
-                UserWordPair uwp = userWordPairRepository.GetWithInclude(x => x.UserWordPairId == id,
-                    wp => wp.WordPair,
-                    wf => wf.WordPair.WordForeign,
-                    wn => wn.WordPair.WordNative).Single();
+            return PackToWordTranslation(userWordPairs);;
+        }
 
-                string wordForeign = uwp.WordPair.WordForeign.Content;
-                string wordNative = uwp.WordPair.WordNative.Content;
+        private static IEnumerable<WordTranslation> PackToWordTranslation(IEnumerable<UserWordPair> userWordPairs)
+        {
+            return userWordPairs.Select(PackToWordTranslation).ToList();
+        }
 
-                WordTranslation addedWord = uwp.IsInvertPair
-                    ? new WordTranslation(wordNative, wordForeign)
-                    : new WordTranslation(wordForeign, wordNative);
+        private static WordTranslation PackToWordTranslation(UserWordPair uwp)
+        {
+            Word foreign = uwp.WordPair.WordForeign;
+            Word native = uwp.WordPair.WordNative;
 
-                addedWord.ServerId = id;
+            WordTranslation addedWord = uwp.IsInvertPair
+                ? new WordTranslation(native.Content, foreign.Content)
+                : new WordTranslation(foreign.Content, native.Content);
 
-                wordTranslations.Add(addedWord);
-            }
-
-            return wordTranslations;
+            addedWord.ServerId = uwp.WordPairId;
+            return addedWord;
         }
 
         public List<WordTranslation> GetWordsById(IEnumerable<int> ids)

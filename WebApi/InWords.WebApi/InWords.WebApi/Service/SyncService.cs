@@ -31,7 +31,7 @@ namespace InWords.WebApi.Service
             IEnumerable<int> idsToAddOnClient = serverWordsIds.Except(userWordsIds);
             IEnumerable<int> idsToDeleteOnClient = userWordsIds.Except(serverWordsIds);
 
-            List<WordTranslation> addedWords = wordsService.GetUserWordsById(idsToAddOnClient);
+            IEnumerable<WordTranslation> addedWords = wordsService.GetUserWordsById(idsToAddOnClient);
 
             var pullResponse = new PullWordsAnswer
             {
