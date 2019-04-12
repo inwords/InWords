@@ -11,6 +11,7 @@ namespace InWords.Data
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly DbContext context;
+        
         protected readonly DbSet<TEntity> DbSet;
 
         public Repository(DbContext context)
@@ -31,12 +32,12 @@ namespace InWords.Data
             return await DbSet.FindAsync(id);
         }
 
-        public IEnumerable<TEntity> Get()
+        public IEnumerable<TEntity> GetAllEntities()
         {
             return DbSet.AsNoTracking().AsEnumerable();
         }
 
-        public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
+        public IEnumerable<TEntity> GetEntities(Func<TEntity, bool> predicate)
         {
             return DbSet.AsNoTracking().AsEnumerable().Where(predicate).ToList();
         }
@@ -66,7 +67,7 @@ namespace InWords.Data
         /// <returns></returns>
         public async Task<TEntity> Stack(TEntity item, Func<TEntity, bool> predicate)
         {
-            TEntity entity = Get(predicate).SingleOrDefault();
+            TEntity entity = GetEntities(predicate).SingleOrDefault();
 
             entity = entity ?? await Create(item);
 
@@ -81,7 +82,7 @@ namespace InWords.Data
         #region Include
 
         /// <summary>
-        ///     Exapmle: IEnumerable<Phone> phones = phoneRepo.GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company);
+        ///     Example: IEnumerable phones = phoneRepo.GetWithInclude(x=>x.Company.Name.StartsWith("S"), p=>p.Company);
         /// </summary>
         /// <param name="includeProperties"></param>
         /// <returns></returns>
@@ -93,11 +94,11 @@ namespace InWords.Data
         public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
             params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> query = Include(includeProperties);
-            return query.Where(predicate).ToList();
+            IEnumerable<TEntity> query = Include(includeProperties);
+            return query.AsEnumerable().Where(predicate).ToList();
         }
 
-        private IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
+        private IEnumerable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = DbSet.AsNoTracking();
             return includeProperties

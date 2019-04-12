@@ -1,14 +1,12 @@
 ﻿using InWords.Data.Models.InWords.Creations;
+using Microsoft.EntityFrameworkCore;
 
 namespace InWords.Data.Models.InWords.Repositories
 {
     public class CreationRepository : Repository<Creation>
     {
-        private readonly InWordsDataContext context;
-
-        public CreationRepository(InWordsDataContext context) : base(context)
+        public CreationRepository(DbContext context) : base(context)
         {
-            this.context = context;
         }
     }
 }

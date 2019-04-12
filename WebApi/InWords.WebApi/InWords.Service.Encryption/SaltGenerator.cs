@@ -22,7 +22,6 @@ namespace InWords.Service.Encryption
             }
 
             byte[] saltedKey = salt.Concat(key).ToArray();
-            ;
 
             return saltedKey;
         }

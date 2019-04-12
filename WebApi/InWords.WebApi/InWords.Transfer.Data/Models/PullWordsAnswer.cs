@@ -7,11 +7,11 @@ namespace InWords.Transfer.Data.Models
         /// <summary>
         ///     List of new (added) words
         /// </summary>
-        public List<WordTranslation> AddedWords;
+        public IEnumerable<WordTranslation> AddedWords;
 
         /// <summary>
         ///     List of old (deleted) words
         /// </summary>
-        public List<int> RemovedServerIds;
+        public IEnumerable<int> RemovedServerIds;
     }
 }

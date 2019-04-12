@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using InWords.Data.Models;
-using InWords.Data.Models.InWords.Domains;
+﻿using InWords.Data.Models;
 using InWords.Data.Models.InWords.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +12,9 @@ namespace InWords.WebApi.Controllers.v1
     {
         private readonly UserRepository userRepository;
 
-        private readonly WordPairRepository wordPairRepository;
-
         public ValuesController(InWordsDataContext context)
         {
             userRepository = new UserRepository(context);
-            wordPairRepository = new WordPairRepository(context);
         }
 
         /// <summary>

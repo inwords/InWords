@@ -1,14 +1,12 @@
 ﻿using InWords.Data.Models.InWords.Creations.GameBox;
+using Microsoft.EntityFrameworkCore;
 
 namespace InWords.Data.Models.InWords.Repositories
 {
     public class GameBoxRepository : Repository<GameBox>
     {
-        private readonly InWordsDataContext context;
-
-        public GameBoxRepository(InWordsDataContext context) : base(context)
+        public GameBoxRepository(DbContext context) : base(context)
         {
-            this.context = context;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace InWords.WebApi.Service
 
             var creation = new Creation
             {
-                CreatorId = (int)creationInfo.CreatorId
+                CreatorId = (int) creationInfo.CreatorId
             };
 
             creation = await CreationRepository.Create(creation);
@@ -66,7 +66,7 @@ namespace InWords.WebApi.Service
 
             // select creation description from descriptions repository
             List<CreationDescription> descriptionList =
-                CreationDescriptionRepository.Get(cd => cd.CreationId == creation.CreationId).ToList();
+                CreationDescriptionRepository.GetEntities(cd => cd.CreationId == creation.CreationId).ToList();
 
             // form descriptions infos
             List<DescriptionInfo> descriptions = GetDescriptionInfos(descriptionList);
@@ -81,10 +81,10 @@ namespace InWords.WebApi.Service
         }
 
         /// <summary>
-        /// Select Description info from CreationDescription
+        ///     Select Description info from CreationDescription
         /// </summary>
         /// <param name="descriptionList"></param>
-        /// <see cref="DescriptionInfo"/>
+        /// <see cref="DescriptionInfo" />
         /// <returns></returns>
         private static List<DescriptionInfo> GetDescriptionInfos(IEnumerable<CreationDescription> descriptionList)
         {
@@ -94,7 +94,6 @@ namespace InWords.WebApi.Service
                     LangId = desc.LanguageId,
                     Description = desc.Description,
                     Title = desc.Title
-
                 }).ToList();
         }
 

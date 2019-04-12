@@ -17,7 +17,7 @@ namespace InWords.WebApi.Service
 
         public IEnumerable<User> GetUsers(string nickLike)
         {
-            return usersRepository.Get(u => u.NickName.ToLower().Contains(nickLike.ToLower())).Take(50);
+            return usersRepository.GetEntities(u => u.NickName.ToLower().Contains(nickLike.ToLower())).Take(50);
         }
     }
 }

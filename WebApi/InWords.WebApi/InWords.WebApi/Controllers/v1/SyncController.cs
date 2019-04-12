@@ -53,7 +53,7 @@ namespace InWords.WebApi.Controllers.v1
         // ReSharper disable once InconsistentNaming
         public IActionResult PullWordPairs([FromBody] IEnumerable<int> server_ids)
         {
-            int authorizedId = User.Claims.GetUserId();
+            int authorizedId = User.GetUserId();
 
             PullWordsAnswer pullAnswer = syncService.PullWordPairs(authorizedId, server_ids);
 

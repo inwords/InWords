@@ -26,15 +26,15 @@ namespace InWords.Transfer.Data.Models
         {
         }
 
-        public SyncBase(int serverID)
+        public SyncBase(int serverId)
         {
-            ServerId = serverID;
+            ServerId = serverId;
         }
 
-        public SyncBase(int serverID, int onClientID)
+        public SyncBase(int serverId, int onClientId)
         {
-            Id = onClientID;
-            ServerId = serverID;
+            Id = onClientId;
+            ServerId = serverId;
         }
 
 

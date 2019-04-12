@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace InWords.Transfer.Data.Models
+﻿namespace InWords.Transfer.Data.Models
 {
     /// <inheritdoc />
     /// <summary>
@@ -18,7 +16,7 @@ namespace InWords.Transfer.Data.Models
         {
         }
 
-        public WordTranslation(string wordForeign, string wordNative)
+        public WordTranslation(string wordForeign, string wordNative, int serverId = 0) : base(serverId)
         {
             WordForeign = wordForeign;
             WordNative = wordNative;

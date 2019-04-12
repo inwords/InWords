@@ -5,7 +5,6 @@ using InWords.Data.Models;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.WebApi.Providers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi.Controllers.v1
 {

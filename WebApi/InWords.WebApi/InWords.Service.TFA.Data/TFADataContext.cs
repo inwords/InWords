@@ -21,7 +21,7 @@ namespace InWords.Service.TFA.Data
         {
             Assembly assembly = typeof(TFADataContext).Assembly;
 
-            string resource = EmbeddedResource.GetApiRequestFile(AppConfig.DataConfig, assembly);
+            string resource = EmbeddedResource.GetApiRequestFile(AppConfig.DATA_CONFIG, assembly);
 
             ConnectionStrings connectionStrings = new StringJsonConverter<ConnectionStrings>().Convert(resource);
 

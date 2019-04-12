@@ -2,7 +2,7 @@
 
 namespace InWords.Service.TFA.Interfaces
 {
-    internal interface I2FAProvider
+    internal interface I2FaProvider
     {
         Task<string> GetKey(string identity);
 

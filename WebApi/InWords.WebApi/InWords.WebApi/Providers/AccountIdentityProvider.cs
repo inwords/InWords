@@ -9,7 +9,6 @@ using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi.Providers
 {
@@ -48,7 +47,8 @@ namespace InWords.WebApi.Providers
         /// <exception cref="ArgumentException"></exception>
         public TokenResponse GetIdentity(string email, string password)
         {
-            Account account = AccountRepository.Get(x => x.Email == email).SingleOrDefault();
+            string localEmail = email;
+            Account account = AccountRepository.GetEntities(x => x.Email.Equals(localEmail)).SingleOrDefault();
             if (account == null)
                 throw new ArgumentNullException($"Email not found {email}");
 
@@ -58,7 +58,6 @@ namespace InWords.WebApi.Providers
                 throw new ArgumentException("Invalid password");
 
             string nameId = account.AccountId.ToString();
-            email = account.Email;
             string defaultRole = account.Role.ToString();
 
             IEnumerable<Claim> claims = new List<Claim>

@@ -16,22 +16,13 @@ namespace InWords.WebApi.Service
 
         public PullWordsAnswer PullWordPairs(int userId, IEnumerable<int> serverIDs)
         {
-            //string[] server = { "Microsoft", "Google", "Apple" };
-            //string[] user = { "Apple", "IBM", "Samsung" };
-
-            //var idsToAdd = server.Except(user);
-            //Microsoft Google -> idsToAdd
-
-            //var result = user.Except(server);
-            //"IBM", "Samsung" //ids to delete
-
             int[] userWordsIds = serverIDs.ToArray();
             int[] serverWordsIds = wordsService.UserWordsId(userId).ToArray();
 
             IEnumerable<int> idsToAddOnClient = serverWordsIds.Except(userWordsIds);
             IEnumerable<int> idsToDeleteOnClient = userWordsIds.Except(serverWordsIds);
 
-            List<WordTranslation> addedWords = wordsService.GetUserWordsById(idsToAddOnClient);
+            IEnumerable<WordTranslation> addedWords = wordsService.GetUserWordsById(idsToAddOnClient);
 
             var pullResponse = new PullWordsAnswer
             {
