@@ -68,6 +68,7 @@ namespace InWords.WebApi.Service
 
         private static WordTranslation PackToWordTranslation(UserWordPair uwp)
         {
+            //todo test this
             Word foreign = uwp.WordPair.WordForeign;
             Word native = uwp.WordPair.WordNative;
 
