@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using InWords.Data.Models.InWords.Domains;
 
 namespace InWords.Data.Models.InWords.Repositories
@@ -33,6 +34,12 @@ namespace InWords.Data.Models.InWords.Repositories
                 || words.WordForeignId == pair.WordNativeId
                 && words.WordNativeId == pair.WordForeignId
             );
+        }
+
+        public IQueryable<WordPair> IncludeContent()
+        {
+            return GetWithInclude(wf => wf.WordForeign,
+                wn => wn.WordNative).AsQueryable();
         }
     }
 }

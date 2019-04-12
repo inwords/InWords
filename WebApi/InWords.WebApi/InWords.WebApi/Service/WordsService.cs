@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models;
+using System.Collections.Generic;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
+using InWords.WebApi.TransferData;
 
 namespace InWords.WebApi.Service
 {
@@ -48,49 +49,27 @@ namespace InWords.WebApi.Service
 
         public IEnumerable<int> UserWordsId(int userId)
         {
-            return userWordPairRepository.Get(uwp => uwp.UserId == userId).Select(uwp => uwp.UserWordPairId);
+            return userWordPairRepository.GetEntities(uwp => uwp.UserId == userId).Select(uwp => uwp.UserWordPairId);
         }
 
         public IEnumerable<WordTranslation> GetUserWordsById(IEnumerable<int> ids)
         {
-            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWithInclude(
-                x => ids.Contains(x.UserWordPairId),
-                wf => wf.WordPair.WordForeign,
-                wn => wn.WordPair.WordNative);
+            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository
+                .IncludeWordPairs()
+                .Where(x => ids.Contains(x.UserWordPairId));
 
-            return PackToWordTranslation(userWordPairs);;
+            return userWordPairs.ToWordTranslations();
         }
-
-        private static IEnumerable<WordTranslation> PackToWordTranslation(IEnumerable<UserWordPair> userWordPairs)
-        {
-            return userWordPairs.Select(PackToWordTranslation).ToList();
-        }
-
-        private static WordTranslation PackToWordTranslation(UserWordPair uwp)
-        {
-            //todo test this
-            Word foreign = uwp.WordPair.WordForeign;
-            Word native = uwp.WordPair.WordNative;
-
-            WordTranslation addedWord = uwp.IsInvertPair
-                ? new WordTranslation(native.Content, foreign.Content)
-                : new WordTranslation(foreign.Content, native.Content);
-
-            addedWord.ServerId = uwp.WordPairId;
-            return addedWord;
-        }
-
+        
         public List<WordTranslation> GetWordsById(IEnumerable<int> ids)
         {
-            return (from id in ids
-                    let uwp = wordPairRepository
-                        .GetWithInclude(x => x.WordPairId == id, wf => wf.WordForeign, wn => wn.WordNative).Single()
-                    select new WordTranslation
-                    {
-                        WordForeign = uwp.WordForeign.Content,
-                        WordNative = uwp.WordNative.Content,
-                        ServerId = id
-                    }).ToList();
+            return ids.Select(GetWordTranslationById).ToList();
+        }
+
+        public WordTranslation GetWordTranslationById(int id)
+        {
+            WordPair wordPair = wordPairRepository.IncludeContent().Single(x => x.WordPairId.Equals(id));
+            return new WordTranslation(wordPair.WordForeign.Content,wordPair.WordNative.Content,id);
         }
 
         public async Task<int> DeleteUserWordPair(int userId, IEnumerable<int> userWordPairIDs)
@@ -104,7 +83,7 @@ namespace InWords.WebApi.Service
         {
             //todo union.expect ??
             UserWordPair userWordsPair = userWordPairRepository
-                .Get(uwp => uwp.UserWordPairId == userWordPairId && uwp.UserId == userId).SingleOrDefault();
+                .GetEntities(uwp => uwp.UserWordPairId.Equals(userWordPairId) && uwp.UserId.Equals(userId)).SingleOrDefault();
 
             if (userWordsPair != null)
                 return await userWordPairRepository.Remove(userWordsPair);

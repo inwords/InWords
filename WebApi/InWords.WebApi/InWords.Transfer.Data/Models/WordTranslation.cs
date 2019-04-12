@@ -18,7 +18,7 @@ namespace InWords.Transfer.Data.Models
         {
         }
 
-        public WordTranslation(string wordForeign, string wordNative)
+        public WordTranslation(string wordForeign, string wordNative, int serverId = 0) : base(serverId)
         {
             WordForeign = wordForeign;
             WordNative = wordNative;

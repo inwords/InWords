@@ -66,7 +66,7 @@ namespace InWords.WebApi.Service
 
             // select creation description from descriptions repository
             List<CreationDescription> descriptionList =
-                CreationDescriptionRepository.Get(cd => cd.CreationId == creation.CreationId).ToList();
+                CreationDescriptionRepository.GetEntities(cd => cd.CreationId == creation.CreationId).ToList();
 
             // form descriptions infos
             List<DescriptionInfo> descriptions = GetDescriptionInfos(descriptionList);

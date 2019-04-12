@@ -48,7 +48,7 @@ namespace InWords.WebApi.Providers
         /// <exception cref="ArgumentException"></exception>
         public TokenResponse GetIdentity(string email, string password)
         {
-            Account account = AccountRepository.Get(x => x.Email == email).SingleOrDefault();
+            Account account = AccountRepository.GetEntities(x => x.Email == email).SingleOrDefault();
             if (account == null)
                 throw new ArgumentNullException($"Email not found {email}");
 
