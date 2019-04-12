@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.RxDiffUtil
 import com.dreamproject.inwords.core.util.SchedulersFacade
+import com.dreamproject.inwords.data.dto.game.Game
 import com.dreamproject.inwords.data.dto.game.GameInfo
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
+import com.dreamproject.inwords.domain.GAME
 import com.dreamproject.inwords.domain.GAME_INFO
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.game_welcome.*
 
 class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, GameLevelsViewModelFactory>() {
     private lateinit var gameInfo: GameInfo
+    private lateinit var game: Game
     private lateinit var adapter: GameLevelsAdapter
 
     private var shownIntro = false
@@ -48,6 +51,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
 
         compositeDisposable.add(viewModel.screenInfoStream(gameInfo.gameId)
                 .observeOn(SchedulersFacade.computation())
+                .doOnNext { game = it.game }
                 .map { it.game.gameLevelInfos }
                 .compose(RxDiffUtil.calculate(GameLevelsDiffUtilCallback.Companion::create))
                 .observeOn(SchedulersFacade.ui())
@@ -63,6 +67,7 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
         val bundle = Bundle()
         bundle.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
+        bundle.putSerializable(GAME, game)
         navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
     }
 

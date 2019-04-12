@@ -10,3 +10,5 @@ data class GameLevel(
         @PrimaryKey
         @SerializedName("levelId") val levelId: Int,
         @SerializedName("wordTranslations") val wordTranslations: List<WordTranslation>)
+
+val emptyGameLevel get() = GameLevel(0, emptyList())

@@ -14,5 +14,5 @@ class GameLevelsViewModel(private val gameInteractor: GameInteractor) : BasicVie
     val navigateToGameLevel: Subject<GameLevelInfo>
         get() = _navigateToGameLevelSubject
 
-    fun screenInfoStream(gameId: Int): Observable<GameModel> = gameInteractor.getGame(gameId).toObservable()
+    fun screenInfoStream(gameId: Int): Observable<GameModel> = gameInteractor.getGame(gameId)
 }

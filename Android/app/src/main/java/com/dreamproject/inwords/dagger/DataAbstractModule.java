@@ -2,6 +2,8 @@ package com.dreamproject.inwords.dagger;
 
 import com.dreamproject.inwords.dagger.annotations.CacheRepository;
 import com.dreamproject.inwords.dagger.annotations.LocalRepository;
+import com.dreamproject.inwords.data.repository.game.GameGatewayController;
+import com.dreamproject.inwords.data.repository.game.GameGatewayControllerImpl;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsCacheRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsDatabaseRepository;
 import com.dreamproject.inwords.data.repository.translation.TranslationWordsLocalRepository;
@@ -60,6 +62,10 @@ public interface DataAbstractModule {
     TranslationWordsRepositoryInteractor translationWordsCacheInteractor(TranslationWordsCacheInteractor interactor);
 
     //repos
+    @Binds
+    @Singleton
+    GameGatewayController gameGatewayController(GameGatewayControllerImpl gameGatewayController);
+
     @Binds
     @Singleton
     @LocalRepository

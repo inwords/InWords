@@ -1,5 +1,6 @@
 package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel
 
+import com.dreamproject.inwords.data.dto.game.Game
 import com.dreamproject.inwords.domain.CardsData
 import com.dreamproject.inwords.domain.interactor.game.GameInteractor
 import com.dreamproject.inwords.presentation.viewScenario.BasicViewModel
@@ -29,7 +30,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
 
     fun cardsStream(): Single<CardsData> = _cardsDataSubject.firstOrError()
 
-    fun onGameEnd(cardOpenClicks: Int) {
-        +cardOpenClicks
+    fun onGameEnd(game: Game, levelId: Int, cardOpenClicks: Int) {
+        gameInteractor.getScore(game, levelId, cardOpenClicks).subscribe()
     }
 }

@@ -9,8 +9,10 @@ import android.widget.TableRow
 import androidx.cardview.widget.CardView
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
+import com.dreamproject.inwords.data.dto.game.Game
 import com.dreamproject.inwords.data.dto.game.GameLevelInfo
 import com.dreamproject.inwords.domain.CardsData
+import com.dreamproject.inwords.domain.GAME
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import eu.davidea.flipview.FlipView
@@ -26,6 +28,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
     private val stateMap = HashMap<String, Boolean>()
     private var gameEndBottomSheetFragment: GameEndBottomSheet? = null
     private lateinit var gameLevelInfo: GameLevelInfo
+    private lateinit var game: Game
     private var openedCard: FlipView? = null
     private var showing: Boolean = false
     private var cardOpenClicksCount = 0
@@ -34,6 +37,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
         super.onAttach(context)
 
         gameLevelInfo = arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
+        game = arguments?.getSerializable(GAME) as Game
 
         viewModel.onGameLevelSelected(gameLevelInfo.levelId)
 
@@ -112,7 +116,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
         stateMap[openedCardWord] = true
 
         if (stateMap.values.all { it }) {
-            viewModel.onGameEnd(cardOpenClicksCount)
+            viewModel.onGameEnd(game, gameLevelInfo.levelId, cardOpenClicksCount)
 
             showGameEndDialog()
         }

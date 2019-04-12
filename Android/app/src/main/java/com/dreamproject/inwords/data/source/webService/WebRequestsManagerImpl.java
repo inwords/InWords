@@ -9,8 +9,8 @@ import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.dto.game.Game;
 import com.dreamproject.inwords.data.dto.game.GameInfo;
 import com.dreamproject.inwords.data.dto.game.GameLevel;
-import com.dreamproject.inwords.data.dto.game.GameScore;
-import com.dreamproject.inwords.data.dto.game.GameScoreRequest;
+import com.dreamproject.inwords.data.dto.game.LevelScore;
+import com.dreamproject.inwords.data.dto.game.LevelScoreRequest;
 import com.dreamproject.inwords.data.source.webService.session.AuthInfo;
 import com.dreamproject.inwords.data.source.webService.session.SessionHelper;
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
@@ -155,8 +155,8 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
     }
 
     @Override
-    public Single<GameScore> getScore(GameScoreRequest gameScoreRequest) {
-        return applySessionHelper(b -> apiService.getGameScore(b, gameScoreRequest))
+    public Single<LevelScore> getScore(LevelScoreRequest levelScoreRequest) {
+        return applySessionHelper(b -> apiService.getGameScore(b, levelScoreRequest))
                 .subscribeOn(SchedulersFacade.io());
     }
 

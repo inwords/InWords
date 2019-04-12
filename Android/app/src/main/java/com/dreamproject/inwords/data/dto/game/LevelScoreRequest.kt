@@ -1,6 +1,6 @@
 package com.dreamproject.inwords.data.dto.game
 
-data class GameScore(
+data class LevelScoreRequest(
         val levelId: Int,
-        val score: Int
+        val openingQuantity: Int
 )

@@ -5,7 +5,9 @@ import com.dreamproject.inwords.dagger.annotations.QGameInfo;
 import com.dreamproject.inwords.dagger.annotations.QGameLevel;
 import com.dreamproject.inwords.data.dto.game.Game;
 import com.dreamproject.inwords.data.dto.game.GameInfo;
+import com.dreamproject.inwords.data.dto.game.GameKt;
 import com.dreamproject.inwords.data.dto.game.GameLevel;
+import com.dreamproject.inwords.data.dto.game.GameLevelKt;
 import com.dreamproject.inwords.data.repository.game.GameDatabaseRepository;
 import com.dreamproject.inwords.data.repository.game.GameEntityCachingRepository;
 import com.dreamproject.inwords.data.repository.game.GameEntityProvider;
@@ -18,6 +20,8 @@ import com.dreamproject.inwords.data.repository.profile.UserRemoteRepository;
 import com.dreamproject.inwords.data.repository.profile.UserRepository;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
+
+import java.util.Collections;
 
 import javax.inject.Singleton;
 
@@ -45,7 +49,7 @@ public class DataAccessModule {
     GameEntityProvider<Game> gameRep(AppRoomDatabase database,
                                      GameRemoteRepository gameRemoteRepository) {
         return new GameEntityCachingRepository<>(new GameDatabaseRepository<>(database.gameDao()),
-                gameRemoteRepository::getGame);
+                id -> gameRemoteRepository.getGame(id).onErrorReturnItem(GameKt.getEmptyGame()));
     }
 
     @QGameLevel
@@ -54,7 +58,7 @@ public class DataAccessModule {
     GameEntityProvider<GameLevel> gameLevelRep(AppRoomDatabase database,
                                                GameRemoteRepository gameRemoteRepository) {
         return new GameEntityCachingRepository<>(new GameDatabaseRepository<>(database.gameLevelDao()),
-                gameRemoteRepository::getLevel);
+                id -> gameRemoteRepository.getLevel(id).onErrorReturnItem(GameLevelKt.getEmptyGameLevel()));
     }
 
     @QGameInfo
@@ -63,6 +67,6 @@ public class DataAccessModule {
     GameListProvider<GameInfo> gameInfoRep(AppRoomDatabase database,
                                            GameRemoteRepository gameRemoteRepository) {
         return new GameListCachingRepository<>(new GameDatabaseRepository<>(database.gameInfoDao()),
-                gameRemoteRepository::getGameInfos);
+                () -> gameRemoteRepository.getGameInfos().onErrorReturnItem(Collections.emptyList()));
     }
 }

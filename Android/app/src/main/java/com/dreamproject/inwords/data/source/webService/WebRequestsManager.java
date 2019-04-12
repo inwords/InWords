@@ -7,8 +7,8 @@ import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.data.dto.game.Game;
 import com.dreamproject.inwords.data.dto.game.GameInfo;
 import com.dreamproject.inwords.data.dto.game.GameLevel;
-import com.dreamproject.inwords.data.dto.game.GameScore;
-import com.dreamproject.inwords.data.dto.game.GameScoreRequest;
+import com.dreamproject.inwords.data.dto.game.LevelScore;
+import com.dreamproject.inwords.data.dto.game.LevelScoreRequest;
 import com.dreamproject.inwords.data.source.webService.session.TokenResponse;
 import com.dreamproject.inwords.data.sync.PullWordsAnswer;
 
@@ -44,5 +44,5 @@ public interface WebRequestsManager {
 
     Single<GameLevel> getLevel(int levelId);
 
-    Single<GameScore> getScore(GameScoreRequest gameScoreRequest);
+    Single<LevelScore> getScore(LevelScoreRequest levelScoreRequest);
 }

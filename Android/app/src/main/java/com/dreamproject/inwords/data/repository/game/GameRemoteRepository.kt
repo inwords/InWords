@@ -20,7 +20,7 @@ class GameRemoteRepository @Inject constructor(private val webRequestsManager: W
         return webRequestsManager.getLevel(levelId)
     }
 
-    fun getScore(gameScoreRequest: GameScoreRequest): Single<GameScore> {
-        return webRequestsManager.getScore(gameScoreRequest)
+    fun getScore(levelScoreRequest: LevelScoreRequest): Single<LevelScore> {
+        return webRequestsManager.getScore(levelScoreRequest)
     }
 }
