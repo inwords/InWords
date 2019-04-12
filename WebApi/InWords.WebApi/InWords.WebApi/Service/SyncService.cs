@@ -16,15 +16,6 @@ namespace InWords.WebApi.Service
 
         public PullWordsAnswer PullWordPairs(int userId, IEnumerable<int> serverIDs)
         {
-            //string[] server = { "Microsoft", "Google", "Apple" };
-            //string[] user = { "Apple", "IBM", "Samsung" };
-
-            //var idsToAdd = server.Except(user);
-            //Microsoft Google -> idsToAdd
-
-            //var result = user.Except(server);
-            //"IBM", "Samsung" //ids to delete
-
             int[] userWordsIds = serverIDs.ToArray();
             int[] serverWordsIds = wordsService.UserWordsId(userId).ToArray();
 
