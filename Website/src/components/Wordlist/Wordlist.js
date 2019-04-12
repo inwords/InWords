@@ -6,10 +6,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
+import { AppBarContext } from '../../contexts/AppBarContext';
 import WordPairAdditionButtonContainer from '../../containers/Wordlist/WordPairAdditionButtonContainer';
 import WordPairsDeletionButtonContainer from '../../containers/Wordlist/WordPairsDeletionButtonContainer';
 import WordPairEditingButtonContainer from '../../containers/Wordlist/WordPairEditingButtonContainer';
 import LargePageContentContainer from '../PageContentContainers/LargePageContentContainer';
+import WordPairDeletionToolbar from './WordPairDeletionToolbar';
 
 const styles = theme => ({
     list: {
@@ -20,6 +22,12 @@ const styles = theme => ({
 });
 
 function Wordlist({ wordPairs, checked, handleToggle, classes }) {
+    const { resetAppBar } = React.useContext(AppBarContext);
+
+    React.useEffect(() => {
+        resetAppBar({title: 'Словарь'});
+    }, []);
+
     return (
         <LargePageContentContainer>
             <WordPairsDeletionButtonContainer checked={checked} />

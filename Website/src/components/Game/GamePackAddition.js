@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Zoom from '@material-ui/core/Zoom';
-import useOpeningBehavoiur from '../../logic-hooks/useOpeningBehaviour';
+import useOpeningBehavoiur from '../../hooks/useDialogBehaviour';
 import GamePackAdditionDialog from './GamePackAdditionDialog';
 
 const styles = theme => ({

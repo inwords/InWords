@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import useOpeningBehavoiur from '../../logic-hooks/useOpeningBehaviour';
+import useOpeningBehavoiur from '../../hooks/useDialogBehaviour';
 import ProfileEditingDialog from './ProfileEditingDialog';
 
 function ProfileEditingButton({ handleReset, handleSubmit, ...rest }) {

@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import errorMessageActions from '../actions/errorMessageActions';
-import ErrorAlert from '../components/ErrorAlert';
+import errorMessageActions from '../../actions/errorMessageActions';
+import ErrorSnackbar from './ErrorSnackbar';
 
-function ErrorAlertContainer({ errorMessage, resetErrorMessage }) {
+function ErrorSnackbarContainer({ errorMessage, resetErrorMessage }) {
     const handleClose = () => {
         resetErrorMessage();
     };
 
     return (
-        <ErrorAlert
+        <ErrorSnackbar
             open={Boolean(errorMessage)}
             errorMessage={errorMessage ? errorMessage : ''}
             handleClose={handleClose}
@@ -18,7 +18,7 @@ function ErrorAlertContainer({ errorMessage, resetErrorMessage }) {
     );
 }
 
-ErrorAlertContainer.propTypes = {
+ErrorSnackbarContainer.propTypes = {
     errorMessage: PropTypes.string,
     resetErrorMessage: PropTypes.func.isRequired,
 };
@@ -38,4 +38,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ErrorAlertContainer);
+)(ErrorSnackbarContainer);

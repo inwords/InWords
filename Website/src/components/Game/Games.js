@@ -4,7 +4,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import useChangingBehaviour from '../../logic-hooks/useChangingBehaviour';
+import { AppBarContext } from '../../contexts/AppBarContext';
+import useTabsBehaviour from '../../hooks/useTabsBehaviour';
 import LearningGamesContainer from '../../containers/Game/LearningGamesContainer';
 import SandboxGamesContainer from '../../containers/Game/SandboxGamesContainer';
 import GamePackAdditionContainer from '../../containers/Game/GamePackAdditionContainer';
@@ -17,7 +18,13 @@ const styles = theme => ({
 });
 
 function Games({ classes }) {
-    const [value, handleChange] = useChangingBehaviour();
+    const { resetAppBar } = React.useContext(AppBarContext);
+
+    React.useEffect(() => {
+        resetAppBar({title: 'Игры'});
+    }, []);
+
+    const [value, handleChange] = useTabsBehaviour();
 
     return (
         <LargePageContentContainer>

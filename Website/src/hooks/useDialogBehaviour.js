@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function useOpeningBehaviour(initialState = false) {
+function useDialogBehaviour(initialState = false) {
     const [open, setOpen] = useState(initialState);
 
     const handleOpen = () => {
@@ -15,8 +15,8 @@ function useOpeningBehaviour(initialState = false) {
     return [open, handleOpen, handleClose];
 }
 
-useOpeningBehaviour.propTypes = {
+useDialogBehaviour.propTypes = {
     initialState: PropTypes.bool,
 };
 
-export default useOpeningBehaviour;
+export default useDialogBehaviour;

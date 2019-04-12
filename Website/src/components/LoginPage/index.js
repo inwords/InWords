@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import userApiActions from '../../actions/userApiActions';
-import LoginPage from '../../components/Auth/LoginPage';
+import LoginPage from './LoginPage';
 import useSimpleValues from '../../hooks/useSimpleValues';
 
 function LoginPageContainer({ login }) {

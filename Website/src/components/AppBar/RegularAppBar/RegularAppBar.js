@@ -2,19 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Hidden from '@material-ui/core/Hidden';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import useDrawerOpeningBehaviour from '../../logic-hooks/useDrawerOpeningBehaviour';
-import ProgressContainer from '../../containers/AppBar/ProgressContainer';
-import ProfileMenuContainer from '../../containers/AppBar/ProfileMenuContainer';
-import PageTitle from './PageTitle';
-import DrawerHeader from './DrawerHeader';
-import LinksListContainer from '../../containers/AppBar/LinksListContainer';
+import useDrawerBehaviour from '../../../hooks/useDrawerBehaviour';
+import { AppBarContext } from '../../../contexts/AppBarContext';
+import DrawerHeader from '../DrawerHeader';
+import NavList from '../NavList';
+import RegularToolbar from '../RegularToolbar';
 
 export const drawerWidth = 240;
 
@@ -36,6 +33,9 @@ const styles = theme => ({
             display: 'none',
         },
     },
+    grow: {
+        flexGrow: 1,
+    },
     drawer: {
         [theme.breakpoints.up('lg')]: {
             width: drawerWidth,
@@ -52,25 +52,20 @@ const styles = theme => ({
     },
 });
 
-function RegularAppBar({ children = null, classes }) {
-    const [open, handleDrawerOpen, handleDrawerClose] = useDrawerOpeningBehaviour();
+function RegularAppBar({ authorized, dataTransferInProgress, children = null, classes }) {
+    const [open, handleDrawerOpen, handleDrawerClose] = useDrawerBehaviour();
+    const { appBarSettings } = React.useContext(AppBarContext);
 
     return (
         <div className={classes.root}>
-            <AppBar className={classes.appBar}>
-                <ProgressContainer />
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={handleDrawerOpen}
-                        className={classes.menuButton}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <PageTitle />
-                    <ProfileMenuContainer />
-                </Toolbar>
+            <AppBar className={classes.appBar} color={appBarSettings.color}>
+                {dataTransferInProgress && <LinearProgress />}
+                {!appBarSettings.toolbar ? (
+                    <RegularToolbar
+                        authorized={authorized}
+                        handleDrawerOpen={handleDrawerOpen}
+                    />) :
+                    appBarSettings.toolbar}
             </AppBar>
             <nav className={classes.drawer}>
                 <Hidden lgUp>
@@ -84,7 +79,7 @@ function RegularAppBar({ children = null, classes }) {
                     >
                         <DrawerHeader />
                         <Divider />
-                        <LinksListContainer onClick={handleDrawerClose} />
+                        <NavList authorized={authorized} onClick={handleDrawerClose} />
                     </SwipeableDrawer>
                 </Hidden>
                 <Hidden mdDown implementation="css">
@@ -97,7 +92,7 @@ function RegularAppBar({ children = null, classes }) {
                     >
                         <DrawerHeader />
                         <Divider />
-                        <LinksListContainer onClick={() => {}} />
+                        <NavList authorized={authorized} />
                     </Drawer>
                 </Hidden>
             </nav>
@@ -110,6 +105,9 @@ function RegularAppBar({ children = null, classes }) {
 };
 
 RegularAppBar.propTypes = {
+    pageTitle: PropTypes.string.isRequired,
+    authorized: PropTypes.bool.isRequired,
+    dataTransferInProgress: PropTypes.bool.isRequired,
     children: PropTypes.node,
     classes: PropTypes.object.isRequired,
 };

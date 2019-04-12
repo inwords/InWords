@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function useDrawerOpeningBehaviour(initialState = false) {
+function useDrawerBehaviour(initialState = false) {
     const [open, setOpen] = useState(initialState);
 
     const handleDrawerOpen = () => {
@@ -15,8 +15,8 @@ function useDrawerOpeningBehaviour(initialState = false) {
     return [open, handleDrawerOpen, handleDrawerClose];
 }
 
-useDrawerOpeningBehaviour.propTypes = {
+useDrawerBehaviour.propTypes = {
     initialState: PropTypes.bool,
 };
 
-export default useDrawerOpeningBehaviour;
+export default useDrawerBehaviour;

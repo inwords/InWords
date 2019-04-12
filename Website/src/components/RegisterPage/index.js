@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import userApiActions from '../../actions/userApiActions';
-import RegisterPage from '../../components/Auth/RegisterPage';
 import useSimpleValues from '../../hooks/useSimpleValues';
+import RegisterPage from './RegisterPage';
 
 function RegisterPageContainer({ register }) {
     const [values, handleChange] = useSimpleValues({

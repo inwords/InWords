@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
@@ -16,7 +16,7 @@ const styles = theme => ({
     },
 });
 
-function LinksListItem({ to, text, classes, location }) {
+function NavListItem({ to, text, location, classes }) {
     return (
         <ListItem button dense component={Link} to={to} className={classes.item}>
             <ListItemText primary={location.pathname.startsWith(to) ?
@@ -27,11 +27,11 @@ function LinksListItem({ to, text, classes, location }) {
     );
 };
 
-LinksListItem.propTypes = {
+NavListItem.propTypes = {
     to: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    classes: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(LinksListItem));
+export default withStyles(styles)(withRouter(NavListItem));

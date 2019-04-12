@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import { AppBarContext } from '../../contexts/AppBarContext';
 import SmallPageContentContainer from '../PageContentContainers/SmallPageContentContainer';
 
 const styles = theme => ({
@@ -25,22 +26,26 @@ const styles = theme => ({
     },
 });
 
-function RegisterPage({ values, handleChange, handleSubmit, classes }) {
+function LoginPage({ values, handleChange, handleSubmit, classes }) {
+    const { resetAppBar } = React.useContext(AppBarContext);
+
+    React.useEffect(() => {
+        resetAppBar({title: 'Вход'});
+    }, []);
+
     return (
         <SmallPageContentContainer>
             <Paper className={classes.paper}>
                 <Typography variant="h5">
-                    Регистрация
+                    Вход
                 </Typography>
-                <form
-                    onSubmit={handleSubmit}
-                    className={classes.form}
-                >
+                <form onSubmit={handleSubmit} className={classes.form}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
                             id="email"
                             type="email"
+                            autoComplete="email"
                             autoFocus
                             value={values.email}
                             onChange={handleChange('email')}
@@ -51,6 +56,7 @@ function RegisterPage({ values, handleChange, handleSubmit, classes }) {
                         <Input
                             id="password"
                             type="password"
+                            autoComplete="current-password"
                             value={values.password}
                             onChange={handleChange('password')}
                         />
@@ -62,7 +68,7 @@ function RegisterPage({ values, handleChange, handleSubmit, classes }) {
                         color="primary"
                         className={classes.submit}
                     >
-                        Зарегистрироваться
+                        Войти
                     </Button>
                 </form>
             </Paper>
@@ -70,7 +76,7 @@ function RegisterPage({ values, handleChange, handleSubmit, classes }) {
     );
 }
 
-RegisterPage.propTypes = {
+LoginPage.propTypes = {
     values: PropTypes.shape({
         email: PropTypes.string.isRequired,
         password: PropTypes.string.isRequired,
@@ -80,4 +86,4 @@ RegisterPage.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(RegisterPage);
+export default withStyles(styles)(LoginPage);

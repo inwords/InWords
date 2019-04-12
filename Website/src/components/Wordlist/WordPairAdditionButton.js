@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import Zoom from '@material-ui/core/Zoom';
-import useOpeningBehavoiur from '../../logic-hooks/useOpeningBehaviour';
+import useOpeningBehavoiur from '../../hooks/useDialogBehaviour';
 import WordPairActionsDialog from './WordPairActionsDialog';
 
 const styles = theme => ({
@@ -33,15 +32,13 @@ function WordPairAdditionButton({ handleReset, handleSubmit, classes, ...rest })
 
     return (
         <>
-            <Zoom in>
-                <Fab
-                    className={classes.fab}
-                    color="primary"
-                    onClick={handleOpenWithReset}
-                >
-                    <AddIcon />
-                </Fab>
-            </Zoom>
+            <Fab
+                className={classes.fab}
+                color="primary"
+                onClick={handleOpenWithReset}
+            >
+                <AddIcon />
+            </Fab>
             <WordPairActionsDialog
                 open={open}
                 handleClose={handleClose}

@@ -11,6 +11,7 @@ const styles = theme => ({
 
 function WordPairsDeletionButton({ available, handleWordPairsDeletion, classes }) {
     return (
+        false &&
         <Button
             color="secondary"
             disabled={!available}

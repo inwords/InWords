@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import wordlistApiActions from '../../actions/wordlistApiActions';
 import Wordlist from '../../components/Wordlist/Wordlist';
+import WordPairDeletionToolbar from '../../components/Wordlist/WordPairDeletionToolbar';
+import { AppBarContext } from '../../contexts/AppBarContext';
 
 function WordlistContainer({ wordPairs, pullWordPairs }) {
     useEffect(() => {
@@ -25,6 +27,16 @@ function WordlistContainer({ wordPairs, pullWordPairs }) {
 
         setChecked(newChecked);
     };
+
+    const { customizeAppBar, resetAppBar } = React.useContext(AppBarContext);
+
+    useEffect(() => {
+        if (checked.length) {
+            customizeAppBar({title: `Выбрано: ${checked.length}`, color: 'default', toolbar: <WordPairDeletionToolbar />})
+        } else {
+            resetAppBar({title: 'Словарь'})
+        }
+    }, [checked]);
 
     useEffect(() => {
         setChecked([]);

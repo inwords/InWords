@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import useDropdownMenuBehaviour from '../../logic-hooks/useDropdownMenuBehaviour';
+import useDropdownMenuBehaviour from '../../../hooks/useDropdownMenuBehaviour';
 
 function ProfileMenu({ userId, handleLogout }) {
     const [open, anchorEl, handleMenu, handleClose] = useDropdownMenuBehaviour();

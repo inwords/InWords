@@ -2,8 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import accessActions from '../../actions/accessActions';
-import ProfileMenu from '../../components/AppBar/ProfileMenu';
+import accessActions from '../../../actions/accessActions';
+import ProfileMenu from './ProfileMenu';
 
 function ProfileMenuContainer({ userId, denyAccess, history }) {
     const handleLogout = () => {
@@ -12,12 +12,10 @@ function ProfileMenuContainer({ userId, denyAccess, history }) {
     };
 
     return (
-        userId && (
-            <ProfileMenu
-                userId={userId}
-                handleLogout={handleLogout}
-            />
-        )
+        <ProfileMenu
+            userId={userId}
+            handleLogout={handleLogout}
+        />
     );
 }
 

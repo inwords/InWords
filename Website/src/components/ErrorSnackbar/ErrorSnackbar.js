@@ -24,7 +24,7 @@ const styles = theme => ({
     },
 });
 
-function ErrorAlert({ open, errorMessage, handleClose, classes }) {
+function ErrorSnackbar({ open, errorMessage, handleClose, classes }) {
     return (
         <Snackbar
             anchorOrigin={{
@@ -60,11 +60,11 @@ function ErrorAlert({ open, errorMessage, handleClose, classes }) {
     );
 }
 
-ErrorAlert.propTypes = {
+ErrorSnackbar.propTypes = {
     open: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string.isRequired,
     handleClose: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ErrorAlert);
+export default withStyles(styles)(ErrorSnackbar);

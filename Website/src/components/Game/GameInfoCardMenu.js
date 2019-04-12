@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import useDropdownMenuBehaviour from '../../logic-hooks/useDropdownMenuBehaviour';
+import useDropdownMenuBehaviour from '../../hooks/useDropdownMenuBehaviour';
 
 function GameInfoCardMenu({ gameId, handleGamePackDeletion }) {
     const [open, anchorEl, handleMenu, handleClose] = useDropdownMenuBehaviour();
