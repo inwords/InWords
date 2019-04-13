@@ -1,27 +1,14 @@
 package com.dreamproject.inwords.dagger;
 
-import com.dreamproject.inwords.dagger.annotations.QGame;
-import com.dreamproject.inwords.dagger.annotations.QGameInfo;
-import com.dreamproject.inwords.dagger.annotations.QGameLevel;
-import com.dreamproject.inwords.data.dto.game.Game;
-import com.dreamproject.inwords.data.dto.game.GameInfo;
-import com.dreamproject.inwords.data.dto.game.GameKt;
-import com.dreamproject.inwords.data.dto.game.GameLevel;
-import com.dreamproject.inwords.data.dto.game.GameLevelKt;
-import com.dreamproject.inwords.data.repository.game.GameDatabaseRepository;
-import com.dreamproject.inwords.data.repository.game.GameEntityCachingRepository;
-import com.dreamproject.inwords.data.repository.game.GameEntityProvider;
-import com.dreamproject.inwords.data.repository.game.GameListCachingRepository;
-import com.dreamproject.inwords.data.repository.game.GameListProvider;
-import com.dreamproject.inwords.data.repository.game.GameRemoteRepository;
 import com.dreamproject.inwords.data.repository.profile.UserCachingRepository;
 import com.dreamproject.inwords.data.repository.profile.UserDatabaseRepository;
 import com.dreamproject.inwords.data.repository.profile.UserRemoteRepository;
 import com.dreamproject.inwords.data.repository.profile.UserRepository;
 import com.dreamproject.inwords.data.source.database.AppRoomDatabase;
 import com.dreamproject.inwords.data.source.database.WordTranslationDao;
-
-import java.util.Collections;
+import com.dreamproject.inwords.data.source.database.game.GameDao;
+import com.dreamproject.inwords.data.source.database.game.GameInfoDao;
+import com.dreamproject.inwords.data.source.database.game.GameLevelDao;
 
 import javax.inject.Singleton;
 
@@ -43,30 +30,18 @@ public class DataAccessModule {
         return new UserCachingRepository(new UserDatabaseRepository(database.userDao()), userRemoteRepository);
     }
 
-    @QGame
     @Provides
-    @Singleton
-    GameEntityProvider<Game> gameRep(AppRoomDatabase database,
-                                     GameRemoteRepository gameRemoteRepository) {
-        return new GameEntityCachingRepository<>(new GameDatabaseRepository<>(database.gameDao()),
-                id -> gameRemoteRepository.getGame(id).onErrorReturnItem(GameKt.getEmptyGame()));
+    GameInfoDao gameInfoDao(AppRoomDatabase database) {
+        return database.gameInfoDao();
     }
 
-    @QGameLevel
     @Provides
-    @Singleton
-    GameEntityProvider<GameLevel> gameLevelRep(AppRoomDatabase database,
-                                               GameRemoteRepository gameRemoteRepository) {
-        return new GameEntityCachingRepository<>(new GameDatabaseRepository<>(database.gameLevelDao()),
-                id -> gameRemoteRepository.getLevel(id).onErrorReturnItem(GameLevelKt.getEmptyGameLevel()));
+    GameDao gameDao(AppRoomDatabase database) {
+        return database.gameDao();
     }
 
-    @QGameInfo
     @Provides
-    @Singleton
-    GameListProvider<GameInfo> gameInfoRep(AppRoomDatabase database,
-                                           GameRemoteRepository gameRemoteRepository) {
-        return new GameListCachingRepository<>(new GameDatabaseRepository<>(database.gameInfoDao()),
-                () -> gameRemoteRepository.getGameInfos().onErrorReturnItem(Collections.emptyList()));
+    GameLevelDao gameLevelDao(AppRoomDatabase database) {
+        return database.gameLevelDao();
     }
 }

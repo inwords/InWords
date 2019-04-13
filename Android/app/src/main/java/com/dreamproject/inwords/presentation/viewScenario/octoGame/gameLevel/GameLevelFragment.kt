@@ -1,7 +1,7 @@
 package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel
 
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +14,7 @@ import com.dreamproject.inwords.data.dto.game.GameLevelInfo
 import com.dreamproject.inwords.domain.CardsData
 import com.dreamproject.inwords.domain.GAME
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
+import com.dreamproject.inwords.domain.model.Resource
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
@@ -30,14 +31,17 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
     private lateinit var gameLevelInfo: GameLevelInfo
     private lateinit var game: Game
     private var openedCard: FlipView? = null
-    private var showing: Boolean = false
+    private var showingIncorrectCards: Boolean = false
     private var cardOpenClicksCount = 0
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        gameLevelInfo = arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
-        game = arguments?.getSerializable(GAME) as Game
+        gameLevelInfo = savedInstanceState?.getSerializable(GAME_LEVEL_INFO) as? GameLevelInfo
+                ?: arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
+
+        game = savedInstanceState?.getSerializable(GAME) as? Game
+                ?: arguments?.getSerializable(GAME) as Game
 
         viewModel.onGameLevelSelected(gameLevelInfo.levelId)
 
@@ -47,10 +51,26 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
             @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
             when (it) {
                 FromGameEndPaths.HOME -> navController.navigate(R.id.action_global_mainFragment)
-                FromGameEndPaths.NEXT -> 1
+                FromGameEndPaths.NEXT -> {
+                    val gameLevelInfos = game.gameLevelInfos
+                    val nextLevelIndex = gameLevelInfos.indexOf(gameLevelInfo) + 1
+
+                    if (nextLevelIndex < gameLevelInfos.size) {
+                        gameLevelInfo = gameLevelInfos[nextLevelIndex]
+                        viewModel.onGameLevelSelected(gameLevelInfo.levelId)
+                    } else {
+                        Log.d("GameLevelFragment", "BottomSheet's NEXT points out of bound")
+                    }
+                }
                 FromGameEndPaths.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
             }
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
+        outState.putSerializable(GAME, game)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,15 +84,28 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
                 .subscribe(::render, Throwable::printStackTrace))
     }
 
-    private fun render(cardsData: CardsData) {
+    private fun render(cardsDataResource: Resource<CardsData>) {
 //        showIntro(cardsData)
 
-        cardsData.words.forEach { stateMap[it] = false }
+        if (cardsDataResource.success()) {
+            val cardsData = cardsDataResource.data!!
 
-        renderCards(cardsData)
+            cardsData.words.forEach { stateMap[it] = false }
+
+            renderCards(cardsData)
+        }
+    }
+
+    private fun clearState() {
+        cardOpenClicksCount = 0
+        showingIncorrectCards = false
+        openedCard = null
+        table.removeAllViews()
     }
 
     private fun renderCards(cardsData: CardsData) {
+        clearState()
+
         val words = cardsData.words
 
         val cols = when (words.size) {
@@ -131,7 +164,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
 
     private inner class CardClickListener(private val cardsData: CardsData) : View.OnClickListener {
         override fun onClick(v: View?) {
-            if (v is FlipView && v.isFlipped && !showing) {
+            if (v is FlipView && v.isFlipped && !showingIncorrectCards) {
                 cardOpenClicksCount++
 
                 v.flip(false)
@@ -148,15 +181,15 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
                     }
 
                     else -> { //second incorrect game_card opened
-                        showing = true
-                        Observable.timer(2, TimeUnit.SECONDS)
+                        showingIncorrectCards = true
+                        compositeDisposable.add(Observable.timer(2, TimeUnit.SECONDS)
                                 .observeOn(SchedulersFacade.ui())
                                 .subscribe {
                                     v.flip(true)
                                     openedCard?.flip(true)
                                     openedCard = null
-                                    showing = false
-                                }
+                                    showingIncorrectCards = false
+                                })
                     }
                 }
             }

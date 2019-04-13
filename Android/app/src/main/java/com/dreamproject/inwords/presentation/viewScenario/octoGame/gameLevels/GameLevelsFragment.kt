@@ -51,8 +51,14 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
 
         compositeDisposable.add(viewModel.screenInfoStream(gameInfo.gameId)
                 .observeOn(SchedulersFacade.computation())
-                .doOnNext { game = it.game }
-                .map { it.game.gameLevelInfos }
+                .map {
+                    if (it.game.success()) {
+                        game = it.game.data!!
+                        game.gameLevelInfos
+                    } else {
+                        emptyList()
+                    }
+                }
                 .compose(RxDiffUtil.calculate(GameLevelsDiffUtilCallback.Companion::create))
                 .observeOn(SchedulersFacade.ui())
                 .subscribe({

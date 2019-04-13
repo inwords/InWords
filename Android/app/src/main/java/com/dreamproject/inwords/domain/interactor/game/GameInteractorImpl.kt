@@ -6,6 +6,7 @@ import com.dreamproject.inwords.data.dto.game.LevelScore
 import com.dreamproject.inwords.data.repository.game.GameGatewayController
 import com.dreamproject.inwords.domain.model.GameModel
 import com.dreamproject.inwords.domain.model.GamesInfoModel
+import com.dreamproject.inwords.domain.model.Resource
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class GameInteractorImpl @Inject constructor(
                 .cache()
     }
 
-    override fun getLevel(levelId: Int): Observable<GameLevel> {
+    override fun getLevel(levelId: Int): Observable<Resource<GameLevel>> {
         return gameGatewayController.getLevel(levelId)
                 .cache()
     }

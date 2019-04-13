@@ -4,4 +4,4 @@ import com.dreamproject.inwords.data.dto.game.Game
 import java.io.Serializable
 
 data class GameModel(val shouldShowIntro: Boolean,
-                     val game: Game) : Serializable
+                     val game: Resource<Game>) : Serializable

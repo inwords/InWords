@@ -5,12 +5,13 @@ import com.dreamproject.inwords.data.dto.game.GameLevel
 import com.dreamproject.inwords.data.dto.game.LevelScore
 import com.dreamproject.inwords.domain.model.GameModel
 import com.dreamproject.inwords.domain.model.GamesInfoModel
+import com.dreamproject.inwords.domain.model.Resource
 import io.reactivex.Observable
 import io.reactivex.Single
 
 interface GameInteractor {
     fun getGamesInfo(): Observable<GamesInfoModel>
     fun getGame(gameId: Int): Observable<GameModel>
-    fun getLevel(levelId: Int): Observable<GameLevel>
+    fun getLevel(levelId: Int): Observable<Resource<GameLevel>>
     fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<LevelScore>
 }

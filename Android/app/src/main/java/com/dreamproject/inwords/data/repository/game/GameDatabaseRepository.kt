@@ -9,6 +9,7 @@ class GameDatabaseRepository<T> constructor(private val gameEntityDao: GameEntit
             .subscribeOn(SchedulersFacade.io())
 
     fun getAll(): Single<List<T>> = gameEntityDao.all
+            .filter { it.isNotEmpty() }.toSingle() //to get error on empty
             .subscribeOn(SchedulersFacade.io())
 
     fun insertAll(values: List<T>): Single<List<Long>> = gameEntityDao.insertAll(values)

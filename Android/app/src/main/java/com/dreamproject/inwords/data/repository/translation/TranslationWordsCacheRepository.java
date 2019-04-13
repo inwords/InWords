@@ -23,7 +23,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     private Subject<List<WordTranslation>> behaviorSubject;
 
     @Inject
-    public TranslationWordsCacheRepository() {
+    TranslationWordsCacheRepository() {
         this.list = new ConcurrentHashMap<>();
 
         behaviorSubject = BehaviorSubject.createDefault(Collections.list(list.elements()));

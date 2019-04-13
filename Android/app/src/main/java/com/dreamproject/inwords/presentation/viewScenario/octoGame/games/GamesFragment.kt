@@ -41,7 +41,9 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, GamesViewModel
             //TODO think need this or not
         }
 
-        renderGameInfos(gamesInfoModel.gameInfos)
+        if (gamesInfoModel.gameInfos.success()) {
+            renderGameInfos(gamesInfoModel.gameInfos.data!!)
+        }
     }
 
     private fun renderGameInfos(gameInfos: List<GameInfo>) {
