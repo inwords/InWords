@@ -24,6 +24,7 @@ namespace InWords.WebApi.Controllers.v1
     public class GameController : ControllerBase
     {
         private readonly GameService gameService;
+        private readonly GameScoreService gameScoreService;
 
         /// <summary>
         ///     Standard injected controller
@@ -32,6 +33,7 @@ namespace InWords.WebApi.Controllers.v1
         public GameController(InWordsDataContext context)
         {
             gameService = new GameService(context);
+            gameScoreService = new GameScoreService(context);
         }
 
         /// <summary>
@@ -63,12 +65,12 @@ namespace InWords.WebApi.Controllers.v1
         {
             int authorizedId = User.GetUserId();
             // calculate score
-            LevelScore answer = gameService.GetLevelScore(levelResult);
+            LevelScore answer = gameScoreService.GetLevelScore(levelResult);
 
             // save score to user level
             try
             {
-                await gameService.UpdateUserScore(authorizedId, answer);
+                await gameScoreService.UpdateUserScore(authorizedId, answer);
             }
             catch (ArgumentNullException e)
             {
@@ -106,7 +108,7 @@ namespace InWords.WebApi.Controllers.v1
             if (answer == null) return NotFound();
 
             // set stars
-            answer = gameService.GetGameStars(userId, answer);
+            answer = gameScoreService.GetGameStars(userId, answer);
 
             return Ok(answer);
         }
@@ -160,7 +162,7 @@ namespace InWords.WebApi.Controllers.v1
                 ? await gameService.DeleteGames(ids)
                 : await gameService.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
+            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }
     }
 }

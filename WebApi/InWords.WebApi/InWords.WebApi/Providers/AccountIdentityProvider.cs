@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using InWords.Auth.Models;
 using InWords.Data.Enums;
@@ -47,8 +45,7 @@ namespace InWords.WebApi.Providers
         /// <exception cref="ArgumentException"></exception>
         public TokenResponse GetIdentity(string email, string password)
         {
-            string localEmail = email;
-            Account account = AccountRepository.GetEntities(x => x.Email.Equals(localEmail)).SingleOrDefault();
+            Account account = AccountRepository.GetEntities(x => x.Email.Equals(email)).SingleOrDefault();
             if (account == null)
                 throw new ArgumentNullException($"Email not found {email}");
 
@@ -57,18 +54,7 @@ namespace InWords.WebApi.Providers
             if (!isValidPassword)
                 throw new ArgumentException("Invalid password");
 
-            string nameId = account.AccountId.ToString();
-            string defaultRole = account.Role.ToString();
-
-            IEnumerable<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, nameId),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, defaultRole)
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims);
-
-            var response = new TokenResponse(claimsIdentity);
+            var response = new TokenResponse(account.AccountId, account.Role);
 
             return response;
         }
@@ -92,7 +78,6 @@ namespace InWords.WebApi.Providers
             };
 
             await AccountRepository.Create(newAccount);
-            //await Update(newAccount);
 
             return newAccount;
         }
