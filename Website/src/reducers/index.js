@@ -1,19 +1,17 @@
 import { combineReducers } from 'redux';
 import accessConstants from '../constants/accessConstants';
-import dataTransferInProgress from './dataTransferInProgress';
+import common from './common';
 import access from './access';
 import userInfo from './userInfo';
 import wordPairs from './wordPairs';
 import game from './game';
-import errorMessage from './errorMessage';
 
 const appReducer = combineReducers({
-    dataTransferInProgress,
+    common,
     access,
     userInfo,
     wordPairs,
-    game,
-    errorMessage
+    game
 });
 
 const rootReducer = (state, action) => {

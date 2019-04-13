@@ -9,7 +9,7 @@ import deepPurple from '@material-ui/core/colors/deepPurple';
 import amber from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
 import store from './store/configureStore';
-import App from './containers/App';
+import App from './components/App';
 
 const theme = createMuiTheme({
     palette: {

@@ -1,31 +1,60 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import GameInfoCard from './GameInfoCard';
-import PageContentContainer from '../PageContentContainer';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { AppBarContext } from '../../contexts/AppBarContext';
+import useTabsBehaviour from '../../hooks/useTabsBehaviour';
+import LearningGamesContainer from './LearningGamesContainer';
+import SandboxGamesContainer from './SandboxGamesContainer';
+import GamePackAdditionContainer from './GamePackAdditionContainer';
+import LargePageContentContainer from '../PageContentContainers/LargePageContentContainer';
 
-function Games({ gamesInfo, handleRedirection }) {
+const styles = theme => ({
+    tabContainer: {
+        paddingTop: theme.spacing.unit * 3,
+    },
+});
+
+function Games({ classes }) {
+    const { resetAppBar } = React.useContext(AppBarContext);
+
+    React.useEffect(() => {
+        resetAppBar({title: 'Игры'});
+    }, []);
+
+    const [value, handleChange] = useTabsBehaviour();
+
     return (
-        <PageContentContainer>
-            <Grid container spacing={24}>
-                {gamesInfo.map(gameInfo => (
-                    <Grid key={gameInfo.gameId} item xs={12} sm={6} md={4}>
-                        <GameInfoCard
-                            gameInfo={gameInfo}
-                            handleRedirection={handleRedirection}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-        </PageContentContainer >
+        <LargePageContentContainer>
+            <Paper>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    centered
+                >
+                    <Tab label="Обучение" />
+                    <Tab label="Песочница" />
+                </Tabs>
+            </Paper>
+            {value === 0 &&
+                <div className={classes.tabContainer}>
+                    <LearningGamesContainer />
+                </div>}
+            {value === 1 &&
+                <div className={classes.tabContainer}>
+                    <SandboxGamesContainer />
+                </div>}
+            <GamePackAdditionContainer visible={value === 1} />
+        </LargePageContentContainer >
     );
 }
 
 Games.propTypes = {
-    gamesInfo: PropTypes.arrayOf(PropTypes.shape({
-        gameId: PropTypes.number.isRequired,
-    })).isRequired,
-    handleRedirection: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-export default Games;
+export default withStyles(styles)(Games);

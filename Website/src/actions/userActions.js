@@ -10,9 +10,7 @@ const updateUserInfo = userInfo => ({
     payload: userInfo
 });
 
-const userActions = {
+export default {
     initializeUserInfo,
     updateUserInfo
 };
-
-export default userActions;

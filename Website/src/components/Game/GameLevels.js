@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import { AppBarContext } from '../../contexts/AppBarContext';
 import GameLevelInfoCard from './GameLevelInfoCard';
-import PageContentContainer from '../PageContentContainer';
+import LargePageContentContainer from '../PageContentContainers/LargePageContentContainer';
+import UpwardButton from '../CommonComponents/UpwardButton';
 
 function GameLevels({ gameInfo, handleRedirection }) {
+    const { resetAppBar } = React.useContext(AppBarContext);
+
+    React.useEffect(() => {
+        resetAppBar({
+            title: 'Уровни',
+            leftElements: <UpwardButton />,
+        });
+    }, []);
+
     return (
-        <PageContentContainer>
+        <LargePageContentContainer>
             <Grid container spacing={24}>
                 {gameInfo.levelInfos.map((levelInfo) => (
                     <Grid key={levelInfo.levelId} item xs={12} sm={4} md={3}>
@@ -17,7 +28,7 @@ function GameLevels({ gameInfo, handleRedirection }) {
                     </Grid>
                 ))}
             </Grid>
-        </PageContentContainer >
+        </LargePageContentContainer >
     );
 }
 

@@ -20,8 +20,9 @@ const initializeGameInfo = gameInfo => ({
     payload: gameInfo
 });
 
-const clearGameInfo = () => ({
-    type: gameConstants.GAME_INFO_CLEARING
+const updateGameInfo = gameInfo => ({
+    type: gameConstants.GAME_INFO_UPDATE,
+    payload: gameInfo
 });
 
 const initializeGameLevel = gameLevel => ({
@@ -29,18 +30,11 @@ const initializeGameLevel = gameLevel => ({
     payload: gameLevel
 });
 
-const clearGameLevel = () => ({
-    type: gameConstants.GAME_LEVEL_CLEARING
-});
-
-const gameActions = {
+export default {
     initializeGamesInfo,
     updateGamesInfoAfterAddition,
     updateGamesInfoAfterDeletion,
     initializeGameInfo,
-    clearGameInfo,
-    initializeGameLevel,
-    clearGameLevel
+    updateGameInfo,
+    initializeGameLevel
 };
-
-export default gameActions;

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import GameWordCard from './GameWordCard';
+import { AppBarContext } from '../../contexts/AppBarContext';
+import UpwardButton from '../CommonComponents/UpwardButton';
 
 const cardsSpacing = 16;
 const cardDimension = 140;
@@ -49,6 +51,15 @@ const styles = theme => ({
 });
 
 function GameField({ columnsNum, infoAboutRandomWords, infoAboutSelectedWords, successfulPairIds, successfulSelectedPairId, handleClick, classes }) {
+    const { resetAppBar } = React.useContext(AppBarContext);
+
+    React.useEffect(() => {
+        resetAppBar({
+            title: 'Уровень',
+            leftElements: <UpwardButton />,
+        });
+    }, []);
+
     return (
         <Grid
             container

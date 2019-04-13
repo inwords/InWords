@@ -41,11 +41,9 @@ function changeUserInfo(userInfo) {
     });
 };
 
-const userApiActions = {
+export default {
     login,
     register,
     receiveUserInfo,
     changeUserInfo
 };
-
-export default userApiActions;

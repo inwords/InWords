@@ -1,17 +1,17 @@
-import wordlistConstants from '../constants/wordlistConstants';
+import wordPairsConstants from '../constants/wordPairsConstants';
 
 const wordPairs = (state = [], action) => {
     switch (action.type) {
-        case wordlistConstants.WORD_PAIRS_INITIALIZATION:
+        case wordPairsConstants.WORD_PAIRS_INITIALIZATION:
             return action.payload.addedWords || [];
-        case wordlistConstants.WORD_PAIRS_UPDATE_AFTER_DELETION:
+        case wordPairsConstants.WORD_PAIRS_UPDATE_AFTER_DELETION:
             return state.filter(pair => !action.payload.includes(pair.serverId));
-        case wordlistConstants.WORD_PAIRS_UPDATE_AFTER_ADDITION:
+        case wordPairsConstants.WORD_PAIRS_UPDATE_AFTER_ADDITION:
             if (state.find(wordPair => wordPair.serverId === action.payload.serverId)) {
                 return state;
             }
             return state.concat(action.payload);
-        case wordlistConstants.WORD_PAIRS_UPDATE_AFTER_EDITING:
+        case wordPairsConstants.WORD_PAIRS_UPDATE_AFTER_EDITING:
             if (state.find(wordPair => wordPair.serverId === action.payload.wordPair.serverId)) {
                 return state;
             }

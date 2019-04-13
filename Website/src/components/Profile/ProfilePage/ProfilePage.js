@@ -1,0 +1,73 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Card from '@material-ui/core/Card/index';
+import CardActionArea from '@material-ui/core/CardActionArea/index';
+import CardActions from '@material-ui/core/CardActions/index';
+import CardContent from '@material-ui/core/CardContent/index';
+import CardMedia from '@material-ui/core/CardMedia/index';
+import Typography from '@material-ui/core/Typography/index';
+import { AppBarContext } from '../../../contexts/AppBarContext';
+import ProfileEditingButton from '../ProfileEditingButton';
+
+const styles = theme => ({
+    card: {
+        maxWidth: 240,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: theme.spacing.unit * 2,
+    },
+    media: {
+        height: 0,
+        paddingTop: '100%',
+    },
+});
+
+function ProfilePage({ editingAvailable, userInfo, classes }) {
+    const { resetAppBar } = React.useContext(AppBarContext);
+
+    React.useEffect(() => {
+        resetAppBar({
+            title: 'Профиль'
+        });
+    }, []);
+
+    const { avatarPath, nickName, experience } = userInfo;
+
+    return (
+        <Card className={classes.card}>
+            <CardActionArea>
+                {avatarPath && (
+                    <CardMedia
+                        className={classes.media}
+                        image={avatarPath}
+                        title="Avatar"
+                    />)}
+                <CardContent>
+                    <Typography gutterBottom variant="h5">
+                        {nickName}
+                    </Typography>
+                    <Typography component="p">
+                        {experience} опыта
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
+            <CardActions>
+                {editingAvailable && <ProfileEditingButton userInfo={userInfo} />}
+            </CardActions>
+        </Card>
+    );
+}
+
+ProfilePage.propTypes = {
+    editingAvailable: PropTypes.bool.isRequired,
+    userInfo: PropTypes.shape({
+        userId: PropTypes.number,
+        nickName: PropTypes.string.isRequired,
+        avatarPath: PropTypes.string.isRequired,
+        experience: PropTypes.number.isRequired
+    }).isRequired,
+    classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(ProfilePage);

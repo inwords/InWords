@@ -30,6 +30,7 @@ function saveLevelResult(levelResult) {
         endpoint: `Game/Score`,
         method: 'POST',
         data: JSON.stringify(levelResult),
+        actionsOnSuccess: [gameActions.updateGameInfo],
         errorMessage: 'Ошибка сохранения результата'
     });
 }
@@ -59,7 +60,7 @@ function deleteGamePack(gameId) {
     });
 }
 
-const gameApiActions = {
+export default {
     pullGamesInfo,
     pullGameInfo,
     pullGameLevel,
@@ -67,5 +68,3 @@ const gameApiActions = {
     addGamePack,
     deleteGamePack
 };
-
-export default gameApiActions;
