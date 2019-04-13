@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Fab from '@material-ui/core/Fab';
+import Fab from '@material-ui/core/Fab/index';
 import AddIcon from '@material-ui/icons/Add';
-import Zoom from '@material-ui/core/Zoom';
-import useOpeningBehavoiur from '../../hooks/useOpeningBehaviour';
-import GamePackAdditionDialog from './GamePackAdditionDialog';
+import useOpeningBehavoiur from '../../../hooks/useOpeningBehaviour';
+import WordPairActionsDialog from '../WordPairActionsDialog';
 
 const styles = theme => ({
     button: {
@@ -18,7 +17,7 @@ const styles = theme => ({
     },
 });
 
-function GamePackAddition({ visible, handleReset, handleSubmit, classes, ...rest }) {
+function WordPairAddButton({ handleReset, handleSubmit, classes, ...rest }) {
     const [open, handleOpen, handleClose] = useOpeningBehavoiur();
 
     const handleOpenWithReset = () => {
@@ -33,19 +32,14 @@ function GamePackAddition({ visible, handleReset, handleSubmit, classes, ...rest
 
     return (
         <>
-            <Zoom
-                in={visible}
-                unmountOnExit
+            <Fab
+                className={classes.fab}
+                color="primary"
+                onClick={handleOpenWithReset}
             >
-                <Fab
-                    className={classes.fab}
-                    color="primary"
-                    onClick={handleOpenWithReset}
-                >
-                    <AddIcon />
-                </Fab>
-            </Zoom>
-            <GamePackAdditionDialog
+                <AddIcon />
+            </Fab>
+            <WordPairActionsDialog
                 open={open}
                 handleClose={handleClose}
                 handleSubmit={handleSubmitWithClose}
@@ -55,10 +49,12 @@ function GamePackAddition({ visible, handleReset, handleSubmit, classes, ...rest
     );
 }
 
-GamePackAddition.propTypes = {
+WordPairAddButton.propTypes = {
+    values: PropTypes.object.isRequired,
+    handleChange: PropTypes.func.isRequired,
     handleReset: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(GamePackAddition);
+export default withStyles(styles)(WordPairAddButton);

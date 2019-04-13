@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React from 'react';
 
 function useDropdownMenuBehaviour() {
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
     const handleMenu = event => {

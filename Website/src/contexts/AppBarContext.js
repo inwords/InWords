@@ -6,7 +6,8 @@ const AppBarContext = React.createContext();
 const initialSettings = {
     title: '',
     color: 'primary',
-    toolbar: null,
+    leftElements: null,
+    rightElements: null
 };
 
 function AppBarContextProvider({ children }) {

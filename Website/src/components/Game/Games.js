@@ -6,9 +6,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { AppBarContext } from '../../contexts/AppBarContext';
 import useTabsBehaviour from '../../hooks/useTabsBehaviour';
-import LearningGamesContainer from '../../containers/Game/LearningGamesContainer';
-import SandboxGamesContainer from '../../containers/Game/SandboxGamesContainer';
-import GamePackAdditionContainer from '../../containers/Game/GamePackAdditionContainer';
+import LearningGamesContainer from './LearningGamesContainer';
+import SandboxGamesContainer from './SandboxGamesContainer';
+import GamePackAdditionContainer from './GamePackAdditionContainer';
 import LargePageContentContainer from '../PageContentContainers/LargePageContentContainer';
 
 const styles = theme => ({

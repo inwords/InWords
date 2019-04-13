@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
-import { Link } from "react-router-dom";
+import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
@@ -11,7 +11,7 @@ function ProfileMenu({ userId, handleLogout }) {
     const [open, anchorEl, handleMenu, handleClose] = useDropdownMenuBehaviour();
 
     return (
-        <Fragment>
+        <>
             <IconButton
                 aria-owns={open ? 'menu-appbar' : undefined}
                 aria-haspopup="true"
@@ -37,9 +37,9 @@ function ProfileMenu({ userId, handleLogout }) {
                 <MenuItem component={Link} to={`/profile/${userId}`} onClick={handleClose}>Профиль</MenuItem>
                 <MenuItem onClick={handleLogout}>Выйти</MenuItem>
             </Menu>
-        </Fragment>
+        </>
     );
-};
+}
 
 ProfileMenu.propTypes = {
     userId: PropTypes.number.isRequired,

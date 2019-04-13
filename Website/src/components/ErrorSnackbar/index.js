@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import errorMessageActions from '../../actions/errorMessageActions';
+import commonActions from '../../actions/commonActions';
 import ErrorSnackbar from './ErrorSnackbar';
 
 function ErrorSnackbarContainer({ errorMessage, resetErrorMessage }) {
@@ -25,13 +25,13 @@ ErrorSnackbarContainer.propTypes = {
 
 const mapStateToProps = store => {
     return {
-        errorMessage: store.errorMessage
+        errorMessage: store.common.errorMessage
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        resetErrorMessage: () => dispatch(errorMessageActions.resetErrorMessage())
+        resetErrorMessage: () => dispatch(commonActions.resetErrorMessage())
     };
 };
 

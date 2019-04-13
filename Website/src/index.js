@@ -6,15 +6,15 @@ import { Provider } from 'react-redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import deepPurple from '@material-ui/core/colors/deepPurple';
-import orange from '@material-ui/core/colors/orange';
+import amber from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
 import store from './store/configureStore';
-import App from './containers/App';
+import App from './components/App';
 
 const theme = createMuiTheme({
     palette: {
         primary: deepPurple,
-        secondary: orange,
+        secondary: amber,
         error: pink,
     },
     typography: {

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 function useTabsBehaviour(initialState = 0) {
-    const [value, setValue] = useState(initialState);
+    const [value, setValue] = React.useState(initialState);
 
     const handleChange = (event, value) => {
         setValue(value);

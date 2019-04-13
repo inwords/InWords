@@ -1,8 +1,7 @@
 import axios from 'axios';
-import dataTransferActions from '../actions/dataTransferActions';
-import errorMessageActions from '../actions/errorMessageActions';
+import commonActions from '../actions/commonActions';
 import accessActions from '../actions/accessActions';
-import history from '../history/history';
+import history from '../history';
 
 const API_ROOT = 'https://api.inwords.ru/v1.0/';
 
@@ -26,7 +25,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
     const dataOrParams = ['GET', 'DELETE'].includes(method) ? 'params' : 'data';
 
-    dispatch(dataTransferActions.beginDataTransfer());
+    dispatch(commonActions.beginDataTransfer());
 
     axios.request({
         url: API_ROOT + endpoint,
@@ -38,7 +37,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
         [dataOrParams]: data
     })
         .then(({ data }) => {
-            dispatch(dataTransferActions.endDataTransfer());
+            dispatch(commonActions.endDataTransfer());
             actionsOnSuccess.forEach(action => dispatch(action(data)));
 
             if (redirection) {
@@ -46,8 +45,8 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
             }
         })
         .catch(error => {
-            dispatch(dataTransferActions.endDataTransfer());
-            dispatch(errorMessageActions.setErrorMessage(errorMessage));
+            dispatch(commonActions.endDataTransfer());
+            dispatch(commonActions.setErrorMessage(errorMessage));
 
             if (error.response && error.response.status === 401) {
                 dispatch(accessActions.denyAccess());

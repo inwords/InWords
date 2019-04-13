@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import userApiActions from '../../actions/userApiActions';
 import LoginPage from './LoginPage';
-import useSimpleValues from '../../hooks/useSimpleValues';
+import useControlledInputValues from '../../hooks/useControlledInputValues';
 
 function LoginPageContainer({ login }) {
-    const [values, handleChange] = useSimpleValues({
+    const [values, handleChange] = useControlledInputValues({
         email: '',
         password: ''
     });
