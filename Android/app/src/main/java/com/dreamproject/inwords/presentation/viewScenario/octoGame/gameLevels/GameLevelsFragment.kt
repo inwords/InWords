@@ -13,15 +13,14 @@ import com.dreamproject.inwords.data.dto.game.GameLevelInfo
 import com.dreamproject.inwords.domain.GAME
 import com.dreamproject.inwords.domain.GAME_INFO
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
-import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
+import com.dreamproject.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsDiffUtilCallback
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_game_levels.*
-import kotlinx.android.synthetic.main.game_no_content.*
 import kotlinx.android.synthetic.main.game_welcome.*
 
-class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, GameLevelsViewModelFactory>() {
+class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, GameLevelsViewModelFactory>() {
     private lateinit var gameInfo: GameInfo
     private lateinit var game: Game
     private lateinit var adapter: GameLevelsAdapter
@@ -50,10 +49,9 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
         compositeDisposable.add(viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel))
 
         compositeDisposable.add(viewModel.screenInfoStream(gameInfo.gameId)
-                .observeOn(SchedulersFacade.computation())
                 .map {
-                    if (it.game.success()) {
-                        game = it.game.data!!
+                    if (it.gameResource.success()) {
+                        game = it.gameResource.data!!
                         game.gameLevelInfos
                     } else {
                         emptyList()
@@ -62,11 +60,11 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
                 .compose(RxDiffUtil.calculate(GameLevelsDiffUtilCallback.Companion::create))
                 .observeOn(SchedulersFacade.ui())
                 .subscribe({
-                    renderScreenState(it.first)
+                    showScreenState(it.first)
                     adapter.accept(it)
                 }) {
                     it.printStackTrace()
-                    renderNoContent()
+                    showNoContent()
                 })
     }
 
@@ -91,20 +89,6 @@ class GameLevelsFragment : FragmentWithViewModelAndNav<GameLevelsViewModel, Game
                     .alpha(0f)
                     .withEndAction { welcome_screen?.visibility = View.GONE }
         }
-    }
-
-    private fun renderScreenState(gameLevelsInfos: List<GameLevelInfo>) {
-        if (gameLevelsInfos.isNotEmpty()) {
-            game_no_content.visibility = View.GONE
-            game_content.visibility = View.VISIBLE
-        } else {
-            renderNoContent()
-        }
-    }
-
-    private fun renderNoContent() {
-        game_no_content.visibility = View.VISIBLE
-        game_content.visibility = View.GONE
     }
 
     override fun getLayout() = R.layout.fragment_game_levels

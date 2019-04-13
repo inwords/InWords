@@ -49,11 +49,11 @@
     <string name="sign_up_in_process">Создание аккаунта</string>
     <!-- word addition end -->
 
-    <!-- game start -->
+    <!-- gameResource start -->
     <string name="no_content">К сожалению, что-то пошло не так</string>
     <string name="no_content_solutions">Возможно, отсутствует интернет, а возможно, вы не вошли в аккаунт</string>
     <string name="choose_level">Выберите уровень</string>
-    <!-- game end -->
+    <!-- gameResource end -->
 
     <!-- home start -->
     <string name="avatar">Аватар</string>

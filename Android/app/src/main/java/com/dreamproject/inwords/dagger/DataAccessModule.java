@@ -16,7 +16,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class DataAccessModule {
+class DataAccessModule {
     @Provides
     @Singleton
     WordTranslationDao wordTranslationDao(AppRoomDatabase database) {

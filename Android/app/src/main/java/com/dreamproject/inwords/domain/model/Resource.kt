@@ -5,7 +5,7 @@ package com.dreamproject.inwords.domain.model
  *
  * @param data is non-null on success
  */
-class Resource<T : Any> internal constructor(val status: Status, val data: T?, val message: String?) {
+data class Resource<T : Any> internal constructor(val status: Status, val data: T?, val message: String?) {
     enum class Status {
         SUCCESS, ERROR, LOADING
     }

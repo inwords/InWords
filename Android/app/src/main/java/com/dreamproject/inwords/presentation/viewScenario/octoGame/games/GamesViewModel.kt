@@ -12,12 +12,8 @@ import io.reactivex.subjects.Subject
 class GamesViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
     private val _navigateToGameLevelSubject: Subject<GameInfo> = PublishSubject.create()
 
-    val navigateToGame: Observable<GameInfo>
+    val navigateToGame: Subject<GameInfo>
         get() = _navigateToGameLevelSubject
-
-    fun onGameSelected(gameInfo: GameInfo) {
-        _navigateToGameLevelSubject.onNext(gameInfo)
-    }
 
     fun screenInfoStream(): Observable<GamesInfoModel> = gameInteractor.getGamesInfo()
 
