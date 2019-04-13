@@ -24,8 +24,10 @@ internal class ResourceCachingProvider<T : Any>(
 
     private val resourceStream: Subject<Resource<T>> = BehaviorSubject.create()
 
+    private var shouldAskForUpdate = false
+
     init {
-        askForContentStream
+        askForContentStream //TODO loading state emit somewhere
                 .flatMap { fakeRemoteStream.mergeWith(remoteDataProvider().wrapResource()) }
                 .flatMapSingle { res ->
                     if (res.success()) {
@@ -44,6 +46,7 @@ internal class ResourceCachingProvider<T : Any>(
                         databaseGetter().wrapResource()
                     }
                 }
+                .doOnNext { shouldAskForUpdate = it.error() }
                 .subscribe(resourceStream)
 
         askForContentUpdate()
@@ -57,7 +60,13 @@ internal class ResourceCachingProvider<T : Any>(
         fakeRemoteStream.onNext(Resource.success(value))
     }
 
-    fun observe(): Observable<Resource<T>> = resourceStream
+    fun observe(): Observable<Resource<T>> {
+        if (shouldAskForUpdate) {
+            askForContentUpdate()
+        }
+
+        return resourceStream
+    }
 
     private fun Single<T>.wrapResource(): Single<Resource<T>> {
         return map { Resource.success(it) }

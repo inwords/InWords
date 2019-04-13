@@ -26,17 +26,29 @@ class GameGatewayControllerImpl @Inject constructor(
     private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator<Game>() }
     private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator<GameLevel>() }
 
-    override fun getGamesInfo(): Observable<Resource<List<GameInfo>>> {
+    override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<List<GameInfo>>> {
+        if (forceUpdate) {
+            gamesInfoCachingProvider.askForContentUpdate()
+        }
+
         return gamesInfoCachingProvider.observe()
     }
 
-    override fun getGame(gameId: Int): Observable<Resource<Game>> {
+    override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
+        if (forceUpdate) {
+            gamesInfoCachingProvider.askForContentUpdate()
+        }
+
         val cachingProvider = gameCachingProviderLocator.get(gameId) { createGameCachingProvider(gameId) }
 
         return cachingProvider.observe()
     }
 
-    override fun getLevel(levelId: Int): Observable<Resource<GameLevel>> {
+    override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
+        if (forceUpdate) {
+            gamesInfoCachingProvider.askForContentUpdate()
+        }
+
         val cachingProvider = gameLevelCachingProviderLocator.get(levelId) { createGameLevelCachingProvider(levelId) }
 
         return cachingProvider.observe()

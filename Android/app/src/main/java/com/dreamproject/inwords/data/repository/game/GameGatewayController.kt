@@ -9,8 +9,8 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 interface GameGatewayController {
-    fun getGamesInfo(): Observable<Resource<List<GameInfo>>>
-    fun getGame(gameId: Int): Observable<Resource<Game>>
-    fun getLevel(levelId: Int): Observable<Resource<GameLevel>>
+    fun getGamesInfo(forceUpdate: Boolean = false): Observable<Resource<List<GameInfo>>>
+    fun getGame(gameId: Int, forceUpdate: Boolean = false): Observable<Resource<Game>>
+    fun getLevel(levelId: Int, forceUpdate: Boolean = false): Observable<Resource<GameLevel>>
     fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<LevelScore>
 }

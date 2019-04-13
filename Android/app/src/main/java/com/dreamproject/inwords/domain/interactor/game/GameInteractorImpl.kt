@@ -14,20 +14,20 @@ import javax.inject.Inject
 class GameInteractorImpl @Inject constructor(
         private val gameGatewayController: GameGatewayController) : GameInteractor {
 
-    override fun getGamesInfo(): Observable<GamesInfoModel> {
-        return gameGatewayController.getGamesInfo()
+    override fun getGamesInfo(forceUpdate: Boolean): Observable<GamesInfoModel> {
+        return gameGatewayController.getGamesInfo(forceUpdate)
                 .map { GamesInfoModel(true, it) }
                 .cache()
     }
 
-    override fun getGame(gameId: Int): Observable<GameModel> {
-        return gameGatewayController.getGame(gameId)
+    override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<GameModel> {
+        return gameGatewayController.getGame(gameId, forceUpdate)
                 .map { GameModel(true, it) }
                 .cache()
     }
 
-    override fun getLevel(levelId: Int): Observable<Resource<GameLevel>> {
-        return gameGatewayController.getLevel(levelId)
+    override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
+        return gameGatewayController.getLevel(levelId, forceUpdate)
                 .cache()
     }
 

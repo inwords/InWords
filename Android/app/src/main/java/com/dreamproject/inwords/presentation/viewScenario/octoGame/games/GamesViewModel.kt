@@ -18,6 +18,6 @@ class GamesViewModel(private val gameInteractor: GameInteractor) : BasicViewMode
     fun screenInfoStream(): Observable<GamesInfoModel> = gameInteractor.getGamesInfo()
 
     fun onGameRemoved(gameInfo: GameInfo) {
-        Log.d("onGameRemoved", gameInfo.toString())
+        Log.d("onGameRemoved", gameInfo.toString()) //TODO
     }
 }
