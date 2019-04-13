@@ -12,5 +12,3 @@ data class User(
         @SerializedName("avatarPath") val avatar: String?,
         @SerializedName("experience") val experience: Int,
         @SerializedName("account") val account: String?)
-
-val noUser get() = User(Int.MAX_VALUE, "", null, 0, null)

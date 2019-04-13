@@ -7,7 +7,7 @@ import androidx.navigation.Navigation
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.User
-import com.dreamproject.inwords.data.dto.noUser
+import com.dreamproject.inwords.domain.model.Resource
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.jakewharton.rxbinding2.view.RxView
@@ -75,12 +75,12 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
             showLoginHint()
         }
 
-        fun renderSuccess(user: User) {
-            if (user.userId == noUser.userId) {
+        fun renderSuccess(user: Resource<User>) {
+            if (user.error()) {
                 renderNoUser()
-            } else {
-                renderUser(user)
-            }
+            } else if (user.success()) {
+                renderUser(user.data!!)
+            }//TODO loading state use
 
             profile.visibility = View.VISIBLE
         }
