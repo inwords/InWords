@@ -13,5 +13,5 @@ interface GameInteractor {
     fun getGamesInfo(forceUpdate: Boolean = false): Observable<GamesInfoModel>
     fun getGame(gameId: Int, forceUpdate: Boolean = false): Observable<GameModel>
     fun getLevel(levelId: Int, forceUpdate: Boolean = false): Observable<Resource<GameLevel>>
-    fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<LevelScore>
+    fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<Resource<LevelScore>>
 }

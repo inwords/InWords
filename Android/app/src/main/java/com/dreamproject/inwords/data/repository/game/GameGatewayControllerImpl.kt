@@ -35,31 +35,33 @@ class GameGatewayControllerImpl @Inject constructor(
     }
 
     override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
-        if (forceUpdate) {
-            gamesInfoCachingProvider.askForContentUpdate()
-        }
-
         val cachingProvider = gameCachingProviderLocator.get(gameId) { createGameCachingProvider(gameId) }
+
+        if (forceUpdate) {
+            cachingProvider.askForContentUpdate()
+        }
 
         return cachingProvider.observe()
     }
 
     override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
-        if (forceUpdate) {
-            gamesInfoCachingProvider.askForContentUpdate()
-        }
-
         val cachingProvider = gameLevelCachingProviderLocator.get(levelId) { createGameLevelCachingProvider(levelId) }
+
+        if (forceUpdate) {
+            cachingProvider.askForContentUpdate()
+        }
 
         return cachingProvider.observe()
     }
 
-    override fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<LevelScore> {
+    override fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<Resource<LevelScore>> {
         return gameRemoteRepository.getScore(LevelScoreRequest(levelId, openingQuantity))
                 .doOnSuccess { updateLocalScore(game, levelId) }
                 .doOnError {
                     //TODO store local
                 }
+                .map { Resource.success(it) }
+                .onErrorReturn { Resource.error(it.message, null) }
                 .subscribeOn(SchedulersFacade.io())
     }
 

@@ -93,7 +93,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLe
             cardsData.words.forEach { stateMap[it] = false }
 
             renderCards(cardsData)
-        }
+        } //TODO add else branch
     }
 
     private fun clearState() {

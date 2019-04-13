@@ -34,9 +34,9 @@ internal class ResourceCachingProvider<T : Any>(
                         databaseInserter(res.data!!)
                                 .doOnError { Log.d(TAG, it.message) }
                                 .wrapResourceOverwriteError(res)
+                    } else {
+                        Single.just(res)
                     }
-
-                    Single.just(res)
                 }
                 .switchMapSingle {
                     if (it.success()) {

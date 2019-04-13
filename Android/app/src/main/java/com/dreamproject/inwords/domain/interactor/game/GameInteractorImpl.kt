@@ -31,7 +31,7 @@ class GameInteractorImpl @Inject constructor(
                 .cache()
     }
 
-    override fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<LevelScore> {
+    override fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<Resource<LevelScore>> {
         return gameGatewayController.getScore(game, levelId, openingQuantity)
                 .cache()
     }
