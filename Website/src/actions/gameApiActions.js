@@ -30,7 +30,10 @@ function saveLevelResult(levelResult) {
         endpoint: `Game/Score`,
         method: 'POST',
         data: JSON.stringify(levelResult),
-        actionsOnSuccess: [gameActions.updateGameInfo],
+        actionsOnSuccess: [
+            gameActions.updateGameInfoAfterResultSaving,
+            gameActions.updateGameLevelAfterResultSaving
+        ],
         errorMessage: 'Ошибка сохранения результата'
     });
 }

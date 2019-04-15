@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import history from '../history';
+import TopAppBar from './TopAppBar';
 import ErrorSnackbar from './ErrorSnackbar';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
-import WordlistContainer from './Wordlist/WordlistPage';
-import GameLevelsContainer from './Game/GameLevelsContainer';
-import GameFieldContainer from './Game/GameFieldContainer';
-import ProfileContainer from './Profile/ProfilePage';
-import RegularAppBar from './AppBar/CustomAppBar';
+import WordlistContainer from './WordlistPage';
+import GameLevelsContainer from './Game/GameLevels';
+import GameFieldContainer from './Game/GameField';
+import ProfilePage from './ProfilePage';
+import ProfileSettingsPage from './ProfileSettingsPage';
 import Games from './Game/Games';
 
 function App({ userId }) {
@@ -19,7 +20,7 @@ function App({ userId }) {
             <ErrorSnackbar />
             <Router history={history}>
                 <Switch>
-                    <RegularAppBar>
+                    <TopAppBar>
                         <Route exact path="/" render={() =>
                             !userId ?
                                 <Redirect to="/login" /> :
@@ -30,8 +31,10 @@ function App({ userId }) {
                         <Route exact path="/games" component={Games} />
                         <Route path="/games/game/:id" component={GameLevelsContainer} />
                         <Route path="/games/level/:id" component={GameFieldContainer} />
-                        <Route path="/profile/:id" component={ProfileContainer} />
-                    </RegularAppBar>
+                        <Route exact path="/profile" render={() => <Redirect to={`/profile/${userId}`} />} />
+                        <Route path="/profile/:id" component={ProfilePage} />
+                        <Route path="/profile_settings" component={ProfileSettingsPage} />
+                    </TopAppBar>
                 </Switch>
             </Router>
         </Fragment>
