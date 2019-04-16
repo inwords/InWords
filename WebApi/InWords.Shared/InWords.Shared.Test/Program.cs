@@ -7,7 +7,7 @@ namespace InWords.Shared.Test
     {
         //C:\Users\aasle\YandexDisk\!Source\InWords\WebApi\InWords.Shared\x64\Debug
 
-        [DllImport(@"C:\Users\aasle\YandexDisk\!Source\InWords\WebApi\InWords.Shared\x64\Debug\InWords.Shared.dll",
+        [DllImport(@"InWords.Shared.dll",
             EntryPoint = "GameScore", CallingConvention = CallingConvention.StdCall)]
         public static extern int GameScore(int wordsCount, int openingQuantity);
 
