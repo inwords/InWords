@@ -1,5 +1,6 @@
 ﻿using InWords.Data.Models;
 using InWords.Data.Models.InWords.Repositories;
+using InWords.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,6 +52,14 @@ namespace InWords.WebApi.Controllers.v1
         public IActionResult GetRole()
         {
             return Ok("Role: Admin");
+        }
+
+        [HttpGet]
+        [Route("Score/{words}:{open}")]
+        public IActionResult GetScore(int words, int open)
+        {
+            int x = GameLogic.GameScore(words, open);
+            return Ok(x);
         }
     }
 }
