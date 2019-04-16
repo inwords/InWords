@@ -8,11 +8,12 @@ import ErrorSnackbar from './ErrorSnackbar';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistContainer from './WordlistPage';
-import GameLevelsContainer from './Game/GameLevels';
+import GameLevelsContainer from './GameLevelsPage/GameLevels';
 import GameFieldContainer from './Game/GameField';
 import ProfilePage from './ProfilePage';
 import ProfileSettingsPage from './ProfileSettingsPage';
-import Games from './Game/Games';
+import GamesPage from './GamesPage/GamesPage';
+import GamePackCreationPage from './GamePackCreationPage';
 
 function App({ userId }) {
     return (
@@ -28,9 +29,10 @@ function App({ userId }) {
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistContainer} />
-                        <Route exact path="/games" component={Games} />
+                        <Route exact path="/games" component={GamesPage} />
                         <Route path="/games/game/:id" component={GameLevelsContainer} />
                         <Route path="/games/level/:id" component={GameFieldContainer} />
+                        <Route path="/game_pack_creation" component={GamePackCreationPage} />
                         <Route exact path="/profile" render={() => <Redirect to={`/profile/${userId}`} />} />
                         <Route path="/profile/:id" component={ProfilePage} />
                         <Route path="/profile_settings" component={ProfileSettingsPage} />

@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import gameApiActions from '../../../actions/gameApiActions';
-import GamePackAddition from './GamePackAddition';
+import gameApiActions from '../../actions/gameApiActions';
+import { AppBarContext } from '../../contexts/AppBarContext';
+import UpwardButton from '../shared/UpwardButton';
+import GamePackCreationPage from './GamePackCreationPage';
 
 function GamePackAdditionContainer({ visible, userId, addGamePack }) {
-    const [descriptionValues, setDescriptionValues] = useState({
+    const { resetAppBar } = React.useContext(AppBarContext);
+
+    React.useEffect(() => {
+        resetAppBar({
+            title: 'Создание',
+            leftElements: <UpwardButton />,
+        });
+    }, []);
+
+    const [descriptionValues, setDescriptionValues] = React.useState({
         title: '',
         description: ''
     });
@@ -14,7 +25,7 @@ function GamePackAdditionContainer({ visible, userId, addGamePack }) {
         setDescriptionValues({ ...descriptionValues, [prop]: event.target.value });
     };
 
-    const [levelPacks, setLevelPacks] = useState([{
+    const [levelPacks, setLevelPacks] = React.useState([{
         level: 1,
         wordTranslations: [{
             wordForeign: '',
@@ -124,8 +135,7 @@ function GamePackAdditionContainer({ visible, userId, addGamePack }) {
     };
 
     return (
-        <GamePackAddition
-            visible={visible}
+        <GamePackCreationPage
             descriptionValues={descriptionValues}
             handleDescriptionValuesChange={handleDescriptionValuesChange}
             levelPacks={levelPacks}

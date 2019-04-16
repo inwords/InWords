@@ -34,7 +34,6 @@ function ProfileMenu({ anchorEl, handleMenu, handleClose, handleLogout }) {
                 onClose={handleClose}
             >
                 <MenuItem component={Link} to="/profile" onClick={handleClose}>Профиль</MenuItem>
-                <MenuItem component={Link} to="/profile_settings" onClick={handleClose}>Настройки</MenuItem>
                 <MenuItem onClick={handleLogout}>Выйти</MenuItem>
             </Menu>
         </>

@@ -13,10 +13,13 @@ const styles = theme => ({
             marginRight: 'auto',
         },
     },
-    shell: {
+    paper: {
         marginTop: theme.spacing.unit * 4,
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-        textAlign: 'end',
+    },
+    actions: {
+        display: 'flex',
+        justifyContent: 'flex-end',
     },
     submit: {
         marginTop: theme.spacing.unit * 3,
@@ -26,7 +29,7 @@ const styles = theme => ({
 function ProfileSettingsPage({ values, handleChange, handleSubmit, classes }) {
     return (
         <div className={classes.root}>
-            <Paper className={classes.shell}>
+            <Paper className={classes.paper}>
                 <form onSubmit={handleSubmit}>
                     <TextField
                         required
@@ -47,14 +50,16 @@ function ProfileSettingsPage({ values, handleChange, handleSubmit, classes }) {
                         margin="normal"
                         variant="filled"
                     />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Сохранить
-                    </Button>
+                    <div className={classes.actions}>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Сохранить
+                        </Button>
+                    </div>
                 </form>
             </Paper>
         </div>

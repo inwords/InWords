@@ -50,6 +50,7 @@ function addGamePack(gamePack) {
             title: gamePack.creationInfo.descriptions[0].title,
             description: gamePack.creationInfo.descriptions[0].description,
         })],
+        redirection: '/games',
         errorMessage: 'Ошибка добавления игры'
     });
 }

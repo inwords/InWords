@@ -15,7 +15,7 @@ function ProfileSettingsPageContainer({ userId, userInfo, receiveUserInfo, chang
             leftElements: <UpwardButton />,
         });
 
-        if (!userInfo.userId) {
+        if (userInfo.userId !== userId) {
             receiveUserInfo(userId);
         }
     }, []);

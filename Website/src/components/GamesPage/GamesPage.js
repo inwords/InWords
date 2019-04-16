@@ -1,23 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper/index';
+import Tabs from '@material-ui/core/Tabs/index';
+import Tab from '@material-ui/core/Tab/index';
 import { AppBarContext } from '../../contexts/AppBarContext';
 import useTabsBehaviour from '../../hooks/useTabsBehaviour';
-import LearningGamesContainer from './LearningGames';
-import SandboxGamesContainer from './SandboxGames';
-import GamePackAdditionContainer from './GamePackAddition';
-import LargePageContentContainer from '../PageContentContainers/LargePageContentContainer';
+import LearningGames from './LearningGames';
+import SandboxGames from './SandboxGames';
+import GamePackAddButton from './GamePackAddButton';
 
 const styles = theme => ({
+    root: {
+        [theme.breakpoints.up(1100 + 240 + theme.spacing.unit * 3 * 2)]: {
+            width: 1100,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+    },
     tabContainer: {
         paddingTop: theme.spacing.unit * 3,
     },
 });
 
-function Games({ classes }) {
+function GamesPage({ classes }) {
     const { resetAppBar } = React.useContext(AppBarContext);
 
     React.useEffect(() => {
@@ -27,7 +33,7 @@ function Games({ classes }) {
     const [value, handleChange] = useTabsBehaviour();
 
     return (
-        <LargePageContentContainer>
+        <div className={classes.root}>
             <Paper>
                 <Tabs
                     value={value}
@@ -42,19 +48,19 @@ function Games({ classes }) {
             </Paper>
             {value === 0 &&
                 <div className={classes.tabContainer}>
-                    <LearningGamesContainer />
+                    <LearningGames />
                 </div>}
             {value === 1 &&
                 <div className={classes.tabContainer}>
-                    <SandboxGamesContainer />
+                    <SandboxGames />
                 </div>}
-            <GamePackAdditionContainer visible={value === 1} />
-        </LargePageContentContainer >
+            <GamePackAddButton visible={value === 1} />
+        </div >
     );
 }
 
-Games.propTypes = {
+GamesPage.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Games);
+export default withStyles(styles)(GamesPage);
