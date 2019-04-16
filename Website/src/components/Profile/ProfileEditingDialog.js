@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-import FullScreenDialogWithForm from '../FullScreenDialogWithForm';
+import FullScreenDialogWithForm from '../Dialogs/FullScreenDialogWithForm';
 
 function ProfileEditingDialog({ values, handleChange, ...rest }) {
     return (
@@ -33,8 +33,14 @@ function ProfileEditingDialog({ values, handleChange, ...rest }) {
 }
 
 ProfileEditingDialog.propTypes = {
-    values: PropTypes.object.isRequired,
-    handleChange: PropTypes.func.isRequired
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    values: PropTypes.shape({
+        nickName: PropTypes.string.isRequired,
+        avatarPath: PropTypes.string.isRequired,
+    }).isRequired,
+    handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
 };
 
 export default ProfileEditingDialog;

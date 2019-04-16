@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
-import thunk from 'redux-thunk';
 import { loadState, saveState } from './localStorage';
 import rootReducer from '../reducers';
 import apiMiddleware from '../middleware/apiMiddleware';
@@ -11,7 +10,6 @@ const store = createStore(
     rootReducer,
     persistedState,
     applyMiddleware(
-        thunk,
         logger,
         apiMiddleware
     )

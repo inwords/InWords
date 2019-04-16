@@ -1,20 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import GameInfoCardMenu from './GameInfoCardMenu';
 
 function GameInfoCard({ gameInfo, handleRedirection, handleGamePackDeletion = null }) {
     const { gameId, title, isAvailable, description } = gameInfo;
 
     return (
         <Card>
+            <CardHeader
+                action={
+                    handleGamePackDeletion && (
+                        <GameInfoCardMenu
+                            gameId={gameId}
+                            handleGamePackDeletion={handleGamePackDeletion}
+                        />)
+                }
+                title={title}
+            />
             <CardContent>
-                <Typography gutterBottom={Boolean(description)} variant="h5">
-                    {title}
-                </Typography>
                 <Typography component="p">
                     {description}
                 </Typography>
@@ -28,14 +37,6 @@ function GameInfoCard({ gameInfo, handleRedirection, handleGamePackDeletion = nu
                 >
                     Выбрать
                 </Button>
-                {handleGamePackDeletion &&
-                    <Button
-                        size="small"
-                        color="secondary"
-                        onClick={handleGamePackDeletion(gameId)}
-                    >
-                        Удалить
-                    </Button>}
             </CardActions>
         </Card>
     );
