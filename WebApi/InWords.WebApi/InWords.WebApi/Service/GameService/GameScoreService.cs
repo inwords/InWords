@@ -125,7 +125,6 @@ namespace InWords.WebApi.Service.GameService
             }
         }
 
-
         #region Ctor
 
         private readonly UserGameBoxRepository userGameBoxRepository;
