@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link, withRouter} from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles/index';
-import ListItem from '@material-ui/core/ListItem/index';
-import ListItemText from '@material-ui/core/ListItemText/index';
-import Typography from '@material-ui/core/Typography/index';
+import withStyles from '@material-ui/core/styles/withStyles';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     item: {

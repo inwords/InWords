@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid/index';
-import { AppBarContext } from '../../../contexts/AppBarContext';
+import { AppBarContext } from '../../TopAppBar/AppBarContext';
 import UpwardButton from '../../shared/UpwardButton';
 import GameWordCard from '../GameWordCard';
 

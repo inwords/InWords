@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import userApiActions from '../../actions/userApiActions';
-import { AppBarContext } from '../../contexts/AppBarContext';
+import { AppBarContext } from '../TopAppBar/AppBarContext';
 import Profile from './ProfilePage';
 
 function ProfilePageContainer({ userId, userInfo, receiveUserInfo, match }) {

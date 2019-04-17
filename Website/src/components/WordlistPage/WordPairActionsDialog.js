@@ -32,7 +32,7 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-function WordPairActionsDialog({ title, values, handleChange, open, handleClose, handleSubmit, classes }) {
+function WordPairActionsDialog({ title, open, handleClose, values, handleChange, handleSubmit, classes }) {
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>

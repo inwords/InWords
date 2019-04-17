@@ -12,7 +12,7 @@ import GameLevelsContainer from './GameLevelsPage/GameLevels';
 import GameFieldContainer from './Game/GameField';
 import ProfilePage from './ProfilePage';
 import ProfileSettingsPage from './ProfileSettingsPage';
-import GamesPage from './GamesPage/GamesPage';
+import GamesPage from './GamesPage';
 import GamePackCreationPage from './GamePackCreationPage';
 
 function App({ userId }) {
@@ -29,9 +29,9 @@ function App({ userId }) {
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistContainer} />
-                        <Route exact path="/games" component={GamesPage} />
-                        <Route path="/games/game/:id" component={GameLevelsContainer} />
-                        <Route path="/games/level/:id" component={GameFieldContainer} />
+                        <Route path="/games/:value" component={GamesPage} />
+                        <Route path="/game/:id" component={GameLevelsContainer} />
+                        <Route path="/game_level/:id" component={GameFieldContainer} />
                         <Route path="/game_pack_creation" component={GamePackCreationPage} />
                         <Route exact path="/profile" render={() => <Redirect to={`/profile/${userId}`} />} />
                         <Route path="/profile/:id" component={ProfilePage} />

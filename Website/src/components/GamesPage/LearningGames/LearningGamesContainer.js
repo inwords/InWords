@@ -13,7 +13,7 @@ function LearningGamesContainer({ gamesInfo, pullGamesInfo, userId, history }) {
     }, []);
 
     const handleRedirection = gameId => () => {
-        history.push(`/games/game/${gameId}`);
+        history.push(`/game/${gameId}`);
     };
 
     return (

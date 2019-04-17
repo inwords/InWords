@@ -7,7 +7,7 @@ import GameLevels from './GameLevels';
 
 function GameLevelsContainer({ gameInfo, pullGameInfo, history, match }) {
     const handleRedirection = levelId => () => {
-        history.push(`/games/level/${levelId}`);
+        history.push(`/game_level/${levelId}`);
     };
 
     useEffect(() => {

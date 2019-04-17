@@ -13,7 +13,7 @@ function SandboxGamesContainer({ gamesInfo, pullGamesInfo, deleteGamePack, userI
     }, []);
 
     const handleRedirection = gameId => () => {
-        history.push(`/games/game/${gameId}`);
+        history.push(`/game/${gameId}`);
     };
 
     const handleGamePackDeletion = gameId => () => {

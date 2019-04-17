@@ -4,8 +4,6 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper/index';
 import Tabs from '@material-ui/core/Tabs/index';
 import Tab from '@material-ui/core/Tab/index';
-import { AppBarContext } from '../../contexts/AppBarContext';
-import useTabsBehaviour from '../../hooks/useTabsBehaviour';
 import LearningGames from './LearningGames';
 import SandboxGames from './SandboxGames';
 import GamePackAddButton from './GamePackAddButton';
@@ -23,15 +21,7 @@ const styles = theme => ({
     },
 });
 
-function GamesPage({ classes }) {
-    const { resetAppBar } = React.useContext(AppBarContext);
-
-    React.useEffect(() => {
-        resetAppBar({title: 'Игры'});
-    }, []);
-
-    const [value, handleChange] = useTabsBehaviour();
-
+function GamesPage({ value, handleChange, classes }) {
     return (
         <div className={classes.root}>
             <Paper>
@@ -47,19 +37,21 @@ function GamesPage({ classes }) {
                 </Tabs>
             </Paper>
             {value === 0 &&
-                <div className={classes.tabContainer}>
-                    <LearningGames />
-                </div>}
+            <div className={classes.tabContainer}>
+                <LearningGames />
+            </div>}
             {value === 1 &&
-                <div className={classes.tabContainer}>
-                    <SandboxGames />
-                </div>}
+            <div className={classes.tabContainer}>
+                <SandboxGames />
+            </div>}
             <GamePackAddButton visible={value === 1} />
-        </div >
+        </div>
     );
 }
 
 GamesPage.propTypes = {
+    value: PropTypes.number.isRequired,
+    handleChange: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
 

@@ -10,7 +10,7 @@ import Drawer from '@material-ui/core/Drawer/index';
 import Divider from '@material-ui/core/Divider/index';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton/index';
-import { AppBarContext } from '../../contexts/AppBarContext';
+import { AppBarContext } from './AppBarContext';
 import DataTransferProgress from './DataTransferProgress';
 import ProfileMenu from './ProfileMenu';
 import DrawerHeader from './DrawerHeader';

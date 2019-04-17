@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import accessActions from '../../actions/accessActions';
-import { AppBarContextProvider } from '../../contexts/AppBarContext';
+import { AppBarContextProvider } from './AppBarContext';
 import TopAppBar from './TopAppBar';
 
 function TopAppBarContainer({ userId, ...rest }) {

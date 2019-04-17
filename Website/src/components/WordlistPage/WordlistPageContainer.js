@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import wordlistApiActions from '../../actions/wordPairsApiActions';
-import { AppBarContext } from '../../contexts/AppBarContext';
+import { AppBarContext } from '../TopAppBar/AppBarContext';
 import usePrevious from '../../hooks/usePrevious';
 import WordPairsUncheckButton from './WordPairsUncheckButton';
 import WordPairsDeleteButton from './WordPairsDeleteButton';

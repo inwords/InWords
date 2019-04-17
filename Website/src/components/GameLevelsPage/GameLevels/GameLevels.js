@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid/index';
-import { AppBarContext } from '../../../contexts/AppBarContext';
+import { AppBarContext } from '../../TopAppBar/AppBarContext';
 import GameLevelInfoCard from '../GameLevelInfoCard';
 import LargePageContentContainer from '../../PageContentContainers/LargePageContentContainer';
 import UpwardButton from '../../shared/UpwardButton';

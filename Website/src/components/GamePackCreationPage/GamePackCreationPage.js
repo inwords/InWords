@@ -37,10 +37,16 @@ const styles = theme => ({
 });
 
 function GamePackCreationPage({
-                                  descriptionValues, handleDescriptionValuesChange,
-                                  levelPacks, handleLevelPackAddition, handleLevelPackDeletion,
-                                  handleWordTranslationsChange, handleWordTranslationAddition, handleWordTranslationDeletion,
-                                  handleSubmit, classes
+                                  descriptionValues,
+                                  handleDescriptionValuesChange,
+                                  levelPacks,
+                                  handleLevelPackAddition,
+                                  handleLevelPackDeletion,
+                                  handleWordTranslationsChange,
+                                  handleWordTranslationAddition,
+                                  handleWordTranslationDeletion,
+                                  handleSubmit,
+                                  classes
                               }) {
     return (
         <div className={classes.root}>

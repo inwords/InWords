@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameApiActions from '../../actions/gameApiActions';
-import { AppBarContext } from '../../contexts/AppBarContext';
+import { AppBarContext } from '../TopAppBar/AppBarContext';
 import UpwardButton from '../shared/UpwardButton';
 import GamePackCreationPage from './GamePackCreationPage';
 
-function GamePackAdditionContainer({ visible, userId, addGamePack }) {
+function GamePackAdditionContainer({ userId, addGamePack }) {
     const { resetAppBar } = React.useContext(AppBarContext);
 
     React.useEffect(() => {

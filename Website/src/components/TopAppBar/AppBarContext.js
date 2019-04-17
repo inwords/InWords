@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AppBarContext = React.createContext();
+const AppBarContext = React.createContext(null);
 
 const initialSettings = {
     title: '',

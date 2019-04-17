@@ -6,25 +6,18 @@ import CardContent from '@material-ui/core/CardContent/index';
 import CardActions from '@material-ui/core/CardActions/index';
 import Button from '@material-ui/core/Button/index';
 import Typography from '@material-ui/core/Typography/index';
-import GameInfoCardMenu from './GameInfoCardMenu';
 
-function GameInfoCard({ gameInfo, handleRedirection, handleGamePackDeletion = null }) {
+function GameInfoCard({ gameInfo, handleRedirection, action = null }) {
     const { gameId, title, isAvailable, description } = gameInfo;
 
     return (
         <Card>
             <CardHeader
-                action={
-                    handleGamePackDeletion && (
-                        <GameInfoCardMenu
-                            gameId={gameId}
-                            handleGamePackDeletion={handleGamePackDeletion}
-                        />)
-                }
+                action={action}
                 title={title}
             />
             <CardContent>
-                <Typography component="p">
+                <Typography component="p" color="textSecondary">
                     {description}
                 </Typography>
             </CardContent>
@@ -50,7 +43,7 @@ GameInfoCard.propTypes = {
         description: PropTypes.string.isRequired,
     }).isRequired,
     handleRedirection: PropTypes.func.isRequired,
-    handleGamePackDeletion: PropTypes.func,
+    action: PropTypes.node
 };
 
 export default GameInfoCard;

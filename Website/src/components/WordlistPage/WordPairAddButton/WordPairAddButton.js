@@ -4,6 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab/index';
 import AddIcon from '@material-ui/icons/Add';
 import WordPairActionsDialog from '../WordPairActionsDialog';
+import Zoom from '@material-ui/core/Zoom/index';
 
 const styles = theme => ({
     button: {
@@ -19,13 +20,15 @@ const styles = theme => ({
 function WordPairAddButton({ handleOpen, classes, ...rest }) {
     return (
         <>
-            <Fab
-                className={classes.fab}
-                color="primary"
-                onClick={handleOpen}
-            >
-                <AddIcon />
-            </Fab>
+            <Zoom in>
+                <Fab
+                    className={classes.fab}
+                    color="primary"
+                    onClick={handleOpen}
+                >
+                    <AddIcon />
+                </Fab>
+            </Zoom>
             <WordPairActionsDialog
                 title="Добавление"
                 {...rest}
