@@ -1,11 +1,11 @@
-import commonConstants from "../constants/commonConstants";
+import commonConstants from '../constants/commonConstants';
 
-const beginDataTransfer = () => ({
-    type: commonConstants.DATA_TRANSFER_BEGIN
+const beginLoading = () => ({
+    type: commonConstants.LOADING_BEGIN
 });
 
-const endDataTransfer = () => ({
-    type: commonConstants.DATA_TRANSFER_END
+const endLoading = () => ({
+    type: commonConstants.LOADING_END
 });
 
 export const setErrorMessage = message => ({
@@ -18,8 +18,8 @@ export const resetErrorMessage = () => ({
 });
 
 export default {
-    beginDataTransfer,
-    endDataTransfer,
+    beginLoading,
+    endLoading,
     setErrorMessage,
     resetErrorMessage
 };

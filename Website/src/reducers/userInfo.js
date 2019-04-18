@@ -19,8 +19,8 @@ const userInfo = (state = initialState, action) => {
         case userConstants.USER_INFO_UPDATE:
             return {
                 ...state,
-                nickName: action.payload.nickName,
-                avatarPath: action.payload.avatarPath
+                nickName: action.payload.nickName || '',
+                avatarPath: action.payload.avatarPath || ''
             };
         default:
             return state;

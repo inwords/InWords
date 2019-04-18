@@ -29,7 +29,7 @@ function receiveUserInfo(userId) {
         actionsOnSuccess: [userActions.initializeUserInfo],
         errorMessage: 'Ошибка загрузки профиля'
     });
-};
+}
 
 function changeUserInfo(userInfo) {
     return apiAction({
@@ -37,9 +37,10 @@ function changeUserInfo(userInfo) {
         method: 'PUT',
         data: JSON.stringify(userInfo),
         actionsOnSuccess: [() => userActions.updateUserInfo(userInfo)],
+        redirection: '/profile',
         errorMessage: 'Ошибка редактирования профиля'
     });
-};
+}
 
 export default {
     login,

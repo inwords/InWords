@@ -26,14 +26,14 @@ const gameInfo = (state = initialGameInfoState, action) => {
                 gameId: action.payload.gameId || null,
                 levelInfos: action.payload.levelInfos || []
             };
-        case gameConstants.GAME_INFO_UPDATE:
+        case gameConstants.GAME_INFO_UPDATE_AFTER_RESULT_SAVING:
             return {
                 ...state,
                 levelInfos: state.levelInfos.map(levelInfo => {
                     return levelInfo.levelId !== action.payload.levelId ?
                         levelInfo : {
                             ...levelInfo,
-                            playerStars: action.payload.score
+                            playerStars: action.payload.score || null
                         }
                 })
             };
@@ -44,17 +44,26 @@ const gameInfo = (state = initialGameInfoState, action) => {
 
 const initialGameLevelState = {
     levelId: null,
-    wordTranslations: []
+    wordTranslations: [],
+    lastScore: null
 };
 
 const gameLevel = (state = initialGameLevelState, action) => {
-    if (action.type === gameConstants.GAME_LEVEL_INITIALIZATION) {
-        return {
-            levelId: action.payload.levelId || null,
-            wordTranslations: action.payload.wordTranslations || []
-        };
+    switch (action.type) {
+        case gameConstants.GAME_LEVEL_INITIALIZATION:
+            return {
+                levelId: action.payload.levelId || null,
+                wordTranslations: action.payload.wordTranslations || [],
+                lastScore: null
+            };
+        case gameConstants.GAME_LEVEL_UPDATE_AFTER_RESULT_SAVING:
+            return {
+                ...state,
+                lastScore: action.payload.score || null
+            };
+        default:
+            return state;
     }
-    return state;
 };
 
 const game = combineReducers({

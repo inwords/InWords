@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import commonConstants from '../constants/commonConstants';
 
-const dataTransferInProgress = (state = false, action) => {
+const loading = (state = false, action) => {
     switch (action.type) {
-        case commonConstants.DATA_TRANSFER_BEGIN:
+        case commonConstants.LOADING_BEGIN:
             return true;
-        case commonConstants.DATA_TRANSFER_END:
+        case commonConstants.LOADING_END:
             return false;
         default:
             return state;
@@ -24,7 +24,7 @@ const errorMessage = (state = null, action) => {
 };
 
 const common = combineReducers({
-    dataTransferInProgress,
+    loading,
     errorMessage
 });
 
