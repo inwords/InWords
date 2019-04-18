@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.presentation.viewScenario.main
+package com.dreamproject.inwords.presentation.viewScenario.home
 
 import com.dreamproject.inwords.data.dto.User
 import com.dreamproject.inwords.domain.interactor.profile.ProfileInteractor
@@ -8,13 +8,11 @@ import com.dreamproject.inwords.domain.model.Resource
 import com.dreamproject.inwords.presentation.viewScenario.BasicViewModel
 import io.reactivex.Observable
 
-//compositeDisposable, model and application are available from BasicPresenter
-class MainViewModel internal constructor(
+class HomeViewModel internal constructor(
         private val translationWordsInteractor: TranslationWordsInteractor,
         private val translationSyncInteractor: TranslationSyncInteractor,
         private val profileInteractor: ProfileInteractor) : BasicViewModel() {
 
-    //caches
     val profileDataSubject: Observable<Resource<User>> get() = profileInteractor.getAuthorisedUser()
 
     val wordsCountSubject: Observable<Int> get() = translationWordsInteractor.allWords.map { it.size }

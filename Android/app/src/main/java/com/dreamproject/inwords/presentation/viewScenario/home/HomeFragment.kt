@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.presentation.viewScenario.main
+package com.dreamproject.inwords.presentation.viewScenario.home
 
 import android.net.Uri
 import android.os.Bundle
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.card_dictionary.view.*
 import kotlinx.android.synthetic.main.card_profile.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFactory>() {
+class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFactory>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -123,7 +123,7 @@ class MainFragment : FragmentWithViewModelAndNav<MainViewModel, MainViewModelFac
         return R.layout.fragment_home
     }
 
-    override fun getClassType(): Class<MainViewModel> {
-        return MainViewModel::class.java
+    override fun getClassType(): Class<HomeViewModel> {
+        return HomeViewModel::class.java
     }
 }

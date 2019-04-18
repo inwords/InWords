@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.dreamproject.inwords.presentation.viewScenario.main.MainFragment"
+        android:name="com.dreamproject.inwords.presentation.viewScenario.home.HomeFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_home">
         <action

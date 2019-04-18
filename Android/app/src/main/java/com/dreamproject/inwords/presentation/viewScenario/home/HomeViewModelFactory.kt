@@ -1,4 +1,4 @@
-package com.dreamproject.inwords.presentation.viewScenario.main
+package com.dreamproject.inwords.presentation.viewScenario.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,15 +7,15 @@ import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInt
 import com.dreamproject.inwords.domain.interactor.translation.TranslationWordsInteractor
 import javax.inject.Inject
 
-class MainViewModelFactory @Inject
+class HomeViewModelFactory @Inject
 internal constructor(private val translationWordsInteractor: TranslationWordsInteractor,
                      private val translationSyncInteractor: TranslationSyncInteractor,
                      private val profileInteractor: ProfileInteractor) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return MainViewModel(translationWordsInteractor, translationSyncInteractor, profileInteractor) as T
+            return HomeViewModel(translationWordsInteractor, translationSyncInteractor, profileInteractor) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
