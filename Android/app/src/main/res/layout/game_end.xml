@@ -1,25 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <Button
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="?attr/ratingBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="@dimen/half_margin"
+        android:isIndicator="true"
+        android:numStars="3"
+        android:progressBackgroundTint="@android:color/darker_gray"
+        android:progressTint="@color/holo_orange_light"
+        android:stepSize="1"
+        app:layout_constraintBottom_toTopOf="@id/button_retry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:rating="2" />
+
+    <ImageButton
+        android:id="@+id/button_retry"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="@string/accessibility_navigate_home"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_refresh_black_24dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratingBar" />
+
+    <ImageButton
         android:id="@+id/button_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="На главную" />
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:contentDescription="@string/accessibility_navigate_home"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_home_black_24dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_retry" />
 
-    <Button
-        android:id="@+id/button_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Поплыли дальше" />
-
-    <Button
+    <ImageButton
         android:id="@+id/button_back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="К списку уровней" />
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="@string/accessibility_go_to_levels_list"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_view_module_black_24dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/button_next"
+        app:layout_constraintStart_toEndOf="@id/button_home"
+        app:layout_constraintTop_toBottomOf="@id/button_retry" />
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/button_next"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:contentDescription="@string/accessibility_go_to_next_level"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_navigate_next_black_24dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_retry" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,16 +27,16 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val contextThemeWrapper = ContextThemeWrapper(activity, R.style.AppTheme) // your app theme here
+        val contextThemeWrapper = ContextThemeWrapper(activity, R.style.AppTheme) //needed to render this dialog with correct theme
         return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.game_end, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        button_home.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPaths.HOME) }
-        button_next.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPaths.NEXT) }
-        button_back.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPaths.BACK) }
+        button_home.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPathsEnum.HOME) }
+        button_next.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPathsEnum.NEXT) }
+        button_back.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPathsEnum.BACK) }
     }
 
     override fun onDetach() {

@@ -65,6 +65,9 @@
     <string name="user_experience">Ваш опыт на сегодня: %1$d</string>
     <string name="choose_game">Выберите игру</string>
     <string name="game_remove">Удалить</string>
+    <string name="accessibility_navigate_home">Navigate home</string>
+    <string name="accessibility_go_to_levels_list">Go to levels list</string>
+    <string name="accessibility_go_to_next_level">Go to next level</string>
     <!-- home end -->
 
 </resources>

@@ -1,5 +1,5 @@
 package com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevel
 
-enum class FromGameEndPaths {
+enum class FromGameEndPathsEnum {
     HOME, NEXT, BACK
 }

@@ -12,7 +12,7 @@ import io.reactivex.subjects.Subject
 
 class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
     private val _cardsDataSubject: Subject<Resource<CardsData>> = BehaviorSubject.create()
-    private val _navigationSubject: Subject<FromGameEndPaths> = PublishSubject.create()
+    private val _navigationSubject: Subject<FromGameEndPathsEnum> = PublishSubject.create()
 
     fun onGameLevelSelected(gameLevelId: Int) {
         compositeDisposable.clear()
@@ -28,9 +28,9 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
                 .subscribe(_cardsDataSubject)
     }
 
-    fun navigationStream(): Observable<FromGameEndPaths> = _navigationSubject
+    fun navigationStream(): Observable<FromGameEndPathsEnum> = _navigationSubject
 
-    fun onNewNavCommand(path: FromGameEndPaths) {
+    fun onNewNavCommand(path: FromGameEndPathsEnum) {
         _navigationSubject.onNext(path)
     }
 

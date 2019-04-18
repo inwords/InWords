@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
-import androidx.cardview.widget.CardView
 import com.dreamproject.inwords.R
 import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.Game
@@ -17,11 +16,10 @@ import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.domain.model.Resource
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
-import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_game_level.*
-import kotlinx.android.synthetic.main.game_card.view.*
 import kotlinx.android.synthetic.main.game_card_front.view.*
+import ru.inwords.flipview.FlipView
 import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
 
@@ -51,8 +49,8 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
             @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
             when (it) {
-                FromGameEndPaths.HOME -> navController.navigate(R.id.action_global_mainFragment)
-                FromGameEndPaths.NEXT -> {
+                FromGameEndPathsEnum.HOME -> navController.navigate(R.id.action_global_mainFragment)
+                FromGameEndPathsEnum.NEXT -> {
                     val gameLevelInfos = game.gameLevelInfos
                     val nextLevelIndex = gameLevelInfos.indexOf(gameLevelInfo) + 1
 
@@ -63,7 +61,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
                         Log.d("GameLevelFragment", "BottomSheet's NEXT points out of bound")
                     }
                 }
-                FromGameEndPaths.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
+                FromGameEndPathsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
             }
         })
     }
@@ -126,9 +124,9 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
                     break
                 }
 
-                val card = layoutInflater.inflate(R.layout.game_card, tableRow, false) as CardView
+                val flipView = layoutInflater.inflate(R.layout.game_card, tableRow, false) as FlipView
 
-                with(card.flip_view) {
+                with(flipView) {
                     flip(true)
 
                     val word = words[cardNum]
@@ -138,7 +136,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
                     setOnClickListener(CardClickListener(cardsData))
                 }
 
-                tableRow.addView(card, j)
+                tableRow.addView(flipView, j)
             }
 
             table.addView(tableRow, i)
