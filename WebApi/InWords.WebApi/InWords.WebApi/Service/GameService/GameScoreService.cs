@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations.GameBox;
 using InWords.Data.Models.InWords.Repositories;
+using InWords.Domain;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 
@@ -54,24 +55,9 @@ namespace InWords.WebApi.Service.GameService
         /// <returns></returns>
         public LevelScore GetLevelScore(LevelResult levelResult)
         {
-            // get word pairs count
-            int wordsCount =
-                GameLevelWordRepository.GetEntities(glw => glw.GameLevelId == levelResult.LevelId).Count() * 2;
-            // calculate best openings count
-            int bestOpeningsCount = wordsCount * 2 - 2;
-            // calculate score
-            var score = 0;
-            if (levelResult.OpeningQuantity <= bestOpeningsCount)
-                score = 3;
-            else if (levelResult.OpeningQuantity <= wordsCount * 2.25)
-                score = 2;
-            else if (levelResult.OpeningQuantity <= wordsCount * 2.5) score = 1;
+            int score = GameLogic.GameScore(levelResult.WordsCount, levelResult.OpeningQuantity);
 
-            var levelScore = new LevelScore
-            {
-                LevelId = levelResult.LevelId,
-                Score = score
-            };
+            LevelScore levelScore = new LevelScore(levelResult.LevelId, score);
 
             return levelScore;
         }

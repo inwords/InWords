@@ -8,5 +8,7 @@
         public int LevelId { get; set; }
 
         public int OpeningQuantity { get; set; }
+
+        public int WordsCount { get; set; }
     }
 }
