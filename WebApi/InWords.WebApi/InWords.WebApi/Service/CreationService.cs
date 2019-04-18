@@ -13,31 +13,25 @@ namespace InWords.WebApi.Service
     ///     Service that contain CRUD for Creations
     /// </summary>
     /// <see cref="Creation" />
-    public abstract class CreationService : ServiceBase
+    public class CreationService : ServiceBase
     {
         protected readonly CreationDescriptionRepository CreationDescriptionRepository;
 
         protected readonly CreationRepository CreationRepository;
 
-        protected CreationService(InWordsDataContext context) : base(context)
+        public CreationService(InWordsDataContext context) : base(context)
         {
             CreationRepository = new CreationRepository(context);
             CreationDescriptionRepository = new CreationDescriptionRepository(context);
         }
 
-        /// <summary>
-        ///     Allows add creation by creationInformation
-        /// </summary>
-        /// <see cref="CreationInfo" />
-        /// <param name="creationInfo"></param>
-        /// <returns></returns>
-        protected async Task<int> AddCreation(CreationInfo creationInfo)
+        public async Task<int> AddCreation(CreationInfo creationInfo)
         {
             if (creationInfo.CreatorId == null) throw new ArgumentNullException();
 
             var creation = new Creation
             {
-                CreatorId = (int) creationInfo.CreatorId
+                CreatorId = (int)creationInfo.CreatorId
             };
 
             creation = await CreationRepository.Create(creation);
@@ -57,7 +51,7 @@ namespace InWords.WebApi.Service
             return creation.CreationId;
         }
 
-        protected async Task<CreationInfo> GetCreationInfo(int id)
+        public async Task<CreationInfo> GetCreationInfo(int id)
         {
             // find creation information
             Creation creation = await CreationRepository.FindById(id);
@@ -80,12 +74,21 @@ namespace InWords.WebApi.Service
             return creationInfo;
         }
 
-        /// <summary>
-        ///     Select Description info from CreationDescription
-        /// </summary>
-        /// <param name="descriptionList"></param>
-        /// <see cref="DescriptionInfo" />
-        /// <returns></returns>
+        public async Task<int> DeleteCreation(IEnumerable<int> ids)
+        {
+            var deletions = 0;
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (int i in ids) deletions += await DeleteCreation(i);
+            return deletions;
+        }
+
+        public async Task<int> DeleteCreation(int id)
+        {
+            Creation creation = await CreationRepository.FindById(id);
+            int deletionsCount = await CreationRepository.Remove(creation);
+            return deletionsCount;
+        }
+
         private static List<DescriptionInfo> GetDescriptionInfos(IEnumerable<CreationDescription> descriptionList)
         {
             return descriptionList
@@ -95,21 +98,6 @@ namespace InWords.WebApi.Service
                     Description = desc.Description,
                     Title = desc.Title
                 }).ToList();
-        }
-
-        protected async Task<int> DeleteCreation(IEnumerable<int> ids)
-        {
-            var deletions = 0;
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (int i in ids) deletions += await DeleteCreation(i);
-            return deletions;
-        }
-
-        protected async Task<int> DeleteCreation(int id)
-        {
-            Creation creation = await CreationRepository.FindById(id);
-            int deletionsCount = await CreationRepository.Remove(creation);
-            return deletionsCount;
         }
     }
 }

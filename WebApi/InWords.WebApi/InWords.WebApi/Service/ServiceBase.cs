@@ -2,11 +2,11 @@
 
 namespace InWords.WebApi.Service
 {
-    public class ServiceBase
+    public abstract class ServiceBase
     {
         protected readonly InWordsDataContext Context;
 
-        public ServiceBase(InWordsDataContext context)
+        protected ServiceBase(InWordsDataContext context)
         {
             Context = context;
         }
