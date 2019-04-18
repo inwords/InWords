@@ -11,7 +11,8 @@ import Divider from '@material-ui/core/Divider/index';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton/index';
 import { AppBarContext } from './AppBarContext';
-import DataTransferProgress from './DataTransferProgress';
+import useDrawer from '../../hooks/useDrawer';
+import LoadingProgress from './LoadingProgress';
 import ProfileMenu from './ProfileMenu';
 import DrawerHeader from './DrawerHeader';
 import NavList from './NavList';
@@ -55,8 +56,10 @@ const styles = theme => ({
     },
 });
 
-function TopAppBar({ open, handleDrawerOpen, handleDrawerClose, authorized, children, classes }) {
+function TopAppBar({ authorized, children, classes }) {
     const { appBarSettings } = React.useContext(AppBarContext);
+
+    const { open, handleDrawerOpen, handleDrawerClose } = useDrawer();
 
     return (
         <div className={classes.root}>
@@ -76,7 +79,7 @@ function TopAppBar({ open, handleDrawerOpen, handleDrawerClose, authorized, chil
                     </Typography>
                     {appBarSettings.rightElements || (authorized && <ProfileMenu />)}
                 </Toolbar>
-                <DataTransferProgress />
+                <LoadingProgress />
             </AppBar>
             <nav className={classes.drawer}>
                 <Hidden lgUp>
@@ -116,9 +119,6 @@ function TopAppBar({ open, handleDrawerOpen, handleDrawerClose, authorized, chil
 }
 
 TopAppBar.propTypes = {
-    open: PropTypes.bool.isRequired,
-    handleDrawerOpen: PropTypes.func.isRequired,
-    handleDrawerClose: PropTypes.func.isRequired,
     authorized: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired,

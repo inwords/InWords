@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions/index';
 import Button from '@material-ui/core/Button/index';
 import Typography from '@material-ui/core/Typography/index';
 
-function GameInfoCard({ gameInfo, handleRedirection, action = null }) {
+function GameInfoCard({ gameInfo, action = null }) {
     const { gameId, title, isAvailable, description } = gameInfo;
 
     return (
@@ -17,7 +17,7 @@ function GameInfoCard({ gameInfo, handleRedirection, action = null }) {
                 title={title}
             />
             <CardContent>
-                <Typography component="p" color="textSecondary">
+                <Typography component="p">
                     {description}
                 </Typography>
             </CardContent>
@@ -26,7 +26,7 @@ function GameInfoCard({ gameInfo, handleRedirection, action = null }) {
                     size="small"
                     color="primary"
                     disabled={!isAvailable}
-                    onClick={handleRedirection(gameId)}
+                    href={`#/game/${gameId}`}
                 >
                     Выбрать
                 </Button>
@@ -42,7 +42,6 @@ GameInfoCard.propTypes = {
         isAvailable: PropTypes.bool.isRequired,
         description: PropTypes.string.isRequired,
     }).isRequired,
-    handleRedirection: PropTypes.func.isRequired,
     action: PropTypes.node
 };
 

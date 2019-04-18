@@ -1,10 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import gameApiActions from '../../../actions/gameApiActions';
+import gameApiActions from '../../actions/gameApiActions';
 import FinalGameField from './FinalGameField';
 import GameField from './GameField';
+import withActualGameLevel from './withActualGameLevel';
 
 const shuffle = array => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -17,7 +17,7 @@ const shuffle = array => {
     return array;
 };
 
-function GameFieldContainer({ gameLevel, pullGameLevel, saveLevelResult, match }) {
+function GameFieldContainer({ gameLevel, saveLevelResult }) {
     const [infoAboutRandomWords, setInfoAboutRandomWords] = React.useState([]);
     const [infoAboutSelectedWords, setInfoAboutSelectedWords] = React.useState([]);
     const [successfulPairIds, setSuccessfulPairIds] = React.useState([]);
@@ -26,37 +26,30 @@ function GameFieldContainer({ gameLevel, pullGameLevel, saveLevelResult, match }
     const [gameCompleted, setGameCompleted] = React.useState(false);
 
     React.useEffect(() => {
-        if (gameLevel.levelId !== parseInt(match.params.id)) {
-            pullGameLevel(parseInt(match.params.id));
-        }
+        const shuffledWordTranslations = shuffle([...gameLevel.wordTranslations]);
+        const infoAboutWords = [].concat.apply([], shuffledWordTranslations.slice(0, 8).map(wordPair =>
+            [{
+                pairId: wordPair.serverId,
+                word: wordPair.wordForeign
+            }, {
+                pairId: wordPair.serverId,
+                word: wordPair.wordNative
+            }]
+        ));
+
+        setInfoAboutRandomWords(shuffle(infoAboutWords));
     }, []);
-
-    React.useEffect(() => {
-        if (gameLevel.wordTranslations.length) {
-            const shuffledWordTranslations = shuffle([...gameLevel.wordTranslations]);
-            const infoAboutWords = [].concat.apply([], shuffledWordTranslations.slice(0, 8).map(wordPair =>
-                [{
-                    pairId: wordPair.serverId,
-                    word: wordPair.wordForeign
-                }, {
-                    pairId: wordPair.serverId,
-                    word: wordPair.wordNative
-                }]
-            ));
-
-            setInfoAboutRandomWords(shuffle(infoAboutWords));
-        }
-    }, [gameLevel]);
 
     React.useEffect(() => {
         if (successfulPairIds.length > 0 && successfulPairIds.length === infoAboutRandomWords.length / 2) {
             setTimeout(() => {
                 saveLevelResult({
                     levelId: gameLevel.levelId,
-                    openingQuantity: closuresQuantity * 2 + infoAboutRandomWords.length
+                    openingQuantity: closuresQuantity * 2 + infoAboutRandomWords.length,
+                    wordsCount: infoAboutRandomWords.length
                 });
                 setGameCompleted(true);
-            }, 1000);
+            }, 500);
         }
     }, [successfulPairIds]);
 
@@ -130,24 +123,16 @@ GameFieldContainer.propTypes = {
         })).isRequired,
         lastScore: PropTypes.number,
     }).isRequired,
-    pullGameLevel: PropTypes.func.isRequired,
     saveLevelResult: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = store => {
-    return {
-        gameLevel: store.game.gameLevel
-    };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        pullGameLevel: levelId => dispatch(gameApiActions.pullGameLevel(levelId)),
         saveLevelResult: levelResult => dispatch(gameApiActions.saveLevelResult(levelResult))
     };
 };
 
-export default withRouter(connect(
-    mapStateToProps,
+export default connect(
+    null,
     mapDispatchToProps
-)(GameFieldContainer));
+)(withActualGameLevel(GameFieldContainer));

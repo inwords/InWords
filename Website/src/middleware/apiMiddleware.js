@@ -25,7 +25,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
     const dataOrParams = ['GET', 'DELETE'].includes(method) ? 'params' : 'data';
 
-    dispatch(commonActions.beginDataTransfer());
+    dispatch(commonActions.beginLoading());
 
     axios.request({
         url: API_ROOT + endpoint,
@@ -37,7 +37,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
         [dataOrParams]: data
     })
         .then(({ data }) => {
-            dispatch(commonActions.endDataTransfer());
+            dispatch(commonActions.endLoading());
             actionsOnSuccess.forEach(action => dispatch(action(data)));
 
             if (redirection) {
@@ -45,7 +45,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
             }
         })
         .catch(error => {
-            dispatch(commonActions.endDataTransfer());
+            dispatch(commonActions.endLoading());
             dispatch(commonActions.setErrorMessage(errorMessage));
 
             if (error.response && error.response.status === 401) {

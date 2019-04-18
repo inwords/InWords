@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import userApiActions from '../../actions/userApiActions';
 import { AppBarContext } from '../TopAppBar/AppBarContext';
+import useForm from '../../hooks/useForm';
 import RegisterPage from './RegisterPage';
 
 function RegisterPageContainer({ register }) {
@@ -12,19 +13,10 @@ function RegisterPageContainer({ register }) {
         resetAppBar({ title: 'Регистрация' });
     }, []);
 
-    const [values, setValues] = React.useState({
+    const { values, handleChange, handleSubmit } = useForm({
         email: '',
         password: ''
-    });
-
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
-
-    const handleSubmit = event => {
-        register(values);
-        event.preventDefault();
-    };
+    }, () => register(values));
 
     return (
         <RegisterPage

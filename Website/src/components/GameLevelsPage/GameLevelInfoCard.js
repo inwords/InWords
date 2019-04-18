@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button/index';
 import Typography from '@material-ui/core/Typography/index';
 import StarIcon from '@material-ui/icons/Star';
 
-function GameLevelInfoCard({ levelInfo, handleRedirection }) {
+function GameLevelInfoCard({ levelInfo }) {
     const { levelId, level, isAvailable, playerStars } = levelInfo;
 
     return (
@@ -27,7 +27,7 @@ function GameLevelInfoCard({ levelInfo, handleRedirection }) {
                     size="small"
                     color="primary"
                     disabled={!isAvailable}
-                    onClick={handleRedirection(levelId)}
+                    href={`#/game_level/${levelId}`}
                 >
                     Выбрать
                 </Button>
@@ -42,8 +42,7 @@ GameLevelInfoCard.propTypes = {
         level: PropTypes.number.isRequired,
         isAvailable: PropTypes.bool.isRequired,
         playerStars: PropTypes.number.isRequired,
-    }).isRequired,
-    handleRedirection: PropTypes.func.isRequired,
+    }).isRequired
 };
 
 export default GameLevelInfoCard;

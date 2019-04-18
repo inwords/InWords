@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameApiActions from '../../../actions/gameApiActions';
 import SandboxGames from './SandboxGames';
 
-function SandboxGamesContainer({ gamesInfo, pullGamesInfo, deleteGamePack, userId, history }) {
+function SandboxGamesContainer({ gamesInfo, pullGamesInfo, deleteGamePack, userId }) {
     useEffect(() => {
         if (!gamesInfo.length) {
             pullGamesInfo();
         }
     }, []);
-
-    const handleRedirection = gameId => () => {
-        history.push(`/game/${gameId}`);
-    };
 
     const handleGamePackDeletion = gameId => () => {
         deleteGamePack(gameId);
@@ -23,7 +18,6 @@ function SandboxGamesContainer({ gamesInfo, pullGamesInfo, deleteGamePack, userI
     return (
         <SandboxGames
             gamesInfo={gamesInfo.filter(gameInfo => gameInfo.creatorId === userId)}
-            handleRedirection={handleRedirection}
             handleGamePackDeletion={handleGamePackDeletion}
         />
     );
@@ -32,13 +26,13 @@ function SandboxGamesContainer({ gamesInfo, pullGamesInfo, deleteGamePack, userI
 SandboxGamesContainer.propTypes = {
     gamesInfo: PropTypes.arrayOf(
         PropTypes.shape({
-            creatorId: PropTypes.number.isRequired,
-        }).isRequired,
+            creatorId: PropTypes.number.isRequired
+        }).isRequired
     ).isRequired,
     pullGamesInfo: PropTypes.func.isRequired,
     deleteGamePack: PropTypes.func.isRequired,
-    userId: PropTypes.number.isRequired,
-    history: PropTypes.object.isRequired,
+    userId: PropTypes.number,
+    history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
@@ -55,7 +49,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(SandboxGamesContainer));
+)(SandboxGamesContainer);

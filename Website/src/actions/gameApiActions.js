@@ -48,7 +48,7 @@ function addGamePack(gamePack) {
             creatorId: gamePack.creationInfo.creatorId,
             isAvailable: true,
             title: gamePack.creationInfo.descriptions[0].title,
-            description: gamePack.creationInfo.descriptions[0].description,
+            description: gamePack.creationInfo.descriptions[0].description
         })],
         redirection: '/games/1',
         errorMessage: 'Ошибка добавления игры'

@@ -1,8 +1,8 @@
 import React from 'react';
 import LinearProgress from '@material-ui/core/LinearProgress/index';
 
-function DataTransferProgress() {
+function LoadingProgress() {
     return <LinearProgress />;
 }
 
-export default DataTransferProgress;
+export default LoadingProgress;

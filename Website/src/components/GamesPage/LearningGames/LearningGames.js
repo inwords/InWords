@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid/index';
 import GameInfoCard from '../GameInfoCard';
 
-function LearningGames({ gamesInfo, handleRedirection }) {
+function LearningGames({ gamesInfo }) {
     return (
         <Grid container spacing={24}>
             {gamesInfo.map(gameInfo => (
                 <Grid key={gameInfo.gameId} item xs={12} sm={6} md={4}>
-                    <GameInfoCard
-                        gameInfo={gameInfo}
-                        handleRedirection={handleRedirection}
-                    />
+                    <GameInfoCard gameInfo={gameInfo} />
                 </Grid>
             ))}
         </Grid>
@@ -23,8 +20,7 @@ LearningGames.propTypes = {
         PropTypes.shape({
             gameId: PropTypes.number.isRequired,
         }).isRequired,
-    ).isRequired,
-    handleRedirection: PropTypes.func.isRequired,
+    ).isRequired
 };
 
 export default LearningGames;

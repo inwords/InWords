@@ -6,8 +6,8 @@ import ListItem from '@material-ui/core/ListItem/index';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction/index';
 import ListItemText from '@material-ui/core/ListItemText/index';
 import Checkbox from '@material-ui/core/Checkbox/index';
-import WordPairEditButton from './WordPairEditButton';
-import WordPairAddButton from './WordPairAddButton';
+import WordPairEditButtonWithDialog from './WordPairEditButtonWithDialog';
+import WordPairAddButtonWithDialog from './WordPairAddButtonWithDialog';
 
 const styles = theme => ({
     root: {
@@ -33,11 +33,11 @@ function WordlistPage({ wordPairs, checked, handleToggle, classes }) {
                         <Checkbox checked={checked.indexOf(wordPair.serverId) !== -1} tabIndex={-1} disableRipple />
                         <ListItemText primary={wordPair.wordForeign} secondary={wordPair.wordNative} />
                         <ListItemSecondaryAction>
-                            <WordPairEditButton wordPair={wordPair} />
+                            <WordPairEditButtonWithDialog wordPair={wordPair} />
                         </ListItemSecondaryAction>
                     </ListItem>))}
             </List>
-            <WordPairAddButton />
+            <WordPairAddButtonWithDialog />
         </div>
     );
 }
@@ -47,11 +47,12 @@ WordlistPage.propTypes = {
         PropTypes.shape({
             serverId: PropTypes.number.isRequired,
             wordForeign: PropTypes.string.isRequired,
-            wordNative: PropTypes.string.isRequired,
-        }).isRequired,
+            wordNative: PropTypes.string.isRequired
+        }).isRequired
     ).isRequired,
     checked: PropTypes.array.isRequired,
-    classes: PropTypes.object.isRequired,
+    handleToggle: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(WordlistPage);

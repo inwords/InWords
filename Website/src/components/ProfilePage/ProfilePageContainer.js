@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import Profile from './ProfilePage';
 function ProfilePageContainer({ userId, userInfo, receiveUserInfo, match }) {
     const { resetAppBar } = React.useContext(AppBarContext);
 
-    useEffect(() => {
+    React.useEffect(() => {
         resetAppBar({
             title: 'Профиль'
         });

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import wordlistApiActions from '../../actions/wordPairsApiActions';
 import { AppBarContext } from '../TopAppBar/AppBarContext';
 import usePrevious from '../../hooks/usePrevious';
+import useCheckboxList from '../../hooks/useCheckboxList';
 import WordPairsUncheckButton from './WordPairsUncheckButton';
 import WordPairsDeleteButton from './WordPairsDeleteButton';
 import Wordlist from './WordlistPage';
@@ -15,23 +16,10 @@ function WordlistPageContainer({ wordPairs, pullWordPairs }) {
         }
     }, []);
 
-    const [checked, setChecked] = React.useState([]);
-
-    const handleToggle = value => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
+    const { checked, handleToggle, handleReset } = useCheckboxList();
 
     React.useEffect(() => {
-        setChecked([]);
+        handleReset([]);
     }, [wordPairs]);
 
     const { customizeAppBar, resetAppBar } = React.useContext(AppBarContext);
@@ -44,8 +32,8 @@ function WordlistPageContainer({ wordPairs, pullWordPairs }) {
                 resetAppBar({
                     title: `Выбрано: ${checked.length}`,
                     color: 'secondary',
-                    leftElements: <WordPairsUncheckButton handleUncheck={() => setChecked([])} />,
-                    rightElements: <WordPairsDeleteButton checked={checked} />,
+                    leftElements: <WordPairsUncheckButton handleUncheck={() => handleReset([])} />,
+                    rightElements: <WordPairsDeleteButton checked={checked} />
                 });
             } else {
                 customizeAppBar({ title: `Выбрано: ${checked.length}` });
@@ -57,7 +45,15 @@ function WordlistPageContainer({ wordPairs, pullWordPairs }) {
 
     return (
         <Wordlist
-            wordPairs={[...wordPairs].reverse()}
+            wordPairs={[...wordPairs].sort((firstWordPair, secondWordPair) => {
+                if (firstWordPair.wordForeign > secondWordPair.wordForeign) {
+                    return 1;
+                }
+                if (firstWordPair.wordForeign > secondWordPair.wordForeign) {
+                    return -1;
+                }
+                return 0;
+            })}
             checked={checked}
             handleToggle={handleToggle}
         />
@@ -66,7 +62,7 @@ function WordlistPageContainer({ wordPairs, pullWordPairs }) {
 
 WordlistPageContainer.propTypes = {
     wordPairs: PropTypes.array.isRequired,
-    pullWordPairs: PropTypes.func.isRequired,
+    pullWordPairs: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {

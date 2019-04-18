@@ -32,12 +32,27 @@ function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-function WordPairActionsDialog({ title, open, handleClose, values, handleChange, handleSubmit, classes }) {
+function WordPairActionsDialog(
+    {
+        title,
+        open,
+        handleClose,
+        values,
+        handleChange,
+        handleSubmit,
+        classes
+    }
+) {
     return (
-        <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+        <Dialog
+            fullScreen
+            open={open}
+            onClose={handleClose}
+            TransitionComponent={Transition}
+        >
             <AppBar className={classes.appBar}>
                 <Toolbar>
-                    <IconButton color="inherit" onClick={handleClose} aria-label="Close">
+                    <IconButton color="inherit" aria-label="Close" onClick={handleClose}>
                         <CloseIcon />
                     </IconButton>
                     <Typography noWrap variant="h6" color="inherit" className={classes.flex}>
@@ -51,6 +66,7 @@ function WordPairActionsDialog({ title, open, handleClose, values, handleChange,
             <main className={classes.content}>
                 <form id="form" onSubmit={handleSubmit} className={classes.form}>
                     <TextField
+                        autoFocus
                         required
                         id="wordForeign"
                         label="Слово или фраза"
@@ -82,10 +98,11 @@ WordPairActionsDialog.propTypes = {
     handleClose: PropTypes.func.isRequired,
     values: PropTypes.shape({
         wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired,
+        wordNative: PropTypes.string.isRequired
     }).isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(WordPairActionsDialog);

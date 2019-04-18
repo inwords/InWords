@@ -6,7 +6,7 @@ import { AppBarContext } from '../TopAppBar/AppBarContext';
 import UpwardButton from '../shared/UpwardButton';
 import GamePackCreationPage from './GamePackCreationPage';
 
-function GamePackAdditionContainer({ userId, addGamePack }) {
+function GamePackCreationContainer({ userId, addGamePack }) {
     const { resetAppBar } = React.useContext(AppBarContext);
 
     React.useEffect(() => {
@@ -103,21 +103,6 @@ function GamePackAdditionContainer({ userId, addGamePack }) {
         setLevelPacks(newLevelPacks);
     };
 
-    const handleReset = () => {
-        setDescriptionValues({
-            title: '',
-            description: ''
-        });
-
-        setLevelPacks([{
-            level: 1,
-            wordTranslations: [{
-                wordForeign: '',
-                wordNative: ''
-            }]
-        }]);
-    };
-
     const handleSubmit = event => {
         addGamePack({
             creationInfo: {
@@ -144,13 +129,12 @@ function GamePackAdditionContainer({ userId, addGamePack }) {
             handleWordTranslationsChange={handleWordTranslationsChange}
             handleWordTranslationAddition={handleWordTranslationAddition}
             handleWordTranslationDeletion={handleWordTranslationDeletion}
-            handleReset={handleReset}
             handleSubmit={handleSubmit}
         />
     );
 }
 
-GamePackAdditionContainer.propTypes = {
+GamePackCreationContainer.propTypes = {
     userId: PropTypes.number.isRequired,
     addGamePack: PropTypes.func.isRequired,
 };
@@ -170,4 +154,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(GamePackAdditionContainer);
+)(GamePackCreationContainer);

@@ -5,9 +5,10 @@ import IconButton from '@material-ui/core/IconButton/index';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu/index';
 import MenuItem from '@material-ui/core/MenuItem/index';
+import useDropdownMenu from '../../../hooks/useDropdownMenu';
 
-function ProfileMenu({ anchorEl, handleMenu, handleClose, handleLogout }) {
-    const open = Boolean(anchorEl);
+function ProfileMenu({ handleLogout }) {
+    const { anchorEl, open, handleMenu, handleClose } = useDropdownMenu();
 
     return (
         <>
@@ -41,9 +42,6 @@ function ProfileMenu({ anchorEl, handleMenu, handleClose, handleLogout }) {
 }
 
 ProfileMenu.propTypes = {
-    anchorEl: PropTypes.object,
-    handleMenu: PropTypes.func.isRequired,
-    handleClose: PropTypes.func.isRequired,
     handleLogout: PropTypes.func.isRequired
 };
 

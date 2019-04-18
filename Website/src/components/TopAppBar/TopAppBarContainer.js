@@ -1,29 +1,16 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import accessActions from '../../actions/accessActions';
 import { AppBarContextProvider } from './AppBarContext';
 import TopAppBar from './TopAppBar';
 
-function TopAppBarContainer({ userId, ...rest }) {
-    const [open, setOpen] = React.useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
+function TopAppBarContainer({ userId, ...other }) {
     return (
         <AppBarContextProvider>
             <TopAppBar
-                open={open}
-                handleDrawerOpen={handleDrawerOpen}
-                handleDrawerClose={handleDrawerClose}
                 authorized={Boolean(userId)}
-                {...rest}
+                {...other}
             />
         </AppBarContextProvider>
     );

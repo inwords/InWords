@@ -6,29 +6,12 @@ import accessActions from '../../../actions/accessActions';
 import ProfileMenu from './ProfileMenu';
 
 function ProfileMenuContainer({ denyAccess, history }) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleMenu = event => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     const handleLogout = () => {
         denyAccess();
         history.push('/login');
     };
 
-    return (
-        <ProfileMenu
-            anchorEl={anchorEl}
-            handleMenu={handleMenu}
-            handleClose={handleClose}
-            handleLogout={handleLogout}
-        />
-    );
+    return <ProfileMenu handleLogout={handleLogout} />;
 }
 
 ProfileMenuContainer.propTypes = {

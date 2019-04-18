@@ -1,38 +1,27 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameApiActions from '../../../actions/gameApiActions';
 import LearningGames from './LearningGames';
 
-function LearningGamesContainer({ gamesInfo, pullGamesInfo, userId, history }) {
+function LearningGamesContainer({ gamesInfo, pullGamesInfo, userId }) {
     useEffect(() => {
         if (!gamesInfo.length) {
             pullGamesInfo();
         }
     }, []);
 
-    const handleRedirection = gameId => () => {
-        history.push(`/game/${gameId}`);
-    };
-
-    return (
-        <LearningGames
-            gamesInfo={gamesInfo.filter(gameInfo => gameInfo.creatorId !== userId)}
-            handleRedirection={handleRedirection}
-        />
-    );
+    return <LearningGames gamesInfo={gamesInfo.filter(gameInfo => gameInfo.creatorId !== userId)} />;
 }
 
 LearningGamesContainer.propTypes = {
     gamesInfo: PropTypes.arrayOf(
         PropTypes.shape({
-            creatorId: PropTypes.number.isRequired,
-        }).isRequired,
+            creatorId: PropTypes.number.isRequired
+        }).isRequired
     ).isRequired,
     pullGamesInfo: PropTypes.func.isRequired,
-    userId: PropTypes.number.isRequired,
-    history: PropTypes.object.isRequired,
+    userId: PropTypes.number
 };
 
 const mapStateToProps = store => {
@@ -48,7 +37,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(LearningGamesContainer));
+)(LearningGamesContainer);

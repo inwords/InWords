@@ -4,14 +4,13 @@ import Grid from '@material-ui/core/Grid/index';
 import GameInfoCard from '../GameInfoCard';
 import GameInfoCardMenu from './GameInfoCardMenu';
 
-function SandboxGames({ gamesInfo, handleRedirection, handleGamePackDeletion }) {
+function SandboxGames({ gamesInfo, handleGamePackDeletion }) {
     return (
         <Grid container spacing={24} >
             {gamesInfo.map(gameInfo => (
                 <Grid key={gameInfo.gameId} item xs={12} sm={6} md={4}>
                     <GameInfoCard
                         gameInfo={gameInfo}
-                        handleRedirection={handleRedirection}
                         action={<GameInfoCardMenu handleGamePackDeletion={handleGamePackDeletion(gameInfo.gameId)} />}
                     />
                 </Grid>
@@ -26,7 +25,6 @@ SandboxGames.propTypes = {
             gameId: PropTypes.number.isRequired,
         }).isRequired,
     ).isRequired,
-    handleRedirection: PropTypes.func.isRequired,
     handleGamePackDeletion: PropTypes.func,
 };
 

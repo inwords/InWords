@@ -36,24 +36,27 @@ const styles = theme => ({
     },
 });
 
-function GamePackCreationPage({
-                                  descriptionValues,
-                                  handleDescriptionValuesChange,
-                                  levelPacks,
-                                  handleLevelPackAddition,
-                                  handleLevelPackDeletion,
-                                  handleWordTranslationsChange,
-                                  handleWordTranslationAddition,
-                                  handleWordTranslationDeletion,
-                                  handleSubmit,
-                                  classes
-                              }) {
+function GamePackCreationPage(
+    {
+        descriptionValues,
+        handleDescriptionValuesChange,
+        levelPacks,
+        handleLevelPackAddition,
+        handleLevelPackDeletion,
+        handleWordTranslationsChange,
+        handleWordTranslationAddition,
+        handleWordTranslationDeletion,
+        handleSubmit,
+        classes
+    }
+) {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
                 <form onSubmit={handleSubmit}>
                     <TextField
                         required
+                        autoFocus
                         id="title"
                         label="Название"
                         fullWidth
@@ -75,7 +78,7 @@ function GamePackCreationPage({
                     />
                     {levelPacks.map((levelPack, levelPackIndex) =>
                         <Paper key={levelPackIndex} className={classes.paper}>
-                            <Typography variant="h5">
+                            <Typography variant="h6">
                                 Уровень {levelPackIndex + 1}
                             </Typography>
                             {levelPack.wordTranslations.map((wordTranslation, wordTranslationIndex) =>
@@ -163,23 +166,27 @@ function GamePackCreationPage({
 GamePackCreationPage.propTypes = {
     descriptionValues: PropTypes.shape({
         title: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired
     }).isRequired,
     handleDescriptionValuesChange: PropTypes.func.isRequired,
-    levelPacks: PropTypes.arrayOf(PropTypes.shape({
-        level: PropTypes.number.isRequired,
-        wordTranslations: PropTypes.arrayOf(PropTypes.shape({
-            wordForeign: PropTypes.string.isRequired,
-            wordNative: PropTypes.string.isRequired,
-        })),
-    })).isRequired,
+    levelPacks: PropTypes.arrayOf(
+        PropTypes.shape({
+            level: PropTypes.number.isRequired,
+            wordTranslations: PropTypes.arrayOf(
+                PropTypes.shape({
+                    wordForeign: PropTypes.string.isRequired,
+                    wordNative: PropTypes.string.isRequired
+                }).isRequired
+            ).isRequired
+        }).isRequired
+    ).isRequired,
     handleLevelPackAddition: PropTypes.func.isRequired,
     handleLevelPackDeletion: PropTypes.func.isRequired,
     handleWordTranslationsChange: PropTypes.func.isRequired,
     handleWordTranslationAddition: PropTypes.func.isRequired,
     handleWordTranslationDeletion: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(GamePackCreationPage);

@@ -4,9 +4,10 @@ import IconButton from '@material-ui/core/IconButton/index';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu/index';
 import MenuItem from '@material-ui/core/MenuItem/index';
+import useDropdownMenu from '../../../hooks/useDropdownMenu';
 
-function GameInfoCardMenu({ anchorEl, handleMenu, handleClose, handleGamePackDeletion }) {
-    const open = Boolean(anchorEl);
+function GameInfoCardMenu({ handleGamePackDeletion }) {
+    const { anchorEl, open, handleMenu, handleClose } = useDropdownMenu();
 
     return (
         <>
@@ -39,9 +40,6 @@ function GameInfoCardMenu({ anchorEl, handleMenu, handleClose, handleGamePackDel
 }
 
 GameInfoCardMenu.propTypes = {
-    anchorEl: PropTypes.object,
-    handleMenu: PropTypes.func.isRequired,
-    handleClose: PropTypes.func.isRequired,
     handleGamePackDeletion: PropTypes.func.isRequired
 };
 
