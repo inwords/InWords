@@ -104,7 +104,7 @@ namespace InWords.WebApi.Service.GameService
                 .GetEntities(ugb => ugb.UserId.Equals(userId) && ugb.GameBoxId.Equals(gameLevel.GameBoxId)).SingleOrDefault()
                 // create if not exists
                 ?? await userGameBoxRepository.Create(new UserGameBox(userId, gameLevel.GameBoxId));
-            
+
             return userGameBox;
         }
 
@@ -113,7 +113,7 @@ namespace InWords.WebApi.Service.GameService
             // find user game level
             UserGameLevel userGameLevel = userGameLevelRepository
                 .GetEntities(g =>
-                    g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.GameBoxId))
+                    g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.UserGameBoxId))
                 .SingleOrDefault();
 
             // create note if user level score information not found
