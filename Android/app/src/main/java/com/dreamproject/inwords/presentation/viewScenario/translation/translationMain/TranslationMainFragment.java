@@ -6,11 +6,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.core.RxDiffUtil;
 import com.dreamproject.inwords.core.util.SchedulersFacade;
 import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav;
+import com.dreamproject.inwords.presentation.viewScenario.translation.TranslationViewModelFactory;
 import com.dreamproject.inwords.presentation.viewScenario.translation.recycler.ItemTouchHelperAdapter;
 import com.dreamproject.inwords.presentation.viewScenario.translation.recycler.ItemTouchHelperEvents;
 import com.dreamproject.inwords.presentation.viewScenario.translation.recycler.WordTranslationsAdapter;
@@ -20,20 +28,14 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subjects.PublishSubject;
 
-public class TranslationMainFragment extends FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationMainViewModelFactory> implements
+public class TranslationMainFragment extends FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationViewModelFactory> implements
         ItemTouchHelperEvents {
     private RecyclerView recyclerView;
     private WordTranslationsAdapter adapter;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

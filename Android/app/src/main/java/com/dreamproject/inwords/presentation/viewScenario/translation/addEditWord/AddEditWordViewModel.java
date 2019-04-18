@@ -1,5 +1,8 @@
 package com.dreamproject.inwords.presentation.viewScenario.translation.addEditWord;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.dreamproject.inwords.core.util.Event;
 import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractor;
@@ -8,8 +11,6 @@ import com.dreamproject.inwords.presentation.viewScenario.BasicViewModel;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -18,10 +19,10 @@ public class AddEditWordViewModel extends BasicViewModel {
     private final MutableLiveData<Event<Boolean>> addEditDoneLiveData;
 
     private final TranslationWordsInteractor translationWordsInteractor;
-    private TranslationSyncInteractor translationSyncInteractor;
+    private final TranslationSyncInteractor translationSyncInteractor;
 
-    AddEditWordViewModel(final TranslationWordsInteractor translationWordsInteractor,
-                         final TranslationSyncInteractor translationSyncInteractor) {
+    public AddEditWordViewModel(final TranslationWordsInteractor translationWordsInteractor,
+                                final TranslationSyncInteractor translationSyncInteractor) {
         this.translationWordsInteractor = translationWordsInteractor;
         this.translationSyncInteractor = translationSyncInteractor;
 

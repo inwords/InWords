@@ -6,29 +6,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.core.util.Event;
 import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav;
+import com.dreamproject.inwords.presentation.viewScenario.translation.TranslationViewModelFactory;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.Random;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import io.reactivex.Observable;
 
-public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWordViewModel, AddEditWordViewModelFactory> {
+public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWordViewModel, TranslationViewModelFactory> {
     private boolean isEditing;
     private EditText editTextNativeWord;
     private EditText editTextForeignWord;
     private Button buttonConfirm;
 
     private WordTranslation wordToEdit;
-
-    public AddEditWordFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

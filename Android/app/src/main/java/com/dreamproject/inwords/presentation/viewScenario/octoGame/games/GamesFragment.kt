@@ -10,12 +10,13 @@ import com.dreamproject.inwords.core.util.SchedulersFacade
 import com.dreamproject.inwords.data.dto.game.GameInfo
 import com.dreamproject.inwords.domain.GAME_INFO
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.BaseContentFragment
+import com.dreamproject.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.games.recycler.GameInfosDiffUtilCallback
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.games.recycler.GamesAdapter
 import kotlinx.android.synthetic.main.fragment_games.*
 
 
-class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, GamesViewModelFactory>() {
+class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameViewModelFactory>() {
     private lateinit var adapter: GamesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

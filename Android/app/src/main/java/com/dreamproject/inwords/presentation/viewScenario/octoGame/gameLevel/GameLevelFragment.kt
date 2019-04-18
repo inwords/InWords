@@ -16,6 +16,7 @@ import com.dreamproject.inwords.domain.GAME
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.domain.model.Resource
 import com.dreamproject.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
+import com.dreamproject.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import eu.davidea.flipview.FlipView
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_game_level.*
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
 
 
-class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, GameLevelViewModelFactory>() {
+class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGameViewModelFactory>() {
     private val stateMap = HashMap<String, Boolean>()
     private var gameEndBottomSheetFragment: GameEndBottomSheet? = null
     private lateinit var gameLevelInfo: GameLevelInfo

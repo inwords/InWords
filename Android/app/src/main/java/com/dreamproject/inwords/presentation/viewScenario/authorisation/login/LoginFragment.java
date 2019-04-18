@@ -4,17 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dreamproject.inwords.R;
-import com.dreamproject.inwords.presentation.viewScenario.authorisation.SigningBaseFragment;
-import com.jakewharton.rxbinding2.view.RxView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class LoginFragment extends SigningBaseFragment<LoginViewModel, LoginViewModelFactory> {
-    public LoginFragment() {
-        // Required empty public constructor
-    }
+import com.dreamproject.inwords.R;
+import com.dreamproject.inwords.presentation.viewScenario.authorisation.AuthorisationViewModelFactory;
+import com.dreamproject.inwords.presentation.viewScenario.authorisation.SigningBaseFragment;
+import com.jakewharton.rxbinding2.view.RxView;
+
+public class LoginFragment extends SigningBaseFragment<LoginViewModel, AuthorisationViewModelFactory> {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

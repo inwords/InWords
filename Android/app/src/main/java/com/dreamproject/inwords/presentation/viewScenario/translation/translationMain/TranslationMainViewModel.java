@@ -1,5 +1,8 @@
 package com.dreamproject.inwords.presentation.viewScenario.translation.translationMain;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.dreamproject.inwords.core.util.Event;
 import com.dreamproject.inwords.data.dto.WordTranslation;
 import com.dreamproject.inwords.domain.interactor.translation.TranslationSyncInteractor;
@@ -9,8 +12,6 @@ import com.dreamproject.inwords.presentation.viewScenario.BasicViewModel;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Observable;
 
 public class TranslationMainViewModel extends BasicViewModel {
@@ -19,7 +20,7 @@ public class TranslationMainViewModel extends BasicViewModel {
     private final TranslationWordsInteractor translationWordsInteractor;
     private TranslationSyncInteractor translationSyncInteractor;
 
-    TranslationMainViewModel(final TranslationWordsInteractor translationWordsInteractor,
+    public TranslationMainViewModel(final TranslationWordsInteractor translationWordsInteractor,
                              final TranslationSyncInteractor translationSyncInteractor) {
         this.translationWordsInteractor = translationWordsInteractor;
         this.translationSyncInteractor = translationSyncInteractor;

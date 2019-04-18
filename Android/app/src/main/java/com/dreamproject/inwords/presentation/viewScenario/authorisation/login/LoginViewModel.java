@@ -8,7 +8,7 @@ import io.reactivex.Completable;
 
 public class LoginViewModel extends AuthorisationViewModel {
 
-    LoginViewModel(AuthorisationInteractor authorisationInteractor) {
+    public LoginViewModel(AuthorisationInteractor authorisationInteractor) {
         super(authorisationInteractor);
     }
 

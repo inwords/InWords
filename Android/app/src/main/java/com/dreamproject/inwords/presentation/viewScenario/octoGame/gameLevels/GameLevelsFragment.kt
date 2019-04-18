@@ -14,13 +14,14 @@ import com.dreamproject.inwords.domain.GAME
 import com.dreamproject.inwords.domain.GAME_INFO
 import com.dreamproject.inwords.domain.GAME_LEVEL_INFO
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.BaseContentFragment
+import com.dreamproject.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter
 import com.dreamproject.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsDiffUtilCallback
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_game_levels.*
 import kotlinx.android.synthetic.main.game_welcome.*
 
-class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, GameLevelsViewModelFactory>() {
+class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, OctoGameViewModelFactory>() {
     private lateinit var gameInfo: GameInfo
     private lateinit var game: Game
     private lateinit var adapter: GameLevelsAdapter
