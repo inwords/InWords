@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion targetSdk
     defaultConfig {
-        applicationId "com.dreamproject.inwords"
+        applicationId "ru.inwords.inwords"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
         versionCode 1

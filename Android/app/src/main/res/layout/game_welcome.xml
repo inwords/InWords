@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:colorBackground"
-    tools:context=".presentation.viewScenario.MainActivity">
+    tools:context="ru.inwords.inwords.presentation.viewScenario.MainActivity">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/welcome_image"
