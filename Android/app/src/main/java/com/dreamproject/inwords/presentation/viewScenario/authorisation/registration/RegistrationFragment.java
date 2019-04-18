@@ -4,22 +4,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.dreamproject.inwords.R;
 import com.dreamproject.inwords.data.dto.UserCredentials;
+import com.dreamproject.inwords.presentation.viewScenario.authorisation.AuthorisationViewModelFactory;
 import com.dreamproject.inwords.presentation.viewScenario.authorisation.SigningBaseFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import io.reactivex.Observable;
 
-public class RegistrationFragment extends SigningBaseFragment<RegistrationViewModel, RegistrationViewModelFactory> {
+public class RegistrationFragment extends SigningBaseFragment<RegistrationViewModel, AuthorisationViewModelFactory> {
     private TextInputEditText editTextConfirmPassword;
-
-    public RegistrationFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

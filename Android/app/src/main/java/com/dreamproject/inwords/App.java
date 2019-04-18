@@ -2,6 +2,8 @@ package com.dreamproject.inwords;
 
 import android.app.Application;
 
+import androidx.fragment.app.Fragment;
+
 import com.dreamproject.inwords.dagger.AppComponent;
 import com.dreamproject.inwords.dagger.DaggerAppComponent;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -10,7 +12,6 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import javax.inject.Inject;
 
-import androidx.fragment.app.Fragment;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -30,7 +31,7 @@ public class App extends Application implements HasSupportFragmentInjector {
     public void onCreate() {
         super.onCreate();
 
-        DaggerAppComponent.builder().create(this).inject(this);
+        DaggerAppComponent.factory().create(this).inject(this);
 
         ImagePipelineConfig config = OkHttpImagePipelineConfigFactory
                 .newBuilder(this, okHttpClient)

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.lifecycle.ViewModelProviders
 import com.dreamproject.inwords.R
+import com.dreamproject.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.game_end.*
@@ -17,7 +18,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     val compositeDisposable = CompositeDisposable()
 
     @Inject
-    internal lateinit var modelFactory: GameLevelViewModelFactory
+    internal lateinit var modelFactory: OctoGameViewModelFactory
     private lateinit var viewModel: GameLevelViewModel
 
     override fun onAttach(context: Context?) {
