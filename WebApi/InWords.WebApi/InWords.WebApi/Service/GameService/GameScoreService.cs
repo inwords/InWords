@@ -79,8 +79,7 @@ namespace InWords.WebApi.Service.GameService
         private async Task<UserGameBox> EnsureUserGameBox(int userId, LevelScore levelScore)
         {
             // Create user game stats
-            GameLevel gameLevel = GameLevelRepository.GetEntities(gl => gl.GameLevelId == levelScore.LevelId)
-                .FirstOrDefault();
+            GameLevel gameLevel = await GameLevelRepository.FindById(levelScore.LevelId);
 
             // if game level is not exits
             if (gameLevel == null) throw new ArgumentNullException(nameof(gameLevel));
