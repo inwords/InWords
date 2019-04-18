@@ -108,7 +108,7 @@ namespace InWords.WebApi.Controllers.v1
             if (answer == null) return NotFound();
 
             // set stars
-            answer = gameScoreService.GetGameStars(userId, answer);
+            answer = await gameScoreService.GetGameStars(userId, answer);
 
             return Ok(answer);
         }

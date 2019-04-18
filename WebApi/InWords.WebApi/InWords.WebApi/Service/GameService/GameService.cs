@@ -119,12 +119,12 @@ namespace InWords.WebApi.Service.GameService
             // find game in database
             GameBox gameBox = await GameBoxRepository.FindById(gameId);
 
-            if (gameBox == null) throw new ArgumentNullException();
+            if (gameBox == null) return null;
 
             // find the creator of the game
             CreationInfo creation = await creationService.GetCreationInfo(gameBox.CreationId);
 
-            if (creation.CreatorId == null) throw new ArgumentNullException();
+            if (gameBox == null) return null;
 
             User userCreator = await UserRepository.FindById((int)creation.CreatorId);
 

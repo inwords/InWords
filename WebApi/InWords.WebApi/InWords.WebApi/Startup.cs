@@ -103,8 +103,7 @@ namespace InWords.WebApi
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
+                .AllowAnyHeader());
             app.UseMvc();
         }
 

@@ -12,7 +12,7 @@ namespace InWords.WebApi.Service.GameService
 {
     public class GameScoreService : BaseGameService
     {
-        public Game GetGameStars(int userId, Game game)
+        public async Task<Game> GetGameStars(int userId, Game game)
         {
             // find user game box to find all user levels
             UserGameBox userGameBox = userGameBoxRepository
@@ -24,17 +24,26 @@ namespace InWords.WebApi.Service.GameService
             // load all saves
             IEnumerable<UserGameLevel> userLevels =
                 userGameLevelRepository.GetEntities(ugl => ugl.UserGameBoxId.Equals(userGameBox.UserGameBoxId));
-            SetLevelStars(game, userLevels);
+            await SetLevelStars(game, userLevels);
             return game;
         }
 
-        private static void SetLevelStars(Game game, IEnumerable<UserGameLevel> userLevels)
+        private async Task SetLevelStars(Game game, IEnumerable<UserGameLevel> userLevels)
         {
             // merge by level number
             foreach (UserGameLevel level in userLevels)
             {
                 LevelInfo userLevel = game.LevelInfos.Find(l => l.LevelId.Equals(level.GameLevelId));
-                userLevel.PlayerStars = level.UserStars;
+
+                if (userLevel == null)
+                {
+                    var nullGame = await userGameLevelRepository.FindById(level.UserGameLevelId);
+                    await userGameLevelRepository.Remove(nullGame);
+                }
+                else
+                {
+                    userLevel.PlayerStars = level.UserStars;
+                }
             }
         }
 
@@ -67,7 +76,7 @@ namespace InWords.WebApi.Service.GameService
             return levelScore;
         }
 
-                /// <summary>
+        /// <summary>
         ///     This is to set level score to user level storage
         /// </summary>
         /// <param name="userId"></param>
@@ -91,10 +100,11 @@ namespace InWords.WebApi.Service.GameService
             if (gameLevel == null) throw new ArgumentNullException(nameof(gameLevel));
 
             // find user game box that's contains user progress
-            UserGameBox userGameBox = userGameBoxRepository.GetEntities(ugb => ugb.UserId == userId).SingleOrDefault()
-                                      // create if not exists
-                                      ?? await userGameBoxRepository.Create(
-                                          new UserGameBox(userId, gameLevel.GameBoxId));
+            UserGameBox userGameBox = userGameBoxRepository
+                .GetEntities(ugb => ugb.UserId.Equals(userId) && ugb.GameBoxId.Equals(gameLevel.GameBoxId)).SingleOrDefault()
+                // create if not exists
+                ?? await userGameBoxRepository.Create(new UserGameBox(userId, gameLevel.GameBoxId));
+            
             return userGameBox;
         }
 
