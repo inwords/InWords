@@ -36,7 +36,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
 
     fun cardsStream(): Observable<Resource<CardsData>> = _cardsDataSubject
 
-    fun onGameEnd(game: Game, levelId: Int, cardOpenClicks: Int) {
-        gameInteractor.getScore(game, levelId, cardOpenClicks).subscribe()
+    fun onGameEnd(game: Game, levelId: Int, cardOpenClicks: Int, wordsCount: Int) {
+        gameInteractor.getScore(game, levelId, cardOpenClicks, wordsCount).subscribe()
     }
 }

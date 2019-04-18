@@ -85,6 +85,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
     private fun render(cardsDataResource: Resource<CardsData>) {
 //        showIntro(cardsData)
+        clearState()
 
         if (cardsDataResource.success()) {
             val cardsData = cardsDataResource.data!!
@@ -99,12 +100,11 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         cardOpenClicksCount = 0
         showingIncorrectCards = false
         openedCard = null
+        stateMap.clear()
         table.removeAllViews()
     }
 
     private fun renderCards(cardsData: CardsData) {
-        clearState()
-
         val words = cardsData.words
 
         val cols = when (words.size) {
@@ -148,7 +148,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         stateMap[openedCardWord] = true
 
         if (stateMap.values.all { it }) {
-            viewModel.onGameEnd(game, gameLevelInfo.levelId, cardOpenClicksCount)
+            viewModel.onGameEnd(game, gameLevelInfo.levelId, cardOpenClicksCount, stateMap.size)
 
             showGameEndDialog()
         }

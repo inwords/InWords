@@ -54,8 +54,8 @@ class GameGatewayControllerImpl @Inject constructor(
         return cachingProvider.observe()
     }
 
-    override fun getScore(game: Game, levelId: Int, openingQuantity: Int): Single<Resource<LevelScore>> {
-        return gameRemoteRepository.getScore(LevelScoreRequest(levelId, openingQuantity))
+    override fun getScore(game: Game, levelId: Int, openingQuantity: Int, wordsCount: Int): Single<Resource<LevelScore>> {
+        return gameRemoteRepository.getScore(LevelScoreRequest(levelId, openingQuantity, wordsCount))
                 .doOnSuccess { updateLocalScore(game, levelId) }
                 .doOnError {
                     //TODO store local
