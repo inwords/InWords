@@ -61,6 +61,11 @@ const gameLevel = (state = initialGameLevelState, action) => {
                 ...state,
                 lastScore: action.payload.score || null
             };
+        case gameConstants.GAME_LEVEL_SCORE_RESET:
+            return {
+                ...state,
+                lastScore: null
+            };
         default:
             return state;
     }

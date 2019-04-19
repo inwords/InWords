@@ -7,7 +7,7 @@ function pullWordPairs() {
         method: 'POST',
         data: JSON.stringify([]),
         actionsOnSuccess: [wordPairsActions.initializeWordPairs],
-        errorMessage: 'Ошибка загрузки словаря'
+        errorMessage: 'Не удалось загрузить словарь'
     });
 }
 
@@ -17,7 +17,7 @@ function deleteWordPairs(pairIds) {
         method: 'POST',
         data: JSON.stringify(pairIds),
         actionsOnSuccess: [() => wordPairsActions.updateWordPairsAfterDeletion(pairIds)],
-        errorMessage: 'Ошибка удаления слов'
+        errorMessage: 'Не удалось удалить слова'
     });
 }
 
@@ -27,7 +27,7 @@ function addWordPair(wordPair) {
         method: 'POST',
         data: JSON.stringify([wordPair]),
         actionsOnSuccess: [data => wordPairsActions.updateWordPairsAfterAddition(configureWordPair(data, wordPair))],
-        errorMessage: 'Ошибка добавления слова'
+        errorMessage: 'Не удалось добавить слово'
     });
 }
 
@@ -36,7 +36,7 @@ function deleteWordPairAsEditPart(pairId) {
         endpoint: 'Words/DeletePair',
         method: 'POST',
         data: JSON.stringify([pairId]),
-        errorMessage: 'Ошибка редактирования слова'
+        errorMessage: 'Не удалось сохранить слово'
     });
 }
 
@@ -46,7 +46,7 @@ function addWordPairAsEditPart(wordPair) {
         method: 'POST',
         data: JSON.stringify([wordPair]),
         actionsOnSuccess: [data => wordPairsActions.updateWordPairsAfterEditing(wordPair.id, configureWordPair(data, wordPair))],
-        errorMessage: 'Ошибка редактирования слова'
+        errorMessage: 'Не удалось сохранить слово'
     });
 }
 

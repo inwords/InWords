@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameApiActions from '../../actions/gameApiActions';
 import { AppBarContext } from '../TopAppBar/AppBarContext';
+import useForm from '../../hooks/useForm';
 import UpwardButton from '../shared/UpwardButton';
 import GamePackCreationPage from './GamePackCreationPage';
 
@@ -12,62 +13,35 @@ function GamePackCreationContainer({ userId, addGamePack }) {
     React.useEffect(() => {
         resetAppBar({
             title: 'Создание',
-            leftElements: <UpwardButton />,
+            leftElement: <UpwardButton />,
         });
     }, []);
 
-    const [descriptionValues, setDescriptionValues] = React.useState({
+    const { values: descriptionValues, handleChange: handleDescriptionValuesChange } = useForm({
         title: '',
         description: ''
     });
 
-    const handleDescriptionValuesChange = prop => event => {
-        setDescriptionValues({ ...descriptionValues, [prop]: event.target.value });
-    };
-
     const [levelPacks, setLevelPacks] = React.useState([{
         level: 1,
         wordTranslations: [{
-            wordForeign: '',
-            wordNative: ''
+            defaultWordForeign: '',
+            defaultWordNative: ''
         }]
     }]);
 
     const handleLevelPackAddition = () => {
         setLevelPacks(levelPacks.concat({
             level: levelPacks.length + 1,
-            wordTranslations: [{ wordForeign: '', wordNative: '' }]
+            wordTranslations: [{
+                defaultWordForeign: '',
+                defaultWordNative: ''
+            }]
         }));
     };
 
     const handleLevelPackDeletion = () => {
         setLevelPacks(levelPacks.slice(0, -1));
-    };
-
-    const handleWordTranslationsChange = (sourceLevelPackIndex, sourceWordTranslationIndex, prop) => event => {
-        const newLevelPacks = levelPacks.map((levelPack, destinationLevelPackIndex) => {
-            if (sourceLevelPackIndex !== destinationLevelPackIndex) {
-                return levelPack;
-            }
-
-            const newWordTranslations = levelPack.wordTranslations.map((wordTranslation, destinationWordTranslationIndex) => {
-                if (sourceWordTranslationIndex !== destinationWordTranslationIndex) {
-                    return wordTranslation;
-                }
-
-                return {
-                    ...wordTranslation,
-                    [prop]: event.target.value
-                };
-            });
-
-            return {
-                ...levelPack,
-                wordTranslations: newWordTranslations
-            };
-        });
-
-        setLevelPacks(newLevelPacks);
     };
 
     const handleWordTranslationAddition = sourceIndex => () => {
@@ -79,8 +53,8 @@ function GamePackCreationContainer({ userId, addGamePack }) {
             return {
                 ...levelPack,
                 wordTranslations: levelPack.wordTranslations.concat({
-                    wordForeign: '',
-                    wordNative: ''
+                    defaultWordForeign: '',
+                    defaultWordNative: ''
                 })
             };
         });
@@ -113,7 +87,17 @@ function GamePackCreationContainer({ userId, addGamePack }) {
                     description: descriptionValues.description
                 }]
             },
-            levelPacks: levelPacks
+            levelPacks: levelPacks.map((levelPack, levelPackIndex) => {
+                return {
+                    level: levelPack.level,
+                    wordTranslations: levelPacks[levelPackIndex].wordTranslations.map((wordTranslation, wordTranslationIndex) => {
+                        return {
+                            wordForeign: event.target.elements[`${levelPackIndex}.${wordTranslationIndex}.wordForeign`].value,
+                            wordNative: event.target.elements[`${levelPackIndex}.${wordTranslationIndex}.wordNative`].value
+                        }
+                    })
+                }
+            })
         });
 
         event.preventDefault();
@@ -126,7 +110,6 @@ function GamePackCreationContainer({ userId, addGamePack }) {
             levelPacks={levelPacks}
             handleLevelPackAddition={handleLevelPackAddition}
             handleLevelPackDeletion={handleLevelPackDeletion}
-            handleWordTranslationsChange={handleWordTranslationsChange}
             handleWordTranslationAddition={handleWordTranslationAddition}
             handleWordTranslationDeletion={handleWordTranslationDeletion}
             handleSubmit={handleSubmit}
@@ -135,7 +118,7 @@ function GamePackCreationContainer({ userId, addGamePack }) {
 }
 
 GamePackCreationContainer.propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.number,
     addGamePack: PropTypes.func.isRequired,
 };
 

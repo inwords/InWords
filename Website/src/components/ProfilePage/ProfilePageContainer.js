@@ -14,8 +14,8 @@ function ProfilePageContainer({ userId, userInfo, receiveUserInfo, match }) {
             title: 'Профиль'
         });
 
-        if (userInfo.userId !== parseInt(match.params.id)) {
-            receiveUserInfo(parseInt(match.params.id));
+        if (userInfo.userId !== parseInt(match.params.userId)) {
+            receiveUserInfo(parseInt(match.params.userId));
         }
     }, []);
 
@@ -33,7 +33,7 @@ ProfilePageContainer.propTypes = {
         userId: PropTypes.number,
     }).isRequired,
     receiveUserInfo: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {

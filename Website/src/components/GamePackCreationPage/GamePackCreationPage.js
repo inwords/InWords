@@ -43,7 +43,6 @@ function GamePackCreationPage(
         levelPacks,
         handleLevelPackAddition,
         handleLevelPackDeletion,
-        handleWordTranslationsChange,
         handleWordTranslationAddition,
         handleWordTranslationDeletion,
         handleSubmit,
@@ -60,10 +59,10 @@ function GamePackCreationPage(
                         id="title"
                         label="Название"
                         fullWidth
-                        value={descriptionValues.title}
-                        onChange={handleDescriptionValuesChange('title')}
                         margin="normal"
                         variant="outlined"
+                        value={descriptionValues.title}
+                        onChange={handleDescriptionValuesChange('title')}
                     />
                     <TextField
                         id="description"
@@ -71,10 +70,10 @@ function GamePackCreationPage(
                         multiline
                         rows="4"
                         fullWidth
-                        value={descriptionValues.description}
-                        onChange={handleDescriptionValuesChange('description')}
                         margin="normal"
                         variant="outlined"
+                        value={descriptionValues.description}
+                        onChange={handleDescriptionValuesChange('description')}
                     />
                     {levelPacks.map((levelPack, levelPackIndex) =>
                         <Paper key={levelPackIndex} className={classes.paper}>
@@ -91,32 +90,24 @@ function GamePackCreationPage(
                                         id="wordForeign"
                                         label="Слово или фраза"
                                         fullWidth
-                                        value={wordTranslation.wordForeign}
-                                        onChange={handleWordTranslationsChange(levelPackIndex, wordTranslationIndex, 'wordForeign')}
                                         margin="normal"
                                         variant="outlined"
+                                        name={`${levelPackIndex}.${wordTranslationIndex}.wordForeign`}
+                                        defaultValue={wordTranslation.defaultWordForeign}
                                     />
                                     <TextField
                                         required
                                         id="wordNative"
                                         label="Перевод"
                                         fullWidth
-                                        value={wordTranslation.wordNative}
-                                        onChange={handleWordTranslationsChange(levelPackIndex, wordTranslationIndex, 'wordNative')}
                                         margin="normal"
                                         variant="outlined"
+                                        name={`${levelPackIndex}.${wordTranslationIndex}.wordNative`}
+                                        defaultValue={wordTranslation.defaultWordNative}
                                     />
                                 </Paper>
                             )}
                             <div className={classes.actions}>
-                                <IconButton
-                                    color="inherit"
-                                    aria-label="AddCircleOutline"
-                                    className={classes.button}
-                                    onClick={handleWordTranslationAddition(levelPackIndex)}
-                                >
-                                    <AddCircleOutlineIcon />
-                                </IconButton>
                                 <IconButton
                                     color="inherit"
                                     aria-label="RemoveCircleOutline"
@@ -126,17 +117,17 @@ function GamePackCreationPage(
                                 >
                                     <RemoveCircleOutlineIcon />
                                 </IconButton>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="AddCircleOutline"
+                                    className={classes.button}
+                                    onClick={handleWordTranslationAddition(levelPackIndex)}
+                                >
+                                    <AddCircleOutlineIcon />
+                                </IconButton>
                             </div>
                         </Paper>)}
                     <div className={classes.actions}>
-                        <IconButton
-                            color="inherit"
-                            aria-label="AddCircleOutline"
-                            className={classes.button}
-                            onClick={handleLevelPackAddition}
-                        >
-                            <AddCircleOutlineIcon />
-                        </IconButton>
                         <IconButton
                             color="inherit"
                             aria-label="RemoveCircleOutline"
@@ -145,6 +136,14 @@ function GamePackCreationPage(
                             onClick={handleLevelPackDeletion}
                         >
                             <RemoveCircleOutlineIcon />
+                        </IconButton>
+                        <IconButton
+                            color="inherit"
+                            aria-label="AddCircleOutline"
+                            className={classes.button}
+                            onClick={handleLevelPackAddition}
+                        >
+                            <AddCircleOutlineIcon />
                         </IconButton>
                     </div>
                     <div className={classes.actions}>
@@ -174,15 +173,14 @@ GamePackCreationPage.propTypes = {
             level: PropTypes.number.isRequired,
             wordTranslations: PropTypes.arrayOf(
                 PropTypes.shape({
-                    wordForeign: PropTypes.string.isRequired,
-                    wordNative: PropTypes.string.isRequired
+                    defaultWordForeign: PropTypes.string.isRequired,
+                    defaultWordNative: PropTypes.string.isRequired
                 }).isRequired
             ).isRequired
         }).isRequired
     ).isRequired,
     handleLevelPackAddition: PropTypes.func.isRequired,
     handleLevelPackDeletion: PropTypes.func.isRequired,
-    handleWordTranslationsChange: PropTypes.func.isRequired,
     handleWordTranslationAddition: PropTypes.func.isRequired,
     handleWordTranslationDeletion: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,

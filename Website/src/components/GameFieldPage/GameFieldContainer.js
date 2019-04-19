@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import gameActions from '../../actions/gameActions';
 import gameApiActions from '../../actions/gameApiActions';
 import FinalGameField from './FinalGameField';
+import { AppBarContext } from '../TopAppBar/AppBarContext';
+import UpwardButton from '../shared/UpwardButton';
 import GameField from './GameField';
 import withActualGameLevel from './withActualGameLevel';
 
@@ -17,7 +20,7 @@ const shuffle = array => {
     return array;
 };
 
-function GameFieldContainer({ gameLevel, saveLevelResult }) {
+function GameFieldContainer({ gameLevel, resetGameLevelScore, saveLevelResult }) {
     const [infoAboutRandomWords, setInfoAboutRandomWords] = React.useState([]);
     const [infoAboutSelectedWords, setInfoAboutSelectedWords] = React.useState([]);
     const [successfulPairIds, setSuccessfulPairIds] = React.useState([]);
@@ -25,7 +28,16 @@ function GameFieldContainer({ gameLevel, saveLevelResult }) {
     const [closuresQuantity, setClosuresQuantity] = React.useState(0);
     const [gameCompleted, setGameCompleted] = React.useState(false);
 
+    const { resetAppBar } = React.useContext(AppBarContext);
+
     React.useEffect(() => {
+        resetAppBar({
+            title: 'Уровень',
+            leftElement: <UpwardButton />
+        });
+
+        resetGameLevelScore();
+
         const shuffledWordTranslations = shuffle([...gameLevel.wordTranslations]);
         const infoAboutWords = [].concat.apply([], shuffledWordTranslations.slice(0, 8).map(wordPair =>
             [{
@@ -42,12 +54,13 @@ function GameFieldContainer({ gameLevel, saveLevelResult }) {
 
     React.useEffect(() => {
         if (successfulPairIds.length > 0 && successfulPairIds.length === infoAboutRandomWords.length / 2) {
+            saveLevelResult({
+                levelId: gameLevel.levelId,
+                openingQuantity: closuresQuantity * 2 + infoAboutRandomWords.length,
+                wordsCount: infoAboutRandomWords.length
+            });
+
             setTimeout(() => {
-                saveLevelResult({
-                    levelId: gameLevel.levelId,
-                    openingQuantity: closuresQuantity * 2 + infoAboutRandomWords.length,
-                    wordsCount: infoAboutRandomWords.length
-                });
                 setGameCompleted(true);
             }, 500);
         }
@@ -99,7 +112,6 @@ function GameFieldContainer({ gameLevel, saveLevelResult }) {
     return (
         !gameCompleted ? (
             <GameField
-                columnsNum={Math.ceil(Math.sqrt(infoAboutRandomWords.length))}
                 infoAboutRandomWords={infoAboutRandomWords}
                 infoAboutSelectedWords={infoAboutSelectedWords}
                 successfulPairIds={successfulPairIds}
@@ -123,11 +135,13 @@ GameFieldContainer.propTypes = {
         })).isRequired,
         lastScore: PropTypes.number,
     }).isRequired,
-    saveLevelResult: PropTypes.func.isRequired,
+    resetGameLevelScore: PropTypes.func.isRequired,
+    saveLevelResult: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        resetGameLevelScore: () => dispatch(gameActions.resetGameLevelScore()),
         saveLevelResult: levelResult => dispatch(gameApiActions.saveLevelResult(levelResult))
     };
 };

@@ -18,6 +18,7 @@ const styles = theme => ({
         width: cardDimension,
         overflowWrap: 'break-word',
         padding: theme.spacing.unit,
+        textAlign: 'center',
     },
 });
 
@@ -29,10 +30,10 @@ function GameWordCard({ word, selected, successful, successfulSelected, classes 
                     <Paper className={classes.paper} /> :
                     <Paper />}
             </Grow>
-            <Grow in={(selected || successful)}>
+            <Grow in={selected || successful}>
                 {(selected || successful) ?
                     <Paper className={classes.paper} elevation={successfulSelected ? 5 : 2}>
-                        <Typography variant="h6" align="center" className={classes.text}>
+                        <Typography variant="h6" className={classes.text}>
                             {word}
                         </Typography>
                     </Paper> :

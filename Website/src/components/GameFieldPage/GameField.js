@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid/index';
-import { AppBarContext } from '../TopAppBar/AppBarContext';
-import UpwardButton from '../shared/UpwardButton';
 import GameWordCard from './GameWordCard';
 
 const cardsSpacing = 16;
@@ -52,7 +50,6 @@ const styles = theme => ({
 
 function GameField(
     {
-        columnsNum,
         infoAboutRandomWords,
         infoAboutSelectedWords,
         successfulPairIds,
@@ -61,14 +58,8 @@ function GameField(
         classes
     }
 ) {
-    const { resetAppBar } = React.useContext(AppBarContext);
-
-    React.useEffect(() => {
-        resetAppBar({
-            title: 'Уровень',
-            leftElements: <UpwardButton />,
-        });
-    }, []);
+    const columnsNum = React.useMemo(() =>
+        Math.ceil(Math.sqrt(infoAboutRandomWords.length)), [infoAboutRandomWords.length]);
 
     return (
         <Grid
@@ -83,7 +74,8 @@ function GameField(
                     <Grid key={index} item onClick={handleClick(infoAboutRandomWord.pairId, index)}>
                         <GameWordCard
                             word={infoAboutRandomWord.word}
-                            selected={Boolean(infoAboutSelectedWords.find(selectedWordInfo => selectedWordInfo.wordId === index))}
+                            selected={Boolean(infoAboutSelectedWords.find(selectedWordInfo =>
+                                selectedWordInfo.wordId === index))}
                             successful={successfulPairIds.includes(infoAboutRandomWord.pairId)}
                             successfulSelected={successfulSelectedPairId === infoAboutRandomWord.pairId}
                         />
@@ -95,7 +87,6 @@ function GameField(
 }
 
 GameField.propTypes = {
-    columnsNum: PropTypes.number.isRequired,
     infoAboutRandomWords: PropTypes.arrayOf(PropTypes.shape({
         pairId: PropTypes.number.isRequired,
         word: PropTypes.string.isRequired,

@@ -13,33 +13,37 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    gameResult: {
+    shell: {
         marginTop: theme.spacing.unit * 4,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         padding: theme.spacing.unit * 2,
     },
+    text: {
+        textAlign: 'center',
+    }
 });
 
-function FinalGameField({ score = 0, handleReplay, classes }) {
+function FinalGameField({ score = null, handleReplay, classes }) {
     return (
         <div className={classes.root}>
             <Zoom in>
-                <div className={classes.gameResult}>
+                <div className={classes.shell}>
                     <Typography
                         variant="h4"
                         color="secondary"
-                        align="center"
                         gutterBottom
+                        className={classes.text}
                     >
                         WINNER WINNER CHICKEN DINNER!
                     </Typography>
+                    {score !== null &&
                     <Typography gutterBottom>
                         <StarIcon fontSize="large" color={score > 0 ? 'secondary' : 'disabled'} />
                         <StarIcon fontSize="large" color={score > 1 ? 'secondary' : 'disabled'} />
                         <StarIcon fontSize="large" color={score > 2 ? 'secondary' : 'disabled'} />
-                    </Typography>
+                    </Typography>}
                     <Typography>
                         <IconButton color="primary" aria-label="Replay" onClick={handleReplay}>
                             <ReplayIcon fontSize="large" />
@@ -53,6 +57,7 @@ function FinalGameField({ score = 0, handleReplay, classes }) {
 
 FinalGameField.propTypes = {
     score: PropTypes.number,
+    nextLevelId: PropTypes.number,
     classes: PropTypes.object.isRequired,
 };
 

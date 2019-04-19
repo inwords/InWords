@@ -35,6 +35,10 @@ const updateGameLevelAfterResultSaving = gameLevel => ({
     payload: gameLevel
 });
 
+const resetGameLevelScore = () => ({
+    type: gameConstants.GAME_LEVEL_SCORE_RESET
+});
+
 export default {
     initializeGamesInfo,
     updateGamesInfoAfterAddition,
@@ -42,5 +46,6 @@ export default {
     initializeGameInfo,
     updateGameInfoAfterResultSaving,
     initializeGameLevel,
-    updateGameLevelAfterResultSaving
+    updateGameLevelAfterResultSaving,
+    resetGameLevelScore
 };

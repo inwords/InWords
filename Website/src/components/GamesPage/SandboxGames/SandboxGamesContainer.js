@@ -31,8 +31,7 @@ SandboxGamesContainer.propTypes = {
     ).isRequired,
     pullGamesInfo: PropTypes.func.isRequired,
     deleteGamePack: PropTypes.func.isRequired,
-    userId: PropTypes.number,
-    history: PropTypes.object.isRequired
+    userId: PropTypes.number
 };
 
 const mapStateToProps = store => {

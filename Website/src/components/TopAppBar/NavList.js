@@ -13,7 +13,7 @@ function NavList({ authorized, onClick = null }) {
                 </>) : (
                 <>
                     <NavListItem to="/wordlist" text="Словарь" />
-                    <NavListItem to="/games/0" text="Игры" />
+                    <NavListItem to="/games" text="Игры" />
                 </>)}
         </List>
     );
