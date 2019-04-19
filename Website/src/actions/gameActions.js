@@ -20,8 +20,8 @@ const initializeGameInfo = gameInfo => ({
     payload: gameInfo
 });
 
-const updateGameInfo = gameInfo => ({
-    type: gameConstants.GAME_INFO_UPDATE,
+const updateGameInfoAfterResultSaving = gameInfo => ({
+    type: gameConstants.GAME_INFO_UPDATE_AFTER_RESULT_SAVING,
     payload: gameInfo
 });
 
@@ -30,11 +30,17 @@ const initializeGameLevel = gameLevel => ({
     payload: gameLevel
 });
 
+const updateGameLevelAfterResultSaving = gameLevel => ({
+    type: gameConstants.GAME_LEVEL_UPDATE_AFTER_RESULT_SAVING,
+    payload: gameLevel
+});
+
 export default {
     initializeGamesInfo,
     updateGamesInfoAfterAddition,
     updateGamesInfoAfterDeletion,
     initializeGameInfo,
-    updateGameInfo,
-    initializeGameLevel
+    updateGameInfoAfterResultSaving,
+    initializeGameLevel,
+    updateGameLevelAfterResultSaving
 };

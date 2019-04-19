@@ -30,7 +30,10 @@ function saveLevelResult(levelResult) {
         endpoint: `Game/Score`,
         method: 'POST',
         data: JSON.stringify(levelResult),
-        actionsOnSuccess: [gameActions.updateGameInfo],
+        actionsOnSuccess: [
+            gameActions.updateGameInfoAfterResultSaving,
+            gameActions.updateGameLevelAfterResultSaving
+        ],
         errorMessage: 'Ошибка сохранения результата'
     });
 }
@@ -45,8 +48,9 @@ function addGamePack(gamePack) {
             creatorId: gamePack.creationInfo.creatorId,
             isAvailable: true,
             title: gamePack.creationInfo.descriptions[0].title,
-            description: gamePack.creationInfo.descriptions[0].description,
+            description: gamePack.creationInfo.descriptions[0].description
         })],
+        redirection: '/games/1',
         errorMessage: 'Ошибка добавления игры'
     });
 }

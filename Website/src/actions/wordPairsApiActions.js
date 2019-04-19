@@ -52,8 +52,7 @@ function addWordPairAsEditPart(wordPair) {
 
 const configureWordPair = (serverData, localWordPair) => ({
     serverId: serverData[0].serverId,
-    wordForeign: localWordPair.wordForeign,
-    wordNative: localWordPair.wordNative
+    ...localWordPair
 });
 
 export default {
