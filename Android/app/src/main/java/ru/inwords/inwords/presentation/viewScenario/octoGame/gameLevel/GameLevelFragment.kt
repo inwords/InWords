@@ -1,7 +1,6 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -58,10 +57,11 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
                         gameLevelInfo = gameLevelInfos[nextLevelIndex]
                         viewModel.onGameLevelSelected(gameLevelInfo.levelId)
                     } else {
-                        Log.d("GameLevelFragment", "BottomSheet's NEXT points out of bound")
+                        navController.navigate(R.id.action_gameLevelFragment_pop)
                     }
                 }
                 FromGameEndPathsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
+                FromGameEndPathsEnum.REFRESH -> viewModel.onGameLevelSelected(gameLevelInfo.levelId)
             }
         })
     }
@@ -148,14 +148,17 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         stateMap[openedCardWord] = true
 
         if (stateMap.values.all { it }) {
-            viewModel.onGameEnd(game, gameLevelInfo.levelId, cardOpenClicksCount, stateMap.size)
-
             showGameEndDialog()
+
+            viewModel.onGameEnd(game, gameLevelInfo.levelId, cardOpenClicksCount, stateMap.size)
         }
     }
 
     private fun showGameEndDialog() {
-        gameEndBottomSheetFragment = GameEndBottomSheet().also {
+        val gameLevelInfos = game.gameLevelInfos
+        val nextLevelAvailable = gameLevelInfos.indexOf(gameLevelInfo) + 1 < gameLevelInfos.size
+
+        gameEndBottomSheetFragment = GameEndBottomSheet.instantiate(gameLevelInfo.levelId, nextLevelAvailable).also {
             supportFragmentInjector().inject(it)
             it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName) //TODO
         }

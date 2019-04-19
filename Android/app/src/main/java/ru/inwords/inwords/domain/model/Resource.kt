@@ -7,7 +7,7 @@ package ru.inwords.inwords.domain.model
  */
 data class Resource<T : Any> internal constructor(val status: Status, val data: T?, val message: String?) {
     enum class Status {
-        SUCCESS, ERROR, LOADING
+        SUCCESS, LOADING, ERROR
     }
 
     fun success() = status == Status.SUCCESS

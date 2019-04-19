@@ -12,7 +12,7 @@ class GameLevelViewHolder internal
 constructor(itemView: View, private val onItemClickedListener: Subject<GameLevelInfo>?) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-    private val ratingBar: RatingBar = itemView.ratingBar
+    private val ratingBar: RatingBar = itemView.rating_bar
     private val title: TextView = itemView.title
 
     private lateinit var gameLevelInfo: GameLevelInfo

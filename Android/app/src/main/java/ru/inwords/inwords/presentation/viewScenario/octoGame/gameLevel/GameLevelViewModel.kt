@@ -5,6 +5,7 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import ru.inwords.inwords.data.dto.game.Game
+import ru.inwords.inwords.data.dto.game.LevelScore
 import ru.inwords.inwords.domain.CardsData
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
 import ru.inwords.inwords.domain.model.Resource
@@ -13,6 +14,7 @@ import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
     private val _cardsDataSubject: Subject<Resource<CardsData>> = BehaviorSubject.create()
     private val _navigationSubject: Subject<FromGameEndPathsEnum> = PublishSubject.create()
+    private val _scoreSubject: Subject<Resource<LevelScore>> = BehaviorSubject.create()
 
     fun onGameLevelSelected(gameLevelId: Int) {
         compositeDisposable.clear()
@@ -28,15 +30,19 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
                 .subscribe(_cardsDataSubject)
     }
 
+    fun cardsStream(): Observable<Resource<CardsData>> = _cardsDataSubject
+
     fun navigationStream(): Observable<FromGameEndPathsEnum> = _navigationSubject
+
+    fun scoreStream(): Observable<Resource<LevelScore>> = _scoreSubject
 
     fun onNewNavCommand(path: FromGameEndPathsEnum) {
         _navigationSubject.onNext(path)
     }
 
-    fun cardsStream(): Observable<Resource<CardsData>> = _cardsDataSubject
-
     fun onGameEnd(game: Game, levelId: Int, cardOpenClicks: Int, wordsCount: Int) {
-        gameInteractor.getScore(game, levelId, cardOpenClicks, wordsCount).subscribe()
+        gameInteractor.getScore(game, levelId, cardOpenClicks, wordsCount)
+                .toObservable()
+                .subscribe(_scoreSubject) //TODO inconsistency may happen
     }
 }

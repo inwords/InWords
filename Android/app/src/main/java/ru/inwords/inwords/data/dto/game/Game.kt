@@ -12,5 +12,3 @@ data class Game(
         @SerializedName("title") val title: String?,
         @SerializedName("creator") val creator: String,
         @SerializedName("levelInfos") val gameLevelInfos: List<GameLevelInfo>) : Serializable
-
-val emptyGame get() = Game(0, "", "", emptyList())
