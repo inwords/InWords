@@ -5,6 +5,7 @@ import io.reactivex.Single
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameLevel
 import ru.inwords.inwords.data.dto.game.LevelScore
+import ru.inwords.inwords.data.dto.game.LevelScoreRequest
 import ru.inwords.inwords.data.repository.game.GameGatewayController
 import ru.inwords.inwords.domain.model.GameModel
 import ru.inwords.inwords.domain.model.GamesInfoModel
@@ -31,7 +32,7 @@ class GameInteractorImpl @Inject constructor(
                 .cache()
     }
 
-    override fun getScore(game: Game, levelId: Int, openingQuantity: Int, wordsCount: Int): Single<Resource<LevelScore>> {
-        return gameGatewayController.getScore(game, levelId, openingQuantity, wordsCount)
+    override fun getScore(game: Game, levelScoreRequest: LevelScoreRequest): Single<Resource<LevelScore>> {
+        return gameGatewayController.getScore(game, levelScoreRequest)
     }
 }

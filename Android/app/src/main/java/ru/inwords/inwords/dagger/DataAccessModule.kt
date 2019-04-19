@@ -11,6 +11,7 @@ import ru.inwords.inwords.data.source.database.WordTranslationDao
 import ru.inwords.inwords.data.source.database.game.GameDao
 import ru.inwords.inwords.data.source.database.game.GameInfoDao
 import ru.inwords.inwords.data.source.database.game.GameLevelDao
+import ru.inwords.inwords.data.source.database.game.LevelScoreRequestDao
 import javax.inject.Singleton
 
 @Module
@@ -41,5 +42,10 @@ internal class DataAccessModule {
     @Provides
     fun gameLevelDao(database: AppRoomDatabase): GameLevelDao {
         return database.gameLevelDao()
+    }
+
+    @Provides
+    fun levelScoreRequestDao(database: AppRoomDatabase): LevelScoreRequestDao {
+        return database.levelScoreRequestDao()
     }
 }

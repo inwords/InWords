@@ -6,6 +6,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.LevelScore
+import ru.inwords.inwords.data.dto.game.LevelScoreRequest
 import ru.inwords.inwords.domain.CardsData
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
 import ru.inwords.inwords.domain.model.Resource
@@ -41,7 +42,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
     }
 
     fun onGameEnd(game: Game, levelId: Int, cardOpenClicks: Int, wordsCount: Int) {
-        gameInteractor.getScore(game, levelId, cardOpenClicks, wordsCount)
+        gameInteractor.getScore(game, LevelScoreRequest(levelId, cardOpenClicks, wordsCount))
                 .toObservable()
                 .subscribe(_scoreSubject) //TODO inconsistency may happen
     }

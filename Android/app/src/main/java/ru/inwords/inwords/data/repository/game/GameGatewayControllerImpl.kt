@@ -1,6 +1,7 @@
 package ru.inwords.inwords.data.repository.game
 
 import android.annotation.SuppressLint
+import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.core.util.SchedulersFacade
@@ -8,15 +9,17 @@ import ru.inwords.inwords.data.dto.game.*
 import ru.inwords.inwords.data.source.database.game.GameDao
 import ru.inwords.inwords.data.source.database.game.GameInfoDao
 import ru.inwords.inwords.data.source.database.game.GameLevelDao
+import ru.inwords.inwords.data.source.database.game.LevelScoreRequestDao
 import ru.inwords.inwords.domain.model.Resource
 import javax.inject.Inject
 
 @SuppressLint("UseSparseArrays")
 class GameGatewayControllerImpl @Inject constructor(
         private val gameRemoteRepository: GameRemoteRepository,
-        private val gameInfoDao: GameInfoDao,
-        private val gameDao: GameDao,
-        private val gameLevelDao: GameLevelDao) : GameGatewayController {
+        gameInfoDao: GameInfoDao,
+        gameDao: GameDao,
+        gameLevelDao: GameLevelDao,
+        private val levelScoreRequestDao: LevelScoreRequestDao) : GameGatewayController {
 
     private val gameInfoDatabaseRepository by lazy { GameDatabaseRepository<GameInfo>(gameInfoDao) }
     private val gameDatabaseRepository by lazy { GameDatabaseRepository<Game>(gameDao) }
@@ -54,23 +57,29 @@ class GameGatewayControllerImpl @Inject constructor(
         return cachingProvider.observe()
     }
 
-    override fun getScore(game: Game, levelId: Int, openingQuantity: Int, wordsCount: Int): Single<Resource<LevelScore>> {
-        return gameRemoteRepository.getScore(LevelScoreRequest(levelId, openingQuantity, wordsCount))
-                .doOnSuccess { updateLocalScore(game, levelId) }
-                .doOnError {
-                    //TODO store local
+    override fun getScore(game: Game, levelScoreRequest: LevelScoreRequest): Single<Resource<LevelScore>> {
+        return gameRemoteRepository.getScore(levelScoreRequest).wrapResource()
+                .flatMap { res ->
+                    if (res.error()) {
+                        levelScoreRequestDao.insert(levelScoreRequest)
+                                .doOnError { Log.d(TAG, it.message) }
+                                .map { res }
+                                .onErrorReturn { res }
+                    } else {
+                        updateLocalScore(game, res.data!!)
+                        Single.just(res)
+                    }
                 }
-                .map { Resource.success(it) }
-                .onErrorReturn { Resource.error(it.message, null) }
                 .subscribeOn(SchedulersFacade.io())
     }
 
-    private fun updateLocalScore(game: Game, levelId: Int) {
+    private fun updateLocalScore(game: Game, levelScore: LevelScore) {
         val list = game.gameLevelInfos.map {
-            if (it.levelId == levelId) {
-                it.copy(playerStars = 3)
+            if (it.levelId == levelScore.levelId) {
+                it.copy(playerStars = levelScore.score)
+            } else {
+                it
             }
-            it
         }
 
         val updatedGame = game.copy(gameLevelInfos = list)
@@ -102,6 +111,10 @@ class GameGatewayControllerImpl @Inject constructor(
                 { gameLevelDatabaseRepository.getById(levelId) },
                 { gameRemoteRepository.getLevel(levelId) }
         )
+    }
+
+    companion object {
+        const val TAG: String = "GameGatewayController"
     }
 }
 

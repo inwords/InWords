@@ -35,14 +35,7 @@ internal class ResourceCachingProvider<T : Any>(
                                 .doOnError { Log.d(TAG, it.message) }
                                 .wrapResourceOverwriteError(res)
                     } else {
-                        Single.just(res)
-                    }
-                }
-                .switchMapSingle {
-                    if (it.success()) {
-                        Single.just(it)
-                    } else {
-                        Log.d(TAG, it.message)
+                        Log.d(TAG, res.message)
                         databaseGetter().wrapResource()
                     }
                 }
@@ -68,11 +61,6 @@ internal class ResourceCachingProvider<T : Any>(
         return resourceStream
     }
 
-    private fun Single<T>.wrapResource(): Single<Resource<T>> {
-        return map { Resource.success(it) }
-                .onErrorReturn { Resource.error(it.message, null) }
-    }
-
     private fun Single<T>.wrapResourceOverwriteError(onErrorResource: Resource<T>): Single<Resource<T>> {
         return map { Resource.success(it) }
                 .onErrorReturn { onErrorResource }
@@ -90,4 +78,9 @@ internal class ResourceCachingProvider<T : Any>(
     companion object {
         const val TAG: String = "ResourceCachingProvider"
     }
+}
+
+fun <T : Any> Single<T>.wrapResource(): Single<Resource<T>> {
+    return map { Resource.success(it) }
+            .onErrorReturn { Resource.error(it.message, null) }
 }
