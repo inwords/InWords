@@ -174,12 +174,11 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
         return sessionHelper
                 .resetThreshold()
                 .andThen(query)
-                .doOnError(throwable -> {
-                    //noinspection ResultOfMethodCallIgnored
-                    sessionHelper.interceptError(throwable)
-                            .andThen(setAuthToken(TokenResponse.errorToken()))
-                            .blockingGet();
-                })
+                .onErrorResumeNext(throwable -> sessionHelper.interceptError(throwable)
+                        .andThen(Single.error(() -> { //error here
+                            setAuthToken(TokenResponse.errorToken());
+                            return throwable;
+                        })))
                 .flatMap(this::setAuthToken);
     }
 }
