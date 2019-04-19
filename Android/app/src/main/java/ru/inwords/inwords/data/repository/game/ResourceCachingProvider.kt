@@ -71,7 +71,7 @@ internal class ResourceCachingProvider<T : Any>(
         private val cachingProvidersMap = HashMap<Int, ResourceCachingProvider<T>>()
 
         fun get(id: Int, factory: (Int) -> ResourceCachingProvider<T>): ResourceCachingProvider<T> {
-            return cachingProvidersMap[id] ?: factory(id)
+            return cachingProvidersMap.getOrPut(id) { factory(id) }
         }
     }
 

@@ -158,7 +158,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         val gameLevelInfos = game.gameLevelInfos
         val nextLevelAvailable = gameLevelInfos.indexOf(gameLevelInfo) + 1 < gameLevelInfos.size
 
-        gameEndBottomSheetFragment = GameEndBottomSheet.instantiate(gameLevelInfo.levelId, nextLevelAvailable).also {
+        gameEndBottomSheetFragment = GameEndBottomSheet.instance(gameLevelInfo.levelId, nextLevelAvailable).also {
             supportFragmentInjector().inject(it)
             it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName) //TODO
         }

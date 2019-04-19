@@ -1,5 +1,6 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel
 
+import android.annotation.SuppressLint
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -41,9 +42,9 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
         _navigationSubject.onNext(path)
     }
 
+    @SuppressLint("CheckResult")
     fun onGameEnd(game: Game, levelId: Int, cardOpenClicks: Int, wordsCount: Int) {
         gameInteractor.getScore(game, LevelScoreRequest(levelId, cardOpenClicks, wordsCount))
-                .toObservable()
-                .subscribe(_scoreSubject) //TODO inconsistency may happen
+                .subscribe(_scoreSubject::onNext) //TODO inconsistency may happen
     }
 }

@@ -98,7 +98,7 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun instantiate(levelId: Int, nextLevelAvailable: Boolean): GameEndBottomSheet {
+        fun instance(levelId: Int, nextLevelAvailable: Boolean): GameEndBottomSheet {
             val bundle = Bundle()
             bundle.putInt(LEVEL_ID, levelId)
             bundle.putBoolean(NEXT_LEVEL_AVAILABLE, nextLevelAvailable)
