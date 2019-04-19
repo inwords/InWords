@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Encryption"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.DataCommon", "InWords.DataCommon\InWords.DataCommon.csproj", "{92E0B85A-DAFF-41B3-80AD-EA871F467D97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Domain", "InWords.Domain\InWords.Domain.csproj", "{02DF8AB4-1E13-4414-8B49-01FBFE7D5E88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Domain", "InWords.Domain\InWords.Domain.csproj", "{02DF8AB4-1E13-4414-8B49-01FBFE7D5E88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

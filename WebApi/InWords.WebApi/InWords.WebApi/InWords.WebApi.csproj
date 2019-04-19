@@ -15,13 +15,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="App_Data\**" />
-    <Content Remove="App_Data\**" />
-    <EmbeddedResource Remove="App_Data\**" />
-    <None Remove="App_Data\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -39,6 +34,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="AppData\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

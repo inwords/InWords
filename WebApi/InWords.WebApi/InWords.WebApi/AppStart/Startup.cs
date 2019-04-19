@@ -44,16 +44,24 @@ namespace InWords.WebApi
         ///     This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services"></param>
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            // Mvc and controllers mapping
+            services
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // allow use api from different sites
             services.AddCors();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+            // configure auth
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // 'scoped' in ASP.NET means "per HTTP request"
-            services.AddScoped(
-                _ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
+            services
+                .AddScoped(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
 
             // api versioning
             services.AddApiVersioning(o =>
@@ -65,6 +73,9 @@ namespace InWords.WebApi
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             SwaggerFactory.Configure(services);
+
+            // Register the autofuc dependency injection
+            return IocConfig.Configure(services);
         }
 
         /// <summary>
