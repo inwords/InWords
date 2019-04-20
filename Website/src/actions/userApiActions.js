@@ -9,7 +9,7 @@ function login(userdata) {
         data: JSON.stringify(userdata),
         actionsOnSuccess: [accessActions.grantAccess],
         redirection: '/wordlist',
-        errorMessage: 'Ошибка авторизации'
+        errorMessage: 'Не удалось авторизоваться'
     });
 }
 
@@ -19,7 +19,7 @@ function register(userdata) {
         method: 'POST',
         data: JSON.stringify(userdata),
         redirection: '/login',
-        errorMessage: 'Ошибка регистрации'
+        errorMessage: 'Не удалось зарегистрироваться'
     });
 }
 
@@ -27,7 +27,7 @@ function receiveUserInfo(userId) {
     return apiAction({
         endpoint: `Users/${userId}`,
         actionsOnSuccess: [userActions.initializeUserInfo],
-        errorMessage: 'Ошибка загрузки профиля'
+        errorMessage: 'Не удалось загрузить профиль'
     });
 }
 
@@ -38,7 +38,7 @@ function changeUserInfo(userInfo) {
         data: JSON.stringify(userInfo),
         actionsOnSuccess: [() => userActions.updateUserInfo(userInfo)],
         redirection: '/profile',
-        errorMessage: 'Ошибка редактирования профиля'
+        errorMessage: 'Не удалось сохранить профиль'
     });
 }
 

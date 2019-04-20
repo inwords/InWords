@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs/index';
 import Tab from '@material-ui/core/Tab/index';
 import LearningGames from './LearningGames';
 import SandboxGames from './SandboxGames';
-import GamePackAddButton from './GamePackAddButton';
+import GamePackAddButton from './GamePackCreateButton';
 
 const styles = theme => ({
     root: {

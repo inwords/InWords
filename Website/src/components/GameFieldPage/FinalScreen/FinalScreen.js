@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography/index';
 import StarIcon from '@material-ui/icons/Star';
 import IconButton from '@material-ui/core/IconButton/index';
 import ReplayIcon from '@material-ui/icons/Replay';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Zoom from '@material-ui/core/Zoom/index';
 
 const styles = theme => ({
@@ -13,36 +14,43 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    gameResult: {
+    shell: {
         marginTop: theme.spacing.unit * 4,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         padding: theme.spacing.unit * 2,
     },
+    text: {
+        textAlign: 'center',
+    }
 });
 
-function FinalGameField({ score = 0, handleReplay, classes }) {
+function FinalScreen({ score = null, handleReplay, handleRedirectionToNextLevel, classes }) {
     return (
         <div className={classes.root}>
             <Zoom in>
-                <div className={classes.gameResult}>
+                <div className={classes.shell}>
                     <Typography
                         variant="h4"
                         color="secondary"
-                        align="center"
                         gutterBottom
+                        className={classes.text}
                     >
                         WINNER WINNER CHICKEN DINNER!
                     </Typography>
+                    {score !== null &&
                     <Typography gutterBottom>
                         <StarIcon fontSize="large" color={score > 0 ? 'secondary' : 'disabled'} />
                         <StarIcon fontSize="large" color={score > 1 ? 'secondary' : 'disabled'} />
                         <StarIcon fontSize="large" color={score > 2 ? 'secondary' : 'disabled'} />
-                    </Typography>
+                    </Typography>}
                     <Typography>
-                        <IconButton color="primary" aria-label="Replay" onClick={handleReplay}>
+                        <IconButton aria-label="Replay" onClick={handleReplay}>
                             <ReplayIcon fontSize="large" />
+                        </IconButton>
+                        <IconButton color="primary" aria-label="ArrowForward" onClick={handleRedirectionToNextLevel}>
+                            <ArrowForwardIcon fontSize="large" />
                         </IconButton>
                     </Typography>
                 </div>
@@ -51,9 +59,11 @@ function FinalGameField({ score = 0, handleReplay, classes }) {
     );
 }
 
-FinalGameField.propTypes = {
+FinalScreen.propTypes = {
     score: PropTypes.number,
-    classes: PropTypes.object.isRequired,
+    handleReplay: PropTypes.func.isRequired,
+    handleRedirectionToNextLevel: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(FinalGameField);
+export default withStyles(styles)(FinalScreen);

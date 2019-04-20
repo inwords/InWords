@@ -4,6 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Toolbar from '@material-ui/core/Toolbar/index';
 import Typography from '@material-ui/core/Typography/index';
 import AppBar from '@material-ui/core/AppBar/index';
+import LinearProgress from '@material-ui/core/LinearProgress/index';
 import Hidden from '@material-ui/core/Hidden/index';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer/index';
 import Drawer from '@material-ui/core/Drawer/index';
@@ -12,7 +13,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton/index';
 import { AppBarContext } from './AppBarContext';
 import useDrawer from '../../hooks/useDrawer';
-import LoadingProgress from './LoadingProgress';
 import ProfileMenu from './ProfileMenu';
 import DrawerHeader from './DrawerHeader';
 import NavList from './NavList';
@@ -56,7 +56,7 @@ const styles = theme => ({
     },
 });
 
-function TopAppBar({ authorized, children, classes }) {
+function TopAppBar({ authorized, loading, children, classes }) {
     const { appBarSettings } = React.useContext(AppBarContext);
 
     const { open, handleDrawerOpen, handleDrawerClose } = useDrawer();
@@ -65,7 +65,7 @@ function TopAppBar({ authorized, children, classes }) {
         <div className={classes.root}>
             <AppBar className={classes.appBar} color={appBarSettings.color}>
                 <Toolbar>
-                    {appBarSettings.leftElements || (
+                    {appBarSettings.leftElement || (
                         <IconButton
                             color="inherit"
                             aria-label="Open drawer"
@@ -77,9 +77,12 @@ function TopAppBar({ authorized, children, classes }) {
                     <Typography noWrap variant="h6" color="inherit" className={classes.grow}>
                         {appBarSettings.title}
                     </Typography>
-                    {appBarSettings.rightElements || (authorized && <ProfileMenu />)}
+                    {appBarSettings.rightElements.map((element, index) =>
+                        element ?
+                            <React.Fragment key={index}>{element}</React.Fragment> :
+                            <ProfileMenu key={index} />)}
                 </Toolbar>
-                <LoadingProgress />
+                {loading && <LinearProgress />}
             </AppBar>
             <nav className={classes.drawer}>
                 <Hidden lgUp>
@@ -120,6 +123,7 @@ function TopAppBar({ authorized, children, classes }) {
 
 TopAppBar.propTypes = {
     authorized: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired,
 };

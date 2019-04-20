@@ -33,6 +33,7 @@ function ProfileSettingsPage({ values, handleChange, handleSubmit, classes }) {
                 <form onSubmit={handleSubmit}>
                     <TextField
                         required
+                        autoFocus
                         id="nickName"
                         label="Никнейм"
                         fullWidth

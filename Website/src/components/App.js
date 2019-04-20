@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ import GamePackCreationPage from './GamePackCreationPage';
 
 function App({ userId }) {
     return (
-        <Fragment>
+        <>
             <NotificationSnackbar />
             <Router history={history}>
                 <Switch>
@@ -29,17 +29,18 @@ function App({ userId }) {
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/wordlist" component={WordlistPage} />
+                        <Route exact path="/games" render={() => <Redirect to="/games/0" />} />
                         <Route path="/games/:value" component={GamesPage} />
-                        <Route path="/game/:id" component={GameLevelsPage} />
-                        <Route path="/game_level/:id" component={GameFieldPage} />
+                        <Route path="/game/:gameId" component={GameLevelsPage} />
+                        <Route path="/game_level/:levelId" component={GameFieldPage} />
                         <Route path="/game_pack_creation" component={GamePackCreationPage} />
                         <Route exact path="/profile" render={() => <Redirect to={`/profile/${userId}`} />} />
-                        <Route path="/profile/:id" component={ProfilePage} />
+                        <Route exact path="/profile/:userId" component={ProfilePage} />
                         <Route path="/profile_settings" component={ProfileSettingsPage} />
                     </TopAppBar>
                 </Switch>
             </Router>
-        </Fragment>
+        </>
     );
 }
 

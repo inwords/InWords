@@ -7,13 +7,13 @@ import gameApiActions from '../../actions/gameApiActions';
 function withActualGameLevel(WrappedComponent) {
     function WithActualGameLevel({ gameLevel, pullGameLevel, match, ...other }) {
         React.useEffect(() => {
-            if (gameLevel.levelId !== parseInt(match.params.id)) {
-                pullGameLevel(parseInt(match.params.id));
+            if (gameLevel.levelId !== parseInt(match.params.levelId)) {
+                pullGameLevel(parseInt(match.params.levelId));
             }
-        }, []);
+        }, [match.params.levelId]);
 
         return (
-            gameLevel.levelId === parseInt(match.params.id) && (
+            gameLevel.levelId === parseInt(match.params.levelId) && (
                 <WrappedComponent
                     gameLevel={gameLevel}
                     {...other}

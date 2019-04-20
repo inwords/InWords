@@ -5,7 +5,7 @@ function pullGamesInfo() {
     return apiAction({
         endpoint: 'Game/GameInfo',
         actionsOnSuccess: [gameActions.initializeGamesInfo],
-        errorMessage: 'Ошибка загрузки игр'
+        errorMessage: 'Не удалось загрузить игры'
     });
 }
 
@@ -13,7 +13,7 @@ function pullGameInfo(gameId) {
     return apiAction({
         endpoint: `Game/${gameId}`,
         actionsOnSuccess: [gameActions.initializeGameInfo],
-        errorMessage: 'Ошибка загрузки игры'
+        errorMessage: 'Не удалось загрузить игру'
     });
 }
 
@@ -21,7 +21,7 @@ function pullGameLevel(levelId) {
     return apiAction({
         endpoint: `Game/Level/${levelId}`,
         actionsOnSuccess: [gameActions.initializeGameLevel],
-        errorMessage: 'Ошибка загрузки уровня'
+        errorMessage: 'Не удалось загрузить уровень'
     });
 }
 
@@ -34,7 +34,7 @@ function saveLevelResult(levelResult) {
             gameActions.updateGameInfoAfterResultSaving,
             gameActions.updateGameLevelAfterResultSaving
         ],
-        errorMessage: 'Ошибка сохранения результата'
+        errorMessage: 'Не удалось сохранить результат'
     });
 }
 
@@ -51,7 +51,7 @@ function addGamePack(gamePack) {
             description: gamePack.creationInfo.descriptions[0].description
         })],
         redirection: '/games/1',
-        errorMessage: 'Ошибка добавления игры'
+        errorMessage: 'Не удалось добавить игру'
     });
 }
 
@@ -60,7 +60,7 @@ function deleteGamePack(gameId) {
         endpoint: `Game/Delete/${gameId}`,
         method: 'DELETE',
         actionsOnSuccess: [() => gameActions.updateGamesInfoAfterDeletion(gameId)],
-        errorMessage: 'Ошибка удаления игры'
+        errorMessage: 'Не удалось удалить игру'
     });
 }
 

@@ -32,8 +32,8 @@ function WordlistPageContainer({ wordPairs, pullWordPairs }) {
                 resetAppBar({
                     title: `Выбрано: ${checked.length}`,
                     color: 'secondary',
-                    leftElements: <WordPairsUncheckButton handleUncheck={() => handleReset([])} />,
-                    rightElements: <WordPairsDeleteButton checked={checked} />
+                    leftElement: <WordPairsUncheckButton handleUncheck={() => handleReset([])} />,
+                    rightElements: [<WordPairsDeleteButton checked={checked} />]
                 });
             } else {
                 customizeAppBar({ title: `Выбрано: ${checked.length}` });

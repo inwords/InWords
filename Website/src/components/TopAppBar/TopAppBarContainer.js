@@ -5,11 +5,12 @@ import accessActions from '../../actions/accessActions';
 import { AppBarContextProvider } from './AppBarContext';
 import TopAppBar from './TopAppBar';
 
-function TopAppBarContainer({ userId, ...other }) {
+function TopAppBarContainer({ userId, loading, ...other }) {
     return (
         <AppBarContextProvider>
             <TopAppBar
                 authorized={Boolean(userId)}
+                loading={loading}
                 {...other}
             />
         </AppBarContextProvider>
@@ -17,13 +18,14 @@ function TopAppBarContainer({ userId, ...other }) {
 }
 
 TopAppBarContainer.propTypes = {
-    userId: PropTypes.number
+    userId: PropTypes.number,
+    loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = store => {
     return {
         userId: store.access.userId,
-        dataTransferInProgress: store.common.dataTransferInProgress
+        loading: store.common.loading
     };
 };
 

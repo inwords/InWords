@@ -11,7 +11,7 @@ function GameLevelsContainer({ gameInfo }) {
     React.useEffect(() => {
         resetAppBar({
             title: 'Уровни',
-            leftElements: <UpwardButton />,
+            leftElement: <UpwardButton />
         });
     }, []);
 

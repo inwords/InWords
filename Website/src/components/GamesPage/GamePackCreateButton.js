@@ -16,7 +16,7 @@ const styles = theme => ({
     },
 });
 
-function GamePackAddButton({ visible, classes }) {
+function GamePackCreateButton({ visible, classes }) {
     return (
         <Zoom
             in={visible}
@@ -33,9 +33,9 @@ function GamePackAddButton({ visible, classes }) {
     );
 }
 
-GamePackAddButton.propTypes = {
+GamePackCreateButton.propTypes = {
     visible: PropTypes.bool.isRequired,
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(GamePackAddButton);
+export default withStyles(styles)(GamePackCreateButton);
