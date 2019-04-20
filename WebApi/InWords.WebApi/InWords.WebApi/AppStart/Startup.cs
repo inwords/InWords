@@ -2,6 +2,8 @@
 using System.IO;
 using InWords.Auth;
 using InWords.Data.Models;
+using InWords.WebApi.AppStart;
+using InWords.WebApi.Extentions.ServiceCollection;
 using InWords.WebApi.Providers.FIleLogger;
 using InWords.WebApi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -52,24 +54,20 @@ namespace InWords.WebApi
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // allow use api from different sites
-            services.AddCors();
+            services
+                .AddCors();
 
             // configure auth
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions);
 
-           
+
             // api versioning
-            services.AddApiVersioning(o =>
-            {
-                o.ReportApiVersions = true;
-                o.AssumeDefaultVersionWhenUnspecified = true;
-                o.DefaultApiVersion = new ApiVersion(1, 0);
-            });
+            services.AddApiVersioningInWords();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            SwaggerFactory.Configure(services);
+            services.AddSwaggerInWords();
 
             // Register the autofuc dependency injection
             return IocConfig.Configure(services, Configuration);
