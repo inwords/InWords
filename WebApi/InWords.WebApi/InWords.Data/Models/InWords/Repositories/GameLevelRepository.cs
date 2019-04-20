@@ -5,7 +5,7 @@ namespace InWords.Data.Models.InWords.Repositories
 {
     public class GameLevelRepository : Repository<GameLevel>
     {
-        public GameLevelRepository(DbContext context) : base(context)
+        public GameLevelRepository(InWordsDataContext context) : base(context)
         {
         }
     }

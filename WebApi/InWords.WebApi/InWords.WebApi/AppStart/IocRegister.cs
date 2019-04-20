@@ -23,11 +23,11 @@ namespace InWords.WebApi.AppStart
             //register repositories
             var repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
             builder.RegisterAssemblyTypes(repositoryAssembly)
-                .Where(a => a.Name.EndsWith("Repository") && a.Name.StartsWith("InWords.Data")).InstancePerLifetimeScope();
+                .Where(a => a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data")).InstancePerLifetimeScope();
 
             //register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(a => a.Name.EndsWith("Service") && a.Name.StartsWith("InWords.WebApi.Services")).InstancePerLifetimeScope();
+                .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services")).InstancePerLifetimeScope();
 
             var container = builder.Build();
             return new AutofacServiceProvider(container);
