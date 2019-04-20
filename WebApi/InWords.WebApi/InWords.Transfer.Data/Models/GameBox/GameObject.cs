@@ -5,7 +5,7 @@ namespace InWords.Transfer.Data.Models.GameBox
     /// <summary>
     /// Provide game id, creators Nickname and level info
     /// </summary>
-    public class GamePack
+    public class GameObject
     {
         /// <summary>
         /// Game box id

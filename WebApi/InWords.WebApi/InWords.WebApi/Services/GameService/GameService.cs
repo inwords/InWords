@@ -84,7 +84,7 @@ namespace InWords.WebApi.Services.GameService
         /// <param name="userId"></param>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        public async Task<GamePack> GetGamePack(int userId, int gameId)
+        public async Task<GameObject> GetGameObject(int userId, int gameId)
         {
             // find game in database
             GameBox gameBox = await gameBoxRepository.FindById(gameId);
@@ -110,7 +110,7 @@ namespace InWords.WebApi.Services.GameService
             })
                 .ToList();
 
-            var game = new GamePack
+            var game = new GameObject
             {
                 GameId = gameBox.GameBoxId,
                 Creator = userCreator.NickName,

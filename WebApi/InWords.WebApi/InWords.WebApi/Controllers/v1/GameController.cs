@@ -105,7 +105,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             int userId = User.GetUserId();
             // find levels
-            GamePack answer = await gameService.GetGamePack(userId, id);
+            GameObject answer = await gameService.GetGameObject(userId, id);
             if (answer == null) return NotFound();
 
             // set stars
