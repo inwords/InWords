@@ -27,7 +27,7 @@ namespace InWords.WebApi.AppStart
 
             //register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services")).InstancePerLifetimeScope();
+                .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services") && !a.Namespace.Contains("Abstractions")).InstancePerLifetimeScope();
 
             var container = builder.Build();
             return new AutofacServiceProvider(container);

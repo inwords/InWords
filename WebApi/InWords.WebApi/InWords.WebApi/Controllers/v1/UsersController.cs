@@ -22,14 +22,13 @@ namespace InWords.WebApi.Controllers.v1
         private readonly UserService userService;
         private readonly UserRepository usersRepository;
 
-        public UsersController(InWordsDataContext context)
+        public UsersController(AccountRepository accountRepository, UserService userService, UserRepository usersRepository)
         {
-            InWordsDataContext dataContext = context;
-            userService = new UserService(dataContext);
+            this.userService = userService;
 
             // TODO: remove
-            usersRepository = new UserRepository(dataContext);
-            accountRepository = new AccountRepository(dataContext);
+            this.usersRepository = usersRepository;
+            this.accountRepository = accountRepository;
         }
 
         // GET: api/Users/

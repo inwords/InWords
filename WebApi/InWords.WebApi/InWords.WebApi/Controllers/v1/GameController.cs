@@ -30,10 +30,10 @@ namespace InWords.WebApi.Controllers.v1
         ///     Standard injected controller
         /// </summary>
         /// <param name="context"></param>
-        public GameController(InWordsDataContext context)
+        public GameController(GameService gameService, GameScoreService gameScoreService)
         {
-            gameService = new GameService(context);
-            gameScoreService = new GameScoreService(context);
+            this.gameService = gameService;
+            this.gameScoreService = gameScoreService;
         }
 
         /// <summary>

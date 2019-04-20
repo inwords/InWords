@@ -25,9 +25,9 @@ namespace InWords.WebApi.Controllers.v1
         ///     Standard injected constructor
         /// </summary>
         /// <param name="context"></param>
-        public WordsController(InWordsDataContext context)
+        public WordsController(WordsService wordsService)
         {
-            wordsService = new WordsService(context);
+            this.wordsService = wordsService;
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using InWords.Data.Models.InWords.Domains;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
+using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService
 {
@@ -16,7 +17,7 @@ namespace InWords.WebApi.Services.GameService
     ///     Service that contain CRUD for Game
     /// </summary>
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
-    public class GameService : BaseGameService
+    public class GameService : IGameService
     {
         /// <summary>
         ///     Add a game using the userId as the CreatorId
@@ -82,30 +83,7 @@ namespace InWords.WebApi.Services.GameService
         /// <returns></returns>
         public async Task<List<GameInfo>> GetGames()
         {
-            var gameInfos = new List<GameInfo>();
-
-            List<GameBox> games = GameBoxRepository.GetAllEntities().ToList();
-
-            foreach (GameBox game in games)
-            {
-                CreationInfo creationInfo = await creationService.GetCreationInfo(game.CreationId);
-
-                // TODO: (LNG) title 
-                DescriptionInfo russianDescription = creationInfo.Descriptions.GetRus();
-
-                var gameInfo = new GameInfo
-                {
-                    CreatorId = creationInfo.CreatorId ?? 0,
-                    GameId = game.GameBoxId,
-                    IsAvailable = true,
-                    Title = russianDescription.Title,
-                    Description = russianDescription.Description
-                };
-
-                gameInfos.Add(gameInfo);
-            }
-
-            return gameInfos;
+           //
         }
 
         /// <summary>
@@ -129,7 +107,7 @@ namespace InWords.WebApi.Services.GameService
             User userCreator = await UserRepository.FindById((int)creation.CreatorId);
 
             // find all game levels 
-            IEnumerable<GameLevel> gameLevels = GameLevelRepository.GetEntities(l => l.GameBoxId == gameBox.GameBoxId);
+            IEnumerable<GameLevel> gameLevels = GameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
             {
@@ -160,7 +138,7 @@ namespace InWords.WebApi.Services.GameService
         public Level GetLevel(int userId, int levelId)
         {
             IEnumerable<GameLevelWord> gameLevelWords =
-                GameLevelWordRepository.GetEntities(l => l.GameLevelId.Equals(levelId));
+                GameLevelWordRepository.GetWhere(l => l.GameLevelId.Equals(levelId));
 
             IEnumerable<int> ids = gameLevelWords.Select(gl => gl.WordPairId);
 
@@ -185,12 +163,7 @@ namespace InWords.WebApi.Services.GameService
         /// <param name="gameId"></param>
         public async Task<int> DeleteGames(params int[] gameId)
         {
-            IEnumerable<int> creationsId =
-                GameBoxRepository.GetEntities(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId);
-
-            int deletionsCount = await creationService.DeleteCreation(creationsId);
-
-            return deletionsCount;
+            //
         }
 
         /// <summary>
@@ -203,8 +176,8 @@ namespace InWords.WebApi.Services.GameService
         public async Task<int> DeleteOwnGames(int userId, params int[] gameId)
         {
             // find all users game that id equals gameId
-            IQueryable<int> id = from games in Context.GameBoxs
-                                 join creations in Context.Creations on games.CreationId equals creations.CreationId
+            IQueryable<int> id = from games in context.GameBoxs
+                                 join creations in context.Creations on games.CreationId equals creations.CreationId
                                  where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
                                  select creations.CreationId;
 
@@ -215,14 +188,18 @@ namespace InWords.WebApi.Services.GameService
 
         private readonly WordsService wordsService;
         private readonly CreationService creationService;
+        private readonly InWordsDataContext context;
         /// <summary>
         ///     Basic constructor
         /// </summary>
         /// <param name="context"></param>
-        public GameService(InWordsDataContext context) : base(context)
+        public GameService(WordsService wordsService,
+            CreationService creationService,
+            InWordsDataContext context)
         {
-            wordsService = new WordsService(context);
-            creationService = new CreationService(context);
+            this.wordsService = wordsService;
+            this.creationService = creationService;
+            this.context = context;
         }
 
         #endregion
