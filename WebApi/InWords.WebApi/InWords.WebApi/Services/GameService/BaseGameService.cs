@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations.GameBox;
 using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
-using InWords.WebApi.Extentions.DescriptionInfo;
+using InWords.WebApi.Extentions.Transfer;
 
 namespace InWords.WebApi.Services.GameService
 {
+    /// <summary>
+    /// This is actually GameRepository processor
+    /// </summary>
     public abstract class BaseGameService
     {
         private readonly GameBoxRepository gameBoxRepository;
@@ -52,6 +54,8 @@ namespace InWords.WebApi.Services.GameService
 
             return gameInfos;
         }
+
+        // TODO update
 
         public async Task<int> DeleteGames(params int[] gameId)
         {

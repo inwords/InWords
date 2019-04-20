@@ -9,7 +9,7 @@ namespace InWords.WebApi.Services.Abstractions
 {
     public interface IGameScoreService
     {
-        Task<Game> GetGameStars(int userId, Game game);
+        Task<GamePack> GetGameStars(int userId, GamePack game);
 
         /// <summary>
         ///     This is to update user score on game level

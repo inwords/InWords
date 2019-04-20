@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations.GameBox;
 using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
@@ -17,7 +18,7 @@ namespace InWords.WebApi.Services.GameService
     ///     Service that contain CRUD for Game
     /// </summary>
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
-    public class GameService : IGameService
+    public class GameService
     {
         /// <summary>
         ///     Add a game using the userId as the CreatorId
@@ -41,7 +42,7 @@ namespace InWords.WebApi.Services.GameService
                 CreationId = creationId
             };
 
-            gameBox = await GameBoxRepository.Create(gameBox);
+            gameBox = await gameBoxRepository.Create(gameBox);
 
             // Loading behind the scenes, the level will be processed on the server
             // Does not affect user experience
@@ -54,7 +55,7 @@ namespace InWords.WebApi.Services.GameService
                     GameBoxId = gameBox.GameBoxId,
                     Level = levelPack.Level
                 };
-                gameLevel = await GameLevelRepository.Create(gameLevel);
+                gameLevel = await gameLevelRepository.Create(gameLevel);
 
                 //add words
 
@@ -68,7 +69,7 @@ namespace InWords.WebApi.Services.GameService
                         WordPairId = wordPair.WordPairId
                     };
 
-                    await GameLevelWordRepository.Create(gameLevelWord);
+                    await gameLevelWordRepository.Create(gameLevelWord);
                 }
             }
 
@@ -78,24 +79,15 @@ namespace InWords.WebApi.Services.GameService
         }
 
         /// <summary>
-        ///     Get information about all existing games
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<GameInfo>> GetGames()
-        {
-           //
-        }
-
-        /// <summary>
         ///     This is to get full information about certain game
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        public async Task<Game> GetGame(int userId, int gameId)
+        public async Task<GamePack> GetGamePack(int userId, int gameId)
         {
             // find game in database
-            GameBox gameBox = await GameBoxRepository.FindById(gameId);
+            GameBox gameBox = await gameBoxRepository.FindById(gameId);
 
             if (gameBox == null) return null;
 
@@ -104,10 +96,10 @@ namespace InWords.WebApi.Services.GameService
 
             if (gameBox == null) return null;
 
-            User userCreator = await UserRepository.FindById((int)creation.CreatorId);
+            User userCreator = await userRepository.FindById((int)creation.CreatorId);
 
             // find all game levels 
-            IEnumerable<GameLevel> gameLevels = GameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.GameBoxId);
+            IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
             {
@@ -118,7 +110,7 @@ namespace InWords.WebApi.Services.GameService
             })
                 .ToList();
 
-            var game = new Game
+            var game = new GamePack
             {
                 GameId = gameBox.GameBoxId,
                 Creator = userCreator.NickName,
@@ -138,7 +130,7 @@ namespace InWords.WebApi.Services.GameService
         public Level GetLevel(int userId, int levelId)
         {
             IEnumerable<GameLevelWord> gameLevelWords =
-                GameLevelWordRepository.GetWhere(l => l.GameLevelId.Equals(levelId));
+                gameLevelWordRepository.GetWhere(l => l.GameLevelId.Equals(levelId));
 
             IEnumerable<int> ids = gameLevelWords.Select(gl => gl.WordPairId);
 
@@ -154,52 +146,33 @@ namespace InWords.WebApi.Services.GameService
             return level;
         }
 
-        /// <summary>
-        ///     This is to delete the whole game and levels.
-        ///     Method doesn't delete words and word pairs
-        ///     Need review.
-        /// </summary>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <param name="gameId"></param>
-        public async Task<int> DeleteGames(params int[] gameId)
-        {
-            //
-        }
-
-        /// <summary>
-        ///     This is to delete games as user, safe delete game if userId os owner
-        /// </summary>
-        /// <param name="userId">game owner user id</param>
-        /// <param name="gameId">server id of the game</param>
-        /// <returns></returns>
-        // ReSharper disable once TooManyDeclarations
-        public async Task<int> DeleteOwnGames(int userId, params int[] gameId)
-        {
-            // find all users game that id equals gameId
-            IQueryable<int> id = from games in context.GameBoxs
-                                 join creations in context.Creations on games.CreationId equals creations.CreationId
-                                 where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
-                                 select creations.CreationId;
-
-            return await creationService.DeleteCreation(id);
-        }
 
         #region PropsAndCtor
 
-        private readonly WordsService wordsService;
         private readonly CreationService creationService;
-        private readonly InWordsDataContext context;
+        private readonly WordsService wordsService;
+        private readonly GameBoxRepository gameBoxRepository;
+        private readonly UserRepository userRepository;
+        private readonly GameLevelRepository gameLevelRepository;
+        private readonly GameLevelWordRepository gameLevelWordRepository;
+
         /// <summary>
         ///     Basic constructor
         /// </summary>
         /// <param name="context"></param>
-        public GameService(WordsService wordsService,
-            CreationService creationService,
-            InWordsDataContext context)
+        public GameService(CreationService creationService,
+        WordsService wordsService,
+        GameBoxRepository gameBoxRepository,
+        UserRepository userRepository,
+        GameLevelRepository gameLevelRepository,
+        GameLevelWordRepository gameLevelWordRepository)
         {
-            this.wordsService = wordsService;
             this.creationService = creationService;
-            this.context = context;
+            this.wordsService = wordsService;
+            this.gameBoxRepository = gameBoxRepository;
+            this.userRepository = userRepository;
+            this.gameLevelRepository = gameLevelRepository;
+            this.gameLevelWordRepository = gameLevelWordRepository;
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace InWords.WebApi.Services.Abstractions
     {
         Task<SyncBase> AddGamePack(int userId, GamePack gamePack);
         Task<List<GameInfo>> GetGames();
-        Task<Game> GetGame(int userId, int gameId);
+        Task<GamePack> GetGame(int userId, int gameId);
         Level GetLevel(int userId, int levelId);
         Task<int> DeleteGames(params int[] gameId);
         Task<int> DeleteOwnGames(int userId, params int[] gameId);

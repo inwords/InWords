@@ -14,7 +14,7 @@ namespace InWords.WebApi.Services.GameService
     public class GameScoreService
     {
         //TODO : return full game info
-        public async Task<Game> GetGameStars(int userId, Game game)
+        public async Task<GamePack> GetGameStars(int userId, GamePack game)
         {
             // find user game box to find all user levels
             UserGameBox userGameBox = userGameBoxRepository
@@ -30,7 +30,7 @@ namespace InWords.WebApi.Services.GameService
             return game;
         }
 
-        private async Task SetLevelStars(Game game, IEnumerable<UserGameLevel> userLevels)
+        private async Task SetLevelStars(GamePack game, IEnumerable<UserGameLevel> userLevels)
         {
             // merge by level number
             foreach (UserGameLevel level in userLevels)
