@@ -5,7 +5,7 @@ using InWords.Data.Enums;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
-using InWords.WebApi.Service;
+using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

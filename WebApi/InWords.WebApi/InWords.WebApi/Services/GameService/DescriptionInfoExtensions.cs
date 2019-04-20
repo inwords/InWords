@@ -2,7 +2,7 @@
 using System.Linq;
 using InWords.Transfer.Data.Models.Creation;
 
-namespace InWords.WebApi.Service.GameService
+namespace InWords.WebApi.Services.GameService
 {
     /// <summary>
     /// </summary>

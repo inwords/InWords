@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Repositories;
 
-namespace InWords.WebApi.Service.GameService
+namespace InWords.WebApi.Services.GameService
 {
     public abstract class BaseGameService : ServiceBase
     {

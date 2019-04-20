@@ -2,7 +2,7 @@
 using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
-using InWords.WebApi.Service;
+using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

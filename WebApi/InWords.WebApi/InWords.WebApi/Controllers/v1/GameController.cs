@@ -7,7 +7,7 @@ using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
-using InWords.WebApi.Service.GameService;
+using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -4,7 +4,7 @@ using InWords.Data.Models;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
     public class UserService : ServiceBase
     {

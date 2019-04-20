@@ -9,7 +9,7 @@ using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
 
-namespace InWords.WebApi.Service.GameService
+namespace InWords.WebApi.Services.GameService
 {
     /// <inheritdoc />
     /// <summary>

@@ -35,6 +35,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="AppData\" />
+    <Folder Include="Services\Abstractions\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

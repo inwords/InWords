@@ -9,7 +9,7 @@ using InWords.Domain;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 
-namespace InWords.WebApi.Service.GameService
+namespace InWords.WebApi.Services.GameService
 {
     public class GameScoreService : BaseGameService
     {

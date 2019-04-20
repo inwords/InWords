@@ -7,7 +7,7 @@ using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.WebApi.TransferData;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
     public class WordsService : ServiceBase
     {

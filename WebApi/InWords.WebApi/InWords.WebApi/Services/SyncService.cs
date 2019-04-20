@@ -3,7 +3,7 @@ using System.Linq;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
     public class SyncService : ServiceBase
     {

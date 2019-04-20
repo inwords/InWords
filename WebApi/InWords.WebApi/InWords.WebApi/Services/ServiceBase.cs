@@ -1,6 +1,6 @@
 ﻿using InWords.Data.Models;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
     public abstract class ServiceBase
     {

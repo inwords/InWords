@@ -148,31 +148,31 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="T:InWords.WebApi.Service.CreationService">
+        <member name="T:InWords.WebApi.Services.CreationService">
             <summary>
                 Service that contain CRUD for Creations
             </summary>
             <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
         </member>
-        <member name="T:InWords.WebApi.Service.GameService.DescriptionInfoExtensions">
+        <member name="T:InWords.WebApi.Services.GameService.DescriptionInfoExtensions">
             <summary>
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Transfer.Data.Models.Creation.DescriptionInfo})">
+        <member name="M:InWords.WebApi.Services.GameService.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Transfer.Data.Models.Creation.DescriptionInfo})">
             <summary>
                 Test method returning Russian description
             </summary>
             <param name="descriptionInfos"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameScoreService.GetLevelScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.GetLevelScore(InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelResult)">
             <summary>
                 This is to update user score on game level
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameScoreService.UpdateUserScore(System.Int32,InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelScore)">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateUserScore(System.Int32,InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelScore)">
             <summary>
                 This is to set level score to user level storage
             </summary>
@@ -181,14 +181,14 @@
             <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
             <returns></returns>
         </member>
-        <member name="T:InWords.WebApi.Service.GameService.GameService">
+        <member name="T:InWords.WebApi.Services.GameService.GameService">
             <inheritdoc />
             <summary>
                 Service that contain CRUD for Game
             </summary>
             <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.AddGamePack(System.Int32,InWords.Transfer.Data.Models.GameBox.GamePack)">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.AddGamePack(System.Int32,InWords.Transfer.Data.Models.GameBox.GamePack)">
             <summary>
                 Add a game using the userId as the CreatorId
             </summary>
@@ -196,13 +196,13 @@
             <param name="gamePack"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.GetGames">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.GetGames">
             <summary>
                 Get information about all existing games
             </summary>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.GetGame(System.Int32,System.Int32)">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.GetGame(System.Int32,System.Int32)">
             <summary>
                 This is to get full information about certain game
             </summary>
@@ -210,7 +210,7 @@
             <param name="gameId"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.GetLevel(System.Int32,System.Int32)">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.GetLevel(System.Int32,System.Int32)">
             <summary>
                 This is to get game level information
             </summary>
@@ -219,7 +219,7 @@
             <see cref="T:InWords.Transfer.Data.Models.GameBox.Level" />
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.DeleteGames(System.Int32[])">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.DeleteGames(System.Int32[])">
             <summary>
                 This is to delete the whole game and levels.
                 Method doesn't delete words and word pairs
@@ -228,7 +228,7 @@
             <exception cref="T:System.NullReferenceException"></exception>
             <param name="gameId"></param>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.DeleteOwnGames(System.Int32,System.Int32[])">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.DeleteOwnGames(System.Int32,System.Int32[])">
             <summary>
                 This is to delete games as user, safe delete game if userId os owner
             </summary>
@@ -236,7 +236,7 @@
             <param name="gameId">server id of the game</param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Service.GameService.GameService.#ctor(InWords.Data.Models.InWordsDataContext)">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.#ctor(InWords.Data.Models.InWordsDataContext)">
             <summary>
                 Basic constructor
             </summary>

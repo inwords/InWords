@@ -7,7 +7,7 @@ using InWords.Data.Models.InWords.Creations;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models.Creation;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
     /// <summary>
     ///     Service that contain CRUD for Creations
