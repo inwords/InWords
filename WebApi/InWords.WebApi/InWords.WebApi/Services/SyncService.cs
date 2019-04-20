@@ -3,15 +3,15 @@ using System.Linq;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
-    public class SyncService : ServiceBase
+    public class SyncService
     {
         private readonly WordsService wordsService;
 
-        public SyncService(InWordsDataContext context) : base(context)
+        public SyncService(WordsService wordsService)
         {
-            wordsService = new WordsService(context);
+            this.wordsService = wordsService;
         }
 
         public PullWordsAnswer PullWordPairs(int userId, IEnumerable<int> serverIDs)

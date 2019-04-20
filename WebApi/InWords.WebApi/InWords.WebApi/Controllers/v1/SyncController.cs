@@ -2,7 +2,7 @@
 using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
-using InWords.WebApi.Service;
+using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +16,9 @@ namespace InWords.WebApi.Controllers.v1
         private readonly SyncService syncService;
 
 
-        public SyncController(InWordsDataContext context)
+        public SyncController(SyncService syncService)
         {
-            syncService = new SyncService(context);
+            this.syncService = syncService;
         }
 
         [Route("WordPairs")]

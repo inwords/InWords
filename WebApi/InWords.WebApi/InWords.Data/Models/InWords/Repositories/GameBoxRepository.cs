@@ -5,7 +5,7 @@ namespace InWords.Data.Models.InWords.Repositories
 {
     public class GameBoxRepository : Repository<GameBox>
     {
-        public GameBoxRepository(DbContext context) : base(context)
+        public GameBoxRepository(InWordsDataContext context) : base(context)
         {
         }
     }

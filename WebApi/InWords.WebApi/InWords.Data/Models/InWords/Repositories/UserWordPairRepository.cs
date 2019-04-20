@@ -7,7 +7,7 @@ namespace InWords.Data.Models.InWords.Repositories
 {
     public class UserWordPairRepository : Repository<UserWordPair>
     {
-        public UserWordPairRepository(DbContext context) : base(context) { }
+        public UserWordPairRepository(InWordsDataContext context) : base(context) { }
 
         public async Task<UserWordPair> Stack(UserWordPair pair)
         {

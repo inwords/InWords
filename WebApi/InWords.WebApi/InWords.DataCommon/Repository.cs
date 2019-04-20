@@ -37,7 +37,7 @@ namespace InWords.Data
             return DbSet.AsNoTracking().AsEnumerable();
         }
 
-        public IEnumerable<TEntity> GetEntities(Func<TEntity, bool> predicate)
+        public IEnumerable<TEntity> GetWhere(Func<TEntity, bool> predicate)
         {
             return DbSet.AsNoTracking().AsEnumerable().Where(predicate).ToList();
         }
@@ -67,7 +67,7 @@ namespace InWords.Data
         /// <returns></returns>
         public async Task<TEntity> Stack(TEntity item, Func<TEntity, bool> predicate)
         {
-            TEntity entity = GetEntities(predicate).SingleOrDefault();
+            TEntity entity = GetWhere(predicate).SingleOrDefault();
 
             entity = entity ?? await Create(item);
 

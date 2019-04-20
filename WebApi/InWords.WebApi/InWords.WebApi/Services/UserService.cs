@@ -4,20 +4,20 @@ using InWords.Data.Models;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
-    public class UserService : ServiceBase
+    public class UserService
     {
         private readonly UserRepository usersRepository;
 
-        public UserService(InWordsDataContext context) : base(context)
+        public UserService(UserRepository usersRepository)
         {
-            usersRepository = new UserRepository(context);
+            this.usersRepository = usersRepository;
         }
 
         public IEnumerable<User> GetUsers(string nickLike)
         {
-            return usersRepository.GetEntities(u => u.NickName.ToLower().Contains(nickLike.ToLower())).Take(50);
+            return usersRepository.GetWhere(u => u.NickName.ToLower().Contains(nickLike.ToLower())).Take(50);
         }
     }
 }

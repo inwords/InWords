@@ -5,7 +5,7 @@ namespace InWords.Data.Models.InWords.Repositories
 {
     public class AccountRepository : Repository<Account>
     {
-        public AccountRepository(DbContext context) : base(context)
+        public AccountRepository(InWordsDataContext context) : base(context)
         {
         }
     }

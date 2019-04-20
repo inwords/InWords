@@ -7,7 +7,7 @@ using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
-using InWords.WebApi.Service.GameService;
+using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,15 +25,16 @@ namespace InWords.WebApi.Controllers.v1
     {
         private readonly GameService gameService;
         private readonly GameScoreService gameScoreService;
-
+        private readonly BaseGameService baseGameService;
         /// <summary>
         ///     Standard injected controller
         /// </summary>
         /// <param name="context"></param>
-        public GameController(InWordsDataContext context)
+        public GameController(GameService gameService, GameScoreService gameScoreService, BaseGameService baseGameService)
         {
-            gameService = new GameService(context);
-            gameScoreService = new GameScoreService(context);
+            this.baseGameService = baseGameService;
+            this.gameService = gameService;
+            this.gameScoreService = gameScoreService;
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetGameInfo()
         {
-            List<GameInfo> answer = await gameService.GetGames();
+            List<GameInfo> answer = await baseGameService.GetGames();
 
             return Ok(answer);
         }
@@ -104,7 +105,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             int userId = User.GetUserId();
             // find levels
-            Game answer = await gameService.GetGame(userId, id);
+            GameObject answer = await gameService.GetGameObject(userId, id);
             if (answer == null) return NotFound();
 
             // set stars
@@ -159,8 +160,8 @@ namespace InWords.WebApi.Controllers.v1
             string role = User.GetUserRole();
 
             int count = role == RoleType.Admin.ToString()
-                ? await gameService.DeleteGames(ids)
-                : await gameService.DeleteOwnGames(userId, ids);
+                ? await baseGameService.DeleteGames(ids)
+                : await baseGameService.DeleteOwnGames(userId, ids);
 
             return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }

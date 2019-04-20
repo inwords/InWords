@@ -20,10 +20,10 @@ namespace InWords.WebApi.Controllers.v1
 
         #region Ctor
 
-        public AuthController(InWordsDataContext context)
+        public AuthController(AccountRepository accountRepository)
         {
-            accountRepository = new AccountRepository(context);
-            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
+            this.accountRepository = accountRepository;
+            this.accountIdentityProvider = new AccountIdentityProvider(accountRepository);
         }
 
         #endregion

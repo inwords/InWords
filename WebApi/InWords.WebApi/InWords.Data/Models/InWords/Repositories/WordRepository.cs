@@ -6,7 +6,7 @@ namespace InWords.Data.Models.InWords.Repositories
 {
     public class WordRepository : Repository<Word>
     {
-        public WordRepository(DbContext context) : base(context) { }
+        public WordRepository(InWordsDataContext context) : base(context) { }
 
         public async Task<Word> Stack(Word item)
         {

@@ -5,7 +5,7 @@ using InWords.Data.Enums;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
-using InWords.WebApi.Service;
+using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,14 +22,13 @@ namespace InWords.WebApi.Controllers.v1
         private readonly UserService userService;
         private readonly UserRepository usersRepository;
 
-        public UsersController(InWordsDataContext context)
+        public UsersController(AccountRepository accountRepository, UserService userService, UserRepository usersRepository)
         {
-            InWordsDataContext dataContext = context;
-            userService = new UserService(dataContext);
+            this.userService = userService;
 
             // TODO: remove
-            usersRepository = new UserRepository(dataContext);
-            accountRepository = new AccountRepository(dataContext);
+            this.usersRepository = usersRepository;
+            this.accountRepository = accountRepository;
         }
 
         // GET: api/Users/
