@@ -8,6 +8,7 @@ using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
+using InWords.WebApi.Extentions.DescriptionInfo;
 
 namespace InWords.WebApi.Services.GameService
 {

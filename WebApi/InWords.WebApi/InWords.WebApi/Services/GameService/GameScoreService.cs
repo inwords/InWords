@@ -13,6 +13,7 @@ namespace InWords.WebApi.Services.GameService
 {
     public class GameScoreService
     {
+        //TODO : return full game info
         public async Task<Game> GetGameStars(int userId, Game game)
         {
             // find user game box to find all user levels
@@ -20,7 +21,7 @@ namespace InWords.WebApi.Services.GameService
                 .GetWhere(usb => usb.UserId.Equals(userId) && usb.GameBoxId.Equals(game.GameId))
                 .SingleOrDefault();
             // if no saves found return default game value
-            if (userGameBox == null) return game;
+            if (userGameBox == null) return null;
 
             // load all saves
             IEnumerable<UserGameLevel> userLevels =
@@ -124,11 +125,17 @@ namespace InWords.WebApi.Services.GameService
 
         private readonly UserGameBoxRepository userGameBoxRepository;
         private readonly UserGameLevelRepository userGameLevelRepository;
+        private readonly GameLevelRepository gameLevelRepository;
 
-        public GameScoreService(UserGameBoxRepository userGameBoxRepository, UserGameLevelRepository userGameLevelRepository)
+        public GameScoreService(
+            UserGameBoxRepository userGameBoxRepository,
+            UserGameLevelRepository userGameLevelRepository,
+            GameLevelRepository gameLevelRepository
+            )
         {
             this.userGameBoxRepository = userGameBoxRepository;
             this.userGameLevelRepository = userGameLevelRepository;
+            this.gameLevelRepository = gameLevelRepository;
         }
 
         #endregion
