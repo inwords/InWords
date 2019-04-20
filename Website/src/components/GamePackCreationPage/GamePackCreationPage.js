@@ -5,8 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
@@ -110,40 +110,40 @@ function GamePackCreationPage(
                             <div className={classes.actions}>
                                 <IconButton
                                     color="inherit"
-                                    aria-label="RemoveCircleOutline"
+                                    aria-label="Remove"
                                     disabled={levelPacks[levelPackIndex].wordTranslations.length < 2}
                                     className={classes.button}
                                     onClick={handleWordTranslationDeletion(levelPackIndex)}
                                 >
-                                    <RemoveCircleOutlineIcon />
+                                    <RemoveIcon />
                                 </IconButton>
                                 <IconButton
                                     color="inherit"
-                                    aria-label="AddCircleOutline"
+                                    aria-label="Add"
                                     className={classes.button}
                                     onClick={handleWordTranslationAddition(levelPackIndex)}
                                 >
-                                    <AddCircleOutlineIcon />
+                                    <AddIcon />
                                 </IconButton>
                             </div>
                         </Paper>)}
                     <div className={classes.actions}>
                         <IconButton
                             color="inherit"
-                            aria-label="RemoveCircleOutline"
+                            aria-label="Remove"
                             disabled={levelPacks.length < 2}
                             className={classes.button}
                             onClick={handleLevelPackDeletion}
                         >
-                            <RemoveCircleOutlineIcon />
+                            <RemoveIcon />
                         </IconButton>
                         <IconButton
                             color="inherit"
-                            aria-label="AddCircleOutline"
+                            aria-label="Add"
                             className={classes.button}
                             onClick={handleLevelPackAddition}
                         >
-                            <AddCircleOutlineIcon />
+                            <AddIcon />
                         </IconButton>
                     </div>
                     <div className={classes.actions}>

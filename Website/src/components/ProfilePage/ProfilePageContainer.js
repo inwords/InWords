@@ -13,11 +13,13 @@ function ProfilePageContainer({ userId, userInfo, receiveUserInfo, match }) {
         resetAppBar({
             title: 'Профиль'
         });
+    }, []);
 
+    React.useEffect(() => {
         if (userInfo.userId !== parseInt(match.params.userId)) {
             receiveUserInfo(parseInt(match.params.userId));
         }
-    }, []);
+    }, [match.params.userId]);
 
     return (
         <Profile

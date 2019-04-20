@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import gameActions from '../../actions/gameActions';
 import gameApiActions from '../../actions/gameApiActions';
-import FinalGameField from './FinalGameField';
+import FinalScreen from './FinalScreen';
 import { AppBarContext } from '../TopAppBar/AppBarContext';
 import UpwardButton from '../shared/UpwardButton';
 import GameField from './GameField';
@@ -110,18 +110,15 @@ function GameFieldContainer({ gameLevel, resetGameLevelScore, saveLevelResult })
     };
 
     return (
-        !gameCompleted ? (
-            <GameField
-                infoAboutRandomWords={infoAboutRandomWords}
-                infoAboutSelectedWords={infoAboutSelectedWords}
-                successfulPairIds={successfulPairIds}
-                successfulSelectedPairId={successfulSelectedPairId}
-                handleClick={handleClick}
-            />) : (
-            <FinalGameField
-                score={gameLevel.lastScore}
-                handleReplay={handleReplay}
-            />)
+        <GameField
+            infoAboutRandomWords={infoAboutRandomWords}
+            infoAboutSelectedWords={infoAboutSelectedWords}
+            successfulPairIds={successfulPairIds}
+            successfulSelectedPairId={successfulSelectedPairId}
+            handleClick={handleClick}
+            gameCompleted={gameCompleted}
+            finalScreen={<FinalScreen handleReplay={handleReplay} />}
+        />
     );
 }
 
@@ -131,9 +128,8 @@ GameFieldContainer.propTypes = {
         wordTranslations: PropTypes.arrayOf(PropTypes.shape({
             serverId: PropTypes.number.isRequired,
             wordForeign: PropTypes.string.isRequired,
-            wordNative: PropTypes.string.isRequired,
-        })).isRequired,
-        lastScore: PropTypes.number,
+            wordNative: PropTypes.string.isRequired
+        })).isRequired
     }).isRequired,
     resetGameLevelScore: PropTypes.func.isRequired,
     saveLevelResult: PropTypes.func.isRequired

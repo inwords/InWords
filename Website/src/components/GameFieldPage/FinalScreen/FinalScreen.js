@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography/index';
 import StarIcon from '@material-ui/icons/Star';
 import IconButton from '@material-ui/core/IconButton/index';
 import ReplayIcon from '@material-ui/icons/Replay';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Zoom from '@material-ui/core/Zoom/index';
 
 const styles = theme => ({
@@ -25,7 +26,7 @@ const styles = theme => ({
     }
 });
 
-function FinalGameField({ score = null, handleReplay, classes }) {
+function FinalScreen({ score = null, handleReplay, handleRedirectionToNextLevel, classes }) {
     return (
         <div className={classes.root}>
             <Zoom in>
@@ -45,8 +46,11 @@ function FinalGameField({ score = null, handleReplay, classes }) {
                         <StarIcon fontSize="large" color={score > 2 ? 'secondary' : 'disabled'} />
                     </Typography>}
                     <Typography>
-                        <IconButton color="primary" aria-label="Replay" onClick={handleReplay}>
+                        <IconButton aria-label="Replay" onClick={handleReplay}>
                             <ReplayIcon fontSize="large" />
+                        </IconButton>
+                        <IconButton color="primary" aria-label="ArrowForward" onClick={handleRedirectionToNextLevel}>
+                            <ArrowForwardIcon fontSize="large" />
                         </IconButton>
                     </Typography>
                 </div>
@@ -55,10 +59,11 @@ function FinalGameField({ score = null, handleReplay, classes }) {
     );
 }
 
-FinalGameField.propTypes = {
+FinalScreen.propTypes = {
     score: PropTypes.number,
-    nextLevelId: PropTypes.number,
-    classes: PropTypes.object.isRequired,
+    handleReplay: PropTypes.func.isRequired,
+    handleRedirectionToNextLevel: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(FinalGameField);
+export default withStyles(styles)(FinalScreen);

@@ -55,6 +55,8 @@ function GameField(
         successfulPairIds,
         successfulSelectedPairId,
         handleClick,
+        gameCompleted,
+        finalScreen,
         classes
     }
 ) {
@@ -62,27 +64,29 @@ function GameField(
         Math.ceil(Math.sqrt(infoAboutRandomWords.length)), [infoAboutRandomWords.length]);
 
     return (
-        <Grid
-            container
-            className={
-                columnsNum <= 2 ? classes.gridOfTwoColumns :
-                    columnsNum === 3 ? classes.gridOfThreeColumns :
-                        classes.gridOfFourColumns}
-        >
-            <Grid container justify="center" spacing={cardsSpacing}>
-                {infoAboutRandomWords.map((infoAboutRandomWord, index) => (
-                    <Grid key={index} item onClick={handleClick(infoAboutRandomWord.pairId, index)}>
-                        <GameWordCard
-                            word={infoAboutRandomWord.word}
-                            selected={Boolean(infoAboutSelectedWords.find(selectedWordInfo =>
-                                selectedWordInfo.wordId === index))}
-                            successful={successfulPairIds.includes(infoAboutRandomWord.pairId)}
-                            successfulSelected={successfulSelectedPairId === infoAboutRandomWord.pairId}
-                        />
+        !gameCompleted ? (
+                <Grid
+                    container
+                    className={
+                        columnsNum <= 2 ? classes.gridOfTwoColumns :
+                            columnsNum === 3 ? classes.gridOfThreeColumns :
+                                classes.gridOfFourColumns}
+                >
+                    <Grid container justify="center" spacing={cardsSpacing}>
+                        {infoAboutRandomWords.map((infoAboutRandomWord, index) => (
+                            <Grid key={index} item onClick={handleClick(infoAboutRandomWord.pairId, index)}>
+                                <GameWordCard
+                                    word={infoAboutRandomWord.word}
+                                    selected={Boolean(infoAboutSelectedWords.find(selectedWordInfo =>
+                                        selectedWordInfo.wordId === index))}
+                                    successful={successfulPairIds.includes(infoAboutRandomWord.pairId)}
+                                    successfulSelected={successfulSelectedPairId === infoAboutRandomWord.pairId}
+                                />
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
-        </Grid>
+                </Grid>) :
+            finalScreen
     );
 }
 
@@ -100,6 +104,8 @@ GameField.propTypes = {
     ).isRequired,
     successfulSelectedPairId: PropTypes.number.isRequired,
     handleClick: PropTypes.func.isRequired,
+    gameCompleted: PropTypes.bool.isRequired,
+    finalScreen: PropTypes.node.isRequired,
     classes: PropTypes.object.isRequired
 };
 
