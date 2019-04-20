@@ -20,12 +20,12 @@ namespace InWords.WebApi.AppStart
             builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection"))).InstancePerLifetimeScope();
 
 
-            //register repositories
+            // register repositories
             var repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
             builder.RegisterAssemblyTypes(repositoryAssembly)
                 .Where(a => a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data")).InstancePerLifetimeScope();
 
-            //register services
+            // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services") && !a.Namespace.Contains("Abstractions")).InstancePerLifetimeScope();
 

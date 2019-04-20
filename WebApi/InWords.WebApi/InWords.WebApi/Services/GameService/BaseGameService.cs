@@ -14,13 +14,13 @@ namespace InWords.WebApi.Services.GameService
     /// <summary>
     /// This is actually GameRepository processor
     /// </summary>
-    public abstract class BaseGameService
+    public class BaseGameService
     {
         private readonly GameBoxRepository gameBoxRepository;
         private readonly CreationService creationService;
         private readonly InWordsDataContext context;
 
-        protected BaseGameService(GameBoxRepository gameBoxRepository, CreationService creationService, InWordsDataContext context)
+        public BaseGameService(GameBoxRepository gameBoxRepository, CreationService creationService, InWordsDataContext context)
         {
             this.gameBoxRepository = gameBoxRepository;
             this.creationService = creationService;
