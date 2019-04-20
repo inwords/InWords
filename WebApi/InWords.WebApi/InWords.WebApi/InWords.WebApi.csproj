@@ -11,16 +11,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>C:\Users\aasle\YandexDisk\!Source\InWords\WebApi\InWords.WebApi\InWords.WebApi\InWords.WebApi.xml</DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="App_Data\**" />
-    <Content Remove="App_Data\**" />
-    <EmbeddedResource Remove="App_Data\**" />
-    <None Remove="App_Data\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -31,12 +27,14 @@
   <ItemGroup>
     <ProjectReference Include="..\InWords.Auth\InWords.Auth.csproj" />
     <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
+    <ProjectReference Include="..\InWords.Domain\InWords.Domain.csproj" />
     <ProjectReference Include="..\InWords.Service.Encryption\InWords.Service.Encryption.csproj" />
     <ProjectReference Include="..\InWords.Transfer.Data\InWords.Transfer.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="AppData\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

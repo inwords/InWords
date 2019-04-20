@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models.Creation;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
     /// <summary>
     ///     Service that contain CRUD for Creations
     /// </summary>
     /// <see cref="Creation" />
-    public class CreationService : ServiceBase
+    public class CreationService
     {
         protected readonly CreationDescriptionRepository CreationDescriptionRepository;
 
         protected readonly CreationRepository CreationRepository;
 
-        public CreationService(InWordsDataContext context) : base(context)
+        public CreationService(CreationRepository сreationRepository, CreationDescriptionRepository сreationDescriptionRepository)
         {
-            CreationRepository = new CreationRepository(context);
-            CreationDescriptionRepository = new CreationDescriptionRepository(context);
+            CreationRepository = сreationRepository;
+            CreationDescriptionRepository = сreationDescriptionRepository;
         }
 
         public async Task<int> AddCreation(CreationInfo creationInfo)
@@ -54,13 +53,16 @@ namespace InWords.WebApi.Service
         public async Task<CreationInfo> GetCreationInfo(int id)
         {
             // find creation information
-            Creation creation = await CreationRepository.FindById(id);
+            Creation creation = CreationRepository.GetWithInclude(n => n.Creator)
+                .AsQueryable()
+                .Where(c => c.CreationId.Equals(id))
+                .SingleOrDefault();
 
             if (creation == null) return null;
 
             // select creation description from descriptions repository
             List<CreationDescription> descriptionList =
-                CreationDescriptionRepository.GetEntities(cd => cd.CreationId == creation.CreationId).ToList();
+                CreationDescriptionRepository.GetWhere(cd => cd.CreationId == creation.CreationId).ToList();
 
             // form descriptions infos
             List<DescriptionInfo> descriptions = GetDescriptionInfos(descriptionList);

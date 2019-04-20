@@ -5,18 +5,20 @@ using System.Threading.Tasks;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations.GameBox;
 using InWords.Data.Models.InWords.Domains;
+using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
+using InWords.WebApi.Services.Abstractions;
 
-namespace InWords.WebApi.Service.GameService
+namespace InWords.WebApi.Services.GameService
 {
     /// <inheritdoc />
     /// <summary>
     ///     Service that contain CRUD for Game
     /// </summary>
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
-    public class GameService : BaseGameService
+    public class GameService
     {
         /// <summary>
         ///     Add a game using the userId as the CreatorId
@@ -40,7 +42,7 @@ namespace InWords.WebApi.Service.GameService
                 CreationId = creationId
             };
 
-            gameBox = await GameBoxRepository.Create(gameBox);
+            gameBox = await gameBoxRepository.Create(gameBox);
 
             // Loading behind the scenes, the level will be processed on the server
             // Does not affect user experience
@@ -53,7 +55,7 @@ namespace InWords.WebApi.Service.GameService
                     GameBoxId = gameBox.GameBoxId,
                     Level = levelPack.Level
                 };
-                gameLevel = await GameLevelRepository.Create(gameLevel);
+                gameLevel = await gameLevelRepository.Create(gameLevel);
 
                 //add words
 
@@ -67,7 +69,7 @@ namespace InWords.WebApi.Service.GameService
                         WordPairId = wordPair.WordPairId
                     };
 
-                    await GameLevelWordRepository.Create(gameLevelWord);
+                    await gameLevelWordRepository.Create(gameLevelWord);
                 }
             }
 
@@ -77,59 +79,27 @@ namespace InWords.WebApi.Service.GameService
         }
 
         /// <summary>
-        ///     Get information about all existing games
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<GameInfo>> GetGames()
-        {
-            var gameInfos = new List<GameInfo>();
-
-            List<GameBox> games = GameBoxRepository.GetAllEntities().ToList();
-
-            foreach (GameBox game in games)
-            {
-                CreationInfo creationInfo = await creationService.GetCreationInfo(game.CreationId);
-
-                // TODO: (LNG) title 
-                DescriptionInfo russianDescription = creationInfo.Descriptions.GetRus();
-
-                var gameInfo = new GameInfo
-                {
-                    CreatorId = creationInfo.CreatorId ?? 0,
-                    GameId = game.GameBoxId,
-                    IsAvailable = true,
-                    Title = russianDescription.Title,
-                    Description = russianDescription.Description
-                };
-
-                gameInfos.Add(gameInfo);
-            }
-
-            return gameInfos;
-        }
-
-        /// <summary>
         ///     This is to get full information about certain game
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        public async Task<Game> GetGame(int userId, int gameId)
+        public async Task<GameObject> GetGameObject(int userId, int gameId)
         {
             // find game in database
-            GameBox gameBox = await GameBoxRepository.FindById(gameId);
+            GameBox gameBox = await gameBoxRepository.FindById(gameId);
 
-            if (gameBox == null) throw new ArgumentNullException();
+            if (gameBox == null) return null;
 
             // find the creator of the game
             CreationInfo creation = await creationService.GetCreationInfo(gameBox.CreationId);
 
-            if (creation.CreatorId == null) throw new ArgumentNullException();
+            if (gameBox == null) return null;
 
-            User userCreator = await UserRepository.FindById((int)creation.CreatorId);
+            User userCreator = await userRepository.FindById((int)creation.CreatorId);
 
             // find all game levels 
-            IEnumerable<GameLevel> gameLevels = GameLevelRepository.GetEntities(l => l.GameBoxId == gameBox.GameBoxId);
+            IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.GameBoxId);
 
             List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
             {
@@ -140,7 +110,7 @@ namespace InWords.WebApi.Service.GameService
             })
                 .ToList();
 
-            var game = new Game
+            var game = new GameObject
             {
                 GameId = gameBox.GameBoxId,
                 Creator = userCreator.NickName,
@@ -160,7 +130,7 @@ namespace InWords.WebApi.Service.GameService
         public Level GetLevel(int userId, int levelId)
         {
             IEnumerable<GameLevelWord> gameLevelWords =
-                GameLevelWordRepository.GetEntities(l => l.GameLevelId.Equals(levelId));
+                gameLevelWordRepository.GetWhere(l => l.GameLevelId.Equals(levelId));
 
             IEnumerable<int> ids = gameLevelWords.Select(gl => gl.WordPairId);
 
@@ -176,53 +146,33 @@ namespace InWords.WebApi.Service.GameService
             return level;
         }
 
-        /// <summary>
-        ///     This is to delete the whole game and levels.
-        ///     Method doesn't delete words and word pairs
-        ///     Need review.
-        /// </summary>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <param name="gameId"></param>
-        public async Task<int> DeleteGames(params int[] gameId)
-        {
-            IEnumerable<int> creationsId =
-                GameBoxRepository.GetEntities(g => gameId.Contains(g.GameBoxId)).Select(c => c.CreationId);
-
-            int deletionsCount = await creationService.DeleteCreation(creationsId);
-
-            return deletionsCount;
-        }
-
-        /// <summary>
-        ///     This is to delete games as user, safe delete game if userId os owner
-        /// </summary>
-        /// <param name="userId">game owner user id</param>
-        /// <param name="gameId">server id of the game</param>
-        /// <returns></returns>
-        // ReSharper disable once TooManyDeclarations
-        public async Task<int> DeleteOwnGames(int userId, params int[] gameId)
-        {
-            // find all users game that id equals gameId
-            IQueryable<int> id = from games in Context.GameBoxs
-                                 join creations in Context.Creations on games.CreationId equals creations.CreationId
-                                 where creations.CreatorId.Equals(userId) && gameId.Contains(games.GameBoxId)
-                                 select creations.CreationId;
-
-            return await creationService.DeleteCreation(id);
-        }
 
         #region PropsAndCtor
 
-        private readonly WordsService wordsService;
         private readonly CreationService creationService;
+        private readonly WordsService wordsService;
+        private readonly GameBoxRepository gameBoxRepository;
+        private readonly UserRepository userRepository;
+        private readonly GameLevelRepository gameLevelRepository;
+        private readonly GameLevelWordRepository gameLevelWordRepository;
+
         /// <summary>
         ///     Basic constructor
         /// </summary>
         /// <param name="context"></param>
-        public GameService(InWordsDataContext context) : base(context)
+        public GameService(CreationService creationService,
+        WordsService wordsService,
+        GameBoxRepository gameBoxRepository,
+        UserRepository userRepository,
+        GameLevelRepository gameLevelRepository,
+        GameLevelWordRepository gameLevelWordRepository)
         {
-            wordsService = new WordsService(context);
-            creationService = new CreationService(context);
+            this.creationService = creationService;
+            this.wordsService = wordsService;
+            this.gameBoxRepository = gameBoxRepository;
+            this.userRepository = userRepository;
+            this.gameLevelRepository = gameLevelRepository;
+            this.gameLevelWordRepository = gameLevelWordRepository;
         }
 
         #endregion

@@ -3,9 +3,9 @@
 namespace InWords.Transfer.Data.Models.GameBox
 {
     /// <summary>
-    /// Provide game i, creators Nickname and level info
+    /// Provide game id, creators Nickname and level info
     /// </summary>
-    public class Game
+    public class GameObject
     {
         /// <summary>
         /// Game box id

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using InWords.Auth.Extensions;
 using InWords.Data.Models;
 using InWords.Transfer.Data.Models;
-using InWords.WebApi.Service;
+using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +25,9 @@ namespace InWords.WebApi.Controllers.v1
         ///     Standard injected constructor
         /// </summary>
         /// <param name="context"></param>
-        public WordsController(InWordsDataContext context)
+        public WordsController(WordsService wordsService)
         {
-            wordsService = new WordsService(context);
+            this.wordsService = wordsService;
         }
 
         /// <summary>

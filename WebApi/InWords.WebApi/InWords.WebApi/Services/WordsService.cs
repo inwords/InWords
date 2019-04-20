@@ -7,19 +7,21 @@ using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.WebApi.TransferData;
 
-namespace InWords.WebApi.Service
+namespace InWords.WebApi.Services
 {
-    public class WordsService : ServiceBase
+    public class WordsService
     {
         private readonly UserWordPairRepository userWordPairRepository;
         private readonly WordPairRepository wordPairRepository;
         private readonly WordRepository wordRepository;
 
-        public WordsService(InWordsDataContext context) : base(context)
+        public WordsService(UserWordPairRepository userWordPairRepository,
+            WordPairRepository wordPairRepository,
+            WordRepository wordRepository)
         {
-            userWordPairRepository = new UserWordPairRepository(context);
-            wordPairRepository = new WordPairRepository(context);
-            wordRepository = new WordRepository(context);
+            this.userWordPairRepository = userWordPairRepository;
+            this.wordPairRepository = wordPairRepository;
+            this.wordRepository = wordRepository;
         }
 
         public async Task<List<SyncBase>> AddPair(int userId, IEnumerable<WordTranslation> wordTranslations)
@@ -49,7 +51,7 @@ namespace InWords.WebApi.Service
 
         public IEnumerable<int> UserWordsId(int userId)
         {
-            return userWordPairRepository.GetEntities(uwp => uwp.UserId == userId).Select(uwp => uwp.UserWordPairId);
+            return userWordPairRepository.GetWhere(uwp => uwp.UserId == userId).Select(uwp => uwp.UserWordPairId);
         }
 
         public IEnumerable<WordTranslation> GetUserWordsById(IEnumerable<int> ids)
@@ -83,7 +85,7 @@ namespace InWords.WebApi.Service
         {
             //todo union.expect ??
             UserWordPair userWordsPair = userWordPairRepository
-                .GetEntities(uwp => uwp.UserWordPairId.Equals(userWordPairId) && uwp.UserId.Equals(userId))
+                .GetWhere(uwp => uwp.UserWordPairId.Equals(userWordPairId) && uwp.UserId.Equals(userId))
                 .SingleOrDefault();
 
             if (userWordsPair != null)
@@ -126,7 +128,7 @@ namespace InWords.WebApi.Service
         {
             await DeleteUserWordPair(userId, userWordPairId);
             SyncBase syncBase = await AddUserWordPair(userId, wordTranslation);
-            return new List<SyncBase> {syncBase};
+            return new List<SyncBase> { syncBase };
         }
     }
 }

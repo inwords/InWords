@@ -5,7 +5,7 @@ namespace InWords.Data.Models.InWords.Repositories
 {
     public class CreationDescriptionRepository : Repository<CreationDescription>
     {
-        public CreationDescriptionRepository(DbContext context) : base(context)
+        public CreationDescriptionRepository(InWordsDataContext context) : base(context)
         {
         }
     }

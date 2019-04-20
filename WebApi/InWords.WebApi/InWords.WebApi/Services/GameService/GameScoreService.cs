@@ -5,36 +5,47 @@ using System.Threading.Tasks;
 using InWords.Data.Models;
 using InWords.Data.Models.InWords.Creations.GameBox;
 using InWords.Data.Models.InWords.Repositories;
+using InWords.Domain;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 
-namespace InWords.WebApi.Service.GameService
+namespace InWords.WebApi.Services.GameService
 {
-    public class GameScoreService : BaseGameService
+    public class GameScoreService
     {
-        public Game GetGameStars(int userId, Game game)
+        //TODO : return full game info
+        public async Task<GameObject> GetGameStars(int userId, GameObject game)
         {
             // find user game box to find all user levels
             UserGameBox userGameBox = userGameBoxRepository
-                .GetEntities(usb => usb.UserId.Equals(userId) && usb.GameBoxId.Equals(game.GameId))
+                .GetWhere(usb => usb.UserId.Equals(userId) && usb.GameBoxId.Equals(game.GameId))
                 .SingleOrDefault();
             // if no saves found return default game value
-            if (userGameBox == null) return game;
+            if (userGameBox == null) return null;
 
             // load all saves
             IEnumerable<UserGameLevel> userLevels =
-                userGameLevelRepository.GetEntities(ugl => ugl.UserGameBoxId.Equals(userGameBox.UserGameBoxId));
-            SetLevelStars(game, userLevels);
+                userGameLevelRepository.GetWhere(ugl => ugl.UserGameBoxId.Equals(userGameBox.UserGameBoxId));
+            await SetLevelStars(game, userLevels);
             return game;
         }
 
-        private static void SetLevelStars(Game game, IEnumerable<UserGameLevel> userLevels)
+        private async Task SetLevelStars(GameObject game, IEnumerable<UserGameLevel> userLevels)
         {
             // merge by level number
             foreach (UserGameLevel level in userLevels)
             {
                 LevelInfo userLevel = game.LevelInfos.Find(l => l.LevelId.Equals(level.GameLevelId));
-                userLevel.PlayerStars = level.UserStars;
+
+                if (userLevel == null)
+                {
+                    var nullGame = await userGameLevelRepository.FindById(level.UserGameLevelId);
+                    await userGameLevelRepository.Remove(nullGame);
+                }
+                else
+                {
+                    userLevel.PlayerStars = level.UserStars;
+                }
             }
         }
 
@@ -45,29 +56,14 @@ namespace InWords.WebApi.Service.GameService
         /// <returns></returns>
         public LevelScore GetLevelScore(LevelResult levelResult)
         {
-            // get word pairs count
-            int wordsCount =
-                GameLevelWordRepository.GetEntities(glw => glw.GameLevelId == levelResult.LevelId).Count() * 2;
-            // calculate best openings count
-            int bestOpeningsCount = wordsCount * 2 - 2;
-            // calculate score
-            var score = 0;
-            if (levelResult.OpeningQuantity <= bestOpeningsCount)
-                score = 3;
-            else if (levelResult.OpeningQuantity <= wordsCount * 2.25)
-                score = 2;
-            else if (levelResult.OpeningQuantity <= wordsCount * 2.5) score = 1;
+            int score = GameLogic.GameScore(levelResult.WordsCount, levelResult.OpeningQuantity);
 
-            var levelScore = new LevelScore
-            {
-                LevelId = levelResult.LevelId,
-                Score = score
-            };
+            LevelScore levelScore = new LevelScore(levelResult.LevelId, score);
 
             return levelScore;
         }
 
-                /// <summary>
+        /// <summary>
         ///     This is to set level score to user level storage
         /// </summary>
         /// <param name="userId"></param>
@@ -84,17 +80,17 @@ namespace InWords.WebApi.Service.GameService
         private async Task<UserGameBox> EnsureUserGameBox(int userId, LevelScore levelScore)
         {
             // Create user game stats
-            GameLevel gameLevel = GameLevelRepository.GetEntities(gl => gl.GameLevelId == levelScore.LevelId)
-                .FirstOrDefault();
+            GameLevel gameLevel = await gameLevelRepository.FindById(levelScore.LevelId);
 
             // if game level is not exits
             if (gameLevel == null) throw new ArgumentNullException(nameof(gameLevel));
 
             // find user game box that's contains user progress
-            UserGameBox userGameBox = userGameBoxRepository.GetEntities(ugb => ugb.UserId == userId).SingleOrDefault()
-                                      // create if not exists
-                                      ?? await userGameBoxRepository.Create(
-                                          new UserGameBox(userId, gameLevel.GameBoxId));
+            UserGameBox userGameBox = userGameBoxRepository
+                .GetWhere(ugb => ugb.UserId.Equals(userId) && ugb.GameBoxId.Equals(gameLevel.GameBoxId)).SingleOrDefault()
+                // create if not exists
+                ?? await userGameBoxRepository.Create(new UserGameBox(userId, gameLevel.GameBoxId));
+
             return userGameBox;
         }
 
@@ -102,8 +98,8 @@ namespace InWords.WebApi.Service.GameService
         {
             // find user game level
             UserGameLevel userGameLevel = userGameLevelRepository
-                .GetEntities(g =>
-                    g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.GameBoxId))
+                .GetWhere(g =>
+                    g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.UserGameBoxId))
                 .SingleOrDefault();
 
             // create note if user level score information not found
@@ -129,11 +125,17 @@ namespace InWords.WebApi.Service.GameService
 
         private readonly UserGameBoxRepository userGameBoxRepository;
         private readonly UserGameLevelRepository userGameLevelRepository;
+        private readonly GameLevelRepository gameLevelRepository;
 
-        public GameScoreService(InWordsDataContext context) : base(context)
+        public GameScoreService(
+            UserGameBoxRepository userGameBoxRepository,
+            UserGameLevelRepository userGameLevelRepository,
+            GameLevelRepository gameLevelRepository
+            )
         {
-            userGameBoxRepository = new UserGameBoxRepository(context);
-            userGameLevelRepository = new UserGameLevelRepository(context);
+            this.userGameBoxRepository = userGameBoxRepository;
+            this.userGameLevelRepository = userGameLevelRepository;
+            this.gameLevelRepository = gameLevelRepository;
         }
 
         #endregion
