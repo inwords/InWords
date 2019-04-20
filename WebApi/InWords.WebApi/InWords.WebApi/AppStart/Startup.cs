@@ -59,10 +59,7 @@ namespace InWords.WebApi
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions);
 
-            // 'scoped' in ASP.NET means "per HTTP request"
-            services
-                .AddScoped(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")));
-
+           
             // api versioning
             services.AddApiVersioning(o =>
             {
@@ -75,7 +72,7 @@ namespace InWords.WebApi
             SwaggerFactory.Configure(services);
 
             // Register the autofuc dependency injection
-            return IocConfig.Configure(services);
+            return IocConfig.Configure(services, Configuration);
         }
 
         /// <summary>
