@@ -18,21 +18,22 @@ class GameInteractorImpl @Inject constructor(
     override fun getGamesInfo(forceUpdate: Boolean): Observable<GamesInfoModel> {
         return gameGatewayController.getGamesInfo(forceUpdate)
                 .map { GamesInfoModel(true, it) }
-                .cache()
     }
 
     override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<GameModel> {
         return gameGatewayController.getGame(gameId, forceUpdate)
                 .map { GameModel(true, it) }
-                .cache()
     }
 
     override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
         return gameGatewayController.getLevel(levelId, forceUpdate)
-                .cache()
     }
 
     override fun getScore(game: Game, levelScoreRequest: LevelScoreRequest): Single<Resource<LevelScore>> {
         return gameGatewayController.getScore(game, levelScoreRequest)
+    }
+
+    override fun uploadScoresToServer(): Single<List<LevelScore>> {
+        return gameGatewayController.uploadScoresToServer()
     }
 }

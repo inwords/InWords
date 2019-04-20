@@ -11,6 +11,7 @@ import ru.inwords.inwords.data.source.database.game.GameInfoDao
 import ru.inwords.inwords.data.source.database.game.GameLevelDao
 import ru.inwords.inwords.data.source.database.game.LevelScoreRequestDao
 import ru.inwords.inwords.domain.model.Resource
+import java.util.*
 import javax.inject.Inject
 
 @SuppressLint("UseSparseArrays")
@@ -66,20 +67,36 @@ class GameGatewayControllerImpl @Inject constructor(
                                 .map { res }
                                 .onErrorReturn { res }
                     } else {
-                        updateLocalScore(game, res.data!!)
+                        updateLocalScore(game, listOf(res.data!!))
                         Single.just(res)
                     }
                 }
                 .subscribeOn(SchedulersFacade.io())
     }
 
-    private fun updateLocalScore(game: Game, levelScore: LevelScore) {
+    override fun uploadScoresToServer(): Single<List<LevelScore>> {
+        return levelScoreRequestDao.getAllScores()
+                .filter { it.isNotEmpty() }
+                .flatMapSingle { gameRemoteRepository.uploadScores(it) }
+                .flatMap { levelScores -> levelScoreRequestDao.deleteAll().map { levelScores } }
+                .onErrorResumeNext { t ->
+                    if (t is NoSuchElementException) { //skip error if it is because of filter
+                        Single.just(emptyList())
+                    } else {
+                        Single.error(t)
+                    }
+                }
+    }
+
+    private fun updateLocalScore(game: Game, levelScores: List<LevelScore>) {
         val list = game.gameLevelInfos.map {
-            if (it.levelId == levelScore.levelId) {
-                it.copy(playerStars = levelScore.score)
-            } else {
-                it
+            for (levelScore in levelScores) {
+                if (it.levelId == levelScore.levelId) {
+                    return@map it.copy(playerStars = levelScore.score)
+                }
             }
+
+            it
         }
 
         val updatedGame = game.copy(gameLevelInfos = list)
@@ -109,7 +126,12 @@ class GameGatewayControllerImpl @Inject constructor(
         return ResourceCachingProvider(
                 { data -> gameLevelDatabaseRepository.insertAll(listOf(data)).map { data } },
                 { gameLevelDatabaseRepository.getById(levelId) },
-                { gameRemoteRepository.getLevel(levelId) }
+                {
+                    uploadScoresToServer()
+                            .ignoreElement()
+                            .onErrorComplete()
+                            .andThen(gameRemoteRepository.getLevel(levelId))
+                }
         )
     }
 

@@ -7,6 +7,7 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.domain.model.Resource
 
 /**
@@ -28,6 +29,7 @@ internal class ResourceCachingProvider<T : Any>(
 
     init {
         askForContentStream //TODO loading state emit somewhere
+                .observeOn(SchedulersFacade.io())
                 .flatMap { fakeRemoteStream.mergeWith(remoteDataProvider().wrapResource()) }
                 .flatMapSingle { res ->
                     if (res.success()) {

@@ -19,5 +19,5 @@ interface LevelScoreRequestDao {
     fun deleteAllIds(levelIds: List<Int>): Single<Int>
 
     @Query("SELECT * from level_score_request_table")
-    fun getAllWords(): Single<List<LevelScoreRequest>>
+    fun getAllScores(): Single<List<LevelScoreRequest>>
 }
