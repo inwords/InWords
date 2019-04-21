@@ -21,15 +21,18 @@ namespace InWords.WebApi.Controllers.v1
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class GameController : ControllerBase
     {
         private readonly GameService gameService;
         private readonly GameScoreService gameScoreService;
         private readonly BaseGameService baseGameService;
         /// <summary>
-        ///     Standard injected controller
+        /// 
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="gameService"></param>
+        /// <param name="gameScoreService"></param>
+        /// <param name="baseGameService"></param>
         public GameController(GameService gameService, GameScoreService gameScoreService, BaseGameService baseGameService)
         {
             this.baseGameService = baseGameService;
