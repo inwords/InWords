@@ -5,7 +5,7 @@ pool:
 steps:
 - task: Gradle@2
   inputs:
-    workingDirectory: 'Android'
+    workingDirectory: 'Android/'
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
