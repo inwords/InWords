@@ -14,6 +14,8 @@ namespace InWords.WebApi.Services
     /// <see cref="Creation" />
     public class CreationService
     {
+        #region Ctor
+
         protected readonly CreationDescriptionRepository CreationDescriptionRepository;
 
         protected readonly CreationRepository CreationRepository;
@@ -23,6 +25,8 @@ namespace InWords.WebApi.Services
             CreationRepository = сreationRepository;
             CreationDescriptionRepository = сreationDescriptionRepository;
         }
+
+        #endregion
 
         public async Task<int> AddCreation(CreationInfo creationInfo)
         {
@@ -50,10 +54,10 @@ namespace InWords.WebApi.Services
             return creation.CreationId;
         }
 
-        public async Task<CreationInfo> GetCreationInfo(int id)
+        public CreationInfo GetCreationInfo(int id)
         {
             // find creation information
-            Creation creation = CreationRepository.GetWithInclude(n => n.Creator)
+            Creation creation = CreationRepository.GetWithInclude(n => n.Creator.NickName)
                 .AsQueryable()
                 .Where(c => c.CreationId.Equals(id))
                 .SingleOrDefault();
@@ -70,6 +74,7 @@ namespace InWords.WebApi.Services
             var creationInfo = new CreationInfo
             {
                 CreatorId = creation.CreatorId,
+                CreatorNickname = creation.Creator.NickName,
                 Descriptions = descriptions
             };
 
