@@ -1,6 +1,14 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/android
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - Android/*
+
 pool:
-  vmImage: 'macOS-10.13'
+  vmImage: 'windows-2019'
 
 steps:
 - task: Gradle@2
