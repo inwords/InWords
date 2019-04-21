@@ -13,9 +13,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: DotNetCoreInstaller@0
+  inputs:
+    version: '2.2.202'
+
+steps:
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     command: build
-    projects: '**/*.csproj'
+    projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '--configuration Release' # Update this to match your need
