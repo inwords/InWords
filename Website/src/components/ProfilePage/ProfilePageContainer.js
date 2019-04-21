@@ -13,11 +13,13 @@ function ProfilePageContainer({ userId, userInfo, receiveUserInfo, match }) {
         resetAppBar({
             title: 'Профиль'
         });
-
-        if (userInfo.userId !== parseInt(match.params.id)) {
-            receiveUserInfo(parseInt(match.params.id));
-        }
     }, []);
+
+    React.useEffect(() => {
+        if (userInfo.userId !== parseInt(match.params.userId)) {
+            receiveUserInfo(parseInt(match.params.userId));
+        }
+    }, [match.params.userId]);
 
     return (
         <Profile
@@ -33,7 +35,7 @@ ProfilePageContainer.propTypes = {
         userId: PropTypes.number,
     }).isRequired,
     receiveUserInfo: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {

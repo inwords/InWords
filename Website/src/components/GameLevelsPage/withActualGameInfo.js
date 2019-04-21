@@ -7,13 +7,13 @@ import gameApiActions from '../../actions/gameApiActions';
 function withActualGameInfo(WrappedComponent) {
     function WithActualGameInfo({ gameInfo, pullGameInfo, match, ...other }) {
         React.useEffect(() => {
-            if (gameInfo.gameId !== parseInt(match.params.id)) {
-                pullGameInfo(parseInt(match.params.id));
+            if (gameInfo.gameId !== parseInt(match.params.gameId)) {
+                pullGameInfo(parseInt(match.params.gameId));
             }
-        }, []);
+        }, [match.params.gameId]);
 
         return (
-            gameInfo.gameId === parseInt(match.params.id) && (
+            gameInfo.gameId === parseInt(match.params.gameId) && (
                 <WrappedComponent
                     gameInfo={gameInfo}
                     {...other}

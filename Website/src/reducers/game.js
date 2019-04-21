@@ -59,7 +59,12 @@ const gameLevel = (state = initialGameLevelState, action) => {
         case gameConstants.GAME_LEVEL_UPDATE_AFTER_RESULT_SAVING:
             return {
                 ...state,
-                lastScore: action.payload.score || null
+                lastScore: action.payload.score
+            };
+        case gameConstants.GAME_LEVEL_SCORE_RESET:
+            return {
+                ...state,
+                lastScore: null
             };
         default:
             return state;

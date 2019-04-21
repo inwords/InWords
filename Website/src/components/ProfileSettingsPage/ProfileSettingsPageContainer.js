@@ -14,7 +14,7 @@ function ProfileSettingsPageContainer({ userInfo, changeUserInfo }) {
     React.useEffect(() => {
         resetAppBar({
             title: 'Настройки',
-            leftElements: <UpwardButton />,
+            leftElement: <UpwardButton />
         });
     }, []);
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AppBarContext = React.createContext(null);
+const AppBarContext = React.createContext(undefined);
 
 const initialSettings = {
     title: '',
     color: 'primary',
-    leftElements: null,
-    rightElements: null
+    leftElement: null,
+    rightElements: [null]
 };
 
 function AppBarContextProvider({ children }) {

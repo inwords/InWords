@@ -20,7 +20,7 @@ function GamesPageContainer({ location, history, match }) {
 
     React.useEffect(() => {
         setValue(parseInt(match.params.value));
-    }, [location]);
+    }, [location.pathname]);
 
     return (
         <GamesPage
