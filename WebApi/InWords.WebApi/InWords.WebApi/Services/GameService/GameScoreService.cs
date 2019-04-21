@@ -21,7 +21,7 @@ namespace InWords.WebApi.Services.GameService
                 .GetWhere(usb => usb.UserId.Equals(userId) && usb.GameBoxId.Equals(game.GameId))
                 .SingleOrDefault();
             // if no saves found return default game value
-            if (userGameBox == null) return null;
+            if (userGameBox == null) return game;
 
             // load all saves
             IEnumerable<UserGameLevel> userLevels =

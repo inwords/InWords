@@ -16,8 +16,6 @@ namespace InWords.WebApi.Services.GameService
 
         private readonly GameService gameService;
         private readonly GameLevelService gameLevelService;
-
-
         public CardGameService(GameService gameService, GameLevelService gameLevelService)
         {
 
