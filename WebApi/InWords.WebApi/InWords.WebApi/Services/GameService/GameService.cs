@@ -17,6 +17,34 @@ namespace InWords.WebApi.Services.GameService
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
     public class GameService
     {
+        public List<GameInfo> GetGames()
+        {
+            var gameInfos = new List<GameInfo>();
+
+            List<GameBox> games = gameBoxRepository.GetAllEntities().ToList();
+
+            foreach (GameBox game in games)
+            {
+                CreationInfo creationInfo = creationService.GetCreationInfo(game.CreationId);
+
+                // TODO: (LNG) title 
+                DescriptionInfo russianDescription = creationInfo.Descriptions.GetRus();
+
+                var gameInfo = new GameInfo
+                {
+                    CreatorId = creationInfo.CreatorId ?? 0,
+                    GameId = game.GameBoxId,
+                    IsAvailable = true,
+                    Title = russianDescription.Title,
+                    Description = russianDescription.Description
+                };
+
+                gameInfos.Add(gameInfo);
+            }
+
+            return gameInfos;
+        }
+
         public async Task<GameBox> CreateGameBox(GamePack gamePack)
         {
             int creationId = await creationService.AddCreation(gamePack.CreationInfo);

@@ -1,4 +1,5 @@
 ﻿using InWords.Data.Models.InWords.Creations.GameBox;
+using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
 using InWords.WebApi.Services.Abstractions;
@@ -14,12 +15,17 @@ namespace InWords.WebApi.Services.GameService
         #region ctor
         public readonly GameLevelService gameLevelService;
         public readonly GameService gameService;
-        public readonly BaseGameService baseGameService;
-        public CardGameService(GameService gameService, GameLevelService gameLevelService, BaseGameService baseGameService)
+        public readonly GameLevelWordService gameLevelWordService;
+        public readonly GameBoxRepository gameBoxRepository;
+        public CardGameService(GameService gameService,
+            GameLevelService gameLevelService,
+            GameBoxRepository gameBoxRepository,
+            GameLevelWordService gameLevelWordService)
         {
             this.gameService = gameService;
             this.gameLevelService = gameLevelService;
-            this.baseGameService = baseGameService;
+            this.gameBoxRepository = gameBoxRepository;
+            this.gameLevelWordService = gameLevelWordService;
         }
         #endregion
 
@@ -44,101 +50,29 @@ namespace InWords.WebApi.Services.GameService
             return answer;
         }
 
-        public Task<int> DeleteGames(params int[] gameId)
+        public async Task<int> DeleteGames(params int[] gameId)
         {
-            return baseGameService.DeleteGames(gameId);
+            return await gameBoxRepository.DeleteGames(gameId);
         }
 
-        public Task<int> DeleteOwnGames(int userId, params int[] gameId)
+        public async Task<int> DeleteOwnGames(int userId, params int[] gameId)
         {
-            return baseGameService.DeleteOwnGames(userId, gameId);
+            return await gameBoxRepository.DeleteOwnGames(userId, gameId);
         }
 
-        public Task<GamePack> GetGame(int userId, int gameId)
+        public async Task<GameObject> GetGameObject(int gameId)
         {
-            return gameService.get
+            return await gameService.GetGameObject(gameId);
         }
 
-        public Task<List<GameInfo>> GetGames()
+        public List<GameInfo> GetGames()
         {
-            throw new NotImplementedException();
+            return gameService.GetGames();
         }
 
-        public Level GetLevel(int userId, int levelId)
+        public Level GetLevelWords(int userId, int levelId)
         {
-            throw new NotImplementedException();
+            return gameLevelWordService.GetLevelWords(levelId);
         }
-
-
-        ///// <summary>
-        /////     This is to get full information about certain game
-        ///// </summary>
-        ///// <param name="userId"></param>
-        ///// <param name="gameId"></param>
-        ///// <returns></returns>
-        //public async Task<GameObject> GetGameObject(int userId, int gameId)
-        //{
-        //    // find game in database
-        //    GameBox gameBox = await gameBoxRepository.FindById(gameId);
-
-        //    if (gameBox == null) return null;
-
-        //    // find the creator of the game
-        //    CreationInfo creation = await creationService.GetCreationInfo(gameBox.CreationId);
-
-        //    if (gameBox == null) return null;
-
-        //    User userCreator = await userRepository.FindById((int)creation.CreatorId);
-
-        //    // find all game levels 
-        //    IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.GameBoxId);
-
-        //    List<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
-        //    {
-        //        IsAvailable = true,
-        //        LevelId = level.GameLevelId,
-        //        Level = level.Level,
-        //        PlayerStars = 0
-        //    })
-        //        .ToList();
-
-        //    var game = new GameObject
-        //    {
-        //        GameId = gameBox.GameBoxId,
-        //        Creator = userCreator.NickName,
-        //        LevelInfos = levelInfos
-        //    };
-
-        //    return game;
-        //}
-
-        ///// <summary>
-        /////     This is to get game level information
-        ///// </summary>
-        ///// <param name="userId"></param>
-        ///// <param name="levelId"></param>
-        ///// <see cref="Level" />
-        ///// <returns></returns>
-        //public Level GetLevel(int userId, int levelId)
-        //{
-        //    IEnumerable<GameLevelWord> gameLevelWords =
-        //        gameLevelWordRepository.GetWhere(l => l.GameLevelId.Equals(levelId));
-
-        //    IEnumerable<int> ids = gameLevelWords.Select(gl => gl.WordPairId);
-
-        //    var wordTranslations = new List<WordTranslation>();
-        //    wordTranslations.AddRange(wordsService.GetWordsById(ids));
-
-        //    var level = new Level
-        //    {
-        //        LevelId = levelId,
-        //        WordTranslations = wordTranslations
-        //    };
-
-        //    return level;
-        //}
-
-
-        //fill level
     }
 }

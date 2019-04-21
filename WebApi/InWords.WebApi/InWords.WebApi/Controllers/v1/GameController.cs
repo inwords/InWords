@@ -24,20 +24,19 @@ namespace InWords.WebApi.Controllers.v1
     [Produces("application/json")]
     public class GameController : ControllerBase
     {
-        private readonly GameService gameService;
+        private readonly CardGameService cardGameService;
         private readonly GameScoreService gameScoreService;
-        private readonly BaseGameService baseGameService;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="gameService"></param>
         /// <param name="gameScoreService"></param>
         /// <param name="baseGameService"></param>
-        public GameController(GameService gameService, GameScoreService gameScoreService, BaseGameService baseGameService)
+        public GameController(CardGameService cardGameService, GameScoreService gameScoreService)
         {
-            this.baseGameService = baseGameService;
-            this.gameService = gameService;
             this.gameScoreService = gameScoreService;
+            this.cardGameService = cardGameService;
         }
 
         /// <summary>
@@ -52,7 +51,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             int authorizedId = User.GetUserId();
 
-            SyncBase answer = await gameService.AddGamePack(authorizedId, gamePack);
+            SyncBase answer = await cardGameService.AddGamePack(authorizedId, gamePack);
 
             return Ok(answer);
         }
@@ -92,7 +91,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpGet]
         public async Task<IActionResult> GetGameInfo()
         {
-            List<GameInfo> answer = await baseGameService.GetGames();
+            List<GameInfo> answer = cardGameService.GetGames();
 
             return Ok(answer);
         }
@@ -108,7 +107,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             int userId = User.GetUserId();
             // find levels
-            GameObject answer = await gameService.GetGameObject(userId, id);
+            GameObject answer = await cardGameService.GetGameObject(id);
             if (answer == null) return NotFound();
 
             // set stars
@@ -130,7 +129,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             int userId = User.GetUserId();
 
-            Level answer = gameService.GetLevel(userId, id);
+            Level answer = cardGameService.GetLevelWords(userId, id);
 
             return Ok(answer);
         }
@@ -163,8 +162,8 @@ namespace InWords.WebApi.Controllers.v1
             string role = User.GetUserRole();
 
             int count = role == RoleType.Admin.ToString()
-                ? await baseGameService.DeleteGames(ids)
-                : await baseGameService.DeleteOwnGames(userId, ids);
+                ? await cardGameService.DeleteGames(ids)
+                : await cardGameService.DeleteOwnGames(userId, ids);
 
             return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }

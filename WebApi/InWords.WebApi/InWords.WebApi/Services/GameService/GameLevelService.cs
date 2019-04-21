@@ -40,15 +40,27 @@ namespace InWords.WebApi.Services.GameService
         {
             // find all game levels 
             IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.GameBoxId);
+            // convert to level info
+            return gameLevels.Select(GetLevelInfo);
+        }
 
-            IEnumerable<LevelInfo> levelInfos = gameLevels.Select(level => new LevelInfo
+        public async Task<LevelInfo> GetLevel(int levelId)
+        {
+            GameLevel level = await gameLevelRepository.FindById(levelId);
+
+            return GetLevelInfo(level);
+        }
+
+        public LevelInfo GetLevelInfo(GameLevel level)
+        {
+            var levelInfo = new LevelInfo
             {
                 IsAvailable = true,
                 LevelId = level.GameLevelId,
                 Level = level.Level,
                 PlayerStars = 0
             });
-            return levelInfos;
+            return levelInfo;
         }
     }
 }

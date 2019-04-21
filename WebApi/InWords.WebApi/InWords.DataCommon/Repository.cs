@@ -11,7 +11,7 @@ namespace InWords.Data
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         private readonly DbContext context;
-        
+
         protected readonly DbSet<TEntity> DbSet;
 
         public Repository(DbContext context)
@@ -47,6 +47,12 @@ namespace InWords.Data
         /// </summary>
         /// <param name="item"></param>
         public async Task<int> Remove(params TEntity[] item)
+        {
+            foreach (TEntity currentItem in item) context.Entry(currentItem).State = EntityState.Deleted;
+            return await context.SaveChangesAsync();
+        }
+
+        public async Task<int> Remove(IQueryable<TEntity> item)
         {
             foreach (TEntity currentItem in item) context.Entry(currentItem).State = EntityState.Deleted;
             return await context.SaveChangesAsync();

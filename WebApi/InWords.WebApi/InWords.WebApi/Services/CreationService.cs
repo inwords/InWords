@@ -84,7 +84,6 @@ namespace InWords.WebApi.Services
         public async Task<int> DeleteCreation(IEnumerable<int> ids)
         {
             var deletions = 0;
-            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (int i in ids) deletions += await DeleteCreation(i);
             return deletions;
         }
