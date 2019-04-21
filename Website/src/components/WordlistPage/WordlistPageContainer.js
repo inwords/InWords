@@ -9,7 +9,7 @@ import WordPairsUncheckButton from './WordPairsUncheckButton';
 import WordPairsDeleteButton from './WordPairsDeleteButton';
 import Wordlist from './WordlistPage';
 
-function WordlistPageContainer({ wordPairs, pullWordPairs }) {
+function WordlistPageContainer({ wordPairs, pullWordPairs, deleteWordPairs }) {
     React.useEffect(() => {
         if (!wordPairs.length) {
             pullWordPairs();
@@ -24,6 +24,10 @@ function WordlistPageContainer({ wordPairs, pullWordPairs }) {
 
     const { customizeAppBar, resetAppBar } = React.useContext(AppBarContext);
 
+    const handleWordPairsDeletion = () => {
+        deleteWordPairs(checked);
+    };
+
     const prevChecked = usePrevious(checked);
 
     React.useEffect(() => {
@@ -33,13 +37,15 @@ function WordlistPageContainer({ wordPairs, pullWordPairs }) {
                     title: `Выбрано: ${checked.length}`,
                     color: 'secondary',
                     leftElement: <WordPairsUncheckButton handleUncheck={() => handleReset([])} />,
-                    rightElements: [<WordPairsDeleteButton checked={checked} />]
+                    rightElements: [<WordPairsDeleteButton handleWordPairsDeletion={handleWordPairsDeletion} />]
                 });
             } else {
                 customizeAppBar({ title: `Выбрано: ${checked.length}` });
             }
         } else {
-            resetAppBar({ title: 'Словарь' });
+            resetAppBar({
+                title: 'Словарь'
+            });
         }
     }, [checked]);
 
@@ -62,7 +68,8 @@ function WordlistPageContainer({ wordPairs, pullWordPairs }) {
 
 WordlistPageContainer.propTypes = {
     wordPairs: PropTypes.array.isRequired,
-    pullWordPairs: PropTypes.func.isRequired
+    pullWordPairs: PropTypes.func.isRequired,
+    deleteWordPairs: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -73,7 +80,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        pullWordPairs: () => dispatch(wordlistApiActions.pullWordPairs())
+        pullWordPairs: () => dispatch(wordlistApiActions.pullWordPairs()),
+        deleteWordPairs: pairIds => dispatch(wordlistApiActions.deleteWordPairs(pairIds))
     };
 };
 

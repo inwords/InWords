@@ -29,7 +29,7 @@ const styles = theme => ({
         justifyContent: 'flex-end',
     },
     button: {
-        margin: theme.spacing.unit,
+        marginTop: theme.spacing.unit,
     },
     submit: {
         marginTop: theme.spacing.unit * 3,
