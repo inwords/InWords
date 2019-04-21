@@ -1,0 +1,12 @@
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+pool:
+  vmImage: 'macOS-10.13'
+
+steps:
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Android'
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    tasks: 'build'
