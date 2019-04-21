@@ -27,8 +27,8 @@ class GameGatewayControllerImpl @Inject constructor(
     private val gameLevelDatabaseRepository by lazy { GameDatabaseRepository<GameLevel>(gameLevelDao) }
 
     private val gamesInfoCachingProvider by lazy { createGamesInfoCachingProvider() }
-    private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator<Game>() }
-    private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator<GameLevel>() }
+    private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameCachingProvider(it) } }
+    private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) } }
 
     override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<List<GameInfo>>> {
         if (forceUpdate) {
@@ -39,7 +39,7 @@ class GameGatewayControllerImpl @Inject constructor(
     }
 
     override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
-        val cachingProvider = gameCachingProviderLocator.get(gameId) { createGameCachingProvider(gameId) }
+        val cachingProvider = gameCachingProviderLocator.get(gameId)
 
         if (forceUpdate) {
             cachingProvider.askForContentUpdate()
@@ -49,7 +49,7 @@ class GameGatewayControllerImpl @Inject constructor(
     }
 
     override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
-        val cachingProvider = gameLevelCachingProviderLocator.get(levelId) { createGameLevelCachingProvider(levelId) }
+        val cachingProvider = gameLevelCachingProviderLocator.get(levelId)
 
         if (forceUpdate) {
             cachingProvider.askForContentUpdate()
@@ -101,7 +101,7 @@ class GameGatewayControllerImpl @Inject constructor(
 
         val updatedGame = game.copy(gameLevelInfos = list)
 
-        val cachingProvider = gameCachingProviderLocator.get(updatedGame.gameId) { createGameCachingProvider(updatedGame.gameId) }
+        val cachingProvider = gameCachingProviderLocator.get(updatedGame.gameId)
 
         cachingProvider.postOnLoopback(updatedGame)
     }

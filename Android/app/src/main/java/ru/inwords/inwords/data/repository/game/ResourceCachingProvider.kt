@@ -68,11 +68,11 @@ internal class ResourceCachingProvider<T : Any>(
                 .onErrorReturn { onErrorResource }
     }
 
-    @SuppressLint("UseSparseArrays")
-    class Locator<T : Any> {
+    class Locator<T : Any>(private val factory: (Int) -> ResourceCachingProvider<T>) {
+        @SuppressLint("UseSparseArrays")
         private val cachingProvidersMap = HashMap<Int, ResourceCachingProvider<T>>()
 
-        fun get(id: Int, factory: (Int) -> ResourceCachingProvider<T>): ResourceCachingProvider<T> {
+        fun get(id: Int): ResourceCachingProvider<T> {
             return cachingProvidersMap.getOrPut(id) { factory(id) }
         }
     }
