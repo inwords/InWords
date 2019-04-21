@@ -7,6 +7,7 @@ using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
+using InWords.WebApi.Extentions.Transfer;
 
 namespace InWords.WebApi.Services.GameService
 {
@@ -82,7 +83,7 @@ namespace InWords.WebApi.Services.GameService
             {
                 GameId = gameBox.GameBoxId,
                 Creator = creationInfo.CreatorNickname,
-                LevelInfos = levelInfos
+                LevelInfos = levelInfos.ToList()
             };
 
             return game;

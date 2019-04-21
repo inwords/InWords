@@ -89,7 +89,7 @@ namespace InWords.WebApi.Controllers.v1
         /// <returns></returns>
         [Route("GameInfo")]
         [HttpGet]
-        public async Task<IActionResult> GetGameInfo()
+        public IActionResult GetGameInfo()
         {
             List<GameInfo> answer = cardGameService.GetGames();
 

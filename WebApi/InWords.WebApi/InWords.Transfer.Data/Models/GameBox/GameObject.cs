@@ -14,6 +14,6 @@ namespace InWords.Transfer.Data.Models.GameBox
 
         public string Creator { get; set; }
 
-        public IEnumerable<LevelInfo> LevelInfos { get; set; }
+        public List<LevelInfo> LevelInfos { get; set; }
     }
 }

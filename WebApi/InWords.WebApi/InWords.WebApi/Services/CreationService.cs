@@ -57,7 +57,7 @@ namespace InWords.WebApi.Services
         public CreationInfo GetCreationInfo(int id)
         {
             // find creation information
-            Creation creation = CreationRepository.GetWithInclude(n => n.Creator.NickName)
+            Creation creation = CreationRepository.GetWithInclude(n => n.Creator)
                 .AsQueryable()
                 .Where(c => c.CreationId.Equals(id))
                 .SingleOrDefault();

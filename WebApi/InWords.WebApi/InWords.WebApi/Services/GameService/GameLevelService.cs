@@ -59,7 +59,7 @@ namespace InWords.WebApi.Services.GameService
                 LevelId = level.GameLevelId,
                 Level = level.Level,
                 PlayerStars = 0
-            });
+            };
             return levelInfo;
         }
     }

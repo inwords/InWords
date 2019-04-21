@@ -10,22 +10,17 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.GameService
 {
-    public class CardGameService : IGameService
+    public class CardGameService
     {
         #region ctor
-        public readonly GameLevelService gameLevelService;
-        public readonly GameService gameService;
-        public readonly GameLevelWordService gameLevelWordService;
-        public readonly GameBoxRepository gameBoxRepository;
-        public CardGameService(GameService gameService,
-            GameLevelService gameLevelService,
-            GameBoxRepository gameBoxRepository,
-            GameLevelWordService gameLevelWordService)
+
+        private readonly GameService gameService;
+        private readonly GameLevelService gameLevelService;
+
+
+        public CardGameService(GameService gameService, GameLevelService gameLevelService)
         {
-            this.gameService = gameService;
-            this.gameLevelService = gameLevelService;
-            this.gameBoxRepository = gameBoxRepository;
-            this.gameLevelWordService = gameLevelWordService;
+
         }
         #endregion
 
@@ -48,31 +43,6 @@ namespace InWords.WebApi.Services.GameService
             var answer = new SyncBase(gameBox.GameBoxId);
 
             return answer;
-        }
-
-        public async Task<int> DeleteGames(params int[] gameId)
-        {
-            return await gameBoxRepository.DeleteGames(gameId);
-        }
-
-        public async Task<int> DeleteOwnGames(int userId, params int[] gameId)
-        {
-            return await gameBoxRepository.DeleteOwnGames(userId, gameId);
-        }
-
-        public async Task<GameObject> GetGameObject(int gameId)
-        {
-            return await gameService.GetGameObject(gameId);
-        }
-
-        public List<GameInfo> GetGames()
-        {
-            return gameService.GetGames();
-        }
-
-        public Level GetLevelWords(int userId, int levelId)
-        {
-            return gameLevelWordService.GetLevelWords(levelId);
         }
     }
 }
