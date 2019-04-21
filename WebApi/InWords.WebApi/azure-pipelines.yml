@@ -4,8 +4,13 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
-
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - WebApi/*
+    
 pool:
   vmImage: 'vs2017-win2016'
 
