@@ -17,5 +17,5 @@ steps:
   displayName: Build
   inputs:
     command: build
-    projects: '*WebApi*/*.csproj'
+    projects: '**/*.csproj'
     arguments: '--configuration Release' # Update this to match your need
