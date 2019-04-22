@@ -24,25 +24,22 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Produces("application/json")]
     public class GameController : ControllerBase
     {
+        #region Ctor
+
         private readonly GameBoxRepository gameBoxRepository;
         private readonly GameLevelWordService gameLevelWordService;
-        private readonly GameScoreService gameScoreService;
         private readonly GameService gameService;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="gameScoreService"></param>
-        /// <param name="gameBoxRepository"></param>
-        /// <param name="gameLevelWordService"></param>
-        /// <param name="gameService"></param>
-        public GameController(GameScoreService gameScoreService, GameBoxRepository gameBoxRepository,
-            GameLevelWordService gameLevelWordService, GameService gameService)
+        public GameController(GameBoxRepository gameBoxRepository,
+                             GameLevelWordService gameLevelWordService,
+                             GameService gameService)
         {
-            this.gameScoreService = gameScoreService;
             this.gameBoxRepository = gameBoxRepository;
             this.gameLevelWordService = gameLevelWordService;
             this.gameService = gameService;
         }
+
+        #endregion
 
         /// <summary>
         ///     This is to add game pack from body use Game pack object
@@ -62,33 +59,6 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         }
 
         /// <summary>
-        ///     in dev Didn't work now
-        /// </summary>
-        /// <deprecated>true</deprecated>
-        /// <param name="levelResult"></param>
-        /// <returns></returns>
-        [Route("score")]
-        [HttpPost]
-        public async Task<IActionResult> PostScore(LevelResult levelResult)
-        {
-            int authorizedId = User.GetUserId();
-            // calculate score
-            LevelScore answer = gameScoreService.GetLevelScore(levelResult);
-
-            // save score to user level
-            try
-            {
-                await gameScoreService.UpdateUserScore(authorizedId, answer);
-            }
-            catch (ArgumentNullException e)
-            {
-                return BadRequest(e.Message);
-            }
-
-            return Ok(answer);
-        }
-
-        /// <summary>
         ///     Returns short information about all games in database
         /// </summary>
         /// <returns></returns>
@@ -97,26 +67,6 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         public IActionResult GetGameInfo()
         {
             List<GameInfo> answer = gameService.GetGames();
-
-            return Ok(answer);
-        }
-
-        /// <summary>
-        ///     Use this to get game information by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Route("{id}")]
-        [HttpGet]
-        public async Task<IActionResult> GetGame(int id)
-        {
-            int userId = User.GetUserId();
-            // find levels
-            GameObject answer = await gameService.GetGameObject(id);
-            if (answer == null) return NotFound();
-
-            // set stars
-            answer = await gameScoreService.GetGameStars(userId, answer);
 
             return Ok(answer);
         }
@@ -168,7 +118,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
                 ? await gameBoxRepository.DeleteGames(ids)
                 : await gameBoxRepository.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
+            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }
     }
 }

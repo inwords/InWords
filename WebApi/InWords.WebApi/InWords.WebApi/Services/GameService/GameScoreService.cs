@@ -64,6 +64,17 @@ namespace InWords.WebApi.Services.GameService
             await EnsureLevelScore(levelScore, userGameBox);
         }
 
+        public async Task PushLevelScoreList(int userId, IEnumerable<LevelScore> levelScores)
+        {
+            // TODO speedup (1)
+            // Thought like for 3 hours, and did not implement a rational search
+            foreach (LevelScore levelScore in levelScores)
+            {
+                await UpdateUserScore(userId, levelScore);
+            }
+        }
+
+
         private async Task<UserGameBox> EnsureUserGameBox(int userId, LevelScore levelScore)
         {
             // Create user game stats
@@ -92,17 +103,17 @@ namespace InWords.WebApi.Services.GameService
                     g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.UserGameBoxId))
                 .SingleOrDefault();
 
-            // create note if user level score information not found
+            // if user level score information not found then create save
             if (userGameLevel == null)
             {
                 userGameLevel = new UserGameLevel(userGameBox.UserGameBoxId, levelScore.LevelId, levelScore.Score);
                 await userGameLevelRepository.Create(userGameLevel);
             }
 
-            // in level score information found 
+            // if level score information found 
             else
             {
-                // if score less or equals return current score
+                // if score less or equals return current score do nothing
                 if (userGameLevel.UserStars >= levelScore.Score) return;
 
                 // else update score
