@@ -117,7 +117,6 @@ namespace InWords.Data
             return includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
-
         #endregion
     }
 }
