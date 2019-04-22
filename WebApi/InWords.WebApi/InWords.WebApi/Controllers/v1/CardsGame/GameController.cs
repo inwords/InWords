@@ -11,7 +11,7 @@ using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InWords.WebApi.Controllers.v1
+namespace InWords.WebApi.Controllers.v1.CardsGame
 {
     /// <inheritdoc />
     /// <summary>
@@ -24,13 +24,12 @@ namespace InWords.WebApi.Controllers.v1
     [Produces("application/json")]
     public class GameController : ControllerBase
     {
-        private readonly GameScoreService gameScoreService;
         private readonly GameBoxRepository gameBoxRepository;
         private readonly GameLevelWordService gameLevelWordService;
+        private readonly GameScoreService gameScoreService;
         private readonly GameService gameService;
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="gameScoreService"></param>
         /// <param name="gameBoxRepository"></param>
@@ -169,7 +168,7 @@ namespace InWords.WebApi.Controllers.v1
                 ? await gameBoxRepository.DeleteGames(ids)
                 : await gameBoxRepository.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
+            return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
         }
     }
 }

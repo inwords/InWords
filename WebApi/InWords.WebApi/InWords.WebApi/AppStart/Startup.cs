@@ -1,11 +1,8 @@
 ﻿using System;
 using System.IO;
 using InWords.Auth;
-using InWords.Data.Models;
-using InWords.WebApi.AppStart;
-using InWords.WebApi.Extentions.ServiceCollection;
+using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Providers.FIleLogger;
-using InWords.WebApi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace InWords.WebApi
+namespace InWords.WebApi.AppStart
 {
     /// <summary>
     ///     Main startup class
@@ -63,14 +60,14 @@ namespace InWords.WebApi
                 .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions);
 
 
-            // api versioning
+            // api version info
             services.AddApiVersioningInWords();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
 
             // Register the autofuc dependency injection
-            return IocConfig.Configure(services, Configuration);
+            return services.Configure(Configuration);
         }
 
         /// <summary>

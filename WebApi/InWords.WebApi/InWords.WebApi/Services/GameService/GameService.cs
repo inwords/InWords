@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Models.InWords.Creations.GameBox;
-using InWords.Data.Models.InWords.Domains;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.Creation;
 using InWords.Transfer.Data.Models.GameBox;
-using InWords.WebApi.Extentions.Transfer;
+using InWords.WebApi.Extensions.Transfer;
 
 namespace InWords.WebApi.Services.GameService
 {
@@ -29,10 +28,7 @@ namespace InWords.WebApi.Services.GameService
             // Does not affect user experience
 
             // Add levels
-            foreach (LevelPack levelPack in gamePack.LevelPacks)
-            {
-                await gameLevelService.AddLevel(gameBox, levelPack);
-            }
+            foreach (LevelPack levelPack in gamePack.LevelPacks) await gameLevelService.AddLevel(gameBox, levelPack);
 
             var answer = new SyncBase(gameBox.GameBoxId);
 
@@ -121,8 +117,8 @@ namespace InWords.WebApi.Services.GameService
         /// </summary>
         /// <param name="context"></param>
         public GameService(CreationService creationService,
-        GameBoxRepository gameBoxRepository,
-        GameLevelService gameLevelService)
+            GameBoxRepository gameBoxRepository,
+            GameLevelService gameLevelService)
         {
             this.creationService = creationService;
             this.gameBoxRepository = gameBoxRepository;

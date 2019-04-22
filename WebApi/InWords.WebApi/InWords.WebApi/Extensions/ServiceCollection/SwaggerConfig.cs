@@ -1,7 +1,7 @@
 ﻿using InWords.WebApi.Swagger;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace InWords.WebApi.AppStart
+namespace InWords.WebApi.Extensions.ServiceCollection
 {
     public static class SwaggerConfig
     {

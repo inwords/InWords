@@ -1,29 +1,14 @@
-﻿using InWords.Data.Models.InWords.Creations.GameBox;
-using InWords.Data.Models.InWords.Domains;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models;
-using InWords.Transfer.Data.Models.GameBox;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data.Models.InWords.Creations.GameBox;
+using InWords.Data.Models.InWords.Repositories;
+using InWords.Transfer.Data.Models.GameBox;
 
 namespace InWords.WebApi.Services.GameService
 {
     public class GameLevelService
     {
-        #region ctor
-        private readonly GameLevelRepository gameLevelRepository;
-        private readonly GameLevelWordService gameLevelWordService;
-
-        public GameLevelService(GameLevelRepository gameLevelRepository,
-            GameLevelWordService gameLevelWordService)
-        {
-            this.gameLevelRepository = gameLevelRepository;
-            this.gameLevelWordService = gameLevelWordService;
-        }
-        #endregion
-
         public async Task<GameLevel> AddLevel(GameBox gameBox, LevelPack levelPack)
         {
             var gameLevel = new GameLevel
@@ -62,5 +47,19 @@ namespace InWords.WebApi.Services.GameService
             };
             return levelInfo;
         }
+
+        #region ctor
+
+        private readonly GameLevelRepository gameLevelRepository;
+        private readonly GameLevelWordService gameLevelWordService;
+
+        public GameLevelService(GameLevelRepository gameLevelRepository,
+            GameLevelWordService gameLevelWordService)
+        {
+            this.gameLevelRepository = gameLevelRepository;
+            this.gameLevelWordService = gameLevelWordService;
+        }
+
+        #endregion
     }
 }

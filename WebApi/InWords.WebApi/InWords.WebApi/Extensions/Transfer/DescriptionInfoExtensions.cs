@@ -2,7 +2,7 @@
 using System.Linq;
 using InWords.Transfer.Data.Models.Creation;
 
-namespace InWords.WebApi.Extentions.Transfer
+namespace InWords.WebApi.Extensions.Transfer
 {
     /// <summary>
     /// </summary>

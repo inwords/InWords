@@ -17,11 +17,11 @@ namespace InWords.WebApi.Controllers.v1
     public class AuthController : ControllerBase
     {
         /// <summary>
-        ///     Request auth token 
+        ///     Request auth token
         /// </summary>
         /// <returns>A newly token</returns>
         /// <response code="200">Success</response>
-        /// <response code="400">Auth error</response>  
+        /// <response code="400">Auth error</response>
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("token")]
@@ -44,7 +44,7 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>A newly created token</returns>
         /// <response code="200">returns new token</response>
-        /// <response code="400">User already exists</response>  
+        /// <response code="400">User already exists</response>
         [Route("registration")]
         [HttpPost]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
@@ -82,10 +82,9 @@ namespace InWords.WebApi.Controllers.v1
         public AuthController(AccountRepository accountRepository)
         {
             this.accountRepository = accountRepository;
-            this.accountIdentityProvider = new AccountIdentityProvider(accountRepository);
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
         }
 
         #endregion
-
     }
 }

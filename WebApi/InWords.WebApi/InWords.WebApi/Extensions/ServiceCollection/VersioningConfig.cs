@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace InWords.WebApi.Extentions.ServiceCollection
+namespace InWords.WebApi.Extensions.ServiceCollection
 {
     public static class VersioningConfig
     {

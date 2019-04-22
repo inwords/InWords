@@ -1,11 +1,10 @@
-﻿using Autofac;
+﻿using System;
+using System.Reflection;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using InWords.Data.Models;
-using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using InWords.Data;
 
 namespace InWords.WebApi.AppStart
 {
@@ -17,19 +16,22 @@ namespace InWords.WebApi.AppStart
             builder.Populate(services);
 
             // register context
-            builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection"))).InstancePerLifetimeScope();
+            builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")))
+                .InstancePerLifetimeScope();
 
 
             // register repositories
-            var repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
+            Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
             builder.RegisterAssemblyTypes(repositoryAssembly)
-                .Where(a => a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data")).InstancePerLifetimeScope();
+                .Where(a => a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data"))
+                .InstancePerLifetimeScope();
 
             // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services") && !a.Namespace.Contains("Abstractions")).InstancePerLifetimeScope();
+                .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services") &&
+                            !a.Namespace.Contains("Abstractions")).InstancePerLifetimeScope();
 
-            var container = builder.Build();
+            IContainer container = builder.Build();
             return new AutofacServiceProvider(container);
         }
     }

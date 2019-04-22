@@ -14,23 +14,9 @@ namespace InWords.WebApi.Services
     /// <see cref="Creation" />
     public class CreationService
     {
-        #region Ctor
-
-        private readonly CreationDescriptionRepository CreationDescriptionRepository;
-
-        private readonly CreationRepository CreationRepository;
-
-        public CreationService(CreationRepository сreationRepository, CreationDescriptionRepository сreationDescriptionRepository)
-        {
-            CreationRepository = сreationRepository;
-            CreationDescriptionRepository = сreationDescriptionRepository;
-        }
-
-        #endregion
-
         public async Task<int> AddCreationInfo(CreationInfo creationInfo)
         {
-            if (creationInfo.CreatorId == null) throw new ArgumentNullException("CreatorId not found");
+            if (creationInfo.CreatorId == null) throw new ArgumentNullException($"{nameof(creationInfo)} creator not found");
 
             var creation = new Creation
             {
@@ -39,13 +25,14 @@ namespace InWords.WebApi.Services
 
             creation = await CreationRepository.Create(creation);
 
-            IEnumerable<CreationDescription> creationDescriptions = creationInfo.Descriptions.Select(cd => new CreationDescription
-            {
-                CreationId = creation.CreationId,
-                LanguageId = cd.LangId,
-                Title = cd.Title,
-                Description = cd.Description
-            });
+            IEnumerable<CreationDescription> creationDescriptions = creationInfo.Descriptions.Select(cd =>
+                new CreationDescription
+                {
+                    CreationId = creation.CreationId,
+                    LanguageId = cd.LangId,
+                    Title = cd.Title,
+                    Description = cd.Description
+                });
 
             await CreationDescriptionRepository.Create(creationDescriptions.ToArray());
 
@@ -103,5 +90,20 @@ namespace InWords.WebApi.Services
                     Title = desc.Title
                 }).ToList();
         }
+
+        #region Ctor
+
+        private readonly CreationDescriptionRepository CreationDescriptionRepository;
+
+        private readonly CreationRepository CreationRepository;
+
+        public CreationService(CreationRepository сreationRepository,
+            CreationDescriptionRepository сreationDescriptionRepository)
+        {
+            CreationRepository = сreationRepository;
+            CreationDescriptionRepository = сreationDescriptionRepository;
+        }
+
+        #endregion
     }
 }
