@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Models;
-using InWords.Data.Models.InWords.Domains;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models;
+using InWords.Data.Domains;
+using InWords.Data.DTO;
+using InWords.Data.Repositories;
 using InWords.WebApi.TransferData;
 
 namespace InWords.WebApi.Services
@@ -128,7 +127,7 @@ namespace InWords.WebApi.Services
         {
             await DeleteUserWordPair(userId, userWordPairId);
             SyncBase syncBase = await AddUserWordPair(userId, wordTranslation);
-            return new List<SyncBase> { syncBase };
+            return new List<SyncBase> {syncBase};
         }
     }
 }

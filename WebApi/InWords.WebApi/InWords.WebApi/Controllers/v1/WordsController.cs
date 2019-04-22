@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using InWords.Auth.Extensions;
-using InWords.Data.Models;
-using InWords.Transfer.Data.Models;
+using InWords.Data.DTO;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,29 +20,14 @@ namespace InWords.WebApi.Controllers.v1
     [Route("v{version:apiVersion}/[controller]")]
     public class WordsController : ControllerBase
     {
-        #region Ctor
-
-        private readonly WordsService wordsService;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="wordsService"></param>
-        public WordsController(WordsService wordsService)
-        {
-            this.wordsService = wordsService;
-        }
-
-        #endregion
-
         /// <summary>
         ///     Add list of words in dictionary
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="200">OK</response>
-        /// <response code="400">Model is not valid</response>  
-        /// <response code="401">Unauthorized</response>  
-        /// <response code="404">User not found</response>  
+        /// <response code="400">Model is not valid</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">User not found</response>
         [ProducesResponseType(typeof(List<SyncBase>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -77,8 +61,8 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="200">OK pair deleted count</response>
-        /// <response code="400">Model is not valid</response>  
-        /// <response code="401">Unauthorized</response>  
+        /// <response code="400">Model is not valid</response>
+        /// <response code="401">Unauthorized</response>
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -93,5 +77,19 @@ namespace InWords.WebApi.Controllers.v1
 
             return Ok(pairDeleted);
         }
+
+        #region Ctor
+
+        private readonly WordsService wordsService;
+
+        /// <summary>
+        /// </summary>
+        /// <param name="wordsService"></param>
+        public WordsController(WordsService wordsService)
+        {
+            this.wordsService = wordsService;
+        }
+
+        #endregion
     }
 }

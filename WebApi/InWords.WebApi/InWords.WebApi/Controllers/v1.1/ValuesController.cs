@@ -1,6 +1,6 @@
-﻿using InWords.Data.Enums;
-using InWords.Data.Models;
-using InWords.Data.Models.InWords.Repositories;
+﻿using InWords.Data;
+using InWords.Data.Enums;
+using InWords.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

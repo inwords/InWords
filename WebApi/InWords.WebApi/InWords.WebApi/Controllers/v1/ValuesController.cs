@@ -1,5 +1,5 @@
-﻿using InWords.Data.Models;
-using InWords.Data.Models.InWords.Repositories;
+﻿using InWords.Data;
+using InWords.Data.Repositories;
 using InWords.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InWords.WebApi.Controllers.v1
 {
     /// <summary>
-    /// Controller for test purposes
+    ///     Controller for test purposes
     /// </summary>
     [ApiController]
     [Produces("application/json")]
@@ -16,21 +16,6 @@ namespace InWords.WebApi.Controllers.v1
     [Route("v{version:apiVersion}/[controller]")]
     public class ValuesController : ControllerBase
     {
-        #region ctor
-
-        private readonly UserRepository userRepository;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        public ValuesController(InWordsDataContext context)
-        {
-            userRepository = new UserRepository(context);
-        }
-
-        #endregion
-
         /// <summary>
         ///     Get request api version
         /// </summary>
@@ -63,7 +48,7 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>  
+        /// <response code="401">Unauthorized</response>
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize]
@@ -79,8 +64,8 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>  
-        /// <response code="403">Access denied</response>  
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Access denied</response>
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -107,5 +92,19 @@ namespace InWords.WebApi.Controllers.v1
             int x = GameLogic.GameScore(words, open);
             return Ok(x);
         }
+
+        #region ctor
+
+        private readonly UserRepository userRepository;
+
+        /// <summary>
+        /// </summary>
+        /// <param name="context"></param>
+        public ValuesController(InWordsDataContext context)
+        {
+            userRepository = new UserRepository(context);
+        }
+
+        #endregion
     }
 }

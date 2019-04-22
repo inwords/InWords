@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using System.Reflection;
 
-namespace InWords.WebApi
+namespace InWords.WebApi.AppStart
 {
     public class Program
     {

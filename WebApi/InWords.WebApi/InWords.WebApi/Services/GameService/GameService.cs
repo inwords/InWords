@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Models.InWords.Creations.GameBox;
-using InWords.Data.Models.InWords.Domains;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models;
-using InWords.Transfer.Data.Models.Creation;
-using InWords.Transfer.Data.Models.GameBox;
-using InWords.WebApi.Extentions.Transfer;
+using InWords.Data.Creations.GameBox;
+using InWords.Data.DTO;
+using InWords.Data.DTO.Creation;
+using InWords.Data.DTO.GameBox;
+using InWords.Data.Repositories;
+using InWords.WebApi.Extensions.Transfer;
 
 namespace InWords.WebApi.Services.GameService
 {
@@ -18,6 +17,24 @@ namespace InWords.WebApi.Services.GameService
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
     public class GameService
     {
+        public async Task<SyncBase> AddGamePack(int userId, GamePack gamePack)
+        {
+            // allow gamePack.CreatorId if admin
+            gamePack.CreationInfo.CreatorId = userId;
+
+            GameBox gameBox = await CreateGameBox(gamePack);
+
+            // Loading behind the scenes, the level will be processed on the server
+            // Does not affect user experience
+
+            // Add levels
+            foreach (LevelPack levelPack in gamePack.LevelPacks) await gameLevelService.AddLevel(gameBox, levelPack);
+
+            var answer = new SyncBase(gameBox.GameBoxId);
+
+            return answer;
+        }
+
         public List<GameInfo> GetGames()
         {
             var gameInfos = new List<GameInfo>();
@@ -48,7 +65,7 @@ namespace InWords.WebApi.Services.GameService
 
         public async Task<GameBox> CreateGameBox(GamePack gamePack)
         {
-            int creationId = await creationService.AddCreation(gamePack.CreationInfo);
+            int creationId = await creationService.AddCreationInfo(gamePack.CreationInfo);
 
             // Add game information
             var gameBox = new GameBox
@@ -100,8 +117,8 @@ namespace InWords.WebApi.Services.GameService
         /// </summary>
         /// <param name="context"></param>
         public GameService(CreationService creationService,
-        GameBoxRepository gameBoxRepository,
-        GameLevelService gameLevelService)
+            GameBoxRepository gameBoxRepository,
+            GameLevelService gameLevelService)
         {
             this.creationService = creationService;
             this.gameBoxRepository = gameBoxRepository;

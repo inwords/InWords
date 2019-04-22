@@ -1,12 +1,11 @@
-﻿using InWords.Data.Models.InWords.Creations.GameBox;
-using InWords.Data.Models.InWords.Domains;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models;
-using InWords.Transfer.Data.Models.GameBox;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data.Creations.GameBox;
+using InWords.Data.Domains;
+using InWords.Data.DTO;
+using InWords.Data.DTO.GameBox;
+using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services.GameService
 {
@@ -48,13 +47,16 @@ namespace InWords.WebApi.Services.GameService
         }
 
         #region ctor
+
         private readonly WordsService wordsService;
         private readonly GameLevelWordRepository gameLevelWordRepository;
+
         public GameLevelWordService(WordsService wordsService, GameLevelWordRepository gameLevelWordRepository)
         {
             this.wordsService = wordsService;
             this.gameLevelWordRepository = gameLevelWordRepository;
         }
+
         #endregion
     }
 }

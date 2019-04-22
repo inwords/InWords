@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using InWords.Auth.Extensions;
-using InWords.Transfer.Data.Models;
+using InWords.Data.DTO;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InWords.WebApi.Controllers.v1
 {
     /// <summary>
-    /// Everething about sync
+    ///     Everething about sync
     /// </summary>
     [ApiController]
     [ApiVersion("1.0")]
@@ -17,17 +17,6 @@ namespace InWords.WebApi.Controllers.v1
     [Route("v{version:apiVersion}/[controller]")]
     public class SyncController : ControllerBase
     {
-        #region ctor
-
-        private readonly SyncService syncService;
-
-
-        public SyncController(SyncService syncService)
-        {
-            this.syncService = syncService;
-        }
-        #endregion
-
         ///// <summary>
         /////     Request auth token 
         ///// </summary>
@@ -67,7 +56,7 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>Words pairs to delete and to add</returns>
         /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>  
+        /// <response code="401">Unauthorized</response>
         [Authorize]
         [Route("pullWordPairs")]
         [HttpPost]
@@ -81,5 +70,17 @@ namespace InWords.WebApi.Controllers.v1
 
             return Ok(pullAnswer);
         }
+
+        #region ctor
+
+        private readonly SyncService syncService;
+
+
+        public SyncController(SyncService syncService)
+        {
+            this.syncService = syncService;
+        }
+
+        #endregion
     }
 }

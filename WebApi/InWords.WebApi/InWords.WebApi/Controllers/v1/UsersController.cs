@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using InWords.Auth.Extensions;
+using InWords.Data.Domains;
 using InWords.Data.Enums;
-using InWords.Data.Models;
-using InWords.Data.Models.InWords.Domains;
-using InWords.Data.Models.InWords.Repositories;
+using InWords.Data.Repositories;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InWords.WebApi.Controllers.v1
 {
     /// <summary>
-    /// Everething about user
+    ///     Everething about user
     /// </summary>
     [Authorize]
     [ApiController]
@@ -22,27 +21,12 @@ namespace InWords.WebApi.Controllers.v1
     [Route("v{version:apiVersion}/[controller]")]
     public class UsersController : ControllerBase
     {
-        #region ctor
-        private readonly AccountRepository accountRepository;
-        private readonly UserService userService;
-        private readonly UserRepository usersRepository;
-
-        public UsersController(AccountRepository accountRepository, UserService userService, UserRepository usersRepository)
-        {
-            this.userService = userService;
-
-            // TODO: remove
-            this.usersRepository = usersRepository;
-            this.accountRepository = accountRepository;
-        }
-        #endregion
-
         /// <summary>
         ///     Get user by nickname
         /// </summary>
         /// <returns>list of users like nickname</returns>
         /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>  
+        /// <response code="401">Unauthorized</response>
         [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("find/{nick}")]
@@ -56,8 +40,8 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>  
-        /// <response code="404">User not found</response>  
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">User not found</response>
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -77,8 +61,8 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>  
-        /// <response code="404"></response>  
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404"></response>
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -100,9 +84,9 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="200">OK</response>
-        /// <response code="400">Model is not valid</response> 
-        /// <response code="401">Unauthorized</response>  
-        /// <response code="404"></response>  
+        /// <response code="400">Model is not valid</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404"></response>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -135,9 +119,9 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="204">The user is successfully deleted</response>
-        /// <response code="401">Unauthorized</response>  
-        /// <response code="403">Access for administrations only</response>  
-        /// <response code="404">User not found</response>  
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Access for administrations only</response>
+        /// <response code="404">User not found</response>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -153,5 +137,23 @@ namespace InWords.WebApi.Controllers.v1
             await accountRepository.Remove(account);
             return NoContent();
         }
+
+        #region ctor
+
+        private readonly AccountRepository accountRepository;
+        private readonly UserService userService;
+        private readonly UserRepository usersRepository;
+
+        public UsersController(AccountRepository accountRepository, UserService userService,
+            UserRepository usersRepository)
+        {
+            this.userService = userService;
+
+            // TODO: remove
+            this.usersRepository = usersRepository;
+            this.accountRepository = accountRepository;
+        }
+
+        #endregion
     }
 }
