@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using InWords.Auth.Extensions;
 using InWords.Data.Enums;
-using InWords.Data.Models;
 using InWords.Data.Models.InWords.Repositories;
 using InWords.Transfer.Data.Models;
 using InWords.Transfer.Data.Models.GameBox;
@@ -25,7 +24,6 @@ namespace InWords.WebApi.Controllers.v1
     [Produces("application/json")]
     public class GameController : ControllerBase
     {
-        private readonly CardGameService cardGameService;
         private readonly GameScoreService gameScoreService;
         private readonly GameBoxRepository gameBoxRepository;
         private readonly GameLevelWordService gameLevelWordService;
@@ -34,17 +32,14 @@ namespace InWords.WebApi.Controllers.v1
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="gameService"></param>
         /// <param name="gameScoreService"></param>
-        /// <param name="baseGameService"></param>
-        public GameController(CardGameService cardGameService,
-            GameScoreService gameScoreService,
-            GameBoxRepository gameBoxRepository,
-            GameLevelWordService gameLevelWordService,
-            GameService gameService)
+        /// <param name="gameBoxRepository"></param>
+        /// <param name="gameLevelWordService"></param>
+        /// <param name="gameService"></param>
+        public GameController(GameScoreService gameScoreService, GameBoxRepository gameBoxRepository,
+            GameLevelWordService gameLevelWordService, GameService gameService)
         {
             this.gameScoreService = gameScoreService;
-            this.cardGameService = cardGameService;
             this.gameBoxRepository = gameBoxRepository;
             this.gameLevelWordService = gameLevelWordService;
             this.gameService = gameService;
@@ -62,7 +57,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             int authorizedId = User.GetUserId();
 
-            SyncBase answer = await cardGameService.AddGamePack(authorizedId, gamePack);
+            SyncBase answer = await gameService.AddGamePack(authorizedId, gamePack);
 
             return Ok(answer);
         }
@@ -138,8 +133,6 @@ namespace InWords.WebApi.Controllers.v1
         [HttpGet]
         public IActionResult GetLevel(int id)
         {
-            int userId = User.GetUserId();
-
             Level answer = gameLevelWordService.GetLevelWords(id);
 
             return Ok(answer);

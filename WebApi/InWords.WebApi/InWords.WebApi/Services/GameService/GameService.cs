@@ -18,6 +18,27 @@ namespace InWords.WebApi.Services.GameService
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
     public class GameService
     {
+        public async Task<SyncBase> AddGamePack(int userId, GamePack gamePack)
+        {
+            // allow gamePack.CreatorId if admin
+            gamePack.CreationInfo.CreatorId = userId;
+
+            GameBox gameBox = await CreateGameBox(gamePack);
+
+            // Loading behind the scenes, the level will be processed on the server
+            // Does not affect user experience
+
+            // Add levels
+            foreach (LevelPack levelPack in gamePack.LevelPacks)
+            {
+                await gameLevelService.AddLevel(gameBox, levelPack);
+            }
+
+            var answer = new SyncBase(gameBox.GameBoxId);
+
+            return answer;
+        }
+
         public List<GameInfo> GetGames()
         {
             var gameInfos = new List<GameInfo>();
