@@ -51,15 +51,9 @@ function WordlistPageContainer({ wordPairs, pullWordPairs, deleteWordPairs }) {
 
     return (
         <Wordlist
-            wordPairs={[...wordPairs].sort((firstWordPair, secondWordPair) => {
-                if (firstWordPair.wordForeign > secondWordPair.wordForeign) {
-                    return 1;
-                }
-                if (firstWordPair.wordForeign > secondWordPair.wordForeign) {
-                    return -1;
-                }
-                return 0;
-            })}
+            wordPairs={[...wordPairs].sort((firstWordPair, secondWordPair) =>
+                firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign)
+            )}
             checked={checked}
             handleToggle={handleToggle}
         />
@@ -67,7 +61,12 @@ function WordlistPageContainer({ wordPairs, pullWordPairs, deleteWordPairs }) {
 }
 
 WordlistPageContainer.propTypes = {
-    wordPairs: PropTypes.array.isRequired,
+    wordPairs: PropTypes.arrayOf(
+        PropTypes.shape({
+            wordForeign: PropTypes.string.isRequired,
+            wordNative: PropTypes.string.isRequired
+        }).isRequired
+    ).isRequired,
     pullWordPairs: PropTypes.func.isRequired,
     deleteWordPairs: PropTypes.func.isRequired
 };

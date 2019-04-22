@@ -31,9 +31,9 @@ function App({ userId }) {
                         <Route path="/wordlist" component={WordlistPage} />
                         <Route exact path="/games" render={() => <Redirect to="/games/0" />} />
                         <Route path="/games/:value" component={GamesPage} />
+                        <Route path="/game_pack_creation" component={GamePackCreationPage} />
                         <Route path="/game/:gameId" component={GameLevelsPage} />
                         <Route path="/game_level/:levelId" component={GameFieldPage} />
-                        <Route path="/game_pack_creation" component={GamePackCreationPage} />
                         <Route exact path="/profile" render={() => <Redirect to={`/profile/${userId}`} />} />
                         <Route exact path="/profile/:userId" component={ProfilePage} />
                         <Route path="/profile_settings" component={ProfileSettingsPage} />

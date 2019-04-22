@@ -7,11 +7,13 @@ const initialState = {
 
 const access = (state = initialState, action) => {
     if (action.type === accessConstants.ACCESS_GRANT) {
-        return action.payload.token && action.payload.userId ? {
+        if (action.payload.token && action.payload.userId) {
+            return {
                 token: action.payload.token,
                 userId: action.payload.userId
-            } :
-            initialState;
+            };
+        }
+        return state;
     }
     return state;
 };

@@ -5,6 +5,13 @@ import PropTypes from 'prop-types';
 import FinalScreen from './FinalScreen';
 
 function FinalScreenContainer({ gameLevel, gameInfo, history, ...other }) {
+    const handleRedirectionToLevels = () => {
+        if (!gameInfo.gameId) {
+            history.push('/games');
+        } else {
+            history.push(`/game/${gameInfo.gameId}`);
+        }
+    };
 
     const handleRedirectionToNextLevel = () => {
         if (!gameInfo.gameId) {
@@ -26,6 +33,7 @@ function FinalScreenContainer({ gameLevel, gameInfo, history, ...other }) {
     return (
         <FinalScreen
             score={gameLevel.lastScore}
+            handleRedirectionToLevels={handleRedirectionToLevels}
             handleRedirectionToNextLevel={handleRedirectionToNextLevel}
             {...other}
         />

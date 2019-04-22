@@ -107,6 +107,8 @@ function GameFieldContainer({ gameLevel, resetGameLevelScore, saveLevelResult })
         setGameCompleted(false);
 
         setInfoAboutRandomWords(shuffle([...infoAboutRandomWords]));
+
+        resetGameLevelScore();
     };
 
     return (

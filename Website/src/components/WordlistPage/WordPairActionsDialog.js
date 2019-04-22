@@ -18,6 +18,9 @@ const styles = theme => ({
     flex: {
         flex: 1,
     },
+    closeButton: {
+        marginRight: 20,
+    },
     content: {
         padding: theme.spacing.unit * 3,
         display: 'flex',
@@ -52,10 +55,20 @@ function WordPairActionsDialog(
         >
             <AppBar className={classes.appBar}>
                 <Toolbar>
-                    <IconButton color="inherit" aria-label="Close" onClick={handleClose}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="Close"
+                        onClick={handleClose}
+                        className={classes.closeButton}
+                    >
                         <CloseIcon />
                     </IconButton>
-                    <Typography noWrap variant="h6" color="inherit" className={classes.flex}>
+                    <Typography
+                        noWrap
+                        variant="h6"
+                        color="inherit"
+                        className={classes.flex}
+                    >
                         {title}
                     </Typography>
                     <Button type="submit" form="form" color="inherit">

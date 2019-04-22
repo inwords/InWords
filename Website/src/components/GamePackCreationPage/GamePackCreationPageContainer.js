@@ -13,30 +13,26 @@ function GamePackCreationContainer({ userId, addGamePack }) {
     React.useEffect(() => {
         resetAppBar({
             title: 'Создание',
-            leftElement: <UpwardButton />,
+            leftElement: <UpwardButton />
         });
     }, []);
 
     const { values: descriptionValues, handleChange: handleDescriptionValuesChange } = useForm({
-        title: '',
-        description: ''
+        firstTitle: '',
+        secondTitle: '',
+        firstDescription: '',
+        secondDescription: ''
     });
 
     const [levelPacks, setLevelPacks] = React.useState([{
         level: 1,
-        wordTranslations: [{
-            defaultWordForeign: '',
-            defaultWordNative: ''
-        }]
+        wordPairs: [{ wordPairNumber: 1 }]
     }]);
 
     const handleLevelPackAddition = () => {
         setLevelPacks(levelPacks.concat({
             level: levelPacks.length + 1,
-            wordTranslations: [{
-                defaultWordForeign: '',
-                defaultWordNative: ''
-            }]
+            wordPairs: [{ wordPairNumber: 1 }]
         }));
     };
 
@@ -44,7 +40,7 @@ function GamePackCreationContainer({ userId, addGamePack }) {
         setLevelPacks(levelPacks.slice(0, -1));
     };
 
-    const handleWordTranslationAddition = sourceIndex => () => {
+    const handleWordPairAddition = sourceIndex => () => {
         const newLevelPacks = levelPacks.map((levelPack, destinationIndex) => {
             if (sourceIndex !== destinationIndex) {
                 return levelPack;
@@ -52,9 +48,8 @@ function GamePackCreationContainer({ userId, addGamePack }) {
 
             return {
                 ...levelPack,
-                wordTranslations: levelPack.wordTranslations.concat({
-                    defaultWordForeign: '',
-                    defaultWordNative: ''
+                wordPairs: levelPack.wordPairs.concat({
+                    wordPairNumber: levelPacks[sourceIndex].wordPairs.length + 1
                 })
             };
         });
@@ -62,7 +57,7 @@ function GamePackCreationContainer({ userId, addGamePack }) {
         setLevelPacks(newLevelPacks);
     };
 
-    const handleWordTranslationDeletion = sourceIndex => () => {
+    const handleWordPairDeletion = sourceIndex => () => {
         const newLevelPacks = levelPacks.map((levelPack, destinationIndex) => {
             if (sourceIndex !== destinationIndex) {
                 return levelPack;
@@ -70,7 +65,7 @@ function GamePackCreationContainer({ userId, addGamePack }) {
 
             return {
                 ...levelPack,
-                wordTranslations: levelPack.wordTranslations.slice(0, -1)
+                wordPairs: levelPack.wordPairs.slice(0, -1)
             };
         });
 
@@ -82,18 +77,22 @@ function GamePackCreationContainer({ userId, addGamePack }) {
             creationInfo: {
                 creatorId: userId,
                 descriptions: [{
-                    langID: 1,
-                    title: descriptionValues.title,
-                    description: descriptionValues.description
+                    langId: 1,
+                    title: descriptionValues.firstTitle,
+                    description: descriptionValues.firstDescription
+                }, {
+                    langId: 2,
+                    title: descriptionValues.secondTitle,
+                    description: descriptionValues.secondDescription
                 }]
             },
             levelPacks: levelPacks.map((levelPack, levelPackIndex) => {
                 return {
                     level: levelPack.level,
-                    wordTranslations: levelPacks[levelPackIndex].wordTranslations.map((wordTranslation, wordTranslationIndex) => {
+                    wordTranslations: levelPacks[levelPackIndex].wordPairs.map((wordPair, wordPairIndex) => {
                         return {
-                            wordForeign: event.target.elements[`${levelPackIndex}.${wordTranslationIndex}.wordForeign`].value,
-                            wordNative: event.target.elements[`${levelPackIndex}.${wordTranslationIndex}.wordNative`].value
+                            wordForeign: event.target.elements[`${levelPackIndex}.${wordPairIndex}.wordForeign`].value,
+                            wordNative: event.target.elements[`${levelPackIndex}.${wordPairIndex}.wordNative`].value
                         }
                     })
                 }
@@ -110,8 +109,8 @@ function GamePackCreationContainer({ userId, addGamePack }) {
             levelPacks={levelPacks}
             handleLevelPackAddition={handleLevelPackAddition}
             handleLevelPackDeletion={handleLevelPackDeletion}
-            handleWordTranslationAddition={handleWordTranslationAddition}
-            handleWordTranslationDeletion={handleWordTranslationDeletion}
+            handleWordPairAddition={handleWordPairAddition}
+            handleWordPairDeletion={handleWordPairDeletion}
             handleSubmit={handleSubmit}
         />
     );
@@ -119,12 +118,12 @@ function GamePackCreationContainer({ userId, addGamePack }) {
 
 GamePackCreationContainer.propTypes = {
     userId: PropTypes.number,
-    addGamePack: PropTypes.func.isRequired,
+    addGamePack: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
     return {
-        userId: store.access.userId,
+        userId: store.access.userId
     };
 };
 

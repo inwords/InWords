@@ -43,8 +43,8 @@ function GamePackCreationPage(
         levelPacks,
         handleLevelPackAddition,
         handleLevelPackDeletion,
-        handleWordTranslationAddition,
-        handleWordTranslationDeletion,
+        handleWordPairAddition,
+        handleWordPairDeletion,
         handleSubmit,
         classes
     }
@@ -56,34 +56,54 @@ function GamePackCreationPage(
                     <TextField
                         required
                         autoFocus
-                        id="title"
-                        label="Название"
+                        id="firstTitle"
+                        label="Название на русском"
                         fullWidth
                         margin="normal"
                         variant="outlined"
-                        value={descriptionValues.title}
-                        onChange={handleDescriptionValuesChange('title')}
+                        value={descriptionValues.firstTitle}
+                        onChange={handleDescriptionValuesChange('firstTitle')}
                     />
                     <TextField
-                        id="description"
-                        label="Описание"
-                        multiline
-                        rows="4"
+                        id="secondTitle"
+                        label="Название на английском"
                         fullWidth
                         margin="normal"
                         variant="outlined"
-                        value={descriptionValues.description}
-                        onChange={handleDescriptionValuesChange('description')}
+                        value={descriptionValues.secondTitle}
+                        onChange={handleDescriptionValuesChange('secondTitle')}
+                    />
+                    <TextField
+                        id="firstDescription"
+                        label="Описание на русском"
+                        multiline
+                        rows="3"
+                        fullWidth
+                        margin="normal"
+                        variant="outlined"
+                        value={descriptionValues.firstDescription}
+                        onChange={handleDescriptionValuesChange('firstDescription')}
+                    />
+                    <TextField
+                        id="secondDescription"
+                        label="Описание на английском"
+                        multiline
+                        rows="3"
+                        fullWidth
+                        margin="normal"
+                        variant="outlined"
+                        value={descriptionValues.secondDescription}
+                        onChange={handleDescriptionValuesChange('secondDescription')}
                     />
                     {levelPacks.map((levelPack, levelPackIndex) =>
                         <Paper key={levelPackIndex} className={classes.paper}>
                             <Typography variant="h6">
-                                Уровень {levelPackIndex + 1}
+                                Уровень {levelPack.level}
                             </Typography>
-                            {levelPack.wordTranslations.map((wordTranslation, wordTranslationIndex) =>
-                                <Paper key={wordTranslationIndex} className={classes.paper}>
+                            {levelPack.wordPairs.map((wordPair, wordPairIndex) =>
+                                <Paper key={wordPairIndex} className={classes.paper}>
                                     <Typography variant="h6">
-                                        Пара слов {wordTranslationIndex + 1}
+                                        Пара слов {wordPair.wordPairNumber}
                                     </Typography>
                                     <TextField
                                         required
@@ -92,8 +112,7 @@ function GamePackCreationPage(
                                         fullWidth
                                         margin="normal"
                                         variant="outlined"
-                                        name={`${levelPackIndex}.${wordTranslationIndex}.wordForeign`}
-                                        defaultValue={wordTranslation.defaultWordForeign}
+                                        name={`${levelPackIndex}.${wordPairIndex}.wordForeign`}
                                     />
                                     <TextField
                                         required
@@ -102,8 +121,7 @@ function GamePackCreationPage(
                                         fullWidth
                                         margin="normal"
                                         variant="outlined"
-                                        name={`${levelPackIndex}.${wordTranslationIndex}.wordNative`}
-                                        defaultValue={wordTranslation.defaultWordNative}
+                                        name={`${levelPackIndex}.${wordPairIndex}.wordNative`}
                                     />
                                 </Paper>
                             )}
@@ -111,9 +129,9 @@ function GamePackCreationPage(
                                 <IconButton
                                     color="inherit"
                                     aria-label="Remove"
-                                    disabled={levelPacks[levelPackIndex].wordTranslations.length < 2}
+                                    disabled={levelPacks[levelPackIndex].wordPairs.length < 2}
                                     className={classes.button}
-                                    onClick={handleWordTranslationDeletion(levelPackIndex)}
+                                    onClick={handleWordPairDeletion(levelPackIndex)}
                                 >
                                     <RemoveIcon />
                                 </IconButton>
@@ -121,7 +139,7 @@ function GamePackCreationPage(
                                     color="inherit"
                                     aria-label="Add"
                                     className={classes.button}
-                                    onClick={handleWordTranslationAddition(levelPackIndex)}
+                                    onClick={handleWordPairAddition(levelPackIndex)}
                                 >
                                     <AddIcon />
                                 </IconButton>
@@ -164,25 +182,26 @@ function GamePackCreationPage(
 
 GamePackCreationPage.propTypes = {
     descriptionValues: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired
+        firstTitle: PropTypes.string.isRequired,
+        secondTitle: PropTypes.string.isRequired,
+        firstDescription: PropTypes.string.isRequired,
+        secondDescription: PropTypes.string.isRequired
     }).isRequired,
     handleDescriptionValuesChange: PropTypes.func.isRequired,
     levelPacks: PropTypes.arrayOf(
         PropTypes.shape({
             level: PropTypes.number.isRequired,
-            wordTranslations: PropTypes.arrayOf(
+            wordPairs: PropTypes.arrayOf(
                 PropTypes.shape({
-                    defaultWordForeign: PropTypes.string.isRequired,
-                    defaultWordNative: PropTypes.string.isRequired
+                    wordPairNumber: PropTypes.number.isRequired
                 }).isRequired
             ).isRequired
         }).isRequired
     ).isRequired,
     handleLevelPackAddition: PropTypes.func.isRequired,
     handleLevelPackDeletion: PropTypes.func.isRequired,
-    handleWordTranslationAddition: PropTypes.func.isRequired,
-    handleWordTranslationDeletion: PropTypes.func.isRequired,
+    handleWordPairAddition: PropTypes.func.isRequired,
+    handleWordPairDeletion: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
