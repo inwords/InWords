@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Models.InWords.Creations;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models.Creation;
+using InWords.Data.Creations;
+using InWords.Data.DTO.Creation;
+using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services
 {
@@ -16,11 +16,12 @@ namespace InWords.WebApi.Services
     {
         public async Task<int> AddCreationInfo(CreationInfo creationInfo)
         {
-            if (creationInfo.CreatorId == null) throw new ArgumentNullException($"{nameof(creationInfo)} creator not found");
+            if (creationInfo.CreatorId == null)
+                throw new ArgumentNullException($"{nameof(creationInfo)} creator not found");
 
             var creation = new Creation
             {
-                CreatorId = (int)creationInfo.CreatorId
+                CreatorId = (int) creationInfo.CreatorId
             };
 
             creation = await CreationRepository.Create(creation);

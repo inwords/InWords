@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using InWords.Transfer.Data.Models.GameBox;
-using InWords.Transfer.Data.Models.GameBox.LevelMetric;
+using InWords.Data.DTO.GameBox;
+using InWords.Data.DTO.GameBox.LevelMetric;
 
 namespace InWords.WebApi.Services.Abstractions
 {

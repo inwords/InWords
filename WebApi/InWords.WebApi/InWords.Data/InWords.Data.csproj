@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InWords.DataCommon\InWords.DataCommon.csproj" />
+    <ProjectReference Include="..\InWords.Data.Common\InWords.Data.Common.csproj" />
   </ItemGroup>
 
 </Project>

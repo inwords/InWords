@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Models.InWords.Creations.GameBox;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models;
-using InWords.Transfer.Data.Models.Creation;
-using InWords.Transfer.Data.Models.GameBox;
+using InWords.Data.Creations.GameBox;
+using InWords.Data.DTO;
+using InWords.Data.DTO.Creation;
+using InWords.Data.DTO.GameBox;
+using InWords.Data.Repositories;
 using InWords.WebApi.Extensions.Transfer;
 
 namespace InWords.WebApi.Services.GameService

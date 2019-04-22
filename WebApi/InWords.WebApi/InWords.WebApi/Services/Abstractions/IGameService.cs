@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using InWords.Transfer.Data.Models;
-using InWords.Transfer.Data.Models.GameBox;
+using InWords.Data.DTO;
+using InWords.Data.DTO.GameBox;
 
 namespace InWords.WebApi.Services.Abstractions
 {

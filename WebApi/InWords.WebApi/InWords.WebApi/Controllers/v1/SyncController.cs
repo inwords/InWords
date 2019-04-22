@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using InWords.Auth.Extensions;
-using InWords.Transfer.Data.Models;
+using InWords.Data.DTO;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

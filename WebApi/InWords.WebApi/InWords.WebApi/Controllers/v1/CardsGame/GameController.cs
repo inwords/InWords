@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using InWords.Auth.Extensions;
+using InWords.Data.DTO;
+using InWords.Data.DTO.GameBox;
+using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.Enums;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models;
-using InWords.Transfer.Data.Models.GameBox;
-using InWords.Transfer.Data.Models.GameBox.LevelMetric;
+using InWords.Data.Repositories;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

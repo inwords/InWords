@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using InWords.Data.Models.InWords.Domains;
-using InWords.Transfer.Data.Models;
+using InWords.Data.Domains;
+using InWords.Data.DTO;
 
 namespace InWords.WebApi.TransferData
 {

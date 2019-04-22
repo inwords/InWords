@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using InWords.Auth.Models;
-using InWords.Data.Models.InWords.Repositories;
+using InWords.Data.Repositories;
+using InWords.Service.Auth.Models;
 using InWords.WebApi.Providers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
-﻿using InWords.Data.Models;
-using InWords.Data.Models.InWords.Repositories;
+﻿using InWords.Data;
+using InWords.Data.Repositories;
 using InWords.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

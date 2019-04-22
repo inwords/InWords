@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Models.InWords.Creations.GameBox;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models.GameBox;
+using InWords.Data.Creations.GameBox;
+using InWords.Data.DTO.GameBox;
+using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services.GameService
 {

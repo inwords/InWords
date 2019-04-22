@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using InWords.Auth;
+using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Providers.FIleLogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

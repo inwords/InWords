@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using InWords.Transfer.Data.Models;
+using InWords.Data.DTO;
 
 namespace InWords.WebApi.Services
 {
