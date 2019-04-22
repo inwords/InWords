@@ -16,9 +16,9 @@ namespace InWords.WebApi.Services
     {
         #region Ctor
 
-        protected readonly CreationDescriptionRepository CreationDescriptionRepository;
+        private readonly CreationDescriptionRepository CreationDescriptionRepository;
 
-        protected readonly CreationRepository CreationRepository;
+        private readonly CreationRepository CreationRepository;
 
         public CreationService(CreationRepository сreationRepository, CreationDescriptionRepository сreationDescriptionRepository)
         {
@@ -28,9 +28,9 @@ namespace InWords.WebApi.Services
 
         #endregion
 
-        public async Task<int> AddCreation(CreationInfo creationInfo)
+        public async Task<int> AddCreationInfo(CreationInfo creationInfo)
         {
-            if (creationInfo.CreatorId == null) throw new ArgumentNullException();
+            if (creationInfo.CreatorId == null) throw new ArgumentNullException("CreatorId not found");
 
             var creation = new Creation
             {
@@ -39,17 +39,15 @@ namespace InWords.WebApi.Services
 
             creation = await CreationRepository.Create(creation);
 
-            foreach (DescriptionInfo cdi in creationInfo.Descriptions)
+            IEnumerable<CreationDescription> creationDescriptions = creationInfo.Descriptions.Select(cd => new CreationDescription
             {
-                var cd = new CreationDescription
-                {
-                    CreationId = creation.CreationId,
-                    LanguageId = cdi.LangId,
-                    Title = cdi.Title,
-                    Description = cdi.Description
-                };
-                await CreationDescriptionRepository.Create(cd);
-            }
+                CreationId = creation.CreationId,
+                LanguageId = cd.LangId,
+                Title = cd.Title,
+                Description = cd.Description
+            });
+
+            await CreationDescriptionRepository.Create(creationDescriptions.ToArray());
 
             return creation.CreationId;
         }

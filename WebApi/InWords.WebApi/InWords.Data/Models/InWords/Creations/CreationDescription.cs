@@ -11,7 +11,7 @@ namespace InWords.Data.Models.InWords.Creations
         [Required] [StringLength(32)] public string Title { get; set; }
 
 
-        [Required] [StringLength(128)] public string Description { get; set; }
+        [Required] [StringLength(255)] public string Description { get; set; }
 
         public int CreationId { get; set; }
 

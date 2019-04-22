@@ -22,9 +22,16 @@ namespace InWords.Data
 
         public async Task<TEntity> Create(TEntity item)
         {
-            DbSet.Add(item);
+            await DbSet.AddAsync(item);
             await context.SaveChangesAsync();
             return item;
+        }
+
+        public async Task<TEntity[]> Create(params TEntity[] items)
+        {
+            await DbSet.AddRangeAsync(items);
+            await context.SaveChangesAsync();
+            return items;
         }
 
         public async Task<TEntity> FindById(int id)

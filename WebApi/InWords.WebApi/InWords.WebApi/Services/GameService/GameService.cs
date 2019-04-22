@@ -69,7 +69,7 @@ namespace InWords.WebApi.Services.GameService
 
         public async Task<GameBox> CreateGameBox(GamePack gamePack)
         {
-            int creationId = await creationService.AddCreation(gamePack.CreationInfo);
+            int creationId = await creationService.AddCreationInfo(gamePack.CreationInfo);
 
             // Add game information
             var gameBox = new GameBox
