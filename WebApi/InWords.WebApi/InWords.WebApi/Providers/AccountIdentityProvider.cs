@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Auth.Models;
+using InWords.Data.Domains;
 using InWords.Data.Enums;
-using InWords.Data.Models.InWords.Domains;
-using InWords.Data.Models.InWords.Repositories;
+using InWords.Data.Repositories;
+using InWords.Service.Auth.Models;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
 

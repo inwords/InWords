@@ -1,9 +1,7 @@
-﻿using InWords.Transfer.Data.Models.GameBox;
-using InWords.Transfer.Data.Models.GameBox.LevelMetric;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using InWords.Data.DTO.GameBox;
+using InWords.Data.DTO.GameBox.LevelMetric;
 
 namespace InWords.WebApi.Services.Abstractions
 {

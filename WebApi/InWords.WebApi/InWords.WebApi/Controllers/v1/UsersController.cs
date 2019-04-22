@@ -1,49 +1,54 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using InWords.Auth.Extensions;
+using InWords.Data.Domains;
 using InWords.Data.Enums;
-using InWords.Data.Models;
-using InWords.Data.Models.InWords.Domains;
-using InWords.Data.Models.InWords.Repositories;
+using InWords.Data.Repositories;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1
 {
-    /// <inheritdoc />
+    /// <summary>
+    ///     Everething about user
+    /// </summary>
     [Authorize]
     [ApiController]
+    [Produces("application/json")]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly AccountRepository accountRepository;
-        private readonly UserService userService;
-        private readonly UserRepository usersRepository;
-
-        public UsersController(AccountRepository accountRepository, UserService userService, UserRepository usersRepository)
-        {
-            this.userService = userService;
-
-            // TODO: remove
-            this.usersRepository = usersRepository;
-            this.accountRepository = accountRepository;
-        }
-
-        // GET: api/Users/
+        /// <summary>
+        ///     Get user by nickname
+        /// </summary>
+        /// <returns>list of users like nickname</returns>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("find/{nick}")]
-        public IEnumerable<User> GetUsers(string nick)
+        public IActionResult GetUsers(string nick)
         {
-            return userService.GetUsers(nick);
+            return Ok(userService.GetUsers(nick));
         }
 
-        // GET: api/Users/5
+        /// <summary>
+        ///     Get user by id
+        /// </summary>
+        /// <returns>user with id</returns>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">User not found</response>
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserId([FromRoute] int id)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             User user = await usersRepository.FindById(id);
 
             if (user == null) return NotFound();
@@ -51,8 +56,16 @@ namespace InWords.WebApi.Controllers.v1
             return Ok(user);
         }
 
-        // GET: api/Users/ 
-        // return authorized user data
+        /// <summary>
+        ///     Get authorized user information
+        /// </summary>
+        /// <returns>user with id</returns>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404"></response>
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
@@ -66,13 +79,24 @@ namespace InWords.WebApi.Controllers.v1
         }
 
 
-        // PUT: api/Users
+        /// <summary>
+        ///     Update an existing user
+        /// </summary>
+        /// <returns>user with id</returns>
+        /// <response code="200">OK</response>
+        /// <response code="400">Model is not valid</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404"></response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut]
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
-            int authorizedId = User.GetUserId();
-
             if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            int authorizedId = User.GetUserId();
 
             // check is user exist
             User authorizedUser = await usersRepository.FindById(authorizedId);
@@ -90,18 +114,46 @@ namespace InWords.WebApi.Controllers.v1
             return NoContent();
         }
 
-        // DELETE: api/Users/5
+        /// <summary>
+        ///     Administratively delete user
+        /// </summary>
+        /// <returns>user with id</returns>
+        /// <response code="204">The user is successfully deleted</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Access for administrations only</response>
+        /// <response code="404">User not found</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         [Authorize(Roles = nameof(RoleType.Admin))]
         public async Task<IActionResult> AdminDeleteUser([FromRoute] int id)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             Account account = await accountRepository.FindById(id);
+
             if (account == null) return NotFound();
 
             await accountRepository.Remove(account);
-            return Ok(account);
+            return NoContent();
         }
+
+        #region ctor
+
+        private readonly AccountRepository accountRepository;
+        private readonly UserService userService;
+        private readonly UserRepository usersRepository;
+
+        public UsersController(AccountRepository accountRepository, UserService userService,
+            UserRepository usersRepository)
+        {
+            this.userService = userService;
+
+            // TODO: remove
+            this.usersRepository = usersRepository;
+            this.accountRepository = accountRepository;
+        }
+
+        #endregion
     }
 }

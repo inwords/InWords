@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Models;
-using InWords.Data.Models.InWords.Creations.GameBox;
-using InWords.Data.Models.InWords.Repositories;
+using InWords.Data.Creations.GameBox;
+using InWords.Data.DTO.GameBox;
+using InWords.Data.DTO.GameBox.LevelMetric;
+using InWords.Data.Repositories;
 using InWords.Domain;
-using InWords.Transfer.Data.Models.GameBox;
-using InWords.Transfer.Data.Models.GameBox.LevelMetric;
 
 namespace InWords.WebApi.Services.GameService
 {
@@ -21,7 +20,7 @@ namespace InWords.WebApi.Services.GameService
                 .GetWhere(usb => usb.UserId.Equals(userId) && usb.GameBoxId.Equals(game.GameId))
                 .SingleOrDefault();
             // if no saves found return default game value
-            if (userGameBox == null) return null;
+            if (userGameBox == null) return game;
 
             // load all saves
             IEnumerable<UserGameLevel> userLevels =
@@ -39,7 +38,7 @@ namespace InWords.WebApi.Services.GameService
 
                 if (userLevel == null)
                 {
-                    var nullGame = await userGameLevelRepository.FindById(level.UserGameLevelId);
+                    UserGameLevel nullGame = await userGameLevelRepository.FindById(level.UserGameLevelId);
                     await userGameLevelRepository.Remove(nullGame);
                 }
                 else
@@ -49,27 +48,15 @@ namespace InWords.WebApi.Services.GameService
             }
         }
 
-        /// <summary>
-        ///     This is to update user score on game level
-        /// </summary>
-        /// <param name="levelResult"></param>
-        /// <returns></returns>
         public LevelScore GetLevelScore(LevelResult levelResult)
         {
             int score = GameLogic.GameScore(levelResult.WordsCount, levelResult.OpeningQuantity);
 
-            LevelScore levelScore = new LevelScore(levelResult.LevelId, score);
+            var levelScore = new LevelScore(levelResult.LevelId, score);
 
             return levelScore;
         }
 
-        /// <summary>
-        ///     This is to set level score to user level storage
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="levelScore"></param>
-        /// <exception cref="ArgumentNullException">Null game box is not find</exception>
-        /// <returns></returns>
         public async Task UpdateUserScore(int userId, LevelScore levelScore)
         {
             UserGameBox userGameBox = await EnsureUserGameBox(userId, levelScore);
@@ -87,9 +74,12 @@ namespace InWords.WebApi.Services.GameService
 
             // find user game box that's contains user progress
             UserGameBox userGameBox = userGameBoxRepository
-                .GetWhere(ugb => ugb.UserId.Equals(userId) && ugb.GameBoxId.Equals(gameLevel.GameBoxId)).SingleOrDefault()
-                // create if not exists
-                ?? await userGameBoxRepository.Create(new UserGameBox(userId, gameLevel.GameBoxId));
+                                          .GetWhere(ugb =>
+                                              ugb.UserId.Equals(userId) && ugb.GameBoxId.Equals(gameLevel.GameBoxId))
+                                          .SingleOrDefault()
+                                      // create if not exists
+                                      ?? await userGameBoxRepository.Create(
+                                          new UserGameBox(userId, gameLevel.GameBoxId));
 
             return userGameBox;
         }
@@ -131,7 +121,7 @@ namespace InWords.WebApi.Services.GameService
             UserGameBoxRepository userGameBoxRepository,
             UserGameLevelRepository userGameLevelRepository,
             GameLevelRepository gameLevelRepository
-            )
+        )
         {
             this.userGameBoxRepository = userGameBoxRepository;
             this.userGameLevelRepository = userGameLevelRepository;

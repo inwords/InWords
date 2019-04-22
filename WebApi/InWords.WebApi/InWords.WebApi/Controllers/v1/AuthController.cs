@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using InWords.Auth.Models;
-using InWords.Data.Models;
-using InWords.Data.Models.InWords.Repositories;
+using InWords.Data.Repositories;
+using InWords.Service.Auth.Models;
 using InWords.WebApi.Providers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1
@@ -13,25 +13,17 @@ namespace InWords.WebApi.Controllers.v1
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class AuthController : ControllerBase
     {
-        private readonly AccountIdentityProvider accountIdentityProvider;
-        private readonly AccountRepository accountRepository;
-
-        #region Ctor
-
-        public AuthController(AccountRepository accountRepository)
-        {
-            this.accountRepository = accountRepository;
-            this.accountIdentityProvider = new AccountIdentityProvider(accountRepository);
-        }
-
-        #endregion
-
         /// <summary>
-        ///     From Request Basic Authorization
+        ///     Request auth token
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A newly token</returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Auth error</response>
+        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("token")]
         [HttpPost]
         public IActionResult Token([FromBody] BasicAuthClaims user)
@@ -47,8 +39,16 @@ namespace InWords.WebApi.Controllers.v1
             }
         }
 
+        /// <summary>
+        ///     Create new user
+        /// </summary>
+        /// <returns>A newly created token</returns>
+        /// <response code="200">returns new token</response>
+        /// <response code="400">User already exists</response>
         [Route("registration")]
         [HttpPost]
+        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Registration([FromBody] BasicAuthClaims user)
         {
             //check if account exist;
@@ -72,5 +72,19 @@ namespace InWords.WebApi.Controllers.v1
                 accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
             return response;
         }
+
+        #region Ctor
+
+        private readonly AccountIdentityProvider accountIdentityProvider;
+        private readonly AccountRepository accountRepository;
+
+
+        public AuthController(AccountRepository accountRepository)
+        {
+            this.accountRepository = accountRepository;
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
+        }
+
+        #endregion
     }
 }

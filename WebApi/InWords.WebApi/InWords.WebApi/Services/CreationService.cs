@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Models.InWords.Creations;
-using InWords.Data.Models.InWords.Repositories;
-using InWords.Transfer.Data.Models.Creation;
+using InWords.Data.Creations;
+using InWords.Data.DTO.Creation;
+using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services
 {
@@ -14,43 +14,33 @@ namespace InWords.WebApi.Services
     /// <see cref="Creation" />
     public class CreationService
     {
-        protected readonly CreationDescriptionRepository CreationDescriptionRepository;
-
-        protected readonly CreationRepository CreationRepository;
-
-        public CreationService(CreationRepository сreationRepository, CreationDescriptionRepository сreationDescriptionRepository)
+        public async Task<int> AddCreationInfo(CreationInfo creationInfo)
         {
-            CreationRepository = сreationRepository;
-            CreationDescriptionRepository = сreationDescriptionRepository;
-        }
-
-        public async Task<int> AddCreation(CreationInfo creationInfo)
-        {
-            if (creationInfo.CreatorId == null) throw new ArgumentNullException();
+            if (creationInfo.CreatorId == null)
+                throw new ArgumentNullException($"{nameof(creationInfo)} creator not found");
 
             var creation = new Creation
             {
-                CreatorId = (int)creationInfo.CreatorId
+                CreatorId = (int) creationInfo.CreatorId
             };
 
             creation = await CreationRepository.Create(creation);
 
-            foreach (DescriptionInfo cdi in creationInfo.Descriptions)
-            {
-                var cd = new CreationDescription
+            IEnumerable<CreationDescription> creationDescriptions = creationInfo.Descriptions.Select(cd =>
+                new CreationDescription
                 {
                     CreationId = creation.CreationId,
-                    LanguageId = cdi.LangId,
-                    Title = cdi.Title,
-                    Description = cdi.Description
-                };
-                await CreationDescriptionRepository.Create(cd);
-            }
+                    LanguageId = cd.LangId,
+                    Title = cd.Title,
+                    Description = cd.Description
+                });
+
+            await CreationDescriptionRepository.Create(creationDescriptions.ToArray());
 
             return creation.CreationId;
         }
 
-        public async Task<CreationInfo> GetCreationInfo(int id)
+        public CreationInfo GetCreationInfo(int id)
         {
             // find creation information
             Creation creation = CreationRepository.GetWithInclude(n => n.Creator)
@@ -70,6 +60,7 @@ namespace InWords.WebApi.Services
             var creationInfo = new CreationInfo
             {
                 CreatorId = creation.CreatorId,
+                CreatorNickname = creation.Creator.NickName,
                 Descriptions = descriptions
             };
 
@@ -79,7 +70,6 @@ namespace InWords.WebApi.Services
         public async Task<int> DeleteCreation(IEnumerable<int> ids)
         {
             var deletions = 0;
-            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (int i in ids) deletions += await DeleteCreation(i);
             return deletions;
         }
@@ -101,5 +91,20 @@ namespace InWords.WebApi.Services
                     Title = desc.Title
                 }).ToList();
         }
+
+        #region Ctor
+
+        private readonly CreationDescriptionRepository CreationDescriptionRepository;
+
+        private readonly CreationRepository CreationRepository;
+
+        public CreationService(CreationRepository сreationRepository,
+            CreationDescriptionRepository сreationDescriptionRepository)
+        {
+            CreationRepository = сreationRepository;
+            CreationDescriptionRepository = сreationDescriptionRepository;
+        }
+
+        #endregion
     }
 }
