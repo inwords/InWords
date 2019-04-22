@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const styles = {
-    backButton: {
+    button: {
         marginRight: 20,
     },
 };
@@ -17,7 +17,7 @@ function UpwardButton({ history, classes }) {
             color="inherit"
             aria-label="ArrowBack"
             onClick={history.goBack}
-            className={classes.backButton}
+            className={classes.button}
         >
             <ArrowBackIcon />
         </IconButton>

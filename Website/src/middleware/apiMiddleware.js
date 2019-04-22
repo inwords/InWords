@@ -53,7 +53,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
                 history.push('/login');
             }
 
-            console.error(error);
+            console.error(error.response);
         })
 };
 

@@ -33,7 +33,7 @@ const gameInfo = (state = initialGameInfoState, action) => {
                     return levelInfo.levelId !== action.payload.levelId ?
                         levelInfo : {
                             ...levelInfo,
-                            playerStars: action.payload.score || null
+                            playerStars: action.payload.score
                         }
                 })
             };
