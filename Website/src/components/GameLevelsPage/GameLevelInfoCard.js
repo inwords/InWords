@@ -17,9 +17,9 @@ function GameLevelInfoCard({ levelInfo }) {
                     Уровень {level}
                 </Typography>
                 <Typography>
-                    <StarIcon fontSize="small" color={playerStars > 0 ? 'secondary' : 'disabled'} />
-                    <StarIcon fontSize="small" color={playerStars > 1 ? 'secondary' : 'disabled'} />
-                    <StarIcon fontSize="small" color={playerStars > 2 ? 'secondary' : 'disabled'} />
+                    <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />
+                    <StarIcon color={playerStars > 1 ? 'secondary' : 'disabled'} />
+                    <StarIcon color={playerStars > 2 ? 'secondary' : 'disabled'} />
                 </Typography>
             </CardContent>
             <CardActions>

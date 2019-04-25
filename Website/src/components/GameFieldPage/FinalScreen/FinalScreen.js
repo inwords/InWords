@@ -15,7 +15,7 @@ const styles = theme => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    shell: {
+    container: {
         marginTop: theme.spacing.unit * 4,
         display: 'flex',
         flexDirection: 'column',
@@ -30,7 +30,7 @@ function FinalScreen({ score = null, handleReplay, handleRedirectionToLevels, ha
     return (
         <div className={classes.root}>
             <Zoom in>
-                <div className={classes.shell}>
+                <div className={classes.container}>
                     {score !== null &&
                     <Typography gutterBottom>
                         <StarIcon fontSize="large" color={score > 0 ? 'secondary' : 'disabled'} />
@@ -44,7 +44,7 @@ function FinalScreen({ score = null, handleReplay, handleRedirectionToLevels, ha
                         <IconButton aria-label="Replay" onClick={handleReplay}>
                             <ReplayIcon fontSize="large" />
                         </IconButton>
-                        <IconButton color="primary" aria-label="ArrowForward" onClick={handleRedirectionToNextLevel}>
+                        <IconButton color="primary" aria-label="FastForward" onClick={handleRedirectionToNextLevel}>
                             <FastForwardIcon fontSize="large" />
                         </IconButton>
                     </Typography>

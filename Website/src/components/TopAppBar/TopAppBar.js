@@ -31,6 +31,9 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
         }),
     },
+    leftElementContainer: {
+        marginRight: 20,
+    },
     menuButton: {
         marginRight: 20,
         [theme.breakpoints.up('lg')]: {
@@ -65,16 +68,24 @@ function TopAppBar({ authorized, loading, children, classes }) {
         <div className={classes.root}>
             <AppBar className={classes.appBar} color={appBarSettings.color}>
                 <Toolbar>
-                    {appBarSettings.leftElement || (
-                        <IconButton
-                            color="inherit"
-                            aria-label="Open drawer"
-                            onClick={handleDrawerOpen}
-                            className={classes.menuButton}
-                        >
-                            <MenuIcon />
-                        </IconButton>)}
-                    <Typography noWrap variant="h6" color="inherit" className={classes.grow}>
+                    {appBarSettings.leftElement ?
+                        <div className={classes.leftElementContainer}>
+                            {appBarSettings.leftElement}
+                        </div> : (
+                            <IconButton
+                                color="inherit"
+                                aria-label="Open drawer"
+                                onClick={handleDrawerOpen}
+                                className={classes.menuButton}
+                            >
+                                <MenuIcon />
+                            </IconButton>)}
+                    <Typography
+                        noWrap
+                        variant="h6"
+                        color="inherit"
+                        className={classes.grow}
+                    >
                         {appBarSettings.title}
                     </Typography>
                     {appBarSettings.rightElements.map((element, index) =>
@@ -90,9 +101,7 @@ function TopAppBar({ authorized, loading, children, classes }) {
                         open={open}
                         onClose={handleDrawerClose}
                         onOpen={handleDrawerOpen}
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
+                        classes={{ paper: classes.drawerPaper }}
                     >
                         <DrawerHeader />
                         <Divider />
@@ -103,9 +112,7 @@ function TopAppBar({ authorized, loading, children, classes }) {
                     <Drawer
                         variant="permanent"
                         open
-                        classes={{
-                            paper: classes.drawerPaper,
-                        }}
+                        classes={{ paper: classes.drawerPaper }}
                     >
                         <DrawerHeader />
                         <Divider />

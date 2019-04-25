@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper/index';
@@ -24,7 +24,7 @@ const styles = theme => ({
 
 function GameWordCard({ word, selected, successful, successfulSelected, classes }) {
     return (
-        <Fragment>
+        <>
             <Grow in={!(selected || successful)}>
                 {!(selected || successful) ?
                     <Paper className={classes.paper} /> :
@@ -39,7 +39,7 @@ function GameWordCard({ word, selected, successful, successfulSelected, classes 
                     </Paper> :
                     <Paper />}
             </Grow>
-        </Fragment>
+        </>
     );
 }
 

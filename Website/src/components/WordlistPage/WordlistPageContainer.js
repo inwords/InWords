@@ -19,7 +19,7 @@ function WordlistPageContainer({ wordPairs, pullWordPairs, deleteWordPairs }) {
     const { checked, handleToggle, handleReset } = useCheckboxList();
 
     React.useEffect(() => {
-        handleReset([]);
+        handleReset();
     }, [wordPairs]);
 
     const { customizeAppBar, resetAppBar } = React.useContext(AppBarContext);
