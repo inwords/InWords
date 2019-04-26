@@ -13,7 +13,7 @@ import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
-import ru.inwords.inwords.domain.GAME
+import ru.inwords.inwords.domain.GAME_ID
 import ru.inwords.inwords.domain.GAME_INFO
 import ru.inwords.inwords.domain.GAME_LEVEL_INFO
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
@@ -72,7 +72,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
         val bundle = Bundle()
         bundle.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
-        bundle.putSerializable(GAME, game)
+        bundle.putInt(GAME_ID, game.gameId)
         navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
     }
 

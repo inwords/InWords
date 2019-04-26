@@ -14,7 +14,7 @@ import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
 import ru.inwords.inwords.domain.CardsData
-import ru.inwords.inwords.domain.GAME
+import ru.inwords.inwords.domain.GAME_ID
 import ru.inwords.inwords.domain.GAME_LEVEL_INFO
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
@@ -28,6 +28,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     private var gameEndBottomSheetFragment: GameEndBottomSheet? = null
     private lateinit var gameLevelInfo: GameLevelInfo
     private lateinit var game: Game
+    private var gameId: Int = -1
     private var openedCard: FlipView? = null
     private var showingIncorrectCards: Boolean = false
     private var cardOpenClicksCount = 0
@@ -38,8 +39,10 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         gameLevelInfo = savedInstanceState?.getSerializable(GAME_LEVEL_INFO) as? GameLevelInfo
                 ?: arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
 
-        game = savedInstanceState?.getSerializable(GAME) as? Game
-                ?: arguments?.getSerializable(GAME) as Game
+        gameId = savedInstanceState?.getInt(GAME_ID)
+                ?: arguments?.getInt(GAME_ID) ?: -1
+
+        compositeDisposable.add(viewModel.gameStream(gameId).subscribe { game = it.data!! }) //TODO
 
         viewModel.onGameLevelSelected(gameLevelInfo.levelId)
 
@@ -68,7 +71,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
-        outState.putSerializable(GAME, game)
+        outState.putInt(GAME_ID, gameId)
         super.onSaveInstanceState(outState)
     }
 

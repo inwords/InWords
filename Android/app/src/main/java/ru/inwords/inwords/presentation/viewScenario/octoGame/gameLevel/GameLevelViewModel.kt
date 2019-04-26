@@ -38,6 +38,8 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
 
     fun scoreStream(): Observable<Resource<LevelScore>> = _scoreSubject
 
+    fun gameStream(gameId: Int): Observable<Resource<Game>> = gameInteractor.getGame(gameId).map { it.gameResource }
+
     fun onNewNavCommand(path: FromGameEndPathsEnum) {
         _navigationSubject.onNext(path)
     }
