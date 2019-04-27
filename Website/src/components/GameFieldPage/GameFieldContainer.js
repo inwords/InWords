@@ -94,7 +94,7 @@ function GameFieldContainer({ gameLevel, resetGameLevelScore, saveLevelResult })
                 setTimeout(() => {
                     setInfoAboutSelectedWords([]);
                     setClosuresQuantity(closuresQuantity + 1);
-                }, 1000);
+                }, 700);
             }
         }
     };
