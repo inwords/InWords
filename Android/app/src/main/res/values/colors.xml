@@ -13,6 +13,7 @@
 
     <color name="colorPrimaryTransparent">#885c6bc0</color>
 
+    <color name="shimmerColor">@color/colorSecondaryLight</color>
 
     <color name="blue_pressed">@color/colorSecondaryDark</color>
     <color name="blue_normal">@color/colorAccent</color>

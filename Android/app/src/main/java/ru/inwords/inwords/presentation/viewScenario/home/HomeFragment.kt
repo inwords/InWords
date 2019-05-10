@@ -88,13 +88,15 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                 renderUser(user.data!!)
             }//TODO loading state use
 
-            shimmer_view_container.stopShimmer()
-            shimmer_view_container.setShimmer(null)
+            profile_shimmer.stopShimmer()
+            profile_shimmer.visibility = View.GONE
             profile.visibility = View.VISIBLE
         }
 
         fun renderLoading() {
-            shimmer_view_container.startShimmer()
+            profile_shimmer.startShimmer()
+            profile_shimmer.visibility = View.VISIBLE
+            profile.visibility = View.GONE
 
             val loadingText = getString(R.string.loading_text_placeholder)
             profile.name.text = loadingText
@@ -104,8 +106,8 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
         }
 
         return viewModel.profileDataSubject
-                .observeOn(SchedulersFacade.ui())
                 .doOnSubscribe { renderLoading() }
+                .observeOn(SchedulersFacade.ui())
                 .subscribe(::renderSuccess)
     }
 
