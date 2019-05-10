@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/half_margin"
-    app:cardCornerRadius="@dimen/card_corner_radius">
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/medium_card_elevation">
 
     <View
         android:id="@+id/avatar"
@@ -17,7 +18,7 @@
         android:background="@drawable/rounded_rect"
         android:backgroundTint="@color/shimmerColor"
         android:contentDescription="@string/avatar"
-        android:elevation="5dp" />
+        android:elevation="@dimen/medium_card_elevation" />
 
     <View
         android:id="@+id/name"
@@ -28,7 +29,7 @@
         android:layout_marginEnd="@dimen/half_margin"
         android:background="@drawable/rounded_rect"
         android:backgroundTint="@color/shimmerColor"
-        android:elevation="5dp" />
+        android:elevation="@dimen/medium_card_elevation" />
 
     <View
         android:id="@+id/experience"
@@ -40,5 +41,5 @@
         android:layout_marginBottom="@dimen/half_margin"
         android:background="@drawable/rounded_rect"
         android:backgroundTint="@color/shimmerColor"
-        android:elevation="5dp" />
+        android:elevation="@dimen/medium_card_elevation" />
 </androidx.cardview.widget.CardView>

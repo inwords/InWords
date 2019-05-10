@@ -40,6 +40,8 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
                 }
                 .compose(RxDiffUtil.calculate(GameInfosDiffUtilCallback.Companion::create))
                 .observeOn(SchedulersFacade.ui())
+                .doOnSubscribe { gamesRecycler.showShimmerAdapter() }
+                .doOnEach { gamesRecycler.hideShimmerAdapter() }
                 .subscribe({
                     showScreenState(it.first)
                     adapter.accept(it)

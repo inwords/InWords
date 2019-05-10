@@ -8,7 +8,9 @@
     android:layout_margin="@dimen/half_margin"
     android:clickable="true"
     android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/medium_card_elevation"
     tools:showIn="@layout/fragment_home">
 
     <ImageView
@@ -19,7 +21,7 @@
         android:layout_marginTop="@dimen/half_margin"
         android:layout_marginBottom="@dimen/half_margin"
         android:contentDescription="@string/avatar"
-        android:elevation="5dp"
+        android:elevation="@dimen/medium_card_elevation"
         android:src="@drawable/ic_dictionary" />
 
     <TextView
@@ -28,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="@dimen/half_margin"
-        android:elevation="5dp"
+        android:elevation="@dimen/medium_card_elevation"
         android:ellipsize="end"
         android:lines="1"
         android:paddingStart="@dimen/half_margin"
@@ -43,7 +45,7 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="72dp"
         android:layout_marginBottom="@dimen/half_margin"
-        android:elevation="5dp"
+        android:elevation="@dimen/medium_card_elevation"
         android:ellipsize="end"
         android:lines="1"
         android:paddingStart="@dimen/half_margin"

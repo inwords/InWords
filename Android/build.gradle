@@ -17,7 +17,9 @@ ext {
             OK_HTTP          : '3.14.1',
             ROOM             : '2.1.0-beta01',
             LIFECYCLE        : '2.2.0-alpha01',
-            DAGGER           : '2.22.1'
+            DAGGER           : '2.22.1',
+            SHIMMER          : '0.4.0',
+            RECYCLER         : '1.1.0-alpha05'
     ]
 }
 

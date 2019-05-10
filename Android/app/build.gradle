@@ -37,12 +37,14 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation project(path: ':flipview')
+    implementation project(path: ':shimmer_recycler')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     //support
     implementation "androidx.appcompat:appcompat:$versions.ANDROID_X"
 
+    implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
     implementation "androidx.constraintlayout:constraintlayout:$versions.CONSTRAINT_LAYOUT"
 
     // Navigation
@@ -60,7 +62,7 @@ dependencies {
     implementation "com.facebook.fresco:imagepipeline-okhttp3:1.13.0"
 
     //Shimmer
-    implementation 'com.facebook.shimmer:shimmer:0.4.0'
+    implementation "com.facebook.shimmer:shimmer:$versions.SHIMMER"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$versions.RETROFIT"
