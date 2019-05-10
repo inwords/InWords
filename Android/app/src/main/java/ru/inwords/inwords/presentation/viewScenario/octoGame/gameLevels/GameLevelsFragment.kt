@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.fragment_game_levels.*
 import kotlinx.android.synthetic.main.game_welcome.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.RxDiffUtil
+import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameInfo
@@ -60,9 +61,13 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
                 }
                 .compose(RxDiffUtil.calculate(GameLevelsDiffUtilCallback.Companion::create))
                 .observeOn(SchedulersFacade.ui())
+                .doOnSubscribe { levelsRecycler.showShimmerAdapter() }
+                .doOnEach { levelsRecycler.hideShimmerAdapter() }
                 .subscribe({
                     showScreenState(it.first)
                     adapter.accept(it)
+
+                    fixOverscrollBehaviour(levelsRecycler)
                 }) {
                     it.printStackTrace()
                     showNoContent()

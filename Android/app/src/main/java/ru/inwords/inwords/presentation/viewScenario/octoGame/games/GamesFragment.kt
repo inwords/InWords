@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_games.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.RxDiffUtil
+import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.domain.GAME_INFO
@@ -45,6 +46,8 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
                 .subscribe({
                     showScreenState(it.first)
                     adapter.accept(it)
+
+                    fixOverscrollBehaviour(gamesRecycler)
                 }) {
                     it.printStackTrace()
                     showNoContent()

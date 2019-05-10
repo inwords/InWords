@@ -9,7 +9,7 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="5dp">
+    app:cardElevation="@dimen/medium_card_elevation">
 
     <TextView
         android:id="@+id/title"
