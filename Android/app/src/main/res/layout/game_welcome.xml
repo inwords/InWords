@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,31 +10,44 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/welcome_image"
         android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin" />
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:actualImageScaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@id/welcome_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:viewAspectRatio="1" />
 
     <TextView
         android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="260dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        tools:text="Хочешь смешную историю? Как-то дельфинчик из нашей школы забыл портфель дома! Теперь все зовут его Забывалкиным"
-        android:textSize="24sp" />
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/startButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcome_image"
+        tools:text="Хочешь смешную историю? Как-то дельфинчик из нашей школы забыл портфель дома! Теперь все зовут его Забывалкиным" />
 
     <Button
         android:id="@+id/startButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:text="Поплыли!"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

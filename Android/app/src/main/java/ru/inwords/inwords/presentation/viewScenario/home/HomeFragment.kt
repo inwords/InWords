@@ -27,6 +27,11 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
         compositeDisposable.add(subscribeDictionary())
         //BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
         //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
+
+//        cardsGameView.cardsData = CardsData(listOf(
+//                WordTranslation("Home", "Дом"),
+//                WordTranslation("Car", "Машина")
+//        ))
     }
 
     private fun toLoginClickListener() = Navigation

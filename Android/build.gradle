@@ -15,7 +15,7 @@ ext {
             RX_BINDING       : '2.2.0',
             RETROFIT         : '2.5.0',
             OK_HTTP          : '3.14.1',
-            ROOM             : '2.1.0-alpha06',
+            ROOM             : '2.1.0-alpha07',
             LIFECYCLE        : '2.1.0-alpha04',
             DAGGER           : '2.22.1'
     ]

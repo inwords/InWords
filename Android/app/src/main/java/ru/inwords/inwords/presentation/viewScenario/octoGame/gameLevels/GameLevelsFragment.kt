@@ -78,7 +78,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
     private fun showIntro() {
         val imageRequest = ImageRequestBuilder
-                .newBuilderWithResourceId(R.drawable.ic_octopus_1)
+                .newBuilderWithResourceId(R.drawable.octopus_default)
                 .build()
 
         welcome_image.setImageRequest(imageRequest)
