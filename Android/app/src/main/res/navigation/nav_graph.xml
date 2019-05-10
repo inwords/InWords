@@ -110,7 +110,7 @@
         android:id="@+id/gameLevelFragment"
         android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.GameLevelFragment"
         android:label="fragment_game_level"
-        tools:layout="@layout/fragment_game_levels">
+        tools:layout="@layout/fragment_game_level">
         <action
             android:id="@+id/action_gameLevelFragment_pop"
             app:popUpTo="@id/gameLevelFragment"

@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shimmer_view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    app:shimmer_auto_start="false"
     tools:context=".presentation.viewScenario.home.HomeFragment">
 
-    <Button
-        android:id="@+id/buttonGetWordList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:text="get WordList"
-        android:visibility="gone" />
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container"
-        app:shimmer_auto_start="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-    <include
-        android:id="@+id/profile"
-        layout="@layout/card_profile" />
-
-    <include
-        android:id="@+id/dictionary"
-        layout="@layout/card_dictionary" />
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
-    <!---ru.inwords.inwords.presentation.viewScenario.octoGame.CardsGameView
-        android:id="@+id/cardsGameView"
-        app:longest_word_default="Длинное сло"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:text_padding="2dp"
-        app:cards_margin="4dp"
-        android:padding="16dp"
-        app:card_border_round="@dimen/card_corner_radius" /-->
+        android:orientation="vertical">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/buttonGetWordList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="get WordList"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/profile"
+            layout="@layout/card_profile" />
+
+        <include
+            android:id="@+id/dictionary"
+            layout="@layout/card_dictionary" />
+
+    </LinearLayout>
+</com.facebook.shimmer.ShimmerFrameLayout>

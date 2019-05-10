@@ -6,10 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/half_margin"
-    android:visibility="gone"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    tools:showIn="@layout/fragment_home"
-    tools:visibility="visible">
+    tools:showIn="@layout/fragment_home">
 
     <TextView
         android:id="@+id/clickToLogin"
@@ -31,8 +29,7 @@
         android:layout_marginBottom="@dimen/half_margin"
         android:contentDescription="@string/avatar"
         android:elevation="5dp"
-        app:failureImage="@drawable/ic_octopus1"
-        app:placeholderImage="@drawable/ic_octopus1" />
+        app:failureImage="@drawable/ic_octopus1" />
 
     <TextView
         android:id="@+id/name"

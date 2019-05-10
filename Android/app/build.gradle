@@ -91,7 +91,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$versions.DAGGER"
     kapt "com.google.dagger:dagger-android-processor:$versions.DAGGER"
 
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha05'
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
     testImplementation "io.mockk:mockk:1.9.3"
 

@@ -16,6 +16,7 @@ import ru.inwords.inwords.data.dto.User
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 
+
 class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFactory>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,10 +88,14 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                 renderUser(user.data!!)
             }//TODO loading state use
 
+            shimmer_view_container.stopShimmer()
+            shimmer_view_container.setShimmer(null)
             profile.visibility = View.VISIBLE
         }
 
         fun renderLoading() {
+            shimmer_view_container.startShimmer()
+
             val loadingText = getString(R.string.loading_text_placeholder)
             profile.name.text = loadingText
             profile.experience.text = loadingText
