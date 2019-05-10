@@ -69,6 +69,7 @@
     <string name="accessibility_go_to_levels_list">Go to levels list</string>
     <string name="accessibility_go_to_next_level">Go to next level</string>
     <string name="rating_not_loaded">Ваш рейтинг будет обновлён позднее :)</string>
+    <string name="start_game_button_text">Поплыли!</string>
     <!-- home end -->
 
 </resources>
