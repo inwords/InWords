@@ -1,6 +1,5 @@
 package ru.inwords.inwords.data.repository.game
 
-import android.util.Log
 import io.reactivex.Single
 import ru.inwords.inwords.data.dto.game.*
 import ru.inwords.inwords.data.source.webService.WebRequestsManager
@@ -25,10 +24,7 @@ class GameRemoteRepository @Inject constructor(private val webRequestsManager: W
         return webRequestsManager.getScore(levelScoreRequest)
     }
 
-    fun uploadScores(list: List<LevelScoreRequest>): Single<List<LevelScore>> {
-        return Single.fromCallable {
-            Log.d("GameRemoteRepository", "upload scores try")
-            emptyList<LevelScore>()
-        } //TODO
+    fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean> {
+        return webRequestsManager.uploadScore(levelScoreRequests)
     }
 }

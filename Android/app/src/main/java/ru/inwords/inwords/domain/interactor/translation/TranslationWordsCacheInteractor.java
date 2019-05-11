@@ -11,7 +11,7 @@ import ru.inwords.inwords.data.dto.WordTranslation;
 import ru.inwords.inwords.data.repository.translation.TranslationWordsLocalRepository;
 
 public class TranslationWordsCacheInteractor implements TranslationWordsRepositoryInteractor {
-    private TranslationWordsLocalRepository inMemoryRepository;
+    private final TranslationWordsLocalRepository inMemoryRepository;
 
     @Inject
     TranslationWordsCacheInteractor(@CacheRepository TranslationWordsLocalRepository inMemoryRepository) {
@@ -52,16 +52,18 @@ public class TranslationWordsCacheInteractor implements TranslationWordsReposito
 
     @Override
     public Completable markRemovedAll(List<WordTranslation> wordTranslations) {
-        for (WordTranslation wordTranslation : wordTranslations)
+        for (WordTranslation wordTranslation : wordTranslations) {
             markWordRemoved(wordTranslation);
+        }
 
         return addAll(wordTranslations);
     }
 
     private void markWordRemoved(WordTranslation wordTranslation) {
-        if (wordTranslation.getServerId() == 0)
+        if (wordTranslation.getServerId() == 0) {
             wordTranslation.markLocallyDeleted();
-        else
+        } else {
             wordTranslation.markRemoteDeleted();
+        }
     }
 }

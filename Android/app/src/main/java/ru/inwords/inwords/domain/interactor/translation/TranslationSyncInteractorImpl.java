@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers;
 import ru.inwords.inwords.data.sync.TranslationSyncController;
 
 public class TranslationSyncInteractorImpl implements TranslationSyncInteractor {
-    private TranslationSyncController syncController;
+    private final TranslationSyncController syncController;
 
     @Inject
     TranslationSyncInteractorImpl(TranslationSyncController syncController) {

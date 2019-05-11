@@ -1,5 +1,6 @@
 package ru.inwords.inwords;
 
+import android.app.Activity;
 import android.app.Application;
 
 import androidx.fragment.app.Fragment;
@@ -12,18 +13,21 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import okhttp3.OkHttpClient;
 import ru.inwords.inwords.dagger.AppComponent;
 import ru.inwords.inwords.dagger.DaggerAppComponent;
 
-public class App extends Application implements HasSupportFragmentInjector {
+public class App extends Application implements HasSupportFragmentInjector, HasActivityInjector {
     public static AppComponent appComponent;
 
     @Inject
     OkHttpClient okHttpClient;
     @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingActivityInjector;
+    DispatchingAndroidInjector<Fragment> dispatchingFragmentInjector;
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
     @Inject
     AppComponent _appComponent;
 
@@ -43,6 +47,11 @@ public class App extends Application implements HasSupportFragmentInjector {
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingFragmentInjector;
+    }
+
+    @Override
+    public AndroidInjector<Activity> activityInjector() {
         return dispatchingActivityInjector;
     }
 }

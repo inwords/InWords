@@ -6,7 +6,9 @@ import okhttp3.Response
 import okhttp3.Route
 import ru.inwords.inwords.data.source.webService.session.TokenResponse
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class BasicAuthenticator @Inject internal constructor() : Authenticator {
     private var callback: OnUnauthorisedCallback? = null
 

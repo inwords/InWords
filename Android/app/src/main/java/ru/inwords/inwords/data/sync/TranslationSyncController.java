@@ -3,6 +3,7 @@ package ru.inwords.inwords.data.sync;
 import android.util.Log;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -90,16 +91,18 @@ public class TranslationSyncController {
                                 ))
                                 .blockingGet();
 
-                        if (throwable != null)
+                        if (throwable != null) {
                             throwable.printStackTrace();
+                        }
                     }
 
-                    if (!addedWords.isEmpty())
+                    if (!addedWords.isEmpty()) {
                         Single.mergeDelayError(
                                 localRepository.addReplaceAll(addedWords),
                                 inMemoryRepository.addReplaceAll(addedWords))
                                 .blockingSubscribe(wordTranslations -> {
                                 }, Throwable::printStackTrace);
+                    }
                 })
                 .subscribeOn(Schedulers.io());
     }
@@ -119,12 +122,13 @@ public class TranslationSyncController {
     private Groups group(WordTranslation wordTranslation) {
         int serverId = wordTranslation.getWordIdentificator().getServerId();
 
-        if (serverId == 0)
+        if (serverId == 0) {
             return ADD;
-        else if (wordTranslation.isLocallyDeleted())
+        } else if (wordTranslation.isLocallyDeleted()) {
             return Groups.REMOVE_LOCAL;
-        else if (wordTranslation.isRemoteDeleted())
+        } else if (wordTranslation.isRemoteDeleted()) {
             return Groups.REMOVE_REMOTE;
+        }
 
         return Groups.NORMAL;
     }
@@ -172,7 +176,7 @@ public class TranslationSyncController {
         }
     }
 
-    private void mergeIds(List<WordTranslation> list, List<EntityIdentificator> listIds) {
+    private void mergeIds(Collection<? extends WordTranslation> list, Collection<? extends EntityIdentificator> listIds) {
         if (list.isEmpty() || listIds.isEmpty()) {
             return;
         }

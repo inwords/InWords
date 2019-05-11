@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.Navigation
 import com.facebook.imagepipeline.request.ImageRequestBuilder
-import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.card_dictionary.view.*
 import kotlinx.android.synthetic.main.card_profile.view.*
@@ -16,13 +15,9 @@ import ru.inwords.inwords.data.dto.User
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 
-
 class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFactory>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//TODO это не дело. перенести навигацию в модель. но это пока костыль
-        viewModel.onGetAllHandler(RxView.clicks(buttonGetWordList))
 
         compositeDisposable.add(subscribeProfile())
         compositeDisposable.add(subscribeDictionary())
@@ -65,6 +60,8 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                         .build()
 
                 profile.avatar.setImageRequest(request)
+            } else {
+                profile.avatar.setActualImageResource(R.drawable.ic_octopus1)
             }
 
             profile.experience.text = getString(R.string.user_experience, 15)

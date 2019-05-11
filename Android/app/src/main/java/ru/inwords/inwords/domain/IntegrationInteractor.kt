@@ -23,4 +23,10 @@ constructor(private val translationSyncInteractor: TranslationSyncInteractor,
     ))
             .doOnError(Throwable::printStackTrace)
             .onErrorComplete()
+
+    fun getOnStartCallback(): Completable = Completable.mergeDelayError(listOf(
+            translationSyncInteractor.presyncOnStart()
+    ))
+            .doOnError(Throwable::printStackTrace)
+            .onErrorComplete()
 }

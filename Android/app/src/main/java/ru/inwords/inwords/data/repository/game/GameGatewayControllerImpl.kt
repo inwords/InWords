@@ -74,10 +74,10 @@ class GameGatewayControllerImpl @Inject constructor(
                 .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun uploadScoresToServer(): Single<List<LevelScore>> {
+    override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> {
         return levelScoreRequestDao.getAllScores()
                 .filter { it.isNotEmpty() }
-                .flatMapSingle { gameRemoteRepository.uploadScores(it) }
+                .flatMapSingle { levelScores -> gameRemoteRepository.uploadScore(levelScores).map { levelScores } }
                 .flatMap { levelScores -> levelScoreRequestDao.deleteAll().map { levelScores } }
                 .onErrorResumeNext { t ->
                     if (t is NoSuchElementException) { //skip error if it is because of filter
@@ -118,7 +118,12 @@ class GameGatewayControllerImpl @Inject constructor(
         return ResourceCachingProvider(
                 { data -> gameDatabaseRepository.insertAll(listOf(data)).map { data } },
                 { gameDatabaseRepository.getById(gameId) },
-                { gameRemoteRepository.getGame(gameId) }
+                {
+                    uploadScoresToServer()
+                            .ignoreElement()
+                            .onErrorComplete()
+                            .andThen(gameRemoteRepository.getGame(gameId))
+                }
         )
     }
 
@@ -126,12 +131,7 @@ class GameGatewayControllerImpl @Inject constructor(
         return ResourceCachingProvider(
                 { data -> gameLevelDatabaseRepository.insertAll(listOf(data)).map { data } },
                 { gameLevelDatabaseRepository.getById(levelId) },
-                {
-                    uploadScoresToServer()
-                            .ignoreElement()
-                            .onErrorComplete()
-                            .andThen(gameRemoteRepository.getLevel(levelId))
-                }
+                { gameRemoteRepository.getLevel(levelId) }
         )
     }
 

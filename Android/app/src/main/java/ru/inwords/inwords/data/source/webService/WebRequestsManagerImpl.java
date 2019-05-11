@@ -1,11 +1,9 @@
 package ru.inwords.inwords.data.source.webService;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.inwords.inwords.core.util.Function;
@@ -20,24 +18,24 @@ import ru.inwords.inwords.data.dto.game.GameLevel;
 import ru.inwords.inwords.data.dto.game.LevelScore;
 import ru.inwords.inwords.data.dto.game.LevelScoreRequest;
 import ru.inwords.inwords.data.source.webService.session.AuthInfo;
+import ru.inwords.inwords.data.source.webService.session.AuthInfoKt;
 import ru.inwords.inwords.data.source.webService.session.SessionHelper;
 import ru.inwords.inwords.data.source.webService.session.TokenResponse;
 import ru.inwords.inwords.data.sync.PullWordsAnswer;
 
 public class WebRequestsManagerImpl implements WebRequestsManager {
-    private WebApiService apiService;
-    private SessionHelper sessionHelper;
-    private AuthInfo authInfo;
+    private final WebApiService apiService;
+    private final SessionHelper sessionHelper;
+
+    private final AuthInfo authInfo;
 
     @Inject
-    WebRequestsManagerImpl(WebApiService apiService, BasicAuthenticator authenticator, SessionHelper sessionHelper) {
+    WebRequestsManagerImpl(WebApiService apiService, BasicAuthenticator authenticator, SessionHelper sessionHelper, AuthInfo authInfo) {
         this.apiService = apiService;
         this.sessionHelper = sessionHelper;
-        this.authInfo = new AuthInfo();
+        this.authInfo = authInfo;
 
-        authenticator.setOnUnauthorisedCallback(() -> getCredentials()
-                .flatMap(credentials -> applyAuthSessionHelper(apiService.getToken(credentials))) //TODO COSTIL
-                .blockingGet());
+        authenticator.setOnUnauthorisedCallback(() -> getToken().blockingGet()); //TODO COSTIL
     }
 
     private Single<TokenResponse> setAuthToken(TokenResponse tokenResponse) {
@@ -56,12 +54,22 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
     }
 
     private Single<UserCredentials> getCredentials() {
-        return Single.fromCallable(() -> authInfo.getCredentials());
+        return Single.fromCallable(authInfo::getCredentials);
+    }
+
+    private Single<TokenResponse> getToken() {
+        return getCredentials()
+                .filter(AuthInfoKt::validCredentials)
+                .toSingle()
+                .flatMap(s -> applyAuthSessionHelper(apiService.getToken(s)))
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<TokenResponse> getToken(UserCredentials userCredentials) {
         return setCredentials(userCredentials)
+                .filter(AuthInfoKt::validCredentials)
+                .toSingle()
                 .flatMap(s -> applyAuthSessionHelper(apiService.getToken(s)))
                 .subscribeOn(SchedulersFacade.io());
     }
@@ -75,13 +83,13 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
 
     @Override
     public Single<String> getLogin() {
-        return applySessionHelper(b -> apiService.getLogin(b))
+        return applySessionHelper(apiService::getLogin)
                 .subscribeOn(SchedulersFacade.io());
     }
 
     @Override
     public Single<User> getAuthorisedUser() {
-        return applySessionHelper(b -> apiService.getAuthorisedUser(b))
+        return applySessionHelper(apiService::getAuthorisedUser)
                 //.flatMap(Observable::fromIterable)
                 .subscribeOn(SchedulersFacade.io());
     }
@@ -90,30 +98,6 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
     public Single<User> getUserById(int id) {
         return applySessionHelper(b -> apiService.getUserById(b, id))
                 //.flatMap(Observable::fromIterable)
-                .subscribeOn(SchedulersFacade.io());
-    }
-
-    @Override
-    public Maybe<List<WordTranslation>> getAllWords() { //TODO its a mock
-        return Maybe.fromCallable(() -> {
-            try {
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return Arrays.asList(new WordTranslation("asd", "ку"), new WordTranslation("sdg", "укеу"));
-        })
-                .subscribeOn(SchedulersFacade.io());
-    }
-
-    @Override
-    public Single<WordTranslation> insertWord(WordTranslation wordTranslation) { //TODO its a mock
-        return Single.defer(() -> {
-            Thread.sleep(2000);
-
-            return Single.just(wordTranslation); //TODO
-        })
                 .subscribeOn(SchedulersFacade.io());
     }
 
@@ -137,7 +121,7 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
 
     @Override
     public Single<List<GameInfo>> getGameInfos() {
-        return applySessionHelper(b -> apiService.getGameInfos(b))
+        return applySessionHelper(apiService::getGameInfos)
                 .subscribeOn(SchedulersFacade.io());
     }
 
@@ -159,6 +143,12 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
                 .subscribeOn(SchedulersFacade.io());
     }
 
+    @Override
+    public Single<Boolean> uploadScore(List<LevelScoreRequest> levelScoreRequests) {
+        return applySessionHelper(b -> apiService.uploadScore(b, levelScoreRequests).toSingleDefault(true))
+                .subscribeOn(SchedulersFacade.io());
+    }
+
     private String getBearer() {
         return authInfo.getTokenResponse().getBearer();
     }
@@ -170,7 +160,7 @@ public class WebRequestsManagerImpl implements WebRequestsManager {
                 .doOnError(throwable -> sessionHelper.interceptError(throwable).blockingAwait());
     }
 
-    private Single<TokenResponse> applyAuthSessionHelper(Single<TokenResponse> query) {
+    private Single<TokenResponse> applyAuthSessionHelper(Single<? extends TokenResponse> query) {
         return sessionHelper
                 .resetThreshold()
                 .andThen(query)

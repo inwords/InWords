@@ -33,7 +33,7 @@ class GameInteractorImpl @Inject constructor(
         return gameGatewayController.getScore(game, levelScoreRequest)
     }
 
-    override fun uploadScoresToServer(): Single<List<LevelScore>> {
+    override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> {
         return gameGatewayController.uploadScoresToServer()
     }
 }

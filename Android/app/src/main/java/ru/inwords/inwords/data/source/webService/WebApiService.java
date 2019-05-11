@@ -2,6 +2,7 @@ package ru.inwords.inwords.data.source.webService;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -34,6 +35,9 @@ public interface WebApiService {
 
     @POST("v1.0/Game/score")
     Single<LevelScore> getGameScore(@Header("Authorization") String bearerToken, @Body LevelScoreRequest levelScoreRequest);
+
+    @POST("v1.0/Game/UploadScore")
+    Completable uploadScore(@Header("Authorization") String bearerToken, @Body List<LevelScoreRequest> levelScoreRequests);
 
     //Words
     @POST("/v1.0/words/DeletePair")

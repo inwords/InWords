@@ -2,7 +2,6 @@ package ru.inwords.inwords.data.source.webService;
 
 import java.util.List;
 
-import io.reactivex.Maybe;
 import io.reactivex.Single;
 import ru.inwords.inwords.data.dto.EntityIdentificator;
 import ru.inwords.inwords.data.dto.User;
@@ -27,10 +26,6 @@ public interface WebRequestsManager {
 
     Single<User> getUserById(int id);
 
-    Maybe<List<WordTranslation>> getAllWords();
-
-    Single<WordTranslation> insertWord(WordTranslation wordTranslation);
-
     Single<List<EntityIdentificator>> insertAllWords(List<WordTranslation> wordTranslations);
 
     Single<Integer> removeAllServerIds(List<Integer> serverIds);
@@ -44,4 +39,6 @@ public interface WebRequestsManager {
     Single<GameLevel> getLevel(int levelId);
 
     Single<LevelScore> getScore(LevelScoreRequest levelScoreRequest);
+
+    Single<Boolean> uploadScore(List<LevelScoreRequest> levelScoreRequests);
 }

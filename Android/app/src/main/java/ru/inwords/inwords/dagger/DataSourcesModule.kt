@@ -1,6 +1,7 @@
 package ru.inwords.inwords.dagger
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.google.gson.Gson
 import dagger.Module
@@ -28,7 +29,7 @@ class DataSourcesModule {
     @Provides
     @Singleton
     fun database(context: Context): AppRoomDatabase {
-        return Room.inMemoryDatabaseBuilder(context, AppRoomDatabase::class.java)//, "word_database")
+        return Room.databaseBuilder(context, AppRoomDatabase::class.java, "cache")
                 .build()
     }
 
@@ -64,5 +65,11 @@ class DataSourcesModule {
                 .readTimeout(40, TimeUnit.SECONDS)
                 .writeTimeout(40, TimeUnit.SECONDS)
                 .build()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideSharedPreferences(context: Context): SharedPreferences {
+        return context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
     }
 }
