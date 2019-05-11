@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using InWords.Service.Auth;
+using InWords.WebApi.Extensions;
 using InWords.WebApi.Extensions.ServiceCollection;
+using InWords.WebApi.Middleware;
 using InWords.WebApi.Providers.FIleLogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -78,6 +80,9 @@ namespace InWords.WebApi.AppStart
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            // Global error logging middleware
+            app.UseErrorLogging();
+
             // To design Swashbuckle components in a corporate style,
             // you need to add resources to serve static files
             // and then build a folder structure to accommodate them.
