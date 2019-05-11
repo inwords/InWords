@@ -54,7 +54,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.dreamproject.inwords.presentation.button.iml.ActionProcessButton
+        <ru.inwords.inwords.presentation.button.iml.ActionProcessButton
             android:id="@+id/buttonEnterSignUp"
             style="@style/AuthorisationButton"
             android:text="@string/sign_up_enter"

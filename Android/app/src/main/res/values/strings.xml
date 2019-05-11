@@ -49,11 +49,11 @@
     <string name="sign_up_in_process">Создание аккаунта</string>
     <!-- word addition end -->
 
-    <!-- game start -->
+    <!-- gameResource start -->
     <string name="no_content">К сожалению, что-то пошло не так</string>
     <string name="no_content_solutions">Возможно, отсутствует интернет, а возможно, вы не вошли в аккаунт</string>
     <string name="choose_level">Выберите уровень</string>
-    <!-- game end -->
+    <!-- gameResource end -->
 
     <!-- home start -->
     <string name="avatar">Аватар</string>
@@ -65,6 +65,11 @@
     <string name="user_experience">Ваш опыт на сегодня: %1$d</string>
     <string name="choose_game">Выберите игру</string>
     <string name="game_remove">Удалить</string>
+    <string name="accessibility_navigate_home">Navigate home</string>
+    <string name="accessibility_go_to_levels_list">Go to levels list</string>
+    <string name="accessibility_go_to_next_level">Go to next level</string>
+    <string name="rating_not_loaded">Ваш рейтинг будет обновлён позднее :)</string>
+    <string name="start_game_button_text">Поплыли!</string>
     <!-- home end -->
 
 </resources>

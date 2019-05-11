@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion targetSdk
+
+    defaultConfig {
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode 6
+        versionName '1.2.0 of 2018.09.30'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    //See main build.gradle for values & versions
+    compileOnly "androidx.appcompat:appcompat:$versions.ANDROID_X"
+    implementation "androidx.annotation:annotation:$versions.ANDROID_X"
+}
+
+// Execute: gradlew clean install -P flipview
+if (project.hasProperty('all') || project.hasProperty('flipview')) {
+    apply from: '../install.gradle'
+    apply from: '../bintray.gradle'
+}

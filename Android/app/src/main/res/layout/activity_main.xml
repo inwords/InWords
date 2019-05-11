@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.viewScenario.MainActivity">
+    tools:context="ru.inwords.inwords.presentation.viewScenario.main_activity.MainActivity">
 
     <fragment
         android:id="@+id/main_nav_host_fragment"
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/navigation"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
