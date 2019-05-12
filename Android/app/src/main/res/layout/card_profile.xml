@@ -6,17 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/half_margin"
-    android:visibility="gone"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    tools:showIn="@layout/fragment_home"
-    tools:visibility="visible">
+    app:cardElevation="@dimen/medium_card_elevation"
+    tools:showIn="@layout/fragment_home">
 
     <TextView
         android:id="@+id/clickToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/half_margin"
-        android:elevation="5dp"
+        android:elevation="@dimen/medium_card_elevation"
         android:gravity="center"
         android:text="@string/sign_up_proposal"
         android:textColor="@color/colorPrimary"
@@ -30,9 +32,8 @@
         android:layout_marginTop="@dimen/half_margin"
         android:layout_marginBottom="@dimen/half_margin"
         android:contentDescription="@string/avatar"
-        android:elevation="5dp"
-        app:failureImage="@drawable/ic_octopus1"
-        app:placeholderImage="@drawable/ic_octopus1" />
+        android:elevation="@dimen/medium_card_elevation"
+        app:failureImage="@drawable/ic_octopus1" />
 
     <TextView
         android:id="@+id/name"
@@ -40,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="@dimen/half_margin"
-        android:elevation="5dp"
+        android:elevation="@dimen/medium_card_elevation"
         android:ellipsize="end"
         android:lines="1"
         android:paddingStart="@dimen/half_margin"
@@ -55,7 +56,7 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="72dp"
         android:layout_marginBottom="@dimen/half_margin"
-        android:elevation="5dp"
+        android:elevation="@dimen/medium_card_elevation"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="@dimen/half_margin"

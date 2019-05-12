@@ -3,13 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/frame"
     tools:context=".presentation.viewScenario.octoGame.gameLevel.GameLevelFragment">
-
-    <TextView
-        android:id="@+id/text"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <TableLayout
         android:id="@+id/table"

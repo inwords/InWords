@@ -1,16 +1,17 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "de.mannodermaus.android-junit5"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion targetSdk
     defaultConfig {
-        applicationId "com.dreamproject.inwords"
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        applicationId "ru.inwords.inwords"
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode 4
+        versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
 
@@ -31,30 +32,32 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
 
-ext.versions = [
-        ANDROID_SUPPORT  : '1.0.2',
-        CONSTRAINT_LAYOUT: '1.1.3',
-        NAVIGATION       : '1.0.0',
-        RX_JAVA          : '2.2.7',
-        RX_ANDROID       : '2.1.1',
-        RX_BINDING       : '2.1.1',
-        GLIDE            : '4.9.0',
-        RETROFIT         : '2.5.0',
-        OK_HTTP          : '3.13.1',
-        ROOM             : '2.1.0-alpha06',
-        LIFECYCLE        : '2.1.0-alpha04',
-        DAGGER           : '2.21'
-]
+    testOptions {
+        unitTests.all {
+            // Always run tests, even when nothing changed.
+            dependsOn 'clean'
+
+            // Show test results.
+            testLogging {
+                events "passed", "skipped", "failed"
+            }
+        }
+    }
+}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'eu.davidea:flipview:1.2.0'
-    //support
-    implementation "androidx.appcompat:appcompat:$versions.ANDROID_SUPPORT"
+    implementation project(path: ':flipview')
+    implementation project(path: ':shimmer_recycler')
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    //support
+    implementation "androidx.appcompat:appcompat:$versions.ANDROID_X"
+
+    implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
     implementation "androidx.constraintlayout:constraintlayout:$versions.CONSTRAINT_LAYOUT"
 
     // Navigation
@@ -70,6 +73,9 @@ dependencies {
     //Fresco
     implementation 'com.facebook.fresco:fresco:1.13.0'
     implementation "com.facebook.fresco:imagepipeline-okhttp3:1.13.0"
+
+    //Shimmer
+    implementation "com.facebook.shimmer:shimmer:$versions.SHIMMER"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$versions.RETROFIT"
@@ -100,11 +106,11 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$versions.DAGGER"
     kapt "com.google.dagger:dagger-android-processor:$versions.DAGGER"
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+
+    testImplementation "io.mockk:mockk:1.9.3"
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-}
-repositories {
-    mavenCentral()
 }

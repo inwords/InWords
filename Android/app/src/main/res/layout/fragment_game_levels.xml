@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,13 +24,18 @@
             android:textSize="24sp" />
 
         <!-- TODO: remove 100dp -->
-        <androidx.recyclerview.widget.RecyclerView
+        <ru.inwords.shimmer_recycler.ShimmerRecyclerView
             android:id="@+id/levelsRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="90dp"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
+            android:paddingStart="@dimen/half_margin"
+            android:paddingEnd="@dimen/half_margin"
+            app:shimmer_demo_child_count="4"
+            app:shimmer_demo_grid_child_count="3"
+            app:shimmer_demo_layout="@layout/game_info_shimmer"
+            app:shimmer_demo_layout_manager_type="grid"
+            tools:listitem="@layout/game_level_info" />
     </FrameLayout>
 
     <include
