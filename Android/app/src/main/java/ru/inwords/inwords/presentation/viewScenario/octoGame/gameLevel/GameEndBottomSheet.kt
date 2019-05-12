@@ -16,12 +16,14 @@ import ru.inwords.inwords.data.dto.game.LevelScore
 import ru.inwords.inwords.domain.LEVEL_ID
 import ru.inwords.inwords.domain.NEXT_LEVEL_AVAILABLE
 import ru.inwords.inwords.domain.model.Resource
+import ru.inwords.inwords.domain.util.INVALID_ID
+import ru.inwords.inwords.domain.util.validId
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import javax.inject.Inject
 
 class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
     private val compositeDisposable = CompositeDisposable()
-    private var levelId: Int = -1
+    private var levelId: Int = INVALID_ID
     private var nextLevelAvailable: Boolean = false
 
     @Inject
@@ -64,10 +66,10 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
     }
 
     private fun setupView() {
-        button_home.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPathsEnum.HOME) }
-        button_back.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPathsEnum.BACK) }
-        button_next.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPathsEnum.NEXT) }
-        button_retry.setOnClickListener { viewModel.onNewNavCommand(FromGameEndPathsEnum.REFRESH) }
+        button_home.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.HOME) }
+        button_back.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.BACK) }
+        button_next.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.NEXT) }
+        button_retry.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.REFRESH) }
 
         if (nextLevelAvailable) {
             button_next.visibility = View.VISIBLE
@@ -77,7 +79,7 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
     }
 
     private fun showSuccess(levelScore: LevelScore) {
-        if (levelScore.levelId == levelId || levelId == -1) {
+        if (levelScore.levelId == levelId || !validId(levelId)) {
             rating_bar.rating = levelScore.score.toFloat()
             rating_bar.visibility = View.VISIBLE
             rating_loading_progress.visibility = View.INVISIBLE
