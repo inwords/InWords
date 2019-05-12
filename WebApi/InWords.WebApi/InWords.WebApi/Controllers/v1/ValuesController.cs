@@ -1,4 +1,5 @@
-﻿using InWords.Data;
+﻿using System;
+using InWords.Data;
 using InWords.Data.Repositories;
 using InWords.Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +41,7 @@ namespace InWords.WebApi.Controllers.v1
         [Route("")]
         public ActionResult<int> GetUsersCount()
         {
+            throw new Exception("unhandled");
             return userRepository.Count();
         }
 

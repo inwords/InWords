@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using InWords.Service.Auth;
-using InWords.WebApi.Extensions;
 using InWords.WebApi.Extensions.ServiceCollection;
-using InWords.WebApi.Middleware;
 using InWords.WebApi.Providers.FIleLogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -99,10 +97,6 @@ namespace InWords.WebApi.AppStart
 
             // Enable middleware to generated logs as a text file.
             LoggerConfiguration(loggerFactory);
-
-            // Global error logging middleware
-            app.UseErrorLogging();
-
 
             // TODO: remove on Release
             // if (env.IsDevelopment())
