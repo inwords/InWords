@@ -11,12 +11,12 @@ import kotlinx.android.synthetic.main.game_card_front.view.*
 import ru.inwords.flipview.FlipView
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
 import ru.inwords.inwords.domain.CardsData
 import ru.inwords.inwords.domain.GAME_ID
 import ru.inwords.inwords.domain.GAME_LEVEL_INFO
 import ru.inwords.inwords.domain.model.Resource
+import ru.inwords.inwords.domain.util.INVALID_ID
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import java.util.concurrent.TimeUnit
@@ -24,11 +24,14 @@ import kotlin.math.ceil
 
 
 class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGameViewModelFactory>() {
-    private val stateMap = HashMap<String, Boolean>()
-    private var gameEndBottomSheetFragment: GameEndBottomSheet? = null
+    //region arguments
     private lateinit var gameLevelInfo: GameLevelInfo
-    private lateinit var game: Game
-    private var gameId: Int = -1
+    private var gameId: Int = INVALID_ID
+    //endregion arguments
+
+    private var gameEndBottomSheetFragment: GameEndBottomSheet? = null
+
+    private val stateMap = HashMap<String, Boolean>()
     private var openedCard: FlipView? = null
     private var showingIncorrectCards: Boolean = false
     private var cardOpenClicksCount = 0
@@ -40,33 +43,9 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
                 ?: arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
 
         gameId = savedInstanceState?.getInt(GAME_ID)
-                ?: arguments?.getInt(GAME_ID) ?: -1
+                ?: arguments?.getInt(GAME_ID) ?: INVALID_ID
 
-        compositeDisposable.add(viewModel.gameStream(gameId).subscribe { game = it.data!! }) //TODO
-
-        viewModel.onGameLevelSelected(gameLevelInfo.levelId)
-
-        compositeDisposable.add(viewModel.navigationStream().subscribe {
-            gameEndBottomSheetFragment?.dismiss()
-
-            @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
-            when (it) {
-                FromGameEndPathsEnum.HOME -> navController.navigate(R.id.action_global_mainFragment)
-                FromGameEndPathsEnum.NEXT -> {
-                    val gameLevelInfos = game.gameLevelInfos
-                    val nextLevelIndex = gameLevelInfos.indexOf(gameLevelInfo) + 1
-
-                    if (nextLevelIndex < gameLevelInfos.size) {
-                        gameLevelInfo = gameLevelInfos[nextLevelIndex]
-                        viewModel.onGameLevelSelected(gameLevelInfo.levelId)
-                    } else {
-                        navController.navigate(R.id.action_gameLevelFragment_pop)
-                    }
-                }
-                FromGameEndPathsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
-                FromGameEndPathsEnum.REFRESH -> viewModel.onGameLevelSelected(gameLevelInfo.levelId)
-            }
-        })
+        viewModel.onGameLevelSelected(gameId, gameLevelInfo)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -78,7 +57,15 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        text.text = gameLevelInfo.toString()
+        compositeDisposable.add(viewModel.navigationStream().subscribe {
+            gameEndBottomSheetFragment?.dismiss()
+
+            when (it) {
+                FromGameEndEventsEnum.HOME -> navController.navigate(R.id.action_global_mainFragment)
+                FromGameEndEventsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
+                else -> Unit
+            }
+        })
 
         compositeDisposable.add(viewModel
                 .cardsStream()
@@ -153,17 +140,16 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         if (stateMap.values.all { it }) {
             showGameEndDialog()
 
-            viewModel.onGameEnd(game, gameLevelInfo.levelId, cardOpenClicksCount, stateMap.size)
+            viewModel.onGameEnd(cardOpenClicksCount, stateMap.size)
         }
     }
 
     private fun showGameEndDialog() {
-        val gameLevelInfos = game.gameLevelInfos
-        val nextLevelAvailable = gameLevelInfos.indexOf(gameLevelInfo) + 1 < gameLevelInfos.size
+        val nextLevelAvailable = viewModel.getNextLevelInfo().success()
 
         gameEndBottomSheetFragment = GameEndBottomSheet.instance(gameLevelInfo.levelId, nextLevelAvailable).also {
             supportFragmentInjector().inject(it)
-            it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName) //TODO
+            it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName)
         }
     }
 
@@ -187,7 +173,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
                     else -> { //second incorrect game_card opened
                         showingIncorrectCards = true
-                        compositeDisposable.add(Observable.timer(2, TimeUnit.SECONDS)
+                        compositeDisposable.add(Observable.timer(1100, TimeUnit.MILLISECONDS)
                                 .observeOn(SchedulersFacade.ui())
                                 .subscribe {
                                     v.flip(true)
