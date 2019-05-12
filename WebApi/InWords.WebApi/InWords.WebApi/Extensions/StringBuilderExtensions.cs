@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace InWords.WebApi.Extensions
 {
@@ -12,10 +8,7 @@ namespace InWords.WebApi.Extensions
         {
             if (string.IsNullOrEmpty(content)) return;
 
-            if (!string.IsNullOrEmpty(description))
-            {
-                content = $"{description}: {content}";
-            }
+            if (!string.IsNullOrEmpty(description)) content = $"{description}: {content}";
 
             builder.AppendLine(content);
         }

@@ -17,8 +17,8 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Produces("application/json")]
     public class ScoreController : ControllerBase
     {
-        private readonly GameService gameService;
         private readonly GameScoreService gameScoreService;
+        private readonly GameService gameService;
 
         public ScoreController(GameScoreService gameScoreService, GameService gameService)
         {
@@ -54,7 +54,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         }
 
         /// <summary>
-        ///    Use to upload user results
+        ///     Use to upload user results
         /// </summary>
         /// <param name="levelScores"></param>
         /// <returns>Quantity of stars and level id</returns>

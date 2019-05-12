@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using InWords.Data.DTO;
 using InWords.Data.DTO.GameBox;
-using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.Enums;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Extensions;
@@ -24,23 +22,6 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Produces("application/json")]
     public class GameController : ControllerBase
     {
-        #region Ctor
-
-        private readonly GameBoxRepository gameBoxRepository;
-        private readonly GameLevelWordService gameLevelWordService;
-        private readonly GameService gameService;
-
-        public GameController(GameBoxRepository gameBoxRepository,
-                             GameLevelWordService gameLevelWordService,
-                             GameService gameService)
-        {
-            this.gameBoxRepository = gameBoxRepository;
-            this.gameLevelWordService = gameLevelWordService;
-            this.gameService = gameService;
-        }
-
-        #endregion
-
         /// <summary>
         ///     This is to add game pack from body use Game pack object
         /// </summary>
@@ -118,7 +99,24 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
                 ? await gameBoxRepository.DeleteGames(ids)
                 : await gameBoxRepository.DeleteOwnGames(userId, ids);
 
-            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
+            return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
         }
+
+        #region Ctor
+
+        private readonly GameBoxRepository gameBoxRepository;
+        private readonly GameLevelWordService gameLevelWordService;
+        private readonly GameService gameService;
+
+        public GameController(GameBoxRepository gameBoxRepository,
+            GameLevelWordService gameLevelWordService,
+            GameService gameService)
+        {
+            this.gameBoxRepository = gameBoxRepository;
+            this.gameLevelWordService = gameLevelWordService;
+            this.gameService = gameService;
+        }
+
+        #endregion
     }
 }

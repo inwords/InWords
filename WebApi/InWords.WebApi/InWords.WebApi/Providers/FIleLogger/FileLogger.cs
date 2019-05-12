@@ -35,7 +35,7 @@ namespace InWords.WebApi.Providers.FIleLogger
 
             LogFile($"[{logLevel.ToString().Remove(3)}] {formatter(state, exception)}");
 
-            if (logLevel.Equals(LogLevel.Error)) { LogException(exception); }
+            if (logLevel.Equals(LogLevel.Error)) LogException(exception);
         }
 
         private void LogFile(string content)
@@ -49,7 +49,6 @@ namespace InWords.WebApi.Providers.FIleLogger
         private void LogException(Exception exception)
         {
             var errorStringBuilder = new StringBuilder();
-            errorStringBuilder.AppendLineIfExist(exception.TargetSite.Name, "Target");
             errorStringBuilder.AppendLineIfExist(exception.Message, "Message");
             errorStringBuilder.AppendLineIfExist(exception.HelpLink, "HelpLink");
             errorStringBuilder.AppendLineIfExist(exception.Source, "Source");

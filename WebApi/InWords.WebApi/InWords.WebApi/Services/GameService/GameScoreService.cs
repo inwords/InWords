@@ -68,10 +68,7 @@ namespace InWords.WebApi.Services.GameService
         {
             // TODO speedup (1)
             // Thought like for 3 hours, and did not implement a rational search
-            foreach (LevelScore levelScore in levelScores)
-            {
-                await UpdateUserScore(userId, levelScore);
-            }
+            foreach (LevelScore levelScore in levelScores) await UpdateUserScore(userId, levelScore);
         }
 
 
