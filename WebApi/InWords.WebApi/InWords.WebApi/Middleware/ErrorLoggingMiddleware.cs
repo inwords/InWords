@@ -12,9 +12,9 @@ namespace InWords.WebApi.Middleware
     public class ErrorLoggingMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly ILogger logger;
+        private readonly ILogger<ErrorLoggingMiddleware> logger;
 
-        public ErrorLoggingMiddleware(RequestDelegate next, ILogger logger)
+        public ErrorLoggingMiddleware(RequestDelegate next, ILogger<ErrorLoggingMiddleware> logger)
         {
             this.next = next;
             this.logger = logger;

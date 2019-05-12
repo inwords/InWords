@@ -80,9 +80,6 @@ namespace InWords.WebApi.AppStart
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // Global error logging middleware
-            app.UseErrorLogging();
-
             // To design Swashbuckle components in a corporate style,
             // you need to add resources to serve static files
             // and then build a folder structure to accommodate them.
@@ -102,6 +99,10 @@ namespace InWords.WebApi.AppStart
 
             // Enable middleware to generated logs as a text file.
             LoggerConfiguration(loggerFactory);
+
+            // Global error logging middleware
+            app.UseErrorLogging();
+
 
             // TODO: remove on Release
             // if (env.IsDevelopment())
