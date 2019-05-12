@@ -4,18 +4,12 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper/index';
 import Tabs from '@material-ui/core/Tabs/index';
 import Tab from '@material-ui/core/Tab/index';
+import ContentContainer from '../ContentContainer';
 import LearningGames from './LearningGames';
 import SandboxGames from './SandboxGames';
 import GamePackAddButton from './GamePackCreateButton';
 
 const styles = theme => ({
-    root: {
-        [theme.breakpoints.up(1100 + 240 + theme.spacing.unit * 3 * 2)]: {
-            width: 1100,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
     tabContainer: {
         paddingTop: theme.spacing.unit * 3,
     },
@@ -23,7 +17,7 @@ const styles = theme => ({
 
 function GamesPage({ value, handleChange, classes }) {
     return (
-        <div className={classes.root}>
+        <ContentContainer>
             <Paper>
                 <Tabs
                     value={value}
@@ -45,7 +39,7 @@ function GamesPage({ value, handleChange, classes }) {
                 <SandboxGames />
             </div>}
             <GamePackAddButton visible={value === 1} />
-        </div>
+        </ContentContainer>
     );
 }
 

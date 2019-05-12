@@ -19,14 +19,10 @@ function WordlistPageContainer({ wordPairs, pullWordPairs, deleteWordPairs }) {
     const { checked, handleToggle, handleReset } = useCheckboxList();
 
     React.useEffect(() => {
-        handleReset([]);
+        handleReset();
     }, [wordPairs]);
 
     const { customizeAppBar, resetAppBar } = React.useContext(AppBarContext);
-
-    const handleWordPairsDeletion = () => {
-        deleteWordPairs(checked);
-    };
 
     const prevChecked = usePrevious(checked);
 
@@ -37,10 +33,13 @@ function WordlistPageContainer({ wordPairs, pullWordPairs, deleteWordPairs }) {
                     title: `Выбрано: ${checked.length}`,
                     color: 'secondary',
                     leftElement: <WordPairsUncheckButton handleUncheck={() => handleReset([])} />,
-                    rightElements: [<WordPairsDeleteButton handleWordPairsDeletion={handleWordPairsDeletion} />]
+                    rightElements: [<WordPairsDeleteButton handleWordPairsDeletion={() => deleteWordPairs(checked)} />]
                 });
             } else {
-                customizeAppBar({ title: `Выбрано: ${checked.length}` });
+                customizeAppBar({
+                    title: `Выбрано: ${checked.length}`,
+                    rightElements: [<WordPairsDeleteButton handleWordPairsDeletion={() => deleteWordPairs(checked)} />]
+                });
             }
         } else {
             resetAppBar({

@@ -60,32 +60,35 @@ function GameField(
         classes
     }
 ) {
-    const columnsNum = React.useMemo(() =>
-        Math.ceil(Math.sqrt(infoAboutRandomWords.length)), [infoAboutRandomWords.length]);
+    const gridClass = React.useMemo(() => {
+        const columnsNum = Math.ceil(Math.sqrt(infoAboutRandomWords.length));
+
+        if (columnsNum <= 2) {
+            return classes.gridOfTwoColumns;
+        } else if (columnsNum === 3) {
+            return classes.gridOfThreeColumns;
+        } else {
+            return classes.gridOfFourColumns;
+        }
+    }, [infoAboutRandomWords.length]);
 
     return (
         !gameCompleted ? (
-                <Grid
-                    container
-                    className={
-                        columnsNum <= 2 ? classes.gridOfTwoColumns :
-                            columnsNum === 3 ? classes.gridOfThreeColumns :
-                                classes.gridOfFourColumns}
-                >
-                    <Grid container justify="center" spacing={cardsSpacing}>
-                        {infoAboutRandomWords.map((infoAboutRandomWord, index) => (
-                            <Grid key={index} item onClick={handleClick(infoAboutRandomWord.pairId, index)}>
-                                <GameWordCard
-                                    word={infoAboutRandomWord.word}
-                                    selected={Boolean(infoAboutSelectedWords.find(selectedWordInfo =>
-                                        selectedWordInfo.wordId === index))}
-                                    successful={successfulPairIds.includes(infoAboutRandomWord.pairId)}
-                                    successfulSelected={successfulSelectedPairId === infoAboutRandomWord.pairId}
-                                />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Grid>) :
+            <Grid container className={gridClass}>
+                <Grid container justify="center" spacing={cardsSpacing}>
+                    {infoAboutRandomWords.map((infoAboutRandomWord, index) => (
+                        <Grid key={index} item onClick={handleClick(infoAboutRandomWord.pairId, index)}>
+                            <GameWordCard
+                                word={infoAboutRandomWord.word}
+                                selected={Boolean(infoAboutSelectedWords.find(selectedWordInfo =>
+                                    selectedWordInfo.wordId === index))}
+                                successful={successfulPairIds.includes(infoAboutRandomWord.pairId)}
+                                successfulSelected={successfulSelectedPairId === infoAboutRandomWord.pairId}
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+            </Grid>) :
             finalScreen
     );
 }

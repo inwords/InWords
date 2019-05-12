@@ -16,11 +16,11 @@ function GameLevelInfoCard({ levelInfo }) {
                 <Typography gutterBottom variant="h5">
                     Уровень {level}
                 </Typography>
-                <Typography>
-                    <StarIcon fontSize="small" color={playerStars > 0 ? 'secondary' : 'disabled'} />
-                    <StarIcon fontSize="small" color={playerStars > 1 ? 'secondary' : 'disabled'} />
-                    <StarIcon fontSize="small" color={playerStars > 2 ? 'secondary' : 'disabled'} />
-                </Typography>
+                <div>
+                    <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />
+                    <StarIcon color={playerStars > 1 ? 'secondary' : 'disabled'} />
+                    <StarIcon color={playerStars > 2 ? 'secondary' : 'disabled'} />
+                </div>
             </CardContent>
             <CardActions>
                 <Button

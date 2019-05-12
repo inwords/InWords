@@ -4,17 +4,11 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import ContentContainer from '../ContentContainer';
 
 const styles = theme => ({
-    root: {
-        [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-            width: 600,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
     paper: {
-        marginTop: theme.spacing.unit * 4,
+        marginTop: theme.spacing.unit * 2,
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
     actions: {
@@ -28,7 +22,7 @@ const styles = theme => ({
 
 function ProfileSettingsPage({ values, handleChange, handleSubmit, classes }) {
     return (
-        <div className={classes.root}>
+        <ContentContainer size="sm">
             <Paper className={classes.paper}>
                 <form onSubmit={handleSubmit}>
                     <TextField
@@ -63,7 +57,7 @@ function ProfileSettingsPage({ values, handleChange, handleSubmit, classes }) {
                     </div>
                 </form>
             </Paper>
-        </div>
+        </ContentContainer>
     );
 }
 

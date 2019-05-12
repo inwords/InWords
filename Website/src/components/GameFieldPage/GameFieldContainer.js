@@ -94,7 +94,7 @@ function GameFieldContainer({ gameLevel, resetGameLevelScore, saveLevelResult })
                 setTimeout(() => {
                     setInfoAboutSelectedWords([]);
                     setClosuresQuantity(closuresQuantity + 1);
-                }, 1000);
+                }, 700);
             }
         }
     };
@@ -106,9 +106,9 @@ function GameFieldContainer({ gameLevel, resetGameLevelScore, saveLevelResult })
         setClosuresQuantity(0);
         setGameCompleted(false);
 
-        setInfoAboutRandomWords(shuffle([...infoAboutRandomWords]));
-
         resetGameLevelScore();
+
+        setInfoAboutRandomWords(shuffle([...infoAboutRandomWords]));
     };
 
     return (

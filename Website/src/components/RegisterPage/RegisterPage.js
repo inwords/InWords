@@ -7,15 +7,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import ContentContainer from '../ContentContainer';
 
 const styles = theme => ({
-    root: {
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            width: 400,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
     paper: {
         marginTop: theme.spacing.unit * 8,
         display: 'flex',
@@ -33,7 +27,7 @@ const styles = theme => ({
 
 function RegisterPage({ values, handleChange, handleSubmit, classes }) {
     return (
-        <div className={classes.root}>
+        <ContentContainer size="xs">
             <Paper className={classes.paper}>
                 <Typography variant="h5">
                     Регистрация
@@ -72,7 +66,7 @@ function RegisterPage({ values, handleChange, handleSubmit, classes }) {
                     </Button>
                 </form>
             </Paper>
-        </div>
+        </ContentContainer>
     );
 }
 
