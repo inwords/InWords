@@ -41,7 +41,6 @@ namespace InWords.WebApi.Controllers.v1
         [Route("")]
         public ActionResult<int> GetUsersCount()
         {
-            throw new Exception("unhandled");
             return userRepository.Count();
         }
 
