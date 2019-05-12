@@ -4,7 +4,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/android
 
 trigger:
+  branches:
+    include:
     - master
+  paths:
+    include:
+    - Android/*
 
 pool:
   vmImage: 'macOS-10.14'

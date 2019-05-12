@@ -181,7 +181,7 @@
       <returns></returns>
     </member>
     <member
-      name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateUserScore(System.Int32,InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelScore)">
+      name="M:InWords.WebApi.Services.GameService.GameScoreService.PushLevelScoreList(System.Int32,InWords.Transfer.Data.Models.GameBox.LevelMetric.LevelScore)">
       <summary>
         This is to set level score to user level storage
       </summary>
