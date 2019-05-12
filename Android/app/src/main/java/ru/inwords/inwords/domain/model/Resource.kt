@@ -19,11 +19,11 @@ data class Resource<T : Any> internal constructor(val status: Status, val data: 
             return Resource(Status.SUCCESS, data, null)
         }
 
-        fun <T : Any> loading(data: T?): Resource<T> {
+        fun <T : Any> loading(data: T? = null): Resource<T> {
             return Resource(Status.LOADING, data, null)
         }
 
-        fun <T : Any> error(msg: String?, data: T?): Resource<T> {
+        fun <T : Any> error(msg: String? = null, data: T? = null): Resource<T> {
             return Resource(Status.ERROR, data, msg)
         }
     }

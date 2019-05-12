@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "de.mannodermaus.android-junit5"
 
 android {
     compileSdkVersion targetSdk
@@ -30,6 +31,18 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests.all {
+            // Always run tests, even when nothing changed.
+            dependsOn 'clean'
+
+            // Show test results.
+            testLogging {
+                events "passed", "skipped", "failed"
+            }
+        }
     }
 }
 
@@ -94,8 +107,10 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$versions.DAGGER"
 
     androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
-    testImplementation "io.mockk:mockk:1.9.3"
 
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.4.2"
+
+    testImplementation "io.mockk:mockk:1.9.3"
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
