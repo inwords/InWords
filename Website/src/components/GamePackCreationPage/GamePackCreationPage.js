@@ -8,15 +8,9 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import IconButton from '@material-ui/core/IconButton';
+import ContentContainer from '../ContentContainer';
 
 const styles = theme => ({
-    root: {
-        [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-            width: 600,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
     paper: {
         marginTop: theme.spacing.unit * 2,
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
@@ -50,7 +44,7 @@ function GamePackCreationPage(
     }
 ) {
     return (
-        <div className={classes.root}>
+        <ContentContainer size="sm">
             <Paper className={classes.paper}>
                 <form onSubmit={handleSubmit}>
                     <TextField
@@ -176,7 +170,7 @@ function GamePackCreationPage(
                     </div>
                 </form>
             </Paper>
-        </div>
+        </ContentContainer>
     );
 }
 

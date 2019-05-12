@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem/index';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction/index';
 import ListItemText from '@material-ui/core/ListItemText/index';
 import Checkbox from '@material-ui/core/Checkbox/index';
-import PageContentContainer from '../shared/PageContentContainer';
+import ContentContainer from '../ContentContainer';
 import WordPairEditButtonWithDialog from './WordPairEditButtonWithDialog';
 import WordPairAddButtonWithDialog from './WordPairAddButtonWithDialog';
 
@@ -19,7 +19,7 @@ const styles = theme => ({
 
 function WordlistPage({ wordPairs, checked, handleToggle, classes }) {
     return (
-        <PageContentContainer>
+        <ContentContainer size="md">
             <List className={classes.list}>
                 {wordPairs.map(wordPair => (
                     <ListItem key={wordPair.serverId} button onClick={handleToggle(wordPair.serverId)}>
@@ -31,7 +31,7 @@ function WordlistPage({ wordPairs, checked, handleToggle, classes }) {
                     </ListItem>))}
             </List>
             <WordPairAddButtonWithDialog />
-        </PageContentContainer>
+        </ContentContainer>
     );
 }
 

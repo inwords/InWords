@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card/index';
-import CardActionArea from '@material-ui/core/CardActionArea/index';
 import CardActions from '@material-ui/core/CardActions/index';
 import CardContent from '@material-ui/core/CardContent/index';
 import CardMedia from '@material-ui/core/CardMedia/index';
@@ -27,22 +26,20 @@ function ProfilePage({ editingAvailable, userInfo, classes }) {
 
     return (
         <Card className={classes.card}>
-            <CardActionArea>
-                {avatarPath && (
-                    <CardMedia
-                        className={classes.media}
-                        image={avatarPath}
-                        title="Avatar"
-                    />)}
-                <CardContent>
-                    <Typography gutterBottom variant="h5">
-                        {nickName}
-                    </Typography>
-                    <Typography component="p">
-                        {experience} опыта
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
+            {avatarPath && (
+                <CardMedia
+                    className={classes.media}
+                    image={avatarPath}
+                    title="Avatar"
+                />)}
+            <CardContent>
+                <Typography gutterBottom variant="h5">
+                    {nickName}
+                </Typography>
+                <Typography>
+                    {experience} опыта
+                </Typography>
+            </CardContent>
             <CardActions>
                 {editingAvailable && (
                     <Button size="small" color="primary" href="#profile_settings">

@@ -91,7 +91,7 @@ function TopAppBar({ authorized, loading, children, classes }) {
                     {appBarSettings.rightElements.map((element, index) =>
                         element ?
                             <React.Fragment key={index}>{element}</React.Fragment> :
-                            <ProfileMenu key={index} />)}
+                            authorized && <ProfileMenu key={index} />)}
                 </Toolbar>
                 {loading && <LinearProgress />}
             </AppBar>

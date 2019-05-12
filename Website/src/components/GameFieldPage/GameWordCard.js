@@ -16,9 +16,9 @@ const styles = theme => ({
     },
     text: {
         width: cardDimension,
-        overflowWrap: 'break-word',
         padding: theme.spacing.unit,
         textAlign: 'center',
+        overflowWrap: 'break-word',
     },
 });
 

@@ -10,7 +10,7 @@ const styles = theme => ({
     item: {
         paddingLeft: theme.spacing.unit * 3,
     },
-    weightedText: {
+    selected: {
         fontWeight: '500',
     },
 });
@@ -19,7 +19,7 @@ function NavListItem({to, text, location, classes}) {
     return (
         <ListItem button dense component={Link} to={to} className={classes.item}>
             <ListItemText primary={location.pathname.startsWith(to) ?
-                <Typography color="primary" className={classes.weightedText}>{text}</Typography> :
+                <Typography color="primary" className={classes.selected}>{text}</Typography> :
                 <Typography>{text}</Typography>}
             />
         </ListItem>

@@ -4,7 +4,7 @@ import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import history from '../history';
 import TopAppBar from './TopAppBar';
-import NotificationSnackbar from './ErrorSnackbar';
+import ErrorSnackbar from './ErrorSnackbar';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import WordlistPage from './WordlistPage';
@@ -18,7 +18,7 @@ import GamePackCreationPage from './GamePackCreationPage';
 function App({ userId }) {
     return (
         <>
-            <NotificationSnackbar />
+            <ErrorSnackbar />
             <Router history={history}>
                 <Switch>
                     <TopAppBar>
@@ -35,7 +35,7 @@ function App({ userId }) {
                         <Route path="/game/:gameId" component={GameLevelsPage} />
                         <Route path="/game_level/:levelId" component={GameFieldPage} />
                         <Route exact path="/profile" render={() => <Redirect to={`/profile/${userId}`} />} />
-                        <Route exact path="/profile/:userId" component={ProfilePage} />
+                        <Route path="/profile/:userId" component={ProfilePage} />
                         <Route path="/profile_settings" component={ProfileSettingsPage} />
                     </TopAppBar>
                 </Switch>

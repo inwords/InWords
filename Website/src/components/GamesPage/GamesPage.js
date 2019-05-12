@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Paper from '@material-ui/core/Paper/index';
 import Tabs from '@material-ui/core/Tabs/index';
 import Tab from '@material-ui/core/Tab/index';
-import PageContentContainer from '../shared/PageContentContainer';
+import ContentContainer from '../ContentContainer';
 import LearningGames from './LearningGames';
 import SandboxGames from './SandboxGames';
 import GamePackAddButton from './GamePackCreateButton';
@@ -17,7 +17,7 @@ const styles = theme => ({
 
 function GamesPage({ value, handleChange, classes }) {
     return (
-        <PageContentContainer>
+        <ContentContainer>
             <Paper>
                 <Tabs
                     value={value}
@@ -39,7 +39,7 @@ function GamesPage({ value, handleChange, classes }) {
                 <SandboxGames />
             </div>}
             <GamePackAddButton visible={value === 1} />
-        </PageContentContainer>
+        </ContentContainer>
     );
 }
 
