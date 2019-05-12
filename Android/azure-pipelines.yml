@@ -19,7 +19,16 @@ steps:
   inputs:
     workingDirectory: 'Android/'
     gradleWrapperFile: 'Android/gradlew'
-    gradleOptions: '-Xmx3072m'
+    tasks: 'test'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
+    testRunTitle: 'Run JUnit5 tests'
+    javaHomeOption: 'JDKVersion'
+    gradleOptions: '-Xmx3072m'
+    sonarQubeRunAnalysis: false
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Android/'
+    gradleWrapperFile: 'Android/gradlew'
+    gradleOptions: '-Xmx3072m'
     tasks: 'assembleDebug'
