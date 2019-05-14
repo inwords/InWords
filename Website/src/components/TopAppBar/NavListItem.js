@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link, withRouter} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,10 +15,10 @@ const styles = theme => ({
     },
 });
 
-function NavListItem({to, text, location, classes}) {
+function NavListItem({ to, text, selected, classes }) {
     return (
         <ListItem button dense component={Link} to={to} className={classes.item}>
-            <ListItemText primary={location.pathname.startsWith(to) ?
+            <ListItemText primary={selected ?
                 <Typography color="primary" className={classes.selected}>{text}</Typography> :
                 <Typography>{text}</Typography>}
             />
@@ -29,10 +29,9 @@ function NavListItem({to, text, location, classes}) {
 NavListItem.propTypes = {
     to: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    location: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(
-    withRouter(NavListItem)
+    React.memo(NavListItem)
 );

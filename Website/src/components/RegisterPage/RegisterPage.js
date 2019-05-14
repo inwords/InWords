@@ -32,10 +32,7 @@ function RegisterPage({ values, handleChange, handleSubmit, classes }) {
                 <Typography variant="h5">
                     Регистрация
                 </Typography>
-                <form
-                    onSubmit={handleSubmit}
-                    className={classes.form}
-                >
+                <form onSubmit={handleSubmit} className={classes.form}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
