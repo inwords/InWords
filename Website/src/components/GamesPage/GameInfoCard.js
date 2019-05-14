@@ -17,7 +17,7 @@ function GameInfoCard({ gameInfo, action = null }) {
                 title={title}
             />
             <CardContent>
-                <Typography component="p">
+                <Typography>
                     {description}
                 </Typography>
             </CardContent>

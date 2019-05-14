@@ -7,7 +7,7 @@ import FinalScreen from './FinalScreen';
 function FinalScreenContainer({ gameLevel, gameInfo, history, ...other }) {
     const handleRedirectionToLevels = () => {
         if (!gameInfo.gameId) {
-            history.push('/games');
+            history.push('/games/0');
         } else {
             history.push(`/game/${gameInfo.gameId}`);
         }
@@ -15,7 +15,7 @@ function FinalScreenContainer({ gameLevel, gameInfo, history, ...other }) {
 
     const handleRedirectionToNextLevel = () => {
         if (!gameInfo.gameId) {
-            history.push('/games');
+            history.push('/games/0');
         } else {
             const levelIndex = gameInfo.levelInfos.findIndex(levelInfo =>
                 levelInfo.levelId === gameLevel.levelId);

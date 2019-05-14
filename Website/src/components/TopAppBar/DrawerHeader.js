@@ -26,4 +26,6 @@ DrawerHeader.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(DrawerHeader);
+export default withStyles(styles)(
+    React.memo(DrawerHeader)
+);

@@ -51,7 +51,7 @@ function addGamePack(gamePack) {
             description: gamePack.creationInfo.descriptions[0].description
         })],
         redirection: '/games/1',
-        errorMessage: 'Не удалось добавить игру'
+        errorMessage: 'Не удалось создать игру'
     });
 }
 

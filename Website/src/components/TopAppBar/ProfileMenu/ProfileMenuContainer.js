@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import accessActions from '../../../actions/accessActions';
 import ProfileMenu from './ProfileMenu';
 
-function ProfileMenuContainer({ denyAccess, history }) {
+function ProfileMenuContainer({ denyAccess }) {
     const handleLogout = () => {
         denyAccess();
-        history.push('/login');
     };
 
     return <ProfileMenu handleLogout={handleLogout} />;
@@ -16,8 +14,7 @@ function ProfileMenuContainer({ denyAccess, history }) {
 
 ProfileMenuContainer.propTypes = {
     userId: PropTypes.number,
-    denyAccess: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
+    denyAccess: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => {
@@ -26,7 +23,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(
+export default connect(
     null,
     mapDispatchToProps
-)(ProfileMenuContainer));
+)(ProfileMenuContainer);
