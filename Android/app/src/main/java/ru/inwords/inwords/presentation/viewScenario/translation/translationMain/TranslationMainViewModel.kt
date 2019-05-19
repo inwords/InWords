@@ -10,6 +10,7 @@ import ru.inwords.inwords.data.dto.WordTranslation
 import ru.inwords.inwords.data.repository.texttospeech.TtsRepository
 import ru.inwords.inwords.domain.interactor.translation.TranslationSyncInteractor
 import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteractor
+import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 import java.util.concurrent.TimeUnit
 
@@ -21,13 +22,13 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
     private var onSpeakerClickedDisposable: Disposable? = null
 
     private val addEditWordMutableLiveData: MutableLiveData<Event<WordTranslation>> = MutableLiveData()
-    private val ttsSubject: PublishSubject<Event<String>> = PublishSubject.create()
+    private val ttsSubject: PublishSubject<Resource<String>> = PublishSubject.create()
 
     val translationWordsStream: Observable<List<WordTranslation>>
         get() = translationWordsInteractor.allWords
 
     val addEditWordLiveData: LiveData<Event<WordTranslation>> get() = addEditWordMutableLiveData
-    val ttsStream: Observable<Event<String>> get() = ttsSubject
+    val ttsStream: Observable<Resource<String>> get() = ttsSubject
 
     fun onItemDismiss(wordTranslation: WordTranslation) {
         compositeDisposable.add(translationWordsInteractor.remove(wordTranslation)
@@ -39,7 +40,7 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
 
         onAddClickedDisposable = clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe { addEditWordMutableLiveData.postValue(Event<WordTranslation>(null)) }
+                .subscribe { addEditWordMutableLiveData.postValue(Event(WordTranslation("", ""))) }
                 .also { compositeDisposable.add(it) }
     }
 
@@ -58,7 +59,12 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
         onSpeakerClickedDisposable = speakerObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .switchMapSingle { ttsRepository.synthesize(it.wordForeign) }
-                .subscribe({ ttsSubject.onNext(Event(it.absolutePath)) }, { it.printStackTrace() })
+                .subscribe({
+                    ttsSubject.onNext(Resource.success(it.absolutePath))
+                }, {
+                    ttsSubject.onNext(Resource.error(it.message))
+                    it.printStackTrace()
+                })
                 .also { compositeDisposable.add(it) }
     }
 }
