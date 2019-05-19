@@ -53,12 +53,12 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
     }
 
     private void setUpViewState() {
-        if (wordToEdit == null) {
+        if (wordToEdit == null || wordToEdit.getWordNative().isEmpty()) {
             isEditing = false;
 
             buttonConfirm.setText("Добавить"); //TODO not to hardcode
 
-            WordTranslation wordTranslation = new WordTranslation(0, 0, "", "");
+            WordTranslation wordTranslation = wordToEdit != null ? wordToEdit : new WordTranslation("", "");
 
             renderEditingWords(wordTranslation);
         } else {
@@ -82,10 +82,11 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
     }
 
     private void onDoneClickedHandler(Observable<Object> buttonDoneObservable) {
-        if (isEditing)
+        if (isEditing) {
             viewModel.onEditWordDoneHandler(buttonDoneObservable, getWord(), wordToEdit);
-        else
+        } else {
             viewModel.onAddWordDoneHandler(buttonDoneObservable, getWord());
+        }
     }
 
     protected Observable<WordTranslation> getWord() { //TODO: validate input

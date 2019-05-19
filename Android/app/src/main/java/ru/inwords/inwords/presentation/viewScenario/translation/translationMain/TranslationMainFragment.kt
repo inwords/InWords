@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -42,23 +43,24 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
         viewModel.addEditWordLiveData.observe(this, Observer { event ->
             if (event.handle()) {
-                val args: Bundle?
+                val args = Bundle()
                 val wordTranslation = event.peekContent()
-                if (wordTranslation == null) {
-                    args = null
-                } else {
-                    args = Bundle()
-                    args.putSerializable(WordTranslation::class.java.canonicalName, wordTranslation)
-                }
+                args.putSerializable(WordTranslation::class.java.canonicalName, wordTranslation)
                 navController.navigate(R.id.action_translationMainFragment_to_addEditWordFragment, args)
             }
         })
 
-        compositeDisposable.add(viewModel.ttsStream.subscribe { event ->
-            if (event.handle()) {
-                playAudio(event.peekContent())
-            }
-        })
+        compositeDisposable.add(viewModel.ttsStream
+                .observeOn(SchedulersFacade.ui())
+                .subscribe { resource ->
+                    progress_view.post { progress_view.progress = 0 }
+
+                    if (resource.success()) {
+                        playAudio(resource.data!!)
+                    } else {
+                        Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
+                    }
+                })
 
         compositeDisposable.add(viewModel.translationWordsStream
                 .compose(RxDiffUtil.calculate { oldItems, newItems -> WordTranslationsDiffUtilCallback.create(oldItems, newItems) })
@@ -67,7 +69,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
         viewModel.onAddClickedHandler(RxView.clicks(fab))
         viewModel.onEditClickedHandler(onItemClickedListener)
-        viewModel.onSpeakerClickedHandler(onSpeakerClickedListener)
+        viewModel.onSpeakerClickedHandler(onSpeakerClickedListener.doOnNext { progress_view.progress = 50 })
     }
 
     override fun onDestroyView() {
@@ -78,12 +80,15 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     private fun playAudio(path: String) {
-        mediaPlayer.reset()
-
-        mediaPlayer.setDataSource(path)
-        mediaPlayer.setAudioAttributes(attrs)
-        mediaPlayer.prepare()
-        mediaPlayer.start()
+        try {
+            mediaPlayer.reset()
+            mediaPlayer.setDataSource(path)
+            mediaPlayer.setAudioAttributes(attrs)
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+        } catch (throwable: Throwable) {
+            throwable.printStackTrace()
+        }
     }
 
     private fun setupRecyclerView(view: View, onItemClickedListener: Subject<WordTranslation>, onSpeakerClickedListener: Subject<WordTranslation>) {

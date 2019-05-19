@@ -25,4 +25,9 @@
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal" />
 
+    <ru.inwords.inwords.presentation.custom_views.ProgressView
+        android:id="@+id/progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
+
 </FrameLayout>
