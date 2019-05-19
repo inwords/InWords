@@ -15,6 +15,7 @@ android {
         versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
+        buildConfigField "String", "TTS_GOOGLE_API_URL", "\"https://texttospeech.googleapis.com\""
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -58,11 +59,7 @@ dependencies {
     implementation project(path: ':flipview')
     implementation project(path: ':shimmer_recycler')
 
-    implementation 'io.grpc:grpc-okhttp:1.19.0'
     implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation('com.google.cloud:google-cloud-texttospeech:0.92.0-beta') {
-        transitive = true
-    }
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 

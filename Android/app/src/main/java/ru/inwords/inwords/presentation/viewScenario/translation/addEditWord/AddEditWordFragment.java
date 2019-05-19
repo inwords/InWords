@@ -11,8 +11,6 @@ import androidx.annotation.Nullable;
 
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.Random;
-
 import io.reactivex.Observable;
 import ru.inwords.inwords.R;
 import ru.inwords.inwords.core.util.Event;
@@ -60,8 +58,7 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
 
             buttonConfirm.setText("Добавить"); //TODO not to hardcode
 
-            Random rnd = new Random(System.currentTimeMillis());
-            WordTranslation wordTranslation = new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000));
+            WordTranslation wordTranslation = new WordTranslation(0, 0, "", "");
 
             renderEditingWords(wordTranslation);
         } else {

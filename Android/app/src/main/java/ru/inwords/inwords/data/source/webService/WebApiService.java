@@ -10,6 +10,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import ru.inwords.inwords.BuildConfig;
 import ru.inwords.inwords.data.dto.EntityIdentificator;
 import ru.inwords.inwords.data.dto.User;
 import ru.inwords.inwords.data.dto.UserCredentials;
@@ -19,6 +20,8 @@ import ru.inwords.inwords.data.dto.game.GameInfo;
 import ru.inwords.inwords.data.dto.game.GameLevel;
 import ru.inwords.inwords.data.dto.game.LevelScore;
 import ru.inwords.inwords.data.dto.game.LevelScoreRequest;
+import ru.inwords.inwords.data.dto.google.TtsSynthesizeRequest;
+import ru.inwords.inwords.data.dto.google.TtsSynthesizeResponse;
 import ru.inwords.inwords.data.source.webService.session.TokenResponse;
 import ru.inwords.inwords.data.sync.PullWordsAnswer;
 
@@ -70,4 +73,9 @@ public interface WebApiService {
 
     @GET("/v1.0/values/getlogin")
     Single<String> getLogin(@Header("Authorization") String bearerToken);
+
+    //GOOGLE
+    @POST(BuildConfig.TTS_GOOGLE_API_URL + "/v1beta1/text:synthesize")
+    @Headers("content-type: application/json; charset=UTF-8")
+    Single<TtsSynthesizeResponse> ttsSynthesize(@Header("X-Goog-Api-Key") String googleApiKey, @Body TtsSynthesizeRequest request);
 }

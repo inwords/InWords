@@ -6,7 +6,7 @@ import ru.inwords.inwords.data.source.webService.WebRequestsManager
 import javax.inject.Inject
 
 class UserRemoteRepository @Inject constructor(private val webRequestsManager: WebRequestsManager) {
-    fun getAuthorisedUser(): Single<User> = webRequestsManager.authorisedUser
+    fun getAuthorisedUser(): Single<User> = webRequestsManager.getAuthorisedUser()
 
     fun getUserById(id: Int): Single<User> = webRequestsManager.getUserById(id)
 }

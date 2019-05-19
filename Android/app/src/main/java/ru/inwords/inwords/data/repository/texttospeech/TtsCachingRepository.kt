@@ -9,15 +9,18 @@ class TtsCachingRepository(
         private val remoteRepository: TtsRemoteRepository) : TtsRepository {
 
     override fun synthesize(textToSpeak: String): Single<File> {
-        return Single.fromCallable {
-            val synthesizedFile = databaseRepository.getFile(textToSpeak)
-
-            if (!synthesizedFile.exists()) {
-                val audioContent = remoteRepository.getTtsAudioContent(textToSpeak)
-                databaseRepository.storeFile(synthesizedFile, audioContent.toByteArray())
-            }
-
-            synthesizedFile
-        }.subscribeOn(SchedulersFacade.io())
+        return Single.fromCallable { databaseRepository.getFile(textToSpeak) }
+                .flatMap { synthesizedFile ->
+                    if (!synthesizedFile.exists()) {
+                        remoteRepository.getTtsAudioContent(textToSpeak, databaseRepository.getGoogleServicesApiKey())
+                                .map {
+                                    databaseRepository.storeFile(synthesizedFile, it)
+                                    synthesizedFile
+                                }
+                    } else {
+                        Single.just(synthesizedFile)
+                    }
+                }
+                .subscribeOn(SchedulersFacade.io())
     }
 }

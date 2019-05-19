@@ -4,7 +4,7 @@ package ru.inwords.inwords.core.util;
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.
  */
 public class Event<T> {
-    private T content;
+    private final T content;
     private boolean hasBeenHandled = false;
 
     public Event(T content) {
