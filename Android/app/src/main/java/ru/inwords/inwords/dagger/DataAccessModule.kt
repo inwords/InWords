@@ -1,11 +1,17 @@
 package ru.inwords.inwords.dagger
 
+import android.content.Context
+import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import ru.inwords.inwords.data.repository.profile.UserCachingRepository
 import ru.inwords.inwords.data.repository.profile.UserDatabaseRepository
 import ru.inwords.inwords.data.repository.profile.UserRemoteRepository
 import ru.inwords.inwords.data.repository.profile.UserRepository
+import ru.inwords.inwords.data.repository.texttospeech.TtsCachingRepository
+import ru.inwords.inwords.data.repository.texttospeech.TtsDatabaseRepository
+import ru.inwords.inwords.data.repository.texttospeech.TtsRemoteRepository
+import ru.inwords.inwords.data.repository.texttospeech.TtsRepository
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
 import ru.inwords.inwords.data.source.database.WordTranslationDao
 import ru.inwords.inwords.data.source.database.game.GameDao
@@ -20,6 +26,18 @@ internal class DataAccessModule {
     @Singleton
     fun wordTranslationDao(database: AppRoomDatabase): WordTranslationDao {
         return database.wordTranslationDao()
+    }
+
+    @Provides
+    fun resources(context: Context): Resources {
+        return context.resources
+    }
+
+    @Provides
+    @Singleton
+    fun ttsRep(databaseRepository: TtsDatabaseRepository,
+               remoteRepository: TtsRemoteRepository): TtsRepository {
+        return TtsCachingRepository(databaseRepository, remoteRepository)
     }
 
     @Provides
