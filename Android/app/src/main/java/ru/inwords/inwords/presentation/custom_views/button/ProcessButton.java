@@ -1,4 +1,4 @@
-package ru.inwords.inwords.presentation.button;
+package ru.inwords.inwords.presentation.custom_views.button;
 
 import android.content.Context;
 import android.content.res.TypedArray;

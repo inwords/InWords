@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "de.mannodermaus.android-junit5"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion targetSdk
@@ -10,10 +11,11 @@ android {
         applicationId "ru.inwords.inwords"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
-        versionCode 4
-        versionName "1.1"
+        versionCode 5
+        versionName "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
+        buildConfigField "String", "TTS_GOOGLE_API_URL", "\"https://texttospeech.googleapis.com\""
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -44,6 +46,11 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/INDEX.LIST'
+    }
 }
 
 dependencies {
@@ -51,6 +58,8 @@ dependencies {
 
     implementation project(path: ':flipview')
     implementation project(path: ':shimmer_recycler')
+
+    implementation 'com.google.firebase:firebase-core:16.0.9'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -61,8 +70,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$versions.CONSTRAINT_LAYOUT"
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment:$versions.NAVIGATION"
-    implementation "android.arch.navigation:navigation-ui:$versions.NAVIGATION"
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.NAVIGATION"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.NAVIGATION"
 
     // RxJava
     implementation "io.reactivex.rxjava2:rxjava:$versions.RX_JAVA"

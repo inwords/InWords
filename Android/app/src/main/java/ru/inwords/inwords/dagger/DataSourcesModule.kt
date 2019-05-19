@@ -47,7 +47,6 @@ class DataSourcesModule {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .baseUrl(BuildConfig.API_URL)
-
                 .build()
     }
 

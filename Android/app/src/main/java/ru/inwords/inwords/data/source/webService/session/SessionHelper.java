@@ -9,7 +9,7 @@ import retrofit2.HttpException;
 
 public class SessionHelper {
     private final int MAX_UNAUTHORISED_REQUESTS;
-    private AtomicInteger unauthorisedReqThreshold;
+    private final AtomicInteger unauthorisedReqThreshold;
 
     @Inject
     SessionHelper(/*int maxRequests*/) {
@@ -33,8 +33,9 @@ public class SessionHelper {
 
     public Completable requireThreshold() {
         return Completable.create(emitter -> {
-            if (unauthorisedReqThreshold.get() > MAX_UNAUTHORISED_REQUESTS)
+            if (unauthorisedReqThreshold.get() > MAX_UNAUTHORISED_REQUESTS) {
                 emitter.onError(new RuntimeException("Threshold reached")); //TODO make normal exception
+            }
 
             emitter.onComplete();
         });
