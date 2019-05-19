@@ -1,10 +1,13 @@
 package ru.inwords.inwords.presentation.viewScenario.main_activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.inwords.inwords.R
@@ -21,6 +24,8 @@ class MainActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        checkPlayServices()
+
         viewModel = getViewModel()
 
         navController = Navigation.findNavController(this, R.id.main_nav_host_fragment)
@@ -36,20 +41,28 @@ class MainActivity : DaggerAppCompatActivity() {
         return navController.navigateUp()
     }
 
-    /*
-    lateinit var image: Drawable
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_second)
-
-        image = lastCustomNonConfigurationInstance as Drawable? ?: resources.getDrawable(R.drawable.mem, theme)
+    private fun checkPlayServices(): Boolean {
+        val apiAvailability = GoogleApiAvailability.getInstance()
+        val resultCode = apiAvailability.isGooglePlayServicesAvailable(this)
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show()
+            } else {
+                Log.i(TAG, "This device is not supported.")
+                finish()
+            }
+            return false
+        }
+        return true
     }
-
-    override fun onRetainCustomNonConfigurationInstance() = image
-     */
 
     private fun getViewModel(): IntegrationViewModel {
         return ViewModelProviders.of(this, modelFactory).get(IntegrationViewModel::class.java)
+    }
+
+    companion object {
+        const val TAG = "MainActivity"
+        const val PLAY_SERVICES_RESOLUTION_REQUEST = 9000
     }
 }
