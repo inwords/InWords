@@ -10,10 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
+import kotlinx.android.synthetic.main.fragment_translation_main.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.util.SchedulersFacade
@@ -26,22 +26,22 @@ import ru.inwords.inwords.presentation.viewScenario.translation.recycler.WordTra
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.WordTranslationsDiffUtilCallback
 
 class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationViewModelFactory>(), ItemTouchHelperEvents {
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: WordTranslationsAdapter
+
     private lateinit var mediaPlayer: MediaPlayer
+    private val attrs = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mediaPlayer = MediaPlayer()
 
-//        playMp3(path)
-
         val onItemClickedListener = PublishSubject.create<WordTranslation>()
-        setupRecyclerView(view, onItemClickedListener)
+        val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
+        setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
 
         viewModel.addEditWordLiveData.observe(this, Observer { event ->
-            if (event != null && event.handle()) {
+            if (event.handle()) {
                 val args: Bundle?
                 val wordTranslation = event.peekContent()
                 if (wordTranslation == null) {
@@ -54,14 +54,20 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
             }
         })
 
+        compositeDisposable.add(viewModel.ttsStream.subscribe { event ->
+            if (event.handle()) {
+                playAudio(event.peekContent())
+            }
+        })
+
         compositeDisposable.add(viewModel.translationWordsStream
                 .compose(RxDiffUtil.calculate { oldItems, newItems -> WordTranslationsDiffUtilCallback.create(oldItems, newItems) })
                 .observeOn(SchedulersFacade.ui())
                 .subscribe(adapter))
 
-        val fab = view.findViewById<FloatingActionButton>(R.id.fab)
         viewModel.onAddClickedHandler(RxView.clicks(fab))
-        viewModel.onEditClicked(onItemClickedListener)
+        viewModel.onEditClickedHandler(onItemClickedListener)
+        viewModel.onSpeakerClickedHandler(onSpeakerClickedListener)
     }
 
     override fun onDestroyView() {
@@ -74,31 +80,27 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     private fun playAudio(path: String) {
         mediaPlayer.reset()
 
-        val attrs = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build()
         mediaPlayer.setDataSource(path)
         mediaPlayer.setAudioAttributes(attrs)
         mediaPlayer.prepare()
         mediaPlayer.start()
     }
 
-    private fun setupRecyclerView(view: View, onItemClickedListener: PublishSubject<WordTranslation>) {
-        recyclerView = view.findViewById(R.id.recycler_view)
-
+    private fun setupRecyclerView(view: View, onItemClickedListener: Subject<WordTranslation>, onSpeakerClickedListener: Subject<WordTranslation>) {
         val context = view.context
 
-        adapter = WordTranslationsAdapter(LayoutInflater.from(context), onItemClickedListener)
+        adapter = WordTranslationsAdapter(LayoutInflater.from(context), onItemClickedListener, onSpeakerClickedListener)
         val layoutManager = LinearLayoutManager(context)
         val dividerItemDecoration = DividerItemDecoration(context, layoutManager.orientation)
 
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(dividerItemDecoration)
+        recycler_view.layoutManager = layoutManager
+        recycler_view.adapter = adapter
+        recycler_view.addItemDecoration(dividerItemDecoration)
 
         val callback = ItemTouchHelperAdapter(this) //TODO
         val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(recyclerView)
+        touchHelper.attachToRecyclerView(recycler_view)
     }
-
 
     override fun onItemDismiss(position: Int) {
         viewModel.onItemDismiss(adapter.values[position])
