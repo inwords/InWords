@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "de.mannodermaus.android-junit5"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion targetSdk
@@ -44,6 +45,11 @@ android {
             }
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/INDEX.LIST'
+    }
 }
 
 dependencies {
@@ -51,6 +57,12 @@ dependencies {
 
     implementation project(path: ':flipview')
     implementation project(path: ':shimmer_recycler')
+
+    implementation 'io.grpc:grpc-okhttp:1.19.0'
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation('com.google.cloud:google-cloud-texttospeech:0.92.0-beta') {
+        transitive = true
+    }
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -61,8 +73,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$versions.CONSTRAINT_LAYOUT"
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment:$versions.NAVIGATION"
-    implementation "android.arch.navigation:navigation-ui:$versions.NAVIGATION"
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.NAVIGATION"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.NAVIGATION"
 
     // RxJava
     implementation "io.reactivex.rxjava2:rxjava:$versions.RX_JAVA"
