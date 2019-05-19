@@ -11,8 +11,6 @@ import androidx.annotation.Nullable;
 
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.Random;
-
 import io.reactivex.Observable;
 import ru.inwords.inwords.R;
 import ru.inwords.inwords.core.util.Event;
@@ -55,13 +53,12 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
     }
 
     private void setUpViewState() {
-        if (wordToEdit == null) {
+        if (wordToEdit == null || wordToEdit.getWordNative().isEmpty()) {
             isEditing = false;
 
             buttonConfirm.setText("Добавить"); //TODO not to hardcode
 
-            Random rnd = new Random(System.currentTimeMillis());
-            WordTranslation wordTranslation = new WordTranslation(0, 0, "fromfab", "от фаб" + rnd.nextInt(1000));
+            WordTranslation wordTranslation = wordToEdit != null ? wordToEdit : new WordTranslation("", "");
 
             renderEditingWords(wordTranslation);
         } else {
@@ -85,10 +82,11 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
     }
 
     private void onDoneClickedHandler(Observable<Object> buttonDoneObservable) {
-        if (isEditing)
+        if (isEditing) {
             viewModel.onEditWordDoneHandler(buttonDoneObservable, getWord(), wordToEdit);
-        else
+        } else {
             viewModel.onAddWordDoneHandler(buttonDoneObservable, getWord());
+        }
     }
 
     protected Observable<WordTranslation> getWord() { //TODO: validate input

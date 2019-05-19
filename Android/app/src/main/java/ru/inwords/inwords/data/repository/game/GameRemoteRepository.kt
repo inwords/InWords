@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class GameRemoteRepository @Inject constructor(private val webRequestsManager: WebRequestsManager) {
     fun getGameInfos(): Single<List<GameInfo>> {
-        return webRequestsManager.gameInfos
+        return webRequestsManager.getGameInfos()
     }
 
     fun getGame(gameId: Int): Single<Game> {

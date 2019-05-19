@@ -13,7 +13,7 @@ import io.reactivex.Observable;
 import ru.inwords.inwords.R;
 import ru.inwords.inwords.core.util.Event;
 import ru.inwords.inwords.data.dto.UserCredentials;
-import ru.inwords.inwords.presentation.button.iml.ActionProcessButton;
+import ru.inwords.inwords.presentation.custom_views.button.ActionProcessButton;
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav;
 
 public abstract class SigningBaseFragment
@@ -84,8 +84,9 @@ public abstract class SigningBaseFragment
 
             case ERROR:
                 AuthorisationViewState viewState = viewStateEvent.getContentIfNotHandled();
-                if (viewState != null && viewState.throwable != null)
+                if (viewState != null && viewState.throwable != null) {
                     renderErrorState(viewState.throwable);
+                }
                 break;
 
             case INVALID_EMAIL:

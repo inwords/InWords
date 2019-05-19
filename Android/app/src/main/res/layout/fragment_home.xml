@@ -12,7 +12,7 @@
         android:id="@+id/buttonGetWordList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_margin="@dimen/margin_medium"
         android:text="get WordList"
         android:visibility="gone" />
 
