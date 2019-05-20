@@ -39,9 +39,9 @@ steps:
 - task: AndroidSigning@3
   inputs:
     apkFiles: '**/*.aab'
-    jarsign: true
-    jarsignerKeystoreFile: '$(Agent.TempDirectory)/inwords.jks'
-    jarsignerKeystorePassword: '$(jarsignerKeystorePassword)'
-    jarsignerKeystoreAlias: 'key0'
-    jarsignerKeyPassword: '$(jarsignerKeyPassword)'
+    apksign: true
+    apksignerKeystoreFile: '$(Agent.TempDirectory)/inwords.jks'
+    apksignerKeystorePassword: '$(jarsignerKeystorePassword)'
+    apksignerKeystoreAlias: 'key0'
+    apksignerKeyPassword: '$(jarsignerKeyPassword)'
     zipalign: true
