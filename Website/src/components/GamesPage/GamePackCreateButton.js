@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Fab from '@material-ui/core/Fab/index';
+import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import Zoom from '@material-ui/core/Zoom/index';
+import Zoom from '@material-ui/core/Zoom';
 
 const styles = theme => ({
     button: {

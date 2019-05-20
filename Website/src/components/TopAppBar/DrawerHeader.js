@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles/index';
-import Link from '@material-ui/core/Link/index';
+import { withStyles } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
 
 const styles = theme => ({
     drawerHeader: {

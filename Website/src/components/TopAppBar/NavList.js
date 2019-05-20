@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import List from '@material-ui/core/List/index';
+import List from '@material-ui/core/List';
 import NavListItem from './NavListItem';
 
 function NavList({ authorized, onClick = null, location }) {

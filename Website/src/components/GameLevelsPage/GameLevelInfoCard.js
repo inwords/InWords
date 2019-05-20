@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card/index';
-import CardContent from '@material-ui/core/CardContent/index';
-import CardActions from '@material-ui/core/CardActions/index';
-import Button from '@material-ui/core/Button/index';
-import Typography from '@material-ui/core/Typography/index';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 
 function GameLevelInfoCard({ levelInfo }) {

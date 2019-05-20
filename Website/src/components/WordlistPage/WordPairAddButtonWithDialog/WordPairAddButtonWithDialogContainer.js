@@ -6,7 +6,7 @@ import useDialog from '../../../hooks/useDialog';
 import useForm from '../../../hooks/useForm';
 import WordPairAddButtonWithDialog from './WordPairAddButtonWithDialog';
 
-function WordPairAddButtonWithDialogContainer({ addWordPair }) {
+function WordPairAddButtonWithDialogContainer({ addWordPair, ...other }) {
     const { open, handleClickOpen, handleClose } = useDialog();
 
     const { values, handleChange, handleSubmit, handleReset } = useForm({
@@ -29,6 +29,7 @@ function WordPairAddButtonWithDialogContainer({ addWordPair }) {
                 handleSubmit(event);
                 handleClose();
             }}
+            {...other}
         />
     );
 }

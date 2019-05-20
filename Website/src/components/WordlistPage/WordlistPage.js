@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import List from '@material-ui/core/List/index';
-import ListItem from '@material-ui/core/ListItem/index';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction/index';
-import ListItemText from '@material-ui/core/ListItemText/index';
-import Checkbox from '@material-ui/core/Checkbox/index';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
 import ContentContainer from '../ContentContainer';
 import WordPairEditButtonWithDialog from './WordPairEditButtonWithDialog';
 import WordPairAddButtonWithDialog from './WordPairAddButtonWithDialog';
@@ -30,7 +30,7 @@ function WordlistPage({ wordPairs, checked, handleToggle, classes }) {
                         </ListItemSecondaryAction>
                     </ListItem>))}
             </List>
-            <WordPairAddButtonWithDialog />
+            <WordPairAddButtonWithDialog visible={checked.length === 0} />
         </ContentContainer>
     );
 }

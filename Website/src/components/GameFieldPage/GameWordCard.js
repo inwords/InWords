@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Paper from '@material-ui/core/Paper/index';
-import Typography from '@material-ui/core/Typography/index';
-import Grow from '@material-ui/core/Grow/index';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Grow from '@material-ui/core/Grow';
 
 const cardDimension = 140;
 

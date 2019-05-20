@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Fab from '@material-ui/core/Fab/index';
+import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Zoom from '@material-ui/core/Zoom';
 import WordPairActionsDialog from '../WordPairActionsDialog';
 
 const styles = theme => ({
@@ -16,16 +17,18 @@ const styles = theme => ({
     },
 });
 
-function WordPairAddButtonWithDialog({ handleClickOpen, classes, ...other }) {
+function WordPairAddButtonWithDialog({ visible, handleClickOpen, classes, ...other }) {
     return (
         <>
-            <Fab
-                className={classes.fab}
-                color="primary"
-                onClick={handleClickOpen}
-            >
-                <AddIcon />
-            </Fab>
+            <Zoom in={visible}>
+                <Fab
+                    className={classes.fab}
+                    color="primary"
+                    onClick={handleClickOpen}
+                >
+                    <AddIcon />
+                </Fab>
+            </Zoom>
             <WordPairActionsDialog
                 title="Добавление"
                 {...other}
@@ -35,6 +38,7 @@ function WordPairAddButtonWithDialog({ handleClickOpen, classes, ...other }) {
 }
 
 WordPairAddButtonWithDialog.propTypes = {
+    visible: PropTypes.bool.isRequired,
     handleClickOpen: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton/index';
+import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Menu from '@material-ui/core/Menu/index';
-import MenuItem from '@material-ui/core/MenuItem/index';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import useDropdownMenu from '../../../hooks/useDropdownMenu';
 
 function ProfileMenu({ handleLogout }) {
