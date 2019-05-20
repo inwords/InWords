@@ -29,6 +29,12 @@ steps:
     Contents: 'google-services.json'
     TargetFolder: 'Android/app/'
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: 'inwords.jks'
+    TargetFolder: 'Android/'
+
 - task: Gradle@2
   inputs:
     workingDirectory: 'Android/'
@@ -38,9 +44,9 @@ steps:
 
 - task: AndroidSigning@2
   inputs:
-    apkFiles: '**/*.apk'
+    apkFiles: '**/*.aab'
     jarsign: true
-    jarsignerKeystoreFile: '$(Agent.TempDirectory)/inwords.jks'
+    jarsignerKeystoreFile: 'Android/inwords.jks'
     jarsignerKeystorePassword: '$(jarsignerKeystorePassword)'
     jarsignerKeystoreAlias: 'key0'
     jarsignerKeyPassword: '$(jarsignerKeyPassword)'
