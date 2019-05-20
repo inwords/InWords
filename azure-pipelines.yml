@@ -36,4 +36,12 @@ steps:
     gradleOptions: '-Xmx3072m'
     tasks: 'bundleRelease'
 
-
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '**/*.aab'
+    jarsign: true
+    jarsignerKeystoreFile: '$(Agent.TempDirectory)/inwords.jks'
+    jarsignerKeystorePassword: '$(jarsignerKeystorePassword)'
+    jarsignerKeystoreAlias: 'key0'
+    jarsignerKeyPassword: '$(jarsignerKeyPassword)'
+    zipalign: true
