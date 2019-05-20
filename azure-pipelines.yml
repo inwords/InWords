@@ -31,12 +31,10 @@ steps:
 
 - task: Gradle@2
   inputs:
-    workingDirectory: ''
-    gradleWrapperFile: 'gradlew'
+    workingDirectory: 'Android/'
+    gradleWrapperFile: 'Android/gradlew'
     gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: 'assembleRelease'
+    tasks: 'bundleRelease'
 
 - task: AndroidSigning@2
   inputs:
