@@ -17,7 +17,7 @@ pool:
 steps:
 - task: DownloadSecureFile@1
   inputs:
-    secureFile: google-services.json
+    secureFile: 'google-services.json'
 
 - task: CopyFiles@2
   inputs:
