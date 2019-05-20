@@ -1,0 +1,49 @@
+# Android
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - Android/*
+
+pool:
+  vmImage: 'macos-latest'
+
+steps:
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'google-services.json'
+
+- task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'inwords.jks'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: 'google-services.json'
+    TargetFolder: 'Android/app/'
+
+- task: Gradle@2
+  inputs:
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'assembleRelease'
+
+- task: AndroidSigning@2
+  inputs:
+    apkFiles: '**/*.apk'
+    jarsign: true
+    jarsignerKeystoreFile: '$(Agent.TempDirectory)/inwords.jks'
+    jarsignerKeystorePassword: '$(jarsignerKeystorePassword)'
+    jarsignerKeystoreAlias: 'key0'
+    jarsignerKeyPassword: '$(jarsignerKeyPassword)'
+    zipalign: true
