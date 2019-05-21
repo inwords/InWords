@@ -28,8 +28,9 @@ steps:
     command: build
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '--configuration Release' # Update this to match your need
-- task: VSTest@2
+
+- task: DotNetCoreCLI@2
   inputs:
-    testSelector: 'testRun'
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    codeCoverageEnabled: true
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
