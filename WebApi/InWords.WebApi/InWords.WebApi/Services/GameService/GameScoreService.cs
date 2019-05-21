@@ -19,9 +19,7 @@ namespace InWords.WebApi.Services.GameService
                      && g.UserId.Equals(userId)).ToArray();
 
             foreach (LevelInfo level in game.LevelInfos)
-            {
                 level.PlayerStars = levels.SingleOrDefault(l => l.GameLevelId.Equals(level.LevelId))?.UserStars ?? 0;
-            }
             return game;
         }
 
@@ -36,7 +34,7 @@ namespace InWords.WebApi.Services.GameService
 
         public async Task UpdateUserScore(int userId, LevelScore levelScore)
         {
-            var levels = userGameLevelRepository.GetWhere(ugl =>
+            IEnumerable<UserGameLevel> levels = userGameLevelRepository.GetWhere(ugl =>
                 ugl.UserId.Equals(userId) && ugl.GameLevelId.Equals(levelScore.LevelId));
 
             UserGameLevel level = levels.FirstOrDefault();
@@ -53,7 +51,6 @@ namespace InWords.WebApi.Services.GameService
             {
                 await AddLevels(userId, levelScore);
             }
-
         }
 
         public async Task PushLevelScoreList(int userId, IEnumerable<LevelScore> levelScores)
@@ -70,7 +67,6 @@ namespace InWords.WebApi.Services.GameService
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="levelsToUpdate">All levels that exist in database</param>
         /// <param name="levelScores">All score that user send</param>
@@ -78,21 +74,21 @@ namespace InWords.WebApi.Services.GameService
         private async Task UpdateLevels(IEnumerable<UserGameLevel> levelsToUpdate, IEnumerable<LevelScore> levelScores)
         {
             levelsToUpdate = from userGameLevel in levelsToUpdate
-                             join scores in levelScores on userGameLevel.GameLevelId equals scores.LevelId
-                             where scores.Score > userGameLevel.UserStars
-                             select new UserGameLevel()
-                             {
-                                 GameLevelId = userGameLevel.GameLevelId,
-                                 UserStars = scores.Score,
-                                 UserId = userGameLevel.UserId,
-                                 UserGameLevelId = userGameLevel.UserGameLevelId
-                             };
+                join scores in levelScores on userGameLevel.GameLevelId equals scores.LevelId
+                where scores.Score > userGameLevel.UserStars
+                select new UserGameLevel
+                {
+                    GameLevelId = userGameLevel.GameLevelId,
+                    UserStars = scores.Score,
+                    UserId = userGameLevel.UserId,
+                    UserGameLevelId = userGameLevel.UserGameLevelId
+                };
             await userGameLevelRepository.Update(levelsToUpdate.ToArray());
         }
 
         private async Task AddLevels(int userId, params LevelScore[] levels)
         {
-            UserGameLevel[] userGameLevels = levels.Select(levelScore => new UserGameLevel()
+            UserGameLevel[] userGameLevels = levels.Select(levelScore => new UserGameLevel
             {
                 UserId = userId,
                 UserStars = levelScore.Score,
@@ -104,19 +100,22 @@ namespace InWords.WebApi.Services.GameService
         private UserGameLevel[] GetExistingLevels(int userId, LevelScore[] levelScores)
         {
             return userGameLevelRepository.GetWhere(ugl => ugl.UserId.Equals(userId)
-                                                     && levelScores.Any(ls => ls.LevelId.Equals(ugl.GameLevelId))).ToArray();
+                                                           && levelScores.Any(ls => ls.LevelId.Equals(ugl.GameLevelId)))
+                .ToArray();
         }
 
-        private static LevelScore[] GetScoresExceptExist(IEnumerable<LevelScore> levelScoresArray, IEnumerable<UserGameLevel> levelsExist)
+        private static LevelScore[] GetScoresExceptExist(IEnumerable<LevelScore> levelScoresArray,
+            IEnumerable<UserGameLevel> levelsExist)
         {
             return (from ls in levelScoresArray
-                    where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
-                    select ls).ToArray();
+                where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
+                select ls).ToArray();
         }
 
         #region ctor
 
         private readonly UserGameLevelRepository userGameLevelRepository;
+
         public GameScoreService(UserGameLevelRepository userGameLevelRepository)
         {
             this.userGameLevelRepository = userGameLevelRepository;

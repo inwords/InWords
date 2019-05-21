@@ -1,5 +1,4 @@
-﻿using System;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Repositories;
 using InWords.Domain;
 using Microsoft.AspNetCore.Authorization;
