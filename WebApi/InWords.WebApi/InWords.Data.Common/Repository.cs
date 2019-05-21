@@ -59,17 +59,21 @@ namespace InWords.Data
             return await context.SaveChangesAsync();
         }
 
-        public async Task<int> Remove(IQueryable<TEntity> item)
-        {
-            foreach (TEntity currentItem in item) context.Entry(currentItem).State = EntityState.Deleted;
-            return await context.SaveChangesAsync();
-        }
-
         public async Task<TEntity> Update(TEntity item)
         {
             context.Entry(item).State = EntityState.Modified;
             await context.SaveChangesAsync();
             return item;
+        }
+
+        public async Task<TEntity[]> Update(params TEntity[] items)
+        {
+            foreach (TEntity item in items)
+            {
+                context.Entry(item).State = EntityState.Modified;
+            }
+            await context.SaveChangesAsync();
+            return items;
         }
 
         /// <summary>
