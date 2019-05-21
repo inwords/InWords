@@ -28,3 +28,7 @@ steps:
     command: build
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '--configuration Release' # Update this to match your need
+- task: VSTest@2
+  inputs:
+    testSelector: 'testRun'
+    searchFolder: '$**/InWords.WebApiTests/' 
