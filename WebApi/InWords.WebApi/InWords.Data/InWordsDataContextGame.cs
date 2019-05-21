@@ -11,8 +11,6 @@ namespace InWords.Data
 
         public DbSet<GameLevelWord> GameLevelWords { get; set; }
 
-        public DbSet<UserGameBox> UserGameBoxs { get; set; }
-
         public DbSet<UserGameLevel> UserGameLevels { get; set; }
     }
 }

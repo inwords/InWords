@@ -9,9 +9,6 @@ namespace InWords.Data.Creations.GameBox
     public class UserGameLevel
     {
         [Key] public int UserGameLevelId { get; set; }
-
-        public int UserGameBoxId { get; set; }
-        [ForeignKey(nameof(UserGameBoxId))] public virtual UserGameBox UserGameBox { get; set; }
         
         [Required]
         public int UserId { get; set; }
@@ -29,9 +26,9 @@ namespace InWords.Data.Creations.GameBox
         {
         }
 
-        public UserGameLevel(int userGameBoxId, int gameLevelId = 0, int userStars = 0)
+        public UserGameLevel(int userId, int gameLevelId = 0, int userStars = 0)
         {
-            UserGameBoxId = userGameBoxId;
+            UserId = userId;
             GameLevelId = gameLevelId;
             UserStars = userStars;
         }

@@ -85,7 +85,6 @@ namespace InWords.WebApi.Services.GameService
                                  GameLevelId = userGameLevel.GameLevelId,
                                  UserStars = scores.Score,
                                  UserId = userGameLevel.UserId,
-                                 UserGameBoxId = userGameLevel.UserGameBoxId,
                                  UserGameLevelId = userGameLevel.UserGameLevelId
                              };
             await userGameLevelRepository.Update(levelsToUpdate.ToArray());
