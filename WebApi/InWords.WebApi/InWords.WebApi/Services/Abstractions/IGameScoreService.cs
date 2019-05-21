@@ -14,7 +14,6 @@ namespace InWords.WebApi.Services.Abstractions
         /// <param name="userId"></param>
         /// <param name="game"></param>
         /// <returns></returns>
-        /// Task<GamePack> GetGameStars(int userId, GamePack game);
         Task<GameObject> GetGameStars(int userId, GameObject game);
         /// <summary>
         ///     This is to update user score on game level

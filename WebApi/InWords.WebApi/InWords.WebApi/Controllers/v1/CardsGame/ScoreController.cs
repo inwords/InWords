@@ -18,12 +18,12 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Produces("application/json")]
     public class ScoreController : ControllerBase
     {
-        private readonly IGameScoreService gameScoreService;
+        private readonly IGameScoreService gameScoreV2Service;
         private readonly GameService gameService;
 
-        public ScoreController(GameScoreService gameScoreService, GameService gameService)
+        public ScoreController(GameScoreV2Service gameScoreV2Service, GameService gameService)
         {
-            this.gameScoreService = gameScoreService;
+            this.gameScoreV2Service = gameScoreV2Service;
             this.gameService = gameService;
         }
 
@@ -39,12 +39,12 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         {
             int authorizedId = User.GetUserId();
             // calculate score
-            LevelScore answer = gameScoreService.GetLevelScore(levelResult);
+            LevelScore answer = gameScoreV2Service.GetLevelScore(levelResult);
 
             // save score to user level
             try
             {
-                await gameScoreService.UpdateUserScore(authorizedId, answer);
+                await gameScoreV2Service.UpdateUserScore(authorizedId, answer);
             }
             catch (ArgumentNullException e)
             {
@@ -67,7 +67,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
 
             try
             {
-                await gameScoreService.PushLevelScoreList(authorizedId, levelScores);
+                await gameScoreV2Service.PushLevelScoreList(authorizedId, levelScores);
             }
             catch (ArgumentNullException e)
             {
@@ -94,7 +94,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             if (answer == null) return NotFound();
 
             // set stars
-            answer = await gameScoreService.GetGameStars(userId, answer);
+            answer = await gameScoreV2Service.GetGameStars(userId, answer);
 
             return Ok(answer);
         }

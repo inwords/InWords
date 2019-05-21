@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Creations.GameBox;
@@ -12,28 +10,19 @@ using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService
 {
-    public class GameScoreServiceV2 : IGameScoreService
+    public class GameScoreV2Service : IGameScoreService
     {
-        public Task<GameObject> GetGameStars(int userId, GameObject game)
+        public async Task<GameObject> GetGameStars(int userId, GameObject game)
         {
-            //GameObject gameObject = new GameObject();
-            //gameObject.GameId = game.GameId;
-            //gameObject.LevelInfos
-            //// get level
-            //IEnumerable<UserGameLevel> levels =
-            //    from gameLevel in gameLevelRepository.GetWhere(glr => glr.GameBoxId.Equals(game.GameId))
-            //    join userGameLevel in userGameLevelRepository.GetWhere(ugl => ugl.UserId.Equals(userId)).AsQueryable() 
-            //        on gameLevel.GameLevelId equals userGameLevel.GameLevelId
-            //    select new UserGameLevel()
-            //    {
-            //        GameLevelId = userGameLevel.GameLevelId,
-            //        UserId = userGameLevel.UserId,
-            //        UserGameBoxId = userGameLevel.UserGameBoxId,
-            //        UserStars = userGameLevel.UserStars
-            //    };
-            //// load stars for levels
-            //userGameLevelRepository.GetWhere(ugl => levels.Any(l => l.GameLevelId.Equals(ugl.GameLevelId)));
-            return null;
+            UserGameLevel[] levels = userGameLevelRepository.GetWhere(
+                g => game.LevelInfos.Any(i => i.LevelId.Equals(g.GameLevelId)) 
+                     && g.UserId.Equals(userId)).ToArray();
+
+            foreach (LevelInfo level in game.LevelInfos)
+            {
+                level.PlayerStars = levels.SingleOrDefault(l => l.GameLevelId.Equals(level.LevelId))?.UserStars ?? 0;
+            }
+            return game;
         }
 
         public LevelScore GetLevelScore(LevelResult levelResult)
@@ -125,11 +114,9 @@ namespace InWords.WebApi.Services.GameService
 
         #region ctor
 
-        private readonly GameLevelRepository gameLevelRepository;
         private readonly UserGameLevelRepository userGameLevelRepository;
-        public GameScoreServiceV2(UserGameLevelRepository userGameLevelRepository, GameLevelRepository gameLevelRepository)
+        public GameScoreV2Service(UserGameLevelRepository userGameLevelRepository)
         {
-            this.gameLevelRepository = gameLevelRepository;
             this.userGameLevelRepository = userGameLevelRepository;
         }
 
