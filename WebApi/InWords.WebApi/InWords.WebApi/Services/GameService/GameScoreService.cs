@@ -38,6 +38,7 @@ namespace InWords.WebApi.Services.GameService
         {
             UserGameLevel level = userGameLevelRepository.GetWhere(ugl =>
                 ugl.UserId.Equals(ugl.UserId) && ugl.GameLevelId.Equals(levelScore.LevelId)).SingleOrDefault();
+
             // if exist update if better
             if (level != null)
             {
