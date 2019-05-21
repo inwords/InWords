@@ -24,8 +24,12 @@ namespace InWords.Service.Auth.Extensions
 
         public static string GetUserRole(this IEnumerable<Claim> claims)
         {
-            Claim nameIdentifier = claims.First(c => c.Type == ClaimTypes.Role);
-            return nameIdentifier?.Value;
+            Claim roleClaim = claims.SingleOrDefault(c => c.Type == ClaimTypes.Role);
+            
+            if (roleClaim != null)
+                return roleClaim.Value;
+            else
+                throw new ArgumentNullException();
         }
 
         public static string GetUserRole(this ClaimsPrincipal user)
