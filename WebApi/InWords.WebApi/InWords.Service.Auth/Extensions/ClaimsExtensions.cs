@@ -11,10 +11,10 @@ namespace InWords.Service.Auth.Extensions
         {
             Claim nameIdentifier = claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
 
-            if (nameIdentifier == null) throw new ArgumentNullException();
-
-            int authorizedId = int.Parse(nameIdentifier.Value);
-            return authorizedId;
+            if (nameIdentifier != null && int.TryParse(nameIdentifier.Value, out int authorizedId))
+                return authorizedId;
+            else
+                throw new ArgumentNullException();
         }
 
         public static int GetUserId(this ClaimsPrincipal user)
