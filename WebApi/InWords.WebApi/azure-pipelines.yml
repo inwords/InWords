@@ -32,3 +32,4 @@ steps:
   inputs:
     testSelector: 'testRun'
     searchFolder: '$(System.DefaultWorkingDirectory)'
+    codeCoverageEnabled: true
