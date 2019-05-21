@@ -15,7 +15,7 @@ namespace InWords.WebApi.Services.GameService
         public async Task<GameObject> GetGameStars(int userId, GameObject game)
         {
             UserGameLevel[] levels = userGameLevelRepository.GetWhere(
-                g => game.LevelInfos.Any(i => i.LevelId.Equals(g.GameLevelId)) 
+                g => game.LevelInfos.Any(i => i.LevelId.Equals(g.GameLevelId))
                      && g.UserId.Equals(userId)).ToArray();
 
             foreach (LevelInfo level in game.LevelInfos)
@@ -36,8 +36,10 @@ namespace InWords.WebApi.Services.GameService
 
         public async Task UpdateUserScore(int userId, LevelScore levelScore)
         {
-            UserGameLevel level = userGameLevelRepository.GetWhere(ugl =>
-                ugl.UserId.Equals(ugl.UserId) && ugl.GameLevelId.Equals(levelScore.LevelId)).SingleOrDefault();
+            var levels = userGameLevelRepository.GetWhere(ugl =>
+                ugl.UserId.Equals(userId) && ugl.GameLevelId.Equals(levelScore.LevelId));
+
+            UserGameLevel level = levels.FirstOrDefault();
 
             // if exist update if better
             if (level != null)
