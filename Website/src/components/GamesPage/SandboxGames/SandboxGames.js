@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import GameInfoCard from '../GameInfoCard';
-import GameInfoCardMenu from './GameInfoCardMenu';
+import ButtonWithGameInfoCardMenu from './ButtonWithGameInfoCardMenu';
 
 function SandboxGames({ gamesInfo, handleGamePackDeletion }) {
     return (
@@ -11,7 +11,7 @@ function SandboxGames({ gamesInfo, handleGamePackDeletion }) {
                 <Grid key={gameInfo.gameId} item xs={12} sm={6} md={4}>
                     <GameInfoCard
                         gameInfo={gameInfo}
-                        action={<GameInfoCardMenu handleGamePackDeletion={handleGamePackDeletion(gameInfo.gameId)} />}
+                        action={<ButtonWithGameInfoCardMenu handleGamePackDeletion={handleGamePackDeletion(gameInfo.gameId)} />}
                     />
                 </Grid>
             ))}
