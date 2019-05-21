@@ -31,4 +31,4 @@ steps:
 - task: VSTest@2
   inputs:
     testSelector: 'testRun'
-    searchFolder: '**/InWords.WebApiTests/' 
+    searchFolder: '$(System.DefaultWorkingDirectory)'
