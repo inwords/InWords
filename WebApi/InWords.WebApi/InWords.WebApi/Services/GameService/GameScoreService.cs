@@ -7,10 +7,11 @@ using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.Repositories;
 using InWords.Domain;
+using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService
 {
-    public class GameScoreService
+    public class GameScoreService : IGameScoreService
     {
         //TODO : return full game info
         public async Task<GameObject> GetGameStars(int userId, GameObject game)
@@ -70,7 +71,6 @@ namespace InWords.WebApi.Services.GameService
             // Thought like for 3 hours, and did not implement a rational search
             foreach (LevelScore levelScore in levelScores) await UpdateUserScore(userId, levelScore);
         }
-
 
         private async Task<UserGameBox> EnsureUserGameBox(int userId, LevelScore levelScore)
         {

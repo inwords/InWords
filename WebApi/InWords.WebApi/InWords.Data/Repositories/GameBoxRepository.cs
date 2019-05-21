@@ -18,23 +18,23 @@ namespace InWords.Data.Repositories
 
         public async Task<int> DeleteGames(params int[] gameId)
         {
-            IQueryable<Creation> creationsByGameID = GetCreationsByGameID(gameId);
-            return await creationRepository.Remove(creationsByGameID);
+            Creation[] creationsByGameId = GetCreationsByGameID(gameId).ToArray();
+            return await creationRepository.Remove(creationsByGameId);
         }
 
         public async Task<int> DeleteOwnGames(int userId, params int[] gameId)
         {
             IQueryable<Creation> creationsToDelete =
                 GetCreationsByGameID(gameId).Where(c => c.CreatorId.Equals(userId));
-            return await creationRepository.Remove(creationsToDelete);
+            return await creationRepository.Remove(creationsToDelete.ToArray());
         }
 
         private IQueryable<Creation> GetCreationsByGameID(params int[] gameId)
         {
             IQueryable<Creation> creationsByGameID = from games in context.GameBoxs
-                join creations in context.Creations on games.CreationId equals creations.CreationId
-                where gameId.Contains(games.GameBoxId)
-                select creations;
+                                                     join creations in context.Creations on games.CreationId equals creations.CreationId
+                                                     where gameId.Contains(games.GameBoxId)
+                                                     select creations;
             return creationsByGameID;
         }
     }
