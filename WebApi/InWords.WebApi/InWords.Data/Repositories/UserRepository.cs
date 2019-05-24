@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using InWords.Abstractions;
 using InWords.Data.Domains;
 
 namespace InWords.Data.Repositories

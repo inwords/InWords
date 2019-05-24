@@ -1,8 +1,8 @@
+using System;
+using Xunit;
+
 namespace InWords.WebApiTests
 {
-    using System;
-    using Xunit;
-
     public class UnitTest1
     {
         [Fact]

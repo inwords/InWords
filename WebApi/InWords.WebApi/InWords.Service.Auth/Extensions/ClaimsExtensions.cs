@@ -11,10 +11,10 @@ namespace InWords.Service.Auth.Extensions
         {
             Claim nameIdentifier = claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
 
-            if (nameIdentifier == null) throw new ArgumentNullException();
-
-            int authorizedId = int.Parse(nameIdentifier.Value);
-            return authorizedId;
+            if (nameIdentifier != null && int.TryParse(nameIdentifier.Value, out int authorizedId))
+                return authorizedId;
+            else
+                throw new ArgumentNullException();
         }
 
         public static int GetUserId(this ClaimsPrincipal user)
@@ -24,8 +24,12 @@ namespace InWords.Service.Auth.Extensions
 
         public static string GetUserRole(this IEnumerable<Claim> claims)
         {
-            Claim nameIdentifier = claims.First(c => c.Type == ClaimTypes.Role);
-            return nameIdentifier?.Value;
+            Claim roleClaim = claims.SingleOrDefault(c => c.Type == ClaimTypes.Role);
+            
+            if (roleClaim != null)
+                return roleClaim.Value;
+            else
+                throw new ArgumentNullException();
         }
 
         public static string GetUserRole(this ClaimsPrincipal user)

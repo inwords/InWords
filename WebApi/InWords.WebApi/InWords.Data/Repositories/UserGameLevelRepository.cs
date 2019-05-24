@@ -1,4 +1,5 @@
-﻿using InWords.Data.Creations.GameBox;
+﻿using InWords.Abstractions;
+using InWords.Data.Creations.GameBox;
 
 namespace InWords.Data.Repositories
 {
@@ -6,6 +7,9 @@ namespace InWords.Data.Repositories
     {
         public UserGameLevelRepository(InWordsDataContext context) : base(context)
         {
+
         }
+
+
     }
 }

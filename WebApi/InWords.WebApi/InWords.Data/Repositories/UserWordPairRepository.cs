@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using InWords.Abstractions;
 using InWords.Data.Domains;
 
 namespace InWords.Data.Repositories

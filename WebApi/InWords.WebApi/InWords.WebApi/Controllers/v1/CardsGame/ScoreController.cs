@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Service.Auth.Extensions;
+using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Produces("application/json")]
     public class ScoreController : ControllerBase
     {
-        private readonly GameScoreService gameScoreService;
+        private readonly IGameScoreService gameScoreService;
         private readonly GameService gameService;
 
         public ScoreController(GameScoreService gameScoreService, GameService gameService)

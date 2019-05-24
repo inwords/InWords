@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
@@ -7,7 +8,13 @@ namespace InWords.WebApi.Services.Abstractions
 {
     public interface IGameScoreService
     {
-        Task<GamePack> GetGameStars(int userId, GamePack game);
+        /// <summary>
+        ///     This is to read user score on game level
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="game"></param>
+        /// <returns></returns>
+        Task<GameObject> GetGameStars(int userId, GameObject game);
 
         /// <summary>
         ///     This is to update user score on game level
@@ -24,5 +31,13 @@ namespace InWords.WebApi.Services.Abstractions
         /// <exception cref="ArgumentNullException">Null game box is not find</exception>
         /// <returns></returns>
         Task UpdateUserScore(int userId, LevelScore levelScore);
+
+        /// <summary>
+        ///     This is to push all score from cache storage
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="levelScores"></param>
+        /// <returns></returns>
+        Task PushLevelScoreList(int userId, IEnumerable<LevelScore> levelScores);
     }
 }

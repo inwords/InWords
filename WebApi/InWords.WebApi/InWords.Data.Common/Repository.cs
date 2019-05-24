@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using InWords.Data.Interfaces;
+using InWords.Abstractions.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace InWords.Data
+namespace InWords.Abstractions
 {
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
@@ -59,17 +59,21 @@ namespace InWords.Data
             return await context.SaveChangesAsync();
         }
 
-        public async Task<int> Remove(IQueryable<TEntity> item)
-        {
-            foreach (TEntity currentItem in item) context.Entry(currentItem).State = EntityState.Deleted;
-            return await context.SaveChangesAsync();
-        }
-
         public async Task<TEntity> Update(TEntity item)
         {
             context.Entry(item).State = EntityState.Modified;
             await context.SaveChangesAsync();
             return item;
+        }
+
+        public async Task<TEntity[]> Update(params TEntity[] items)
+        {
+            foreach (TEntity item in items)
+            {
+                context.Entry(item).State = EntityState.Modified;
+            }
+            await context.SaveChangesAsync();
+            return items;
         }
 
         /// <summary>
