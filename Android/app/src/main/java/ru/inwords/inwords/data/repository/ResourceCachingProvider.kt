@@ -1,4 +1,4 @@
-package ru.inwords.inwords.data.repository.game
+package ru.inwords.inwords.data.repository
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -56,11 +56,13 @@ internal class ResourceCachingProvider<T : Any>(
     }
 
     fun observe(): Observable<Resource<T>> {
-        if (shouldAskForUpdate) {
+        return if (shouldAskForUpdate) {
+            val resourceStream = this.resourceStream.skip(1)
             askForContentUpdate()
+            resourceStream
+        } else {
+            resourceStream
         }
-
-        return resourceStream
     }
 
     private fun Single<T>.wrapResourceOverwriteError(onErrorResource: Resource<T>): Single<Resource<T>> {

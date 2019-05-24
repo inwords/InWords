@@ -2,6 +2,7 @@ package ru.inwords.inwords.domain.interactor.game
 
 import io.reactivex.Observable
 import io.reactivex.Single
+import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameLevel
 import ru.inwords.inwords.data.dto.game.LevelScore
@@ -30,7 +31,9 @@ class GameInteractorImpl @Inject constructor(
     }
 
     override fun getScore(game: Game, levelScoreRequest: LevelScoreRequest): Single<Resource<LevelScore>> {
-        return gameGatewayController.getScore(game, levelScoreRequest)
+        return Single.create<Resource<LevelScore>> { emitter -> //so that it cant be disposed on a half-way
+            emitter.onSuccess(gameGatewayController.getScore(game, levelScoreRequest).blockingGet())
+        }.subscribeOn(SchedulersFacade.io())
     }
 
     override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> {

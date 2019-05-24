@@ -1,8 +1,8 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel
 
-import android.annotation.SuppressLint
 import android.util.Log
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -20,7 +20,6 @@ import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.FromGameE
 class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
     private val _cardsDataSubject: Subject<Resource<CardsData>> = BehaviorSubject.create()
     private val _navigationSubject: Subject<FromGameEndEventsEnum> = PublishSubject.create()
-    private val _scoreSubject: Subject<Resource<LevelScore>> = BehaviorSubject.create()
 
     private lateinit var game: Game
     private var currentLevelIndex = 0
@@ -74,27 +73,23 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
         }
     }
 
+    fun getCurrentLevelInfo() = game.gameLevelInfos[currentLevelIndex]
+
     fun onNewEventCommand(path: FromGameEndEventsEnum) {
         _navigationSubject.onNext(path)
 
         when (path) {
             NEXT -> selectNextLevel()
-            REFRESH -> onGameLevelSelected(game.gameId, currentLevelInfo()) //TODO only flip cards
+            REFRESH -> onGameLevelSelected(game.gameId, getCurrentLevelInfo()) //TODO only flip cards
             else -> Unit
         }
-    }
-
-    @SuppressLint("CheckResult")
-    fun onGameEnd(cardOpenClicks: Int, wordsCount: Int) {
-        gameInteractor.getScore(game, LevelScoreRequest(currentLevelInfo().levelId, cardOpenClicks, wordsCount))
-                .subscribe(_scoreSubject::onNext) //TODO inconsistency may happen
     }
 
     fun cardsStream(): Observable<Resource<CardsData>> = _cardsDataSubject
 
     fun navigationStream(): Observable<FromGameEndEventsEnum> = _navigationSubject
 
-    fun scoreStream(): Observable<Resource<LevelScore>> = _scoreSubject
-
-    private fun currentLevelInfo() = game.gameLevelInfos[currentLevelIndex]
+    fun getScore(cardOpenClicks: Int, wordsCount: Int): Single<Resource<LevelScore>> {
+        return gameInteractor.getScore(game, LevelScoreRequest(getCurrentLevelInfo().levelId, cardOpenClicks, wordsCount))
+    }
 }
