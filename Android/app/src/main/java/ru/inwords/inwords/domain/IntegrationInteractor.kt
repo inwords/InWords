@@ -16,7 +16,7 @@ constructor(private val translationSyncInteractor: TranslationSyncInteractor,
             profileInteractor.getAuthorisedUser(true)
                     .firstOrError()
                     .ignoreElement(),
-            translationSyncInteractor.presyncOnStart() //TODO may another order with trySync
+            translationSyncInteractor.presyncOnStart()
                     .andThen(translationSyncInteractor.trySyncAllReposWithCache()),
             gameInteractor.uploadScoresToServer()
                     .ignoreElement()
