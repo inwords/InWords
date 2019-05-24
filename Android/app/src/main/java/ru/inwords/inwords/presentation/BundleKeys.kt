@@ -1,4 +1,4 @@
-package ru.inwords.inwords.domain
+package ru.inwords.inwords.presentation
 
 const val LEVEL_ID = "LEVEL_ID"
 const val GAME_LEVEL_INFO = "GAME_LEVEL_INFO"

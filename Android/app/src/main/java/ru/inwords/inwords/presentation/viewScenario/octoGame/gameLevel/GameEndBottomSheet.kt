@@ -15,12 +15,12 @@ import kotlinx.android.synthetic.main.game_end.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.LevelScore
-import ru.inwords.inwords.domain.CARDS_COUNT
-import ru.inwords.inwords.domain.CARD_OPEN_CLICKS_COUNT
-import ru.inwords.inwords.domain.LEVEL_ID
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.domain.util.INVALID_ID
 import ru.inwords.inwords.domain.util.validId
+import ru.inwords.inwords.presentation.CARDS_COUNT
+import ru.inwords.inwords.presentation.CARD_OPEN_CLICKS_COUNT
+import ru.inwords.inwords.presentation.LEVEL_ID
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import javax.inject.Inject
 

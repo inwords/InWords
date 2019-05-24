@@ -16,6 +16,8 @@ interface WebRequestsManager {
 
     fun getGameInfos(): Single<List<GameInfo>>
 
+    fun getUserEmail(): Single<String>
+
     fun getToken(userCredentials: UserCredentials): Single<TokenResponse>
 
     fun registerUser(userCredentials: UserCredentials): Single<TokenResponse>

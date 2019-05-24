@@ -12,10 +12,10 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
 import ru.inwords.inwords.domain.CardsData
-import ru.inwords.inwords.domain.GAME_ID
-import ru.inwords.inwords.domain.GAME_LEVEL_INFO
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.domain.util.INVALID_ID
+import ru.inwords.inwords.presentation.GAME_ID
+import ru.inwords.inwords.presentation.GAME_LEVEL_INFO
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import kotlin.math.ceil

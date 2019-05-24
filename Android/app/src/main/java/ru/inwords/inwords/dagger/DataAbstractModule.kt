@@ -6,6 +6,8 @@ import ru.inwords.inwords.dagger.annotations.CacheRepository
 import ru.inwords.inwords.dagger.annotations.LocalRepository
 import ru.inwords.inwords.data.repository.game.GameGatewayController
 import ru.inwords.inwords.data.repository.game.GameGatewayControllerImpl
+import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
+import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepositoryImpl
 import ru.inwords.inwords.data.repository.translation.*
 import ru.inwords.inwords.data.source.webService.WebRequestsManager
 import ru.inwords.inwords.data.source.webService.WebRequestsManagerImpl
@@ -69,4 +71,8 @@ interface DataAbstractModule {
     @Binds
     @Singleton
     fun translationWordsWebApiRepository(repository: TranslationWordsWebApiRepository): TranslationWordsRemoteRepository
+
+    @Binds
+    @Singleton
+    fun integrationDatabaseRepository(repository: IntegrationDatabaseRepositoryImpl): IntegrationDatabaseRepository
 }
