@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace InWords.Data.Interfaces
+namespace InWords.Abstractions.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {

@@ -1,4 +1,5 @@
-﻿using InWords.Data.Creations;
+﻿using InWords.Abstractions;
+using InWords.Data.Creations;
 
 namespace InWords.Data.Repositories
 {

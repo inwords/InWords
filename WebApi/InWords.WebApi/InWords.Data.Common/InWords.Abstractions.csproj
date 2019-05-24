@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RootNamespace>InWords.Data</RootNamespace>
+    <RootNamespace>InWords.Abstractions</RootNamespace>
+    <AssemblyName>InWords.Abstractions</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

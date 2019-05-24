@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using InWords.Data.Interfaces;
+using InWords.Abstractions.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace InWords.Data
+namespace InWords.Abstractions
 {
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
