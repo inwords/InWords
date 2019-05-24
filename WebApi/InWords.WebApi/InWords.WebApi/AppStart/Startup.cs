@@ -2,6 +2,7 @@
 using System.IO;
 using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
+using InWords.WebApi.Net;
 using InWords.WebApi.Providers.FIleLogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -65,6 +66,8 @@ namespace InWords.WebApi.AppStart
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
+
+            services.Configure<FtpCredentials>(Configuration.GetSection(nameof(FtpCredentials)));
 
             // Register the autofuc dependency injection
             return services.Configure(Configuration);

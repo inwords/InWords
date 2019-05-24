@@ -3,6 +3,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using InWords.Data;
+using InWords.WebApi.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +31,8 @@ namespace InWords.WebApi.AppStart
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services") &&
                             !a.Namespace.Contains("Abstractions")).InstancePerLifetimeScope();
+
+            builder.RegisterType<FileLoader>().InstancePerLifetimeScope();
 
             IContainer container = builder.Build();
             return new AutofacServiceProvider(container);

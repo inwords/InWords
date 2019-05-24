@@ -1,6 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Data.Repositories;
 using InWords.Domain;
+using InWords.WebApi.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -93,16 +94,26 @@ namespace InWords.WebApi.Controllers.v1
             return Ok(x);
         }
 
+        [HttpGet]
+        [Route("ftp")]
+        public IActionResult GetFtp(int words, int open)
+        {
+            loader.Test();
+            return Ok(null);
+        }
+
         #region ctor
 
         private readonly UserRepository userRepository;
+        private readonly FileLoader loader = null;
 
         /// <summary>
         /// </summary>
         /// <param name="context"></param>
-        public ValuesController(InWordsDataContext context)
+        public ValuesController(InWordsDataContext context, FileLoader ftpLoader)
         {
             userRepository = new UserRepository(context);
+            this.loader = ftpLoader;
         }
 
         #endregion
