@@ -12,4 +12,6 @@ interface TranslationWordsInteractor {
     fun remove(wordTranslation: WordTranslation): Completable
 
     fun update(oldWord: WordTranslation, newWord: WordTranslation): Completable
+
+    fun clearCache()
 }

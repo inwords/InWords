@@ -32,6 +32,10 @@ internal constructor(private val repositoryInteractor: TranslationWordsRepositor
         return wordsStream
     }
 
+    override fun clearCache() {
+        repositoryInteractor.clearCache()
+    }
+
     companion object {
         // Tag used for debugging/logging
         const val TAG = "TranslationWordsInteractorImpl"

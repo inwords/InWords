@@ -59,6 +59,11 @@ public class TranslationWordsCacheInteractor implements TranslationWordsReposito
         return addAll(wordTranslations);
     }
 
+    @Override
+    public void clearCache() {
+        inMemoryRepository.clear();
+    }
+
     private void markWordRemoved(WordTranslation wordTranslation) {
         if (wordTranslation.getServerId() == 0) {
             wordTranslation.markLocallyDeleted();

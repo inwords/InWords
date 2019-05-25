@@ -10,18 +10,24 @@ class UserCachingRepository(
         private val databaseRepository: UserDatabaseRepository,
         private val remoteRepository: UserRemoteRepository) : UserRepository {
 
-    private val authorisedUserCachingProvider by lazy { createAuthorisedUserCachingProvider() }
+    private val authorisedUserCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createAuthorisedUserCachingProvider() } }
 
     override fun getAuthorisedUser(forceUpdate: Boolean): Observable<Resource<User>> {
+        val cachingProvider = authorisedUserCachingProviderLocator.getDefault()
+
         if (forceUpdate) {
-            authorisedUserCachingProvider.askForContentUpdate()
+            cachingProvider.askForContentUpdate()
         }
 
-        return authorisedUserCachingProvider.observe()
+        return cachingProvider.observe()
     }
 
     override fun getUserById(id: Int): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearCache(){
+        authorisedUserCachingProviderLocator.clear()
     }
 
     private fun createAuthorisedUserCachingProvider(): ResourceCachingProvider<User> {
