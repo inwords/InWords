@@ -13,5 +13,5 @@ class HomeViewModel internal constructor(
 
     val profileDataSubject: Observable<Resource<User>> get() = profileInteractor.getAuthorisedUser()
 
-    val wordsCountSubject: Observable<Int> get() = translationWordsInteractor.allWords.map { it.size }
+    val wordsCountSubject: Observable<Int> get() = translationWordsInteractor.getAllWords().map { it.size }
 }

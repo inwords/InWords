@@ -6,6 +6,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import ru.inwords.inwords.core.util.Event
+import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.WordTranslation
 import ru.inwords.inwords.data.repository.texttospeech.TtsRepository
 import ru.inwords.inwords.domain.interactor.translation.TranslationSyncInteractor
@@ -25,14 +26,25 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
     private val ttsSubject: PublishSubject<Resource<String>> = PublishSubject.create()
 
     val translationWordsStream: Observable<List<WordTranslation>>
-        get() = translationWordsInteractor.allWords
+        get() = translationWordsInteractor.getAllWords()
+                .observeOn(SchedulersFacade.computation())
+                .map { list -> list.sortedBy { it.wordNative } }
 
     val addEditWordLiveData: LiveData<Event<WordTranslation>> get() = addEditWordMutableLiveData
     val ttsStream: Observable<Resource<String>> get() = ttsSubject
 
     fun onItemDismiss(wordTranslation: WordTranslation) {
         compositeDisposable.add(translationWordsInteractor.remove(wordTranslation)
+                .subscribe({ }, { it.printStackTrace() }))
+    }
+
+    fun onItemDismissUndo(wordTranslation: WordTranslation) {
+        compositeDisposable.add(translationWordsInteractor.addReplace(wordTranslation)
                 .subscribe({ translationSyncInteractor.notifyDataChanged() }, { it.printStackTrace() }))
+    }
+
+    fun onConfirmItemDismiss() {
+        translationSyncInteractor.notifyDataChanged()
     }
 
     fun onAddClickedHandler(clicksObservable: Observable<Any>) { //fab clicked
