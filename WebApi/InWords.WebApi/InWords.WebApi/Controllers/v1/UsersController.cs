@@ -11,8 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1
 {
+    /// <inheritdoc />
     /// <summary>
-    ///     Everething about user
+    ///     Everything about user
     /// </summary>
     [Authorize]
     [ApiController]
