@@ -16,6 +16,7 @@ import io.reactivex.Single;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
+import ru.inwords.inwords.core.util.SchedulersFacade;
 import ru.inwords.inwords.dagger.annotations.CacheRepository;
 import ru.inwords.inwords.dagger.annotations.LocalRepository;
 import ru.inwords.inwords.data.dto.EntityIdentificator;
@@ -23,8 +24,6 @@ import ru.inwords.inwords.data.dto.WordTranslation;
 import ru.inwords.inwords.data.repository.translation.TranslationWordsLocalRepository;
 import ru.inwords.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 import ru.inwords.inwords.domain.util.WordsUtilKt;
-
-import static ru.inwords.inwords.data.sync.TranslationSyncController.Groups.ADD;
 
 public class TranslationSyncController {
     private final TranslationWordsLocalRepository inMemoryRepository;
@@ -104,18 +103,18 @@ public class TranslationSyncController {
                                 }, Throwable::printStackTrace);
                     }
                 })
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     public Completable trySyncAllReposWithCache() {
         return inMemoryRepository.getList()
-                .observeOn(Schedulers.computation())
+                .observeOn(SchedulersFacade.computation())
                 .firstElement() //Берём все элементы только 1 раз
                 .flatMapObservable(Observable::fromIterable) //Выдаём их по одному
                 .groupBy(this::group) //Группируем
                 .flatMapSingle(GroupedObservable::toList) //Каждую группу пихаем в List
                 .filter(wordTranslations -> !wordTranslations.isEmpty()) //Смотрим, чтобы он был не пустой
-                .observeOn(Schedulers.io())
+                .observeOn(SchedulersFacade.io())
                 .flatMapCompletable(this::groupedListHandler);
     }
 
@@ -123,7 +122,7 @@ public class TranslationSyncController {
         int serverId = wordTranslation.getWordIdentificator().getServerId();
 
         if (serverId == 0) {
-            return ADD;
+            return Groups.ADD;
         } else if (wordTranslation.isLocallyDeleted()) {
             return Groups.REMOVE_LOCAL;
         } else if (wordTranslation.isRemoteDeleted()) {

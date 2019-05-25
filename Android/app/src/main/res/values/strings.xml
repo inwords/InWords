@@ -49,6 +49,9 @@
     <string name="sign_up_in_process">Создание аккаунта</string>
     <string name="inwords_logotype">InWords логотип</string>
     <string name="voice_translation">Озвучить перевод</string>
+
+    <string name="undo_translation_deletion">ОТМЕНИТЬ</string>
+    <string name="translation_deleted">Слово удалено</string>
     <!-- word addition end -->
 
     <!-- gameResource start -->
