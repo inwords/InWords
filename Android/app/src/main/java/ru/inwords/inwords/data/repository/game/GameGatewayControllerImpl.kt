@@ -28,16 +28,18 @@ class GameGatewayControllerImpl @Inject constructor(
     private val gameDatabaseRepository by lazy { GameDatabaseRepository<Game>(gameDao) }
     private val gameLevelDatabaseRepository by lazy { GameDatabaseRepository<GameLevel>(gameLevelDao) }
 
-    private val gamesInfoCachingProvider by lazy { createGamesInfoCachingProvider() }
+    private val gamesInfoCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGamesInfoCachingProvider() } }
     private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameCachingProvider(it) } }
     private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) } }
 
     override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<List<GameInfo>>> {
+        val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
+
         if (forceUpdate) {
-            gamesInfoCachingProvider.askForContentUpdate()
+            cachingProvider.askForContentUpdate()
         }
 
-        return gamesInfoCachingProvider.observe()
+        return cachingProvider.observe()
     }
 
     override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
@@ -88,6 +90,12 @@ class GameGatewayControllerImpl @Inject constructor(
                         Single.error(t)
                     }
                 }
+    }
+
+    override fun clearCache() {
+        gamesInfoCachingProviderLocator.clear()
+        gameCachingProviderLocator.clear()
+        gameLevelCachingProviderLocator.clear()
     }
 
     private fun updateLocalScore(game: Game, levelScores: List<LevelScore>) {

@@ -6,15 +6,17 @@ import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseReposit
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
 import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
 import ru.inwords.inwords.domain.interactor.translation.TranslationSyncInteractor
+import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteractor
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class IntegrationInteractor @Inject
 internal constructor(private val translationSyncInteractor: TranslationSyncInteractor,
-            private val profileInteractor: ProfileInteractor,
-            private val gameInteractor: GameInteractor,
-            private val integrationDatabaseRepository: IntegrationDatabaseRepository) {
+                     private val translationWordsInteractor: TranslationWordsInteractor,
+                     private val profileInteractor: ProfileInteractor,
+                     private val gameInteractor: GameInteractor,
+                     private val integrationDatabaseRepository: IntegrationDatabaseRepository) {
     fun getOnAuthCallback(): Completable = Completable.mergeDelayError(listOf(
             profileInteractor.getAuthorisedUser(true)
                     .firstOrError()
@@ -35,12 +37,15 @@ internal constructor(private val translationSyncInteractor: TranslationSyncInter
 
     fun getOnNewUserCallback(): Completable {
         return Completable.fromAction {
-            Log.d(TAG, "New user logged in -> clearing all tables")
+            Log.d(TAG, "New user logged in -> clearing all tables and cache")
             integrationDatabaseRepository.clearAllTables()
+            gameInteractor.clearCache()
+            profileInteractor.clearCache()
+            translationWordsInteractor.clearCache()
         }
     }
 
-    companion object{
+    companion object {
         const val TAG = "IntegrationInteractor"
     }
 }

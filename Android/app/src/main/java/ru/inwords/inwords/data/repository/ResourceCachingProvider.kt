@@ -77,6 +77,14 @@ internal class ResourceCachingProvider<T : Any>(
         fun get(id: Int): ResourceCachingProvider<T> {
             return cachingProvidersMap.getOrPut(id) { factory(id) }
         }
+
+        fun getDefault(): ResourceCachingProvider<T> {
+            return get(Int.MAX_VALUE)
+        }
+
+        fun clear() {
+            cachingProvidersMap.clear()
+        }
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package ru.inwords.inwords.data.repository.translation;
 
+import android.annotation.SuppressLint;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,7 +14,7 @@ import ru.inwords.inwords.data.dto.WordTranslation;
 import ru.inwords.inwords.data.source.database.WordTranslationDao;
 
 public class TranslationWordsDatabaseRepository implements TranslationWordsLocalRepository {
-    private WordTranslationDao wordTranslationDao;
+    private final WordTranslationDao wordTranslationDao;
 
     @Inject
     public TranslationWordsDatabaseRepository(WordTranslationDao wordTranslationDao) {
@@ -94,5 +96,11 @@ public class TranslationWordsDatabaseRepository implements TranslationWordsLocal
         return wordTranslationDao.deleteAllServerIds(serverIds)
                 .ignoreElement()
                 .subscribeOn(Schedulers.io());
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void clear() {
+        wordTranslationDao.deleteAll().blockingGet();
     }
 }

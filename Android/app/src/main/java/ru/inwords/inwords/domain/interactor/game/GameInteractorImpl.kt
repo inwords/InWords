@@ -39,4 +39,8 @@ class GameInteractorImpl @Inject constructor(
     override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> {
         return gameGatewayController.uploadScoresToServer()
     }
+
+    override fun clearCache() {
+        gameGatewayController.clearCache()
+    }
 }

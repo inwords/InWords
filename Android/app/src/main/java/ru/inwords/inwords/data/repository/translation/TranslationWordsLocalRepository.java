@@ -22,4 +22,6 @@ public interface TranslationWordsLocalRepository {
     Completable removeAll(List<WordTranslation> wordTranslations);
 
     Completable removeAllServerIds(List<Integer> serverIds);
+
+    void clear();
 }

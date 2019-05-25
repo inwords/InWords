@@ -14,4 +14,8 @@ internal constructor(private val userRepository: UserRepository) : ProfileIntera
     }
 
     override fun getUserById(id: Int): Single<User> = userRepository.getUserById(id)
+
+    override fun clearCache() {
+        userRepository.clearCache()
+    }
 }

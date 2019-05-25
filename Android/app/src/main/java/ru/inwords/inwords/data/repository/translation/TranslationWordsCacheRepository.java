@@ -54,7 +54,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
         return Single.defer(() -> {
             WordTranslation storedItem = list.get(wordTranslation);
             WordTranslation itemToAdd;
-            if (storedItem == null){
+            if (storedItem == null) {
                 itemToAdd = new WordTranslation(wordTranslation.getWordForeign(), wordTranslation.getWordNative());
             } else {
                 itemToAdd = wordTranslation;
@@ -68,7 +68,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     @Override
     public Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations) {
-        if (wordTranslations.isEmpty()){
+        if (wordTranslations.isEmpty()) {
             return Single.just(wordTranslations);
         }
 
@@ -85,7 +85,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     @Override
     public Completable removeAll(List<WordTranslation> wordTranslations) {
-        if (wordTranslations.isEmpty()){
+        if (wordTranslations.isEmpty()) {
             return Completable.complete();
         }
 
@@ -100,7 +100,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
-        if (serverIds.isEmpty()){
+        if (serverIds.isEmpty()) {
             return Completable.complete();
         }
 
@@ -118,6 +118,11 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
             return true;
         });
+    }
+
+    @Override
+    public void clear() {
+        list.clear();
     }
 
     private void publish() {

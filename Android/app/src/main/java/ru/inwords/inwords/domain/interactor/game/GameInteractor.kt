@@ -16,4 +16,5 @@ interface GameInteractor {
     fun getLevel(levelId: Int, forceUpdate: Boolean = false): Observable<Resource<GameLevel>>
     fun getScore(game: Game, levelScoreRequest: LevelScoreRequest): Single<Resource<LevelScore>>
     fun uploadScoresToServer(): Single<List<LevelScoreRequest>>
+    fun clearCache()
 }

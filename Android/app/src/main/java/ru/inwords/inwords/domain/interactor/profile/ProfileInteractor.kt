@@ -9,4 +9,6 @@ interface ProfileInteractor {
     fun getAuthorisedUser(forceUpdate: Boolean = false): Observable<Resource<User>>
 
     fun getUserById(id: Int): Single<User>
+    
+    fun clearCache()
 }
