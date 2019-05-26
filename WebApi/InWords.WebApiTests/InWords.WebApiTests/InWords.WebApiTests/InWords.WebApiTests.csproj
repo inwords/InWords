@@ -12,4 +12,18 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\InWords.WebApi\InWords.Data.DTO\InWords.Data.DTO.csproj" />
+    <ProjectReference Include="..\..\..\InWords.WebApi\InWords.WebApi\InWords.WebApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="source.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="test1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
