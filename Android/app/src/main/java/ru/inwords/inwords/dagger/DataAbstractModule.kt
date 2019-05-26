@@ -15,6 +15,8 @@ import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteracto
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationWebInteractor
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
 import ru.inwords.inwords.domain.interactor.game.GameInteractorImpl
+import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
+import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractorImpl
 import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
 import ru.inwords.inwords.domain.interactor.profile.ProfileInteractorImpl
 import ru.inwords.inwords.domain.interactor.translation.*
@@ -33,6 +35,10 @@ interface DataAbstractModule {
     fun webRequests(webRequests: WebRequestsManagerImpl): WebRequestsManager
 
     //interactors
+    @Binds
+    @Singleton
+    fun integrationInteractor(interactor: IntegrationInteractorImpl): IntegrationInteractor
+
     @Binds
     @Singleton
     fun gameInteractor(interactor: GameInteractorImpl): GameInteractor

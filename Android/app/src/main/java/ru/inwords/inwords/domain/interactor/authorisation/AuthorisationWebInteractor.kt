@@ -7,7 +7,7 @@ import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.data.source.webService.AuthenticationException
 import ru.inwords.inwords.data.source.webService.WebRequestsManager
 import ru.inwords.inwords.data.source.webService.session.TokenResponse
-import ru.inwords.inwords.domain.IntegrationInteractor
+import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.domain.util.getErrorMessage
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException

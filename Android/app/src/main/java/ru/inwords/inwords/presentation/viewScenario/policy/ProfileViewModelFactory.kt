@@ -1,16 +1,16 @@
-package ru.inwords.inwords.presentation.viewScenario.main_activity
+package ru.inwords.inwords.presentation.viewScenario.policy
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import javax.inject.Inject
 
-class IntegrationViewModelFactory @Inject
+class PolicyViewModelFactory @Inject
 internal constructor(private val integrationInteractor: IntegrationInteractor) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(IntegrationViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(PolicyViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return IntegrationViewModel(integrationInteractor) as T
+            return PolicyViewModel(integrationInteractor) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -16,6 +16,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
         buildConfigField "String", "TTS_GOOGLE_API_URL", "\"https://texttospeech.googleapis.com\""
+        buildConfigField "String", "POLICY_PRIVACY_URL", "\"https://inwords.ru/policy/privacy.html\""
 
         javaCompileOptions {
             annotationProcessorOptions {

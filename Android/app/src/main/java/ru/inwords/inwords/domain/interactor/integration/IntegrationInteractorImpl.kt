@@ -1,7 +1,8 @@
-package ru.inwords.inwords.domain
+package ru.inwords.inwords.domain.interactor.integration
 
 import android.util.Log
 import io.reactivex.Completable
+import io.reactivex.Single
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
 import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
@@ -11,13 +12,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class IntegrationInteractor @Inject
+class IntegrationInteractorImpl @Inject
 internal constructor(private val translationSyncInteractor: TranslationSyncInteractor,
                      private val translationWordsInteractor: TranslationWordsInteractor,
                      private val profileInteractor: ProfileInteractor,
                      private val gameInteractor: GameInteractor,
-                     private val integrationDatabaseRepository: IntegrationDatabaseRepository) {
-    fun getOnAuthCallback(): Completable = Completable.mergeDelayError(listOf(
+                     private val integrationDatabaseRepository: IntegrationDatabaseRepository) : IntegrationInteractor {
+    override fun getOnAuthCallback(): Completable = Completable.mergeDelayError(listOf(
             profileInteractor.getAuthorisedUser(true)
                     .firstOrError()
                     .ignoreElement(),
@@ -29,13 +30,13 @@ internal constructor(private val translationSyncInteractor: TranslationSyncInter
             .doOnError(Throwable::printStackTrace)
             .onErrorComplete()
 
-    fun getOnStartCallback(): Completable = Completable.mergeDelayError(listOf(
+    override fun getOnStartCallback(): Completable = Completable.mergeDelayError(listOf(
             translationSyncInteractor.presyncOnStart()
     ))
             .doOnError(Throwable::printStackTrace)
             .onErrorComplete()
 
-    fun getOnNewUserCallback(): Completable {
+    override fun getOnNewUserCallback(): Completable {
         return Completable.fromAction {
             Log.d(TAG, "New user logged in -> clearing all tables and cache")
             integrationDatabaseRepository.clearAllTables()
@@ -43,6 +44,14 @@ internal constructor(private val translationSyncInteractor: TranslationSyncInter
             profileInteractor.clearCache()
             translationWordsInteractor.clearCache()
         }
+    }
+
+    override fun getPolicyAgreementState(): Single<Boolean> {
+        return integrationDatabaseRepository.getPolicyAgreementState()
+    }
+
+    override fun setPolicyAgreementState(state: Boolean): Completable {
+        return integrationDatabaseRepository.setPolicyAgreementState(state)
     }
 
     companion object {
