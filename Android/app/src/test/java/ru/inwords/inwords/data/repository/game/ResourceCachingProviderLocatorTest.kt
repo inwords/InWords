@@ -2,6 +2,7 @@ package ru.inwords.inwords.data.repository.game
 
 import io.reactivex.Single
 import org.junit.jupiter.api.Test
+import ru.inwords.inwords.data.repository.ResourceCachingProvider
 
 internal class ResourceCachingProviderLocatorTest {
     private val localRepo = HashMap<Int, String>()

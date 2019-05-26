@@ -10,7 +10,7 @@ import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameInfo
-import ru.inwords.inwords.domain.GAME_INFO
+import ru.inwords.inwords.presentation.GAME_INFO
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.GameInfosDiffUtilCallback

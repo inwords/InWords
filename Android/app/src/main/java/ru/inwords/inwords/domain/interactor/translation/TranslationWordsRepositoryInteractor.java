@@ -20,4 +20,6 @@ public interface TranslationWordsRepositoryInteractor {
     Completable markRemoved(WordTranslation wordTranslation);
 
     Completable markRemovedAll(List<WordTranslation> wordTranslations);
+
+    void clearCache();
 }

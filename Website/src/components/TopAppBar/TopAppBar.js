@@ -13,7 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import { AppBarContext } from './AppBarContext';
 import useDrawer from '../../hooks/useDrawer';
-import ProfileMenu from './ProfileMenu';
+import ButtonWithProfileMenu from './ButtonWithProfileMenu';
 import DrawerHeader from './DrawerHeader';
 import NavList from './NavList';
 
@@ -91,7 +91,7 @@ function TopAppBar({ authorized, loading, children, classes }) {
                     {appBarSettings.rightElements.map((element, index) =>
                         element ?
                             <React.Fragment key={index}>{element}</React.Fragment> :
-                            authorized && <ProfileMenu key={index} />)}
+                            authorized && <ButtonWithProfileMenu key={index} />)}
                 </Toolbar>
                 {loading && <LinearProgress />}
             </AppBar>

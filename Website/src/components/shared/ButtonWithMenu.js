@@ -1,27 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import useDropdownMenu from '../../../hooks/useDropdownMenu';
+import useDropdownMenu from '../../hooks/useDropdownMenu';
 
-function ProfileMenu({ handleLogout }) {
+function ButtonWithMenu({ id, icon, render }) {
     const { anchorEl, open, handleMenu, handleClose } = useDropdownMenu();
 
     return (
         <>
             <IconButton
-                aria-owns={open ? 'menu-appbar' : undefined}
+                aria-owns={open ? id : undefined}
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
             >
-                <AccountCircle />
+                {icon}
             </IconButton>
             <Menu
-                id="menu-appbar"
+                id={id}
                 anchorEl={anchorEl}
                 anchorOrigin={{
                     vertical: 'top',
@@ -34,15 +31,16 @@ function ProfileMenu({ handleLogout }) {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem component={Link} to="/profile" onClick={handleClose}>Профиль</MenuItem>
-                <MenuItem component={Link} to="/login" onClick={handleLogout}>Выйти</MenuItem>
+                {render(handleClose)}
             </Menu>
         </>
     );
 }
 
-ProfileMenu.propTypes = {
-    handleLogout: PropTypes.func.isRequired
+ButtonWithMenu.propTypes = {
+    id: PropTypes.string.isRequired,
+    icon: PropTypes.node.isRequired,
+    render: PropTypes.func.isRequired
 };
 
-export default ProfileMenu;
+export default ButtonWithMenu;

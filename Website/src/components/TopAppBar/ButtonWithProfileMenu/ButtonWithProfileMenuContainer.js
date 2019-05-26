@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import accessActions from '../../../actions/accessActions';
-import ProfileMenu from './ProfileMenu';
+import ButtonWithProfileMenu from './ButtonWithProfileMenu';
 
-function ProfileMenuContainer({ denyAccess }) {
+function ButtonWithProfileMenuContainer({ denyAccess }) {
     const handleLogout = () => {
         denyAccess();
     };
 
-    return <ProfileMenu handleLogout={handleLogout} />;
+    return <ButtonWithProfileMenu handleLogout={handleLogout} />;
 }
 
-ProfileMenuContainer.propTypes = {
+ButtonWithProfileMenuContainer.propTypes = {
     userId: PropTypes.number,
     denyAccess: PropTypes.func.isRequired
 };
@@ -26,4 +26,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     null,
     mapDispatchToProps
-)(ProfileMenuContainer);
+)(ButtonWithProfileMenuContainer);

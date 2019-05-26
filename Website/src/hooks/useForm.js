@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function useForm(initialState = {}, callback = () => {
-}) {
+function useForm(initialState = {}, callback = () => { }) {
     const [values, setValues] = React.useState(initialState);
 
     const handleChange = prop => event => {
