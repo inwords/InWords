@@ -49,6 +49,14 @@ class MainActivity : DaggerAppCompatActivity() {
                         }
                     }
                 }
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.policyFragment -> hideNavigation()
+
+                else -> showNavigation()
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -78,6 +86,14 @@ class MainActivity : DaggerAppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
+    }
+
+    override fun onBackPressed() {
+        if (navController.currentDestination?.id == R.id.policyFragment) {
+            finish()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun checkPlayServices(): Boolean {
