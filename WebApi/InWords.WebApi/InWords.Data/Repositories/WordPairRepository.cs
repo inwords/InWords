@@ -14,14 +14,14 @@ namespace InWords.Data.Repositories
             wordRepository = new WordRepository(context);
         }
 
-        public async Task<WordPair> Stack(Word first, Word second)
+        public async Task<WordPair> Stack(Word wordForeign, Word wordNative)
         {
-            first = await wordRepository.Stack(first);
-            second = await wordRepository.Stack(second);
+            wordForeign = await wordRepository.Stack(wordForeign);
+            wordNative = await wordRepository.Stack(wordNative);
             var result = new WordPair
             {
-                WordForeignId = first.WordId,
-                WordNativeId = second.WordId
+                WordForeignId = wordForeign.WordId,
+                WordNativeId = wordNative.WordId
             };
 
             return await Stack(result);

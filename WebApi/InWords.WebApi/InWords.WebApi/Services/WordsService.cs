@@ -70,6 +70,7 @@ namespace InWords.WebApi.Services
         public WordTranslation GetWordTranslationById(int id)
         {
             WordPair wordPair = wordPairRepository.IncludeContent().Single(x => x.WordPairId.Equals(id));
+
             return new WordTranslation(wordPair.WordForeign.Content, wordPair.WordNative.Content, id);
         }
 
@@ -98,14 +99,14 @@ namespace InWords.WebApi.Services
             WordPair wordPair = await AddPair(wordTranslation);
 
             // Load a word from a cell of a foreign word
-            Word wordInForeign = await wordRepository.FindById(wordPair.WordForeignId);
+            Word wordForeign = await wordRepository.FindById(wordPair.WordForeignId);
 
             // If the loaded foreign word does not match the word 
             // in the repository then the pair is considered inverted
             var createdPair = new UserWordPair
             {
                 WordPairId = wordPair.WordPairId,
-                IsInvertPair = wordInForeign.Content != wordTranslation.WordForeign,
+                IsInvertPair = wordForeign.Content != wordTranslation.WordForeign.ToLower(),
                 UserId = userId
             };
 
@@ -127,7 +128,7 @@ namespace InWords.WebApi.Services
         {
             await DeleteUserWordPair(userId, userWordPairId);
             SyncBase syncBase = await AddUserWordPair(userId, wordTranslation);
-            return new List<SyncBase> {syncBase};
+            return new List<SyncBase> { syncBase };
         }
     }
 }
