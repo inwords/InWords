@@ -106,7 +106,7 @@ namespace InWords.WebApi.Services
             var createdPair = new UserWordPair
             {
                 WordPairId = wordPair.WordPairId,
-                IsInvertPair = wordForeign.Content != wordTranslation.WordForeign.ToLower(),
+                IsInvertPair = !wordForeign.Content.Equals(wordTranslation.WordForeign.ToLower()),
                 UserId = userId
             };
 
