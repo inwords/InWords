@@ -18,7 +18,7 @@ namespace InWords.WebApiTests.Models.CardGameParser
         {
             string source = File.ReadAllText(filename);
             var parser = new TextParser(source);
-            GameObject gameObject = parser.GetGameObject(1);
+            GamePack gameObject = parser.GetGameObject(1);
         }
     }
 }
