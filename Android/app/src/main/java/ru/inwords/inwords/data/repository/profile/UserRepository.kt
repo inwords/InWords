@@ -8,4 +8,5 @@ import ru.inwords.inwords.domain.model.Resource
 interface UserRepository {
     fun getAuthorisedUser(forceUpdate: Boolean = false): Observable<Resource<User>>
     fun getUserById(id: Int): Single<User>
+    fun clearCache()
 }

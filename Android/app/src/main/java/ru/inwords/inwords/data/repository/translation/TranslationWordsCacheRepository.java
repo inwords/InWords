@@ -11,15 +11,15 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
+import ru.inwords.inwords.core.util.SchedulersFacade;
 import ru.inwords.inwords.data.dto.WordTranslation;
 
 public class TranslationWordsCacheRepository implements TranslationWordsLocalRepository {
-    private ConcurrentHashMap<WordTranslation, WordTranslation> list;
+    private final ConcurrentHashMap<WordTranslation, WordTranslation> list;
 
-    private Subject<List<WordTranslation>> behaviorSubject;
+    private final Subject<List<WordTranslation>> behaviorSubject;
 
     @Inject
     TranslationWordsCacheRepository() {
@@ -44,7 +44,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     @Override
     public Observable<List<WordTranslation>> getList() {
         return behaviorSubject
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(SchedulersFacade.io())
                 //.filter(wordTranslations -> !wordTranslations.isEmpty())
                 .map(ArrayList::new);
     }
@@ -52,23 +52,31 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
     @Override
     public Single<WordTranslation> addReplace(WordTranslation wordTranslation) {
         return Single.defer(() -> {
-            list.put(wordTranslation, wordTranslation);
+            WordTranslation storedItem = list.get(wordTranslation);
+            WordTranslation itemToAdd;
+            if (storedItem == null) {
+                itemToAdd = new WordTranslation(wordTranslation.getWordForeign(), wordTranslation.getWordNative());
+            } else {
+                itemToAdd = wordTranslation;
+            }
+            list.put(itemToAdd, itemToAdd);
 
-            return Single.just(wordTranslation)
+            return Single.just(itemToAdd)
                     .doOnSuccess((o) -> publish());
         });
     }
 
     @Override
     public Single<List<WordTranslation>> addReplaceAll(List<WordTranslation> wordTranslations) {
-        if (wordTranslations.isEmpty()){
+        if (wordTranslations.isEmpty()) {
             return Single.just(wordTranslations);
         }
 
         return Single.defer(() -> {
             //list.removeAll(wordTranslations);
-            for (WordTranslation wordTranslation : wordTranslations)
+            for (WordTranslation wordTranslation : wordTranslations) {
                 list.put(wordTranslation, wordTranslation);
+            }
 
             return Single.just(wordTranslations)
                     .doOnSuccess((o) -> publish());
@@ -77,7 +85,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     @Override
     public Completable removeAll(List<WordTranslation> wordTranslations) {
-        if (wordTranslations.isEmpty()){
+        if (wordTranslations.isEmpty()) {
             return Completable.complete();
         }
 
@@ -92,7 +100,7 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
     @Override
     public Completable removeAllServerIds(List<Integer> serverIds) {
-        if (serverIds.isEmpty()){
+        if (serverIds.isEmpty()) {
             return Completable.complete();
         }
 
@@ -110,6 +118,11 @@ public class TranslationWordsCacheRepository implements TranslationWordsLocalRep
 
             return true;
         });
+    }
+
+    @Override
+    public void clear() {
+        list.clear();
     }
 
     private void publish() {

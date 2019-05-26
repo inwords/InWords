@@ -1,21 +1,19 @@
-package ru.inwords.inwords.presentation.viewScenario.home
+package ru.inwords.inwords.presentation.viewScenario.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
 import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteractor
 import javax.inject.Inject
 
-class HomeViewModelFactory @Inject
+class ProfileViewModelFactory @Inject
 internal constructor(private val translationWordsInteractor: TranslationWordsInteractor,
-                     private val profileInteractor: ProfileInteractor,
-                     private val integrationInteractor: IntegrationInteractor) : ViewModelProvider.Factory {
+                     private val profileInteractor: ProfileInteractor) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return HomeViewModel(translationWordsInteractor, profileInteractor, integrationInteractor) as T
+            return ProfileViewModel(translationWordsInteractor, profileInteractor) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -26,23 +26,10 @@ internal constructor(private val apiService: WebApiService,
                      private val sessionHelper: SessionHelper,
                      private val authInfo: AuthInfo) : WebRequestsManager {
 
-    private val credentials: Single<UserCredentials>
-        get() = Single.fromCallable { authInfo.credentials }
-
-    private val token: Single<TokenResponse>
-        get() = credentials
-                .filter { validCredentials(it) }
-                .toSingle()
-                .flatMap { s -> applyAuthSessionHelper(apiService.getToken(s)) }
-                .subscribeOn(SchedulersFacade.io())
-
-    private val bearer: String
-        get() = authInfo.tokenResponse.bearer
-
     init {
         authenticator.setOnUnauthorisedCallback(object : BasicAuthenticator.OnUnauthorisedCallback {
             override fun perform(): TokenResponse {
-                return token.blockingGet()
+                return getToken().blockingGet()
             }
         }) //TODO COSTIL
     }
@@ -54,24 +41,31 @@ internal constructor(private val apiService: WebApiService,
         }
     }
 
-    private fun setCredentials(userCredentials: UserCredentials): Single<UserCredentials> {
-        return Single.fromCallable {
-            authInfo.credentials = userCredentials
-            authInfo.credentials
-        }
-    }
-
-    override fun getToken(userCredentials: UserCredentials): Single<TokenResponse> {
-        return setCredentials(userCredentials)
-                .filter { validCredentials(it) }
+    private fun Single<UserCredentials>.updateToken(): Single<TokenResponse> {
+        return filter { validCredentials(it) }
                 .toSingle()
-                .flatMap { s -> applyAuthSessionHelper(apiService.getToken(s)) }
+                .flatMap { apiService.getToken(it) }
+                .applyAuthSessionHelper()
                 .subscribeOn(SchedulersFacade.io())
     }
 
+    private fun getToken(): Single<TokenResponse> {
+        return authInfo.getCredentials().updateToken()
+    }
+
+    override fun getUserEmail(): Single<String> {
+        return authInfo.getCredentials().map { it.email }
+    }
+
+    override fun getToken(userCredentials: UserCredentials): Single<TokenResponse> {
+        return authInfo.setCredentials(userCredentials).updateToken()
+    }
+
     override fun registerUser(userCredentials: UserCredentials): Single<TokenResponse> {
-        return applyAuthSessionHelper(apiService.registerUser(userCredentials))
-                .zipWith(setCredentials(userCredentials), BiFunction<TokenResponse, UserCredentials, TokenResponse> { tokenResponse, u -> tokenResponse })
+        return apiService.registerUser(userCredentials)
+                .applyAuthSessionHelper()
+                .zipWith(authInfo.setCredentials(userCredentials),
+                        BiFunction<TokenResponse, UserCredentials, TokenResponse> { tokenResponse, u -> tokenResponse })
                 .subscribeOn(Schedulers.io())
     }
 
@@ -87,23 +81,23 @@ internal constructor(private val apiService: WebApiService,
     }
 
     override fun getUserById(id: Int): Single<User> {
-        return applySessionHelper<User> { b -> apiService.getUserById(b, id) }
+        return applySessionHelper<User> { apiService.getUserById(it, id) }
                 //.flatMap(Observable::fromIterable)
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
-        return applySessionHelper<List<EntityIdentificator>> { b -> apiService.addPairs(b, wordTranslations) }
+        return applySessionHelper<List<EntityIdentificator>> { apiService.addPairs(it, wordTranslations) }
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun removeAllServerIds(serverIds: List<Int>): Single<Int> {
-        return applySessionHelper<Int> { b -> apiService.deletePairs(b, serverIds) }
+        return applySessionHelper<Int> { apiService.deletePairs(it, serverIds) }
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer> {
-        return applySessionHelper<PullWordsAnswer> { b -> apiService.pullWordsPairs(b, serverIds) }
+        return applySessionHelper<PullWordsAnswer> { apiService.pullWordsPairs(it, serverIds) }
                 .subscribeOn(SchedulersFacade.io())
     }
 
@@ -113,22 +107,22 @@ internal constructor(private val apiService: WebApiService,
     }
 
     override fun getGame(gameId: Int): Single<Game> {
-        return applySessionHelper<Game> { b -> apiService.getGame(b, gameId) }
+        return applySessionHelper<Game> { apiService.getGame(it, gameId) }
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getLevel(levelId: Int): Single<GameLevel> {
-        return applySessionHelper<GameLevel> { b -> apiService.getLevel(b, levelId) }
+        return applySessionHelper<GameLevel> { apiService.getLevel(it, levelId) }
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getScore(levelScoreRequest: LevelScoreRequest): Single<LevelScore> {
-        return applySessionHelper<LevelScore> { b -> apiService.getGameScore(b, levelScoreRequest) }
+        return applySessionHelper<LevelScore> { apiService.getGameScore(it, levelScoreRequest) }
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean> {
-        return applySessionHelper<Boolean> { b -> apiService.uploadScore(b, levelScoreRequests).toSingleDefault(true) }
+        return applySessionHelper<Boolean> { apiService.uploadScore(it, levelScoreRequests).toSingleDefault(true) }
                 .subscribeOn(SchedulersFacade.io())
     }
 
@@ -144,14 +138,14 @@ internal constructor(private val apiService: WebApiService,
     private fun <R> applySessionHelper(func: (String) -> Single<R>): Single<R> {
         return sessionHelper
                 .requireThreshold()
-                .andThen(Single.defer { func(bearer) })
+                .andThen(Single.defer { func(authInfo.bearer) })
                 .doOnError { throwable -> sessionHelper.interceptError(throwable).blockingAwait() }
     }
 
-    private fun applyAuthSessionHelper(query: Single<TokenResponse>): Single<TokenResponse> {
+    private fun Single<TokenResponse>.applyAuthSessionHelper(): Single<TokenResponse> {
         return sessionHelper
                 .resetThreshold()
-                .andThen(query)
+                .andThen(this)
                 .onErrorResumeNext { throwable ->
                     sessionHelper.interceptError(throwable)
                             .andThen(Single.error {
@@ -160,6 +154,6 @@ internal constructor(private val apiService: WebApiService,
                                 throwable
                             })
                 }
-                .flatMap { this.setAuthToken(it) }
+                .flatMap { setAuthToken(it) }
     }
 }

@@ -14,9 +14,9 @@ import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
-import ru.inwords.inwords.domain.GAME_ID
-import ru.inwords.inwords.domain.GAME_INFO
-import ru.inwords.inwords.domain.GAME_LEVEL_INFO
+import ru.inwords.inwords.presentation.GAME_ID
+import ru.inwords.inwords.presentation.GAME_INFO
+import ru.inwords.inwords.presentation.GAME_LEVEL_INFO
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter

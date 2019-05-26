@@ -3,7 +3,7 @@ package ru.inwords.inwords.domain.interactor.translation;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.schedulers.Schedulers;
+import ru.inwords.inwords.core.util.SchedulersFacade;
 import ru.inwords.inwords.data.sync.TranslationSyncController;
 
 public class TranslationSyncInteractorImpl implements TranslationSyncInteractor {
@@ -17,7 +17,7 @@ public class TranslationSyncInteractorImpl implements TranslationSyncInteractor 
     @Override
     public Completable presyncOnStart() {
         return syncController.presyncOnStart()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(SchedulersFacade.io())
                 .doOnError(Throwable::printStackTrace)
                 .ignoreElement();
     }
@@ -25,7 +25,7 @@ public class TranslationSyncInteractorImpl implements TranslationSyncInteractor 
     @Override
     public Completable trySyncAllReposWithCache() {
         return syncController.trySyncAllReposWithCache()
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.io());
     }
 
     @Override

@@ -7,7 +7,7 @@ import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.data.source.webService.AuthenticationException
 import ru.inwords.inwords.data.source.webService.WebRequestsManager
 import ru.inwords.inwords.data.source.webService.session.TokenResponse
-import ru.inwords.inwords.domain.IntegrationInteractor
+import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.domain.util.getErrorMessage
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -18,11 +18,29 @@ internal constructor(private val webRequestsManager: WebRequestsManager,
                      private val integrationInteractor: IntegrationInteractor) : AuthorisationInteractor {
 
     override fun signIn(userCredentials: UserCredentials): Completable {
-        return webRequestsManager.getToken(userCredentials).interceptError().checkAuthToken()
+        return webRequestsManager.getToken(userCredentials)
+                .interceptError()
+                .checkAuthToken()
+                .detectNewUser(userCredentials.email)
     }
 
     override fun signUp(userCredentials: UserCredentials): Completable {
-        return webRequestsManager.registerUser(userCredentials).interceptError().checkAuthToken()
+        return webRequestsManager.registerUser(userCredentials)
+                .interceptError()
+                .checkAuthToken()
+                .detectNewUser(userCredentials.email)
+    }
+
+    private fun Completable.detectNewUser(email: String): Completable {
+        return webRequestsManager.getUserEmail()
+                .flatMapCompletable {
+                    if (it == email || it.isEmpty()) { //TODO care its for not clearing data if its first login
+                        this
+                    } else {
+                        integrationInteractor.getOnNewUserCallback()
+                                .andThen(this)
+                    }
+                }
     }
 
     private fun Single<TokenResponse>.interceptError(): Single<TokenResponse> {

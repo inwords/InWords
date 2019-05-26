@@ -19,6 +19,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        compositeDisposable.add(subscribePolicy())
         compositeDisposable.add(subscribeProfile())
         compositeDisposable.add(subscribeDictionary())
         //BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
@@ -33,6 +34,9 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
     private fun toLoginClickListener() = Navigation
             .createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null)
 
+    private fun toProfileClickListener() = Navigation
+            .createNavigateOnClickListener(R.id.action_mainFragment_to_profileFragment, null)
+
     private fun subscribeProfile(): Disposable {
         fun showProfile() {
             profile.avatar.visibility = View.VISIBLE
@@ -40,7 +44,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
             profile.name.visibility = View.VISIBLE
             profile.clickToLogin.visibility = View.GONE
 
-            profile.setOnClickListener(toLoginClickListener()) //TODO show profile listener here
+            profile.setOnClickListener(toProfileClickListener()) //TODO show profile listener here
         }
 
         fun showLoginHint() {
@@ -126,6 +130,17 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                 .observeOn(SchedulersFacade.ui())
                 .doOnSubscribe { applyListener() }
                 .subscribe(::renderCount) { renderError() }
+    }
+
+    private fun subscribePolicy(): Disposable {
+        return viewModel.getPolicyAgreementState()
+                .subscribeOn(SchedulersFacade.io())
+                .observeOn(SchedulersFacade.ui())
+                .subscribe { agreed ->
+                    if (!agreed && !isStateSaved) {
+                        navController.navigate(R.id.action_mainFragment_to_policyFragment)
+                    }
+                }
     }
 
     override fun getLayout(): Int {

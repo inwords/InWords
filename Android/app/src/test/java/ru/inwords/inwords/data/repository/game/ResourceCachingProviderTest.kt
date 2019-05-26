@@ -9,6 +9,7 @@ import io.reactivex.Single
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import ru.inwords.inwords.data.repository.ResourceCachingProvider
 import ru.inwords.inwords.domain.model.Resource
 
 @ExtendWith(MockKExtension::class)

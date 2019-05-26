@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -108,14 +110,22 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     override fun onItemDismiss(position: Int) {
-        viewModel.onItemDismiss(adapter.values[position])
+        val item = adapter.values[position].clone()
+        viewModel.onItemDismiss(item.clone())
+
+        Snackbar.make(asdasd, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
+                .addCallback(SnackBarCallback())
+                .show()
     }
 
-    override fun getLayout(): Int {
-        return R.layout.fragment_translation_main
+    private inner class SnackBarCallback : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+        override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
+            viewModel.onConfirmItemDismiss()
+        }
     }
 
-    override fun getClassType(): Class<TranslationMainViewModel> {
-        return TranslationMainViewModel::class.java
-    }
+    override fun getLayout() = R.layout.fragment_translation_main
+
+    override fun getClassType() = TranslationMainViewModel::class.java
 }
