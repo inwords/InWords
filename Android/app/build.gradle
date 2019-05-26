@@ -11,8 +11,8 @@ android {
         applicationId "ru.inwords.inwords"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
-        versionCode 5
-        versionName "1.2"
+        versionCode 6
+        versionName "1.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
         buildConfigField "String", "TTS_GOOGLE_API_URL", "\"https://texttospeech.googleapis.com\""
