@@ -29,5 +29,10 @@ namespace InWords.WebApi.Extensions
 
             return indexOfEnd < 0 ? string.Empty : source.Substring(0, indexOfEnd);
         }
+
+        public static string[] RemoveEmpty(this IEnumerable<string> source)
+        {
+            return source.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+        }
     }
 }

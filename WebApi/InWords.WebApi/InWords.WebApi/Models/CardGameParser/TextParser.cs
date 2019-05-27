@@ -12,9 +12,10 @@ namespace InWords.WebApi.Models.CardGameParser
     public class TextParser
     {
 
-        private const string FINAL_LEVEL_MARK = "Итоговый:";
-        private const string THEME_MARK = "#Тема";
+        private const string THEME_MARK = "#Тема:";
+        private const string LEVEL_SPLIT = "#Уровень:";
         private const string WORDS_SPLIT = ";";
+
 
         private readonly string source;
 
@@ -25,7 +26,7 @@ namespace InWords.WebApi.Models.CardGameParser
 
         public GamePack GetGameObject(int themeNumber)
         {
-            string[] themes = source.Split(THEME_MARK);
+            string[] themes = source.Split(THEME_MARK).RemoveEmpty();
 
             string theme = GetThemByNumber(themes, themeNumber);
 
@@ -34,7 +35,7 @@ namespace InWords.WebApi.Models.CardGameParser
 
         private static int GetThemeNumber(string theme)
         {
-            string potentialNumber = theme.Substring(" ", " ");
+            string potentialNumber = theme.Substring("", Environment.NewLine);
             if (int.TryParse(potentialNumber, out int result))
                 return result;
             else
@@ -46,77 +47,77 @@ namespace InWords.WebApi.Models.CardGameParser
             return themes.FirstOrDefault(theme => GetThemeNumber(theme).Equals(number));
         }
 
+
         private static GamePack ParseTheme(string theme)
         {
             var gamePack = new GamePack
             {
                 CreationInfo = GetCreationInfo(theme),
-                LevelPacks = GetGamePack(theme)
+                LevelPacks = GetLevelPacks(theme)
             };
             return gamePack;
         }
 
         private static CreationInfo GetCreationInfo(string theme)
         {
-            string[] themeInfos = theme.Substring(":", "1.").Split(Environment.NewLine);
-            themeInfos = themeInfos.Where(ti => ti.Length > 0).Select(tit => tit.TrimStart(' ').TrimEnd(' ')).ToArray();
+            string[] themeInfos = theme.Split(Environment.NewLine).RemoveEmpty(); ;
+            themeInfos = themeInfos.Select(tit => tit.Trim(' ')).ToArray();
 
             var creationInfo = new CreationInfo
             {
                 CreatorId = 0,
                 Descriptions = new List<DescriptionInfo>
                 {
-                    new DescriptionInfo { Title = themeInfos[0], Description = themeInfos[1] },
-                    new DescriptionInfo { Title = themeInfos[2], Description = themeInfos[3] }
+                    new DescriptionInfo { Title = themeInfos[1], Description = themeInfos[2], LangId = 2},
+                    new DescriptionInfo { Title = themeInfos[3], Description = themeInfos[4], LangId = 1}
                 }
             };
             return creationInfo;
         }
 
-        private static List<LevelPack> GetGamePack(string theme)
+        private static List<LevelPack> GetLevelPacks(string theme)
         {
-            // TODO: Start refactor here!!!!!!!1
+            string[] levelSources = (LEVEL_SPLIT + theme.Substring(LEVEL_SPLIT))
+                .Split(LEVEL_SPLIT)
+                .RemoveEmpty(); ;
             var levelPacks = new List<LevelPack>();
-            var level = new LevelPack();
-            int levelNum = 0;
 
-            theme = "1." + theme.Substring("1.");
-            string[] wordPairStrings = theme.Split(Environment.NewLine);
-
-            //if start with num
-            foreach (string wordsPairString in wordPairStrings)
+            foreach (string levelSource in levelSources)
             {
-                string wordsPairStringClear = wordsPairString;
-                if (char.IsDigit(wordsPairString[0]))
-                {
-                    levelNum++;
-                    levelPacks.Add(level);
-                    level = new LevelPack { WordTranslations = new List<WordTranslation>() };
-                    wordsPairStringClear = wordsPairString.Substring(".");
-                }
-                else if (wordsPairStringClear.Equals(FINAL_LEVEL_MARK))
-                {
-                    levelNum++;
-                    levelPacks.Add(level);
-                    level = new LevelPack { WordTranslations = new List<WordTranslation>() };
-                    wordsPairStringClear = "";
-                }
+                levelPacks.Add(GetLevelPack(levelSource));
+            }
 
-                var wordSplit = wordsPairStringClear.Split(WORDS_SPLIT);
-                if (wordSplit.Length == 2)
+            LevelPack lastLevelPack = levelPacks.Single(l => l.Level == 0);
+            lastLevelPack.Level = levelPacks.Count;
+            return levelPacks;
+        }
+
+        private static LevelPack GetLevelPack(string source)
+        {
+            var levelPack = new LevelPack();
+            string[] sourceLines = source.Split(Environment.NewLine).RemoveEmpty();
+            if (int.TryParse(sourceLines[0], out int level))
+            {
+                levelPack.Level = level;
+            }
+            levelPack.WordTranslations = new List<WordTranslation>();
+            foreach (string wordTranslationString in sourceLines)
+            {
+                if (TryParseWordTranslation(wordTranslationString, out WordTranslation wordTranslation))
                 {
-                    var wordTranslation = new WordTranslation
-                    {
-                        WordForeign = wordSplit[0],
-                        WordNative = wordSplit[1]
-                    };
-                    level.WordTranslations.Add(wordTranslation);
+                    levelPack.WordTranslations.Add(wordTranslation);
                 }
             }
-            //if Итоговый:
-            //else if words
+            return levelPack;
+        }
 
-            return null;
+        private static bool TryParseWordTranslation(string source, out WordTranslation wordTranslation)
+        {
+            wordTranslation = null;
+            string[] words = source.Split(WORDS_SPLIT).RemoveEmpty(); ;
+            if (words.Length != 2) return false;
+            wordTranslation = new WordTranslation(words[0], words[1]);
+            return true;
         }
     }
 }

@@ -1,21 +1,27 @@
-﻿Тема 1 []: Ктo? 
+﻿#Тема: 1
+
+Ктo? 
 Вчера кто-то из бросминожек украл мои чернила! Ты поможешь мне узнать, кто это сделал? (местоимения)
 
 Who?
 Yesterday one of my broctopuses stole my ink! Could you help me and guess who did the theft?
 
-1. I;я
+#Уровень: 1
+I;я
 you;ты/вы
-2. we;мы
+#Уровень: 2
+we;мы
 they;они
-3. he;он
+#Уровень: 3
+he;он
 she;она
 it;оно
-4. this;этот
+#Уровень: 4
+this;этот
 that;тот
 those;те
 these;эти
-Итоговый:
+#Уровень:Итоговый
 I;я
 you;ты/вы
 we;мы

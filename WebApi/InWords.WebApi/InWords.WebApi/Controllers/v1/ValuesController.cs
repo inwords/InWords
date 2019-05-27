@@ -96,7 +96,7 @@ namespace InWords.WebApi.Controllers.v1
 
         [HttpGet]
         [Route("ftp")]
-        public IActionResult GetFtp(int words, int open)
+        public IActionResult GetFtp()
         {
             loader.Test();
             return Ok(null);

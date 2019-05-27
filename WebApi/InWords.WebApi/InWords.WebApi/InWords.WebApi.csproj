@@ -35,7 +35,12 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="AppData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AppData\CardsGames.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
