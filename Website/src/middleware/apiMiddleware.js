@@ -1,9 +1,8 @@
-import axios from 'axios';
 import commonActions from '../actions/commonActions';
 import accessActions from '../actions/accessActions';
 import history from '../history';
 
-const API_ROOT = 'https://api.inwords.ru/v1.0/';
+const API_ROOT = 'https://api.inwords.ru';
 
 export const API_CALL = 'API_CALL';
 
@@ -15,6 +14,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     }
 
     const {
+        apiVersion,
         endpoint,
         method,
         data,
@@ -23,20 +23,35 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
         errorMessage
     } = action.payload;
 
-    const dataOrParams = ['GET', 'DELETE'].includes(method) ? 'params' : 'data';
-
     dispatch(commonActions.beginLoading());
 
-    axios.request({
-        url: API_ROOT + endpoint,
+    fetch(`${API_ROOT}/${apiVersion}/${endpoint}`, {
         method,
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${getState().access.token}`
         },
-        [dataOrParams]: data
+        body: data
     })
-        .then(({ data }) => {
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    dispatch(accessActions.denyAccess());
+                    history.push('/login');
+                    throw Error('Ошибка доступа');
+                }
+
+                throw Error(errorMessage);
+            }
+
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                return response.json();
+            }
+
+            return null;
+        })
+        .then(data => {
             dispatch(commonActions.endLoading());
             actionsOnSuccess.forEach(action => dispatch(action(data)));
 
@@ -46,14 +61,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
         })
         .catch(error => {
             dispatch(commonActions.endLoading());
-            dispatch(commonActions.setErrorMessage(errorMessage));
-
-            if (error.response && error.response.status === 401) {
-                dispatch(accessActions.denyAccess());
-                history.push('/login');
-            }
-
-            console.error(error.response);
+            dispatch(commonActions.setErrorMessage(error.message));
         })
 };
 
