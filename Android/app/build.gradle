@@ -36,6 +36,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kapt { generateStubs = true }
+
     testOptions {
         unitTests.all {
             // Always run tests, even when nothing changed.
@@ -60,7 +62,7 @@ dependencies {
     implementation project(path: ':flipview')
     implementation project(path: ':shimmer_recycler')
 
-    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.google.firebase:firebase-core:17.0.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -119,7 +121,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$versions.DAGGER"
     kapt "com.google.dagger:dagger-android-processor:$versions.DAGGER"
 
-    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+    androidTestImplementation 'androidx.test:runner:1.3.0-alpha01'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.2"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.4.2"

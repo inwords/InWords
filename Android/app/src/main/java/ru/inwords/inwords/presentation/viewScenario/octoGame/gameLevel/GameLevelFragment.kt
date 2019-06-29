@@ -149,7 +149,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
                 stateMap.size
         )
                 .also {
-                    supportFragmentInjector().inject(it)
+                    androidInjector().inject(it)
                     it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName)
                 }
     }

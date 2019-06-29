@@ -1,6 +1,5 @@
 package ru.inwords.inwords;
 
-import android.app.Activity;
 import android.app.Application;
 import android.net.TrafficStats;
 import android.os.Build;
@@ -9,7 +8,6 @@ import android.os.StrictMode.ThreadPolicy;
 import android.os.StrictMode.VmPolicy;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
@@ -19,21 +17,20 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.HasAndroidInjector;
 import okhttp3.OkHttpClient;
 import ru.inwords.inwords.dagger.AppComponent;
 import ru.inwords.inwords.dagger.DaggerAppComponent;
 
-public class App extends Application implements HasSupportFragmentInjector, HasActivityInjector {
+public class App extends Application implements HasAndroidInjector {
     public static AppComponent appComponent;
 
     @Inject
     OkHttpClient okHttpClient;
+
     @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingFragmentInjector;
-    @Inject
-    DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
+    DispatchingAndroidInjector<Object> dispatchingAndroidInjector;
+
     @Inject
     AppComponent _appComponent;
 
@@ -54,13 +51,8 @@ public class App extends Application implements HasSupportFragmentInjector, HasA
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingFragmentInjector;
-    }
-
-    @Override
-    public AndroidInjector<Activity> activityInjector() {
-        return dispatchingActivityInjector;
+    public AndroidInjector<Object> androidInjector() {
+        return dispatchingAndroidInjector;
     }
 
     //region Strict Mode Activation
