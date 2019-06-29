@@ -59,7 +59,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
             gameEndBottomSheetFragment?.dismiss()
 
             when (it) {
-                FromGameEndEventsEnum.HOME -> navController.navigate(R.id.action_global_mainFragment)
+                FromGameEndEventsEnum.HOME -> navController.navigate(R.id.action_gameLevelFragment_popUpTo_mainFragment)
                 FromGameEndEventsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
                 else -> Unit
             }
