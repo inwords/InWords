@@ -34,10 +34,10 @@ internal class ResourceCachingProvider<T : Any>(
                 .flatMapSingle { res ->
                     if (res.success()) {
                         databaseInserter(res.data!!)
-                                .doOnError { Log.d(TAG, it.message) }
+                                .doOnError { Log.d(TAG, it.message ?: "") }
                                 .wrapResourceOverwriteError(res)
                     } else {
-                        Log.d(TAG, res.message)
+                        Log.d(TAG, res.message ?: "")
                         databaseGetter().wrapResource()
                     }
                 }
