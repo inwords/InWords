@@ -22,9 +22,16 @@ const initialSnackbarState = {
 const snackbar = (state = initialSnackbarState, action) => {
     switch (action.type) {
         case commonConstants.SET_SNACKBAR:
-            return { ...state, open: true, ...action.payload };
+            return {
+                ...initialSnackbarState,
+                open: true,
+                ...action.payload
+            };
         case commonConstants.RESET_SNACKBAR:
-            return { ...state, open: false };
+            return {
+                ...state,
+                open: false
+            };
         default:
             return state;
     }

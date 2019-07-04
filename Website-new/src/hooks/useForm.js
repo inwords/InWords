@@ -1,8 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function useForm(initialInputs = {}, callback = () => { }) {
-    const [inputs, setInputs] = React.useState(initialInputs);
+    const [inputs, setInputs] = useState(initialInputs);
 
     const handleChange = event => {
         setInputs({

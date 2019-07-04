@@ -8,8 +8,8 @@ const initialState = {
 const access = (state = initialState, action) => {
     if (action.type === accessConstants.GRANT_ACCESS) {
         return {
-            token: action.payload.token,
-            userId: action.payload.userId
+            token: action.payload.token || null,
+            userId: action.payload.userId || null
         };
     }
 

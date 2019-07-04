@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Hidden from '@material-ui/core/Hidden';
@@ -11,8 +12,9 @@ import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
-import useDrawer from '../../hooks/useDrawer';
-import NavList from '../PageLayout/NavList';
+import useDrawer from '../hooks/useDrawer';
+import ProfileMenu from './ProfileMenu';
+import NavList from './NavList';
 
 const drawerWidth = 240;
 
@@ -31,6 +33,9 @@ const useStyles = makeStyles(theme => ({
         transition: theme.transitions.create(['transform'], {
             easing: theme.transitions.easing.sharp,
         }),
+    },
+    space: {
+        flexGrow: 1,
     },
     drawer: {
         width: drawerWidth,
@@ -67,10 +72,10 @@ const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar,
 }));
 
-function PageLayout({ children }) {
+function PageLayout({ authorized, loading, children }) {
     const classes = useStyles();
 
-    const { open, handleDrawerOpen, handleDrawerClose, handleDrawerToggle } = useDrawer();
+    const { open, handleOpen, handleClose, handleToggle } = useDrawer();
 
     return (
         <div className={classes.root}>
@@ -79,21 +84,29 @@ function PageLayout({ children }) {
                     <IconButton
                         color="inherit"
                         aria-label="Open drawer"
-                        onClick={handleDrawerToggle}
+                        onClick={handleToggle}
                         className={classes.menuButton}
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Link color="inherit" href="/" variant="h6" underline="none">
+                    <Link
+                        color="inherit"
+                        href="/"
+                        variant="h6"
+                        underline="none"
+                    >
                         InWords
                     </Link>
+                    <span className={classes.space}></span>
+                    {authorized && <ProfileMenu />}
                 </Toolbar>
+                {loading && <LinearProgress />}
             </AppBar>
             <Hidden lgUp>
                 <SwipeableDrawer
                     open={open}
-                    onClose={handleDrawerClose}
-                    onOpen={handleDrawerOpen}
+                    onClose={handleClose}
+                    onOpen={handleOpen}
                     className={classes.drawer}
                     classes={{
                         paper: classes.drawerPaper,
@@ -106,7 +119,7 @@ function PageLayout({ children }) {
                             </Link>
                         </div>
                         <Divider />
-                        <NavList authorized={false} onClick={handleDrawerClose} />
+                        <NavList authorized={authorized} onClick={handleClose} />
                     </div>
                 </SwipeableDrawer>
             </Hidden>
@@ -125,7 +138,7 @@ function PageLayout({ children }) {
                         </Link>
                     </div>
                     <Divider />
-                    <NavList authorized={false} />
+                    <NavList authorized={authorized} />
                 </Drawer>
             </Hidden>
             <main
@@ -141,6 +154,8 @@ function PageLayout({ children }) {
 }
 
 PageLayout.propTypes = {
+    authorized: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired
 };
 

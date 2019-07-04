@@ -1,25 +1,25 @@
-import React from 'react';
+import { useState } from 'react';
 
 function useDrawer() {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
-    const handleDrawerOpen = () => {
+    const handleOpen = () => {
         setOpen(true);
     };
 
-    const handleDrawerClose = () => {
+    const handleClose = () => {
         setOpen(false);
     };
 
-    const handleDrawerToggle = () => {
+    const handleToggle = () => {
         setOpen(!open);
     };
 
     return {
         open,
-        handleDrawerOpen,
-        handleDrawerClose,
-        handleDrawerToggle
+        handleOpen,
+        handleClose,
+        handleToggle
     };
 }
 

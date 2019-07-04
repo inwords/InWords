@@ -42,7 +42,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
             const contentType = response.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
-                throw Error('Response is not JSON');
+                return null;
             }
 
             return response.json();

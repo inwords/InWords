@@ -1,45 +1,40 @@
 import history from '../history';
 import apiAction from './apiAction';
 import commonActions from './commonActions';
-import accessActions from './accessActions';
+import userActions from './userActions';
 
-function signIn(userdata) {
+function receiveUserInfo(userId) {
     return apiAction({
-        endpoint: 'auth/token',
-        method: 'POST',
-        data: JSON.stringify(userdata),
+        endpoint: `users/${userId}`,
         actionsOnSuccess: [
-            (dispatch, data) => dispatch(accessActions.grantAccess(data)),
-            () => history.push('/wordlist')
+            (dispatch, data) => dispatch(userActions.initializeUserInfo(data))
         ],
         actionsOnFailure: [
             dispatch => dispatch(commonActions.setSnackbar({
-                message: 'Не удалось авторизоваться'
+                message: 'Не удалось загрузить профиль'
             }))
         ]
     });
 }
 
-function signUp(userdata) {
+function updateUserInfo(userInfo) {
     return apiAction({
-        endpoint: 'auth/registration',
-        method: 'POST',
-        data: JSON.stringify(userdata),
+        endpoint: 'users',
+        method: 'PUT',
+        data: JSON.stringify(userInfo),
         actionsOnSuccess: [
-            dispatch => dispatch(commonActions.setSnackbar({
-                message: 'Аккаунт успешно создан'
-            })),
-            () => history.push('/signIn')
+            (dispatch) => dispatch(userActions.updateUserInfo(userInfo)),
+            () => history.push('/profile')
         ],
         actionsOnFailure: [
             dispatch => dispatch(commonActions.setSnackbar({
-                message: 'Не удалось зарегистрироваться'
+                message: 'Не удалось сохранить профиль'
             }))
         ]
     });
 }
 
 export default {
-    signIn,
-    signUp
+    receiveUserInfo,
+    updateUserInfo
 };
