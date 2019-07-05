@@ -1,7 +1,7 @@
-import history from '../history';
 import apiAction from './apiAction';
 import commonActions from './commonActions';
 import userActions from './userActions';
+import history from '../history';
 
 function receiveUserInfo(userId) {
     return apiAction({
@@ -10,9 +10,7 @@ function receiveUserInfo(userId) {
             (dispatch, data) => dispatch(userActions.initializeUserInfo(data))
         ],
         actionsOnFailure: [
-            dispatch => dispatch(commonActions.setSnackbar({
-                message: 'Не удалось загрузить профиль'
-            }))
+            dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось загрузить профиль'))
         ]
     });
 }
@@ -27,9 +25,7 @@ function updateUserInfo(userInfo) {
             () => history.push('/profile')
         ],
         actionsOnFailure: [
-            dispatch => dispatch(commonActions.setSnackbar({
-                message: 'Не удалось сохранить профиль'
-            }))
+            dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось сохранить профиль'))
         ]
     });
 }

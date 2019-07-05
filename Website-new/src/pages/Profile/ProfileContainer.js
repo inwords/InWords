@@ -24,8 +24,8 @@ function ProfileContainer({ match }) {
 
     return (
         <Profile
-            editingAvailable={userId === userInfo.userId}
             userInfo={userInfo}
+            editingAvailable={userId && userId === userInfo.userId}
         />
     );
 }

@@ -1,7 +1,7 @@
-import history from '../history';
 import apiAction from './apiAction';
 import commonActions from './commonActions';
 import accessActions from './accessActions';
+import history from '../history';
 
 function signIn(userdata) {
     return apiAction({
@@ -13,9 +13,7 @@ function signIn(userdata) {
             () => history.push('/wordlist')
         ],
         actionsOnFailure: [
-            dispatch => dispatch(commonActions.setSnackbar({
-                message: 'Не удалось авторизоваться'
-            }))
+            dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось авторизоваться'))
         ]
     });
 }
@@ -26,15 +24,11 @@ function signUp(userdata) {
         method: 'POST',
         data: JSON.stringify(userdata),
         actionsOnSuccess: [
-            dispatch => dispatch(commonActions.setSnackbar({
-                message: 'Аккаунт успешно создан'
-            })),
+            dispatch => dispatch(commonActions.setSnackbarMessage('Аккаунт успешно создан')),
             () => history.push('/signIn')
         ],
         actionsOnFailure: [
-            dispatch => dispatch(commonActions.setSnackbar({
-                message: 'Не удалось зарегистрироваться'
-            }))
+            dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось зарегистрироваться'))
         ]
     });
 }

@@ -4,24 +4,22 @@ import commonActions from '../../actions/commonActions';
 import MainSnackbar from './MainSnackbar';
 
 function MainSnackbarContainer() {
-    const { open, message, action, actionName } = useSelector(store => store.common.snackbar);
+    const { open, message } = useSelector(store => store.common.snackbar);
 
     const dispatch = useDispatch();
-    const resetSnackbar = useCallback(
-        () => dispatch(commonActions.resetSnackbar()),
+    const resetSnackbarMessage = useCallback(
+        () => dispatch(commonActions.resetSnackbarMessage()),
         [dispatch]
     );
 
     const handleClose = () => {
-        resetSnackbar();
+        resetSnackbarMessage();
     };
 
     return (
         <MainSnackbar
             open={open}
             message={message}
-            action={action}
-            actionName={actionName}
             handleClose={handleClose}
         />
     );

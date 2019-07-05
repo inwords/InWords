@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +14,7 @@ import Link from '@material-ui/core/Link';
 const useStyles = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(4),
+        padding: theme.spacing(2, 3, 3),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -38,7 +40,7 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
 
     return (
         <Container component="div" maxWidth="xs">
-            <div className={classes.paper}>
+            <Paper className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
@@ -87,7 +89,7 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
                         </Grid>
                     </Grid>
                 </form>
-            </div>
+            </Paper>
         </Container>
     );
 }

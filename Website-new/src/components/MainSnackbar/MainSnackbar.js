@@ -1,14 +1,8 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
 
-function MainSnackbar({ open, message, action = null, actionName = null, handleClose }) {
-    const handleClick = () => {
-        action();
-        handleClose();
-    };
-
+function MainSnackbar({ open, message, handleClose }) {
     return (
         <Snackbar
             anchorOrigin={{
@@ -16,14 +10,9 @@ function MainSnackbar({ open, message, action = null, actionName = null, handleC
                 horizontal: 'left',
             }}
             open={open}
-            autoHideDuration={6000}
+            autoHideDuration={4000}
             onClose={handleClose}
             message={<span>{message}</span>}
-            action={action && actionName && (
-                <Button color="secondary" size="small" onClick={handleClick}>
-                    {actionName}
-                </Button>
-            )}
         />
     );
 }
@@ -31,8 +20,6 @@ function MainSnackbar({ open, message, action = null, actionName = null, handleC
 MainSnackbar.propTypes = {
     open: PropTypes.bool.isRequired,
     message: PropTypes.string,
-    action: PropTypes.func,
-    actionName: PropTypes.string,
     handleClose: PropTypes.func.isRequired
 };
 

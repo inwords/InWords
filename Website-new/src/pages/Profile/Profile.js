@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function Profile({ editingAvailable, userInfo }) {
+function Profile({ userInfo, editingAvailable }) {
     const classes = useStyles();
 
     const { avatarPath, nickName, experience } = userInfo;
@@ -55,13 +55,13 @@ function Profile({ editingAvailable, userInfo }) {
 }
 
 Profile.propTypes = {
-    editingAvailable: PropTypes.bool.isRequired,
     userInfo: PropTypes.shape({
         userId: PropTypes.number,
         nickName: PropTypes.string.isRequired,
         avatarPath: PropTypes.string.isRequired,
         experience: PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+    editingAvailable: PropTypes.bool.isRequired
 };
 
 export default memo(Profile);

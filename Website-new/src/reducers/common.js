@@ -14,20 +14,17 @@ const loading = (state = false, action) => {
 
 const initialSnackbarState = {
     open: false,
-    message: '',
-    action: null,
-    actionName: null
+    message: ''
 };
 
 const snackbar = (state = initialSnackbarState, action) => {
     switch (action.type) {
-        case commonConstants.SET_SNACKBAR:
+        case commonConstants.SET_SNACKBAR_MESSAGE:
             return {
-                ...initialSnackbarState,
                 open: true,
-                ...action.payload
+                message: action.payload
             };
-        case commonConstants.RESET_SNACKBAR:
+        case commonConstants.RESET_SNACKBAR_MESSAGE:
             return {
                 ...state,
                 open: false

@@ -42,7 +42,6 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
                         variant="filled"
                         margin="normal"
                         fullWidth
-                        required
                         label="URL-адрес аватара"
                         type="url"
                         name="avatarPath"
