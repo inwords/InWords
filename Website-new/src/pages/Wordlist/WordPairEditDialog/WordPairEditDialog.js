@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Zoom from '@material-ui/core/Zoom';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import { useTheme } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -13,16 +12,7 @@ import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useDialog from '../../../hooks/useDialog';
 
-const useStyles = makeStyles(theme => ({
-    fab: {
-        position: 'fixed',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
-}));
-
-function WordPairAddDialog({ visible, inputs, handleChange, handleSubmit, handleReset }) {
-    const classes = useStyles();
+function WordPairEditDialog({ inputs, handleChange, handleSubmit, handleReset }) {
     const theme = useTheme();
 
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -38,27 +28,25 @@ function WordPairAddDialog({ visible, inputs, handleChange, handleSubmit, handle
         handleSubmit(event);
         handleCloseExtended();
     };
-    
+
     return (
         <div>
-            <Zoom in={visible}>
-                <Fab
-                    color="primary"
-                    onClick={handleOpen}
-                    className={classes.fab}
-                >
-                    <AddIcon />
-                </Fab>
-            </Zoom>
+            <IconButton
+                edge="end"
+                aria-label="Edit"
+                onClick={handleOpen}
+            >
+                <EditIcon />
+            </IconButton>
             <Dialog
-                aria-labelledby="word-pair-add-dialog"
+                aria-labelledby="word-pair-edit-dialog"
                 fullScreen={fullScreen}
                 open={open}
                 onClose={handleCloseExtended}
             >
-                <DialogTitle id="word-pair-add-dialog">Добавление слова</DialogTitle>
+                <DialogTitle id="word-pair-edit-dialog">Редактирование слова</DialogTitle>
                 <DialogContent>
-                    <form id="word-pair-add-form" onSubmit={handleSubmitExtended}>
+                    <form id="word-pair-edit-form" onSubmit={handleSubmitExtended}>
                         <TextField
                             margin="normal"
                             fullWidth
@@ -85,9 +73,9 @@ function WordPairAddDialog({ visible, inputs, handleChange, handleSubmit, handle
                     <Button
                         color="primary"
                         type="submit"
-                        form="word-pair-add-form"
+                        form="word-pair-edit-form"
                     >
-                        Добавить
+                        Готово
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -95,8 +83,7 @@ function WordPairAddDialog({ visible, inputs, handleChange, handleSubmit, handle
     );
 }
 
-WordPairAddDialog.propTypes = {
-    visible: PropTypes.bool.isRequired,
+WordPairEditDialog.propTypes = {
     inputs: PropTypes.shape({
         wordForeign: PropTypes.string.isRequired,
         wordNative: PropTypes.string.isRequired
@@ -105,4 +92,4 @@ WordPairAddDialog.propTypes = {
     handleSubmit: PropTypes.func.isRequired
 };
 
-export default WordPairAddDialog;
+export default WordPairEditDialog;

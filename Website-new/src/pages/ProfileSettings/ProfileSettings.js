@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     form: {
         width: '100%',
     },
-    submit: {
+    actions: {
         marginTop: theme.spacing(3),
     },
 }));
@@ -48,13 +48,22 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
                         value={inputs.avatarPath}
                         onChange={handleChange}
                     />
-                    <Grid container justify="flex-end">
+                    <Grid
+                        container
+                        justify="flex-end"
+                        spacing={2}
+                        className={classes.actions}
+                    >
+                        <Grid item>
+                            <Button color="primary" href="#profile">
+                                Отменить
+                            </Button>
+                        </Grid>
                         <Grid item>
                             <Button
                                 variant="contained"
                                 color="primary"
                                 type="submit"
-                                className={classes.submit}
                             >
                                 Сохранить
                             </Button>
@@ -75,4 +84,4 @@ ProfileSettings.propTypes = {
     handleSubmit: PropTypes.func.isRequired
 };
 
-export default memo(ProfileSettings);
+export default ProfileSettings;

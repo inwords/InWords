@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -26,6 +26,7 @@ function Profile({ userInfo, editingAvailable }) {
 
     const { avatarPath, nickName, experience } = userInfo;
 
+    console.log('xxx')
     return (
         <Card className={classes.card}>
             {avatarPath && (
@@ -56,7 +57,6 @@ function Profile({ userInfo, editingAvailable }) {
 
 Profile.propTypes = {
     userInfo: PropTypes.shape({
-        userId: PropTypes.number,
         nickName: PropTypes.string.isRequired,
         avatarPath: PropTypes.string.isRequired,
         experience: PropTypes.number.isRequired
@@ -64,4 +64,4 @@ Profile.propTypes = {
     editingAvailable: PropTypes.bool.isRequired
 };
 
-export default memo(Profile);
+export default Profile;

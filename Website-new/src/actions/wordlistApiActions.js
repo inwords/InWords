@@ -34,7 +34,7 @@ function addWordPair(wordPair) {
     return apiAction({
         endpoint: 'words/addPair',
         method: 'POST',
-        data: JSON.stringify(wordPair),
+        data: JSON.stringify([wordPair]),
         actionsOnSuccess: [
             (dispatch, data) => dispatch(wordlistActions.updateWordPairsAfterAddition({
                 serverId: data[0].serverId,
@@ -47,8 +47,40 @@ function addWordPair(wordPair) {
     });
 }
 
+function deleteWordPairAsEditPart(pairId) {
+    return apiAction({
+        endpoint: 'words/deletePair',
+        method: 'POST',
+        data: JSON.stringify([pairId]),
+        actionsOnFailure: [
+            dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось отредактировать слово'))
+        ]
+    });
+}
+
+function addWordPairAsEditPart(wordPair) {
+    return apiAction({
+        endpoint: 'words/addPair',
+        method: 'POST',
+        data: JSON.stringify([wordPair]),
+        actionsOnSuccess: [
+            (dispatch, data) => dispatch(wordlistActions.updateWordPairsAfterEditing(
+                wordPair.id, {
+                    serverId: data[0].serverId,
+                    ...wordPair
+                }
+            ))
+        ],
+        actionsOnFailure: [
+            dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось отредактировать слово'))
+        ]
+    });
+}
+
 export default {
     receiveWordPairs,
     deleteWordPairs,
-    addWordPair
+    addWordPair,
+    deleteWordPairAsEditPart,
+    addWordPairAsEditPart
 };

@@ -8,9 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import WordPairAddDialog from './WordPairAddDialog';
+import WordPairEditDialog from './WordPairEditDialog';
 
 const useStyles = makeStyles(theme => ({
     list: {
@@ -50,14 +48,11 @@ function Wordlist({ wordPairs, checked, handleToggle }) {
                                 secondary={wordPair.wordNative}
                             />
                             <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="Comments">
-                                    <EditIcon />
-                                </IconButton>
+                                <WordPairEditDialog wordPair={wordPair} />
                             </ListItemSecondaryAction>
                         </ListItem>);
                 })}
             </List>
-            <WordPairAddDialog visible={checked.length === 0} />
         </Container>
     );
 }

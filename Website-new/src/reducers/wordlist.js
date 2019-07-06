@@ -15,24 +15,31 @@ const wordlist = (state = initialState, action) => {
         case wordlistConstants.UPDATE_WORD_PAIRS_AFTER_DELETION:
             return {
                 ...state,
-                wordPairs: state.wordPairs.filter(pair => !action.payload.includes(pair.serverId))
+                wordPairs: state.wordPairs.filter(wordPair => !action.payload.includes(wordPair.serverId))
             };
         case wordlistConstants.UPDATE_WORD_PAIRS_AFTER_ADDITION:
-            return {
-                ...state,
-                wordPairs: state.wordPairs.concat(
-                    action.payload.reduce(pair => !state.wordPairs.includes(pair.serverId))
-                )
-            };
-        /*case wordlistConstants.UPDATE_WORD_PAIRS_AFTER_EDITING:
-            if (state.find(wordPair => wordPair.serverId === action.payload.wordPair.serverId)) {
+            if (state.wordPairs.find(wordPair => wordPair.serverId === action.payload.serverId)) {
                 return state;
             }
-            return state.map(wordPair => {
-                return wordPair.serverId !== action.payload.pairId ?
-                    wordPair :
-                    action.payload.wordPair
-            });*/
+            return {
+                ...state,
+                wordPairs: state.wordPairs.concat(action.payload)
+            };
+        case wordlistConstants.UPDATE_WORD_PAIRS_AFTER_EDITING:
+            if (state.wordPairs.find(wordPair => wordPair.serverId === action.payload.wordPair.serverId)) {
+                return {
+                    ...state,
+                    wordPairs: state.wordPairs.filter(wordPair => wordPair.serverId !== action.payload.pairId)
+                };
+            }
+            return {
+                ...state,
+                wordPairs: state.wordPairs.map(wordPair => {
+                    return wordPair.serverId === action.payload.pairId ?
+                        action.payload.wordPair :
+                        wordPair;
+                })
+            };
         default:
             return state;
     }

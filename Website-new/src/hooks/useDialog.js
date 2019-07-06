@@ -3,7 +3,7 @@ import { useState } from 'react';
 function useDialog() {
     const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
+    const handleOpen = () => {
         setOpen(true);
     };
 
@@ -13,7 +13,7 @@ function useDialog() {
 
     return {
         open,
-        handleClickOpen,
+        handleOpen,
         handleClose
     };
 }

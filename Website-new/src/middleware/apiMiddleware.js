@@ -59,7 +59,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
                 action(dispatch);
             });
 
-            console.error(error)
+            console.error(error);
         })
 };
 
