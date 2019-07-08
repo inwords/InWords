@@ -3,13 +3,15 @@ import accessConstants from '../constants/accessConstants';
 import common from './common';
 import access from './access';
 import userInfo from './userInfo';
-import wordlist from './wordlist';
+import wordPairs from './wordPairs';
+import games from './games';
 
 const appReducer = combineReducers({
     common,
     access,
     userInfo,
-    wordlist
+    wordPairs,
+    games
 });
 
 const rootReducer = (state, action) => {

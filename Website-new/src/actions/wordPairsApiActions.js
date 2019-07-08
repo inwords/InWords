@@ -1,5 +1,5 @@
 import apiAction from './apiAction';
-import wordlistActions from './wordlistActions';
+import wordPairsActions from './wordPairsActions';
 import commonActions from './commonActions';
 
 function receiveWordPairs() {
@@ -8,7 +8,7 @@ function receiveWordPairs() {
         method: 'POST',
         data: JSON.stringify([]),
         actionsOnSuccess: [
-            (dispatch, data) => dispatch(wordlistActions.initializeWordPairs(data))
+            (dispatch, data) => dispatch(wordPairsActions.initializeWordPairs(data))
         ],
         actionsOnFailure: [
             dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось загрузить словарь'))
@@ -22,7 +22,7 @@ function deleteWordPairs(pairIds) {
         method: 'POST',
         data: JSON.stringify(pairIds),
         actionsOnSuccess: [
-            dispatch => dispatch(wordlistActions.updateWordPairsAfterDeletion(pairIds))
+            dispatch => dispatch(wordPairsActions.updateWordPairsAfterDeletion(pairIds))
         ],
         actionsOnFailure: [
             dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось удалить слова'))
@@ -36,7 +36,7 @@ function addWordPair(wordPair) {
         method: 'POST',
         data: JSON.stringify([wordPair]),
         actionsOnSuccess: [
-            (dispatch, data) => dispatch(wordlistActions.updateWordPairsAfterAddition({
+            (dispatch, data) => dispatch(wordPairsActions.updateWordPairsAfterAddition({
                 serverId: data[0].serverId,
                 ...wordPair
             }))
@@ -64,7 +64,7 @@ function addWordPairAsEditPart(wordPair) {
         method: 'POST',
         data: JSON.stringify([wordPair]),
         actionsOnSuccess: [
-            (dispatch, data) => dispatch(wordlistActions.updateWordPairsAfterEditing(
+            (dispatch, data) => dispatch(wordPairsActions.updateWordPairsAfterEditing(
                 wordPair.id, {
                     serverId: data[0].serverId,
                     ...wordPair

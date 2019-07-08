@@ -26,7 +26,6 @@ function Profile({ userInfo, editingAvailable }) {
 
     const { avatarPath, nickName, experience } = userInfo;
 
-    console.log('xxx')
     return (
         <Card className={classes.card}>
             {avatarPath && (

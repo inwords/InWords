@@ -1,22 +1,22 @@
-import wordlistConstants from '../constants/wordlistConstants';
+import wordPairsConstants from '../constants/wordPairsConstants';
 
 const initializeWordPairs = data => ({
-    type: wordlistConstants.INITIALIZE_WORD_PAIRS,
+    type: wordPairsConstants.INITIALIZE_WORD_PAIRS,
     payload: data
 });
 
 const updateWordPairsAfterDeletion = pairIds => ({
-    type: wordlistConstants.UPDATE_WORD_PAIRS_AFTER_DELETION,
+    type: wordPairsConstants.UPDATE_WORD_PAIRS_AFTER_DELETION,
     payload: pairIds
 });
 
 const updateWordPairsAfterAddition = wordPair => ({
-    type: wordlistConstants.UPDATE_WORD_PAIRS_AFTER_ADDITION,
+    type: wordPairsConstants.UPDATE_WORD_PAIRS_AFTER_ADDITION,
     payload: wordPair
 });
 
 const updateWordPairsAfterEditing = (pairId, wordPair) => ({
-    type: wordlistConstants.UPDATE_WORD_PAIRS_AFTER_EDITING,
+    type: wordPairsConstants.UPDATE_WORD_PAIRS_AFTER_EDITING,
     payload: {
         pairId: pairId,
         wordPair: wordPair

@@ -11,6 +11,9 @@ const SignUp = lazy(() => import('./pages/SignUp'));
 const Profile = lazy(() => import('./pages/Profile'));
 const ProfileSettings = lazy(() => import('./pages/ProfileSettings'));
 const Wordlist = lazy(() => import('./pages/Wordlist'));
+const Games = lazy(() => import('./pages/Games'));
+const GameLevels = lazy(() => import('./pages/GameLevels'));
+const Game = lazy(() => import('./pages/Game'));
 
 function App() {
   const userId = useSelector(store => store.access.userId);
@@ -38,6 +41,9 @@ function App() {
             <Route path="/profile/:userId" component={Profile} />
             <Route path="/profileSettings" component={ProfileSettings} />
             <Route path="/wordlist" component={Wordlist} />
+            <Route path="/games" component={Games} />
+            <Route path="/game/:gameId" component={GameLevels} />
+            <Route path="/gameLevel/:levelId" component={Game} />
           </Switch>
         </Suspense>
       </PageLayout>

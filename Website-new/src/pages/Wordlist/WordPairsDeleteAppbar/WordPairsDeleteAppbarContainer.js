@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import wordlistApiActions from '../../../actions/wordlistApiActions';
-import WordPairDeleteAppbar from './WordPairDeleteAppbar';
+import wordPairsApiActions from '../../../actions/wordPairsApiActions';
+import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
 
-function WordPairDeleteAppbarContainer({ checked, ...rest }) {
+function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
     const dispatch = useDispatch();
     const deleteWordPairs = useCallback(
-        pairIds => dispatch(wordlistApiActions.deleteWordPairs(pairIds)),
+        pairIds => dispatch(wordPairsApiActions.deleteWordPairs(pairIds)),
         [dispatch]
     );
 
@@ -16,7 +16,7 @@ function WordPairDeleteAppbarContainer({ checked, ...rest }) {
     };
 
     return (
-        <WordPairDeleteAppbar
+        <WordPairsDeleteAppbar
             numberOfSelected={checked.length}
             handleDelete={handleDelete}
             {...rest}
@@ -24,11 +24,11 @@ function WordPairDeleteAppbarContainer({ checked, ...rest }) {
     );
 }
 
-WordPairDeleteAppbarContainer.propTypes = {
+WordPairsDeleteAppbarContainer.propTypes = {
     checked: PropTypes.arrayOf(
         PropTypes.number.isRequired
     ).isRequired,
     handleReset: PropTypes.func
 };
 
-export default WordPairDeleteAppbarContainer;
+export default WordPairsDeleteAppbarContainer;

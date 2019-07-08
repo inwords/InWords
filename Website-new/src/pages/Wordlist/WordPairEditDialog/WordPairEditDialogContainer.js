@@ -1,18 +1,18 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import wordlistApiActions from '../../../actions/wordlistApiActions';
+import wordPairsApiActions from '../../../actions/wordPairsApiActions';
 import useForm from '../../../hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
 function WordPairEditDialogContainer({ wordPair }) {
     const dispatch = useDispatch();
     const deleteWordPairAsEditPart = useCallback(
-        pairId => dispatch(wordlistApiActions.deleteWordPairAsEditPart(pairId)),
+        pairId => dispatch(wordPairsApiActions.deleteWordPairAsEditPart(pairId)),
         [dispatch]
     );
     const addWordPairAsEditPart = useCallback(
-        wordPair => dispatch(wordlistApiActions.addWordPairAsEditPart(wordPair)),
+        wordPair => dispatch(wordPairsApiActions.addWordPairAsEditPart(wordPair)),
         [dispatch]
     );
 

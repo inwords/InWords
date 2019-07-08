@@ -1,31 +1,31 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import wordlistApiActions from '../../actions/wordlistApiActions';
+import wordPairsApiActions from '../../actions/wordPairsApiActions';
 import useCheckboxList from '../../hooks/useCheckboxList';
-import WordPairDeleteAppbar from './WordPairDeleteAppbar';
+import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
 import Wordlist from './Wordlist';
 import WordPairAddDialog from './WordPairAddDialog';
 
 function WordlistContainer() {
-    const { isActual, wordPairs } = useSelector(store => store.wordlist);
+    const wordPairs = useSelector(store => store.wordPairs);
 
     const dispatch = useDispatch();
     const receiveWordPairs = useCallback(
-        () => dispatch(wordlistApiActions.receiveWordPairs()),
+        () => dispatch(wordPairsApiActions.receiveWordPairs()),
         [dispatch]
     );
 
     useEffect(() => {
-        if (!isActual) {
+        if (!wordPairs.length) {
             receiveWordPairs();
         }
-    }, [isActual, receiveWordPairs]);
+    }, [wordPairs.length, receiveWordPairs]);
 
     const { checked, handleToggle, handleReset } = useCheckboxList();
 
     return (
         <>
-            <WordPairDeleteAppbar
+            <WordPairsDeleteAppbar
                 checked={checked}
                 handleReset={handleReset}
             />

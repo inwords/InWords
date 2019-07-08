@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function WordPairDeleteAppbar({ numberOfSelected, handleDelete, handleReset }) {
+function WordPairsDeleteAppbar({ numberOfSelected, handleDelete, handleReset }) {
     const classes = useStyles();
 
     const handleDeleteExtended = () => {
@@ -62,10 +62,10 @@ function WordPairDeleteAppbar({ numberOfSelected, handleDelete, handleReset }) {
     );
 }
 
-WordPairDeleteAppbar.propTypes = {
+WordPairsDeleteAppbar.propTypes = {
     numberOfSelected: PropTypes.number.isRequired,
     handleDelete: PropTypes.func.isRequired,
     handleReset: PropTypes.func.isRequired
 };
 
-export default WordPairDeleteAppbar;
+export default WordPairsDeleteAppbar;
