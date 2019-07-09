@@ -4,20 +4,21 @@ import common from './common';
 import access from './access';
 import userInfo from './userInfo';
 import wordPairs from './wordPairs';
-import game from './game';
+import games from './games';
 
 const appReducer = combineReducers({
     common,
     access,
     userInfo,
     wordPairs,
-    game
+    games
 });
 
 const rootReducer = (state, action) => {
-    if (action.type === accessConstants.ACCESS_DENIAL) {
+    if (action.type === accessConstants.DENY_ACCESS) {
         state = undefined;
     }
+
     return appReducer(state, action);
 };
 

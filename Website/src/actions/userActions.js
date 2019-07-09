@@ -1,12 +1,12 @@
-import userConstants from '../constants/userConstants';
+import userConstants from '../constants/userContants';
 
 const initializeUserInfo = userInfo => ({
-    type: userConstants.USER_INFO_INITIALIZATION,
+    type: userConstants.INITIALIZE_USER_INFO,
     payload: userInfo
 });
 
 const updateUserInfo = userInfo => ({
-    type: userConstants.USER_INFO_UPDATE,
+    type: userConstants.UPDATE_USER_INFO,
     payload: userInfo
 });
 

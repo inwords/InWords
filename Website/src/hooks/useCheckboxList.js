@@ -1,7 +1,7 @@
-import React from 'react';
+import { useState } from 'react';
 
 function useCheckboxList() {
-    const [checked, setChecked] = React.useState([]);
+    const [checked, setChecked] = useState([]);
 
     const handleToggle = value => () => {
         const currentIndex = checked.indexOf(value);

@@ -1,25 +1,25 @@
 import commonConstants from '../constants/commonConstants';
 
 const beginLoading = () => ({
-    type: commonConstants.LOADING_BEGIN
+    type: commonConstants.BEGIN_LOADING
 });
 
 const endLoading = () => ({
-    type: commonConstants.LOADING_END
+    type: commonConstants.END_LOADING
 });
 
-export const setErrorMessage = message => ({
-    type: commonConstants.ERROR_MESSAGE_SETTING,
-    payload: message
+export const setSnackbarMessage = snackbarMessage => ({
+    type: commonConstants.SET_SNACKBAR_MESSAGE,
+    payload: snackbarMessage
 });
 
-export const resetErrorMessage = () => ({
-    type: commonConstants.ERROR_MESSAGE_RESET
+export const resetSnackbarMessage = () => ({
+    type: commonConstants.RESET_SNACKBAR_MESSAGE
 });
 
 export default {
     beginLoading,
     endLoading,
-    setErrorMessage,
-    resetErrorMessage
+    setSnackbarMessage,
+    resetSnackbarMessage
 };

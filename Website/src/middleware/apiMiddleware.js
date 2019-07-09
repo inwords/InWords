@@ -4,14 +4,12 @@ import history from '../history';
 
 const API_ROOT = 'https://api.inwords.ru';
 
-export const API_CALL = 'API_CALL';
+export const CALL_API = 'CALL_API';
 
 const apiMiddleware = ({ dispatch, getState }) => next => action => {
     next(action);
 
-    if (action.type !== API_CALL) {
-        return;
-    }
+    if (action.type !== CALL_API) return;
 
     const {
         apiVersion,
@@ -19,8 +17,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
         method,
         data,
         actionsOnSuccess,
-        redirection,
-        errorMessage
+        actionsOnFailure
     } = action.payload;
 
     dispatch(commonActions.beginLoading());
@@ -37,31 +34,32 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
             if (!response.ok) {
                 if (response.status === 401) {
                     dispatch(accessActions.denyAccess());
-                    history.push('/login');
-                    throw Error('Ошибка доступа');
+                    history.push('/signIn');
                 }
 
-                throw Error(errorMessage);
+                throw Error(`${response.status} ${response.statusText}`);
             }
 
-            const contentType = response.headers.get("content-type");
-            if (contentType && contentType.includes("application/json")) {
-                return response.json();
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                return null;
             }
 
-            return null;
+            return response.json();
         })
         .then(data => {
             dispatch(commonActions.endLoading());
-            actionsOnSuccess.forEach(action => dispatch(action(data)));
-
-            if (redirection) {
-                history.push(redirection);
-            }
+            actionsOnSuccess.forEach(action => {
+                action(dispatch, data);
+            });
         })
         .catch(error => {
             dispatch(commonActions.endLoading());
-            dispatch(commonActions.setErrorMessage(error.message));
+            actionsOnFailure.forEach(action => {
+                action(dispatch);
+            });
+
+            console.error(error);
         })
 };
 

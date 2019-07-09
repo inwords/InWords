@@ -1,24 +1,27 @@
-import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function useForm(initialState = {}, callback = () => { }) {
-    const [values, setValues] = React.useState(initialState);
+function useForm(initialInputs = {}, callback = () => { }) {
+    const [inputs, setInputs] = useState(initialInputs);
 
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
+    const handleChange = event => {
+        setInputs({
+            ...inputs,
+            [event.target.name]: event.target.value
+        });
     };
 
     const handleSubmit = event => {
-        callback();
         event.preventDefault();
+        callback();
     };
 
     const handleReset = () => {
-        setValues(initialState);
+        setInputs(initialInputs);
     };
 
     return {
-        values,
+        inputs,
         handleChange,
         handleSubmit,
         handleReset
@@ -26,8 +29,8 @@ function useForm(initialState = {}, callback = () => { }) {
 }
 
 useForm.propTypes = {
-    initialState: PropTypes.object,
-    callback: PropTypes.func
+    initialInputs: PropTypes.object.isRequired,
+    callback: PropTypes.func.isRequired
 };
 
 export default useForm;

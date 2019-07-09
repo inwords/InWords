@@ -6,15 +6,13 @@ const initialState = {
 };
 
 const access = (state = initialState, action) => {
-    if (action.type === accessConstants.ACCESS_GRANT) {
-        if (action.payload.token && action.payload.userId) {
-            return {
-                token: action.payload.token,
-                userId: action.payload.userId
-            };
-        }
-        return state;
+    if (action.type === accessConstants.GRANT_ACCESS) {
+        return {
+            token: action.payload.token || null,
+            userId: action.payload.userId || null
+        };
     }
+
     return state;
 };
 

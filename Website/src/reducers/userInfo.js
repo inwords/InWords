@@ -1,4 +1,4 @@
-import userConstants from '../constants/userConstants';
+import userConstants from '../constants/userContants';
 
 const initialState = {
     userId: null,
@@ -9,14 +9,14 @@ const initialState = {
 
 const userInfo = (state = initialState, action) => {
     switch (action.type) {
-        case userConstants.USER_INFO_INITIALIZATION:
+        case userConstants.INITIALIZE_USER_INFO:
             return {
                 userId: action.payload.userId || null,
                 nickName: action.payload.nickName || '',
                 avatarPath: action.payload.avatarPath || '',
                 experience: action.payload.experience || 0
             };
-        case userConstants.USER_INFO_UPDATE:
+        case userConstants.UPDATE_USER_INFO:
             return {
                 ...state,
                 nickName: action.payload.nickName,

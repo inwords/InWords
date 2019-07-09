@@ -3,21 +3,32 @@ import commonConstants from '../constants/commonConstants';
 
 const loading = (state = false, action) => {
     switch (action.type) {
-        case commonConstants.LOADING_BEGIN:
+        case commonConstants.BEGIN_LOADING:
             return true;
-        case commonConstants.LOADING_END:
+        case commonConstants.END_LOADING:
             return false;
         default:
             return state;
     }
 };
 
-const errorMessage = (state = null, action) => {
+const initialSnackbarState = {
+    open: false,
+    message: ''
+};
+
+const snackbar = (state = initialSnackbarState, action) => {
     switch (action.type) {
-        case commonConstants.ERROR_MESSAGE_SETTING:
-            return action.payload;
-        case commonConstants.ERROR_MESSAGE_RESET:
-            return null;
+        case commonConstants.SET_SNACKBAR_MESSAGE:
+            return {
+                open: true,
+                message: action.payload
+            };
+        case commonConstants.RESET_SNACKBAR_MESSAGE:
+            return {
+                ...state,
+                open: false
+            };
         default:
             return state;
     }
@@ -25,7 +36,7 @@ const errorMessage = (state = null, action) => {
 
 const common = combineReducers({
     loading,
-    errorMessage
+    snackbar
 });
 
 export default common;
