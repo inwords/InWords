@@ -22,17 +22,17 @@ const gameInfo = (state = initialGameInfoState, action) => {
                 gameId: action.payload.gameId || null,
                 levelsInfo: action.payload.levelInfos || []
             };
-        /*case gamesConstants.UPDATE_GAME_INFO:
+        case gamesConstants.UPDATE_GAME_INFO:
             return {
                 ...state,
-                levelInfos: state.levelInfos.map(levelInfo => {
+                levelsInfo: state.levelsInfo.map(levelInfo => {
                     return levelInfo.levelId !== action.payload.levelId ?
                         levelInfo : {
                             ...levelInfo,
                             playerStars: action.payload.score
                         }
                 })
-            };*/
+            };
         default:
             return state;
     }
@@ -50,16 +50,6 @@ const gameLevel = (state = initialGameLevelState, action) => {
                 levelId: action.payload.levelId || null,
                 wordTranslations: action.payload.wordTranslations || []
             };
-        /*case gamesConstants.GAME_LEVEL_UPDATE_AFTER_RESULT_SAVING:
-            return {
-                ...state,
-                lastScore: action.payload.score
-            };
-        case gamesConstants.GAME_LEVEL_SCORE_RESET:
-            return {
-                ...state,
-                lastScore: null
-            };*/
         default:
             return state;
     }

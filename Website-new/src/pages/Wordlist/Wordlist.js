@@ -8,7 +8,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
+import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
 import WordPairEditDialog from './WordPairEditDialog';
+import WordPairAddDialog from './WordPairAddDialog';
 
 const useStyles = makeStyles(theme => ({
     list: {
@@ -17,11 +19,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function Wordlist({ wordPairs, checked, handleToggle }) {
+function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
     const classes = useStyles();
 
     return (
         <Container component="div" maxWidth="md">
+            <WordPairsDeleteAppbar
+                checked={checked}
+                handleReset={handleReset}
+            />
             <List className={classes.list}>
                 {wordPairs.map(wordPair => {
                     const labelId = `checkbox-list-label-${wordPair.serverId}`;
@@ -53,6 +59,7 @@ function Wordlist({ wordPairs, checked, handleToggle }) {
                         </ListItem>);
                 })}
             </List>
+            <WordPairAddDialog visible={checked.length === 0} />
         </Container>
     );
 }
@@ -66,7 +73,8 @@ Wordlist.propTypes = {
         }).isRequired
     ).isRequired,
     checked: PropTypes.array.isRequired,
-    handleToggle: PropTypes.func.isRequired
+    handleToggle: PropTypes.func.isRequired,
+    handleReset: PropTypes.func
 };
 
 export default Wordlist;

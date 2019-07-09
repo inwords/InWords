@@ -6,7 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Grow from '@material-ui/core/Grow';
 import Zoom from '@material-ui/core/Zoom';
+import GameResult from './GameResult';
 
 const cardDimension = 140;
 const cardsSpacing = 2;
@@ -30,22 +32,37 @@ const useStyles = makeStyles(theme => ({
             margin: 'auto',
         },
     },
-    paper: {
-        display: 'flex',
-        height: cardDimension,
-        alignItems: 'center',
-        cursor: 'pointer',
-    },
-    text: {
-        fontWeight: 'bold',
+    card: {
         width: cardDimension,
+        height: cardDimension,
+        cursor: 'pointer',
+        backgroundColor: theme.palette.primary.main,
+    },
+    cardInside: {
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: theme.palette.background.paper,
+        width: '100%',
+        height: '100%',
+    },
+    cardText: {
+        fontWeight: 'bold',
+        width: '100%',
         padding: theme.spacing(1),
         textAlign: 'center',
         overflowWrap: 'break-word',
     },
 }));
 
-function Game({ randomWordsInfo, completedSelectedPairId, handleClick }) {
+function Game({
+    randomWordsInfo,
+    selectedCompletedPairId,
+    isGameCompleted,
+    isResultReady,
+    score,
+    handleClick,
+    handleReplay
+}) {
     const classes = useStyles();
 
     const gridClass = useMemo(() => {
@@ -68,30 +85,42 @@ function Game({ randomWordsInfo, completedSelectedPairId, handleClick }) {
 
     return (
         <Container component="div" maxWidth="md">
-            <Grid container className={gridClass}>
-                <Grid container justify="center" spacing={cardsSpacing}>
-                    {randomWordsInfo.map((randomWordInfo, index) =>
-                        <Grid key={randomWordInfo.id} item>
-                            <Zoom in style={{ transitionDelay: `${index * 70}ms` }}>
-                                <ButtonBase component="div">
-                                    <Paper
-                                        elevation={completedSelectedPairId === randomWordInfo.pairId ? 5 : 2}
-                                        onClick={handleClick(randomWordInfo.pairId, randomWordInfo.id)}
-                                        className={classes.paper}
-                                    >
-                                        <Typography
-                                            component="span"
-                                            className={classes.text}
+            {!isResultReady ? (
+                <Grid container className={gridClass}>
+                    <Grid
+                        container
+                        justify="center"
+                        spacing={cardsSpacing}
+                    >
+                        {randomWordsInfo.map(randomWordInfo =>
+                            <Grid key={randomWordInfo.id} item>
+                                <Grow in={!isGameCompleted}>
+                                    <ButtonBase component="div">
+                                        <Paper
+                                            elevation={selectedCompletedPairId === randomWordInfo.pairId ? 5 : 2}
+                                            onClick={handleClick(randomWordInfo.pairId, randomWordInfo.id)}
+                                            className={classes.card}
                                         >
-                                            {randomWordInfo.word}
-                                        </Typography>
-                                    </Paper>
-                                </ButtonBase>
-                            </Zoom>
-                        </Grid>
-                    )}
+                                            <Zoom in={randomWordInfo.isSelected || randomWordInfo.isCompleted}>
+                                                <div className={classes.cardInside}>
+                                                    <Typography component="span" className={classes.cardText}>
+                                                        {randomWordInfo.word}
+                                                    </Typography>
+                                                </div>
+                                            </Zoom>
+                                        </Paper>
+                                    </ButtonBase>
+                                </Grow>
+                            </Grid>
+                        )}
+                    </Grid>
                 </Grid>
-            </Grid>
+            ) : (
+                    <GameResult
+                        score={score}
+                        handleReplay={handleReplay}
+                    />
+                )}
         </Container>
     );
 }
@@ -101,8 +130,12 @@ Game.propTypes = {
         pairId: PropTypes.number.isRequired,
         word: PropTypes.string.isRequired
     })).isRequired,
-    completedSelectedPairId: PropTypes.number.isRequired,
-    handleClick: PropTypes.func.isRequired
+    selectedCompletedPairId: PropTypes.number.isRequired,
+    isGameCompleted: PropTypes.bool.isRequired,
+    isResultReady: PropTypes.bool.isRequired,
+    score: PropTypes.number,
+    handleClick: PropTypes.func.isRequired,
+    handleReplay: PropTypes.func
 };
 
 export default Game;

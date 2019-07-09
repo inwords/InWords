@@ -24,7 +24,7 @@ function withReceivedGameLevel(WrappedComponent) {
         return (
             gameLevel.levelId === parsedLevelId && (
                 <WrappedComponent
-                    wordTranslations={gameLevel.wordTranslations}
+                    gameLevel={gameLevel}
                     {...rest}
                 />)
         );

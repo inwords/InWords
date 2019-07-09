@@ -38,13 +38,14 @@ function receiveGameLevel(levelId) {
     });
 }
 
-function saveLevelResult(levelResult) {
+function saveLevelResult(levelResult, actionOnSuccess) {
     return apiAction({
-        endpoint: `game/score`,
+        endpoint: 'game/score',
         method: 'POST',
         data: JSON.stringify(levelResult),
         actionsOnSuccess: [
-            (dispatch, data) => dispatch(gamesActions.updateGameInfo(data))
+            (dispatch, data) => dispatch(gamesActions.updateGameInfo(data)),
+            (_, data) => actionOnSuccess(data)
         ],
         actionsOnFailure: [
             dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось сохранить результат'))
