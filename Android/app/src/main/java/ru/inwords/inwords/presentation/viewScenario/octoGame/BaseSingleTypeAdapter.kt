@@ -1,6 +1,5 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame
 
-import android.util.Pair
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView

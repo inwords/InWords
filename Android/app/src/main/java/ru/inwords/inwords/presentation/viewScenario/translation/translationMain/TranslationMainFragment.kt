@@ -18,15 +18,15 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_translation_main.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.WordTranslation
+import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.translation.TranslationViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.ItemTouchHelperAdapter
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.ItemTouchHelperEvents
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.WordTranslationsAdapter
-import ru.inwords.inwords.presentation.viewScenario.translation.recycler.WordTranslationsDiffUtilCallback
+import ru.inwords.inwords.presentation.viewScenario.translation.recycler.applyDiffUtil
 
 class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationViewModelFactory>(), ItemTouchHelperEvents {
     private lateinit var adapter: WordTranslationsAdapter
@@ -57,15 +57,15 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
                 .subscribe { resource ->
                     progress_view.post { progress_view.progress = 0 }
 
-                    if (resource.success()) {
-                        playAudio(resource.data!!)
+                    if (resource is Resource.Success) {
+                        playAudio(resource.data)
                     } else {
                         Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
                     }
                 })
 
         compositeDisposable.add(viewModel.translationWordsStream
-                .compose(RxDiffUtil.calculate { oldItems, newItems -> WordTranslationsDiffUtilCallback.create(oldItems, newItems) })
+                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
                 .subscribe(adapter))
 

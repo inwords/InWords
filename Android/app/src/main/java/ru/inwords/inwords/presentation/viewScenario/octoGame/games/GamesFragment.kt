@@ -6,15 +6,15 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_games.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameInfo
+import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.GAME_INFO
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
-import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.GameInfosDiffUtilCallback
 import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.GamesAdapter
+import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.applyDiffUtil
 
 
 class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameViewModelFactory>() {
@@ -33,13 +33,13 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
 
         compositeDisposable.add(viewModel.screenInfoStream()
                 .map {
-                    if (it.gameInfosResource.success()) {
-                        it.gameInfosResource.data!!
+                    if (it.gameInfosResource is Resource.Success) {
+                        it.gameInfosResource.data
                     } else {
                         emptyList()
                     }
                 }
-                .compose(RxDiffUtil.calculate(GameInfosDiffUtilCallback.Companion::create))
+                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
                 .doOnSubscribe { gamesRecycler.showShimmerAdapter() }
                 .doOnEach { gamesRecycler.hideShimmerAdapter() }

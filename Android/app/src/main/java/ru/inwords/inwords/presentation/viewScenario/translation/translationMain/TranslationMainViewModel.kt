@@ -72,9 +72,9 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .switchMapSingle { ttsRepository.synthesize(it.wordForeign) }
                 .subscribe({
-                    ttsSubject.onNext(Resource.success(it.absolutePath))
+                    ttsSubject.onNext(Resource.Success(it.absolutePath))
                 }, {
-                    ttsSubject.onNext(Resource.error(it.message))
+                    ttsSubject.onNext(Resource.Error(it.message))
                     it.printStackTrace()
                 })
                 .also { compositeDisposable.add(it) }

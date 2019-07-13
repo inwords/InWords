@@ -33,4 +33,9 @@ public class SchedulersFacade {
     static public Scheduler ui() {
         return AndroidSchedulers.mainThread();
     }
+
+    @NonNull
+    public static Scheduler single() {
+        return Schedulers.single();
+    }
 }

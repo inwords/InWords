@@ -77,8 +77,8 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
         gameLevelInfo = viewModel.getCurrentLevelInfo()
 
-        if (cardsDataResource.success()) {
-            val cardsData = cardsDataResource.data!!
+        if (cardsDataResource is Resource.Success) {
+            val cardsData = cardsDataResource.data
 
             cardsData.words.forEach { stateMap[it] = false }
 

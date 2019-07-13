@@ -8,19 +8,19 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_game_levels.*
 import kotlinx.android.synthetic.main.game_welcome.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
+import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.GAME_ID
 import ru.inwords.inwords.presentation.GAME_INFO
 import ru.inwords.inwords.presentation.GAME_LEVEL_INFO
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter
-import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsDiffUtilCallback
+import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.applyDiffUtil
 
 class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, OctoGameViewModelFactory>() {
     private lateinit var gameInfo: GameInfo
@@ -52,14 +52,14 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
         compositeDisposable.add(viewModel.screenInfoStream(gameInfo.gameId)
                 .map {
-                    if (it.gameResource.success()) {
-                        game = it.gameResource.data!!
+                    if (it.gameResource is Resource.Success) {
+                        game = it.gameResource.data
                         game.gameLevelInfos
                     } else {
                         emptyList()
                     }
                 }
-                .compose(RxDiffUtil.calculate(GameLevelsDiffUtilCallback.Companion::create))
+                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
                 .doOnSubscribe { levelsRecycler.showShimmerAdapter() }
                 .doOnEach { levelsRecycler.hideShimmerAdapter() }

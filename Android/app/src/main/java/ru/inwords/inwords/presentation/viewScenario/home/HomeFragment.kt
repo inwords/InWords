@@ -83,10 +83,9 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
         }
 
         fun renderSuccess(user: Resource<User>) {
-            if (user.error()) {
-                renderNoUser()
-            } else if (user.success()) {
-                renderUser(user.data!!)
+            when (user) {
+                is Resource.Error -> renderNoUser()
+                is Resource.Success -> renderUser(user.data)
             }//TODO loading state use
 
             profile_shimmer.stopShimmer()

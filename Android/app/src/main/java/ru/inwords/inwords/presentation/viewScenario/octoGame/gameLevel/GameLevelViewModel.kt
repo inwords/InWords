@@ -13,7 +13,6 @@ import ru.inwords.inwords.data.dto.game.LevelScoreRequest
 import ru.inwords.inwords.domain.CardsData
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
 import ru.inwords.inwords.domain.model.Resource
-import ru.inwords.inwords.domain.model.Resource.Status.*
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.FromGameEndEventsEnum.*
 
@@ -31,10 +30,10 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
 
         compositeDisposable.add(gameInteractor.getLevel(gameLevelInfo.levelId)
                 .map {
-                    when (it.status) {
-                        SUCCESS -> Resource.success(CardsData(it.data!!.wordTranslations))
-                        LOADING -> Resource.loading<CardsData>(null)
-                        ERROR -> Resource.error<CardsData>(it.message!!, null)
+                    when (it) {
+                        is Resource.Success -> Resource.Success(CardsData(it.data.wordTranslations))
+                        is Resource.Loading -> Resource.Loading<CardsData>()
+                        is Resource.Error -> Resource.Error(it.message, it.throwable)
                     }
                 }
                 .subscribe(_cardsDataSubject::onNext))
@@ -46,17 +45,16 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
     }
 
     private fun storeGame(gameResource: Resource<Game>) {
-        if (gameResource.success()) {
-            game = gameResource.data!!.copy(gameLevelInfos = gameResource.data.gameLevelInfos.sortedBy { g -> g.level })
-        } else {
-            gameResource.message?.let { Log.d("GameLevelViewModel", it) } //TODO
+        when (gameResource) {
+            is Resource.Success -> game = gameResource.data.copy(gameLevelInfos = gameResource.data.gameLevelInfos.sortedBy { g -> g.level })
+            is Resource.Error -> Log.d("GameLevelViewModel", gameResource.message.orEmpty())  //TODO
         }
     }
 
     private fun selectNextLevel() {
         val nextLevelInfo = getNextLevelInfo()
-        if (nextLevelInfo.success()) {
-            onGameLevelSelected(game.gameId, nextLevelInfo.data!!)
+        if (nextLevelInfo is Resource.Success) {
+            onGameLevelSelected(game.gameId, nextLevelInfo.data)
         } else {
             _navigationSubject.onNext(BACK) //TODO its the end of current game
         }
@@ -67,9 +65,9 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
         val nextLevelIndex = currentLevelIndex + 1
 
         return if (nextLevelIndex < gameLevelInfos.size) {
-            Resource.success(gameLevelInfos[nextLevelIndex])
+            Resource.Success(gameLevelInfos[nextLevelIndex])
         } else {
-            Resource.error()
+            Resource.Error()
         }
     }
 

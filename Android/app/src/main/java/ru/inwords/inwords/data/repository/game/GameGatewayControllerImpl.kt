@@ -35,43 +35,33 @@ class GameGatewayControllerImpl @Inject constructor(
     override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<List<GameInfo>>> {
         val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
 
-        if (forceUpdate) {
-            cachingProvider.askForContentUpdate()
-        }
-
-        return cachingProvider.observe()
+        return cachingProvider.observe(forceUpdate)
     }
 
     override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
         val cachingProvider = gameCachingProviderLocator.get(gameId)
 
-        if (forceUpdate) {
-            cachingProvider.askForContentUpdate()
-        }
-
-        return cachingProvider.observe()
+        return cachingProvider.observe(forceUpdate)
     }
 
     override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
         val cachingProvider = gameLevelCachingProviderLocator.get(levelId)
 
-        if (forceUpdate) {
-            cachingProvider.askForContentUpdate()
-        }
-
-        return cachingProvider.observe()
+        return cachingProvider.observe(forceUpdate)
     }
 
     override fun getScore(game: Game, levelScoreRequest: LevelScoreRequest): Single<Resource<LevelScore>> {
         return gameRemoteRepository.getScore(levelScoreRequest).wrapResource()
                 .flatMap { res ->
-                    if (res.error()) {
+                    if (res is Resource.Error) {
                         levelScoreRequestDao.insert(levelScoreRequest)
                                 .doOnError { Log.d(TAG, it.message) }
                                 .map { res }
                                 .onErrorReturn { res }
                     } else {
-                        updateLocalScore(game, listOf(res.data!!))
+                        if (res is Resource.Success) {
+                            updateLocalScore(game, listOf(res.data))
+                        }
                         Single.just(res)
                     }
                 }

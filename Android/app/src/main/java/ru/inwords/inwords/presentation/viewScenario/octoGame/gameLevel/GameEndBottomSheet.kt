@@ -55,19 +55,19 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
 
         compositeDisposable.add(viewModel.getScore(cardOpenClicksCount, cardsCount)
                 .toObservable()
-                .startWith(Resource.loading<LevelScore>(null))
+                .startWith(Resource.Loading())
                 .observeOn(SchedulersFacade.ui())
                 .subscribe {
                     Log.d(TAG, it.toString())
 
-                    when (it.status) {
-                        Resource.Status.SUCCESS -> showSuccess(it.data!!)
-                        Resource.Status.LOADING -> showLoading()
-                        Resource.Status.ERROR -> showError()
+                    when (it) {
+                        is Resource.Success -> showSuccess(it.data)
+                        is Resource.Loading -> showLoading()
+                        is Resource.Error -> showError()
                     }
                 })
 
-        setupView(viewModel.getNextLevelInfo().success())
+        setupView(viewModel.getNextLevelInfo() is Resource.Success)
     }
 
     override fun onDetach() {
