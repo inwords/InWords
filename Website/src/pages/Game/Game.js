@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
         width: '100%',
         height: '100%',
+        borderRadius: theme.shape.borderRadius,
     },
     cardText: {
         fontWeight: 'bold',
