@@ -37,7 +37,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
         android:contentDescription="@string/voice_translation"
-        android:padding="@dimen/half_margin"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/half_margin"
+        android:paddingEnd="@dimen/half_margin"
+        android:paddingBottom="@dimen/half_margin"
         android:src="@drawable/ic_volume_up_black_24dp"
         app:tint="@color/colorPrimary" />
 </FrameLayout>

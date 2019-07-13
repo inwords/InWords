@@ -10,16 +10,17 @@
         layout="@layout/game_no_content"
         android:visibility="gone" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/game_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/half_margin"
             android:text="@string/choose_game"
             android:textSize="24sp" />
 
@@ -28,7 +29,7 @@
             android:id="@+id/gamesRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="90dp"
+            android:clipToPadding="false"
             android:paddingStart="@dimen/half_margin"
             android:paddingEnd="@dimen/half_margin"
             app:shimmer_demo_child_count="4"
@@ -36,6 +37,6 @@
             app:shimmer_demo_layout="@layout/game_info_shimmer"
             app:shimmer_demo_layout_manager_type="grid"
             tools:listitem="@layout/game_info" />
-    </FrameLayout>
+    </LinearLayout>
 
 </FrameLayout>
