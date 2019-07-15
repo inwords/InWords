@@ -1,4 +1,4 @@
-import accessConstants from '../constants/accessConstants';
+import { GRANT_ACCESS } from '../constants/accessConstants';
 
 const initialState = {
     token: null,
@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const access = (state = initialState, action) => {
-    if (action.type === accessConstants.GRANT_ACCESS) {
+    if (action.type === GRANT_ACCESS) {
         return {
             token: action.payload.token || null,
             userId: action.payload.userId || null

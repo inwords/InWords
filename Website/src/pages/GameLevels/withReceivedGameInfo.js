@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import gamesApiActions from '../../actions/gamesApiActions';
+import { receiveGameInfo as receiveGameInfoAction } from '../../actions/gamesApiActions';
 
 function withReceivedGameInfo(WrappedComponent) {
     function WithReceivedGameInfo({ match, ...rest }) {
@@ -9,7 +9,7 @@ function withReceivedGameInfo(WrappedComponent) {
 
         const dispatch = useDispatch();
         const receiveGameInfo = useCallback(
-            gameId => dispatch(gamesApiActions.receiveGameInfo(gameId)),
+            gameId => dispatch(receiveGameInfoAction(gameId)),
             [dispatch]
         );
 

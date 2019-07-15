@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import userApiActions from '../../actions/userApiActions';
+import { receiveUserInfo as receiveUserInfoAction } from '../../actions/userApiActions';
 import Profile from './Profile';
 
 function ProfileContainer({ match }) {
@@ -10,7 +10,7 @@ function ProfileContainer({ match }) {
 
     const dispatch = useDispatch();
     const receiveUserInfo = useCallback(
-        userId => dispatch(userApiActions.receiveUserInfo(userId)),
+        userId => dispatch(receiveUserInfoAction(userId)),
         [dispatch]
     );
 

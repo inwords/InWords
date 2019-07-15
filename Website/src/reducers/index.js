@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import accessConstants from '../constants/accessConstants';
+import { DENY_ACCESS } from '../constants/accessConstants';
 import common from './common';
 import access from './access';
 import userInfo from './userInfo';
@@ -15,7 +15,7 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-    if (action.type === accessConstants.DENY_ACCESS) {
+    if (action.type === DENY_ACCESS) {
         state = undefined;
     }
 

@@ -1,10 +1,10 @@
-import commonConstants from '../constants/commonConstants';
+import * as commonConstants from '../constants/commonConstants';
 
-const beginLoading = () => ({
+export const beginLoading = () => ({
     type: commonConstants.BEGIN_LOADING
 });
 
-const endLoading = () => ({
+export const endLoading = () => ({
     type: commonConstants.END_LOADING
 });
 
@@ -16,10 +16,3 @@ export const setSnackbarMessage = snackbarMessage => ({
 export const resetSnackbarMessage = () => ({
     type: commonConstants.RESET_SNACKBAR_MESSAGE
 });
-
-export default {
-    beginLoading,
-    endLoading,
-    setSnackbarMessage,
-    resetSnackbarMessage
-};

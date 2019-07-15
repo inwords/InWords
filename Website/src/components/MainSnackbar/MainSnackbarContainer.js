@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import commonActions from '../../actions/commonActions';
+import * as commonActions from '../../actions/commonActions';
 import MainSnackbar from './MainSnackbar';
 
 function MainSnackbarContainer() {

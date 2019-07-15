@@ -1,5 +1,5 @@
-import commonActions from '../actions/commonActions';
-import accessActions from '../actions/accessActions';
+import * as commonActions from '../actions/commonActions';
+import * as accessActions from '../actions/accessActions';
 import history from '../history';
 
 const API_ROOT = 'https://api.inwords.ru';

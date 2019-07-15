@@ -1,8 +1,8 @@
 import apiAction from './apiAction';
-import gamesActions from './gamesActions';
-import commonActions from './commonActions';
+import * as gamesActions from './gamesActions';
+import * as commonActions from './commonActions';
 
-function receiveGamesInfo() {
+export function receiveGamesInfo() {
     return apiAction({
         endpoint: 'game/gameInfo',
         actionsOnSuccess: [
@@ -14,7 +14,7 @@ function receiveGamesInfo() {
     });
 }
 
-function receiveGameInfo(gameId) {
+export function receiveGameInfo(gameId) {
     return apiAction({
         endpoint: `game/${gameId}`,
         actionsOnSuccess: [
@@ -26,7 +26,7 @@ function receiveGameInfo(gameId) {
     });
 }
 
-function receiveGameLevel(levelId) {
+export function receiveGameLevel(levelId) {
     return apiAction({
         endpoint: `game/level/${levelId}`,
         actionsOnSuccess: [
@@ -38,7 +38,7 @@ function receiveGameLevel(levelId) {
     });
 }
 
-function saveLevelResult(levelResult, actionOnSuccess) {
+export function saveLevelResult(levelResult, actionOnSuccess) {
     return apiAction({
         endpoint: 'game/score',
         method: 'POST',
@@ -52,10 +52,3 @@ function saveLevelResult(levelResult, actionOnSuccess) {
         ]
     });
 }
-
-export default {
-    receiveGamesInfo,
-    receiveGameInfo,
-    receiveGameLevel,
-    saveLevelResult
-};

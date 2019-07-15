@@ -1,9 +1,9 @@
 import apiAction from './apiAction';
-import commonActions from './commonActions';
-import accessActions from './accessActions';
+import * as commonActions from './commonActions';
+import * as accessActions from './accessActions';
 import history from '../history';
 
-function signIn(userdata) {
+export function signIn(userdata) {
     return apiAction({
         endpoint: 'auth/token',
         method: 'POST',
@@ -18,7 +18,7 @@ function signIn(userdata) {
     });
 }
 
-function signUp(userdata) {
+export function signUp(userdata) {
     return apiAction({
         endpoint: 'auth/registration',
         method: 'POST',
@@ -32,8 +32,3 @@ function signUp(userdata) {
         ]
     });
 }
-
-export default {
-    signIn,
-    signUp
-};

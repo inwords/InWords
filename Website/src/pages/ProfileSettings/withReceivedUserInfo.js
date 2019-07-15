@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import userApiActions from '../../actions/userApiActions';
+import { receiveUserInfo as receiveUserInfoAction } from '../../actions/userApiActions';
 
 function withReceivedUserInfo(WrappedComponent) {
     function WithReceivedUserInfo({ ...rest }) {
@@ -9,7 +9,7 @@ function withReceivedUserInfo(WrappedComponent) {
         
         const dispatch = useDispatch();
         const receiveUserInfo = useCallback(
-            userId => dispatch(userApiActions.receiveUserInfo(userId)),
+            userId => dispatch(receiveUserInfoAction(userId)),
             [dispatch]
         );
 
