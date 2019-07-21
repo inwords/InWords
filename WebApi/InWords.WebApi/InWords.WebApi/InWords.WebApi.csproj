@@ -15,6 +15,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="FluentFTP" Version="24.0.0" />
@@ -31,10 +38,6 @@
     <ProjectReference Include="..\InWords.Domain\InWords.Domain.csproj" />
     <ProjectReference Include="..\InWords.Service.Auth\InWords.Service.Auth.csproj" />
     <ProjectReference Include="..\InWords.Service.Encryption\InWords.Service.Encryption.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
