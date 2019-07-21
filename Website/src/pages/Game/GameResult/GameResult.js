@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Zoom from '@material-ui/core/Zoom';
+import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import StarIcon from '@material-ui/icons/Star';
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         width: 220,
-        padding: theme.spacing(3, 2, 2),
+        padding: theme.spacing(3, 0, 3),
         marginTop: theme.spacing(2),
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -33,7 +33,7 @@ function GameResult({ score, handleRedirectionToLevels, handleRedirectionToNextL
     const classes = useStyles();
 
     return (
-        <Zoom in>
+        <Grow in>
             <Paper className={classes.paper}>
                 {score !== null && (
                     <>
@@ -59,7 +59,7 @@ function GameResult({ score, handleRedirectionToLevels, handleRedirectionToNextL
                     </IconButton>
                 </div>
             </Paper>
-        </Zoom>
+        </Grow>
     );
 }
 

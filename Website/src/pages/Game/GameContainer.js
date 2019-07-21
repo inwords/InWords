@@ -46,7 +46,7 @@ function GameContainer({ gameLevel }) {
         if (completedPairIds.length > 0 && completedPairIds.length === randomWordsInfo.length / 2) {
             setTimeout(() => {
                 setIsResultReady(true);
-            }, 500)
+            }, 400)
 
             saveLevelResult({
                 levelId: gameLevel.levelId,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function useForm(initialInputs = {}, callback = () => { }) {
+function useForm(initialInputs = {}, callback = Function.prototype) {
     const [inputs, setInputs] = useState(initialInputs);
 
     const handleChange = event => {
