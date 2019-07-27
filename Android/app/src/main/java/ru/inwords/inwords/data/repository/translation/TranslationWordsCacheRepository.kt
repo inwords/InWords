@@ -23,7 +23,7 @@ internal constructor() : TranslationWordsLocalRepository {
 
     override fun getList(): Observable<List<WordTranslation>> {
         return behaviorSubject
-                .subscribeOn(SchedulersFacade.io())
+                .observeOn(SchedulersFacade.io())
                 //.filter(wordTranslations -> !wordTranslations.isEmpty())
                 .map { ArrayList(it) }
     }

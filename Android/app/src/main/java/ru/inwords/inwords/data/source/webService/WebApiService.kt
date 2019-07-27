@@ -39,7 +39,7 @@ interface WebApiService {
     fun deletePairs(@Header("Authorization") bearerToken: String, @Body serverIds: List<Int>): Single<Int>
 
     @POST("/v1.0/words/addpair")
-    fun addPairs(@Header("Authorization") bearerToken: String, @Body wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>>
+    fun addPairs(@Header("Authorization") bearerToken: String, @Body wordTranslations: List<@JvmSuppressWildcards WordTranslation>): Single<List<EntityIdentificator>>
 
     @POST("/v1.0/sync/pullwordpairs")
     fun pullWordsPairs(@Header("Authorization") bearerToken: String, @Body serverIds: List<Int>): Single<PullWordsAnswer>

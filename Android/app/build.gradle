@@ -90,8 +90,8 @@ dependencies {
     implementation "com.jakewharton.rxbinding2:rxbinding-design:$versions.RX_BINDING"
 
     //Fresco
-    implementation 'com.facebook.fresco:fresco:1.13.0'
-    implementation "com.facebook.fresco:imagepipeline-okhttp3:1.13.0"
+    implementation 'com.facebook.fresco:fresco:2.0.0'
+    implementation "com.facebook.fresco:imagepipeline-okhttp3:2.0.0"
 
     //Shimmer
     implementation "com.facebook.shimmer:shimmer:$versions.SHIMMER"
