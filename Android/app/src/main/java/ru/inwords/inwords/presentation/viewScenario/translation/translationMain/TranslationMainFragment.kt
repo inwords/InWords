@@ -4,6 +4,7 @@ package ru.inwords.inwords.presentation.viewScenario.translation.translationMain
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -29,6 +30,9 @@ import ru.inwords.inwords.presentation.viewScenario.translation.recycler.WordTra
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.applyDiffUtil
 
 class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationViewModelFactory>(), ItemTouchHelperEvents {
+    override val layout get() = R.layout.fragment_translation_main
+    override val classType get() = TranslationMainViewModel::class.java
+
     private lateinit var adapter: WordTranslationsAdapter
 
     private lateinit var mediaPlayer: MediaPlayer
@@ -45,9 +49,10 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
         viewModel.addEditWordLiveData.observe(this, Observer { event ->
             if (event.handle()) {
-                val args = Bundle()
                 val wordTranslation = event.peekContent()
-                args.putSerializable(WordTranslation::class.java.canonicalName, wordTranslation)
+                val args = Bundle().apply {
+                    putSerializable(WordTranslation::class.java.canonicalName, wordTranslation)
+                }
                 navController.navigate(R.id.action_translationMainFragment_to_addEditWordFragment, args)
             }
         })
@@ -89,7 +94,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
             mediaPlayer.prepare()
             mediaPlayer.start()
         } catch (throwable: Throwable) {
-            throwable.printStackTrace()
+            Log.e(javaClass.simpleName, throwable.message.orEmpty())
         }
     }
 
@@ -124,8 +129,4 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
             viewModel.onConfirmItemDismiss()
         }
     }
-
-    override fun getLayout() = R.layout.fragment_translation_main
-
-    override fun getClassType() = TranslationMainViewModel::class.java
 }

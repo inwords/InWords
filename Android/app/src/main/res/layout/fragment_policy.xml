@@ -37,6 +37,7 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:importantForAccessibility="no"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
                 android:src="@drawable/octopus_clothes" />

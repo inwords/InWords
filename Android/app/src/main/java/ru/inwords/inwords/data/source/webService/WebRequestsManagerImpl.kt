@@ -1,8 +1,11 @@
 package ru.inwords.inwords.data.source.webService
 
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import ru.inwords.inwords.core.ObservableTransformers
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.EntityIdentificator
 import ru.inwords.inwords.data.dto.User
@@ -26,6 +29,8 @@ internal constructor(private val apiService: WebApiService,
                      private val sessionHelper: SessionHelper,
                      private val authInfo: AuthInfo) : WebRequestsManager {
 
+    private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
+
     init {
         authenticator.setOnUnauthorisedCallback(object : BasicAuthenticator.OnUnauthorisedCallback {
             override fun perform(): TokenResponse {
@@ -37,28 +42,35 @@ internal constructor(private val apiService: WebApiService,
     private fun setAuthToken(tokenResponse: TokenResponse): Single<TokenResponse> {
         return Single.fromCallable {
             this.authInfo.tokenResponse = tokenResponse
+
+            authenticatedNotifierSubject.onNext(!authInfo.isNoToken)
+
             tokenResponse
         }
     }
 
     private fun Single<UserCredentials>.updateToken(): Single<TokenResponse> {
-        return filter { validCredentials(it) }
-                .toSingle()
-                .flatMap { apiService.getToken(it) }
+        return flatMap {
+            if (validCredentials(it)) {
+                apiService.getToken(it)
+            } else {
+                setAuthToken(AuthInfo.unauthorisedToken)
+            }
+        }
                 .applyAuthSessionHelper()
                 .subscribeOn(SchedulersFacade.io())
     }
 
-    private fun getToken(): Single<TokenResponse> {
+    override fun getToken(): Single<TokenResponse> {
         return authInfo.getCredentials().updateToken()
-    }
-
-    override fun getUserEmail(): Single<String> {
-        return authInfo.getCredentials().map { it.email }
     }
 
     override fun getToken(userCredentials: UserCredentials): Single<TokenResponse> {
         return authInfo.setCredentials(userCredentials).updateToken()
+    }
+
+    override fun getUserEmail(): Single<String> {
+        return authInfo.getCredentials().map { it.email }
     }
 
     override fun registerUser(userCredentials: UserCredentials): Single<TokenResponse> {
@@ -70,59 +82,92 @@ internal constructor(private val apiService: WebApiService,
     }
 
     override fun getLogin(): Single<String> {
-        return applySessionHelper { apiService.getLogin(it) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.getLogin(it) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getAuthorisedUser(): Single<User> {
-        return applySessionHelper { apiService.getAuthorisedUser(it) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.getAuthorisedUser(it) }
+                .interceptError()
                 //.flatMap(Observable::fromIterable)
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getUserById(id: Int): Single<User> {
-        return applySessionHelper<User> { apiService.getUserById(it, id) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.getUserById(it, id) }
+                .interceptError()
                 //.flatMap(Observable::fromIterable)
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
-        return applySessionHelper<List<EntityIdentificator>> { apiService.addPairs(it, wordTranslations) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.addPairs(it, wordTranslations) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun removeAllServerIds(serverIds: List<Int>): Single<Int> {
-        return applySessionHelper<Int> { apiService.deletePairs(it, serverIds) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.deletePairs(it, serverIds) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer> {
-        return applySessionHelper<PullWordsAnswer> { apiService.pullWordsPairs(it, serverIds) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.pullWordsPairs(it, serverIds) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getGameInfos(): Single<List<GameInfo>> {
-        return applySessionHelper { apiService.getGameInfos(it) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.getGameInfos(it) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getGame(gameId: Int): Single<Game> {
-        return applySessionHelper<Game> { apiService.getGame(it, gameId) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.getGame(it, gameId) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getLevel(levelId: Int): Single<GameLevel> {
-        return applySessionHelper<GameLevel> { apiService.getLevel(it, levelId) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.getLevel(it, levelId) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getScore(levelScoreRequest: LevelScoreRequest): Single<LevelScore> {
-        return applySessionHelper<LevelScore> { apiService.getGameScore(it, levelScoreRequest) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.getGameScore(it, levelScoreRequest) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
     override fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean> {
-        return applySessionHelper<Boolean> { apiService.uploadScore(it, levelScoreRequests).toSingleDefault(true) }
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMap { apiService.uploadScore(it, levelScoreRequests).toSingleDefault(true) }
+                .interceptError()
                 .subscribeOn(SchedulersFacade.io())
     }
 
@@ -135,25 +180,36 @@ internal constructor(private val apiService: WebApiService,
         return apiService.ttsSynthesize(googleServicesApiKey, request).map { it.audioContent }
     }
 
-    private fun <R> applySessionHelper(func: (String) -> Single<R>): Single<R> {
-        return sessionHelper
-                .requireThreshold()
-                .andThen(Single.defer { func(authInfo.bearer) })
-                .doOnError { throwable -> sessionHelper.interceptError(throwable).blockingAwait() }
+    private fun getAuthToken(): Single<String> {
+        return authInfo.getCredentials()
+                .doOnSuccess {
+                    if (!validCredentials(it)) {
+                        throw RuntimeException("invalid credentials (no credentials)") //TODO nice exception
+                    }
+                }
+                .map { authInfo.bearer }
+    }
+
+    private fun valve(): Single<Unit> {
+        return Observable.just(Unit)
+                .doOnNext { sessionHelper.requireThreshold() }
+                .compose(ObservableTransformers.valve(authenticatedNotifierSubject, false))
+                .firstOrError()
     }
 
     private fun Single<TokenResponse>.applyAuthSessionHelper(): Single<TokenResponse> {
-        return sessionHelper
-                .resetThreshold()
-                .andThen(this)
-                .onErrorResumeNext { throwable ->
-                    sessionHelper.interceptError(throwable)
-                            .andThen(Single.error {
-                                //error here
-                                setAuthToken(TokenResponse.errorToken())
-                                throwable
-                            })
+        return doOnSuccess { sessionHelper.resetThreshold() }
+                .onErrorResumeNext {
+                    if (sessionHelper.interceptAuthError(it)) {
+                        setAuthToken(AuthInfo.unauthorisedToken)
+                    } else {
+                        setAuthToken(AuthInfo.errorToken)
+                    }
                 }
                 .flatMap { setAuthToken(it) }
+    }
+
+    private fun <T> Single<T>.interceptError(): Single<T> {
+        return doOnError { throwable -> sessionHelper.interceptAuthError(throwable) }
     }
 }

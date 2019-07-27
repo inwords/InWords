@@ -16,6 +16,9 @@ import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 
 class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFactory>() {
+    override val layout get() = R.layout.fragment_home
+    override val classType get() = HomeViewModel::class.java
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -140,13 +143,5 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                         navController.navigate(R.id.action_mainFragment_to_policyFragment)
                     }
                 }
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.fragment_home
-    }
-
-    override fun getClassType(): Class<HomeViewModel> {
-        return HomeViewModel::class.java
     }
 }

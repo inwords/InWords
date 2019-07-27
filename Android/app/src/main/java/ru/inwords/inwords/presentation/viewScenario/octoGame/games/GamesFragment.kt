@@ -1,6 +1,7 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.games
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +19,9 @@ import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.appl
 
 
 class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameViewModelFactory>() {
+    override val layout get() = R.layout.fragment_games
+    override val classType get() = GamesViewModel::class.java
+
     private lateinit var adapter: GamesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,14 +53,15 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
 
                     fixOverscrollBehaviour(gamesRecycler)
                 }) {
-                    it.printStackTrace()
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()
                 })
     }
 
     private fun navigateToGame(gameInfo: GameInfo) {
-        val bundle = Bundle()
-        bundle.putSerializable(GAME_INFO, gameInfo)
+        val bundle = Bundle().apply {
+            putParcelable(GAME_INFO, gameInfo)
+        }
         navController.navigate(R.id.action_gamesFragment_to_gameLevelsFragment, bundle)
     }
 
@@ -79,8 +84,4 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
             }
         }
     }
-
-    override fun getLayout() = R.layout.fragment_games
-
-    override fun getClassType() = GamesViewModel::class.java
 }

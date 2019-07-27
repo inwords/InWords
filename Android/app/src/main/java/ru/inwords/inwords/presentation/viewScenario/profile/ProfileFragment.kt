@@ -10,6 +10,9 @@ import ru.inwords.inwords.presentation.viewScenario.renderPolicyText
 
 
 class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileViewModelFactory>() {
+    override val layout get() = R.layout.fragment_profile
+    override val classType get() = ProfileViewModel::class.java
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -20,12 +23,4 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
     private fun toLoginClickListener() = Navigation
             .createNavigateOnClickListener(R.id.action_profileFragment_to_loginFragment, null)
-
-    override fun getLayout(): Int {
-        return R.layout.fragment_profile
-    }
-
-    override fun getClassType(): Class<ProfileViewModel> {
-        return ProfileViewModel::class.java
-    }
 }

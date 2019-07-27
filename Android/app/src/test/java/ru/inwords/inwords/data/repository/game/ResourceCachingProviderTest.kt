@@ -19,7 +19,7 @@ internal class ResourceCachingProviderTest {
     private val localRepo = HashMap<Int, String>()
     private val id = 10
 
-    //    @Test
+    @Test
     fun resourceCachingProvider_create_all_success1() {
         val str = StringBuilder("Remote val")
         val i = IntArray(1) { 0 }
@@ -67,7 +67,7 @@ internal class ResourceCachingProviderTest {
 
         Thread.sleep(50)
         println("1")
-        provider.observe()
+        provider.observe(true)
                 .observeOn(SchedulersFacade.io())
                 .subscribe { subject.onNext(it) }
 
@@ -76,7 +76,7 @@ internal class ResourceCachingProviderTest {
 //                .assertTimeout()
 //                .assertValueCount(0)
 
-        provider.invalidateContent()
+//        provider.invalidateContent()
 
         println("2")
         provider.observe()

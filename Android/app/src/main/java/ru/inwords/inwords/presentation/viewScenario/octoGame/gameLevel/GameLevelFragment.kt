@@ -1,6 +1,7 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,9 @@ import kotlin.math.ceil
 
 
 class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGameViewModelFactory>() {
+    override val layout get() = R.layout.fragment_game_level
+    override val classType get() = GameLevelViewModel::class.java
+
     //region arguments
     private lateinit var gameLevelInfo: GameLevelInfo
     private var gameId: Int = INVALID_ID
@@ -68,7 +72,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         compositeDisposable.add(viewModel
                 .cardsStream()
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(::render, Throwable::printStackTrace))
+                .subscribe(::render) { Log.e(javaClass.simpleName, it.message.orEmpty()) })
     }
 
     private fun render(cardsDataResource: Resource<CardsData>) {
@@ -185,8 +189,4 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
             }
         }
     }
-
-    override fun getLayout() = R.layout.fragment_game_level
-
-    override fun getClassType() = GameLevelViewModel::class.java
 }

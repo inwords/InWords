@@ -1,5 +1,6 @@
 package ru.inwords.inwords.presentation.viewScenario.translation.translationMain
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
@@ -35,12 +36,12 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
 
     fun onItemDismiss(wordTranslation: WordTranslation) {
         compositeDisposable.add(translationWordsInteractor.remove(wordTranslation)
-                .subscribe({ }, { it.printStackTrace() }))
+                .subscribe({ }, { Log.e(javaClass.simpleName, it.message.orEmpty()) }))
     }
 
     fun onItemDismissUndo(wordTranslation: WordTranslation) {
         compositeDisposable.add(translationWordsInteractor.addReplace(wordTranslation)
-                .subscribe({ translationSyncInteractor.notifyDataChanged() }, { it.printStackTrace() }))
+                .subscribe({ translationSyncInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) }))
     }
 
     fun onConfirmItemDismiss() {
@@ -75,7 +76,7 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
                     ttsSubject.onNext(Resource.Success(it.absolutePath))
                 }, {
                     ttsSubject.onNext(Resource.Error(it.message))
-                    it.printStackTrace()
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
                 })
                 .also { compositeDisposable.add(it) }
     }

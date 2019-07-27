@@ -15,11 +15,7 @@ class UserCachingRepository(
     override fun getAuthorisedUser(forceUpdate: Boolean): Observable<Resource<User>> {
         val cachingProvider = authorisedUserCachingProviderLocator.getDefault()
 
-        if (forceUpdate) {
-            cachingProvider.askForContentUpdate()
-        }
-
-        return cachingProvider.observe()
+        return cachingProvider.observe(forceUpdate)
     }
 
     override fun getUserById(id: Int): Single<User> {

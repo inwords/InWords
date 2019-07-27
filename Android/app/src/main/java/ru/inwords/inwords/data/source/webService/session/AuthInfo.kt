@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthInfo @Inject constructor(private val sharedPreferences: SharedPreferences) {
-    var tokenResponse: TokenResponse = TokenResponse()
+    var tokenResponse: TokenResponse = noToken
 
     val bearer: String get() = tokenResponse.bearer
 
@@ -37,6 +37,16 @@ class AuthInfo @Inject constructor(private val sharedPreferences: SharedPreferen
             credentialsInternal = userCredentials
             credentialsInternal
         }
+    }
+
+    val isNoToken: Boolean get() = tokenResponse == noToken
+    val isError: Boolean get() = tokenResponse == errorToken
+    val isUnauthorised: Boolean get() = tokenResponse == unauthorisedToken
+
+    companion object {
+        val noToken = TokenResponse()
+        val errorToken = TokenResponse("error_token")
+        val unauthorisedToken = TokenResponse("invalid_token")
     }
 }
 

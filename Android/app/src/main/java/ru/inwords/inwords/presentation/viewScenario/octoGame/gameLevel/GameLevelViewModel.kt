@@ -47,7 +47,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
     private fun storeGame(gameResource: Resource<Game>) {
         when (gameResource) {
             is Resource.Success -> game = gameResource.data.copy(gameLevelInfos = gameResource.data.gameLevelInfos.sortedBy { g -> g.level })
-            is Resource.Error -> Log.d("GameLevelViewModel", gameResource.message.orEmpty())  //TODO
+            is Resource.Error -> Log.e("GameLevelViewModel", gameResource.message.orEmpty())  //TODO
         }
     }
 

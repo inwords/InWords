@@ -19,8 +19,8 @@ protected constructor(values: List<T>,
         this.values = values
     }
 
-    protected constructor(layoutInflater: LayoutInflater,
-                          onItemClickedListener: Subject<T>) : this(ArrayList<T>(), layoutInflater, onItemClickedListener)
+    protected constructor(layoutInflater: LayoutInflater, onItemClickedListener: Subject<T>) :
+            this(ArrayList<T>(), layoutInflater, onItemClickedListener)
 
     override fun accept(pair: Pair<List<T>, DiffUtil.DiffResult>) {
         this.values = pair.first

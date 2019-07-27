@@ -19,21 +19,18 @@ internal constructor(private val translationSyncInteractor: TranslationSyncInter
                      private val gameInteractor: GameInteractor,
                      private val integrationDatabaseRepository: IntegrationDatabaseRepository) : IntegrationInteractor {
     override fun getOnAuthCallback(): Completable = Completable.mergeDelayError(listOf(
-            profileInteractor.getAuthorisedUser(true)
-                    .firstOrError()
-                    .ignoreElement(),
             translationSyncInteractor.presyncOnStart()
                     .andThen(translationSyncInteractor.trySyncAllReposWithCache()),
             gameInteractor.uploadScoresToServer()
                     .ignoreElement()
     ))
-            .doOnError(Throwable::printStackTrace)
+            .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
             .onErrorComplete()
 
-    override fun getOnStartCallback(): Completable = Completable.mergeDelayError(listOf(
+    override fun getOnUnauthorisedCallback(): Completable = Completable.mergeDelayError(listOf(
             translationSyncInteractor.presyncOnStart()
     ))
-            .doOnError(Throwable::printStackTrace)
+            .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
             .onErrorComplete()
 
     override fun getOnNewUserCallback(): Completable {

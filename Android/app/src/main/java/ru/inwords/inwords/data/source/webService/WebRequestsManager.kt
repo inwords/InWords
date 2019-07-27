@@ -18,6 +18,8 @@ interface WebRequestsManager {
 
     fun getUserEmail(): Single<String>
 
+    fun getToken(): Single<TokenResponse>
+
     fun getToken(userCredentials: UserCredentials): Single<TokenResponse>
 
     fun registerUser(userCredentials: UserCredentials): Single<TokenResponse>

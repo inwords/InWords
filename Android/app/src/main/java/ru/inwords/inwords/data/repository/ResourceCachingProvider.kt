@@ -43,11 +43,11 @@ internal class ResourceCachingProvider<T : Any>(
                 .flatMapSingle { res ->
                     when (res) {
                         is Resource.Success -> databaseInserter(res.data)
-                                .doOnError { Log.d(TAG, it.message.orEmpty()) }
+                                .doOnError { Log.e(TAG, it.message.orEmpty()) }
                                 .wrapResourceOverwriteError(res)
                         is Resource.Loading -> Single.just(res)
                         is Resource.Error -> {
-                            Log.d(TAG, res.message.orEmpty())
+                            Log.e(TAG, res.message.orEmpty())
                             databaseGetter().wrapResource()
                         }
                     }
@@ -102,7 +102,7 @@ internal class ResourceCachingProvider<T : Any>(
         return map { Resource.Success(it) as Resource<T> }
                 .onErrorReturn {
                     if (it is InterruptedIOException || it is InterruptedException) {
-                        Log.d(TAG, "Interrupted exception intercepted: ${it.message.orEmpty()}")
+                        Log.e(TAG, "Interrupted exception intercepted: ${it.message.orEmpty()}")
                         Resource.Loading() //used as a marker to be skipped
                     } else {
                         Resource.Error(it.message, it)
@@ -116,7 +116,9 @@ internal class ResourceCachingProvider<T : Any>(
         private val cachingProvidersMap = HashMap<Int, ResourceCachingProvider<T>>()
 
         fun get(id: Int): ResourceCachingProvider<T> {
-            return cachingProvidersMap.getOrPut(id) { factory(id) }
+            synchronized(cachingProvidersMap) {
+                return cachingProvidersMap.getOrPut(id) { factory(id) }
+            }
         }
 
         fun getDefault(): ResourceCachingProvider<T> {
@@ -124,7 +126,9 @@ internal class ResourceCachingProvider<T : Any>(
         }
 
         fun clear() {
-            cachingProvidersMap.clear()
+            synchronized(cachingProvidersMap) {
+                cachingProvidersMap.clear()
+            }
         }
     }
 

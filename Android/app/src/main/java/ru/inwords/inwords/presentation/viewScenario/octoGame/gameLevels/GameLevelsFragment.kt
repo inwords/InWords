@@ -2,6 +2,7 @@ package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.facebook.imagepipeline.request.ImageRequestBuilder
@@ -23,6 +24,9 @@ import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.applyDiffUtil
 
 class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, OctoGameViewModelFactory>() {
+    override val layout get() = R.layout.fragment_game_levels
+    override val classType get() = GameLevelsViewModel::class.java
+
     private lateinit var gameInfo: GameInfo
     private lateinit var game: Game
     private lateinit var adapter: GameLevelsAdapter
@@ -32,7 +36,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        gameInfo = arguments?.getSerializable(GAME_INFO) as GameInfo
+        gameInfo = requireNotNull(arguments?.getParcelable(GAME_INFO), { "GAME_INFO argument is null" })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,15 +73,16 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
                     fixOverscrollBehaviour(levelsRecycler)
                 }) {
-                    it.printStackTrace()
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()
                 })
     }
 
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
-        val bundle = Bundle()
-        bundle.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
-        bundle.putInt(GAME_ID, game.gameId)
+        val bundle = Bundle().apply {
+            putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
+            putInt(GAME_ID, game.gameId)
+        }
         navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
     }
 
@@ -96,8 +101,4 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
                     .withEndAction { welcome_screen?.visibility = View.GONE }
         }
     }
-
-    override fun getLayout() = R.layout.fragment_game_levels
-
-    override fun getClassType() = GameLevelsViewModel::class.java
 }
