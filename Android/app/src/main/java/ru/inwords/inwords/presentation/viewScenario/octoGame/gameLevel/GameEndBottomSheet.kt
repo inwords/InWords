@@ -35,7 +35,7 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
     internal lateinit var modelFactory: OctoGameViewModelFactory
     private lateinit var viewModel: GameLevelViewModel
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = ViewModelProviders.of(parentFragment!!, modelFactory).get(GameLevelViewModel::class.java)
 

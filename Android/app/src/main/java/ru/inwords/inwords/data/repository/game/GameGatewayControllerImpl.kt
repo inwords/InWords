@@ -121,6 +121,7 @@ class GameGatewayControllerImpl @Inject constructor(
                 {
                     uploadScoresToServer()
                             .ignoreElement()
+                            .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
                             .onErrorComplete()
                             .andThen(gameRemoteRepository.getGame(gameId))
                 }

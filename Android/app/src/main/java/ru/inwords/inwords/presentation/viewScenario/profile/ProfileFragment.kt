@@ -18,9 +18,14 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
         to_login_button.setOnClickListener(toLoginClickListener())
 
+        settings_button.setOnClickListener(toSettingsClickListener())
+
         renderPolicyText(policy_text_view)
     }
 
     private fun toLoginClickListener() = Navigation
             .createNavigateOnClickListener(R.id.action_profileFragment_to_loginFragment, null)
+
+    private fun toSettingsClickListener() = Navigation
+            .createNavigateOnClickListener(R.id.action_profileFragment_to_settingsFragment, null)
 }

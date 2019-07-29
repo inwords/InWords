@@ -149,6 +149,7 @@ public class TranslationSyncController {
                                             inMemoryRepository.addReplaceAll(wordTranslations)).ignoreElements();
 
                                 })
+                                .doOnError(t -> Log.e(this.getClass().getSimpleName(), "" + t.getMessage()))
                                 .onErrorResumeNext(__ -> inMemoryRepository.addReplaceAll(wordTranslations).ignoreElement())
                         );
             }

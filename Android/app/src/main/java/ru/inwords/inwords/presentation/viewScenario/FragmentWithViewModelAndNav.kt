@@ -44,7 +44,7 @@ abstract class FragmentWithViewModelAndNav<ViewModelType : ViewModel, ViewModelF
         navController = Navigation.findNavController(view)
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = provideViewModel()
     }

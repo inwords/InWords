@@ -120,13 +120,13 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
         Snackbar.make(asdasd, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
-                .addCallback(SnackBarCallback())
+                .addCallback(SnackBarCallback(item))
                 .show()
     }
 
-    private inner class SnackBarCallback : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+    private inner class SnackBarCallback(private val word: WordTranslation) : BaseTransientBottomBar.BaseCallback<Snackbar>() {
         override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
-            viewModel.onConfirmItemDismiss()
+            viewModel.onConfirmItemDismiss(word)
         }
     }
 }

@@ -44,8 +44,12 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
                 .subscribe({ translationSyncInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) }))
     }
 
-    fun onConfirmItemDismiss() {
+    fun onConfirmItemDismiss(wordTranslation: WordTranslation) {
         translationSyncInteractor.notifyDataChanged()
+
+        compositeDisposable.add(ttsRepository.forget(wordTranslation.wordForeign)
+                .subscribeOn(SchedulersFacade.io())
+                .subscribe({}, { Log.e(javaClass.simpleName, it.message.orEmpty()) }))
     }
 
     fun onAddClickedHandler(clicksObservable: Observable<Any>) { //fab clicked
@@ -71,7 +75,10 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
 
         onSpeakerClickedDisposable = speakerObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .switchMapSingle { ttsRepository.synthesize(it.wordForeign) }
+                .switchMapSingle {
+                    ttsRepository.synthesize(it.wordForeign)
+                            .subscribeOn(SchedulersFacade.io())
+                }
                 .subscribe({
                     ttsSubject.onNext(Resource.Success(it.absolutePath))
                 }, {

@@ -33,7 +33,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
     private var shownIntro = false
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
 
         gameInfo = requireNotNull(arguments?.getParcelable(GAME_INFO), { "GAME_INFO argument is null" })

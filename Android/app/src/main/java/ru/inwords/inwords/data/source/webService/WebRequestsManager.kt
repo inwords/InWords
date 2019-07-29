@@ -6,6 +6,7 @@ import ru.inwords.inwords.data.dto.User
 import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.data.dto.WordTranslation
 import ru.inwords.inwords.data.dto.game.*
+import ru.inwords.inwords.data.dto.google.TtsSynthesizeRequest
 import ru.inwords.inwords.data.source.webService.session.TokenResponse
 import ru.inwords.inwords.data.sync.PullWordsAnswer
 
@@ -40,5 +41,5 @@ interface WebRequestsManager {
 
     fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean>
 
-    fun ttsSynthesize(textToSpeak: String, googleServicesApiKey: String): Single<String>
+    fun ttsSynthesize(request: TtsSynthesizeRequest, googleServicesApiKey: String): Single<String>
 }

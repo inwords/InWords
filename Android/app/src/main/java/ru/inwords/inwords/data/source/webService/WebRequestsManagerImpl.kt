@@ -1,5 +1,6 @@
 package ru.inwords.inwords.data.source.webService
 
+import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -12,10 +13,7 @@ import ru.inwords.inwords.data.dto.User
 import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.data.dto.WordTranslation
 import ru.inwords.inwords.data.dto.game.*
-import ru.inwords.inwords.data.dto.google.AudioConfig
-import ru.inwords.inwords.data.dto.google.Input
 import ru.inwords.inwords.data.dto.google.TtsSynthesizeRequest
-import ru.inwords.inwords.data.dto.google.Voice
 import ru.inwords.inwords.data.source.webService.session.AuthInfo
 import ru.inwords.inwords.data.source.webService.session.SessionHelper
 import ru.inwords.inwords.data.source.webService.session.TokenResponse
@@ -171,12 +169,7 @@ internal constructor(private val apiService: WebApiService,
                 .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun ttsSynthesize(textToSpeak: String, googleServicesApiKey: String): Single<String> { //TODO
-        val request = TtsSynthesizeRequest(
-                Input(textToSpeak),
-                Voice("en-US", "en-US-Wavenet-D"),
-                AudioConfig("OGG_OPUS"))
-
+    override fun ttsSynthesize(request: TtsSynthesizeRequest, googleServicesApiKey: String): Single<String> { //TODO
         return apiService.ttsSynthesize(googleServicesApiKey, request).map { it.audioContent }
     }
 
@@ -200,6 +193,8 @@ internal constructor(private val apiService: WebApiService,
     private fun Single<TokenResponse>.applyAuthSessionHelper(): Single<TokenResponse> {
         return doOnSuccess { sessionHelper.resetThreshold() }
                 .onErrorResumeNext {
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
+
                     if (sessionHelper.interceptAuthError(it)) {
                         setAuthToken(AuthInfo.unauthorisedToken)
                     } else {
