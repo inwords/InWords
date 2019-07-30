@@ -28,7 +28,7 @@ abstract class FragmentWithViewModelAndNav<ViewModelType : ViewModel, ViewModelF
     protected abstract val classType: Class<ViewModelType>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         return inflater.inflate(layout, container, false)
     }
 
