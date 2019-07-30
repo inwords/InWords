@@ -10,7 +10,7 @@ Reverse engineering is the process of scaffolding entity type classes and a DbCo
 
 https://docs.microsoft.com/ru-ru/ef/core/managing-schemas/scaffolding
 
-Scaffold-DbContext "Server=server;Database=database;Uid=uid;Pwd=pwd;" Pomelo.EntityFrameworkCore.MySql -OutputDir Models
+Scaffold-DbContext "Server=server;Database=database;Uid=uid;Pwd=pwd;" Pomelo.EntityFrameworkCore.MySql -DataAnnotations -OutputDir Models
 
 ## Updating the model
 
