@@ -1,8 +1,10 @@
 ﻿using InWords.Data;
 using InWords.Data.Enums;
 using InWords.Data.Repositories;
+using InWords.WebApi.Services.Email;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1._1
 {
@@ -12,10 +14,12 @@ namespace InWords.WebApi.Controllers.v1._1
     public class ValuesController : ControllerBase
     {
         private readonly UserRepository userRepository;
+        private readonly EmailSender emailSender;
 
-        public ValuesController(InWordsDataContext context)
+        public ValuesController(InWordsDataContext context,EmailSender sender)
         {
             userRepository = new UserRepository(context);
+            this.emailSender = sender;
         }
 
         /// <summary>
@@ -32,8 +36,9 @@ namespace InWords.WebApi.Controllers.v1._1
 
         [HttpGet]
         [Route("")]
-        public ActionResult<int> GetAll()
+        public async Task<ActionResult<int>> GetAll()
         {
+            await emailSender.SendEmailAsync("anzer987@yandex.ru", "subject", "message");
             return userRepository.Count();
         }
 
