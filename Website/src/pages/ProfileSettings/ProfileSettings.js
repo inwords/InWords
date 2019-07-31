@@ -56,7 +56,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
                     >
                         <Grid item>
                             <Button color="primary" href="#profile">
-                                Отменить
+                                Отмена
                             </Button>
                         </Grid>
                         <Grid item>
