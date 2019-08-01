@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -84,7 +85,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#/signUp" variant="body2">
+                            <Link component={RouterLink} to="/signUp" variant="body2">
                                 Нет аккаунта? Зарегистрироваться
                             </Link>
                         </Grid>

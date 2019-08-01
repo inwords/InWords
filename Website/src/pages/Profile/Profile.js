@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -45,7 +46,12 @@ function Profile({ userInfo, editingAvailable }) {
             </CardContent>
             <CardActions>
                 {editingAvailable && (
-                    <Button size="small" color="primary" href="#profileSettings">
+                    <Button
+                        component={Link}
+                        to="/profileSettings"
+                        size="small"
+                        color="primary"
+                    >
                         Редактировать
                     </Button>)
                 }
