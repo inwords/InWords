@@ -13,68 +13,66 @@ import WordPairEditDialog from './WordPairEditDialog';
 import WordPairAddDialog from './WordPairAddDialog';
 
 const useStyles = makeStyles(theme => ({
-    list: {
-        width: '100%',
-        backgroundColor: theme.palette.background.paper,
-    },
+  list: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
 }));
 
 function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <Container component="div" maxWidth="md">
-            <WordPairsDeleteAppbar
-                checked={checked}
-                handleReset={handleReset}
-            />
-            <List className={classes.list}>
-                {wordPairs.map(wordPair => {
-                    const labelId = `checkbox-list-label-${wordPair.serverId}`;
+  return (
+    <Container component="div" maxWidth="md">
+      <WordPairsDeleteAppbar checked={checked} handleReset={handleReset} />
+      <List className={classes.list}>
+        {wordPairs.map(wordPair => {
+          const labelId = `checkbox-list-label-${wordPair.serverId}`;
 
-                    return (
-                        <ListItem
-                            key={wordPair.serverId}
-                            dense
-                            button
-                            onClick={handleToggle(wordPair.serverId)}
-                        >
-                            <ListItemIcon>
-                                <Checkbox
-                                    edge="start"
-                                    disableRipple
-                                    inputProps={{ 'aria-labelledby': labelId }}
-                                    tabIndex={-1}
-                                    checked={checked.indexOf(wordPair.serverId) !== -1}
-                                />
-                            </ListItemIcon>
-                            <ListItemText
-                                id={labelId}
-                                primary={wordPair.wordForeign}
-                                secondary={wordPair.wordNative}
-                            />
-                            <ListItemSecondaryAction>
-                                <WordPairEditDialog wordPair={wordPair} />
-                            </ListItemSecondaryAction>
-                        </ListItem>);
-                })}
-            </List>
-            <WordPairAddDialog visible={checked.length === 0} />
-        </Container>
-    );
+          return (
+            <ListItem
+              key={wordPair.serverId}
+              dense
+              button
+              onClick={handleToggle(wordPair.serverId)}
+            >
+              <ListItemIcon>
+                <Checkbox
+                  edge="start"
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                  tabIndex={-1}
+                  checked={checked.indexOf(wordPair.serverId) !== -1}
+                />
+              </ListItemIcon>
+              <ListItemText
+                id={labelId}
+                primary={wordPair.wordForeign}
+                secondary={wordPair.wordNative}
+              />
+              <ListItemSecondaryAction>
+                <WordPairEditDialog wordPair={wordPair} />
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
+      </List>
+      <WordPairAddDialog visible={checked.length === 0} />
+    </Container>
+  );
 }
 
 Wordlist.propTypes = {
-    wordPairs: PropTypes.arrayOf(
-        PropTypes.shape({
-            serverId: PropTypes.number.isRequired,
-            wordForeign: PropTypes.string.isRequired,
-            wordNative: PropTypes.string.isRequired
-        }).isRequired
-    ).isRequired,
-    checked: PropTypes.array.isRequired,
-    handleToggle: PropTypes.func.isRequired,
-    handleReset: PropTypes.func
+  wordPairs: PropTypes.arrayOf(
+    PropTypes.shape({
+      serverId: PropTypes.number.isRequired,
+      wordForeign: PropTypes.string.isRequired,
+      wordNative: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
+  checked: PropTypes.array.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+  handleReset: PropTypes.func,
 };
 
 export default Wordlist;

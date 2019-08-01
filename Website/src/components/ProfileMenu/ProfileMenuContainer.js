@@ -4,19 +4,16 @@ import * as accessActions from '../../actions/accessActions';
 import ProfileMenu from './ProfileMenu';
 
 function ProfileMenuContainer() {
-    const dispatch = useDispatch();
-    const denyAccess = useCallback(
-        () => dispatch(accessActions.denyAccess()),
-        [dispatch]
-    );
+  const dispatch = useDispatch();
+  const denyAccess = useCallback(() => dispatch(accessActions.denyAccess()), [
+    dispatch,
+  ]);
 
-    const handleSignOut = () => {
-        denyAccess();
-    };
+  const handleSignOut = () => {
+    denyAccess();
+  };
 
-    return (
-        <ProfileMenu handleSignOut={handleSignOut} />
-    );
+  return <ProfileMenu handleSignOut={handleSignOut} />;
 }
 
 export default ProfileMenuContainer;

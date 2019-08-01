@@ -6,30 +6,33 @@ import useForm from '../../../hooks/useForm';
 import WordPairAddDialog from './WordPairAddDialog';
 
 function WordPairAddDialogContainer({ ...rest }) {
-    const dispatch = useDispatch();
-    const addWordPair = useCallback(
-        wordPair => dispatch(addWordPairAction(wordPair)),
-        [dispatch]
-    );
+  const dispatch = useDispatch();
+  const addWordPair = useCallback(
+    wordPair => dispatch(addWordPairAction(wordPair)),
+    [dispatch]
+  );
 
-    const { inputs, handleChange, handleSubmit, handleReset } = useForm({
-        wordForeign: '',
-        wordNative: ''
-    }, () => addWordPair(inputs));
+  const { inputs, handleChange, handleSubmit, handleReset } = useForm(
+    {
+      wordForeign: '',
+      wordNative: '',
+    },
+    () => addWordPair(inputs)
+  );
 
-    return (
-        <WordPairAddDialog
-            inputs={inputs}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            handleReset={handleReset}
-            {...rest}
-        />
-    );
+  return (
+    <WordPairAddDialog
+      inputs={inputs}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      handleReset={handleReset}
+      {...rest}
+    />
+  );
 }
 
 WordPairAddDialogContainer.propTypes = {
-    visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 export default WordPairAddDialogContainer;

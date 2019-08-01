@@ -4,25 +4,21 @@ import { receiveGamesInfo as receiveGamesInfoAction } from '../../actions/gamesA
 import Games from './Games';
 
 function GamesContainer() {
-    const gamesInfo = useSelector(store => store.games.gamesInfo);
+  const gamesInfo = useSelector(store => store.games.gamesInfo);
 
-    const dispatch = useDispatch();
-    const receiveGamesInfo = useCallback(
-        () => dispatch(receiveGamesInfoAction()),
-        [dispatch]
-    );
+  const dispatch = useDispatch();
+  const receiveGamesInfo = useCallback(
+    () => dispatch(receiveGamesInfoAction()),
+    [dispatch]
+  );
 
-    useEffect(() => {
-        if (!gamesInfo.length) {
-            receiveGamesInfo();
-        }
-    }, [gamesInfo.length, receiveGamesInfo]);
+  useEffect(() => {
+    if (!gamesInfo.length) {
+      receiveGamesInfo();
+    }
+  }, [gamesInfo.length, receiveGamesInfo]);
 
-    return (
-        <Games
-            gamesInfo={gamesInfo}
-        />
-    );
+  return <Games gamesInfo={gamesInfo} />;
 }
 
 export default GamesContainer;

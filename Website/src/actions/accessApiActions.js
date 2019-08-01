@@ -4,31 +4,36 @@ import * as accessActions from './accessActions';
 import history from '../history';
 
 export function signIn(userdata) {
-    return apiAction({
-        endpoint: 'auth/token',
-        method: 'POST',
-        data: JSON.stringify(userdata),
-        actionsOnSuccess: [
-            (dispatch, data) => dispatch(accessActions.grantAccess(data)),
-            () => history.push('/wordlist')
-        ],
-        actionsOnFailure: [
-            dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось авторизоваться'))
-        ]
-    });
+  return apiAction({
+    endpoint: 'auth/token',
+    method: 'POST',
+    data: JSON.stringify(userdata),
+    actionsOnSuccess: [
+      (dispatch, data) => dispatch(accessActions.grantAccess(data)),
+      () => history.push('/wordlist'),
+    ],
+    actionsOnFailure: [
+      dispatch =>
+        dispatch(commonActions.setSnackbarMessage('Не удалось авторизоваться')),
+    ],
+  });
 }
 
 export function signUp(userdata) {
-    return apiAction({
-        endpoint: 'auth/registration',
-        method: 'POST',
-        data: JSON.stringify(userdata),
-        actionsOnSuccess: [
-            dispatch => dispatch(commonActions.setSnackbarMessage('Аккаунт успешно создан')),
-            () => history.push('/signIn')
-        ],
-        actionsOnFailure: [
-            dispatch => dispatch(commonActions.setSnackbarMessage('Не удалось зарегистрироваться'))
-        ]
-    });
+  return apiAction({
+    endpoint: 'auth/registration',
+    method: 'POST',
+    data: JSON.stringify(userdata),
+    actionsOnSuccess: [
+      dispatch =>
+        dispatch(commonActions.setSnackbarMessage('Аккаунт успешно создан')),
+      () => history.push('/signIn'),
+    ],
+    actionsOnFailure: [
+      dispatch =>
+        dispatch(
+          commonActions.setSnackbarMessage('Не удалось зарегистрироваться')
+        ),
+    ],
+  });
 }

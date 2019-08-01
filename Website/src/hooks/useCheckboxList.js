@@ -1,30 +1,30 @@
 import { useState } from 'react';
 
 function useCheckboxList() {
-    const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState([]);
 
-    const handleToggle = value => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
+  const handleToggle = value => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
 
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
 
-        setChecked(newChecked);
-    };
+    setChecked(newChecked);
+  };
 
-    const handleReset = () => {
-        setChecked([]);
-    };
+  const handleReset = () => {
+    setChecked([]);
+  };
 
-    return {
-        checked,
-        handleToggle,
-        handleReset
-    };
+  return {
+    checked,
+    handleToggle,
+    handleReset,
+  };
 }
 
 export default useCheckboxList;

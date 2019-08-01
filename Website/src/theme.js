@@ -3,10 +3,10 @@ import deepPurple from '@material-ui/core/colors/deepPurple';
 import amber from '@material-ui/core/colors/amber';
 
 const theme = createMuiTheme({
-    palette: {
-        primary: deepPurple,
-        secondary: amber,
-    },
+  palette: {
+    primary: deepPurple,
+    secondary: amber,
+  },
 });
 
 export default theme;

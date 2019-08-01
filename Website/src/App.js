@@ -19,22 +19,29 @@ function App() {
   const userId = useSelector(store => store.access.userId);
   const loading = useSelector(store => store.common.loading);
 
+  const x = { s: 3 };
+
   return (
     <Router history={history}>
       <MainSnackbar />
-      <PageLayout
-        authorized={Boolean(userId)}
-        loading={loading}
-      >
+      <PageLayout authorized={Boolean(userId)} loading={loading}>
         <Suspense fallback={<Fallback />}>
           <Switch>
-            <Route exact path="/" render={() =>
-              !userId ?
-                <Redirect to="/signIn" /> :
-                <Redirect to="/wordlist" />}
+            <Route
+              exact
+              path="/"
+              render={() =>
+                !userId ? (
+                  <Redirect to="/signIn" />
+                ) : (
+                  <Redirect to="/wordlist" />
+                )
+              }
             />
-            <Route exact path="/profile" render={() =>
-              <Redirect to={`/profile/${userId}`} />}
+            <Route
+              exact
+              path="/profile"
+              render={() => <Redirect to={`/profile/${userId}`} />}
             />
             <Route path="/signIn" component={SignIn} />
             <Route path="/signUp" component={SignUp} />

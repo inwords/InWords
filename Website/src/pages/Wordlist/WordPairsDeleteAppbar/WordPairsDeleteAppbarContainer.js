@@ -5,30 +5,28 @@ import { deleteWordPairs as deleteWordPairsAction } from '../../../actions/wordP
 import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
 
 function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
-    const dispatch = useDispatch();
-    const deleteWordPairs = useCallback(
-        pairIds => dispatch(deleteWordPairsAction(pairIds)),
-        [dispatch]
-    );
+  const dispatch = useDispatch();
+  const deleteWordPairs = useCallback(
+    pairIds => dispatch(deleteWordPairsAction(pairIds)),
+    [dispatch]
+  );
 
-    const handleDelete = () => {
-        deleteWordPairs(checked);
-    };
+  const handleDelete = () => {
+    deleteWordPairs(checked);
+  };
 
-    return (
-        <WordPairsDeleteAppbar
-            numberOfSelected={checked.length}
-            handleDelete={handleDelete}
-            {...rest}
-        />
-    );
+  return (
+    <WordPairsDeleteAppbar
+      numberOfSelected={checked.length}
+      handleDelete={handleDelete}
+      {...rest}
+    />
+  );
 }
 
 WordPairsDeleteAppbarContainer.propTypes = {
-    checked: PropTypes.arrayOf(
-        PropTypes.number.isRequired
-    ).isRequired,
-    handleReset: PropTypes.func
+  checked: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  handleReset: PropTypes.func,
 };
 
 export default WordPairsDeleteAppbarContainer;

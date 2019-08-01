@@ -13,95 +13,95 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
-    paper: {
-        marginTop: theme.spacing(4),
-        padding: theme.spacing(2, 3, 3),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%',
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-    links: {
-        textAlign: 'right',
-    },
+  paper: {
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(2, 3, 3),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  links: {
+    textAlign: 'right',
+  },
 }));
 
 function SignUp({ inputs, handleChange, handleSubmit }) {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <Container component="div" maxWidth="xs">
-            <Paper className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Регистрация
-                </Typography>
-                <form onSubmit={handleSubmit} className={classes.form}>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                        label="Email"
-                        type="email"
-                        autoComplete="email"
-                        autoFocus
-                        name="email"
-                        value={inputs.email}
-                        onChange={handleChange}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        required
-                        label="Пароль"
-                        type="password"
-                        name="password"
-                        value={inputs.password}
-                        onChange={handleChange}
-                    />
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        color="primary"
-                        type="submit"
-                        className={classes.submit}
-                    >
-                        Зарегистрироваться
-                    </Button>
-                    <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link component={RouterLink} to="signIn" variant="body2">
-                                Уже есть аккаунт? Войти
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </form>
-            </Paper>
-        </Container>
-    );
+  return (
+    <Container component="div" maxWidth="xs">
+      <Paper className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Регистрация
+        </Typography>
+        <form onSubmit={handleSubmit} className={classes.form}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            required
+            label="Email"
+            type="email"
+            autoComplete="email"
+            autoFocus
+            name="email"
+            value={inputs.email}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            required
+            label="Пароль"
+            type="password"
+            name="password"
+            value={inputs.password}
+            onChange={handleChange}
+          />
+          <Button
+            variant="contained"
+            fullWidth
+            color="primary"
+            type="submit"
+            className={classes.submit}
+          >
+            Зарегистрироваться
+          </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link component={RouterLink} to="signIn" variant="body2">
+                Уже есть аккаунт? Войти
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    </Container>
+  );
 }
 
 SignUp.propTypes = {
-    inputs: PropTypes.shape({
-        email: PropTypes.string.isRequired,
-        password: PropTypes.string.isRequired
-    }).isRequired,
-    handleChange: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+  inputs: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default SignUp;

@@ -14,95 +14,91 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useDialog from '../../../hooks/useDialog';
 
 const useStyles = makeStyles(theme => ({
-    fab: {
-        position: 'fixed',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
 }));
 
-function WordPairAddDialog({ visible, inputs, handleChange, handleSubmit, handleReset }) {
-    const classes = useStyles();
-    const theme = useTheme();
+function WordPairAddDialog({
+  visible,
+  inputs,
+  handleChange,
+  handleSubmit,
+  handleReset,
+}) {
+  const classes = useStyles();
+  const theme = useTheme();
 
-    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const { open, handleOpen, handleClose } = useDialog();
+  const { open, handleOpen, handleClose } = useDialog();
 
-    const handleCloseExtended = () => {
-        handleClose();
-        handleReset();
-    };
+  const handleCloseExtended = () => {
+    handleClose();
+    handleReset();
+  };
 
-    const handleSubmitExtended = event => {
-        handleSubmit(event);
-        handleCloseExtended();
-    };
-    
-    return (
-        <div>
-            <Zoom in={visible}>
-                <Fab
-                    color="primary"
-                    onClick={handleOpen}
-                    className={classes.fab}
-                >
-                    <AddIcon />
-                </Fab>
-            </Zoom>
-            <Dialog
-                aria-labelledby="word-pair-add-dialog"
-                fullScreen={fullScreen}
-                open={open}
-                onClose={handleCloseExtended}
-            >
-                <DialogTitle id="word-pair-add-dialog">Добавление слова</DialogTitle>
-                <DialogContent>
-                    <form id="word-pair-add-form" onSubmit={handleSubmitExtended}>
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            label="Слово или фраза"
-                            autoFocus
-                            name="wordForeign"
-                            value={inputs.wordForeign}
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            label="Перевод"
-                            name="wordNative"
-                            value={inputs.wordNative}
-                            onChange={handleChange}
-                        />
-                    </form>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseExtended}>
-                        Отмена
-                    </Button>
-                    <Button
-                        color="primary"
-                        type="submit"
-                        form="word-pair-add-form"
-                    >
-                        Добавить
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-    );
+  const handleSubmitExtended = event => {
+    handleSubmit(event);
+    handleCloseExtended();
+  };
+
+  return (
+    <div>
+      <Zoom in={visible}>
+        <Fab color="primary" onClick={handleOpen} className={classes.fab}>
+          <AddIcon />
+        </Fab>
+      </Zoom>
+      <Dialog
+        aria-labelledby="word-pair-add-dialog"
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleCloseExtended}
+      >
+        <DialogTitle id="word-pair-add-dialog">Добавление слова</DialogTitle>
+        <DialogContent>
+          <form id="word-pair-add-form" onSubmit={handleSubmitExtended}>
+            <TextField
+              margin="normal"
+              fullWidth
+              label="Слово или фраза"
+              autoFocus
+              name="wordForeign"
+              value={inputs.wordForeign}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              label="Перевод"
+              name="wordNative"
+              value={inputs.wordNative}
+              onChange={handleChange}
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseExtended}>Отмена</Button>
+          <Button color="primary" type="submit" form="word-pair-add-form">
+            Добавить
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }
 
 WordPairAddDialog.propTypes = {
-    visible: PropTypes.bool.isRequired,
-    inputs: PropTypes.shape({
-        wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired
-    }).isRequired,
-    handleChange: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+  visible: PropTypes.bool.isRequired,
+  inputs: PropTypes.shape({
+    wordForeign: PropTypes.string.isRequired,
+    wordNative: PropTypes.string.isRequired,
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default WordPairAddDialog;

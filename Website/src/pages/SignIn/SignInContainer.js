@@ -5,24 +5,26 @@ import { signIn as signInAction } from '../../actions/accessApiActions';
 import SignIn from './SignIn';
 
 function SignInContainer() {
-    const dispatch = useDispatch();
-    const signIn = useCallback(
-        userdata => dispatch(signInAction(userdata)),
-        [dispatch]
-    );
+  const dispatch = useDispatch();
+  const signIn = useCallback(userdata => dispatch(signInAction(userdata)), [
+    dispatch,
+  ]);
 
-    const { inputs, handleChange, handleSubmit } = useForm({
-        email: '',
-        password: ''
-    }, () => signIn(inputs));
+  const { inputs, handleChange, handleSubmit } = useForm(
+    {
+      email: '',
+      password: '',
+    },
+    () => signIn(inputs)
+  );
 
-    return (
-        <SignIn
-            inputs={inputs}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-        />
-    );
+  return (
+    <SignIn
+      inputs={inputs}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+    />
+  );
 }
 
 export default SignInContainer;

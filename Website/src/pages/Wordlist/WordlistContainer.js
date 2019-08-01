@@ -5,30 +5,30 @@ import useCheckboxList from '../../hooks/useCheckboxList';
 import Wordlist from './Wordlist';
 
 function WordlistContainer() {
-    const wordPairs = useSelector(store => store.wordPairs);
+  const wordPairs = useSelector(store => store.wordPairs);
 
-    const dispatch = useDispatch();
-    const receiveWordPairs = useCallback(
-        () => dispatch(receiveWordPairsAction()),
-        [dispatch]
-    );
+  const dispatch = useDispatch();
+  const receiveWordPairs = useCallback(
+    () => dispatch(receiveWordPairsAction()),
+    [dispatch]
+  );
 
-    useEffect(() => {
-        if (!wordPairs.length) {
-            receiveWordPairs();
-        }
-    }, [wordPairs.length, receiveWordPairs]);
+  useEffect(() => {
+    if (!wordPairs.length) {
+      receiveWordPairs();
+    }
+  }, [wordPairs.length, receiveWordPairs]);
 
-    const { checked, handleToggle, handleReset } = useCheckboxList();
+  const { checked, handleToggle, handleReset } = useCheckboxList();
 
-    return (
-        <Wordlist
-            wordPairs={wordPairs}
-            checked={checked}
-            handleToggle={handleToggle}
-            handleReset={handleReset}
-        />
-    );
+  return (
+    <Wordlist
+      wordPairs={wordPairs}
+      checked={checked}
+      handleToggle={handleToggle}
+      handleReset={handleReset}
+    />
+  );
 }
 
 export default WordlistContainer;

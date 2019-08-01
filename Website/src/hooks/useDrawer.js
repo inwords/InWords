@@ -1,26 +1,26 @@
 import { useState } from 'react';
 
 function useDrawer() {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const handleToggle = () => {
-        setOpen(!open);
-    };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
-    return {
-        open,
-        handleOpen,
-        handleClose,
-        handleToggle
-    };
+  return {
+    open,
+    handleOpen,
+    handleClose,
+    handleToggle,
+  };
 }
 
 export default useDrawer;
