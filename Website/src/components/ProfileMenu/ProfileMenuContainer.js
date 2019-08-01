@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import accessActions from '../../actions/accessActions';
+import * as accessActions from '../../actions/accessActions';
 import ProfileMenu from './ProfileMenu';
 
 function ProfileMenuContainer() {

@@ -57,7 +57,7 @@ const emoticons = {
 
 function Smiley({ score }) {
     return (
-        <svg viewBox="0 0 300 300" width="140" height="140">
+        <svg viewBox="0 0 300 300" width="150" height="150">
             <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor={colors[Math.floor(Math.random() * colors.length)]} />

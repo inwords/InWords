@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -55,8 +56,12 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
                         className={classes.actions}
                     >
                         <Grid item>
-                            <Button color="primary" href="#profile">
-                                Отменить
+                            <Button
+                                component={Link}
+                                to="/profile"
+                                color="primary"
+                            >
+                                Отмена
                             </Button>
                         </Grid>
                         <Grid item>

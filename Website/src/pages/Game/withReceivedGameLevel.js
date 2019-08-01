@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import gamesApiActions from '../../actions/gamesApiActions';
+import { receiveGameLevel as receiveGameLevelAction } from '../../actions/gamesApiActions';
 
 function withReceivedGameLevel(WrappedComponent) {
     function WithReceivedGameLevel({ match, ...rest }) {
@@ -9,7 +9,7 @@ function withReceivedGameLevel(WrappedComponent) {
 
         const dispatch = useDispatch();
         const receiveGameLevel = useCallback(
-            levelId => dispatch(gamesApiActions.receiveGameLevel(levelId)),
+            levelId => dispatch(receiveGameLevelAction(levelId)),
             [dispatch]
         );
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import wordPairsApiActions from '../../actions/wordPairsApiActions';
+import { receiveWordPairs as receiveWordPairsAction } from '../../actions/wordPairsApiActions';
 import useCheckboxList from '../../hooks/useCheckboxList';
 import Wordlist from './Wordlist';
 
@@ -9,7 +9,7 @@ function WordlistContainer() {
 
     const dispatch = useDispatch();
     const receiveWordPairs = useCallback(
-        () => dispatch(wordPairsApiActions.receiveWordPairs()),
+        () => dispatch(receiveWordPairsAction()),
         [dispatch]
     );
 

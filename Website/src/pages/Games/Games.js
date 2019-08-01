@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -30,10 +31,11 @@ function Games({ gamesInfo }) {
                             </CardContent>
                             <CardActions>
                                 <Button
+                                    component={Link}
+                                    to={`/game/${gameInfo.gameId}`}
                                     size="small"
                                     color="primary"
                                     disabled={!gameInfo.isAvailable}
-                                    href={`#/game/${gameInfo.gameId}`}
                                 >
                                     Выбрать
                                 </Button>

@@ -1,8 +1,8 @@
 import apiAction from './apiAction';
-import wordPairsActions from './wordPairsActions';
-import commonActions from './commonActions';
+import * as wordPairsActions from './wordPairsActions';
+import * as commonActions from './commonActions';
 
-function receiveWordPairs() {
+export function receiveWordPairs() {
     return apiAction({
         endpoint: 'sync/pullWordPairs',
         method: 'POST',
@@ -16,7 +16,7 @@ function receiveWordPairs() {
     });
 }
 
-function deleteWordPairs(pairIds) {
+export function deleteWordPairs(pairIds) {
     return apiAction({
         endpoint: 'words/deletePair',
         method: 'POST',
@@ -30,7 +30,7 @@ function deleteWordPairs(pairIds) {
     });
 }
 
-function addWordPair(wordPair) {
+export function addWordPair(wordPair) {
     return apiAction({
         endpoint: 'words/addPair',
         method: 'POST',
@@ -47,7 +47,7 @@ function addWordPair(wordPair) {
     });
 }
 
-function deleteWordPairAsEditPart(pairId) {
+export function deleteWordPairAsEditPart(pairId) {
     return apiAction({
         endpoint: 'words/deletePair',
         method: 'POST',
@@ -58,7 +58,7 @@ function deleteWordPairAsEditPart(pairId) {
     });
 }
 
-function addWordPairAsEditPart(wordPair) {
+export function addWordPairAsEditPart(wordPair) {
     return apiAction({
         endpoint: 'words/addPair',
         method: 'POST',
@@ -76,11 +76,3 @@ function addWordPairAsEditPart(wordPair) {
         ]
     });
 }
-
-export default {
-    receiveWordPairs,
-    deleteWordPairs,
-    addWordPair,
-    deleteWordPairAsEditPart,
-    addWordPairAsEditPart
-};

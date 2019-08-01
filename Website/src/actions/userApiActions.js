@@ -1,9 +1,9 @@
 import apiAction from './apiAction';
-import commonActions from './commonActions';
-import userActions from './userActions';
+import * as commonActions from './commonActions';
+import * as userActions from './userActions';
 import history from '../history';
 
-function receiveUserInfo(userId) {
+export function receiveUserInfo(userId) {
     return apiAction({
         endpoint: `users/${userId}`,
         actionsOnSuccess: [
@@ -15,7 +15,7 @@ function receiveUserInfo(userId) {
     });
 }
 
-function updateUserInfo(userInfo) {
+export function updateUserInfo(userInfo) {
     return apiAction({
         endpoint: 'users',
         method: 'PUT',
@@ -29,8 +29,3 @@ function updateUserInfo(userInfo) {
         ]
     });
 }
-
-export default {
-    receiveUserInfo,
-    updateUserInfo
-};

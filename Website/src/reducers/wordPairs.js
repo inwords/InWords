@@ -1,4 +1,4 @@
-import wordPairsConstants from '../constants/wordPairsConstants';
+import * as wordPairsConstants from '../constants/wordPairsConstants';
 
 const wordPairs = (state = [], action) => {
     switch (action.type) {

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import gamesApiActions from '../../actions/gamesApiActions';
+import { receiveGamesInfo as receiveGamesInfoAction } from '../../actions/gamesApiActions';
 import Games from './Games';
 
 function GamesContainer() {
@@ -8,7 +8,7 @@ function GamesContainer() {
 
     const dispatch = useDispatch();
     const receiveGamesInfo = useCallback(
-        () => dispatch(gamesApiActions.receiveGamesInfo()),
+        () => dispatch(receiveGamesInfoAction()),
         [dispatch]
     );
 

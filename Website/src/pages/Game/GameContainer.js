@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import gamesApiActions from '../../actions/gamesApiActions';
+import { saveLevelResult as saveLevelResultAction } from '../../actions/gamesApiActions';
 import shuffle from './helpers/shuffle';
 import withReceivedGameLevel from './withReceivedGameLevel';
 import Game from './Game';
@@ -17,7 +17,7 @@ function GameContainer({ gameLevel }) {
 
     const dispatch = useDispatch();
     const saveLevelResult = useCallback(
-        (levelResult, actionOnSuccess) => dispatch(gamesApiActions.saveLevelResult(levelResult, actionOnSuccess)),
+        (levelResult, actionOnSuccess) => dispatch(saveLevelResultAction(levelResult, actionOnSuccess)),
         [dispatch]
     );
 
@@ -46,7 +46,7 @@ function GameContainer({ gameLevel }) {
         if (completedPairIds.length > 0 && completedPairIds.length === randomWordsInfo.length / 2) {
             setTimeout(() => {
                 setIsResultReady(true);
-            }, 500)
+            }, 400)
 
             saveLevelResult({
                 levelId: gameLevel.levelId,

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import userApiActions from '../../actions/userApiActions';
+import { updateUserInfo as updateUserInfoAction } from '../../actions/userApiActions';
 import useForm from '../../hooks/useForm';
 import withReceivedUserInfo from './withReceivedUserInfo';
 import ProfileSettings from './ProfileSettings';
@@ -9,7 +9,7 @@ import ProfileSettings from './ProfileSettings';
 function ProfileSettingsContainer({ userInfo }) {
     const dispatch = useDispatch();
     const updateUserInfo = useCallback(
-        userInfo => dispatch(userApiActions.updateUserInfo(userInfo)),
+        userInfo => dispatch(updateUserInfoAction(userInfo)),
         [dispatch]
     );
 

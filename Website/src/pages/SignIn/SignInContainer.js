@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import useForm from '../../hooks/useForm';
-import userApiActions from '../../actions/accessApiActions';
+import { signIn as signInAction } from '../../actions/accessApiActions';
 import SignIn from './SignIn';
 
 function SignInContainer() {
     const dispatch = useDispatch();
     const signIn = useCallback(
-        userdata => dispatch(userApiActions.signIn(userdata)),
+        userdata => dispatch(signInAction(userdata)),
         [dispatch]
     );
 

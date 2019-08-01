@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import useForm from '../../hooks/useForm';
-import userApiActions from '../../actions/accessApiActions';
+import { signUp as signUpAction } from '../../actions/accessApiActions';
 import SignUp from './SignUp';
 
 function SignUpContainer() {
     const dispatch = useDispatch();
     const signUp = useCallback(
-        userdata => dispatch(userApiActions.signUp(userdata)),
+        userdata => dispatch(signUpAction(userdata)),
         [dispatch]
     );
 
