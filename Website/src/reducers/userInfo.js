@@ -1,4 +1,4 @@
-import * as userConstants from '../constants/userContants';
+import * as userConstants from 'constants/userContants';
 
 const initialState = {
   userId: null,

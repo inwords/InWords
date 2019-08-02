@@ -1,4 +1,4 @@
-import * as gamesConstants from '../constants/gamesConstants';
+import * as gamesConstants from 'constants/gamesConstants';
 
 export const initializeGamesInfo = gamesInfo => ({
   type: gamesConstants.INITIALIZE_GAMES_INFO,

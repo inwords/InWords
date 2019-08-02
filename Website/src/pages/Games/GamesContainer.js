@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveGamesInfo as receiveGamesInfoAction } from '../../actions/gamesApiActions';
+import { receiveGamesInfo as receiveGamesInfoAction } from 'actions/gamesApiActions';
 import Games from './Games';
 
 function GamesContainer() {

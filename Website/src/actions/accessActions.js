@@ -1,4 +1,4 @@
-import * as accessConstants from '../constants/accessConstants';
+import * as accessConstants from 'constants/accessConstants';
 
 export const grantAccess = data => ({
   type: accessConstants.GRANT_ACCESS,

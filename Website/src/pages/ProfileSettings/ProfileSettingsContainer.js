@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { updateUserInfo as updateUserInfoAction } from '../../actions/userApiActions';
-import useForm from '../../hooks/useForm';
+import { updateUserInfo as updateUserInfoAction } from 'actions/userApiActions';
+import useForm from 'hooks/useForm';
 import withReceivedUserInfo from './withReceivedUserInfo';
 import ProfileSettings from './ProfileSettings';
 

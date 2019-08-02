@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import useMenu from '../../hooks/useMenu';
+import useMenu from 'hooks/useMenu';
 
 function ProfileMenu({ handleSignOut }) {
   const { anchorEl, handleClick, handleClose } = useMenu();

@@ -11,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import useDialog from '../../../hooks/useDialog';
+import useDialog from 'hooks/useDialog';
 
 const useStyles = makeStyles(theme => ({
   fab: {

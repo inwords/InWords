@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveUserInfo as receiveUserInfoAction } from '../../actions/userApiActions';
+import { receiveUserInfo as receiveUserInfoAction } from 'actions/userApiActions';
 
 function withReceivedUserInfo(WrappedComponent) {
   function WithReceivedUserInfo({ ...rest }) {

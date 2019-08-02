@@ -1,4 +1,4 @@
-import * as wordPairsConstants from '../constants/wordPairsConstants';
+import * as wordPairsConstants from 'constants/wordPairsConstants';
 
 export const initializeWordPairs = data => ({
   type: wordPairsConstants.INITIALIZE_WORD_PAIRS,

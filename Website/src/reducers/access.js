@@ -1,4 +1,4 @@
-import { GRANT_ACCESS } from '../constants/accessConstants';
+import { GRANT_ACCESS } from 'constants/accessConstants';
 
 const initialState = {
   token: null,

@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import { loadState, saveState } from './localStorage';
-import rootReducer from '../reducers';
-import apiMiddleware from '../middleware/apiMiddleware';
+import rootReducer from 'reducers';
+import apiMiddleware from 'middleware/apiMiddleware';
 
 const persistedState = loadState();
 

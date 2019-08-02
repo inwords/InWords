@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveWordPairs as receiveWordPairsAction } from '../../actions/wordPairsApiActions';
-import useCheckboxList from '../../hooks/useCheckboxList';
+import { receiveWordPairs as receiveWordPairsAction } from 'actions/wordPairsApiActions';
+import useCheckboxList from 'hooks/useCheckboxList';
 import Wordlist from './Wordlist';
 
 function WordlistContainer() {

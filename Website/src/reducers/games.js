@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import * as gamesConstants from '../constants/gamesConstants';
+import * as gamesConstants from 'constants/gamesConstants';
 
 const gamesInfo = (state = [], action) => {
   switch (action.type) {

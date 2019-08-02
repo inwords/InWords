@@ -1,4 +1,4 @@
-import * as userConstants from '../constants/userContants';
+import * as userConstants from 'constants/userContants';
 
 export const initializeUserInfo = userInfo => ({
   type: userConstants.INITIALIZE_USER_INFO,

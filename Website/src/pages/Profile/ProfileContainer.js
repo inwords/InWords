@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveUserInfo as receiveUserInfoAction } from '../../actions/userApiActions';
+import { receiveUserInfo as receiveUserInfoAction } from 'actions/userApiActions';
 import Profile from './Profile';
 
 function ProfileContainer({ match }) {

@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import {
   deleteWordPairAsEditPart as deleteWordPairAsEditPartAction,
   addWordPairAsEditPart as addWordPairAsEditPartAction,
-} from '../../../actions/wordPairsApiActions';
-import useForm from '../../../hooks/useForm';
+} from 'actions/wordPairsApiActions';
+import useForm from 'hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
 function WordPairEditDialogContainer({ wordPair }) {

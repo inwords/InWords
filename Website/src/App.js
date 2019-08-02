@@ -2,9 +2,9 @@ import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import history from './history';
-import Fallback from './components/Fallback';
-import MainSnackbar from './components/MainSnackbar';
-import PageLayout from './components/PageLayout';
+import Fallback from 'components/Fallback';
+import MainSnackbar from 'components/MainSnackbar';
+import PageLayout from 'components/PageLayout';
 
 const SignIn = lazy(() => import('./pages/SignIn'));
 const SignUp = lazy(() => import('./pages/SignUp'));

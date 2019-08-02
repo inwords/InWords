@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { receiveGameLevel as receiveGameLevelAction } from '../../actions/gamesApiActions';
+import { receiveGameLevel as receiveGameLevelAction } from 'actions/gamesApiActions';
 
 function withReceivedGameLevel(WrappedComponent) {
   function WithReceivedGameLevel({ match, ...rest }) {

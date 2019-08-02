@@ -12,7 +12,7 @@ import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
-import useDrawer from '../hooks/useDrawer';
+import useDrawer from 'hooks/useDrawer';
 import ProfileMenu from './ProfileMenu';
 import NavList from './NavList';
 

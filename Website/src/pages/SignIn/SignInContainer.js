@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import useForm from '../../hooks/useForm';
-import { signIn as signInAction } from '../../actions/accessApiActions';
+import useForm from 'hooks/useForm';
+import { signIn as signInAction } from 'actions/accessApiActions';
 import SignIn from './SignIn';
 
 function SignInContainer() {

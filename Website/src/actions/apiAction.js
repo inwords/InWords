@@ -1,4 +1,4 @@
-import { CALL_API } from '../middleware/apiMiddleware';
+import { CALL_API } from 'middleware/apiMiddleware';
 
 export default function apiAction({
   apiVersion = 'v1.0',

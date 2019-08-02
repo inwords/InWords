@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import * as commonConstants from '../constants/commonConstants';
+import * as commonConstants from 'constants/commonConstants';
 
 const loading = (state = false, action) => {
   switch (action.type) {

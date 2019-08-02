@@ -1,4 +1,4 @@
-import * as commonConstants from '../constants/commonConstants';
+import * as commonConstants from 'constants/commonConstants';
 
 export const beginLoading = () => ({
   type: commonConstants.BEGIN_LOADING,
