@@ -19,8 +19,6 @@ function App() {
   const userId = useSelector(store => store.access.userId);
   const loading = useSelector(store => store.common.loading);
 
-  const x = { s: 3 };
-
   return (
     <Router history={history}>
       <MainSnackbar />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 function useCheckboxList() {
   const [checked, setChecked] = useState([]);
@@ -16,9 +16,9 @@ function useCheckboxList() {
     setChecked(newChecked);
   };
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setChecked([]);
-  };
+  }, []);
 
   return {
     checked,

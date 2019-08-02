@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs as receiveWordPairsAction } from '../../actions/wordPairsApiActions';
 import useCheckboxList from '../../hooks/useCheckboxList';
@@ -21,6 +21,10 @@ function WordlistContainer() {
 
   const { checked, handleToggle, handleReset } = useCheckboxList();
 
+  useEffect(() => {
+    handleReset();
+  }, [handleReset, wordPairs]);
+
   return (
     <Wordlist
       wordPairs={wordPairs}
@@ -31,4 +35,4 @@ function WordlistContainer() {
   );
 }
 
-export default WordlistContainer;
+export default memo(WordlistContainer);

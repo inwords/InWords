@@ -77,6 +77,14 @@ function PageLayout({ authorized, loading, children }) {
 
   const { open, handleOpen, handleClose, handleToggle } = useDrawer();
 
+  const drawerHeader = (
+    <div className={classes.drawerHeader}>
+      <Link href="/" variant="h6" underline="none">
+        InWords
+      </Link>
+    </div>
+  );
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -107,15 +115,9 @@ function PageLayout({ authorized, loading, children }) {
             paper: classes.drawerPaper,
           }}
         >
-          <div>
-            <div className={classes.drawerHeader}>
-              <Link href="/" variant="h6" underline="none">
-                InWords
-              </Link>
-            </div>
-            <Divider />
-            <NavList authorized={authorized} onClick={handleClose} />
-          </div>
+          {drawerHeader}
+          <Divider />
+          <NavList authorized={authorized} onClick={handleClose} />
         </SwipeableDrawer>
       </Hidden>
       <Hidden mdDown>
@@ -127,11 +129,7 @@ function PageLayout({ authorized, loading, children }) {
             paper: classes.drawerPaper,
           }}
         >
-          <div className={classes.drawerHeader}>
-            <Link href="/" variant="h6" underline="none">
-              InWords
-            </Link>
-          </div>
+          {drawerHeader}
           <Divider />
           <NavList authorized={authorized} />
         </Drawer>
