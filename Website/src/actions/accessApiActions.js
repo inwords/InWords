@@ -1,7 +1,7 @@
 import apiAction from './apiAction';
 import * as commonActions from './commonActions';
 import * as accessActions from './accessActions';
-import history from '../history';
+import { history } from 'App';
 
 export function signIn(userdata) {
   return apiAction({

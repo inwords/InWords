@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: 20,
     [theme.breakpoints.up('lg')]: {
-      transform: 'rotate(360deg)',
+      transform: 'rotate(180deg)',
     },
     transition: theme.transitions.create(['transform'], {
       easing: theme.transitions.easing.sharp,
@@ -105,35 +105,37 @@ function PageLayout({ authorized, loading, children }) {
         </Toolbar>
         {loading && <LinearProgress />}
       </AppBar>
-      <Hidden lgUp>
-        <SwipeableDrawer
-          open={open}
-          onClose={handleClose}
-          onOpen={handleOpen}
-          className={classes.drawer}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          {drawerHeader}
-          <Divider />
-          <NavList authorized={authorized} onClick={handleClose} />
-        </SwipeableDrawer>
-      </Hidden>
-      <Hidden mdDown>
-        <Drawer
-          variant="persistent"
-          open={open}
-          className={classes.drawer}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          {drawerHeader}
-          <Divider />
-          <NavList authorized={authorized} />
-        </Drawer>
-      </Hidden>
+      <nav>
+        <Hidden lgUp>
+          <SwipeableDrawer
+            open={open}
+            onClose={handleClose}
+            onOpen={handleOpen}
+            className={classes.drawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            {drawerHeader}
+            <Divider />
+            <NavList authorized={authorized} onClick={handleClose} />
+          </SwipeableDrawer>
+        </Hidden>
+        <Hidden mdDown>
+          <Drawer
+            variant="persistent"
+            open={open}
+            className={classes.drawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            {drawerHeader}
+            <Divider />
+            <NavList authorized={authorized} />
+          </Drawer>
+        </Hidden>
+      </nav>
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,

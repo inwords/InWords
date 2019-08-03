@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
-import history from './history';
 import Fallback from 'components/Fallback';
 import MainSnackbar from 'components/MainSnackbar';
 import PageLayout from 'components/PageLayout';
@@ -14,6 +14,8 @@ const Wordlist = lazy(() => import('./pages/Wordlist'));
 const Games = lazy(() => import('./pages/Games'));
 const GameLevels = lazy(() => import('./pages/GameLevels'));
 const Game = lazy(() => import('./pages/Game'));
+
+export const history = createBrowserHistory();
 
 function App() {
   const userId = useSelector(store => store.access.userId);

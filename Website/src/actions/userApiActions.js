@@ -1,7 +1,7 @@
 import apiAction from './apiAction';
 import * as commonActions from './commonActions';
 import * as userActions from './userActions';
-import history from '../history';
+import { history } from 'App';
 
 export function receiveUserInfo(userId) {
   return apiAction({
