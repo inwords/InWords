@@ -1,10 +1,14 @@
-import * as commonActions from 'actions/commonActions';
-import * as accessActions from 'actions/accessActions';
+import {
+  beginLoading,
+  endLoading,
+  setSnackbarMessage,
+} from 'actions/commonActions';
+import { denyAccess } from 'actions/accessActions';
 import { history } from 'App';
 
-const API_ROOT = 'https://api.inwords.ru';
-
 export const CALL_API = 'CALL_API';
+
+const API_ROOT = 'https://api.inwords.ru';
 
 const apiMiddleware = ({ dispatch, getState }) => next => action => {
   next(action);
@@ -20,7 +24,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     actionsOnFailure,
   } = action.payload;
 
-  dispatch(commonActions.beginLoading());
+  dispatch(beginLoading());
 
   fetch(`${API_ROOT}/${apiVersion}/${endpoint}`, {
     method,
@@ -32,34 +36,43 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
   })
     .then(response => {
       if (!response.ok) {
-        if (response.status === 401) {
-          dispatch(accessActions.denyAccess());
-          history.push('/signIn');
-        }
-
-        throw Error(`${response.status} ${response.statusText}`);
-      }
-
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        return null;
+        throw Error(response.status);
       }
 
       return response.json();
     })
     .then(data => {
-      dispatch(commonActions.endLoading());
+      dispatch(endLoading());
+
       actionsOnSuccess.forEach(action => {
         action(dispatch, data);
       });
     })
     .catch(error => {
-      dispatch(commonActions.endLoading());
-      actionsOnFailure.forEach(action => {
-        action(dispatch);
-      });
+      dispatch(endLoading());
 
-      console.error(error);
+      if (Number.isInteger(+error.message)) {
+        const errorCode = +error.message;
+
+        switch (errorCode) {
+          case 401: {
+            dispatch(denyAccess());
+            history.push('/signIn');
+            break;
+          }
+          default:
+            actionsOnFailure.forEach(action => {
+              action(dispatch, errorCode);
+            });
+        }
+
+        console.error(`Response error: ${errorCode}`);
+        return;
+      }
+
+      dispatch(setSnackbarMessage('Неизвестная ошибка'));
+
+      console.error(`Unknown error: ${error.message}`);
     });
 };
 
