@@ -8,7 +8,7 @@ import {
 import useForm from 'hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
-function WordPairEditDialogContainer({ wordPair }) {
+function WordPairEditDialogContainer({ wordPair, ...rest }) {
   const dispatch = useDispatch();
   const deleteWordPairAsEditPart = useCallback(
     pairId => dispatch(deleteWordPairAsEditPartAction(pairId)),
@@ -39,6 +39,7 @@ function WordPairEditDialogContainer({ wordPair }) {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       handleReset={handleReset}
+      {...rest}
     />
   );
 }
@@ -48,6 +49,7 @@ WordPairEditDialogContainer.propTypes = {
     wordForeign: PropTypes.string.isRequired,
     wordNative: PropTypes.string.isRequired,
   }).isRequired,
+  visible: PropTypes.bool,
 };
 
 export default WordPairEditDialogContainer;

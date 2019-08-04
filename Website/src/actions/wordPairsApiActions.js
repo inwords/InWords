@@ -19,7 +19,7 @@ export function receiveWordPairs() {
   });
 }
 
-export function deleteWordPairs(pairIds) {
+export function deleteWordPairs(pairIds, actionOnSuccess) {
   return apiAction({
     endpoint: 'words/deletePair',
     method: 'POST',
@@ -27,6 +27,7 @@ export function deleteWordPairs(pairIds) {
     actionsOnSuccess: [
       dispatch =>
         dispatch(wordPairsActions.updateWordPairsAfterDeletion(pairIds)),
+      () => actionOnSuccess(),
     ],
     actionsOnFailure: [
       dispatch =>

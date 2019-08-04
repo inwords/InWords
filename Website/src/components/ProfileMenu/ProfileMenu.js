@@ -7,7 +7,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import useMenu from 'hooks/useMenu';
 
-function ProfileMenu({ handleSignOut }) {
+function ProfileMenu({ denyAccess }) {
   const { anchorEl, handleClick, handleClose } = useMenu();
 
   return (
@@ -31,7 +31,7 @@ function ProfileMenu({ handleSignOut }) {
         <MenuItem component={Link} to="/profile" onClick={handleClose}>
           Профиль
         </MenuItem>
-        <MenuItem component={Link} to="/signIn" onClick={handleSignOut}>
+        <MenuItem component={Link} to="/signIn" onClick={denyAccess}>
           Выйти
         </MenuItem>
       </Menu>
@@ -40,7 +40,7 @@ function ProfileMenu({ handleSignOut }) {
 }
 
 ProfileMenu.propTypes = {
-  handleSignOut: PropTypes.func.isRequired,
+  denyAccess: PropTypes.func.isRequired,
 };
 
 export default ProfileMenu;

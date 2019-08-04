@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -23,4 +23,4 @@ MainSnackbar.propTypes = {
   handleClose: PropTypes.func.isRequired,
 };
 
-export default memo(MainSnackbar);
+export default MainSnackbar;

@@ -51,7 +51,10 @@ function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
                 secondary={wordPair.wordNative}
               />
               <ListItemSecondaryAction>
-                <WordPairEditDialog wordPair={wordPair} />
+                <WordPairEditDialog
+                  wordPair={wordPair}
+                  visible={checked.length === 0}
+                />
               </ListItemSecondaryAction>
             </ListItem>
           );

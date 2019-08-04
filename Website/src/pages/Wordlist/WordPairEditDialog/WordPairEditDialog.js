@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import Dialog from '@material-ui/core/Dialog';
@@ -17,6 +18,7 @@ function WordPairEditDialog({
   handleChange,
   handleSubmit,
   handleReset,
+  visible,
 }) {
   const theme = useTheme();
 
@@ -35,7 +37,7 @@ function WordPairEditDialog({
   };
 
   return (
-    <div>
+    <Box display={visible ? 'block' : 'none'}>
       <IconButton edge="end" aria-label="Edit" onClick={handleOpen}>
         <EditIcon />
       </IconButton>
@@ -76,7 +78,7 @@ function WordPairEditDialog({
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }
 
@@ -87,6 +89,7 @@ WordPairEditDialog.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  visible: PropTypes.bool,
 };
 
 export default WordPairEditDialog;

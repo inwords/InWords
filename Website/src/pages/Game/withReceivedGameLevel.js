@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { receiveGameLevel as receiveGameLevelAction } from 'actions/gamesApiActions';
 
 function withReceivedGameLevel(WrappedComponent) {
@@ -34,7 +33,7 @@ function withReceivedGameLevel(WrappedComponent) {
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
   WithReceivedGameLevel.displayName = `withReceivedGameLevel(${wrappedComponentName})`;
 
-  return withRouter(WithReceivedGameLevel);
+  return WithReceivedGameLevel;
 }
 
 export default withReceivedGameLevel;

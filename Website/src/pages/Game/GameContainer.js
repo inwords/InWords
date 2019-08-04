@@ -12,6 +12,7 @@ function GameContainer({ gameLevel }) {
   const [completedPairIds, setCompletedPairIds] = useState([]);
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [closuresQuantity, setClosuresQuantity] = useState(0);
+  const [isGameCompleted, setIsGameCompleted] = React.useState(false);
   const [isResultReady, setIsResultReady] = React.useState(false);
   const [score, setScore] = useState(null);
 
@@ -53,8 +54,12 @@ function GameContainer({ gameLevel }) {
       completedPairIds.length === randomWordsInfo.length / 2
     ) {
       setTimeout(() => {
+        setIsGameCompleted(true);
+      }, 700);
+
+      setTimeout(() => {
         setIsResultReady(true);
-      }, 400);
+      }, 1200);
 
       saveLevelResult(
         {
@@ -172,6 +177,7 @@ function GameContainer({ gameLevel }) {
     setCompletedPairIds([]);
     setSelectedCompletedPairId(-1);
     setClosuresQuantity(0);
+    setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
   };
@@ -180,7 +186,7 @@ function GameContainer({ gameLevel }) {
     <Game
       randomWordsInfo={randomWordsInfo}
       selectedCompletedPairId={selectedCompletedPairId}
-      isGameCompleted={completedPairIds.length * 2 === randomWordsInfo.length}
+      isGameCompleted={isGameCompleted}
       isResultReady={isResultReady}
       score={score}
       handleClick={handleClick}

@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Hidden from '@material-ui/core/Hidden';
@@ -13,6 +12,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
 import useDrawer from 'hooks/useDrawer';
+import Progress from './Progress';
 import ProfileMenu from './ProfileMenu';
 import NavList from './NavList';
 
@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
 }));
 
-function PageLayout({ authorized, loading, children }) {
+function PageLayout({ authorized, children }) {
   const classes = useStyles();
 
   const { open, handleOpen, handleClose, handleToggle } = useDrawer();
@@ -103,7 +103,7 @@ function PageLayout({ authorized, loading, children }) {
           <span className={classes.space}></span>
           {authorized && <ProfileMenu />}
         </Toolbar>
-        {loading && <LinearProgress />}
+        <Progress />
       </AppBar>
       <nav>
         <Hidden lgUp>
@@ -150,7 +150,6 @@ function PageLayout({ authorized, loading, children }) {
 
 PageLayout.propTypes = {
   authorized: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
 };
 

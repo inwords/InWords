@@ -7,12 +7,13 @@ import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
 function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
   const dispatch = useDispatch();
   const deleteWordPairs = useCallback(
-    pairIds => dispatch(deleteWordPairsAction(pairIds)),
+    (pairIds, actionOnSuccess) =>
+      dispatch(deleteWordPairsAction(pairIds, actionOnSuccess)),
     [dispatch]
   );
 
-  const handleDelete = () => {
-    deleteWordPairs(checked);
+  const handleDelete = actionOnSuccess => {
+    deleteWordPairs(checked, actionOnSuccess);
   };
 
   return (

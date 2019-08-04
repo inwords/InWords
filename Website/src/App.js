@@ -19,12 +19,11 @@ export const history = createBrowserHistory();
 
 function App() {
   const userId = useSelector(store => store.access.userId);
-  const loading = useSelector(store => store.common.loading);
 
   return (
     <Router history={history}>
       <MainSnackbar />
-      <PageLayout authorized={Boolean(userId)} loading={loading}>
+      <PageLayout authorized={Boolean(userId)}>
         <Suspense fallback={<Fallback />}>
           <Switch>
             <Route

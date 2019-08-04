@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import * as accessActions from 'actions/accessActions';
 import ProfileMenu from './ProfileMenu';
@@ -9,11 +9,7 @@ function ProfileMenuContainer() {
     dispatch,
   ]);
 
-  const handleSignOut = () => {
-    denyAccess();
-  };
-
-  return <ProfileMenu handleSignOut={handleSignOut} />;
+  return <ProfileMenu denyAccess={denyAccess} />;
 }
 
-export default ProfileMenuContainer;
+export default memo(ProfileMenuContainer);

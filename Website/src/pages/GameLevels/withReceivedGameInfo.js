@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { receiveGameInfo as receiveGameInfoAction } from 'actions/gamesApiActions';
 
 function withReceivedGameInfo(WrappedComponent) {
@@ -34,7 +33,7 @@ function withReceivedGameInfo(WrappedComponent) {
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
   WithReceivedGameInfo.displayName = `withReceivedGameInfo(${wrappedComponentName})`;
 
-  return withRouter(WithReceivedGameInfo);
+  return WithReceivedGameInfo;
 }
 
 export default withReceivedGameInfo;
