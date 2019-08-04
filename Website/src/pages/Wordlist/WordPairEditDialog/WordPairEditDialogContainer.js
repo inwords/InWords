@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
@@ -10,14 +10,10 @@ import WordPairEditDialog from './WordPairEditDialog';
 
 function WordPairEditDialogContainer({ wordPair, ...rest }) {
   const dispatch = useDispatch();
-  const deleteWordPairAsEditPart = useCallback(
-    pairId => dispatch(deleteWordPairAsEditPartAction(pairId)),
-    [dispatch]
-  );
-  const addWordPairAsEditPart = useCallback(
-    wordPair => dispatch(addWordPairAsEditPartAction(wordPair)),
-    [dispatch]
-  );
+  const deleteWordPairAsEditPart = pairId =>
+    dispatch(deleteWordPairAsEditPartAction(pairId));
+  const addWordPairAsEditPart = wordPair =>
+    dispatch(addWordPairAsEditPartAction(wordPair));
 
   const { inputs, handleChange, handleSubmit, handleReset } = useForm(
     {

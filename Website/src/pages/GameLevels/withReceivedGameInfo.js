@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGameInfo as receiveGameInfoAction } from 'actions/gamesApiActions';
 
@@ -7,20 +7,17 @@ function withReceivedGameInfo(WrappedComponent) {
     const gameInfo = useSelector(store => store.games.gameInfo);
 
     const dispatch = useDispatch();
-    const receiveGameInfo = useCallback(
-      gameId => dispatch(receiveGameInfoAction(gameId)),
-      [dispatch]
-    );
 
-    const parsedGameId = useMemo(() => parseInt(match.params.gameId), [
-      match.params.gameId,
-    ]);
+    const parsedGameId = parseInt(match.params.gameId);
 
     useEffect(() => {
       if (gameInfo.gameId !== parsedGameId) {
+        const receiveGameInfo = gameId =>
+          dispatch(receiveGameInfoAction(gameId));
+
         receiveGameInfo(parsedGameId);
       }
-    }, [gameInfo.gameId, parsedGameId, receiveGameInfo]);
+    }, [gameInfo.gameId, parsedGameId, dispatch]);
 
     return (
       gameInfo.gameId === parsedGameId && (

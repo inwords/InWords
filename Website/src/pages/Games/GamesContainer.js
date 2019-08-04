@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGamesInfo as receiveGamesInfoAction } from 'actions/gamesApiActions';
 import Games from './Games';
@@ -7,16 +7,14 @@ function GamesContainer() {
   const gamesInfo = useSelector(store => store.games.gamesInfo);
 
   const dispatch = useDispatch();
-  const receiveGamesInfo = useCallback(
-    () => dispatch(receiveGamesInfoAction()),
-    [dispatch]
-  );
 
   useEffect(() => {
     if (!gamesInfo.length) {
+      const receiveGamesInfo = () => dispatch(receiveGamesInfoAction());
+
       receiveGamesInfo();
     }
-  }, [gamesInfo.length, receiveGamesInfo]);
+  }, [gamesInfo.length, dispatch]);
 
   return <Games gamesInfo={gamesInfo} />;
 }

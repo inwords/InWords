@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { updateUserInfo as updateUserInfoAction } from 'actions/userApiActions';
@@ -8,10 +8,7 @@ import ProfileSettings from './ProfileSettings';
 
 function ProfileSettingsContainer({ userInfo }) {
   const dispatch = useDispatch();
-  const updateUserInfo = useCallback(
-    userInfo => dispatch(updateUserInfoAction(userInfo)),
-    [dispatch]
-  );
+  const updateUserInfo = userInfo => dispatch(updateUserInfoAction(userInfo));
 
   const { inputs, handleChange, handleSubmit } = useForm(
     {

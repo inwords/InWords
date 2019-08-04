@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -11,7 +11,6 @@ import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
-import useDrawer from 'hooks/useDrawer';
 import Progress from './Progress';
 import ProfileMenu from './ProfileMenu';
 import NavList from './NavList';
@@ -75,7 +74,19 @@ const useStyles = makeStyles(theme => ({
 function PageLayout({ authorized, children }) {
   const classes = useStyles();
 
-  const { open, handleOpen, handleClose, handleToggle } = useDrawer();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   const drawerHeader = (
     <div className={classes.drawerHeader}>

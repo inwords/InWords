@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGameLevel as receiveGameLevelAction } from 'actions/gamesApiActions';
 
@@ -7,20 +7,17 @@ function withReceivedGameLevel(WrappedComponent) {
     const gameLevel = useSelector(store => store.games.gameLevel);
 
     const dispatch = useDispatch();
-    const receiveGameLevel = useCallback(
-      levelId => dispatch(receiveGameLevelAction(levelId)),
-      [dispatch]
-    );
 
-    const parsedLevelId = useMemo(() => parseInt(match.params.levelId), [
-      match.params.levelId,
-    ]);
+    const parsedLevelId = parseInt(match.params.levelId);
 
     useEffect(() => {
       if (gameLevel.levelId !== parsedLevelId) {
+        const receiveGameLevel = levelId =>
+          dispatch(receiveGameLevelAction(levelId));
+
         receiveGameLevel(parsedLevelId);
       }
-    }, [gameLevel.levelId, parsedLevelId, receiveGameLevel]);
+    }, [gameLevel.levelId, parsedLevelId, dispatch]);
 
     return (
       gameLevel.levelId === parsedLevelId && (

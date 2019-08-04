@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { deleteWordPairs as deleteWordPairsAction } from 'actions/wordPairsApiActions';
@@ -6,13 +6,11 @@ import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
 
 function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
   const dispatch = useDispatch();
-  const deleteWordPairs = useCallback(
-    (pairIds, actionOnSuccess) =>
-      dispatch(deleteWordPairsAction(pairIds, actionOnSuccess)),
-    [dispatch]
-  );
 
   const handleDelete = actionOnSuccess => {
+    const deleteWordPairs = (pairIds, actionOnSuccess) =>
+      dispatch(deleteWordPairsAction(pairIds, actionOnSuccess));
+
     deleteWordPairs(checked, actionOnSuccess);
   };
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveLevelResult as saveLevelResultAction } from 'actions/gamesApiActions';
@@ -17,11 +17,6 @@ function GameContainer({ gameLevel }) {
   const [score, setScore] = useState(null);
 
   const dispatch = useDispatch();
-  const saveLevelResult = useCallback(
-    (levelResult, actionOnSuccess) =>
-      dispatch(saveLevelResultAction(levelResult, actionOnSuccess)),
-    [dispatch]
-  );
 
   useEffect(() => {
     const shuffledWordTranslations = shuffle([...gameLevel.wordTranslations]);
@@ -61,6 +56,9 @@ function GameContainer({ gameLevel }) {
         setIsResultReady(true);
       }, 1200);
 
+      const saveLevelResult = (levelResult, actionOnSuccess) =>
+        dispatch(saveLevelResultAction(levelResult, actionOnSuccess));
+
       saveLevelResult(
         {
           levelId: gameLevel.levelId,
@@ -75,7 +73,7 @@ function GameContainer({ gameLevel }) {
     randomWordsInfo.length,
     gameLevel.levelId,
     openingQuantity,
-    saveLevelResult,
+    dispatch,
   ]);
 
   const handleClick = (pairId, wordId) => () => {
@@ -145,10 +143,8 @@ function GameContainer({ gameLevel }) {
           setRandomWordsInfo(
             randomWordsInfo.map(randomWordInfo => {
               if (
-                selectedWordsInfo.find(
-                  selectedWordInfo =>
-                    selectedWordInfo.pairId === randomWordInfo.pairId
-                )
+                randomWordInfo.pairId === selectedWordsInfo[0].pairId ||
+                randomWordInfo.pairId === selectedWordsInfo[1].pairId
               ) {
                 return {
                   ...randomWordInfo,

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import useForm from 'hooks/useForm';
 import { signIn as signInAction } from 'actions/accessApiActions';
@@ -6,9 +6,7 @@ import SignIn from './SignIn';
 
 function SignInContainer() {
   const dispatch = useDispatch();
-  const signIn = useCallback(userdata => dispatch(signInAction(userdata)), [
-    dispatch,
-  ]);
+  const signIn = userdata => dispatch(signInAction(userdata));
 
   const { inputs, handleChange, handleSubmit } = useForm(
     {

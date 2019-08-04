@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { addWordPair as addWordPairAction } from 'actions/wordPairsApiActions';
@@ -7,10 +7,7 @@ import WordPairAddDialog from './WordPairAddDialog';
 
 function WordPairAddDialogContainer({ ...rest }) {
   const dispatch = useDispatch();
-  const addWordPair = useCallback(
-    wordPair => dispatch(addWordPairAction(wordPair)),
-    [dispatch]
-  );
+  const addWordPair = wordPair => dispatch(addWordPairAction(wordPair));
 
   const { inputs, handleChange, handleSubmit, handleReset } = useForm(
     {

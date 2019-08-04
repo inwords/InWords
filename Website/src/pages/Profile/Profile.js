@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Fade from '@material-ui/core/Fade';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -28,35 +29,37 @@ function Profile({ userInfo, editingAvailable }) {
   const { avatarPath, nickName, experience } = userInfo;
 
   return (
-    <Card className={classes.card}>
-      {avatarPath && (
-        <CardMedia
-          image={avatarPath}
-          title="Avatar"
-          className={classes.media}
-        />
-      )}
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          {nickName}
-        </Typography>
-        <Typography variant="body2" component="p">
-          {experience} опыта
-        </Typography>
-      </CardContent>
-      <CardActions>
-        {editingAvailable && (
-          <Button
-            component={Link}
-            to="/profileSettings"
-            size="small"
-            color="primary"
-          >
-            Редактировать
-          </Button>
+    <Fade in>
+      <Card className={classes.card}>
+        {avatarPath && (
+          <CardMedia
+            image={avatarPath}
+            title="Avatar"
+            className={classes.media}
+          />
         )}
-      </CardActions>
-    </Card>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {nickName}
+          </Typography>
+          <Typography variant="body2" component="p">
+            {experience} опыта
+          </Typography>
+        </CardContent>
+        <CardActions>
+          {editingAvailable && (
+            <Button
+              component={Link}
+              to="/profileSettings"
+              size="small"
+              color="primary"
+            >
+              Редактировать
+            </Button>
+          )}
+        </CardActions>
+      </Card>
+    </Fade>
   );
 }
 
