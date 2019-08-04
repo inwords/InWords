@@ -101,7 +101,7 @@ function Game({
                     <Paper
                       elevation={
                         selectedCompletedPairId === randomWordInfo.pairId
-                          ? 5
+                          ? 7
                           : 2
                       }
                       onClick={handleClick(

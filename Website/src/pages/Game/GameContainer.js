@@ -11,7 +11,7 @@ function GameContainer({ gameLevel }) {
   const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
   const [completedPairIds, setCompletedPairIds] = useState([]);
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
-  const [closuresQuantity, setClosuresQuantity] = useState(0);
+  const [openingQuantity, setOpeningQuantity] = useState(0);
   const [isGameCompleted, setIsGameCompleted] = React.useState(false);
   const [isResultReady, setIsResultReady] = React.useState(false);
   const [score, setScore] = useState(null);
@@ -64,7 +64,7 @@ function GameContainer({ gameLevel }) {
       saveLevelResult(
         {
           levelId: gameLevel.levelId,
-          openingQuantity: closuresQuantity * 2 + randomWordsInfo.length,
+          openingQuantity: openingQuantity,
           wordsCount: randomWordsInfo.length,
         },
         data => setScore(data.score)
@@ -74,7 +74,7 @@ function GameContainer({ gameLevel }) {
     completedPairIds.length,
     randomWordsInfo.length,
     gameLevel.levelId,
-    closuresQuantity,
+    openingQuantity,
     saveLevelResult,
   ]);
 
@@ -112,10 +112,16 @@ function GameContainer({ gameLevel }) {
           return randomWordInfo;
         })
       );
-    }
 
-    if (selectedWordsInfo.length === 1) {
-      if (selectedWordsInfo[0].pairId === pairId) {
+      setOpeningQuantity(openingQuantity + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedWordsInfo.length === 2) {
+      if (selectedWordsInfo[0].pairId === selectedWordsInfo[1].pairId) {
+        const pairId = selectedWordsInfo[0].pairId;
+
         setSelectedWordsInfo([]);
         setCompletedPairIds([...completedPairIds, pairId]);
         setSelectedCompletedPairId(pairId);
@@ -153,12 +159,10 @@ function GameContainer({ gameLevel }) {
               return randomWordInfo;
             })
           );
-
-          setClosuresQuantity(closuresQuantity + 1);
         }, 700);
       }
     }
-  };
+  }, [selectedWordsInfo, completedPairIds, randomWordsInfo]);
 
   const handleReplay = () => {
     setRandomWordsInfo(
@@ -176,7 +180,7 @@ function GameContainer({ gameLevel }) {
     setSelectedWordsInfo([]);
     setCompletedPairIds([]);
     setSelectedCompletedPairId(-1);
-    setClosuresQuantity(0);
+    setOpeningQuantity(0);
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);

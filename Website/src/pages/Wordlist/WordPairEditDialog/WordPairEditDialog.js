@@ -89,7 +89,7 @@ WordPairEditDialog.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  visible: PropTypes.bool,
+  visible: PropTypes.bool.isRequired,
 };
 
 export default WordPairEditDialog;
