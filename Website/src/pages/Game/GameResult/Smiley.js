@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const colors = [
@@ -116,4 +116,4 @@ Smiley.propTypes = {
   score: PropTypes.number.isRequired,
 };
 
-export default memo(Smiley);
+export default Smiley;

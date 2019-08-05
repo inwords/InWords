@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -8,4 +8,4 @@ function Progress() {
   return loading && <LinearProgress />;
 }
 
-export default Progress;
+export default memo(Progress);

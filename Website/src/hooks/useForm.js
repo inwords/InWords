@@ -12,8 +12,8 @@ function useForm(initialInputs = {}, callback = Function.prototype) {
   };
 
   const handleSubmit = event => {
-    event.preventDefault();
     callback();
+    event.preventDefault();
   };
 
   const handleReset = () => {
