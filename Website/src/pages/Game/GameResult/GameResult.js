@@ -19,21 +19,21 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 0),
     marginTop: theme.spacing(2),
     marginLeft: 'auto',
-    marginRight: 'auto',
+    marginRight: 'auto'
   },
   smiley: {
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   stars: {
-    marginBottom: theme.spacing(1),
-  },
+    marginBottom: theme.spacing(1)
+  }
 }));
 
 function GameResult({
   score,
   handleRedirectionToLevels,
   handleRedirectionToNextLevel,
-  handleReplay,
+  handleReplay
 }) {
   const classes = useStyles();
 
@@ -63,18 +63,18 @@ function GameResult({
         )}
         <div>
           <IconButton
-            aria-label="ViewModule"
+            aria-label="back to levels"
             onClick={handleRedirectionToLevels}
           >
             <ViewModuleIcon fontSize="large" />
           </IconButton>
-          <IconButton aria-label="Replay" onClick={handleReplay}>
+          <IconButton aria-label="replay" onClick={handleReplay}>
             <ReplayIcon fontSize="large" />
           </IconButton>
           <IconButton
-            color="primary"
-            aria-label="FastForward"
+            aria-label="next level"
             onClick={handleRedirectionToNextLevel}
+            color="primary"
           >
             <FastForwardIcon fontSize="large" />
           </IconButton>
@@ -88,7 +88,7 @@ GameResult.propTypes = {
   score: PropTypes.number,
   handleRedirectionToLevels: PropTypes.func.isRequired,
   handleRedirectionToNextLevel: PropTypes.func.isRequired,
-  handleReplay: PropTypes.func.isRequired,
+  handleReplay: PropTypes.func.isRequired
 };
 
 export default GameResult;

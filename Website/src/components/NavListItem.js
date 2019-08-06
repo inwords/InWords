@@ -7,18 +7,18 @@ import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   item: {
-    padding: 0,
+    padding: 0
   },
   link: {
     padding: theme.spacing(0.75, 3),
     width: '100%',
     justifyContent: 'flex-start',
     textTransform: 'none',
-    fontWeight: '400',
+    fontWeight: '400'
   },
   active: {
-    fontWeight: '500',
-  },
+    fontWeight: '500'
+  }
 }));
 
 const ForwardNavLink = React.forwardRef((props, ref) => (
@@ -44,7 +44,7 @@ function NavListItem({ to, text }) {
 
 NavListItem.propTypes = {
   to: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
 };
 
 export default memo(NavListItem);

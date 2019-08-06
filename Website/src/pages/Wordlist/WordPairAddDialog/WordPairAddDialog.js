@@ -17,16 +17,16 @@ const useStyles = makeStyles(theme => ({
   fab: {
     position: 'fixed',
     bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
+    right: theme.spacing(2)
+  }
 }));
 
 function WordPairAddDialog({
-  visible,
   inputs,
   handleChange,
   handleSubmit,
   handleReset,
+  visible
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -48,41 +48,46 @@ function WordPairAddDialog({
   return (
     <div>
       <Zoom in={visible}>
-        <Fab color="primary" onClick={handleOpen} className={classes.fab}>
+        <Fab
+          aria-label="add"
+          onClick={handleOpen}
+          color="primary"
+          className={classes.fab}
+        >
           <AddIcon />
         </Fab>
       </Zoom>
       <Dialog
         aria-labelledby="word-pair-add-dialog"
-        fullScreen={fullScreen}
         open={open}
         onClose={handleCloseExtended}
+        fullScreen={fullScreen}
       >
         <DialogTitle id="word-pair-add-dialog">Добавление слова</DialogTitle>
         <DialogContent>
           <form id="word-pair-add-form" onSubmit={handleSubmitExtended}>
             <TextField
-              margin="normal"
-              fullWidth
               label="Слово или фраза"
-              autoFocus
               name="wordForeign"
               value={inputs.wordForeign}
               onChange={handleChange}
-            />
-            <TextField
+              autoFocus
               margin="normal"
               fullWidth
+            />
+            <TextField
               label="Перевод"
               name="wordNative"
               value={inputs.wordNative}
               onChange={handleChange}
+              margin="normal"
+              fullWidth
             />
           </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseExtended}>Отмена</Button>
-          <Button color="primary" type="submit" form="word-pair-add-form">
+          <Button type="submit" form="word-pair-add-form" color="primary">
             Добавить
           </Button>
         </DialogActions>
@@ -92,13 +97,13 @@ function WordPairAddDialog({
 }
 
 WordPairAddDialog.propTypes = {
-  visible: PropTypes.bool.isRequired,
   inputs: PropTypes.shape({
     wordForeign: PropTypes.string.isRequired,
-    wordNative: PropTypes.string.isRequired,
+    wordNative: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired
 };
 
 export default WordPairAddDialog;

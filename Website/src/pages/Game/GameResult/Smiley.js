@@ -17,7 +17,7 @@ const colors = [
   '#FFF176',
   '#FFD54F',
   '#FFB74D',
-  '#FF8A65',
+  '#FF8A65'
 ];
 
 const emoticons = {
@@ -84,7 +84,7 @@ const emoticons = {
         transform="rotate(5, 135, 210)"
       />
     </>
-  ),
+  )
 };
 
 function Smiley({ score }) {
@@ -113,7 +113,7 @@ function Smiley({ score }) {
 }
 
 Smiley.propTypes = {
-  score: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired
 };
 
 export default Smiley;

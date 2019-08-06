@@ -18,22 +18,22 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 3, 3),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 2)
   },
   links: {
-    textAlign: 'right',
-  },
+    textAlign: 'right'
+  }
 }));
 
 function SignUp({ inputs, handleChange, handleSubmit }) {
@@ -100,10 +100,10 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
 SignUp.propTypes = {
   inputs: PropTypes.shape({
     email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 };
 
 export default SignUp;

@@ -15,8 +15,8 @@ import WordPairAddDialog from './WordPairAddDialog';
 const useStyles = makeStyles(theme => ({
   list: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
+    backgroundColor: theme.palette.background.paper
+  }
 }));
 
 function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
@@ -32,17 +32,17 @@ function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
           return (
             <ListItem
               key={wordPair.serverId}
-              dense
-              button
               onClick={handleToggle(wordPair.serverId)}
+              button
+              dense
             >
               <ListItemIcon>
                 <Checkbox
-                  edge="start"
-                  disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
                   tabIndex={-1}
                   checked={checked.indexOf(wordPair.serverId) !== -1}
+                  edge="start"
+                  disableRipple
                 />
               </ListItemIcon>
               <ListItemText
@@ -70,12 +70,12 @@ Wordlist.propTypes = {
     PropTypes.shape({
       serverId: PropTypes.number.isRequired,
       wordForeign: PropTypes.string.isRequired,
-      wordNative: PropTypes.string.isRequired,
+      wordNative: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
   checked: PropTypes.array.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleReset: PropTypes.func,
+  handleReset: PropTypes.func
 };
 
 export default Wordlist;

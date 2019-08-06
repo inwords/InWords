@@ -7,14 +7,17 @@ export function receiveUserInfo(userId) {
   return apiAction({
     endpoint: `users/${userId}`,
     actionsOnSuccess: [
-      (dispatch, data) => dispatch(userActions.initializeUserInfo(data)),
+      (dispatch, data) => {
+        dispatch(userActions.initializeUserInfo(data));
+      }
     ],
     actionsOnFailure: [
-      dispatch =>
+      dispatch => {
         dispatch(
           commonActions.setSnackbarMessage('Не удалось загрузить профиль')
-        ),
-    ],
+        );
+      }
+    ]
   });
 }
 
@@ -24,14 +27,19 @@ export function updateUserInfo(userInfo) {
     method: 'PUT',
     data: JSON.stringify(userInfo),
     actionsOnSuccess: [
-      dispatch => dispatch(userActions.updateUserInfo(userInfo)),
-      () => history.push('/profile'),
+      dispatch => {
+        dispatch(userActions.updateUserInfo(userInfo));
+      },
+      () => {
+        history.push('/profile');
+      }
     ],
     actionsOnFailure: [
-      dispatch =>
+      dispatch => {
         dispatch(
           commonActions.setSnackbarMessage('Не удалось сохранить профиль')
-        ),
-    ],
+        );
+      }
+    ]
   });
 }

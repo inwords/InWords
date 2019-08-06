@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGameLevel as receiveGameLevelAction } from 'actions/gamesApiActions';
 
@@ -29,6 +30,10 @@ function withReceivedGameLevel(WrappedComponent) {
   const wrappedComponentName =
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
   WithReceivedGameLevel.displayName = `withReceivedGameLevel(${wrappedComponentName})`;
+
+  WithReceivedGameLevel.propTypes = {
+    match: PropTypes.object.isRequired
+  };
 
   return WithReceivedGameLevel;
 }

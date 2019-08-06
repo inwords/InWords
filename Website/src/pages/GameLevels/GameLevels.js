@@ -59,9 +59,9 @@ GameLevels.propTypes = {
       levelId: PropTypes.number.isRequired,
       level: PropTypes.number.isRequired,
       isAvailable: PropTypes.bool.isRequired,
-      playerStars: PropTypes.number.isRequired,
+      playerStars: PropTypes.number.isRequired
     })
-  ).isRequired,
+  ).isRequired
 };
 
 export default withReceivedGameInfo(GameLevels);

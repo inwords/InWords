@@ -46,8 +46,9 @@ function GameResultContainer({ history, ...rest }) {
 }
 
 GameResultContainer.propTypes = {
+  history: PropTypes.object.isRequired,
   score: PropTypes.number,
-  handleReplay: PropTypes.func,
+  handleReplay: PropTypes.func
 };
 
 export default withRouter(GameResultContainer);

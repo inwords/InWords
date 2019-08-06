@@ -7,8 +7,8 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     marginTop: theme.spacing(2),
     marginLeft: 'auto',
-    marginRight: 'auto',
-  },
+    marginRight: 'auto'
+  }
 }));
 
 function Fallback() {

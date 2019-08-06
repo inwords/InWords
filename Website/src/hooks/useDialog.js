@@ -14,7 +14,7 @@ function useDialog() {
   return {
     open,
     handleOpen,
-    handleClose,
+    handleClose
   };
 }
 

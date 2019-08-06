@@ -20,7 +20,7 @@ const store = createStore(
 
 store.subscribe(() => {
   saveState({
-    access: store.getState().access,
+    access: store.getState().access
   });
 });
 

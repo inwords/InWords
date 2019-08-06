@@ -25,9 +25,9 @@ function Games({ gamesInfo }) {
                 <Button
                   component={Link}
                   to={`/game/${gameInfo.gameId}`}
+                  disabled={!gameInfo.isAvailable}
                   size="small"
                   color="primary"
-                  disabled={!gameInfo.isAvailable}
                 >
                   Выбрать
                 </Button>
@@ -46,9 +46,9 @@ Games.propTypes = {
       gameId: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       isAvailable: PropTypes.bool.isRequired,
-      description: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired,
+  ).isRequired
 };
 
 export default Games;

@@ -4,9 +4,10 @@ export default function apiAction({
   apiVersion = 'v1.0',
   endpoint = '',
   method = 'GET',
+  authorizationRequired = true,
   data = null,
   actionsOnSuccess = [],
-  actionsOnFailure = [],
+  actionsOnFailure = []
 }) {
   return {
     type: CALL_API,
@@ -14,9 +15,10 @@ export default function apiAction({
       apiVersion,
       endpoint,
       method,
+      authorizationRequired,
       data,
       actionsOnSuccess,
-      actionsOnFailure,
-    },
+      actionsOnFailure
+    }
   };
 }

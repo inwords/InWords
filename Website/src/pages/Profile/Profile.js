@@ -15,12 +15,12 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 240,
     marginTop: theme.spacing(2),
     marginLeft: 'auto',
-    marginRight: 'auto',
+    marginRight: 'auto'
   },
   media: {
     height: 0,
-    paddingTop: '100%',
-  },
+    paddingTop: '100%'
+  }
 }));
 
 function Profile({ userInfo, editingAvailable }) {
@@ -39,10 +39,10 @@ function Profile({ userInfo, editingAvailable }) {
           />
         )}
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography component="h2" variant="h5" gutterBottom>
             {nickName}
           </Typography>
-          <Typography variant="body2" component="p">
+          <Typography component="p" variant="body2">
             {experience} опыта
           </Typography>
         </CardContent>
@@ -67,9 +67,9 @@ Profile.propTypes = {
   userInfo: PropTypes.shape({
     nickName: PropTypes.string.isRequired,
     avatarPath: PropTypes.string.isRequired,
-    experience: PropTypes.number.isRequired,
+    experience: PropTypes.number.isRequired
   }).isRequired,
-  editingAvailable: PropTypes.bool.isRequired,
+  editingAvailable: PropTypes.bool.isRequired
 };
 
 export default Profile;

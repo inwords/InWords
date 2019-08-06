@@ -11,9 +11,11 @@ function SignUpContainer() {
   const { inputs, handleChange, handleSubmit } = useForm(
     {
       email: '',
-      password: '',
+      password: ''
     },
-    () => signUp(inputs)
+    () => {
+      signUp(inputs);
+    }
   );
 
   return (

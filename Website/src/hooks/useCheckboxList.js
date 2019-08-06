@@ -23,7 +23,7 @@ function useCheckboxList() {
   return {
     checked,
     handleToggle,
-    handleReset,
+    handleReset
   };
 }
 

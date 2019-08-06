@@ -14,7 +14,7 @@ function useMenu() {
   return {
     anchorEl,
     handleClick,
-    handleClose,
+    handleClose
   };
 }
 

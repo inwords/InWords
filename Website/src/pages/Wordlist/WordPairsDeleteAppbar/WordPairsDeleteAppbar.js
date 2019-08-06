@@ -11,20 +11,20 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
-    zIndex: theme.zIndex.drawer + 2,
+    zIndex: theme.zIndex.drawer + 2
   },
   closeButton: {
-    marginRight: 20,
+    marginRight: 20
   },
   title: {
-    flexGrow: 1,
-  },
+    flexGrow: 1
+  }
 }));
 
 function WordPairsDeleteAppbar({
   numberOfSelected,
   handleDelete,
-  handleReset,
+  handleReset
 }) {
   const classes = useStyles();
 
@@ -42,9 +42,9 @@ function WordPairsDeleteAppbar({
       >
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="Close"
+            aria-label="clear selection"
             onClick={handleReset}
+            color="inherit"
             className={classes.closeButton}
           >
             <CloseIcon />
@@ -53,9 +53,9 @@ function WordPairsDeleteAppbar({
             Выбрано: {numberOfSelected}
           </Typography>
           <IconButton
-            color="inherit"
-            aria-label="Delete"
+            aria-label="delete"
             onClick={handleDeleteExtended}
+            color="inherit"
           >
             <DeleteIcon />
           </IconButton>
@@ -68,7 +68,7 @@ function WordPairsDeleteAppbar({
 WordPairsDeleteAppbar.propTypes = {
   numberOfSelected: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired
 };
 
 export default WordPairsDeleteAppbar;

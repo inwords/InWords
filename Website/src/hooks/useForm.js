@@ -7,7 +7,7 @@ function useForm(initialInputs = {}, callback = Function.prototype) {
   const handleChange = event => {
     setInputs({
       ...inputs,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   };
 
@@ -24,13 +24,13 @@ function useForm(initialInputs = {}, callback = Function.prototype) {
     inputs,
     handleChange,
     handleSubmit,
-    handleReset,
+    handleReset
   };
 }
 
 useForm.propTypes = {
   initialInputs: PropTypes.object.isRequired,
-  callback: PropTypes.func.isRequired,
+  callback: PropTypes.func.isRequired
 };
 
 export default useForm;

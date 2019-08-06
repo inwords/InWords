@@ -11,7 +11,7 @@ const appReducer = combineReducers({
   access,
   userInfo,
   wordPairs,
-  games,
+  games
 });
 
 const rootReducer = (state, action) => {

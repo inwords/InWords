@@ -12,15 +12,15 @@ const gamesInfo = (state = [], action) => {
 
 const initialGameInfoState = {
   gameId: null,
-  levelsInfo: [],
+  levelsInfo: []
 };
 
 const gameInfo = (state = initialGameInfoState, action) => {
   switch (action.type) {
     case gamesConstants.INITIALIZE_GAME_INFO:
       return {
-        gameId: action.payload.gameId || null,
-        levelsInfo: action.payload.levelInfos || [],
+        gameId: action.payload.gameId || initialGameInfoState.gameId,
+        levelsInfo: action.payload.levelInfos || initialGameInfoState.levelsInfo
       };
     case gamesConstants.UPDATE_GAME_INFO:
       return {
@@ -30,9 +30,9 @@ const gameInfo = (state = initialGameInfoState, action) => {
             ? levelInfo
             : {
                 ...levelInfo,
-                playerStars: action.payload.score,
+                playerStars: action.payload.score
               };
-        }),
+        })
       };
     default:
       return state;
@@ -41,15 +41,17 @@ const gameInfo = (state = initialGameInfoState, action) => {
 
 const initialGameLevelState = {
   levelId: null,
-  wordTranslations: [],
+  wordTranslations: []
 };
 
 const gameLevel = (state = initialGameLevelState, action) => {
   switch (action.type) {
     case gamesConstants.INITIALIZE_GAME_LEVEL:
       return {
-        levelId: action.payload.levelId || null,
-        wordTranslations: action.payload.wordTranslations || [],
+        levelId: action.payload.levelId || initialGameLevelState.levelId,
+        wordTranslations:
+          action.payload.wordTranslations ||
+          initialGameLevelState.wordTranslations
       };
     default:
       return state;
@@ -59,7 +61,7 @@ const gameLevel = (state = initialGameLevelState, action) => {
 const games = combineReducers({
   gamesInfo,
   gameInfo,
-  gameLevel,
+  gameLevel
 });
 
 export default games;

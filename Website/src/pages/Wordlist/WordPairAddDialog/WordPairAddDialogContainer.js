@@ -12,9 +12,11 @@ function WordPairAddDialogContainer({ ...rest }) {
   const { inputs, handleChange, handleSubmit, handleReset } = useForm(
     {
       wordForeign: '',
-      wordNative: '',
+      wordNative: ''
     },
-    () => addWordPair(inputs)
+    () => {
+      addWordPair(inputs);
+    }
   );
 
   return (
@@ -29,7 +31,7 @@ function WordPairAddDialogContainer({ ...rest }) {
 }
 
 WordPairAddDialogContainer.propTypes = {
-  visible: PropTypes.bool,
+  visible: PropTypes.bool
 };
 
 export default WordPairAddDialogContainer;

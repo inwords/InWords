@@ -8,14 +8,17 @@ export function receiveWordPairs() {
     method: 'POST',
     data: JSON.stringify([]),
     actionsOnSuccess: [
-      (dispatch, data) => dispatch(wordPairsActions.initializeWordPairs(data)),
+      (dispatch, data) => {
+        dispatch(wordPairsActions.initializeWordPairs(data));
+      }
     ],
     actionsOnFailure: [
-      dispatch =>
+      dispatch => {
         dispatch(
           commonActions.setSnackbarMessage('Не удалось загрузить словарь')
-        ),
-    ],
+        );
+      }
+    ]
   });
 }
 
@@ -25,14 +28,18 @@ export function deleteWordPairs(pairIds, actionOnSuccess) {
     method: 'POST',
     data: JSON.stringify(pairIds),
     actionsOnSuccess: [
-      dispatch =>
-        dispatch(wordPairsActions.updateWordPairsAfterDeletion(pairIds)),
-      () => actionOnSuccess(),
+      dispatch => {
+        dispatch(wordPairsActions.updateWordPairsAfterDeletion(pairIds));
+      },
+      () => {
+        actionOnSuccess();
+      }
     ],
     actionsOnFailure: [
-      dispatch =>
-        dispatch(commonActions.setSnackbarMessage('Не удалось удалить слова')),
-    ],
+      dispatch => {
+        dispatch(commonActions.setSnackbarMessage('Не удалось удалить слова'));
+      }
+    ]
   });
 }
 
@@ -42,54 +49,65 @@ export function addWordPair(wordPair) {
     method: 'POST',
     data: JSON.stringify([wordPair]),
     actionsOnSuccess: [
-      (dispatch, data) =>
+      (dispatch, data) => {
         dispatch(
           wordPairsActions.updateWordPairsAfterAddition({
             serverId: data[0].serverId,
-            ...wordPair,
+            ...wordPair
           })
-        ),
+        );
+      }
     ],
     actionsOnFailure: [
-      dispatch =>
-        dispatch(commonActions.setSnackbarMessage('Не удалось добавить слово')),
-    ],
+      dispatch => {
+        dispatch(commonActions.setSnackbarMessage('Не удалось добавить слово'));
+      }
+    ]
   });
 }
 
-export function deleteWordPairAsEditPart(pairId) {
+// delete previous word pair and add new word pair
+export function editWordPair(pairId, wordPair) {
+  function addEditedWordPair(dispatch) {
+    dispatch(
+      apiAction({
+        endpoint: 'words/addPair',
+        method: 'POST',
+        data: JSON.stringify([wordPair]),
+        actionsOnSuccess: [
+          (dispatch, data) => {
+            dispatch(
+              wordPairsActions.updateWordPairsAfterEditing(pairId, {
+                serverId: data[0].serverId,
+                ...wordPair
+              })
+            );
+          }
+        ],
+        actionsOnFailure: [
+          dispatch => {
+            dispatch(
+              commonActions.setSnackbarMessage(
+                'Не удалось отредактировать слово'
+              )
+            );
+          }
+        ]
+      })
+    );
+  }
+
   return apiAction({
     endpoint: 'words/deletePair',
     method: 'POST',
     data: JSON.stringify([pairId]),
+    actionsOnSuccess: [addEditedWordPair],
     actionsOnFailure: [
-      dispatch =>
+      dispatch => {
         dispatch(
           commonActions.setSnackbarMessage('Не удалось отредактировать слово')
-        ),
-    ],
-  });
-}
-
-export function addWordPairAsEditPart(wordPair) {
-  return apiAction({
-    endpoint: 'words/addPair',
-    method: 'POST',
-    data: JSON.stringify([wordPair]),
-    actionsOnSuccess: [
-      (dispatch, data) =>
-        dispatch(
-          wordPairsActions.updateWordPairsAfterEditing(wordPair.id, {
-            serverId: data[0].serverId,
-            ...wordPair,
-          })
-        ),
-    ],
-    actionsOnFailure: [
-      dispatch =>
-        dispatch(
-          commonActions.setSnackbarMessage('Не удалось отредактировать слово')
-        ),
-    ],
+        );
+      }
+    ]
   });
 }

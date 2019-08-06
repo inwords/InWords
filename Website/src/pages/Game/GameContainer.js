@@ -28,15 +28,15 @@ function GameContainer({ gameLevel }) {
           pairId: wordPair.serverId,
           word: wordPair.wordForeign,
           isCompleted: false,
-          isSelected: false,
+          isSelected: false
         },
         {
           id: index * 2 + 1,
           pairId: wordPair.serverId,
           word: wordPair.wordNative,
           isCompleted: false,
-          isSelected: false,
-        },
+          isSelected: false
+        }
       ])
     );
 
@@ -63,7 +63,7 @@ function GameContainer({ gameLevel }) {
         {
           levelId: gameLevel.levelId,
           openingQuantity: openingQuantity,
-          wordsCount: randomWordsInfo.length,
+          wordsCount: randomWordsInfo.length
         },
         data => setScore(data.score)
       );
@@ -73,7 +73,7 @@ function GameContainer({ gameLevel }) {
     randomWordsInfo.length,
     gameLevel.levelId,
     openingQuantity,
-    dispatch,
+    dispatch
   ]);
 
   const handleClick = (pairId, wordId) => () => {
@@ -94,8 +94,8 @@ function GameContainer({ gameLevel }) {
         ...selectedWordsInfo,
         {
           id: wordId,
-          pairId: pairId,
-        },
+          pairId: pairId
+        }
       ]);
 
       setRandomWordsInfo(
@@ -103,7 +103,7 @@ function GameContainer({ gameLevel }) {
           if (randomWordInfo.id === wordId) {
             return {
               ...randomWordInfo,
-              isSelected: true,
+              isSelected: true
             };
           }
 
@@ -113,13 +113,9 @@ function GameContainer({ gameLevel }) {
 
       setOpeningQuantity(openingQuantity + 1);
     }
-  };
 
-  useEffect(() => {
-    if (selectedWordsInfo.length === 2) {
-      if (selectedWordsInfo[0].pairId === selectedWordsInfo[1].pairId) {
-        const pairId = selectedWordsInfo[0].pairId;
-
+    if (selectedWordsInfo.length === 1) {
+      if (selectedWordsInfo[0].pairId === pairId) {
         setSelectedWordsInfo([]);
         setCompletedPairIds([...completedPairIds, pairId]);
         setSelectedCompletedPairId(pairId);
@@ -129,7 +125,7 @@ function GameContainer({ gameLevel }) {
             if (randomWordInfo.pairId === pairId) {
               return {
                 ...randomWordInfo,
-                isCompleted: true,
+                isCompleted: true
               };
             }
 
@@ -144,11 +140,11 @@ function GameContainer({ gameLevel }) {
             randomWordsInfo.map(randomWordInfo => {
               if (
                 randomWordInfo.pairId === selectedWordsInfo[0].pairId ||
-                randomWordInfo.pairId === selectedWordsInfo[1].pairId
+                randomWordInfo.pairId === pairId
               ) {
                 return {
                   ...randomWordInfo,
-                  isSelected: false,
+                  isSelected: false
                 };
               }
 
@@ -158,7 +154,7 @@ function GameContainer({ gameLevel }) {
         }, 700);
       }
     }
-  }, [selectedWordsInfo, completedPairIds, randomWordsInfo]);
+  };
 
   const handleReplay = () => {
     setRandomWordsInfo(
@@ -167,7 +163,7 @@ function GameContainer({ gameLevel }) {
           return {
             ...randomWordInfo,
             isSelected: false,
-            isCompleted: false,
+            isCompleted: false
           };
         })
       )
@@ -202,10 +198,10 @@ GameContainer.propTypes = {
       PropTypes.shape({
         serverId: PropTypes.number.isRequired,
         wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired,
+        wordNative: PropTypes.string.isRequired
       })
-    ).isRequired,
-  }).isRequired,
+    ).isRequired
+  }).isRequired
 };
 
 export default withReceivedGameLevel(GameContainer);

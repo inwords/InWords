@@ -1,7 +1,7 @@
 import {
   beginLoading,
   endLoading,
-  setSnackbarMessage,
+  setSnackbarMessage
 } from 'actions/commonActions';
 import { denyAccess } from 'actions/accessActions';
 import { history } from 'App';
@@ -10,7 +10,15 @@ export const CALL_API = 'CALL_API';
 
 const API_ROOT = 'https://api.inwords.ru';
 
-const apiMiddleware = ({ dispatch, getState }) => next => action => {
+class HttpError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.name = this.constructor.name;
+    this.statusCode = statusCode;
+  }
+}
+
+const apiMiddleware = ({ dispatch, getState }) => next => async action => {
   next(action);
 
   if (action.type !== CALL_API) return;
@@ -19,66 +27,74 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     apiVersion,
     endpoint,
     method,
+    authorizationRequired,
     data,
     actionsOnSuccess,
-    actionsOnFailure,
+    actionsOnFailure
   } = action.payload;
+
+  const headers = new Headers();
+
+  if (authorizationRequired) {
+    const token = getState().access.token;
+
+    if (!token) {
+      history.push('/signIn');
+      return;
+    }
+
+    headers.append('Authorization', `Bearer ${token}`);
+  }
+
+  if (data) {
+    headers.append('Content-Type', 'application/json');
+  }
 
   dispatch(beginLoading());
 
-  fetch(`${API_ROOT}/${apiVersion}/${endpoint}`, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${getState().access.token}`,
-    },
-    body: data,
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw Error(response.status);
-      }
-
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        return null;
-      }
-
-      return response.json();
-    })
-    .then(data => {
-      dispatch(endLoading());
-
-      actionsOnSuccess.forEach(action => {
-        action(dispatch, data);
-      });
-    })
-    .catch(error => {
-      dispatch(endLoading());
-
-      if (Number.isInteger(+error.message)) {
-        const errorCode = +error.message;
-
-        switch (errorCode) {
-          case 401: {
-            dispatch(denyAccess());
-            history.push('/signIn');
-            break;
-          }
-          default:
-            actionsOnFailure.forEach(action => {
-              action(dispatch, errorCode);
-            });
-        }
-
-        console.error(`Request failed with status code ${errorCode}`);
-        return;
-      }
-
-      dispatch(setSnackbarMessage('Не удалось соединиться с сервером'));
-
-      console.error(error.message);
+  try {
+    const response = await fetch(`${API_ROOT}/${apiVersion}/${endpoint}`, {
+      method,
+      headers,
+      body: data
     });
+
+    dispatch(endLoading());
+
+    if (!response.ok) {
+      throw new HttpError(response.statusText, response.status);
+    }
+
+    const contentType = response.headers.get('content-type');
+
+    let json;
+    if (contentType && contentType.includes('application/json')) {
+      json = await response.json();
+    } else {
+      json = null; // other content-types are not supported
+    }
+
+    actionsOnSuccess.forEach(action => {
+      action(dispatch, json);
+    });
+  } catch (error) {
+    if (error instanceof HttpError) {
+      const statusCode = error.statusCode;
+
+      if (statusCode === 401) {
+        dispatch(denyAccess());
+        history.push('/signIn');
+      } else {
+        actionsOnFailure.forEach(action => {
+          action(dispatch, statusCode);
+        });
+      }
+    } else if (error instanceof TypeError) {
+      dispatch(setSnackbarMessage('Не удалось соединиться с сервером'));
+    } else {
+      dispatch(setSnackbarMessage('Неизвестная ошибка'));
+    }
+  }
 };
 
 export default apiMiddleware;

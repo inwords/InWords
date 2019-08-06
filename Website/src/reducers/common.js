@@ -14,7 +14,7 @@ const loading = (state = false, action) => {
 
 const initialSnackbarState = {
   open: false,
-  message: '',
+  message: ''
 };
 
 const snackbar = (state = initialSnackbarState, action) => {
@@ -22,12 +22,12 @@ const snackbar = (state = initialSnackbarState, action) => {
     case commonConstants.SET_SNACKBAR_MESSAGE:
       return {
         open: true,
-        message: action.payload,
+        message: action.payload
       };
     case commonConstants.RESET_SNACKBAR_MESSAGE:
       return {
         ...state,
-        open: false,
+        open: false
       };
     default:
       return state;
@@ -36,7 +36,7 @@ const snackbar = (state = initialSnackbarState, action) => {
 
 const common = combineReducers({
   loading,
-  snackbar,
+  snackbar
 });
 
 export default common;

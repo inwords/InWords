@@ -13,7 +13,7 @@ function ProfileMenu({ denyAccess }) {
   return (
     <div>
       <IconButton
-        aria-label="User account"
+        aria-label="user account"
         aria-controls="profile-menu"
         aria-haspopup="true"
         onClick={handleClick}
@@ -40,7 +40,7 @@ function ProfileMenu({ denyAccess }) {
 }
 
 ProfileMenu.propTypes = {
-  denyAccess: PropTypes.func.isRequired,
+  denyAccess: PropTypes.func.isRequired
 };
 
 export default ProfileMenu;

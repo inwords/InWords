@@ -25,7 +25,7 @@ function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
 
 WordPairsDeleteAppbarContainer.propTypes = {
   checked: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  handleReset: PropTypes.func,
+  handleReset: PropTypes.func
 };
 
 export default WordPairsDeleteAppbarContainer;

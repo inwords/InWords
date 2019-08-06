@@ -7,7 +7,7 @@ function MainSnackbar({ open, message, handleClose }) {
     <Snackbar
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'left',
+        horizontal: 'left'
       }}
       open={open}
       autoHideDuration={4000}
@@ -20,7 +20,7 @@ function MainSnackbar({ open, message, handleClose }) {
 MainSnackbar.propTypes = {
   open: PropTypes.bool.isRequired,
   message: PropTypes.string,
-  handleClose: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired
 };
 
 export default MainSnackbar;

@@ -11,9 +11,11 @@ function SignInContainer() {
   const { inputs, handleChange, handleSubmit } = useForm(
     {
       email: '',
-      password: '',
+      password: ''
     },
-    () => signIn(inputs)
+    () => {
+      signIn(inputs);
+    }
   );
 
   return (

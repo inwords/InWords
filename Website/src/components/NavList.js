@@ -6,23 +6,23 @@ import NavListItem from './NavListItem';
 const linksWhenUnauthorized = [
   {
     to: '/signIn',
-    text: 'Вход',
+    text: 'Вход'
   },
   {
     to: '/signUp',
-    text: 'Регистрация',
-  },
+    text: 'Регистрация'
+  }
 ];
 
 const linksWhenAuthorized = [
   {
     to: '/wordlist',
-    text: 'Словарь',
+    text: 'Словарь'
   },
   {
     to: '/games',
-    text: 'Игры',
-  },
+    text: 'Игры'
+  }
 ];
 
 function NavList({ authorized, onClick = null }) {
@@ -41,7 +41,7 @@ function NavList({ authorized, onClick = null }) {
 
 NavList.propTypes = {
   authorized: PropTypes.bool.isRequired,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 
 export default memo(NavList);

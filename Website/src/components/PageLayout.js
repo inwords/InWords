@@ -19,34 +19,34 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
+    display: 'flex'
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: theme.zIndex.drawer + 1
   },
   menuButton: {
     marginRight: 20,
     [theme.breakpoints.up('lg')]: {
-      transform: 'rotate(180deg)',
+      transform: 'rotate(180deg)'
     },
     transition: theme.transitions.create(['transform'], {
-      easing: theme.transitions.easing.sharp,
-    }),
+      easing: theme.transitions.easing.sharp
+    })
   },
   space: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   drawer: {
-    width: drawerWidth,
+    width: drawerWidth
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth
   },
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 3),
-    ...theme.mixins.toolbar,
+    ...theme.mixins.toolbar
   },
   content: {
     flexGrow: 1,
@@ -55,20 +55,20 @@ const useStyles = makeStyles(theme => ({
       marginLeft: -drawerWidth,
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
+        duration: theme.transitions.duration.leavingScreen
+      })
+    }
   },
   contentShift: {
     [theme.breakpoints.up('lg')]: {
       marginLeft: 0,
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
+        duration: theme.transitions.duration.enteringScreen
+      })
+    }
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: theme.mixins.toolbar
 }));
 
 function PageLayout({ authorized, children }) {
@@ -101,7 +101,7 @@ function PageLayout({ authorized, children }) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
-            aria-label="Open drawer"
+            aria-label="toggle drawer"
             onClick={handleToggle}
             color="inherit"
             className={classes.menuButton}
@@ -124,7 +124,7 @@ function PageLayout({ authorized, children }) {
             onOpen={handleOpen}
             className={classes.drawer}
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaper
             }}
           >
             {drawerHeader}
@@ -137,7 +137,7 @@ function PageLayout({ authorized, children }) {
             open={open}
             className={classes.drawer}
             classes={{
-              paper: classes.drawerPaper,
+              paper: classes.drawerPaper
             }}
             variant="persistent"
           >
@@ -149,7 +149,7 @@ function PageLayout({ authorized, children }) {
       </nav>
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: open,
+          [classes.contentShift]: open
         })}
       >
         <div className={classes.toolbar} />
@@ -161,7 +161,7 @@ function PageLayout({ authorized, children }) {
 
 PageLayout.propTypes = {
   authorized: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default PageLayout;

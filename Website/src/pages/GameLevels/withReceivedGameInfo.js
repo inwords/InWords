@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGameInfo as receiveGameInfoAction } from 'actions/gamesApiActions';
 
@@ -29,6 +30,10 @@ function withReceivedGameInfo(WrappedComponent) {
   const wrappedComponentName =
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
   WithReceivedGameInfo.displayName = `withReceivedGameInfo(${wrappedComponentName})`;
+
+  WithReceivedGameInfo.propTypes = {
+    match: PropTypes.object.isRequired
+  };
 
   return WithReceivedGameInfo;
 }

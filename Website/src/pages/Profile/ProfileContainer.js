@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveUserInfo as receiveUserInfoAction } from 'actions/userApiActions';
 import Profile from './Profile';
@@ -26,5 +27,9 @@ function ProfileContainer({ match }) {
     />
   );
 }
+
+ProfileContainer.propTypes = {
+  match: PropTypes.object.isRequired
+};
 
 export default ProfileContainer;

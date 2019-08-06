@@ -13,9 +13,11 @@ function ProfileSettingsContainer({ userInfo }) {
   const { inputs, handleChange, handleSubmit } = useForm(
     {
       nickName: userInfo.nickName,
-      avatarPath: userInfo.avatarPath,
+      avatarPath: userInfo.avatarPath
     },
-    () => updateUserInfo(inputs)
+    () => {
+      updateUserInfo(inputs);
+    }
   );
 
   return (
@@ -30,8 +32,8 @@ function ProfileSettingsContainer({ userInfo }) {
 ProfileSettingsContainer.propTypes = {
   userInfo: PropTypes.shape({
     nickName: PropTypes.string.isRequired,
-    avatarPath: PropTypes.string.isRequired,
-  }).isRequired,
+    avatarPath: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default withReceivedUserInfo(ProfileSettingsContainer);

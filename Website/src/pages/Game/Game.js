@@ -19,30 +19,30 @@ const useStyles = makeStyles(theme => ({
       cardDimension * 2 + theme.spacing(cardsSpacing * 4)
     )]: {
       width: cardDimension * 2 + theme.spacing(cardsSpacing * 2),
-      margin: 'auto',
-    },
+      margin: 'auto'
+    }
   },
   gridOfThreeColumns: {
     [theme.breakpoints.up(
       cardDimension * 3 + theme.spacing(cardsSpacing * 6)
     )]: {
       width: cardDimension * 3 + theme.spacing(cardsSpacing * 3),
-      margin: 'auto',
-    },
+      margin: 'auto'
+    }
   },
   gridOfFourColumns: {
     [theme.breakpoints.up(
       cardDimension * 4 + theme.spacing(cardsSpacing * 8)
     )]: {
       width: cardDimension * 4 + theme.spacing(cardsSpacing * 4),
-      margin: 'auto',
-    },
+      margin: 'auto'
+    }
   },
   card: {
     width: cardDimension,
     height: cardDimension,
     cursor: 'pointer',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main
   },
   cardInside: {
     display: 'flex',
@@ -50,15 +50,15 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     width: '100%',
     height: '100%',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: theme.shape.borderRadius
   },
   cardText: {
     fontWeight: 'bold',
     width: '100%',
     padding: theme.spacing(1),
     textAlign: 'center',
-    overflowWrap: 'break-word',
-  },
+    overflowWrap: 'break-word'
+  }
 }));
 
 function Game({
@@ -68,7 +68,7 @@ function Game({
   isResultReady,
   score,
   handleClick,
-  handleReplay,
+  handleReplay
 }) {
   const classes = useStyles();
 
@@ -86,7 +86,7 @@ function Game({
     randomWordsInfo.length,
     classes.gridOfTwoColumns,
     classes.gridOfThreeColumns,
-    classes.gridOfFourColumns,
+    classes.gridOfFourColumns
   ]);
 
   return (
@@ -143,7 +143,7 @@ Game.propTypes = {
   randomWordsInfo: PropTypes.arrayOf(
     PropTypes.shape({
       pairId: PropTypes.number.isRequired,
-      word: PropTypes.string.isRequired,
+      word: PropTypes.string.isRequired
     })
   ).isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
@@ -151,7 +151,7 @@ Game.propTypes = {
   isResultReady: PropTypes.bool.isRequired,
   score: PropTypes.number,
   handleClick: PropTypes.func.isRequired,
-  handleReplay: PropTypes.func,
+  handleReplay: PropTypes.func
 };
 
 export default Game;

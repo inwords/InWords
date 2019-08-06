@@ -18,7 +18,7 @@ function WordPairEditDialog({
   handleChange,
   handleSubmit,
   handleReset,
-  visible,
+  visible
 }) {
   const theme = useTheme();
 
@@ -38,14 +38,14 @@ function WordPairEditDialog({
 
   return (
     <Box display={visible ? 'block' : 'none'}>
-      <IconButton edge="end" aria-label="Edit" onClick={handleOpen}>
+      <IconButton aria-label="edit" onClick={handleOpen} edge="end">
         <EditIcon />
       </IconButton>
       <Dialog
         aria-labelledby="word-pair-edit-dialog"
-        fullScreen={fullScreen}
         open={open}
         onClose={handleCloseExtended}
+        fullScreen={fullScreen}
       >
         <DialogTitle id="word-pair-edit-dialog">
           Редактирование слова
@@ -53,27 +53,27 @@ function WordPairEditDialog({
         <DialogContent>
           <form id="word-pair-edit-form" onSubmit={handleSubmitExtended}>
             <TextField
-              margin="normal"
-              fullWidth
               label="Слово или фраза"
-              autoFocus
               name="wordForeign"
               value={inputs.wordForeign}
               onChange={handleChange}
-            />
-            <TextField
+              autoFocus
               margin="normal"
               fullWidth
+            />
+            <TextField
               label="Перевод"
               name="wordNative"
               value={inputs.wordNative}
               onChange={handleChange}
+              margin="normal"
+              fullWidth
             />
           </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseExtended}>Отмена</Button>
-          <Button color="primary" type="submit" form="word-pair-edit-form">
+          <Button type="submit" form="word-pair-edit-form" color="primary">
             Готово
           </Button>
         </DialogActions>
@@ -85,11 +85,12 @@ function WordPairEditDialog({
 WordPairEditDialog.propTypes = {
   inputs: PropTypes.shape({
     wordForeign: PropTypes.string.isRequired,
-    wordNative: PropTypes.string.isRequired,
+    wordNative: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  visible: PropTypes.bool.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired
 };
 
 export default WordPairEditDialog;
