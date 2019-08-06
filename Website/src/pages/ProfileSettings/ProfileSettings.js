@@ -29,25 +29,27 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
       <Paper className={classes.paper}>
         <form onSubmit={handleSubmit} className={classes.form}>
           <TextField
-            variant="filled"
-            margin="normal"
-            fullWidth
-            required
+            id="nickname"
             label="Никнейм"
-            autoFocus
             name="nickName"
             value={inputs.nickName}
             onChange={handleChange}
-          />
-          <TextField
+            required
+            autoFocus
+            fullWidth
             variant="filled"
             margin="normal"
-            fullWidth
+          />
+          <TextField
+            id="avatar-path"
             label="URL-адрес аватара"
             type="url"
             name="avatarPath"
             value={inputs.avatarPath}
             onChange={handleChange}
+            fullWidth
+            variant="filled"
+            margin="normal"
           />
           <Grid
             container
@@ -61,7 +63,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" type="submit">
+              <Button type="submit" variant="contained" color="primary">
                 Сохранить
               </Button>
             </Grid>

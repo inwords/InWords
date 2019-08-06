@@ -8,6 +8,8 @@ import store from './store';
 import theme from './theme';
 import App from './App';
 
+import 'fonts/index.css';
+
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>

@@ -13,11 +13,11 @@ function ProfileMenu({ denyAccess }) {
   return (
     <div>
       <IconButton
-        color="inherit"
         aria-label="User account"
         aria-controls="profile-menu"
         aria-haspopup="true"
         onClick={handleClick}
+        color="inherit"
       >
         <AccountCircleIcon />
       </IconButton>

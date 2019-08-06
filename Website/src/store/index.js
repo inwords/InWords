@@ -1,15 +1,21 @@
 import { createStore, applyMiddleware } from 'redux';
-import logger from 'redux-logger';
 import { loadState, saveState } from './localStorage';
 import rootReducer from 'reducers';
 import apiMiddleware from 'middleware/apiMiddleware';
 
 const persistedState = loadState();
 
+let middleware = [apiMiddleware];
+
+if (process.env.NODE_ENV !== 'production') {
+  const { logger } = require('redux-logger');
+  middleware = [...middleware, logger];
+}
+
 const store = createStore(
   rootReducer,
   persistedState,
-  applyMiddleware(logger, apiMiddleware)
+  applyMiddleware(...middleware)
 );
 
 store.subscribe(() => {

@@ -101,14 +101,14 @@ function PageLayout({ authorized, children }) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
-            color="inherit"
             aria-label="Open drawer"
             onClick={handleToggle}
+            color="inherit"
             className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
-          <Link color="inherit" href="/" variant="h6" underline="none">
+          <Link href="/" variant="h6" underline="none" color="inherit">
             InWords
           </Link>
           <span className={classes.space}></span>
@@ -134,12 +134,12 @@ function PageLayout({ authorized, children }) {
         </Hidden>
         <Hidden mdDown>
           <Drawer
-            variant="persistent"
             open={open}
             className={classes.drawer}
             classes={{
               paper: classes.drawerPaper,
             }}
+            variant="persistent"
           >
             {drawerHeader}
             <Divider />

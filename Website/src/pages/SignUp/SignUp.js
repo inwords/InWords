@@ -50,34 +50,36 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
         </Typography>
         <form onSubmit={handleSubmit} className={classes.form}>
           <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            required
+            id="email"
             label="Email"
             type="email"
             autoComplete="email"
-            autoFocus
             name="email"
             value={inputs.email}
             onChange={handleChange}
-          />
-          <TextField
+            required
+            autoFocus
+            fullWidth
             variant="outlined"
             margin="normal"
-            fullWidth
-            required
+          />
+          <TextField
+            id="password"
             label="Пароль"
             type="password"
             name="password"
             value={inputs.password}
             onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
           />
           <Button
-            variant="contained"
-            fullWidth
-            color="primary"
             type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
             className={classes.submit}
           >
             Зарегистрироваться

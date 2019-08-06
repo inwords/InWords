@@ -71,13 +71,13 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
             });
         }
 
-        console.error(`Response error: ${errorCode}`);
+        console.error(`Request failed with status code ${errorCode}`);
         return;
       }
 
-      dispatch(setSnackbarMessage('Неизвестная ошибка'));
+      dispatch(setSnackbarMessage('Не удалось соединиться с сервером'));
 
-      console.error(`Unknown error: ${error.message}`);
+      console.error(error.message);
     });
 };
 
