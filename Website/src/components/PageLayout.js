@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { Suspense, lazy, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -6,14 +6,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Progress from './Progress';
 import Hidden from '@material-ui/core/Hidden';
 import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
-import Progress from './Progress';
-import ProfileMenu from './ProfileMenu';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import NavList from './NavList';
+
+const ProfileMenu = lazy(() => import('./ProfileMenu'));
 
 const drawerWidth = 240;
 
@@ -112,7 +114,15 @@ function PageLayout({ authorized, children }) {
             InWords
           </Link>
           <span className={classes.space}></span>
-          {authorized && <ProfileMenu />}
+          {authorized && (
+            <Suspense
+              fallback={
+                <CircularProgress color="secondary" size={24} thickness={4} />
+              }
+            >
+              <ProfileMenu />
+            </Suspense>
+          )}
         </Toolbar>
         <Progress />
       </AppBar>

@@ -2,7 +2,8 @@ import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
-import Fallback from 'components/Fallback';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import MainSnackbar from 'components/MainSnackbar';
 import PageLayout from 'components/PageLayout';
 
@@ -17,14 +18,23 @@ const Game = lazy(() => import('./pages/Game'));
 
 export const history = createBrowserHistory();
 
+const useStyles = makeStyles(theme => ({
+  progress: {
+    display: 'block',
+    margin: 'auto'
+  }
+}));
+
 function App() {
+  const classes = useStyles();
+
   const userId = useSelector(store => store.access.userId);
 
   return (
     <Router history={history}>
       <MainSnackbar />
       <PageLayout authorized={Boolean(userId)}>
-        <Suspense fallback={<Fallback />}>
+        <Suspense fallback={<CircularProgress className={classes.progress} />}>
           <Switch>
             <Route
               exact

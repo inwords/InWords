@@ -5,7 +5,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import Grow from '@material-ui/core/Grow';
 import Zoom from '@material-ui/core/Zoom';
 import GameResult from './GameResult';
@@ -97,7 +96,7 @@ function Game({
             {randomWordsInfo.map(randomWordInfo => (
               <Grid key={randomWordInfo.id} item>
                 <Grow in={!isGameCompleted}>
-                  <ButtonBase component="div">
+                  <div>
                     <Paper
                       elevation={
                         selectedCompletedPairId === randomWordInfo.pairId
@@ -126,7 +125,7 @@ function Game({
                         </div>
                       </Zoom>
                     </Paper>
-                  </ButtonBase>
+                  </div>
                 </Grow>
               </Grid>
             ))}
