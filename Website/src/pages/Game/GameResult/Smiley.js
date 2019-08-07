@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import shuffle from 'helpers/shuffle';
 
-const colors = [
-  '#E57373',
-  '#F06292',
-  '#BA68C8',
-  '#9575CD',
-  '#7986CB',
-  '#64B5F6',
-  '#4FC3F7',
-  '#4DD0E1',
-  '#4DB6AC',
-  '#81C784',
-  '#AED581',
-  '#DCE775',
-  '#FFF176',
-  '#FFD54F',
-  '#FFB74D',
-  '#FF8A65'
+const colorPairs = [
+  ['#F44336', '#FFCDD2'],
+  ['#E91E63', '#F8BBD0'],
+  ['#9C27B0', '#E1BEE7'],
+  ['#673AB7', '#D1C4E9'],
+  ['#3F51B5', '#C5CAE9'],
+  ['#2196F3', '#BBDEFB'],
+  ['#03A9F4', '#B3E5FC'],
+  ['#00BCD4', '#B2EBF2'],
+  ['#009688', '#B2DFDB'],
+  ['#4CAF50', '#C8E6C9'],
+  ['#8BC34A', '#DCEDC8'],
+  ['#CDDC39', '#F0F4C3'],
+  ['#FFC107', '#FFECB3'],
+  ['#FF9800', '#FFE0B2'],
+  ['#FF5722', '#FFCCBC']
 ];
 
 const emoticons = {
@@ -88,22 +88,14 @@ const emoticons = {
 };
 
 function Smiley({ score }) {
+  const shuffledColorPairs = shuffle([...colorPairs]);
+
   return (
     <svg viewBox="0 0 300 300" width="150" height="150">
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop
-            offset="0%"
-            stopColor={colors[Math.floor(Math.random() * colors.length)]}
-          />
-          <stop
-            offset="50%"
-            stopColor={colors[Math.floor(Math.random() * colors.length)]}
-          />
-          <stop
-            offset="100%"
-            stopColor={colors[Math.floor(Math.random() * colors.length)]}
-          />
+          <stop offset="0%" stopColor={shuffledColorPairs[0][0]} />
+          <stop offset="100%" stopColor={shuffledColorPairs[0][1]} />
         </linearGradient>
       </defs>
       <circle r="120" cx="50%" cy="50%" fill="url(#gradient)" />

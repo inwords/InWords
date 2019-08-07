@@ -49,6 +49,7 @@ function WordPairAddDialog({
     <div>
       <Zoom in={visible}>
         <Fab
+          id="fab"
           aria-label="add"
           onClick={handleOpen}
           color="primary"

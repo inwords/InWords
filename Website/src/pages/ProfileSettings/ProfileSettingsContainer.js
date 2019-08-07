@@ -12,7 +12,7 @@ function ProfileSettingsContainer({ userInfo }) {
 
   const { inputs, handleChange, handleSubmit } = useForm(
     {
-      nickName: userInfo.nickName,
+      nickname: userInfo.nickname,
       avatarPath: userInfo.avatarPath
     },
     () => {
@@ -31,7 +31,7 @@ function ProfileSettingsContainer({ userInfo }) {
 
 ProfileSettingsContainer.propTypes = {
   userInfo: PropTypes.shape({
-    nickName: PropTypes.string.isRequired,
+    nickname: PropTypes.string.isRequired,
     avatarPath: PropTypes.string.isRequired
   }).isRequired
 };

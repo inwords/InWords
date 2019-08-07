@@ -18,7 +18,7 @@ class HttpError extends Error {
   }
 }
 
-const apiMiddleware = ({ dispatch, getState }) => next => async action => {
+const apiMiddleware = ({ dispatch, getState }) => next => action => {
   next(action);
 
   if (action.type !== CALL_API) return;
@@ -52,49 +52,51 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
 
   dispatch(beginLoading());
 
-  try {
-    const response = await fetch(`${API_ROOT}/${apiVersion}/${endpoint}`, {
-      method,
-      headers,
-      body: data
-    });
+  fetch(`${API_ROOT}/${apiVersion}/${endpoint}`, {
+    method,
+    headers,
+    body: data
+  })
+    .then(response => {
+      dispatch(endLoading());
 
-    dispatch(endLoading());
-
-    if (!response.ok) {
-      throw new HttpError(response.statusText, response.status);
-    }
-
-    const contentType = response.headers.get('content-type');
-
-    let json;
-    if (contentType && contentType.includes('application/json')) {
-      json = await response.json();
-    } else {
-      json = null; // other content-types are not supported
-    }
-
-    actionsOnSuccess.forEach(action => {
-      action(dispatch, json);
-    });
-  } catch (error) {
-    if (error instanceof HttpError) {
-      const statusCode = error.statusCode;
-
-      if (statusCode === 401) {
-        dispatch(denyAccess());
-        history.push('/signIn');
-      } else {
-        actionsOnFailure.forEach(action => {
-          action(dispatch, statusCode);
-        });
+      if (!response.ok) {
+        throw new HttpError(response.statusText, response.status);
       }
-    } else if (error instanceof TypeError) {
-      dispatch(setSnackbarMessage('Не удалось соединиться с сервером'));
-    } else {
-      dispatch(setSnackbarMessage('Неизвестная ошибка'));
-    }
-  }
+
+      const contentType = response.headers.get('content-type');
+
+      if (contentType && contentType.includes('application/json')) {
+        return response.json();
+      } else {
+        return null; // other content-types are not supported
+      }
+    })
+    .then(data => {
+      actionsOnSuccess.forEach(action => {
+        action(dispatch, data);
+      });
+    })
+    .catch(error => {
+      dispatch(endLoading());
+
+      if (error instanceof HttpError) {
+        const statusCode = error.statusCode;
+
+        if (statusCode === 401) {
+          dispatch(denyAccess());
+          history.push('/signIn');
+        } else {
+          actionsOnFailure.forEach(action => {
+            action(dispatch, statusCode);
+          });
+        }
+      } else if (error instanceof TypeError) {
+        dispatch(setSnackbarMessage('Не удалось соединиться с сервером'));
+      } else {
+        dispatch(setSnackbarMessage('Неизвестная ошибка'));
+      }
+    });
 };
 
 export default apiMiddleware;

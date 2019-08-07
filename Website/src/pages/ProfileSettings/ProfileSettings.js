@@ -31,8 +31,8 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
           <TextField
             id="nickname"
             label="Никнейм"
-            name="nickName"
-            value={inputs.nickName}
+            name="nickname"
+            value={inputs.nickname}
             onChange={handleChange}
             required
             autoFocus
@@ -76,7 +76,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
 
 ProfileSettings.propTypes = {
   inputs: PropTypes.shape({
-    nickName: PropTypes.string.isRequired,
+    nickname: PropTypes.string.isRequired,
     avatarPath: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired,

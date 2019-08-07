@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 function Profile({ userInfo, editingAvailable }) {
   const classes = useStyles();
 
-  const { avatarPath, nickName, experience } = userInfo;
+  const { avatarPath, nickname, experience } = userInfo;
 
   return (
     <Fade in>
@@ -40,7 +40,7 @@ function Profile({ userInfo, editingAvailable }) {
         )}
         <CardContent>
           <Typography component="h2" variant="h5" gutterBottom>
-            {nickName}
+            {nickname}
           </Typography>
           <Typography component="p" variant="body2">
             {experience} опыта
@@ -65,7 +65,7 @@ function Profile({ userInfo, editingAvailable }) {
 
 Profile.propTypes = {
   userInfo: PropTypes.shape({
-    nickName: PropTypes.string.isRequired,
+    nickname: PropTypes.string.isRequired,
     avatarPath: PropTypes.string.isRequired,
     experience: PropTypes.number.isRequired
   }).isRequired,

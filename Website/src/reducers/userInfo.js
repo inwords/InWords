@@ -2,7 +2,7 @@ import * as userConstants from 'constants/userContants';
 
 const initialState = {
   userId: null,
-  nickName: '',
+  nickname: '',
   avatarPath: '',
   experience: 0
 };
@@ -12,14 +12,14 @@ const userInfo = (state = initialState, action) => {
     case userConstants.INITIALIZE_USER_INFO:
       return {
         userId: action.payload.userId || initialState.userId,
-        nickName: action.payload.nickName || initialState.nickName,
+        nickname: action.payload.nickName || initialState.nickname,
         avatarPath: action.payload.avatarPath || initialState.avatarPath,
         experience: action.payload.experience || initialState.experience
       };
     case userConstants.UPDATE_USER_INFO:
       return {
         ...state,
-        nickName: action.payload.nickName,
+        nickname: action.payload.nickname,
         avatarPath: action.payload.avatarPath
       };
     default:
