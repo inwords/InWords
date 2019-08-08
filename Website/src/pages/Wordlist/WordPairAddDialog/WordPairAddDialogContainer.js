@@ -31,7 +31,8 @@ function WordPairAddDialogContainer({ ...rest }) {
 }
 
 WordPairAddDialogContainer.propTypes = {
-  visible: PropTypes.bool
+  open: PropTypes.bool,
+  handleClose: PropTypes.func
 };
 
 export default WordPairAddDialogContainer;

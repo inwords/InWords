@@ -13,7 +13,7 @@ function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
 
     let timeoutID = setTimeout(() => {
       deleteWordPairs(checked);
-    }, 5000);
+    }, 5100);
 
     dispatch(
       setSnackbar({

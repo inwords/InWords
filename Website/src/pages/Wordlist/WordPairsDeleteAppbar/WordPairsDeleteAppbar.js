@@ -28,11 +28,6 @@ function WordPairsDeleteAppbar({
 }) {
   const classes = useStyles();
 
-  const handleDeleteExtended = () => {
-    handleDelete();
-    handleReset();
-  };
-
   return (
     <Box display={numberOfSelected ? 'block' : 'none'}>
       <AppBar
@@ -55,7 +50,10 @@ function WordPairsDeleteAppbar({
           </Typography>
           <IconButton
             aria-label="delete"
-            onClick={handleDeleteExtended}
+            onClick={() => {
+              handleDelete();
+              handleReset();
+            }}
             color="inherit"
           >
             <DeleteIcon />

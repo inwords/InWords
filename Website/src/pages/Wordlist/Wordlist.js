@@ -9,8 +9,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
 import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
-import WordPairEditDialog from './WordPairEditDialog';
-import WordPairAddDialog from './WordPairAddDialog';
+import WordPairEditButton from './WordPairEditButton';
+import WordPairAddButton from './WordPairAddButton';
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -51,7 +51,7 @@ function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
                 secondary={wordPair.wordNative}
               />
               <ListItemSecondaryAction>
-                <WordPairEditDialog
+                <WordPairEditButton
                   wordPair={wordPair}
                   visible={checked.length === 0}
                 />
@@ -60,7 +60,7 @@ function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
           );
         })}
       </List>
-      <WordPairAddDialog visible={checked.length === 0} />
+      <WordPairAddButton visible={checked.length === 0} />
     </Container>
   );
 }
