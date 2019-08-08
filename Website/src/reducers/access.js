@@ -5,7 +5,7 @@ const initialState = {
   userId: null
 };
 
-const access = (state = initialState, action) => {
+function access(state = initialState, action) {
   if (action.type === GRANT_ACCESS) {
     return {
       token: action.payload.token || initialState.token,
@@ -14,6 +14,6 @@ const access = (state = initialState, action) => {
   }
 
   return state;
-};
+}
 
 export default access;

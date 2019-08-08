@@ -1,21 +1,21 @@
 import { combineReducers } from 'redux';
 import * as gamesConstants from 'constants/gamesConstants';
 
-const gamesInfo = (state = [], action) => {
+function gamesInfo(state = [], action) {
   switch (action.type) {
     case gamesConstants.INITIALIZE_GAMES_INFO:
       return action.payload || [];
     default:
       return state;
   }
-};
+}
 
 const initialGameInfoState = {
   gameId: null,
   levelsInfo: []
 };
 
-const gameInfo = (state = initialGameInfoState, action) => {
+function gameInfo(state = initialGameInfoState, action) {
   switch (action.type) {
     case gamesConstants.INITIALIZE_GAME_INFO:
       return {
@@ -37,14 +37,14 @@ const gameInfo = (state = initialGameInfoState, action) => {
     default:
       return state;
   }
-};
+}
 
 const initialGameLevelState = {
   levelId: null,
   wordTranslations: []
 };
 
-const gameLevel = (state = initialGameLevelState, action) => {
+function gameLevel(state = initialGameLevelState, action) {
   switch (action.type) {
     case gamesConstants.INITIALIZE_GAME_LEVEL:
       return {
@@ -56,7 +56,7 @@ const gameLevel = (state = initialGameLevelState, action) => {
     default:
       return state;
   }
-};
+}
 
 const games = combineReducers({
   gamesInfo,

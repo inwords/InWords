@@ -1,17 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'actions/commonActions';
 import { deleteWordPairs as deleteWordPairsAction } from 'actions/wordPairsApiActions';
 import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
 
 function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
   const dispatch = useDispatch();
 
-  const handleDelete = actionOnSuccess => {
-    const deleteWordPairs = (pairIds, actionOnSuccess) =>
-      dispatch(deleteWordPairsAction(pairIds, actionOnSuccess));
+  const handleDelete = () => {
+    const deleteWordPairs = pairIds => dispatch(deleteWordPairsAction(pairIds));
 
-    deleteWordPairs(checked, actionOnSuccess);
+    let timeoutID = setTimeout(() => {
+      deleteWordPairs(checked);
+    }, 5000);
+
+    dispatch(
+      setSnackbar({
+        text: 'Слова будут удалены через 5 секунд',
+        actionText: 'Отменить',
+        actionHandler: () => {
+          clearTimeout(timeoutID);
+        }
+      })
+    );
   };
 
   return (

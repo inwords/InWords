@@ -4,19 +4,34 @@ import * as commonActions from 'actions/commonActions';
 import MainSnackbar from './MainSnackbar';
 
 function MainSnackbarContainer() {
-  const { open, message } = useSelector(store => store.common.snackbar);
+  const { open, text, actionText, actionHandler } = useSelector(
+    store => store.common.snackbar
+  );
 
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    const resetSnackbarMessage = () =>
-      dispatch(commonActions.resetSnackbarMessage());
+    const resetSnackbar = () => dispatch(commonActions.resetSnackbar());
 
-    resetSnackbarMessage();
+    resetSnackbar();
+  };
+
+  const handleAction = () => {
+    if (actionHandler) {
+      actionHandler();
+    }
+
+    handleClose();
   };
 
   return (
-    <MainSnackbar open={open} message={message} handleClose={handleClose} />
+    <MainSnackbar
+      open={open}
+      text={text}
+      actionText={actionText}
+      handleAction={handleAction}
+      handleClose={handleClose}
+    />
   );
 }
 

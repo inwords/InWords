@@ -8,11 +8,11 @@ export const endLoading = () => ({
   type: commonConstants.END_LOADING
 });
 
-export const setSnackbarMessage = snackbarMessage => ({
-  type: commonConstants.SET_SNACKBAR_MESSAGE,
-  payload: snackbarMessage
+export const setSnackbar = text => ({
+  type: commonConstants.SET_SNACKBAR,
+  payload: text
 });
 
-export const resetSnackbarMessage = () => ({
-  type: commonConstants.RESET_SNACKBAR_MESSAGE
+export const resetSnackbar = () => ({
+  type: commonConstants.RESET_SNACKBAR
 });

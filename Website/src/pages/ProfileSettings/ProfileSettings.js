@@ -35,7 +35,6 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
             value={inputs.nickname}
             onChange={handleChange}
             required
-            autoFocus
             fullWidth
             variant="filled"
             margin="normal"

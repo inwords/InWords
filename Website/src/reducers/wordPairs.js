@@ -3,7 +3,7 @@ import * as wordPairsConstants from 'constants/wordPairsConstants';
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
   firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign);
 
-const wordPairs = (state = [], action) => {
+function wordPairs(state = [], action) {
   switch (action.type) {
     case wordPairsConstants.INITIALIZE_WORD_PAIRS:
       return action.payload.addedWords.sort(lexicographicalComparison) || [];
@@ -38,6 +38,6 @@ const wordPairs = (state = [], action) => {
     default:
       return state;
   }
-};
+}
 
 export default wordPairs;

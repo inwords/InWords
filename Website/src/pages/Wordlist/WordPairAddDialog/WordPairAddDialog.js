@@ -72,7 +72,6 @@ function WordPairAddDialog({
               name="wordForeign"
               value={inputs.wordForeign}
               onChange={handleChange}
-              autoFocus
               margin="normal"
               fullWidth
             />

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function useForm(initialInputs = {}, callback = Function.prototype) {
+function useForm(initialInputs = {}, actionOnSubmit = Function.prototype) {
   const [inputs, setInputs] = useState(initialInputs);
 
   const handleChange = event => {
@@ -12,7 +12,7 @@ function useForm(initialInputs = {}, callback = Function.prototype) {
   };
 
   const handleSubmit = event => {
-    callback();
+    actionOnSubmit();
     event.preventDefault();
   };
 
@@ -30,7 +30,7 @@ function useForm(initialInputs = {}, callback = Function.prototype) {
 
 useForm.propTypes = {
   initialInputs: PropTypes.object.isRequired,
-  callback: PropTypes.func.isRequired
+  actionOnSubmit: PropTypes.func.isRequired
 };
 
 export default useForm;

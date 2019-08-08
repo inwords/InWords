@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     backgroundColor: theme.palette.primary.main
   },
-  cardInside: {
+  cardContent: {
     display: 'flex',
     alignItems: 'center',
     backgroundColor: theme.palette.background.paper,
@@ -115,7 +115,7 @@ function Game({
                           randomWordInfo.isCompleted
                         }
                       >
-                        <div className={classes.cardInside}>
+                        <div className={classes.cardContent}>
                           <Typography
                             component="span"
                             className={classes.cardText}

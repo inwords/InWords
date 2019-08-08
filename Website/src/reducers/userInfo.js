@@ -7,7 +7,7 @@ const initialState = {
   experience: 0
 };
 
-const userInfo = (state = initialState, action) => {
+function userInfo(state = initialState, action) {
   switch (action.type) {
     case userConstants.INITIALIZE_USER_INFO:
       return {
@@ -25,6 +25,6 @@ const userInfo = (state = initialState, action) => {
     default:
       return state;
   }
-};
+}
 
 export default userInfo;

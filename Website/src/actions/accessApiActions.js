@@ -19,7 +19,9 @@ export function signIn(userdata) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(commonActions.setSnackbarMessage('Не удалось авторизоваться'));
+        dispatch(
+          commonActions.setSnackbar({ text: 'Не удалось авторизоваться' })
+        );
       }
     ]
   });
@@ -33,7 +35,7 @@ export function signUp(userdata) {
     data: JSON.stringify(userdata),
     actionsOnSuccess: [
       dispatch => {
-        dispatch(commonActions.setSnackbarMessage('Аккаунт успешно создан'));
+        dispatch(commonActions.setSnackbar({ text: 'Аккаунт успешно создан' }));
       },
       () => {
         history.push('/signIn');
@@ -42,7 +44,7 @@ export function signUp(userdata) {
     actionsOnFailure: [
       dispatch => {
         dispatch(
-          commonActions.setSnackbarMessage('Не удалось зарегистрироваться')
+          commonActions.setSnackbar({ text: 'Не удалось зарегистрироваться' })
         );
       }
     ]

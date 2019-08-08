@@ -15,14 +15,14 @@ export function receiveWordPairs() {
     actionsOnFailure: [
       dispatch => {
         dispatch(
-          commonActions.setSnackbarMessage('Не удалось загрузить словарь')
+          commonActions.setSnackbar({ text: 'Не удалось загрузить словарь' })
         );
       }
     ]
   });
 }
 
-export function deleteWordPairs(pairIds, actionOnSuccess) {
+export function deleteWordPairs(pairIds) {
   return apiAction({
     endpoint: 'words/deletePair',
     method: 'POST',
@@ -30,14 +30,13 @@ export function deleteWordPairs(pairIds, actionOnSuccess) {
     actionsOnSuccess: [
       dispatch => {
         dispatch(wordPairsActions.updateWordPairsAfterDeletion(pairIds));
-      },
-      () => {
-        actionOnSuccess();
       }
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(commonActions.setSnackbarMessage('Не удалось удалить слова'));
+        dispatch(
+          commonActions.setSnackbar({ text: 'Не удалось удалить слова' })
+        );
       }
     ]
   });
@@ -60,7 +59,9 @@ export function addWordPair(wordPair) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(commonActions.setSnackbarMessage('Не удалось добавить слово'));
+        dispatch(
+          commonActions.setSnackbar({ text: 'Не удалось добавить слово' })
+        );
       }
     ]
   });
@@ -68,6 +69,22 @@ export function addWordPair(wordPair) {
 
 // delete previous word pair and add new word pair
 export function editWordPair(pairId, wordPair) {
+  return apiAction({
+    endpoint: 'words/deletePair',
+    method: 'POST',
+    data: JSON.stringify([pairId]),
+    actionsOnSuccess: [addEditedWordPair],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(
+          commonActions.setSnackbar({
+            text: 'Не удалось отредактировать слово'
+          })
+        );
+      }
+    ]
+  });
+
   function addEditedWordPair(dispatch) {
     dispatch(
       apiAction({
@@ -87,27 +104,13 @@ export function editWordPair(pairId, wordPair) {
         actionsOnFailure: [
           dispatch => {
             dispatch(
-              commonActions.setSnackbarMessage(
-                'Не удалось отредактировать слово'
-              )
+              commonActions.setSnackbar({
+                text: 'Не удалось отредактировать слово'
+              })
             );
           }
         ]
       })
     );
   }
-
-  return apiAction({
-    endpoint: 'words/deletePair',
-    method: 'POST',
-    data: JSON.stringify([pairId]),
-    actionsOnSuccess: [addEditedWordPair],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(
-          commonActions.setSnackbarMessage('Не удалось отредактировать слово')
-        );
-      }
-    ]
-  });
 }

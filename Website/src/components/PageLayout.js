@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 3),
+    paddingLeft: theme.spacing(3),
     ...theme.mixins.toolbar
   },
   content: {
@@ -126,7 +126,7 @@ function PageLayout({ authorized, children }) {
         </Toolbar>
         <Progress />
       </AppBar>
-      <nav>
+      <nav aria-label="main navigation">
         <Hidden lgUp>
           <SwipeableDrawer
             open={open}

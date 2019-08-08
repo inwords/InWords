@@ -29,7 +29,8 @@ function WordPairsDeleteAppbar({
   const classes = useStyles();
 
   const handleDeleteExtended = () => {
-    handleDelete(() => handleReset());
+    handleDelete();
+    handleReset();
   };
 
   return (

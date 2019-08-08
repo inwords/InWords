@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   link: {
-    padding: theme.spacing(0.75, 3),
+    paddingLeft: theme.spacing(3),
     width: '100%',
     justifyContent: 'flex-start',
     textTransform: 'none',

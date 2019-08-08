@@ -14,7 +14,7 @@ export function receiveUserInfo(userId) {
     actionsOnFailure: [
       dispatch => {
         dispatch(
-          commonActions.setSnackbarMessage('Не удалось загрузить профиль')
+          commonActions.setSnackbar({ text: 'Не удалось загрузить профиль' })
         );
       }
     ]
@@ -37,7 +37,7 @@ export function updateUserInfo(userInfo) {
     actionsOnFailure: [
       dispatch => {
         dispatch(
-          commonActions.setSnackbarMessage('Не удалось сохранить профиль')
+          commonActions.setSnackbar({ text: 'Не удалось сохранить профиль' })
         );
       }
     ]

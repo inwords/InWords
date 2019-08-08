@@ -12,7 +12,9 @@ export function receiveGamesInfo() {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(commonActions.setSnackbarMessage('Не удалось загрузить игры'));
+        dispatch(
+          commonActions.setSnackbar({ text: 'Не удалось загрузить игры' })
+        );
       }
     ]
   });
@@ -28,7 +30,9 @@ export function receiveGameInfo(gameId) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(commonActions.setSnackbarMessage('Не удалось загрузить игру'));
+        dispatch(
+          commonActions.setSnackbar({ text: 'Не удалось загрузить игру' })
+        );
       }
     ]
   });
@@ -45,7 +49,7 @@ export function receiveGameLevel(levelId) {
     actionsOnFailure: [
       dispatch => {
         dispatch(
-          commonActions.setSnackbarMessage('Не удалось загрузить уровень')
+          commonActions.setSnackbar({ text: 'Не удалось загрузить уровень' })
         );
       }
     ]
@@ -68,7 +72,7 @@ export function saveLevelResult(levelResult, actionOnSuccess) {
     actionsOnFailure: [
       dispatch => {
         dispatch(
-          commonActions.setSnackbarMessage('Не удалось сохранить результат')
+          commonActions.setSnackbar({ text: 'Не удалось сохранить результат' })
         );
       }
     ]

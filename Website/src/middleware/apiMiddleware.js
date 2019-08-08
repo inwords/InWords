@@ -1,22 +1,11 @@
-import {
-  beginLoading,
-  endLoading,
-  setSnackbarMessage
-} from 'actions/commonActions';
+import { beginLoading, endLoading, setSnackbar } from 'actions/commonActions';
 import { denyAccess } from 'actions/accessActions';
 import { history } from 'App';
+import apiAction from 'actions/apiAction';
 
 export const CALL_API = 'CALL_API';
 
 const API_ROOT = 'https://api.inwords.ru';
-
-class HttpError extends Error {
-  constructor(message, statusCode) {
-    super(message);
-    this.name = this.constructor.name;
-    this.statusCode = statusCode;
-  }
-}
 
 const apiMiddleware = ({ dispatch, getState }) => next => action => {
   next(action);
@@ -92,11 +81,33 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
           });
         }
       } else if (error instanceof TypeError) {
-        dispatch(setSnackbarMessage('Не удалось соединиться с сервером'));
+        dispatch(
+          setSnackbar({
+            text: 'Не удалось соединиться с сервером',
+            actionText: 'Повторить',
+            actionHandler: () => {
+              setTimeout(() => {
+                dispatch(
+                  apiAction({
+                    ...action.payload
+                  })
+                );
+              }, 100);
+            }
+          })
+        );
       } else {
-        dispatch(setSnackbarMessage('Неизвестная ошибка'));
+        dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
       }
     });
 };
+
+class HttpError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.name = this.constructor.name;
+    this.statusCode = statusCode;
+  }
+}
 
 export default apiMiddleware;

@@ -14,12 +14,12 @@ const appReducer = combineReducers({
   games
 });
 
-const rootReducer = (state, action) => {
+function rootReducer(state, action) {
   if (action.type === DENY_ACCESS) {
     state = undefined;
   }
 
   return appReducer(state, action);
-};
+}
 
 export default rootReducer;
