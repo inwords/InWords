@@ -16,7 +16,7 @@ const Games = lazy(() => import('./pages/Games'));
 const GameLevels = lazy(() => import('./pages/GameLevels'));
 const Game = lazy(() => import('./pages/Game'));
 
-export const history = createBrowserHistory();
+const history = createBrowserHistory();
 
 const useStyles = makeStyles(theme => ({
   progress: {
@@ -67,4 +67,5 @@ function App() {
   );
 }
 
+export { history };
 export default App;

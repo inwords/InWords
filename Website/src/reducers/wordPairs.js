@@ -3,7 +3,7 @@ import * as wordPairsConstants from 'constants/wordPairsConstants';
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
   firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign);
 
-function wordPairs(state = [], action) {
+export default function wordPairs(state = [], action) {
   switch (action.type) {
     case wordPairsConstants.INITIALIZE_WORD_PAIRS:
       return action.payload.addedWords.sort(lexicographicalComparison) || [];
@@ -29,15 +29,13 @@ function wordPairs(state = [], action) {
         );
       }
       return state
-        .map(wordPair => {
-          return wordPair.serverId === action.payload.pairId
+        .map(wordPair =>
+          wordPair.serverId === action.payload.pairId
             ? action.payload.wordPair
-            : wordPair;
-        })
+            : wordPair
+        )
         .sort(lexicographicalComparison);
     default:
       return state;
   }
 }
-
-export default wordPairs;

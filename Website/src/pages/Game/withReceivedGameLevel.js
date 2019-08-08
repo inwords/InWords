@@ -13,8 +13,9 @@ function withReceivedGameLevel(WrappedComponent) {
 
     useEffect(() => {
       if (gameLevel.levelId !== parsedLevelId) {
-        const receiveGameLevel = levelId =>
+        const receiveGameLevel = levelId => {
           dispatch(receiveGameLevelAction(levelId));
+        };
 
         receiveGameLevel(parsedLevelId);
       }

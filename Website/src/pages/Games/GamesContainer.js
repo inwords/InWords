@@ -10,7 +10,9 @@ function GamesContainer() {
 
   useEffect(() => {
     if (!gamesInfo.length) {
-      const receiveGamesInfo = () => dispatch(receiveGamesInfoAction());
+      const receiveGamesInfo = () => {
+        dispatch(receiveGamesInfoAction());
+      };
 
       receiveGamesInfo();
     }

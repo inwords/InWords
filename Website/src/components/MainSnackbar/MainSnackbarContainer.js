@@ -11,7 +11,9 @@ function MainSnackbarContainer() {
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    const resetSnackbar = () => dispatch(commonActions.resetSnackbar());
+    const resetSnackbar = () => {
+      dispatch(commonActions.resetSnackbar());
+    };
 
     resetSnackbar();
   };

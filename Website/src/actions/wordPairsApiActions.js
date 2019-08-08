@@ -67,25 +67,9 @@ export function addWordPair(wordPair) {
   });
 }
 
-// delete previous word pair and add new word pair
+/* Delete previous word pair and add new word pair */
 export function editWordPair(pairId, wordPair) {
-  return apiAction({
-    endpoint: 'words/deletePair',
-    method: 'POST',
-    data: JSON.stringify([pairId]),
-    actionsOnSuccess: [addEditedWordPair],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(
-          commonActions.setSnackbar({
-            text: 'Не удалось отредактировать слово'
-          })
-        );
-      }
-    ]
-  });
-
-  function addEditedWordPair(dispatch) {
+  const addEditedWordPair = dispatch => {
     dispatch(
       apiAction({
         endpoint: 'words/addPair',
@@ -112,5 +96,21 @@ export function editWordPair(pairId, wordPair) {
         ]
       })
     );
-  }
+  };
+
+  return apiAction({
+    endpoint: 'words/deletePair',
+    method: 'POST',
+    data: JSON.stringify([pairId]),
+    actionsOnSuccess: [addEditedWordPair],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(
+          commonActions.setSnackbar({
+            text: 'Не удалось отредактировать слово'
+          })
+        );
+      }
+    ]
+  });
 }

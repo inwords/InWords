@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-function usePrevious(value) {
+export default function usePrevious(value) {
   const ref = useRef();
 
   useEffect(() => {
@@ -14,5 +14,3 @@ function usePrevious(value) {
 usePrevious.propTypes = {
   value: PropTypes.any.isRequired
 };
-
-export default usePrevious;

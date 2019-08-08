@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs as receiveWordPairsAction } from 'actions/wordPairsApiActions';
-import useCheckboxList from 'hooks/useCheckboxList';
 import Wordlist from './Wordlist';
 
 function WordlistContainer() {
@@ -11,13 +10,32 @@ function WordlistContainer() {
 
   useEffect(() => {
     if (!wordPairs.length) {
-      const receiveWordPairs = () => dispatch(receiveWordPairsAction());
+      const receiveWordPairs = () => {
+        dispatch(receiveWordPairsAction());
+      };
 
       receiveWordPairs();
     }
   }, [wordPairs.length, dispatch]);
 
-  const { checked, handleToggle, handleReset } = useCheckboxList();
+  const [checked, setChecked] = useState([]);
+
+  const handleToggle = value => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
+
+  const handleReset = () => {
+    setChecked([]);
+  };
 
   return (
     <Wordlist

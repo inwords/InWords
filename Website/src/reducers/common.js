@@ -34,9 +34,7 @@ function snackbar(state = initialSnackbarState, action) {
   }
 }
 
-const common = combineReducers({
+export default combineReducers({
   loading,
   snackbar
 });
-
-export default common;

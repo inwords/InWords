@@ -7,8 +7,9 @@ import WordPairEditDialog from './WordPairEditDialog';
 
 function WordPairEditDialogContainer({ wordPair, ...rest }) {
   const dispatch = useDispatch();
-  const editWordPair = (pairId, wordPair) =>
+  const editWordPair = (pairId, wordPair) => {
     dispatch(editWordPairAction(pairId, wordPair));
+  };
 
   const { inputs, handleChange, handleSubmit, handleReset } = useForm(
     {

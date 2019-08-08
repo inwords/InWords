@@ -27,12 +27,13 @@ function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
       <WordPairsDeleteAppbar checked={checked} handleReset={handleReset} />
       <List className={classes.list}>
         {wordPairs.map(wordPair => {
-          const labelId = `checkbox-list-label-${wordPair.serverId}`;
+          const { serverId, wordForeign, wordNative } = wordPair;
+          const labelId = `checkbox-list-label-${serverId}`;
 
           return (
             <ListItem
-              key={wordPair.serverId}
-              onClick={handleToggle(wordPair.serverId)}
+              key={serverId}
+              onClick={handleToggle(serverId)}
               button
               dense
             >
@@ -40,15 +41,15 @@ function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
                 <Checkbox
                   inputProps={{ 'aria-labelledby': labelId }}
                   tabIndex={-1}
-                  checked={checked.indexOf(wordPair.serverId) !== -1}
+                  checked={checked.indexOf(serverId) !== -1}
                   edge="start"
                   disableRipple
                 />
               </ListItemIcon>
               <ListItemText
                 id={labelId}
-                primary={wordPair.wordForeign}
-                secondary={wordPair.wordNative}
+                primary={wordForeign}
+                secondary={wordNative}
               />
               <ListItemSecondaryAction>
                 <WordPairEditButton

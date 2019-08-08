@@ -8,7 +8,9 @@ import ProfileSettings from './ProfileSettings';
 
 function ProfileSettingsContainer({ userInfo }) {
   const dispatch = useDispatch();
-  const updateUserInfo = userInfo => dispatch(updateUserInfoAction(userInfo));
+  const updateUserInfo = userInfo => {
+    dispatch(updateUserInfoAction(userInfo));
+  };
 
   const { inputs, handleChange, handleSubmit } = useForm(
     {

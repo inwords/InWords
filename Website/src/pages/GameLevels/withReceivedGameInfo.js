@@ -13,8 +13,9 @@ function withReceivedGameInfo(WrappedComponent) {
 
     useEffect(() => {
       if (gameInfo.gameId !== parsedGameId) {
-        const receiveGameInfo = gameId =>
+        const receiveGameInfo = gameId => {
           dispatch(receiveGameInfoAction(gameId));
+        };
 
         receiveGameInfo(parsedGameId);
       }

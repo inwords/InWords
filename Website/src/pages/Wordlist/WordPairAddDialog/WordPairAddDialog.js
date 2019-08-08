@@ -80,7 +80,8 @@ WordPairAddDialog.propTypes = {
     wordNative: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired
 };
 
 export default WordPairAddDialog;

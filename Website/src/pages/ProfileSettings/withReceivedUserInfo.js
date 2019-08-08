@@ -11,8 +11,9 @@ function withReceivedUserInfo(WrappedComponent) {
 
     useEffect(() => {
       if (userId && userId !== userInfo.userId) {
-        const receiveUserInfo = userId =>
+        const receiveUserInfo = userId => {
           dispatch(receiveUserInfoAction(userId));
+        };
 
         receiveUserInfo(userId);
       }

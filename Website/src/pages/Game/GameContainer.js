@@ -56,8 +56,9 @@ function GameContainer({ gameLevel }) {
         setIsResultReady(true);
       }, 1200);
 
-      const saveLevelResult = (levelResult, actionOnSuccess) =>
+      const saveLevelResult = (levelResult, actionOnSuccess) => {
         dispatch(saveLevelResultAction(levelResult, actionOnSuccess));
+      };
 
       saveLevelResult(
         {
@@ -159,13 +160,11 @@ function GameContainer({ gameLevel }) {
   const handleReplay = () => {
     setRandomWordsInfo(
       shuffle(
-        randomWordsInfo.map(randomWordInfo => {
-          return {
-            ...randomWordInfo,
-            isSelected: false,
-            isCompleted: false
-          };
-        })
+        randomWordsInfo.map(randomWordInfo => ({
+          ...randomWordInfo,
+          isSelected: false,
+          isCompleted: false
+        }))
       )
     );
 
@@ -199,7 +198,7 @@ GameContainer.propTypes = {
         serverId: PropTypes.number.isRequired,
         wordForeign: PropTypes.string.isRequired,
         wordNative: PropTypes.string.isRequired
-      })
+      }).isRequired
     ).isRequired
   }).isRequired
 };

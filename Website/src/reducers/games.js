@@ -26,12 +26,14 @@ function gameInfo(state = initialGameInfoState, action) {
       return {
         ...state,
         levelsInfo: state.levelsInfo.map(levelInfo => {
-          return levelInfo.levelId !== action.payload.levelId
-            ? levelInfo
-            : {
-                ...levelInfo,
-                playerStars: action.payload.score
-              };
+          if (levelInfo.levelId !== action.payload.levelId) {
+            return levelInfo;
+          }
+
+          return {
+            ...levelInfo,
+            playerStars: action.payload.score
+          };
         })
       };
     default:
@@ -58,10 +60,8 @@ function gameLevel(state = initialGameLevelState, action) {
   }
 }
 
-const games = combineReducers({
+export default combineReducers({
   gamesInfo,
   gameInfo,
   gameLevel
 });
-
-export default games;

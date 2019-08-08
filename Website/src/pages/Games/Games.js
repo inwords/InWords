@@ -14,27 +14,31 @@ function Games({ gamesInfo }) {
   return (
     <Container component="div" maxWidth="lg">
       <Grid container spacing={3}>
-        {gamesInfo.map(gameInfo => (
-          <Grid key={gameInfo.gameId} item xs={12} sm={6} md={4}>
-            <Card>
-              <CardHeader title={gameInfo.title} />
-              <CardContent>
-                <Typography variant="body2">{gameInfo.description}</Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  component={Link}
-                  to={`/game/${gameInfo.gameId}`}
-                  disabled={!gameInfo.isAvailable}
-                  size="small"
-                  color="primary"
-                >
-                  Выбрать
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
+        {gamesInfo.map(gameInfo => {
+          const { gameId, title, description, isAvailable } = gameInfo;
+
+          return (
+            <Grid key={gameId} item xs={12} sm={6} md={4}>
+              <Card>
+                <CardHeader title={title} />
+                <CardContent>
+                  <Typography variant="body2">{description}</Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    component={Link}
+                    to={`/game/${gameId}`}
+                    disabled={!isAvailable}
+                    size="small"
+                    color="primary"
+                  >
+                    Выбрать
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          );
+        })}
       </Grid>
     </Container>
   );
@@ -45,8 +49,8 @@ Games.propTypes = {
     PropTypes.shape({
       gameId: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
-      isAvailable: PropTypes.bool.isRequired,
-      description: PropTypes.string.isRequired
+      description: PropTypes.string.isRequired,
+      isAvailable: PropTypes.bool.isRequired
     }).isRequired
   ).isRequired
 };

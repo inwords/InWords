@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
-function useForm(initialInputs = {}, actionOnSubmit = Function.prototype) {
+export default function useForm(
+  initialInputs = {},
+  actionOnSubmit = null
+) {
   const [inputs, setInputs] = useState(initialInputs);
 
   const handleChange = event => {
@@ -12,7 +14,10 @@ function useForm(initialInputs = {}, actionOnSubmit = Function.prototype) {
   };
 
   const handleSubmit = event => {
-    actionOnSubmit();
+    if (actionOnSubmit) {
+      actionOnSubmit();
+    }
+    
     event.preventDefault();
   };
 
@@ -27,10 +32,3 @@ function useForm(initialInputs = {}, actionOnSubmit = Function.prototype) {
     handleReset
   };
 }
-
-useForm.propTypes = {
-  initialInputs: PropTypes.object.isRequired,
-  actionOnSubmit: PropTypes.func.isRequired
-};
-
-export default useForm;

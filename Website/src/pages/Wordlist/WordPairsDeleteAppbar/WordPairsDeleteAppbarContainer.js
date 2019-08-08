@@ -9,7 +9,9 @@ function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    const deleteWordPairs = pairIds => dispatch(deleteWordPairsAction(pairIds));
+    const deleteWordPairs = pairIds => {
+      dispatch(deleteWordPairsAction(pairIds));
+    };
 
     let timeoutID = setTimeout(() => {
       deleteWordPairs(checked);

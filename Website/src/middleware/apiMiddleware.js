@@ -3,7 +3,7 @@ import { denyAccess } from 'actions/accessActions';
 import { history } from 'App';
 import apiAction from 'actions/apiAction';
 
-export const CALL_API = 'CALL_API';
+const CALL_API = 'CALL_API';
 
 const API_ROOT = 'https://api.inwords.ru';
 
@@ -58,7 +58,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
       if (contentType && contentType.includes('application/json')) {
         return response.json();
       } else {
-        return null; // other content-types are not supported
+        return null; // Other content-types are not supported
       }
     })
     .then(data => {
@@ -110,4 +110,5 @@ class HttpError extends Error {
   }
 }
 
+export { CALL_API };
 export default apiMiddleware;

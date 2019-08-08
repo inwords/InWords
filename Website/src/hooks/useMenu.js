@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function useMenu() {
+export default function useMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -17,5 +17,3 @@ function useMenu() {
     handleClose
   };
 }
-
-export default useMenu;

@@ -11,7 +11,9 @@ function ProfileContainer({ match }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const receiveUserInfo = userId => dispatch(receiveUserInfoAction(userId));
+    const receiveUserInfo = userId => {
+      dispatch(receiveUserInfoAction(userId));
+    };
 
     const paramUserId = parseInt(match.params.userId);
 

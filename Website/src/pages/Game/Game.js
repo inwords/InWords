@@ -9,8 +9,8 @@ import Grow from '@material-ui/core/Grow';
 import Zoom from '@material-ui/core/Zoom';
 import GameResult from './GameResult';
 
-const cardDimension = 140;
-const cardsSpacing = 2;
+const cardDimension = 110;
+const cardsSpacing = 1;
 
 const useStyles = makeStyles(theme => ({
   gridOfTwoColumns: {
@@ -52,11 +52,12 @@ const useStyles = makeStyles(theme => ({
     borderRadius: theme.shape.borderRadius
   },
   cardText: {
-    fontWeight: 'bold',
     width: '100%',
     padding: theme.spacing(1),
     textAlign: 'center',
-    overflowWrap: 'break-word'
+    wordWrap: 'break-word',
+    lineHeight: 1.3,
+    fontWeight: '500'
   }
 }));
 
@@ -93,42 +94,40 @@ function Game({
       {!isResultReady ? (
         <Grid container className={gridClass}>
           <Grid container justify="center" spacing={cardsSpacing}>
-            {randomWordsInfo.map(randomWordInfo => (
-              <Grid key={randomWordInfo.id} item>
-                <Grow in={!isGameCompleted}>
-                  <div>
-                    <Paper
-                      elevation={
-                        selectedCompletedPairId === randomWordInfo.pairId
-                          ? 7
-                          : 2
-                      }
-                      onClick={handleClick(
-                        randomWordInfo.pairId,
-                        randomWordInfo.id
-                      )}
-                      className={classes.card}
-                    >
-                      <Zoom
-                        in={
-                          randomWordInfo.isSelected ||
-                          randomWordInfo.isCompleted
-                        }
+            {randomWordsInfo.map(randomWordInfo => {
+              const {
+                id,
+                pairId,
+                word,
+                isSelected,
+                isCompleted
+              } = randomWordInfo;
+
+              return (
+                <Grid key={id} item>
+                  <Grow in={!isGameCompleted}>
+                    <div>
+                      <Paper
+                        elevation={selectedCompletedPairId === pairId ? 7 : 2}
+                        onClick={handleClick(pairId, id)}
+                        className={classes.card}
                       >
-                        <div className={classes.cardContent}>
-                          <Typography
-                            component="span"
-                            className={classes.cardText}
-                          >
-                            {randomWordInfo.word}
-                          </Typography>
-                        </div>
-                      </Zoom>
-                    </Paper>
-                  </div>
-                </Grow>
-              </Grid>
-            ))}
+                        <Zoom in={isSelected || isCompleted}>
+                          <div className={classes.cardContent}>
+                            <Typography
+                              component="span"
+                              className={classes.cardText}
+                            >
+                              {word}
+                            </Typography>
+                          </div>
+                        </Zoom>
+                      </Paper>
+                    </div>
+                  </Grow>
+                </Grid>
+              );
+            })}
           </Grid>
         </Grid>
       ) : (
@@ -141,9 +140,12 @@ function Game({
 Game.propTypes = {
   randomWordsInfo: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.number.isRequired,
       pairId: PropTypes.number.isRequired,
-      word: PropTypes.string.isRequired
-    })
+      word: PropTypes.string.isRequired,
+      isSelected: PropTypes.bool.isRequired,
+      isCompleted: PropTypes.bool.isRequired
+    }).isRequired
   ).isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
   isGameCompleted: PropTypes.bool.isRequired,
