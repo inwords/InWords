@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -9,11 +9,19 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 import withReceivedGameInfo from './withReceivedGameInfo';
+import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
 
 function GameLevels({ gameId, levelsInfo, match }) {
   return (
     <Container component="div" maxWidth="lg">
+      <BreadcrumbNavigation>
+        <Link component={RouterLink} to="/games" color="inherit">
+          Игры
+        </Link>
+        <Typography color="textPrimary">Уровни</Typography>
+      </BreadcrumbNavigation>
       <Grid container spacing={3}>
         {levelsInfo.map(levelInfo => {
           const { levelId, level, playerStars, isAvailable } = levelInfo;
@@ -39,7 +47,7 @@ function GameLevels({ gameId, levelsInfo, match }) {
                 </CardContent>
                 <CardActions>
                   <Button
-                    component={Link}
+                    component={RouterLink}
                     to={`${match.url}/${levelId}`}
                     size="small"
                     color="primary"

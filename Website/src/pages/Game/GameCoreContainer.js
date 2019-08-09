@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { saveLevelResult as saveLevelResultAction } from 'actions/gamesApiActions';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from './withReceivedGameLevel';
-import Game from './Game';
+import GameCore from './GameCore';
 
-function GameContainer({ levelId, wordTranslations }) {
+function GameCoreContainer({ levelId, wordTranslations }) {
   const [randomWordsInfo, setRandomWordsInfo] = useState([]);
   const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
   const [completedPairIds, setCompletedPairIds] = useState([]);
@@ -180,7 +180,7 @@ function GameContainer({ levelId, wordTranslations }) {
   };
 
   return (
-    <Game
+    <GameCore
       randomWordsInfo={randomWordsInfo}
       selectedCompletedPairId={selectedCompletedPairId}
       isGameCompleted={isGameCompleted}
@@ -192,7 +192,7 @@ function GameContainer({ levelId, wordTranslations }) {
   );
 }
 
-GameContainer.propTypes = {
+GameCoreContainer.propTypes = {
   levelId: PropTypes.number.isRequired,
   wordTranslations: PropTypes.arrayOf(
     PropTypes.shape({
@@ -203,4 +203,4 @@ GameContainer.propTypes = {
   ).isRequired
 };
 
-export default withReceivedGameLevel(GameContainer);
+export default withReceivedGameLevel(GameCoreContainer);
