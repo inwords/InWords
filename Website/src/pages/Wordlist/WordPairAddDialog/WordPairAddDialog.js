@@ -27,48 +27,46 @@ function WordPairAddDialog({
   };
 
   return (
-    <div>
-      <Dialog
-        aria-labelledby="word-pair-add-dialog"
-        open={open}
-        onClose={handleCloseWithReset}
-        fullScreen={fullScreen}
-      >
-        <DialogTitle id="word-pair-add-dialog">Добавление слова</DialogTitle>
-        <DialogContent>
-          <form
-            id="word-pair-add-form"
-            onSubmit={event => {
-              handleSubmit(event);
-              handleCloseWithReset();
-            }}
-          >
-            <TextField
-              label="Слово или фраза"
-              name="wordForeign"
-              value={inputs.wordForeign}
-              onChange={handleChange}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              label="Перевод"
-              name="wordNative"
-              value={inputs.wordNative}
-              onChange={handleChange}
-              margin="normal"
-              fullWidth
-            />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseWithReset}>Отмена</Button>
-          <Button type="submit" form="word-pair-add-form" color="primary">
-            Добавить
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      aria-labelledby="word-pair-add-dialog"
+      open={open}
+      onClose={handleCloseWithReset}
+      fullScreen={fullScreen}
+    >
+      <DialogTitle id="word-pair-add-dialog">Добавление слова</DialogTitle>
+      <DialogContent>
+        <form
+          id="word-pair-add-form"
+          onSubmit={event => {
+            handleSubmit(event);
+            handleCloseWithReset();
+          }}
+        >
+          <TextField
+            label="Слово или фраза"
+            name="wordForeign"
+            value={inputs.wordForeign}
+            onChange={handleChange}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            label="Перевод"
+            name="wordNative"
+            value={inputs.wordNative}
+            onChange={handleChange}
+            margin="normal"
+            fullWidth
+          />
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseWithReset}>Отмена</Button>
+        <Button type="submit" form="word-pair-add-form" color="primary">
+          Добавить
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 

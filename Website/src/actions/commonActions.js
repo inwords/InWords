@@ -8,9 +8,9 @@ export const endLoading = () => ({
   type: commonConstants.END_LOADING
 });
 
-export const setSnackbar = text => ({
+export const setSnackbar = settings => ({
   type: commonConstants.SET_SNACKBAR,
-  payload: text
+  payload: settings
 });
 
 export const resetSnackbar = () => ({

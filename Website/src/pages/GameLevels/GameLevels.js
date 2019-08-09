@@ -11,7 +11,7 @@ import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
 import withReceivedGameInfo from './withReceivedGameInfo';
 
-function GameLevels({ levelsInfo }) {
+function GameLevels({ gameId, levelsInfo, match }) {
   return (
     <Container component="div" maxWidth="lg">
       <Grid container spacing={3}>
@@ -40,7 +40,7 @@ function GameLevels({ levelsInfo }) {
                 <CardActions>
                   <Button
                     component={Link}
-                    to={`/gameLevel/${levelId}`}
+                    to={`${match.url}/${levelId}`}
                     size="small"
                     color="primary"
                     disabled={!isAvailable}
@@ -58,6 +58,7 @@ function GameLevels({ levelsInfo }) {
 }
 
 GameLevels.propTypes = {
+  gameId: PropTypes.number.isRequired,
   levelsInfo: PropTypes.arrayOf(
     PropTypes.shape({
       levelId: PropTypes.number.isRequired,
@@ -65,7 +66,8 @@ GameLevels.propTypes = {
       playerStars: PropTypes.number.isRequired,
       isAvailable: PropTypes.bool.isRequired
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default withReceivedGameInfo(GameLevels);

@@ -6,7 +6,7 @@ import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from './withReceivedGameLevel';
 import Game from './Game';
 
-function GameContainer({ gameLevel }) {
+function GameContainer({ levelId, wordTranslations }) {
   const [randomWordsInfo, setRandomWordsInfo] = useState([]);
   const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
   const [completedPairIds, setCompletedPairIds] = useState([]);
@@ -19,7 +19,7 @@ function GameContainer({ gameLevel }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const shuffledWordTranslations = shuffle([...gameLevel.wordTranslations]);
+    const shuffledWordTranslations = shuffle([...wordTranslations]);
     const wordsInfo = Array.prototype.concat.apply(
       [],
       shuffledWordTranslations.slice(0, 8).map((wordPair, index) => [
@@ -41,7 +41,7 @@ function GameContainer({ gameLevel }) {
     );
 
     setRandomWordsInfo(shuffle(wordsInfo));
-  }, [gameLevel.wordTranslations]);
+  }, [wordTranslations]);
 
   useEffect(() => {
     if (
@@ -62,17 +62,19 @@ function GameContainer({ gameLevel }) {
 
       saveLevelResult(
         {
-          levelId: gameLevel.levelId,
+          levelId: levelId,
           openingQuantity: openingQuantity,
           wordsCount: randomWordsInfo.length
         },
-        data => setScore(data.score)
+        data => {
+          setScore(data.score);
+        }
       );
     }
   }, [
     completedPairIds.length,
     randomWordsInfo.length,
-    gameLevel.levelId,
+    levelId,
     openingQuantity,
     dispatch
   ]);
@@ -191,16 +193,14 @@ function GameContainer({ gameLevel }) {
 }
 
 GameContainer.propTypes = {
-  gameLevel: PropTypes.shape({
-    levelId: PropTypes.number,
-    wordTranslations: PropTypes.arrayOf(
-      PropTypes.shape({
-        serverId: PropTypes.number.isRequired,
-        wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired
-      }).isRequired
-    ).isRequired
-  }).isRequired
+  levelId: PropTypes.number.isRequired,
+  wordTranslations: PropTypes.arrayOf(
+    PropTypes.shape({
+      serverId: PropTypes.number.isRequired,
+      wordForeign: PropTypes.string.isRequired,
+      wordNative: PropTypes.string.isRequired
+    }).isRequired
+  ).isRequired
 };
 
 export default withReceivedGameLevel(GameContainer);

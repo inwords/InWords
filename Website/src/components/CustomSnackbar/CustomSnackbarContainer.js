@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import * as commonActions from 'actions/commonActions';
-import MainSnackbar from './MainSnackbar';
+import { resetSnackbar as resetSnackbarAction } from 'actions/commonActions';
+import CustomSnackbar from './CustomSnackbar';
 
-function MainSnackbarContainer() {
+function CustomSnackbarContainer() {
   const { open, text, actionText, actionHandler } = useSelector(
     store => store.common.snackbar
   );
@@ -12,7 +12,7 @@ function MainSnackbarContainer() {
 
   const handleClose = () => {
     const resetSnackbar = () => {
-      dispatch(commonActions.resetSnackbar());
+      dispatch(resetSnackbarAction());
     };
 
     resetSnackbar();
@@ -27,7 +27,7 @@ function MainSnackbarContainer() {
   };
 
   return (
-    <MainSnackbar
+    <CustomSnackbar
       open={open}
       text={text}
       actionText={actionText}
@@ -37,4 +37,4 @@ function MainSnackbarContainer() {
   );
 }
 
-export default MainSnackbarContainer;
+export default CustomSnackbarContainer;

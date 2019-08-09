@@ -5,7 +5,10 @@ import { editWordPair as editWordPairAction } from 'actions/wordPairsApiActions'
 import useForm from 'hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
-function WordPairEditDialogContainer({ wordPair, ...rest }) {
+function WordPairEditDialogContainer({
+  wordPair: { serverId, wordForeign, wordNative },
+  ...rest
+}) {
   const dispatch = useDispatch();
   const editWordPair = (pairId, wordPair) => {
     dispatch(editWordPairAction(pairId, wordPair));
@@ -13,11 +16,11 @@ function WordPairEditDialogContainer({ wordPair, ...rest }) {
 
   const { inputs, handleChange, handleSubmit, handleReset } = useForm(
     {
-      wordForeign: wordPair.wordForeign,
-      wordNative: wordPair.wordNative
+      wordForeign: wordForeign,
+      wordNative: wordNative
     },
     () => {
-      editWordPair(wordPair.serverId, inputs);
+      editWordPair(serverId, inputs);
     }
   );
 
@@ -34,6 +37,7 @@ function WordPairEditDialogContainer({ wordPair, ...rest }) {
 
 WordPairEditDialogContainer.propTypes = {
   wordPair: PropTypes.shape({
+    serverId: PropTypes.number.isRequired,
     wordForeign: PropTypes.string.isRequired,
     wordNative: PropTypes.string.isRequired
   }).isRequired,

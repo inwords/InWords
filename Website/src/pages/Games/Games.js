@@ -10,7 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-function Games({ gamesInfo }) {
+function Games({ gamesInfo, match }) {
   return (
     <Container component="div" maxWidth="lg">
       <Grid container spacing={3}>
@@ -27,7 +27,7 @@ function Games({ gamesInfo }) {
                 <CardActions>
                   <Button
                     component={Link}
-                    to={`/game/${gameId}`}
+                    to={`${match.url}/${gameId}`}
                     disabled={!isAvailable}
                     size="small"
                     color="primary"
@@ -52,7 +52,8 @@ Games.propTypes = {
       description: PropTypes.string.isRequired,
       isAvailable: PropTypes.bool.isRequired
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default Games;

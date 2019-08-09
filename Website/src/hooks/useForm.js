@@ -1,9 +1,6 @@
 import { useState } from 'react';
 
-export default function useForm(
-  initialInputs = {},
-  actionOnSubmit = null
-) {
+export default function useForm(initialInputs = {}, actionOnSubmit = null) {
   const [inputs, setInputs] = useState(initialInputs);
 
   const handleChange = event => {
@@ -17,7 +14,7 @@ export default function useForm(
     if (actionOnSubmit) {
       actionOnSubmit();
     }
-    
+
     event.preventDefault();
   };
 

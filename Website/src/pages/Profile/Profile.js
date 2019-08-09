@@ -23,10 +23,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Profile({ userInfo, editingAvailable }) {
+function Profile({ avatarPath, nickname, experience, editingAvailable }) {
   const classes = useStyles();
-
-  const { avatarPath, nickname, experience } = userInfo;
 
   return (
     <Fade in>
@@ -64,11 +62,9 @@ function Profile({ userInfo, editingAvailable }) {
 }
 
 Profile.propTypes = {
-  userInfo: PropTypes.shape({
-    nickname: PropTypes.string.isRequired,
-    avatarPath: PropTypes.string.isRequired,
-    experience: PropTypes.number.isRequired
-  }).isRequired,
+  nickname: PropTypes.string.isRequired,
+  avatarPath: PropTypes.string.isRequired,
+  experience: PropTypes.number.isRequired,
   editingAvailable: PropTypes.bool.isRequired
 };
 

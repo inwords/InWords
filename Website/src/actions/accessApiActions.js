@@ -1,6 +1,6 @@
 import apiAction from './apiAction';
-import * as commonActions from './commonActions';
-import * as accessActions from './accessActions';
+import { setSnackbar } from './commonActions';
+import { grantAccess } from './accessActions';
 import { history } from 'App';
 
 export function signIn(userdata) {
@@ -11,7 +11,7 @@ export function signIn(userdata) {
     data: JSON.stringify(userdata),
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(accessActions.grantAccess(data));
+        dispatch(grantAccess(data));
       },
       () => {
         history.push('/wordlist');
@@ -19,9 +19,7 @@ export function signIn(userdata) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось авторизоваться' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось авторизоваться' }));
       }
     ]
   });
@@ -35,7 +33,7 @@ export function signUp(userdata) {
     data: JSON.stringify(userdata),
     actionsOnSuccess: [
       dispatch => {
-        dispatch(commonActions.setSnackbar({ text: 'Аккаунт успешно создан' }));
+        dispatch(setSnackbar({ text: 'Аккаунт успешно создан' }));
       },
       () => {
         history.push('/signIn');
@@ -43,9 +41,7 @@ export function signUp(userdata) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось зарегистрироваться' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось зарегистрироваться' }));
       }
     ]
   });

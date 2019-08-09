@@ -5,8 +5,8 @@ import { receiveUserInfo as receiveUserInfoAction } from 'actions/userApiActions
 import Profile from './Profile';
 
 function ProfileContainer({ match }) {
-  const userId = useSelector(store => store.access.userId);
-  const userInfo = useSelector(store => store.userInfo);
+  const validUserId = useSelector(store => store.access.userId);
+  const { userId, ...restUserInfo } = useSelector(store => store.userInfo);
 
   const dispatch = useDispatch();
 
@@ -17,15 +17,15 @@ function ProfileContainer({ match }) {
 
     const paramUserId = parseInt(match.params.userId);
 
-    if (userInfo.userId !== paramUserId) {
+    if (userId !== paramUserId) {
       receiveUserInfo(paramUserId);
     }
-  }, [userInfo.userId, match.params.userId, dispatch]);
+  }, [userId, match.params.userId, dispatch]);
 
   return (
     <Profile
-      userInfo={userInfo}
-      editingAvailable={userId && userId === userInfo.userId}
+      {...restUserInfo}
+      editingAvailable={validUserId && validUserId === userId}
     />
   );
 }

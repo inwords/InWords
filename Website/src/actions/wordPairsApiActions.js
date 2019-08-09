@@ -1,6 +1,6 @@
 import apiAction from './apiAction';
 import * as wordPairsActions from './wordPairsActions';
-import * as commonActions from './commonActions';
+import { setSnackbar } from './commonActions';
 
 export function receiveWordPairs() {
   return apiAction({
@@ -14,9 +14,7 @@ export function receiveWordPairs() {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось загрузить словарь' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
       }
     ]
   });
@@ -34,9 +32,7 @@ export function deleteWordPairs(pairIds) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось удалить слова' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось удалить слова' }));
       }
     ]
   });
@@ -59,9 +55,7 @@ export function addWordPair(wordPair) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось добавить слово' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
       }
     ]
   });
@@ -88,7 +82,7 @@ export function editWordPair(pairId, wordPair) {
         actionsOnFailure: [
           dispatch => {
             dispatch(
-              commonActions.setSnackbar({
+              setSnackbar({
                 text: 'Не удалось отредактировать слово'
               })
             );
@@ -106,7 +100,7 @@ export function editWordPair(pairId, wordPair) {
     actionsOnFailure: [
       dispatch => {
         dispatch(
-          commonActions.setSnackbar({
+          setSnackbar({
             text: 'Не удалось отредактировать слово'
           })
         );

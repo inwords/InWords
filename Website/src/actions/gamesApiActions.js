@@ -1,6 +1,6 @@
 import apiAction from './apiAction';
 import * as gamesActions from './gamesActions';
-import * as commonActions from './commonActions';
+import { setSnackbar } from './commonActions';
 
 export function receiveGamesInfo() {
   return apiAction({
@@ -12,9 +12,7 @@ export function receiveGamesInfo() {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось загрузить игры' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось загрузить игры' }));
       }
     ]
   });
@@ -30,9 +28,7 @@ export function receiveGameInfo(gameId) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось загрузить игру' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось загрузить игру' }));
       }
     ]
   });
@@ -48,9 +44,7 @@ export function receiveGameLevel(levelId) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось загрузить уровень' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось загрузить уровень' }));
       }
     ]
   });
@@ -71,9 +65,7 @@ export function saveLevelResult(levelResult, actionOnSuccess) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось сохранить результат' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));
       }
     ]
   });

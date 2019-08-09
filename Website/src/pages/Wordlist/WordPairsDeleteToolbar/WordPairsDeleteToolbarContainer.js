@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'actions/commonActions';
 import { deleteWordPairs as deleteWordPairsAction } from 'actions/wordPairsApiActions';
-import WordPairsDeleteAppbar from './WordPairsDeleteAppbar';
+import WordPairsDeleteToolbar from './WordPairsDeleteToolbar';
 
-function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
+function WordPairsDeleteToolbarContainer({ checked, ...rest }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
@@ -29,7 +29,7 @@ function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
   };
 
   return (
-    <WordPairsDeleteAppbar
+    <WordPairsDeleteToolbar
       numberOfSelected={checked.length}
       handleDelete={handleDelete}
       {...rest}
@@ -37,9 +37,9 @@ function WordPairsDeleteAppbarContainer({ checked, ...rest }) {
   );
 }
 
-WordPairsDeleteAppbarContainer.propTypes = {
+WordPairsDeleteToolbarContainer.propTypes = {
   checked: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   handleReset: PropTypes.func
 };
 
-export default WordPairsDeleteAppbarContainer;
+export default WordPairsDeleteToolbarContainer;

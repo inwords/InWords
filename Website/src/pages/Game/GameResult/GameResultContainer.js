@@ -4,35 +4,31 @@ import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import GameResult from './GameResult';
 
-function GameResultContainer({ history, ...rest }) {
-  const gameLevel = useSelector(store => store.games.gameLevel);
-  const gameInfo = useSelector(store => store.games.gameInfo);
+function GameResultContainer({ history, match, ...rest }) {
+  const { levelsInfo } = useSelector(store => store.games.gameInfo);
 
   const handleRedirectionToLevels = () => {
-    if (!gameInfo.gameId) {
-      history.push('/games');
-    } else {
-      history.push(`/game/${gameInfo.gameId}`);
-    }
+    const parsedGameId = parseInt(match.params.gameId);
+    history.push(`/games/${parsedGameId}`);
   };
 
   const handleRedirectionToNextLevel = () => {
-    if (!gameInfo.gameId) {
-      history.push('/games');
-    } else {
-      const levelIndex = gameInfo.levelsInfo.findIndex(
-        levelInfo => levelInfo.levelId === gameLevel.levelId
-      );
+    const parsedLevelId = parseInt(match.params.levelId);
+    const levelIndex = levelsInfo.findIndex(
+      levelInfo => levelInfo.levelId === parsedLevelId
+    );
 
-      if (~levelIndex) {
-        if (gameInfo.levelsInfo[levelIndex + 1]) {
-          history.push(
-            `/gameLevel/${gameInfo.levelsInfo[levelIndex + 1].levelId}`
-          );
-        } else {
-          history.push(`/game/${gameInfo.gameId}`);
-        }
+    if (levelIndex !== -1) {
+      if (levelsInfo[levelIndex + 1]) {
+        const parsedGameId = parseInt(match.params.gameId);
+        history.push(
+          `/games/${parsedGameId}/${levelsInfo[levelIndex + 1].levelId}`
+        );
+      } else {
+        handleRedirectionToLevels();
       }
+    } else {
+      handleRedirectionToLevels();
     }
   };
 
@@ -47,6 +43,7 @@ function GameResultContainer({ history, ...rest }) {
 
 GameResultContainer.propTypes = {
   history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   score: PropTypes.number,
   handleReplay: PropTypes.func
 };

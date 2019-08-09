@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { receiveGamesInfo as receiveGamesInfoAction } from 'actions/gamesApiActions';
 import Games from './Games';
 
-function GamesContainer() {
+function GamesContainer({ ...rest }) {
   const gamesInfo = useSelector(store => store.games.gamesInfo);
 
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function GamesContainer() {
     }
   }, [gamesInfo.length, dispatch]);
 
-  return <Games gamesInfo={gamesInfo} />;
+  return <Games gamesInfo={gamesInfo} {...rest} />;
 }
 
 export default GamesContainer;

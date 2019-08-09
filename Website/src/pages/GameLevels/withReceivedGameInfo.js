@@ -5,25 +5,30 @@ import { receiveGameInfo as receiveGameInfoAction } from 'actions/gamesApiAction
 
 function withReceivedGameInfo(WrappedComponent) {
   function WithReceivedGameInfo({ match, ...rest }) {
-    const gameInfo = useSelector(store => store.games.gameInfo);
+    const { gameId, levelsInfo } = useSelector(store => store.games.gameInfo);
 
     const dispatch = useDispatch();
 
     const parsedGameId = parseInt(match.params.gameId);
 
     useEffect(() => {
-      if (gameInfo.gameId !== parsedGameId) {
+      if (gameId !== parsedGameId) {
         const receiveGameInfo = gameId => {
           dispatch(receiveGameInfoAction(gameId));
         };
 
         receiveGameInfo(parsedGameId);
       }
-    }, [gameInfo.gameId, parsedGameId, dispatch]);
+    }, [gameId, parsedGameId, dispatch]);
 
     return (
-      gameInfo.gameId === parsedGameId && (
-        <WrappedComponent levelsInfo={gameInfo.levelsInfo} {...rest} />
+      gameId === parsedGameId && (
+        <WrappedComponent
+          gameId={gameId}
+          levelsInfo={levelsInfo}
+          match={match}
+          {...rest}
+        />
       )
     );
   }

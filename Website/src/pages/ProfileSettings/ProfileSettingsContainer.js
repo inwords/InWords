@@ -6,7 +6,7 @@ import useForm from 'hooks/useForm';
 import withReceivedUserInfo from './withReceivedUserInfo';
 import ProfileSettings from './ProfileSettings';
 
-function ProfileSettingsContainer({ userInfo }) {
+function ProfileSettingsContainer({ nickname, avatarPath }) {
   const dispatch = useDispatch();
   const updateUserInfo = userInfo => {
     dispatch(updateUserInfoAction(userInfo));
@@ -14,8 +14,8 @@ function ProfileSettingsContainer({ userInfo }) {
 
   const { inputs, handleChange, handleSubmit } = useForm(
     {
-      nickname: userInfo.nickname,
-      avatarPath: userInfo.avatarPath
+      nickname: nickname,
+      avatarPath: avatarPath
     },
     () => {
       updateUserInfo(inputs);
@@ -32,10 +32,8 @@ function ProfileSettingsContainer({ userInfo }) {
 }
 
 ProfileSettingsContainer.propTypes = {
-  userInfo: PropTypes.shape({
-    nickname: PropTypes.string.isRequired,
-    avatarPath: PropTypes.string.isRequired
-  }).isRequired
+  nickname: PropTypes.string.isRequired,
+  avatarPath: PropTypes.string.isRequired
 };
 
 export default withReceivedUserInfo(ProfileSettingsContainer);

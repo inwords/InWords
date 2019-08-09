@@ -1,5 +1,5 @@
 import apiAction from './apiAction';
-import * as commonActions from './commonActions';
+import { setSnackbar } from './commonActions';
 import * as userActions from './userActions';
 import { history } from 'App';
 
@@ -13,9 +13,7 @@ export function receiveUserInfo(userId) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось загрузить профиль' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
       }
     ]
   });
@@ -36,9 +34,7 @@ export function updateUserInfo(userInfo) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(
-          commonActions.setSnackbar({ text: 'Не удалось сохранить профиль' })
-        );
+        dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
       }
     ]
   });

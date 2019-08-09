@@ -5,25 +5,31 @@ import { receiveGameLevel as receiveGameLevelAction } from 'actions/gamesApiActi
 
 function withReceivedGameLevel(WrappedComponent) {
   function WithReceivedGameLevel({ match, ...rest }) {
-    const gameLevel = useSelector(store => store.games.gameLevel);
+    const { levelId, wordTranslations } = useSelector(
+      store => store.games.gameLevel
+    );
 
     const dispatch = useDispatch();
 
     const parsedLevelId = parseInt(match.params.levelId);
 
     useEffect(() => {
-      if (gameLevel.levelId !== parsedLevelId) {
+      if (levelId !== parsedLevelId) {
         const receiveGameLevel = levelId => {
           dispatch(receiveGameLevelAction(levelId));
         };
 
         receiveGameLevel(parsedLevelId);
       }
-    }, [gameLevel.levelId, parsedLevelId, dispatch]);
+    }, [levelId, parsedLevelId, dispatch]);
 
     return (
-      gameLevel.levelId === parsedLevelId && (
-        <WrappedComponent gameLevel={gameLevel} {...rest} />
+      levelId === parsedLevelId && (
+        <WrappedComponent
+          levelId={levelId}
+          wordTranslations={wordTranslations}
+          {...rest}
+        />
       )
     );
   }

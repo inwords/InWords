@@ -90,14 +90,6 @@ function PageLayout({ authorized, children }) {
     setOpen(!open);
   };
 
-  const drawerHeader = (
-    <div className={classes.drawerHeader}>
-      <Link href="/" variant="h6" underline="none">
-        InWords
-      </Link>
-    </div>
-  );
-
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -137,7 +129,11 @@ function PageLayout({ authorized, children }) {
               paper: classes.drawerPaper
             }}
           >
-            {drawerHeader}
+            <div className={classes.drawerHeader}>
+              <Link href="/" variant="h6" underline="none">
+                InWords
+              </Link>
+            </div>
             <Divider />
             <NavList authorized={authorized} onClick={handleClose} />
           </SwipeableDrawer>
@@ -151,7 +147,7 @@ function PageLayout({ authorized, children }) {
             }}
             variant="persistent"
           >
-            {drawerHeader}
+            <div className={classes.toolbar} />
             <Divider />
             <NavList authorized={authorized} />
           </Drawer>

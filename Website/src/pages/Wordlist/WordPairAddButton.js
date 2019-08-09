@@ -21,7 +21,7 @@ function WordPairAddButton({ visible }) {
   const { open, handleOpen, handleClose } = useDialog();
 
   return (
-    <div>
+    <>
       <Zoom in={visible}>
         <Fab
           id="fab"
@@ -34,7 +34,7 @@ function WordPairAddButton({ visible }) {
         </Fab>
       </Zoom>
       <WordPairAddDialog open={open} handleClose={handleClose} />
-    </div>
+    </>
   );
 }
 

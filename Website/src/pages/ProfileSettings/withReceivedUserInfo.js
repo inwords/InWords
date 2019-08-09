@@ -4,23 +4,23 @@ import { receiveUserInfo as receiveUserInfoAction } from 'actions/userApiActions
 
 function withReceivedUserInfo(WrappedComponent) {
   function WithReceivedUserInfo({ ...rest }) {
-    const userId = useSelector(store => store.access.userId);
-    const userInfo = useSelector(store => store.userInfo);
+    const validUserId = useSelector(store => store.access.userId);
+    const { userId, ...restUserInfo } = useSelector(store => store.userInfo);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-      if (userId && userId !== userInfo.userId) {
+      if (validUserId && validUserId !== userId) {
         const receiveUserInfo = userId => {
           dispatch(receiveUserInfoAction(userId));
         };
 
-        receiveUserInfo(userId);
+        receiveUserInfo(validUserId);
       }
-    }, [userId, userInfo.userId, dispatch]);
+    }, [validUserId, userId, dispatch]);
 
     return (
-      userInfo.userId && <WrappedComponent userInfo={userInfo} {...rest} />
+      userId && <WrappedComponent userId={userId} {...restUserInfo} {...rest} />
     );
   }
 
