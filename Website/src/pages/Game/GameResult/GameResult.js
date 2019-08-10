@@ -17,9 +17,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     width: 220,
     padding: theme.spacing(3, 0),
-    marginTop: theme.spacing(2),
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    margin: 'auto'
   },
   smiley: {
     marginBottom: theme.spacing(1)

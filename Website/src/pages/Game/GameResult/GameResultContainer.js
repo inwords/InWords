@@ -19,10 +19,11 @@ function GameResultContainer({ history, match, ...rest }) {
     );
 
     if (levelIndex !== -1) {
-      if (levelsInfo[levelIndex + 1]) {
+      const nextLevelIndex = levelIndex + 1;
+      if (levelsInfo[nextLevelIndex]) {
         const parsedGameId = parseInt(match.params.gameId);
         history.push(
-          `/games/${parsedGameId}/${levelsInfo[levelIndex + 1].levelId}`
+          `/games/${parsedGameId}/${levelsInfo[nextLevelIndex].levelId}`
         );
       } else {
         handleRedirectionToLevels();

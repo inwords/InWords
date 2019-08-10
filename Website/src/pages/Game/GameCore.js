@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -38,6 +37,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   card: {
+    display: 'flex',
+    alignItems: 'center',
     width: cardDimension,
     height: cardDimension,
     cursor: 'pointer',
@@ -46,30 +47,30 @@ const useStyles = makeStyles(theme => ({
   cardContent: {
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: theme.palette.background.paper,
     width: '100%',
     height: '100%',
-    borderRadius: theme.shape.borderRadius
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper
   },
   cardText: {
     width: '100%',
     padding: theme.spacing(1),
     textAlign: 'center',
-    wordWrap: 'break-word',
     lineHeight: 1.3,
+    wordWrap: 'break-word',
     fontWeight: '500'
   }
 }));
 
 function GameCore({
   randomWordsInfo,
+  selectedWordIdsMap,
+  completedPairIdsMap,
   selectedCompletedPairId,
-  isGameCoreCompleted,
+  isGameCompleted,
   isResultReady,
-  score,
   handleClick,
-  handleReplay,
-  match
+  ...rest
 }) {
   const classes = useStyles();
 
@@ -83,29 +84,29 @@ function GameCore({
     } else {
       return classes.gridOfFourColumns;
     }
-  }, [
-    randomWordsInfo.length,
-    classes.gridOfTwoColumns,
-    classes.gridOfThreeColumns,
-    classes.gridOfFourColumns
-  ]);
+  }, [randomWordsInfo.length, classes]);
 
   return !isResultReady ? (
     <Grid container className={gridClass}>
       <Grid container justify="center" spacing={cardsSpacing}>
         {randomWordsInfo.map(randomWordInfo => {
-          const { id, pairId, word, isSelected, isCompleted } = randomWordInfo;
+          const { id, pairId, word } = randomWordInfo;
 
           return (
             <Grid key={id} item>
-              <Grow in={!isGameCoreCompleted}>
+              <Grow in={!isGameCompleted}>
                 <div>
                   <Paper
                     elevation={selectedCompletedPairId === pairId ? 7 : 2}
                     onClick={handleClick(pairId, id)}
                     className={classes.card}
                   >
-                    <Zoom in={isSelected || isCompleted}>
+                    <Zoom
+                      in={
+                        completedPairIdsMap[pairId] ||
+                        Boolean(selectedWordIdsMap[id])
+                      }
+                    >
                       <div className={classes.cardContent}>
                         <Typography
                           component="span"
@@ -124,7 +125,7 @@ function GameCore({
       </Grid>
     </Grid>
   ) : (
-    <GameResult score={score} handleReplay={handleReplay} />
+    <GameResult {...rest} />
   );
 }
 
@@ -133,17 +134,18 @@ GameCore.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       pairId: PropTypes.number.isRequired,
-      word: PropTypes.string.isRequired,
-      isSelected: PropTypes.bool.isRequired,
-      isCompleted: PropTypes.bool.isRequired
+      word: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
+  selectedWordIdsMap: PropTypes.objectOf(PropTypes.number.isRequired)
+    .isRequired,
+  completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
-  isGameCoreCompleted: PropTypes.bool.isRequired,
+  isGameCompleted: PropTypes.bool.isRequired,
   isResultReady: PropTypes.bool.isRequired,
-  score: PropTypes.number,
   handleClick: PropTypes.func.isRequired,
+  score: PropTypes.number,
   handleReplay: PropTypes.func
 };
 
-export default withRouter(GameCore);
+export default GameCore;

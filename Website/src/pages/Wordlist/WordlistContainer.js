@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs as receiveWordPairsAction } from 'actions/wordPairsApiActions';
 import Wordlist from './Wordlist';
@@ -18,29 +18,34 @@ function WordlistContainer() {
     }
   }, [wordPairs.length, dispatch]);
 
-  const [checked, setChecked] = useState([]);
+  const [checkedValues, setCheckedValues] = useState([]);
 
-  const handleToggle = value => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  const handleToggle = useCallback(
+    value => () => {
+      setCheckedValues(checkedValues => {
+        const currentIndex = checkedValues.indexOf(value);
+        const newChecked = [...checkedValues];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+        if (currentIndex === -1) {
+          newChecked.push(value);
+        } else {
+          newChecked.splice(currentIndex, 1);
+        }
 
-    setChecked(newChecked);
-  };
+        return newChecked;
+      });
+    },
+    []
+  );
 
   const handleReset = () => {
-    setChecked([]);
+    setCheckedValues([]);
   };
 
   return (
     <Wordlist
       wordPairs={wordPairs}
-      checked={checked}
+      checkedValues={checkedValues}
       handleToggle={handleToggle}
       handleReset={handleReset}
     />

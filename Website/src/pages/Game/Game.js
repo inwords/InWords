@@ -7,7 +7,7 @@ import Link from '@material-ui/core/Link';
 import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
 import GameCoreContainer from './GameCoreContainer';
 
-function Game({ children, match }) {
+function Game({ match }) {
   return (
     <Container component="div" maxWidth="lg">
       <BreadcrumbNavigation>
@@ -29,7 +29,6 @@ function Game({ children, match }) {
 }
 
 Game.propTypes = {
-  children: PropTypes.node.isRequired,
   match: PropTypes.object.isRequired
 };
 

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { forwardRef, memo } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ForwardNavLink = React.forwardRef((props, ref) => (
+const ForwardNavLink = forwardRef((props, ref) => (
   <NavLink {...props} innerRef={ref} />
 ));
 

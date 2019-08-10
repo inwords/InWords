@@ -5,7 +5,7 @@ import { setSnackbar } from 'actions/commonActions';
 import { deleteWordPairs as deleteWordPairsAction } from 'actions/wordPairsApiActions';
 import WordPairsDeleteToolbar from './WordPairsDeleteToolbar';
 
-function WordPairsDeleteToolbarContainer({ checked, ...rest }) {
+function WordPairsDeleteToolbarContainer({ checkedValues, ...rest }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
@@ -14,7 +14,7 @@ function WordPairsDeleteToolbarContainer({ checked, ...rest }) {
     };
 
     let timeoutID = setTimeout(() => {
-      deleteWordPairs(checked);
+      deleteWordPairs(checkedValues);
     }, 5100);
 
     dispatch(
@@ -30,7 +30,7 @@ function WordPairsDeleteToolbarContainer({ checked, ...rest }) {
 
   return (
     <WordPairsDeleteToolbar
-      numberOfSelected={checked.length}
+      numberOfChecked={checkedValues.length}
       handleDelete={handleDelete}
       {...rest}
     />
@@ -38,7 +38,7 @@ function WordPairsDeleteToolbarContainer({ checked, ...rest }) {
 }
 
 WordPairsDeleteToolbarContainer.propTypes = {
-  checked: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   handleReset: PropTypes.func
 };
 

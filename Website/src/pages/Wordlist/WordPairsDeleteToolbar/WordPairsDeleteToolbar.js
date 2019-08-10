@@ -27,14 +27,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function WordPairsDeleteToolbar({
-  numberOfSelected,
+  numberOfChecked,
   handleDelete,
   handleReset
 }) {
   const classes = useStyles();
 
   return (
-    <Fade in={numberOfSelected !== 0} unmountOnExit>
+    <Fade in={numberOfChecked !== 0} unmountOnExit>
       <Paper square className={classes.paper}>
         <IconButton
           aria-label="clear selection"
@@ -45,7 +45,7 @@ function WordPairsDeleteToolbar({
           <CloseIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          Выбрано: {numberOfSelected}
+          Выбрано: {numberOfChecked}
         </Typography>
         <IconButton
           aria-label="delete"
@@ -63,7 +63,7 @@ function WordPairsDeleteToolbar({
 }
 
 WordPairsDeleteToolbar.propTypes = {
-  numberOfSelected: PropTypes.number.isRequired,
+  numberOfChecked: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired
 };

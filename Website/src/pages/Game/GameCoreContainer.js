@@ -8,12 +8,12 @@ import GameCore from './GameCore';
 
 function GameCoreContainer({ levelId, wordTranslations }) {
   const [randomWordsInfo, setRandomWordsInfo] = useState([]);
-  const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
-  const [completedPairIds, setCompletedPairIds] = useState([]);
+  const [selectedWordIdsMap, setSelectedWordIdsMap] = useState({});
+  const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [openingQuantity, setOpeningQuantity] = useState(0);
-  const [isGameCompleted, setIsGameCompleted] = React.useState(false);
-  const [isResultReady, setIsResultReady] = React.useState(false);
+  const [isGameCompleted, setIsGameCompleted] = useState(false);
+  const [isResultReady, setIsResultReady] = useState(false);
   const [score, setScore] = useState(null);
 
   const dispatch = useDispatch();
@@ -26,16 +26,12 @@ function GameCoreContainer({ levelId, wordTranslations }) {
         {
           id: index * 2,
           pairId: wordPair.serverId,
-          word: wordPair.wordForeign,
-          isCompleted: false,
-          isSelected: false
+          word: wordPair.wordForeign
         },
         {
           id: index * 2 + 1,
           pairId: wordPair.serverId,
-          word: wordPair.wordNative,
-          isCompleted: false,
-          isSelected: false
+          word: wordPair.wordNative
         }
       ])
     );
@@ -44,17 +40,18 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   }, [wordTranslations]);
 
   useEffect(() => {
+    const numberOfcompletedPairs = Object.keys(completedPairIdsMap).length;
     if (
-      completedPairIds.length > 0 &&
-      completedPairIds.length === randomWordsInfo.length / 2
+      numberOfcompletedPairs > 0 &&
+      numberOfcompletedPairs === randomWordsInfo.length / 2
     ) {
       setTimeout(() => {
         setIsGameCompleted(true);
-      }, 700);
+      }, 1000);
 
       setTimeout(() => {
         setIsResultReady(true);
-      }, 1200);
+      }, 1500);
 
       const saveLevelResult = (levelResult, actionOnSuccess) => {
         dispatch(saveLevelResultAction(levelResult, actionOnSuccess));
@@ -62,8 +59,8 @@ function GameCoreContainer({ levelId, wordTranslations }) {
 
       saveLevelResult(
         {
-          levelId: levelId,
-          openingQuantity: openingQuantity,
+          levelId,
+          openingQuantity,
           wordsCount: randomWordsInfo.length
         },
         data => {
@@ -72,7 +69,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       );
     }
   }, [
-    completedPairIds.length,
+    completedPairIdsMap,
     randomWordsInfo.length,
     levelId,
     openingQuantity,
@@ -80,80 +77,42 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   ]);
 
   const handleClick = (pairId, wordId) => () => {
-    if (completedPairIds.find(completedPairId => completedPairId === pairId)) {
+    if (completedPairIdsMap[pairId]) {
       setSelectedCompletedPairId(pairId);
       return;
     }
 
+    const selectedWordIds = Object.keys(selectedWordIdsMap);
+
     if (
-      selectedWordsInfo.length === 2 ||
-      selectedWordsInfo.find(selectedWordInfo => selectedWordInfo.id === wordId)
+      selectedWordIds.length === 2 ||
+      (selectedWordIds.length && selectedWordIds[0].id === wordId)
     ) {
       return;
     }
 
-    if (selectedWordsInfo.length < 2) {
-      setSelectedWordsInfo([
-        ...selectedWordsInfo,
-        {
-          id: wordId,
-          pairId: pairId
-        }
-      ]);
+    if (selectedWordIds.length < 2) {
+      setSelectedWordIdsMap(selectedWordIdsMap => ({
+        ...selectedWordIdsMap,
+        [wordId]: pairId
+      }));
 
-      setRandomWordsInfo(
-        randomWordsInfo.map(randomWordInfo => {
-          if (randomWordInfo.id === wordId) {
-            return {
-              ...randomWordInfo,
-              isSelected: true
-            };
-          }
-
-          return randomWordInfo;
-        })
-      );
-
-      setOpeningQuantity(openingQuantity + 1);
+      setOpeningQuantity(openingQuantity => openingQuantity + 1);
     }
 
-    if (selectedWordsInfo.length === 1) {
-      if (selectedWordsInfo[0].pairId === pairId) {
-        setSelectedWordsInfo([]);
-        setCompletedPairIds([...completedPairIds, pairId]);
+    if (selectedWordIds.length === 1) {
+      if (Object.values(selectedWordIdsMap)[0] === pairId) {
+        setSelectedWordIdsMap({});
+
+        setCompletedPairIdsMap(completedPairIdsMap => ({
+          ...completedPairIdsMap,
+          [pairId]: true
+        }));
+
         setSelectedCompletedPairId(pairId);
-
-        setRandomWordsInfo(
-          randomWordsInfo.map(randomWordInfo => {
-            if (randomWordInfo.pairId === pairId) {
-              return {
-                ...randomWordInfo,
-                isCompleted: true
-              };
-            }
-
-            return randomWordInfo;
-          })
-        );
       } else {
         setTimeout(() => {
-          setSelectedWordsInfo([]);
-
-          setRandomWordsInfo(
-            randomWordsInfo.map(randomWordInfo => {
-              if (
-                randomWordInfo.pairId === selectedWordsInfo[0].pairId ||
-                randomWordInfo.pairId === pairId
-              ) {
-                return {
-                  ...randomWordInfo,
-                  isSelected: false
-                };
-              }
-
-              return randomWordInfo;
-            })
-          );
+          setSelectedWordIdsMap({});
         }, 700);
       }
     }
@@ -170,8 +129,8 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       )
     );
 
-    setSelectedWordsInfo([]);
-    setCompletedPairIds([]);
+    setSelectedWordIdsMap({});
+    setCompletedPairIdsMap({});
     setSelectedCompletedPairId(-1);
     setOpeningQuantity(0);
     setIsGameCompleted(false);
@@ -182,6 +141,8 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   return (
     <GameCore
       randomWordsInfo={randomWordsInfo}
+      selectedWordIdsMap={selectedWordIdsMap}
+      completedPairIdsMap={completedPairIdsMap}
       selectedCompletedPairId={selectedCompletedPairId}
       isGameCompleted={isGameCompleted}
       isResultReady={isResultReady}

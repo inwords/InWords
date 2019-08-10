@@ -3,13 +3,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Checkbox from '@material-ui/core/Checkbox';
+import WordPair from './WordPair';
 import WordPairsDeleteToolbar from './WordPairsDeleteToolbar';
-import WordPairEditButton from './WordPairEditButton';
 import WordPairAddButton from './WordPairAddButton';
 
 const useStyles = makeStyles(theme => ({
@@ -20,49 +15,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Wordlist({ wordPairs, checked, handleToggle, handleReset }) {
+function Wordlist({ wordPairs, checkedValues, handleToggle, handleReset }) {
   const classes = useStyles();
 
   return (
     <Container component="div" maxWidth="md">
       <List className={classes.list}>
-        {wordPairs.map(wordPair => {
-          const { serverId, wordForeign, wordNative } = wordPair;
-          const labelId = `checkbox-list-label-${serverId}`;
-
-          return (
-            <ListItem
-              key={serverId}
-              onClick={handleToggle(serverId)}
-              button
-              dense
-            >
-              <ListItemIcon>
-                <Checkbox
-                  inputProps={{ 'aria-labelledby': labelId }}
-                  tabIndex={-1}
-                  checked={checked.indexOf(serverId) !== -1}
-                  edge="start"
-                  disableRipple
-                />
-              </ListItemIcon>
-              <ListItemText
-                id={labelId}
-                primary={wordForeign}
-                secondary={wordNative}
-              />
-              <ListItemSecondaryAction>
-                <WordPairEditButton
-                  wordPair={wordPair}
-                  visible={checked.length === 0}
-                />
-              </ListItemSecondaryAction>
-            </ListItem>
-          );
-        })}
+        {wordPairs.map(wordPair => (
+          <WordPair
+            key={wordPair.serverId}
+            wordPair={wordPair}
+            isChecked={checkedValues.includes(wordPair.serverId)}
+            handleToggle={handleToggle}
+            editingAvailable={checkedValues.length === 0}
+          />
+        ))}
       </List>
-      <WordPairAddButton visible={checked.length === 0} />
-      <WordPairsDeleteToolbar checked={checked} handleReset={handleReset} />
+      <WordPairAddButton visible={checkedValues.length === 0} />
+      <WordPairsDeleteToolbar
+        checkedValues={checkedValues}
+        handleReset={handleReset}
+      />
     </Container>
   );
 }
@@ -75,7 +48,7 @@ Wordlist.propTypes = {
       wordNative: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
-  checked: PropTypes.array.isRequired,
+  checkedValues: PropTypes.array.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired
 };
