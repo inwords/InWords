@@ -86,13 +86,13 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
             text: 'Не удалось соединиться с сервером',
             actionText: 'Повторить',
             actionHandler: () => {
-              setTimeout(() => {
-                dispatch(
-                  apiAction({
-                    ...action.payload
-                  })
-                );
-              }, 100);
+              setTimeout(
+                dispatch,
+                100,
+                apiAction({
+                  ...action.payload
+                })
+              );
             }
           })
         );

@@ -58,7 +58,6 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             value={inputs.email}
             onChange={handleChange}
             required
-            autoFocus
             fullWidth
             variant="outlined"
             margin="normal"

@@ -25,7 +25,7 @@ function Wordlist({ wordPairs, checkedValues, handleToggle, handleReset }) {
           <WordPair
             key={wordPair.serverId}
             wordPair={wordPair}
-            isChecked={checkedValues.includes(wordPair.serverId)}
+            checked={checkedValues.includes(wordPair.serverId)}
             handleToggle={handleToggle}
             editingAvailable={checkedValues.length === 0}
           />

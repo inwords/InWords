@@ -13,19 +13,17 @@ function WordPairsDeleteToolbarContainer({ checkedValues, ...rest }) {
       dispatch(deleteWordPairsAction(pairIds));
     };
 
-    let timeoutID = setTimeout(() => {
-      deleteWordPairs(checkedValues);
-    }, 5100);
-
     dispatch(
       setSnackbar({
         text: 'Слова будут удалены через 5 секунд',
         actionText: 'Отменить',
         actionHandler: () => {
-          clearTimeout(timeoutID);
+          clearTimeout(timerId);
         }
       })
     );
+
+    let timerId = setTimeout(deleteWordPairs, 5100, checkedValues);
   };
 
   return (

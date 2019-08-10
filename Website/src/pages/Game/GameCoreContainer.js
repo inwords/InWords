@@ -45,13 +45,8 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       numberOfcompletedPairs > 0 &&
       numberOfcompletedPairs === randomWordsInfo.length / 2
     ) {
-      setTimeout(() => {
-        setIsGameCompleted(true);
-      }, 1000);
-
-      setTimeout(() => {
-        setIsResultReady(true);
-      }, 1500);
+      setTimeout(setIsGameCompleted, 1000, true);
+      setTimeout(setIsResultReady, 1500, true);
 
       const saveLevelResult = (levelResult, actionOnSuccess) => {
         dispatch(saveLevelResultAction(levelResult, actionOnSuccess));
@@ -111,9 +106,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
 
         setSelectedCompletedPairId(pairId);
       } else {
-        setTimeout(() => {
-          setSelectedWordIdsMap({});
-        }, 700);
+        setTimeout(setSelectedWordIdsMap, 700, {});
       }
     }
   };

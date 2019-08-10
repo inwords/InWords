@@ -58,7 +58,6 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             value={inputs.email}
             onChange={handleChange}
             required
-            autoFocus
             variant="outlined"
             margin="normal"
             fullWidth
