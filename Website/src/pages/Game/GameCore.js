@@ -65,6 +65,7 @@ const useStyles = makeStyles(theme => ({
 function GameCore({
   randomWordsInfo,
   selectedWordIdsMap,
+  selectedWordsInfo,
   completedPairIdsMap,
   selectedCompletedPairId,
   isGameCompleted,
@@ -104,7 +105,11 @@ function GameCore({
                     <Zoom
                       in={
                         completedPairIdsMap[pairId] ||
-                        Boolean(selectedWordIdsMap[id])
+                        Boolean(
+                          selectedWordsInfo.find(
+                            selectedWordInfo => selectedWordInfo.id === id
+                          )
+                        )
                       }
                     >
                       <div className={classes.cardContent}>
@@ -137,8 +142,11 @@ GameCore.propTypes = {
       word: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
-  selectedWordIdsMap: PropTypes.objectOf(PropTypes.number.isRequired)
-    .isRequired,
+  selectedWordsInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired
+    }).isRequired
+  ).isRequired,
   completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
   isGameCompleted: PropTypes.bool.isRequired,

@@ -8,7 +8,7 @@ import GameCore from './GameCore';
 
 function GameCoreContainer({ levelId, wordTranslations }) {
   const [randomWordsInfo, setRandomWordsInfo] = useState([]);
-  const [selectedWordIdsMap, setSelectedWordIdsMap] = useState({});
+  const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [openingQuantity, setOpeningQuantity] = useState(0);
@@ -71,33 +71,33 @@ function GameCoreContainer({ levelId, wordTranslations }) {
     dispatch
   ]);
 
-  const handleClick = (pairId, wordId) => () => {
+  const handleClick = (pairId, id) => () => {
     if (completedPairIdsMap[pairId]) {
       setSelectedCompletedPairId(pairId);
       return;
     }
 
-    const selectedWordIds = Object.keys(selectedWordIdsMap);
-
     if (
-      selectedWordIds.length === 2 ||
-      (selectedWordIds.length && selectedWordIds[0].id === wordId)
+      selectedWordsInfo.length === 2 ||
+      (selectedWordsInfo.length && selectedWordsInfo[0].id === id)
     ) {
       return;
     }
 
-    if (selectedWordIds.length < 2) {
-      setSelectedWordIdsMap(selectedWordIdsMap => ({
-        ...selectedWordIdsMap,
-        [wordId]: pairId
-      }));
+    if (selectedWordsInfo.length < 2) {
+      setSelectedWordsInfo(selectedWordsInfo =>
+        selectedWordsInfo.concat({
+          id,
+          pairId
+        })
+      );
 
       setOpeningQuantity(openingQuantity => openingQuantity + 1);
     }
 
-    if (selectedWordIds.length === 1) {
-      if (Object.values(selectedWordIdsMap)[0] === pairId) {
-        setSelectedWordIdsMap({});
+    if (selectedWordsInfo.length === 1) {
+      if (selectedWordsInfo[0].pairId === pairId) {
+        setSelectedWordsInfo([]);
 
         setCompletedPairIdsMap(completedPairIdsMap => ({
           ...completedPairIdsMap,
@@ -106,7 +106,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
 
         setSelectedCompletedPairId(pairId);
       } else {
-        setTimeout(setSelectedWordIdsMap, 700, {});
+        setTimeout(setSelectedWordsInfo, 700, []);
       }
     }
   };
@@ -122,7 +122,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       )
     );
 
-    setSelectedWordIdsMap({});
+    setSelectedWordsInfo([]);
     setCompletedPairIdsMap({});
     setSelectedCompletedPairId(-1);
     setOpeningQuantity(0);
@@ -134,7 +134,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   return (
     <GameCore
       randomWordsInfo={randomWordsInfo}
-      selectedWordIdsMap={selectedWordIdsMap}
+      selectedWordsInfo={selectedWordsInfo}
       completedPairIdsMap={completedPairIdsMap}
       selectedCompletedPairId={selectedCompletedPairId}
       isGameCompleted={isGameCompleted}
