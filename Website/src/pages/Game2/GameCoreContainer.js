@@ -7,10 +7,16 @@ import withReceivedGameLevel from './withReceivedGameLevel';
 import GameCore from './GameCore';
 
 function GameCoreContainer({ levelId, wordTranslations }) {
-  const [wordsInfo, setWordsInfo] = useState([]);
-  const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
-  const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
-  const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
+  const [wordSets, setWordSets] = useState([]);
+  const [currentWordSet, setCurrentWordSet] = useState({
+    primaryWordInfo: {
+      word: ''
+    },
+    secondaryWordsInfo: []
+  });
+  const [currentWordSetNumber, setCurrentWordSetNumber] = useState(0);
+  const [wordsStatusColorsMap, setWordsStatusColorsMap] = useState({});
+  const [isClickDone, setIsClickDone] = useState(false);
   const [openingQuantity, setOpeningQuantity] = useState(0);
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
@@ -36,17 +42,37 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       ])
     );
 
-    setWordsInfo(shuffle(wordsInfo));
+    setWordSets(
+      shuffledWordTranslations.map((wordPair, index) => ({
+        primaryWordInfo: {
+          id: index * 2,
+          pairId: wordPair.serverId,
+          word: wordPair.wordForeign
+        },
+        secondaryWordsInfo: wordsInfo.filter(
+          wordInfo => wordInfo.id !== index * 2 && wordInfo.id % 2 !== 0
+        )
+      }))
+    );
+
+    //setCurrentWordSet(wordSets[0]);
   }, [wordTranslations]);
 
   useEffect(() => {
-    const numberOfcompletedPairs = Object.keys(completedPairIdsMap).length;
-    if (
-      numberOfcompletedPairs > 0 &&
-      numberOfcompletedPairs === wordsInfo.length / 2
-    ) {
+    if (wordSets.length) {
+      setCurrentWordSet({
+        primaryWordInfo: wordSets[0].primaryWordInfo,
+        secondaryWordsInfo: shuffle([
+          ...wordSets[0].secondaryWordsInfo
+        ])
+      });
+    }
+  }, [wordSets]);
+
+  useEffect(() => {
+    if (wordSets.length > 0 && currentWordSetNumber >= wordSets.length) {
       setTimeout(setIsGameCompleted, 1000, true);
-      setTimeout(setIsResultReady, 1500, true);
+      /* setTimeout(setIsResultReady, 1500, true);
 
       const saveLevelResult = (levelResult, actionOnSuccess) => {
         dispatch(saveLevelResultAction(levelResult, actionOnSuccess));
@@ -56,75 +82,56 @@ function GameCoreContainer({ levelId, wordTranslations }) {
         {
           levelId,
           openingQuantity,
-          wordsCount: wordsInfo.length
+          wordsCount: randomWordsInfo.length
         },
         data => {
           setScore(data.score);
         }
-      );
+      ); */
     }
-  }, [
-    completedPairIdsMap,
-    wordsInfo.length,
-    levelId,
-    openingQuantity,
-    dispatch
-  ]);
+  }, [wordSets, currentWordSetNumber, isClickDone]);
 
   const handleClick = (pairId, id) => () => {
-    if (completedPairIdsMap[pairId]) {
-      setSelectedCompletedPairId(pairId);
-      return;
+    if (pairId === currentWordSet.primaryWordInfo.pairId) {
+      setWordsStatusColorsMap({
+        [id]: 'primary'
+      });
+    } else {
+      setWordsStatusColorsMap({
+        [currentWordSet.primaryWordInfo.id + 1]: 'primary',
+        [id]: 'secondary'
+      });
     }
 
-    if (
-      selectedWordsInfo.length === 2 ||
-      (selectedWordsInfo.length && selectedWordsInfo[0].id === id)
-    ) {
-      return;
-    }
+    setIsClickDone(true);
+  };
 
-    if (selectedWordsInfo.length < 2) {
-      setSelectedWordsInfo(selectedWordsInfo =>
-        selectedWordsInfo.concat({
-          id,
-          pairId
-        })
-      );
+  const handleOpenNextSet = () => {
+    setCurrentWordSetNumber(currentWordSetNumber => currentWordSetNumber + 1);
+    if (currentWordSetNumber < wordSets.length - 1) {
+      setCurrentWordSet({
+        primaryWordInfo: wordSets[currentWordSetNumber + 1].primaryWordInfo,
+        secondaryWordsInfo: shuffle([
+          ...wordSets[currentWordSetNumber + 1].secondaryWordsInfo
+        ])
+      });
 
-      setOpeningQuantity(openingQuantity => openingQuantity + 1);
-    }
-
-    if (selectedWordsInfo.length === 1) {
-      if (selectedWordsInfo[0].pairId === pairId) {
-        setSelectedWordsInfo([]);
-
-        setCompletedPairIdsMap(completedPairIdsMap => ({
-          ...completedPairIdsMap,
-          [pairId]: true
-        }));
-
-        setSelectedCompletedPairId(pairId);
-      } else {
-        setTimeout(setSelectedWordsInfo, 700, []);
-      }
+      setWordsStatusColorsMap({});
+      setIsClickDone(false);
     }
   };
 
   const handleReplay = () => {
-    setWordsInfo(
+    /* setRandomWordsInfo(
       shuffle(
-        wordsInfo.map(randomWordInfo => ({
+        randomWordsInfo.map(randomWordInfo => ({
           ...randomWordInfo,
           isSelected: false,
           isCompleted: false
         }))
       )
-    );
+    ); */
 
-    setSelectedWordsInfo([]);
-    setCompletedPairIdsMap({});
-    setSelectedCompletedPairId(-1);
     setOpeningQuantity(0);
     setIsGameCompleted(false);
     setIsResultReady(false);
@@ -133,14 +140,14 @@ function GameCoreContainer({ levelId, wordTranslations }) {
 
   return (
     <GameCore
-      wordsInfo={wordsInfo}
-      selectedWordsInfo={selectedWordsInfo}
-      completedPairIdsMap={completedPairIdsMap}
-      selectedCompletedPairId={selectedCompletedPairId}
+      currentWordSet={currentWordSet}
+      wordsStatusColorsMap={wordsStatusColorsMap}
+      isClickDone={isClickDone}
       isGameCompleted={isGameCompleted}
       isResultReady={isResultReady}
-      handleClick={handleClick}
       score={score}
+      handleClick={handleClick}
+      handleOpenNextSet={handleOpenNextSet}
       handleReplay={handleReplay}
     />
   );

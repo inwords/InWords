@@ -16,6 +16,7 @@ const Wordlist = lazy(() => import('./pages/Wordlist'));
 const Games = lazy(() => import('./pages/Games'));
 const GameLevels = lazy(() => import('./pages/GameLevels'));
 const Game = lazy(() => import('./pages/Game'));
+const Game2 = lazy(() => import('./pages/Game2'));
 
 const history = createBrowserHistory();
 
@@ -64,6 +65,7 @@ function App() {
               <Route exact path="/games" component={Games} />
               <Route exact path="/games/:gameId" component={GameLevels} />
               <Route path="/games/:gameId/:levelId" component={Game} />
+              <Route path="/games2/:gameId/:levelId" component={Game2} />
             </Switch>
           </Suspense>
         </ErrorBoundary>

@@ -12,7 +12,7 @@ const cardDimension = 110;
 const cardsSpacing = 1;
 
 const useStyles = makeStyles(theme => ({
-  gridOfTwoColumns: {
+  twoColumnsLayout: {
     [theme.breakpoints.up(
       cardDimension * 2 + theme.spacing(cardsSpacing * 4)
     )]: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
       margin: 'auto'
     }
   },
-  gridOfThreeColumns: {
+  threeColumnsLayout: {
     [theme.breakpoints.up(
       cardDimension * 3 + theme.spacing(cardsSpacing * 6)
     )]: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
       margin: 'auto'
     }
   },
-  gridOfFourColumns: {
+  fourColumnsLayout: {
     [theme.breakpoints.up(
       cardDimension * 4 + theme.spacing(cardsSpacing * 8)
     )]: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     width: cardDimension,
-    height: cardDimension,
+    minHeight: cardDimension,
     cursor: 'pointer',
     backgroundColor: theme.palette.primary.main
   },
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    height: '100%',
+    minHeight: 'inherit',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper
   },
@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function GameCore({
-  randomWordsInfo,
+  wordsInfo,
   selectedWordIdsMap,
   selectedWordsInfo,
   completedPairIdsMap,
@@ -75,22 +75,22 @@ function GameCore({
 }) {
   const classes = useStyles();
 
-  const gridClass = useMemo(() => {
-    const columnsNum = Math.ceil(Math.sqrt(randomWordsInfo.length));
+  const rootClass = useMemo(() => {
+    const columnsNum = Math.ceil(Math.sqrt(wordsInfo.length));
 
     if (columnsNum <= 2) {
-      return classes.gridOfTwoColumns;
+      return classes.twoColumnsLayout;
     } else if (columnsNum === 3) {
-      return classes.gridOfThreeColumns;
+      return classes.threeColumnsLayout;
     } else {
-      return classes.gridOfFourColumns;
+      return classes.fourColumnsLayout;
     }
-  }, [randomWordsInfo.length, classes]);
+  }, [wordsInfo.length, classes]);
 
   return !isResultReady ? (
-    <Grid container className={gridClass}>
+    <div className={rootClass}>
       <Grid container justify="center" spacing={cardsSpacing}>
-        {randomWordsInfo.map(randomWordInfo => {
+        {wordsInfo.map(randomWordInfo => {
           const { id, pairId, word } = randomWordInfo;
 
           return (
@@ -128,14 +128,14 @@ function GameCore({
           );
         })}
       </Grid>
-    </Grid>
+    </div>
   ) : (
     <GameResult {...rest} />
   );
 }
 
 GameCore.propTypes = {
-  randomWordsInfo: PropTypes.arrayOf(
+  wordsInfo: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       pairId: PropTypes.number.isRequired,
