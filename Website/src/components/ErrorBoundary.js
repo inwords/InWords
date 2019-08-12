@@ -31,13 +31,9 @@ class ErrorBoundary extends Component {
           >
             Что-то пошло не так :(
           </Typography>
-          <Typography component="p" variant="body1" paragraph>
-            Попробуйте обновить страницу. Если ошибка повторится, проверьте
-            соединение с интернетом.
-          </Typography>
           <Typography component="p" variant="body1">
-            В редких случаях подобная ошибка возникает по нашей вине. Если это
-            так, мы скоро ее исправим.
+            Попробуйте обновить страницу. Если ошибка повторится, проверьте
+            соединение с Интернетом.
           </Typography>
         </Container>
       );

@@ -47,7 +47,9 @@ function CustomSnackbar({ open, text, actionText, handleAction, handleClose }) {
       message={<span>{open ? text : prevText}</span>}
       action={action}
       className={clsx({
-        [classes.snackbar]: document.getElementById('fab')
+        /* Snackbar appears above, when page has FAB.
+        DOM API is the simplest way for check (but not the best) */
+        [classes.snackbar]: Boolean(document.getElementById('fab'))
       })}
     />
   );

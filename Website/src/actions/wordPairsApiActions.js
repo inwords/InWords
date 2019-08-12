@@ -61,7 +61,7 @@ export function addWordPair(wordPair) {
   });
 }
 
-/* Delete previous word pair and add new word pair */
+// Delete previous word pair and add new word pair
 export function editWordPair(pairId, wordPair) {
   const addEditedWordPair = dispatch => {
     dispatch(

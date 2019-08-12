@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -14,11 +14,14 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     maxWidth: theme.spacing(40)
   },
-  chip: {
-    margin: theme.spacing(1)
+  header: {
+    marginBottom: theme.spacing(1)
   },
   button: {
-    marginTop: theme.spacing(2)
+    marginLeft: theme.spacing(1)
+  },
+  chip: {
+    margin: theme.spacing(1)
   }
 }));
 
@@ -34,7 +37,6 @@ function GameCore({
 }) {
   const classes = useStyles();
 
-  console.log(currentWordSet);
   const {
     primaryWordInfo: { word: primaryWord },
     secondaryWordsInfo
@@ -43,11 +45,26 @@ function GameCore({
   return !isResultReady ? (
     <Fade in={!isGameCompleted}>
       <div className={classes.root}>
-        <Grid container justify="center">
+        <Grid
+          container
+          justify="center"
+          alignItems="center"
+          className={classes.header}
+        >
           <Grid item>
-            <Typography component="span" display="block" variant="h6" paragraph>
+            <Typography component="span" variant="h6">
               {primaryWord}
             </Typography>
+          </Grid>
+          <Grid item>
+            <IconButton
+              aria-label="next"
+              onClick={handleOpenNextSet}
+              disabled={!isClickDone}
+              className={classes.button}
+            >
+              <PlayArrowIcon aria-label="next word" fontSize="small" />
+            </IconButton>
           </Grid>
         </Grid>
         <Grid container justify="center">
@@ -56,29 +73,15 @@ function GameCore({
 
             return (
               <Grid key={id} item>
-                <div>
-                  <Chip
-                    label={word}
-                    onClick={!isClickDone ? handleClick(pairId, id) : null}
-                    color={wordsStatusColorsMap[id] || 'default'}
-                    className={classes.chip}
-                  />
-                </div>
+                <Chip
+                  label={word}
+                  onClick={!isClickDone ? handleClick(pairId, id) : null}
+                  color={wordsStatusColorsMap[id] || 'default'}
+                  className={classes.chip}
+                />
               </Grid>
             );
           })}
-        </Grid>
-        <Grid container justify="center">
-          <Grid item>
-            <IconButton
-              aria-label="delete"
-              onClick={handleOpenNextSet}
-              disabled={!isClickDone}
-              className={classes.button}
-            >
-              <PlayArrowIcon aria-label="next word" fontSize="small" />
-            </IconButton>
-          </Grid>
         </Grid>
       </div>
     </Fade>

@@ -19,21 +19,22 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const shuffledWordTranslations = shuffle([...wordTranslations]);
     const wordsInfo = Array.prototype.concat.apply(
       [],
-      shuffledWordTranslations.slice(0, 8).map((wordPair, index) => [
-        {
-          id: index * 2,
-          pairId: wordPair.serverId,
-          word: wordPair.wordForeign
-        },
-        {
-          id: index * 2 + 1,
-          pairId: wordPair.serverId,
-          word: wordPair.wordNative
-        }
-      ])
+      shuffle([...wordTranslations])
+        .slice(0, 8)
+        .map((wordPair, index) => [
+          {
+            id: index * 2,
+            pairId: wordPair.serverId,
+            word: wordPair.wordForeign
+          },
+          {
+            id: index * 2 + 1,
+            pairId: wordPair.serverId,
+            word: wordPair.wordNative
+          }
+        ])
     );
 
     setWordsInfo(shuffle(wordsInfo));
@@ -112,16 +113,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   };
 
   const handleReplay = () => {
-    setWordsInfo(
-      shuffle(
-        wordsInfo.map(randomWordInfo => ({
-          ...randomWordInfo,
-          isSelected: false,
-          isCompleted: false
-        }))
-      )
-    );
-
+    setWordsInfo(wordInfo => shuffle([...wordInfo]));
     setSelectedWordsInfo([]);
     setCompletedPairIdsMap({});
     setSelectedCompletedPairId(-1);
