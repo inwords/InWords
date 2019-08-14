@@ -98,7 +98,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
 }
 
 SignIn.propTypes = {
-  inputs: PropTypes.shape({
+  inputs: PropTypes.exact({
     email: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired
   }).isRequired,

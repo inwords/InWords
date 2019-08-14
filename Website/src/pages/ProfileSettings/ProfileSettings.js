@@ -74,7 +74,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
 }
 
 ProfileSettings.propTypes = {
-  inputs: PropTypes.shape({
+  inputs: PropTypes.exact({
     nickname: PropTypes.string.isRequired,
     avatarPath: PropTypes.string.isRequired
   }).isRequired,

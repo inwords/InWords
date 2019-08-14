@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { saveLevelResult as saveLevelResultAction } from 'actions/gamesApiActions';
+//import { useDispatch } from 'react-redux';
+//import { saveLevelResult as saveLevelResultAction } from 'actions/gamesApiActions';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from './withReceivedGameLevel';
 import GameCore from './GameCore';
@@ -17,12 +17,12 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   });
   const [wordsStatusColorsMap, setWordsStatusColorsMap] = useState({});
   const [isClickDone, setIsClickDone] = useState(false);
-  const [openingQuantity, setOpeningQuantity] = useState(0);
+  //const [openingQuantity, setOpeningQuantity] = useState(0);
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
   const [score, setScore] = useState(null);
 
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
   useEffect(() => {
     const wordsInfo = Array.prototype.concat.apply(
@@ -65,9 +65,8 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   }, [wordTranslations]);
 
   useEffect(() => {
-    if (currentWordSets.length === 0 && wordSets.length !== 0) {
-      setTimeout(setIsGameCompleted, 1000, true);
-      setTimeout(setIsResultReady, 1500, true);
+    if (isGameCompleted) {
+      setTimeout(setIsResultReady, 500, true);
 
       /* const saveLevelResult = (levelResult, actionOnSuccess) => {
         dispatch(saveLevelResultAction(levelResult, actionOnSuccess));
@@ -84,7 +83,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
         }
       ); */
     }
-  }, [currentWordSets.length, wordSets.length]);
+  }, [isGameCompleted]);
 
   const handleClick = (pairId, id) => () => {
     if (pairId === currentWordSet.primaryWordInfo.pairId) {
@@ -119,6 +118,8 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       });
       setWordsStatusColorsMap({});
       setIsClickDone(false);
+    } else {
+      setIsGameCompleted(true);
     }
   };
 
@@ -128,7 +129,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
     setCurrentWordSet(shuffledWordSets[shuffledWordSets.length - 1]);
     setWordsStatusColorsMap({});
     setIsClickDone(false);
-    setOpeningQuantity(0);
+    //setOpeningQuantity(0);
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);

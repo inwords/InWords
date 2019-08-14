@@ -96,7 +96,7 @@ GameCore.propTypes = {
       word: PropTypes.string.isRequired
     }).isRequired,
     secondaryWordsInfo: PropTypes.arrayOf(
-      PropTypes.shape({
+      PropTypes.exact({
         id: PropTypes.number.isRequired,
         pairId: PropTypes.number.isRequired,
         word: PropTypes.string.isRequired

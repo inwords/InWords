@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
-import GameCoreContainer from './GameCoreContainer';
+import GameCore from './GameCoreContainer';
 
 function Game({ match }) {
   return (
@@ -23,7 +23,7 @@ function Game({ match }) {
         </Link>
         <Typography color="textPrimary">Уровень</Typography>
       </BreadcrumbNavigation>
-      <GameCoreContainer match={match} />
+      <GameCore match={match} />
     </Container>
   );
 }

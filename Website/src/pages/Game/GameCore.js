@@ -136,7 +136,7 @@ function GameCore({
 
 GameCore.propTypes = {
   wordsInfo: PropTypes.arrayOf(
-    PropTypes.shape({
+    PropTypes.exact({
       id: PropTypes.number.isRequired,
       pairId: PropTypes.number.isRequired,
       word: PropTypes.string.isRequired

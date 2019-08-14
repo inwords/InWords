@@ -68,7 +68,7 @@ function GameLevels({ gameId, levelsInfo, match }) {
 GameLevels.propTypes = {
   gameId: PropTypes.number.isRequired,
   levelsInfo: PropTypes.arrayOf(
-    PropTypes.shape({
+    PropTypes.exact({
       levelId: PropTypes.number.isRequired,
       level: PropTypes.number.isRequired,
       playerStars: PropTypes.number.isRequired,
