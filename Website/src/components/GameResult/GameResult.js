@@ -72,7 +72,6 @@ function GameResult({
           <IconButton
             aria-label="next level"
             onClick={handleRedirectionToNextLevel}
-            color="primary"
           >
             <FastForwardIcon fontSize="large" />
           </IconButton>

@@ -10,9 +10,6 @@ function WordPairEditDialogContainer({
   ...rest
 }) {
   const dispatch = useDispatch();
-  const editWordPair = (pairId, wordPair) => {
-    dispatch(editWordPairAction(pairId, wordPair));
-  };
 
   const { inputs, handleChange, handleSubmit, handleReset } = useForm(
     {
@@ -20,7 +17,7 @@ function WordPairEditDialogContainer({
       wordNative: wordNative
     },
     () => {
-      editWordPair(serverId, inputs);
+      dispatch(editWordPairAction(serverId, inputs));
     }
   );
 

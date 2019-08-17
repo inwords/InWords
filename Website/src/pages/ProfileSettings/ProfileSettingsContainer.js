@@ -8,9 +8,6 @@ import ProfileSettings from './ProfileSettings';
 
 function ProfileSettingsContainer({ nickname, avatarPath }) {
   const dispatch = useDispatch();
-  const updateUserInfo = userInfo => {
-    dispatch(updateUserInfoAction(userInfo));
-  };
 
   const { inputs, handleChange, handleSubmit } = useForm(
     {
@@ -18,7 +15,7 @@ function ProfileSettingsContainer({ nickname, avatarPath }) {
       avatarPath: avatarPath
     },
     () => {
-      updateUserInfo(inputs);
+      dispatch(updateUserInfoAction(inputs));
     }
   );
 

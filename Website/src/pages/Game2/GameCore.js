@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import Chip from '@material-ui/core/Chip';
 import Fade from '@material-ui/core/Fade';
-import GameResult from './GameResult';
+import GameResult from 'components/GameResult';
 
 const useStyles = makeStyles(theme => ({
   root: {

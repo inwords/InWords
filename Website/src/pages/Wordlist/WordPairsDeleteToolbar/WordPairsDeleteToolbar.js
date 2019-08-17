@@ -35,7 +35,7 @@ function WordPairsDeleteToolbar({
 
   return (
     <Fade in={numberOfChecked !== 0} unmountOnExit>
-      <Paper square className={classes.paper}>
+      <Paper square elevation={2} className={classes.paper}>
         <IconButton
           aria-label="clear selection"
           onClick={handleReset}

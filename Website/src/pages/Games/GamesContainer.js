@@ -10,11 +10,7 @@ function GamesContainer({ ...rest }) {
 
   useEffect(() => {
     if (!gamesInfo.length) {
-      const receiveGamesInfo = () => {
-        dispatch(receiveGamesInfoAction());
-      };
-
-      receiveGamesInfo();
+      dispatch(receiveGamesInfoAction());
     }
   }, [gamesInfo.length, dispatch]);
 

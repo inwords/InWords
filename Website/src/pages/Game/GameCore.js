@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grow from '@material-ui/core/Grow';
 import Zoom from '@material-ui/core/Zoom';
-import GameResult from './GameResult';
+import GameResult from 'components/GameResult';
 
 const cardDimension = 110;
 const cardsSpacing = 1;
@@ -98,7 +98,7 @@ function GameCore({
               <Grow in={!isGameCompleted}>
                 <div>
                   <Paper
-                    elevation={selectedCompletedPairId === pairId ? 7 : 2}
+                    elevation={selectedCompletedPairId === pairId ? 8 : 2}
                     onClick={handleClick(pairId, id)}
                     className={classes.card}
                   >

@@ -6,9 +6,6 @@ import SignIn from './SignIn';
 
 function SignInContainer() {
   const dispatch = useDispatch();
-  const signIn = userdata => {
-    dispatch(signInAction(userdata));
-  };
 
   const { inputs, handleChange, handleSubmit } = useForm(
     {
@@ -16,7 +13,7 @@ function SignInContainer() {
       password: ''
     },
     () => {
-      signIn(inputs);
+      dispatch(signInAction(inputs));
     }
   );
 

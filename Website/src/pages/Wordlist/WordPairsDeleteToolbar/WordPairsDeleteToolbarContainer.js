@@ -9,10 +9,6 @@ function WordPairsDeleteToolbarContainer({ checkedValues, ...rest }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    const deleteWordPairs = pairIds => {
-      dispatch(deleteWordPairsAction(pairIds));
-    };
-
     dispatch(
       setSnackbar({
         text: 'Слова будут удалены через 5 секунд',
@@ -23,7 +19,11 @@ function WordPairsDeleteToolbarContainer({ checkedValues, ...rest }) {
       })
     );
 
-    let timerId = setTimeout(deleteWordPairs, 5100, checkedValues);
+    let timerId = setTimeout(
+      dispatch,
+      5100,
+      deleteWordPairsAction(checkedValues)
+    );
   };
 
   return (

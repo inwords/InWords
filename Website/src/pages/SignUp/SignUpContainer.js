@@ -6,9 +6,6 @@ import SignUp from './SignUp';
 
 function SignUpContainer() {
   const dispatch = useDispatch();
-  const signUp = userdata => {
-    dispatch(signUpAction(userdata));
-  };
 
   const { inputs, handleChange, handleSubmit } = useForm(
     {
@@ -16,7 +13,7 @@ function SignUpContainer() {
       password: ''
     },
     () => {
-      signUp(inputs);
+      dispatch(signUpAction(inputs));
     }
   );
 
