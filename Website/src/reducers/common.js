@@ -1,11 +1,16 @@
 import { combineReducers } from 'redux';
-import * as commonConstants from 'constants/commonConstants';
+import {
+  BEGIN_LOADING,
+  END_LOADING,
+  SET_SNACKBAR,
+  RESET_SNACKBAR
+} from 'actions/commonActions';
 
 function loading(state = false, action) {
   switch (action.type) {
-    case commonConstants.BEGIN_LOADING:
+    case BEGIN_LOADING:
       return true;
-    case commonConstants.END_LOADING:
+    case END_LOADING:
       return false;
     default:
       return state;
@@ -21,13 +26,13 @@ const initialSnackbarState = {
 
 function snackbar(state = initialSnackbarState, action) {
   switch (action.type) {
-    case commonConstants.SET_SNACKBAR:
+    case SET_SNACKBAR:
       return {
         ...initialSnackbarState,
         ...action.payload,
         open: true
       };
-    case commonConstants.RESET_SNACKBAR:
+    case RESET_SNACKBAR:
       return initialSnackbarState;
     default:
       return state;

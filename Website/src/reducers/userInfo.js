@@ -1,4 +1,4 @@
-import * as userConstants from 'constants/userContants';
+import { INITIALIZE_USER_INFO, UPDATE_USER_INFO } from 'actions/userActions';
 
 const initialState = {
   userId: null,
@@ -9,14 +9,14 @@ const initialState = {
 
 export default function userInfo(state = initialState, action) {
   switch (action.type) {
-    case userConstants.INITIALIZE_USER_INFO:
+    case INITIALIZE_USER_INFO:
       return {
         userId: action.payload.userId || initialState.userId,
         nickname: action.payload.nickName || initialState.nickname,
         avatarPath: action.payload.avatarPath || initialState.avatarPath,
         experience: action.payload.experience || initialState.experience
       };
-    case userConstants.UPDATE_USER_INFO:
+    case UPDATE_USER_INFO:
       return {
         ...state,
         nickname: action.payload.nickname,

@@ -1,21 +1,23 @@
-import * as gamesConstants from 'constants/gamesConstants';
-
+export const INITIALIZE_GAMES_INFO = 'INITIALIZE_GAMES_INFO';
 export const initializeGamesInfo = gamesInfo => ({
-  type: gamesConstants.INITIALIZE_GAMES_INFO,
+  type: INITIALIZE_GAMES_INFO,
   payload: gamesInfo
 });
 
+export const INITIALIZE_GAME_INFO = 'INITIALIZE_GAME_INFO';
 export const initializeGameInfo = gameInfo => ({
-  type: gamesConstants.INITIALIZE_GAME_INFO,
+  type: INITIALIZE_GAME_INFO,
   payload: gameInfo
 });
 
+export const UPDATE_GAME_INFO = 'UPDATE_GAME_INFO';
 export const updateGameInfo = gameInfo => ({
-  type: gamesConstants.UPDATE_GAME_INFO,
+  type: UPDATE_GAME_INFO,
   payload: gameInfo
 });
 
+export const INITIALIZE_GAME_LEVEL = 'INITIALIZE_GAME_LEVEL';
 export const initializeGameLevel = gameLevel => ({
-  type: gamesConstants.INITIALIZE_GAME_LEVEL,
+  type: INITIALIZE_GAME_LEVEL,
   payload: gameLevel
 });

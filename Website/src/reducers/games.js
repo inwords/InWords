@@ -1,9 +1,14 @@
 import { combineReducers } from 'redux';
-import * as gamesConstants from 'constants/gamesConstants';
+import {
+  INITIALIZE_GAMES_INFO,
+  INITIALIZE_GAME_INFO,
+  UPDATE_GAME_INFO,
+  INITIALIZE_GAME_LEVEL
+} from 'actions/gamesActions';
 
 function gamesInfo(state = [], action) {
   switch (action.type) {
-    case gamesConstants.INITIALIZE_GAMES_INFO:
+    case INITIALIZE_GAMES_INFO:
       return action.payload || [];
     default:
       return state;
@@ -17,12 +22,12 @@ const initialGameInfoState = {
 
 function gameInfo(state = initialGameInfoState, action) {
   switch (action.type) {
-    case gamesConstants.INITIALIZE_GAME_INFO:
+    case INITIALIZE_GAME_INFO:
       return {
         gameId: action.payload.gameId || initialGameInfoState.gameId,
         levelsInfo: action.payload.levelInfos || initialGameInfoState.levelsInfo
       };
-    case gamesConstants.UPDATE_GAME_INFO:
+    case UPDATE_GAME_INFO:
       return {
         ...state,
         levelsInfo: state.levelsInfo.map(levelInfo => {
@@ -48,7 +53,7 @@ const initialGameLevelState = {
 
 function gameLevel(state = initialGameLevelState, action) {
   switch (action.type) {
-    case gamesConstants.INITIALIZE_GAME_LEVEL:
+    case INITIALIZE_GAME_LEVEL:
       return {
         levelId: action.payload.levelId || initialGameLevelState.levelId,
         wordTranslations:

@@ -1,10 +1,10 @@
-import * as accessConstants from 'constants/accessConstants';
-
+export const GRANT_ACCESS = 'GRANT_ACCESS';
 export const grantAccess = data => ({
-  type: accessConstants.GRANT_ACCESS,
+  type: GRANT_ACCESS,
   payload: data
 });
 
+export const DENY_ACCESS = 'DENY_ACCESS';
 export const denyAccess = () => ({
-  type: accessConstants.DENY_ACCESS
+  type: DENY_ACCESS
 });

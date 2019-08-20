@@ -1,5 +1,0 @@
-export const BEGIN_LOADING = 'BEGIN_LOADING';
-export const END_LOADING = 'END_LOADING';
-
-export const SET_SNACKBAR = 'SET_SNACKBAR';
-export const RESET_SNACKBAR = 'RESET_SNACKBAR';

@@ -1,18 +1,20 @@
-import * as commonConstants from 'constants/commonConstants';
-
+export const BEGIN_LOADING = 'BEGIN_LOADING';
 export const beginLoading = () => ({
-  type: commonConstants.BEGIN_LOADING
+  type: BEGIN_LOADING
 });
 
+export const END_LOADING = 'END_LOADING';
 export const endLoading = () => ({
-  type: commonConstants.END_LOADING
+  type: END_LOADING
 });
 
+export const SET_SNACKBAR = 'SET_SNACKBAR';
 export const setSnackbar = settings => ({
-  type: commonConstants.SET_SNACKBAR,
+  type: SET_SNACKBAR,
   payload: settings
 });
 
+export const RESET_SNACKBAR = 'RESET_SNACKBAR';
 export const resetSnackbar = () => ({
-  type: commonConstants.RESET_SNACKBAR
+  type: RESET_SNACKBAR
 });

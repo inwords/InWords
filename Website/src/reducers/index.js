@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { DENY_ACCESS } from 'constants/accessConstants';
+import { DENY_ACCESS } from 'actions/accessActions';
 import common from './common';
 import access from './access';
 import userInfo from './userInfo';
