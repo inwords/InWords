@@ -59,7 +59,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        compositeDisposable.add(viewModel.navigationStream().subscribe {
+        viewModel.navigationStream().subscribe {
             gameEndBottomSheetFragment?.dismiss()
 
             when (it) {
@@ -67,12 +67,13 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
                 FromGameEndEventsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
                 else -> Unit
             }
-        })
+        }.disposeOnViewDestroyed()
 
-        compositeDisposable.add(viewModel
+        viewModel
                 .cardsStream()
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(::render) { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+                .subscribe(::render) { Log.e(javaClass.simpleName, it.message.orEmpty()) }
+                .disposeOnViewDestroyed()
     }
 
     private fun render(cardsDataResource: Resource<CardsData>) {

@@ -9,9 +9,10 @@ import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 class IntegrationViewModel internal constructor(authorisationInteractor: AuthorisationInteractor,
                                                 integrationInteractor: IntegrationInteractor) : BasicViewModel() {
     init {
-        compositeDisposable.add(authorisationInteractor.trySignInExistingAccount()
+        authorisationInteractor.trySignInExistingAccount()
                 .onErrorResumeNext { integrationInteractor.getOnUnauthorisedCallback() }
                 .subscribeOn(SchedulersFacade.io())
-                .subscribe({}, { Log.e(javaClass.simpleName, it.message.orEmpty()) }))
+                .subscribe({}, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+                .autoDispose()
     }
 }

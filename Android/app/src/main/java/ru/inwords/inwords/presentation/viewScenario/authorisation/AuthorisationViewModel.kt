@@ -21,7 +21,7 @@ abstract class AuthorisationViewModel protected constructor(protected var author
         clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .subscribe { navigateToLiveData.postValue(Event(true)) }
-                .also { compositeDisposable.add(it) }
+                .autoDispose()
     }
 
     fun onSignHandler(clicksObservable: Observable<Any>, userCredentialsObservable: Observable<UserCredentials>) {
@@ -35,9 +35,7 @@ abstract class AuthorisationViewModel protected constructor(protected var author
                                 .subscribe({ authorisationStateLiveData.postValue(Event(AuthorisationViewState.success())) },
                                         { t -> authorisationStateLiveData.postValue(Event(AuthorisationViewState.error(t))) }))
                     }
-                }.also {
-                    compositeDisposable.add(it)
-                }
+                }.autoDispose()
     }
 
     protected abstract fun performAuthAction(userCredentials: UserCredentials): Completable

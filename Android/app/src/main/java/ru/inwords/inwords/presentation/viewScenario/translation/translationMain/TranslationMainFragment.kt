@@ -57,7 +57,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
             }
         })
 
-        compositeDisposable.add(viewModel.ttsStream
+        viewModel.ttsStream
                 .observeOn(SchedulersFacade.ui())
                 .subscribe { resource ->
                     progress_view.post { progress_view.progress = 0 }
@@ -67,12 +67,13 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
                     } else {
                         Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
                     }
-                })
+                }.disposeOnViewDestroyed()
 
-        compositeDisposable.add(viewModel.translationWordsStream
+        viewModel.translationWordsStream
                 .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(adapter))
+                .subscribe(adapter)
+                .disposeOnViewDestroyed()
 
         viewModel.onAddClickedHandler(RxView.clicks(fab))
         viewModel.onEditClickedHandler(onItemClickedListener)

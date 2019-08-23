@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 abstract class FragmentWithViewModelAndNav<ViewModelType : ViewModel, ViewModelFactory : ViewModelProvider.Factory> : DaggerFragment() {
@@ -21,11 +22,10 @@ abstract class FragmentWithViewModelAndNav<ViewModelType : ViewModel, ViewModelF
 
     protected lateinit var navController: NavController
 
-    protected val compositeDisposable = CompositeDisposable()
-
     protected abstract val layout: Int
-
     protected abstract val classType: Class<ViewModelType>
+
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -47,6 +47,11 @@ abstract class FragmentWithViewModelAndNav<ViewModelType : ViewModel, ViewModelF
     override fun onAttach(context: Context) {
         super.onAttach(context)
         viewModel = provideViewModel()
+    }
+
+    protected fun Disposable.disposeOnViewDestroyed(): Disposable {
+        compositeDisposable.add(this)
+        return this
     }
 
     protected fun provideViewModel(): ViewModelType {

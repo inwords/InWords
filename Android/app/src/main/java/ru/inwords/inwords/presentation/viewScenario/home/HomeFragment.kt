@@ -22,9 +22,9 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        compositeDisposable.add(subscribePolicy())
-        compositeDisposable.add(subscribeProfile())
-        compositeDisposable.add(subscribeDictionary())
+        subscribePolicy().disposeOnViewDestroyed()
+        subscribeProfile().disposeOnViewDestroyed()
+        subscribeDictionary().disposeOnViewDestroyed()
         //BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
         //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
 

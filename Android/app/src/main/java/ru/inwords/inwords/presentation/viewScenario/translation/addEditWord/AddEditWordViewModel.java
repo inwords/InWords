@@ -1,8 +1,12 @@
 package ru.inwords.inwords.presentation.viewScenario.translation.addEditWord;
 
 import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -11,8 +15,6 @@ import ru.inwords.inwords.data.dto.WordTranslation;
 import ru.inwords.inwords.domain.interactor.translation.TranslationSyncInteractor;
 import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteractor;
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel;
-
-import java.util.concurrent.TimeUnit;
 
 public class AddEditWordViewModel extends BasicViewModel {
     private final MutableLiveData<Event<Boolean>> addEditDoneLiveData;
@@ -58,7 +60,7 @@ public class AddEditWordViewModel extends BasicViewModel {
                             addEditDoneLiveData.postValue(new Event<>(true));
                         }
                 );
-        compositeDisposable.add(d);
+        getCompositeDisposable().add(d);
     }
 
     public LiveData<Event<Boolean>> getAddEditDoneLiveData() {

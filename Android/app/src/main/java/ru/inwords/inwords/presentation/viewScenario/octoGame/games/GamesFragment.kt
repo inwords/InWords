@@ -32,10 +32,9 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
         gamesRecycler.layoutManager = GridLayoutManager(context, 2)
         gamesRecycler.adapter = adapter
 
-        compositeDisposable.add(viewModel.navigateToGame
-                .subscribe(::navigateToGame))
+        viewModel.navigateToGame.subscribe(::navigateToGame).disposeOnViewDestroyed()
 
-        compositeDisposable.add(viewModel.screenInfoStream()
+        viewModel.screenInfoStream()
                 .map {
                     if (it.gameInfosResource is Resource.Success) {
                         it.gameInfosResource.data
@@ -55,7 +54,7 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
                 }) {
                     Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()
-                })
+                }.disposeOnViewDestroyed()
     }
 
     private fun navigateToGame(gameInfo: GameInfo) {

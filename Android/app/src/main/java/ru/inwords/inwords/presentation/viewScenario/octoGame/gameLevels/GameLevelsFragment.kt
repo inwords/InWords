@@ -52,9 +52,9 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
         levelsRecycler.layoutManager = GridLayoutManager(context, 3)
         levelsRecycler.adapter = adapter
 
-        compositeDisposable.add(viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel))
+        viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
 
-        compositeDisposable.add(viewModel.screenInfoStream(gameInfo.gameId)
+        viewModel.screenInfoStream(gameInfo.gameId)
                 .map {
                     if (it.gameResource is Resource.Success) {
                         game = it.gameResource.data
@@ -75,7 +75,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
                 }) {
                     Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()
-                })
+                }.disposeOnViewDestroyed()
     }
 
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
