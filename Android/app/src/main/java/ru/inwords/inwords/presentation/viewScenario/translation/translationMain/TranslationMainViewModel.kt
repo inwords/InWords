@@ -77,14 +77,15 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
 
         onSpeakerClickedDisposable = speakerObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .switchMapSingle {
-                    ttsRepository.synthesize(it.wordForeign)
+                .switchMapSingle { wordTranslation ->
+                    ttsRepository.synthesize(wordTranslation.wordForeign)
                             .subscribeOn(SchedulersFacade.io())
+                            .map { Resource.Success(it.absolutePath) as Resource<String> }
+                            .onErrorReturn { Resource.Error(it.message, it) }
                 }
                 .subscribe({
-                    ttsSubject.onNext(Resource.Success(it.absolutePath))
+                    ttsSubject.onNext(it)
                 }, {
-                    ttsSubject.onNext(Resource.Error(it.message))
                     Log.e(javaClass.simpleName, it.message.orEmpty())
                 })
                 .autoDispose()
