@@ -191,6 +191,7 @@ internal class ResourceCachingProviderTest {
     fun resourceCachingProvider_askForContentUpdate_create_remote_error_local_success() {
         mockkStatic(Log::class)
         every { Log.d(any(), any()) } returns 0
+        every { Log.e(any(), any()) } returns 0
 
         val str = "Local val"
 
@@ -218,6 +219,7 @@ internal class ResourceCachingProviderTest {
     fun resourceCachingProvider_askForContentUpdate_create_all_error() {
         mockkStatic(Log::class)
         every { Log.d(any(), any()) } returns 0
+        every { Log.e(any(), any()) } returns 0
 
         val provider = ResourceCachingProvider<String>(
                 { data -> Single.fromCallable { localRepo.put(id, data) }.map { data } },
