@@ -55,7 +55,3 @@
 -keepclassmembers class * {
   @com.facebook.soloader.DoNotOptimize *;
 }
-
--keepclassmembers class * {
-  native ;
-}
