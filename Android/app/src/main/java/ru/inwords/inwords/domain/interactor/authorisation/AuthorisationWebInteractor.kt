@@ -1,5 +1,6 @@
 package ru.inwords.inwords.domain.interactor.authorisation
 
+import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.HttpException
@@ -16,6 +17,11 @@ import javax.inject.Inject
 class AuthorisationWebInteractor @Inject
 internal constructor(private val webRequestsManager: WebRequestsManager,
                      private val integrationInteractor: IntegrationInteractor) : AuthorisationInteractor {
+    override fun trySignInExistingAccount(): Completable {
+        return webRequestsManager.getToken()
+                .interceptError()
+                .checkAuthToken()
+    }
 
     override fun signIn(userCredentials: UserCredentials): Completable {
         return webRequestsManager.getToken(userCredentials)
@@ -45,7 +51,7 @@ internal constructor(private val webRequestsManager: WebRequestsManager,
 
     private fun Single<TokenResponse>.interceptError(): Single<TokenResponse> {
         return onErrorResumeNext { e ->
-            e.printStackTrace()
+            Log.e(javaClass.simpleName, e.message.orEmpty())
 
             val t = when (e) {
                 is HttpException -> AuthenticationException(getErrorMessage(e), e.code())

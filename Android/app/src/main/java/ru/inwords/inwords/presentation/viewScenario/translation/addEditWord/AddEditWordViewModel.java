@@ -1,5 +1,7 @@
 package ru.inwords.inwords.presentation.viewScenario.translation.addEditWord;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -50,14 +52,15 @@ public class AddEditWordViewModel extends BasicViewModel {
                 .switchMap(__ -> wordTranslationObs)
                 .subscribe(wordTranslation ->
                         {
-                            if (wordTranslation != null && !wordTranslation.equals(wordToEdit))
+                            if (wordTranslation != null && !wordTranslation.equals(wordToEdit)) {
                                 //noinspection ResultOfMethodCallIgnored
                                 action.perform(wordTranslation)
-                                        .subscribe(translationSyncInteractor::notifyDataChanged, Throwable::printStackTrace);
+                                        .subscribe(translationSyncInteractor::notifyDataChanged, t -> Log.e(this.getClass().getSimpleName(), "" + t.getMessage()));
+                            }
                             addEditDoneLiveData.postValue(new Event<>(true));
                         }
                 );
-        compositeDisposable.add(d);
+        getCompositeDisposable().add(d);
     }
 
     public LiveData<Event<Boolean>> getAddEditDoneLiveData() {

@@ -10,7 +10,8 @@ internal constructor(private val repositoryInteractor: TranslationWordsRepositor
     private val wordsStream: Observable<List<WordTranslation>>
 
     init {
-        this.wordsStream = repositoryInteractor.list.map { list -> list.filter { it.serverId >= 0 } }
+        this.wordsStream = repositoryInteractor.getList()
+                .map { list -> list.filter { it.serverId >= 0 } }
                 .share()
                 .replay(1)
                 .autoConnect()

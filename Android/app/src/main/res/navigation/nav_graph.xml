@@ -81,6 +81,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/policyFragment"
@@ -150,7 +157,14 @@
             android:id="@+id/action_gameLevelFragment_pop"
             app:popUpTo="@id/gameLevelFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_gameLevelFragment_popUpTo_mainFragment"
+            app:popUpTo="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ru.inwords.inwords.presentation.viewScenario.SettingsFragment"
+        android:label="SettingsFragment" />
 
     <action
         android:id="@+id/action_global_mainFragment"
@@ -162,4 +176,5 @@
         app:destination="@id/translationMainFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_right" />
+
 </navigation>

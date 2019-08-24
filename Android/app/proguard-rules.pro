@@ -44,3 +44,14 @@
 -keepclassmembers,allowobfuscation class * {
   @com.google.gson.annotations.SerializedName <fields>;
 }
+
+# Fresco
+-keep @com.facebook.common.internal.DoNotStrip class *
+-keepclassmembers class * {
+  @com.facebook.common.internal.DoNotStrip *;
+}
+
+-keep @com.facebook.soloader.DoNotOptimize class *
+-keepclassmembers class * {
+  @com.facebook.soloader.DoNotOptimize *;
+}

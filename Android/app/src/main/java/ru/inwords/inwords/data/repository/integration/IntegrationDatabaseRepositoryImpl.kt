@@ -4,11 +4,12 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import io.reactivex.Completable
 import io.reactivex.Single
+import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
 import javax.inject.Inject
 
 class IntegrationDatabaseRepositoryImpl @Inject internal constructor(private val database: AppRoomDatabase,
-                                                                     private val sharedPreferences: SharedPreferences) : IntegrationDatabaseRepository {
+                                                                     @Common private val sharedPreferences: SharedPreferences) : IntegrationDatabaseRepository {
 
     override fun getPolicyAgreementState(): Single<Boolean> {
         return Single.fromCallable {

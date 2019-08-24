@@ -3,6 +3,7 @@ package ru.inwords.inwords.domain.interactor.integration
 import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Single
+import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
 import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
@@ -19,21 +20,21 @@ internal constructor(private val translationSyncInteractor: TranslationSyncInter
                      private val gameInteractor: GameInteractor,
                      private val integrationDatabaseRepository: IntegrationDatabaseRepository) : IntegrationInteractor {
     override fun getOnAuthCallback(): Completable = Completable.mergeDelayError(listOf(
-            profileInteractor.getAuthorisedUser(true)
-                    .firstOrError()
-                    .ignoreElement(),
             translationSyncInteractor.presyncOnStart()
-                    .andThen(translationSyncInteractor.trySyncAllReposWithCache()),
+                    .andThen(translationSyncInteractor.trySyncAllReposWithCache())
+                    .subscribeOn(SchedulersFacade.io()),
             gameInteractor.uploadScoresToServer()
                     .ignoreElement()
+                    .subscribeOn(SchedulersFacade.io())
     ))
-            .doOnError(Throwable::printStackTrace)
+            .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
             .onErrorComplete()
 
-    override fun getOnStartCallback(): Completable = Completable.mergeDelayError(listOf(
+    override fun getOnUnauthorisedCallback(): Completable = Completable.mergeDelayError(listOf(
             translationSyncInteractor.presyncOnStart()
+                    .subscribeOn(SchedulersFacade.io())
     ))
-            .doOnError(Throwable::printStackTrace)
+            .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
             .onErrorComplete()
 
     override fun getOnNewUserCallback(): Completable {

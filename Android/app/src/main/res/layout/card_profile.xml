@@ -5,35 +5,11 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/half_margin"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="@dimen/medium_card_elevation"
-    tools:showIn="@layout/fragment_home">
-
-    <TextView
-        android:id="@+id/clickToLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/half_margin"
-        android:elevation="@dimen/medium_card_elevation"
-        android:gravity="center"
-        android:text="@string/sign_up_proposal"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/avatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_marginTop="@dimen/half_margin"
-        android:layout_marginBottom="@dimen/half_margin"
-        android:contentDescription="@string/avatar"
-        android:elevation="@dimen/medium_card_elevation"
-        app:failureImage="@drawable/ic_octopus1" />
+    app:cardElevation="@dimen/medium_card_elevation">
 
     <TextView
         android:id="@+id/name"
@@ -64,4 +40,15 @@
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         tools:text="@string/user_experience" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_marginBottom="@dimen/half_margin"
+        android:contentDescription="@string/avatar"
+        android:elevation="@dimen/medium_card_elevation"
+        app:failureImage="@drawable/ic_octopus1" />
 </androidx.cardview.widget.CardView>

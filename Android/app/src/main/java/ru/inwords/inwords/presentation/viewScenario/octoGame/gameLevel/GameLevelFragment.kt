@@ -1,6 +1,7 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,9 @@ import kotlin.math.ceil
 
 
 class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGameViewModelFactory>() {
+    override val layout = R.layout.fragment_game_level
+    override val classType = GameLevelViewModel::class.java
+
     //region arguments
     private lateinit var gameLevelInfo: GameLevelInfo
     private var gameId: Int = INVALID_ID
@@ -55,20 +59,21 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        compositeDisposable.add(viewModel.navigationStream().subscribe {
+        viewModel.navigationStream().subscribe {
             gameEndBottomSheetFragment?.dismiss()
 
             when (it) {
-                FromGameEndEventsEnum.HOME -> navController.navigate(R.id.action_global_mainFragment)
+                FromGameEndEventsEnum.HOME -> navController.navigate(R.id.action_gameLevelFragment_popUpTo_mainFragment)
                 FromGameEndEventsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
                 else -> Unit
             }
-        })
+        }.disposeOnViewDestroyed()
 
-        compositeDisposable.add(viewModel
+        viewModel
                 .cardsStream()
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(::render, Throwable::printStackTrace))
+                .subscribe(::render) { Log.e(javaClass.simpleName, it.message.orEmpty()) }
+                .disposeOnViewDestroyed()
     }
 
     private fun render(cardsDataResource: Resource<CardsData>) {
@@ -77,8 +82,8 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
         gameLevelInfo = viewModel.getCurrentLevelInfo()
 
-        if (cardsDataResource.success()) {
-            val cardsData = cardsDataResource.data!!
+        if (cardsDataResource is Resource.Success) {
+            val cardsData = cardsDataResource.data
 
             cardsData.words.forEach { stateMap[it] = false }
 
@@ -149,7 +154,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
                 stateMap.size
         )
                 .also {
-                    supportFragmentInjector().inject(it)
+                    androidInjector().inject(it)
                     it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName)
                 }
     }
@@ -185,8 +190,4 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
             }
         }
     }
-
-    override fun getLayout() = R.layout.fragment_game_level
-
-    override fun getClassType() = GameLevelViewModel::class.java
 }

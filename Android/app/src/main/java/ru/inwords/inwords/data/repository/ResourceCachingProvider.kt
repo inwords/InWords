@@ -2,6 +2,7 @@ package ru.inwords.inwords.data.repository
 
 import android.annotation.SuppressLint
 import android.util.Log
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
@@ -9,6 +10,8 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.domain.model.Resource
+import java.io.InterruptedIOException
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * @param databaseInserter not wrapped as resource: calling onError if error
@@ -25,49 +28,87 @@ internal class ResourceCachingProvider<T : Any>(
 
     private val resourceStream: Subject<Resource<T>> = BehaviorSubject.create()
 
-    private var shouldAskForUpdate = false
+    private var shouldAskForUpdate = AtomicBoolean(false)
+    private var inProgress = AtomicBoolean(false)
 
     init {
         askForContentStream //TODO loading state emit somewhere
                 .observeOn(SchedulersFacade.io())
-                .flatMap { fakeRemoteStream.mergeWith(remoteDataProvider().wrapResource()) }
+                .doOnNext { inProgress.set(true) }
+                .switchMap {
+                    fakeRemoteStream.mergeWith(remoteDataProvider()
+                            .subscribeOn(SchedulersFacade.io())
+                            .wrapNetworkResource())
+                }
                 .flatMapSingle { res ->
-                    if (res.success()) {
-                        databaseInserter(res.data!!)
-                                .doOnError { Log.d(TAG, it.message) }
+                    when (res) {
+                        is Resource.Success -> databaseInserter(res.data)
+                                .doOnError { Log.e(TAG, it.message.orEmpty()) }
                                 .wrapResourceOverwriteError(res)
-                    } else {
-                        Log.d(TAG, res.message)
-                        databaseGetter().wrapResource()
+                        is Resource.Loading -> Single.just(res)
+                        is Resource.Error -> {
+                            Log.e(TAG, res.message.orEmpty())
+                            databaseGetter().wrapResource()
+                        }
                     }
                 }
-                .doOnNext { shouldAskForUpdate = it.error() }
+                .doOnNext {
+                    shouldAskForUpdate.set(it is Resource.Error)
+                    inProgress.set(false)
+                }
                 .subscribe(resourceStream)
 
         askForContentUpdate()
     }
 
     fun askForContentUpdate() {
-        askForContentStream.onNext(Unit)
+        shouldAskForUpdate.set(false)
+
+        askDirectForContentUpdate()
+    }
+
+    fun invalidateContent() {
+        shouldAskForUpdate.set(true)
     }
 
     fun postOnLoopback(value: T) {
-        fakeRemoteStream.onNext(Resource.success(value))
+        fakeRemoteStream.onNext(Resource.Success(value))
     }
 
-    fun observe(): Observable<Resource<T>> {
-        return if (shouldAskForUpdate) {
-            val resourceStream = this.resourceStream.skip(1)
-            askForContentUpdate()
+    fun observe(forceUpdate: Boolean = false): Observable<Resource<T>> {
+        return if (forceUpdate || shouldAskForUpdate.compareAndSet(true, false)) {
+            val resourceStream = if (inProgress.get()) {
+                this.resourceStream
+            } else {
+                this.resourceStream.skip(1)
+            }
+            askDirectForContentUpdate()
             resourceStream
         } else {
             resourceStream
         }
     }
 
+    private fun askDirectForContentUpdate() {
+        askForContentStream.onNext(Unit)
+    }
+
     private fun Single<T>.wrapResourceOverwriteError(onErrorResource: Resource<T>): Single<Resource<T>> {
-        return map { Resource.success(it) }
+        return map { Resource.Success(it) as Resource<T> }
                 .onErrorReturn { onErrorResource }
+    }
+
+    private fun <T : Any> Single<T>.wrapNetworkResource(): Maybe<Resource<T>> {
+        return map { Resource.Success(it) as Resource<T> }
+                .onErrorReturn {
+                    if (it is InterruptedIOException || it is InterruptedException) {
+                        Log.e(TAG, "Interrupted exception intercepted: ${it.message.orEmpty()}")
+                        Resource.Loading() //used as a marker to be skipped
+                    } else {
+                        Resource.Error(it.message, it)
+                    }
+                }
+                .filter { it !is Resource.Loading }
     }
 
     class Locator<T : Any>(private val factory: (Int) -> ResourceCachingProvider<T>) {
@@ -75,7 +116,9 @@ internal class ResourceCachingProvider<T : Any>(
         private val cachingProvidersMap = HashMap<Int, ResourceCachingProvider<T>>()
 
         fun get(id: Int): ResourceCachingProvider<T> {
-            return cachingProvidersMap.getOrPut(id) { factory(id) }
+            synchronized(cachingProvidersMap) {
+                return cachingProvidersMap.getOrPut(id) { factory(id) }
+            }
         }
 
         fun getDefault(): ResourceCachingProvider<T> {
@@ -83,7 +126,9 @@ internal class ResourceCachingProvider<T : Any>(
         }
 
         fun clear() {
-            cachingProvidersMap.clear()
+            synchronized(cachingProvidersMap) {
+                cachingProvidersMap.clear()
+            }
         }
     }
 
@@ -93,6 +138,6 @@ internal class ResourceCachingProvider<T : Any>(
 }
 
 fun <T : Any> Single<T>.wrapResource(): Single<Resource<T>> {
-    return map { Resource.success(it) }
-            .onErrorReturn { Resource.error(it.message, null) }
+    return map { Resource.Success(it) as Resource<T> }
+            .onErrorReturn { Resource.Error(it.message, it) }
 }

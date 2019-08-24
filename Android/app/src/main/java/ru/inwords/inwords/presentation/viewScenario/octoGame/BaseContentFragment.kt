@@ -1,10 +1,10 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame
 
+import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.fragment_games.*
-import kotlinx.android.synthetic.main.game_no_content.*
+import ru.inwords.inwords.R
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 
 abstract class BaseContentFragment<
@@ -12,6 +12,16 @@ abstract class BaseContentFragment<
         ViewModelType : ViewModel,
         ViewModelFactory : ViewModelProvider.Factory>
     : FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory>() {
+
+    protected lateinit var gameContent: View
+    protected lateinit var gameNoContent: View
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        gameContent = view.findViewById(R.id.game_content)
+        gameNoContent = view.findViewById(R.id.game_no_content)
+    }
 
     protected fun showScreenState(list: List<T>) {
         if (list.isEmpty()) {
@@ -22,8 +32,8 @@ abstract class BaseContentFragment<
     }
 
     protected fun showContent() {
-        game_no_content.visibility = View.GONE
-        game_content.visibility = View.VISIBLE
+        gameNoContent.visibility = View.GONE
+        gameContent.visibility = View.VISIBLE
         /*
             game_menu.setOnClickListener { showPopupMenu(it) }
             game_menu.tag = gameInfo
@@ -31,7 +41,7 @@ abstract class BaseContentFragment<
     }
 
     protected fun showNoContent() {
-        game_no_content.visibility = View.VISIBLE
-        game_content.visibility = View.GONE
+        gameNoContent.visibility = View.VISIBLE
+        gameContent.visibility = View.GONE
     }
 }

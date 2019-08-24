@@ -2,13 +2,14 @@ package ru.inwords.inwords.data.source.webService.session
 
 import android.content.SharedPreferences
 import io.reactivex.Single
+import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.data.dto.UserCredentials
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthInfo @Inject constructor(private val sharedPreferences: SharedPreferences) {
-    var tokenResponse: TokenResponse = TokenResponse()
+class AuthInfo @Inject constructor(@Common private val sharedPreferences: SharedPreferences) {
+    var tokenResponse: TokenResponse = noToken
 
     val bearer: String get() = tokenResponse.bearer
 
@@ -37,6 +38,16 @@ class AuthInfo @Inject constructor(private val sharedPreferences: SharedPreferen
             credentialsInternal = userCredentials
             credentialsInternal
         }
+    }
+
+    val isNoToken: Boolean get() = tokenResponse == noToken
+    val isError: Boolean get() = tokenResponse == errorToken
+    val isUnauthorised: Boolean get() = tokenResponse == unauthorisedToken
+
+    companion object {
+        val noToken = TokenResponse()
+        val errorToken = TokenResponse("error_token")
+        val unauthorisedToken = TokenResponse("invalid_token")
     }
 }
 

@@ -17,13 +17,13 @@ class WordTranslationsAdapter(layoutInflater: LayoutInflater,
         BaseSingleTypeAdapter<WordTranslation, WordTranslationsAdapter.WordViewHolder>(layoutInflater, onItemClickedListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-        val v = inflater.inflate(R.layout.list_item_word, parent, false)
+        val v = layoutInflater.inflate(R.layout.list_item_word, parent, false)
 
-        return WordViewHolder(v, onItemClickedListener, onSpeakerClickedListener)
+        return WordViewHolder(v, onItemClickListener, onSpeakerClickedListener)
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
-        val wordTranslation = values[position]
+        val wordTranslation = items[position]
         holder.bind(wordTranslation)
     }
 

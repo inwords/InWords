@@ -2,5 +2,5 @@ package ru.inwords.inwords.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-class UserCredentials(@field:SerializedName("Email") val email: String = "",
-                      @field:SerializedName("Password") val password: String = "")
+data class UserCredentials(@SerializedName("Email") val email: String = "",
+                           @SerializedName("Password") val password: String = "")
