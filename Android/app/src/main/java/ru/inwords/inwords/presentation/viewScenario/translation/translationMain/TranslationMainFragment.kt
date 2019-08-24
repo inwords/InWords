@@ -30,8 +30,8 @@ import ru.inwords.inwords.presentation.viewScenario.translation.recycler.WordTra
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.applyDiffUtil
 
 class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationViewModelFactory>(), ItemTouchHelperEvents {
-    override val layout get() = R.layout.fragment_translation_main
-    override val classType get() = TranslationMainViewModel::class.java
+    override val layout = R.layout.fragment_translation_main
+    override val classType = TranslationMainViewModel::class.java
 
     private lateinit var adapter: WordTranslationsAdapter
 
@@ -116,7 +116,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     override fun onItemDismiss(position: Int) {
-        val item = adapter.values[position].clone()
+        val item = adapter.items[position].clone()
         viewModel.onItemDismiss(item.clone())
 
         Snackbar.make(asdasd, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)

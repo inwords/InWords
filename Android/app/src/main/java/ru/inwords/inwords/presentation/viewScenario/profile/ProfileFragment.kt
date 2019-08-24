@@ -20,8 +20,8 @@ import ru.inwords.inwords.presentation.viewScenario.renderPolicyText
 
 
 class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileViewModelFactory>() {
-    override val layout get() = R.layout.fragment_profile
-    override val classType get() = ProfileViewModel::class.java
+    override val layout = R.layout.fragment_profile
+    override val classType = ProfileViewModel::class.java
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)

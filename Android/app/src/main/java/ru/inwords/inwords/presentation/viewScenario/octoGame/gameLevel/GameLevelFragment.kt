@@ -23,8 +23,8 @@ import kotlin.math.ceil
 
 
 class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGameViewModelFactory>() {
-    override val layout get() = R.layout.fragment_game_level
-    override val classType get() = GameLevelViewModel::class.java
+    override val layout = R.layout.fragment_game_level
+    override val classType = GameLevelViewModel::class.java
 
     //region arguments
     private lateinit var gameLevelInfo: GameLevelInfo

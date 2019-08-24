@@ -12,8 +12,8 @@ import ru.inwords.inwords.presentation.viewScenario.authorisation.AuthorisationV
 import ru.inwords.inwords.presentation.viewScenario.authorisation.SigningBaseFragment
 
 class RegistrationFragment : SigningBaseFragment<RegistrationViewModel, AuthorisationViewModelFactory>() {
-    override val layout get() = R.layout.fragment_sign_up
-    override val classType get() = RegistrationViewModel::class.java
+    override val layout = R.layout.fragment_sign_up
+    override val classType = RegistrationViewModel::class.java
 
     override val credentials: Observable<UserCredentials> //TODO show info
         get() = super.credentials.filter { (_, password) ->

@@ -24,8 +24,8 @@ import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.applyDiffUtil
 
 class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, OctoGameViewModelFactory>() {
-    override val layout get() = R.layout.fragment_game_levels
-    override val classType get() = GameLevelsViewModel::class.java
+    override val layout = R.layout.fragment_game_levels
+    override val classType = GameLevelsViewModel::class.java
 
     private lateinit var gameInfo: GameInfo
     private lateinit var game: Game
@@ -75,7 +75,8 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
                 }) {
                     Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()
-                }.disposeOnViewDestroyed()
+                }
+                .disposeOnViewDestroyed()
     }
 
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {

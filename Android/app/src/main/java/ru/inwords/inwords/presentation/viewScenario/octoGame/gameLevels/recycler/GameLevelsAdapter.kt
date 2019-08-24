@@ -11,12 +11,12 @@ class GameLevelsAdapter(layoutInflater: LayoutInflater, onItemClickedListener: S
         BaseSingleTypeAdapter<GameLevelInfo, GameLevelViewHolder>(layoutInflater, onItemClickedListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameLevelViewHolder {
-        val v = inflater.inflate(R.layout.game_level_info, parent, false)
+        val v = layoutInflater.inflate(R.layout.game_level_info, parent, false)
 
-        return GameLevelViewHolder(v, onItemClickedListener)
+        return GameLevelViewHolder(v, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: GameLevelViewHolder, position: Int) {
-        holder.bind(values[position])
+        holder.bind(items[position])
     }
 }

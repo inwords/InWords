@@ -19,8 +19,8 @@ import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.appl
 
 
 class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameViewModelFactory>() {
-    override val layout get() = R.layout.fragment_games
-    override val classType get() = GamesViewModel::class.java
+    override val layout = R.layout.fragment_games
+    override val classType = GamesViewModel::class.java
 
     private lateinit var adapter: GamesAdapter
 

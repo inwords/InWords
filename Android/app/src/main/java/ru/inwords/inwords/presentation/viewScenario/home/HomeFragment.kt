@@ -1,30 +1,40 @@
 package ru.inwords.inwords.presentation.viewScenario.home
 
-import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.navigation.Navigation
-import com.facebook.imagepipeline.request.ImageRequestBuilder
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.card_dictionary.view.*
-import kotlinx.android.synthetic.main.card_profile.view.*
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_home.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.VerticalSpaceItemDecoration
+import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.data.dto.User
-import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
+import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardWrapper
+import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardsRecyclerAdapter
+import ru.inwords.inwords.presentation.viewScenario.home.recycler.applyDiffUtil
+
 
 class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFactory>() {
-    override val layout get() = R.layout.fragment_home
-    override val classType get() = HomeViewModel::class.java
+    override val layout = R.layout.fragment_home
+    override val classType = HomeViewModel::class.java
+
+    private val onItemClickListener: Subject<CardWrapper> = PublishSubject.create()
+    private lateinit var adapter: CardsRecyclerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         subscribePolicy().disposeOnViewDestroyed()
-        subscribeProfile().disposeOnViewDestroyed()
-        subscribeDictionary().disposeOnViewDestroyed()
+
+        subscribeListener().disposeOnViewDestroyed()
+
+        setupRecycler()
+        subscribeRecycler().disposeOnViewDestroyed()
+
         //BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
         //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
 
@@ -34,104 +44,38 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
 //        ))
     }
 
-    private fun toLoginClickListener() = Navigation
-            .createNavigateOnClickListener(R.id.action_mainFragment_to_loginFragment, null)
-
-    private fun toProfileClickListener() = Navigation
-            .createNavigateOnClickListener(R.id.action_mainFragment_to_profileFragment, null)
-
-    private fun subscribeProfile(): Disposable {
-        fun showProfile() {
-            profile.avatar.visibility = View.VISIBLE
-            profile.experience.visibility = View.VISIBLE
-            profile.name.visibility = View.VISIBLE
-            profile.clickToLogin.visibility = View.GONE
-
-            profile.setOnClickListener(toProfileClickListener()) //TODO show profile listener here
-        }
-
-        fun showLoginHint() {
-            profile.avatar.visibility = View.GONE
-            profile.experience.visibility = View.GONE
-            profile.name.visibility = View.GONE
-            profile.clickToLogin.visibility = View.VISIBLE
-
-            profile.setOnClickListener(toLoginClickListener())
-        }
-
-        fun renderUser(user: User) {
-            if (user.avatar != null) {
-                val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(user.avatar))
-                        .setProgressiveRenderingEnabled(true)
-                        .setLocalThumbnailPreviewsEnabled(true)
-                        .build()
-
-                profile.avatar.setImageRequest(request)
-            } else {
-                profile.avatar.setActualImageResource(R.drawable.ic_octopus1)
+    private fun subscribeListener(): Disposable {
+        return onItemClickListener.subscribe {
+            when (it) {
+                is CardWrapper.CreateAccountMarker -> navController.navigate(R.id.action_mainFragment_to_loginFragment)
+                is CardWrapper.ProfileLoadingMarker -> Unit
+                is CardWrapper.ProfileModel -> navController.navigate(R.id.action_mainFragment_to_profileFragment)
+                is CardWrapper.DictionaryModel -> navController.navigate(R.id.action_mainFragment_to_translationMainFragment)
             }
-
-            profile.experience.text = getString(R.string.user_experience, 15)
-            profile.name.text = user.userName
-
-            showProfile()
         }
-
-        fun renderNoUser() {
-            val hintText = getString(R.string.sign_up_proposal)
-            profile.name.text = hintText
-            profile.experience.text = "Войдите в аккаунт, чтобы использовать приложение по полной"
-
-            showLoginHint()
-        }
-
-        fun renderSuccess(user: Resource<User>) {
-            when (user) {
-                is Resource.Error -> renderNoUser()
-                is Resource.Success -> renderUser(user.data)
-            }//TODO loading state use
-
-            profile_shimmer.stopShimmer()
-            profile_shimmer.visibility = View.GONE
-            profile.visibility = View.VISIBLE
-        }
-
-        fun renderLoading() {
-            profile_shimmer.startShimmer()
-            profile_shimmer.visibility = View.VISIBLE
-            profile.visibility = View.GONE
-
-            val loadingText = getString(R.string.loading_text_placeholder)
-            profile.name.text = loadingText
-            profile.experience.text = loadingText
-
-            showProfile()
-        }
-
-        return viewModel.profileDataSubject
-                .doOnSubscribe { renderLoading() }
-                .observeOn(SchedulersFacade.ui())
-                .subscribe(::renderSuccess)
     }
 
-    private fun subscribeDictionary(): Disposable {
-        fun applyListener() {
-            dictionary.setOnClickListener { navController.navigate(R.id.action_mainFragment_to_translationMainFragment) }
-        }
+    private fun setupRecycler() {
+        adapter = CardsRecyclerAdapter(layoutInflater, onItemClickListener)
 
-        fun renderCount(count: Int) {
-            dictionary.dictSize.text = getString(R.string.words_in_dictionary, count)
-        }
+        val dividerItemDecoration = VerticalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.margin_medium))
 
-        fun renderError() {
-            val errorText = getString(R.string.error_text_placeholder)
-            dictionary.dictSize.text = errorText
-        }
+        cards_recycler.layoutManager = LinearLayoutManager(context)
+        cards_recycler.addItemDecoration(dividerItemDecoration)
+        cards_recycler.adapter = adapter
+    }
 
-        return viewModel.wordsCountSubject
+    private fun subscribeRecycler(): Disposable {
+        return viewModel.cardWrappers
+                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
-                .doOnSubscribe { applyListener() }
-                .subscribe(::renderCount) { renderError() }
+                .subscribe({
+                    adapter.accept(it)
+
+                    fixOverscrollBehaviour(cards_recycler)
+                }) {
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
+                }
     }
 
     private fun subscribePolicy(): Disposable {

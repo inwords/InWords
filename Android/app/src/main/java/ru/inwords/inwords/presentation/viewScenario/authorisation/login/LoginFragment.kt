@@ -9,8 +9,8 @@ import ru.inwords.inwords.presentation.viewScenario.authorisation.AuthorisationV
 import ru.inwords.inwords.presentation.viewScenario.authorisation.SigningBaseFragment
 
 class LoginFragment : SigningBaseFragment<LoginViewModel, AuthorisationViewModelFactory>() {
-    override val layout get() = R.layout.fragment_sign_in
-    override val classType get() = LoginViewModel::class.java
+    override val layout = R.layout.fragment_sign_in
+    override val classType = LoginViewModel::class.java
 
     override val buttonId get() = R.id.buttonEnterSignIn
 
