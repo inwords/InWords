@@ -13,17 +13,18 @@ namespace InWords.WebApi.Services.Email
             this.emailIdentity = emailIdentity;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message, string name = "")
         {
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress(emailIdentity.Name, emailIdentity.Address));
-            emailMessage.To.Add(new MailboxAddress("", email));
+            emailMessage.To.Add(new MailboxAddress(name, email));
             emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            BodyBuilder bodyBuilder = new BodyBuilder
             {
-                Text = message
+                TextBody = message
             };
+            emailMessage.Body = bodyBuilder.ToMessageBody();
 
             using (var client = new SmtpClient())
             {

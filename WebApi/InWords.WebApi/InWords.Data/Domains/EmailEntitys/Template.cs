@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InWords.Data.EmailService
+namespace InWords.Data.Domains.EmailEntitys
 {
     class Template
     {
