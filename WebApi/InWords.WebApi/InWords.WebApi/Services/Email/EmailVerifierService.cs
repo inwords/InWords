@@ -16,18 +16,24 @@ namespace InWords.WebApi.Services.Email
         private readonly EmailCodeGeneratorService codeGenerator = null;
         private readonly EmailSender emailSender = null;
         private readonly EmailVerifierRepository emailVerifierRepository = null;
+        private readonly AccountRepository accountRepository = null;
 
-        public EmailVerifierService(EmailSender emailSender, EmailCodeGeneratorService codeGenerator, EmailVerifierRepository emailVerifier)
+
+        public EmailVerifierService(EmailSender emailSender,
+            EmailCodeGeneratorService codeGenerator,
+            EmailVerifierRepository emailVerifier,
+            AccountRepository accountRepository)
         {
             this.emailSender = emailSender;
             this.codeGenerator = codeGenerator;
             this.emailVerifierRepository = emailVerifier;
+            this.accountRepository = accountRepository
         }
 
-        public async Task InstatiateVerifierMessage(User user)
+        public async Task InstatiateVerifierMessage(int userId, string email)
         {
-            int timeout = await GetTimeout(user.UserId);
-            if (await GetTimeout(user.UserId) > 0)
+            int timeout = await GetTimeout(userId);
+            if (await GetTimeout(userId) > 0)
             {
                 throw new TimeoutException($"Email can be sent later after {timeout} seconds");
             }
@@ -36,9 +42,9 @@ namespace InWords.WebApi.Services.Email
             int code = codeGenerator.Generate();
             string codeMsg = $"{code}";
             // TODO to const string;
-            await emailSender.SendEmailAsync(user.Account.Email, EmailSubject, codeMsg);
+            await emailSender.SendEmailAsync(email, EmailSubject, codeMsg);
             //set database
-            await emailVerifierRepository.CreateEmailVerifier(user.UserId, code);
+            await emailVerifierRepository.CreateEmailVerifier(userId, code);
         }
 
         public async Task<int> GetTimeout(int id)
@@ -49,25 +55,32 @@ namespace InWords.WebApi.Services.Email
             return seconds;
         }
 
-        public async Task<bool> TryConfirmEmail(int userId, int code)
+        public async Task<bool> TryConfirmEmail(int userId, string email, int code)
         {
-            bool state = await IsCodeСorrect(userId, code);
-            if (await IsCodeСorrect(userId, code))
+            bool isCorrect = await IsCodeСorrect(userId, email, code);
+
             {
-                emailVerifierRepository.Remove(userId)
-                // DELETE EMAIL VEREFICATION
-                // UPDATE USER STATE
+                // Delete email verification
+                await emailVerifierRepository.RemoveAt(userId);
+                // Update user email state
+                Account account = await accountRepository.FindById(userId);
+                account.EmailState = Data.Enums.EmailStates.Verified;
+                await accountRepository.Update(account);
             }
             else
             {
+                EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
+                emailVerifier.Attempts++;
+                await emailVerifierRepository.Update(emailVerifier);
             }
-            return state;
+
+            return isCorrect;
         }
 
-        private async Task<bool> IsCodeСorrect(int userId, int code)
+        private async Task<bool> IsCodeСorrect(int userId, string email, int code)
         {
             EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
-            return code.Equals(emailVerifier.Code);
+            return emailVerifier.Equals(userId, email, code);
         }
     }
 }

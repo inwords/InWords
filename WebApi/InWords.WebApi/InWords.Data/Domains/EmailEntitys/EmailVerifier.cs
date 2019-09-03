@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InWords.Data.Domains.EmailEntitys
 {
@@ -11,10 +8,30 @@ namespace InWords.Data.Domains.EmailEntitys
         [Key]
         public int UserId { get; set; }
 
+        [MaxLength(64)]
+        [Required] public string Email { get; set; }
+
         public DateTime SentTime { get; set; }
 
         public int Code { get; set; }
 
         public short Attempts { get; set; }
+
+        public bool Equals(EmailVerifier b) => Equals(b.UserId, b.Email, b.Code);
+
+        public override bool Equals(object obj)
+        {
+            return obj is EmailVerifier ? Equals((EmailVerifier)obj) : false;
+        }
+
+        public bool Equals(int userId, string email, int code)
+        {
+            return Equals(UserId, userId) && Equals(Email, email) && Equals(Code, code);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(UserId, Email, SentTime, Code, Attempts);
+        }
     }
 }

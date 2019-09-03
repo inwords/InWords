@@ -18,33 +18,36 @@ namespace InWords.WebApi.Controllers.v1
     public class EmailController : ControllerBase
     {
         private readonly EmailVerifierService emailVerifierService = null;
-        private readonly UserRepository userRepository = null;
+        private readonly AccountRepository accountRepository = null;
 
-        public EmailController(EmailVerifierService emailVerifierService, UserRepository userRepository)
+        public EmailController(EmailVerifierService emailVerifierService, AccountRepository accountRepository)
         {
             this.emailVerifierService = emailVerifierService;
-            this.userRepository = userRepository;
+            this.accountRepository = accountRepository;
         }
 
         [Authorize]
         [Route("SendActivationCode")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> SendActivationCode()
+        public async Task<IActionResult> SendActivationCode([FromBody] string email)
         {
             int authorizedId = User.GetUserId();
-            User user = userRepository.GetWithInclude(u => u.UserId == authorizedId, us => us.Account).SingleOrDefault();
-            await emailVerifierService.InstatiateVerifierMessage(user);
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                Account account = await accountRepository.FindById(authorizedId);
+                email = account.Email;
+            }
+            await emailVerifierService.InstatiateVerifierMessage(authorizedId, email);
             return NoContent();
         }
 
         [HttpGet]
-        [Route("test/{authorizedId}")]
-        public async Task<IActionResult> GetScore(int authorizedId)
+        [Route("Confirm/{id};{authorizedId};{code}")]
+        public async Task<IActionResult> Confirm(int userId, string email, int code)
         {
-            User user = userRepository.GetWithInclude(u => u.UserId == authorizedId, us => us.Account).SingleOrDefault();
-            await emailVerifierService.InstatiateVerifierMessage(user);
-            return Ok();
+            bool valid = await emailVerifierService.TryConfirmEmail(userId, email, code);
+            return Ok(valid);
         }
     }
 }
