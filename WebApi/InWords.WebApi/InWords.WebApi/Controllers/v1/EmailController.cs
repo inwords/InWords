@@ -56,9 +56,11 @@ namespace InWords.WebApi.Controllers.v1
         [Route("Confirm/{encryptlink}")]
         public async Task<IActionResult> ConfirmLink(string encryptlink)
         {
+            //UUID.randomUUID().toString()
             throw new NotImplementedException();
             //try
             //{
+            // 
             //    await emailVerifierService.IsCodeCorrect(userId, email, code);
             //}
             //catch (ArgumentException e)
@@ -81,7 +83,7 @@ namespace InWords.WebApi.Controllers.v1
             try
             {
                 await emailVerifierService.IsCodeCorrect(authorizedId, emailClaims.Email, emailClaims.Code);
-                accountRepository.SetEmail(authorizedId, emailClaims.Email, Data.Enums.EmailStates.Verified);
+                await accountRepository.SetEmail(authorizedId, emailClaims.Email, Data.Enums.EmailStates.Verified);
                 return NoContent();
             }
             catch (ArgumentException e)
