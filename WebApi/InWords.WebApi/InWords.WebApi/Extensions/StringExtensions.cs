@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Extensions
@@ -33,6 +34,26 @@ namespace InWords.WebApi.Extensions
         public static string[] RemoveEmpty(this IEnumerable<string> source)
         {
             return source.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+        }
+
+        public static string Replace(this string source, Dictionary<string, string> keyValues)
+        {
+            // TODO: optimize to more performance
+            foreach (KeyValuePair<string, string> keyValuePair in keyValues)
+            {
+                source = source.Replace(keyValuePair.Key, keyValuePair.Value);
+            }
+            return source;
+        }
+
+        /// <summary>
+        /// This is to get raw text inside html/xml tags
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string StripHTML(this string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
         }
     }
 }

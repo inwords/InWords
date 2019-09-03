@@ -16,7 +16,7 @@ namespace InWords.WebApi.Controllers.v1._1
         private readonly UserRepository userRepository;
         private readonly EmailSender emailSender;
 
-        public ValuesController(InWordsDataContext context,EmailSender sender)
+        public ValuesController(InWordsDataContext context, TextSender sender)
         {
             userRepository = new UserRepository(context);
             this.emailSender = sender;
@@ -33,14 +33,6 @@ namespace InWords.WebApi.Controllers.v1._1
             return Ok(HttpContext.GetRequestedApiVersion());
         }
 
-
-        [HttpGet]
-        [Route("")]
-        public async Task<ActionResult<int>> GetAll()
-        {
-            await emailSender.SendEmailAsync("anzer987@yandex.ru", "subject", "message");
-            return userRepository.Count();
-        }
 
         /// <summary>
         ///     Get your login

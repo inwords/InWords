@@ -14,12 +14,12 @@ namespace InWords.WebApi.Services.Email
         //TODO: From tamplate
         private static readonly string EmailSubject = "Пожалуйста, подтвердите свой e-mail";
         private readonly EmailCodeGeneratorService codeGenerator = null;
-        private readonly EmailSender emailSender = null;
+        private readonly TextSender emailSender = null;
         private readonly EmailVerifierRepository emailVerifierRepository = null;
         private readonly AccountRepository accountRepository = null;
 
 
-        public EmailVerifierService(EmailSender emailSender,
+        public EmailVerifierService(TextSender emailSender,
             EmailCodeGeneratorService codeGenerator,
             EmailVerifierRepository emailVerifier,
             AccountRepository accountRepository)
@@ -27,7 +27,7 @@ namespace InWords.WebApi.Services.Email
             this.emailSender = emailSender;
             this.codeGenerator = codeGenerator;
             this.emailVerifierRepository = emailVerifier;
-            this.accountRepository = accountRepository
+            this.accountRepository = accountRepository;
         }
 
         public async Task InstatiateVerifierMessage(int userId, string email)
@@ -58,7 +58,7 @@ namespace InWords.WebApi.Services.Email
         public async Task<bool> TryConfirmEmail(int userId, string email, int code)
         {
             bool isCorrect = await IsCodeСorrect(userId, email, code);
-
+            if (isCorrect)
             {
                 // Delete email verification
                 await emailVerifierRepository.RemoveAt(userId);

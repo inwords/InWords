@@ -25,6 +25,8 @@ namespace InWords.WebApi.AppStart
             // register emailClient
             builder.Register(_ => Configuration.GetSection("YandexEmail").Get<EmailIdentity>());
             builder.RegisterType<EmailSender>();
+            builder.RegisterType<TextSender>();
+            builder.RegisterType<TemplateSender>();
 
             // register repositories
             Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
