@@ -39,8 +39,14 @@ namespace InWords.WebApi.Controllers.v1
             {
                 email = account.Email;
             }
-
-            await emailVerifierService.InstatiateVerifierMessage(account.User, email);
+            try
+            {
+                await emailVerifierService.InstatiateVerifierMessage(account.User, email);
+            }
+            catch (TimeoutException e)
+            {
+                return BadRequest(e);
+            }
             return NoContent();
         }
 

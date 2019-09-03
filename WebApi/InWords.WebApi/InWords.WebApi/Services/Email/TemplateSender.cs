@@ -22,11 +22,21 @@ namespace InWords.WebApi.Services.Email
             string name = "")
         {
             string htmlText = await templateResolver.LoadTemplate(emailTemplate, templateReplace);
-            string altText = htmlText.StripHTML();
+            string altText = StripHTML(htmlText);
             SetSubject(subject);
             SetHTML(htmlText, altText);
             AddAddressees(name, address);
             await SendEmailAsync();
+        }
+
+        private static string StripHTML(string htmlText)
+        {
+            string starttag = $"<body ";
+            string endTag = "</body>";
+            string taggedText = $"{starttag}{htmlText.Substring(starttag, endTag)}{endTag}";
+            #warning replace to regex 
+            //<(.|\n|\r)*?>
+            return taggedText.StripHTML();
         }
     }
 }
