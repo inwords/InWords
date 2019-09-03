@@ -11,6 +11,8 @@ namespace InWords.WebApi.Services.Email
     public class EmailVerifierService
     {
         private const int EMAIL_TIMEOUT = 2; // MINUTES;
+        //TODO: From tamplate
+        private static readonly string EmailSubject = "Пожалуйста, подтвердите свой e-mail";
         private readonly EmailCodeGeneratorService codeGenerator = null;
         private readonly EmailSender emailSender = null;
         private readonly EmailVerifierRepository emailVerifierRepository = null;
@@ -29,12 +31,12 @@ namespace InWords.WebApi.Services.Email
             {
                 throw new TimeoutException($"Email can be sent later after {timeout} seconds");
             }
-            
-            // TODO to const string;
+
             //send email
             int code = codeGenerator.Generate();
             string codeMsg = $"{code}";
-            await emailSender.SendEmailAsync(user.Account.Email, "Подтверждение имейла InWords", codeMsg);
+            // TODO to const string;
+            await emailSender.SendEmailAsync(user.Account.Email, EmailSubject, codeMsg);
             //set database
             await emailVerifierRepository.CreateEmailVerifier(user.UserId, code);
         }
@@ -45,6 +47,27 @@ namespace InWords.WebApi.Services.Email
             TimeSpan currentSpan = DateTime.Now - emailVerifier.SentTime - TimeSpan.FromMinutes(EMAIL_TIMEOUT);
             int seconds = Convert.ToInt32(currentSpan.TotalSeconds);
             return seconds;
+        }
+
+        public async Task<bool> TryConfirmEmail(int userId, int code)
+        {
+            bool state = await IsCodeСorrect(userId, code);
+            if (await IsCodeСorrect(userId, code))
+            {
+                emailVerifierRepository.Remove(userId)
+                // DELETE EMAIL VEREFICATION
+                // UPDATE USER STATE
+            }
+            else
+            {
+            }
+            return state;
+        }
+
+        private async Task<bool> IsCodeСorrect(int userId, int code)
+        {
+            EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
+            return code.Equals(emailVerifier.Code);
         }
     }
 }

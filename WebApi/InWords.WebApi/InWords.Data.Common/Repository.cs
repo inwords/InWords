@@ -59,6 +59,16 @@ namespace InWords.Abstractions
             return await context.SaveChangesAsync();
         }
 
+        public async Task<int> RemoveAt(params int[] Ids)
+        {
+            List<TEntity> list = new List<TEntity>();
+            foreach (int id in Ids)
+            {
+                list.Add(await DbSet.FindAsync(id));
+            }
+            return await Remove(list.ToArray());
+        }
+
         public async Task<TEntity> Update(TEntity item)
         {
             context.Entry(item).State = EntityState.Modified;

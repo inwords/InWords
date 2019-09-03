@@ -1,5 +1,4 @@
-﻿using InWords.WebApi.Services.Abstractions;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 using System.Threading.Tasks;
 
@@ -13,12 +12,12 @@ namespace InWords.WebApi.Services.Email
             this.emailIdentity = emailIdentity;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message, string name = "")
+        public async Task SendEmailAsync(string address, string subject, string message, string name = "")
         {
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress(emailIdentity.Name, emailIdentity.Address));
-            emailMessage.To.Add(new MailboxAddress(name, email));
+            emailMessage.To.Add(new MailboxAddress(name, address));
             emailMessage.Subject = subject;
             BodyBuilder bodyBuilder = new BodyBuilder
             {
