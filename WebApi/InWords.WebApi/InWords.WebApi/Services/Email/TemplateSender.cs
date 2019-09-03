@@ -34,8 +34,6 @@ namespace InWords.WebApi.Services.Email
             string starttag = $"<body ";
             string endTag = "</body>";
             string taggedText = $"{starttag}{htmlText.Substring(starttag, endTag)}{endTag}";
-            #warning replace to regex 
-            //<(.|\n|\r)*?>
             return taggedText.StripHTML();
         }
     }

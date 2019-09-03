@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using InWords.Data.Domains;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Extensions;
+using InWords.Service.Auth.Models;
 using InWords.WebApi.Services.Email;
+using InWords.WebApi.Services.Email.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -51,23 +53,44 @@ namespace InWords.WebApi.Controllers.v1
         }
 
         [HttpGet]
-        [Route("Confirm/{id};{authorizedId};{code}")]
-        public async Task<IActionResult> Confirm(int userId, string email, int code)
+        [Route("Confirm/{encryptlink}")]
+        public async Task<IActionResult> ConfirmLink(string encryptlink)
         {
-            // check valid email
-            bool valid = await emailVerifierService.IsCodeCorrect(userId, email, code);
-            if (valid)
+            throw new NotImplementedException();
+            //try
+            //{
+            //    await emailVerifierService.IsCodeCorrect(userId, email, code);
+            //}
+            //catch (ArgumentException e)
+            //{
+            //    return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
+            //}
+            //catch (TimeoutException e)
+            //{
+            //    return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
+            //}
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("ConfirmCode")]
+        public async Task<IActionResult> ConfirmCode([FromBody] EmailClaims emailClaims)
+        {
+            int authorizedId = User.GetUserId();
+
+            try
             {
-                // set confirmed email
-                Account account = await accountRepository.FindById(userId);
-                account.EmailState = Data.Enums.EmailStates.Verified;
-                account.Email = email;
-                await accountRepository.Update(account);
-                return Ok(valid);
+                await emailVerifierService.IsCodeCorrect(authorizedId, emailClaims.Email, emailClaims.Code);
+                accountRepository.SetEmail(authorizedId, emailClaims.Email, Data.Enums.EmailStates.Verified);
+                return NoContent();
             }
-            else
+            catch (ArgumentException e)
             {
                 return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
+            }
+            catch (TimeoutException e)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
             }
         }
     }

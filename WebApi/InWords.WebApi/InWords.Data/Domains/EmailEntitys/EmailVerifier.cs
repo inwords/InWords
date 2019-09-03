@@ -31,7 +31,7 @@ namespace InWords.Data.Domains.EmailEntitys
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(UserId, Email, SentTime, Code, Attempts);
+            return HashCode.Combine(UserId, Email, Code);
         }
     }
 }

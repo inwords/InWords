@@ -74,7 +74,6 @@ namespace InWords.WebApi.Services.Email
                 emailVerifier.Attempts++;
                 await emailVerifierRepository.Update(emailVerifier);
             }
-
             return isCorrect;
         }
 
@@ -82,6 +81,12 @@ namespace InWords.WebApi.Services.Email
         {
             EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
             return emailVerifier.Equals(userId, email, code);
+        }
+        private async Task<bool> IsCodeСorrect(string base64Link)
+        {
+            throw new NotImplementedException();
+            //EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
+            //return emailVerifier.Equals(userId, email, code);
         }
 
         private Dictionary<string, string> ReplaceTemplateData(string username, int code)

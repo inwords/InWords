@@ -53,7 +53,7 @@ namespace InWords.WebApi.Extensions
         /// <returns></returns>
         public static string StripHTML(this string input)
         {
-            return Regex.Replace(input, "<.*?>", String.Empty);
+            return Regex.Replace(input, "<(.|\n|)*?>", String.Empty);
         }
     }
 }
