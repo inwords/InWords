@@ -11,10 +11,10 @@ namespace InWords.Data.Repositories
         {
         }
 
-        public async Task SetEmail(int id, string email, EmailStates emailState)
+        public async Task SetEmail(int id, string email)
         {
             Account account = await FindById(id);
-            account.EmailState = emailState;
+            account.Role = RoleType.User;
             account.Email = email;
             await Update(account);
         }

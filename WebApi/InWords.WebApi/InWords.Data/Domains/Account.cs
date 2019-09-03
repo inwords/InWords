@@ -13,8 +13,6 @@ namespace InWords.Data.Domains
         [StringLength(64)]
         public string Email { get; set; }
 
-        public EmailStates EmailState {get;set;}
-        
         [Required] [MaxLength(128)] public byte[] Hash { get; set; }
 
         [Required] public RoleType Role { get; set; }

@@ -83,7 +83,7 @@ namespace InWords.WebApi.Controllers.v1
             try
             {
                 await emailVerifierService.IsCodeCorrect(authorizedId, emailClaims.Email, emailClaims.Code);
-                await accountRepository.SetEmail(authorizedId, emailClaims.Email, Data.Enums.EmailStates.Verified);
+                await accountRepository.SetEmail(authorizedId, emailClaims.Email);
                 return NoContent();
             }
             catch (ArgumentException e)
