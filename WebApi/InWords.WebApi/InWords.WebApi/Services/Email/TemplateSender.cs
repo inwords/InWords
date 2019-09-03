@@ -24,7 +24,7 @@ namespace InWords.WebApi.Services.Email
             string htmlText = await templateResolver.LoadTemplate(emailTemplate, templateReplace);
             string altText = htmlText.StripHTML();
             SetSubject(subject);
-            SetHTML(altText, "TODO hello user");
+            SetHTML(htmlText, altText);
             AddAddressees(name, address);
             await SendEmailAsync();
         }

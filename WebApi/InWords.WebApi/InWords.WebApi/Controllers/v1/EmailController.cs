@@ -33,12 +33,14 @@ namespace InWords.WebApi.Controllers.v1
         public async Task<IActionResult> SendActivationCode([FromBody] string email)
         {
             int authorizedId = User.GetUserId();
+            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId),
+                a => a.User).SingleOrDefault();
             if (string.IsNullOrWhiteSpace(email))
             {
-                Account account = await accountRepository.FindById(authorizedId);
                 email = account.Email;
             }
-            await emailVerifierService.InstatiateVerifierMessage(authorizedId, email);
+
+            await emailVerifierService.InstatiateVerifierMessage(account.User, email);
             return NoContent();
         }
 
@@ -46,8 +48,21 @@ namespace InWords.WebApi.Controllers.v1
         [Route("Confirm/{id};{authorizedId};{code}")]
         public async Task<IActionResult> Confirm(int userId, string email, int code)
         {
-            bool valid = await emailVerifierService.TryConfirmEmail(userId, email, code);
-            return Ok(valid);
+            // check valid email
+            bool valid = await emailVerifierService.IsCodeCorrect(userId, email, code);
+            if (valid)
+            {
+                // set confirmed email
+                Account account = await accountRepository.FindById(userId);
+                account.EmailState = Data.Enums.EmailStates.Verified;
+                account.Email = email;
+                await accountRepository.Update(account);
+                return Ok(valid);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
+            }
         }
     }
 }

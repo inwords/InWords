@@ -14,11 +14,12 @@ namespace InWords.Data.Repositories
 
         }
 
-        public async Task<EmailVerifier> CreateEmailVerifier(int userId, int code)
+        public async Task<EmailVerifier> CreateEmailVerifier(int userId, string email, int code)
         {
             EmailVerifier emailVerifier = new EmailVerifier
             {
                 UserId = userId,
+                Email = email,
                 Code = code,
                 SentTime = DateTime.Now
             };
