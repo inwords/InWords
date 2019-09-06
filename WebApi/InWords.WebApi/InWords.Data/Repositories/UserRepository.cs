@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using InWords.Abstractions;
 using InWords.Data.Domains;
+using InWords.Data.Enums;
 
 namespace InWords.Data.Repositories
 {

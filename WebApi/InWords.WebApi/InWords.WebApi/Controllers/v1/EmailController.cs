@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Domains;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Extensions;
-using InWords.Service.Auth.Models;
 using InWords.WebApi.Services.Email;
 using InWords.WebApi.Services.Email.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -60,7 +58,7 @@ namespace InWords.WebApi.Controllers.v1
 
             try
             {
-                await emailVerifierService.IsLinkCorrect(authorizedId, emailClaims.Email, emailClaims.Code);
+                await emailVerifierService.IsLinkCorrect(encryptlink);
                 await accountRepository.SetEmail(authorizedId, emailClaims.Email);
                 return NoContent();
             }
