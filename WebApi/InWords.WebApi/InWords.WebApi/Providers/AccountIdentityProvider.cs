@@ -66,7 +66,7 @@ namespace InWords.WebApi.Providers
             {
                 Email = email,
                 Hash = saltedKey,
-                Role = RoleType.User,
+                Role = RoleType.Unverified,
                 RegistrationDate = DateTime.UtcNow,
                 User = null
             };
