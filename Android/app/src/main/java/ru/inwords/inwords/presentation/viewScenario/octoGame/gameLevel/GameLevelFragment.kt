@@ -148,15 +148,11 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     }
 
     private fun showGameEndDialog() {
-        gameEndBottomSheetFragment = GameEndBottomSheet.instance(
+        navController.navigate(GameLevelFragmentDirections.actionGameLevelFragmentToGameEndBottomSheet(
                 gameLevelInfo.levelId,
                 cardOpenClicksCount,
                 stateMap.size
-        )
-                .also {
-                    androidInjector().inject(it)
-                    it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName)
-                }
+        ))
     }
 
     private inner class CardClickListener(private val cardsData: CardsData) : View.OnClickListener {

@@ -15,7 +15,6 @@ import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardWrapper
 import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardsRecyclerAdapter
-import ru.inwords.inwords.presentation.viewScenario.home.recycler.applyDiffUtil
 
 
 class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFactory>() {
@@ -67,7 +66,6 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
 
     private fun subscribeRecycler(): Disposable {
         return viewModel.cardWrappers
-                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
                 .subscribe({
                     adapter.accept(it)

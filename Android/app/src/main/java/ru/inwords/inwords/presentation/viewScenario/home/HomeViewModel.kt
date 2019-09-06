@@ -8,6 +8,7 @@ import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteract
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardWrapper
+import ru.inwords.inwords.presentation.viewScenario.home.recycler.applyDiffUtil
 
 class HomeViewModel internal constructor(
         translationWordsInteractor: TranslationWordsInteractor,
@@ -34,6 +35,7 @@ class HomeViewModel internal constructor(
             wordsCount,
             BiFunction { profile: CardWrapper, dictionary: CardWrapper -> listOf(profile, dictionary) }
     )
+            .applyDiffUtil()
 
     fun getPolicyAgreementState() = integrationInteractor.getPolicyAgreementState()
 }
