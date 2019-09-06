@@ -45,8 +45,7 @@ namespace InWords.WebApi.Services.Email
         {
             if (isCorrect)
             {
-                EmailVerifier[] regisredAttempts = emailVerifierRepository.GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).ToArray();
-                await emailVerifierRepository.Remove(regisredAttempts);
+                await emailVerifierRepository.Delete(e => IsRequestedEmailVerifier(e, userId, email));
             }
             else
             {

@@ -86,6 +86,12 @@ namespace InWords.Abstractions
             return items;
         }
 
+        public async Task<int> Delete(Expression<Func<TEntity, bool>> predicate)
+        {
+            DbSet.RemoveRange(DbSet.Where(predicate));
+            return await context.SaveChangesAsync();
+        }
+
         /// <summary>
         ///     Creates an entity or returns if it exists
         /// </summary>

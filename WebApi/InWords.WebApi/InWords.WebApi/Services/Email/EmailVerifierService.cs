@@ -42,5 +42,15 @@ namespace InWords.WebApi.Services.Email
             // write storage
             await emailVerifierRepository.CreateEmailVerifier(userId, email, code, guid);
         }
+
+        public async Task InstatiateVerifierMessage(int userId, string nickname, string email)
+        {
+            User user = new User()
+            {
+                UserId = userId,
+                NickName = nickname
+            };
+            await InstatiateVerifierMessage(user, email);
+        }
     }
 }

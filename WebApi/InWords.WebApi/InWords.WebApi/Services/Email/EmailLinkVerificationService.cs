@@ -36,8 +36,7 @@ namespace InWords.WebApi.Services.Email
 
         private async Task RemoveStorageVerification(EmailVerifier emailVerifier)
         {
-            EmailVerifier[] emailVerifiers = emailVerifierRepository.GetWhere(e => e.UserId.Equals(emailVerifier.UserId)).ToArray();
-            await emailVerifierRepository.Remove(emailVerifiers);
+            await emailVerifierRepository.Delete(e => e.UserId.Equals(emailVerifier.UserId));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace InWords.WebApi.Providers
 {
     public class AccountIdentityProvider
     {
-        public readonly AccountRepository AccountRepository;
+        public readonly AccountRepository accountRepository;
 
         private readonly IPasswordSalter passwordSalter;
 
@@ -22,7 +22,7 @@ namespace InWords.WebApi.Providers
         /// <param name="repository"></param>
         public AccountIdentityProvider(AccountRepository repository)
         {
-            AccountRepository = repository;
+            accountRepository = repository;
             passwordSalter = new SaltGenerator();
         }
 
@@ -45,7 +45,7 @@ namespace InWords.WebApi.Providers
         /// <exception cref="ArgumentException"></exception>
         public TokenResponse GetIdentity(string email, string password)
         {
-            Account account = AccountRepository.GetWhere(x => x.Email.Equals(email)).SingleOrDefault();
+            Account account = accountRepository.GetWhere(x => x.Email.Equals(email)).SingleOrDefault();
             if (account == null)
                 throw new ArgumentNullException($"Email not found {email}");
 
@@ -73,11 +73,11 @@ namespace InWords.WebApi.Providers
 
             newAccount.User = new User
             {
-                NickName = "YourNick",
+                NickName = "User",
                 Experience = 0
             };
 
-            await AccountRepository.Create(newAccount);
+            await accountRepository.Create(newAccount);
 
             return newAccount;
         }
