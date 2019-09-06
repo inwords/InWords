@@ -56,20 +56,22 @@ namespace InWords.WebApi.Controllers.v1
         [Route("Confirm/{encryptlink}")]
         public async Task<IActionResult> ConfirmLink(string encryptlink)
         {
-            throw new NotImplementedException();
-            //try
-            //{
-            // 
-            //    await emailVerifierService.IsCodeCorrect(userId, email, code);
-            //}
-            //catch (ArgumentException e)
-            //{
-            //    return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
-            //}
-            //catch (TimeoutException e)
-            //{
-            //    return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
-            //}
+            int authorizedId = User.GetUserId();
+
+            try
+            {
+                await emailVerifierService.IsLinkCorrect(authorizedId, emailClaims.Email, emailClaims.Code);
+                await accountRepository.SetEmail(authorizedId, emailClaims.Email);
+                return NoContent();
+            }
+            catch (ArgumentException e)
+            {
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
+            }
+            catch (TimeoutException e)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
+            }
         }
 
         [Authorize]

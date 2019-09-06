@@ -34,7 +34,7 @@ namespace InWords.Abstractions
             return items;
         }
 
-        public async Task<TEntity> FindById(int id)
+        public async Task<TEntity> FindById(params object[] id)
         {
             return await DbSet.FindAsync(id);
         }

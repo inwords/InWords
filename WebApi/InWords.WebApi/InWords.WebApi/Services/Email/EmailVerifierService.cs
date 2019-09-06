@@ -63,6 +63,19 @@ namespace InWords.WebApi.Services.Email
         public async Task<bool> IsCodeCorrect(int userId, string email, int code)
         {
             bool isCorrect = await HasCode(userId, email, code);
+            await ProccedMessageVerification(userId, isCorrect);
+            return isCorrect;
+        }
+
+        public async Task<bool> IsLinkCorrect(string link)
+        {
+            bool isCorrect = await HasLink(link);
+            await ProccedMessageVerification(userId, isCorrect);
+            return isCorrect;
+        }
+
+        private async Task ProccedMessageVerification(int userId, bool isCorrect)
+        {
             if (isCorrect)
             {
                 // Delete email verification
@@ -74,7 +87,6 @@ namespace InWords.WebApi.Services.Email
                 emailVerifier.Attempts++;
                 await emailVerifierRepository.Update(emailVerifier);
             }
-            return isCorrect;
         }
 
         private async Task<bool> HasCode(int userId, string email, int code)
@@ -82,11 +94,10 @@ namespace InWords.WebApi.Services.Email
             EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
             return emailVerifier.Equals(userId, email, code);
         }
-        private async Task<bool> IsLinkCorrect(string base64Link)
+        private async Task<bool> HasLink(string base64Link)
         {
-            throw new NotImplementedException();
-            //EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
-            //return emailVerifier.Equals(userId, email, code);
+            EmailVerifier emailVerifier = await emailVerifierRepository.FindById(base64Link);
+            return emailVerifier != null;
         }
 
         private Dictionary<string, string> ReplaceTemplateData(string username, int code)
