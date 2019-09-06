@@ -1,14 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InWords.Data.Domains.EmailEntitys
 {
     public class EmailVerifier
     {
         [Key]
+        public Guid Guid { get; set; }
         public int UserId { get; set; }
 
-        [MaxLength(64)]
+        [MaxLength(64)] 
         [Required] public string Email { get; set; }
 
         public DateTime SentTime { get; set; }

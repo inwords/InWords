@@ -13,10 +13,10 @@ namespace InWords.WebApi.Services.Email
         private const int EMAIL_TIMEOUT = 2; // MINUTES;
         //TODO: From tamplate
         private static readonly string EmailSubject = "Пожалуйста, подтвердите свой e-mail";
+
+        private readonly EmailVerifierRepository emailVerifierRepository = null;
         private readonly EmailCodeGeneratorService codeGenerator = null;
         private readonly TemplateSender emailSender = null;
-        private readonly EmailVerifierRepository emailVerifierRepository = null;
-
 
         public EmailVerifierService(TemplateSender emailSender,
             EmailCodeGeneratorService codeGenerator,
@@ -30,16 +30,14 @@ namespace InWords.WebApi.Services.Email
         public async Task InstatiateVerifierMessage(User user, string email)
         {
             int userId = user.UserId;
-            int timeout = await GetTimeout(user.UserId);
+            int timeout = GetTimeout(user.UserId);
 
-            if (await GetTimeout(userId) > 0)
+            if (timeout > 0)
             {
                 // TODO to const string;
                 throw new TimeoutException($"Email can be sent later after {timeout} seconds");
             }
-
             int code = codeGenerator.Generate();
-
             // send email
             Dictionary<string, string> keyValuePairs = ReplaceTemplateData(user.NickName, code);
 
@@ -49,20 +47,22 @@ namespace InWords.WebApi.Services.Email
             await emailVerifierRepository.CreateEmailVerifier(userId, email, code);
         }
 
-        public async Task<int> GetTimeout(int id)
+        public int GetTimeout(int userId)
         {
-            EmailVerifier emailVerifier = await emailVerifierRepository.FindById(id);
+            EmailVerifier emailVerifier = emailVerifierRepository.GetWhere(e => e.UserId.Equals(userId))
+                .OrderByDescending(x => x.SentTime)
+                .FirstOrDefault();
 
             if (emailVerifier == null) return 0;
 
-            TimeSpan currentSpan = DateTime.Now - emailVerifier.SentTime - TimeSpan.FromMinutes(EMAIL_TIMEOUT);
+            TimeSpan currentSpan = DateTime.UtcNow - emailVerifier.SentTime - TimeSpan.FromMinutes(EMAIL_TIMEOUT);
             int seconds = Convert.ToInt32(currentSpan.TotalSeconds);
             return seconds;
         }
 
         public async Task<bool> IsCodeCorrect(int userId, string email, int code)
         {
-            bool isCorrect = await IsCodeСorrect(userId, email, code);
+            bool isCorrect = await HasCode(userId, email, code);
             if (isCorrect)
             {
                 // Delete email verification
@@ -77,12 +77,12 @@ namespace InWords.WebApi.Services.Email
             return isCorrect;
         }
 
-        private async Task<bool> IsCodeСorrect(int userId, string email, int code)
+        private async Task<bool> HasCode(int userId, string email, int code)
         {
             EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
             return emailVerifier.Equals(userId, email, code);
         }
-        private async Task<bool> IsCodeСorrect(string base64Link)
+        private async Task<bool> IsLinkCorrect(string base64Link)
         {
             throw new NotImplementedException();
             //EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);

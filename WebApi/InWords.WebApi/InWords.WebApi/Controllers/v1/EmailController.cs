@@ -56,7 +56,6 @@ namespace InWords.WebApi.Controllers.v1
         [Route("Confirm/{encryptlink}")]
         public async Task<IActionResult> ConfirmLink(string encryptlink)
         {
-            //UUID.randomUUID().toString()
             throw new NotImplementedException();
             //try
             //{

@@ -18,10 +18,11 @@ namespace InWords.Data.Repositories
         {
             EmailVerifier emailVerifier = new EmailVerifier
             {
+                Guid = Guid.NewGuid(),
                 UserId = userId,
                 Email = email,
                 Code = code,
-                SentTime = DateTime.Now
+                SentTime = DateTime.UtcNow
             };
             return await Create(emailVerifier);
         }

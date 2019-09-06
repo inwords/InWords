@@ -67,7 +67,7 @@ namespace InWords.WebApi.Providers
                 Email = email,
                 Hash = saltedKey,
                 Role = RoleType.User,
-                RegistrationDate = DateTime.Now,
+                RegistrationDate = DateTime.UtcNow,
                 User = null
             };
 
