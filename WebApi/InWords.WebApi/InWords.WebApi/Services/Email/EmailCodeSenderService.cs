@@ -37,7 +37,7 @@ namespace InWords.WebApi.Services.Email
             return seconds;
         }
 
-        public async Task SendCodeByEmail(User user, string email, int code)
+        public async Task SendCodeByEmail(User user, string email, int code, string link)
         {
             int timeout = GetTimeout(user.UserId);
 
@@ -47,16 +47,17 @@ namespace InWords.WebApi.Services.Email
                 throw new TimeoutException($"Email can be sent later after {timeout} seconds");
             }
 
-            Dictionary<string, string> keyValuePairs = ReplaceTemplateData(user.NickName, code);
+            Dictionary<string, string> keyValuePairs = ReplaceTemplateData(user.NickName, code, link);
 
             await emailSender.SendEmailAsync(EmailTemplates.ConfirmEmail, keyValuePairs, EmailSubject, email);
         }
-        private Dictionary<string, string> ReplaceTemplateData(string username, int code)
+        private Dictionary<string, string> ReplaceTemplateData(string username, int code, string link)
         {
             return new Dictionary<string, string>()
             {
                 { "{username}",username },
-                { "{code}",$"{code}" }
+                { "{code}",$"{code}" },
+                { "{link}",$"{link}" }
             };
         }
     }

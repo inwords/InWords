@@ -36,11 +36,11 @@ namespace InWords.WebApi.Services.Email
         {
             int userId = user.UserId;
             int code = codeGenerator.Generate();
-
+            Guid guid = Guid.NewGuid();
             // send code information
-            await emailCodeSenderService.SendCodeByEmail(user, email, code);
+            await emailCodeSenderService.SendCodeByEmail(user, email, code, $"{guid}");
             // write storage
-            await emailVerifierRepository.CreateEmailVerifier(userId, email, code);
+            await emailVerifierRepository.CreateEmailVerifier(userId, email, code, guid);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using InWords.Data.Domains.EmailEntitys;
+using InWords.Data.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,32 +9,35 @@ namespace InWords.WebApi.Services.Email
 {
     public class EmailLinkVerificationService
     {
-        //private async Task<bool> HasLink(string base64Link)
-        //{
-        //    EmailVerifier emailVerifier = await emailVerifierRepository.FindById(base64Link);
-        //    return emailVerifier != null;
-        //}
+        private readonly EmailVerifierRepository emailVerifierRepository = null;
+        private readonly AccountRepository accountRepository = null;
+        public EmailLinkVerificationService(EmailVerifierRepository emailVerifierRepository,
+            AccountRepository accountRepository)
+        {
+            this.emailVerifierRepository = emailVerifierRepository;
+            this.accountRepository = accountRepository;
+        }
 
-        //private async Task ProccedMessageLinkVerification(IList<EmailVerifier> emailVerifiers, bool isCorrect)
-        //{
-        //    if (isCorrect)
-        //    {
-        //        // Delete email verification
-        //        await emailVerifierRepository.Remove(userId);
-        //    }
-        //    else
-        //    {
-        //        EmailVerifier emailVerifier = await emailVerifierRepository.FindById(userId);
-        //        emailVerifier.Attempts++;
-        //        await emailVerifierRepository.Update(emailVerifier);
-        //    }
-        //}
+        public async Task<bool> HasCorrectLink(string link)
+        {
+            // if link is not guid this is broken link so return
+            if (!Guid.TryParse(link, out Guid guid)) return false;
 
-        //public async Task<bool> IsLinkCorrect(string link)
-        //{
-        //    bool isCorrect = await HasLink(link);
-        //    await ProccedMessageLinkVerification(isCorrect);
-        //    return isCorrect;
-        //}
+            EmailVerifier emailVerifier = await emailVerifierRepository.FindById(guid);
+            bool isCorrect = emailVerifier != null;
+            if (isCorrect)
+            {
+                await RemoveStorageVerification(emailVerifier);
+                await accountRepository.SetEmail(emailVerifier.UserId, emailVerifier.Email);
+            }
+            return isCorrect;
+        }
+
+
+        private async Task RemoveStorageVerification(EmailVerifier emailVerifier)
+        {
+            EmailVerifier[] emailVerifiers = emailVerifierRepository.GetWhere(e => e.UserId.Equals(emailVerifier.UserId)).ToArray();
+            await emailVerifierRepository.Remove(emailVerifiers);
+        }
     }
 }

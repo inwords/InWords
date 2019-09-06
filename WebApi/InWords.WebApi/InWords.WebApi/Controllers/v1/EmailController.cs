@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1
 {
+    [Authorize]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -20,17 +21,19 @@ namespace InWords.WebApi.Controllers.v1
         private readonly AccountRepository accountRepository = null;
         private readonly EmailVerifierService emailVerifierService = null;
         private readonly EmailCodeVerificationService emailCodeVerificationService = null;
+        private readonly EmailLinkVerificationService emailLinkVerificationService = null;
 
         public EmailController(EmailVerifierService emailVerifierService,
             AccountRepository accountRepository,
-            EmailCodeVerificationService emailCodeVerificationService)
+            EmailCodeVerificationService emailCodeVerificationService,
+            EmailLinkVerificationService emailLinkVerificationService)
         {
             this.emailVerifierService = emailVerifierService;
             this.accountRepository = accountRepository;
             this.emailCodeVerificationService = emailCodeVerificationService;
+            this.emailLinkVerificationService = emailLinkVerificationService;
         }
 
-        [Authorize]
         [Route("SendActivationCode")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -53,7 +56,6 @@ namespace InWords.WebApi.Controllers.v1
             return NoContent();
         }
 
-        [Authorize]
         [HttpPost]
         [Route("ConfirmCode")]
         public async Task<IActionResult> ConfirmCode([FromBody] EmailClaims emailClaims)
@@ -75,6 +77,27 @@ namespace InWords.WebApi.Controllers.v1
                 return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
             }
             catch (TimeoutException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Confirm/{encryptlink}")]
+        public async Task<IActionResult> ConfirmLink(string encryptlink)
+        {
+            try
+            {
+                //TODO BOOl
+                await emailLinkVerificationService.HasCorrectLink(encryptlink);
+                return Ok("Email has been successfully confirmed");
+            }
+            catch (ArgumentException e)
+            {
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
+            }
+            catch (TimeoutException e)
             {
                 return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
             }
