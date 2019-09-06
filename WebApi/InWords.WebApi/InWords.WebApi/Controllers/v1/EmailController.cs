@@ -22,7 +22,7 @@ namespace InWords.WebApi.Controllers.v1
         private readonly EmailCodeVerificationService emailCodeVerificationService = null;
 
         public EmailController(EmailVerifierService emailVerifierService,
-            AccountRepository accountRepository.
+            AccountRepository accountRepository,
             EmailCodeVerificationService emailCodeVerificationService)
         {
             this.emailVerifierService = emailVerifierService;
@@ -62,15 +62,19 @@ namespace InWords.WebApi.Controllers.v1
 
             try
             {
-                await emailCodeVerificationService.IsCodeCorrect(authorizedId, emailClaims.Email, emailClaims.Code);
+                await emailCodeVerificationService.HasCorrectCode(authorizedId, emailClaims.Email, emailClaims.Code);
                 await accountRepository.SetEmail(authorizedId, emailClaims.Email);
                 return NoContent();
             }
-            catch (ArgumentException e)
+            catch (ArgumentNullException)
+            {
+                return NotFound("Email not found or not registred");
+            }
+            catch (ArgumentException)
             {
                 return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
             }
-            catch (TimeoutException e)
+            catch (TimeoutException)
             {
                 return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
             }
