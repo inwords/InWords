@@ -23,7 +23,7 @@ namespace InWords.WebApi.AppStart
                 .InstancePerLifetimeScope();
 
             // register emailClient
-            builder.Register(_ => Configuration.GetSection("YandexEmail").Get<EmailIdentity>());
+            builder.Register(_ => Configuration.GetSection("1GB").Get<EmailIdentity>());
             builder.RegisterType<EmailSender>();
             builder.RegisterType<TextSender>();
             builder.RegisterType<TemplateSender>();
