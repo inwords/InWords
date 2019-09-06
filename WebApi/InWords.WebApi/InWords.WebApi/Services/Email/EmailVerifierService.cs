@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Email
 {
+    /// <summary>
+    /// This is register a user's profile for review by email
+    /// </summary>
     public class EmailVerifierService
     {
         private readonly EmailCodeGeneratorService codeGenerator = null;
@@ -23,13 +26,20 @@ namespace InWords.WebApi.Services.Email
             this.emailCodeSenderService = emailCodeSenderService;
         }
 
+        /// <summary>
+        /// Send message to user and register message in system
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task InstatiateVerifierMessage(User user, string email)
         {
             int userId = user.UserId;
             int code = codeGenerator.Generate();
 
+            // send code information
             await emailCodeSenderService.SendCodeByEmail(user, email, code);
-            //set database
+            // write storage
             await emailVerifierRepository.CreateEmailVerifier(userId, email, code);
         }
     }

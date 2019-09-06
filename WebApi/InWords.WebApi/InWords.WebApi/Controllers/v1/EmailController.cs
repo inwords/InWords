@@ -17,13 +17,17 @@ namespace InWords.WebApi.Controllers.v1
     [ApiController]
     public class EmailController : ControllerBase
     {
-        private readonly EmailVerifierService emailVerifierService = null;
         private readonly AccountRepository accountRepository = null;
+        private readonly EmailVerifierService emailVerifierService = null;
+        private readonly EmailCodeVerificationService emailCodeVerificationService = null;
 
-        public EmailController(EmailVerifierService emailVerifierService, AccountRepository accountRepository)
+        public EmailController(EmailVerifierService emailVerifierService,
+            AccountRepository accountRepository.
+            EmailCodeVerificationService emailCodeVerificationService)
         {
             this.emailVerifierService = emailVerifierService;
             this.accountRepository = accountRepository;
+            this.emailCodeVerificationService = emailCodeVerificationService;
         }
 
         [Authorize]
@@ -33,8 +37,7 @@ namespace InWords.WebApi.Controllers.v1
         public async Task<IActionResult> SendActivationCode([FromBody] string email)
         {
             int authorizedId = User.GetUserId();
-            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId),
-                a => a.User).SingleOrDefault();
+            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId), a => a.User).SingleOrDefault();
             if (string.IsNullOrWhiteSpace(email))
             {
                 email = account.Email;
@@ -50,28 +53,6 @@ namespace InWords.WebApi.Controllers.v1
             return NoContent();
         }
 
-        [HttpGet]
-        [Route("Confirm/{encryptlink}")]
-        public async Task<IActionResult> ConfirmLink(string encryptlink)
-        {
-            int authorizedId = User.GetUserId();
-
-            try
-            {
-                await emailVerifierService.IsLinkCorrect(encryptlink);
-                await accountRepository.SetEmail(authorizedId, emailClaims.Email);
-                return NoContent();
-            }
-            catch (ArgumentException e)
-            {
-                return StatusCode(StatusCodes.Status422UnprocessableEntity, "Email code is incorrect");
-            }
-            catch (TimeoutException e)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
-            }
-        }
-
         [Authorize]
         [HttpPost]
         [Route("ConfirmCode")]
@@ -81,7 +62,7 @@ namespace InWords.WebApi.Controllers.v1
 
             try
             {
-                await emailVerifierService.IsCodeCorrect(authorizedId, emailClaims.Email, emailClaims.Code);
+                await emailCodeVerificationService.IsCodeCorrect(authorizedId, emailClaims.Email, emailClaims.Code);
                 await accountRepository.SetEmail(authorizedId, emailClaims.Email);
                 return NoContent();
             }
