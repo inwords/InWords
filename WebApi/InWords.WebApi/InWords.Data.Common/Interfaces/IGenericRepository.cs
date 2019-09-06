@@ -8,7 +8,7 @@ namespace InWords.Abstractions.Interfaces
     {
         Task<TEntity> Create(TEntity item);
         Task<TEntity[]> Create(params TEntity[] item);
-        Task<TEntity> FindById(int id);
+        Task<TEntity> FindById(params object[] id);
         IEnumerable<TEntity> GetAllEntities();
         IEnumerable<TEntity> GetWhere(Func<TEntity, bool> predicate);
         Task<int> Remove(params TEntity[] item);

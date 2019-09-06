@@ -33,5 +33,7 @@ namespace InWords.WebApi.Controllers.v1.Confirmation
             //        return StatusCode(StatusCodes.Status403Forbidden, "Too many attempts for email activation");
             //    }
             //}
+            throw new NotImplementedException();
         }
     }
+}
