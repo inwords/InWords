@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveGameInfo as receiveGameInfoAction } from 'actions/gamesApiActions';
+import { receiveGameInfo } from 'actions/gamesApiActions';
 
 function withReceivedGameInfo(WrappedComponent) {
   function WithReceivedGameInfo({ match, ...rest }) {
@@ -13,7 +13,7 @@ function withReceivedGameInfo(WrappedComponent) {
 
     useEffect(() => {
       if (gameId !== parsedGameId) {
-        dispatch(receiveGameInfoAction(parsedGameId));
+        dispatch(receiveGameInfo(parsedGameId));
       }
     }, [gameId, parsedGameId, dispatch]);
 

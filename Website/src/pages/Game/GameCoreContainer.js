@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { saveLevelResult as saveLevelResultAction } from 'actions/gamesApiActions';
+import { saveLevelResult } from 'actions/gamesApiActions';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
 import GameCore from './GameCore';
@@ -49,19 +49,17 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       setTimeout(setIsGameCompleted, 1000, true);
       setTimeout(setIsResultReady, 1500, true);
 
-      const saveLevelResult = (levelResult, actionOnSuccess) => {
-        dispatch(saveLevelResultAction(levelResult, actionOnSuccess));
-      };
-
-      saveLevelResult(
-        {
-          levelId,
-          openingQuantity,
-          wordsCount: wordsInfo.length
-        },
-        data => {
-          setScore(data.score);
-        }
+      dispatch(
+        saveLevelResult(
+          {
+            levelId,
+            openingQuantity,
+            wordsCount: wordsInfo.length
+          },
+          data => {
+            setScore(data.score);
+          }
+        )
       );
     }
   }, [

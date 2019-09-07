@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'actions/commonActions';
-import { deleteWordPairs as deleteWordPairsAction } from 'actions/wordPairsApiActions';
+import { deleteWordPairs } from 'actions/wordPairsApiActions';
 import WordPairsDeleteToolbar from './WordPairsDeleteToolbar';
 
 function WordPairsDeleteToolbarContainer({ checkedValues, ...rest }) {
@@ -22,7 +22,7 @@ function WordPairsDeleteToolbarContainer({ checkedValues, ...rest }) {
     let timerId = setTimeout(
       dispatch,
       5100,
-      deleteWordPairsAction(checkedValues)
+      deleteWordPairs(checkedValues)
     );
   };
 

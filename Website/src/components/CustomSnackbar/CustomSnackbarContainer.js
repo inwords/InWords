@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { resetSnackbar as resetSnackbarAction } from 'actions/commonActions';
+import { resetSnackbar } from 'actions/commonActions';
 import CustomSnackbar from './CustomSnackbar';
 
 function CustomSnackbarContainer() {
@@ -11,11 +11,7 @@ function CustomSnackbarContainer() {
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    const resetSnackbar = () => {
-      dispatch(resetSnackbarAction());
-    };
-
-    resetSnackbar();
+    dispatch(resetSnackbar());
   };
 
   const handleAction = () => {

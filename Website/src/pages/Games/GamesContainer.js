@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveGamesInfo as receiveGamesInfoAction } from 'actions/gamesApiActions';
+import { receiveGamesInfo } from 'actions/gamesApiActions';
 import Games from './Games';
 
 function GamesContainer({ ...rest }) {
@@ -10,7 +10,7 @@ function GamesContainer({ ...rest }) {
 
   useEffect(() => {
     if (!gamesInfo.length) {
-      dispatch(receiveGamesInfoAction());
+      dispatch(receiveGamesInfo());
     }
   }, [gamesInfo.length, dispatch]);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import useForm from 'hooks/useForm';
-import { signUp as signUpAction } from 'actions/accessApiActions';
+import { signUp } from 'actions/accessApiActions';
 import SignUp from './SignUp';
 
 function SignUpContainer() {
@@ -13,7 +13,7 @@ function SignUpContainer() {
       password: ''
     },
     () => {
-      dispatch(signUpAction(inputs));
+      dispatch(signUp(inputs));
     }
   );
 

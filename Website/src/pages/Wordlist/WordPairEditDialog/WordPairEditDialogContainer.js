@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { editWordPair as editWordPairAction } from 'actions/wordPairsApiActions';
+import { editWordPair } from 'actions/wordPairsApiActions';
 import useForm from 'hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
@@ -17,7 +17,7 @@ function WordPairEditDialogContainer({
       wordNative: wordNative
     },
     () => {
-      dispatch(editWordPairAction(serverId, inputs));
+      dispatch(editWordPair(serverId, inputs));
     }
   );
 
