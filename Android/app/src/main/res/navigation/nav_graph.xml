@@ -160,11 +160,29 @@
         <action
             android:id="@+id/action_gameLevelFragment_popUpTo_mainFragment"
             app:popUpTo="@id/mainFragment" />
+        <action
+            android:id="@+id/action_gameLevelFragment_to_gameEndBottomSheet"
+            app:destination="@id/gameEndBottomSheet" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ru.inwords.inwords.presentation.viewScenario.SettingsFragment"
         android:label="SettingsFragment" />
+
+    <dialog
+        android:id="@+id/gameEndBottomSheet"
+        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.GameEndBottomSheet"
+        android:label="GameEndBottomSheet" >
+        <argument
+            android:name="levelId"
+            app:argType="integer" />
+        <argument
+            android:name="cardOpenClicksCount"
+            app:argType="integer" />
+        <argument
+            android:name="cardsCount"
+            app:argType="integer" />
+    </dialog>
 
     <action
         android:id="@+id/action_global_mainFragment"

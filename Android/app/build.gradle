@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs"
 apply plugin: "de.mannodermaus.android-junit5"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
@@ -15,6 +16,7 @@ android {
         versionCode 8
         versionName "1.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
         buildConfigField "String", "TTS_GOOGLE_API_URL", "\"https://texttospeech.googleapis.com\""
         buildConfigField "String", "POLICY_PRIVACY_URL", "\"https://inwords.ru/policy/privacy.html\""
@@ -35,6 +37,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
     androidExtensions {

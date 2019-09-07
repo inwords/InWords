@@ -6,16 +6,20 @@ import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.os.StrictMode.VmPolicy
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import io.fabric.sdk.android.Fabric
 import okhttp3.OkHttpClient
 import ru.inwords.inwords.dagger.AppComponent
 import ru.inwords.inwords.dagger.DaggerAppComponent
 import ru.inwords.inwords.data.repository.SettingsRepository
 import javax.inject.Inject
+
 
 class App : Application(), HasAndroidInjector {
     companion object {
@@ -35,6 +39,13 @@ class App : Application(), HasAndroidInjector {
         super.onCreate()
 
         DaggerAppComponent.factory().create(this).inject(this)
+
+        Fabric.with(this,
+                Crashlytics.Builder()
+                        .core(CrashlyticsCore.Builder()
+                                .disabled(BuildConfig.DEBUG)
+                                .build())
+                        .build())
 
         val config = OkHttpImagePipelineConfigFactory
                 .newBuilder(this, okHttpClient)
