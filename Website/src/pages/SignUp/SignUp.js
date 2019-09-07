@@ -66,6 +66,7 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             id="password"
             label="Пароль"
             type="password"
+            autoComplete="current-password"
             name="password"
             value={inputs.password}
             onChange={handleChange}

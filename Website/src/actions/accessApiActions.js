@@ -32,6 +32,9 @@ export function signUp(userdata) {
     authorizationRequired: false,
     data: JSON.stringify(userdata),
     actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(grantAccess(data));
+      },
       () => {
         history.push(`/emailConfirmation/${userdata.email}`);
       }
@@ -48,14 +51,13 @@ export function confirmEmail(emailClaims) {
   return apiAction({
     endpoint: 'email/confirmCode',
     method: 'POST',
-    authorizationRequired: false,
     data: JSON.stringify(emailClaims),
     actionsOnSuccess: [
       dispatch => {
         dispatch(setSnackbar({ text: 'Аккаунт успешно создан' }));
       },
       () => {
-        history.push('/signIn');
+        history.push('/wordlist');
       }
     ],
     actionsOnFailure: [

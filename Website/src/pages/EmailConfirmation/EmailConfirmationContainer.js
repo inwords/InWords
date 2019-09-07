@@ -15,7 +15,7 @@ function EmailConfirmationContainer({ match }) {
     () => {
       dispatch(confirmEmail({
           email: match.params.email,
-          ...inputs
+          code: inputs.confirmationCode
       }));
     }
   );
