@@ -28,7 +28,7 @@ class RegistrationFragment : SigningBaseFragment<RegistrationViewModel, Authoris
         val textViewSignIn = view.findViewById<TextView>(R.id.textViewSignIn)
 
         viewModel.onNavigateHandler(RxView.clicks(textViewSignIn))
-        viewModel.onSignHandler(RxView.clicks(buttonTrySign), credentials)
+        buttonTrySign.setOnClickListener { viewModel.onSignClicked(credentials) }
     }
 
     override fun navigateAction() {
