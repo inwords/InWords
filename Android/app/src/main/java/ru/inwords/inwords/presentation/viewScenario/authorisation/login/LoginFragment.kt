@@ -12,12 +12,12 @@ class LoginFragment : SigningBaseFragment<LoginViewModel, AuthorisationViewModel
     override val layout = R.layout.fragment_sign_in
     override val classType = LoginViewModel::class.java
 
-    override val buttonId get() = R.id.buttonEnterSignIn
+    override val buttonId = R.id.buttonEnterSignIn
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onSignHandler(RxView.clicks(buttonTrySign), credentials)
+        buttonTrySign.setOnClickListener { viewModel.onSignClicked(credentials) }
         viewModel.onNavigateHandler(RxView.clicks(textViewSignUp))
     }
 
