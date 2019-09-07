@@ -34,7 +34,7 @@ namespace InWords.Abstractions
             return items;
         }
 
-        public async Task<TEntity> FindById(int id)
+        public async Task<TEntity> FindById(params object[] id)
         {
             return await DbSet.FindAsync(id);
         }
@@ -59,6 +59,16 @@ namespace InWords.Abstractions
             return await context.SaveChangesAsync();
         }
 
+        public async Task<int> RemoveAt(params int[] Ids)
+        {
+            List<TEntity> list = new List<TEntity>();
+            foreach (int id in Ids)
+            {
+                list.Add(await DbSet.FindAsync(id));
+            }
+            return await Remove(list.ToArray());
+        }
+
         public async Task<TEntity> Update(TEntity item)
         {
             context.Entry(item).State = EntityState.Modified;
@@ -74,6 +84,12 @@ namespace InWords.Abstractions
             }
             await context.SaveChangesAsync();
             return items;
+        }
+
+        public async Task<int> Delete(Expression<Func<TEntity, bool>> predicate)
+        {
+            DbSet.RemoveRange(DbSet.Where(predicate));
+            return await context.SaveChangesAsync();
         }
 
         /// <summary>

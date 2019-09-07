@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.jakewharton.rxbinding2.view.RxView;
-
 import io.reactivex.Observable;
 import ru.inwords.inwords.R;
 import ru.inwords.inwords.core.util.Event;
@@ -47,7 +44,7 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
 
         setUpViewState();
 
-        viewModel.getAddEditDoneLiveData().observe(this, this::popBackToTranslationMain);
+        getViewModel().getAddEditDoneLiveData().observe(this, this::popBackToTranslationMain);
 
         onDoneClickedHandler(RxView.clicks(buttonConfirm));
     }
@@ -77,15 +74,15 @@ public class AddEditWordFragment extends FragmentWithViewModelAndNav<AddEditWord
 
     private void popBackToTranslationMain(Event<Boolean> booleanEvent) {
         if (booleanEvent != null && booleanEvent.handle()) {
-            navController.navigate(R.id.action_addEditWordFragment_pop);
+            getNavController().navigate(R.id.action_addEditWordFragment_pop);
         }
     }
 
     private void onDoneClickedHandler(Observable<Object> buttonDoneObservable) {
         if (isEditing) {
-            viewModel.onEditWordDoneHandler(buttonDoneObservable, getWord(), wordToEdit);
+            getViewModel().onEditWordDoneHandler(buttonDoneObservable, getWord(), wordToEdit);
         } else {
-            viewModel.onAddWordDoneHandler(buttonDoneObservable, getWord());
+            getViewModel().onAddWordDoneHandler(buttonDoneObservable, getWord());
         }
     }
 

@@ -1,5 +1,6 @@
 package ru.inwords.inwords.presentation.viewScenario.translation.translationMain
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
@@ -22,29 +23,35 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
     private var onEditClickedDisposable: Disposable? = null
     private var onSpeakerClickedDisposable: Disposable? = null
 
-    private val addEditWordMutableLiveData: MutableLiveData<Event<WordTranslation>> = MutableLiveData()
-    private val ttsSubject: PublishSubject<Resource<String>> = PublishSubject.create()
+    private val addEditWordMutableLiveData = MutableLiveData<Event<WordTranslation>>()
+    private val ttsSubject = PublishSubject.create<Resource<String>>()
 
-    val translationWordsStream: Observable<List<WordTranslation>>
-        get() = translationWordsInteractor.getAllWords()
-                .observeOn(SchedulersFacade.computation())
-                .map { list -> list.sortedBy { it.wordNative } }
+    val translationWordsStream: Observable<List<WordTranslation>> = translationWordsInteractor.getAllWords()
+            .observeOn(SchedulersFacade.computation())
+            .map { list -> list.sortedBy { it.wordNative } }
 
-    val addEditWordLiveData: LiveData<Event<WordTranslation>> get() = addEditWordMutableLiveData
-    val ttsStream: Observable<Resource<String>> get() = ttsSubject
+    val addEditWordLiveData: LiveData<Event<WordTranslation>> = addEditWordMutableLiveData
+    val ttsStream: Observable<Resource<String>> = ttsSubject
 
     fun onItemDismiss(wordTranslation: WordTranslation) {
-        compositeDisposable.add(translationWordsInteractor.remove(wordTranslation)
-                .subscribe({ }, { it.printStackTrace() }))
+        translationWordsInteractor.remove(wordTranslation)
+                .subscribe({ }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+                .autoDispose()
     }
 
     fun onItemDismissUndo(wordTranslation: WordTranslation) {
-        compositeDisposable.add(translationWordsInteractor.addReplace(wordTranslation)
-                .subscribe({ translationSyncInteractor.notifyDataChanged() }, { it.printStackTrace() }))
+        translationWordsInteractor.addReplace(wordTranslation)
+                .subscribe({ translationSyncInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+                .autoDispose()
     }
 
-    fun onConfirmItemDismiss() {
+    fun onConfirmItemDismiss(wordTranslation: WordTranslation) {
         translationSyncInteractor.notifyDataChanged()
+
+        ttsRepository.forget(wordTranslation.wordForeign)
+                .subscribeOn(SchedulersFacade.io())
+                .subscribe({}, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+                .autoDispose()
     }
 
     fun onAddClickedHandler(clicksObservable: Observable<Any>) { //fab clicked
@@ -53,7 +60,7 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
         onAddClickedDisposable = clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .subscribe { addEditWordMutableLiveData.postValue(Event(WordTranslation("", ""))) }
-                .also { compositeDisposable.add(it) }
+                .autoDispose()
     }
 
     fun onEditClickedHandler(clicksObservable: Observable<WordTranslation>) { //clickListener on item
@@ -62,7 +69,7 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
         onEditClickedDisposable = clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .subscribe { addEditWordMutableLiveData.postValue(Event(it)) }
-                .also { compositeDisposable.add(it) }
+                .autoDispose()
     }
 
     fun onSpeakerClickedHandler(speakerObservable: Observable<WordTranslation>) {
@@ -70,13 +77,17 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
 
         onSpeakerClickedDisposable = speakerObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .switchMapSingle { ttsRepository.synthesize(it.wordForeign) }
+                .switchMapSingle { wordTranslation ->
+                    ttsRepository.synthesize(wordTranslation.wordForeign)
+                            .subscribeOn(SchedulersFacade.io())
+                            .map { Resource.Success(it.absolutePath) as Resource<String> }
+                            .onErrorReturn { Resource.Error(it.message, it) }
+                }
                 .subscribe({
-                    ttsSubject.onNext(Resource.success(it.absolutePath))
+                    ttsSubject.onNext(it)
                 }, {
-                    ttsSubject.onNext(Resource.error(it.message))
-                    it.printStackTrace()
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
                 })
-                .also { compositeDisposable.add(it) }
+                .autoDispose()
     }
 }

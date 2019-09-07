@@ -4,6 +4,8 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using InWords.Data;
 using InWords.WebApi.Net;
+using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Services.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +22,11 @@ namespace InWords.WebApi.AppStart
             builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")))
                 .InstancePerLifetimeScope();
 
+            // register emailClient
+            builder.Register(_ => Configuration.GetSection("1GB").Get<EmailIdentity>());
+            builder.RegisterType<EmailSender>();
+            builder.RegisterType<TextSender>();
+            builder.RegisterType<TemplateSender>();
 
             // register repositories
             Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
@@ -29,12 +36,18 @@ namespace InWords.WebApi.AppStart
 
             // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services") &&
-                            !a.Namespace.Contains("Abstractions")).InstancePerLifetimeScope();
+                .Where(a => a.Name.EndsWith("Service") 
+                && a.Namespace.StartsWith("InWords.WebApi.Services") 
+                && !a.Namespace.Contains("Abstractions"))
+                .InstancePerLifetimeScope();
 
+            // register Interfaces
+
+            // register FTP
             builder.RegisterType<FileLoader>().InstancePerLifetimeScope();
 
             IContainer container = builder.Build();
+
             return new AutofacServiceProvider(container);
         }
     }

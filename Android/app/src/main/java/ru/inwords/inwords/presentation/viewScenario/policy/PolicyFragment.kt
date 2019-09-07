@@ -10,8 +10,8 @@ import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.renderPolicyText
 
 class PolicyFragment : FragmentWithViewModelAndNav<PolicyViewModel, PolicyViewModelFactory>() {
-    override fun getLayout() = R.layout.fragment_policy
-    override fun getClassType() = PolicyViewModel::class.java
+    override val layout = R.layout.fragment_policy
+    override val classType = PolicyViewModel::class.java
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

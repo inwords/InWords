@@ -21,13 +21,11 @@ class BasicAuthenticator @Inject internal constructor() : Authenticator {
     }
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        val errorToken = TokenResponse.errorToken()
-
         val header = response.request().header("Authorization")
 
         val callbackNonNull = callback ?: return null
 
-        if (header != null && header.contains(errorToken.accessToken)) { //TODO: think about COSTIL
+        if (header != null/* && header.contains(AuthInfo.errorToken.accessToken)*/) { //TODO: think about COSTIL
             return null // Give up, we've already failed to authenticate.
         }
 

@@ -82,6 +82,9 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private fun setupBottomNavMenu(navController: NavController) {
         NavigationUI.setupWithNavController(navigation, navController)
+        navigation.setOnNavigationItemReselectedListener {
+            //чтобы нельзя было выбрать текущий фрагмент еще раз
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

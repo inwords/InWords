@@ -80,6 +80,7 @@
 
     <!-- profile start -->
     <string name="change_account">Сменить аккаунт</string>
+    <string name="settings">Настройки</string>
     <string name="policy_privacy_agreement">Используя приложение, вы соглашаетесь с  \nполитикой конфиденциальности</string>
     <!-- profile end -->
 
@@ -89,5 +90,9 @@
         В свою очередь, команда InWords обрабатывает минимальное количество информации, а именно Ваши:\n\nEmail, ник, изображение профиля\n\n
         Спасибо, что доверяете InWords!</string>
     <!-- policy end -->
+
+    <!-- unsorted start -->
+
+    <!-- unsorted end -->
 
 </resources>

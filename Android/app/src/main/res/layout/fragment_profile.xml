@@ -8,33 +8,71 @@
     android:orientation="vertical"
     tools:context=".presentation.viewScenario.home.HomeFragment">
 
+    <FrameLayout
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
+        android:layout_height="208dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:foreground="@drawable/profile_header_background"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/header_background"
+            android:importantForAccessibility="no"
+            app:actualImageScaleType="focusCrop"
+            app:actualImageResource="@drawable/frame"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/avatar_image"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/half_margin"
+            app:roundingBorderColor="@color/colorSecondary"
+            app:roundingBorderWidth="3dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="48dp"
+            android:contentDescription="@string/avatar"
+            android:elevation="@dimen/medium_card_elevation"
+            app:failureImage="@drawable/ic_octopus1"
+            app:roundAsCircle="true" />
+    </FrameLayout>
+
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/to_login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_medium"
-        android:gravity="center"
-        android:text="Здесь будет красивый профиль, а пока политика конфиденциальности"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/kran"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/kran"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text" />
-
-    <Button
-        android:id="@+id/to_login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_medium"
+        android:background="?selectableItemBackground"
+        android:drawableStart="@drawable/ic_account_circle_secondary_24dp"
+        android:drawablePadding="@dimen/margin_medium"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/half_margin"
         android:text="@string/change_account"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.Inwords.Subtitle1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/kran" />
+        app:layout_constraintTop_toBottomOf="@id/header_container" />
+
+    <TextView
+        android:id="@+id/settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:drawableStart="@drawable/ic_settings_secondary_24dp"
+        android:drawablePadding="@dimen/margin_medium"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/half_margin"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/half_margin"
+        android:text="@string/settings"
+        android:textAppearance="@style/TextAppearance.Inwords.Subtitle1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/to_login_button" />
 
     <TextView
         android:id="@+id/policy_text_view"

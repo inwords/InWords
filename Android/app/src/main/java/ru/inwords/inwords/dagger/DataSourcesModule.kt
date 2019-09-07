@@ -12,6 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.inwords.inwords.BuildConfig
+import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
 import ru.inwords.inwords.data.source.webService.BasicAuthenticator
 import ru.inwords.inwords.data.source.webService.WebApiService
@@ -67,6 +68,7 @@ class DataSourcesModule {
     }
 
     @Provides
+    @Common
     @Singleton
     internal fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences("prefs", Context.MODE_PRIVATE)

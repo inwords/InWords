@@ -18,5 +18,7 @@ namespace InWords.WebApi.Services
         {
             return usersRepository.GetWhere(u => u.NickName.ToLower().Contains(nickLike.ToLower())).Take(50);
         }
+
+
     }
 }

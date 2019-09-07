@@ -22,6 +22,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Abstractions", "InW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Auth", "InWords.Service.Auth\InWords.Service.Auth.csproj", "{38BF2A2C-0AE6-4662-A9D5-B0F649BD4F0B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CD10FF2A-C193-43CC-BC31-CBC910726F01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.BLTests", "InWords.BLTests\InWords.BLTests.csproj", "{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,9 +120,20 @@ Global
 		{38BF2A2C-0AE6-4662-A9D5-B0F649BD4F0B}.Release|x64.Build.0 = Release|Any CPU
 		{38BF2A2C-0AE6-4662-A9D5-B0F649BD4F0B}.Release|x86.ActiveCfg = Release|Any CPU
 		{38BF2A2C-0AE6-4662-A9D5-B0F649BD4F0B}.Release|x86.Build.0 = Release|Any CPU
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}.Debug|x64.ActiveCfg = Debug|x64
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}.Debug|x64.Build.0 = Debug|x64
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}.Debug|x86.ActiveCfg = Debug|x64
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}.Release|Any CPU.ActiveCfg = Release|x64
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}.Release|x64.ActiveCfg = Release|x64
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}.Release|x64.Build.0 = Release|x64
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F11ECDCC-2B1F-43E3-A14D-35F0377B2002} = {CD10FF2A-C193-43CC-BC31-CBC910726F01}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9850975A-90C0-46D6-8871-8089E973D48C}

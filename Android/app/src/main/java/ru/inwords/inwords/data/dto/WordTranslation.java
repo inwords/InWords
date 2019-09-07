@@ -68,17 +68,9 @@ public class WordTranslation extends EntityIdentificator {
         return wordForeign;
     }
 
-    public void setWordForeign(@NonNull String wordForeign) {
-        this.wordForeign = wordForeign;
-    }
-
     @NonNull
     public String getWordNative() {
         return wordNative;
-    }
-
-    public void setWordNative(@NonNull String wordNative) {
-        this.wordNative = wordNative;
     }
 
     @NonNull

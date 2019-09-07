@@ -5,7 +5,7 @@ import io.reactivex.Single
 
 interface IntegrationInteractor {
     fun getOnAuthCallback(): Completable
-    fun getOnStartCallback(): Completable
+    fun getOnUnauthorisedCallback(): Completable
     fun getOnNewUserCallback(): Completable
     fun getPolicyAgreementState(): Single<Boolean>
     fun setPolicyAgreementState(state: Boolean): Completable

@@ -1,8 +1,10 @@
 ﻿using InWords.Data;
 using InWords.Data.Enums;
 using InWords.Data.Repositories;
+using InWords.WebApi.Services.Email;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1._1
 {
@@ -12,10 +14,12 @@ namespace InWords.WebApi.Controllers.v1._1
     public class ValuesController : ControllerBase
     {
         private readonly UserRepository userRepository;
+        private readonly EmailSender emailSender;
 
-        public ValuesController(InWordsDataContext context)
+        public ValuesController(InWordsDataContext context, TextSender sender)
         {
             userRepository = new UserRepository(context);
+            this.emailSender = sender;
         }
 
         /// <summary>
@@ -29,13 +33,6 @@ namespace InWords.WebApi.Controllers.v1._1
             return Ok(HttpContext.GetRequestedApiVersion());
         }
 
-
-        [HttpGet]
-        [Route("")]
-        public ActionResult<int> GetAll()
-        {
-            return userRepository.Count();
-        }
 
         /// <summary>
         ///     Get your login
@@ -58,21 +55,3 @@ namespace InWords.WebApi.Controllers.v1._1
         }
     }
 }
-
-//// POST api/values
-//[HttpPost]
-//public void Post([FromBody] string value)
-//{
-//}
-
-//// PUT api/values/5
-//[HttpPut("{id}")]
-//public void Put(int id, [FromBody] string value)
-//{
-//}
-
-//// DELETE api/values/5
-//[HttpDelete("{id}")]
-//public void Delete(int id)
-//{
-//}
