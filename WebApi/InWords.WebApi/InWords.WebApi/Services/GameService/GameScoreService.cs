@@ -19,7 +19,7 @@ namespace InWords.WebApi.Services.GameService
 
         LevelScore IGameScoreService.GetLevelScore(LevelResult levelResult)
         {
-            int score = GameLogic.GameScore(levelResult.WordsCount, levelResult.OpeningQuantity);
+            int score = CardGame.Score(levelResult.WordsCount, levelResult.OpeningQuantity);
 
             var levelScore = new LevelScore(levelResult.LevelId, score);
 
