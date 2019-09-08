@@ -68,11 +68,11 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
-        public async Task<IActionResult> GetUser()
+        public IActionResult GetUser()
         {
             int userId = User.GetUserId();
 
-            User user = await usersRepository.FindById(userId);
+            User user = usersRepository.GetUserAccount(userId);
 
             if (user == null) return NotFound();
 

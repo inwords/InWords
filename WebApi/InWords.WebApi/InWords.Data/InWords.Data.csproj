@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InWords.Common\InWords.Common.csproj" />
     <ProjectReference Include="..\InWords.Data.Common\InWords.Abstractions.csproj" />
   </ItemGroup>
 
