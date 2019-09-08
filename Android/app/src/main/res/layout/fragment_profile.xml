@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".presentation.viewScenario.home.HomeFragment">
 
     <FrameLayout
         android:id="@+id/header_container"
         android:layout_width="match_parent"
         android:layout_height="208dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:foreground="@drawable/profile_header_background"
-        app:layout_constraintTop_toTopOf="parent">
+        android:foreground="@drawable/profile_header_background">
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/header_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/header_background"
             android:importantForAccessibility="no"
-            app:actualImageScaleType="focusCrop"
-            app:actualImageResource="@drawable/frame"/>
+            app:actualImageResource="@drawable/frame"
+            app:actualImageScaleType="focusCrop" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/avatar_image"
@@ -31,60 +28,120 @@
             android:layout_height="128dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/half_margin"
-            app:roundingBorderColor="@color/colorSecondary"
-            app:roundingBorderWidth="3dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="48dp"
             android:contentDescription="@string/avatar"
             android:elevation="@dimen/medium_card_elevation"
             app:failureImage="@drawable/ic_octopus1"
-            app:roundAsCircle="true" />
+            app:roundAsCircle="true"
+            app:roundingBorderColor="@color/colorSecondary"
+            app:roundingBorderWidth="3dp" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/to_login_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:drawableStart="@drawable/ic_account_circle_secondary_24dp"
-        android:drawablePadding="@dimen/margin_medium"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/margin_medium"
-        android:paddingEnd="@dimen/margin_medium"
-        android:paddingBottom="@dimen/half_margin"
-        android:text="@string/change_account"
-        android:textAppearance="@style/TextAppearance.Inwords.Subtitle1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_container" />
+        android:layout_marginTop="209dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/settings_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:drawableStart="@drawable/ic_settings_secondary_24dp"
-        android:drawablePadding="@dimen/margin_medium"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/margin_medium"
-        android:paddingTop="@dimen/half_margin"
-        android:paddingEnd="@dimen/margin_medium"
-        android:paddingBottom="@dimen/half_margin"
-        android:text="@string/settings"
-        android:textAppearance="@style/TextAppearance.Inwords.Subtitle1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/to_login_button" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="@dimen/margin_medium">
+
+            <ImageButton
+                android:id="@+id/name_edit_apply_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="?selectableItemBackgroundBorderless"
+                android:enabled="false"
+                android:src="@drawable/ic_check_secondary_24dp"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/name_edit_edit_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="?selectableItemBackgroundBorderless"
+                android:enabled="false"
+                android:src="@drawable/ic_create_secondary_24dp" />
+
+            <ProgressBar
+                android:id="@+id/name_edit_progress"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="@dimen/margin_medium"
+                android:visibility="invisible" />
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@drawable/ic_insert_emoticon_secondary_24dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="56dp"
+                android:layout_marginEnd="56dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="Ник"
+                    android:inputType="textCapSentences"
+                    android:maxLength="64"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/to_login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:drawableStart="@drawable/ic_account_circle_secondary_24dp"
+            android:drawablePadding="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/half_margin"
+            android:text="@string/change_account"
+            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1" />
+
+        <TextView
+            android:id="@+id/settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:drawableStart="@drawable/ic_settings_secondary_24dp"
+            android:drawablePadding="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/half_margin"
+            android:text="@string/settings"
+            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/policy_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/half_margin"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:text="@string/policy_privacy_agreement"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="@string/policy_privacy_agreement" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

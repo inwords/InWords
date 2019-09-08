@@ -31,6 +31,7 @@ class DataSourcesModule {
     @Singleton
     fun database(context: Context): AppRoomDatabase {
         return Room.databaseBuilder(context, AppRoomDatabase::class.java, "cache")
+                .fallbackToDestructiveMigration()
                 .build()
     }
 

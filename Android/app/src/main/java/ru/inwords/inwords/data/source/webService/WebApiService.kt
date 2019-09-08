@@ -60,6 +60,9 @@ interface WebApiService {
     @GET("/v1.0/users/{id}")
     fun getUserById(@Header("Authorization") bearerToken: String, @Path("id") id: Int): Single<User>
 
+    @PUT("/v1.0/users")
+    fun updateUser(@Header("Authorization") bearerToken: String, @Body newUser: User): Completable
+
     @GET("/v1.0/values/getlogin")
     fun getLogin(@Header("Authorization") bearerToken: String): Single<String>
 

@@ -17,7 +17,7 @@ import ru.inwords.inwords.data.source.database.game.LevelScoreRequestDao;
 
 @TypeConverters(RoomTypeConverter.class)
 @Database(entities = {WordTranslation.class, User.class,
-        Game.class, GameLevel.class, GameInfo.class, LevelScoreRequest.class}, version = 1)
+        Game.class, GameLevel.class, GameInfo.class, LevelScoreRequest.class}, version = 2)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract WordTranslationDao wordTranslationDao();
