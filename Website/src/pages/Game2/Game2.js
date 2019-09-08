@@ -5,9 +5,9 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
-import GameCore from './GameCoreContainer';
+import Game2Core from './Game2CoreContainer';
 
-function Game({ match }) {
+function Game2({ match }) {
   return (
     <Container component="div" maxWidth="lg">
       <BreadcrumbNavigation>
@@ -23,13 +23,13 @@ function Game({ match }) {
         </Link>
         <Typography color="textPrimary">Уровень</Typography>
       </BreadcrumbNavigation>
-      <GameCore match={match} />
+      <Game2Core match={match} />
     </Container>
   );
 }
 
-Game.propTypes = {
+Game2.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default Game;
+export default Game2;

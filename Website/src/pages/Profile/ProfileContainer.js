@@ -1,30 +1,30 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveUserInfoById as receiveUserInfoByIdAction } from 'actions/userApiActions';
+import { receiveUserInfoById } from 'actions/userApiActions';
 import Profile from './Profile';
 
 function ProfileContainer({ match }) {
   const validUserId = useSelector(store => store.access.userId);
-  const { userId, ...restUserInfo } = useSelector(store => store.userInfo);
+  const { userId, avatarPath, nickname, experience } = useSelector(
+    store => store.userInfo
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const receiveUserInfoById = userId => {
-      dispatch(receiveUserInfoByIdAction(userId));
-    };
-
     const paramUserId = parseInt(match.params.userId);
 
     if (userId !== paramUserId) {
-      receiveUserInfoById(paramUserId);
+      dispatch(receiveUserInfoById(paramUserId));
     }
   }, [userId, match.params.userId, dispatch]);
 
   return (
     <Profile
-      {...restUserInfo}
+      avatarPath={avatarPath}
+      nickname={nickname}
+      experience={experience}
       editingAvailable={validUserId && validUserId === userId}
     />
   );

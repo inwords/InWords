@@ -1,26 +1,32 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveUserInfoById as receiveUserInfoByIdAction } from 'actions/userApiActions';
+import { receiveUserInfo } from 'actions/userApiActions';
 
 function withReceivedUserInfo(WrappedComponent) {
   function WithReceivedUserInfo({ ...rest }) {
-    const validUserId = useSelector(store => store.access.userId);
-    const { userId, ...restUserInfo } = useSelector(store => store.userInfo);
+    const {
+      account: { accountId, email },
+      nickname,
+      avatarPath
+    } = useSelector(store => store.userInfo);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-      if (validUserId && validUserId !== userId) {
-        const receiveUserInfoById = userId => {
-          dispatch(receiveUserInfoByIdAction(userId));
-        };
-
-        receiveUserInfoById(validUserId);
+      if (!accountId) {
+        dispatch(receiveUserInfo());
       }
-    }, [validUserId, userId, dispatch]);
+    }, [accountId, dispatch]);
 
     return (
-      userId && <WrappedComponent userId={userId} {...restUserInfo} {...rest} />
+      accountId && (
+        <WrappedComponent
+          email={email}
+          nickname={nickname}
+          avatarPath={avatarPath}
+          {...rest}
+        />
+      )
     );
   }
 

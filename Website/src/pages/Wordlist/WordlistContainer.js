@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveWordPairs as receiveWordPairsAction } from 'actions/wordPairsApiActions';
+import { receiveWordPairs } from 'actions/wordPairsApiActions';
 import Wordlist from './Wordlist';
 
 function WordlistContainer() {
@@ -10,11 +10,7 @@ function WordlistContainer() {
 
   useEffect(() => {
     if (!wordPairs.length) {
-      const receiveWordPairs = () => {
-        dispatch(receiveWordPairsAction());
-      };
-
-      receiveWordPairs();
+      dispatch(receiveWordPairs());
     }
   }, [wordPairs.length, dispatch]);
 

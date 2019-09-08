@@ -17,15 +17,12 @@ const useStyles = makeStyles(theme => ({
   header: {
     marginBottom: theme.spacing(1)
   },
-  button: {
-    marginLeft: theme.spacing(1)
-  },
   chip: {
     margin: theme.spacing(1)
   }
 }));
 
-function GameCore({
+function Game2Core({
   currentWordSet,
   wordsStatusColorsMap,
   isClickDone,
@@ -49,6 +46,7 @@ function GameCore({
           container
           justify="center"
           alignItems="center"
+          spacing={1}
           className={classes.header}
         >
           <Grid item>
@@ -61,7 +59,6 @@ function GameCore({
               aria-label="next"
               onClick={handleOpenNextSet}
               disabled={!isClickDone}
-              className={classes.button}
             >
               <PlayArrowIcon aria-label="next word" fontSize="small" />
             </IconButton>
@@ -90,7 +87,7 @@ function GameCore({
   );
 }
 
-GameCore.propTypes = {
+Game2Core.propTypes = {
   currentWordSet: PropTypes.shape({
     primaryWordInfo: PropTypes.shape({
       word: PropTypes.string.isRequired
@@ -114,4 +111,4 @@ GameCore.propTypes = {
   handleReplay: PropTypes.func
 };
 
-export default GameCore;
+export default Game2Core;

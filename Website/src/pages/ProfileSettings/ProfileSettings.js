@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ProfileSettings({ inputs, handleChange, handleSubmit }) {
+function ProfileSettings({ inputs, handleChange, handleSubmit, email }) {
   const classes = useStyles();
 
   return (
@@ -43,7 +43,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
         </Typography>
         <List className={classes.list}>
           <ListItem>
-            <ListItemText primary="Email" secondary="*" />
+            <ListItemText primary="Email" secondary={email} />
             <ListItemSecondaryAction>
               <EmailEditButton />
             </ListItemSecondaryAction>
@@ -97,6 +97,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
 }
 
 ProfileSettings.propTypes = {
+  email: PropTypes.string.isRequired,
   inputs: PropTypes.exact({
     nickname: PropTypes.string.isRequired,
     avatarPath: PropTypes.string.isRequired

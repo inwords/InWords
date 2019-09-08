@@ -6,7 +6,7 @@ import useForm from 'hooks/useForm';
 import withReceivedUserInfo from './withReceivedUserInfo';
 import ProfileSettings from './ProfileSettings';
 
-function ProfileSettingsContainer({ nickname, avatarPath }) {
+function ProfileSettingsContainer({ nickname, avatarPath, ...rest }) {
   const dispatch = useDispatch();
 
   const { inputs, handleChange, handleSubmit } = useForm(
@@ -24,13 +24,15 @@ function ProfileSettingsContainer({ nickname, avatarPath }) {
       inputs={inputs}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
+      {...rest}
     />
   );
 }
 
 ProfileSettingsContainer.propTypes = {
   nickname: PropTypes.string.isRequired,
-  avatarPath: PropTypes.string.isRequired
+  avatarPath: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired
 };
 
 export default withReceivedUserInfo(ProfileSettingsContainer);

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-//import { useDispatch } from 'react-redux';
-//import { saveLevelResult as saveLevelResultAction } from 'actions/gamesApiActions';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
-import GameCore from './GameCore';
+import Game2Core from './Game2Core';
 
-function GameCoreContainer({ levelId, wordTranslations }) {
+function Game2CoreContainer({ levelId, wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
   const [currentWordSet, setCurrentWordSet] = useState({
@@ -17,12 +15,9 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   });
   const [wordsStatusColorsMap, setWordsStatusColorsMap] = useState({});
   const [isClickDone, setIsClickDone] = useState(false);
-  //const [openingQuantity, setOpeningQuantity] = useState(0);
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
   const [score, setScore] = useState(null);
-
-  //const dispatch = useDispatch();
 
   useEffect(() => {
     const wordsInfo = Array.prototype.concat.apply(
@@ -67,21 +62,6 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   useEffect(() => {
     if (isGameCompleted) {
       setTimeout(setIsResultReady, 500, true);
-
-      /* const saveLevelResult = (levelResult, actionOnSuccess) => {
-        dispatch(saveLevelResultAction(levelResult, actionOnSuccess));
-      };
-
-      saveLevelResult(
-        {
-          levelId,
-          openingQuantity,
-          wordsCount: randomWordsInfo.length
-        },
-        data => {
-          setScore(data.score);
-        }
-      ); */
     }
   }, [isGameCompleted]);
 
@@ -129,14 +109,13 @@ function GameCoreContainer({ levelId, wordTranslations }) {
     setCurrentWordSet(shuffledWordSets[shuffledWordSets.length - 1]);
     setWordsStatusColorsMap({});
     setIsClickDone(false);
-    //setOpeningQuantity(0);
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
   };
 
   return (
-    <GameCore
+    <Game2Core
       currentWordSet={currentWordSet}
       wordsStatusColorsMap={wordsStatusColorsMap}
       isClickDone={isClickDone}
@@ -150,7 +129,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   );
 }
 
-GameCoreContainer.propTypes = {
+Game2CoreContainer.propTypes = {
   levelId: PropTypes.number.isRequired,
   wordTranslations: PropTypes.arrayOf(
     PropTypes.shape({
@@ -161,4 +140,4 @@ GameCoreContainer.propTypes = {
   ).isRequired
 };
 
-export default withReceivedGameLevel(GameCoreContainer);
+export default withReceivedGameLevel(Game2CoreContainer);
