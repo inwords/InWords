@@ -10,6 +10,7 @@ import ErrorBoundary from 'components/ErrorBoundary';
 
 const SignIn = lazy(() => import('./pages/SignIn'));
 const SignUp = lazy(() => import('./pages/SignUp'));
+const EmailChanging = lazy(() => import('./pages/EmailChanging'));
 const EmailConfirmation = lazy(() => import('./pages/EmailConfirmation'));
 const Profile = lazy(() => import('./pages/Profile'));
 const ProfileSettings = lazy(() => import('./pages/ProfileSettings'));
@@ -60,6 +61,7 @@ function App() {
               />
               <Route path="/signIn" component={SignIn} />
               <Route path="/signUp" component={SignUp} />
+              <Route path="/emailChanging" component={EmailChanging} />
               <Route path="/emailConfirmation/:email" component={EmailConfirmation} />
               <Route path="/profile/:userId" component={Profile} />
               <Route path="/profileSettings" component={ProfileSettings} />

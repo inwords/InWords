@@ -4,8 +4,15 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
@@ -14,7 +21,11 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 3, 3)
   },
   form: {
-    width: '100%'
+    width: '100%',
+    marginTop: theme.spacing(1)
+  },
+  list: {
+    backgroundColor: theme.palette.background.paper
   },
   actions: {
     marginTop: theme.spacing(3)
@@ -27,6 +38,9 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
   return (
     <Container component="div" maxWidth="sm">
       <Paper className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Настройки профиля
+        </Typography>
         <form onSubmit={handleSubmit} className={classes.form}>
           <TextField
             id="nickname"
@@ -50,6 +64,20 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
             variant="filled"
             margin="normal"
           />
+          <List className={classes.list}>
+            <ListItem>
+              <ListItemText primary="Email" secondary="*" />
+              <IconButton
+                component={Link}
+                to="/emailChanging"
+                aria-label="edit"
+                edge="end"
+              >
+                <EditIcon />
+              </IconButton>
+            </ListItem>
+            <Divider component="li" />
+          </List>
           <Grid
             container
             justify="flex-end"

@@ -54,15 +54,33 @@ export function confirmEmail(emailClaims) {
     data: JSON.stringify(emailClaims),
     actionsOnSuccess: [
       dispatch => {
-        dispatch(setSnackbar({ text: 'Аккаунт успешно создан' }));
+        dispatch(setSnackbar({ text: 'Email успешно подтвержден' }));
       },
       () => {
-        history.push('/wordlist');
+        history.push('/profile');
       }
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось активировать email' }));
+        dispatch(setSnackbar({ text: 'Не удалось подтвердить email' }));
+      }
+    ]
+  });
+}
+
+export function sendActivationCode(email) {
+  return apiAction({
+    endpoint: 'email/sendActivationCode',
+    method: 'POST',
+    data: JSON.stringify(email),
+    actionsOnSuccess: [
+      () => {
+        history.push(`/emailConfirmation/${email}`);
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось изменить email' }));
       }
     ]
   });
