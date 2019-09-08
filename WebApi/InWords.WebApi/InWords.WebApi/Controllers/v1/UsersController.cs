@@ -71,7 +71,7 @@ namespace InWords.WebApi.Controllers.v1
         public IActionResult GetUser()
         {
             int userId = User.GetUserId();
-
+#warning Security warning change User.Account to UserDTO
             User user = usersRepository.GetUserAccount(userId);
 
             if (user == null) return NotFound();
