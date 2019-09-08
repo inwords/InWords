@@ -3,9 +3,25 @@ import { setSnackbar } from './commonActions';
 import * as userActions from './userActions';
 import { history } from 'App';
 
-export function receiveUserInfo(userId) {
+export function receiveUserInfoById(userId) {
   return apiAction({
     endpoint: `users/${userId}`,
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(userActions.initializeUserInfo(data));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
+      }
+    ]
+  });
+}
+
+export function receiveUserInfo() {
+  return apiAction({
+    endpoint: 'users',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(userActions.initializeUserInfo(data));

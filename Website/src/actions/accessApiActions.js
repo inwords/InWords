@@ -35,34 +35,20 @@ export function signUp(userdata) {
       (dispatch, data) => {
         dispatch(grantAccess(data));
       },
+      dispatch => {
+        dispatch(
+          setSnackbar({
+            text: 'На указанный email было отправленое письмо с подтверждением'
+          })
+        );
+      },
       () => {
-        history.push(`/emailConfirmation/${userdata.email}`);
+        history.push(`/profile`);
       }
     ],
     actionsOnFailure: [
       dispatch => {
         dispatch(setSnackbar({ text: 'Не удалось зарегистрироваться' }));
-      }
-    ]
-  });
-}
-
-export function confirmEmail(emailClaims) {
-  return apiAction({
-    endpoint: 'email/confirmCode',
-    method: 'POST',
-    data: JSON.stringify(emailClaims),
-    actionsOnSuccess: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Email успешно подтвержден' }));
-      },
-      () => {
-        history.push('/profile');
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось подтвердить email' }));
       }
     ]
   });
@@ -74,8 +60,12 @@ export function sendActivationCode(email) {
     method: 'POST',
     data: JSON.stringify(email),
     actionsOnSuccess: [
-      () => {
-        history.push(`/emailConfirmation/${email}`);
+      dispatch => {
+        dispatch(
+          setSnackbar({
+            text: 'На новый email было отправленое письмо с подтверждением'
+          })
+        );
       }
     ],
     actionsOnFailure: [

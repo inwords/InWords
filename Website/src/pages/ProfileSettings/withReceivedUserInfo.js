@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveUserInfo as receiveUserInfoAction } from 'actions/userApiActions';
+import { receiveUserInfoById as receiveUserInfoByIdAction } from 'actions/userApiActions';
 
 function withReceivedUserInfo(WrappedComponent) {
   function WithReceivedUserInfo({ ...rest }) {
@@ -11,11 +11,11 @@ function withReceivedUserInfo(WrappedComponent) {
 
     useEffect(() => {
       if (validUserId && validUserId !== userId) {
-        const receiveUserInfo = userId => {
-          dispatch(receiveUserInfoAction(userId));
+        const receiveUserInfoById = userId => {
+          dispatch(receiveUserInfoByIdAction(userId));
         };
 
-        receiveUserInfo(validUserId);
+        receiveUserInfoById(validUserId);
       }
     }, [validUserId, userId, dispatch]);
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveUserInfo as receiveUserInfoAction } from 'actions/userApiActions';
+import { receiveUserInfoById as receiveUserInfoByIdAction } from 'actions/userApiActions';
 import Profile from './Profile';
 
 function ProfileContainer({ match }) {
@@ -11,14 +11,14 @@ function ProfileContainer({ match }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const receiveUserInfo = userId => {
-      dispatch(receiveUserInfoAction(userId));
+    const receiveUserInfoById = userId => {
+      dispatch(receiveUserInfoByIdAction(userId));
     };
 
     const paramUserId = parseInt(match.params.userId);
 
     if (userId !== paramUserId) {
-      receiveUserInfo(paramUserId);
+      receiveUserInfoById(paramUserId);
     }
   }, [userId, match.params.userId, dispatch]);
 

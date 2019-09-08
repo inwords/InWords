@@ -19,11 +19,7 @@ function WordPairsDeleteToolbarContainer({ checkedValues, ...rest }) {
       })
     );
 
-    let timerId = setTimeout(
-      dispatch,
-      5100,
-      deleteWordPairs(checkedValues)
-    );
+    let timerId = setTimeout(dispatch, 5100, deleteWordPairs(checkedValues));
   };
 
   return (

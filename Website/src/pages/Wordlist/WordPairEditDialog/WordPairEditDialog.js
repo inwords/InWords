@@ -43,6 +43,7 @@ function WordPairEditDialog({
           }}
         >
           <TextField
+            id="wordForeign"
             label="Слово или фраза"
             name="wordForeign"
             value={inputs.wordForeign}
@@ -51,6 +52,7 @@ function WordPairEditDialog({
             fullWidth
           />
           <TextField
+            id="wordNative"
             label="Перевод"
             name="wordNative"
             value={inputs.wordNative}
