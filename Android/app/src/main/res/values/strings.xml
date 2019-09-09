@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">InWords</string>
-    <string name="title_home">Профиль</string>
+    <string name="title_home">Главная</string>
     <string name="title_dictionary">Словарь</string>
-    <string name="title_notifications">OctoGame</string>
+    <string name="title_game">OctoGame</string>
+    <string name="title_profile">Профиль</string>
 
     <string name="sign_success">Успешно</string>
 

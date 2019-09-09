@@ -1,5 +1,6 @@
 package ru.inwords.inwords.data.source.webService
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.data.dto.EntityIdentificator
 import ru.inwords.inwords.data.dto.User
@@ -26,6 +27,8 @@ interface WebRequestsManager {
     fun registerUser(userCredentials: UserCredentials): Single<TokenResponse>
 
     fun getUserById(id: Int): Single<User>
+
+    fun updateUser(newUser: User): Completable
 
     fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>>
 

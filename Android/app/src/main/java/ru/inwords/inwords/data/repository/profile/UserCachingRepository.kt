@@ -1,5 +1,6 @@
 package ru.inwords.inwords.data.repository.profile
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.data.dto.User
@@ -22,8 +23,18 @@ class UserCachingRepository(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun clearCache(){
+    override fun updateUser(newUser: User): Completable {
+        return remoteRepository.updateUser(newUser)
+    }
+
+    override fun clearCache() {
         authorisedUserCachingProviderLocator.clear()
+    }
+
+    override fun postOnLoopback(newUser: User){
+        val cachingProvider = authorisedUserCachingProviderLocator.getDefault()
+
+        cachingProvider.postOnLoopback(newUser)
     }
 
     private fun createAuthorisedUserCachingProvider(): ResourceCachingProvider<User> {

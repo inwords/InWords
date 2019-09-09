@@ -1,6 +1,7 @@
 package ru.inwords.inwords.data.source.webService
 
 import android.util.Log
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -105,6 +106,14 @@ internal constructor(private val apiService: WebApiService,
                 .subscribeOn(SchedulersFacade.io())
     }
 
+    override fun updateUser(newUser: User): Completable {
+        return valve()
+                .flatMap { getAuthToken() }
+                .flatMapCompletable { apiService.updateUser(it, newUser) }
+                .interceptError()
+                .subscribeOn(SchedulersFacade.io())
+    }
+
     override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
         return valve()
                 .flatMap { getAuthToken() }
@@ -205,6 +214,10 @@ internal constructor(private val apiService: WebApiService,
     }
 
     private fun <T> Single<T>.interceptError(): Single<T> {
+        return doOnError { throwable -> sessionHelper.interceptAuthError(throwable) }
+    }
+
+    private fun Completable.interceptError(): Completable {
         return doOnError { throwable -> sessionHelper.interceptAuthError(throwable) }
     }
 }
