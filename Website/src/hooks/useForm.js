@@ -18,14 +18,10 @@ export default function useForm(initialInputs, action) {
     event.preventDefault();
   };
 
-  const handleReset = () => {
-    setInputs(initialInputs);
-  };
-
   return {
     inputs,
+    setInputs,
     handleChange,
-    handleSubmit,
-    handleReset
+    handleSubmit
   };
 }

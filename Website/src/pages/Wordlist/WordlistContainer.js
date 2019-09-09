@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs } from 'actions/wordPairsApiActions';
 import Wordlist from './Wordlist';
@@ -38,12 +38,28 @@ function WordlistContainer() {
     setCheckedValues([]);
   };
 
+  const [searchWord, setSearchWord] = useState('');
+
+  const filteredWordPairs = useMemo(
+    () =>
+      wordPairs.filter(({ wordForeign, wordNative }) => {
+        const upperCaseSearchWord = searchWord.toUpperCase();
+
+        return (
+          wordForeign.toUpperCase().includes(upperCaseSearchWord) ||
+          wordNative.toUpperCase().includes(upperCaseSearchWord)
+        );
+      }),
+    [searchWord, wordPairs]
+  );
+
   return (
     <Wordlist
-      wordPairs={wordPairs}
+      wordPairs={!searchWord ? wordPairs : filteredWordPairs}
       checkedValues={checkedValues}
       handleToggle={handleToggle}
       handleReset={handleReset}
+      setSearchWord={setSearchWord}
     />
   );
 }

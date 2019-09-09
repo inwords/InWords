@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { editWordPair } from 'actions/wordPairsApiActions';
@@ -11,15 +11,29 @@ function WordPairEditDialogContainer({
 }) {
   const dispatch = useDispatch();
 
-  const { inputs, handleChange, handleSubmit, handleReset } = useForm(
+  const { inputs, setInputs, handleChange, handleSubmit } = useForm(
     {
-      wordForeign: wordForeign,
-      wordNative: wordNative
+      wordForeign,
+      wordNative
     },
     () => {
       dispatch(editWordPair(serverId, inputs));
     }
   );
+
+  const handleReset = () => {
+    setInputs({
+      wordForeign,
+      wordNative
+    });
+  };
+
+  useEffect(() => {
+    setInputs({
+      wordForeign,
+      wordNative
+    });
+  }, [wordForeign, wordNative, setInputs]);
 
   return (
     <WordPairEditDialog

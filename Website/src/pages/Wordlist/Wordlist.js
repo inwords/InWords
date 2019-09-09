@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
-import WordPairsDeleteToolbar from './WordPairsDeleteToolbar';
+import WordlistToolbar from './WordlistToolbar';
 import WordPairRow from './WordPairRow';
 import WordPairAddButton from './WordPairAddButton';
 
@@ -16,7 +16,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Wordlist({ wordPairs, checkedValues, handleToggle, handleReset }) {
+function Wordlist({
+  wordPairs,
+  checkedValues,
+  handleToggle,
+  handleReset,
+  setSearchWord
+}) {
   const classes = useStyles();
 
   const [listHeight, setListHeight] = useState(0);
@@ -39,9 +45,10 @@ function Wordlist({ wordPairs, checkedValues, handleToggle, handleReset }) {
   return (
     <Container component="div" maxWidth="md">
       <Paper>
-        <WordPairsDeleteToolbar
+        <WordlistToolbar
           checkedValues={checkedValues}
           handleReset={handleReset}
+          setSearchWord={setSearchWord}
         />
         <Divider ref={divEl} />
         <FixedSizeList
@@ -68,8 +75,9 @@ function Wordlist({ wordPairs, checkedValues, handleToggle, handleReset }) {
 Wordlist.propTypes = {
   wordPairs: PropTypes.array.isRequired,
   checkedValues: PropTypes.array.isRequired,
-  handleToggle: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired
+  handleToggle: PropTypes.func,
+  handleReset: PropTypes.func,
+  setSearchWord: PropTypes.func
 };
 
 export default Wordlist;

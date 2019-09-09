@@ -7,14 +7,16 @@ import EmailEditDialog from './EmailEditDialog';
 function EmailEditDialogContainer({ ...rest }) {
   const dispatch = useDispatch();
 
-  const { inputs, handleChange, handleSubmit, handleReset } = useForm(
-    {
-      email: ''
-    },
+  const { inputs, setInputs, handleChange, handleSubmit } = useForm(
+    { email: '' },
     () => {
       dispatch(sendActivationCode(inputs.email));
     }
   );
+
+  const handleReset = () => {
+    setInputs({ email: '' });
+  };
 
   return (
     <EmailEditDialog
