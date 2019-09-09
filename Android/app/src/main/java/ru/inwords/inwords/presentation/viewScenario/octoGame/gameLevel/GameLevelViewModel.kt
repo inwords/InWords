@@ -28,7 +28,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
 
         currentLevelIndex = gameLevelInfo.level - 1
 
-        compositeDisposable.add(gameInteractor.getLevel(gameLevelInfo.levelId)
+        gameInteractor.getLevel(gameLevelInfo.levelId)
                 .map {
                     when (it) {
                         is Resource.Success -> Resource.Success(CardsData(it.data.wordTranslations))
@@ -36,12 +36,14 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
                         is Resource.Error -> Resource.Error(it.message, it.throwable)
                     }
                 }
-                .subscribe(_cardsDataSubject::onNext))
+                .subscribe(_cardsDataSubject::onNext)
+                .autoDispose()
 
-        compositeDisposable.add(gameInteractor
+        gameInteractor
                 .getGame(gameId)
                 .map { it.gameResource }
-                .subscribe { storeGame(it) }) //TODO
+                .subscribe { storeGame(it) } //TODO
+                .autoDispose()
     }
 
     private fun storeGame(gameResource: Resource<Game>) {

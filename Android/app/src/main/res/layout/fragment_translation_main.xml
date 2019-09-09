@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/asdasd"
+    android:id="@+id/root_coordinator"
     tools:context="ru.inwords.inwords.presentation.viewScenario.translation.translationMain.TranslationMainFragment">
 
     <androidx.recyclerview.widget.RecyclerView

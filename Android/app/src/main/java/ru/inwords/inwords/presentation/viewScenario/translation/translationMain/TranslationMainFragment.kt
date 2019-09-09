@@ -119,7 +119,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         val item = adapter.items[position].clone()
         viewModel.onItemDismiss(item.clone())
 
-        Snackbar.make(asdasd, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
+        Snackbar.make(root_coordinator, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
                 .addCallback(SnackBarCallback(item))
                 .show()
