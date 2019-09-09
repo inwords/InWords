@@ -17,7 +17,7 @@ import EmailEditButton from './EmailEditButton';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     padding: theme.spacing(2, 3, 3)
   },
   form: {

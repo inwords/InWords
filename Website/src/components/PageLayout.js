@@ -33,8 +33,8 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp
     })
   },
-  space: {
-    flexGrow: 1
+  spacer: {
+    flex: '1 1 100%'
   },
   drawer: {
     width: drawerWidth
@@ -103,7 +103,7 @@ function PageLayout({ authorized, children }) {
           <Link href="/" variant="h6" underline="none" color="inherit">
             InWords
           </Link>
-          <span className={classes.space}></span>
+          <span className={classes.spacer}></span>
           {authorized && <ProfileMenu />}
         </Toolbar>
         <Progress />

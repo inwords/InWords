@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { FixedSizeList } from 'react-window';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
-import WordPair from './WordPair';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import WordPairsDeleteToolbar from './WordPairsDeleteToolbar';
+import WordPairRow from './WordPairRow';
 import WordPairAddButton from './WordPairAddButton';
 
 const useStyles = makeStyles(theme => ({
   list: {
-    marginBottom: theme.spacing(3),
-    width: '100%',
     backgroundColor: theme.palette.background.paper
   }
 }));
@@ -18,36 +19,54 @@ const useStyles = makeStyles(theme => ({
 function Wordlist({ wordPairs, checkedValues, handleToggle, handleReset }) {
   const classes = useStyles();
 
+  const [listHeight, setListHeight] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setListHeight(
+        window.innerHeight - divEl.current.getBoundingClientRect().top - 24
+      );
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const divEl = useRef(null);
+
   return (
     <Container component="div" maxWidth="md">
-      <List className={classes.list}>
-        {wordPairs.map(wordPair => (
-          <WordPair
-            key={wordPair.serverId}
-            wordPair={wordPair}
-            checked={checkedValues.includes(wordPair.serverId)}
-            handleToggle={handleToggle}
-            editingAvailable={checkedValues.length === 0}
-          />
-        ))}
-      </List>
+      <Paper>
+        <WordPairsDeleteToolbar
+          checkedValues={checkedValues}
+          handleReset={handleReset}
+        />
+        <Divider ref={divEl} />
+        <FixedSizeList
+          height={listHeight}
+          outerElementType={List}
+          itemCount={wordPairs.length}
+          itemData={{
+            wordPairs,
+            checkedValues,
+            handleToggle,
+            handleReset
+          }}
+          itemSize={60}
+          className={classes.list}
+        >
+          {WordPairRow}
+        </FixedSizeList>
+      </Paper>
       <WordPairAddButton visible={checkedValues.length === 0} />
-      <WordPairsDeleteToolbar
-        checkedValues={checkedValues}
-        handleReset={handleReset}
-      />
     </Container>
   );
 }
 
 Wordlist.propTypes = {
-  wordPairs: PropTypes.arrayOf(
-    PropTypes.shape({
-      serverId: PropTypes.number.isRequired,
-      wordForeign: PropTypes.string.isRequired,
-      wordNative: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
+  wordPairs: PropTypes.array.isRequired,
   checkedValues: PropTypes.array.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired
