@@ -12,17 +12,20 @@ import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    paddingLeft: theme.spacing(2),
+  },
   activeToolbar: {
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
     color: theme.palette.secondary.main,
     backgroundColor: lighten(theme.palette.secondary.light, 0.85)
   },
+  title: {
+    flex: '0 0 auto'
+  },
   spacer: {
     flex: '1 1 100%'
-  },
-  listTitle: {
-    marginLeft: theme.spacing(1)
   },
   search: {
     position: 'relative',
@@ -61,9 +64,6 @@ const useStyles = makeStyles(theme => ({
       }
     }
   },
-  activeTitle: {
-    flex: '0 0 auto'
-  },
   closeButton: {
     marginRight: 20
   }
@@ -81,14 +81,14 @@ function WordlistToolbar({
 
   return (
     <Toolbar
-      className={clsx({
+      className={clsx(classes.root, {
         [classes.activeToolbar]: numberOfChecked > 0
       })}
     >
       {numberOfChecked === 0 ? (
         <>
           <Hidden xsDown>
-            <div className={clsx(classes.activeTitle, classes.listTitle)}>
+            <div className={classes.title}>
               <Typography variant="h6">Словарь</Typography>
             </div>
             <div className={classes.spacer} />
@@ -124,7 +124,7 @@ function WordlistToolbar({
           >
             <CloseIcon />
           </IconButton>
-          <div className={classes.activeTitle}>
+          <div className={classes.title}>
             <Typography variant="h6">Выбрано: {numberOfChecked}</Typography>
           </div>
           <div className={classes.spacer} />
