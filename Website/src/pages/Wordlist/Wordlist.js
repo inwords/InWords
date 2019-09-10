@@ -30,7 +30,7 @@ function Wordlist({
   useEffect(() => {
     const handleResize = () => {
       setListHeight(
-        window.innerHeight - divEl.current.getBoundingClientRect().top - 24
+        window.innerHeight - divEl.current.getBoundingClientRect().top - 26
       );
     };
 
