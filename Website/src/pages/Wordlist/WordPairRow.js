@@ -61,7 +61,7 @@ function WordPairRow({
         {window.speechSynthesis && (
           <ListItemSecondaryAction>
             <IconButton
-              aria-label="edit"
+              aria-label="speak"
               onClick={() => {
                 const speech = new SpeechSynthesisUtterance(
                   wordForeign
