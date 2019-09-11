@@ -48,12 +48,8 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
 
         viewModel.addEditWordLiveData.observe(this, Observer { event ->
-            if (event.handle()) {
-                val wordTranslation = event.peekContent()
-                val args = Bundle().apply {
-                    putSerializable(WordTranslation::class.java.canonicalName, wordTranslation)
-                }
-                navController.navigate(R.id.action_translationMainFragment_to_addEditWordFragment, args)
+            event.contentIfNotHandled?.also {
+                navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(it))
             }
         })
 
@@ -67,7 +63,8 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
                     } else {
                         Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
                     }
-                }.disposeOnViewDestroyed()
+                }
+                .disposeOnViewDestroyed()
 
         viewModel.translationWordsStream
                 .applyDiffUtil()

@@ -121,6 +121,9 @@
             android:id="@+id/action_addEditWordFragment_pop"
             app:popUpTo="@id/addEditWordFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="wordTranslation"
+            app:argType="ru.inwords.inwords.data.dto.WordTranslation" />
     </fragment>
     <fragment
         android:id="@+id/gamesFragment"
@@ -147,6 +150,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="gameInfo"
+            app:argType="ru.inwords.inwords.data.dto.game.GameInfo" />
     </fragment>
     <fragment
         android:id="@+id/gameLevelFragment"
@@ -154,15 +160,14 @@
         android:label="fragment_game_level"
         tools:layout="@layout/fragment_game_level">
         <action
-            android:id="@+id/action_gameLevelFragment_pop"
-            app:popUpTo="@id/gameLevelFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_gameLevelFragment_popUpTo_mainFragment"
-            app:popUpTo="@id/mainFragment" />
-        <action
             android:id="@+id/action_gameLevelFragment_to_gameEndBottomSheet"
             app:destination="@id/gameEndBottomSheet" />
+        <argument
+            android:name="gameLevelInfo"
+            app:argType="ru.inwords.inwords.data.dto.game.GameLevelInfo" />
+        <argument
+            android:name="gameId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -182,6 +187,17 @@
         <argument
             android:name="cardsCount"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_pop"
+            app:popUpTo="@id/gameEndBottomSheet"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_popUpTo_gameLevelFragment_inclusive"
+            app:popUpTo="@id/gameLevelFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_popUpTo_mainFragment"
+            app:popUpTo="@id/mainFragment" />
     </dialog>
 
     <action

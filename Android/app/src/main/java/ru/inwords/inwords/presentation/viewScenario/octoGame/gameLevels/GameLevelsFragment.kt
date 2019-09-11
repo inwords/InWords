@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_game_levels.*
@@ -15,9 +16,6 @@ import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
 import ru.inwords.inwords.domain.model.Resource
-import ru.inwords.inwords.presentation.GAME_ID
-import ru.inwords.inwords.presentation.GAME_INFO
-import ru.inwords.inwords.presentation.GAME_LEVEL_INFO
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter
@@ -26,6 +24,8 @@ import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler
 class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, OctoGameViewModelFactory>() {
     override val layout = R.layout.fragment_game_levels
     override val classType = GameLevelsViewModel::class.java
+
+    private val args by navArgs<GameLevelsFragmentArgs>()
 
     private lateinit var gameInfo: GameInfo
     private lateinit var game: Game
@@ -36,7 +36,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        gameInfo = requireNotNull(arguments?.getParcelable(GAME_INFO), { "GAME_INFO argument is null" })
+        gameInfo = args.gameInfo
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,11 +80,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     }
 
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
-        val bundle = Bundle().apply {
-            putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
-            putInt(GAME_ID, game.gameId)
-        }
-        navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
+        navController.navigate(GameLevelsFragmentDirections.actionGameLevelsFragmentToGameLevelFragment(gameLevelInfo, game.gameId))
     }
 
     private fun showIntro() {

@@ -39,7 +39,7 @@ abstract class SigningBaseFragment<ViewModelType : AuthorisationViewModel, ViewM
         buttonTrySign.setMode(ActionProcessButton.Mode.ENDLESS)
 
         viewModel.navigateTo.observe(this, Observer { event ->
-            if (event?.contentIfNotHandled != null) {
+            event.contentIfNotHandled?.also {
                 navigateAction()
             }
         })

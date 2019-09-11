@@ -33,23 +33,15 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
 
         setupRecycler()
         subscribeRecycler().disposeOnViewDestroyed()
-
-        //BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
-        //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
-
-//        cardsGameView.cardsData = CardsData(listOf(
-//                WordTranslation("Home", "Дом"),
-//                WordTranslation("Car", "Машина")
-//        ))
     }
 
     private fun subscribeListener(): Disposable {
         return onItemClickListener.subscribe {
             when (it) {
-                is CardWrapper.CreateAccountMarker -> navController.navigate(R.id.action_mainFragment_to_loginFragment)
+                is CardWrapper.CreateAccountMarker -> navController.navigate(HomeFragmentDirections.actionMainFragmentToLoginFragment())
                 is CardWrapper.ProfileLoadingMarker -> Unit
-                is CardWrapper.ProfileModel -> navController.navigate(R.id.action_mainFragment_to_profileFragment)
-                is CardWrapper.DictionaryModel -> navController.navigate(R.id.action_mainFragment_to_translationMainFragment)
+                is CardWrapper.ProfileModel -> navController.navigate(HomeFragmentDirections.actionMainFragmentToProfileFragment())
+                is CardWrapper.DictionaryModel -> navController.navigate(HomeFragmentDirections.actionMainFragmentToTranslationMainFragment())
             }
         }
     }
@@ -82,7 +74,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                 .observeOn(SchedulersFacade.ui())
                 .subscribe { agreed ->
                     if (!agreed && !isStateSaved) {
-                        navController.navigate(R.id.action_mainFragment_to_policyFragment)
+                        navController.navigate(HomeFragmentDirections.actionMainFragmentToPolicyFragment())
                     }
                 }
     }
