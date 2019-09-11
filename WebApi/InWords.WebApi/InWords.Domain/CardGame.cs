@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace InWords.Domain
 {
@@ -14,6 +16,13 @@ namespace InWords.Domain
                 score = 2;
             else if (openingQuantity <= wordsCount * 2.5) score = 1;
             return score;
+        }
+
+        public static int Score(Dictionary<string, int> wordPariDicrionary)
+        {
+            int wordsCount = wordPariDicrionary.Count * 2;
+            int openingQuantity = wordPariDicrionary.Sum(s => s.Value);
+            return Score(wordsCount, openingQuantity);
         }
     }
 }
