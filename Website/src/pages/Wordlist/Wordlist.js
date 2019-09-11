@@ -11,6 +11,9 @@ import WordPairAddButton from './WordPairAddButton';
 
 function Wordlist({
   wordPairs,
+  editingMode,
+  handleButtonPress,
+  handleButtonRelease,
   checkedValues,
   handleToggle,
   handleReset,
@@ -42,6 +45,7 @@ function Wordlist({
     <Container component="div" maxWidth="md">
       <Paper elevation={1}>
         <WordlistToolbar
+          editingMode={editingMode}
           checkedValues={checkedValues}
           handleReset={handleReset}
           setSearchWord={setSearchWord}
@@ -55,24 +59,30 @@ function Wordlist({
           itemData={{
             wordPairs,
             checkedValues,
-            handleToggle
+            handleToggle,
+            editingMode,
+            handleButtonPress,
+            handleButtonRelease
           }}
           itemSize={60}
         >
           {WordPairRow}
         </FixedSizeList>
       </Paper>
-      <WordPairAddButton visible={checkedValues.length === 0} />
+      <WordPairAddButton visible={!editingMode} />
     </Container>
   );
 }
 
 Wordlist.propTypes = {
   wordPairs: PropTypes.array.isRequired,
-  checkedValues: PropTypes.array.isRequired,
-  handleToggle: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired,
-  setSearchWord: PropTypes.func.isRequired
+  editingMode: PropTypes.bool.isRequired,
+  handleButtonPress: PropTypes.func,
+  handleButtonRelease: PropTypes.func,
+  checkedValues: PropTypes.array,
+  handleToggle: PropTypes.func,
+  handleReset: PropTypes.func,
+  setSearchWord: PropTypes.func
 };
 
 export default Wordlist;
