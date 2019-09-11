@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs } from 'actions/wordPairsApiActions';
 import Wordlist from './Wordlist';
@@ -14,6 +20,7 @@ function WordlistContainer() {
     }
   }, [wordPairs.length, dispatch]);
 
+  const [editingMode, setEditingMode] = useState(false);
   const [checkedValues, setCheckedValues] = useState([]);
 
   const handleToggle = useCallback(
@@ -36,6 +43,7 @@ function WordlistContainer() {
 
   const handleReset = () => {
     setCheckedValues([]);
+    setEditingMode(false);
   };
 
   const [searchWord, setSearchWord] = useState('');
@@ -53,9 +61,22 @@ function WordlistContainer() {
     [searchWord, wordPairs]
   );
 
+  const buttonPressTimerRef = useRef();
+
+  const handleButtonPress = () => {
+    buttonPressTimerRef.current = setTimeout(setEditingMode, 500, true);
+  };
+
+  const handleButtonRelease = () => {
+    clearTimeout(buttonPressTimerRef.current);
+  };
+
   return (
     <Wordlist
       wordPairs={!searchWord ? wordPairs : filteredWordPairs}
+      editingMode={editingMode}
+      handleButtonPress={handleButtonPress}
+      handleButtonRelease={handleButtonRelease}
       checkedValues={checkedValues}
       handleToggle={handleToggle}
       handleReset={handleReset}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'actions/commonActions';
@@ -23,9 +23,14 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
     let timerId = setTimeout(dispatch, 5100, deleteWordPairs(checkedValues));
   };
 
-  const { inputs, handleChange, handleSubmit } = useForm({ search: '' }, () => {
-    setSearchWord(inputs.search);
-  });
+  const { inputs, handleChange } = useForm({ search: '' });
+
+  const timerRef = useRef();
+
+  useEffect(() => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(setSearchWord, 200, inputs.search);
+  }, [inputs, setSearchWord]);
 
   return (
     <WordlistToolbar
@@ -33,7 +38,6 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
       handleDelete={handleDelete}
       inputs={inputs}
       handleChange={handleChange}
-      handleSubmit={handleSubmit}
       {...rest}
     />
   );
@@ -42,6 +46,7 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
 WordlistToolbarContainer.propTypes = {
   checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   setSearchWord: PropTypes.func.isRequired,
+  editingMode: PropTypes.bool,
   handleReset: PropTypes.func
 };
 

@@ -10,10 +10,10 @@ import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import EmailEditButton from './EmailEditButton';
+import useDialog from 'hooks/useDialog';
+import EmailEditDialog from './EmailEditDialog';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -35,6 +35,8 @@ const useStyles = makeStyles(theme => ({
 function ProfileSettings({ inputs, handleChange, handleSubmit, email }) {
   const classes = useStyles();
 
+  const { open, handleOpen, handleClose } = useDialog();
+
   return (
     <Container component="div" maxWidth="sm">
       <Paper className={classes.paper}>
@@ -42,13 +44,13 @@ function ProfileSettings({ inputs, handleChange, handleSubmit, email }) {
           Настройки профиля
         </Typography>
         <List className={classes.list}>
-          <ListItem>
-            <ListItemText primary="Email" secondary={email} />
-            <ListItemSecondaryAction>
-              <EmailEditButton />
-            </ListItemSecondaryAction>
-          </ListItem>
-          <Divider component="li" />
+          <>
+            <ListItem button onClick={handleOpen}>
+              <ListItemText primary="Email" secondary={email} />
+            </ListItem>
+            <EmailEditDialog open={open} handleClose={handleClose} />
+          </>
+          <Divider component="li" variant="middle" />
         </List>
         <form onSubmit={handleSubmit} className={classes.form}>
           <TextField

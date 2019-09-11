@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, forwardRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
 
 function Wordlist({
   wordPairs,
+  editingMode,
+  handleButtonPress,
+  handleButtonRelease,
   checkedValues,
   handleToggle,
   handleReset,
@@ -46,6 +49,7 @@ function Wordlist({
     <Container component="div" maxWidth="md">
       <Paper elevation={1}>
         <WordlistToolbar
+          editingMode={editingMode}
           checkedValues={checkedValues}
           handleReset={handleReset}
           setSearchWord={setSearchWord}
@@ -59,7 +63,10 @@ function Wordlist({
             wordPairs,
             checkedValues,
             handleToggle,
-            handleReset
+            handleReset,
+            editingMode,
+            handleButtonPress,
+            handleButtonRelease
           }}
           itemSize={60}
           className={classes.list}
@@ -75,9 +82,10 @@ function Wordlist({
 Wordlist.propTypes = {
   wordPairs: PropTypes.array.isRequired,
   checkedValues: PropTypes.array.isRequired,
-  handleToggle: PropTypes.func,
-  handleReset: PropTypes.func,
-  setSearchWord: PropTypes.func
+  editingMode: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  setSearchWord: PropTypes.func.isRequired
 };
 
 export default Wordlist;
