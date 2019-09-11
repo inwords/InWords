@@ -47,8 +47,8 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       numberOfcompletedPairs > 0 &&
       numberOfcompletedPairs === wordsInfo.length / 2
     ) {
-      setTimeout(setIsGameCompleted, 1000, true);
-      setTimeout(setIsResultReady, 1500, true);
+      window.setTimeout(setIsGameCompleted, 1000, true);
+      window.setTimeout(setIsResultReady, 1500, true);
 
       dispatch(
         saveLevelResult(
@@ -113,7 +113,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
 
         setSelectedCompletedPairId(pairId);
       } else {
-        setTimeout(setSelectedWordsInfo, 700, []);
+        window.setTimeout(setSelectedWordsInfo, 700, []);
       }
     }
   };

@@ -18,9 +18,16 @@ function Wordlist({
 }) {
   const [listHeight, setListHeight] = useState(0);
 
+  const divEl = useRef(null);
+  const resizeTimerRef = useRef();
+
   useEffect(() => {
     const handleResize = () => {
-      setListHeight(
+      window.clearTimeout(resizeTimerRef.current);
+
+      resizeTimerRef.current = window.setTimeout(
+        setListHeight,
+        200,
         window.innerHeight - divEl.current.getBoundingClientRect().top - 18
       );
     };
@@ -30,8 +37,6 @@ function Wordlist({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const divEl = useRef(null);
 
   return (
     <Container component="div" maxWidth="md">

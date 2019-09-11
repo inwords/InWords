@@ -66,11 +66,11 @@ function WordlistContainer() {
   const buttonPressTimerRef = useRef();
 
   const handleButtonPress = () => {
-    buttonPressTimerRef.current = setTimeout(setEditingMode, 500, true);
+    buttonPressTimerRef.current = window.setTimeout(setEditingMode, 500, true);
   };
 
   const handleButtonRelease = () => {
-    clearTimeout(buttonPressTimerRef.current);
+    window.clearTimeout(buttonPressTimerRef.current);
   };
 
   return (

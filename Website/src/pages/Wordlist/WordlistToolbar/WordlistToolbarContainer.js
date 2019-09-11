@@ -15,21 +15,29 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
         text: 'Слова будут удалены через 5 секунд',
         actionText: 'Отменить',
         actionHandler: () => {
-          clearTimeout(timerId);
+          window.clearTimeout(timerId);
         }
       })
     );
 
-    let timerId = setTimeout(dispatch, 5100, deleteWordPairs(checkedValues));
+    let timerId = window.setTimeout(
+      dispatch,
+      5100,
+      deleteWordPairs(checkedValues)
+    );
   };
 
   const { inputs, handleChange } = useForm({ search: '' });
 
-  const timerRef = useRef();
+  const searchTimerRef = useRef();
 
   useEffect(() => {
-    clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(setSearchWord, 200, inputs.search);
+    window.clearTimeout(searchTimerRef.current);
+    searchTimerRef.current = window.setTimeout(
+      setSearchWord,
+      200,
+      inputs.search
+    );
   }, [inputs, setSearchWord]);
 
   return (

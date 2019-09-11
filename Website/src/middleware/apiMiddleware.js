@@ -85,7 +85,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
             text: 'Не удалось соединиться с сервером',
             actionText: 'Повторить',
             actionHandler: () => {
-              setTimeout(
+              window.setTimeout(
                 dispatch,
                 100,
                 apiAction({
