@@ -12,6 +12,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [openingQuantity, setOpeningQuantity] = useState(0);
+  const [wordsStatisticsMap, setWordsStatisticsMap] = useState([])
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
   const [score, setScore] = useState(null);
@@ -91,6 +92,13 @@ function GameCoreContainer({ levelId, wordTranslations }) {
         })
       );
 
+      setWordsStatisticsMap(wordsStatisticsMap => ({
+        ...wordsStatisticsMap,
+        [pairId]: wordsStatisticsMap[pairId]
+          ? wordsStatisticsMap[pairId] + 1
+          : 1
+      }));
+
       setOpeningQuantity(openingQuantity => openingQuantity + 1);
     }
 
@@ -116,6 +124,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
     setCompletedPairIdsMap({});
     setSelectedCompletedPairId(-1);
     setOpeningQuantity(0);
+    setWordsStatisticsMap({});
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,7 +12,7 @@ import WordPairAddButton from './WordPairAddButton';
 
 const useStyles = makeStyles(theme => ({
   list: {
-    backgroundColor: theme.palette.background.paper
+    paddingBottom: theme.spacing(6)
   }
 }));
 
@@ -30,7 +30,7 @@ function Wordlist({
   useEffect(() => {
     const handleResize = () => {
       setListHeight(
-        window.innerHeight - divEl.current.getBoundingClientRect().top - 26
+        window.innerHeight - divEl.current.getBoundingClientRect().top - 18
       );
     };
 
@@ -44,7 +44,7 @@ function Wordlist({
 
   return (
     <Container component="div" maxWidth="md">
-      <Paper>
+      <Paper elevation={1}>
         <WordlistToolbar
           checkedValues={checkedValues}
           handleReset={handleReset}
