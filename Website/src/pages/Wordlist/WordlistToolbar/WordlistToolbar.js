@@ -13,7 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(2)
   },
   activeToolbar: {
     paddingLeft: theme.spacing(1),
@@ -70,6 +70,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function WordlistToolbar({
+  editingMode,
   numberOfChecked,
   handleDelete,
   handleReset,
@@ -82,10 +83,10 @@ function WordlistToolbar({
   return (
     <Toolbar
       className={clsx(classes.root, {
-        [classes.activeToolbar]: numberOfChecked > 0
+        [classes.activeToolbar]: editingMode
       })}
     >
-      {numberOfChecked === 0 ? (
+      {!editingMode ? (
         <>
           <Hidden xsDown>
             <div className={classes.title}>
@@ -97,21 +98,19 @@ function WordlistToolbar({
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <form onSubmit={handleSubmit}>
-              <InputBase
-                placeholder="Поиск…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-                inputProps={{
-                  'aria-label': 'search',
-                  name: 'search',
-                  value: inputs.search,
-                  onChange: handleChange
-                }}
-              />
-            </form>
+            <InputBase
+              placeholder="Поиск…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput
+              }}
+              inputProps={{
+                'aria-label': 'search',
+                name: 'search',
+                value: inputs.search,
+                onChange: handleChange
+              }}
+            />
           </div>
         </>
       ) : (
@@ -145,14 +144,14 @@ function WordlistToolbar({
 }
 
 WordlistToolbar.propTypes = {
+  editingMode: PropTypes.bool.isRequired,
   numberOfChecked: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   inputs: PropTypes.exact({
     search: PropTypes.string.isRequired
   }).isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired
 };
 
 export default WordlistToolbar;
