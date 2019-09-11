@@ -26,6 +26,7 @@
     <color name="holo_orange_light">#FFFFBB33</color>
     <color name="holo_red_light">@color/colorAccent</color>
 
+    <color name="white_two_40">#61ffffff</color>
 
     <color name="ic_launcher_background">#FFFFFF</color>
 </resources>

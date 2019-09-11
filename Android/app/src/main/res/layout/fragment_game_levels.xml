@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/half_margin"
+            android:layout_margin="@dimen/space_xsmall"
             android:text="@string/choose_level"
             android:textSize="24sp" />
 
@@ -30,8 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingStart="@dimen/half_margin"
-            android:paddingEnd="@dimen/half_margin"
+            android:paddingStart="@dimen/space_xsmall"
+            android:paddingEnd="@dimen/space_xsmall"
             app:shimmer_demo_child_count="4"
             app:shimmer_demo_grid_child_count="3"
             app:shimmer_demo_layout="@layout/game_info_shimmer"

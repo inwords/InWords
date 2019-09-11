@@ -49,7 +49,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
     private fun setupRecycler() {
         adapter = CardsRecyclerAdapter(layoutInflater, onItemClickListener)
 
-        val dividerItemDecoration = VerticalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.margin_medium))
+        val dividerItemDecoration = VerticalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.space_medium))
 
         cards_recycler.layoutManager = LinearLayoutManager(context)
         cards_recycler.addItemDecoration(dividerItemDecoration)

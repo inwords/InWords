@@ -27,11 +27,11 @@
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/half_margin"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="48dp"
+            android:layout_marginStart="@dimen/space_xsmall"
+            android:layout_marginTop="@dimen/space_large"
+            android:layout_marginBottom="@dimen/space_large_xxx"
             android:contentDescription="@string/avatar"
-            android:elevation="@dimen/medium_card_elevation"
+            android:elevation="@dimen/elevation_medium"
             app:failureImage="@drawable/ic_octopus1"
             app:roundAsCircle="true"
             app:roundingBorderColor="@color/colorSecondary"
@@ -47,52 +47,57 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginBottom="@dimen/margin_medium">
+            android:layout_marginBottom="@dimen/space_medium">
 
             <ImageButton
                 android:id="@+id/name_edit_apply_button"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical|end"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_margin="@dimen/space_medium"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/button_apply_text"
                 android:enabled="false"
                 android:src="@drawable/ic_check_secondary_24dp"
-                android:visibility="invisible" />
+                android:tint="@color/icon_color_selector"
+                android:visibility="invisible">
+
+                <requestFocus />
+            </ImageButton>
 
             <ImageButton
                 android:id="@+id/name_edit_edit_button"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical|end"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_margin="@dimen/space_medium"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/button_edit_text"
                 android:enabled="false"
-                android:src="@drawable/ic_create_secondary_24dp" />
+                android:src="@drawable/ic_create_secondary_24dp"
+                android:tint="@color/icon_color_selector" />
 
             <ProgressBar
                 android:id="@+id/name_edit_progress"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical|end"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_margin="@dimen/space_medium"
                 android:visibility="invisible" />
 
             <View
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_margin="@dimen/space_medium"
                 android:background="@drawable/ic_insert_emoticon_secondary_24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="56dp"
-                android:layout_marginEnd="56dp">
+                android:layout_marginStart="@dimen/space_xxxxgiant"
+                android:layout_marginEnd="@dimen/space_xxxxgiant">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name_edit_text"
@@ -112,11 +117,11 @@
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
             android:drawableStart="@drawable/ic_account_circle_secondary_24dp"
-            android:drawablePadding="@dimen/margin_medium"
+            android:drawablePadding="@dimen/space_medium"
             android:gravity="center_vertical"
-            android:paddingStart="@dimen/margin_medium"
-            android:paddingEnd="@dimen/margin_medium"
-            android:paddingBottom="@dimen/half_margin"
+            android:paddingStart="@dimen/space_medium"
+            android:paddingEnd="@dimen/space_medium"
+            android:paddingBottom="@dimen/space_xsmall"
             android:text="@string/change_account"
             android:textAppearance="@style/TextAppearance.Inwords.Subtitle1" />
 
@@ -126,12 +131,12 @@
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
             android:drawableStart="@drawable/ic_settings_secondary_24dp"
-            android:drawablePadding="@dimen/margin_medium"
+            android:drawablePadding="@dimen/space_medium"
             android:gravity="center_vertical"
-            android:paddingStart="@dimen/margin_medium"
-            android:paddingTop="@dimen/half_margin"
-            android:paddingEnd="@dimen/margin_medium"
-            android:paddingBottom="@dimen/half_margin"
+            android:paddingStart="@dimen/space_medium"
+            android:paddingTop="@dimen/space_xsmall"
+            android:paddingEnd="@dimen/space_medium"
+            android:paddingBottom="@dimen/space_xsmall"
             android:text="@string/settings"
             android:textAppearance="@style/TextAppearance.Inwords.Subtitle1" />
     </LinearLayout>
@@ -141,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_marginBottom="@dimen/space_xsmall"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"

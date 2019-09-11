@@ -1,21 +1,12 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="margin_medium">16dp</dimen>
-
-    <dimen name="fab_margin">16dp</dimen>
-
-    <dimen name="margin_extra_large">48dp</dimen>
+    <dimen name="fab_margin">@dimen/space_medium</dimen>
 
     <dimen name="corner_radius">3dp</dimen>
     <dimen name="layer_padding">3dp</dimen>
     <dimen name="card_corner_radius">4dp</dimen>
 
-    <dimen name="half_margin">8dp</dimen>
-    <dimen name="quarter_margin">4dp</dimen>
     <dimen name="text_24sp_box">28dp</dimen>
     <dimen name="text_16sp_box">20dp</dimen>
-    <dimen name="medium_card_elevation">4dp</dimen>
-
-    <dimen name="icon_size_small">24dp</dimen>
 
 </resources>

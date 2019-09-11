@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:layout_margin="@dimen/half_margin"
+    android:layout_margin="@dimen/space_xsmall"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="@dimen/medium_card_elevation">
+    app:cardElevation="@dimen/elevation_medium">
 
     <View
         android:id="@+id/game_menu"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/space_tiny"
         android:background="@drawable/ic_more_vert_black_24dp"
         android:backgroundTint="@color/colorPrimaryInverse"
         android:visibility="gone" />
@@ -24,7 +24,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/half_margin"
+        android:layout_margin="@dimen/space_xsmall"
         android:gravity="center"
         android:textSize="24sp"
         tools:text="У кого ярче?" />

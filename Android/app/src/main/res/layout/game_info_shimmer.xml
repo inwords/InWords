@@ -8,10 +8,10 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/half_margin"
+        android:layout_margin="@dimen/space_xsmall"
         android:layout_height="80dp"
         app:cardCornerRadius="@dimen/card_corner_radius"
-        app:cardElevation="@dimen/medium_card_elevation">
+        app:cardElevation="@dimen/elevation_medium">
     </androidx.cardview.widget.CardView>
 </com.facebook.shimmer.ShimmerFrameLayout>
 
