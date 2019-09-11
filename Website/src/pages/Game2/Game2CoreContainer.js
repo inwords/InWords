@@ -61,7 +61,7 @@ function Game2CoreContainer({ levelId, wordTranslations }) {
 
   useEffect(() => {
     if (isGameCompleted) {
-      setTimeout(setIsResultReady, 500, true);
+      window.setTimeout(setIsResultReady, 500, true);
     }
   }, [isGameCompleted]);
 
