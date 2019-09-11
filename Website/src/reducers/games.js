@@ -37,7 +37,7 @@ function gameInfo(state = initialGameInfoState, action) {
 
           return {
             ...levelInfo,
-            playerStars: action.payload.score
+            playerStars: Math.max(levelInfo.playerStars, action.payload.score)
           };
         })
       };
