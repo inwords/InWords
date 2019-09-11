@@ -12,7 +12,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [openingQuantity, setOpeningQuantity] = useState(0);
-  const [wordsStatisticsMap, setWordsStatisticsMap] = useState([])
+  const [wordsStatisticsMap, setWordsStatisticsMap] = useState([]);
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
   const [score, setScore] = useState(null);
