@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs } from 'actions/wordPairsApiActions';
+import { WordlistModeContext } from './WordlistModeContext';
 import Wordlist from './Wordlist';
 
 function WordlistContainer() {
@@ -20,7 +21,6 @@ function WordlistContainer() {
     }
   }, [wordPairs.length, dispatch]);
 
-  const [editingMode, setEditingMode] = useState(false);
   const [checkedValues, setCheckedValues] = useState([]);
 
   const handleToggle = useCallback(
@@ -40,6 +40,8 @@ function WordlistContainer() {
     },
     []
   );
+
+  const [editingMode, setEditingMode] = useState(false);
 
   const handleReset = () => {
     setCheckedValues([]);
@@ -72,16 +74,20 @@ function WordlistContainer() {
   };
 
   return (
-    <Wordlist
-      wordPairs={!searchWord ? wordPairs : filteredWordPairs}
-      editingMode={editingMode}
-      handleButtonPress={handleButtonPress}
-      handleButtonRelease={handleButtonRelease}
-      checkedValues={checkedValues}
-      handleToggle={handleToggle}
-      handleReset={handleReset}
-      setSearchWord={setSearchWord}
-    />
+    <WordlistModeContext.Provider
+      value={{ editingMode, handleButtonPress, handleButtonRelease }}
+    >
+      <Wordlist
+        wordPairs={!searchWord ? wordPairs : filteredWordPairs}
+        editingMode={editingMode}
+        handleButtonPress={handleButtonPress}
+        handleButtonRelease={handleButtonRelease}
+        checkedValues={checkedValues}
+        handleToggle={handleToggle}
+        handleReset={handleReset}
+        setSearchWord={setSearchWord}
+      />
+    </WordlistModeContext.Provider>
   );
 }
 
