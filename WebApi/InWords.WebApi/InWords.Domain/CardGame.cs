@@ -15,5 +15,10 @@ namespace InWords.Domain
             else if (openingQuantity <= wordsCount * 2.5) score = 1;
             return score;
         }
+
+        //public static int SocreDictinary(Dictionary())
+        //{
+
+        //}
     }
 }
