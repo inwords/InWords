@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, fade, makeStyles } from '@material-ui/core/styles';
@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { WordlistModeContext } from '../WordlistModeContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,6 +70,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function WordlistToolbar({
+  editingMode,
   numberOfChecked,
   handleDelete,
   handleReset,
@@ -79,8 +79,6 @@ function WordlistToolbar({
   handleSubmit
 }) {
   const classes = useStyles();
-
-  const { editingMode } = useContext(WordlistModeContext);
 
   return (
     <Toolbar
@@ -136,6 +134,7 @@ function WordlistToolbar({
               handleReset();
             }}
             color="inherit"
+            disabled={numberOfChecked === 0}
           >
             <DeleteIcon />
           </IconButton>
@@ -146,6 +145,7 @@ function WordlistToolbar({
 }
 
 WordlistToolbar.propTypes = {
+  editingMode: PropTypes.bool.isRequired,
   numberOfChecked: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,

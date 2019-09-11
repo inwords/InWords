@@ -54,7 +54,8 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
 WordlistToolbarContainer.propTypes = {
   checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   setSearchWord: PropTypes.func.isRequired,
-  handleReset: PropTypes.func
+  handleReset: PropTypes.func,
+  editingMode: PropTypes.bool
 };
 
 export default WordlistToolbarContainer;

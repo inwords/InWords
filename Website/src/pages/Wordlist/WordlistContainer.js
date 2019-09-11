@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs } from 'actions/wordPairsApiActions';
-import { WordlistModeContext } from './WordlistModeContext';
 import Wordlist from './Wordlist';
 
 function WordlistContainer() {
@@ -74,20 +73,16 @@ function WordlistContainer() {
   };
 
   return (
-    <WordlistModeContext.Provider
-      value={{ editingMode, handleButtonPress, handleButtonRelease }}
-    >
-      <Wordlist
-        wordPairs={!searchWord ? wordPairs : filteredWordPairs}
-        editingMode={editingMode}
-        handleButtonPress={handleButtonPress}
-        handleButtonRelease={handleButtonRelease}
-        checkedValues={checkedValues}
-        handleToggle={handleToggle}
-        handleReset={handleReset}
-        setSearchWord={setSearchWord}
-      />
-    </WordlistModeContext.Provider>
+    <Wordlist
+      wordPairs={!searchWord ? wordPairs : filteredWordPairs}
+      editingMode={editingMode}
+      handleButtonPress={handleButtonPress}
+      handleButtonRelease={handleButtonRelease}
+      checkedValues={checkedValues}
+      handleToggle={handleToggle}
+      handleReset={handleReset}
+      setSearchWord={setSearchWord}
+    />
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -8,22 +8,24 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import useDialog from 'hooks/useDialog';
-import { WordlistModeContext } from './WordlistModeContext';
 import WordPairEditDialog from './WordPairEditDialog';
 
 function WordPairRow({
   index,
-  data: { wordPairs, checkedValues, handleToggle },
+  data: {
+    wordPairs,
+    editingMode,
+    handleButtonPress,
+    handleButtonRelease,
+    checkedValues,
+    handleToggle
+  },
   style
 }) {
   const { serverId, wordForeign, wordNative } = wordPairs[index];
   const labelId = `checkbox-list-label-${serverId}`;
 
   const { open, handleOpen, handleClose } = useDialog();
-
-  const { editingMode, handleButtonPress, handleButtonRelease } = useContext(
-    WordlistModeContext
-  );
 
   return (
     <>
@@ -89,6 +91,9 @@ WordPairRow.propTypes = {
         wordNative: PropTypes.string.isRequired
       }).isRequired
     ).isRequired,
+    editingMode: PropTypes.bool.isRequired,
+    handleButtonPress: PropTypes.func.isRequired,
+    handleButtonRelease: PropTypes.func.isRequired,
     checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
     handleToggle: PropTypes.func.isRequired
   }).isRequired,
