@@ -56,6 +56,7 @@
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="@dimen/margin_medium"
                 android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/button_apply_text"
                 android:enabled="false"
                 android:src="@drawable/ic_check_secondary_24dp"
                 android:visibility="invisible" />
@@ -67,6 +68,7 @@
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="@dimen/margin_medium"
                 android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/button_edit_text"
                 android:enabled="false"
                 android:src="@drawable/ic_create_secondary_24dp" />
 
@@ -97,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:hint="Ник"
+                    android:hint="@string/nick_text"
                     android:inputType="textCapSentences"
                     android:maxLength="64"
                     android:maxLines="1" />

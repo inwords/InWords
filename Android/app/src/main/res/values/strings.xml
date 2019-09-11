@@ -45,7 +45,8 @@
     <!-- word addition start -->
     <string name="word_addition_word">Слово или фраза на родном языке</string>
     <string name="word_addition_translation">Перевод</string>
-    <string name="word_addition_enter">Добавить</string>
+    <string name="button_add_text">Добавить</string>
+    <string name="button_edit_text">Изменить</string>
     <string name="sign_in_in_process">Авторизация</string>
     <string name="sign_up_in_process">Создание аккаунта</string>
     <string name="inwords_logotype">InWords логотип</string>
@@ -83,6 +84,8 @@
     <string name="change_account">Сменить аккаунт</string>
     <string name="settings">Настройки</string>
     <string name="policy_privacy_agreement">Используя приложение, вы соглашаетесь с  \nполитикой конфиденциальности</string>
+    <string name="button_apply_text">Подтвердить</string>
+    <string name="nick_text">Ник</string>
     <!-- profile end -->
 
     <!-- policy start -->

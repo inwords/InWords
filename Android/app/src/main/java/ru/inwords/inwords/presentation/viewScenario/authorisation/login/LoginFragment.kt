@@ -26,10 +26,10 @@ class LoginFragment : SigningBaseFragment<LoginViewModel, AuthorisationViewModel
     }
 
     override fun navigateOnSuccess() {
-        navController.navigate(R.id.action_loginFragment_to_mainFragment_pop)
+        navController.navigate(LoginFragmentDirections.actionLoginFragmentToMainFragmentPop())
     }
 
     private fun navigateToRegistration() {
-        navController.navigate(R.id.action_loginFragment_to_registrationFragment)
+        navController.navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
     }
 }

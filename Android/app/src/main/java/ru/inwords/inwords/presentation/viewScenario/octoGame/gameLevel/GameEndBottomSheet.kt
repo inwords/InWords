@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.android.support.AndroidSupportInjection
@@ -23,6 +25,8 @@ import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFa
 import javax.inject.Inject
 
 class GameEndBottomSheet : BottomSheetDialogFragment() {
+    private val args by navArgs<GameEndBottomSheetArgs>()
+
     private val compositeDisposable = CompositeDisposable()
     private var levelId: Int = INVALID_ID
 
@@ -33,7 +37,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     internal lateinit var modelFactory: OctoGameViewModelFactory
     private lateinit var viewModel: GameLevelViewModel
 
-    private val args by navArgs<GameEndBottomSheetArgs>()
+    private lateinit var navController: NavController
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,6 +58,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
 
         compositeDisposable.add(viewModel.getScore(cardOpenClicksCount, cardsCount)
                 .toObservable()
@@ -68,6 +73,14 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
                         is Resource.Error -> showError()
                     }
                 })
+
+        compositeDisposable.add(viewModel.navigationStream().subscribe {
+            when (it) {
+                FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToMainFragment())
+                FromGameEndEventsEnum.BACK -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
+                else -> navController.navigate(GameEndBottomSheetDirections.actionPop())
+            }
+        })
 
         setupView(viewModel.getNextLevelInfo() is Resource.Success)
     }

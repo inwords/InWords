@@ -13,15 +13,15 @@ import java.util.concurrent.TimeUnit
 
 abstract class AuthorisationViewModel protected constructor(protected var authorisationInteractor: AuthorisationInteractor) : BasicViewModel() {
     private val authorisationStateLiveData = MutableLiveData<Event<AuthorisationViewState>>()
-    private val navigateToLiveData = MutableLiveData<Event<Boolean>>()
+    private val navigateToLiveData = MutableLiveData<Event<Unit>>()
 
     val authorisationState: LiveData<Event<AuthorisationViewState>> = authorisationStateLiveData
-    val navigateTo: LiveData<Event<Boolean>> = navigateToLiveData
+    val navigateTo: LiveData<Event<Unit>> = navigateToLiveData
 
     fun onNavigateHandler(clicksObservable: Observable<Any>) {
         clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe { navigateToLiveData.postValue(Event(true)) }
+                .subscribe { navigateToLiveData.postValue(Event(Unit)) }
                 .autoDispose()
     }
 

@@ -22,7 +22,7 @@ class PolicyFragment : FragmentWithViewModelAndNav<PolicyViewModel, PolicyViewMo
             viewModel.setPolicyAgreementState(true)
                     .subscribeOn(SchedulersFacade.io())
                     .observeOn(SchedulersFacade.ui())
-                    .subscribe { navController.navigate(R.id.action_policyFragment_pop) }
+                    .subscribe { navController.navigate(PolicyFragmentDirections.actionPolicyFragmentPop()) }
         }
 
         renderPolicyText(policy_text_view)

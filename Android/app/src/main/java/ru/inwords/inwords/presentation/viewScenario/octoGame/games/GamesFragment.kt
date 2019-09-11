@@ -11,7 +11,6 @@ import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.domain.model.Resource
-import ru.inwords.inwords.presentation.GAME_INFO
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.GamesAdapter
@@ -58,10 +57,7 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
     }
 
     private fun navigateToGame(gameInfo: GameInfo) {
-        val bundle = Bundle().apply {
-            putParcelable(GAME_INFO, gameInfo)
-        }
-        navController.navigate(R.id.action_gamesFragment_to_gameLevelsFragment, bundle)
+        navController.navigate(GamesFragmentDirections.actionGamesFragmentToGameLevelsFragment(gameInfo))
     }
 
     private fun showPopupMenu(v: View) { //TODO
