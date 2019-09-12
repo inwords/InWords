@@ -60,7 +60,7 @@ function WordPairAddDialog({
         >
           <TextField
             id="word-foreign"
-            label="Слово или фраза"
+            label="Слово или фраза на английском"
             name="wordForeign"
             value={inputs.wordForeign}
             onChange={handleChange}
