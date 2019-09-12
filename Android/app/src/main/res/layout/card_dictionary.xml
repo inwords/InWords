@@ -34,7 +34,7 @@
         android:paddingStart="@dimen/space_xsmall"
         android:paddingEnd="@dimen/space_xsmall"
         android:text="@string/dictionary_title"
-        android:textSize="24sp" />
+        android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default" />
 
     <TextView
         android:id="@+id/dictSize"
@@ -48,8 +48,7 @@
         android:lines="1"
         android:paddingStart="@dimen/space_xsmall"
         android:paddingEnd="@dimen/space_xsmall"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary"
         tools:text="@string/words_in_dictionary" />
 
 </androidx.cardview.widget.CardView>

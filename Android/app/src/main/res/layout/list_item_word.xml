@@ -16,19 +16,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_word_native"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:text="Обычная фраза" />
-
-        <TextView
             android:id="@+id/tv_word_foreign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textAppearance="@style/TextAppearance.Inwords.Title.Default"
             tools:text="Simple phrase" />
+
+        <TextView
+            android:id="@+id/tv_word_native"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
+            tools:text="Обычная фраза" />
+
     </LinearLayout>
 
     <ImageView
@@ -42,5 +42,5 @@
         android:paddingEnd="@dimen/space_xsmall"
         android:paddingBottom="@dimen/space_xsmall"
         android:src="@drawable/ic_volume_up_black_24dp"
-        app:tint="@color/colorPrimary" />
+        app:tint="@color/icon_color_selector" />
 </FrameLayout>

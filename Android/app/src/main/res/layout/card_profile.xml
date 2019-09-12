@@ -22,7 +22,7 @@
         android:lines="1"
         android:paddingStart="@dimen/space_xsmall"
         android:paddingEnd="@dimen/space_xsmall"
-        android:textSize="24sp"
+        android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
         tools:text="Любитель Языков" />
 
     <TextView
@@ -37,8 +37,7 @@
         android:maxLines="1"
         android:paddingStart="@dimen/space_xsmall"
         android:paddingEnd="@dimen/space_xsmall"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary"
         tools:text="@string/user_experience" />
 
     <com.facebook.drawee.view.SimpleDraweeView

@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/rating_not_loaded"
+        android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/button_retry"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +75,7 @@
             android:layout_marginStart="@dimen/space_medium"
             android:contentDescription="@string/accessibility_navigate_home"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_home_black_24dp"
+            android:src="@drawable/ic_home_24dp"
             android:tint="@color/colorPrimary" />
 
         <ImageButton

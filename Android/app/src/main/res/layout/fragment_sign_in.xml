@@ -30,7 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_in_email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,7 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_in_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,6 +54,7 @@
             android:id="@+id/buttonEnterSignIn"
             style="@style/AuthorisationButton"
             android:text="@string/sign_in_enter"
+            android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
             app:pb_textError="Повторить"
             app:pb_textProgress="@string/sign_in_in_process" />
 
@@ -67,16 +70,18 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="2.5dp"
                 android:paddingRight="2.5dp"
-                android:text="@string/sign_in_no_account" />
+                android:text="@string/sign_in_no_account"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
 
             <TextView
                 android:id="@+id/textViewSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
                 android:paddingLeft="2.5dp"
                 android:paddingRight="2.5dp"
                 android:text="@string/sign_in_sign_up"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
 
         </LinearLayout>
 
@@ -85,8 +90,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_medium"
+            android:background="?selectableItemBackground"
             android:text="@string/sign_in_restore_password"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
 
     </LinearLayout>
 

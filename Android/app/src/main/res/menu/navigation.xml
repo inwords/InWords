@@ -18,7 +18,7 @@
 
     <item
         android:id="@id/profileFragment"
-        android:icon="@drawable/ic_profile_black_24dp"
+        android:icon="@drawable/ic_profile_24dp"
         android:title="@string/title_profile" />
 
 </menu>

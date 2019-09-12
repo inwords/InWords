@@ -46,8 +46,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginBottom="@dimen/space_medium">
+            android:layout_height="64dp">
 
             <ImageButton
                 android:id="@+id/name_edit_apply_button"
@@ -90,7 +89,8 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="@dimen/space_medium"
-                android:background="@drawable/ic_insert_emoticon_secondary_24dp" />
+                android:background="@drawable/ic_insert_emoticon_24dp"
+                android:backgroundTint="@color/icon_color_selector" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -102,35 +102,46 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name_edit_text"
                     android:layout_width="match_parent"
+                    android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default"
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:hint="@string/nick_text"
                     android:inputType="textCapSentences"
                     android:maxLength="64"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    tools:enabled="true"
+                    tools:text="Ник" />
             </com.google.android.material.textfield.TextInputLayout>
         </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider_color" />
 
         <TextView
             android:id="@+id/to_login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
-            android:drawableStart="@drawable/ic_account_circle_secondary_24dp"
+            android:drawableStart="@drawable/ic_account_circle_24dp"
             android:drawablePadding="@dimen/space_medium"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/space_medium"
             android:paddingEnd="@dimen/space_medium"
+            android:paddingTop="@dimen/space_xsmall"
             android:paddingBottom="@dimen/space_xsmall"
             android:text="@string/change_account"
-            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1" />
+            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
         <TextView
             android:id="@+id/settings_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
-            android:drawableStart="@drawable/ic_settings_secondary_24dp"
+            android:drawableStart="@drawable/ic_settings_24dp"
             android:drawablePadding="@dimen/space_medium"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/space_medium"
@@ -138,7 +149,7 @@
             android:paddingEnd="@dimen/space_medium"
             android:paddingBottom="@dimen/space_xsmall"
             android:text="@string/settings"
-            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1" />
+            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
     </LinearLayout>
 
     <TextView
@@ -150,5 +161,6 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:text="@string/policy_privacy_agreement" />
+        android:text="@string/policy_privacy_agreement"
+        android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

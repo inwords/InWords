@@ -13,7 +13,7 @@
         android:paddingStart="@dimen/space_medium"
         android:paddingEnd="@dimen/space_medium"
         android:text="@string/no_content"
-        android:textSize="24sp"
+        android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
         app:layout_constraintBottom_toTopOf="@id/image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -36,6 +36,7 @@
         android:paddingStart="@dimen/space_medium"
         android:paddingEnd="@dimen/space_medium"
         android:text="@string/no_content_solutions"
+        android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

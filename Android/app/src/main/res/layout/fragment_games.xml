@@ -22,7 +22,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/space_xsmall"
             android:text="@string/choose_game"
-            android:textSize="24sp" />
+            android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default" />
 
         <!-- TODO: remove 100dp -->
         <ru.inwords.shimmer_recycler.ShimmerRecyclerView

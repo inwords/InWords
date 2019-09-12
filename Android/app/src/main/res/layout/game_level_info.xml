@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/space_xsmall"
-        android:textSize="24sp"
+        android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
         tools:text="1" />
 
     <RatingBar

@@ -22,7 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,7 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_confirm_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,6 +61,7 @@
             android:id="@+id/buttonEnterSignUp"
             style="@style/AuthorisationButton"
             android:text="@string/sign_up_enter"
+            android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
             app:pb_textError="Повторить"
             app:pb_textProgress="@string/sign_up_in_process" />
 
@@ -73,16 +77,18 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="2.5dp"
                 android:paddingRight="2.5dp"
-                android:text="@string/sign_up_have_account" />
+                android:text="@string/sign_up_have_account"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
 
             <TextView
                 android:id="@+id/textViewSignIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
                 android:paddingLeft="2.5dp"
                 android:paddingRight="2.5dp"
                 android:text="@string/sign_up_sign_in"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
 
         </LinearLayout>
 

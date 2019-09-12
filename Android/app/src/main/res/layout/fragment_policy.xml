@@ -29,7 +29,8 @@
                 android:gravity="center"
                 android:paddingStart="@dimen/space_medium"
                 android:paddingEnd="@dimen/space_medium"
-                android:text="@string/policy_header" />
+                android:text="@string/policy_header"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
 
             <ImageView
                 android:id="@+id/avatar_image"
@@ -49,7 +50,8 @@
                 android:gravity="center"
                 android:paddingStart="@dimen/space_medium"
                 android:paddingEnd="@dimen/space_medium"
-                android:text="@string/policy_explanation" />
+                android:text="@string/policy_explanation"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
         </LinearLayout>
     </ScrollView>
 
@@ -70,6 +72,7 @@
         android:gravity="center"
         android:paddingTop="@dimen/space_xsmall"
         android:text="@string/policy_privacy_agreement"
+        android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
         app:layout_constraintBottom_toTopOf="@id/start_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -79,9 +82,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_medium"
+        android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
         android:layout_marginEnd="@dimen/space_medium"
         android:layout_marginBottom="@dimen/space_medium"
-        android:text="Перейти к приложению"
+        android:text="@string/policy_agree_button"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

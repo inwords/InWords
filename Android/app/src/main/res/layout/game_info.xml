@@ -26,7 +26,7 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/space_xsmall"
         android:gravity="center"
-        android:textSize="24sp"
+        android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
         tools:text="У кого ярче?" />
 
 </androidx.cardview.widget.CardView>
