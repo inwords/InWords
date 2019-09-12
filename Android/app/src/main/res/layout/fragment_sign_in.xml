@@ -9,42 +9,44 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingTop="56dp"
-        android:paddingRight="24dp">
+        android:paddingLeft="@dimen/space_xmedium_large"
+        android:paddingTop="@dimen/space_xxxxgiant"
+        android:paddingRight="@dimen/space_xmedium_large">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/large_logo_height"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_logo" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp">
+            android:layout_marginTop="@dimen/space_large">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_in_email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="@dimen/space_medium">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_in_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,13 +54,14 @@
             android:id="@+id/buttonEnterSignIn"
             style="@style/AuthorisationButton"
             android:text="@string/sign_in_enter"
+            android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
             app:pb_textError="Повторить"
             app:pb_textProgress="@string/sign_in_in_process" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="@dimen/space_xxxxgiant"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -67,16 +70,18 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="2.5dp"
                 android:paddingRight="2.5dp"
-                android:text="@string/sign_in_no_account" />
+                android:text="@string/sign_in_no_account"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
 
             <TextView
                 android:id="@+id/textViewSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
                 android:paddingLeft="2.5dp"
                 android:paddingRight="2.5dp"
                 android:text="@string/sign_in_sign_up"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
 
         </LinearLayout>
 
@@ -84,9 +89,10 @@
             android:id="@+id/textViewRestorePassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/space_medium"
+            android:background="?selectableItemBackground"
             android:text="@string/sign_in_restore_password"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
 
     </LinearLayout>
 

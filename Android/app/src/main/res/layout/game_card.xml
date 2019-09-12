@@ -3,9 +3,9 @@
 <ru.inwords.flipview.FlipView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/flip_view"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:layout_margin="4dp"
+    android:layout_width="@dimen/game_card_size"
+    android:layout_height="@dimen/game_card_size"
+    android:layout_margin="@dimen/space_xxxsmall"
     android:focusable="true"
     app:animateDesignLayoutOnly="true">
 

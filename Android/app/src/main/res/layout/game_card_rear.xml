@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rearText"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
+    android:layout_width="@dimen/game_card_size"
+    android:layout_height="@dimen/game_card_size"
     android:background="@drawable/rounded_rect"
     android:backgroundTint="@color/colorPrimaryDark"
     android:gravity="center" />

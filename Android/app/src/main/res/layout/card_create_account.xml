@@ -8,17 +8,16 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="@dimen/medium_card_elevation">
+    app:cardElevation="@dimen/elevation_medium">
 
     <TextView
         android:id="@+id/clickToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/half_margin"
-        android:elevation="@dimen/medium_card_elevation"
+        android:layout_margin="@dimen/space_xsmall"
+        android:elevation="@dimen/elevation_medium"
         android:gravity="center"
         android:text="@string/sign_up_proposal"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp" />
+        android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary" />
 
 </androidx.cardview.widget.CardView>
