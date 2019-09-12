@@ -24,8 +24,8 @@ function gameInfo(state = initialGameInfoState, action) {
   switch (action.type) {
     case INITIALIZE_GAME_INFO:
       return {
-        gameId: action.payload.gameId || initialGameInfoState.gameId,
-        levelsInfo: action.payload.levelInfos || initialGameInfoState.levelsInfo
+        gameId: action.payload.gameId,
+        levelsInfo: action.payload.levelInfos || []
       };
     case UPDATE_GAME_INFO:
       return {
@@ -55,10 +55,8 @@ function gameLevel(state = initialGameLevelState, action) {
   switch (action.type) {
     case INITIALIZE_GAME_LEVEL:
       return {
-        levelId: action.payload.levelId || initialGameLevelState.levelId,
-        wordTranslations:
-          action.payload.wordTranslations ||
-          initialGameLevelState.wordTranslations
+        levelId: action.payload.levelId,
+        wordTranslations: action.payload.wordTranslations || []
       };
     default:
       return state;

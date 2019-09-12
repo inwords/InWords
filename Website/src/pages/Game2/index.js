@@ -1,1 +1,1 @@
-export { default } from './Game2';
+export { default } from './Game2Wrapper';

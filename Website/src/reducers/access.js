@@ -8,8 +8,8 @@ const initialState = {
 export default function access(state = initialState, action) {
   if (action.type === GRANT_ACCESS) {
     return {
-      token: action.payload.token || initialState.token,
-      userId: action.payload.userId || initialState.userId
+      token: action.payload.token,
+      userId: action.payload.userId
     };
   }
 

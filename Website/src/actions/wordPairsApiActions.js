@@ -51,9 +51,6 @@ export function addWordPair(wordPair) {
             ...wordPair
           })
         );
-      },
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Слово успешно добавлено' }));
       }
     ],
     actionsOnFailure: [

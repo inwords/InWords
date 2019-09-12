@@ -20,11 +20,9 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
       })
     );
 
-    let timerId = window.setTimeout(
-      dispatch,
-      5100,
-      deleteWordPairs(checkedValues)
-    );
+    let timerId = window.setTimeout(() => {
+      dispatch(deleteWordPairs(checkedValues));
+    }, 5100);
   };
 
   const { inputs, handleChange } = useForm({ search: '' });
@@ -33,11 +31,9 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
 
   useEffect(() => {
     window.clearTimeout(searchTimerRef.current);
-    searchTimerRef.current = window.setTimeout(
-      setSearchWord,
-      200,
-      inputs.search
-    );
+    searchTimerRef.current = window.setTimeout(() => {
+      setSearchWord(inputs.search);
+    }, 200);
   }, [inputs, setSearchWord]);
 
   return (
