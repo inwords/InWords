@@ -5,13 +5,13 @@ import { addWordPair } from 'actions/wordPairsApiActions';
 import useForm from 'hooks/useForm';
 import WordPairAddDialog from './WordPairAddDialog';
 
-/* const key =
+const key =
   'dict.1.1.20190912T153649Z.db980bf4b29b2d4f.c08d4426f0c0f8d0ac2753aff4f23b9201e99f12';
 const lang = 'en-ru';
 
 const headers = new Headers({
   'Content-Type': 'application/x-www-form-urlencoded'
-}); */
+});
 
 function WordPairAddDialogContainer({ ...rest }) {
   const dispatch = useDispatch();
@@ -37,12 +37,14 @@ function WordPairAddDialogContainer({ ...rest }) {
 
   const translationTimeoutRef = useRef();
 
-  /* useEffect(() => {
+  useEffect(() => {
     const word = inputs.wordForeign.slice().trim();
     if (word === '') return;
 
     const translate = word => {
-      const url = new URL('https://dictionary.yandex.net/api/v1/dicservice.json/lookup');
+      const url = new URL(
+        'https://dictionary.yandex.net/api/v1/dicservice.json/lookup'
+      );
       const params = { key, lang, text: word };
       Object.keys(params).forEach(key =>
         url.searchParams.append(key, params[key])
@@ -54,21 +56,39 @@ function WordPairAddDialogContainer({ ...rest }) {
       })
         .then(response => {
           if (response.ok) {
-            console.log(response);
             return response.json();
           }
         })
         .then(data => {
-          console.log(data.def);
+          setTranslations(
+            data.def.map((meaning, index) => ({
+              id: index,
+              value: meaning.tr[0].text
+            }))
+          );
         })
         .catch(error => {});
     };
 
     window.clearTimeout(translationTimeoutRef.current);
     translationTimeoutRef.current = window.setTimeout(() => {
-      translate(word)
+      translate(word);
     }, 700);
-  }, [inputs.wordForeign]); */
+  }, [inputs.wordForeign]);
+
+  const handleTranslationAddition = id => () => {
+    const currentWordNative = inputs.wordNative.slice().trim();
+    const selectedTranslation = translations[id].value;
+
+    if (!currentWordNative.includes(selectedTranslation)) {
+      setInputs({
+        ...inputs,
+        wordNative: currentWordNative
+          ? `${currentWordNative}; ${selectedTranslation}`
+          : selectedTranslation
+      });
+    }
+  };
 
   return (
     <WordPairAddDialog
@@ -76,6 +96,8 @@ function WordPairAddDialogContainer({ ...rest }) {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       handleReset={handleReset}
+      translations={translations}
+      handleTranslationAddition={handleTranslationAddition}
       {...rest}
     />
   );
