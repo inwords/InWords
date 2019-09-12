@@ -11,7 +11,7 @@ namespace InWords.WebApi.Services.UserWordPairService
     public class KnowledgeUpdate
     {
         private readonly UserWordPairRepository userWordPairRepository = null;
-        public KnowlengeUpdate(UserWordPairRepository userWordPairRepository)
+        public KnowledgeUpdate(UserWordPairRepository userWordPairRepository)
         {
             this.userWordPairRepository = userWordPairRepository;
         }
