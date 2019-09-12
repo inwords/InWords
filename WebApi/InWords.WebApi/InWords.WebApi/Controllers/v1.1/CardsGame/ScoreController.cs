@@ -19,12 +19,10 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
     public class ScoreController : ControllerBase
     {
         private readonly IGameScoreService gameScoreService;
-        private readonly GameService gameService;
 
-        public ScoreController(GameScoreService gameScoreService, GameService gameService)
+        public ScoreController(GameScoreService gameScoreService)
         {
             this.gameScoreService = gameScoreService;
-            this.gameService = gameService;
         }
 
         /// <summary>
@@ -33,11 +31,26 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         /// <deprecated>true</deprecated>
         /// <param name="levelResult"></param>
         /// <returns>Quantity of stars</returns>
-        [Route("score")]
+        [Route("Score")]
         [HttpPost]
         public async Task<IActionResult> PostScore(CardGameScore cardGameScore)
         {
-            throw new NotImplementedException();
+            int authorizedId = User.GetUserId();
+
+            // calculate score
+            LevelScore answer = gameScoreService.GetLevelScore(cardGameScore.LevelResult);
+
+            // save score to user level
+            try
+            {
+                await gameScoreService.UpdateUserScore(authorizedId, answer);
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok(answer);
         }
 
         /// <summary>
