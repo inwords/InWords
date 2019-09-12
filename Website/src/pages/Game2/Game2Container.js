@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
-import Game2Core from './Game2Core';
+import Game2 from './Game2';
 
-function Game2CoreContainer({ levelId, wordTranslations }) {
+function Game2Container({ levelId, wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
   const [currentWordSet, setCurrentWordSet] = useState({
@@ -61,7 +61,9 @@ function Game2CoreContainer({ levelId, wordTranslations }) {
 
   useEffect(() => {
     if (isGameCompleted) {
-      window.setTimeout(setIsResultReady, 500, true);
+      window.setTimeout(() => {
+        setIsResultReady(true);
+      }, 500);
     }
   }, [isGameCompleted]);
 
@@ -115,7 +117,7 @@ function Game2CoreContainer({ levelId, wordTranslations }) {
   };
 
   return (
-    <Game2Core
+    <Game2
       currentWordSet={currentWordSet}
       wordsStatusColorsMap={wordsStatusColorsMap}
       isClickDone={isClickDone}
@@ -129,7 +131,7 @@ function Game2CoreContainer({ levelId, wordTranslations }) {
   );
 }
 
-Game2CoreContainer.propTypes = {
+Game2Container.propTypes = {
   levelId: PropTypes.number.isRequired,
   wordTranslations: PropTypes.arrayOf(
     PropTypes.shape({
@@ -140,4 +142,4 @@ Game2CoreContainer.propTypes = {
   ).isRequired
 };
 
-export default withReceivedGameLevel(Game2CoreContainer);
+export default withReceivedGameLevel(Game2Container);

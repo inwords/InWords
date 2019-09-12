@@ -25,17 +25,18 @@ function Wordlist({
   const resizeTimerRef = useRef();
 
   useEffect(() => {
+    const getListHeight = () =>
+      window.innerHeight - divEl.current.getBoundingClientRect().top - 18;
+
     const handleResize = () => {
       window.clearTimeout(resizeTimerRef.current);
 
-      resizeTimerRef.current = window.setTimeout(
-        setListHeight,
-        200,
-        window.innerHeight - divEl.current.getBoundingClientRect().top - 18
-      );
+      resizeTimerRef.current = window.setTimeout(() => {
+        setListHeight(getListHeight());
+      }, 200);
     };
 
-    handleResize();
+    setListHeight(getListHeight());
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);

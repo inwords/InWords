@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { saveLevelResult } from 'actions/gamesApiActions';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
-import GameCore from './GameCore';
+import Game from './Game';
 
-function GameCoreContainer({ levelId, wordTranslations }) {
+function GameContainer({ levelId, wordTranslations }) {
   const [wordsInfo, setWordsInfo] = useState([]);
   const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
@@ -47,8 +47,13 @@ function GameCoreContainer({ levelId, wordTranslations }) {
       numberOfcompletedPairs > 0 &&
       numberOfcompletedPairs === wordsInfo.length / 2
     ) {
-      window.setTimeout(setIsGameCompleted, 1000, true);
-      window.setTimeout(setIsResultReady, 1500, true);
+      window.setTimeout(() => {
+        setIsGameCompleted(true);
+      }, 1000);
+
+      window.setTimeout(() => {
+        setIsResultReady(true);
+      }, 1500);
 
       dispatch(
         saveLevelResult(
@@ -113,7 +118,9 @@ function GameCoreContainer({ levelId, wordTranslations }) {
 
         setSelectedCompletedPairId(pairId);
       } else {
-        window.setTimeout(setSelectedWordsInfo, 700, []);
+        window.setTimeout(() => {
+          setSelectedWordsInfo([]);
+        }, 700);
       }
     }
   };
@@ -131,7 +138,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   };
 
   return (
-    <GameCore
+    <Game
       wordsInfo={wordsInfo}
       selectedWordsInfo={selectedWordsInfo}
       completedPairIdsMap={completedPairIdsMap}
@@ -145,7 +152,7 @@ function GameCoreContainer({ levelId, wordTranslations }) {
   );
 }
 
-GameCoreContainer.propTypes = {
+GameContainer.propTypes = {
   levelId: PropTypes.number.isRequired,
   wordTranslations: PropTypes.arrayOf(
     PropTypes.shape({
@@ -156,4 +163,4 @@ GameCoreContainer.propTypes = {
   ).isRequired
 };
 
-export default withReceivedGameLevel(GameCoreContainer);
+export default withReceivedGameLevel(GameContainer);

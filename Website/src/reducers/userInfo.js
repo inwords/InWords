@@ -15,16 +15,14 @@ export default function userInfo(state = initialState, action) {
   switch (action.type) {
     case INITIALIZE_USER_INFO:
       return {
-        userId: action.payload.userId || initialState.userId,
-        nickname: action.payload.nickName || initialState.nickname,
-        avatarPath: action.payload.avatarPath || initialState.avatarPath,
-        experience: action.payload.experience || initialState.experience,
+        userId: action.payload.userId,
+        nickname: action.payload.nickName,
+        avatarPath: action.payload.avatarPath,
+        experience: action.payload.experience,
         account: action.payload.account
           ? {
-              accountId:
-                action.payload.account.accountId ||
-                initialState.account.accountId,
-              email: action.payload.account.email || initialState.account.email
+              accountId: action.payload.account.accountId,
+              email: action.payload.account.email
             }
           : initialState.account
       };

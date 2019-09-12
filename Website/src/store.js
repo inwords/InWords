@@ -1,11 +1,12 @@
 import { createStore, applyMiddleware } from 'redux';
-import { loadState, saveState } from './localStorage';
+import { loadState } from 'localStorage';
 import rootReducer from 'reducers';
 import apiMiddleware from 'middleware/apiMiddleware';
+import persistDataMiddleware from 'middleware/persistDataMiddleware';
 
 const persistedState = loadState();
 
-let middleware = [apiMiddleware];
+let middleware = [apiMiddleware, persistDataMiddleware];
 
 if (process.env.NODE_ENV !== 'production') {
   const { logger } = require('redux-logger');
@@ -17,11 +18,5 @@ const store = createStore(
   persistedState,
   applyMiddleware(...middleware)
 );
-
-store.subscribe(() => {
-  saveState({
-    access: store.getState().access
-  });
-});
 
 export default store;

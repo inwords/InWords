@@ -1,35 +1,114 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
-import Game2Core from './Game2CoreContainer';
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import Chip from '@material-ui/core/Chip';
+import Fade from '@material-ui/core/Fade';
+import GameResult from 'components/GameResult';
 
-function Game2({ match }) {
-  return (
-    <Container component="div" maxWidth="lg">
-      <BreadcrumbNavigation>
-        <Link component={RouterLink} to="/games" color="inherit">
-          Игры
-        </Link>
-        <Link
-          component={RouterLink}
-          to={`/games/${match.params.gameId}`}
-          color="inherit"
+const useStyles = makeStyles(theme => ({
+  root: {
+    margin: 'auto',
+    maxWidth: theme.spacing(40)
+  },
+  header: {
+    marginBottom: theme.spacing(1)
+  },
+  chip: {
+    margin: theme.spacing(1)
+  }
+}));
+
+function Game2({
+  currentWordSet,
+  wordsStatusColorsMap,
+  isClickDone,
+  isGameCompleted,
+  isResultReady,
+  handleClick,
+  handleOpenNextSet,
+  ...rest
+}) {
+  const classes = useStyles();
+
+  const {
+    primaryWordInfo: { word: primaryWord },
+    secondaryWordsInfo
+  } = currentWordSet;
+
+  return !isResultReady ? (
+    <Fade in={!isGameCompleted}>
+      <div className={classes.root}>
+        <Grid
+          container
+          justify="center"
+          alignItems="center"
+          spacing={1}
+          className={classes.header}
         >
-          Уровни
-        </Link>
-        <Typography color="textPrimary">Уровень</Typography>
-      </BreadcrumbNavigation>
-      <Game2Core match={match} />
-    </Container>
+          <Grid item>
+            <Typography component="span" variant="h6">
+              {primaryWord}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <IconButton
+              aria-label="next"
+              onClick={handleOpenNextSet}
+              disabled={!isClickDone}
+            >
+              <PlayArrowIcon aria-label="next word" fontSize="small" />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Grid container justify="center">
+          {secondaryWordsInfo.map(secondaryWordInfo => {
+            const { id, pairId, word } = secondaryWordInfo;
+
+            return (
+              <Grid key={id} item>
+                <Chip
+                  label={word}
+                  onClick={!isClickDone ? handleClick(pairId, id) : null}
+                  color={wordsStatusColorsMap[id] || 'default'}
+                  className={classes.chip}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      </div>
+    </Fade>
+  ) : (
+    <GameResult {...rest} />
   );
 }
 
 Game2.propTypes = {
-  match: PropTypes.object.isRequired
+  currentWordSet: PropTypes.shape({
+    primaryWordInfo: PropTypes.shape({
+      word: PropTypes.string.isRequired
+    }).isRequired,
+    secondaryWordsInfo: PropTypes.arrayOf(
+      PropTypes.exact({
+        id: PropTypes.number.isRequired,
+        pairId: PropTypes.number.isRequired,
+        word: PropTypes.string.isRequired
+      }).isRequired
+    ).isRequired
+  }).isRequired,
+  wordsStatusColorsMap: PropTypes.objectOf(PropTypes.string.isRequired)
+    .isRequired,
+  isClickDone: PropTypes.bool.isRequired,
+  isGameCompleted: PropTypes.bool.isRequired,
+  isResultReady: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  handleOpenNextSet: PropTypes.func.isRequired,
+  score: PropTypes.number,
+  handleReplay: PropTypes.func
 };
 
 export default Game2;
