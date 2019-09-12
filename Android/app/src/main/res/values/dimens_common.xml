@@ -61,4 +61,5 @@
     <dimen name="space_xxgiant">64dp</dimen>
     <dimen name="space_xgiant">68dp</dimen>
     <dimen name="space_giant">72dp</dimen>
+    <dimen name="space_giantx">80dp</dimen>
 </resources>
