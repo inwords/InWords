@@ -62,9 +62,11 @@ function WordPairRow({
             <IconButton
               aria-label="speak"
               onClick={() => {
-                const speech = new SpeechSynthesisUtterance(wordForeign);
-                speech.lang = 'en-US';
-                window.speechSynthesis.speak(speech);
+                if (!window.speechSynthesis.speaking) {
+                  const speech = new SpeechSynthesisUtterance(wordForeign);
+                  speech.lang = 'en-US';
+                  window.speechSynthesis.speak(speech);
+                }
               }}
               edge="end"
             >
