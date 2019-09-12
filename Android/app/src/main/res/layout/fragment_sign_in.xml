@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/large_logo_height"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_logo" />
 

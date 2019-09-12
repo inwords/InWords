@@ -11,7 +11,7 @@
     <FrameLayout
         android:id="@+id/header_container"
         android:layout_width="match_parent"
-        android:layout_height="208dp"
+        android:layout_height="@dimen/profile_header_height"
         android:foreground="@drawable/profile_header_background">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -24,8 +24,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/avatar_image"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+            android:layout_width="@dimen/profile_avatar_size"
+            android:layout_height="@dimen/profile_avatar_size"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/space_xsmall"
             android:layout_marginTop="@dimen/space_large"
@@ -35,29 +35,29 @@
             app:failureImage="@drawable/ic_octopus1"
             app:roundAsCircle="true"
             app:roundingBorderColor="@color/colorSecondary"
-            app:roundingBorderWidth="3dp" />
+            app:roundingBorderWidth="@dimen/profile_avatar_border_width" />
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="209dp"
+        android:layout_marginTop="@dimen/profile_header_height"
         android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp">
+            android:layout_height="@dimen/profile_edit_text_height">
 
             <ImageButton
                 android:id="@+id/name_edit_apply_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/icon_size_default"
+                android:layout_height="@dimen/icon_size_default"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="@dimen/space_medium"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/button_apply_text"
                 android:enabled="false"
-                android:src="@drawable/ic_check_secondary_24dp"
+                android:src="@drawable/ic_check_24dp"
                 android:tint="@color/icon_color_selector"
                 android:visibility="invisible">
 
@@ -66,27 +66,27 @@
 
             <ImageButton
                 android:id="@+id/name_edit_edit_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/icon_size_default"
+                android:layout_height="@dimen/icon_size_default"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="@dimen/space_medium"
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/button_edit_text"
                 android:enabled="false"
-                android:src="@drawable/ic_create_secondary_24dp"
+                android:src="@drawable/ic_create_24dp"
                 android:tint="@color/icon_color_selector" />
 
             <ProgressBar
                 android:id="@+id/name_edit_progress"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/icon_size_default"
+                android:layout_height="@dimen/icon_size_default"
                 android:layout_gravity="center_vertical|end"
                 android:layout_margin="@dimen/space_medium"
                 android:visibility="invisible" />
 
             <View
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="@dimen/space_medium"
                 android:background="@drawable/ic_insert_emoticon_24dp"

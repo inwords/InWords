@@ -25,6 +25,7 @@
 
     <!-- Icons -->
     <dimen name="icon_size_small">24dp</dimen>
+    <dimen name="icon_size_default">32dp</dimen>
 
     <!-- Progress bar -->
     <dimen name="progress_bar_size">32dp</dimen>
@@ -62,4 +63,5 @@
     <dimen name="space_xgiant">68dp</dimen>
     <dimen name="space_giant">72dp</dimen>
     <dimen name="space_giantx">80dp</dimen>
+    <dimen name="space_giantxx">88dp</dimen>
 </resources>

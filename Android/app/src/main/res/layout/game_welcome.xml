@@ -21,7 +21,7 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/welcome_image"
-                android:layout_width="220dp"
+                android:layout_width="@dimen/welcome_image_view_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/space_medium"
