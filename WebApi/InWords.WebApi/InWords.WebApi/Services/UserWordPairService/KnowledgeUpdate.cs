@@ -23,7 +23,11 @@ namespace InWords.WebApi.Services.UserWordPairService
         /// <returns></returns>
         public async Task ByDicrinary(Dictionary<int, KnowledgeQualitys> PairKnowledges)
         {
-
+            // load all user words
+            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u => PairKnowledges.ContainsKey(u.UserWordPairId));
+            // calculate knowledge update
+            
+            // update knowledge licence
         }
     }
 }
