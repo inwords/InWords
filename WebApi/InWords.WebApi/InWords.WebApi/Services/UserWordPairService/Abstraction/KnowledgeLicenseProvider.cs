@@ -19,7 +19,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Abstraction
         /// <returns></returns>
         public int Ebbinghaus(int stability, double retrievabilityLevel = 0.8)
         {
-            double days = Math.Pow(stability, 2) + stability * Math.Log(retrievabilityLevel) + stability - Math.Log(retrievabilityLevel);
+            double days = -(stability + 1) * (Math.Log(retrievabilityLevel) - stability);
             int daysCount = Convert.ToInt32(Math.Round(days));
             return daysCount;
         }
