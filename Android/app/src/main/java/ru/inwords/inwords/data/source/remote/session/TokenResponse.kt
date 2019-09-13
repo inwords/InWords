@@ -1,4 +1,4 @@
-package ru.inwords.inwords.data.source.webService.session
+package ru.inwords.inwords.data.source.remote.session
 
 import com.google.gson.annotations.SerializedName
 

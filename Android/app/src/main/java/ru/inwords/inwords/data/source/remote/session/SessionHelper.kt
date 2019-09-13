@@ -1,4 +1,4 @@
-package ru.inwords.inwords.data.source.webService.session
+package ru.inwords.inwords.data.source.remote.session
 
 import retrofit2.HttpException
 import java.util.concurrent.atomic.AtomicInteger

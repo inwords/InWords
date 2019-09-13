@@ -1,35 +1,22 @@
-package ru.inwords.inwords.data.source.webService
+package ru.inwords.inwords.data.source.remote
 
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import ru.inwords.inwords.data.source.webService.session.TokenResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BasicAuthenticator @Inject internal constructor() : Authenticator {
-    private var callback: OnUnauthorisedCallback? = null
-
-    interface OnUnauthorisedCallback {
-        fun perform(): TokenResponse
-    }
-
-    fun setOnUnauthorisedCallback(callback: OnUnauthorisedCallback) {
-        this.callback = callback
-    }
-
+class BasicAuthenticator @Inject internal constructor(private val authenticatorTokenProvider: AuthenticatorTokenProvider) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         val header = response.request().header("Authorization")
-
-        val callbackNonNull = callback ?: return null
 
         if (header != null/* && header.contains(AuthInfo.errorToken.accessToken)*/) { //TODO: think about COSTIL
             return null // Give up, we've already failed to authenticate.
         }
 
-        val tokenResponse = callbackNonNull.perform()
+        val tokenResponse = authenticatorTokenProvider.getToken().blockingGet()
 
         return response.request().newBuilder()
                 .header("Authorization", tokenResponse.bearer)

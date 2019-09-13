@@ -9,8 +9,10 @@ import ru.inwords.inwords.data.repository.game.GameGatewayControllerImpl
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepositoryImpl
 import ru.inwords.inwords.data.repository.translation.*
-import ru.inwords.inwords.data.source.webService.WebRequestsManager
-import ru.inwords.inwords.data.source.webService.WebRequestsManagerImpl
+import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
+import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorisedImpl
+import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorised
+import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorisedImpl
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationWebInteractor
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
@@ -25,14 +27,17 @@ import javax.inject.Singleton
 @Module
 interface DataAbstractModule {
     @Binds
-    fun authorisationWebInteractor(interactor: AuthorisationWebInteractor):
+    fun authorisationWebInteractor(interactor: AuthorisationWebInteractor): AuthorisationInteractor
     // Singleton annotation isn't necessary (in this case since Application instance is unique)
     // but is here for convention.
-            AuthorisationInteractor
 
     @Binds
     @Singleton
-    fun webRequests(webRequests: WebRequestsManagerImpl): WebRequestsManager
+    fun provideWebRequestsManagerAuthorised(webRequestsAuthorised: WebRequestsManagerAuthorisedImpl): WebRequestsManagerAuthorised
+
+    @Binds
+    @Singleton
+    fun provideWebRequestsManagerUnauthorised(webRequests: WebRequestsManagerUnauthorisedImpl): WebRequestsManagerUnauthorised
 
     //interactors
     @Binds

@@ -1,9 +1,11 @@
-package ru.inwords.inwords.data.source.webService.session
+package ru.inwords.inwords.data.source.remote.session
 
 import android.content.SharedPreferences
 import io.reactivex.Single
 import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.data.dto.UserCredentials
+import ru.inwords.inwords.data.source.remote.AuthExceptionType
+import ru.inwords.inwords.data.source.remote.AuthenticationException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,11 +13,9 @@ import javax.inject.Singleton
 class AuthInfo @Inject constructor(@Common private val sharedPreferences: SharedPreferences) {
     var tokenResponse: TokenResponse = noToken
 
-    val bearer: String get() = tokenResponse.bearer
-
     private var credentialsInternal: UserCredentials = UserCredentials()
         get() {
-            if (!validCredentials(field)) {
+            if (!field.validCredentials()) {
                 val email = sharedPreferences.getString(PREFS_EMAIL, "")
                 val password = sharedPreferences.getString(PREFS_PASSWORD, "")
                 field = UserCredentials(email!!, password!!)
@@ -30,7 +30,16 @@ class AuthInfo @Inject constructor(@Common private val sharedPreferences: Shared
         }
 
     fun getCredentials(): Single<UserCredentials> {
-        return Single.fromCallable { credentialsInternal }
+        return Single.fromCallable {
+            val credentials = credentialsInternal
+
+            if (!credentials.validCredentials()) {
+                throw AuthenticationException("invalid credentials (no credentials)",
+                        AuthExceptionType.NO_CREDENTIALS)
+            }
+
+            credentials
+        }
     }
 
     fun setCredentials(userCredentials: UserCredentials): Single<UserCredentials> {
@@ -38,6 +47,11 @@ class AuthInfo @Inject constructor(@Common private val sharedPreferences: Shared
             credentialsInternal = userCredentials
             credentialsInternal
         }
+    }
+
+    fun getAuthToken(): Single<String> {
+        return getCredentials()
+                .map { tokenResponse.bearer }
     }
 
     val isNoToken: Boolean get() = tokenResponse == noToken
@@ -54,4 +68,4 @@ class AuthInfo @Inject constructor(@Common private val sharedPreferences: Shared
 const val PREFS_EMAIL = "em"
 const val PREFS_PASSWORD = "pa"
 
-fun validCredentials(userCredentials: UserCredentials) = userCredentials.email.isNotBlank() && userCredentials.password.isNotBlank()
+fun UserCredentials.validCredentials() = email.isNotBlank() && password.isNotBlank()
