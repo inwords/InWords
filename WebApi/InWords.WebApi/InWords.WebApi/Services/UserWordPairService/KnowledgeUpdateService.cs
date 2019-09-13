@@ -26,11 +26,11 @@ namespace InWords.WebApi.Services.UserWordPairService
         /// </summary>
         /// <param name="PairKnowledges">Int is <see cref="UserWordPair"/> id</param>
         /// <returns></returns>
-        public async Task UpdateKnowledge(IKnowledgeQualifier knowledgeQualifier)
+        public async Task UpdateKnowledge(int userid, IKnowledgeQualifier knowledgeQualifier)
         {
             var knowledgeQuality = knowledgeQualifier.Qualify();
             // load all user words
-            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u => knowledgeQuality.ContainsKey(u.UserWordPairId));
+            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u => knowledgeQuality.ContainsKey(u.UserWordPairId) && u.UserId.Equals(userid));
             // calculate knowledge update
             userWordPairs = UpdateLicenseInformation(userWordPairs, knowledgeQuality);
             // update knowledge licence

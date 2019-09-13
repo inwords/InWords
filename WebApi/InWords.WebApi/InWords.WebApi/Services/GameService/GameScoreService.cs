@@ -12,6 +12,12 @@ namespace InWords.WebApi.Services.GameService
 {
     public class GameScoreService : IGameScoreService
     {
+        private readonly UserGameLevelRepository userGameLevelRepository;
+        public GameScoreService(UserGameLevelRepository userGameLevelRepository)
+        {
+            this.userGameLevelRepository = userGameLevelRepository;
+        }
+
         async Task<GameObject> IGameScoreService.GetGameStars(int userId, GameObject game)
         {
             return await Task.Run(() => GetGameStarsAction(userId, game));
@@ -19,7 +25,7 @@ namespace InWords.WebApi.Services.GameService
 
         LevelScore IGameScoreService.GetLevelScore(LevelResult levelResult)
         {
-            int score = CardGame.Score(levelResult.WordsCount, levelResult.OpeningQuantity);
+            int score = Domain.CardGame.Score(levelResult.WordsCount, levelResult.OpeningQuantity);
 
             var levelScore = new LevelScore(levelResult.LevelId, score);
 
@@ -124,17 +130,6 @@ namespace InWords.WebApi.Services.GameService
             return (from ls in levelScoresArray
                     where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
                     select ls).ToArray();
-        }
-
-        #region ctor
-
-        private readonly UserGameLevelRepository userGameLevelRepository;
-
-        public GameScoreService(UserGameLevelRepository userGameLevelRepository)
-        {
-            this.userGameLevelRepository = userGameLevelRepository;
-        }
-
-        #endregion
+        }        
     }
 }

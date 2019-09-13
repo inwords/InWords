@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Service.Auth.Extensions;
-using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.CardGame;
-using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,11 +53,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         /// </summary>
         /// <param name="levelScores"></param>
         /// <returns>Quantity of stars and level id</returns>
-        [Route("UploadScore")]
-        [HttpPost]
-        public async Task<IActionResult> UploadScore(IEnumerable<CardGameScore> cardGameScores)
-        {
-            throw new NotImplementedException();
-        }
+        //[Route("UploadScore")]
+        //[HttpPost]
+        //public async Task<IActionResult> UploadScore(IEnumerable<CardGameScore> cardGameScores)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

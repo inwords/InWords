@@ -37,7 +37,7 @@ namespace InWords.WebApi.Services.CardGame
             // Calculate word metric;
             IKnowledgeQualifier knowledgeQualifier = new CardGameKnowledge(cardGameScore);
             // update wordas pairs license in store
-            await knowledgeUpdateService.UpdateKnowledge(knowledgeQualifier);
+            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifier);
             return levelScore;
         }
     }
