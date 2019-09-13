@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: '400'
   },
   active: {
-    fontWeight: '500'
+    fontWeight: '500',
+    color: theme.palette.primary.main
   }
 }));
 

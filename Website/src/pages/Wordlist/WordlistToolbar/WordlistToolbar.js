@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function WordlistToolbar({
-  editingMode,
+  editingModeEnabled,
   numberOfChecked,
   handleDelete,
   handleReset,
@@ -83,10 +83,10 @@ function WordlistToolbar({
   return (
     <Toolbar
       className={clsx(classes.root, {
-        [classes.activeToolbar]: editingMode
+        [classes.activeToolbar]: editingModeEnabled
       })}
     >
-      {!editingMode ? (
+      {!editingModeEnabled ? (
         <>
           <Hidden xsDown>
             <div className={classes.title}>
@@ -145,7 +145,7 @@ function WordlistToolbar({
 }
 
 WordlistToolbar.propTypes = {
-  editingMode: PropTypes.bool.isRequired,
+  editingModeEnabled: PropTypes.bool.isRequired,
   numberOfChecked: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,

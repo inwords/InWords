@@ -28,9 +28,9 @@ function WordPairAddDialog({
   inputs,
   handleChange,
   handleSubmit,
-  handleReset,
   translations,
-  handleTranslationAddition
+  handleTranslationAddition,
+  handleReset
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -113,14 +113,14 @@ WordPairAddDialog.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired,
   translations: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.number.isRequired,
       value: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
-  handleTranslationAddition: PropTypes.func.isRequired
+  handleTranslationAddition: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired
 };
 
 export default WordPairAddDialog;

@@ -1,30 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import Chip from '@material-ui/core/Chip';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
 import GameResult from 'components/GameResult';
 
 const useStyles = makeStyles(theme => ({
   root: {
     margin: 'auto',
-    maxWidth: theme.spacing(40)
+    maxWidth: theme.spacing(64)
   },
   header: {
-    marginBottom: theme.spacing(1)
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(1)
   },
-  chip: {
-    margin: theme.spacing(1)
+  next: {
+    marginLeft: theme.spacing(1)
+  },
+  button: {
+    marginBottom: theme.spacing(1),
+    textTransform: 'none'
+  },
+  leftIcon: {
+    marginRight: theme.spacing(1)
   }
 }));
 
 function Game2({
   currentWordSet,
-  wordsStatusColorsMap,
+  rightSelectedWordId,
+  wrongSelectedWordId,
   isClickDone,
   isGameCompleted,
   isResultReady,
@@ -39,52 +54,74 @@ function Game2({
     secondaryWordsInfo
   } = currentWordSet;
 
-  return !isResultReady ? (
-    <Fade in={!isGameCompleted}>
-      <div className={classes.root}>
-        <Grid
-          container
-          justify="center"
-          alignItems="center"
-          spacing={1}
-          className={classes.header}
-        >
-          <Grid item>
+  if (!isResultReady) {
+    return (
+      <Fade in={!isGameCompleted}>
+        <div className={classes.root}>
+          <Paper className={classes.header}>
             <Typography component="span" variant="h6">
               {primaryWord}
             </Typography>
-          </Grid>
-          <Grid item>
             <IconButton
               aria-label="next"
               onClick={handleOpenNextSet}
               disabled={!isClickDone}
+              className={classes.next}
             >
-              <PlayArrowIcon aria-label="next word" fontSize="small" />
+              <PlayArrowIcon aria-label="next word" />
             </IconButton>
-          </Grid>
-        </Grid>
-        <Grid container justify="center">
-          {secondaryWordsInfo.map(secondaryWordInfo => {
-            const { id, pairId, word } = secondaryWordInfo;
+          </Paper>
+          {secondaryWordsInfo.map(({ id, pairId, word, translation }) => {
+            let color;
+            switch (id) {
+              case rightSelectedWordId:
+                color = 'primary';
+                break;
+              case wrongSelectedWordId:
+                color = 'secondary';
+                break;
+              default:
+                color = 'default';
+            }
+
+            let icon;
+            if (rightSelectedWordId === id) {
+              icon = <CheckCircleOutlineIcon className={classes.leftIcon} />;
+            } else if (wrongSelectedWordId === id) {
+              icon = <ErrorOutlineIcon className={classes.leftIcon} />;
+            }
 
             return (
-              <Grid key={id} item>
-                <Chip
-                  label={word}
-                  onClick={!isClickDone ? handleClick(pairId, id) : null}
-                  color={wordsStatusColorsMap[id] || 'default'}
-                  className={classes.chip}
-                />
-              </Grid>
+              <Tooltip
+                key={id}
+                title={translation}
+                disableFocusListener={!isClickDone}
+                disableHoverListener={!isClickDone}
+                disableTouchListener={!isClickDone}
+                placement="left"
+              >
+                <Button
+                  
+                  onClick={handleClick(pairId, id)}
+                  disableRipple
+                  disableFocusRipple={isClickDone}
+                  color={color}
+                  variant="outlined"
+                  fullWidth
+                  className={classes.button}
+                >
+                  {icon}
+                  {word}
+                </Button>
+              </Tooltip>
             );
           })}
-        </Grid>
-      </div>
-    </Fade>
-  ) : (
-    <GameResult {...rest} />
-  );
+        </div>
+      </Fade>
+    );
+  } else {
+    return <GameResult {...rest} />;
+  }
 }
 
 Game2.propTypes = {
@@ -96,12 +133,13 @@ Game2.propTypes = {
       PropTypes.exact({
         id: PropTypes.number.isRequired,
         pairId: PropTypes.number.isRequired,
-        word: PropTypes.string.isRequired
+        word: PropTypes.string.isRequired,
+        translation: PropTypes.string.isRequired
       }).isRequired
     ).isRequired
   }).isRequired,
-  wordsStatusColorsMap: PropTypes.objectOf(PropTypes.string.isRequired)
-    .isRequired,
+  rightSelectedWordId: PropTypes.number.isRequired,
+  wrongSelectedWordId: PropTypes.number.isRequired,
   isClickDone: PropTypes.bool.isRequired,
   isGameCompleted: PropTypes.bool.isRequired,
   isResultReady: PropTypes.bool.isRequired,
