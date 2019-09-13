@@ -11,7 +11,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders
         public override KnowledgeLicense Grant(KnowledgeLicense knowledgeLicense)
         {
             knowledgeLicense.Period += 1;
-            return knowledgeLicense;
+            return base.Grant(knowledgeLicense);
         }
     }
 }

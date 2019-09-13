@@ -8,7 +8,12 @@ namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {
     public abstract class KnowledgeLicenseProvider
     {
-        public abstract KnowledgeLicense Grant(KnowledgeLicense knowledgeLicense);
+        public virtual KnowledgeLicense Grant(KnowledgeLicense knowledgeLicense)
+        {
+            int days = Ebbinghaus(knowledgeLicense.Period);
+            knowledgeLicense.RepeatTime.AddDays(days);
+            return knowledgeLicense;
+        }
 
         /// <summary>
         /// Implementation of 
@@ -17,7 +22,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Abstraction
         /// <param name="subconsciousLevel"></param>
         /// <param name="MemoryLevel"></param>
         /// <returns></returns>
-        public int Ebbinghaus(int stability, double retrievabilityLevel = 0.8)
+        public static int Ebbinghaus(int stability, double retrievabilityLevel = 0.8)
         {
             double days = -(stability + 1) * (Math.Log(retrievabilityLevel) - stability);
             int daysCount = Convert.ToInt32(Math.Round(days));

@@ -10,7 +10,8 @@ namespace InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders
     {
         public override KnowledgeLicense Grant(KnowledgeLicense knowledgeLicense)
         {
-            throw new NotImplementedException();
+            knowledgeLicense.Period = Convert.ToInt32(Math.Truncate(0.2 * knowledgeLicense.Period));
+            return base.Grant(knowledgeLicense);
         }
     }
 }
