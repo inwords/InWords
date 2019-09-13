@@ -75,7 +75,7 @@ function Game({
 }) {
   const classes = useStyles();
 
-  const rootClass = useMemo(() => {
+  const root = useMemo(() => {
     const columnsNum = Math.ceil(Math.sqrt(wordsInfo.length));
 
     if (columnsNum <= 2) {
@@ -87,51 +87,53 @@ function Game({
     }
   }, [wordsInfo.length, classes]);
 
-  return !isResultReady ? (
-    <div className={rootClass}>
-      <Grid container justify="center" spacing={cardsSpacing}>
-        {wordsInfo.map(randomWordInfo => {
-          const { id, pairId, word } = randomWordInfo;
+  if (!isResultReady) {
+    return (
+      <div className={root}>
+        <Grid container justify="center" spacing={cardsSpacing}>
+          {wordsInfo.map(randomWordInfo => {
+            const { id, pairId, word } = randomWordInfo;
 
-          return (
-            <Grid key={id} item>
-              <Grow in={!isGameCompleted}>
-                <div>
-                  <Paper
-                    elevation={selectedCompletedPairId === pairId ? 8 : 2}
-                    onClick={handleClick(pairId, id)}
-                    className={classes.card}
-                  >
-                    <Zoom
-                      in={
-                        completedPairIdsMap[pairId] ||
-                        Boolean(
-                          selectedWordsInfo.find(
-                            selectedWordInfo => selectedWordInfo.id === id
-                          )
-                        )
-                      }
+            return (
+              <Grid key={id} item>
+                <Grow in={!isGameCompleted}>
+                  <div>
+                    <Paper
+                      elevation={selectedCompletedPairId === pairId ? 8 : 2}
+                      onClick={handleClick(pairId, id)}
+                      className={classes.card}
                     >
-                      <div className={classes.cardContent}>
-                        <Typography
-                          component="span"
-                          className={classes.cardText}
-                        >
-                          {word}
-                        </Typography>
-                      </div>
-                    </Zoom>
-                  </Paper>
-                </div>
-              </Grow>
-            </Grid>
-          );
-        })}
-      </Grid>
-    </div>
-  ) : (
-    <GameResult {...rest} />
-  );
+                      <Zoom
+                        in={
+                          completedPairIdsMap[pairId] ||
+                          Boolean(
+                            selectedWordsInfo.find(
+                              selectedWordInfo => selectedWordInfo.id === id
+                            )
+                          )
+                        }
+                      >
+                        <div className={classes.cardContent}>
+                          <Typography
+                            component="span"
+                            className={classes.cardText}
+                          >
+                            {word}
+                          </Typography>
+                        </div>
+                      </Zoom>
+                    </Paper>
+                  </div>
+                </Grow>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </div>
+    );
+  } else {
+    return <GameResult {...rest} />;
+  }
 }
 
 Game.propTypes = {

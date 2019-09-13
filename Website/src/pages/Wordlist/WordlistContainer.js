@@ -40,11 +40,11 @@ function WordlistContainer() {
     []
   );
 
-  const [editingMode, setEditingMode] = useState(false);
+  const [editingModeEnabled, setEditingModeEnabled] = useState(false);
 
   const handleReset = () => {
     setCheckedValues([]);
-    setEditingMode(false);
+    setEditingModeEnabled(false);
   };
 
   const [searchWord, setSearchWord] = useState('');
@@ -66,7 +66,7 @@ function WordlistContainer() {
 
   const handleButtonPress = () => {
     buttonPressTimerRef.current = window.setTimeout(() => {
-      setEditingMode(true);
+      setEditingModeEnabled(true);
     }, 500);
   };
 
@@ -77,7 +77,7 @@ function WordlistContainer() {
   return (
     <Wordlist
       wordPairs={!searchWord ? wordPairs : filteredWordPairs}
-      editingMode={editingMode}
+      editingModeEnabled={editingModeEnabled}
       handleButtonPress={handleButtonPress}
       handleButtonRelease={handleButtonRelease}
       checkedValues={checkedValues}

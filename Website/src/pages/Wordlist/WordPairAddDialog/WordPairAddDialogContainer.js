@@ -26,13 +26,6 @@ function WordPairAddDialogContainer({ ...rest }) {
     }
   );
 
-  const handleReset = () => {
-    setInputs({
-      wordForeign: '',
-      wordNative: ''
-    });
-  };
-
   const [translations, setTranslations] = useState([]);
 
   const translationTimeoutRef = useRef();
@@ -90,14 +83,23 @@ function WordPairAddDialogContainer({ ...rest }) {
     }
   };
 
+  const handleReset = () => {
+    setInputs({
+      wordForeign: '',
+      wordNative: ''
+    });
+
+    setTranslations([]);
+  };
+
   return (
     <WordPairAddDialog
       inputs={inputs}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
-      handleReset={handleReset}
       translations={translations}
       handleTranslationAddition={handleTranslationAddition}
+      handleReset={handleReset}
       {...rest}
     />
   );

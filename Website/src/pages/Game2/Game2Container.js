@@ -13,7 +13,8 @@ function Game2Container({ levelId, wordTranslations }) {
     },
     secondaryWordsInfo: []
   });
-  const [wordsStatusColorsMap, setWordsStatusColorsMap] = useState({});
+  const [rightSelectedWordId, setRightSelectedWordId] = useState(-1);
+  const [wrongSelectedWordId, setWrongSelectedWordId] = useState(-1);
   const [isClickDone, setIsClickDone] = useState(false);
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
@@ -28,12 +29,14 @@ function Game2Container({ levelId, wordTranslations }) {
           {
             id: index * 2,
             pairId: wordPair.serverId,
-            word: wordPair.wordForeign
+            word: wordPair.wordForeign,
+            translation: wordPair.wordNative
           },
           {
             id: index * 2 + 1,
             pairId: wordPair.serverId,
-            word: wordPair.wordNative
+            word: wordPair.wordNative,
+            translation: wordPair.wordForeign,
           }
         ])
     );
@@ -68,20 +71,20 @@ function Game2Container({ levelId, wordTranslations }) {
   }, [isGameCompleted]);
 
   const handleClick = (pairId, id) => () => {
+    if (isClickDone) return;
+
     if (pairId === currentWordSet.primaryWordInfo.pairId) {
-      setWordsStatusColorsMap({
-        [id]: 'primary'
-      });
+      setRightSelectedWordId(id);
 
       setCurrentWordSets(wordSets => wordSets.slice(0, -1));
     } else {
-      setWordsStatusColorsMap({
-        [currentWordSet.secondaryWordsInfo.find(
+      setRightSelectedWordId(
+        currentWordSet.secondaryWordsInfo.find(
           secondaryWordInfo =>
             secondaryWordInfo.pairId === currentWordSet.primaryWordInfo.pairId
-        ).id]: 'primary',
-        [id]: 'secondary'
-      });
+        ).id
+      );
+      setWrongSelectedWordId(id);
 
       setCurrentWordSets(currentWordSets => shuffle([...currentWordSets]));
     }
@@ -98,7 +101,8 @@ function Game2Container({ levelId, wordTranslations }) {
           ...currentWordSets[currentWordSets.length - 1].secondaryWordsInfo
         ])
       });
-      setWordsStatusColorsMap({});
+      setRightSelectedWordId(-1);
+      setWrongSelectedWordId(-1);
       setIsClickDone(false);
     } else {
       setIsGameCompleted(true);
@@ -109,7 +113,8 @@ function Game2Container({ levelId, wordTranslations }) {
     const shuffledWordSets = shuffle([...wordSets]);
     setCurrentWordSets(shuffledWordSets);
     setCurrentWordSet(shuffledWordSets[shuffledWordSets.length - 1]);
-    setWordsStatusColorsMap({});
+    setRightSelectedWordId(-1);
+    setWrongSelectedWordId(-1);
     setIsClickDone(false);
     setIsGameCompleted(false);
     setIsResultReady(false);
@@ -119,7 +124,8 @@ function Game2Container({ levelId, wordTranslations }) {
   return (
     <Game2
       currentWordSet={currentWordSet}
-      wordsStatusColorsMap={wordsStatusColorsMap}
+      rightSelectedWordId={rightSelectedWordId}
+      wrongSelectedWordId={wrongSelectedWordId}
       isClickDone={isClickDone}
       isGameCompleted={isGameCompleted}
       isResultReady={isResultReady}

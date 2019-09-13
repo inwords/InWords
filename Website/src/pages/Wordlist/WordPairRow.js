@@ -10,11 +10,13 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import useDialog from 'hooks/useDialog';
 import WordPairEditDialog from './WordPairEditDialog';
 
+const synth = window.speechSynthesis;
+
 function WordPairRow({
   index,
   data: {
     wordPairs,
-    editingMode,
+    editingModeEnabled,
     handleButtonPress,
     handleButtonRelease,
     checkedValues,
@@ -31,7 +33,7 @@ function WordPairRow({
     <>
       <ListItem
         key={index}
-        onClick={editingMode ? handleToggle(serverId) : handleOpen}
+        onClick={editingModeEnabled ? handleToggle(serverId) : handleOpen}
         onTouchStart={handleButtonPress}
         onTouchEnd={handleButtonRelease}
         onMouseDown={handleButtonPress}
@@ -41,7 +43,7 @@ function WordPairRow({
         button
         dense
       >
-        {editingMode && (
+        {editingModeEnabled && (
           <ListItemIcon>
             <Checkbox
               inputProps={{ 'aria-labelledby': labelId }}
@@ -57,16 +59,18 @@ function WordPairRow({
           primary={wordForeign || '-'}
           secondary={wordNative || '-'}
         />
-        {window.speechSynthesis && (
+        {synth && (
           <ListItemSecondaryAction>
             <IconButton
               aria-label="speak"
               onClick={() => {
-                if (!window.speechSynthesis.speaking) {
-                  const speech = new SpeechSynthesisUtterance(wordForeign);
-                  speech.lang = 'en-US';
-                  window.speechSynthesis.speak(speech);
+                if (synth.speaking) {
+                  synth.cancel();
                 }
+
+                const speech = new SpeechSynthesisUtterance(wordForeign);
+                speech.lang = 'en-US';
+                synth.speak(speech);
               }}
               edge="end"
             >
@@ -93,7 +97,7 @@ WordPairRow.propTypes = {
         wordNative: PropTypes.string.isRequired
       }).isRequired
     ).isRequired,
-    editingMode: PropTypes.bool.isRequired,
+    editingModeEnabled: PropTypes.bool.isRequired,
     handleButtonPress: PropTypes.func.isRequired,
     handleButtonRelease: PropTypes.func.isRequired,
     checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
