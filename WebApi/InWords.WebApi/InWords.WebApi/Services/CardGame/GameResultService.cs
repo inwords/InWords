@@ -1,4 +1,5 @@
-﻿using InWords.Data.DTO.GameBox.LevelMetric;
+﻿using InWords.Data.DTO.Extentions;
+using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
 using InWords.WebApi.Services.UserWordPairService;
@@ -31,7 +32,7 @@ namespace InWords.WebApi.Services.CardGame
         public async Task<LevelScore> SetResults(int userId, CardGameScore cardGameScore)
         {
             // set sore;
-            LevelScore levelScore = gameScoreService.GetLevelScore(cardGameScore.LevelResult);
+            LevelScore levelScore = gameScoreService.GetLevelScore(cardGameScore.ToLevelResult());
             // save score to storage
             await gameScoreService.UpdateUserScore(userId, levelScore);
             // Calculate word metric;
