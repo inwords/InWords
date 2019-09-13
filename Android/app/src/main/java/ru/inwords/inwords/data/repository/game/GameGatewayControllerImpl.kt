@@ -55,7 +55,7 @@ class GameGatewayControllerImpl @Inject constructor(
                 .flatMap { res ->
                     if (res is Resource.Error) {
                         levelScoreRequestDao.insert(levelScoreRequest)
-                                .doOnError { Log.e(TAG, it.message) }
+                                .doOnError { Log.e(TAG, it.message.orEmpty()) }
                                 .map { res }
                                 .onErrorReturn { res }
                     } else {

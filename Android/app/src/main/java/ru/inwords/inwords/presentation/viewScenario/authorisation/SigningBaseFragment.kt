@@ -91,9 +91,8 @@ abstract class SigningBaseFragment<ViewModelType : AuthorisationViewModel, ViewM
             }
 
             AuthorisationViewState.Status.ERROR -> {
-                val viewState = viewStateEvent.peekContent()
-                if (viewState.throwable != null) {
-                    renderErrorState(viewState.throwable)
+                viewStateEvent.peekContent().throwable?.also {
+                    renderErrorState(it)
                 }
             }
 

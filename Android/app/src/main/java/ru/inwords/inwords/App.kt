@@ -17,6 +17,7 @@ import io.fabric.sdk.android.Fabric
 import okhttp3.OkHttpClient
 import ru.inwords.inwords.dagger.AppComponent
 import ru.inwords.inwords.dagger.DaggerAppComponent
+import ru.inwords.inwords.dagger.annotations.UnauthorisedZone
 import ru.inwords.inwords.data.repository.SettingsRepository
 import javax.inject.Inject
 
@@ -27,6 +28,7 @@ class App : Application(), HasAndroidInjector {
     }
 
     @Inject
+    @field:UnauthorisedZone
     internal lateinit var okHttpClient: OkHttpClient
 
     @Inject
