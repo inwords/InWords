@@ -11,8 +11,7 @@
     <FrameLayout
         android:id="@+id/header_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/profile_header_height"
-        android:foreground="@drawable/profile_header_background">
+        android:layout_height="@dimen/profile_header_height">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/header_background"
@@ -36,6 +35,12 @@
             app:roundAsCircle="true"
             app:roundingBorderColor="@color/colorSecondary"
             app:roundingBorderWidth="@dimen/profile_avatar_border_width" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_rounded_shape_height"
+            android:layout_gravity="bottom"
+            android:background="@drawable/profile_header_background" />
     </FrameLayout>
 
     <LinearLayout
@@ -102,13 +107,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name_edit_text"
                     android:layout_width="match_parent"
-                    android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default"
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:hint="@string/nick_text"
                     android:inputType="textCapSentences"
                     android:maxLength="64"
                     android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default"
                     tools:enabled="true"
                     tools:text="Ник" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -116,9 +121,9 @@
 
         <View
             android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
             android:layout_marginStart="@dimen/space_medium"
             android:layout_marginEnd="@dimen/space_medium"
-            android:layout_height="@dimen/divider_height"
             android:background="@color/divider_color" />
 
         <TextView
@@ -130,8 +135,8 @@
             android:drawablePadding="@dimen/space_medium"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/space_medium"
-            android:paddingEnd="@dimen/space_medium"
             android:paddingTop="@dimen/space_xsmall"
+            android:paddingEnd="@dimen/space_medium"
             android:paddingBottom="@dimen/space_xsmall"
             android:text="@string/change_account"
             android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />

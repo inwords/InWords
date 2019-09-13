@@ -28,5 +28,6 @@
     <dimen name="profile_header_height">208dp</dimen>
     <dimen name="profile_edit_text_height">64dp</dimen>
     <dimen name="profile_avatar_border_width">3dp</dimen>
+    <dimen name="profile_rounded_shape_height">16dp</dimen>
 
 </resources>

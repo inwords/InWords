@@ -54,13 +54,16 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         })
 
         viewModel.ttsStream
+                .doOnNext {
+                    if (it is Resource.Success) {
+                        playAudio(it.data)
+                    }
+                }
                 .observeOn(SchedulersFacade.ui())
                 .subscribe { resource ->
                     progress_view.post { progress_view.progress = 0 }
 
-                    if (resource is Resource.Success) {
-                        playAudio(resource.data)
-                    } else {
+                    if (resource !is Resource.Success) {
                         Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
                     }
                 }

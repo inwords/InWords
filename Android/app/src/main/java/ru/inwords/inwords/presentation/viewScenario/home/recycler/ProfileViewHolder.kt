@@ -7,6 +7,7 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.card_profile.view.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.presentation.setPlaceholderImageWithBackground
 
 class ProfileViewHolder(itemView: View, private val onItemClickListener: Subject<CardWrapper>) :
         RecyclerView.ViewHolder(itemView) {
@@ -22,7 +23,7 @@ class ProfileViewHolder(itemView: View, private val onItemClickListener: Subject
 
                 avatar.setImageRequest(request)
             } else {
-                avatar.setActualImageResource(R.drawable.ic_octopus1)
+                avatar.setPlaceholderImageWithBackground(R.drawable.ic_octopus1, R.color.colorSecondary)
             }
 
             experience.text = context.getString(R.string.user_experience, 15)
