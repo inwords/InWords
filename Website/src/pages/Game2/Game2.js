@@ -95,9 +95,9 @@ function Game2({
               <Tooltip
                 key={id}
                 title={translation}
+                disableTouchListener
                 disableFocusListener={!isClickDone}
                 disableHoverListener={!isClickDone}
-                disableTouchListener={!isClickDone}
                 placement="left"
               >
                 <Button
