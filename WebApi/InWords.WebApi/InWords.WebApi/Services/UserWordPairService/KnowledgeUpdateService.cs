@@ -1,5 +1,6 @@
 ﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
+using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Extension;
 using InWords.WebApi.Services.UserWordPairService.Models;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {
-    public class KnowledgeUpdate
+    public class KnowledgeUpdateService : IUserWordPairService
     {
         private readonly UserWordPairRepository userWordPairRepository = null;
         private readonly KnowledgeLicenseManager knowledgeLicenseManager = null;
-        public KnowledgeUpdate(UserWordPairRepository userWordPairRepository)
+        public KnowledgeUpdateService(UserWordPairRepository userWordPairRepository)
         {
             this.userWordPairRepository = userWordPairRepository;
             this.knowledgeLicenseManager = new KnowledgeLicenseManager();
