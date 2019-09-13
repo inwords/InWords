@@ -11,7 +11,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Abstraction
         public virtual KnowledgeLicense Grant(KnowledgeLicense knowledgeLicense)
         {
             int days = Ebbinghaus(knowledgeLicense.Period);
-            knowledgeLicense.RepeatTime.AddDays(days);
+            knowledgeLicense.RepeatTime = DateTime.UtcNow.AddDays(days);
             return knowledgeLicense;
         }
 
