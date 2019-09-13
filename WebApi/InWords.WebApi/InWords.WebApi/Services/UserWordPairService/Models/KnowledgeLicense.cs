@@ -7,7 +7,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Models
 {
     public class KnowledgeLicense
     {
-        public int Period { get; set; }
+        public short Period { get; set; }
         public DateTime RepeatTime { get; set; }
     }
 }

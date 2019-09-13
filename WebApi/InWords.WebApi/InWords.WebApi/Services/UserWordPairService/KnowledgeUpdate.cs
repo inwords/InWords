@@ -1,6 +1,8 @@
 ﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
 using InWords.WebApi.Services.UserWordPairService.Enum;
+using InWords.WebApi.Services.UserWordPairService.Extension;
+using InWords.WebApi.Services.UserWordPairService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,11 @@ namespace InWords.WebApi.Services.UserWordPairService
     public class KnowledgeUpdate
     {
         private readonly UserWordPairRepository userWordPairRepository = null;
+        private readonly KnowledgeLicenseManager knowledgeLicenseManager = null;
         public KnowledgeUpdate(UserWordPairRepository userWordPairRepository)
         {
             this.userWordPairRepository = userWordPairRepository;
+            this.knowledgeLicenseManager = new KnowledgeLicenseManager();
         }
 
         /// <summary>
@@ -26,8 +30,21 @@ namespace InWords.WebApi.Services.UserWordPairService
             // load all user words
             IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u => PairKnowledges.ContainsKey(u.UserWordPairId));
             // calculate knowledge update
-            
+            userWordPairs = UpdateLicenseInformation(userWordPairs, PairKnowledges);
             // update knowledge licence
+            await userWordPairRepository.Update(userWordPairs);
+        }
+
+        private IEnumerable<UserWordPair> UpdateLicenseInformation(IEnumerable<UserWordPair> userWordPairs, Dictionary<int, KnowledgeQualitys> PairKnowledges)
+        {
+            foreach (var userWordPair in userWordPairs)
+            {
+                KnowledgeQualitys quality = PairKnowledges[userWordPair.UserWordPairId];
+                KnowledgeLicense knowledgeLicense = userWordPair.GetLicense();
+                knowledgeLicense = knowledgeLicenseManager.Update(knowledgeLicense, quality);
+                userWordPair.SetLicense(knowledgeLicense);
+            }
+            return userWordPairs;
         }
     }
 }

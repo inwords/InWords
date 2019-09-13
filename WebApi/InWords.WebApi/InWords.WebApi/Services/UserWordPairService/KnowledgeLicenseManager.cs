@@ -1,5 +1,7 @@
-﻿using InWords.WebApi.Services.UserWordPairService.Enum;
+﻿using InWords.WebApi.Services.UserWordPairService.Abstraction;
+using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Models;
+using InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +11,21 @@ namespace InWords.WebApi.Services.UserWordPairService
 {
     public class KnowledgeLicenseManager
     {
-        public KnowledgeLicense Update(KnowledgeLicense knowledgeLicense, KnowledgeQualitys knowledgeQuality)
+        private readonly Dictionary<KnowledgeQualitys, KnowledgeLicenseProvider> knowledgeGaranter;
+
+        public KnowledgeLicenseManager()
         {
-            return null;
+            knowledgeGaranter = new Dictionary<KnowledgeQualitys, KnowledgeLicenseProvider>
+            {
+                { KnowledgeQualitys.EasyToRemember, new ExcellentKnowledge() },
+                { KnowledgeQualitys.StillRemember, new SatisfactoryKnowledge() },
+                { KnowledgeQualitys.NoLongerRemember, new UncertainKnowledge() }
+            };
         }
 
-        public void SepBack() { }
-        public void SepBack() { }
-        public void SepBack() { }
+        public KnowledgeLicense Update(KnowledgeLicense knowledgeLicense, KnowledgeQualitys knowledgeQuality)
+        {
+            return knowledgeGaranter[knowledgeQuality].Grant(knowledgeLicense);
+        }
     }
 }
