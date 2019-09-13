@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import ru.inwords.inwords.core.util.Event
 import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
@@ -12,51 +13,58 @@ import java.util.concurrent.TimeUnit
 
 abstract class AuthorisationViewModel protected constructor(protected var authorisationInteractor: AuthorisationInteractor) : BasicViewModel() {
     private val authorisationStateLiveData = MutableLiveData<Event<AuthorisationViewState>>()
-    private val navigateToLiveData = MutableLiveData<Event<Boolean>>()
+    private val navigateToLiveData = MutableLiveData<Event<Unit>>()
 
     val authorisationState: LiveData<Event<AuthorisationViewState>> = authorisationStateLiveData
-    val navigateTo: LiveData<Event<Boolean>> = navigateToLiveData
+    val navigateTo: LiveData<Event<Unit>> = navigateToLiveData
 
     fun onNavigateHandler(clicksObservable: Observable<Any>) {
         clicksObservable
                 .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe { navigateToLiveData.postValue(Event(true)) }
+                .subscribe { navigateToLiveData.postValue(Event(Unit)) }
                 .autoDispose()
     }
 
-    fun onSignHandler(clicksObservable: Observable<Any>, userCredentialsObservable: Observable<UserCredentials>) {
-        clicksObservable
-                .debounce(200, TimeUnit.MILLISECONDS)
-                .doOnNext { authorisationStateLiveData.postValue(Event(AuthorisationViewState.loading())) }
-                .switchMap { userCredentialsObservable }
-                .subscribe { userCredentials ->
-                    if (validateInput(userCredentials)) {
-                        compositeDisposable.add(performAuthAction(userCredentials)
-                                .subscribe({ authorisationStateLiveData.postValue(Event(AuthorisationViewState.success())) },
-                                        { t -> authorisationStateLiveData.postValue(Event(AuthorisationViewState.error(t))) }))
+    fun onSignClicked(userCredentialsObservable: Observable<UserCredentials>) {
+        authorisationStateLiveData.value = Event(AuthorisationViewState.loading())
+
+        userCredentialsObservable
+                .flatMapSingle { userCredentials ->
+                    val validationErrorViewState = validateInput(userCredentials)
+
+                    if (validationErrorViewState != null) {
+                        Single.just(validationErrorViewState)
+                    } else {
+                        performAuthAction(userCredentials)
+                                .andThen(Single.just(AuthorisationViewState.success()))
+                                .onErrorResumeNext { Single.just(AuthorisationViewState.error(it)) }
                     }
-                }.autoDispose()
+                }
+                .subscribe {
+                    authorisationStateLiveData.postValue(Event(it))
+                }
+                .autoDispose()
     }
 
     protected abstract fun performAuthAction(userCredentials: UserCredentials): Completable
 
-    private fun validateInput(userCredentials: UserCredentials): Boolean {
+    private fun validateInput(userCredentials: UserCredentials): AuthorisationViewState? {
         val emailError = validateEmail(userCredentials)
         val passwordError = validatePassword(userCredentials)
 
-        when {
+        return when {
             emailError != null && passwordError != null -> {
-                authorisationStateLiveData.postValue(Event(AuthorisationViewState.invalidInput(emailError, passwordError)))
+                AuthorisationViewState.invalidInput(emailError, passwordError)
             }
             emailError != null -> {
-                authorisationStateLiveData.postValue(Event(AuthorisationViewState.invalidEmail(emailError)))
+                AuthorisationViewState.invalidEmail(emailError)
             }
             passwordError != null -> {
-                authorisationStateLiveData.postValue(Event(AuthorisationViewState.invalidPassword(passwordError)))
+                AuthorisationViewState.invalidPassword(passwordError)
             }
-        }
 
-        return emailError == null && passwordError == null
+            else -> null
+        }
     }
 
     private fun validateEmail(userCredentials: UserCredentials): String? {

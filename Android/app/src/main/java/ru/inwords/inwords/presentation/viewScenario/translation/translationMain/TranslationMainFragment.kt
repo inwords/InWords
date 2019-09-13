@@ -48,26 +48,26 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
 
         viewModel.addEditWordLiveData.observe(this, Observer { event ->
-            if (event.handle()) {
-                val wordTranslation = event.peekContent()
-                val args = Bundle().apply {
-                    putSerializable(WordTranslation::class.java.canonicalName, wordTranslation)
-                }
-                navController.navigate(R.id.action_translationMainFragment_to_addEditWordFragment, args)
+            event.contentIfNotHandled?.also {
+                navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(it))
             }
         })
 
         viewModel.ttsStream
+                .doOnNext {
+                    if (it is Resource.Success) {
+                        playAudio(it.data)
+                    }
+                }
                 .observeOn(SchedulersFacade.ui())
                 .subscribe { resource ->
                     progress_view.post { progress_view.progress = 0 }
 
-                    if (resource is Resource.Success) {
-                        playAudio(resource.data)
-                    } else {
+                    if (resource !is Resource.Success) {
                         Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
                     }
-                }.disposeOnViewDestroyed()
+                }
+                .disposeOnViewDestroyed()
 
         viewModel.translationWordsStream
                 .applyDiffUtil()
@@ -119,7 +119,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         val item = adapter.items[position].clone()
         viewModel.onItemDismiss(item.clone())
 
-        Snackbar.make(asdasd, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
+        Snackbar.make(root_coordinator, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
                 .addCallback(SnackBarCallback(item))
                 .show()

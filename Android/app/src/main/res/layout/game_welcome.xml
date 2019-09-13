@@ -17,15 +17,15 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="68dp">
+            android:paddingBottom="@dimen/space_xgiant">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/welcome_image"
-                android:layout_width="220dp"
+                android:layout_width="@dimen/welcome_image_view_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/space_medium"
                 app:actualImageScaleType="fitCenter"
                 app:viewAspectRatio="1" />
 
@@ -34,10 +34,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/half_margin"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
-                android:textSize="24sp"
+                android:layout_marginTop="@dimen/space_xsmall"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
                 tools:text="Хочешь смешную историю? Как-то дельфинчик из нашей школы забыл портфель дома! Теперь все зовут его Забывалкиным" />
         </LinearLayout>
     </ScrollView>
@@ -47,10 +47,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/space_medium"
+        android:layout_marginEnd="@dimen/space_medium"
+        android:layout_marginBottom="@dimen/space_medium"
         android:text="@string/start_game_button_text"
-        android:textSize="16sp" />
+        android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
 
 </FrameLayout>

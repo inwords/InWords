@@ -15,7 +15,6 @@ import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardWrapper
 import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardsRecyclerAdapter
-import ru.inwords.inwords.presentation.viewScenario.home.recycler.applyDiffUtil
 
 
 class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFactory>() {
@@ -34,23 +33,15 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
 
         setupRecycler()
         subscribeRecycler().disposeOnViewDestroyed()
-
-        //BottomNavigationView navigation = getActivity().findViewById(R.id.navigation);
-        //viewModel.navigationItemSelectionHandler(RxBottomNavigationView.itemSelections(navigation));
-
-//        cardsGameView.cardsData = CardsData(listOf(
-//                WordTranslation("Home", "Дом"),
-//                WordTranslation("Car", "Машина")
-//        ))
     }
 
     private fun subscribeListener(): Disposable {
         return onItemClickListener.subscribe {
             when (it) {
-                is CardWrapper.CreateAccountMarker -> navController.navigate(R.id.action_mainFragment_to_loginFragment)
+                is CardWrapper.CreateAccountMarker -> navController.navigate(HomeFragmentDirections.actionMainFragmentToLoginFragment())
                 is CardWrapper.ProfileLoadingMarker -> Unit
-                is CardWrapper.ProfileModel -> navController.navigate(R.id.action_mainFragment_to_profileFragment)
-                is CardWrapper.DictionaryModel -> navController.navigate(R.id.action_mainFragment_to_translationMainFragment)
+                is CardWrapper.ProfileModel -> navController.navigate(HomeFragmentDirections.actionMainFragmentToProfileFragment())
+                is CardWrapper.DictionaryModel -> navController.navigate(HomeFragmentDirections.actionMainFragmentToTranslationMainFragment())
             }
         }
     }
@@ -58,7 +49,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
     private fun setupRecycler() {
         adapter = CardsRecyclerAdapter(layoutInflater, onItemClickListener)
 
-        val dividerItemDecoration = VerticalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.margin_medium))
+        val dividerItemDecoration = VerticalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.space_medium))
 
         cards_recycler.layoutManager = LinearLayoutManager(context)
         cards_recycler.addItemDecoration(dividerItemDecoration)
@@ -67,7 +58,6 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
 
     private fun subscribeRecycler(): Disposable {
         return viewModel.cardWrappers
-                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
                 .subscribe({
                     adapter.accept(it)
@@ -84,7 +74,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                 .observeOn(SchedulersFacade.ui())
                 .subscribe { agreed ->
                     if (!agreed && !isStateSaved) {
-                        navController.navigate(R.id.action_mainFragment_to_policyFragment)
+                        navController.navigate(HomeFragmentDirections.actionMainFragmentToPolicyFragment())
                     }
                 }
     }

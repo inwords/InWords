@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
+import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_game_level.*
 import kotlinx.android.synthetic.main.game_card_front.view.*
 import ru.inwords.flipview.FlipView
@@ -26,12 +27,12 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override val layout = R.layout.fragment_game_level
     override val classType = GameLevelViewModel::class.java
 
+    private val args by navArgs<GameLevelFragmentArgs>()
+
     //region arguments
     private lateinit var gameLevelInfo: GameLevelInfo
     private var gameId: Int = INVALID_ID
     //endregion arguments
-
-    private var gameEndBottomSheetFragment: GameEndBottomSheet? = null
 
     private val stateMap = HashMap<String, Boolean>()
     private var openedCard: FlipView? = null
@@ -41,17 +42,16 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        gameLevelInfo = savedInstanceState?.getSerializable(GAME_LEVEL_INFO) as? GameLevelInfo
-                ?: arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
+        gameLevelInfo = savedInstanceState?.getParcelable(GAME_LEVEL_INFO)
+                ?: args.gameLevelInfo
 
-        gameId = savedInstanceState?.getInt(GAME_ID)
-                ?: arguments?.getInt(GAME_ID) ?: INVALID_ID
+        gameId = savedInstanceState?.getInt(GAME_ID) ?: args.gameId
 
         viewModel.onGameLevelSelected(gameId, gameLevelInfo)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
+        outState.putParcelable(GAME_LEVEL_INFO, gameLevelInfo)
         outState.putInt(GAME_ID, gameId)
         super.onSaveInstanceState(outState)
     }
@@ -59,18 +59,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.navigationStream().subscribe {
-            gameEndBottomSheetFragment?.dismiss()
-
-            when (it) {
-                FromGameEndEventsEnum.HOME -> navController.navigate(R.id.action_gameLevelFragment_popUpTo_mainFragment)
-                FromGameEndEventsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
-                else -> Unit
-            }
-        }.disposeOnViewDestroyed()
-
-        viewModel
-                .cardsStream()
+        viewModel.cardsStream()
                 .observeOn(SchedulersFacade.ui())
                 .subscribe(::render) { Log.e(javaClass.simpleName, it.message.orEmpty()) }
                 .disposeOnViewDestroyed()
@@ -148,15 +137,11 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     }
 
     private fun showGameEndDialog() {
-        gameEndBottomSheetFragment = GameEndBottomSheet.instance(
+        navController.navigate(GameLevelFragmentDirections.actionGameLevelFragmentToGameEndBottomSheet(
                 gameLevelInfo.levelId,
                 cardOpenClicksCount,
                 stateMap.size
-        )
-                .also {
-                    androidInjector().inject(it)
-                    it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName)
-                }
+        ))
     }
 
     private inner class CardClickListener(private val cardsData: CardsData) : View.OnClickListener {

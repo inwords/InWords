@@ -8,32 +8,37 @@ import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteract
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardWrapper
+import ru.inwords.inwords.presentation.viewScenario.home.recycler.applyDiffUtil
 
 class HomeViewModel internal constructor(
-        translationWordsInteractor: TranslationWordsInteractor,
-        profileInteractor: ProfileInteractor,
+        private val translationWordsInteractor: TranslationWordsInteractor,
+        private val profileInteractor: ProfileInteractor,
         private val integrationInteractor: IntegrationInteractor) : BasicViewModel() {
 
-    private val profileData: Observable<CardWrapper> = profileInteractor.getAuthorisedUser()
-            .startWith(Resource.Loading())
-            .map {
-                when (it) {
-                    is Resource.Success -> CardWrapper.ProfileModel(it.data)
-                    is Resource.Loading -> CardWrapper.ProfileLoadingMarker
-                    is Resource.Error -> CardWrapper.CreateAccountMarker
+    private val profileData: Observable<CardWrapper>
+        get() = profileInteractor.getAuthorisedUser()
+                .startWith(Resource.Loading())
+                .map {
+                    when (it) {
+                        is Resource.Success -> CardWrapper.ProfileModel(it.data)
+                        is Resource.Loading -> CardWrapper.ProfileLoadingMarker
+                        is Resource.Error -> CardWrapper.CreateAccountMarker
+                    }
                 }
-            }
 
-    private val wordsCount: Observable<CardWrapper.DictionaryModel> = translationWordsInteractor.getAllWords()
-            .map { it.size }
-            .map { CardWrapper.DictionaryModel(true, it) }
-            .onErrorReturnItem(CardWrapper.DictionaryModel(false))
+    private val wordsCount: Observable<CardWrapper.DictionaryModel>
+        get() = translationWordsInteractor.getAllWords()
+                .map { it.size }
+                .map { CardWrapper.DictionaryModel(true, it) }
+                .onErrorReturnItem(CardWrapper.DictionaryModel(false))
 
-    val cardWrappers = Observable.combineLatest(
-            profileData,
-            wordsCount,
-            BiFunction { profile: CardWrapper, dictionary: CardWrapper -> listOf(profile, dictionary) }
-    )
+    val cardWrappers
+        get() = Observable.combineLatest(
+                profileData,
+                wordsCount,
+                BiFunction { profile: CardWrapper, dictionary: CardWrapper -> listOf(profile, dictionary) }
+        )
+                .applyDiffUtil()
 
     fun getPolicyAgreementState() = integrationInteractor.getPolicyAgreementState()
 }

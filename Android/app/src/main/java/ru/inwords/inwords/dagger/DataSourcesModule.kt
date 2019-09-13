@@ -12,10 +12,14 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.inwords.inwords.BuildConfig
+import ru.inwords.inwords.dagger.annotations.AuthorisedZone
 import ru.inwords.inwords.dagger.annotations.Common
+import ru.inwords.inwords.dagger.annotations.UnauthorisedZone
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
-import ru.inwords.inwords.data.source.webService.BasicAuthenticator
-import ru.inwords.inwords.data.source.webService.WebApiService
+import ru.inwords.inwords.data.source.remote.ApiServiceAuthorised
+import ru.inwords.inwords.data.source.remote.ApiServiceUnauthorised
+import ru.inwords.inwords.data.source.remote.BasicAuthenticator
+import ru.inwords.inwords.data.source.remote.TokenInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -31,18 +35,23 @@ class DataSourcesModule {
     @Singleton
     fun database(context: Context): AppRoomDatabase {
         return Room.databaseBuilder(context, AppRoomDatabase::class.java, "cache")
+                .fallbackToDestructiveMigration()
                 .build()
     }
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): WebApiService {
-        return retrofit.create(WebApiService::class.java)
+    fun provideApiServiceUnauthorised(@UnauthorisedZone client: OkHttpClient, gson: Gson): ApiServiceUnauthorised {
+        return provideRetrofit1(client, gson).create(ApiServiceUnauthorised::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
+    fun provideApiServiceAuthorised(@AuthorisedZone client: OkHttpClient, gson: Gson): ApiServiceAuthorised {
+        return provideRetrofit1(client, gson).create(ApiServiceAuthorised::class.java)
+    }
+
+    private fun provideRetrofit1(@AuthorisedZone client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -53,18 +62,32 @@ class DataSourcesModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(authenticator: BasicAuthenticator): OkHttpClient {
+    @UnauthorisedZone
+    fun provideOkHttpClientUnauthorised(): OkHttpClient {
+        return provideOkHttpBuilder()
+                .build()
+    }
+
+    @Provides
+    @Singleton
+    @AuthorisedZone
+    fun provideOkHttpClient(authenticator: BasicAuthenticator,
+                            tokenInterceptor: TokenInterceptor): OkHttpClient {
+        return provideOkHttpBuilder()
+                .addInterceptor(tokenInterceptor)
+                .authenticator(authenticator)
+                .build()
+    }
+
+    private fun provideOkHttpBuilder(): OkHttpClient.Builder {
         return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG)
                     HttpLoggingInterceptor.Level.BODY
                 else
                     HttpLoggingInterceptor.Level.NONE))
-                .authenticator(authenticator)
-//                .addInterceptor(headersInterceptor)
                 .connectTimeout(40, TimeUnit.SECONDS)
                 .readTimeout(40, TimeUnit.SECONDS)
                 .writeTimeout(40, TimeUnit.SECONDS)
-                .build()
     }
 
     @Provides

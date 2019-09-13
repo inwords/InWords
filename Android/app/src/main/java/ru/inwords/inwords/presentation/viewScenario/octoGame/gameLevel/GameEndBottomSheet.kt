@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.game_end.*
 import ru.inwords.inwords.R
@@ -18,13 +21,12 @@ import ru.inwords.inwords.data.dto.game.LevelScore
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.domain.util.INVALID_ID
 import ru.inwords.inwords.domain.util.validId
-import ru.inwords.inwords.presentation.CARDS_COUNT
-import ru.inwords.inwords.presentation.CARD_OPEN_CLICKS_COUNT
-import ru.inwords.inwords.presentation.LEVEL_ID
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import javax.inject.Inject
 
-class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
+class GameEndBottomSheet : BottomSheetDialogFragment() {
+    private val args by navArgs<GameEndBottomSheetArgs>()
+
     private val compositeDisposable = CompositeDisposable()
     private var levelId: Int = INVALID_ID
 
@@ -35,14 +37,18 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
     internal lateinit var modelFactory: OctoGameViewModelFactory
     private lateinit var viewModel: GameLevelViewModel
 
+    private lateinit var navController: NavController
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel = ViewModelProviders.of(parentFragment!!, modelFactory).get(GameLevelViewModel::class.java)
+        AndroidSupportInjection.inject(this)
 
-        arguments?.getInt(LEVEL_ID)?.also { levelId = it }
+        val realParentFragment = parentFragment!!.childFragmentManager.fragments.findLast { it is GameLevelFragment }!!
+        viewModel = ViewModelProviders.of(realParentFragment, modelFactory).get(GameLevelViewModel::class.java)
 
-        arguments?.getInt(CARD_OPEN_CLICKS_COUNT)?.also { cardOpenClicksCount = it }
-        arguments?.getInt(CARDS_COUNT)?.also { cardsCount = it }
+        levelId = args.levelId
+        cardOpenClicksCount = args.cardOpenClicksCount
+        cardsCount = args.cardOpenClicksCount
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -52,6 +58,7 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
 
         compositeDisposable.add(viewModel.getScore(cardOpenClicksCount, cardsCount)
                 .toObservable()
@@ -66,6 +73,14 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
                         is Resource.Error -> showError()
                     }
                 })
+
+        compositeDisposable.add(viewModel.navigationStream().subscribe {
+            when (it) {
+                FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToMainFragment())
+                FromGameEndEventsEnum.BACK -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
+                else -> navController.navigate(GameEndBottomSheetDirections.actionPop())
+            }
+        })
 
         setupView(viewModel.getNextLevelInfo() is Resource.Success)
     }
@@ -110,15 +125,6 @@ class GameEndBottomSheet private constructor() : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun instance(levelId: Int, cardOpenClicksCount: Int, cardsCount: Int): GameEndBottomSheet {
-            return GameEndBottomSheet().apply {
-                arguments = bundleOf(
-                        LEVEL_ID to levelId,
-                        CARD_OPEN_CLICKS_COUNT to cardOpenClicksCount,
-                        CARDS_COUNT to cardsCount)
-            }
-        }
-
         const val TAG = "GameEndBottomSheet"
     }
 }

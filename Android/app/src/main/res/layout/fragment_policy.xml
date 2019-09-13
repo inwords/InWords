@@ -10,7 +10,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero"
         app:layout_constraintBottom_toTopOf="@id/divider"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -19,27 +19,28 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="@dimen/margin_medium"
-            android:paddingBottom="@dimen/half_margin">
+            android:paddingTop="@dimen/space_medium"
+            android:paddingBottom="@dimen/space_xsmall">
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
-                android:text="@string/policy_header" />
+                android:paddingStart="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:text="@string/policy_header"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
 
             <ImageView
                 android:id="@+id/avatar_image"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_width="@dimen/policy_avatar_image_size"
+                android:layout_height="@dimen/policy_avatar_image_size"
+                android:layout_marginTop="@dimen/space_medium"
+                android:layout_marginBottom="@dimen/space_medium"
                 android:importantForAccessibility="no"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
                 android:src="@drawable/octopus_clothes" />
 
             <TextView
@@ -47,16 +48,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
-                android:text="@string/policy_explanation" />
+                android:paddingStart="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:text="@string/policy_explanation"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
         </LinearLayout>
     </ScrollView>
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/divider_height"
         android:background="@color/colorSecondary"
         app:layout_constraintBottom_toTopOf="@id/policy_text_view" />
 
@@ -64,12 +66,13 @@
         android:id="@+id/policy_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_marginBottom="@dimen/space_xsmall"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:paddingTop="@dimen/half_margin"
+        android:paddingTop="@dimen/space_xsmall"
         android:text="@string/policy_privacy_agreement"
+        android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
         app:layout_constraintBottom_toTopOf="@id/start_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -78,10 +81,11 @@
         android:id="@+id/start_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:text="Перейти к приложению"
+        android:layout_marginStart="@dimen/space_medium"
+        android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
+        android:layout_marginEnd="@dimen/space_medium"
+        android:layout_marginBottom="@dimen/space_medium"
+        android:text="@string/policy_agree_button"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

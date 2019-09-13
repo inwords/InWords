@@ -39,7 +39,7 @@ abstract class SigningBaseFragment<ViewModelType : AuthorisationViewModel, ViewM
         buttonTrySign.setMode(ActionProcessButton.Mode.ENDLESS)
 
         viewModel.navigateTo.observe(this, Observer { event ->
-            if (event?.contentIfNotHandled != null) {
+            event.contentIfNotHandled?.also {
                 navigateAction()
             }
         })
@@ -53,16 +53,20 @@ abstract class SigningBaseFragment<ViewModelType : AuthorisationViewModel, ViewM
     protected abstract fun navigateOnSuccess()
 
     protected fun renderLoadingState() {
+        buttonTrySign.isEnabled = false
+
         buttonTrySign.progress = 50
     }
 
     private fun renderSuccessState() {
-        buttonTrySign.progress = 100
+        buttonTrySign.isEnabled = false
 
-        navigateOnSuccess()
+        buttonTrySign.progress = 100
     }
 
     private fun renderErrorState(throwable: Throwable) {
+        buttonTrySign.isEnabled = true
+
         buttonTrySign.errorText = "Попробуйте ещё раз\nОшибка: " + throwable.localizedMessage
         buttonTrySign.progress = -1
     }
@@ -75,14 +79,20 @@ abstract class SigningBaseFragment<ViewModelType : AuthorisationViewModel, ViewM
 
         @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
         when (authorisationViewState.status) {
-            AuthorisationViewState.Status.LOADING -> renderLoadingState()
+            AuthorisationViewState.Status.LOADING -> {
+                renderLoadingState()
+            }
 
-            AuthorisationViewState.Status.SUCCESS -> renderSuccessState()
+            AuthorisationViewState.Status.SUCCESS -> {
+                renderSuccessState()
+                if (viewStateEvent.handle()) {
+                    navigateOnSuccess()
+                }
+            }
 
             AuthorisationViewState.Status.ERROR -> {
-                val viewState = viewStateEvent.contentIfNotHandled
-                if (viewState?.throwable != null) {
-                    renderErrorState(viewState.throwable)
+                viewStateEvent.peekContent().throwable?.also {
+                    renderErrorState(it)
                 }
             }
 

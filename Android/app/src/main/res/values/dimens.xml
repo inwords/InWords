@@ -1,21 +1,33 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="margin_medium">16dp</dimen>
-
-    <dimen name="fab_margin">16dp</dimen>
-
-    <dimen name="margin_extra_large">48dp</dimen>
+    <dimen name="fab_margin">@dimen/space_medium</dimen>
 
     <dimen name="corner_radius">3dp</dimen>
     <dimen name="layer_padding">3dp</dimen>
     <dimen name="card_corner_radius">4dp</dimen>
 
-    <dimen name="half_margin">8dp</dimen>
-    <dimen name="quarter_margin">4dp</dimen>
     <dimen name="text_24sp_box">28dp</dimen>
     <dimen name="text_16sp_box">20dp</dimen>
-    <dimen name="medium_card_elevation">4dp</dimen>
 
-    <dimen name="icon_size_small">24dp</dimen>
+    <dimen name="default_card_height">80dp</dimen>
+    <dimen name="large_logo_height">80dp</dimen>
+
+    <dimen name="top_progress_height">3dp</dimen>
+
+    <dimen name="policy_avatar_image_size">200dp</dimen>
+
+    <dimen name="translation_main_recycler_padding">88dp</dimen>
+
+    <dimen name="game_card_size">100dp</dimen>
+
+    <dimen name="game_end_flow_button_size">64dp</dimen>
+
+    <dimen name="welcome_image_view_width">220dp</dimen>
+
+    <dimen name="profile_avatar_size">128dp</dimen>
+    <dimen name="profile_header_height">208dp</dimen>
+    <dimen name="profile_edit_text_height">64dp</dimen>
+    <dimen name="profile_avatar_border_width">3dp</dimen>
+    <dimen name="profile_rounded_shape_height">16dp</dimen>
 
 </resources>

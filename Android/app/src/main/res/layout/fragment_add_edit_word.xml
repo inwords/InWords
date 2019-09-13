@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,22 +9,22 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingTop="56dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="54dp">
+        android:paddingLeft="@dimen/space_xmedium_large"
+        android:paddingTop="@dimen/space_xxxxgiant"
+        android:paddingRight="@dimen/space_xmedium_large"
+        android:paddingBottom="@dimen/space_xxxxgiant">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="@dimen/large_logo_height"
             android:contentDescription="@string/inwords_logotype"
             android:src="@drawable/ic_new_word" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp">
+            android:layout_marginTop="@dimen/space_large">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextNativeWord"
@@ -32,14 +33,15 @@
                 android:hint="@string/word_addition_word"
                 android:inputType="textCapSentences"
                 android:lines="1"
-                android:maxLength="64" />
+                android:maxLength="64"
+                android:textAppearance="@style/TextAppearance.Inwords.Body1.Default" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="@dimen/space_medium">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextForeignWord"
@@ -48,7 +50,9 @@
                 android:hint="@string/word_addition_translation"
                 android:inputType="textCapSentences"
                 android:lines="1"
-                android:maxLength="64" />
+                android:maxLength="64"
+                android:textAppearance="@style/TextAppearance.Inwords.Body1.Default"
+                tools:text="Перевод" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,10 +60,10 @@
             android:id="@+id/buttonConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/space_large"
             android:backgroundTint="@color/colorPrimary"
-            android:text="@string/word_addition_enter"
-            android:textColor="@android:color/primary_text_dark" />
+            android:text="@string/button_add_text"
+            android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
 
     </LinearLayout>
 

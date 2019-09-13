@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">InWords</string>
-    <string name="title_home">Профиль</string>
+    <string name="title_home">Главная</string>
     <string name="title_dictionary">Словарь</string>
-    <string name="title_notifications">OctoGame</string>
+    <string name="title_game">OctoGame</string>
+    <string name="title_profile">Профиль</string>
 
     <string name="sign_success">Успешно</string>
 
@@ -44,7 +45,8 @@
     <!-- word addition start -->
     <string name="word_addition_word">Слово или фраза на родном языке</string>
     <string name="word_addition_translation">Перевод</string>
-    <string name="word_addition_enter">Добавить</string>
+    <string name="button_add_text">Добавить</string>
+    <string name="button_edit_text">Изменить</string>
     <string name="sign_in_in_process">Авторизация</string>
     <string name="sign_up_in_process">Создание аккаунта</string>
     <string name="inwords_logotype">InWords логотип</string>
@@ -82,6 +84,8 @@
     <string name="change_account">Сменить аккаунт</string>
     <string name="settings">Настройки</string>
     <string name="policy_privacy_agreement">Используя приложение, вы соглашаетесь с  \nполитикой конфиденциальности</string>
+    <string name="button_apply_text">Подтвердить</string>
+    <string name="nick_text">Ник</string>
     <!-- profile end -->
 
     <!-- policy start -->
@@ -89,6 +93,7 @@
     <string name="policy_explanation">Так как мы используем сервисы Google, мы должны уведомить Вас о том, что они собирают некоторую информацию о Вас (например, идентификатор для персонализированной рекламы)\n\n
         В свою очередь, команда InWords обрабатывает минимальное количество информации, а именно Ваши:\n\nEmail, ник, изображение профиля\n\n
         Спасибо, что доверяете InWords!</string>
+    <string name="policy_agree_button">Перейти к приложению</string>
     <!-- policy end -->
 
     <!-- unsorted start -->

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/icon_color_selector" />
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/space_xxxsmall"
+        android:drawable="@drawable/ic_dictionary"
+        android:left="@dimen/space_xxxsmall"
+        android:right="@dimen/space_xxxsmall"
+        android:top="@dimen/space_xxxsmall" />
+</layer-list>
