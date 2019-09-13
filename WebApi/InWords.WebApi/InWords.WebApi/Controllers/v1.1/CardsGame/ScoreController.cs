@@ -5,6 +5,7 @@ using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Services.CardGame;
 using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
     [Produces("application/json")]
     public class ScoreController : ControllerBase
     {
-        private readonly IGameScoreService gameScoreService;
+        private readonly GameResultService gameResultService;
 
-        public ScoreController(GameScoreService gameScoreService)
+        public ScoreController(GameResultService gameResultService)
         {
-            this.gameScoreService = gameScoreService;
+            this.gameResultService = gameResultService;
         }
 
         /// <summary>
@@ -37,13 +38,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         {
             int authorizedId = User.GetUserId();
 
-            // calculate score
-            LevelScore answer = gameScoreService.GetLevelScore(cardGameScore.LevelResult);
-
+            LevelScore answer;
             // save score to user level
             try
             {
-                await gameScoreService.UpdateUserScore(authorizedId, answer);
+                answer = await gameResultService.SetResults(authorizedId, cardGameScore);
             }
             catch (ArgumentNullException e)
             {

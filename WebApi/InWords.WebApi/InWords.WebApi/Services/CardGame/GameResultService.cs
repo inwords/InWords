@@ -2,6 +2,7 @@
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
 using InWords.WebApi.Services.UserWordPairService;
+using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,12 @@ namespace InWords.WebApi.Services.CardGame
             this.knowledgeUpdateService = knowledgeUpdateService;
         }
 
+        /// <summary>
+        /// This is to get score by level and update information of memorising user word pairs
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="cardGameScore"></param>
+        /// <returns></returns>
         public async Task<LevelScore> SetResults(int userId, CardGameScore cardGameScore)
         {
             // set sore;
@@ -28,9 +35,9 @@ namespace InWords.WebApi.Services.CardGame
             // save score to storage
             await gameScoreService.UpdateUserScore(userId, levelScore);
             // Calculate word metric;
-            Dictionary<int,KnowledgeQualitys> keyValuePairs = 
+            IKnowledgeQualifier knowledgeQualifier = new CardGameKnowledge(cardGameScore);
             // update wordas pairs license in store
-            knowledgeUpdateService.ByDicrinary()
+            await knowledgeUpdateService.UpdateKnowledge(knowledgeQualifier);
             return levelScore;
         }
     }

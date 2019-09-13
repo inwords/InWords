@@ -8,6 +8,6 @@ namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {
     interface IUserWordPairService
     {
-        Task ByDicrinary(Dictionary<int, KnowledgeQualitys> PairKnowledges);
+        Task UpdateKnowledge(IKnowledgeQualifier knowledgeQualifier);
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {
-    interface IKnowledgeQualifier
+    public interface IKnowledgeQualifier
     {
-        KnowledgeQualitys Qualify();
+        Dictionary<int, KnowledgeQualitys> Qualify();
     }
 }
