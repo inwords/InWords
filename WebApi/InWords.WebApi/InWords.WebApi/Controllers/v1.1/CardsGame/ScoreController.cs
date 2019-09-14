@@ -4,6 +4,7 @@ using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.CardGame;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1._1.CardsGame
@@ -26,10 +27,14 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         ///     Use this to post score after game
         /// </summary>
         /// <deprecated>true</deprecated>
-        /// <param name="levelResult"></param>
+        /// <param name="cardGameScore"></param>
         /// <returns>Quantity of stars</returns>
+        /// <response code="200">OK, scored</response>
+        /// <response code="400">Null on request</response>
         [Route("Score")]
         [HttpPost]
+        [ProducesResponseType(typeof(LevelScore), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ArgumentNullException), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostScore(CardGameScore cardGameScore)
         {
             int authorizedId = User.GetUserId();
