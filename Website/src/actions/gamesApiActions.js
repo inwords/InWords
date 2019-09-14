@@ -52,6 +52,7 @@ export function receiveGameLevel(levelId) {
 
 export function saveLevelResult(levelResult, actionOnSuccess) {
   return apiAction({
+    apiVersion: 'v1.1',
     endpoint: 'game/score',
     method: 'POST',
     data: JSON.stringify(levelResult),
