@@ -10,15 +10,15 @@ import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
-import withReceivedGameInfo from './withReceivedGameInfo';
+import withReceivedTrainingInfo from './withReceivedTrainingInfo';
 import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
 
-function GameLevels({ gameId, levelsInfo, match }) {
+function TrainingLevels({ gameId, levelsInfo, match }) {
   return (
     <Container component="div" maxWidth="lg">
       <BreadcrumbNavigation>
-        <Link component={RouterLink} to="/games" color="inherit">
-          Игры
+        <Link component={RouterLink} to="/trainingCategories" color="inherit">
+          Категории
         </Link>
         <Typography color="textPrimary">Уровни</Typography>
       </BreadcrumbNavigation>
@@ -65,7 +65,7 @@ function GameLevels({ gameId, levelsInfo, match }) {
   );
 }
 
-GameLevels.propTypes = {
+TrainingLevels.propTypes = {
   gameId: PropTypes.number.isRequired,
   levelsInfo: PropTypes.arrayOf(
     PropTypes.exact({
@@ -78,4 +78,4 @@ GameLevels.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default withReceivedGameInfo(GameLevels);
+export default withReceivedTrainingInfo(TrainingLevels);

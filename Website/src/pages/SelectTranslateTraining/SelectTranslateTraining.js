@@ -10,7 +10,7 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
-import GameResult from 'components/GameResult';
+import TrainingResult from 'components/TrainingResult';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Game2({
+function SelectTranslateTraining({
   currentWordSet,
   rightSelectedWordId,
   wrongSelectedWordId,
@@ -120,11 +120,11 @@ function Game2({
       </Fade>
     );
   } else {
-    return <GameResult {...rest} />;
+    return <TrainingResult {...rest} />;
   }
 }
 
-Game2.propTypes = {
+SelectTranslateTraining.propTypes = {
   currentWordSet: PropTypes.shape({
     primaryWordInfo: PropTypes.shape({
       word: PropTypes.string.isRequired
@@ -149,4 +149,4 @@ Game2.propTypes = {
   handleReplay: PropTypes.func
 };
 
-export default Game2;
+export default SelectTranslateTraining;

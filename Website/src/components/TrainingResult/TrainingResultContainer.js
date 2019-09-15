@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import GameResult from './GameResult';
+import TrainingResult from './TrainingResult';
 
-function GameResultContainer({ history, match, ...rest }) {
+function TrainingResultContainer({ history, match, ...rest }) {
   const { levelsInfo } = useSelector(store => store.games.gameInfo);
 
   const handleRedirectionToLevels = () => {
     const parsedGameId = parseInt(match.params.gameId);
-    history.push(`/games/${parsedGameId}`);
+    history.push(`/trainingCategories/${parsedGameId}`);
   };
 
   const handleRedirectionToNextLevel = () => {
@@ -23,7 +23,7 @@ function GameResultContainer({ history, match, ...rest }) {
       if (levelsInfo[nextLevelIndex]) {
         const parsedGameId = parseInt(match.params.gameId);
         history.push(
-          `/games/${parsedGameId}/${levelsInfo[nextLevelIndex].levelId}`
+          `/trainingCategories/${parsedGameId}/${levelsInfo[nextLevelIndex].levelId}`
         );
       } else {
         handleRedirectionToLevels();
@@ -34,7 +34,7 @@ function GameResultContainer({ history, match, ...rest }) {
   };
 
   return (
-    <GameResult
+    <TrainingResult
       handleRedirectionToLevels={handleRedirectionToLevels}
       handleRedirectionToNextLevel={handleRedirectionToNextLevel}
       {...rest}
@@ -42,11 +42,11 @@ function GameResultContainer({ history, match, ...rest }) {
   );
 }
 
-GameResultContainer.propTypes = {
+TrainingResultContainer.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   score: PropTypes.number,
   handleReplay: PropTypes.func
 };
 
-export default withRouter(GameResultContainer);
+export default withRouter(TrainingResultContainer);

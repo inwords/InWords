@@ -11,12 +11,12 @@ function GameWrapper({ match }) {
   return (
     <Container component="div" maxWidth="lg">
       <BreadcrumbNavigation>
-        <Link component={RouterLink} to="/games" color="inherit">
-          Игры
+        <Link component={RouterLink} to="/trainingCategories" color="inherit">
+          Категории
         </Link>
         <Link
           component={RouterLink}
-          to={`/games/${match.params.gameId}`}
+          to={`/trainingCategories/${match.params.gameId}`}
           color="inherit"
         >
           Уровни

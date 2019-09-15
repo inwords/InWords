@@ -13,10 +13,10 @@ const SignUp = lazy(() => import('./pages/SignUp'));
 const Profile = lazy(() => import('./pages/Profile'));
 const ProfileSettings = lazy(() => import('./pages/ProfileSettings'));
 const Wordlist = lazy(() => import('./pages/Wordlist'));
-const Games = lazy(() => import('./pages/Games'));
-const GameLevels = lazy(() => import('./pages/GameLevels'));
+const TrainingCategories = lazy(() => import('./pages/TrainingCategories'));
+const TrainingLevels = lazy(() => import('./pages/TrainingLevels'));
 const Game = lazy(() => import('./pages/Game'));
-const Game2 = lazy(() => import('./pages/Game2'));
+const SelectTranslateTraining = lazy(() => import('./pages/SelectTranslateTraining'));
 
 const history = createBrowserHistory();
 
@@ -62,10 +62,10 @@ function App() {
               <Route path="/profile/:userId" component={Profile} />
               <Route path="/profileSettings" component={ProfileSettings} />
               <Route path="/wordlist" component={Wordlist} />
-              <Route exact path="/games" component={Games} />
-              <Route exact path="/games/:gameId" component={GameLevels} />
-              <Route path="/games/:gameId/:levelId" component={Game} />
-              <Route path="/games2/:gameId/:levelId" component={Game2} />
+              <Route exact path="/trainingCategories" component={TrainingCategories} />
+              <Route exact path="/trainingCategories/:gameId" component={TrainingLevels} />
+              <Route path="/trainingCategories/:gameId/:levelId" component={Game} />
+              <Route path="/trainingCategories2/:gameId/:levelId" component={SelectTranslateTraining} />
             </Switch>
           </Suspense>
         </ErrorBoundary>

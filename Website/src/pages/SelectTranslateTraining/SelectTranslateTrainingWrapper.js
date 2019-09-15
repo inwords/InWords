@@ -5,31 +5,31 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
-import Game2 from './Game2Container';
+import SelectTranslateTraining from './SelectTranslateTrainingContainer';
 
-function Game2Wrapper({ match }) {
+function SelectTranslateTrainingWrapper({ match }) {
   return (
     <Container component="div" maxWidth="lg">
       <BreadcrumbNavigation>
-        <Link component={RouterLink} to="/games" color="inherit">
-          Игры
+        <Link component={RouterLink} to="/trainingCategories" color="inherit">
+          Категории
         </Link>
         <Link
           component={RouterLink}
-          to={`/games/${match.params.gameId}`}
+          to={`/trainingCategories/${match.params.gameId}`}
           color="inherit"
         >
           Уровни
         </Link>
         <Typography color="textPrimary">Уровень</Typography>
       </BreadcrumbNavigation>
-      <Game2 match={match} />
+      <SelectTranslateTraining match={match} />
     </Container>
   );
 }
 
-Game2Wrapper.propTypes = {
+SelectTranslateTrainingWrapper.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default Game2Wrapper;
+export default SelectTranslateTrainingWrapper;

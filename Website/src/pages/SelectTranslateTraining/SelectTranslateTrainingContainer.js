@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
-import Game2 from './Game2';
+import SelectTranslateTraining from './SelectTranslateTraining';
 
-function Game2Container({ levelId, wordTranslations }) {
+function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
   const [currentWordSet, setCurrentWordSet] = useState({
@@ -122,7 +122,7 @@ function Game2Container({ levelId, wordTranslations }) {
   };
 
   return (
-    <Game2
+    <SelectTranslateTraining
       currentWordSet={currentWordSet}
       rightSelectedWordId={rightSelectedWordId}
       wrongSelectedWordId={wrongSelectedWordId}
@@ -137,7 +137,7 @@ function Game2Container({ levelId, wordTranslations }) {
   );
 }
 
-Game2Container.propTypes = {
+SelectTranslateTrainingContainer.propTypes = {
   levelId: PropTypes.number.isRequired,
   wordTranslations: PropTypes.arrayOf(
     PropTypes.shape({
@@ -148,4 +148,4 @@ Game2Container.propTypes = {
   ).isRequired
 };
 
-export default withReceivedGameLevel(Game2Container);
+export default withReceivedGameLevel(SelectTranslateTrainingContainer);

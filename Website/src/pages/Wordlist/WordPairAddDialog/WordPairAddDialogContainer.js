@@ -81,12 +81,6 @@ function WordPairAddDialogContainer({ ...rest }) {
     ).translation;
 
     if (!currentWordNative.includes(selectedTranslation)) {
-      console.log({
-        ...inputs,
-        wordNative: currentWordNative
-          ? `${currentWordNative}; ${selectedTranslation}`
-          : selectedTranslation
-      })
       setInputs({
         ...inputs,
         wordNative: currentWordNative

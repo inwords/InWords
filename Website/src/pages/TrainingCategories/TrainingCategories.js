@@ -10,7 +10,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-function Games({ gamesInfo, match }) {
+function TrainingCategories({ gamesInfo, match }) {
   return (
     <Container component="div" maxWidth="lg">
       <Grid container spacing={3}>
@@ -44,7 +44,7 @@ function Games({ gamesInfo, match }) {
   );
 }
 
-Games.propTypes = {
+TrainingCategories.propTypes = {
   gamesInfo: PropTypes.arrayOf(
     PropTypes.shape({
       gameId: PropTypes.number.isRequired,
@@ -56,4 +56,4 @@ Games.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default Games;
+export default TrainingCategories;

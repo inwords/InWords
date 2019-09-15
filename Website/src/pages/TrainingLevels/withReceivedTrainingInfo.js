@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGameInfo } from 'actions/gamesApiActions';
 
-function withReceivedGameInfo(WrappedComponent) {
-  function WithReceivedGameInfo({ match, ...rest }) {
+function withReceivedTrainingInfo(WrappedComponent) {
+  function WithReceivedTrainingInfo({ match, ...rest }) {
     const { gameId, levelsInfo } = useSelector(store => store.games.gameInfo);
 
     const dispatch = useDispatch();
@@ -31,13 +31,13 @@ function withReceivedGameInfo(WrappedComponent) {
 
   const wrappedComponentName =
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
-  WithReceivedGameInfo.displayName = `withReceivedGameInfo(${wrappedComponentName})`;
+  WithReceivedTrainingInfo.displayName = `withReceivedTrainingInfo(${wrappedComponentName})`;
 
-  WithReceivedGameInfo.propTypes = {
+  WithReceivedTrainingInfo.propTypes = {
     match: PropTypes.object.isRequired
   };
 
-  return WithReceivedGameInfo;
+  return WithReceivedTrainingInfo;
 }
 
-export default withReceivedGameInfo;
+export default withReceivedTrainingInfo;
