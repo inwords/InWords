@@ -2,7 +2,7 @@
 name: Android feature request
 about: Suggest an idea for this project
 title: "[ANDFEA]"
-labels: ''
+labels: enhancement
 assignees: rugged-bl
 
 ---
