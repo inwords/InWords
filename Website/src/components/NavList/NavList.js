@@ -21,7 +21,7 @@ const linksWhenAuthorized = [
   },
   {
     to: '/games',
-    text: 'Игры'
+    text: 'Обучение'
   }
 ];
 
