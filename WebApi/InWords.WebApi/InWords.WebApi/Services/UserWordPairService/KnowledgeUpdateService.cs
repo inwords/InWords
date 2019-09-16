@@ -30,7 +30,7 @@ namespace InWords.WebApi.Services.UserWordPairService
         {
             var knowledgeQuality = knowledgeQualifier.Qualify();
             // load all user words
-            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u => knowledgeQuality.ContainsKey(u.UserWordPairId) && u.UserId.Equals(userid));
+            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u => knowledgeQuality.ContainsKey(u.WordPairId) && u.UserId.Equals(userid));
             // calculate knowledge update
             userWordPairs = UpdateLicenseInformation(userWordPairs, knowledgeQuality);
             // update knowledge licence
@@ -41,7 +41,7 @@ namespace InWords.WebApi.Services.UserWordPairService
         {
             foreach (var userWordPair in userWordPairs)
             {
-                KnowledgeQualitys quality = PairKnowledges[userWordPair.UserWordPairId];
+                KnowledgeQualitys quality = PairKnowledges[userWordPair.WordPairId];
                 KnowledgeLicense knowledgeLicense = userWordPair.GetLicense();
                 knowledgeLicense = knowledgeLicenseManager.Update(knowledgeLicense, quality);
                 userWordPair.SetLicense(knowledgeLicense);
