@@ -94,7 +94,6 @@ namespace InWords.WebApi.Controllers.v1
         }
 
         [HttpGet]
-        [AllowAnonymous]
         [Route("ConfirmUserById/{id}")]
         [Authorize(Roles = nameof(RoleType.Admin))]
         public async Task<IActionResult> ConfirmUserById(int id)

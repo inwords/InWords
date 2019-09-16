@@ -1,4 +1,5 @@
-﻿using InWords.Data.Domains;
+﻿using InWords.Abstractions.Interfaces;
+using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories;
 using InWords.WebApi.Services.Email.Models;
@@ -11,7 +12,7 @@ namespace InWords.WebApi.Services.Email
 {
     public class EmailCodeSenderService
     {
-        private const int EMAIL_TIMEOUT = 2; // MINUTES;
+        public const int EMAIL_TIMEOUT = 2; // MINUTES;
         private readonly TemplateSender emailSender = null;
         private readonly EmailVerifierRepository emailVerifierRepository = null;
         //TODO: From tamplate
@@ -32,7 +33,7 @@ namespace InWords.WebApi.Services.Email
 
             if (emailVerifier == null) return 0;
 
-            TimeSpan currentSpan = DateTime.UtcNow - emailVerifier.SentTime - TimeSpan.FromMinutes(EMAIL_TIMEOUT);
+            TimeSpan currentSpan = emailVerifier.SentTime + TimeSpan.FromMinutes(EMAIL_TIMEOUT) - DateTime.UtcNow;
             int seconds = Convert.ToInt32(currentSpan.TotalSeconds);
             return seconds;
         }
