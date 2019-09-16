@@ -4,8 +4,6 @@ using InWords.WebApi.Services.UserWordPairService.Models;
 using InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {
@@ -31,17 +29,16 @@ namespace InWords.WebApi.Services.UserWordPairService
                 knowledgeQuality = KnowledgeQualitys.StillRemember;
             }
             return knowledgeGaranter[knowledgeQuality].Grant(knowledgeLicense);
-
         }
 
         private bool IsEasyButEarlyToRepeat(KnowledgeLicense knowledgeLicense, KnowledgeQualitys knowledgeQuality)
         {
-            return knowledgeQuality.Equals(KnowledgeQualitys.EasyToRemember) && IsGrantingTime(knowledgeLicense);
+            return knowledgeQuality.Equals(KnowledgeQualitys.EasyToRemember) && IsNotGrantingTime(knowledgeLicense);
         }
 
-        private bool IsGrantingTime(KnowledgeLicense knowledgeLicense)
+        private bool IsNotGrantingTime(KnowledgeLicense knowledgeLicense)
         {
-            return (knowledgeLicense.RepeatTime - DateTime.UtcNow).TotalDays < DAYS_GRANTING_TIMESPAN;
+            return knowledgeLicense.RepeatTime > DateTime.UtcNow.AddDays(DAYS_GRANTING_TIMESPAN);
         }
     }
 }
