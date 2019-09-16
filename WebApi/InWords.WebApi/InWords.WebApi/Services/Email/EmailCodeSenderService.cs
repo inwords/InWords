@@ -1,7 +1,6 @@
-﻿using InWords.Abstractions.Interfaces;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
-using InWords.Data.Repositories;
+using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Services.Email.Models;
 using System;
 using System.Collections.Generic;
@@ -14,12 +13,12 @@ namespace InWords.WebApi.Services.Email
     {
         public const int EMAIL_TIMEOUT = 2; // MINUTES;
         private readonly TemplateSender emailSender = null;
-        private readonly EmailVerifierRepository emailVerifierRepository = null;
+        private readonly IEmailVerifierRepository emailVerifierRepository = null;
         //TODO: From tamplate
         private static readonly string EmailSubject = "Пожалуйста, подтвердите свой e-mail";
 
 
-        public EmailCodeSenderService(EmailVerifierRepository emailVerifierRepository, TemplateSender emailSender)
+        public EmailCodeSenderService(IEmailVerifierRepository emailVerifierRepository, TemplateSender emailSender)
         {
             this.emailVerifierRepository = emailVerifierRepository;
             this.emailSender = emailSender;

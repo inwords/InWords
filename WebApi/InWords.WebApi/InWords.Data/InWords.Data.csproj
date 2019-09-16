@@ -16,4 +16,8 @@
     <ProjectReference Include="..\InWords.Data.Common\InWords.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstractions\Repositories\" />
+  </ItemGroup>
+
 </Project>

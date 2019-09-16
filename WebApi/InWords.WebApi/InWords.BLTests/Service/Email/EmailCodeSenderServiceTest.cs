@@ -1,11 +1,9 @@
-﻿using InWords.Abstractions.Interfaces;
-using InWords.Data.Domains.EmailEntitys;
-using InWords.Data.Repositories;
+﻿using InWords.Data.Domains.EmailEntitys;
+using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Services.Email;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 namespace InWords.BLTests.Service.Email
 {
@@ -17,7 +15,7 @@ namespace InWords.BLTests.Service.Email
         {
             // Arrange
             int expectedSeconds = EmailCodeSenderService.EMAIL_TIMEOUT * 60 - seconds;
-            var mock = new Mock<EmailVerifierRepository>();
+            var mock = new Mock<IEmailVerifierRepository>();
             mock.Setup(a => a.GetWhere(It.IsAny<Func<EmailVerifier, bool>>())).Returns(new List<EmailVerifier>()
             {
                 new EmailVerifier()
