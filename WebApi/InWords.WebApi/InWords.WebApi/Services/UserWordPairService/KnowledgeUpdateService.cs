@@ -37,13 +37,28 @@ namespace InWords.WebApi.Services.UserWordPairService
             await userWordPairRepository.Update(userWordPairs);
         }
 
+        /// <summary>
+        ///     This method for updating <see cref="UserWordPair"/>'s learning period and time to learning
+        ///     using PairKnowledges from IKnowledgeQualifier.
+        /// </summary>
+        /// <param name="userWordPairs"></param>
+        /// <param name="PairKnowledges"></param>
+        /// <returns></returns>
         private IEnumerable<UserWordPair> UpdateLicenseInformation(IEnumerable<UserWordPair> userWordPairs, Dictionary<int, KnowledgeQualitys> PairKnowledges)
         {
+            // for every word pair in user dictionary 
             foreach (var userWordPair in userWordPairs)
             {
+                // get quality from qualifier
                 KnowledgeQualitys quality = PairKnowledges[userWordPair.WordPairId];
+                
+                // get wordpair license
                 KnowledgeLicense knowledgeLicense = userWordPair.GetLicense();
+                
+                // update license by license and quality
                 knowledgeLicense = knowledgeLicenseManager.Update(knowledgeLicense, quality);
+                
+                // set license in pair strucure 
                 userWordPair.SetLicense(knowledgeLicense);
             }
             return userWordPairs;

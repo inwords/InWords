@@ -11,6 +11,7 @@ namespace InWords.WebApi.Services.UserWordPairService
 {
     public class KnowledgeLicenseManager
     {
+        private const int DAYS_GRANTING_TIMESPAN = 1;
         private readonly Dictionary<KnowledgeQualitys, KnowledgeLicenseProvider> knowledgeGaranter;
 
         public KnowledgeLicenseManager()
@@ -25,7 +26,22 @@ namespace InWords.WebApi.Services.UserWordPairService
 
         public KnowledgeLicense Update(KnowledgeLicense knowledgeLicense, KnowledgeQualitys knowledgeQuality)
         {
+            if (IsEasyButEarlyToRepeat(knowledgeLicense, knowledgeQuality))
+            {
+                knowledgeQuality = KnowledgeQualitys.StillRemember;
+            }
             return knowledgeGaranter[knowledgeQuality].Grant(knowledgeLicense);
+
+        }
+
+        private bool IsEasyButEarlyToRepeat(KnowledgeLicense knowledgeLicense, KnowledgeQualitys knowledgeQuality)
+        {
+            return knowledgeQuality.Equals(KnowledgeQualitys.EasyToRemember) && IsGrantingTime(knowledgeLicense);
+        }
+
+        private bool IsGrantingTime(KnowledgeLicense knowledgeLicense)
+        {
+            return (knowledgeLicense.RepeatTime - DateTime.UtcNow).TotalDays < DAYS_GRANTING_TIMESPAN;
         }
     }
 }
