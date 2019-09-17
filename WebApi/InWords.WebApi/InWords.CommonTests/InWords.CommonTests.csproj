@@ -4,23 +4,10 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
-
-    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="AppData\EmailTemplates\TestEmail.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="AppData\EmailTemplates\TestEmail.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-    <PackageReference Include="Moq" Version="4.13.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
@@ -29,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InWords.WebApi\InWords.WebApi.csproj" />
+    <ProjectReference Include="..\InWords.Common\InWords.Common.csproj" />
   </ItemGroup>
 
 </Project>

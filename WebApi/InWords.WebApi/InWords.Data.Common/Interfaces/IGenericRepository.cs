@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace InWords.Abstractions.Interfaces
@@ -13,5 +14,6 @@ namespace InWords.Abstractions.Interfaces
         IEnumerable<TEntity> GetWhere(Func<TEntity, bool> predicate);
         Task<int> Remove(params TEntity[] item);
         Task<TEntity> Update(TEntity item);
+        Task<int> Delete(Expression<Func<TEntity, bool>> predicate);
     }
 }
