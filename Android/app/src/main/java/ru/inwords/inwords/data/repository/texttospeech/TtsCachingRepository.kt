@@ -26,8 +26,10 @@ class TtsCachingRepository(
                 .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun forget(textToSpeak: String): Single<Boolean> {
-        return Single.fromCallable { databaseRepository.getFile(textToSpeak, getExtension()).delete() }
+    override fun forget(textsToSpeak: List<String>): Single<List<Boolean>> {
+        return Single.fromCallable {
+            textsToSpeak.map { databaseRepository.getFile(it, getExtension()).delete()  }
+        }
     }
 
     private fun getAudioConfig(): AudioConfig {

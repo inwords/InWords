@@ -31,7 +31,7 @@ class AddEditWordViewModel(private val translationWordsInteractor: TranslationWo
             val action = if (wordToEdit == null) {
                 translationWordsInteractor.addReplace(word)
             } else {
-                translationWordsInteractor.update(wordToEdit, wordToEdit)
+                translationWordsInteractor.update(wordToEdit, word)
             }
             action.subscribe({
                 translationSyncInteractor.notifyDataChanged()

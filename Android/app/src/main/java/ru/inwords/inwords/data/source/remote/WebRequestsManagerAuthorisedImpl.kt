@@ -23,6 +23,9 @@ internal constructor(private val apiServiceAuthorised: ApiServiceAuthorised,
     private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
 
     override fun notifyAuthStateChanged(authorised: Boolean) {
+        if (authorised){
+            sessionHelper.resetThreshold()
+        }
         authenticatedNotifierSubject.onNext(authorised)
     }
 

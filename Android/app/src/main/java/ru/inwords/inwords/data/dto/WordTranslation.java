@@ -1,5 +1,8 @@
 package ru.inwords.inwords.data.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -12,7 +15,7 @@ import java.util.Objects;
         indices = {
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
-public class WordTranslation extends EntityIdentificator {
+public class WordTranslation extends EntityIdentificator implements Parcelable {
     private static final int LOCAL_REMOVE_FLAG = Integer.MIN_VALUE;
 
     @NonNull
@@ -98,6 +101,7 @@ public class WordTranslation extends EntityIdentificator {
         return Objects.hash(wordForeign, wordNative);
     }
 
+    @NonNull
     @Override
     public WordTranslation clone() {
         final WordTranslation clone = (WordTranslation) super.clone();
@@ -106,5 +110,39 @@ public class WordTranslation extends EntityIdentificator {
         clone.wordNative = this.wordNative;
 
         return clone;
+    }
+
+    protected WordTranslation(Parcel in) {
+        id = in.readLong();
+        serverId = in.readInt();
+        String wordForeignNullable = in.readString();
+        wordForeign = wordForeignNullable == null ? "" : wordForeignNullable;
+        String wordNativeNullable = in.readString();
+        wordNative = wordNativeNullable == null ? "" : wordNativeNullable;
+    }
+
+    public static final Creator<WordTranslation> CREATOR = new Creator<WordTranslation>() {
+        @Override
+        public WordTranslation createFromParcel(Parcel in) {
+            return new WordTranslation(in);
+        }
+
+        @Override
+        public WordTranslation[] newArray(int size) {
+            return new WordTranslation[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeInt(serverId);
+        dest.writeString(wordForeign);
+        dest.writeString(wordNative);
     }
 }

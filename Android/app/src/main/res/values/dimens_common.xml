@@ -27,6 +27,9 @@
     <dimen name="icon_size_small">24dp</dimen>
     <dimen name="icon_size_default">32dp</dimen>
 
+    <!-- AppBar -->
+    <dimen name="appbar_height">56dp</dimen>
+
     <!-- Progress bar -->
     <dimen name="progress_bar_size">32dp</dimen>
 

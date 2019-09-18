@@ -26,9 +26,10 @@
     <color name="holo_orange_light">#FFFFBB33</color>
     <color name="holo_red_light">@color/colorAccent</color>
 
+    <color name="white">#FFFFFFFF</color>
     <color name="white_two_40">#61ffffff</color>
 
-    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="ic_launcher_background">@color/white</color>
 
     <color name="divider_color">#1A000000</color>
 
@@ -41,7 +42,7 @@
     <color name="text_color_secondary">#80000000</color>
     <color name="text_color_secondary_disabled">@color/text_color_default_disabled</color>
 
-    <color name="text_color_default_inverse">#FFFFFFFF</color>
+    <color name="text_color_default_inverse">@color/white</color>
     <color name="text_color_default_inverse_disabled">#42FFFFFF</color>
 
 </resources>

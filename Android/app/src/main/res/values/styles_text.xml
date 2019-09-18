@@ -16,6 +16,12 @@
         <item name="android:textColor">@color/text_color_default_selector</item>
     </style>
 
+    <style name="TextAppearance.Inwords.Title.Regular" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize">@dimen/typography_title</item>
+        <item name="android:textColor">@color/text_color_default_selector</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
     <style name="TextAppearance.Inwords.Subtitle1.Default" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">@dimen/typography_subtitle1</item>
         <item name="android:textColor">@color/text_color_default_selector</item>
@@ -58,6 +64,10 @@
 
 
     <!--INVERSE-->
+    <style name="TextAppearance.Inwords.Title.Regular.Inverse" parent="TextAppearance.Inwords.Title.Regular">
+        <item name="android:textColor">@color/text_color_default_inverse_selector</item>
+    </style>
+
     <style name="TextAppearance.Inwords.Subtitle2.Inverse" parent="TextAppearance.Inwords.Subtitle2.Default">
         <item name="android:textColor">@color/text_color_default_inverse_selector</item>
     </style>

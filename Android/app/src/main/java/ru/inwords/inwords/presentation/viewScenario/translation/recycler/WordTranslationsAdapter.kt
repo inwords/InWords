@@ -1,12 +1,9 @@
 package ru.inwords.inwords.presentation.viewScenario.translation.recycler
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.selection.SelectionTracker
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.list_item_word.view.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.data.dto.WordTranslation
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseSingleTypeAdapter
@@ -14,38 +11,26 @@ import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseSingleTypeAdapt
 class WordTranslationsAdapter(layoutInflater: LayoutInflater,
                               onItemClickedListener: Subject<WordTranslation>,
                               private val onSpeakerClickedListener: Subject<WordTranslation>) :
-        BaseSingleTypeAdapter<WordTranslation, WordTranslationsAdapter.WordViewHolder>(layoutInflater, onItemClickedListener) {
+        BaseSingleTypeAdapter<WordTranslation, WordTranslationViewHolder>(layoutInflater, onItemClickedListener) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
+    var tracker: SelectionTracker<WordTranslation>? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordTranslationViewHolder {
         val v = layoutInflater.inflate(R.layout.list_item_word, parent, false)
 
-        return WordViewHolder(v, onItemClickListener, onSpeakerClickedListener)
+        return WordTranslationViewHolder(v, onItemClickListener, onSpeakerClickedListener)
     }
 
-    override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WordTranslationViewHolder, position: Int) {
         val wordTranslation = items[position]
         holder.bind(wordTranslation)
     }
 
-    class WordViewHolder(itemView: View,
-                         onItemClickedListener: Subject<WordTranslation>?,
-                         onSpeakerClickedListener: Subject<WordTranslation>)
-        : RecyclerView.ViewHolder(itemView) {
+    override fun onBindViewHolder(holder: WordTranslationViewHolder, position: Int, payloads: List<Any>) {
+        tracker?.let { holder.setActivatedState(it.isSelected(items[position])) }
 
-        private var wordNativeTextView: TextView = itemView.tv_word_native
-        private var wordForeignTextView: TextView = itemView.tv_word_foreign
-        lateinit var wordTranslation: WordTranslation
-
-        init {
-            onItemClickedListener?.let { listener -> itemView.setOnClickListener { listener.onNext(wordTranslation) } }
-            itemView.speaker_view.setOnClickListener { onSpeakerClickedListener.onNext(wordTranslation) }
-        }
-
-        fun bind(wordTranslation: WordTranslation) {
-            this.wordTranslation = wordTranslation
-
-            wordNativeTextView.text = wordTranslation.wordNative
-            wordForeignTextView.text = wordTranslation.wordForeign
+        if (SelectionTracker.SELECTION_CHANGED_MARKER !in payloads) {
+            onBindViewHolder(holder, position)
         }
     }
 }

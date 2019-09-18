@@ -21,8 +21,16 @@ internal constructor(private val repositoryInteractor: TranslationWordsRepositor
         return repositoryInteractor.add(wordTranslation)
     }
 
+    override fun addReplaceAll(wordTranslations: List<WordTranslation>): Completable {
+        return repositoryInteractor.addAll(wordTranslations)
+    }
+
     override fun remove(wordTranslation: WordTranslation): Completable {
         return repositoryInteractor.markRemoved(wordTranslation)
+    }
+
+    override fun removeAll(wordTranslations: List<WordTranslation>): Completable {
+        return repositoryInteractor.markRemovedAll(wordTranslations)
     }
 
     override fun update(oldWord: WordTranslation, newWord: WordTranslation): Completable {

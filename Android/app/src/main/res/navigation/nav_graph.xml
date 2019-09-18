@@ -37,7 +37,6 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="ru.inwords.inwords.presentation.viewScenario.home.HomeFragment"
-        android:label="fragment_main"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_mainFragment_to_profileFragment"
@@ -101,7 +100,6 @@
     <fragment
         android:id="@+id/translationMainFragment"
         android:name="ru.inwords.inwords.presentation.viewScenario.translation.translationMain.TranslationMainFragment"
-        android:label="fragment_translation_main"
         tools:layout="@layout/fragment_translation_main">
         <action
             android:id="@+id/action_translationMainFragment_to_addEditWordFragment"
