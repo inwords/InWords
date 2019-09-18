@@ -13,7 +13,7 @@ class TtsDatabaseRepository @Inject internal constructor(private val context: Co
     }
 
     fun storeFile(file: File, base64String: String) {
-        file.parentFile.mkdirs()
+        file.parentFile?.mkdirs()
         FileOutputStream(file).use {
             it.write(Base64.decode(base64String, Base64.DEFAULT))
         }

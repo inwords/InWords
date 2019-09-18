@@ -9,7 +9,6 @@ import ru.inwords.inwords.core.util.Event
 import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
-import java.util.concurrent.TimeUnit
 
 abstract class AuthorisationViewModel protected constructor(protected var authorisationInteractor: AuthorisationInteractor) : BasicViewModel() {
     private val authorisationStateLiveData = MutableLiveData<Event<AuthorisationViewState>>()
@@ -18,11 +17,8 @@ abstract class AuthorisationViewModel protected constructor(protected var author
     val authorisationState: LiveData<Event<AuthorisationViewState>> = authorisationStateLiveData
     val navigateTo: LiveData<Event<Unit>> = navigateToLiveData
 
-    fun onNavigateHandler(clicksObservable: Observable<Any>) {
-        clicksObservable
-                .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe { navigateToLiveData.postValue(Event(Unit)) }
-                .autoDispose()
+    fun onNavigateClicked() {
+        navigateToLiveData.postValue(Event(Unit))
     }
 
     fun onSignClicked(userCredentialsObservable: Observable<UserCredentials>) {

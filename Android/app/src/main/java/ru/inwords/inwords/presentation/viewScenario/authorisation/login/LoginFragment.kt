@@ -2,7 +2,6 @@ package ru.inwords.inwords.presentation.viewScenario.authorisation.login
 
 import android.os.Bundle
 import android.view.View
-import com.jakewharton.rxbinding2.view.RxView
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.presentation.viewScenario.authorisation.AuthorisationViewModelFactory
@@ -18,7 +17,7 @@ class LoginFragment : SigningBaseFragment<LoginViewModel, AuthorisationViewModel
         super.onViewCreated(view, savedInstanceState)
 
         buttonTrySign.setOnClickListener { viewModel.onSignClicked(credentials) }
-        viewModel.onNavigateHandler(RxView.clicks(textViewSignUp))
+        textViewSignUp.setOnClickListener { viewModel.onNavigateClicked() } //TODO clicks
     }
 
     override fun navigateAction() {
