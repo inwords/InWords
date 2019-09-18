@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -86,7 +85,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     }
 
     private fun subscribeNicknameUpdateResult() {
-        viewModel.changeNickname.observe(this, Observer {
+        viewModel.changeNickname.observe(this::getLifecycle) {
             when (it.contentIfNotHandled) {
                 is Resource.Success -> {
                     renderDefaultViewState()
@@ -101,7 +100,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
                             .show()
                 }
             }
-        })
+        }
     }
 
     private fun renderDefaultViewState() {

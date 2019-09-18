@@ -4,7 +4,6 @@ package ru.inwords.inwords.presentation.viewScenario.translation.addEditWord
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_add_edit_word.*
 import ru.inwords.inwords.R
@@ -32,11 +31,11 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
 
         setUpViewState()
 
-        viewModel.addEditDoneLiveData.observe(this, Observer {
+        viewModel.addEditDoneLiveData.observe(this::getLifecycle) {
             if (it.handle()) {
                 popBackToTranslationMain()
             }
-        })
+        }
 
         buttonConfirm.setOnClickListener {
             val enteredWord = getEnteredWord()

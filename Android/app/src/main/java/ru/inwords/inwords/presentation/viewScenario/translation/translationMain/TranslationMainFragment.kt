@@ -47,11 +47,11 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
         setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
 
-        viewModel.addEditWordLiveData.observe(this, Observer { event ->
+        viewModel.addEditWordLiveData.observe(this::getLifecycle) { event ->
             event.contentIfNotHandled?.also {
                 navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(it))
             }
-        })
+        }
 
         viewModel.ttsStream
                 .doOnNext {
