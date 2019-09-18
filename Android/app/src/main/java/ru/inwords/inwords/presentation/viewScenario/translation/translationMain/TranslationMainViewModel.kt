@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit
 class TranslationMainViewModel(private val translationWordsInteractor: TranslationWordsInteractor,
                                private val translationSyncInteractor: TranslationSyncInteractor,
                                private val ttsRepository: TtsRepository) : BasicViewModel() {
-    private var onAddClickedDisposable: Disposable? = null
     private var onEditClickedDisposable: Disposable? = null
     private var onSpeakerClickedDisposable: Disposable? = null
 
@@ -54,13 +53,8 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
                 .autoDispose()
     }
 
-    fun onAddClickedHandler(clicksObservable: Observable<Any>) { //fab clicked
-        onAddClickedDisposable?.dispose()
-
-        onAddClickedDisposable = clicksObservable
-                .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe { addEditWordMutableLiveData.postValue(Event(WordTranslation("", ""))) }
-                .autoDispose()
+    fun onAddClicked() { //fab clicked
+        addEditWordMutableLiveData.postValue(Event(WordTranslation("", "")))
     }
 
     fun onEditClickedHandler(clicksObservable: Observable<WordTranslation>) { //clickListener on item

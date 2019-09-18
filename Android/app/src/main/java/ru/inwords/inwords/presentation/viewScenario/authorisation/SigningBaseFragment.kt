@@ -2,11 +2,8 @@ package ru.inwords.inwords.presentation.viewScenario.authorisation
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-
 import com.google.android.material.textfield.TextInputEditText
-
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import ru.inwords.inwords.R
@@ -38,14 +35,14 @@ abstract class SigningBaseFragment<ViewModelType : AuthorisationViewModel, ViewM
         buttonTrySign = view.findViewById(buttonId)
         buttonTrySign.setMode(ActionProcessButton.Mode.ENDLESS)
 
-        viewModel.navigateTo.observe(this, Observer { event ->
+        viewModel.navigateTo.observe(this::getLifecycle) { event ->
             event.contentIfNotHandled?.also {
                 navigateAction()
             }
-        })
-        viewModel.authorisationState.observe(this, Observer {
+        }
+        viewModel.authorisationState.observe(this::getLifecycle) {
             this.processViewState(it)
-        })
+        }
     }
 
     protected abstract fun navigateAction()

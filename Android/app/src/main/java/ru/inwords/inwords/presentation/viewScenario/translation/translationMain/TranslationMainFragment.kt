@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_translation_main.*
@@ -47,11 +46,11 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
         setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
 
-        viewModel.addEditWordLiveData.observe(this, Observer { event ->
+        viewModel.addEditWordLiveData.observe(this::getLifecycle) { event ->
             event.contentIfNotHandled?.also {
                 navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(it))
             }
-        })
+        }
 
         viewModel.ttsStream
                 .doOnNext {
@@ -75,7 +74,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
                 .subscribe(adapter)
                 .disposeOnViewDestroyed()
 
-        viewModel.onAddClickedHandler(RxView.clicks(fab))
+        fab.setOnClickListener { viewModel.onAddClicked() } //TODO clicks
         viewModel.onEditClickedHandler(onItemClickedListener)
         viewModel.onSpeakerClickedHandler(onSpeakerClickedListener.doOnNext { progress_view.progress = 50 })
     }

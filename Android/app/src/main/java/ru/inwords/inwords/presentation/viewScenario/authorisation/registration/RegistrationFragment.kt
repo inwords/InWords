@@ -2,8 +2,6 @@ package ru.inwords.inwords.presentation.viewScenario.authorisation.registration
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import ru.inwords.inwords.R
@@ -25,9 +23,7 @@ class RegistrationFragment : SigningBaseFragment<RegistrationViewModel, Authoris
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val textViewSignIn = view.findViewById<TextView>(R.id.textViewSignIn)
-
-        viewModel.onNavigateHandler(RxView.clicks(textViewSignIn))
+        textViewSignIn.setOnClickListener { viewModel.onNavigateClicked() } //TODO clicks
         buttonTrySign.setOnClickListener { viewModel.onSignClicked(credentials) }
     }
 
