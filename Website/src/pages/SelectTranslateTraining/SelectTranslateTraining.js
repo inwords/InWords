@@ -18,14 +18,16 @@ const useStyles = makeStyles(theme => ({
     maxWidth: theme.spacing(64)
   },
   header: {
+    position: 'relative',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: theme.spacing(2),
-    padding: theme.spacing(1)
+    padding: theme.spacing(2, 8, 2, 2)
   },
   next: {
-    marginLeft: theme.spacing(1)
+    position: 'absolute',
+    right: theme.spacing(1)
   },
   button: {
     marginBottom: theme.spacing(1),
@@ -100,7 +102,7 @@ function SelectTranslateTraining({
                 disableTouchListener
                 disableFocusListener={!isClickDone}
                 disableHoverListener={!isClickDone}
-                placement="left"
+                placement="right"
               >
                 <Button
                   onClick={handleClick(pairId, id)}
