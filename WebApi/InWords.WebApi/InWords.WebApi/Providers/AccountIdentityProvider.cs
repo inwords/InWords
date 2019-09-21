@@ -12,6 +12,7 @@ namespace InWords.WebApi.Providers
 {
     public class AccountIdentityProvider
     {
+        private readonly UserRepository userRepository;
         private readonly AccountRepository accountRepository;
         private readonly IPasswordSalter passwordSalter;
 
@@ -19,8 +20,9 @@ namespace InWords.WebApi.Providers
         ///     Create provider via repository
         /// </summary>
         /// <param name="repository"></param>
-        public AccountIdentityProvider(AccountRepository repository)
+        public AccountIdentityProvider(AccountRepository repository, UserRepository userRepository)
         {
+            this.userRepository = userRepository;
             accountRepository = repository;
             passwordSalter = new SaltGenerator();
         }
@@ -56,8 +58,7 @@ namespace InWords.WebApi.Providers
                 throw new ArgumentNullException($"Access denied {email}");
 
             account.User.LastLogin = DateTime.UtcNow;
-
-            await accountRepository.Update(account);
+            await userRepository.Update(account.User);
 
             var response = new TokenResponse(account.AccountId, account.Role);
 

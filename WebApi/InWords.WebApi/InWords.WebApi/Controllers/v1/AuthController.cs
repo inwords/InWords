@@ -18,18 +18,22 @@ namespace InWords.WebApi.Controllers.v1
     [Produces("application/json")]
     public class AuthController : ControllerBase
     {
+        //todo remove
+        private readonly UserRepository userRepository;
         private readonly AccountRepository accountRepository;
         private readonly AccountIdentityProvider accountIdentityProvider;
         private readonly EmailVerifierService emailVerifierService = null;
 
 
         public AuthController(AccountRepository accountRepository,
+            UserRepository userRepository,
             EmailVerifierService emailVerifierService)
         {
             this.accountRepository = accountRepository;
             this.emailVerifierService = emailVerifierService;
+            this.userRepository = userRepository;
             // todo inject
-            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository,userRepository);
         }
 
         /// <summary>
