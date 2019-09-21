@@ -12,9 +12,9 @@ namespace InWords.WebApi.Services.Email.Template
     /// </summary>
     public abstract class EmailTemplateBase
     {
-        public abstract string Subject { get; set; }
-        public abstract string HtmlBody { get; set; }
-        public abstract string AltText { get; set; }
+        public string Subject { get; set; }
+        public string HtmlBody { get; set; }
+        public string AltText { get; set; }
 
         protected async void LoadTemplate(EmailTemplates template,Dictionary<string,string> keyValuePairs)
         {
