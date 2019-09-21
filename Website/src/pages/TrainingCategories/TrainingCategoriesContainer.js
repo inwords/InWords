@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGamesInfo } from 'actions/gamesApiActions';
-import Games from './Games';
+import TrainingCategories from './TrainingCategories';
 
-function GamesContainer({ ...rest }) {
+function TrainingCategoriesContainer({ ...rest }) {
   const gamesInfo = useSelector(store => store.games.gamesInfo);
 
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ function GamesContainer({ ...rest }) {
     }
   }, [gamesInfo.length, dispatch]);
 
-  return <Games gamesInfo={gamesInfo} {...rest} />;
+  return <TrainingCategories gamesInfo={gamesInfo} {...rest} />;
 }
 
-export default GamesContainer;
+export default TrainingCategoriesContainer;

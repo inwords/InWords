@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function GameResult({
+function TrainingResult({
   score,
   handleRedirectionToLevels,
   handleRedirectionToNextLevel,
@@ -81,11 +81,11 @@ function GameResult({
   );
 }
 
-GameResult.propTypes = {
+TrainingResult.propTypes = {
   score: PropTypes.number,
   handleRedirectionToLevels: PropTypes.func.isRequired,
   handleRedirectionToNextLevel: PropTypes.func.isRequired,
   handleReplay: PropTypes.func.isRequired
 };
 
-export default GameResult;
+export default TrainingResult;

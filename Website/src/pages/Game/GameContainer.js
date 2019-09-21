@@ -11,8 +11,7 @@ function GameContainer({ levelId, wordTranslations }) {
   const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
-  const [openingQuantity, setOpeningQuantity] = useState(0);
-  const [wordsStatisticsMap, setWordsStatisticsMap] = useState([]);
+  const [openPairIdStatisticsMap, setOpenPairIdStatisticsMap] = useState({});
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
   const [score, setScore] = useState(null);
@@ -58,9 +57,8 @@ function GameContainer({ levelId, wordTranslations }) {
       dispatch(
         saveLevelResult(
           {
-            levelId,
-            openingQuantity,
-            wordsCount: wordsInfo.length
+            gameLevelId: levelId,
+            wordPairIdOpenCounts: openPairIdStatisticsMap
           },
           data => {
             setScore(data.score);
@@ -72,7 +70,7 @@ function GameContainer({ levelId, wordTranslations }) {
     completedPairIdsMap,
     wordsInfo.length,
     levelId,
-    openingQuantity,
+    openPairIdStatisticsMap,
     dispatch
   ]);
 
@@ -97,14 +95,12 @@ function GameContainer({ levelId, wordTranslations }) {
         })
       );
 
-      setWordsStatisticsMap(wordsStatisticsMap => ({
-        ...wordsStatisticsMap,
-        [pairId]: wordsStatisticsMap[pairId]
-          ? wordsStatisticsMap[pairId] + 1
+      setOpenPairIdStatisticsMap(openPairIdStatisticsMap => ({
+        ...openPairIdStatisticsMap,
+        [pairId]: openPairIdStatisticsMap[pairId]
+          ? openPairIdStatisticsMap[pairId] + 1
           : 1
       }));
-
-      setOpeningQuantity(openingQuantity => openingQuantity + 1);
     }
 
     if (selectedWordsInfo.length === 1) {
@@ -130,8 +126,7 @@ function GameContainer({ levelId, wordTranslations }) {
     setSelectedWordsInfo([]);
     setCompletedPairIdsMap({});
     setSelectedCompletedPairId(-1);
-    setOpeningQuantity(0);
-    setWordsStatisticsMap({});
+    setOpenPairIdStatisticsMap({});
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);

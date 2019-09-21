@@ -19,6 +19,11 @@ const useStyles = makeStyles(theme => ({
   },
   chip: {
     margin: theme.spacing(1)
+  },
+  translationsInfo: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap'
   }
 }));
 
@@ -28,7 +33,7 @@ function WordPairAddDialog({
   inputs,
   handleChange,
   handleSubmit,
-  translations,
+  translationsInfo,
   handleTranslationAddition,
   handleReset
 }) {
@@ -77,21 +82,19 @@ function WordPairAddDialog({
             fullWidth
           />
         </form>
-        <div className={classes.translations}>
-          {translations.map(({ id, value }) => (
+        <Typography variant="body2">
+          Реализовано с помощью сервиса{' '}
+          <Link href="https://tech.yandex.ru/dictionary">«Яндекс.Словарь»</Link>
+        </Typography>
+        <div className={classes.translationsInfo}>
+          {translationsInfo.map(({ id, translation }) => (
             <Chip
               key={id}
-              label={value}
+              label={translation}
               onClick={handleTranslationAddition(id)}
               className={classes.chip}
             />
           ))}
-          <Typography variant="body2" className={classes.footer}>
-            Реализовано с помощью сервиса{' '}
-            <Link href="https://tech.yandex.ru/dictionary">
-              «Яндекс.Словарь»
-            </Link>
-          </Typography>
         </div>
       </DialogContent>
       <DialogActions>
@@ -113,10 +116,10 @@ WordPairAddDialog.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  translations: PropTypes.arrayOf(
+  translationsInfo: PropTypes.arrayOf(
     PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      value: PropTypes.string.isRequired
+      id: PropTypes.string.isRequired,
+      translation: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
   handleTranslationAddition: PropTypes.func.isRequired,

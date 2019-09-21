@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import Divider from '@material-ui/core/Divider';
 import useMenu from 'hooks/useMenu';
 
 function ProfileMenu({ denyAccess }) {
@@ -32,6 +32,7 @@ function ProfileMenu({ denyAccess }) {
         <MenuItem component={Link} to="/profile" onClick={handleClose}>
           Профиль
         </MenuItem>
+        <Divider />
         <MenuItem component={Link} to="/signIn" onClick={denyAccess}>
           Выйти
         </MenuItem>

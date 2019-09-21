@@ -26,13 +26,13 @@ function WordPairAddDialogContainer({ ...rest }) {
     }
   );
 
-  const [translations, setTranslations] = useState([]);
+  const [translationsInfo, setTranslationsInfo] = useState([]);
 
   const translationTimeoutRef = useRef();
 
   useEffect(() => {
     const word = inputs.wordForeign.slice().trim();
-    if (word === '') return;
+    if (!word.match(/^[a-z0-9]+/i)) return;
 
     const translate = word => {
       const url = new URL(
@@ -53,14 +53,21 @@ function WordPairAddDialogContainer({ ...rest }) {
           }
         })
         .then(data => {
-          setTranslations(
-            data.def.map((meaning, index) => ({
-              id: index,
-              value: meaning.tr[0].text
-            }))
-          );
+          const newTranslationsInfo = [];
+          data.def.forEach((meaning, index1) => {
+            newTranslationsInfo.push(
+              ...meaning.tr.map(({ text }, index2) => ({
+                id: `${index1}-${index2}`,
+                translation: text
+              }))
+            );
+          });
+
+          setTranslationsInfo(newTranslationsInfo);
         })
-        .catch(error => {});
+        .catch(error => {
+          // die
+        });
     };
 
     window.clearTimeout(translationTimeoutRef.current);
@@ -71,7 +78,9 @@ function WordPairAddDialogContainer({ ...rest }) {
 
   const handleTranslationAddition = id => () => {
     const currentWordNative = inputs.wordNative.slice().trim();
-    const selectedTranslation = translations[id].value;
+    const selectedTranslation = translationsInfo.find(
+      ({ id: translationId }) => translationId === id
+    ).translation;
 
     if (!currentWordNative.includes(selectedTranslation)) {
       setInputs({
@@ -89,7 +98,7 @@ function WordPairAddDialogContainer({ ...rest }) {
       wordNative: ''
     });
 
-    setTranslations([]);
+    setTranslationsInfo([]);
   };
 
   return (
@@ -97,7 +106,7 @@ function WordPairAddDialogContainer({ ...rest }) {
       inputs={inputs}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
-      translations={translations}
+      translationsInfo={translationsInfo}
       handleTranslationAddition={handleTranslationAddition}
       handleReset={handleReset}
       {...rest}

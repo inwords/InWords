@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grow from '@material-ui/core/Grow';
 import Zoom from '@material-ui/core/Zoom';
-import GameResult from 'components/GameResult';
+import TrainingResult from 'components/TrainingResult';
 
 const cardDimension = 110;
 const cardsSpacing = 1;
@@ -132,7 +132,7 @@ function Game({
       </div>
     );
   } else {
-    return <GameResult {...rest} />;
+    return <TrainingResult {...rest} />;
   }
 }
 

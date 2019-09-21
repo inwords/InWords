@@ -10,7 +10,7 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
-import GameResult from 'components/GameResult';
+import TrainingResult from 'components/TrainingResult';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,14 +29,16 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginBottom: theme.spacing(1),
-    textTransform: 'none'
+    textTransform: 'none',
+    paddingRight: theme.spacing(5)
   },
-  leftIcon: {
-    marginRight: theme.spacing(1)
+  rightIcon: {
+    position: 'absolute',
+    right: theme.spacing(1)
   }
 }));
 
-function Game2({
+function SelectTranslateTraining({
   currentWordSet,
   rightSelectedWordId,
   wrongSelectedWordId,
@@ -86,9 +88,9 @@ function Game2({
 
             let icon;
             if (rightSelectedWordId === id) {
-              icon = <CheckCircleOutlineIcon className={classes.leftIcon} />;
+              icon = <CheckCircleOutlineIcon className={classes.rightIcon} />;
             } else if (wrongSelectedWordId === id) {
-              icon = <ErrorOutlineIcon className={classes.leftIcon} />;
+              icon = <ErrorOutlineIcon className={classes.rightIcon} />;
             }
 
             return (
@@ -101,7 +103,6 @@ function Game2({
                 placement="left"
               >
                 <Button
-                  
                   onClick={handleClick(pairId, id)}
                   disableRipple
                   disableFocusRipple={isClickDone}
@@ -110,8 +111,8 @@ function Game2({
                   fullWidth
                   className={classes.button}
                 >
-                  {icon}
                   {word}
+                  {icon}
                 </Button>
               </Tooltip>
             );
@@ -120,11 +121,11 @@ function Game2({
       </Fade>
     );
   } else {
-    return <GameResult {...rest} />;
+    return <TrainingResult {...rest} />;
   }
 }
 
-Game2.propTypes = {
+SelectTranslateTraining.propTypes = {
   currentWordSet: PropTypes.shape({
     primaryWordInfo: PropTypes.shape({
       word: PropTypes.string.isRequired
@@ -149,4 +150,4 @@ Game2.propTypes = {
   handleReplay: PropTypes.func
 };
 
-export default Game2;
+export default SelectTranslateTraining;

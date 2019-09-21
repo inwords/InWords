@@ -20,8 +20,8 @@ const linksWhenAuthorized = [
     text: 'Словарь'
   },
   {
-    to: '/games',
-    text: 'Игры'
+    to: '/trainings',
+    text: 'Обучение'
   }
 ];
 

@@ -3,22 +3,22 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGameInfo } from 'actions/gamesApiActions';
 
-function withReceivedGameInfo(WrappedComponent) {
-  function WithReceivedGameInfo({ match, ...rest }) {
+function withReceivedTrainingInfo(WrappedComponent) {
+  function WithReceivedTrainingInfo({ match, ...rest }) {
     const { gameId, levelsInfo } = useSelector(store => store.games.gameInfo);
 
     const dispatch = useDispatch();
 
-    const parsedGameId = parseInt(match.params.gameId);
+    const parsedCategoryId = parseInt(match.params.categoryId);
 
     useEffect(() => {
-      if (gameId !== parsedGameId) {
-        dispatch(receiveGameInfo(parsedGameId));
+      if (gameId !== parsedCategoryId) {
+        dispatch(receiveGameInfo(parsedCategoryId));
       }
-    }, [gameId, parsedGameId, dispatch]);
+    }, [gameId, parsedCategoryId, dispatch]);
 
     return (
-      gameId === parsedGameId && (
+      gameId === parsedCategoryId && (
         <WrappedComponent
           gameId={gameId}
           levelsInfo={levelsInfo}
@@ -31,13 +31,13 @@ function withReceivedGameInfo(WrappedComponent) {
 
   const wrappedComponentName =
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
-  WithReceivedGameInfo.displayName = `withReceivedGameInfo(${wrappedComponentName})`;
+  WithReceivedTrainingInfo.displayName = `withReceivedTrainingInfo(${wrappedComponentName})`;
 
-  WithReceivedGameInfo.propTypes = {
+  WithReceivedTrainingInfo.propTypes = {
     match: PropTypes.object.isRequired
   };
 
-  return WithReceivedGameInfo;
+  return WithReceivedTrainingInfo;
 }
 
-export default withReceivedGameInfo;
+export default withReceivedTrainingInfo;
