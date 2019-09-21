@@ -7,5 +7,8 @@ namespace InWords.WebApi.Services.Email.Template
 {
     public class ResetPasswordTemplate
     {
+        public string HtmlBody { get; set; }
+
+        public virtual
     }
 }

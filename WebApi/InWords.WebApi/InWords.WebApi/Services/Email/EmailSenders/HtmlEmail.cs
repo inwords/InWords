@@ -9,6 +9,7 @@ namespace InWords.WebApi.Services.Email
 {
     public class HtmlEmail
     {
+        [Obsolete]
         public MimeEntity ToMessageBody(string text, string html, params string[] images)
         {
             var builder = new BodyBuilder
