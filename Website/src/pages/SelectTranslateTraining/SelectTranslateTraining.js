@@ -27,7 +27,9 @@ const useStyles = makeStyles(theme => ({
   },
   next: {
     position: 'absolute',
-    right: theme.spacing(1)
+    top: '50%',
+    right: theme.spacing(1),
+    transform: 'translateY(-50%)'
   },
   button: {
     marginBottom: theme.spacing(1),

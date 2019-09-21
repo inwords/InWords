@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function BreadcrumbNavigation({ children }) {
+function InternalNavigation({ children }) {
   const classes = useStyles();
 
   return (
@@ -27,8 +27,8 @@ function BreadcrumbNavigation({ children }) {
   );
 }
 
-BreadcrumbNavigation.propTypes = {
+InternalNavigation.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export default BreadcrumbNavigation;
+export default InternalNavigation;
