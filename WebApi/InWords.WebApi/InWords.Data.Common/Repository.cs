@@ -75,14 +75,18 @@ namespace InWords.Abstractions
             await context.SaveChangesAsync();
             return item;
         }
-
-        public async Task<TEntity[]> Update(params TEntity[] items)
+        public async Task<IEnumerable<TEntity>> Update(IEnumerable<TEntity> items)
         {
             foreach (TEntity item in items)
             {
                 context.Entry(item).State = EntityState.Modified;
             }
             await context.SaveChangesAsync();
+            return items;
+        }
+        public async Task<TEntity[]> Update(params TEntity[] items)
+        {
+            await Update(items);
             return items;
         }
 

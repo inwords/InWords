@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1.CardsGame
 {
-    [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Produces("application/json")]
+    [Route("v{version:apiVersion}/[controller]")]
     public class CardGameParserController : ControllerBase
     {
         private readonly GameService gameService = null;

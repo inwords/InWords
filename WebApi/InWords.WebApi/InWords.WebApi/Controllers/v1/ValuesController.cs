@@ -90,7 +90,7 @@ namespace InWords.WebApi.Controllers.v1
         [Route("Score/{words}:{open}")]
         public IActionResult GetScore(int words, int open)
         {
-            int x = GameLogic.GameScore(words, open);
+            int x = CardGame.Score(words, open);
             return Ok(x);
         }
 

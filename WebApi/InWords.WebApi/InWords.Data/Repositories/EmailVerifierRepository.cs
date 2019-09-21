@@ -1,5 +1,6 @@
 ﻿using InWords.Abstractions;
 using InWords.Data.Domains.EmailEntitys;
+using InWords.Data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InWords.Data.Repositories
 {
-    public class EmailVerifierRepository : Repository<EmailVerifier>
+    public class EmailVerifierRepository : Repository<EmailVerifier>, IEmailVerifierRepository
     {
         public EmailVerifierRepository(InWordsDataContext context) : base(context)
         {
