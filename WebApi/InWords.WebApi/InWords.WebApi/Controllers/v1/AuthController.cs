@@ -34,17 +34,26 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>A newly token</returns>
         /// <response code="200">Success</response>
-        /// <response code="400">Auth error</response>
+        /// <response code="400">Invalid password</response>
+        /// <response code="404">Email not found</response>
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("token")]
         [HttpPost]
         public IActionResult Token([FromBody] BasicAuthClaims user)
         {
             try
             {
+                // get token
                 TokenResponse tokenResponse = accountIdentityProvider.GetIdentity(user);
+                // log user access
+
                 return Ok(tokenResponse);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (ArgumentException ex)
             {
@@ -71,7 +80,8 @@ namespace InWords.WebApi.Controllers.v1
             //Create token
             TokenResponse response = await CreateUserAccount(user);
 
-            //send token
+            // log user access
+
             return Ok(response);
         }
 
