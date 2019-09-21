@@ -26,7 +26,7 @@ namespace InWords.WebApi.Services.Email
 
         public int GetTimeout(int userId)
         {
-            EmailVerifier emailVerifier = emailVerifierRepository.GetWhere(e => e.UserId.Equals(userId))
+            EmailVerifies emailVerifier = emailVerifierRepository.GetWhere(e => e.UserId.Equals(userId))
                 .OrderByDescending(x => x.SentTime)
                 .FirstOrDefault();
 

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace InWords.Data.Repositories.Interfaces
 {
-    public interface IEmailVerifierRepository : IGenericRepository<EmailVerifier>
+    public interface IEmailVerifierRepository : IGenericRepository<EmailVerifies>
     {
-        Task<EmailVerifier> CreateEmailVerifier(int userId, string email, int code, Guid guid);
+        Task<EmailVerifies> CreateEmailVerifier(int userId, string email, int code, Guid guid);
     }
 }

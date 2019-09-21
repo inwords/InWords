@@ -1,4 +1,5 @@
-﻿using InWords.WebApi.Services.Email.EmailSenders;
+﻿using InWords.Data.Domains.EmailEntitys;
+using InWords.WebApi.Services.Email.EmailSenders;
 using InWords.WebApi.Services.Email.Template;
 using System;
 using System.Collections.Generic;
@@ -11,20 +12,29 @@ namespace InWords.WebApi.Services.Email
     {
         //IResetPasswordEmail resetPasswordEmail;
         private readonly EmailTemplateSender emailTemplateSender;
-        public EmailPasswordResetService(EmailTemplateSender emailTemplateSender,ShortCodeGeneratorService generatorService)
+        private readonly ShortCodeGeneratorService generatorService;
+        private readonly EmailVerifies emailVerifies;
+
+        public EmailPasswordResetService(EmailTemplateSender emailTemplateSender,
+            ShortCodeGeneratorService generatorService,
+            EmailVerifies emailVerifies)
         {
             this.emailTemplateSender = emailTemplateSender;
+            this.generatorService = generatorService;
+            this.emailVerifies = emailVerifies;
         }
 
         // By email, send token and guid 
         public async Task SendResetPasswordMail(string email)
         {
             // send email
+            int shortCode = generatorService.Generate();
             ResetPasswordTemplate resetPasswordTemplate = new ResetPasswordTemplate();
-            resetPasswordTemplate.Configure();
+            resetPasswordTemplate.Configure(shortCode);
             await emailTemplateSender.SendMailAsync(email, resetPasswordTemplate);
-            // EmailSender.Send(resetPasswordEmail,email);
+            
             // write repo
+
         }
 
         // By link guid set new password

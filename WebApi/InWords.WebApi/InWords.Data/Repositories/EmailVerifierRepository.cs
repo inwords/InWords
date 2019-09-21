@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace InWords.Data.Repositories
 {
-    public class EmailVerifierRepository : Repository<EmailVerifier>, IEmailVerifierRepository
+    public class EmailVerifierRepository : Repository<EmailVerifies>, IEmailVerifierRepository
     {
         public EmailVerifierRepository(InWordsDataContext context) : base(context)
         {
 
         }
 
-        public async Task<EmailVerifier> CreateEmailVerifier(int userId, string email, int code, Guid guid)
+        public async Task<EmailVerifies> CreateEmailVerifier(int userId, string email, int code, Guid guid)
         {
-            EmailVerifier emailVerifier = new EmailVerifier
+            EmailVerifies emailVerifier = new EmailVerifies
             {
                 Guid = guid,
                 UserId = userId,

@@ -33,7 +33,7 @@ namespace InWords.WebApi.Services.Email
 
         private bool HasCode(int userId, string email, int code)
         {
-            EmailVerifier emailVerifier = emailVerifierRepository.GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).FirstOrDefault();
+            EmailVerifies emailVerifier = emailVerifierRepository.GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).FirstOrDefault();
 
             if (emailVerifier == null)
                 throw new ArgumentNullException();
@@ -49,13 +49,13 @@ namespace InWords.WebApi.Services.Email
             }
             else
             {
-                EmailVerifier emailVerifier = emailVerifierRepository.GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).FirstOrDefault();
+                EmailVerifies emailVerifier = emailVerifierRepository.GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).FirstOrDefault();
                 emailVerifier.Attempts++;
                 await emailVerifierRepository.Update(emailVerifier);
             }
         }
 
-        public bool IsRequestedEmailVerifier(EmailVerifier e, int userId, string email)
+        public bool IsRequestedEmailVerifier(EmailVerifies e, int userId, string email)
         {
             return e.UserId.Equals(userId) && e.Email.Equals(email);
         }
