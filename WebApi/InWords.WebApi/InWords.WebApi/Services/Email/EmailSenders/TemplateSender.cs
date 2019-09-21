@@ -9,10 +9,9 @@ namespace InWords.WebApi.Services.Email
 {
     public class TemplateSender : EmailSender
     {
-        private readonly TemplateResolver templateResolver;
         public TemplateSender(EmailIdentity emailIdentity) : base(emailIdentity)
         {
-            templateResolver = new TemplateResolver();
+ 
         }
 
         public async Task SendEmailAsync(EmailTemplates emailTemplate,
@@ -21,7 +20,7 @@ namespace InWords.WebApi.Services.Email
             string address,
             string name = "")
         {
-            string htmlText = await templateResolver.LoadTemplate(emailTemplate, templateReplace);
+            string htmlText = await TemplateResolver.LoadTemplate(emailTemplate, templateReplace);
             string altText = StripHTML(htmlText);
             SetSubject(subject);
             SetHTML(htmlText, altText);

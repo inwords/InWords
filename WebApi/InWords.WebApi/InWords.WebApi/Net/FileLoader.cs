@@ -18,7 +18,7 @@ namespace InWords.WebApi.Net
         {
             // create an FTP client
             // if you don't specify login credentials, we use the "anonymous" user account
-            var client = new FtpClient(ftpCredentials.Server)
+            FtpClient client = new FtpClient(ftpCredentials.Server)
             {
                 Credentials = new NetworkCredential(ftpCredentials.Login, ftpCredentials.Password)
             };
@@ -70,6 +70,7 @@ namespace InWords.WebApi.Net
 
             // disconnect! good bye!
             client.Disconnect();
+            client.Dispose();
         }
 
         public bool Connect()

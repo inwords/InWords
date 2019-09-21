@@ -7,8 +7,8 @@ namespace InWords.WebApi.Services.Email
 {
     public class EmailPasswordResetService
     {
-        IResetPasswordEmail resetPasswordEmail;
-        public EmailPasswordResetService(EmailVerifierService)
+        //IResetPasswordEmail resetPasswordEmail;
+        public EmailPasswordResetService()
         {
 
         }
@@ -17,7 +17,7 @@ namespace InWords.WebApi.Services.Email
         public void SendResetPasswordMail(string email)
         { 
             // send email
-            EmailSender.Send(resetPasswordEmail,email);
+            //EmailSender.Send(resetPasswordEmail,email);
             // write repo
         }
 

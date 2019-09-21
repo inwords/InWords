@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Email.Models
 {
-    public class TemplateResolver
+    public static class TemplateResolver
     {
         // TODO: in config injection 
         private readonly static string TemplateFolder = $"{Environment.CurrentDirectory}/AppData/EmailTemplates/";
-        public async Task<string> LoadTemplate(EmailTemplates emailTemplate)
+        public static async Task<string> LoadTemplate(EmailTemplates emailTemplate)
         {
             string path = Path.Combine(TemplateFolder, $"{emailTemplate}.html");
             using (StreamReader stream = new StreamReader(path))
@@ -20,7 +20,7 @@ namespace InWords.WebApi.Services.Email.Models
             }
         }
 
-        public async Task<string> LoadTemplate(EmailTemplates emailTemplate, Dictionary<string, string> keyValuePairs)
+        public static async Task<string> LoadTemplate(EmailTemplates emailTemplate, Dictionary<string, string> keyValuePairs)
         {
             return (await LoadTemplate(emailTemplate)).Replace(keyValuePairs);
         }

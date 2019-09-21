@@ -21,12 +21,26 @@ namespace InWords.WebApi.Services.Email
             emailMessage.Subject = subject;
         }
 
-        public void SetText(string message)
+        public virtual void AddAddressees(string name, string address)
+        {
+            emailMessage.To.Add(new MailboxAddress(name, address));
+        }
+
+        /// <summary>
+        /// Reset body and set text message
+        /// </summary>
+        /// <param name="message">text message</param>
+        protected void SetText(string message)
         {
             SetHTML("", message);
         }
 
-        public void SetHTML(string html, string altText)
+        /// <summary>
+        /// Reset body and set html boyd and alttext
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="altText"></param>
+        protected void SetHTML(string html, string altText)
         {
             BodyBuilder bodyBuilder = new BodyBuilder
             {
@@ -36,12 +50,7 @@ namespace InWords.WebApi.Services.Email
             emailMessage.Body = bodyBuilder.ToMessageBody();
         }
 
-        public void AddAddressees(string name, string address)
-        {
-            emailMessage.To.Add(new MailboxAddress(name, address));
-        }
-
-        public async Task SendEmailAsync()
+        protected virtual async Task SendEmailAsync()
         {
             using (var client = new SmtpClient())
             {
