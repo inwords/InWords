@@ -65,7 +65,9 @@ function WordPairAddDialogContainer({ ...rest }) {
 
           setTranslationsInfo(newTranslationsInfo);
         })
-        .catch(error => {});
+        .catch(error => {
+          // die
+        });
     };
 
     window.clearTimeout(translationTimeoutRef.current);

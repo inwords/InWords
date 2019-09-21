@@ -8,8 +8,7 @@ function TrainingResultContainer({ history, match, ...rest }) {
   const { levelsInfo } = useSelector(store => store.games.gameInfo);
 
   const handleRedirectionToLevels = () => {
-    const parsedGameId = parseInt(match.params.gameId);
-    history.push(`/trainingCategories/${parsedGameId}`);
+    history.push(`/trainings/${match.params.categoryId}/${match.params.trainingId}`);
   };
 
   const handleRedirectionToNextLevel = () => {
@@ -21,9 +20,8 @@ function TrainingResultContainer({ history, match, ...rest }) {
     if (levelIndex !== -1) {
       const nextLevelIndex = levelIndex + 1;
       if (levelsInfo[nextLevelIndex]) {
-        const parsedGameId = parseInt(match.params.gameId);
         history.push(
-          `/trainingCategories/${parsedGameId}/${levelsInfo[nextLevelIndex].levelId}`
+          `/trainings/${match.params.categoryId}/${match.params.trainingId}/${levelsInfo[nextLevelIndex].levelId}`
         );
       } else {
         handleRedirectionToLevels();

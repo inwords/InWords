@@ -9,16 +9,16 @@ function withReceivedTrainingInfo(WrappedComponent) {
 
     const dispatch = useDispatch();
 
-    const parsedGameId = parseInt(match.params.gameId);
+    const parsedCategoryId = parseInt(match.params.categoryId);
 
     useEffect(() => {
-      if (gameId !== parsedGameId) {
-        dispatch(receiveGameInfo(parsedGameId));
+      if (gameId !== parsedCategoryId) {
+        dispatch(receiveGameInfo(parsedCategoryId));
       }
-    }, [gameId, parsedGameId, dispatch]);
+    }, [gameId, parsedCategoryId, dispatch]);
 
     return (
-      gameId === parsedGameId && (
+      gameId === parsedCategoryId && (
         <WrappedComponent
           gameId={gameId}
           levelsInfo={levelsInfo}

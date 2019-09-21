@@ -29,10 +29,12 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginBottom: theme.spacing(1),
-    textTransform: 'none'
+    textTransform: 'none',
+    paddingRight: theme.spacing(5)
   },
-  leftIcon: {
-    marginRight: theme.spacing(1)
+  rightIcon: {
+    position: 'absolute',
+    right: theme.spacing(1)
   }
 }));
 
@@ -86,9 +88,9 @@ function SelectTranslateTraining({
 
             let icon;
             if (rightSelectedWordId === id) {
-              icon = <CheckCircleOutlineIcon className={classes.leftIcon} />;
+              icon = <CheckCircleOutlineIcon className={classes.rightIcon} />;
             } else if (wrongSelectedWordId === id) {
-              icon = <ErrorOutlineIcon className={classes.leftIcon} />;
+              icon = <ErrorOutlineIcon className={classes.rightIcon} />;
             }
 
             return (
@@ -101,7 +103,6 @@ function SelectTranslateTraining({
                 placement="left"
               >
                 <Button
-                  
                   onClick={handleClick(pairId, id)}
                   disableRipple
                   disableFocusRipple={isClickDone}
@@ -110,8 +111,8 @@ function SelectTranslateTraining({
                   fullWidth
                   className={classes.button}
                 >
-                  {icon}
                   {word}
+                  {icon}
                 </Button>
               </Tooltip>
             );

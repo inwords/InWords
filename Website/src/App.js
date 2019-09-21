@@ -14,9 +14,12 @@ const Profile = lazy(() => import('./pages/Profile'));
 const ProfileSettings = lazy(() => import('./pages/ProfileSettings'));
 const Wordlist = lazy(() => import('./pages/Wordlist'));
 const TrainingCategories = lazy(() => import('./pages/TrainingCategories'));
+const TrainingTypes = lazy(() => import('./pages/TrainingTypes'));
 const TrainingLevels = lazy(() => import('./pages/TrainingLevels'));
 const Game = lazy(() => import('./pages/Game'));
-const SelectTranslateTraining = lazy(() => import('./pages/SelectTranslateTraining'));
+const SelectTranslateTraining = lazy(() =>
+  import('./pages/SelectTranslateTraining')
+);
 
 const history = createBrowserHistory();
 
@@ -62,10 +65,32 @@ function App() {
               <Route path="/profile/:userId" component={Profile} />
               <Route path="/profileSettings" component={ProfileSettings} />
               <Route path="/wordlist" component={Wordlist} />
-              <Route exact path="/trainingCategories" component={TrainingCategories} />
-              <Route exact path="/trainingCategories/:gameId" component={TrainingLevels} />
-              <Route path="/trainingCategories/:gameId/:levelId" component={Game} />
-              <Route path="/trainingCategories2/:gameId/:levelId" component={SelectTranslateTraining} />
+              <Route exact path="/trainings" component={TrainingCategories} />
+              <Route
+                exact
+                path="/trainings/:categoryId"
+                component={TrainingTypes}
+              />
+              <Route
+                exact
+                path="/trainings/:categoryId/:trainingId"
+                component={TrainingLevels}
+              />
+              <Route
+                path="/trainings/:categoryId/:trainingId/:levelId"
+                render={({ match, ...rest }) => {
+                  switch (match.params.trainingId) {
+                    case '0':
+                      return <Game match={match} {...rest} />;
+                    case '1':
+                      return (
+                        <SelectTranslateTraining match={match} {...rest} />
+                      );
+                    default:
+                      return null;
+                  }
+                }}
+              />
             </Switch>
           </Suspense>
         </ErrorBoundary>

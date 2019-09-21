@@ -19,6 +19,11 @@ const useStyles = makeStyles(theme => ({
   },
   chip: {
     margin: theme.spacing(1)
+  },
+  translationsInfo: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap'
   }
 }));
 
@@ -77,6 +82,10 @@ function WordPairAddDialog({
             fullWidth
           />
         </form>
+        <Typography variant="body2">
+          Реализовано с помощью сервиса{' '}
+          <Link href="https://tech.yandex.ru/dictionary">«Яндекс.Словарь»</Link>
+        </Typography>
         <div className={classes.translationsInfo}>
           {translationsInfo.map(({ id, translation }) => (
             <Chip
@@ -86,12 +95,6 @@ function WordPairAddDialog({
               className={classes.chip}
             />
           ))}
-          <Typography variant="body2" className={classes.footer}>
-            Реализовано с помощью сервиса{' '}
-            <Link href="https://tech.yandex.ru/dictionary">
-              «Яндекс.Словарь»
-            </Link>
-          </Typography>
         </div>
       </DialogContent>
       <DialogActions>
