@@ -13,12 +13,12 @@ namespace InWords.WebApi.Services.Email
     /// </summary>
     public class EmailVerifierService
     {
-        private readonly EmailCodeGeneratorService codeGenerator = null;
+        private readonly ShortCodeGeneratorService codeGenerator = null;
         private readonly EmailCodeSenderService emailCodeSenderService = null;
         private readonly EmailVerifierRepository emailVerifierRepository = null;
 
         public EmailVerifierService(EmailCodeSenderService emailCodeSenderService,
-            EmailCodeGeneratorService codeGenerator,
+            ShortCodeGeneratorService codeGenerator,
             EmailVerifierRepository emailVerifier)
         {
             this.codeGenerator = codeGenerator;
