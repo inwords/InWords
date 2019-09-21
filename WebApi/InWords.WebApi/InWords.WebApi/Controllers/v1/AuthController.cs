@@ -18,15 +18,18 @@ namespace InWords.WebApi.Controllers.v1
     [Produces("application/json")]
     public class AuthController : ControllerBase
     {
-        private readonly AccountIdentityProvider accountIdentityProvider;
         private readonly AccountRepository accountRepository;
+        private readonly AccountIdentityProvider accountIdentityProvider;
         private readonly EmailVerifierService emailVerifierService = null;
 
-        public AuthController(AccountRepository accountRepository, EmailVerifierService emailVerifierService)
+
+        public AuthController(AccountRepository accountRepository,
+            EmailVerifierService emailVerifierService)
         {
             this.accountRepository = accountRepository;
-            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
             this.emailVerifierService = emailVerifierService;
+            // todo inject
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository);
         }
 
         /// <summary>
@@ -34,28 +37,21 @@ namespace InWords.WebApi.Controllers.v1
         /// </summary>
         /// <returns>A newly token</returns>
         /// <response code="200">Success</response>
-        /// <response code="400">Invalid password</response>
-        /// <response code="404">Email not found</response>
+        /// <response code="400">Access denied</response>
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Route("token")]
         [HttpPost]
-        public IActionResult Token([FromBody] BasicAuthClaims user)
+        public async Task<IActionResult> Token([FromBody] BasicAuthClaims user)
         {
             try
             {
                 // get token
-                TokenResponse tokenResponse = accountIdentityProvider.GetIdentity(user);
-                // log user access
+                TokenResponse tokenResponse = await accountIdentityProvider.GetIdentity(user);
 
                 return Ok(tokenResponse);
             }
             catch (ArgumentNullException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -80,8 +76,6 @@ namespace InWords.WebApi.Controllers.v1
             //Create token
             TokenResponse response = await CreateUserAccount(user);
 
-            // log user access
-
             return Ok(response);
         }
 
@@ -91,11 +85,13 @@ namespace InWords.WebApi.Controllers.v1
             Account account = await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password);
 
             string username = account.Email.Remove(account.Email.IndexOf("@"));
+
+            // send verifeir email
             await emailVerifierService.InstatiateVerifierMessage(account.AccountId, username, basicAuthClaims.Email);
 
             //Create token
-            TokenResponse response =
-                accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
+            TokenResponse response = await accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
+            
             return response;
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InWords.Data.Domains
@@ -12,6 +13,7 @@ namespace InWords.Data.Domains
         public string AvatarPath { get; set; }
 
         public int Experience { get; set; }
+        public DateTime LastLogin { get; set; }
 
         public virtual Account Account { get; set; }
     }
