@@ -9,6 +9,7 @@ namespace InWords.WebApi.Services.Email
 {
     public class TemplateSender : EmailSender
     {
+        [Obsolete]
         public TemplateSender(EmailIdentity emailIdentity) : base(emailIdentity)
         {
  

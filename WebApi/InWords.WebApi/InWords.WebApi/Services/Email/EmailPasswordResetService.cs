@@ -34,7 +34,6 @@ namespace InWords.WebApi.Services.Email
             await emailTemplateSender.SendMailAsync(email, resetPasswordTemplate);
             
             // write repo
-
         }
 
         // By link guid set new password
