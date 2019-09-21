@@ -8,11 +8,12 @@ namespace InWords.WebApi.Services.Email.Template
 {
     public class ResetPasswordTemplate : EmailTemplateBase
     {
-        public void Configure(int code)
+        public void Configure(int code,string link)
         {
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>()
             {
-                { "{code}",$"{code}"}
+                { "{code}",$"{code}"},
+                { "{link}",link}
             };
             base.LoadTemplate(EmailTemplates.ResetPasswordEmail, keyValuePairs);
         }
