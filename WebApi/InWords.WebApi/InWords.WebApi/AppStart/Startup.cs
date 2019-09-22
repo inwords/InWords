@@ -7,7 +7,9 @@ using InWords.WebApi.Providers.FIleLogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -93,19 +95,23 @@ namespace InWords.WebApi.AppStart
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "My API V1");
-                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "My API V1.1");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "InWords Web API V1");
+                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "InWords Web API V1.1");
                 c.RoutePrefix = string.Empty;
             });
 
             // Enable middleware to generated logs as a text file.
             LoggerConfiguration(loggerFactory);
 
-            // TODO: remove on Release
-            // if (env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseMiddleware<SecureConnectionMiddleware>();
+            }
+
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -126,7 +132,6 @@ namespace InWords.WebApi.AppStart
         }
     }
 }
-
 // feature-used when adding new application-level functionality
 // fix - if fixed some serious bug
 // docs — all the documentation
