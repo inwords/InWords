@@ -23,7 +23,7 @@ namespace InWords.WebApi.Services.Email
             // if link is not guid this is broken link so return
             if (!Guid.TryParse(link, out Guid guid)) return false;
 
-            EmailVerifier emailVerifier = await emailVerifierRepository.FindById(guid);
+            EmailVerifies emailVerifier = await emailVerifierRepository.FindById(guid);
             bool isCorrect = emailVerifier != null;
             if (isCorrect)
             {
@@ -34,7 +34,7 @@ namespace InWords.WebApi.Services.Email
         }
 
 
-        private async Task RemoveStorageVerification(EmailVerifier emailVerifier)
+        private async Task RemoveStorageVerification(EmailVerifies emailVerifier)
         {
             await emailVerifierRepository.Delete(e => e.UserId.Equals(emailVerifier.UserId));
         }

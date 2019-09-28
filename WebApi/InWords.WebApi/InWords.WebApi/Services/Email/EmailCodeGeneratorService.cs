@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Email
 {
-    public class EmailCodeGeneratorService
+    public class ShortCodeGeneratorService
     {
         private readonly Random random;
-        public EmailCodeGeneratorService()
+        public ShortCodeGeneratorService()
         {
             // TODO: Inject Random
             this.random = new Random();

@@ -14,9 +14,9 @@ namespace InWords.BLTests.Service.Email
         private IEmailVerifierRepository InitilizeEmailRepo(int userId, int secondsTimeout)
         {
             var mock = new Mock<IEmailVerifierRepository>();
-            mock.Setup(a => a.GetWhere(It.IsAny<Func<EmailVerifier, bool>>())).Returns(new List<EmailVerifier>()
+            mock.Setup(a => a.GetWhere(It.IsAny<Func<EmailVerifies, bool>>())).Returns(new List<EmailVerifies>()
             {
-                new EmailVerifier()
+                new EmailVerifies()
                 {
                     SentTime = DateTime.UtcNow.AddSeconds(-secondsTimeout),
                     UserId = userId

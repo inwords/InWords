@@ -6,6 +6,6 @@ namespace InWords.Data
 {
     public partial class InWordsDataContext
     {
-        public DbSet<EmailVerifier> EmailVerifies { get; set; }
+        public DbSet<EmailVerifies> EmailVerifies { get; set; }
     }
 }

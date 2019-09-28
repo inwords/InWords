@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InWords.Data.Domains.EmailEntitys
 {
-    public class EmailVerifier
+    public class EmailVerifies
     {
         [Key]
         public Guid Guid { get; set; }
@@ -19,11 +19,11 @@ namespace InWords.Data.Domains.EmailEntitys
 
         public short Attempts { get; set; }
 
-        public bool Equals(EmailVerifier b) => Equals(b.UserId, b.Email, b.Code);
+        public bool Equals(EmailVerifies b) => Equals(b.UserId, b.Email, b.Code);
 
         public override bool Equals(object obj)
         {
-            return obj is EmailVerifier ? Equals((EmailVerifier)obj) : false;
+            return obj is EmailVerifies ? Equals((EmailVerifies)obj) : false;
         }
 
         public bool Equals(int userId, string email, int code)

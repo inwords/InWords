@@ -26,7 +26,7 @@ namespace InWords.WebApi.Services.Email
 
         public int GetTimeout(int userId)
         {
-            EmailVerifier emailVerifier = emailVerifierRepository.GetWhere(e => e.UserId.Equals(userId))
+            EmailVerifies emailVerifier = emailVerifierRepository.GetWhere(e => e.UserId.Equals(userId))
                 .OrderByDescending(x => x.SentTime)
                 .FirstOrDefault();
 
@@ -55,9 +55,9 @@ namespace InWords.WebApi.Services.Email
         {
             return new Dictionary<string, string>()
             {
-                { "{username}",username },
-                { "{code}",$"{code}" },
-                { "{link}",$"{link}" }
+                { "{username}",username }, //-V3138
+                { "{code}",$"{code}" }, //-V3138
+                { "{link}",$"{link}" } //-V3138
             };
         }
     }

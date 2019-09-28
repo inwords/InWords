@@ -14,10 +14,8 @@ namespace InWords.BLTests.Service.Email.Models
             // preset
             EmailTemplates template = EmailTemplates.TestEmail;
             string expected = "<b>This is {test}</b>";
-            TemplateResolver resolver = new TemplateResolver();
-
             // act
-            string actual = await resolver.LoadTemplate(template);
+            string actual = await TemplateResolver.LoadTemplate(template);
             // test
             Assert.Equal(expected, actual);
         }
@@ -28,13 +26,12 @@ namespace InWords.BLTests.Service.Email.Models
             // preset
             EmailTemplates template = EmailTemplates.TestEmail;
             string expected = "<b>This is bar</b>";
-            TemplateResolver resolver = new TemplateResolver();
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>()
             {
                 {"{test}","bar" }
             };
             // act
-            string actual = await resolver.LoadTemplate(template, keyValuePairs);
+            string actual = await TemplateResolver.LoadTemplate(template, keyValuePairs);
             // test
             Assert.Equal(expected, actual);
         }
