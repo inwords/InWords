@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -9,8 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
+import TrainingsNavigation from 'components/TrainingsNavigation';
 
 const trainingTypesInfo = [
   {
@@ -28,12 +27,7 @@ const trainingTypesInfo = [
 function TrainingTypes({ match }) {
   return (
     <Container component="div" maxWidth="lg">
-      <BreadcrumbNavigation>
-        <Link component={RouterLink} to="/trainings" color="inherit">
-          Категории
-        </Link>
-        <Typography color="textPrimary">Тренажеры</Typography>
-      </BreadcrumbNavigation>
+      <TrainingsNavigation match={match} />
       <Grid container spacing={3}>
         {trainingTypesInfo.map(({ typeId, title, description }) => {
           return (
@@ -45,7 +39,7 @@ function TrainingTypes({ match }) {
                 </CardContent>
                 <CardActions>
                   <Button
-                    component={RouterLink}
+                    component={Link}
                     to={`${match.url}/${typeId}`}
                     size="small"
                     color="primary"

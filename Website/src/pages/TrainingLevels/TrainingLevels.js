@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -9,27 +9,14 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import withReceivedTrainingInfo from './withReceivedTrainingInfo';
-import BreadcrumbNavigation from 'components/BreadcrumbNavigation';
+import TrainingsNavigation from 'components/TrainingsNavigation';
 
 function TrainingLevels({ gameId, levelsInfo, match }) {
   return (
     <Container component="div" maxWidth="lg">
-      <BreadcrumbNavigation>
-        <Link component={RouterLink} to="/trainings" color="inherit">
-          Категории
-        </Link>
-        <Link
-          component={RouterLink}
-          to={`/trainings/${match.params.categoryId}`}
-          color="inherit"
-        >
-          Тренажеры
-        </Link>
-        <Typography color="textPrimary">Уровни</Typography>
-      </BreadcrumbNavigation>
-      <Grid container spacing={3}>
+      <TrainingsNavigation match={match} />
+      <Grid container spacing={2}>
         {levelsInfo.map(({ levelId, level, playerStars, isAvailable }) => (
           <Grid key={levelId} item xs={6} sm={4} md={3}>
             <Card>
@@ -51,7 +38,7 @@ function TrainingLevels({ gameId, levelsInfo, match }) {
               </CardContent>
               <CardActions>
                 <Button
-                  component={RouterLink}
+                  component={Link}
                   to={`${match.url}/${levelId}`}
                   size="small"
                   color="primary"

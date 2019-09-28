@@ -32,6 +32,9 @@ function ProfileMenu({ denyAccess }) {
         <MenuItem component={Link} to="/profile" onClick={handleClose}>
           Профиль
         </MenuItem>
+        <MenuItem component={Link} to="/account" onClick={handleClose}>
+          Аккаунт
+        </MenuItem>
         <Divider />
         <MenuItem component={Link} to="/signIn" onClick={denyAccess}>
           Выйти
