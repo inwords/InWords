@@ -23,7 +23,14 @@ function CustomSnackbar({ open, text, actionText, handleAction, handleClose }) {
   let action;
   if (open) {
     action = actionText && (
-      <Button color="secondary" size="small" onClick={handleAction}>
+      <Button
+        color="secondary"
+        size="small"
+        onClick={() => {
+          handleAction();
+          handleClose();
+        }}
+      >
         {actionText}
       </Button>
     );
@@ -48,7 +55,7 @@ function CustomSnackbar({ open, text, actionText, handleAction, handleClose }) {
       action={action}
       className={clsx({
         /* Snackbar appears above, when page has FAB.
-        DOM API is the simplest way for check (but not the best) */
+        DOM API is the simplest way for check (but not the best!) */
         [classes.snackbar]: Boolean(document.getElementById('fab'))
       })}
     />

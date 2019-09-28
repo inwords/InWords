@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,6 +12,15 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
 import TrainingResult from 'components/TrainingResult';
+
+const LightTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.text.primary,
+    boxShadow: theme.shadows[1],
+    fontSize: 12
+  }
+}))(Tooltip);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,12 +43,23 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginBottom: theme.spacing(1),
-    textTransform: 'none',
-    paddingRight: theme.spacing(5)
+    textTransform: 'none'
   },
-  rightIcon: {
+  buttonWithIcon: {
+    paddingRight: theme.spacing(5),
+    transition: theme.transitions.create('padding-right', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.shortest
+    })
+  },
+  '@keyframes fade': {
+    from: { opacity: 0 },
+    to: { opacity: 1 }
+  },
+  buttonIcon: {
     position: 'absolute',
-    right: theme.spacing(1)
+    right: theme.spacing(1),
+    animation: `$fade ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeOut}`
   }
 }));
 
@@ -78,6 +99,13 @@ function SelectTranslateTraining({
             </IconButton>
           </Paper>
           {secondaryWordsInfo.map(({ id, pairId, word, translation }) => {
+            let icon;
+            if (id === rightSelectedWordId) {
+              icon = <CheckCircleOutlineIcon className={classes.buttonIcon} />;
+            } else if (id === wrongSelectedWordId) {
+              icon = <ErrorOutlineIcon className={classes.buttonIcon} />;
+            }
+
             let color;
             switch (id) {
               case rightSelectedWordId:
@@ -90,15 +118,8 @@ function SelectTranslateTraining({
                 color = 'default';
             }
 
-            let icon;
-            if (rightSelectedWordId === id) {
-              icon = <CheckCircleOutlineIcon className={classes.rightIcon} />;
-            } else if (wrongSelectedWordId === id) {
-              icon = <ErrorOutlineIcon className={classes.rightIcon} />;
-            }
-
             return (
-              <Tooltip
+              <LightTooltip
                 key={id}
                 title={translation}
                 disableTouchListener
@@ -109,16 +130,17 @@ function SelectTranslateTraining({
                 <Button
                   onClick={handleClick(pairId, id)}
                   disableRipple
-                  disableFocusRipple={isClickDone}
                   color={color}
                   variant="outlined"
                   fullWidth
-                  className={classes.button}
+                  className={clsx(classes.button, {
+                    [classes.buttonWithIcon]: Boolean(icon)
+                  })}
                 >
                   {word}
                   {icon}
                 </Button>
-              </Tooltip>
+              </LightTooltip>
             );
           })}
         </div>

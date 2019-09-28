@@ -32,7 +32,10 @@ function WordPairAddDialogContainer({ ...rest }) {
 
   useEffect(() => {
     const word = inputs.wordForeign.slice().trim();
-    if (!word.match(/^[a-z0-9]+/i)) return;
+    if (!word.match(/^[a-z0-9 ]+$/i)) {
+      setTranslationsInfo([]);
+      return;
+    }
 
     const translate = word => {
       const url = new URL(
@@ -66,7 +69,7 @@ function WordPairAddDialogContainer({ ...rest }) {
           setTranslationsInfo(newTranslationsInfo);
         })
         .catch(error => {
-          // die
+          setTranslationsInfo([]);
         });
     };
 

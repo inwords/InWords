@@ -18,12 +18,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center'
   },
   chip: {
-    margin: theme.spacing(1)
+    margin: 4
   },
   translationsInfo: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap'
+    marginTop: theme.spacing(1)
   }
 }));
 
@@ -92,6 +90,7 @@ function WordPairAddDialog({
               key={id}
               label={translation}
               onClick={handleTranslationAddition(id)}
+              variant="outlined"
               className={classes.chip}
             />
           ))}
