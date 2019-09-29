@@ -63,7 +63,8 @@ function SelectTranslateTraining({
     },
     secondaryWordsInfo: []
   },
-  selectedWordIdsInfo: { rightSelectedWordId, wrongSelectedWordId },
+  requiredWordIdsInfo: { rightSelectedWordId, wrongSelectedWordId },
+  selectedWordId,
   isClickDone,
   handleClick,
   handleOpenNextSet,
@@ -111,9 +112,7 @@ function SelectTranslateTraining({
             <LightTooltip
               key={id}
               title={translation}
-              disableTouchListener
-              disableFocusListener={!isClickDone}
-              disableHoverListener={!isClickDone}
+              open={id === selectedWordId}
               placement="right"
             >
               <Button
@@ -151,10 +150,11 @@ SelectTranslateTraining.propTypes = {
       }).isRequired
     ).isRequired
   }),
-  selectedWordIdsInfo: PropTypes.exact({
+  requiredWordIdsInfo: PropTypes.exact({
     rightSelectedWordId: PropTypes.number,
     wrongSelectedWordId: PropTypes.number
   }).isRequired,
+  selectedWordId: PropTypes.number.isRequired,
   isClickDone: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleOpenNextSet: PropTypes.func.isRequired,

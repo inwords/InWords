@@ -9,7 +9,8 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
   const [currentWordSet, setCurrentWordSet] = useState(undefined);
-  const [selectedWordIdsInfo, setSelectedWordIdsInfo] = useState({});
+  const [requiredWordIdsInfo, setRequiredWordIdsInfo] = useState({});
+  const [selectedWordId, setSelectedWordId] = useState(-1);
   const [isClickDone, setIsClickDone] = useState(false);
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
@@ -66,16 +67,19 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   }, [isGameCompleted]);
 
   const handleClick = (pairId, id) => () => {
-    if (isClickDone) return;
+    if (isClickDone) {
+      setSelectedWordId(id);
+      return;
+    }
 
     if (pairId === currentWordSet.primaryWordInfo.pairId) {
-      setSelectedWordIdsInfo({
+      setRequiredWordIdsInfo({
         rightSelectedWordId: id
       });
 
       setCurrentWordSets(wordSets => wordSets.slice(0, -1));
     } else {
-      setSelectedWordIdsInfo({
+      setRequiredWordIdsInfo({
         rightSelectedWordId: currentWordSet.secondaryWordsInfo.find(
           secondaryWordInfo =>
             secondaryWordInfo.pairId === currentWordSet.primaryWordInfo.pairId
@@ -83,6 +87,7 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
         wrongSelectedWordId: id
       });
 
+      setSelectedWordId(id);
       setCurrentWordSets(currentWordSets => shuffle([...currentWordSets]));
     }
 
@@ -90,6 +95,8 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   };
 
   const handleOpenNextSet = () => {
+    setSelectedWordId(-1);
+
     if (currentWordSets.length > 0) {
       setCurrentWordSet({
         primaryWordInfo:
@@ -98,7 +105,7 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
           ...currentWordSets[currentWordSets.length - 1].secondaryWordsInfo
         ])
       });
-      setSelectedWordIdsInfo({
+      setRequiredWordIdsInfo({
         rightSelectedWordId: -1,
         wrongSelectedWordId: -1
       });
@@ -113,7 +120,8 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
 
     setCurrentWordSets(shuffledWordSets);
     setCurrentWordSet(shuffledWordSets[shuffledWordSets.length - 1]);
-    setSelectedWordIdsInfo({});
+    setRequiredWordIdsInfo({});
+    setSelectedWordId(-1);
     setIsClickDone(false);
     setIsGameCompleted(false);
     setIsResultReady(false);
@@ -124,7 +132,8 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
     return (
       <SelectTranslateTraining
         currentWordSet={currentWordSet}
-        selectedWordIdsInfo={selectedWordIdsInfo}
+        selectedWordId={selectedWordId}
+        requiredWordIdsInfo={requiredWordIdsInfo}
         isClickDone={isClickDone}
         handleClick={handleClick}
         handleOpenNextSet={handleOpenNextSet}
