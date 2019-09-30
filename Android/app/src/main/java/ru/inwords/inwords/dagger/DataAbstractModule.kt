@@ -2,13 +2,15 @@ package ru.inwords.inwords.dagger
 
 import dagger.Binds
 import dagger.Module
-import ru.inwords.inwords.dagger.annotations.CacheRepository
 import ru.inwords.inwords.dagger.annotations.LocalRepository
 import ru.inwords.inwords.data.repository.game.GameGatewayController
 import ru.inwords.inwords.data.repository.game.GameGatewayControllerImpl
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepositoryImpl
-import ru.inwords.inwords.data.repository.translation.*
+import ru.inwords.inwords.data.repository.translation.TranslationWordsDatabaseRepository
+import ru.inwords.inwords.data.repository.translation.TranslationWordsLocalRepository
+import ru.inwords.inwords.data.repository.translation.TranslationWordsRemoteRepository
+import ru.inwords.inwords.data.repository.translation.TranslationWordsWebApiRepository
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorisedImpl
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorised
@@ -62,7 +64,7 @@ interface DataAbstractModule {
 
     @Binds
     @Singleton
-    fun translationWordsCacheInteractor(interactor: TranslationWordsCacheInteractor): TranslationWordsRepositoryInteractor
+    fun translationWordsCacheInteractor(interactor: TranslationWordsLocalInteractor): TranslationWordsRepositoryInteractor
 
     //repos
     @Binds
@@ -73,11 +75,6 @@ interface DataAbstractModule {
     @Singleton
     @LocalRepository
     fun translationWordsDatabaseRepository(repository: TranslationWordsDatabaseRepository): TranslationWordsLocalRepository
-
-    @Binds
-    @Singleton
-    @CacheRepository
-    fun translationWordsCacheRepository(repository: TranslationWordsCacheRepository): TranslationWordsLocalRepository
 
     @Binds
     @Singleton

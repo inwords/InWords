@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
@@ -22,12 +23,13 @@ import com.google.android.material.snackbar.Snackbar
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_translation_main.*
+import kotlinx.android.synthetic.main.fragment_translation_main.view.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.SelectionDetailsLookup
 import ru.inwords.inwords.core.SelectionKeyProvider
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.WordTranslation
-import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.translation.TranslationViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.ItemTouchHelperAdapter
@@ -48,21 +50,31 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     private lateinit var mediaPlayer: MediaPlayer
     private val attrs = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build()
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return super.onCreateView(inflater, container, savedInstanceState).also { view ->
+            setupToolbar(view)
+
+            mediaPlayer = MediaPlayer()
+
+            if (savedInstanceState != null) {
+                tracker.onRestoreInstanceState(savedInstanceState)
+            }
+
+            val onItemClickedListener = PublishSubject.create<WordTranslation>()
+            val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
+            setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
+
+            viewModel.onEditClickedHandler(onItemClickedListener)
+            viewModel.onSpeakerClickedHandler(onSpeakerClickedListener.doOnNext { view.progress_view.progress = 50 })
+
+            view.fab.setOnClickListener { viewModel.onAddClicked() } //TODO clicks
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         NavigationUI.setupWithNavController(toolbar, navController)
-
-        setupToolbar(view)
-
-        mediaPlayer = MediaPlayer()
-
-        val onItemClickedListener = PublishSubject.create<WordTranslation>()
-        val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
-        setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
-        if (savedInstanceState != null) {
-            tracker.onRestoreInstanceState(savedInstanceState)
-        }
 
         viewModel.addEditWordLiveData.observe(this::getLifecycle) { event ->
             event.contentIfNotHandled?.also {
@@ -91,10 +103,6 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
                 .observeOn(SchedulersFacade.ui())
                 .subscribe(adapter)
                 .disposeOnViewDestroyed()
-
-        fab.setOnClickListener { viewModel.onAddClicked() } //TODO clicks
-        viewModel.onEditClickedHandler(onItemClickedListener)
-        viewModel.onSpeakerClickedHandler(onSpeakerClickedListener.doOnNext { progress_view.progress = 50 })
     }
 
     override fun onDestroyView() {
@@ -129,7 +137,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         actionMode?.title = "Выбрано: $selected"
     }
 
-    private fun setupToolbar(view: View) {
+    private fun setupToolbar(view: View) = with(view) {
         val search = toolbar.menu.findItem(R.id.action_search)
         val searchView = search.actionView as SearchView
 
@@ -146,10 +154,12 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         })
     }
 
-    private fun setupRecyclerView(view: View, onItemClickedListener: Subject<WordTranslation>, onSpeakerClickedListener: Subject<WordTranslation>) {
+    private fun setupRecyclerView(view: View,
+                                  onItemClickedListener: Subject<WordTranslation>,
+                                  onSpeakerClickedListener: Subject<WordTranslation>) = with(view) {
         val context = view.context
 
-        adapter = WordTranslationsAdapter(LayoutInflater.from(context), onItemClickedListener, onSpeakerClickedListener)
+        adapter = WordTranslationsAdapter(onItemClickedListener, onSpeakerClickedListener)
 
         val layoutManager = LinearLayoutManager(context)
         val dividerItemDecoration = DividerItemDecoration(context, layoutManager.orientation)
@@ -158,16 +168,16 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         recycler_view.adapter = adapter
         recycler_view.addItemDecoration(dividerItemDecoration)
 
-        val callback = ItemTouchHelperAdapter(this) //TODO
+        val callback = ItemTouchHelperAdapter(this@TranslationMainFragment) //TODO
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(recycler_view)
 
-        setupTracker()
+        setupTracker(view)
 
         adapter.tracker = tracker
     }
 
-    private fun setupTracker() {
+    private fun setupTracker(view: View) = with(view) {
         fun getItems() = adapter.items
 
         tracker = SelectionTracker
@@ -210,8 +220,8 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     override fun onItemDismiss(position: Int) {
-        val item = adapter.items[position].clone()
-        viewModel.onItemDismiss(item.clone())
+        val item = adapter.items[position]
+        viewModel.onItemDismiss(item)
 
         Snackbar.make(root_coordinator, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
@@ -220,7 +230,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     fun onItemsDismiss(items: List<WordTranslation>) {
-        viewModel.onItemsDismiss(items.map { it.clone() })
+        viewModel.onItemsDismiss(items)
 
         Snackbar.make(root_coordinator, getString(R.string.translation_multiple_deleted, items.size), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemsDismissUndo(items) }

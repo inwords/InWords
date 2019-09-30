@@ -8,15 +8,14 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.data.dto.WordTranslation
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseSingleTypeAdapter
 
-class WordTranslationsAdapter(layoutInflater: LayoutInflater,
-                              onItemClickedListener: Subject<WordTranslation>,
+class WordTranslationsAdapter(onItemClickedListener: Subject<WordTranslation>,
                               private val onSpeakerClickedListener: Subject<WordTranslation>) :
-        BaseSingleTypeAdapter<WordTranslation, WordTranslationViewHolder>(layoutInflater, onItemClickedListener) {
+        BaseSingleTypeAdapter<WordTranslation, WordTranslationViewHolder>(onItemClickedListener) {
 
     var tracker: SelectionTracker<WordTranslation>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordTranslationViewHolder {
-        val v = layoutInflater.inflate(R.layout.list_item_word, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item_word, parent, false)
 
         return WordTranslationViewHolder(v, onItemClickListener, onSpeakerClickedListener)
     }

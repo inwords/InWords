@@ -1,21 +1,21 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.facebook.imagepipeline.request.ImageRequestBuilder
-import kotlinx.android.synthetic.main.fragment_game_levels.*
-import kotlinx.android.synthetic.main.game_welcome.*
+import kotlinx.android.synthetic.main.fragment_game_levels.view.*
+import kotlinx.android.synthetic.main.game_welcome.view.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.data.dto.game.Game
-import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
-import ru.inwords.inwords.domain.model.Resource
+import ru.inwords.inwords.domain.util.INVALID_ID
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter
@@ -27,51 +27,49 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
     private val args by navArgs<GameLevelsFragmentArgs>()
 
-    private lateinit var gameInfo: GameInfo
-    private lateinit var game: Game
+    private var gameId: Int = INVALID_ID
     private lateinit var adapter: GameLevelsAdapter
 
     private var shownIntro = false
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return super.onCreateView(inflater, container, savedInstanceState).apply {
+            adapter = GameLevelsAdapter(viewModel.navigateToGameLevel)
 
-        gameInfo = args.gameInfo
+            levelsRecycler.layoutManager = GridLayoutManager(context, 3)
+            levelsRecycler.adapter = adapter
+
+            if (!shownIntro) {
+                showIntro(this)
+                shownIntro = true
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!shownIntro) {
-            showIntro()
-            shownIntro = true
-        }
-
-        adapter = GameLevelsAdapter(layoutInflater, viewModel.navigateToGameLevel)
-
-        levelsRecycler.layoutManager = GridLayoutManager(context, 3)
-        levelsRecycler.adapter = adapter
-
         viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
 
-        viewModel.screenInfoStream(gameInfo.gameId)
+        viewModel.screenInfoStream(args.gameInfo.gameId)
                 .map {
-                    if (it.gameResource is Resource.Success) {
-                        game = it.gameResource.data
-                        game.gameLevelInfos
+                    if (it is Resource.Success) {
+                        gameId = it.data.game.gameId
+                        it.data.game.gameLevelInfos
                     } else {
-                        emptyList()
+                        showNoContent()
+                        emptyList() //TODO show error LUL
                     }
                 }
                 .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
-                .doOnSubscribe { levelsRecycler.showShimmerAdapter() }
-                .doOnEach { levelsRecycler.hideShimmerAdapter() }
+                .doOnSubscribe { view.levelsRecycler.showShimmerAdapter() }
+                .doOnEach { view.levelsRecycler.hideShimmerAdapter() }
                 .subscribe({
                     showScreenState(it.first)
                     adapter.accept(it)
 
-                    fixOverscrollBehaviour(levelsRecycler)
+                    fixOverscrollBehaviour(view.levelsRecycler)
                 }) {
                     Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()
@@ -80,16 +78,16 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     }
 
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
-        navController.navigate(GameLevelsFragmentDirections.actionGameLevelsFragmentToGameLevelFragment(gameLevelInfo, game.gameId))
+        navController.navigate(GameLevelsFragmentDirections.actionGameLevelsFragmentToGameLevelFragment(gameLevelInfo, gameId))
     }
 
-    private fun showIntro() {
+    private fun showIntro(view: View) = with(view) {
         val imageRequest = ImageRequestBuilder
                 .newBuilderWithResourceId(R.drawable.octopus_default)
                 .build()
 
         welcome_image.setImageRequest(imageRequest)
-        welcome_text.text = gameInfo.description
+        welcome_text.text = args.gameInfo.description
         welcome_screen.visibility = View.VISIBLE
 
         startButton.setOnClickListener {

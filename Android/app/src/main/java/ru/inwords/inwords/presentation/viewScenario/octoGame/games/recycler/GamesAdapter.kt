@@ -7,11 +7,11 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseSingleTypeAdapter
 
-class GamesAdapter(layoutInflater: LayoutInflater, onItemClickedListener: Subject<GameInfo>) :
-        BaseSingleTypeAdapter<GameInfo, GameInfoViewHolder>(layoutInflater, onItemClickedListener) {
+class GamesAdapter(onItemClickedListener: Subject<GameInfo>) :
+        BaseSingleTypeAdapter<GameInfo, GameInfoViewHolder>(onItemClickedListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameInfoViewHolder {
-        val v = layoutInflater.inflate(R.layout.game_info, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.game_info, parent, false)
 
         return GameInfoViewHolder(v, onItemClickListener)
     }

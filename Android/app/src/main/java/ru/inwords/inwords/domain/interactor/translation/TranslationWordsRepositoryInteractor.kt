@@ -5,8 +5,6 @@ import io.reactivex.Observable
 import ru.inwords.inwords.data.dto.WordTranslation
 
 interface TranslationWordsRepositoryInteractor {
-    fun getByOne(): Observable<WordTranslation>
-
     fun getList(): Observable<List<WordTranslation>>
 
     fun add(wordTranslation: WordTranslation): Completable

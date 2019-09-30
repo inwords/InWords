@@ -5,11 +5,12 @@ import android.util.Log
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.domain.model.Resource
 import java.io.InterruptedIOException
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -100,15 +101,15 @@ internal class ResourceCachingProvider<T : Any>(
 
     private fun <T : Any> Single<T>.wrapNetworkResource(): Maybe<Resource<T>> {
         return map { Resource.Success(it) as Resource<T> }
-                .onErrorReturn {
+                .toMaybe()
+                .onErrorResumeNext(Function {
                     if (it is InterruptedIOException || it is InterruptedException) {
                         Log.e(TAG, "Interrupted exception intercepted: ${it.message.orEmpty()}")
-                        Resource.Loading() //used as a marker to be skipped
+                        Maybe.empty<Resource<T>>()
                     } else {
-                        Resource.Error(it.message, it)
+                        Maybe.just(Resource.Error(it.message, it))
                     }
-                }
-                .filter { it !is Resource.Loading }
+                })
     }
 
     class Locator<T : Any>(private val factory: (Int) -> ResourceCachingProvider<T>) {

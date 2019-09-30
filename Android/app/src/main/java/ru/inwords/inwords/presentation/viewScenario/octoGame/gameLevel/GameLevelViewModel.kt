@@ -6,13 +6,14 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
 import ru.inwords.inwords.data.dto.game.LevelScore
 import ru.inwords.inwords.data.dto.game.LevelScoreRequest
 import ru.inwords.inwords.domain.CardsData
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
-import ru.inwords.inwords.domain.model.Resource
+import ru.inwords.inwords.domain.model.GameModel
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.FromGameEndEventsEnum.*
 
@@ -41,14 +42,13 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
 
         gameInteractor
                 .getGame(gameId)
-                .map { it.gameResource }
                 .subscribe { storeGame(it) } //TODO
                 .autoDispose()
     }
 
-    private fun storeGame(gameResource: Resource<Game>) {
+    private fun storeGame(gameResource: Resource<GameModel>) {
         when (gameResource) {
-            is Resource.Success -> game = gameResource.data.copy(gameLevelInfos = gameResource.data.gameLevelInfos.sortedBy { g -> g.level })
+            is Resource.Success -> game = gameResource.data.game.copy(gameLevelInfos = gameResource.data.game.gameLevelInfos.sortedBy { g -> g.level })
             is Resource.Error -> Log.e("GameLevelViewModel", gameResource.message.orEmpty())  //TODO
         }
     }
@@ -63,13 +63,13 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
     }
 
     fun getNextLevelInfo(): Resource<GameLevelInfo> {
-        val gameLevelInfos = game.gameLevelInfos.sortedBy { it.level }
+        val gameLevelInfos = game.gameLevelInfos
         val nextLevelIndex = currentLevelIndex + 1
 
         return if (nextLevelIndex < gameLevelInfos.size) {
             Resource.Success(gameLevelInfos[nextLevelIndex])
         } else {
-            Resource.Error()
+            Resource.Error("", RuntimeException("")) //TODO normal exception
         }
     }
 
@@ -80,7 +80,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
 
         when (path) {
             NEXT -> selectNextLevel()
-            REFRESH -> onGameLevelSelected(game.gameId, getCurrentLevelInfo()) //TODO only flip cards
+            REFRESH -> onGameLevelSelected(game.gameId, getCurrentLevelInfo())
             else -> Unit
         }
     }

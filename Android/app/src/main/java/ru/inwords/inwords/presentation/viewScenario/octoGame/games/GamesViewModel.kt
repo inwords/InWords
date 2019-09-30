@@ -4,6 +4,7 @@ import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
 import ru.inwords.inwords.domain.model.GamesInfoModel
@@ -15,7 +16,7 @@ class GamesViewModel(private val gameInteractor: GameInteractor) : BasicViewMode
     val navigateToGame: Subject<GameInfo>
         get() = _navigateToGameLevelSubject
 
-    fun screenInfoStream(): Observable<GamesInfoModel> = gameInteractor.getGamesInfo()
+    fun screenInfoStream(): Observable<Resource<GamesInfoModel>> = gameInteractor.getGamesInfo()
 
     fun onGameRemoved(gameInfo: GameInfo) {
         Log.d("onGameRemoved", gameInfo.toString()) //TODO

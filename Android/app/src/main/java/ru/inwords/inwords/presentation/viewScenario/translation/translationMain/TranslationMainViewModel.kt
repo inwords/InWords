@@ -8,13 +8,13 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.util.Event
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.WordTranslation
 import ru.inwords.inwords.data.repository.texttospeech.TtsRepository
 import ru.inwords.inwords.domain.interactor.translation.TranslationSyncInteractor
 import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteractor
-import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 import java.util.Collections.singletonList
 import java.util.concurrent.TimeUnit

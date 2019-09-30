@@ -7,10 +7,10 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_games.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameInfo
-import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.GamesAdapter
@@ -26,7 +26,7 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = GamesAdapter(layoutInflater, viewModel.navigateToGame)
+        adapter = GamesAdapter(viewModel.navigateToGame)
 
         gamesRecycler.layoutManager = GridLayoutManager(context, 2)
         gamesRecycler.adapter = adapter
@@ -35,8 +35,8 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
 
         viewModel.screenInfoStream()
                 .map {
-                    if (it.gameInfosResource is Resource.Success) {
-                        it.gameInfosResource.data
+                    if (it is Resource.Success) {
+                        it.data.gameInfos
                     } else {
                         emptyList()
                     }

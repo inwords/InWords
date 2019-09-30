@@ -12,31 +12,14 @@ import javax.inject.Inject
 
 class TranslationWordsDatabaseRepository @Inject
 constructor(private val wordTranslationDao: WordTranslationDao) : TranslationWordsLocalRepository {
-    override fun getByOne(): Observable<WordTranslation> {
-        return getList()
-                .flatMap { Observable.fromIterable(it) }
-    }
-
     override fun getList(): Observable<List<WordTranslation>> {
-        return wordTranslationDao.allWords
+        return wordTranslationDao.getAllWords()
                 .subscribeOn(Schedulers.io())
-                /*.map(wordTranslations -> {
-                    if (wordTranslations.isEmpty()) { //TODO::
-                        return Arrays.asList(new WordTranslation(15, 0, "HEllo1", "из DBRepos"),
-                                new WordTranslation(16, 0, "Hellooo2", "из DBRepos"));
-                    }
-
-                    return wordTranslations;
-                })*/
-                //.filter(wordTranslations -> !wordTranslations.isEmpty())
-                .toObservable()
     }
 
     override fun addReplace(wordTranslation: WordTranslation): Single<WordTranslation> {
         return wordTranslationDao.insert(wordTranslation).map { id ->
-            wordTranslation.wordIdentificator.id = id
-
-            wordTranslation
+            wordTranslation.copy(id = id)
         }
                 .subscribeOn(Schedulers.io())
     }
@@ -49,9 +32,7 @@ constructor(private val wordTranslationDao: WordTranslationDao) : TranslationWor
                     .flatMapObservable { Observable.fromIterable(it) }
                     .zipWith(Observable.fromIterable(wordTranslations),
                             BiFunction<Long, WordTranslation, WordTranslation> { id, wordTranslation ->
-                                wordTranslation.id = id
-
-                                wordTranslation
+                                wordTranslation.copy(id = id)
                             })
                     .toList()
                     .subscribeOn(Schedulers.io())

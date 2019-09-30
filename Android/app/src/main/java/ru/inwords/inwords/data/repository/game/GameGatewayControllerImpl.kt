@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.Single
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.*
 import ru.inwords.inwords.data.repository.ResourceCachingProvider
@@ -12,7 +13,10 @@ import ru.inwords.inwords.data.source.database.game.GameDao
 import ru.inwords.inwords.data.source.database.game.GameInfoDao
 import ru.inwords.inwords.data.source.database.game.GameLevelDao
 import ru.inwords.inwords.data.source.database.game.LevelScoreRequestDao
-import ru.inwords.inwords.domain.model.Resource
+import ru.inwords.inwords.domain.converter.GameDomainConverter
+import ru.inwords.inwords.domain.converter.GamesInfoDomainConverter
+import ru.inwords.inwords.domain.model.GameModel
+import ru.inwords.inwords.domain.model.GamesInfoModel
 import java.util.*
 import javax.inject.Inject
 
@@ -32,16 +36,21 @@ class GameGatewayControllerImpl @Inject constructor(
     private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameCachingProvider(it) } }
     private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) } }
 
-    override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<List<GameInfo>>> {
+    private val gameDomainConverter = GameDomainConverter()
+    private val gamesInfoDomainConverter = GamesInfoDomainConverter()
+
+    override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<GamesInfoModel>> {
         val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
 
         return cachingProvider.observe(forceUpdate)
+                .map { gamesInfoDomainConverter.convert(it) }
     }
 
-    override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
+    override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<GameModel>> {
         val cachingProvider = gameCachingProviderLocator.get(gameId)
 
         return cachingProvider.observe(forceUpdate)
+                .map { gameDomainConverter.convert(it) }
     }
 
     override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {

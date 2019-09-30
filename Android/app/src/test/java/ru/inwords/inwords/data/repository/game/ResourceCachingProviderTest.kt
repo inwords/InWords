@@ -10,9 +10,9 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.repository.ResourceCachingProvider
-import ru.inwords.inwords.domain.model.Resource
 
 @ExtendWith(MockKExtension::class)
 internal class ResourceCachingProviderTest {

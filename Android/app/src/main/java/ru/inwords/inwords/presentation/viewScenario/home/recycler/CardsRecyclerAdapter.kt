@@ -8,15 +8,15 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseSingleTypeAdapter
 
 class CardsRecyclerAdapter(
-        layoutInflater: LayoutInflater,
         onItemClickListener: Subject<CardWrapper>
-) : BaseSingleTypeAdapter<CardWrapper, RecyclerView.ViewHolder>(layoutInflater, onItemClickListener) {
+) : BaseSingleTypeAdapter<CardWrapper, RecyclerView.ViewHolder>(onItemClickListener) {
 
     enum class CardTypes {
         CREATE_ACCOUNT, PROFILE_LOADING, PROFILE, DICTIONARY
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             CardTypes.CREATE_ACCOUNT.ordinal -> CreateAccountViewHolder(
                     layoutInflater.inflate(R.layout.card_create_account, parent, false),

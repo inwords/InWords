@@ -7,8 +7,6 @@ import ru.inwords.inwords.data.dto.WordTranslation
 
 //Here any methods connected with manipulating data needed for Translation
 interface TranslationWordsLocalRepository {
-    fun getByOne(): Observable<WordTranslation>
-
     fun getList(): Observable<List<WordTranslation>>
 
     fun addReplace(wordTranslation: WordTranslation): Single<WordTranslation>

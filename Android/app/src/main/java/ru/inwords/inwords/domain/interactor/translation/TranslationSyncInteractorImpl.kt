@@ -15,7 +15,7 @@ internal constructor(private val syncController: TranslationSyncController) : Tr
     }
 
     override fun trySyncAllReposWithCache(): Completable {
-        return syncController.trySyncAllReposWithCache()
+        return syncController.trySyncRemoteReposWithLocal()
     }
 
     override fun notifyDataChanged() = syncController.notifyDataChanged()

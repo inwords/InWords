@@ -16,9 +16,9 @@ import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.game_end.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.LevelScore
-import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.domain.util.INVALID_ID
 import ru.inwords.inwords.domain.util.validId
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory

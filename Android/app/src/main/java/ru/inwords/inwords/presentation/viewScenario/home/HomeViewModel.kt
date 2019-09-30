@@ -2,10 +2,10 @@ package ru.inwords.inwords.presentation.viewScenario.home
 
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
 import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteractor
-import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.BasicViewModel
 import ru.inwords.inwords.presentation.viewScenario.home.recycler.CardWrapper
 import ru.inwords.inwords.presentation.viewScenario.home.recycler.applyDiffUtil
@@ -17,7 +17,6 @@ class HomeViewModel internal constructor(
 
     private val profileData: Observable<CardWrapper>
         get() = profileInteractor.getAuthorisedUser()
-                .startWith(Resource.Loading())
                 .map {
                     when (it) {
                         is Resource.Success -> CardWrapper.ProfileModel(it.data)
@@ -25,6 +24,7 @@ class HomeViewModel internal constructor(
                         is Resource.Error -> CardWrapper.CreateAccountMarker
                     }
                 }
+                .startWith(CardWrapper.ProfileLoadingMarker)
 
     private val wordsCount: Observable<CardWrapper.DictionaryModel>
         get() = translationWordsInteractor.getAllWords()

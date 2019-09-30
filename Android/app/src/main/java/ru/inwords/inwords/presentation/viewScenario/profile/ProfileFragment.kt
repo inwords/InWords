@@ -13,9 +13,9 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.User
-import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.renderPolicyText
 

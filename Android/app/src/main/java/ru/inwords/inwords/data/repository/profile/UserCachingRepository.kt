@@ -3,9 +3,9 @@ package ru.inwords.inwords.data.repository.profile
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.data.dto.User
 import ru.inwords.inwords.data.repository.ResourceCachingProvider
-import ru.inwords.inwords.domain.model.Resource
 
 class UserCachingRepository(
         private val databaseRepository: UserDatabaseRepository,
