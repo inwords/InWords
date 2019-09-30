@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.authorisation.registration.RegistrationFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.registration.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_sign_up">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.authorisation.login.LoginFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_sign_in">
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.home.HomeFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_mainFragment_to_profileFragment"
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.profile.ProfileFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
         <action
@@ -90,7 +90,7 @@
     </fragment>
     <fragment
         android:id="@+id/policyFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.policy.PolicyFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.policy.PolicyFragment"
         android:label="fragment_policy"
         tools:layout="@layout/fragment_policy">
         <action
@@ -99,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/translationMainFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.translation.translationMain.TranslationMainFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.translation.translationMain.TranslationMainFragment"
         tools:layout="@layout/fragment_translation_main">
         <action
             android:id="@+id/action_translationMainFragment_to_addEditWordFragment"
@@ -112,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/addEditWordFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.translation.addEditWord.AddEditWordFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.translation.addEditWord.AddEditWordFragment"
         android:label="fragment_add_edit_word"
         tools:layout="@layout/fragment_add_edit_word">
         <action
@@ -125,7 +125,7 @@
     </fragment>
     <fragment
         android:id="@+id/gamesFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.games.GamesFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.octo_game.games.GamesFragment"
         android:label="fragment_games"
         tools:layout="@layout/fragment_games">
         <action
@@ -138,7 +138,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameLevelsFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.GameLevelsFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.octo_game.gameLevels.GameLevelsFragment"
         android:label="fragment_game_levels"
         tools:layout="@layout/fragment_game_levels">
         <action
@@ -154,7 +154,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameLevelFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.GameLevelFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.octo_game.gameLevel.GameLevelFragment"
         android:label="fragment_game_level"
         tools:layout="@layout/fragment_game_level">
         <action
@@ -169,12 +169,12 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.SettingsFragment"
+        android:name="ru.inwords.inwords.presentation.view_scenario.SettingsFragment"
         android:label="SettingsFragment" />
 
     <dialog
         android:id="@+id/gameEndBottomSheet"
-        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.GameEndBottomSheet"
+        android:name="ru.inwords.inwords.presentation.view_scenario.octo_game.gameLevel.GameEndBottomSheet"
         android:label="GameEndBottomSheet" >
         <argument
             android:name="levelId"
