@@ -67,7 +67,7 @@ function SelectTranslateTraining({
   selectedWordId,
   isClickDone,
   handleClick,
-  handleOpenNextSet,
+  handleNext,
   isGameCompleted
 }) {
   const classes = useStyles();
@@ -81,7 +81,7 @@ function SelectTranslateTraining({
           </Typography>
           <IconButton
             aria-label="next"
-            onClick={handleOpenNextSet}
+            onClick={handleNext}
             disabled={!isClickDone}
             className={classes.next}
           >
@@ -157,7 +157,7 @@ SelectTranslateTraining.propTypes = {
   selectedWordId: PropTypes.number.isRequired,
   isClickDone: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
-  handleOpenNextSet: PropTypes.func.isRequired,
+  handleNext: PropTypes.func.isRequired,
   isGameCompleted: PropTypes.bool.isRequired
 };
 

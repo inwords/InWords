@@ -68,7 +68,12 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
 
   const handleClick = (pairId, id) => () => {
     if (isClickDone) {
-      setSelectedWordId(id);
+      if (id === selectedWordId) {
+        setSelectedWordId(-1);
+      } else {
+        setSelectedWordId(id);
+      }
+
       return;
     }
 
@@ -94,7 +99,7 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
     setIsClickDone(true);
   };
 
-  const handleOpenNextSet = () => {
+  const handleNext = () => {
     setSelectedWordId(-1);
 
     if (currentWordSets.length > 0) {
@@ -136,7 +141,7 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
         requiredWordIdsInfo={requiredWordIdsInfo}
         isClickDone={isClickDone}
         handleClick={handleClick}
-        handleOpenNextSet={handleOpenNextSet}
+        handleNext={handleNext}
         isGameCompleted={isGameCompleted}
       />
     );

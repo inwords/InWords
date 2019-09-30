@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { addWordPair } from 'actions/wordPairsApiActions';
+import uuidv4 from 'helpers/uuidv4';
 import useForm from 'hooks/useForm';
 import WordPairAddDialog from './WordPairAddDialog';
 
@@ -33,6 +34,7 @@ function WordPairAddDialogContainer({ ...rest }) {
   useEffect(() => {
     const word = inputs.wordForeign.slice().trim();
     if (!word.match(/^[a-z0-9 ]+$/i)) {
+      window.clearTimeout(translationTimeoutRef.current);
       setTranslationsInfo([]);
       return;
     }
@@ -57,10 +59,10 @@ function WordPairAddDialogContainer({ ...rest }) {
         })
         .then(data => {
           const newTranslationsInfo = [];
-          data.def.forEach((meaning, index1) => {
+          data.def.forEach(meaning => {
             newTranslationsInfo.push(
-              ...meaning.tr.map(({ text }, index2) => ({
-                id: `${index1}-${index2}`,
+              ...meaning.tr.map(({ text }) => ({
+                id: uuidv4(),
                 translation: text
               }))
             );
@@ -79,7 +81,7 @@ function WordPairAddDialogContainer({ ...rest }) {
     }, 700);
   }, [inputs.wordForeign]);
 
-  const handleTranslationAddition = id => () => {
+  const handleTranslationSelection = id => () => {
     const currentWordNative = inputs.wordNative.slice().trim();
     const selectedTranslation = translationsInfo.find(
       ({ id: translationId }) => translationId === id
@@ -110,7 +112,7 @@ function WordPairAddDialogContainer({ ...rest }) {
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       translationsInfo={translationsInfo}
-      handleTranslationAddition={handleTranslationAddition}
+      handleTranslationSelection={handleTranslationSelection}
       handleReset={handleReset}
       {...rest}
     />

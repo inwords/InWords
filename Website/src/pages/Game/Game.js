@@ -87,43 +87,36 @@ function Game({
   return (
     <div className={root}>
       <Grid container justify="center" spacing={cardsSpacing}>
-        {wordsInfo.map(randomWordInfo => {
-          const { id, pairId, word } = randomWordInfo;
-
-          return (
-            <Grid key={id} item>
-              <Grow in={!isGameCompleted}>
-                <div>
-                  <Paper
-                    elevation={selectedCompletedPairId === pairId ? 8 : 2}
-                    onClick={handleClick(pairId, id)}
-                    className={classes.card}
-                  >
-                    <Zoom
-                      in={
-                        completedPairIdsInfo[pairId] ||
-                        Boolean(
-                          selectedWordsInfo.find(
-                            selectedWordInfo => selectedWordInfo.id === id
-                          )
+        {wordsInfo.map(({ id, pairId, word }) => (
+          <Grid key={id} item>
+            <Grow in={!isGameCompleted}>
+              <div>
+                <Paper
+                  elevation={selectedCompletedPairId === pairId ? 8 : 2}
+                  onClick={handleClick(pairId, id)}
+                  className={classes.card}
+                >
+                  <Zoom
+                    in={
+                      completedPairIdsInfo[pairId] ||
+                      Boolean(
+                        selectedWordsInfo.find(
+                          selectedWordInfo => selectedWordInfo.id === id
                         )
-                      }
-                    >
-                      <div className={classes.cardContent}>
-                        <Typography
-                          component="span"
-                          className={classes.cardText}
-                        >
-                          {word}
-                        </Typography>
-                      </div>
-                    </Zoom>
-                  </Paper>
-                </div>
-              </Grow>
-            </Grid>
-          );
-        })}
+                      )
+                    }
+                  >
+                    <div className={classes.cardContent}>
+                      <Typography component="span" className={classes.cardText}>
+                        {word}
+                      </Typography>
+                    </div>
+                  </Zoom>
+                </Paper>
+              </div>
+            </Grow>
+          </Grid>
+        ))}
       </Grid>
     </div>
   );

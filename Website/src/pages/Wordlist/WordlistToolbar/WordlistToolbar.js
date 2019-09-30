@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, fade, makeStyles } from '@material-ui/core/styles';
+import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
-import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Search from './Search';
 
 const useStyles = makeStyles(theme => ({
   root: {
     paddingLeft: theme.spacing(2)
   },
-  activeToolbar: {
+  active: {
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
     color: theme.palette.secondary.main,
@@ -26,43 +25,6 @@ const useStyles = makeStyles(theme => ({
   },
   spacer: {
     flex: '1 1 100%'
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.07),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.black, 0.12)
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto'
-    }
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  inputRoot: {
-    color: 'inherit'
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 120,
-      '&:focus': {
-        width: 200
-      }
-    }
   },
   closeButton: {
     marginRight: 20
@@ -75,43 +37,27 @@ function WordlistToolbar({
   handleDelete,
   handleReset,
   inputs,
-  handleChange,
-  handleSubmit
+  handleChange
 }) {
   const classes = useStyles();
 
   return (
     <Toolbar
       className={clsx(classes.root, {
-        [classes.activeToolbar]: editingModeEnabled
+        [classes.active]: editingModeEnabled
       })}
     >
       {!editingModeEnabled ? (
         <>
           <Hidden xsDown>
             <div className={classes.title}>
-              <Typography variant="h6">Словарь</Typography>
+              <Typography component="h1" variant="h6">
+                Словарь
+              </Typography>
             </div>
             <div className={classes.spacer} />
           </Hidden>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Поиск…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-              inputProps={{
-                'aria-label': 'search',
-                name: 'search',
-                value: inputs.search,
-                onChange: handleChange
-              }}
-            />
-          </div>
+          <Search value={inputs.pattern} onChange={handleChange} />
         </>
       ) : (
         <>
@@ -124,7 +70,9 @@ function WordlistToolbar({
             <CloseIcon />
           </IconButton>
           <div className={classes.title}>
-            <Typography variant="h6">Выбрано: {numberOfChecked}</Typography>
+            <Typography component="h2" variant="h6">
+              Выбрано: {numberOfChecked}
+            </Typography>
           </div>
           <div className={classes.spacer} />
           <IconButton
@@ -150,7 +98,7 @@ WordlistToolbar.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   inputs: PropTypes.exact({
-    search: PropTypes.string.isRequired
+    pattern: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired
 };

@@ -13,15 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center'
+  translations: {
+    marginTop: theme.spacing(1)
   },
   chip: {
     margin: 4
-  },
-  translationsInfo: {
-    marginTop: theme.spacing(1)
   }
 }));
 
@@ -32,7 +28,7 @@ function WordPairAddDialog({
   handleChange,
   handleSubmit,
   translationsInfo,
-  handleTranslationAddition,
+  handleTranslationSelection,
   handleReset
 }) {
   const classes = useStyles();
@@ -84,12 +80,12 @@ function WordPairAddDialog({
           Реализовано с помощью сервиса{' '}
           <Link href="https://tech.yandex.ru/dictionary">«Яндекс.Словарь»</Link>
         </Typography>
-        <div className={classes.translationsInfo}>
+        <div className={classes.translations}>
           {translationsInfo.map(({ id, translation }) => (
             <Chip
               key={id}
               label={translation}
-              onClick={handleTranslationAddition(id)}
+              onClick={handleTranslationSelection(id)}
               variant="outlined"
               className={classes.chip}
             />
@@ -109,7 +105,7 @@ function WordPairAddDialog({
 WordPairAddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  inputs: PropTypes.shape({
+  inputs: PropTypes.exact({
     wordForeign: PropTypes.string.isRequired,
     wordNative: PropTypes.string.isRequired
   }).isRequired,
@@ -121,7 +117,7 @@ WordPairAddDialog.propTypes = {
       translation: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
-  handleTranslationAddition: PropTypes.func.isRequired,
+  handleTranslationSelection: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired
 };
 

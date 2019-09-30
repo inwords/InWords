@@ -6,7 +6,7 @@ import { deleteWordPairs } from 'actions/wordPairsApiActions';
 import useForm from 'hooks/useForm';
 import WordlistToolbar from './WordlistToolbar';
 
-function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
+function WordlistToolbarContainer({ checkedValues, setPattern, ...rest }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
@@ -25,16 +25,16 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
     }, 5100);
   };
 
-  const { inputs, handleChange } = useForm({ search: '' });
+  const { inputs, handleChange } = useForm({ pattern: '' });
 
   const searchTimerRef = useRef();
 
   useEffect(() => {
     window.clearTimeout(searchTimerRef.current);
     searchTimerRef.current = window.setTimeout(() => {
-      setSearchWord(inputs.search);
+      setPattern(inputs.pattern);
     }, 200);
-  }, [inputs, setSearchWord]);
+  }, [inputs, setPattern]);
 
   return (
     <WordlistToolbar
@@ -49,7 +49,7 @@ function WordlistToolbarContainer({ checkedValues, setSearchWord, ...rest }) {
 
 WordlistToolbarContainer.propTypes = {
   checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  setSearchWord: PropTypes.func.isRequired,
+  setPattern: PropTypes.func.isRequired,
   handleReset: PropTypes.func,
   editingModeEnabled: PropTypes.bool
 };
