@@ -42,10 +42,12 @@ namespace InWords.WebApi.Services.Email
         }
 
         // By link guid set new password
-        public void UpdatePassword(string guid, string password)
+        public async Task UpdatePassword(string guid, string password)
         {
             // find in repo
+            await emailVerifierRepository.FindById(guid);
             // delete if exist
+            
             // update password
         }
 
