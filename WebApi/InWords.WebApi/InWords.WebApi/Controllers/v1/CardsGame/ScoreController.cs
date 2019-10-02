@@ -68,6 +68,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         public async Task<IActionResult> UploadScore(IEnumerable<LevelResult> levelResults)
         {
             int authorizedId = User.GetUserId();
+
             IEnumerable<LevelScore> answers = levelResults.Select(lr => gameScoreService.GetLevelScore(lr));
 
             if (answers.Where(a => a.LevelId < 0).Count() > 0)
