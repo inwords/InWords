@@ -55,7 +55,8 @@ namespace InWords.WebApi.Services.CardGame
             await gameScoreService.UploadScore(userId, levelScores);
 
             // Calculate word metric;
-            IKnowledgeQualifier[] knowledgeQualifiers = cardGameScores.Select(k => new CardGameKnowledge(k).ToArray();
+            IKnowledgeQualifier[] knowledgeQualifiers = cardGameScores.Select(k => new CardGameKnowledge(k)).ToArray();
+            
             // update wordas pairs license in store
             await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers);
             return levelScores;
