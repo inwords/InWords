@@ -63,7 +63,20 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         [HttpPost]
         public async Task<IActionResult> UploadScore(CardGameScore[] cardGameScores)
         {
-            throw new NotImplementedException();
+            int authorizedId = User.GetUserId();
+
+            LevelScore answer;
+            // save score to user level
+            try
+            {
+                answer = await gameResultService.SetResults(authorizedId, cardGameScore);
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok(answer);
         }
     }
 }
