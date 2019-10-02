@@ -67,7 +67,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         public async Task<IActionResult> UploadScore(IEnumerable<LevelScore> levelScores)
         {
             int authorizedId = User.GetUserId();
-
+            //rebase test
             try
             {
                 await gameScoreService.UploadScore(authorizedId, levelScores);
