@@ -27,6 +27,8 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
 
     private val addEditWordMutableLiveData = MutableLiveData<Event<WordTranslation>>()
     private val ttsSubject = PublishSubject.create<Resource<String>>()
+    private val navigateToPlayMutableLiveData = MutableLiveData<Event<List<WordTranslation>>>()
+
     private val filterSubject = BehaviorSubject.createDefault("")
 
     val translationWordsStream: Observable<List<WordTranslation>> = Observable.combineLatest(
@@ -38,6 +40,7 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
 
     val addEditWordLiveData: LiveData<Event<WordTranslation>> = addEditWordMutableLiveData
     val ttsStream: Observable<Resource<String>> = ttsSubject
+    val navigateToPlayLiveData: LiveData<Event<List<WordTranslation>>> = navigateToPlayMutableLiveData
 
     fun onSearchQueryChange(query: String) {
         filterSubject.onNext(query)
@@ -111,5 +114,9 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
                 it.wordForeign.contains(filter, true) || it.wordNative.contains(filter, true)
             }
         }
+    }
+
+    fun onPlayClicked(wordTranslations: List<WordTranslation>) {
+        navigateToPlayMutableLiveData.postValue(Event(wordTranslations))
     }
 }

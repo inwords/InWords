@@ -2,6 +2,7 @@ package ru.inwords.inwords.presentation.view_scenario.octo_game
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import ru.inwords.inwords.presentation.view_scenario.octo_game.custom_game.CustomGameCreatorFragment
 import ru.inwords.inwords.presentation.view_scenario.octo_game.gameLevel.GameEndBottomSheet
 import ru.inwords.inwords.presentation.view_scenario.octo_game.gameLevel.GameLevelFragment
 import ru.inwords.inwords.presentation.view_scenario.octo_game.gameLevels.GameLevelsFragment
@@ -20,4 +21,7 @@ abstract class OctoGameDaggerModule {
 
     @ContributesAndroidInjector
     internal abstract fun gamesFragmentInjector(): GamesFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun CustomGameCreatorFragmentInjector(): CustomGameCreatorFragment
 }

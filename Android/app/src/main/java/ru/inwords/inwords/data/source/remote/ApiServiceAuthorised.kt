@@ -20,10 +20,10 @@ interface ApiServiceAuthorised {
     @GET("v1.0/Game/level/{levelId}")
     fun getLevel(@Path("levelId") levelId: Int): Single<GameLevel>
 
-    @POST("v1.0/Game/score")
+    @POST("v1.1/Game/score")
     fun getGameScore(@Body levelScoreRequest: LevelScoreRequest): Single<LevelScore>
 
-    @POST("v1.0/Game/UploadScore")
+    @POST("v1.1/Game/UploadScore")
     fun uploadScore(@Body levelScoreRequests: List<LevelScoreRequest>): Completable
 
     //Words

@@ -82,6 +82,12 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
             }
         }
 
+        viewModel.navigateToPlayLiveData.observe(this::getLifecycle) { event ->
+            event.contentIfNotHandled?.also {
+                navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToCustomGameCreatorFragment(it.toTypedArray()))
+            }
+        }
+
         viewModel.ttsStream
                 .doOnNext {
                     if (it is Resource.Success) {
@@ -205,6 +211,13 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
                         onItemsDismiss(tracker.selection.toList())
                         actionMode?.finish()
                         actionMode = null
+                        true
+                    }
+
+                    actionMode?.menu?.findItem(R.id.play)?.setOnMenuItemClickListener {
+                        viewModel.onPlayClicked(tracker.selection.toList())
+                        actionMode?.finish()
+                        actionMode = null //TODO remove duplication
                         true
                     }
 

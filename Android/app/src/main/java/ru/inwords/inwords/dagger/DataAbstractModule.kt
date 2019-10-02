@@ -3,6 +3,7 @@ package ru.inwords.inwords.dagger
 import dagger.Binds
 import dagger.Module
 import ru.inwords.inwords.dagger.annotations.LocalRepository
+import ru.inwords.inwords.data.repository.game.CustomGameGatewayController
 import ru.inwords.inwords.data.repository.game.GameGatewayController
 import ru.inwords.inwords.data.repository.game.GameGatewayControllerImpl
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
@@ -68,8 +69,10 @@ interface DataAbstractModule {
 
     //repos
     @Binds
-    @Singleton
     fun gameGatewayController(gameGatewayController: GameGatewayControllerImpl): GameGatewayController
+
+    @Binds
+    fun customGameGatewayController(customGameGatewayController: GameGatewayControllerImpl): CustomGameGatewayController
 
     @Binds
     @Singleton

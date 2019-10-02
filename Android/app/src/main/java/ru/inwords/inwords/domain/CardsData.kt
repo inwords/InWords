@@ -1,32 +1,36 @@
 package ru.inwords.inwords.domain
 
 import ru.inwords.inwords.data.dto.WordTranslation
+import ru.inwords.inwords.domain.model.WordModel
 
-class CardsData(rawWordTranslations: List<WordTranslation>) {
-    private val _words: List<String>
-    private val _wordsMapping: Map<String, String>
+data class CardsData(val rawWordTranslations: List<WordTranslation>) { //TODO no need for val
+    private val _words: List<WordModel>
+    private val _wordsMapping: Map<WordModel, WordModel>
 
     init {
         val wordTranslations = cropWordTranslations(rawWordTranslations)
 
         _words = ArrayList(wordTranslations.size)
-        val wordsMapping = HashMap<String, String>()
+        val wordsMapping = HashMap<WordModel, WordModel>()
 
         for (wordTranslation in wordTranslations) {
-            _words.add(wordTranslation.wordForeign)
-            _words.add(wordTranslation.wordNative)
+            val wordForeign = WordModel(wordTranslation.serverId, wordTranslation.wordForeign)
+            val wordNative = WordModel(wordTranslation.serverId, wordTranslation.wordNative)
 
-            wordsMapping[wordTranslation.wordForeign] = wordTranslation.wordNative
-            wordsMapping[wordTranslation.wordNative] = wordTranslation.wordForeign
+            _words.add(wordForeign)
+            _words.add(wordNative)
+
+            wordsMapping[wordForeign] = wordNative
+            wordsMapping[wordNative] = wordForeign
         }
         _words.shuffle()
 
         this._wordsMapping = wordsMapping
     }
 
-    val words: List<String> get() = _words
+    val words: List<WordModel> get() = _words
 
-    fun getCorrespondingWord(word: String): String? = _wordsMapping[word]
+    fun getCorrespondingWord(word: WordModel): WordModel? = _wordsMapping[word]
 
     private fun cropWordTranslations(wordTranslations: List<WordTranslation>): List<WordTranslation> {
         return if (wordTranslations.size > 6) {

@@ -10,14 +10,14 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.data.dto.game.GameInfo
+import ru.inwords.inwords.domain.interactor.game.GameInfoModel
 import ru.inwords.inwords.presentation.view_scenario.octo_game.BaseContentFragment
 import ru.inwords.inwords.presentation.view_scenario.octo_game.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.octo_game.games.recycler.GamesAdapter
 import ru.inwords.inwords.presentation.view_scenario.octo_game.games.recycler.applyDiffUtil
 
 
-class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameViewModelFactory>() {
+class GamesFragment : BaseContentFragment<GameInfoModel, GamesViewModel, OctoGameViewModelFactory>() {
     override val layout = R.layout.fragment_games
     override val classType = GamesViewModel::class.java
 
@@ -57,7 +57,7 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
                 }.disposeOnViewDestroyed()
     }
 
-    private fun navigateToGame(gameInfo: GameInfo) {
+    private fun navigateToGame(gameInfo: GameInfoModel) {
         navController.navigate(GamesFragmentDirections.actionGamesFragmentToGameLevelsFragment(gameInfo))
     }
 
@@ -69,7 +69,7 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.game_remove -> {
-                            viewModel.onGameRemoved(v.tag as GameInfo)
+                            viewModel.onGameRemoved(v.tag as GameInfoModel)
                             true
                         }
                         else -> false

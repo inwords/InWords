@@ -5,7 +5,9 @@ import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.domain.model.GamesInfoModel
 
 class GamesInfoDomainConverter : BaseResourceOneWayConverter<List<GameInfo>, GamesInfoModel>() {
+    private val gamesInfoDomainConverter = GameInfoDomainConverter()
+
     override fun convertSuccess(source: List<GameInfo>): GamesInfoModel {
-        return GamesInfoModel(true, source)
+        return GamesInfoModel(true, gamesInfoDomainConverter.convertList(source))
     }
 }

@@ -19,7 +19,7 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.LevelScore
-import ru.inwords.inwords.domain.util.INVALID_ID
+import ru.inwords.inwords.domain.model.LevelResultModel
 import ru.inwords.inwords.domain.util.validId
 import ru.inwords.inwords.presentation.view_scenario.octo_game.OctoGameViewModelFactory
 import javax.inject.Inject
@@ -28,10 +28,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     private val args by navArgs<GameEndBottomSheetArgs>()
 
     private val compositeDisposable = CompositeDisposable()
-    private var levelId: Int = INVALID_ID
-
-    private var cardOpenClicksCount: Int = 0
-    private var cardsCount: Int = 0
+    private lateinit var levelResultModel: LevelResultModel
 
     @Inject
     internal lateinit var modelFactory: OctoGameViewModelFactory
@@ -43,12 +40,10 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
 
-        val realParentFragment = parentFragment!!.childFragmentManager.fragments.findLast { it is GameLevelFragment }!!
-        viewModel = ViewModelProviders.of(realParentFragment, modelFactory).get(GameLevelViewModel::class.java)
+        levelResultModel = args.levelResultModel
 
-        levelId = args.levelId
-        cardOpenClicksCount = args.cardOpenClicksCount
-        cardsCount = args.cardOpenClicksCount
+        val realParentFragment = requireNotNull(parentFragment?.childFragmentManager?.fragments?.findLast { it is GameLevelFragment })
+        viewModel = ViewModelProviders.of(realParentFragment, modelFactory).get(GameLevelViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,27 +55,27 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
 
-        compositeDisposable.add(viewModel.getScore(cardOpenClicksCount, cardsCount)
-                .toObservable()
-                .startWith(Resource.Loading())
-                .observeOn(SchedulersFacade.ui())
-                .subscribe {
-                    Log.d(TAG, it.toString())
+        compositeDisposable.add(viewModel.getScore(levelResultModel)
+            .toObservable()
+            .startWith(Resource.Loading())
+            .observeOn(SchedulersFacade.ui())
+            .subscribe {
+                Log.d(TAG, it.toString())
 
-                    when (it) {
-                        is Resource.Success -> showSuccess(it.data)
-                        is Resource.Loading -> showLoading()
-                        is Resource.Error -> showError()
-                    }
-                })
+                when (it) {
+                    is Resource.Success -> showSuccess(it.data)
+                    is Resource.Loading -> showLoading()
+                    is Resource.Error -> showError()
+                }
+            })
 
-        compositeDisposable.add(viewModel.navigationStream().subscribe {
-            when (it) {
+        viewModel.navigationFromGameEnd.observe(this::getLifecycle) {
+            when (it.contentIfNotHandled ?: return@observe) {
                 FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToMainFragment())
                 FromGameEndEventsEnum.BACK -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
                 else -> navController.navigate(GameEndBottomSheetDirections.actionPop())
             }
-        })
+        }
 
         setupView(viewModel.getNextLevelInfo() is Resource.Success)
     }
@@ -104,7 +99,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun showSuccess(levelScore: LevelScore) {
-        if (levelScore.levelId == levelId || !validId(levelId)) {
+        if (levelScore.levelId == levelResultModel.levelId || !validId(levelResultModel.levelId)) {
             rating_bar.rating = levelScore.score.toFloat()
             rating_bar.visibility = View.VISIBLE
             rating_loading_progress.visibility = View.INVISIBLE

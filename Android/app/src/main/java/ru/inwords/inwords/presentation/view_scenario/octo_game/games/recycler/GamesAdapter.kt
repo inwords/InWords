@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import io.reactivex.subjects.Subject
 import ru.inwords.inwords.R
-import ru.inwords.inwords.data.dto.game.GameInfo
+import ru.inwords.inwords.domain.interactor.game.GameInfoModel
 import ru.inwords.inwords.presentation.view_scenario.octo_game.BaseSingleTypeAdapter
 
-class GamesAdapter(onItemClickedListener: Subject<GameInfo>) :
-        BaseSingleTypeAdapter<GameInfo, GameInfoViewHolder>(onItemClickedListener) {
+class GamesAdapter(onItemClickedListener: Subject<GameInfoModel>) :
+        BaseSingleTypeAdapter<GameInfoModel, GameInfoViewHolder>(onItemClickedListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameInfoViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.game_info, parent, false)

@@ -4,6 +4,10 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
+import ru.inwords.inwords.data.repository.game.CustomGameGatewayController
+import ru.inwords.inwords.data.repository.game.custom_game.CustomGameCreator
+import ru.inwords.inwords.data.repository.game.custom_game.GameCreator
+import ru.inwords.inwords.data.repository.game.custom_game.LevelInfoGenerator
 import ru.inwords.inwords.data.repository.profile.UserCachingRepository
 import ru.inwords.inwords.data.repository.profile.UserDatabaseRepository
 import ru.inwords.inwords.data.repository.profile.UserRemoteRepository
@@ -45,6 +49,12 @@ internal class DataAccessModule {
     fun userRep(database: AppRoomDatabase,
                 userRemoteRepository: UserRemoteRepository): UserRepository {
         return UserCachingRepository(UserDatabaseRepository(database.userDao()), userRemoteRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun gameCreator(customGameGatewayController: CustomGameGatewayController): GameCreator {
+        return CustomGameCreator(customGameGatewayController, LevelInfoGenerator())
     }
 
     @Provides

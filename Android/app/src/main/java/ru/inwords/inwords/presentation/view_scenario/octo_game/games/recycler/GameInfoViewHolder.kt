@@ -5,21 +5,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.game_level_info.view.*
-import ru.inwords.inwords.data.dto.game.GameInfo
+import ru.inwords.inwords.domain.interactor.game.GameInfoModel
 
 class GameInfoViewHolder internal
-constructor(itemView: View, private val onItemClickedListener: Subject<GameInfo>?) :
+constructor(itemView: View, private val onItemClickedListener: Subject<GameInfoModel>?) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     private val title: TextView = itemView.title
 
-    private lateinit var gameInfo: GameInfo
+    private lateinit var gameInfo: GameInfoModel
 
     init {
         itemView.setOnClickListener(this)
     }
 
-    fun bind(gameInfo: GameInfo) {
+    fun bind(gameInfo: GameInfoModel) {
         this.gameInfo = gameInfo
 
         title.text = gameInfo.title

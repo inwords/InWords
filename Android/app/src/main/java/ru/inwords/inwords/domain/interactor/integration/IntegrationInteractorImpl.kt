@@ -39,7 +39,7 @@ internal constructor(private val translationSyncInteractor: TranslationSyncInter
 
     override fun getOnNewUserCallback(): Completable {
         return Completable.fromAction {
-            Log.d(TAG, "New user logged in -> clearing all tables and cache")
+            Log.d(javaClass.simpleName, "New user logged in -> clearing all tables and cache")
             integrationDatabaseRepository.clearAllTables()
             gameInteractor.clearCache()
             profileInteractor.clearCache()
@@ -53,9 +53,5 @@ internal constructor(private val translationSyncInteractor: TranslationSyncInter
 
     override fun setPolicyAgreementState(state: Boolean): Completable {
         return integrationDatabaseRepository.setPolicyAgreementState(state)
-    }
-
-    companion object {
-        const val TAG = "IntegrationInteractor"
     }
 }
