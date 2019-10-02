@@ -30,7 +30,7 @@ namespace InWords.WebApi.Services.Abstractions
         /// <param name="levelScore"></param>
         /// <exception cref="ArgumentNullException">Null game box is not find</exception>
         /// <returns></returns>
-        Task UpdateUserScore(int userId, LevelScore levelScore);
+        Task PostScore(int userId, LevelScore levelScore);
 
         /// <summary>
         ///     This is to push all score from cache storage
@@ -38,6 +38,6 @@ namespace InWords.WebApi.Services.Abstractions
         /// <param name="userId"></param>
         /// <param name="levelScores"></param>
         /// <returns></returns>
-        Task PushLevelScoreList(int userId, IEnumerable<LevelScore> levelScores);
+        Task UploadScore(int userId, IEnumerable<LevelScore> levelScores);
     }
 }
