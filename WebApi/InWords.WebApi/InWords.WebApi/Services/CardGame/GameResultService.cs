@@ -34,7 +34,7 @@ namespace InWords.WebApi.Services.CardGame
             // set sore;
             LevelScore levelScore = gameScoreService.GetLevelScore(cardGameScore.ToLevelResult());
             // save score to storage
-            await gameScoreService.UpdateUserScore(userId, levelScore);
+            await gameScoreService.PostScore(userId, levelScore);
             // Calculate word metric;
             IKnowledgeQualifier knowledgeQualifier = new CardGameKnowledge(cardGameScore);
             // update wordas pairs license in store

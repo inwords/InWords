@@ -41,10 +41,13 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             // calculate score
             LevelScore answer = gameScoreService.GetLevelScore(levelResult);
 
+            if (levelResult.LevelId < 0)
+                return Ok(answer);
+
             // save score to user level
             try
             {
-                await gameScoreService.UpdateUserScore(authorizedId, answer);
+                await gameScoreService.PostScore(authorizedId, answer);
             }
             catch (ArgumentNullException e)
             {
@@ -67,7 +70,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
 
             try
             {
-                await gameScoreService.PushLevelScoreList(authorizedId, levelScores);
+                await gameScoreService.UploadScore(authorizedId, levelScores);
             }
             catch (ArgumentNullException e)
             {
