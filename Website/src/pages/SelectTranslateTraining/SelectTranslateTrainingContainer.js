@@ -36,7 +36,7 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
             id: index * 2 + 1,
             pairId: wordPair.serverId,
             word: wordPair.wordNative,
-            translation: wordPair.wordForeign,
+            translation: wordPair.wordForeign
           }
         ])
     );

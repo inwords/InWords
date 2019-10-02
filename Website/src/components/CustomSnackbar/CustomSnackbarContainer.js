@@ -15,11 +15,9 @@ function CustomSnackbarContainer() {
   };
 
   const handleAction = () => {
-    if (actionHandler) {
+    if (typeof actionHandler === 'function') {
       actionHandler();
     }
-
-    handleClose();
   };
 
   return (

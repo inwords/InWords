@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -27,11 +26,8 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: 20,
     [theme.breakpoints.up('lg')]: {
-      transform: 'rotate(180deg)'
-    },
-    transition: theme.transitions.create(['transform'], {
-      easing: theme.transitions.easing.sharp
-    })
+      display: 'none'
+    }
   },
   spacer: {
     flex: '1 1 100%'
@@ -48,27 +44,11 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(3),
     ...theme.mixins.toolbar
   },
+  toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3, 0, 0),
-    [theme.breakpoints.up('lg')]: {
-      marginLeft: -drawerWidth,
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
-      })
-    }
-  },
-  contentShift: {
-    [theme.breakpoints.up('lg')]: {
-      marginLeft: 0,
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
-      })
-    }
-  },
-  toolbar: theme.mixins.toolbar
+    padding: theme.spacing(3, 0, 0)
+  }
 }));
 
 function PageLayout({ authorized, children }) {
@@ -130,12 +110,12 @@ function PageLayout({ authorized, children }) {
         </Hidden>
         <Hidden mdDown>
           <Drawer
-            open={open}
+            open
             className={classes.drawer}
             classes={{
               paper: classes.drawerPaper
             }}
-            variant="persistent"
+            variant="permanent"
           >
             <div className={classes.toolbar} />
             <Divider />
@@ -143,11 +123,7 @@ function PageLayout({ authorized, children }) {
           </Drawer>
         </Hidden>
       </nav>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open
-        })}
-      >
+      <main className={classes.content}>
         <div className={classes.toolbar} />
         {children}
       </main>

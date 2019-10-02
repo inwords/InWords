@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Profile({ avatarPath, nickname, experience, editingAvailable }) {
+function Profile({ avatarPath, nickname, editingAvailable }) {
   const classes = useStyles();
 
   return (
@@ -37,11 +37,8 @@ function Profile({ avatarPath, nickname, experience, editingAvailable }) {
           />
         )}
         <CardContent>
-          <Typography component="h2" variant="h5" gutterBottom>
+          <Typography component="h2" variant="h5">
             {nickname}
-          </Typography>
-          <Typography component="p" variant="body2">
-            {experience} опыта
           </Typography>
         </CardContent>
         <CardActions>
@@ -64,7 +61,6 @@ function Profile({ avatarPath, nickname, experience, editingAvailable }) {
 Profile.propTypes = {
   nickname: PropTypes.string.isRequired,
   avatarPath: PropTypes.string.isRequired,
-  experience: PropTypes.number.isRequired,
   editingAvailable: PropTypes.bool.isRequired
 };
 

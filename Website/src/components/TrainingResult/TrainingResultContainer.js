@@ -8,7 +8,9 @@ function TrainingResultContainer({ history, match, ...rest }) {
   const { levelsInfo } = useSelector(store => store.games.gameInfo);
 
   const handleRedirectionToLevels = () => {
-    history.push(`/trainings/${match.params.categoryId}/${match.params.trainingId}`);
+    history.push(
+      `/trainings/${match.params.categoryId}/${match.params.trainingId}`
+    );
   };
 
   const handleRedirectionToNextLevel = () => {

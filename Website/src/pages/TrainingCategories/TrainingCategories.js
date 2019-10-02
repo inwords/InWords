@@ -9,10 +9,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import TrainingsNavigation from 'components/TrainingsNavigation';
 
 function TrainingCategories({ gamesInfo, match }) {
   return (
     <Container component="div" maxWidth="lg">
+      <TrainingsNavigation match={match} />
       <Grid container spacing={3}>
         {gamesInfo.map(({ gameId, title, description, isAvailable }) => (
           <Grid key={gameId} item xs={12} sm={6} md={4}>

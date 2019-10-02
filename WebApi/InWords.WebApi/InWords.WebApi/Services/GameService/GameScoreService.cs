@@ -32,7 +32,7 @@ namespace InWords.WebApi.Services.GameService
             return levelScore;
         }
 
-        async Task IGameScoreService.UpdateUserScore(int userId, LevelScore levelScore)
+        async Task IGameScoreService.PostScore(int userId, LevelScore levelScore)
         {
             IEnumerable<UserGameLevel> levels = userGameLevelRepository.GetWhere(ugl =>
                 ugl.UserId.Equals(userId) && ugl.GameLevelId.Equals(levelScore.LevelId));
@@ -53,8 +53,9 @@ namespace InWords.WebApi.Services.GameService
             }
         }
 
-        async Task IGameScoreService.PushLevelScoreList(int userId, IEnumerable<LevelScore> levelScores)
+        async Task IGameScoreService.UploadScore(int userId, IEnumerable<LevelScore> levelScores)
         {
+            levelScores = levelScores.Where(l => l.LevelId > 0);
             // to prevent multiply enumerable
             LevelScore[] levelScoresArray = levelScores.ToArray();
             // find all that exist
@@ -77,6 +78,7 @@ namespace InWords.WebApi.Services.GameService
             return SetStarsToLevels(gameCopy, levels);
         }
 
+        // todo to dictionary
         private static GameObject SetStarsToLevels(GameObject game, UserGameLevel[] levels)
         {
             Parallel.ForEach(game.LevelInfos, (level) =>
@@ -130,6 +132,6 @@ namespace InWords.WebApi.Services.GameService
             return (from ls in levelScoresArray
                     where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
                     select ls).ToArray();
-        }        
+        }
     }
 }

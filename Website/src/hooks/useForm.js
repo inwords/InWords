@@ -11,7 +11,7 @@ export default function useForm(initialInputs, action) {
   };
 
   const handleSubmit = event => {
-    if (action) {
+    if (typeof action === 'function') {
       action();
     }
 
