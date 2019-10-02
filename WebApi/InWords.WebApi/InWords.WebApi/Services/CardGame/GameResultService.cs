@@ -33,6 +33,11 @@ namespace InWords.WebApi.Services.CardGame
         {
             // set sore;
             LevelScore levelScore = gameScoreService.GetLevelScore(cardGameScore.ToLevelResult());
+
+#warning save local users game 
+            if (levelScore.LevelId < 0) // don't save local games
+                return levelScore; // end warning
+
             // save score to storage
             await gameScoreService.PostScore(userId, levelScore);
             // Calculate word metric;
@@ -40,6 +45,28 @@ namespace InWords.WebApi.Services.CardGame
             // update wordas pairs license in store
             await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifier);
             return levelScore;
+        }
+
+        public async Task<IEnumerable<LevelScore>> SetResults(int userId, params CardGameScore[] cardGameScores)
+        {
+            // set sore;
+            LevelScore[] levelScores = cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToArray();
+
+            var onlineScores = levelScores.Where(l => l.LevelId > 0);
+            var localScores = levelScores.Except(onlineScores);
+
+
+            // save score to storage
+            await gameScoreService.UploadScore(userId, onlineScores);
+
+            // Calculate word metric;
+            IKnowledgeQualifier[] knowledgeQualifiers = cardGameScores.Select(k => new CardGameKnowledge(k)).ToArray();
+
+            // update wordas pairs license in store
+            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers);
+
+            var fullScores = onlineScores.Union(localScores);
+            return fullScores;
         }
     }
 }

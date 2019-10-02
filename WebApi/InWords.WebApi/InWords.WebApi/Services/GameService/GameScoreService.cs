@@ -23,6 +23,11 @@ namespace InWords.WebApi.Services.GameService
             return await Task.Run(() => GetGameStarsAction(userId, game));
         }
 
+        /// <summary>
+        /// This is to local compute score
+        /// </summary>
+        /// <param name="levelResult"></param>
+        /// <returns></returns>
         LevelScore IGameScoreService.GetLevelScore(LevelResult levelResult)
         {
             int score = Domain.CardGame.Score(levelResult.WordsCount, levelResult.OpeningQuantity);

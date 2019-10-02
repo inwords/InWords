@@ -12,8 +12,8 @@ namespace InWords.WebApi.Services.Email.Template
         {
             Dictionary<string, string> keyValuePairs = new Dictionary<string, string>()
             {
-                { "{code}",$"{code}"},
-                { "{link}",link}
+                { "{code}",$"{code}"}, //-V3138
+                { "{link}",link} //-V3138
             };
             base.LoadTemplate(EmailTemplates.ResetPasswordEmail, keyValuePairs);
         }

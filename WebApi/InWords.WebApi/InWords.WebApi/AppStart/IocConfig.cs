@@ -22,7 +22,7 @@ namespace InWords.WebApi.AppStart
             builder.Populate(services);
 
             // register context
-            builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")))
+            builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("MsSqlConnection")))
                 .InstancePerLifetimeScope();
 
             // register emailClient

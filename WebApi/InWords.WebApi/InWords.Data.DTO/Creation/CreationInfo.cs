@@ -6,7 +6,20 @@ namespace InWords.Data.DTO.Creation
     {
         public int? CreatorId { get; set; }
 
-        public string CreatorNickname { get; set; }
+        private string creatorNickname;
+        public string CreatorNickname
+        {
+            get
+            {
+                if (creatorNickname == null)
+                    creatorNickname = string.Empty;
+                return creatorNickname;
+            }
+            set
+            {
+                creatorNickname = value;
+            }
+        }
 
         public List<DescriptionInfo> Descriptions { get; set; }
     }

@@ -28,13 +28,42 @@ namespace InWords.WebApi.Services.UserWordPairService
         /// <returns></returns>
         public async Task UpdateKnowledge(int userid, IKnowledgeQualifier knowledgeQualifier)
         {
+            // calculate knowledge update
+            IEnumerable<UserWordPair> userWordPairs = CalculateKnowledgeUpdate(userid, knowledgeQualifier);
+            // update knowledge licence
+            await userWordPairRepository.Update(userWordPairs);
+        }
+
+        public async Task UpdateKnowledge(int userid, params IKnowledgeQualifier[] knowledgeQualifiers)
+        {
+            // calculate knowledge update
+            var userWordPairs = knowledgeQualifiers
+                .Select(k => CalculateKnowledgeUpdate(userid, k))
+                .Aggregate((x, y) => x.Concat(y));
+
+            IEnumerable<UserWordPair> bestPair = userWordPairs
+                .GroupBy(s => s.UserWordPairId)
+                .Select(s => SelectBestTrained(s, userWordPairs));
+
+            // update knowledge licence
+            await userWordPairRepository.Update(userWordPairs);
+        }
+
+        private static UserWordPair SelectBestTrained(IGrouping<int, UserWordPair> s, IEnumerable<UserWordPair> userWordPairs)
+        {
+            return userWordPairs
+                .Where(u => u.UserWordPairId.Equals(s.Key))
+                .OrderByDescending(o => o.LearningPeriod).First();
+        }
+
+        private IEnumerable<UserWordPair> CalculateKnowledgeUpdate(int userid, IKnowledgeQualifier knowledgeQualifier)
+        {
             var knowledgeQuality = knowledgeQualifier.Qualify();
             // load all user words
             IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u => knowledgeQuality.ContainsKey(u.WordPairId) && u.UserId.Equals(userid));
             // calculate knowledge update
             userWordPairs = UpdateLicenseInformation(userWordPairs, knowledgeQuality);
-            // update knowledge licence
-            await userWordPairRepository.Update(userWordPairs);
+            return userWordPairs;
         }
 
         /// <summary>
@@ -51,13 +80,13 @@ namespace InWords.WebApi.Services.UserWordPairService
             {
                 // get quality from qualifier
                 KnowledgeQualitys quality = PairKnowledges[userWordPair.WordPairId];
-                
+
                 // get wordpair license
                 KnowledgeLicense knowledgeLicense = userWordPair.GetLicense();
-                
+
                 // update license by license and quality
                 knowledgeLicense = knowledgeLicenseManager.Update(knowledgeLicense, quality);
-                
+
                 // set license in pair strucure 
                 userWordPair.SetLicense(knowledgeLicense);
             }
