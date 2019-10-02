@@ -33,9 +33,11 @@ namespace InWords.WebApi.Services.CardGame
         {
             // set sore;
             LevelScore levelScore = gameScoreService.GetLevelScore(cardGameScore.ToLevelResult());
-            // don't save local games
-            if (levelScore.LevelId < 0)
-                return levelScore;
+
+#warning save local users game 
+            if (levelScore.LevelId < 0) // don't save local games
+                return levelScore; // end warning
+
             // save score to storage
             await gameScoreService.PostScore(userId, levelScore);
             // Calculate word metric;
@@ -45,18 +47,18 @@ namespace InWords.WebApi.Services.CardGame
             return levelScore;
         }
 
-        //public async Task<IEnumerable<LevelScore>> SetResults(int userId, params CardGameScore[] cardGameScores)
-        //{
-        //    // set sore;
-        //    LevelScore[] levelScores = cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToArray();
-        //    // save score to storage
-        //    await gameScoreService.UploadScore(userId, levelScores);
+        public async Task<IEnumerable<LevelScore>> SetResults(int userId, params CardGameScore[] cardGameScores)
+        {
+            // set sore;
+            LevelScore[] levelScores = cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToArray();
+            // save score to storage
+            await gameScoreService.UploadScore(userId, levelScores);
 
-        //    // Calculate word metric;
-        //    IKnowledgeQualifier[] knowledgeQualifiers = cardGameScores.Select(k => new CardGameKnowledge(k).ToArray();
-        //    // update wordas pairs license in store
-        //    await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers);
-        //    return levelScores;
-        //}
+            // Calculate word metric;
+            IKnowledgeQualifier[] knowledgeQualifiers = cardGameScores.Select(k => new CardGameKnowledge(k).ToArray();
+            // update wordas pairs license in store
+            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers);
+            return levelScores;
+        }
     }
 }
