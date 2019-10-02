@@ -70,6 +70,9 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             int authorizedId = User.GetUserId();
             IEnumerable<LevelScore> answers = levelResults.Select(lr => gameScoreService.GetLevelScore(lr));
 
+            if (answers.Where(a => a.LevelId < 0).Count() > 0)
+                return Ok(answers);
+
             try
             {
                 await gameScoreService.UploadScore(authorizedId, answers);
