@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
@@ -64,20 +65,21 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         /// <returns>Quantity of stars and level id</returns>
         [Route("UploadScore")]
         [HttpPost]
-        public async Task<IActionResult> UploadScore(IEnumerable<LevelScore> levelScores)
+        public async Task<IActionResult> UploadScore(IEnumerable<LevelResult> levelResults)
         {
             int authorizedId = User.GetUserId();
+            IEnumerable<LevelScore> answers = levelResults.Select(lr => gameScoreService.GetLevelScore(lr));
 
             try
             {
-                await gameScoreService.UploadScore(authorizedId, levelScores);
+                await gameScoreService.UploadScore(authorizedId, answers);
             }
             catch (ArgumentNullException e)
             {
                 return BadRequest(e.Message);
             }
 
-            return Ok();
+            return Ok(answers);
         }
 
 
