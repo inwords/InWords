@@ -65,11 +65,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         {
             int authorizedId = User.GetUserId();
 
-            LevelScore answer;
+            IEnumerable<LevelScore> answer;
             // save score to user level
             try
             {
-                answer = await gameResultService.SetResults(authorizedId, cardGameScore);
+                answer = await gameResultService.SetResults(authorizedId, cardGameScores);
             }
             catch (ArgumentNullException e)
             {
