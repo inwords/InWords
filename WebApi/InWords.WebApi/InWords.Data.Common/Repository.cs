@@ -86,7 +86,7 @@ namespace InWords.Abstractions
         }
         public async Task<TEntity[]> Update(params TEntity[] items)
         {
-            await Update(items);
+            await Update(items as IEnumerable<TEntity>);
             return items;
         }
 
