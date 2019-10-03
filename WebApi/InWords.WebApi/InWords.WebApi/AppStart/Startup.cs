@@ -8,9 +8,7 @@ using InWords.WebApi.Services.FtpLoader.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -22,12 +20,6 @@ namespace InWords.WebApi.AppStart
     /// </summary>
     public class Startup
     {
-        /// <summary>
-        ///     This is the service configuration
-        /// </summary>
-        public IConfiguration Configuration { get; }
-
-
         /// <summary>
         ///     Startup constructor
         /// </summary>
@@ -43,6 +35,11 @@ namespace InWords.WebApi.AppStart
             Configuration = builder.Build();
             InModule.Configuration = Configuration;
         }
+
+        /// <summary>
+        ///     This is the service configuration
+        /// </summary>
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         ///     This method gets called by the runtime. Use this method to add services to the container.
@@ -106,13 +103,9 @@ namespace InWords.WebApi.AppStart
             LoggerConfiguration(loggerFactory);
 
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
                 app.UseMiddleware<SecureConnectionMiddleware>();
-            }
 
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyOrigin()

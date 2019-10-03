@@ -1,9 +1,6 @@
-﻿using InWords.WebApi.Services.Email.Template;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using InWords.WebApi.Services.Email.Models;
+using InWords.WebApi.Services.Email.Template;
 
 namespace InWords.WebApi.Services.Email.EmailSenders
 {

@@ -19,10 +19,10 @@ namespace InWords.WebApi.Controllers.v1
     [ApiController]
     public class EmailController : ControllerBase
     {
-        private readonly AccountRepository accountRepository = null;
-        private readonly EmailVerifierService emailVerifierService = null;
-        private readonly EmailCodeVerificationService emailCodeVerificationService = null;
-        private readonly EmailLinkVerificationService emailLinkVerificationService = null;
+        private readonly AccountRepository accountRepository;
+        private readonly EmailCodeVerificationService emailCodeVerificationService;
+        private readonly EmailLinkVerificationService emailLinkVerificationService;
+        private readonly EmailVerifierService emailVerifierService;
 
         public EmailController(EmailVerifierService emailVerifierService,
             AccountRepository accountRepository,
@@ -41,11 +41,9 @@ namespace InWords.WebApi.Controllers.v1
         public async Task<IActionResult> SendActivationCode([FromBody] string email)
         {
             int authorizedId = User.GetUserId();
-            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId), a => a.User).SingleOrDefault();
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                email = account.Email;
-            }
+            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId), a => a.User)
+                .SingleOrDefault();
+            if (string.IsNullOrWhiteSpace(email)) email = account.Email;
             try
             {
                 await emailVerifierService.InstatiateVerifierMessage(account.User, email);
@@ -54,6 +52,7 @@ namespace InWords.WebApi.Controllers.v1
             {
                 return BadRequest(e);
             }
+
             return NoContent();
         }
 
@@ -90,7 +89,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             bool isExist = await emailLinkVerificationService.HasCorrectLink(encryptlink);
             if (isExist) return Ok("Email has been successfully confirmed");
-            else return NotFound("Email not found");
+            return NotFound("Email not found");
         }
 
         [HttpGet]
@@ -99,7 +98,8 @@ namespace InWords.WebApi.Controllers.v1
         public async Task<IActionResult> ConfirmUserById(int id)
         {
             int authorizedId = id;
-            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId), a => a.User).SingleOrDefault();
+            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId), a => a.User)
+                .SingleOrDefault();
 
             try
             {
@@ -109,6 +109,7 @@ namespace InWords.WebApi.Controllers.v1
             {
                 return BadRequest(e);
             }
+
             return NoContent();
         }
     }

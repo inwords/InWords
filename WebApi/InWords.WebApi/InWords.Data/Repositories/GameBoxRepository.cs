@@ -33,9 +33,9 @@ namespace InWords.Data.Repositories
         private IQueryable<Creation> GetCreationsByGameID(params int[] gameId)
         {
             IQueryable<Creation> creationsByGameID = from games in context.GameBoxs
-                                                     join creations in context.Creations on games.CreationId equals creations.CreationId
-                                                     where gameId.Contains(games.GameBoxId)
-                                                     select creations;
+                join creations in context.Creations on games.CreationId equals creations.CreationId
+                where gameId.Contains(games.GameBoxId)
+                select creations;
             return creationsByGameID;
         }
     }

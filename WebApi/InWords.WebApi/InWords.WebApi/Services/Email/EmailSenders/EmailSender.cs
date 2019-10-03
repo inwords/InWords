@@ -28,7 +28,7 @@ namespace InWords.WebApi.Services.Email.EmailSenders
         }
 
         /// <summary>
-        /// Reset body and set text message
+        ///     Reset body and set text message
         /// </summary>
         /// <param name="message">text message</param>
         protected void SetText(string message)
@@ -37,16 +37,16 @@ namespace InWords.WebApi.Services.Email.EmailSenders
         }
 
         /// <summary>
-        /// Reset body and set html boyd and alttext
+        ///     Reset body and set html boyd and alttext
         /// </summary>
         /// <param name="html"></param>
         /// <param name="altText"></param>
         protected void SetHTML(string html, string altText)
         {
-            BodyBuilder bodyBuilder = new BodyBuilder
+            var bodyBuilder = new BodyBuilder
             {
                 HtmlBody = html,
-                TextBody = altText,
+                TextBody = altText
             };
             emailMessage.Body = bodyBuilder.ToMessageBody();
         }

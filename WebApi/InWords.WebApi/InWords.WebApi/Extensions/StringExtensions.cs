@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Extensions
 {
@@ -40,20 +39,18 @@ namespace InWords.WebApi.Extensions
         {
             // TODO: optimize to more performance
             foreach (KeyValuePair<string, string> keyValuePair in keyValues)
-            {
                 source = source.Replace(keyValuePair.Key, keyValuePair.Value);
-            }
             return source;
         }
 
         /// <summary>
-        /// This is to get raw text inside html/xml tags
+        ///     This is to get raw text inside html/xml tags
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
         public static string StripHTML(this string input)
         {
-            return Regex.Replace(input, "<(.|\n|)*?>", String.Empty);
+            return Regex.Replace(input, "<(.|\n|)*?>", string.Empty);
         }
     }
 }

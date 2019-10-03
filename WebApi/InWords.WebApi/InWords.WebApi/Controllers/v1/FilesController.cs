@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +33,7 @@ namespace InWords.WebApi.Controllers.v1
             foreach (IFormFile formFile in files)
             {
                 if (formFile.Length <= 0) continue;
-                
+
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await formFile.CopyToAsync(stream);
@@ -44,7 +42,7 @@ namespace InWords.WebApi.Controllers.v1
 
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath});
+            return Ok(new {count = files.Count, size, filePath});
         }
     }
 }

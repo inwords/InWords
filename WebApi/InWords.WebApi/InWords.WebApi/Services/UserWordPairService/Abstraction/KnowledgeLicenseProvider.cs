@@ -1,8 +1,5 @@
-﻿using InWords.WebApi.Services.UserWordPairService.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using InWords.WebApi.Services.UserWordPairService.Models;
 
 namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {
@@ -16,8 +13,8 @@ namespace InWords.WebApi.Services.UserWordPairService.Abstraction
         }
 
         /// <summary>
-        /// Implementation of 
-        /// <a href="https://en.wikipedia.org/wiki/Forgetting_curve">Forgetting curve</a>
+        ///     Implementation of
+        ///     <a href="https://en.wikipedia.org/wiki/Forgetting_curve">Forgetting curve</a>
         /// </summary>
         /// <param name="subconsciousLevel"></param>
         /// <param name="MemoryLevel"></param>

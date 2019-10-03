@@ -1,16 +1,14 @@
-﻿using InWords.Data.DTO.GameBox.LevelMetric;
+﻿using System.Collections.Generic;
+using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.CardGame
 {
     public class CardGameKnowledge : IKnowledgeQualifier
     {
-        private readonly CardGameScore cardGameScore = null;
+        private readonly CardGameScore cardGameScore;
+
         public CardGameKnowledge(CardGameScore cardGameScore)
         {
             this.cardGameScore = cardGameScore;
@@ -18,11 +16,9 @@ namespace InWords.WebApi.Services.CardGame
 
         Dictionary<int, KnowledgeQualitys> IKnowledgeQualifier.Qualify()
         {
-            Dictionary<int, KnowledgeQualitys> qualifyPairs = new Dictionary<int, KnowledgeQualitys>();
-            foreach (var wpoc in cardGameScore.WordPairIdOpenCounts)
-            {
+            var qualifyPairs = new Dictionary<int, KnowledgeQualitys>();
+            foreach (KeyValuePair<int, int> wpoc in cardGameScore.WordPairIdOpenCounts)
                 qualifyPairs[wpoc.Key] = QualityOfPair(wpoc.Value);
-            }
             return qualifyPairs;
         }
 
@@ -36,7 +32,6 @@ namespace InWords.WebApi.Services.CardGame
                     return KnowledgeQualitys.StillRemember;
                 default:
                     return KnowledgeQualitys.NoLongerRemember;
-
             }
         }
     }

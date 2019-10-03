@@ -13,8 +13,7 @@ namespace InWords.Service.Auth.Extensions
 
             if (nameIdentifier != null && int.TryParse(nameIdentifier.Value, out int authorizedId))
                 return authorizedId;
-            else
-                throw new ArgumentNullException();
+            throw new ArgumentNullException();
         }
 
         public static int GetUserId(this ClaimsPrincipal user)
@@ -25,11 +24,10 @@ namespace InWords.Service.Auth.Extensions
         public static string GetUserRole(this IEnumerable<Claim> claims)
         {
             Claim roleClaim = claims.SingleOrDefault(c => c.Type == ClaimTypes.Role);
-            
+
             if (roleClaim != null)
                 return roleClaim.Value;
-            else
-                throw new ArgumentNullException();
+            throw new ArgumentNullException();
         }
 
         public static string GetUserRole(this ClaimsPrincipal user)

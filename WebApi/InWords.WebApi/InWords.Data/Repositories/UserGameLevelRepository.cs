@@ -7,9 +7,6 @@ namespace InWords.Data.Repositories
     {
         public UserGameLevelRepository(InWordsDataContext context) : base(context)
         {
-
         }
-
-
     }
 }

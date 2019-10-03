@@ -7,7 +7,7 @@ namespace InWords.WebApi.Services.FtpLoader.Model
 {
     public class FileLoader
     {
-        private readonly FtpCredentials ftpCredentials = null;
+        private readonly FtpCredentials ftpCredentials;
 
         public FileLoader(IOptions<FtpCredentials> config)
         {
@@ -18,7 +18,7 @@ namespace InWords.WebApi.Services.FtpLoader.Model
         {
             // create an FTP client
             // if you don't specify login credentials, we use the "anonymous" user account
-            FtpClient client = new FtpClient(ftpCredentials.Server)
+            var client = new FtpClient(ftpCredentials.Server)
             {
                 Credentials = new NetworkCredential(ftpCredentials.Login, ftpCredentials.Password)
             };
@@ -26,7 +26,6 @@ namespace InWords.WebApi.Services.FtpLoader.Model
 
             // get a list of files and directories in the "/http" folder
             foreach (FtpListItem item in client.GetListing("/http/InWords/Resource/Drawable"))
-            {
                 // if this is a file
 
                 if (item.Type == FtpFileSystemObjectType.File)
@@ -37,7 +36,6 @@ namespace InWords.WebApi.Services.FtpLoader.Model
                     // get modified date/time of the file or folder
                     DateTime time = client.GetModifiedTime(item.FullName);
                 }
-            }
 
             //// upload a file
             //client.UploadFile(@"C:\MyVideo.mp4", "/http/MyVideo.mp4");

@@ -46,7 +46,10 @@ namespace InWords.WebApi.Services.GameService
                 CreationInfo creationInfo = creationService.GetCreationInfo(game.CreationId);
 
                 // TODO: (LNG) title 
-                DescriptionInfo russianDescription = creationInfo.Descriptions.GetRus(); //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference. Consider inspecting 'creationInfo'.
+                DescriptionInfo
+                    russianDescription =
+                        creationInfo.Descriptions
+                            .GetRus(); //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference. Consider inspecting 'creationInfo'.
 
                 var gameInfo = new GameInfo
                 {
@@ -99,7 +102,8 @@ namespace InWords.WebApi.Services.GameService
             var game = new GameObject
             {
                 GameId = gameBox.GameBoxId,
-                Creator = creationInfo.CreatorNickname, //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference. Consider inspecting 'creationInfo'.
+                Creator = creationInfo
+                    .CreatorNickname, //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference. Consider inspecting 'creationInfo'.
                 LevelInfos = levelInfos.ToList()
             };
 

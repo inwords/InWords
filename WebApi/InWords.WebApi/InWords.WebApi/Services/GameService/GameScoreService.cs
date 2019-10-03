@@ -12,6 +12,7 @@ namespace InWords.WebApi.Services.GameService
     public class GameScoreService : IGameScoreService
     {
         private readonly UserGameLevelRepository userGameLevelRepository;
+
         public GameScoreService(UserGameLevelRepository userGameLevelRepository)
         {
             this.userGameLevelRepository = userGameLevelRepository;
@@ -23,7 +24,7 @@ namespace InWords.WebApi.Services.GameService
         }
 
         /// <summary>
-        /// This is to local compute score
+        ///     This is to local compute score
         /// </summary>
         /// <param name="levelResult"></param>
         /// <returns></returns>
@@ -85,10 +86,12 @@ namespace InWords.WebApi.Services.GameService
         // todo to dictionary
         private static GameObject SetStarsToLevels(GameObject game, UserGameLevel[] levels)
         {
-            Parallel.ForEach(game.LevelInfos, (level) =>
-            {
-                level.PlayerStars = levels.SingleOrDefault(l => l.GameLevelId.Equals(level.LevelId))?.UserStars ?? 0;
-            });
+            Parallel.ForEach(game.LevelInfos,
+                level =>
+                {
+                    level.PlayerStars =
+                        levels.SingleOrDefault(l => l.GameLevelId.Equals(level.LevelId))?.UserStars ?? 0;
+                });
             return game;
         }
 
@@ -100,15 +103,15 @@ namespace InWords.WebApi.Services.GameService
         private async Task UpdateLevels(IEnumerable<UserGameLevel> levelsToUpdate, IEnumerable<LevelScore> levelScores)
         {
             levelsToUpdate = from userGameLevel in levelsToUpdate
-                             join scores in levelScores on userGameLevel.GameLevelId equals scores.LevelId
-                             where scores.Score > userGameLevel.UserStars
-                             select new UserGameLevel
-                             {
-                                 GameLevelId = userGameLevel.GameLevelId,
-                                 UserStars = scores.Score,
-                                 UserId = userGameLevel.UserId,
-                                 UserGameLevelId = userGameLevel.UserGameLevelId
-                             };
+                join scores in levelScores on userGameLevel.GameLevelId equals scores.LevelId
+                where scores.Score > userGameLevel.UserStars
+                select new UserGameLevel
+                {
+                    GameLevelId = userGameLevel.GameLevelId,
+                    UserStars = scores.Score,
+                    UserId = userGameLevel.UserId,
+                    UserGameLevelId = userGameLevel.UserGameLevelId
+                };
             await userGameLevelRepository.Update(levelsToUpdate.ToArray());
         }
 
@@ -134,8 +137,8 @@ namespace InWords.WebApi.Services.GameService
             IEnumerable<UserGameLevel> levelsExist)
         {
             return (from ls in levelScoresArray
-                    where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
-                    select ls).ToArray();
+                where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
+                select ls).ToArray();
         }
     }
 }

@@ -128,7 +128,7 @@ namespace InWords.WebApi.Services
         {
             await DeleteUserWordPair(userId, userWordPairId);
             SyncBase syncBase = await AddUserWordPair(userId, wordTranslation);
-            return new List<SyncBase> { syncBase };
+            return new List<SyncBase> {syncBase};
         }
     }
 }

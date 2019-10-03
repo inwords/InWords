@@ -11,7 +11,6 @@ namespace InWords.WebApi.Services.Email.EmailSenders
         [Obsolete]
         public TemplateSender(EmailIdentity emailIdentity) : base(emailIdentity)
         {
- 
         }
 
         public async Task SendEmailAsync(EmailTemplates emailTemplate,
@@ -30,8 +29,8 @@ namespace InWords.WebApi.Services.Email.EmailSenders
 
         private static string StripHTML(string htmlText)
         {
-            string starttag = $"<body ";
-            string endTag = "</body>";
+            var starttag = "<body ";
+            var endTag = "</body>";
             string taggedText = $"{starttag}{htmlText.Substring(starttag, endTag)}{endTag}";
             return taggedText.StripHTML();
         }

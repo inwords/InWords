@@ -6,10 +6,6 @@ namespace InWords.Service.Auth.Models
 {
     public class TokenResponse
     {
-        public string Token { get; private set; }
-
-        public int UserId { get; private set; }
-
         public TokenResponse(ClaimsIdentity identity)
         {
             ClaimsIdentityInit(identity);
@@ -19,6 +15,10 @@ namespace InWords.Service.Auth.Models
         {
             ClaimsIdentityInit(userId.ToString(), role.ToString());
         }
+
+        public string Token { get; private set; }
+
+        public int UserId { get; private set; }
 
         private void ClaimsIdentityInit(ClaimsIdentity identity)
         {

@@ -1,9 +1,7 @@
-﻿using InWords.Abstractions.Interfaces;
-using InWords.Data.Domains.EmailEntitys;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using InWords.Abstractions.Interfaces;
+using InWords.Data.Domains.EmailEntitys;
 
 namespace InWords.Data.Repositories.Interfaces
 {

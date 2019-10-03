@@ -14,7 +14,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Route("v{version:apiVersion}/[controller]")]
     public class CardGameParserController : ControllerBase
     {
-        private readonly GameService gameService = null;
+        private readonly GameService gameService;
 
         public CardGameParserController(GameService gameService)
         {
@@ -29,7 +29,9 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             string source = System.IO.File.ReadAllText("AppData/CardsGames.txt");
             var parser = new TextParser(source);
             GamePack gamePack = parser.GetGameObject(gameId);
-            SyncBase answer = await gameService.AddGamePack(122, gamePack); //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference inside method at 'gamePack.CreationInfo'. Consider inspecting the 2nd argument: gamePack.
+            SyncBase
+                answer = await gameService.AddGamePack(122,
+                    gamePack); //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference inside method at 'gamePack.CreationInfo'. Consider inspecting the 2nd argument: gamePack.
             return Ok(gamePack);
         }
     }

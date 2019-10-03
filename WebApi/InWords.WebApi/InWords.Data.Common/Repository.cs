@@ -59,41 +59,37 @@ namespace InWords.Abstractions
             return await context.SaveChangesAsync();
         }
 
-        public async Task<int> RemoveAt(params int[] Ids)
-        {
-            List<TEntity> list = new List<TEntity>();
-            foreach (int id in Ids)
-            {
-                list.Add(await DbSet.FindAsync(id));
-            }
-            return await Remove(list.ToArray());
-        }
-
         public async Task<TEntity> Update(TEntity item)
         {
             context.Entry(item).State = EntityState.Modified;
             await context.SaveChangesAsync();
             return item;
         }
-        public async Task<IEnumerable<TEntity>> Update(IEnumerable<TEntity> items)
-        {
-            foreach (TEntity item in items)
-            {
-                context.Entry(item).State = EntityState.Modified;
-            }
-            await context.SaveChangesAsync();
-            return items;
-        }
-        public async Task<TEntity[]> Update(params TEntity[] items)
-        {
-            await Update(items as IEnumerable<TEntity>);
-            return items;
-        }
 
         public async Task<int> Delete(Expression<Func<TEntity, bool>> predicate)
         {
             DbSet.RemoveRange(DbSet.Where(predicate));
             return await context.SaveChangesAsync();
+        }
+
+        public async Task<int> RemoveAt(params int[] Ids)
+        {
+            var list = new List<TEntity>();
+            foreach (int id in Ids) list.Add(await DbSet.FindAsync(id));
+            return await Remove(list.ToArray());
+        }
+
+        public async Task<IEnumerable<TEntity>> Update(IEnumerable<TEntity> items)
+        {
+            foreach (TEntity item in items) context.Entry(item).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            return items;
+        }
+
+        public async Task<TEntity[]> Update(params TEntity[] items)
+        {
+            await Update(items as IEnumerable<TEntity>);
+            return items;
         }
 
         /// <summary>
@@ -141,6 +137,7 @@ namespace InWords.Abstractions
             return includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
+
         #endregion
     }
 }

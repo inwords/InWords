@@ -1,14 +1,12 @@
-﻿using InWords.Data.DTO.Extentions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using InWords.Data.DTO.Extentions;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
 using InWords.WebApi.Services.UserWordPairService;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
-using InWords.WebApi.Services.UserWordPairService.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.CardGame
 {
@@ -24,7 +22,7 @@ namespace InWords.WebApi.Services.CardGame
         }
 
         /// <summary>
-        /// This is to get score by level and update information of memorising user word pairs
+        ///     This is to get score by level and update information of memorising user word pairs
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="cardGameScore"></param>
@@ -50,10 +48,11 @@ namespace InWords.WebApi.Services.CardGame
         public async Task<IEnumerable<LevelScore>> SetResults(int userId, params CardGameScore[] cardGameScores)
         {
             // set sore;
-            LevelScore[] levelScores = cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToArray();
+            LevelScore[] levelScores =
+                cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToArray();
 
-            var onlineScores = levelScores.Where(l => l.LevelId > 0);
-            var localScores = levelScores.Except(onlineScores);
+            IEnumerable<LevelScore> onlineScores = levelScores.Where(l => l.LevelId > 0);
+            IEnumerable<LevelScore> localScores = levelScores.Except(onlineScores);
 
 
             // save score to storage
@@ -65,7 +64,7 @@ namespace InWords.WebApi.Services.CardGame
             // update wordas pairs license in store
             await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers);
 
-            var fullScores = onlineScores.Union(localScores);
+            IEnumerable<LevelScore> fullScores = onlineScores.Union(localScores);
             return fullScores;
         }
     }

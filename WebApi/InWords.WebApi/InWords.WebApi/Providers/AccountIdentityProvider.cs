@@ -12,9 +12,9 @@ namespace InWords.WebApi.Providers
 {
     public class AccountIdentityProvider
     {
-        private readonly UserRepository userRepository;
         private readonly AccountRepository accountRepository;
         private readonly IPasswordSalter passwordSalter;
+        private readonly UserRepository userRepository;
 
         /// <summary>
         ///     Create provider via repository
@@ -49,9 +49,9 @@ namespace InWords.WebApi.Providers
             // find account by email
             Account account = accountRepository
                 .GetWithInclude(
-                x => x.Email.Equals(email) 
-                && passwordSalter.EqualsSequence(password, x.Hash),
-                u => u.User)
+                    x => x.Email.Equals(email)
+                         && passwordSalter.EqualsSequence(password, x.Hash),
+                    u => u.User)
                 .SingleOrDefault();
 
             if (account == null)
