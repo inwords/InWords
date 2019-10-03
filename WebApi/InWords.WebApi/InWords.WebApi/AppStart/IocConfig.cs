@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using InWords.Common.Extensions;
 using InWords.Data;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
@@ -24,6 +25,9 @@ namespace InWords.WebApi.AppStart
             // register context
             builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("MSSQLConnection")))
                 .InstancePerLifetimeScope();
+
+            // register modules types
+            Program.InModules.ForEach((m) => m.ConfigureIoc(builder));
 
             // register emailClient
             builder.Register(_ => Configuration.GetSection("SendGrid").Get<EmailIdentity>());
@@ -54,7 +58,6 @@ namespace InWords.WebApi.AppStart
 
             // register FTP
             builder.RegisterType<FileLoader>().InstancePerLifetimeScope();
-
             IContainer container = builder.Build();
 
             return new AutofacServiceProvider(container);
