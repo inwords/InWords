@@ -2,18 +2,14 @@
 {
     public class LevelScore
     {
-        #region ctor
+        public int LevelId { get; set; }
+
+        public int Score { get; set; }
 
         public LevelScore(int levelId, int score)
         {
             LevelId = levelId;
             Score = score;
         }
-
-        #endregion
-
-        public int LevelId { get; set; }
-
-        public int Score { get; set; }
     }
 }

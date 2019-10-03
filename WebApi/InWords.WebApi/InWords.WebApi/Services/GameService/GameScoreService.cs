@@ -44,10 +44,12 @@ namespace InWords.WebApi.Services.GameService
 
             UserGameLevel level = levels.FirstOrDefault();
 
-            // if exist update if better
+            // if exist update  
             if (level != null)
             {
+                // don't update if worth
                 if (level.UserStars > levelScore.Score) return;
+
                 level.UserStars = levelScore.Score;
                 await userGameLevelRepository.Update(level);
             }
@@ -103,20 +105,21 @@ namespace InWords.WebApi.Services.GameService
         private async Task UpdateLevels(IEnumerable<UserGameLevel> levelsToUpdate, IEnumerable<LevelScore> levelScores)
         {
             levelsToUpdate = from userGameLevel in levelsToUpdate
-                join scores in levelScores on userGameLevel.GameLevelId equals scores.LevelId
-                where scores.Score > userGameLevel.UserStars
-                select new UserGameLevel
-                {
-                    GameLevelId = userGameLevel.GameLevelId,
-                    UserStars = scores.Score,
-                    UserId = userGameLevel.UserId,
-                    UserGameLevelId = userGameLevel.UserGameLevelId
-                };
+                             join scores in levelScores on userGameLevel.GameLevelId equals scores.LevelId
+                             where scores.Score > userGameLevel.UserStars
+                             select new UserGameLevel
+                             {
+                                 GameLevelId = userGameLevel.GameLevelId,
+                                 UserStars = scores.Score,
+                                 UserId = userGameLevel.UserId,
+                                 UserGameLevelId = userGameLevel.UserGameLevelId
+                             };
             await userGameLevelRepository.Update(levelsToUpdate.ToArray());
         }
 
         private async Task AddLevels(int userId, params LevelScore[] levels)
         {
+            // TODO CHECK IF LEVEL EXIST
             UserGameLevel[] userGameLevels = levels.Select(levelScore => new UserGameLevel
             {
                 UserId = userId,
@@ -137,8 +140,8 @@ namespace InWords.WebApi.Services.GameService
             IEnumerable<UserGameLevel> levelsExist)
         {
             return (from ls in levelScoresArray
-                where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
-                select ls).ToArray();
+                    where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
+                    select ls).ToArray();
         }
     }
 }

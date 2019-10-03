@@ -10,13 +10,31 @@ using InWords.WebApi.Extensions.Transfer;
 
 namespace InWords.WebApi.Services.GameService
 {
-    /// <inheritdoc />
     /// <summary>
     ///     Service that contain CRUD for Game
     /// </summary>
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
     public class GameService
     {
+        private readonly CreationService creationService;
+        private readonly GameLevelService gameLevelService;
+        private readonly GameBoxRepository gameBoxRepository;
+
+        /// <summary>
+        ///     Basic constructor
+        /// </summary>
+        /// <param name="creationService"></param>
+        /// <param name="gameBoxRepository"></param>
+        /// <param name="gameLevelService"></param>
+        public GameService(CreationService creationService,
+            GameBoxRepository gameBoxRepository,
+            GameLevelService gameLevelService)
+        {
+            this.creationService = creationService;
+            this.gameBoxRepository = gameBoxRepository;
+            this.gameLevelService = gameLevelService;
+        }
+
         public async Task<SyncBase> AddGamePack(int userId, GamePack gamePack)
         {
             // allow gamePack.CreatorId if admin
@@ -37,33 +55,19 @@ namespace InWords.WebApi.Services.GameService
 
         public List<GameInfo> GetGames()
         {
-            var gameInfos = new List<GameInfo>();
-
             List<GameBox> games = gameBoxRepository.GetAllEntities().ToList();
 
-            foreach (GameBox game in games)
-            {
-                CreationInfo creationInfo = creationService.GetCreationInfo(game.CreationId);
-
-                // TODO: (LNG) title 
-                DescriptionInfo
-                    russianDescription =
-                        creationInfo.Descriptions
-                            .GetRus(); //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference. Consider inspecting 'creationInfo'.
-
-                var gameInfo = new GameInfo
+            return (from game in games
+                let creationInfo = creationService.GetCreationInfo(game.CreationId)
+                let russianDescription = creationInfo.Descriptions.GetRus()
+                select new GameInfo
                 {
                     CreatorId = creationInfo.CreatorId ?? 0,
                     GameId = game.GameBoxId,
                     IsAvailable = true,
                     Title = russianDescription.Title,
                     Description = russianDescription.Description
-                };
-
-                gameInfos.Add(gameInfo);
-            }
-
-            return gameInfos;
+                }).ToList();
         }
 
         public async Task<GameBox> CreateGameBox(GamePack gamePack)
@@ -83,7 +87,6 @@ namespace InWords.WebApi.Services.GameService
         /// <summary>
         ///     This is to get full information about certain game
         /// </summary>
-        /// <param name="userId"></param>
         /// <param name="gameId"></param>
         /// <returns></returns>
         public async Task<GameObject> GetGameObject(int gameId)
@@ -109,26 +112,5 @@ namespace InWords.WebApi.Services.GameService
 
             return game;
         }
-
-        #region PropsAndCtor
-
-        private readonly CreationService creationService;
-        private readonly GameLevelService gameLevelService;
-        private readonly GameBoxRepository gameBoxRepository;
-
-        /// <summary>
-        ///     Basic constructor
-        /// </summary>
-        /// <param name="context"></param>
-        public GameService(CreationService creationService,
-            GameBoxRepository gameBoxRepository,
-            GameLevelService gameLevelService)
-        {
-            this.creationService = creationService;
-            this.gameBoxRepository = gameBoxRepository;
-            this.gameLevelService = gameLevelService;
-        }
-
-        #endregion
     }
 }
