@@ -5,6 +5,7 @@ import android.view.View
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.KeyboardUtils
 import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.authorisation.SigningBaseFragment
@@ -32,6 +33,7 @@ class RegistrationFragment : SigningBaseFragment<RegistrationViewModel, Authoris
     }
 
     override fun navigateOnSuccess() {
+        KeyboardUtils.hideKeyboard(view)
         navController.navigate(RegistrationFragmentDirections.actionRegistrationFragmentToMainFragmentPop())
     }
 

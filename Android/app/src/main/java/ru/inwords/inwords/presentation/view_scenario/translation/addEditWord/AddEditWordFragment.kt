@@ -7,6 +7,7 @@ import android.view.View
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_add_edit_word.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.KeyboardUtils
 import ru.inwords.inwords.data.dto.WordTranslation
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.view_scenario.translation.TranslationViewModelFactory
@@ -75,6 +76,7 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
     }
 
     private fun popBackToTranslationMain() {
+        KeyboardUtils.hideKeyboard(view)
         navController.navigate(AddEditWordFragmentDirections.actionAddEditWordFragmentPop())
     }
 }

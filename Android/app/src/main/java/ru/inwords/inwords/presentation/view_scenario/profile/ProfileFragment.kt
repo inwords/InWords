@@ -13,6 +13,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.KeyboardUtils
 import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.User
@@ -149,6 +150,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
     private fun nameEditClickListener() = View.OnClickListener {
         renderEditViewState()
+        KeyboardUtils.showKeyboard(name_edit_text)
         name_edit_text.setSelection(name_edit_text.text?.length ?: 0)
     }
 
