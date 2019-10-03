@@ -18,7 +18,7 @@ namespace InWords.WebApi.AppStart
             var builder = new ContainerBuilder();
             builder.Populate(services);
 
-            // register modules types
+            // to register types of modules
             Program.InModules.ForEach((m) => m.ConfigureIoc(builder));
 
             // register services
