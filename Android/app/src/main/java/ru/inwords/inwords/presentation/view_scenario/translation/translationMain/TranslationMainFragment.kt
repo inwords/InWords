@@ -56,13 +56,14 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
             mediaPlayer = MediaPlayer()
 
-            if (savedInstanceState != null) {
-                tracker.onRestoreInstanceState(savedInstanceState)
-            }
-
             val onItemClickedListener = PublishSubject.create<WordTranslation>()
             val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
             setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
+
+            if (savedInstanceState != null) {
+                tracker.onRestoreInstanceState(savedInstanceState)
+                onTrackerSelectionChanged()
+            }
 
             viewModel.onEditClickedHandler(onItemClickedListener)
             viewModel.onSpeakerClickedHandler(onSpeakerClickedListener.doOnNext { view.progress_view.progress = 50 })
@@ -89,26 +90,26 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         }
 
         viewModel.ttsStream
-                .doOnNext {
-                    if (it is Resource.Success) {
-                        playAudio(it.data)
-                    }
+            .doOnNext {
+                if (it is Resource.Success) {
+                    playAudio(it.data)
                 }
-                .observeOn(SchedulersFacade.ui())
-                .subscribe { resource ->
-                    progress_view.post { progress_view.progress = 0 }
+            }
+            .observeOn(SchedulersFacade.ui())
+            .subscribe { resource ->
+                progress_view.post { progress_view.progress = 0 }
 
-                    if (resource !is Resource.Success) {
-                        Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
-                    }
+                if (resource !is Resource.Success) {
+                    Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
                 }
-                .disposeOnViewDestroyed()
+            }
+            .disposeOnViewDestroyed()
 
         viewModel.translationWordsStream
-                .applyDiffUtil()
-                .observeOn(SchedulersFacade.ui())
-                .subscribe(adapter)
-                .disposeOnViewDestroyed()
+            .applyDiffUtil()
+            .observeOn(SchedulersFacade.ui())
+            .subscribe(adapter)
+            .disposeOnViewDestroyed()
     }
 
     override fun onDestroyView() {
@@ -187,47 +188,22 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         fun getItems() = adapter.items
 
         tracker = SelectionTracker
-                .Builder(
-                        // идентифицируем трекер в контексте
-                        "wordTranslationTracker",
-                        recycler_view,
-                        // для Long ItemKeyProvider реализован в виде StableIdKeyProvider
-                        SelectionKeyProvider({ getItems().getOrNull(it) }, { getItems().indexOf(it) }),
-                        SelectionDetailsLookup(recycler_view),
-                        // существуют аналогичные реализации для Long и String
-                        StorageStrategy.createParcelableStorage(WordTranslation::class.java)
-                ).build()
+            .Builder(
+                // идентифицируем трекер в контексте
+                "wordTranslationTracker",
+                recycler_view,
+                // для Long ItemKeyProvider реализован в виде StableIdKeyProvider
+                SelectionKeyProvider({ getItems().getOrNull(it) }, { getItems().indexOf(it) }),
+                SelectionDetailsLookup(recycler_view),
+                // существуют аналогичные реализации для Long и String
+                StorageStrategy.createParcelableStorage(WordTranslation::class.java)
+            ).build()
 
         tracker.addObserver(object : SelectionTracker.SelectionObserver<Any>() {
             override fun onSelectionChanged() {
                 super.onSelectionChanged()
 
-                val activity = requireActivity() as AppCompatActivity
-
-                if (tracker.hasSelection() && actionMode == null) {
-                    actionMode = activity.startSupportActionMode(DictionaryActionModeController(tracker)) //TODO make it floating
-
-                    actionMode?.menu?.findItem(R.id.remove)?.setOnMenuItemClickListener {
-                        onItemsDismiss(tracker.selection.toList())
-                        actionMode?.finish()
-                        actionMode = null
-                        true
-                    }
-
-                    actionMode?.menu?.findItem(R.id.play)?.setOnMenuItemClickListener {
-                        viewModel.onPlayClicked(tracker.selection.toList())
-                        actionMode?.finish()
-                        actionMode = null //TODO remove duplication
-                        true
-                    }
-
-                    setSelectedTitle(tracker.selection.size())
-                } else if (!tracker.hasSelection()) {
-                    actionMode?.finish()
-                    actionMode = null
-                } else {
-                    setSelectedTitle(tracker.selection.size())
-                }
+                onTrackerSelectionChanged()
             }
         })
     }
@@ -237,18 +213,47 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         viewModel.onItemDismiss(item)
 
         Snackbar.make(root_coordinator, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
-                .addCallback(SnackBarCallback(item))
-                .show()
+            .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
+            .addCallback(SnackBarCallback(item))
+            .show()
     }
 
-    fun onItemsDismiss(items: List<WordTranslation>) {
+    private fun onItemsDismiss(items: List<WordTranslation>) {
         viewModel.onItemsDismiss(items)
 
         Snackbar.make(root_coordinator, getString(R.string.translation_multiple_deleted, items.size), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemsDismissUndo(items) }
-                .addCallback(SnackBarCallback2(items))
-                .show()
+            .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemsDismissUndo(items) }
+            .addCallback(SnackBarCallback2(items))
+            .show()
+    }
+
+    private fun onTrackerSelectionChanged() {
+        val activity = requireActivity() as AppCompatActivity
+
+        if (tracker.hasSelection() && actionMode == null) {
+            actionMode = activity.startSupportActionMode(DictionaryActionModeController(tracker)) //TODO make it floating
+
+            actionMode?.menu?.findItem(R.id.remove)?.setOnMenuItemClickListener {
+                onItemsDismiss(tracker.selection.toList())
+                actionMode?.finish()
+                actionMode = null
+                true
+            }
+
+            actionMode?.menu?.findItem(R.id.play)?.setOnMenuItemClickListener {
+                viewModel.onPlayClicked(tracker.selection.toList())
+                actionMode?.finish()
+                actionMode = null //TODO remove duplication
+                true
+            }
+
+            setSelectedTitle(tracker.selection.size())
+        } else if (!tracker.hasSelection()) {
+            actionMode?.finish()
+            actionMode = null
+        } else {
+            setSelectedTitle(tracker.selection.size())
+        }
     }
 
     private inner class SnackBarCallback(private val word: WordTranslation) : BaseTransientBottomBar.BaseCallback<Snackbar>() {
