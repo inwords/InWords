@@ -29,12 +29,6 @@ namespace InWords.WebApi.AppStart
             // register modules types
             Program.InModules.ForEach((m) => m.ConfigureIoc(builder));
 
-            // register emailClient
-            builder.Register(_ => Configuration.GetSection("SendGrid").Get<EmailIdentity>());
-            builder.RegisterType<EmailSender>();
-            builder.RegisterType<TextSender>();
-            builder.RegisterType<TemplateSender>();
-
             // register repositories
             Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
             builder.RegisterAssemblyTypes(repositoryAssembly)
