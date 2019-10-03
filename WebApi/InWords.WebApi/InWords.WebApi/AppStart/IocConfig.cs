@@ -22,18 +22,8 @@ namespace InWords.WebApi.AppStart
             var builder = new ContainerBuilder();
             builder.Populate(services);
 
-            // register context
-            builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("MSSQLConnection")))
-                .InstancePerLifetimeScope();
-
             // register modules types
             Program.InModules.ForEach((m) => m.ConfigureIoc(builder));
-
-            // register repositories
-            Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
-            builder.RegisterAssemblyTypes(repositoryAssembly)
-                .Where(a => a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data"))
-                .InstancePerLifetimeScope();
 
             // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
@@ -42,13 +32,7 @@ namespace InWords.WebApi.AppStart
                 && !a.Namespace.Contains("Abstractions"))
                 .InstancePerLifetimeScope();
 
-
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
-
-            // register Interfaces
-            //builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-            //    .Where(t => t.GetInterfaces().FirstOrDefault(i => i.Name.Equals($"I{t.Name}")) != null)
-            //    .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name.Equals($"I{t.Name}")));
 
             // register FTP
             builder.RegisterType<FileLoader>().InstancePerLifetimeScope();
