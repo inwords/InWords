@@ -27,7 +27,7 @@ namespace InWords.WebApi.Services.UserGameService
             this.gameLevelWordRepository = new GameLevelWordRepository(context);
         }
 
-        public async Task<int> CreateUserLevelAsync(int userId, IList<int> userWordPairIds)
+        public async Task<int> CreateUserLevelAsync(int userId, IEnumerable<int> userWordPairIds)
         {
             // TODO rewrite no repo
 

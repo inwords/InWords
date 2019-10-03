@@ -8,7 +8,7 @@ namespace InWords.WebApi.Services.UserGameService
     {
         public override void ConfigureIoc(ContainerBuilder builder)
         {
-            // TODO register service 
+            builder.RegisterType<LevelCreator>();
         }
     }
 }
