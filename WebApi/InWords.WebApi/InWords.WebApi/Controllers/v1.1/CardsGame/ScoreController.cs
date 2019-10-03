@@ -44,7 +44,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
             // save score to user level
             try
             {
-                answer = await gameResultService.SetResults(authorizedId, cardGameScore);
+                // foreach level that doesn't have game create game
+
+                // save scores
+                answer = await gameResultService.SetResultsAsync(authorizedId, cardGameScore)
+                                                .ConfigureAwait(true);
             }
             catch (ArgumentNullException e)
             {
@@ -57,7 +61,6 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         /// <summary>
         ///     Use to upload user results
         /// </summary>
-        /// <param name="levelScores"></param>
         /// <returns>Quantity of stars and level id</returns>
         [Route("UploadScore")]
         [HttpPost]
@@ -69,7 +72,7 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
             // save score to user level
             try
             {
-                answer = await gameResultService.SetResults(authorizedId, cardGameScores);
+                answer = await gameResultService.SetResultsAsync(authorizedId, cardGameScores);
             }
             catch (ArgumentNullException e)
             {
