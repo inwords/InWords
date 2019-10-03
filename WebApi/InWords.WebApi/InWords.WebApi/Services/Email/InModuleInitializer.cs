@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
+using InWords.WebApi.Services.Email.EmailSenders;
+using InWords.WebApi.Services.Email.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace InWords.WebApi.Services.Email

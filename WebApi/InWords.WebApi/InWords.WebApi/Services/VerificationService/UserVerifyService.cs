@@ -1,10 +1,10 @@
 ﻿using InWords.Data.Enums;
 using InWords.Data.Repositories;
-using InWords.WebApi.Services.Email.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.VerificationService
 {

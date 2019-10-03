@@ -1,11 +1,10 @@
-﻿using InWords.WebApi.Extensions;
-using InWords.WebApi.Services.Email.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using InWords.WebApi.Extensions;
+using InWords.WebApi.Services.Email.Models;
 
-namespace InWords.WebApi.Services.Email
+namespace InWords.WebApi.Services.Email.EmailSenders
 {
     public class TemplateSender : EmailSender
     {

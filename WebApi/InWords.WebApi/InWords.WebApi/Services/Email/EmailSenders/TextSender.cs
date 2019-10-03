@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using InWords.WebApi.Services.Email.Models;
 
-namespace InWords.WebApi.Services.Email
+namespace InWords.WebApi.Services.Email.EmailSenders
 {
     public class TextSender : EmailSender
     {

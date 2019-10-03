@@ -1,8 +1,9 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.Threading.Tasks;
+using InWords.WebApi.Services.Email.Models;
+using MailKit.Net.Smtp;
 using MimeKit;
-using System.Threading.Tasks;
 
-namespace InWords.WebApi.Services.Email
+namespace InWords.WebApi.Services.Email.EmailSenders
 {
     public class EmailSender
     {

@@ -5,7 +5,6 @@ using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.Repositories;
-using InWords.Domain;
 using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService

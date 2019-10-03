@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using InWords.Data.Domains;
 using InWords.Data.DTO;
 using InWords.Data.Repositories;
-using InWords.WebApi.TransferData;
+using InWords.WebApi.Extensions;
 
 namespace InWords.WebApi.Services
 {
