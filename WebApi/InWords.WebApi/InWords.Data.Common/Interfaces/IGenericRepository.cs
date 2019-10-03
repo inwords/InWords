@@ -7,7 +7,7 @@ namespace InWords.Abstractions.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> Create(TEntity item);
+        Task<TEntity> CreateAsync(TEntity item);
         Task<TEntity[]> Create(params TEntity[] item);
         Task<TEntity> FindById(params object[] id);
         IEnumerable<TEntity> GetAllEntities();

@@ -20,7 +20,7 @@ namespace InWords.Abstractions
             DbSet = context.Set<TEntity>();
         }
 
-        public async Task<TEntity> Create(TEntity item)
+        public async Task<TEntity> CreateAsync(TEntity item)
         {
             await DbSet.AddAsync(item);
             await context.SaveChangesAsync();
@@ -86,9 +86,9 @@ namespace InWords.Abstractions
             return items;
         }
 
-        public async Task<TEntity[]> Update(params TEntity[] items)
+        public async Task<TEntity[]> UpdateAsync(params TEntity[] items)
         {
-            await Update(items as IEnumerable<TEntity>);
+            await Update(items as IEnumerable<TEntity>).ConfigureAwait(true);
             return items;
         }
 
@@ -102,7 +102,7 @@ namespace InWords.Abstractions
         {
             TEntity entity = GetWhere(predicate).SingleOrDefault();
 
-            entity = entity ?? await Create(item);
+            entity = entity ?? await CreateAsync(item);
 
             return entity;
         }

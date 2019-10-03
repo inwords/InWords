@@ -16,7 +16,7 @@ namespace InWords.WebApi.Services.GameService
                 GameBoxId = gameBox.GameBoxId,
                 Level = levelPack.Level
             };
-            gameLevel = await gameLevelRepository.Create(gameLevel);
+            gameLevel = await gameLevelRepository.CreateAsync(gameLevel);
             await gameLevelWordService.AddWordsToLevel(levelPack.WordTranslations, gameLevel.GameLevelId);
             return gameLevel;
         }

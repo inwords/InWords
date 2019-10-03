@@ -22,7 +22,7 @@ namespace InWords.Data.Repositories
                 Code = code,
                 SentTime = DateTime.UtcNow
             };
-            return await Create(emailVerifier);
+            return await CreateAsync(emailVerifier);
         }
     }
 }

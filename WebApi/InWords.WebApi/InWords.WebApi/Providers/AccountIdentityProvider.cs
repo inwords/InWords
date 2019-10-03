@@ -83,7 +83,7 @@ namespace InWords.WebApi.Providers
                 Experience = 0
             };
 
-            await accountRepository.Create(newAccount);
+            await accountRepository.CreateAsync(newAccount);
 
             return newAccount;
         }

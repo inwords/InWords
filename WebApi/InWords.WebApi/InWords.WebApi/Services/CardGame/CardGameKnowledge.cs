@@ -17,14 +17,14 @@ namespace InWords.WebApi.Services.CardGame
         Dictionary<int, KnowledgeQualitys> IKnowledgeQualifier.Qualify()
         {
             var qualifyPairs = new Dictionary<int, KnowledgeQualitys>();
-            foreach (KeyValuePair<int, int> wpoc in cardGameScore.WordPairIdOpenCounts)
-                qualifyPairs[wpoc.Key] = QualityOfPair(wpoc.Value);
+            foreach ((int key, int value) in cardGameScore.WordPairIdOpenCounts)
+                qualifyPairs[key] = QualityOfPair(value);
             return qualifyPairs;
         }
 
-        private KnowledgeQualitys QualityOfPair(int OpenCounts)
+        private KnowledgeQualitys QualityOfPair(int openCounts)
         {
-            switch (OpenCounts)
+            switch (openCounts)
             {
                 case var o when o <= 4:
                     return KnowledgeQualitys.EasyToRemember;

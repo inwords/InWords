@@ -37,11 +37,11 @@ namespace InWords.WebApi.Services.CardGame
                 return levelScore; // end warning
 
             // save score to storage
-            await gameScoreService.PostScore(userId, levelScore);
+            await gameScoreService.PostScoreAsync(userId, levelScore).ConfigureAwait(false);
             // Calculate word metric;
             IKnowledgeQualifier knowledgeQualifier = new CardGameKnowledge(cardGameScore);
             // update wordas pairs license in store
-            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifier);
+            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifier).ConfigureAwait(false);
             return levelScore;
         }
 
@@ -59,7 +59,7 @@ namespace InWords.WebApi.Services.CardGame
 
 
             // save score to storage
-            await gameScoreService.UploadScore(userId, onlineScores).ConfigureAwait(false);
+            await gameScoreService.UploadScoreAsync(userId, onlineScores).ConfigureAwait(false);
 
             // Calculate word metric;
             IKnowledgeQualifier[] knowledgeQualifiers 
