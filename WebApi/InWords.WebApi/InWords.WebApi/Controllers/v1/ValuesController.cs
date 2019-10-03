@@ -1,7 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Data.Repositories;
 using InWords.Domain;
-using InWords.WebApi.Net;
+using InWords.WebApi.Services.FtpLoader.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

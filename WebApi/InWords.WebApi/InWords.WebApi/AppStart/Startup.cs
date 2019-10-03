@@ -2,8 +2,9 @@
 using System.IO;
 using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
-using InWords.WebApi.Net;
+using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
+using InWords.WebApi.Services.FtpLoader.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,12 @@ namespace InWords.WebApi.AppStart
     public class Startup
     {
         /// <summary>
+        ///     This is the service configuration
+        /// </summary>
+        public IConfiguration Configuration { get; }
+
+
+        /// <summary>
         ///     Startup constructor
         /// </summary>
         /// <param name="env"></param>
@@ -34,13 +41,8 @@ namespace InWords.WebApi.AppStart
                 .AddJsonFile("appsettings.security.json", false, true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            InModule.Configuration = Configuration;
         }
-
-        /// <summary>
-        ///     This is the service configuration
-        /// </summary>
-        public IConfiguration Configuration { get; }
-
 
         /// <summary>
         ///     This method gets called by the runtime. Use this method to add services to the container.

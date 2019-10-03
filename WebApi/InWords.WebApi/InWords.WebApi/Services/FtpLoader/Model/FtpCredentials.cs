@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Net
+namespace InWords.WebApi.Services.FtpLoader.Model
 {
     public class FtpCredentials
     {
