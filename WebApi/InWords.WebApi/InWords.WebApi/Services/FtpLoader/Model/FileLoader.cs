@@ -3,7 +3,7 @@ using System.Net;
 using FluentFTP;
 using Microsoft.Extensions.Options;
 
-namespace InWords.WebApi.Net
+namespace InWords.WebApi.Services.FtpLoader.Model
 {
     public class FileLoader
     {
@@ -28,7 +28,7 @@ namespace InWords.WebApi.Net
             foreach (FtpListItem item in client.GetListing("/http/InWords/Resource/Drawable"))
             {
                 // if this is a file
-                
+
                 if (item.Type == FtpFileSystemObjectType.File)
                 {
                     // get the file size

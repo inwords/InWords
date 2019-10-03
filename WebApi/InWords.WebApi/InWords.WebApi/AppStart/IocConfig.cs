@@ -4,12 +4,8 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using InWords.Common.Extensions;
-using InWords.Data;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
-using InWords.WebApi.Net;
-using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Services.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,10 +30,7 @@ namespace InWords.WebApi.AppStart
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
 
-            // register FTP
-            builder.RegisterType<FileLoader>().InstancePerLifetimeScope();
             IContainer container = builder.Build();
-
             return new AutofacServiceProvider(container);
         }
     }
