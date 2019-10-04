@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_email"
                 android:inputType="textEmailAddress"
-                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

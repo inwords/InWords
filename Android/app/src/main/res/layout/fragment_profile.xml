@@ -113,7 +113,7 @@
                     android:inputType="textCapSentences"
                     android:maxLength="64"
                     android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default"
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
                     tools:enabled="true"
                     tools:text="Ник" />
             </com.google.android.material.textfield.TextInputLayout>

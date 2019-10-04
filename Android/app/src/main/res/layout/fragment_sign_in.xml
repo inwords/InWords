@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_in_email"
                 android:inputType="textEmailAddress"
-                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_in_password"
                 android:inputType="textPassword"
-                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
