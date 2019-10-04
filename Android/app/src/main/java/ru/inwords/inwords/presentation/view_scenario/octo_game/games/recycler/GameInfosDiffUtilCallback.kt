@@ -5,10 +5,10 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.SimpleDiffUtilCallback
-import ru.inwords.inwords.domain.interactor.game.GameInfoModel
+import ru.inwords.inwords.domain.model.GameInfoModel
 
 class GameInfoModelsDiffUtilCallback internal constructor(oldGameLevels: List<GameInfoModel>,
-                                                     newGameLevels: List<GameInfoModel>) :
+                                                          newGameLevels: List<GameInfoModel>) :
         SimpleDiffUtilCallback<GameInfoModel>(oldGameLevels, newGameLevels) {
 
     override fun areItemsTheSame(oldItem: GameInfoModel, newItem: GameInfoModel): Boolean {

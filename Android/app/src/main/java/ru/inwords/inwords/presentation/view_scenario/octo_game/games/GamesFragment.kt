@@ -10,7 +10,7 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.Resource
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.domain.interactor.game.GameInfoModel
+import ru.inwords.inwords.domain.model.GameInfoModel
 import ru.inwords.inwords.presentation.view_scenario.octo_game.BaseContentFragment
 import ru.inwords.inwords.presentation.view_scenario.octo_game.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.octo_game.games.recycler.GamesAdapter
@@ -34,27 +34,29 @@ class GamesFragment : BaseContentFragment<GameInfoModel, GamesViewModel, OctoGam
         viewModel.navigateToGame.subscribe(::navigateToGame).disposeOnViewDestroyed()
 
         viewModel.screenInfoStream()
-                .map {
-                    if (it is Resource.Success) {
-                        it.data.gameInfos
-                    } else {
-                        showNoContent()
-                        emptyList()
-                    }
-                }
-                .applyDiffUtil()
-                .observeOn(SchedulersFacade.ui())
-                .doOnSubscribe { gamesRecycler.showShimmerAdapter() }
-                .doOnEach { gamesRecycler.hideShimmerAdapter() }
-                .subscribe({
-                    showScreenState(it.first)
-                    adapter.accept(it)
-
-                    fixOverscrollBehaviour(gamesRecycler)
-                }) {
-                    Log.e(javaClass.simpleName, it.message.orEmpty())
+            .observeOn(SchedulersFacade.ui())
+            .map {
+                if (it is Resource.Success) {
+                    it.data.gameInfos
+                } else {
                     showNoContent()
-                }.disposeOnViewDestroyed()
+                    emptyList()
+                }
+            }
+            .observeOn(SchedulersFacade.computation())
+            .applyDiffUtil()
+            .observeOn(SchedulersFacade.ui())
+            .doOnSubscribe { gamesRecycler.showShimmerAdapter() }
+            .doOnEach { gamesRecycler.hideShimmerAdapter() }
+            .subscribe({
+                showScreenState(it.first)
+                adapter.accept(it)
+
+                fixOverscrollBehaviour(gamesRecycler)
+            }) {
+                Log.e(javaClass.simpleName, it.message.orEmpty())
+                showNoContent()
+            }.disposeOnViewDestroyed()
     }
 
     private fun navigateToGame(gameInfo: GameInfoModel) {

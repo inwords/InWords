@@ -12,7 +12,7 @@ class GameLevelOrchestrator {
     private val wordTranslationIdOpenCount = HashMap<WordModel, Int>()
 
     private var gameEndListener: ((LevelResultModel) -> Unit)? = null
-    private var flipState = FlipState(emptyList())
+    private var flipState = FlipState()
         set(value) {
             field = value
             gameScene?.setState(flipState)
@@ -27,15 +27,16 @@ class GameLevelOrchestrator {
         gameScene.setState(flipState)
     }
 
-    fun updateGameScene(cardsData: CardsData) {
+    fun updateGameScene(cardsData: CardsData, forceUpdate: Boolean = false) {
         val gameScene = requireNotNull(gameScene) { "GameScene must be set before calling updateGameScene" }
 
-        if (this.cardsData != cardsData) {
+        if (this.cardsData != cardsData || forceUpdate) {
             clearState()
-            this.cardsData = cardsData
             cardsData.words.forEach { stateMap[it] = false }
             flipState = FlipState(cardsData.words.map { false })
         }
+
+        this.cardsData = cardsData
 
         gameScene.renderCards(cardsData, flipState)
     }
@@ -82,18 +83,19 @@ class GameLevelOrchestrator {
 
                 else -> { //second incorrect game_card opened
                     showingIncorrectCards = true
-                    gameScene?.container?.get()?.postDelayed({
+                    gameScene?.postDelayed(1100) {
                         flipState = flipState.updated(false, clickEvent.index, openedWord!!.index)
                         openedWord = null
                         showingIncorrectCards = false
-                    }, 1100)
+                    }
                 }
             }
         }
     }
 
     data class OpenedWord(val index: Int, val word: WordModel)
-    data class FlipState(private val state: List<Boolean>) {
+
+    data class FlipState(private val state: List<Boolean> = emptyList()) {
         fun updated(elem: Boolean, vararg indexes: Int) = copy(
             state = state.mapIndexed { i, existing -> if (i in indexes) elem else existing }
         )

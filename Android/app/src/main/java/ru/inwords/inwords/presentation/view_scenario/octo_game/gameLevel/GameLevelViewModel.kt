@@ -35,7 +35,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
         gameLevelOrchestrator.attachGameScene(gameScene)
     }
 
-    fun onGameLevelSelected(gameId: Int, gameLevelInfo: GameLevelInfo) {
+    fun onGameLevelSelected(gameId: Int, gameLevelInfo: GameLevelInfo, forceUpdate: Boolean = false) {
         compositeDisposable.clear()
 
         currentLevelIndex = gameLevelInfo.level - 1
@@ -53,7 +53,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
             .observeOn(SchedulersFacade.ui())
             .subscribe {
                 if (it is Resource.Success) {
-                    gameLevelOrchestrator.updateGameScene(it.data)
+                    gameLevelOrchestrator.updateGameScene(it.data, forceUpdate)
                 }
             }
             .autoDispose()
@@ -86,14 +86,16 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
         }
     }
 
-    fun getCurrentLevelInfo() = game.gameLevelInfos[currentLevelIndex]
+    fun getCurrentLevelInfo() = game.gameLevelInfos.getOrNull(currentLevelIndex)
 
     fun onNewEventCommand(path: FromGameEndEventsEnum) {
+        val currentLevelInfo = getCurrentLevelInfo() ?: return
+
         _navigationFromGameEnd.postValue(Event(path))
 
         when (path) {
             NEXT -> selectNextLevel()
-            REFRESH -> onGameLevelSelected(game.gameId, getCurrentLevelInfo())
+            REFRESH -> onGameLevelSelected(game.gameId, currentLevelInfo, true)
             else -> Unit
         }
     }

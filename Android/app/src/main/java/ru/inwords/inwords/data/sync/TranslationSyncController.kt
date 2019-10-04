@@ -18,8 +18,8 @@ import javax.inject.Inject
 
 class TranslationSyncController @Inject
 internal constructor(
-        @param:LocalRepository private val localRepository: TranslationWordsLocalRepository,
-        private val remoteRepository: TranslationWordsRemoteRepository) {
+    @param:LocalRepository private val localRepository: TranslationWordsLocalRepository,
+    private val remoteRepository: TranslationWordsRemoteRepository) {
 
     private val dataChangesCounter: AtomicInteger = AtomicInteger()
     private val dataChangedNotifier: PublishSubject<Int> = PublishSubject.create()
@@ -34,13 +34,13 @@ internal constructor(
 
     private fun establishSyncAllReposWithCacheWatcher() {
         dataChangedNotifier
-                .debounce(2, TimeUnit.SECONDS)
-                .doOnNext {
-                    trySyncRemoteReposWithLocal()
-                            .subscribeOn(Schedulers.io())
-                            .subscribe({ }, { t -> Log.e("TranslationSync", "" + t.message.orEmpty()) })
-                }
-                .subscribe()
+            .debounce(2, TimeUnit.SECONDS)
+            .doOnNext {
+                trySyncRemoteReposWithLocal()
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ }, { t -> Log.e(javaClass.simpleName, t.message.orEmpty()) })
+            }
+            .subscribe()
     }
 
     fun notifyDataChanged() {
@@ -49,44 +49,43 @@ internal constructor(
 
     fun presyncOnStart(): Single<PullWordsAnswer> {
         return localRepository.getList().firstOrError() //TODO
-                .map { wordTranslations ->
-                    wordTranslations.filter { it.serverId != 0 }.map { it.serverId }
-                }
-                .doOnError { t -> Log.e(this.javaClass.simpleName, t.message.orEmpty()) }
-                .flatMap { remoteRepository.pullWords(it) }
-                .doOnError { t -> Log.e(this.javaClass.simpleName, t.message.orEmpty()) }
-                .doOnSuccess { pullWordsAnswer ->
-                    val removedServerIds = pullWordsAnswer.removedServerIds
-                    val addedWords = pullWordsAnswer.addedWords
+            .map { wordTranslations ->
+                wordTranslations.filter { it.serverId != 0 }.map { it.serverId }
+            }
+            .doOnError { t -> Log.e(javaClass.simpleName, t.message.orEmpty()) }
+            .flatMap { remoteRepository.pullWords(it) }
+            .doOnError { t -> Log.e(javaClass.simpleName, t.message.orEmpty()) }
+            .doOnSuccess { pullWordsAnswer ->
+                val removedServerIds = pullWordsAnswer.removedServerIds
+                val addedWords = pullWordsAnswer.addedWords
 
-                    if (removedServerIds.isNotEmpty()) {
-                        //Its IMPORTANT to remove before addReplace because its important
-                        localRepository.removeAllServerIds(removedServerIds).blockingGet()
-                                ?.let {
-                                    Log.e(this.javaClass.simpleName, it.message.orEmpty())
-                                }
-                    }
-
-                    if (addedWords.isNotEmpty()) {
-                        localRepository.addReplaceAll(addedWords)
-                                .doOnError { Log.e(this.javaClass.simpleName, it.message.orEmpty()) }
-                                .onErrorReturnItem(emptyList())
-                                .blockingGet()
+                if (removedServerIds.isNotEmpty()) {
+                    //Its IMPORTANT to remove before addReplace because its important
+                    localRepository.removeAllServerIds(removedServerIds).blockingGet()?.let {
+                        Log.e(this.javaClass.simpleName, it.message.orEmpty())
                     }
                 }
-                .subscribeOn(SchedulersFacade.io())
+
+                if (addedWords.isNotEmpty()) {
+                    localRepository.addReplaceAll(addedWords)
+                        .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
+                        .onErrorReturnItem(emptyList())
+                        .blockingGet()
+                }
+            }
+            .subscribeOn(SchedulersFacade.io())
     }
 
     fun trySyncRemoteReposWithLocal(): Completable {
         return localRepository.getList()
-                .observeOn(SchedulersFacade.computation())
-                .firstElement() //Берём все элементы только 1 раз
-                .flatMapObservable { Observable.fromIterable(it) } //Выдаём их по одному
-                .groupBy { group(it) } //Группируем
-                .flatMapSingle { it.toList() } //Каждую группу пихаем в List
-                .filter { wordTranslations -> wordTranslations.isNotEmpty() } //Смотрим, чтобы он был не пустой
-                .observeOn(SchedulersFacade.io())
-                .flatMapCompletable { groupedListHandler(it) }
+            .observeOn(SchedulersFacade.computation())
+            .firstElement() //Берём все элементы только 1 раз
+            .flatMapObservable { Observable.fromIterable(it) } //Выдаём их по одному
+            .groupBy { group(it) } //Группируем
+            .flatMapSingle { it.toList() } //Каждую группу пихаем в List
+            .filter { wordTranslations -> wordTranslations.isNotEmpty() } //Смотрим, чтобы он был не пустой
+            .observeOn(SchedulersFacade.io())
+            .flatMapCompletable { groupedListHandler(it) }
     }
 
     private fun group(wordTranslation: WordTranslation): Groups {
@@ -109,19 +108,19 @@ internal constructor(
             //Узнаём какой группе принадлежит лист
             Groups.ADD -> {
                 remoteRepository
-                        .addAll(list)
-                        .flatMapCompletable { wordIdentificatorsRemote ->
-                            localRepository.addReplaceAll(mergeIds(list, wordIdentificatorsRemote)).ignoreElement()
-                        }
-                        .doOnError { t -> Log.e(this.javaClass.simpleName, t.message.orEmpty()) }
-                        .onErrorComplete() //TODO
+                    .addAll(list)
+                    .flatMapCompletable { wordIdentificatorsRemote ->
+                        localRepository.addReplaceAll(mergeIds(list, wordIdentificatorsRemote)).ignoreElement()
+                    }
+                    .doOnError { t -> Log.e(javaClass.simpleName, t.message.orEmpty()) }
+                    .onErrorComplete() //TODO
 
             }
 
             Groups.REMOVE_REMOTE -> {
                 val serverIds = serverIdsFromWordTranslations(list)
                 remoteRepository.removeAllServerIds(serverIds)
-                        .andThen(localRepository.removeAllServerIds(serverIds))
+                    .andThen(localRepository.removeAllServerIds(serverIds))
             }
 
             Groups.REMOVE_LOCAL -> {

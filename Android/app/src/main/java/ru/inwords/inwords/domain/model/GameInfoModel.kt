@@ -1,4 +1,4 @@
-package ru.inwords.inwords.domain.interactor.game
+package ru.inwords.inwords.domain.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -1,5 +1,6 @@
 package ru.inwords.inwords.data.source.remote.session
 
+import android.util.Log
 import retrofit2.HttpException
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
@@ -16,7 +17,8 @@ internal constructor(/*int maxRequests*/) {
         if (throwable is HttpException) {
             when (throwable.code()) {
                 401 -> { //TODO find the const
-                    unauthorisedReqThreshold.getAndIncrement()
+                    val count = unauthorisedReqThreshold.getAndIncrement()
+                    Log.d(javaClass.simpleName, "unauthorisedReqThreshold = $count")
                     return true
                 }
                 else -> {

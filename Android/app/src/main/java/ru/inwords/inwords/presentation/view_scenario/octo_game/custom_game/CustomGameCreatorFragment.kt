@@ -2,10 +2,10 @@ package ru.inwords.inwords.presentation.view_scenario.octo_game.custom_game
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.card.MaterialCardView
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
@@ -33,8 +33,8 @@ class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorV
                 .observeOn(SchedulersFacade.ui())
                 .subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
 
-        view.findViewById<Button>(R.id.start_button).setOnClickListener {
-            it.isEnabled = false
+        view.findViewById<MaterialCardView>(R.id.play_cards_card_view).setOnClickListener {
+            it.isClickable = false
             viewModel.onStartClicked(args.wordTranslations.toList())
         }
 

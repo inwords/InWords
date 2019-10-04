@@ -150,7 +150,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="gameInfo"
-            app:argType="ru.inwords.inwords.domain.interactor.game.GameInfoModel" />
+            app:argType="ru.inwords.inwords.domain.model.GameInfoModel" />
     </fragment>
     <fragment
         android:id="@+id/gameLevelFragment"

@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.game_level_info.view.*
-import ru.inwords.inwords.domain.interactor.game.GameInfoModel
+import ru.inwords.inwords.domain.model.GameInfoModel
 
 class GameInfoViewHolder internal
 constructor(itemView: View, private val onItemClickedListener: Subject<GameInfoModel>?) :

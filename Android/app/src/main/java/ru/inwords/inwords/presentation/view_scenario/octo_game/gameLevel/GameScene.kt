@@ -14,7 +14,7 @@ import ru.inwords.inwords.domain.model.WordModel
 import java.lang.ref.WeakReference
 import kotlin.math.ceil
 
-class GameScene(val container: WeakReference<TableLayout>) {
+class GameScene(private val container: WeakReference<TableLayout>) {
     private val flipViews = mutableListOf<WeakReference<FlipView>>()
 
     private var cardClickConsumer: ((ClickEvent) -> Unit)? = null
@@ -82,6 +82,10 @@ class GameScene(val container: WeakReference<TableLayout>) {
         }
 
         setState(flipState)
+    }
+
+    fun postDelayed(delayMillis: Long, action: () -> Unit): Boolean {
+        return container.get()?.postDelayed(action, delayMillis) ?: false
     }
 
     private fun toSeqIndex(i: Int, j: Int, rows: Int) = i * rows + j

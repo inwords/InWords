@@ -125,7 +125,9 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        tracker.onSaveInstanceState(outState)
+        if (::tracker.isInitialized) {
+            tracker.onSaveInstanceState(outState)
+        }
     }
 
     private fun playAudio(path: String) {

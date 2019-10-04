@@ -33,7 +33,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(GAME_LEVEL_INFO, gameLevelInfo)
+        viewModel.getCurrentLevelInfo()?.let { outState.putParcelable(GAME_LEVEL_INFO, it) }
         super.onSaveInstanceState(outState)
     }
 
@@ -46,9 +46,10 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
     private fun showGameEndDialog(levelResultEvent: Event<LevelResultModel>) {
         val levelResultModel = levelResultEvent.contentIfNotHandled ?: return
+        val levelId = viewModel.getCurrentLevelInfo()?.levelId ?: return
 
         navController.navigate(GameLevelFragmentDirections.actionGameLevelFragmentToGameEndBottomSheet(
-            levelResultModel.copy(levelId = viewModel.getCurrentLevelInfo().levelId)
+            levelResultModel.copy(levelId = levelId)
         ))
     }
 }

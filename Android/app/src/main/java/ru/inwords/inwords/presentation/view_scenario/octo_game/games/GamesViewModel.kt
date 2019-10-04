@@ -5,8 +5,8 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import ru.inwords.inwords.core.Resource
-import ru.inwords.inwords.domain.interactor.game.GameInfoModel
 import ru.inwords.inwords.domain.interactor.game.GameInteractor
+import ru.inwords.inwords.domain.model.GameInfoModel
 import ru.inwords.inwords.domain.model.GamesInfoModel
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 

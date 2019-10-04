@@ -34,12 +34,11 @@
     <style name="ToolbarStyle">
         <item name="android:background">@color/white</item>
         <item name="android:theme">@style/ToolbarTheme</item>
-        <item name="android:titleTextStyle">@style/TextAppearance.Inwords.Title.Regular.Inverse
-        </item>
+        <item name="android:titleTextStyle">@style/TextAppearance.Inwords.Title.Regular.Inverse</item>
     </style>
 
     <style name="ToolbarTheme" parent="AppTheme">
-        <item name="colorControlNormal">@color/text_color_default</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
     </style>
 
     <style name="AppSearchViewStyle" parent="Widget.AppCompat.SearchView">
