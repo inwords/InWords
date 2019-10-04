@@ -24,7 +24,6 @@
             android:text="@string/choose_game"
             android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default" />
 
-        <!-- TODO: remove 100dp -->
         <ru.inwords.shimmer_recycler.ShimmerRecyclerView
             android:id="@+id/gamesRecycler"
             android:layout_width="match_parent"

@@ -24,7 +24,6 @@
             android:text="@string/choose_level"
             android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default" />
 
-        <!-- TODO: remove 100dp -->
         <ru.inwords.shimmer_recycler.ShimmerRecyclerView
             android:id="@+id/levelsRecycler"
             android:layout_width="match_parent"
