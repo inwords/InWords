@@ -54,12 +54,17 @@
 
     <string name="undo_translation_deletion">ОТМЕНИТЬ</string>
     <string name="translation_deleted">Слово удалено</string>
+    <string name="translation_multiple_deleted">Слов удалено: %d</string>
+    <string name="dictionary_screen_title">Ваш словарь</string>
     <!-- word addition end -->
 
     <!-- gameResource start -->
     <string name="no_content">К сожалению, что-то пошло не так</string>
     <string name="no_content_solutions">Возможно, отсутствует интернет, а возможно, вы не вошли в аккаунт</string>
     <string name="choose_level">Выберите уровень</string>
+    <string name="custom_game">Свои игры</string>
+    <string name="card_game_name">Карточки</string>
+    <string name="custom_game_card_game_subtext">Если вы выбрали более 6 пар слов для игры, то в игре будут отображаться случайные пары, как в контрольных уровнях</string>
     <!-- gameResource end -->
 
     <!-- home start -->
@@ -97,6 +102,8 @@
     <!-- policy end -->
 
     <!-- unsorted start -->
+    <string name="search">Поиск</string>
+    <string name="cancel">Отменить</string>
 
     <!-- unsorted end -->
 

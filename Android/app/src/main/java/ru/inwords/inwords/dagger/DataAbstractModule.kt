@@ -2,26 +2,29 @@ package ru.inwords.inwords.dagger
 
 import dagger.Binds
 import dagger.Module
-import ru.inwords.inwords.dagger.annotations.CacheRepository
 import ru.inwords.inwords.dagger.annotations.LocalRepository
-import ru.inwords.inwords.data.repository.game.GameGatewayController
-import ru.inwords.inwords.data.repository.game.GameGatewayControllerImpl
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepositoryImpl
-import ru.inwords.inwords.data.repository.translation.*
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorisedImpl
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorised
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorisedImpl
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationWebInteractor
-import ru.inwords.inwords.domain.interactor.game.GameInteractor
-import ru.inwords.inwords.domain.interactor.game.GameInteractorImpl
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractorImpl
-import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
-import ru.inwords.inwords.domain.interactor.profile.ProfileInteractorImpl
-import ru.inwords.inwords.domain.interactor.translation.*
+import ru.inwords.inwords.game.data.repository.CustomGameGatewayController
+import ru.inwords.inwords.game.data.repository.GameGatewayController
+import ru.inwords.inwords.game.data.repository.GameGatewayControllerImpl
+import ru.inwords.inwords.game.domain.interactor.GameInteractor
+import ru.inwords.inwords.game.domain.interactor.GameInteractorImpl
+import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
+import ru.inwords.inwords.profile.domain.interactor.ProfileInteractorImpl
+import ru.inwords.inwords.translation.data.translation.TranslationWordsDatabaseRepository
+import ru.inwords.inwords.translation.data.translation.TranslationWordsLocalRepository
+import ru.inwords.inwords.translation.data.translation.TranslationWordsRemoteRepository
+import ru.inwords.inwords.translation.data.translation.TranslationWordsWebApiRepository
+import ru.inwords.inwords.translation.domain.interactor.*
 import javax.inject.Singleton
 
 @Module
@@ -62,22 +65,19 @@ interface DataAbstractModule {
 
     @Binds
     @Singleton
-    fun translationWordsCacheInteractor(interactor: TranslationWordsCacheInteractor): TranslationWordsRepositoryInteractor
+    fun translationWordsCacheInteractor(interactor: TranslationWordsLocalInteractor): TranslationWordsRepositoryInteractor
 
     //repos
     @Binds
-    @Singleton
     fun gameGatewayController(gameGatewayController: GameGatewayControllerImpl): GameGatewayController
+
+    @Binds
+    fun customGameGatewayController(customGameGatewayController: GameGatewayControllerImpl): CustomGameGatewayController
 
     @Binds
     @Singleton
     @LocalRepository
     fun translationWordsDatabaseRepository(repository: TranslationWordsDatabaseRepository): TranslationWordsLocalRepository
-
-    @Binds
-    @Singleton
-    @CacheRepository
-    fun translationWordsCacheRepository(repository: TranslationWordsCacheRepository): TranslationWordsLocalRepository
 
     @Binds
     @Singleton

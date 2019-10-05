@@ -81,6 +81,7 @@ dependencies {
 
     implementation project(path: ':flipview')
     implementation project(path: ':shimmer_recycler')
+    implementation project(path: ':designcorelib')
 
     implementation 'com.google.firebase:firebase-core:17.1.0'
 
@@ -99,7 +100,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.0'
 
     //android core ktx
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation "androidx.core:core-ktx:$versions.CORE_KTX"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.NAVIGATION"

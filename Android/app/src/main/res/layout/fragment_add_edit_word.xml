@@ -34,7 +34,7 @@
                 android:inputType="textCapSentences"
                 android:lines="1"
                 android:maxLength="64"
-                android:textAppearance="@style/TextAppearance.Inwords.Body1.Default" />
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,7 +51,7 @@
                 android:inputType="textCapSentences"
                 android:lines="1"
                 android:maxLength="64"
-                android:textAppearance="@style/TextAppearance.Inwords.Body1.Default"
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
                 tools:text="Перевод" />
 
         </com.google.android.material.textfield.TextInputLayout>

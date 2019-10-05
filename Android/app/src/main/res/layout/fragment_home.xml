@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.viewScenario.home.HomeFragment">
+    tools:context=".presentation.view_scenario.home.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cards_recycler"

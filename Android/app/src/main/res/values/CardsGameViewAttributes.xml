@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="CardsGameView">
-        <attr name="card_border_round" format="dimension" />
-        <attr name="text_padding" format="dimension" />
-        <attr name="cards_margin" format="dimension" />
-        <attr name="longest_word_default" format="string" />
-    </declare-styleable>
-</resources>
