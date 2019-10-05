@@ -2,18 +2,18 @@ package ru.inwords.inwords.presentation.view_scenario.home
 
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
-import ru.inwords.inwords.core.Resource
+import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
-import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
-import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteractor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.presentation.view_scenario.home.recycler.CardWrapper
 import ru.inwords.inwords.presentation.view_scenario.home.recycler.applyDiffUtil
+import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
+import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 
 class HomeViewModel internal constructor(
-        private val translationWordsInteractor: TranslationWordsInteractor,
-        private val profileInteractor: ProfileInteractor,
-        private val integrationInteractor: IntegrationInteractor) : BasicViewModel() {
+    private val translationWordsInteractor: TranslationWordsInteractor,
+    private val profileInteractor: ProfileInteractor,
+    private val integrationInteractor: IntegrationInteractor) : BasicViewModel() {
 
     private val profileData: Observable<CardWrapper>
         get() = profileInteractor.getAuthorisedUser()

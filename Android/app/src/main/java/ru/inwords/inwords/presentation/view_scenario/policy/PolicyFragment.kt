@@ -5,7 +5,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.fragment_policy.*
 import kotlinx.android.synthetic.main.fragment_profile.policy_text_view
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.util.SchedulersFacade
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.view_scenario.renderPolicyText
 

@@ -55,7 +55,6 @@
     <string name="undo_translation_deletion">ОТМЕНИТЬ</string>
     <string name="translation_deleted">Слово удалено</string>
     <string name="translation_multiple_deleted">Слов удалено: %d</string>
-    <string name="dictionary_search_hint">Найти слово…</string>
     <string name="dictionary_screen_title">Ваш словарь</string>
     <!-- word addition end -->
 

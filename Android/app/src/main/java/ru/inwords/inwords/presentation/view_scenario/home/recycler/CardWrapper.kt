@@ -1,6 +1,6 @@
 package ru.inwords.inwords.presentation.view_scenario.home.recycler
 
-import ru.inwords.inwords.data.dto.User
+import ru.inwords.inwords.profile.data.bean.User
 
 sealed class CardWrapper {
     object CreateAccountMarker : CardWrapper()

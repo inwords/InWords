@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import ru.inwords.inwords.core.util.Event
-import ru.inwords.inwords.data.dto.UserCredentials
+import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
+import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 abstract class AuthorisationViewModel protected constructor(protected var authorisationInteractor: AuthorisationInteractor) : BasicViewModel() {
     private val authorisationStateLiveData = MutableLiveData<Event<AuthorisationViewState>>()

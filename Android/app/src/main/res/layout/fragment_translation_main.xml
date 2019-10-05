@@ -5,7 +5,7 @@
     android:id="@+id/root_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.inwords.inwords.presentation.view_scenario.translation.translationMain.TranslationMainFragment">
+    tools:context=".translation.presentation.view.translation_main.TranslationMainFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -16,6 +16,7 @@
             style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:menu="@menu/dictionary_menu_default"
             app:title="@string/dictionary_title" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -41,7 +42,7 @@
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal" />
 
-    <ru.inwords.inwords.presentation.custom_views.ProgressView
+    <ru.inwords.designcorelib.custom_views.ProgressView
         android:id="@+id/progress_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_progress_height" />

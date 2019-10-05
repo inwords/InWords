@@ -3,8 +3,8 @@ package ru.inwords.inwords.presentation.view_scenario.home.recycler
 import androidx.recyclerview.widget.DiffUtil
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
-import ru.inwords.inwords.core.RxDiffUtil
-import ru.inwords.inwords.core.SimpleDiffUtilCallback
+import ru.inwords.inwords.core.recycler.RxDiffUtil
+import ru.inwords.inwords.core.recycler.SimpleDiffUtilCallback
 
 class RecyclerCardModelsDiffUtilCallback internal constructor(oldGameLevels: List<CardWrapper>,
                                                               newGameLevels: List<CardWrapper>) :

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.subjects.Subject
 import ru.inwords.inwords.R
-import ru.inwords.inwords.presentation.view_scenario.octo_game.BaseSingleTypeAdapter
+import ru.inwords.inwords.game.presentation.BaseSingleTypeAdapter
 
 class CardsRecyclerAdapter(
         onItemClickListener: Subject<CardWrapper>

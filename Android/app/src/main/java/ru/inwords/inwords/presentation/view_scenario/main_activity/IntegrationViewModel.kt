@@ -1,7 +1,7 @@
 package ru.inwords.inwords.presentation.view_scenario.main_activity
 
 import android.util.Log
-import ru.inwords.inwords.core.util.SchedulersFacade
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel

@@ -1,1 +1,1 @@
-include ':app', ':flipview', ':shimmer_recycler'
+include ':app', ':flipview', ':shimmer_recycler', ':designcorelib'

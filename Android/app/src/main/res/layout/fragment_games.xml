@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.view_scenario.octo_game.games.GamesFragment">
+    tools:context=".game.presentation.games.GamesFragment">
 
     <include
         layout="@layout/game_no_content"

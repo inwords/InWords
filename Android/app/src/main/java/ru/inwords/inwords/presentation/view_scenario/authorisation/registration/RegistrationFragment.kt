@@ -5,10 +5,10 @@ import android.view.View
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.KeyboardUtils
-import ru.inwords.inwords.data.dto.UserCredentials
+import ru.inwords.inwords.core.utils.KeyboardUtils
 import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.authorisation.SigningBaseFragment
+import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 class RegistrationFragment : SigningBaseFragment<RegistrationViewModel, AuthorisationViewModelFactory>() {
     override val layout = R.layout.fragment_sign_up

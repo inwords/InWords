@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
+import ru.inwords.designcorelib.custom_views.button.ActionProcessButton
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.util.Event
-import ru.inwords.inwords.data.dto.UserCredentials
-import ru.inwords.inwords.presentation.custom_views.button.ActionProcessButton
+import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
+import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 abstract class SigningBaseFragment<ViewModelType : AuthorisationViewModel, ViewModelFactory : ViewModelProvider.Factory> : FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory>() {
     protected lateinit var editTextEmail: TextInputEditText

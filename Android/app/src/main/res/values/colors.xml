@@ -1,48 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF5c6bc0</color>
-    <color name="colorPrimaryDark">#FF26418f</color>
-    <color name="colorPrimaryLight">#FF8e99f3</color>
-    <color name="colorPrimaryInverse">#ffffffff</color>
-
-    <color name="colorSecondary">#FF9fa8da</color>
-    <color name="colorSecondaryDark">#FF6f79a8</color>
-    <color name="colorSecondaryLight">#FFd1d9ff</color>
-
-    <color name="colorAccent">@color/colorSecondary</color>
-
-    <color name="colorPrimaryTransparent">#885c6bc0</color>
-
-    <color name="shimmerColor">@color/colorSecondaryLight</color>
-
-    <color name="blue_pressed">@color/colorSecondaryDark</color>
-    <color name="blue_normal">@color/colorAccent</color>
-    <color name="green_complete">#FF668C79</color>
-    <color name="purple_progress">@color/colorAccent</color>
-    <color name="red_error">#FFA44A4A</color>
-
-    <color name="holo_blue_bright">@color/colorPrimaryDark</color>
-    <color name="holo_green_light">#FF99cc00</color>
-    <color name="holo_orange_light">#FFFFBB33</color>
-    <color name="holo_red_light">@color/colorAccent</color>
-
-    <color name="white">#FFFFFFFF</color>
-    <color name="white_two_40">#61ffffff</color>
-
-    <color name="ic_launcher_background">@color/white</color>
-
-    <color name="divider_color">#1A000000</color>
-
-    <color name="text_color_primary">@color/colorPrimary</color>
-    <color name="text_color_primary_disabled">#425c6bc0</color>
-
-    <color name="text_color_default">#E6000000</color>
-    <color name="text_color_default_disabled">#42000000</color>
-
-    <color name="text_color_secondary">#80000000</color>
-    <color name="text_color_secondary_disabled">@color/text_color_default_disabled</color>
-
-    <color name="text_color_default_inverse">@color/white</color>
-    <color name="text_color_default_inverse_disabled">#42FFFFFF</color>
 
 </resources>

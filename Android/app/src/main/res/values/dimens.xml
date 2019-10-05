@@ -2,8 +2,6 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="fab_margin">@dimen/space_medium</dimen>
 
-    <dimen name="corner_radius">3dp</dimen>
-    <dimen name="layer_padding">3dp</dimen>
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="card_corner_radius_large">8dp</dimen>
 

@@ -3,8 +3,8 @@ package ru.inwords.inwords.presentation.view_scenario.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
-import ru.inwords.inwords.domain.interactor.profile.ProfileInteractor
-import ru.inwords.inwords.domain.interactor.translation.TranslationWordsInteractor
+import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
+import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 import javax.inject.Inject
 
 class HomeViewModelFactory @Inject

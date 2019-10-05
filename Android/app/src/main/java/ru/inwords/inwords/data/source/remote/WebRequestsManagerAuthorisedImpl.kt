@@ -4,15 +4,15 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
-import ru.inwords.inwords.core.ObservableTransformers
-import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.data.dto.EntityIdentificator
-import ru.inwords.inwords.data.dto.User
-import ru.inwords.inwords.data.dto.WordTranslation
-import ru.inwords.inwords.data.dto.game.*
+import ru.inwords.inwords.core.rxjava.ObservableTransformers
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
-import ru.inwords.inwords.data.sync.PullWordsAnswer
+import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.profile.data.bean.User
+import ru.inwords.inwords.translation.data.bean.EntityIdentificator
+import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 import javax.inject.Inject
 
 class WebRequestsManagerAuthorisedImpl @Inject

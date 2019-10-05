@@ -13,8 +13,8 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.KeyboardManager
-import ru.inwords.inwords.core.KeyboardStatus
+import ru.inwords.inwords.core.managers.KeyboardManager
+import ru.inwords.inwords.core.managers.KeyboardStatus
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {

@@ -9,9 +9,9 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_home.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.VerticalSpaceItemDecoration
-import ru.inwords.inwords.core.fixOverscrollBehaviour
-import ru.inwords.inwords.core.util.SchedulersFacade
+import ru.inwords.inwords.core.recycler.VerticalSpaceItemDecoration
+import ru.inwords.inwords.core.recycler.fixOverscrollBehaviour
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.view_scenario.home.recycler.CardWrapper
 import ru.inwords.inwords.presentation.view_scenario.home.recycler.CardsRecyclerAdapter

@@ -1,7 +1,7 @@
 package ru.inwords.inwords.domain.interactor.authorisation
 
 import io.reactivex.Completable
-import ru.inwords.inwords.data.dto.UserCredentials
+import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 interface AuthorisationInteractor {
     fun trySignInExistingAccount(): Completable

@@ -6,13 +6,13 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.data.dto.UserCredentials
-import ru.inwords.inwords.data.dto.google.TtsSynthesizeRequest
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
 import ru.inwords.inwords.data.source.remote.session.validCredentials
+import ru.inwords.inwords.profile.data.bean.UserCredentials
+import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest
 import javax.inject.Inject
 
 class WebRequestsManagerUnauthorisedImpl @Inject

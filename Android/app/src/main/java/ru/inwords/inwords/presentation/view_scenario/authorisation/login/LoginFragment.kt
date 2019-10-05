@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.KeyboardUtils
+import ru.inwords.inwords.core.utils.KeyboardUtils
 import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.authorisation.SigningBaseFragment
 

@@ -3,11 +3,11 @@ package ru.inwords.inwords.data.source.remote
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
-import ru.inwords.inwords.data.dto.EntityIdentificator
-import ru.inwords.inwords.data.dto.User
-import ru.inwords.inwords.data.dto.WordTranslation
-import ru.inwords.inwords.data.dto.game.*
-import ru.inwords.inwords.data.sync.PullWordsAnswer
+import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.profile.data.bean.User
+import ru.inwords.inwords.translation.data.bean.EntityIdentificator
+import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 
 interface ApiServiceAuthorised {
     //GAME

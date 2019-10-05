@@ -51,7 +51,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ru.inwords.inwords.presentation.custom_views.button.ActionProcessButton
+        <ru.inwords.designcorelib.custom_views.button.ActionProcessButton
             android:id="@+id/buttonEnterSignIn"
             style="@style/AuthorisationButton"
             android:text="@string/sign_in_enter"
