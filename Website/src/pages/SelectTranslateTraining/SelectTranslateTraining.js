@@ -33,13 +33,14 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginBottom: theme.spacing(1),
-    textTransform: 'none'
+    textTransform: 'none',
+    backgroundColor: theme.palette.background.paper
   },
   buttonWithIcon: {
     paddingRight: theme.spacing(5),
     transition: theme.transitions.create(['padding-right', 'border-color'], {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.shortest
+      duration: 200
     })
   },
   '@keyframes fade': {
@@ -49,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   buttonIcon: {
     position: 'absolute',
     right: theme.spacing(1),
-    animation: `$fade ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeOut}`
+    animation: `$fade 200ms ${theme.transitions.easing.easeOut}`
   }
 }));
 
@@ -118,9 +119,9 @@ function SelectTranslateTraining({
               <Button
                 onClick={handleClick(pairId, id)}
                 disableRipple
+                fullWidth
                 color={color}
                 variant="outlined"
-                fullWidth
                 className={clsx(classes.button, {
                   [classes.buttonWithIcon]: Boolean(icon)
                 })}
