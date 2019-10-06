@@ -20,10 +20,10 @@ import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractorImpl
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractorImpl
-import ru.inwords.inwords.translation.data.translation.TranslationWordsDatabaseRepository
-import ru.inwords.inwords.translation.data.translation.TranslationWordsLocalRepository
-import ru.inwords.inwords.translation.data.translation.TranslationWordsRemoteRepository
-import ru.inwords.inwords.translation.data.translation.TranslationWordsWebApiRepository
+import ru.inwords.inwords.translation.data.repository.TranslationWordsDatabaseRepository
+import ru.inwords.inwords.translation.data.repository.TranslationWordsLocalRepository
+import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
+import ru.inwords.inwords.translation.data.repository.TranslationWordsWebApiRepository
 import ru.inwords.inwords.translation.domain.interactor.*
 import javax.inject.Singleton
 

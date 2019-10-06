@@ -6,12 +6,16 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import ru.inwords.inwords.core.deferred_entry_manager.EntityIdentificator
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.dagger.annotations.LocalRepository
-import ru.inwords.inwords.translation.data.bean.*
+import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.data.bean.isLocallyDeleted
+import ru.inwords.inwords.translation.data.bean.isRemoteDeleted
+import ru.inwords.inwords.translation.data.bean.withServerId
+import ru.inwords.inwords.translation.data.repository.TranslationWordsLocalRepository
+import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 import ru.inwords.inwords.translation.data.serverIdsFromWordTranslations
-import ru.inwords.inwords.translation.data.translation.TranslationWordsLocalRepository
-import ru.inwords.inwords.translation.data.translation.TranslationWordsRemoteRepository
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
@@ -107,8 +111,7 @@ internal constructor(
         return when (group(list[0])) {
             //Узнаём какой группе принадлежит лист
             Groups.ADD -> {
-                remoteRepository
-                    .addAll(list)
+                remoteRepository.addAll(list)
                     .flatMapCompletable { wordIdentificatorsRemote ->
                         localRepository.addReplaceAll(mergeIds(list, wordIdentificatorsRemote)).ignoreElement()
                     }

@@ -1,10 +1,10 @@
-package ru.inwords.inwords.translation.data.translation
+package ru.inwords.inwords.translation.data.repository
 
 import io.reactivex.Completable
 import io.reactivex.Single
+import ru.inwords.inwords.core.deferred_entry_manager.EntityIdentificator
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.translation.data.absList
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 import javax.inject.Inject

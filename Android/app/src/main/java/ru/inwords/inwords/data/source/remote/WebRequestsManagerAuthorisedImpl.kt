@@ -4,13 +4,13 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
+import ru.inwords.inwords.core.deferred_entry_manager.EntityIdentificator
 import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.profile.data.bean.User
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 import javax.inject.Inject
