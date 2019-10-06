@@ -1,15 +1,15 @@
 import React, { useCallback, memo } from 'react';
 import { useDispatch } from 'react-redux';
-import { denyAccess as denyAccessAction } from 'actions/accessActions';
+import { denyAccess } from 'actions/accessActions';
 import ProfileMenu from './ProfileMenu';
 
 function ProfileMenuContainer() {
   const dispatch = useDispatch();
-  const denyAccess = useCallback(() => {
-    dispatch(denyAccessAction());
+  const handleLogout = useCallback(() => {
+    dispatch(denyAccess());
   }, [dispatch]);
 
-  return <ProfileMenu denyAccess={denyAccess} />;
+  return <ProfileMenu handleLogout={handleLogout} />;
 }
 
 export default memo(ProfileMenuContainer);

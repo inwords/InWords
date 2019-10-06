@@ -14,9 +14,8 @@ function TrainingResultContainer({ history, match, ...rest }) {
   };
 
   const handleRedirectionToNextLevel = () => {
-    const parsedLevelId = parseInt(match.params.levelId);
     const levelIndex = levelsInfo.findIndex(
-      levelInfo => levelInfo.levelId === parsedLevelId
+      levelInfo => levelInfo.levelId === +match.params.levelId
     );
 
     if (levelIndex !== -1) {

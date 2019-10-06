@@ -5,26 +5,25 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import useDialog from 'hooks/useDialog';
 import WordPairEditDialog from './WordPairEditDialog';
-
-const synth = window.speechSynthesis;
+import SpeechButton from './SpeechButton';
 
 function WordPairRow({
   index,
   data: {
     wordPairs,
     editingModeEnabled,
-    handleButtonPress,
-    handleButtonRelease,
+    handlePressButton,
+    handleReleaseButton,
     checkedValues,
     handleToggle
   },
   style
 }) {
-  const { serverId, wordForeign, wordNative } = wordPairs[index];
+  const wordPair = wordPairs[index];
+  const { serverId, wordForeign, wordNative } = wordPair;
+
   const labelId = `checkbox-list-label-${serverId}`;
 
   const { open, handleOpen, handleClose } = useDialog();
@@ -34,11 +33,11 @@ function WordPairRow({
       <ListItem
         key={index}
         onClick={editingModeEnabled ? handleToggle(serverId) : handleOpen}
-        onTouchStart={handleButtonPress}
-        onTouchEnd={handleButtonRelease}
-        onMouseDown={handleButtonPress}
-        onMouseUp={handleButtonRelease}
-        onMouseLeave={handleButtonRelease}
+        onTouchStart={handlePressButton}
+        onTouchEnd={handleReleaseButton}
+        onMouseDown={handlePressButton}
+        onMouseUp={handleReleaseButton}
+        onMouseLeave={handleReleaseButton}
         ContainerProps={{ style }}
         button
         dense
@@ -59,36 +58,21 @@ function WordPairRow({
           primary={wordForeign || '-'}
           secondary={wordNative || '-'}
         />
-        {synth && (
-          <ListItemSecondaryAction>
-            <IconButton
-              aria-label="speak"
-              onClick={() => {
-                if (synth.speaking) {
-                  synth.cancel();
-                }
-
-                const speech = new SpeechSynthesisUtterance(wordForeign);
-                speech.lang = 'en-US';
-                synth.speak(speech);
-              }}
-              edge="end"
-            >
-              <VolumeUpIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        )}
+        <ListItemSecondaryAction>
+          <SpeechButton text={wordForeign} edge="end" />
+        </ListItemSecondaryAction>
       </ListItem>
       <WordPairEditDialog
         open={open}
         handleClose={handleClose}
-        wordPair={wordPairs[index]}
+        wordPair={wordPair}
       />
     </>
   );
 }
 
 WordPairRow.propTypes = {
+  index: PropTypes.number.isRequired,
   data: PropTypes.exact({
     wordPairs: PropTypes.arrayOf(
       PropTypes.shape({
@@ -98,8 +82,8 @@ WordPairRow.propTypes = {
       }).isRequired
     ).isRequired,
     editingModeEnabled: PropTypes.bool.isRequired,
-    handleButtonPress: PropTypes.func.isRequired,
-    handleButtonRelease: PropTypes.func.isRequired,
+    handlePressButton: PropTypes.func.isRequired,
+    handleReleaseButton: PropTypes.func.isRequired,
     checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
     handleToggle: PropTypes.func.isRequired
   }).isRequired,

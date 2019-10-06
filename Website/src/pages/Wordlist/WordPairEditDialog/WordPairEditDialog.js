@@ -75,7 +75,7 @@ function WordPairEditDialog({
 WordPairEditDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  inputs: PropTypes.shape({
+  inputs: PropTypes.exact({
     wordForeign: PropTypes.string.isRequired,
     wordNative: PropTypes.string.isRequired
   }).isRequired,

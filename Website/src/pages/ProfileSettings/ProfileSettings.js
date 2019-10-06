@@ -14,11 +14,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     padding: theme.spacing(2, 3, 3)
   },
-  form: {
-    width: '100%'
-  },
   actions: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(2)
   }
 }));
 
@@ -31,7 +28,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
         <Typography component="h1" variant="h5">
           Настройки профиля
         </Typography>
-        <form onSubmit={handleSubmit} className={classes.form}>
+        <form onSubmit={handleSubmit}>
           <TextField
             id="nickname"
             label="Никнейм"

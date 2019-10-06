@@ -6,7 +6,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grow from '@material-ui/core/Grow';
 import Zoom from '@material-ui/core/Zoom';
-import TrainingResult from 'components/TrainingResult';
 
 const cardDimension = 110;
 const cardsSpacing = 1;
@@ -64,14 +63,12 @@ const useStyles = makeStyles(theme => ({
 
 function Game({
   wordsInfo,
-  selectedWordIdsMap,
   selectedWordsInfo,
-  completedPairIdsMap,
+  completedPairIdsInfo,
   selectedCompletedPairId,
   isGameCompleted,
   isResultReady,
-  handleClick,
-  ...rest
+  handleClick
 }) {
   const classes = useStyles();
 
@@ -87,53 +84,42 @@ function Game({
     }
   }, [wordsInfo.length, classes]);
 
-  if (!isResultReady) {
-    return (
-      <div className={root}>
-        <Grid container justify="center" spacing={cardsSpacing}>
-          {wordsInfo.map(randomWordInfo => {
-            const { id, pairId, word } = randomWordInfo;
-
-            return (
-              <Grid key={id} item>
-                <Grow in={!isGameCompleted}>
-                  <div>
-                    <Paper
-                      elevation={selectedCompletedPairId === pairId ? 8 : 2}
-                      onClick={handleClick(pairId, id)}
-                      className={classes.card}
-                    >
-                      <Zoom
-                        in={
-                          completedPairIdsMap[pairId] ||
-                          Boolean(
-                            selectedWordsInfo.find(
-                              selectedWordInfo => selectedWordInfo.id === id
-                            )
-                          )
-                        }
-                      >
-                        <div className={classes.cardContent}>
-                          <Typography
-                            component="span"
-                            className={classes.cardText}
-                          >
-                            {word}
-                          </Typography>
-                        </div>
-                      </Zoom>
-                    </Paper>
-                  </div>
-                </Grow>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </div>
-    );
-  } else {
-    return <TrainingResult {...rest} />;
-  }
+  return (
+    <div className={root}>
+      <Grid container justify="center" spacing={cardsSpacing}>
+        {wordsInfo.map(({ id, pairId, word }) => (
+          <Grid key={id} item>
+            <Grow in={!isGameCompleted}>
+              <div>
+                <Paper
+                  elevation={selectedCompletedPairId === pairId ? 8 : 2}
+                  onClick={handleClick(pairId, id)}
+                  className={classes.card}
+                >
+                  <Zoom
+                    in={
+                      completedPairIdsInfo[pairId] ||
+                      Boolean(
+                        selectedWordsInfo.find(
+                          selectedWordInfo => selectedWordInfo.id === id
+                        )
+                      )
+                    }
+                  >
+                    <div className={classes.cardContent}>
+                      <Typography component="span" className={classes.cardText}>
+                        {word}
+                      </Typography>
+                    </div>
+                  </Zoom>
+                </Paper>
+              </div>
+            </Grow>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
+  );
 }
 
 Game.propTypes = {
@@ -149,13 +135,11 @@ Game.propTypes = {
       id: PropTypes.number.isRequired
     }).isRequired
   ).isRequired,
-  completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
+  completedPairIdsInfo: PropTypes.objectOf(PropTypes.bool.isRequired)
+    .isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
   isGameCompleted: PropTypes.bool.isRequired,
-  isResultReady: PropTypes.bool.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  score: PropTypes.number,
-  handleReplay: PropTypes.func
+  handleClick: PropTypes.func.isRequired
 };
 
 export default Game;

@@ -5,13 +5,14 @@ import { saveLevelResult } from 'actions/gamesApiActions';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
 import Game from './Game';
+import TrainingResult from 'components/TrainingResult';
 
 function GameContainer({ levelId, wordTranslations }) {
   const [wordsInfo, setWordsInfo] = useState([]);
   const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
-  const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
+  const [completedPairIdsInfo, setCompletedPairIdsInfo] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
-  const [openPairIdStatisticsMap, setOpenPairIdStatisticsMap] = useState({});
+  const [wordPairIdOpenCounts, setWordPairIdOpenCounts] = useState({});
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
   const [score, setScore] = useState(null);
@@ -41,7 +42,7 @@ function GameContainer({ levelId, wordTranslations }) {
   }, [wordTranslations]);
 
   useEffect(() => {
-    const numberOfcompletedPairs = Object.keys(completedPairIdsMap).length;
+    const numberOfcompletedPairs = Object.keys(completedPairIdsInfo).length;
     if (
       numberOfcompletedPairs > 0 &&
       numberOfcompletedPairs === wordsInfo.length / 2
@@ -58,7 +59,7 @@ function GameContainer({ levelId, wordTranslations }) {
         saveLevelResult(
           {
             gameLevelId: levelId,
-            wordPairIdOpenCounts: openPairIdStatisticsMap
+            wordPairIdOpenCounts
           },
           data => {
             setScore(data.score);
@@ -67,15 +68,15 @@ function GameContainer({ levelId, wordTranslations }) {
       );
     }
   }, [
-    completedPairIdsMap,
+    completedPairIdsInfo,
     wordsInfo.length,
     levelId,
-    openPairIdStatisticsMap,
+    wordPairIdOpenCounts,
     dispatch
   ]);
 
   const handleClick = (pairId, id) => () => {
-    if (completedPairIdsMap[pairId]) {
+    if (completedPairIdsInfo[pairId]) {
       setSelectedCompletedPairId(pairId);
       return;
     }
@@ -95,10 +96,10 @@ function GameContainer({ levelId, wordTranslations }) {
         })
       );
 
-      setOpenPairIdStatisticsMap(openPairIdStatisticsMap => ({
-        ...openPairIdStatisticsMap,
-        [pairId]: openPairIdStatisticsMap[pairId]
-          ? openPairIdStatisticsMap[pairId] + 1
+      setWordPairIdOpenCounts(wordPairIdOpenCounts => ({
+        ...wordPairIdOpenCounts,
+        [pairId]: wordPairIdOpenCounts[pairId]
+          ? wordPairIdOpenCounts[pairId] + 1
           : 1
       }));
     }
@@ -107,8 +108,8 @@ function GameContainer({ levelId, wordTranslations }) {
       if (selectedWordsInfo[0].pairId === pairId) {
         setSelectedWordsInfo([]);
 
-        setCompletedPairIdsMap(completedPairIdsMap => ({
-          ...completedPairIdsMap,
+        setCompletedPairIdsInfo(completedPairIdsInfo => ({
+          ...completedPairIdsInfo,
           [pairId]: true
         }));
 
@@ -124,27 +125,28 @@ function GameContainer({ levelId, wordTranslations }) {
   const handleReplay = () => {
     setWordsInfo(wordInfo => shuffle([...wordInfo]));
     setSelectedWordsInfo([]);
-    setCompletedPairIdsMap({});
+    setCompletedPairIdsInfo({});
     setSelectedCompletedPairId(-1);
-    setOpenPairIdStatisticsMap({});
+    setWordPairIdOpenCounts({});
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
   };
 
-  return (
-    <Game
-      wordsInfo={wordsInfo}
-      selectedWordsInfo={selectedWordsInfo}
-      completedPairIdsMap={completedPairIdsMap}
-      selectedCompletedPairId={selectedCompletedPairId}
-      isGameCompleted={isGameCompleted}
-      isResultReady={isResultReady}
-      handleClick={handleClick}
-      score={score}
-      handleReplay={handleReplay}
-    />
-  );
+  if (!isResultReady) {
+    return (
+      <Game
+        wordsInfo={wordsInfo}
+        selectedWordsInfo={selectedWordsInfo}
+        completedPairIdsInfo={completedPairIdsInfo}
+        selectedCompletedPairId={selectedCompletedPairId}
+        isGameCompleted={isGameCompleted}
+        handleClick={handleClick}
+      />
+    );
+  } else {
+    return <TrainingResult score={score} handleReplay={handleReplay} />;
+  }
 }
 
 GameContainer.propTypes = {

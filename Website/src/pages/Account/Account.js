@@ -18,8 +18,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 3, 3)
   },
   list: {
-    marginTop: theme.spacing(1),
-    backgroundColor: theme.palette.background.paper
+    marginTop: theme.spacing(1)
   }
 }));
 
@@ -35,12 +34,10 @@ function Account({ email }) {
           Аккаунт
         </Typography>
         <List className={classes.list}>
-          <>
-            <ListItem button onClick={handleOpen}>
-              <ListItemText primary="Email" secondary={email} />
-            </ListItem>
-            <EmailEditDialog open={open} handleClose={handleClose} />
-          </>
+          <ListItem button onClick={handleOpen}>
+            <ListItemText primary="Email" secondary={email} />
+          </ListItem>
+          <EmailEditDialog open={open} handleClose={handleClose} />
           <Divider component="li" variant="middle" />
         </List>
       </Paper>

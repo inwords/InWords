@@ -8,9 +8,10 @@ const CALL_API = 'CALL_API';
 const API_ROOT = 'https://api.inwords.ru';
 
 const apiMiddleware = ({ dispatch, getState }) => next => action => {
-  next(action);
-
-  if (action.type !== CALL_API) return;
+  if (action.type !== CALL_API) {
+    next(action);
+    return;
+  }
 
   const {
     apiVersion,

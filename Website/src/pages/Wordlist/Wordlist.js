@@ -12,26 +12,26 @@ import WordPairAddButton from './WordPairAddButton';
 function Wordlist({
   wordPairs,
   editingModeEnabled,
-  handleButtonPress,
-  handleButtonRelease,
+  handlePressButton,
+  handleReleaseButton,
   checkedValues,
   handleToggle,
   handleReset,
-  setSearchWord
+  setPattern
 }) {
   const [listHeight, setListHeight] = useState(0);
 
-  const divEl = useRef(null);
-  const resizeTimerRef = useRef();
+  const dividerEl = useRef();
+  const resizingTimerRef = useRef();
 
   useEffect(() => {
     const getListHeight = () =>
-      window.innerHeight - divEl.current.getBoundingClientRect().top - 18;
+      window.innerHeight - dividerEl.current.getBoundingClientRect().top - 18;
 
     const handleResize = () => {
-      window.clearTimeout(resizeTimerRef.current);
+      window.clearTimeout(resizingTimerRef.current);
 
-      resizeTimerRef.current = window.setTimeout(() => {
+      resizingTimerRef.current = window.setTimeout(() => {
         setListHeight(getListHeight());
       }, 200);
     };
@@ -49,9 +49,9 @@ function Wordlist({
           editingModeEnabled={editingModeEnabled}
           checkedValues={checkedValues}
           handleReset={handleReset}
-          setSearchWord={setSearchWord}
+          setPattern={setPattern}
         />
-        <Divider ref={divEl} />
+        <Divider ref={dividerEl} />
         <FixedSizeList
           height={listHeight}
           width="100%"
@@ -62,11 +62,11 @@ function Wordlist({
             checkedValues,
             handleToggle,
             editingModeEnabled,
-            handleButtonPress,
-            handleButtonRelease
+            handlePressButton,
+            handleReleaseButton
           }}
           itemSize={60}
-          onScroll={handleButtonRelease}
+          onScroll={handleReleaseButton}
         >
           {WordPairRow}
         </FixedSizeList>
@@ -79,12 +79,12 @@ function Wordlist({
 Wordlist.propTypes = {
   wordPairs: PropTypes.array.isRequired,
   editingModeEnabled: PropTypes.bool.isRequired,
-  handleButtonPress: PropTypes.func,
-  handleButtonRelease: PropTypes.func,
+  handlePressButton: PropTypes.func,
+  handleReleaseButton: PropTypes.func,
   checkedValues: PropTypes.array,
   handleToggle: PropTypes.func,
   handleReset: PropTypes.func,
-  setSearchWord: PropTypes.func
+  setPattern: PropTypes.func
 };
 
 export default Wordlist;

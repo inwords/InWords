@@ -13,7 +13,7 @@ function ProfileContainer({ match }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const paramUserId = parseInt(match.params.userId);
+    const paramUserId = +match.params.userId;
 
     if (userId !== paramUserId) {
       dispatch(receiveUserInfoById(paramUserId));

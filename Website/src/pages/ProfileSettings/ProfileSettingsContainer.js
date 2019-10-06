@@ -6,7 +6,7 @@ import useForm from 'hooks/useForm';
 import withReceivedUserInfo from 'components/withReceivedUserInfo';
 import ProfileSettings from './ProfileSettings';
 
-function ProfileSettingsContainer({ nickname, avatarPath, ...rest }) {
+function ProfileSettingsContainer({ nickname, avatarPath }) {
   const dispatch = useDispatch();
 
   const { inputs, handleChange, handleSubmit } = useForm(
@@ -24,7 +24,6 @@ function ProfileSettingsContainer({ nickname, avatarPath, ...rest }) {
       inputs={inputs}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
-      {...rest}
     />
   );
 }

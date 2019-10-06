@@ -47,43 +47,43 @@ function WordlistContainer() {
     setEditingModeEnabled(false);
   };
 
-  const [searchWord, setSearchWord] = useState('');
+  const [pattern, setPattern] = useState('');
 
   const filteredWordPairs = useMemo(
     () =>
       wordPairs.filter(({ wordForeign, wordNative }) => {
-        const upperCaseSearchWord = searchWord.toUpperCase();
+        const upperCaseSearchWord = pattern.toUpperCase();
 
         return (
           wordForeign.toUpperCase().includes(upperCaseSearchWord) ||
           wordNative.toUpperCase().includes(upperCaseSearchWord)
         );
       }),
-    [searchWord, wordPairs]
+    [pattern, wordPairs]
   );
 
   const buttonPressTimerRef = useRef();
 
-  const handleButtonPress = () => {
+  const handlePressButton = () => {
     buttonPressTimerRef.current = window.setTimeout(() => {
       setEditingModeEnabled(true);
     }, 500);
   };
 
-  const handleButtonRelease = () => {
+  const handleReleaseButton = () => {
     window.clearTimeout(buttonPressTimerRef.current);
   };
 
   return (
     <Wordlist
-      wordPairs={!searchWord ? wordPairs : filteredWordPairs}
+      wordPairs={!pattern ? wordPairs : filteredWordPairs}
       editingModeEnabled={editingModeEnabled}
-      handleButtonPress={handleButtonPress}
-      handleButtonRelease={handleButtonRelease}
+      handlePressButton={handlePressButton}
+      handleReleaseButton={handleReleaseButton}
       checkedValues={checkedValues}
       handleToggle={handleToggle}
       handleReset={handleReset}
-      setSearchWord={setSearchWord}
+      setPattern={setPattern}
     />
   );
 }

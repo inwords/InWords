@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
 import useMenu from 'hooks/useMenu';
 
-function ProfileMenu({ denyAccess }) {
+function ProfileMenu({ handleLogout }) {
   const { anchorEl, handleClick, handleClose } = useMenu();
 
   return (
@@ -36,7 +36,7 @@ function ProfileMenu({ denyAccess }) {
           Аккаунт
         </MenuItem>
         <Divider />
-        <MenuItem component={Link} to="/signIn" onClick={denyAccess}>
+        <MenuItem component={Link} to="/signIn" onClick={handleLogout}>
           Выйти
         </MenuItem>
       </Menu>
@@ -45,7 +45,7 @@ function ProfileMenu({ denyAccess }) {
 }
 
 ProfileMenu.propTypes = {
-  denyAccess: PropTypes.func.isRequired
+  handleLogout: PropTypes.func.isRequired
 };
 
 export default ProfileMenu;

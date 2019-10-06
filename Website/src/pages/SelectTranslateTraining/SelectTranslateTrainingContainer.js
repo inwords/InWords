@@ -3,18 +3,14 @@ import PropTypes from 'prop-types';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
 import SelectTranslateTraining from './SelectTranslateTraining';
+import TrainingResult from 'components/TrainingResult';
 
 function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
-  const [currentWordSet, setCurrentWordSet] = useState({
-    primaryWordInfo: {
-      word: ''
-    },
-    secondaryWordsInfo: []
-  });
-  const [rightSelectedWordId, setRightSelectedWordId] = useState(-1);
-  const [wrongSelectedWordId, setWrongSelectedWordId] = useState(-1);
+  const [currentWordSet, setCurrentWordSet] = useState(undefined);
+  const [requiredWordIdsInfo, setRequiredWordIdsInfo] = useState({});
+  const [selectedWordId, setSelectedWordId] = useState(-1);
   const [isClickDone, setIsClickDone] = useState(false);
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
@@ -71,28 +67,41 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   }, [isGameCompleted]);
 
   const handleClick = (pairId, id) => () => {
-    if (isClickDone) return;
+    if (isClickDone) {
+      if (id === selectedWordId) {
+        setSelectedWordId(-1);
+      } else {
+        setSelectedWordId(id);
+      }
+
+      return;
+    }
 
     if (pairId === currentWordSet.primaryWordInfo.pairId) {
-      setRightSelectedWordId(id);
+      setRequiredWordIdsInfo({
+        rightSelectedWordId: id
+      });
 
       setCurrentWordSets(wordSets => wordSets.slice(0, -1));
     } else {
-      setRightSelectedWordId(
-        currentWordSet.secondaryWordsInfo.find(
+      setRequiredWordIdsInfo({
+        rightSelectedWordId: currentWordSet.secondaryWordsInfo.find(
           secondaryWordInfo =>
             secondaryWordInfo.pairId === currentWordSet.primaryWordInfo.pairId
-        ).id
-      );
-      setWrongSelectedWordId(id);
+        ).id,
+        wrongSelectedWordId: id
+      });
 
+      setSelectedWordId(id);
       setCurrentWordSets(currentWordSets => shuffle([...currentWordSets]));
     }
 
     setIsClickDone(true);
   };
 
-  const handleOpenNextSet = () => {
+  const handleNext = () => {
+    setSelectedWordId(-1);
+
     if (currentWordSets.length > 0) {
       setCurrentWordSet({
         primaryWordInfo:
@@ -101,8 +110,10 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
           ...currentWordSets[currentWordSets.length - 1].secondaryWordsInfo
         ])
       });
-      setRightSelectedWordId(-1);
-      setWrongSelectedWordId(-1);
+      setRequiredWordIdsInfo({
+        rightSelectedWordId: -1,
+        wrongSelectedWordId: -1
+      });
       setIsClickDone(false);
     } else {
       setIsGameCompleted(true);
@@ -111,30 +122,32 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
 
   const handleReplay = () => {
     const shuffledWordSets = shuffle([...wordSets]);
+
     setCurrentWordSets(shuffledWordSets);
     setCurrentWordSet(shuffledWordSets[shuffledWordSets.length - 1]);
-    setRightSelectedWordId(-1);
-    setWrongSelectedWordId(-1);
+    setRequiredWordIdsInfo({});
+    setSelectedWordId(-1);
     setIsClickDone(false);
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
   };
 
-  return (
-    <SelectTranslateTraining
-      currentWordSet={currentWordSet}
-      rightSelectedWordId={rightSelectedWordId}
-      wrongSelectedWordId={wrongSelectedWordId}
-      isClickDone={isClickDone}
-      isGameCompleted={isGameCompleted}
-      isResultReady={isResultReady}
-      score={score}
-      handleClick={handleClick}
-      handleOpenNextSet={handleOpenNextSet}
-      handleReplay={handleReplay}
-    />
-  );
+  if (!isResultReady) {
+    return (
+      <SelectTranslateTraining
+        currentWordSet={currentWordSet}
+        selectedWordId={selectedWordId}
+        requiredWordIdsInfo={requiredWordIdsInfo}
+        isClickDone={isClickDone}
+        handleClick={handleClick}
+        handleNext={handleNext}
+        isGameCompleted={isGameCompleted}
+      />
+    );
+  } else {
+    return <TrainingResult score={score} handleReplay={handleReplay} />;
+  }
 }
 
 SelectTranslateTrainingContainer.propTypes = {
