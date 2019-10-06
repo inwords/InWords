@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   closeButton: {
     marginRight: 20
-  }
+  },
 }));
 
 function WordlistToolbar({

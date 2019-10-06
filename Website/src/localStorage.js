@@ -1,19 +1,27 @@
 export function loadState() {
+  return loadValue('state');
+}
+
+export function loadValue(name) {
   try {
-    const serializedState = localStorage.getItem('state');
-    if (serializedState === null) {
+    const serializedValue = localStorage.getItem(name);
+    if (serializedValue === null) {
       return undefined;
     }
-    return JSON.parse(serializedState);
+    return JSON.parse(serializedValue);
   } catch (error) {
     return undefined;
   }
 }
 
 export function saveState(state) {
+  saveValue('state', state);
+}
+
+export function saveValue(name, value) {
   try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem('state', serializedState);
+    const serializedValue = JSON.stringify(value);
+    localStorage.setItem(name, serializedValue);
   } catch (error) {
     // die
   }

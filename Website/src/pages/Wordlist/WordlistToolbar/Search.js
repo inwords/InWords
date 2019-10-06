@@ -10,12 +10,10 @@ const useStyles = makeStyles(theme => ({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.black, 0.07),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.black, 0.12)
+      backgroundColor: fade(theme.palette.common.black, 0.11)
     },
-    marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
       width: 'auto'
     }
   },

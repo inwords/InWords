@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 
@@ -28,7 +29,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0)
+  },
+  links: {
+    marginTop: theme.spacing(2)
   }
 }));
 
@@ -80,7 +84,8 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
           >
             Войти
           </Button>
-          <Grid container justify="flex-end">
+          <Divider />
+          <Grid container justify="flex-end" className={classes.links}>
             <Grid item>
               <Link component={RouterLink} to="/signUp" variant="body2">
                 Нет аккаунта? Зарегистрироваться
