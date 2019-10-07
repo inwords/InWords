@@ -9,6 +9,7 @@ namespace InWords.Data.Creations
     /// </summary>
     public class Creation
     {
+        [NotMapped] public static int MainGames = 122;
         [Key] public int CreationId { get; set; }
 
         public int CreatorId { get; set; }

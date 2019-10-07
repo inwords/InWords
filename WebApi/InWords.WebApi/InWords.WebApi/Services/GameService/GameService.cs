@@ -54,26 +54,24 @@ namespace InWords.WebApi.Services.GameService
             return answer;
         }
 
-        public List<GameInfo> GetGames()
+        public IEnumerable<GameInfo> GetGames()
         {
-            List<Creation> games = creationRepository.GetAllEntities().ToList();
-
-            return (from game in games
-                let creationInfo = creationService.GetCreationInfo(game.CreationId)
-                let russianDescription = creationInfo.Descriptions.GetRus()
-                select new GameInfo
-                {
-                    CreatorId = creationInfo.CreatorId ?? 0,
-                    GameId = game.CreationId,
-                    IsAvailable = true,
-                    Title = russianDescription.Title,
-                    Description = russianDescription.Description
-                }).ToList();
+            return (from creation in creationRepository.GetWhere(g => g.CreatorId == Creation.MainGames).ToList()
+                    let creationInfo = creationService.GetCreationInfo(creation.CreationId)
+                    let russianDescription = creationInfo.Descriptions.GetRus()
+                    select new GameInfo
+                    {
+                        CreatorId = creationInfo.CreatorId ?? 0,
+                        GameId = creation.CreationId,
+                        IsAvailable = true,
+                        Title = russianDescription.Title,
+                        Description = russianDescription.Description
+                    });
         }
 
         public async Task<Creation> CreateGameBox(GamePack gamePack)
         {
-            var creation = await creationService.AddCreationInfoAsync(gamePack.CreationInfo);
+            Creation creation = await creationService.AddCreationInfoAsync(gamePack.CreationInfo).ConfigureAwait(false);
 
             return creation;
         }

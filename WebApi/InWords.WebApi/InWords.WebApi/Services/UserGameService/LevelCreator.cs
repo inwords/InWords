@@ -48,13 +48,13 @@ namespace InWords.WebApi.Services.UserGameService
                 GameBoxId = creation.CreationId,
                 Level = levelsCount + 1,
             };
-            GameLevel gamelevel = await gameLevelRepository.CreateAsync(gameLevel).ConfigureAwait(false);
+            gameLevel = await gameLevelRepository.CreateAsync(gameLevel).ConfigureAwait(false);
             // level add words
-            IEnumerable<GameLevelWord> gameLevelWords = uwp.Select(u => new GameLevelWord() { GameLevelId = gamelevel.GameLevelId, WordPairId = u.WordPairId });
+            IEnumerable<GameLevelWord> gameLevelWords = uwp.Select(u => new GameLevelWord() { GameLevelId = gameLevel.GameLevelId, WordPairId = u.WordPairId });
             await gameLevelWordRepository.Create(gameLevelWords.ToArray()).ConfigureAwait(false);
 
             // return levelId
-            return gamelevel.GameLevelId;
+            return gameLevel.GameLevelId;
         }
     }
 }
