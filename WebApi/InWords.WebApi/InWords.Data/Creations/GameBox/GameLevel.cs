@@ -9,7 +9,7 @@ namespace InWords.Data.Creations.GameBox
 
         public int GameBoxId { get; set; }
 
-        [ForeignKey(nameof(GameBoxId))] public virtual GameBox GameBox { get; set; }
+        [ForeignKey(nameof(GameBoxId))] public virtual Creation GameBox { get; set; }
 
         public int Level { get; set; }
     }
