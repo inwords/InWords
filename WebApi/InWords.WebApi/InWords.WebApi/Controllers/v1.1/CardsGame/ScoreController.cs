@@ -52,11 +52,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
                 IEnumerable<int> games = cardGameScore.WordPairIdOpenCounts.Select(w => w.Key);
                 if (cardGameScore.GameLevelId <= 0)
                     cardGameScore.GameLevelId =
-                        await levelCreator.CreateUserLevelAsync(authorizedId, games).ConfigureAwait(true);
+                        await levelCreator.CreateUserLevelAsync(authorizedId, games).ConfigureAwait(false);
                 
                 // save scores
                 answer = await gameResultService.SetResultsAsync(authorizedId, cardGameScore)
-                                                .ConfigureAwait(true);
+                                                .ConfigureAwait(false);
             }
             catch (ArgumentNullException e)
             {
