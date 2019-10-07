@@ -14,7 +14,7 @@ namespace InWords.WebApi.Services
     /// <see cref="Creation" />
     public class CreationService
     {
-        public async Task<int> AddCreationInfo(CreationInfo creationInfo)
+        public async Task<Creation> AddCreationInfoAsync(CreationInfo creationInfo)
         {
             if (creationInfo.CreatorId == null)
                 throw new ArgumentNullException($"{nameof(creationInfo)} creator not found");
@@ -24,7 +24,7 @@ namespace InWords.WebApi.Services
                 CreatorId = (int) creationInfo.CreatorId
             };
 
-            creation = await CreationRepository.Create(creation);
+            creation = await CreationRepository.CreateAsync(creation).ConfigureAwait(true);
 
             IEnumerable<CreationDescription> creationDescriptions = creationInfo.Descriptions.Select(cd =>
                 new CreationDescription
@@ -35,18 +35,17 @@ namespace InWords.WebApi.Services
                     Description = cd.Description
                 });
 
-            await CreationDescriptionRepository.Create(creationDescriptions.ToArray());
+            await CreationDescriptionRepository.Create(creationDescriptions.ToArray()).ConfigureAwait(true);
 
-            return creation.CreationId;
+            return creation;
         }
 
         public CreationInfo GetCreationInfo(int id)
         {
             // find creation information
-            Creation creation = CreationRepository.GetWithInclude(n => n.Creator)
-                .AsQueryable()
-                .Where(c => c.CreationId.Equals(id))
-                .SingleOrDefault();
+            Creation creation = CreationRepository
+                .GetWithInclude(n => n.Creator)
+                .SingleOrDefault(c => c.CreationId.Equals(id));
 
             if (creation == null) return null;
 

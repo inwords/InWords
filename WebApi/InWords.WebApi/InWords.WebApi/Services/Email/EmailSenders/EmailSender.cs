@@ -1,8 +1,9 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.Threading.Tasks;
+using InWords.WebApi.Services.Email.Models;
+using MailKit.Net.Smtp;
 using MimeKit;
-using System.Threading.Tasks;
 
-namespace InWords.WebApi.Services.Email
+namespace InWords.WebApi.Services.Email.EmailSenders
 {
     public class EmailSender
     {
@@ -27,7 +28,7 @@ namespace InWords.WebApi.Services.Email
         }
 
         /// <summary>
-        /// Reset body and set text message
+        ///     Reset body and set text message
         /// </summary>
         /// <param name="message">text message</param>
         protected void SetText(string message)
@@ -36,16 +37,16 @@ namespace InWords.WebApi.Services.Email
         }
 
         /// <summary>
-        /// Reset body and set html boyd and alttext
+        ///     Reset body and set html boyd and alttext
         /// </summary>
         /// <param name="html"></param>
         /// <param name="altText"></param>
         protected void SetHTML(string html, string altText)
         {
-            BodyBuilder bodyBuilder = new BodyBuilder
+            var bodyBuilder = new BodyBuilder
             {
                 HtmlBody = html,
-                TextBody = altText,
+                TextBody = altText
             };
             emailMessage.Body = bodyBuilder.ToMessageBody();
         }

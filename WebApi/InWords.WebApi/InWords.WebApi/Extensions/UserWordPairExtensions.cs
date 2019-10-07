@@ -3,7 +3,7 @@ using System.Linq;
 using InWords.Data.Domains;
 using InWords.Data.DTO;
 
-namespace InWords.WebApi.TransferData
+namespace InWords.WebApi.Extensions
 {
     public static class UserWordPairExtensions
     {

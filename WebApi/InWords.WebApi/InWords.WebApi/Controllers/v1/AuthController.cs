@@ -18,11 +18,13 @@ namespace InWords.WebApi.Controllers.v1
     [Produces("application/json")]
     public class AuthController : ControllerBase
     {
+        private readonly AccountIdentityProvider accountIdentityProvider;
+        private readonly AccountRepository accountRepository;
+
+        private readonly EmailVerifierService emailVerifierService;
+
         //todo remove
         private readonly UserRepository userRepository;
-        private readonly AccountRepository accountRepository;
-        private readonly AccountIdentityProvider accountIdentityProvider;
-        private readonly EmailVerifierService emailVerifierService = null;
 
 
         public AuthController(AccountRepository accountRepository,
@@ -33,7 +35,7 @@ namespace InWords.WebApi.Controllers.v1
             this.emailVerifierService = emailVerifierService;
             this.userRepository = userRepository;
             // todo inject
-            accountIdentityProvider = new AccountIdentityProvider(accountRepository,userRepository);
+            accountIdentityProvider = new AccountIdentityProvider(accountRepository, userRepository);
         }
 
         /// <summary>
@@ -86,7 +88,8 @@ namespace InWords.WebApi.Controllers.v1
         private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {
             //Create account in repository;
-            Account account = await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password);
+            Account account =
+                await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password);
 
             string username = account.Email.Remove(account.Email.IndexOf("@"));
 
@@ -94,8 +97,9 @@ namespace InWords.WebApi.Controllers.v1
             await emailVerifierService.InstatiateVerifierMessage(account.AccountId, username, basicAuthClaims.Email);
 
             //Create token
-            TokenResponse response = await accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
-            
+            TokenResponse response =
+                await accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
+
             return response;
         }
     }

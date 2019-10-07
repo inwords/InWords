@@ -23,7 +23,7 @@ namespace InWords.WebApi.Services.GameService
                     WordPairId = wordPair.WordPairId
                 };
 
-                await gameLevelWordRepository.Create(gameLevelWord);
+                await gameLevelWordRepository.CreateAsync(gameLevelWord);
             }
         }
 

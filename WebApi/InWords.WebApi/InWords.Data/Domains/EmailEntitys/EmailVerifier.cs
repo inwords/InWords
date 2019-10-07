@@ -1,17 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InWords.Data.Domains.EmailEntitys
 {
     public class EmailVerifies
     {
-        [Key]
-        public Guid Guid { get; set; }
+        [Key] public Guid Guid { get; set; }
+
         public int UserId { get; set; }
 
-        [MaxLength(64)] 
-        [Required] public string Email { get; set; }
+        [MaxLength(64)] [Required] public string Email { get; set; }
 
         public DateTime SentTime { get; set; }
 
@@ -19,11 +17,14 @@ namespace InWords.Data.Domains.EmailEntitys
 
         public short Attempts { get; set; }
 
-        public bool Equals(EmailVerifies b) => Equals(b.UserId, b.Email, b.Code);
+        public bool Equals(EmailVerifies b)
+        {
+            return Equals(b.UserId, b.Email, b.Code);
+        }
 
         public override bool Equals(object obj)
         {
-            return obj is EmailVerifies ? Equals((EmailVerifies)obj) : false;
+            return obj is EmailVerifies ? Equals((EmailVerifies) obj) : false;
         }
 
         public bool Equals(int userId, string email, int code)

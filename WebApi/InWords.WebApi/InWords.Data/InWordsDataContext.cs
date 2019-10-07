@@ -1,7 +1,6 @@
 ﻿using InWords.Data.Creations;
 using InWords.Data.Domains;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace InWords.Data
 {
@@ -35,7 +34,7 @@ namespace InWords.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-           optionBuilder.UseSqlServer(connectionString);
+            optionBuilder.UseSqlServer(connectionString);
         }
 
         private void RecreateDb()

@@ -1,5 +1,4 @@
-﻿using InWords.Data.Creations.GameBox;
-using InWords.Data.Domains.EmailEntitys;
+﻿using InWords.Data.Domains.EmailEntitys;
 using Microsoft.EntityFrameworkCore;
 
 namespace InWords.Data

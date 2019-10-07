@@ -1,21 +1,18 @@
-﻿using InWords.WebApi.Services.Email.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using InWords.WebApi.Services.Email.Models;
 
 namespace InWords.WebApi.Services.Email.Template
 {
     public class ResetPasswordTemplate : EmailTemplateBase
     {
-        public void Configure(int code,string link)
+        public void Configure(int code, string link)
         {
-            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>()
+            var keyValuePairs = new Dictionary<string, string>
             {
-                { "{code}",$"{code}"}, //-V3138
-                { "{link}",link} //-V3138
+                {"{code}", $"{code}"}, //-V3138
+                {"{link}", link} //-V3138
             };
-            base.LoadTemplate(EmailTemplates.ResetPasswordEmail, keyValuePairs);
+            LoadTemplate(EmailTemplates.ResetPasswordEmail, keyValuePairs);
         }
     }
 }

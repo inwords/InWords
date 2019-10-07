@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace InWords.Common.Extensions
 {
@@ -8,7 +7,7 @@ namespace InWords.Common.Extensions
     {
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            foreach (var item in source)
+            foreach (T item in source)
                 action(item);
         }
     }

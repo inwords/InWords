@@ -105,7 +105,7 @@ namespace InWords.WebApi.Controllers.v1
         #region ctor
 
         private readonly UserRepository userRepository;
-        private readonly FileLoader loader = null;
+        private readonly FileLoader loader;
 
         /// <summary>
         /// </summary>
@@ -113,7 +113,7 @@ namespace InWords.WebApi.Controllers.v1
         public ValuesController(InWordsDataContext context, FileLoader ftpLoader)
         {
             userRepository = new UserRepository(context);
-            this.loader = ftpLoader;
+            loader = ftpLoader;
         }
 
         #endregion

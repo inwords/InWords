@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -18,14 +17,14 @@ namespace InWords.WebApi.AppStart
             var builder = new ContainerBuilder();
             builder.Populate(services);
 
-            // register modules types
-            Program.InModules.ForEach((m) => m.ConfigureIoc(builder));
+            // to register types of modules
+            Program.InModules.ForEach(m => m.ConfigureIoc(builder));
 
             // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(a => a.Name.EndsWith("Service")
-                && a.Namespace.StartsWith("InWords.WebApi.Services")
-                && !a.Namespace.Contains("Abstractions"))
+                            && a.Namespace.StartsWith("InWords.WebApi.Services")
+                            && !a.Namespace.Contains("Abstractions"))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();

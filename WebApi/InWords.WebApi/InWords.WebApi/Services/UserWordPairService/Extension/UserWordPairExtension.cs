@@ -7,7 +7,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Extension
     {
         public static KnowledgeLicense GetLicense(this UserWordPair userWordPair)
         {
-            KnowledgeLicense knowledgeLicense = new KnowledgeLicense
+            var knowledgeLicense = new KnowledgeLicense
             {
                 Period = userWordPair.LearningPeriod,
                 RepeatTime = userWordPair.TimeGap

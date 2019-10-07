@@ -1,8 +1,5 @@
-﻿using InWords.Data.DTO.GameBox.LevelMetric;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using InWords.Data.DTO.GameBox.LevelMetric;
 
 namespace InWords.Data.DTO.Extentions
 {
@@ -10,7 +7,7 @@ namespace InWords.Data.DTO.Extentions
     {
         public static LevelResult ToLevelResult(this CardGameScore cardGameScore)
         {
-            LevelResult levelResult = new LevelResult()
+            var levelResult = new LevelResult
             {
                 LevelId = cardGameScore.GameLevelId,
                 OpeningQuantity = cardGameScore.WordPairIdOpenCounts.Sum(s => s.Value),

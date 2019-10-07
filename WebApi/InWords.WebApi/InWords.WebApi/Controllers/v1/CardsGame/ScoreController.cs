@@ -48,7 +48,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             // save score to user level
             try
             {
-                await gameScoreService.PostScore(authorizedId, answer);
+                await gameScoreService.PostScoreAsync(authorizedId, answer);
             }
             catch (ArgumentNullException e)
             {
@@ -76,7 +76,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
 
             try
             {
-                await gameScoreService.UploadScore(authorizedId, answers);
+                await gameScoreService.UploadScoreAsync(authorizedId, answers);
             }
             catch (ArgumentNullException e)
             {

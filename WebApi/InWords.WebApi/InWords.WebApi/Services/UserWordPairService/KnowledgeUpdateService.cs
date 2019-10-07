@@ -1,30 +1,30 @@
-﻿using InWords.Data.Domains;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using InWords.Data.Domains;
 using InWords.Data.Repositories;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Extension;
 using InWords.WebApi.Services.UserWordPairService.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {
     public class KnowledgeUpdateService : IUserWordPairService
     {
-        private readonly UserWordPairRepository userWordPairRepository = null;
-        private readonly KnowledgeLicenseManager knowledgeLicenseManager = null;
+        private readonly KnowledgeLicenseManager knowledgeLicenseManager;
+        private readonly UserWordPairRepository userWordPairRepository;
+
         public KnowledgeUpdateService(UserWordPairRepository userWordPairRepository)
         {
             this.userWordPairRepository = userWordPairRepository;
-            this.knowledgeLicenseManager = new KnowledgeLicenseManager();
+            knowledgeLicenseManager = new KnowledgeLicenseManager();
         }
 
         /// <summary>
-        /// This is to update <see cref="UserWordPair"/> learning period
+        ///     This is to update <see cref="UserWordPair" /> learning period
         /// </summary>
-        /// <param name="PairKnowledges">Int is <see cref="UserWordPair"/> id</param>
+        /// <param name="PairKnowledges">Int is <see cref="UserWordPair" /> id</param>
         /// <returns></returns>
         public async Task UpdateKnowledge(int userid, IKnowledgeQualifier knowledgeQualifier)
         {
@@ -37,7 +37,7 @@ namespace InWords.WebApi.Services.UserWordPairService
         public async Task UpdateKnowledge(int userid, params IKnowledgeQualifier[] knowledgeQualifiers)
         {
             // calculate knowledge update
-            var userWordPairs = knowledgeQualifiers
+            IEnumerable<UserWordPair> userWordPairs = knowledgeQualifiers
                 .Select(k => CalculateKnowledgeUpdate(userid, k))
                 .Aggregate((x, y) => x.Concat(y));
 
@@ -49,7 +49,8 @@ namespace InWords.WebApi.Services.UserWordPairService
             await userWordPairRepository.Update(userWordPairs);
         }
 
-        private static UserWordPair SelectBestTrained(IGrouping<int, UserWordPair> s, IEnumerable<UserWordPair> userWordPairs)
+        private static UserWordPair SelectBestTrained(IGrouping<int, UserWordPair> s,
+            IEnumerable<UserWordPair> userWordPairs)
         {
             return userWordPairs
                 .Where(u => u.UserWordPairId.Equals(s.Key))
@@ -58,25 +59,27 @@ namespace InWords.WebApi.Services.UserWordPairService
 
         private IEnumerable<UserWordPair> CalculateKnowledgeUpdate(int userid, IKnowledgeQualifier knowledgeQualifier)
         {
-            var knowledgeQuality = knowledgeQualifier.Qualify();
+            Dictionary<int, KnowledgeQualitys> knowledgeQuality = knowledgeQualifier.Qualify();
             // load all user words
-            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u => knowledgeQuality.ContainsKey(u.WordPairId) && u.UserId.Equals(userid));
+            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u =>
+                knowledgeQuality.ContainsKey(u.WordPairId) && u.UserId.Equals(userid));
             // calculate knowledge update
             userWordPairs = UpdateLicenseInformation(userWordPairs, knowledgeQuality);
             return userWordPairs;
         }
 
         /// <summary>
-        ///     This method for updating <see cref="UserWordPair"/>'s learning period and time to learning
+        ///     This method for updating <see cref="UserWordPair" />'s learning period and time to learning
         ///     using PairKnowledges from IKnowledgeQualifier.
         /// </summary>
         /// <param name="userWordPairs"></param>
         /// <param name="PairKnowledges"></param>
         /// <returns></returns>
-        private IEnumerable<UserWordPair> UpdateLicenseInformation(IEnumerable<UserWordPair> userWordPairs, Dictionary<int, KnowledgeQualitys> PairKnowledges)
+        private IEnumerable<UserWordPair> UpdateLicenseInformation(IEnumerable<UserWordPair> userWordPairs,
+            Dictionary<int, KnowledgeQualitys> PairKnowledges)
         {
             // for every word pair in user dictionary 
-            foreach (var userWordPair in userWordPairs)
+            foreach (UserWordPair userWordPair in userWordPairs)
             {
                 // get quality from qualifier
                 KnowledgeQualitys quality = PairKnowledges[userWordPair.WordPairId];
@@ -90,6 +93,7 @@ namespace InWords.WebApi.Services.UserWordPairService
                 // set license in pair strucure 
                 userWordPair.SetLicense(knowledgeLicense);
             }
+
             return userWordPairs;
         }
     }

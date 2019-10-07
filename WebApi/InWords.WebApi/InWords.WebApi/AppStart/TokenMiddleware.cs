@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace InWords.WebApi.AppStart
 {
@@ -9,13 +9,13 @@ namespace InWords.WebApi.AppStart
 
         public SecureConnectionMiddleware(RequestDelegate next)
         {
-            this._next = next;
+            _next = next;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            var loadbalancerReceivedSSLRequest = string.Equals(context.Request.Headers["X-Forwarded-Proto"], "https");
-            var serverReceivedSSLRequest = context.Request.IsHttps;
+            bool loadbalancerReceivedSSLRequest = string.Equals(context.Request.Headers["X-Forwarded-Proto"], "https");
+            bool serverReceivedSSLRequest = context.Request.IsHttps;
 
             if (loadbalancerReceivedSSLRequest || serverReceivedSSLRequest)
             {
