@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.Repositories;
@@ -9,11 +10,11 @@ namespace InWords.WebApi.Services.GameService
 {
     public class GameLevelService
     {
-        public async Task<GameLevel> AddLevel(GameBox gameBox, LevelPack levelPack)
+        public async Task<GameLevel> AddLevel(Creation gameBox, LevelPack levelPack)
         {
             var gameLevel = new GameLevel
             {
-                GameBoxId = gameBox.GameBoxId,
+                GameBoxId = gameBox.CreationId,
                 Level = levelPack.Level
             };
             gameLevel = await gameLevelRepository.CreateAsync(gameLevel);
@@ -21,10 +22,10 @@ namespace InWords.WebApi.Services.GameService
             return gameLevel;
         }
 
-        public IEnumerable<LevelInfo> GetLevels(GameBox gameBox)
+        public IEnumerable<LevelInfo> GetLevels(Creation gameBox)
         {
             // find all game levels 
-            IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.GameBoxId);
+            IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.CreationId);
             // convert to level info
             return gameLevels.Select(GetLevelInfo);
         }

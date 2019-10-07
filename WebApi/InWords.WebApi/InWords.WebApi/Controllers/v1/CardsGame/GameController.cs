@@ -96,23 +96,23 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             string role = User.GetUserRole();
 
             int count = role == RoleType.Admin.ToString()
-                ? await gameBoxRepository.DeleteGames(ids)
-                : await gameBoxRepository.DeleteOwnGames(userId, ids);
+                ? await creationRepository.DeleteGames(ids)
+                : await creationRepository.DeleteOwnGames(userId, ids);
 
             return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
         }
 
         #region Ctor
 
-        private readonly GameBoxRepository gameBoxRepository;
+        private readonly CreationRepository creationRepository;
         private readonly GameLevelWordService gameLevelWordService;
         private readonly GameService gameService;
 
-        public GameController(GameBoxRepository gameBoxRepository,
+        public GameController(CreationRepository creationRepository,
             GameLevelWordService gameLevelWordService,
             GameService gameService)
         {
-            this.gameBoxRepository = gameBoxRepository;
+            this.creationRepository = creationRepository;
             this.gameLevelWordService = gameLevelWordService;
             this.gameService = gameService;
         }

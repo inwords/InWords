@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO;
 using InWords.Data.DTO.Creation;
@@ -18,20 +19,20 @@ namespace InWords.WebApi.Services.GameService
     {
         private readonly CreationService creationService;
         private readonly GameLevelService gameLevelService;
-        private readonly GameBoxRepository gameBoxRepository;
+        private readonly CreationRepository creationRepository;
 
         /// <summary>
         ///     Basic constructor
         /// </summary>
         /// <param name="creationService"></param>
-        /// <param name="gameBoxRepository"></param>
+        /// <param name="creationRepository"></param>
         /// <param name="gameLevelService"></param>
         public GameService(CreationService creationService,
-            GameBoxRepository gameBoxRepository,
+            CreationRepository creationRepository,
             GameLevelService gameLevelService)
         {
             this.creationService = creationService;
-            this.gameBoxRepository = gameBoxRepository;
+            this.creationRepository = creationRepository;
             this.gameLevelService = gameLevelService;
         }
 
@@ -40,7 +41,7 @@ namespace InWords.WebApi.Services.GameService
             // allow gamePack.CreatorId if admin
             gamePack.CreationInfo.CreatorId = userId;
 
-            GameBox gameBox = await CreateGameBox(gamePack);
+            Creation gameBox = await CreateGameBox(gamePack);
 
             // Loading behind the scenes, the level will be processed on the server
             // Does not affect user experience
@@ -48,14 +49,14 @@ namespace InWords.WebApi.Services.GameService
             // Add levels
             foreach (LevelPack levelPack in gamePack.LevelPacks) await gameLevelService.AddLevel(gameBox, levelPack);
 
-            var answer = new SyncBase(gameBox.GameBoxId);
+            var answer = new SyncBase(gameBox.CreationId);
 
             return answer;
         }
 
         public List<GameInfo> GetGames()
         {
-            List<GameBox> games = gameBoxRepository.GetAllEntities().ToList();
+            List<Creation> games = creationRepository.GetAllEntities().ToList();
 
             return (from game in games
                 let creationInfo = creationService.GetCreationInfo(game.CreationId)
@@ -63,25 +64,18 @@ namespace InWords.WebApi.Services.GameService
                 select new GameInfo
                 {
                     CreatorId = creationInfo.CreatorId ?? 0,
-                    GameId = game.GameBoxId,
+                    GameId = game.CreationId,
                     IsAvailable = true,
                     Title = russianDescription.Title,
                     Description = russianDescription.Description
                 }).ToList();
         }
 
-        public async Task<GameBox> CreateGameBox(GamePack gamePack)
+        public async Task<Creation> CreateGameBox(GamePack gamePack)
         {
-            int creationId = await creationService.AddCreationInfoAsync(gamePack.CreationInfo);
+            var creation = await creationService.AddCreationInfoAsync(gamePack.CreationInfo);
 
-            // Add game information
-            var gameBox = new GameBox
-            {
-                CreationId = creationId
-            };
-
-            gameBox = await gameBoxRepository.CreateAsync(gameBox);
-            return gameBox;
+            return creation;
         }
 
         /// <summary>
@@ -92,7 +86,7 @@ namespace InWords.WebApi.Services.GameService
         public async Task<GameObject> GetGameObject(int gameId)
         {
             // find game in database
-            GameBox gameBox = await gameBoxRepository.FindById(gameId);
+            Creation gameBox = await creationRepository.FindById(gameId);
 
             if (gameBox == null) return null;
 
@@ -104,7 +98,7 @@ namespace InWords.WebApi.Services.GameService
 
             var game = new GameObject
             {
-                GameId = gameBox.GameBoxId,
+                GameId = gameBox.CreationId,
                 Creator = creationInfo
                     .CreatorNickname, //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference. Consider inspecting 'creationInfo'.
                 LevelInfos = levelInfos.ToList()

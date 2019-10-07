@@ -14,7 +14,6 @@ namespace InWords.WebApi.Services.UserGameService
     {
         private readonly UserWordPairRepository userWordPairRepository;
         private readonly CreationRepository creationRepository;
-        private readonly GameBoxRepository gameBoxRepository;
         private readonly GameLevelRepository gameLevelRepository;
         private readonly GameLevelWordRepository gameLevelWordRepository;
 
@@ -22,7 +21,6 @@ namespace InWords.WebApi.Services.UserGameService
         {
             this.userWordPairRepository = new UserWordPairRepository(context);
             this.creationRepository = new CreationRepository(context);
-            this.gameBoxRepository = new GameBoxRepository(context, creationRepository);
             this.gameLevelRepository = new GameLevelRepository(context);
             this.gameLevelWordRepository = new GameLevelWordRepository(context);
         }
@@ -36,25 +34,18 @@ namespace InWords.WebApi.Services.UserGameService
 
             // create if not user game catalog exist 
             Creation creation = creationRepository.GetWhere(c => c.CreatorId.Equals(userId)).SingleOrDefault();
-            GameBox game;
             if (creation == null)
             {
                 creation = new Creation { CreatorId = userId };
                 await creationRepository.CreateAsync(creation).ConfigureAwait(false);
-                game = new GameBox { CreationId = creation.CreationId };
-                await gameBoxRepository.CreateAsync(game).ConfigureAwait(false);
             }
-            else
-            {
-                game = gameBoxRepository.GetWhere(g => g.CreationId.Equals(creation.CreationId)).SingleOrDefault();
-            }
-            if (game == null) throw new ArgumentNullException();
+            if (creation == null) throw new ArgumentNullException();
 
             // add level by WordsPairs
-            int levelsCount = gameLevelRepository.GetWhere(g => g.GameBoxId.Equals(game.GameBoxId)).Count();
+            int levelsCount = gameLevelRepository.GetWhere(g => g.GameBoxId.Equals(creation.CreationId)).Count();
             var gameLevel = new GameLevel()
             {
-                GameBoxId = game.GameBoxId,
+                GameBoxId = creation.CreationId,
                 Level = levelsCount + 1,
             };
             GameLevel gamelevel = await gameLevelRepository.CreateAsync(gameLevel).ConfigureAwait(false);
