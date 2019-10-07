@@ -47,7 +47,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         [HttpGet]
         public IActionResult GetGameInfo()
         {
-            List<GameInfo> answer = gameService.GetGames();
+            IEnumerable<GameInfo> answer = gameService.GetGames();
 
             return Ok(answer);
         }
