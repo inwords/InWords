@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import useMenu from 'hooks/useMenu';
@@ -20,7 +20,7 @@ function DictionaryMenu({ disabled, handleLearning }) {
         onClick={handleClick}
         color="inherit"
       >
-        <MoreHorizIcon />
+        <MoreVertIcon />
       </IconButton>
       <Menu
         id="dictionary-menu"
@@ -39,7 +39,6 @@ function DictionaryMenu({ disabled, handleLearning }) {
         >
           Изучение
         </MenuItem>
-        ,
       </Menu>
     </div>
   );
