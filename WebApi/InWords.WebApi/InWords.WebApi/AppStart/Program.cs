@@ -1,7 +1,7 @@
-﻿using InWords.WebApi.Module;
+﻿using System.Collections.Generic;
+using InWords.WebApi.Module;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using System.Collections.Generic;
 
 namespace InWords.WebApi.AppStart
 {

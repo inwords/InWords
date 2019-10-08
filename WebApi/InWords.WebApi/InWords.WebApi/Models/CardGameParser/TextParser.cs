@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using InWords.Data.DTO;
 using InWords.Data.DTO.Creation;
 using InWords.Data.DTO.GameBox;
@@ -11,7 +10,6 @@ namespace InWords.WebApi.Models.CardGameParser
 {
     public class TextParser
     {
-
         private const string THEME_MARK = "#Тема:";
         private const string LEVEL_SPLIT = "#Уровень:";
         private const string WORDS_SPLIT = ";";
@@ -38,8 +36,7 @@ namespace InWords.WebApi.Models.CardGameParser
             string potentialNumber = theme.Substring("", Environment.NewLine);
             if (int.TryParse(potentialNumber, out int result))
                 return result;
-            else
-                return -1;
+            return -1;
         }
 
         private static string GetThemByNumber(IEnumerable<string> themes, int number)
@@ -60,7 +57,8 @@ namespace InWords.WebApi.Models.CardGameParser
 
         private static CreationInfo GetCreationInfo(string theme)
         {
-            string[] themeInfos = theme.Split(Environment.NewLine).RemoveEmpty(); ;
+            string[] themeInfos = theme.Split(Environment.NewLine).RemoveEmpty();
+            ;
             themeInfos = themeInfos.Select(tit => tit.Trim(' ')).ToArray();
 
             var creationInfo = new CreationInfo
@@ -68,8 +66,8 @@ namespace InWords.WebApi.Models.CardGameParser
                 CreatorId = 0,
                 Descriptions = new List<DescriptionInfo>
                 {
-                    new DescriptionInfo { Title = themeInfos[1], Description = themeInfos[2], LangId = 2},
-                    new DescriptionInfo { Title = themeInfos[3], Description = themeInfos[4], LangId = 1}
+                    new DescriptionInfo {Title = themeInfos[1], Description = themeInfos[2], LangId = 2},
+                    new DescriptionInfo {Title = themeInfos[3], Description = themeInfos[4], LangId = 1}
                 }
             };
             return creationInfo;
@@ -79,13 +77,11 @@ namespace InWords.WebApi.Models.CardGameParser
         {
             string[] levelSources = (LEVEL_SPLIT + theme.Substring(LEVEL_SPLIT))
                 .Split(LEVEL_SPLIT)
-                .RemoveEmpty(); ;
+                .RemoveEmpty();
+            ;
             var levelPacks = new List<LevelPack>();
 
-            foreach (string levelSource in levelSources)
-            {
-                levelPacks.Add(GetLevelPack(levelSource));
-            }
+            foreach (string levelSource in levelSources) levelPacks.Add(GetLevelPack(levelSource));
 
             LevelPack lastLevelPack = levelPacks.Single(l => l.Level == 0);
             lastLevelPack.Level = levelPacks.Count;
@@ -96,25 +92,19 @@ namespace InWords.WebApi.Models.CardGameParser
         {
             var levelPack = new LevelPack();
             string[] sourceLines = source.Split(Environment.NewLine).RemoveEmpty();
-            if (int.TryParse(sourceLines[0], out int level))
-            {
-                levelPack.Level = level;
-            }
+            if (int.TryParse(sourceLines[0], out int level)) levelPack.Level = level;
             levelPack.WordTranslations = new List<WordTranslation>();
             foreach (string wordTranslationString in sourceLines)
-            {
                 if (TryParseWordTranslation(wordTranslationString, out WordTranslation wordTranslation))
-                {
                     levelPack.WordTranslations.Add(wordTranslation);
-                }
-            }
             return levelPack;
         }
 
         private static bool TryParseWordTranslation(string source, out WordTranslation wordTranslation)
         {
             wordTranslation = null;
-            string[] words = source.Split(WORDS_SPLIT).RemoveEmpty(); ;
+            string[] words = source.Split(WORDS_SPLIT).RemoveEmpty();
+            ;
             if (words.Length != 2) return false;
             wordTranslation = new WordTranslation(words[0], words[1]);
             return true;

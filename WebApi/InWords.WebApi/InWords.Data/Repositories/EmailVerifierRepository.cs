@@ -1,10 +1,8 @@
-﻿using InWords.Abstractions;
+﻿using System;
+using System.Threading.Tasks;
+using InWords.Abstractions;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InWords.Data.Repositories
 {
@@ -12,12 +10,11 @@ namespace InWords.Data.Repositories
     {
         public EmailVerifierRepository(InWordsDataContext context) : base(context)
         {
-
         }
 
         public async Task<EmailVerifies> CreateEmailVerifier(int userId, string email, int code, Guid guid)
         {
-            EmailVerifies emailVerifier = new EmailVerifies
+            var emailVerifier = new EmailVerifies
             {
                 Guid = guid,
                 UserId = userId,
@@ -25,7 +22,7 @@ namespace InWords.Data.Repositories
                 Code = code,
                 SentTime = DateTime.UtcNow
             };
-            return await Create(emailVerifier);
+            return await CreateAsync(emailVerifier);
         }
     }
 }

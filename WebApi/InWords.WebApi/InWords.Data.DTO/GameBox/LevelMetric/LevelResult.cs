@@ -1,7 +1,7 @@
 ﻿namespace InWords.Data.DTO.GameBox.LevelMetric
 {
     /// <summary>
-    /// Provides level id and user metric 
+    ///     Provides level id and user metric
     /// </summary>
     public class LevelResult
     {

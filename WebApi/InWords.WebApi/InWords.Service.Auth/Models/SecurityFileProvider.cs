@@ -9,15 +9,15 @@ namespace InWords.Service.Auth.Models
     {
         private const int DEFAULT_KEY_LENGTH = 256;
 
-        private int KeyLength { get; set; }
-
-        internal string SymmetricSecurityKey { get; private set; }
-
         internal SecurityFileProvider(string filePath, int keyLength = DEFAULT_KEY_LENGTH) : base(filePath)
         {
             KeyLength = keyLength;
             Initialize();
         }
+
+        private int KeyLength { get; }
+
+        internal string SymmetricSecurityKey { get; private set; }
 
         private string CreateSecret()
         {

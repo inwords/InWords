@@ -5,7 +5,6 @@ using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.Repositories;
-using InWords.Domain;
 using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService
@@ -13,6 +12,7 @@ namespace InWords.WebApi.Services.GameService
     public class GameScoreService : IGameScoreService
     {
         private readonly UserGameLevelRepository userGameLevelRepository;
+
         public GameScoreService(UserGameLevelRepository userGameLevelRepository)
         {
             this.userGameLevelRepository = userGameLevelRepository;
@@ -24,7 +24,7 @@ namespace InWords.WebApi.Services.GameService
         }
 
         /// <summary>
-        /// This is to local compute score
+        ///     This is to local compute score
         /// </summary>
         /// <param name="levelResult"></param>
         /// <returns></returns>
@@ -37,28 +37,30 @@ namespace InWords.WebApi.Services.GameService
             return levelScore;
         }
 
-        async Task IGameScoreService.PostScore(int userId, LevelScore levelScore)
+        async Task IGameScoreService.PostScoreAsync(int userId, LevelScore levelScore)
         {
             IEnumerable<UserGameLevel> levels = userGameLevelRepository.GetWhere(ugl =>
                 ugl.UserId.Equals(userId) && ugl.GameLevelId.Equals(levelScore.LevelId));
 
             UserGameLevel level = levels.FirstOrDefault();
 
-            // if exist update if better
+            // if exist update  
             if (level != null)
             {
+                // don't update if worth
                 if (level.UserStars > levelScore.Score) return;
+
                 level.UserStars = levelScore.Score;
-                await userGameLevelRepository.Update(level);
+                await userGameLevelRepository.Update(level).ConfigureAwait(false);
             }
             // add if not exist
             else
             {
-                await AddLevels(userId, levelScore);
+                await AddLevels(userId, levelScore).ConfigureAwait(false);
             }
         }
 
-        async Task IGameScoreService.UploadScore(int userId, IEnumerable<LevelScore> levelScores)
+        async Task IGameScoreService.UploadScoreAsync(int userId, IEnumerable<LevelScore> levelScores)
         {
             levelScores = levelScores.Where(l => l.LevelId > 0);
             // to prevent multiply enumerable
@@ -68,8 +70,8 @@ namespace InWords.WebApi.Services.GameService
             // add any that not in existing in database
             LevelScore[] levelScoresToAdd = GetScoresExceptExist(levelScoresArray, levelsExist);
 
-            await UpdateLevels(levelsExist, levelScoresArray);
-            await AddLevels(userId, levelScoresToAdd);
+            await UpdateLevelsAsync(levelsExist, levelScoresArray).ConfigureAwait(false);
+            await AddLevels(userId, levelScoresToAdd).ConfigureAwait(false);
         }
 
         private GameObject GetGameStarsAction(int userId, GameObject game)
@@ -86,10 +88,12 @@ namespace InWords.WebApi.Services.GameService
         // todo to dictionary
         private static GameObject SetStarsToLevels(GameObject game, UserGameLevel[] levels)
         {
-            Parallel.ForEach(game.LevelInfos, (level) =>
-            {
-                level.PlayerStars = levels.SingleOrDefault(l => l.GameLevelId.Equals(level.LevelId))?.UserStars ?? 0;
-            });
+            Parallel.ForEach(game.LevelInfos,
+                level =>
+                {
+                    level.PlayerStars =
+                        levels.SingleOrDefault(l => l.GameLevelId.Equals(level.LevelId))?.UserStars ?? 0;
+                });
             return game;
         }
 
@@ -98,7 +102,7 @@ namespace InWords.WebApi.Services.GameService
         /// <param name="levelsToUpdate">All levels that exist in database</param>
         /// <param name="levelScores">All score that user send</param>
         /// <returns></returns>
-        private async Task UpdateLevels(IEnumerable<UserGameLevel> levelsToUpdate, IEnumerable<LevelScore> levelScores)
+        private Task UpdateLevelsAsync(IEnumerable<UserGameLevel> levelsToUpdate, IEnumerable<LevelScore> levelScores)
         {
             levelsToUpdate = from userGameLevel in levelsToUpdate
                              join scores in levelScores on userGameLevel.GameLevelId equals scores.LevelId
@@ -110,11 +114,12 @@ namespace InWords.WebApi.Services.GameService
                                  UserId = userGameLevel.UserId,
                                  UserGameLevelId = userGameLevel.UserGameLevelId
                              };
-            await userGameLevelRepository.Update(levelsToUpdate.ToArray());
+            return userGameLevelRepository.UpdateAsync(levelsToUpdate.ToArray());
         }
 
         private async Task AddLevels(int userId, params LevelScore[] levels)
         {
+            // TODO CHECK IF LEVEL EXIST
             UserGameLevel[] userGameLevels = levels.Select(levelScore => new UserGameLevel
             {
                 UserId = userId,

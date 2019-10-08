@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace InWords.Common
+﻿namespace InWords.Common
 {
     public static class EmailHider
     {
         private static readonly string stars = "***";
         private static readonly int loginLength = 2;
+
         public static string Hide(string email)
         {
             string[] split = email.Split("@");

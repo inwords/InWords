@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace InWords.Domain
 {
@@ -8,7 +7,7 @@ namespace InWords.Domain
     {
         public static int Score(int wordsCount, int openingQuantity)
         {
-            int score = 0;
+            var score = 0;
             int bestOpeningsCount = wordsCount * 2 - 2;
             if (openingQuantity <= bestOpeningsCount)
                 score = 3;

@@ -16,7 +16,7 @@ namespace InWords.WebApi.Extensions.Transfer
         public static DescriptionInfo GetRus(this List<DescriptionInfo> descriptionInfos)
         {
             // TODO Language service
-            return descriptionInfos.First();
+            return !descriptionInfos.Any() ? new DescriptionInfo() : descriptionInfos.First();
         }
     }
 }

@@ -1,16 +1,15 @@
-﻿using InWords.Data.Domains.EmailEntitys;
-using InWords.Data.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
+using InWords.Data.Domains.EmailEntitys;
+using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services.Email
 {
     public class EmailLinkVerificationService
     {
-        private readonly EmailVerifierRepository emailVerifierRepository = null;
-        private readonly AccountRepository accountRepository = null;
+        private readonly AccountRepository accountRepository;
+        private readonly EmailVerifierRepository emailVerifierRepository;
+
         public EmailLinkVerificationService(EmailVerifierRepository emailVerifierRepository,
             AccountRepository accountRepository)
         {
@@ -30,6 +29,7 @@ namespace InWords.WebApi.Services.Email
                 await RemoveStorageVerification(emailVerifier);
                 await accountRepository.SetEmail(emailVerifier.UserId, emailVerifier.Email);
             }
+
             return isCorrect;
         }
 

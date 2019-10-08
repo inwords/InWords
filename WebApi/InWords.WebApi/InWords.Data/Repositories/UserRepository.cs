@@ -2,7 +2,6 @@
 using InWords.Abstractions;
 using InWords.Common;
 using InWords.Data.Domains;
-using InWords.Data.Enums;
 
 namespace InWords.Data.Repositories
 {

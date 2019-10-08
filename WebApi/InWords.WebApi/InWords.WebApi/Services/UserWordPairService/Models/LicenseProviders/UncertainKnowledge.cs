@@ -1,8 +1,5 @@
-﻿using InWords.WebApi.Services.UserWordPairService.Abstraction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using InWords.WebApi.Services.UserWordPairService.Abstraction;
 
 namespace InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders
 {

@@ -9,19 +9,19 @@ namespace InWords.Data.Creations.GameBox
     public class UserGameLevel
     {
         [Key] public int UserGameLevelId { get; set; }
-        
-        [Required]
-        public int UserId { get; set; }
+
+        [Required] public int UserId { get; set; }
+
         [ForeignKey(nameof(UserId))] public virtual User User { get; set; }
-        
-        [Required]
-        public int GameLevelId { get; set; }
+
+        [Required] public int GameLevelId { get; set; }
+
         [ForeignKey(nameof(GameLevelId))] public virtual GameLevel GameLevel { get; set; }
-        
-        [Required]
-        public int UserStars { get; set; }
+
+        [Required] public int UserStars { get; set; }
 
         #region ctor
+
         public UserGameLevel()
         {
         }

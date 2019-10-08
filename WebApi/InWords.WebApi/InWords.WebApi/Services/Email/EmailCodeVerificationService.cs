@@ -1,23 +1,23 @@
-﻿using InWords.Data.Domains.EmailEntitys;
-using InWords.Data.Repositories;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data.Domains.EmailEntitys;
+using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services.Email
 {
     public class EmailCodeVerificationService
     {
-        private readonly EmailVerifierRepository emailVerifierRepository = null;
+        private readonly EmailVerifierRepository emailVerifierRepository;
 
         public EmailCodeVerificationService(EmailVerifierRepository emailVerifierRepository)
         {
             this.emailVerifierRepository = emailVerifierRepository;
         }
+
         /// <summary>
-        /// This is to check code and if it's right code dispose all email verification.
-        /// information about this user
+        ///     This is to check code and if it's right code dispose all email verification.
+        ///     information about this user
         /// </summary>
         /// <param name="userId">System user's id</param>
         /// <param name="email">System user's email</param>
@@ -33,7 +33,8 @@ namespace InWords.WebApi.Services.Email
 
         private bool HasCode(int userId, string email, int code)
         {
-            EmailVerifies emailVerifier = emailVerifierRepository.GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).FirstOrDefault();
+            EmailVerifies emailVerifier = emailVerifierRepository
+                .GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).FirstOrDefault();
 
             if (emailVerifier == null)
                 throw new ArgumentNullException();
@@ -49,7 +50,8 @@ namespace InWords.WebApi.Services.Email
             }
             else
             {
-                EmailVerifies emailVerifier = emailVerifierRepository.GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).FirstOrDefault();
+                EmailVerifies emailVerifier = emailVerifierRepository
+                    .GetWhere(e => IsRequestedEmailVerifier(e, userId, email)).FirstOrDefault();
                 emailVerifier.Attempts++;
                 await emailVerifierRepository.Update(emailVerifier);
             }

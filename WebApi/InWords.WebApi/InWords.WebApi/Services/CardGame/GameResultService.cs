@@ -1,14 +1,12 @@
-﻿using InWords.Data.DTO.Extentions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using InWords.Data.DTO.Extentions;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
 using InWords.WebApi.Services.UserWordPairService;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
-using InWords.WebApi.Services.UserWordPairService.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.CardGame
 {
@@ -24,49 +22,42 @@ namespace InWords.WebApi.Services.CardGame
         }
 
         /// <summary>
-        /// This is to get score by level and update information of memorising user word pairs
+        ///     This is to get score by level and update information of memorizing user word pairs
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="cardGameScore"></param>
         /// <returns></returns>
-        public async Task<LevelScore> SetResults(int userId, CardGameScore cardGameScore)
+        public async Task<LevelScore> SetResultsAsync(int userId, CardGameScore cardGameScore)
         {
             // set sore;
             LevelScore levelScore = gameScoreService.GetLevelScore(cardGameScore.ToLevelResult());
 
-#warning save local users game 
-            if (levelScore.LevelId < 0) // don't save local games
-                return levelScore; // end warning
-
             // save score to storage
-            await gameScoreService.PostScore(userId, levelScore);
+            await gameScoreService.PostScoreAsync(userId, levelScore).ConfigureAwait(false);
             // Calculate word metric;
             IKnowledgeQualifier knowledgeQualifier = new CardGameKnowledge(cardGameScore);
-            // update wordas pairs license in store
-            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifier);
+            // update words pairs license in store
+            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifier).ConfigureAwait(false);
             return levelScore;
         }
 
-        public async Task<IEnumerable<LevelScore>> SetResults(int userId, params CardGameScore[] cardGameScores)
+        public async Task<IEnumerable<LevelScore>> SetResultsAsync(int userId, params CardGameScore[] cardGameScores)
         {
             // set sore;
-            LevelScore[] levelScores = cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToArray();
-
-            var onlineScores = levelScores.Where(l => l.LevelId > 0);
-            var localScores = levelScores.Except(onlineScores);
-
+            IEnumerable<LevelScore> levelScores = 
+                cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToHashSet();
 
             // save score to storage
-            await gameScoreService.UploadScore(userId, onlineScores);
+            await gameScoreService.UploadScoreAsync(userId, levelScores).ConfigureAwait(true);
 
             // Calculate word metric;
-            IKnowledgeQualifier[] knowledgeQualifiers = cardGameScores.Select(k => new CardGameKnowledge(k)).ToArray();
+            IKnowledgeQualifier[] knowledgeQualifiers 
+                = cardGameScores.Select(k => new CardGameKnowledge(k) as IKnowledgeQualifier).ToArray();
 
-            // update wordas pairs license in store
-            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers);
+            // update words pairs license in store
+            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers).ConfigureAwait(true);
 
-            var fullScores = onlineScores.Union(localScores);
-            return fullScores;
+            return levelScores;
         }
     }
 }

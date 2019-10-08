@@ -1,9 +1,9 @@
-﻿using InWords.WebApi.Services.UserWordPairService.Abstraction;
+﻿using System;
+using System.Collections.Generic;
+using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Models;
 using InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders;
-using System;
-using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {
@@ -16,18 +16,16 @@ namespace InWords.WebApi.Services.UserWordPairService
         {
             knowledgeGaranter = new Dictionary<KnowledgeQualitys, KnowledgeLicenseProvider>
             {
-                { KnowledgeQualitys.EasyToRemember, new ExcellentKnowledge() },
-                { KnowledgeQualitys.StillRemember, new SatisfactoryKnowledge() },
-                { KnowledgeQualitys.NoLongerRemember, new UncertainKnowledge() }
+                {KnowledgeQualitys.EasyToRemember, new ExcellentKnowledge()},
+                {KnowledgeQualitys.StillRemember, new SatisfactoryKnowledge()},
+                {KnowledgeQualitys.NoLongerRemember, new UncertainKnowledge()}
             };
         }
 
         public KnowledgeLicense Update(KnowledgeLicense knowledgeLicense, KnowledgeQualitys knowledgeQuality)
         {
             if (IsEasyButEarlyToRepeat(knowledgeLicense, knowledgeQuality))
-            {
                 knowledgeQuality = KnowledgeQualitys.StillRemember;
-            }
             return knowledgeGaranter[knowledgeQuality].Grant(knowledgeLicense);
         }
 

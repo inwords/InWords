@@ -1,21 +1,23 @@
-﻿using InWords.Data.Domains;
-using InWords.Data.Domains.EmailEntitys;
-using InWords.Data.Repositories.Interfaces;
-using InWords.WebApi.Services.Email.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data.Domains;
+using InWords.Data.Domains.EmailEntitys;
+using InWords.Data.Repositories.Interfaces;
+using InWords.WebApi.Services.Email.EmailSenders;
+using InWords.WebApi.Services.Email.Models;
 
 namespace InWords.WebApi.Services.Email
 {
     public class EmailCodeSenderService
     {
         public const int EMAIL_TIMEOUT = 2; // MINUTES;
-        private readonly TemplateSender emailSender = null;
-        private readonly IEmailVerifierRepository emailVerifierRepository = null;
+
         //TODO: From tamplate
         private static readonly string EmailSubject = "Пожалуйста, подтвердите свой e-mail";
+        private readonly TemplateSender emailSender;
+        private readonly IEmailVerifierRepository emailVerifierRepository;
 
 
         public EmailCodeSenderService(IEmailVerifierRepository emailVerifierRepository, TemplateSender emailSender)
@@ -42,22 +44,21 @@ namespace InWords.WebApi.Services.Email
             int timeout = GetTimeout(user.UserId);
 
             if (timeout > 0)
-            {
                 // TODO to const string;
                 throw new TimeoutException($"Email can be sent later after {timeout} seconds");
-            }
 
             Dictionary<string, string> keyValuePairs = ReplaceTemplateData(user.NickName, code, link);
 
             await emailSender.SendEmailAsync(EmailTemplates.ConfirmEmail, keyValuePairs, EmailSubject, email);
         }
+
         private Dictionary<string, string> ReplaceTemplateData(string username, int code, string link)
         {
-            return new Dictionary<string, string>()
+            return new Dictionary<string, string>
             {
-                { "{username}",username }, //-V3138
-                { "{code}",$"{code}" }, //-V3138
-                { "{link}",$"{link}" } //-V3138
+                {"{username}", username}, //-V3138
+                {"{code}", $"{code}"}, //-V3138
+                {"{link}", $"{link}"} //-V3138
             };
         }
     }

@@ -4,9 +4,9 @@ namespace InWords.Data.DTO.Creation
 {
     public class CreationInfo
     {
+        private string creatorNickname;
         public int? CreatorId { get; set; }
 
-        private string creatorNickname;
         public string CreatorNickname
         {
             get
@@ -15,10 +15,7 @@ namespace InWords.Data.DTO.Creation
                     creatorNickname = string.Empty;
                 return creatorNickname;
             }
-            set
-            {
-                creatorNickname = value;
-            }
+            set => creatorNickname = value;
         }
 
         public List<DescriptionInfo> Descriptions { get; set; }

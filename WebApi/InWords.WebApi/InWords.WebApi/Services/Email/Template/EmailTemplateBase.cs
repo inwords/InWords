@@ -1,14 +1,11 @@
-﻿using InWords.WebApi.Services.Email.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using InWords.WebApi.Services.Email.Models;
 
 namespace InWords.WebApi.Services.Email.Template
 {
     /// <summary>
-    ///    Abstract class provide information about email to 
-    ///    send it by <see cref="EmailSenders.EmailTemplateSender"/>
+    ///     Abstract class provide information about email to
+    ///     send it by <see cref="EmailSenders.EmailTemplateSender" />
     /// </summary>
     public abstract class EmailTemplateBase
     {
@@ -20,6 +17,5 @@ namespace InWords.WebApi.Services.Email.Template
         {
             await TemplateResolver.LoadTemplate(template, keyValuePairs);
         }
-
     }
 }
