@@ -16,7 +16,7 @@ const linksWhenUnauthorized = [
 
 const linksWhenAuthorized = [
   {
-    to: '/wordlist',
+    to: '/dictionary',
     text: 'Словарь'
   },
   {

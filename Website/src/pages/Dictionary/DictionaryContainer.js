@@ -2,12 +2,14 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  useMemo,
-  useRef
+  useMemo
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs } from 'actions/wordPairsApiActions';
+import DictionaryWrapper from './DictionaryWrapper';
+import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
+import WordPairAddButton from './WordPairAddButton';
 
 function WordlistContainer() {
   const wordPairs = useSelector(store => store.wordPairs);
@@ -62,29 +64,25 @@ function WordlistContainer() {
     [pattern, wordPairs]
   );
 
-  const buttonPressTimerRef = useRef();
-
-  const handlePressButton = () => {
-    buttonPressTimerRef.current = window.setTimeout(() => {
-      setEditingModeEnabled(true);
-    }, 500);
-  };
-
-  const handleReleaseButton = () => {
-    window.clearTimeout(buttonPressTimerRef.current);
-  };
+  const currentWordPairs = !pattern ? wordPairs : filteredWordPairs;
 
   return (
-    <Wordlist
-      wordPairs={!pattern ? wordPairs : filteredWordPairs}
-      editingModeEnabled={editingModeEnabled}
-      handlePressButton={handlePressButton}
-      handleReleaseButton={handleReleaseButton}
-      checkedValues={checkedValues}
-      handleToggle={handleToggle}
-      handleReset={handleReset}
-      setPattern={setPattern}
-    />
+    <DictionaryWrapper>
+      <DictionaryToolbar
+        editingModeEnabled={editingModeEnabled}
+        checkedValues={checkedValues}
+        handleReset={handleReset}
+        setPattern={setPattern}
+      />
+      <Wordlist
+        editingModeEnabled={editingModeEnabled}
+        setEditingModeEnabled={setEditingModeEnabled}
+        wordPairs={currentWordPairs}
+        checkedValues={checkedValues}
+        handleToggle={handleToggle}
+      />
+      <WordPairAddButton visible={!editingModeEnabled} />
+    </DictionaryWrapper>
   );
 }
 

@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'actions/commonActions';
 import { deleteWordPairs } from 'actions/wordPairsApiActions';
 import useForm from 'hooks/useForm';
-import WordlistToolbar from './WordlistToolbar';
+import DictionaryToolbar from './DictionaryToolbar';
 
-function WordlistToolbarContainer({ checkedValues, setPattern, ...rest }) {
+function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
@@ -37,7 +37,7 @@ function WordlistToolbarContainer({ checkedValues, setPattern, ...rest }) {
   }, [inputs, setPattern]);
 
   return (
-    <WordlistToolbar
+    <DictionaryToolbar
       numberOfChecked={checkedValues.length}
       handleDelete={handleDelete}
       inputs={inputs}
@@ -47,11 +47,11 @@ function WordlistToolbarContainer({ checkedValues, setPattern, ...rest }) {
   );
 }
 
-WordlistToolbarContainer.propTypes = {
+DictionaryToolbarContainer.propTypes = {
   checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   setPattern: PropTypes.func.isRequired,
   handleReset: PropTypes.func,
   editingModeEnabled: PropTypes.bool
 };
 
-export default WordlistToolbarContainer;
+export default DictionaryToolbarContainer;

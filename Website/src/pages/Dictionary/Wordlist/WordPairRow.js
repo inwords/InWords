@@ -6,8 +6,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
 import useDialog from 'hooks/useDialog';
-import WordPairEditDialog from './WordPairEditDialog';
-import SpeechButton from './SpeechButton';
+import WordPairEditDialog from '../WordPairEditDialog';
+import SpeechButton from '../SpeechButton';
 
 function WordPairRow({
   index,

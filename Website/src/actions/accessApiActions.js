@@ -14,7 +14,7 @@ export function signIn(userdata) {
         dispatch(grantAccess(data));
       },
       () => {
-        history.push('/wordlist');
+        history.push('/dictionary');
       }
     ],
     actionsOnFailure: [

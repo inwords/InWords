@@ -4,10 +4,11 @@ import { useDispatch } from 'react-redux';
 import { saveLevelResult } from 'actions/gamesApiActions';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
+import TrainingWrapper from 'components/TrainingWrapper';
 import Game from './Game';
 import TrainingResult from 'components/TrainingResult';
 
-function GameContainer({ levelId, wordTranslations }) {
+function GameContainer({ levelId, wordTranslations, match }) {
   const [wordsInfo, setWordsInfo] = useState([]);
   const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
   const [completedPairIdsInfo, setCompletedPairIdsInfo] = useState({});
@@ -133,20 +134,22 @@ function GameContainer({ levelId, wordTranslations }) {
     setScore(null);
   };
 
-  if (!isResultReady) {
-    return (
-      <Game
-        wordsInfo={wordsInfo}
-        selectedWordsInfo={selectedWordsInfo}
-        completedPairIdsInfo={completedPairIdsInfo}
-        selectedCompletedPairId={selectedCompletedPairId}
-        isGameCompleted={isGameCompleted}
-        handleClick={handleClick}
-      />
-    );
-  } else {
-    return <TrainingResult score={score} handleReplay={handleReplay} />;
-  }
+  return (
+    <TrainingWrapper match={match}>
+      {!isResultReady ? (
+        <Game
+          wordsInfo={wordsInfo}
+          selectedWordsInfo={selectedWordsInfo}
+          completedPairIdsInfo={completedPairIdsInfo}
+          selectedCompletedPairId={selectedCompletedPairId}
+          isGameCompleted={isGameCompleted}
+          handleClick={handleClick}
+        />
+      ) : (
+        <TrainingResult score={score} handleReplay={handleReplay} />
+      )}
+    </TrainingWrapper>
+  );
 }
 
 GameContainer.propTypes = {
@@ -157,7 +160,8 @@ GameContainer.propTypes = {
       wordForeign: PropTypes.string.isRequired,
       wordNative: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default withReceivedGameLevel(GameContainer);

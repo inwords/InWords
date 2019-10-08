@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'helpers/shuffle';
 import withReceivedGameLevel from 'components/withReceivedGameLevel';
+import TrainingWrapper from 'components/TrainingWrapper';
 import SelectTranslateTraining from './SelectTranslateTraining';
 import TrainingResult from 'components/TrainingResult';
 
-function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
+function SelectTranslateTrainingContainer({
+  levelId,
+  wordTranslations,
+  match
+}) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
   const [currentWordSet, setCurrentWordSet] = useState(undefined);
@@ -133,21 +138,23 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
     setScore(null);
   };
 
-  if (!isResultReady) {
-    return (
-      <SelectTranslateTraining
-        currentWordSet={currentWordSet}
-        selectedWordId={selectedWordId}
-        requiredWordIdsInfo={requiredWordIdsInfo}
-        isClickDone={isClickDone}
-        handleClick={handleClick}
-        handleNext={handleNext}
-        isGameCompleted={isGameCompleted}
-      />
-    );
-  } else {
-    return <TrainingResult score={score} handleReplay={handleReplay} />;
-  }
+  return (
+    <TrainingWrapper match={match}>
+      {!isResultReady ? (
+        <SelectTranslateTraining
+          currentWordSet={currentWordSet}
+          selectedWordId={selectedWordId}
+          requiredWordIdsInfo={requiredWordIdsInfo}
+          isClickDone={isClickDone}
+          handleClick={handleClick}
+          handleNext={handleNext}
+          isGameCompleted={isGameCompleted}
+        />
+      ) : (
+        <TrainingResult score={score} handleReplay={handleReplay} />
+      )}
+    </TrainingWrapper>
+  );
 }
 
 SelectTranslateTrainingContainer.propTypes = {
@@ -158,7 +165,8 @@ SelectTranslateTrainingContainer.propTypes = {
       wordForeign: PropTypes.string.isRequired,
       wordNative: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default withReceivedGameLevel(SelectTranslateTrainingContainer);

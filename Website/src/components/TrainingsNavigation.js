@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
@@ -66,4 +66,4 @@ TrainingsNavigation.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default TrainingsNavigation;
+export default memo(TrainingsNavigation);

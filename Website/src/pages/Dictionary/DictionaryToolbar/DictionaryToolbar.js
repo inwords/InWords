@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Search from './Search';
 
 const useStyles = makeStyles(theme => ({
@@ -16,9 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
   active: {
     paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    color: theme.palette.secondary.main,
-    backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+    paddingRight: theme.spacing(1)
   },
   title: {
     flex: '0 0 auto'
@@ -31,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function WordlistToolbar({
+function DictionaryToolbar({
   editingModeEnabled,
   numberOfChecked,
   handleDelete,
@@ -81,10 +80,13 @@ function WordlistToolbar({
               handleDelete();
               handleReset();
             }}
-            color="inherit"
+            color="secondary"
             disabled={numberOfChecked === 0}
           >
             <DeleteIcon />
+          </IconButton>
+          <IconButton disabled={numberOfChecked === 0} color="inherit">
+            <MoreHorizIcon />
           </IconButton>
         </>
       )}
@@ -92,7 +94,7 @@ function WordlistToolbar({
   );
 }
 
-WordlistToolbar.propTypes = {
+DictionaryToolbar.propTypes = {
   editingModeEnabled: PropTypes.bool.isRequired,
   numberOfChecked: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
@@ -103,4 +105,4 @@ WordlistToolbar.propTypes = {
   handleChange: PropTypes.func.isRequired
 };
 
-export default WordlistToolbar;
+export default DictionaryToolbar;

@@ -34,7 +34,12 @@ const useStyles = makeStyles(theme => ({
   button: {
     marginBottom: theme.spacing(1),
     textTransform: 'none',
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    '&:hover': {
+      '@media (hover: none)': {
+        backgroundColor: theme.palette.background.paper
+      }
+    }
   },
   buttonWithIcon: {
     paddingRight: theme.spacing(5),

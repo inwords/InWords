@@ -1,1 +1,1 @@
-export { default } from './SelectTranslateTrainingWrapper';
+export { default } from './SelectTranslateTrainingContainer';

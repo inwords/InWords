@@ -13,7 +13,7 @@ const SignUp = lazy(() => import('./pages/SignUp'));
 const Profile = lazy(() => import('./pages/Profile'));
 const ProfileSettings = lazy(() => import('./pages/ProfileSettings'));
 const Account = lazy(() => import('./pages/Account'));
-const Wordlist = lazy(() => import('./pages/Wordlist'));
+const Dictionary = lazy(() => import('./pages/Dictionary'));
 const TrainingCategories = lazy(() => import('./pages/TrainingCategories'));
 const TrainingTypes = lazy(() => import('./pages/TrainingTypes'));
 const TrainingLevels = lazy(() => import('./pages/TrainingLevels'));
@@ -52,7 +52,7 @@ function App() {
                   !userId ? (
                     <Redirect to="/signIn" />
                   ) : (
-                    <Redirect to="/wordlist" />
+                    <Redirect to="/dictionary" />
                   )
                 }
               />
@@ -66,7 +66,7 @@ function App() {
               <Route path="/profile/:userId" component={Profile} />
               <Route path="/profileSettings" component={ProfileSettings} />
               <Route path="/account" component={Account} />
-              <Route path="/wordlist" component={Wordlist} />
+              <Route path="/dictionary" component={Dictionary} />
               <Route exact path="/trainings" component={TrainingCategories} />
               <Route
                 exact
