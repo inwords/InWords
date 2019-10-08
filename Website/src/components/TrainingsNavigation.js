@@ -11,17 +11,20 @@ function TrainingsNavigation({
     params: { categoryId, trainingId, levelId }
   }
 }) {
-  if (categoryId === '0') {
-    return null;
-  }
-
   return (
     <InternalNavigation>
       {categoryId ? (
         [
-          <Link key={0} component={RouterLink} to="/trainings" color="inherit">
-            Категории
-          </Link>,
+          categoryId !== '0' && (
+            <Link
+              key={0}
+              component={RouterLink}
+              to="/trainings"
+              color="inherit"
+            >
+              Категории
+            </Link>
+          ),
           trainingId ? (
             [
               <Link
@@ -34,14 +37,16 @@ function TrainingsNavigation({
               </Link>,
               levelId ? (
                 [
-                  <Link
-                    key={2}
-                    component={RouterLink}
-                    to={`/trainings/${categoryId}/${trainingId}`}
-                    color="inherit"
-                  >
-                    Уровни
-                  </Link>,
+                  categoryId !== '0' && (
+                    <Link
+                      key={2}
+                      component={RouterLink}
+                      to={`/trainings/${categoryId}/${trainingId}`}
+                      color="inherit"
+                    >
+                      Уровни
+                    </Link>
+                  ),
                   <Typography key={3} color="textPrimary">
                     Уровень
                   </Typography>

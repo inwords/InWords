@@ -5,7 +5,6 @@ import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import StarIcon from '@material-ui/icons/Star';
-import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import ReplayIcon from '@material-ui/icons/Replay';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import Smiley from './Smiley';
@@ -60,25 +59,15 @@ function TrainingResult({
           </>
         )}
         <div>
-          {handleRedirectionToLevels && (
-            <IconButton
-              aria-label="back to levels"
-              onClick={handleRedirectionToLevels}
-            >
-              <ViewModuleIcon fontSize="large" />
-            </IconButton>
-          )}
           <IconButton aria-label="replay" onClick={handleReplay}>
             <ReplayIcon fontSize="large" />
           </IconButton>
-          {handleRedirectionToNextLevel && (
-            <IconButton
-              aria-label="next level"
-              onClick={handleRedirectionToNextLevel}
-            >
-              <FastForwardIcon fontSize="large" />
-            </IconButton>
-          )}
+          <IconButton
+            aria-label="next level"
+            onClick={handleRedirectionToNextLevel}
+          >
+            <FastForwardIcon fontSize="large" />
+          </IconButton>
         </div>
       </Paper>
     </Fade>

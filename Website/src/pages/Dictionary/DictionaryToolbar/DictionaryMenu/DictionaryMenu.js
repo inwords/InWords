@@ -13,8 +13,8 @@ function DictionaryMenu({ disabled, handleLearning }) {
   return (
     <div>
       <IconButton
-        aria-label="user account"
-        aria-controls="profile-menu"
+        aria-label="dictionary features"
+        aria-controls="dictionary-menu"
         aria-haspopup="true"
         disabled={disabled}
         onClick={handleClick}
@@ -23,7 +23,7 @@ function DictionaryMenu({ disabled, handleLearning }) {
         <MoreHorizIcon />
       </IconButton>
       <Menu
-        id="profile-menu"
+        id="dictionary-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}

@@ -6,10 +6,7 @@ import TrainingWrapper from 'components/TrainingWrapper';
 import SelectTranslateTraining from './SelectTranslateTraining';
 import TrainingResult from 'components/TrainingResult';
 
-function SelectTranslateTrainingContainer({
-  levelId,
-  wordTranslations
-}) {
+function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
   const [currentWordSet, setCurrentWordSet] = useState(undefined);

@@ -10,9 +10,7 @@ function WordlistContainer({ setEditingModeEnabled, ...rest }) {
 
   useEffect(() => {
     const getListHeight = () =>
-      window.innerHeight -
-      listRef.current.getBoundingClientRect().top -
-      16;
+      window.innerHeight - listRef.current.getBoundingClientRect().top - 16;
 
     const handleResize = () => {
       window.clearTimeout(resizingTimerRef.current);
