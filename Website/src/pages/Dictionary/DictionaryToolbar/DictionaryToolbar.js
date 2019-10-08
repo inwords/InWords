@@ -8,8 +8,8 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Search from './Search';
+import DictionaryMenu from './DictionaryMenu';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,13 +32,15 @@ const useStyles = makeStyles(theme => ({
 
 function DictionaryToolbar({
   editingModeEnabled,
-  numberOfChecked,
+  checkedValues,
   handleDelete,
   handleReset,
   inputs,
   handleChange
 }) {
   const classes = useStyles();
+
+  const numberOfChecked = checkedValues.length;
 
   return (
     <Toolbar
@@ -85,9 +87,10 @@ function DictionaryToolbar({
           >
             <DeleteIcon />
           </IconButton>
-          <IconButton disabled={numberOfChecked === 0} color="inherit">
-            <MoreHorizIcon />
-          </IconButton>
+          <DictionaryMenu
+            disabled={numberOfChecked === 0}
+            checkedValues={checkedValues}
+          />
         </>
       )}
     </Toolbar>
@@ -96,7 +99,7 @@ function DictionaryToolbar({
 
 DictionaryToolbar.propTypes = {
   editingModeEnabled: PropTypes.bool.isRequired,
-  numberOfChecked: PropTypes.number.isRequired,
+  checkedValues: PropTypes.array.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   inputs: PropTypes.exact({

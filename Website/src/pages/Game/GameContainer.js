@@ -8,7 +8,7 @@ import TrainingWrapper from 'components/TrainingWrapper';
 import Game from './Game';
 import TrainingResult from 'components/TrainingResult';
 
-function GameContainer({ levelId, wordTranslations, match }) {
+function GameContainer({ levelId, wordTranslations }) {
   const [wordsInfo, setWordsInfo] = useState([]);
   const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
   const [completedPairIdsInfo, setCompletedPairIdsInfo] = useState({});
@@ -135,7 +135,7 @@ function GameContainer({ levelId, wordTranslations, match }) {
   };
 
   return (
-    <TrainingWrapper match={match}>
+    <TrainingWrapper>
       {!isResultReady ? (
         <Game
           wordsInfo={wordsInfo}
@@ -160,8 +160,7 @@ GameContainer.propTypes = {
       wordForeign: PropTypes.string.isRequired,
       wordNative: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired,
-  match: PropTypes.object.isRequired
+  ).isRequired
 };
 
 export default withReceivedGameLevel(GameContainer);

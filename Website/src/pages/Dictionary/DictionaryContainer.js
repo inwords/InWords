@@ -64,8 +64,6 @@ function WordlistContainer() {
     [pattern, wordPairs]
   );
 
-  const currentWordPairs = !pattern ? wordPairs : filteredWordPairs;
-
   return (
     <DictionaryWrapper>
       <DictionaryToolbar
@@ -77,7 +75,7 @@ function WordlistContainer() {
       <Wordlist
         editingModeEnabled={editingModeEnabled}
         setEditingModeEnabled={setEditingModeEnabled}
-        wordPairs={currentWordPairs}
+        wordPairs={!pattern ? wordPairs : filteredWordPairs}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />

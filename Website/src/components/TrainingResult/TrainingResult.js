@@ -60,21 +60,25 @@ function TrainingResult({
           </>
         )}
         <div>
-          <IconButton
-            aria-label="back to levels"
-            onClick={handleRedirectionToLevels}
-          >
-            <ViewModuleIcon fontSize="large" />
-          </IconButton>
+          {handleRedirectionToLevels && (
+            <IconButton
+              aria-label="back to levels"
+              onClick={handleRedirectionToLevels}
+            >
+              <ViewModuleIcon fontSize="large" />
+            </IconButton>
+          )}
           <IconButton aria-label="replay" onClick={handleReplay}>
             <ReplayIcon fontSize="large" />
           </IconButton>
-          <IconButton
-            aria-label="next level"
-            onClick={handleRedirectionToNextLevel}
-          >
-            <FastForwardIcon fontSize="large" />
-          </IconButton>
+          {handleRedirectionToNextLevel && (
+            <IconButton
+              aria-label="next level"
+              onClick={handleRedirectionToNextLevel}
+            >
+              <FastForwardIcon fontSize="large" />
+            </IconButton>
+          )}
         </div>
       </Paper>
     </Fade>
@@ -83,8 +87,8 @@ function TrainingResult({
 
 TrainingResult.propTypes = {
   score: PropTypes.number,
-  handleRedirectionToLevels: PropTypes.func.isRequired,
-  handleRedirectionToNextLevel: PropTypes.func.isRequired,
+  handleRedirectionToLevels: PropTypes.func,
+  handleRedirectionToNextLevel: PropTypes.func,
   handleReplay: PropTypes.func.isRequired
 };
 

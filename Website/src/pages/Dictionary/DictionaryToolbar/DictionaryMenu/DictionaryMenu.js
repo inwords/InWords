@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
 import useMenu from 'hooks/useMenu';
 
-function ProfileMenu({ handleLogout }) {
+function DictionaryMenu({ disabled, handleLearning }) {
   const { anchorEl, handleClick, handleClose } = useMenu();
 
   return (
@@ -17,10 +16,11 @@ function ProfileMenu({ handleLogout }) {
         aria-label="user account"
         aria-controls="profile-menu"
         aria-haspopup="true"
+        disabled={disabled}
         onClick={handleClick}
         color="inherit"
       >
-        <AccountCircleIcon />
+        <MoreHorizIcon />
       </IconButton>
       <Menu
         id="profile-menu"
@@ -29,30 +29,25 @@ function ProfileMenu({ handleLogout }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem component={Link} to="/profile" onClick={handleClose}>
-          Профиль
-        </MenuItem>
-        <MenuItem component={Link} to="/account" onClick={handleClose}>
-          Аккаунт
-        </MenuItem>
-        <Divider />
         <MenuItem
           component={Link}
-          to="/signIn"
+          to="/trainings/0"
           onClick={() => {
-            handleLogout();
+            handleLearning();
             handleClose();
           }}
         >
-          Выйти
+          Изучение
         </MenuItem>
+        ,
       </Menu>
     </div>
   );
 }
 
-ProfileMenu.propTypes = {
-  handleLogout: PropTypes.func.isRequired
+DictionaryMenu.propTypes = {
+  handleLearning: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
-export default ProfileMenu;
+export default DictionaryMenu;

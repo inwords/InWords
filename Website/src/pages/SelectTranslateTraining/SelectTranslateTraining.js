@@ -83,7 +83,7 @@ function SelectTranslateTraining({
       <div className={classes.root}>
         <Paper className={classes.header}>
           <Typography component="span" variant="h6">
-            {primaryWord}
+            {primaryWord || '-'}
           </Typography>
           <IconButton
             aria-label="next"
@@ -131,7 +131,7 @@ function SelectTranslateTraining({
                   [classes.buttonWithIcon]: Boolean(icon)
                 })}
               >
-                {word}
+                {word || '-'}
                 {icon}
               </Button>
             </LightTooltip>

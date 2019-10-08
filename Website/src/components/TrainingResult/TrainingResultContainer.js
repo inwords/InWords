@@ -7,22 +7,24 @@ import TrainingResult from './TrainingResult';
 function TrainingResultContainer({ history, match, ...rest }) {
   const { levelsInfo } = useSelector(store => store.games.gameInfo);
 
+  const paramLevelId = +match.params.levelId;
+  const paramCategoryId = +match.params.categoryId;
+  const paramTrainingId = +match.params.trainingId;
+
   const handleRedirectionToLevels = () => {
-    history.push(
-      `/trainings/${match.params.categoryId}/${match.params.trainingId}`
-    );
+    history.push(`/trainings/${paramCategoryId}/${paramTrainingId}`);
   };
 
   const handleRedirectionToNextLevel = () => {
     const levelIndex = levelsInfo.findIndex(
-      levelInfo => levelInfo.levelId === +match.params.levelId
+      levelInfo => levelInfo.levelId === paramLevelId
     );
 
     if (levelIndex !== -1) {
       const nextLevelIndex = levelIndex + 1;
       if (levelsInfo[nextLevelIndex]) {
         history.push(
-          `/trainings/${match.params.categoryId}/${match.params.trainingId}/${levelsInfo[nextLevelIndex].levelId}`
+          `/trainings/${paramCategoryId}/${paramTrainingId}/${levelsInfo[nextLevelIndex].levelId}`
         );
       } else {
         handleRedirectionToLevels();
@@ -34,8 +36,12 @@ function TrainingResultContainer({ history, match, ...rest }) {
 
   return (
     <TrainingResult
-      handleRedirectionToLevels={handleRedirectionToLevels}
-      handleRedirectionToNextLevel={handleRedirectionToNextLevel}
+      handleRedirectionToLevels={
+        paramLevelId !== 0 ? handleRedirectionToLevels : null
+      }
+      handleRedirectionToNextLevel={
+        paramLevelId !== 0 ? handleRedirectionToNextLevel : null
+      }
       {...rest}
     />
   );

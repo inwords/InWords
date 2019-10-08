@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import InternalNavigation from 'components/InternalNavigation';
@@ -10,6 +11,10 @@ function TrainingsNavigation({
     params: { categoryId, trainingId, levelId }
   }
 }) {
+  if (categoryId === '0') {
+    return null;
+  }
+
   return (
     <InternalNavigation>
       {categoryId ? (
@@ -66,4 +71,4 @@ TrainingsNavigation.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default memo(TrainingsNavigation);
+export default memo(withRouter(TrainingsNavigation));

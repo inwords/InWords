@@ -14,7 +14,7 @@ function withReceivedGameLevel(WrappedComponent) {
     const paramLevelId = +match.params.levelId;
 
     useEffect(() => {
-      if (levelId !== paramLevelId) {
+      if (levelId !== paramLevelId && paramLevelId !== 0) {
         dispatch(receiveGameLevelAction(paramLevelId));
       }
     }, [levelId, paramLevelId, dispatch]);
@@ -24,7 +24,6 @@ function withReceivedGameLevel(WrappedComponent) {
         <WrappedComponent
           levelId={levelId}
           wordTranslations={wordTranslations}
-          match={match}
           {...rest}
         />
       )

@@ -38,7 +38,7 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
 
   return (
     <DictionaryToolbar
-      numberOfChecked={checkedValues.length}
+      checkedValues={checkedValues}
       handleDelete={handleDelete}
       inputs={inputs}
       handleChange={handleChange}

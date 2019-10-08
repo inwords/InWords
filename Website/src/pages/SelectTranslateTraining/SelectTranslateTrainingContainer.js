@@ -8,8 +8,7 @@ import TrainingResult from 'components/TrainingResult';
 
 function SelectTranslateTrainingContainer({
   levelId,
-  wordTranslations,
-  match
+  wordTranslations
 }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
@@ -139,7 +138,7 @@ function SelectTranslateTrainingContainer({
   };
 
   return (
-    <TrainingWrapper match={match}>
+    <TrainingWrapper>
       {!isResultReady ? (
         <SelectTranslateTraining
           currentWordSet={currentWordSet}
@@ -165,8 +164,7 @@ SelectTranslateTrainingContainer.propTypes = {
       wordForeign: PropTypes.string.isRequired,
       wordNative: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired,
-  match: PropTypes.object.isRequired
+  ).isRequired
 };
 
 export default withReceivedGameLevel(SelectTranslateTrainingContainer);

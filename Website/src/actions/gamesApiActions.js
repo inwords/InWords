@@ -12,7 +12,7 @@ export function receiveGamesInfo() {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить игры' }));
+        dispatch(setSnackbar({ text: 'Не удалось загрузить категорию' }));
       }
     ]
   });
@@ -28,7 +28,7 @@ export function receiveGameInfo(gameId) {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить игру' }));
+        dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
       }
     ]
   });
