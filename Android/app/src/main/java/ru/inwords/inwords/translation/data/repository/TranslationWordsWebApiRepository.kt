@@ -1,4 +1,4 @@
-package ru.inwords.inwords.translation.data.translation
+package ru.inwords.inwords.translation.data.repository
 
 import io.reactivex.Completable
 import io.reactivex.Single

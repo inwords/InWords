@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.inwords.inwords.App
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import java.lang.reflect.Type
@@ -45,5 +46,17 @@ class RoomTypeConverter {
 
     private fun <T> toList(str: String, type: Type): List<T> { //TODO KOTLIN SHIT WITH TYPES
         return gson.fromJson(str, type)
+    }
+}
+
+class RoomDeferredEntryManagerStatusConverter {
+    @TypeConverter
+    fun fromStatus(status: Status): String {
+        return status.name
+    }
+
+    @TypeConverter
+    fun toStatus(name: String): Status {
+        return Status.valueOf(name)
     }
 }

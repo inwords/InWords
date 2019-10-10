@@ -14,13 +14,11 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 import ru.inwords.inwords.translation.data.bean.WordTranslation
-import ru.inwords.inwords.translation.domain.interactor.TranslationSyncInteractor
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 import java.util.Collections.singletonList
 import java.util.concurrent.TimeUnit
 
 class TranslationMainViewModel(private val translationWordsInteractor: TranslationWordsInteractor,
-                               private val translationSyncInteractor: TranslationSyncInteractor,
                                private val ttsRepository: TtsRepository) : BasicViewModel() {
     private var onEditClickedDisposable: Disposable? = null
     private var onSpeakerClickedDisposable: Disposable? = null
@@ -32,11 +30,11 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
     private val filterSubject = BehaviorSubject.createDefault("")
 
     val translationWordsStream: Observable<List<WordTranslation>> = Observable.combineLatest(
-            translationWordsInteractor.getAllWords()
-                    .map { list -> list.sortedBy { it.wordForeign } },
-            filterSubject,
-            BiFunction { t1: List<WordTranslation>, t2: String -> filter(t1, t2) })
-            .observeOn(SchedulersFacade.computation())
+        translationWordsInteractor.getAllWords()
+            .map { list -> list.sortedBy { it.wordForeign } },
+        filterSubject,
+        BiFunction { t1: List<WordTranslation>, t2: String -> filter(t1, t2) })
+        .observeOn(SchedulersFacade.computation())
 
     val addEditWordLiveData: LiveData<Event<WordTranslation>> = addEditWordMutableLiveData
     val ttsStream: Observable<Resource<String>> = ttsSubject
@@ -47,31 +45,31 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
     }
 
     fun onItemDismiss(wordTranslation: WordTranslation) = translationWordsInteractor.remove(wordTranslation)
-            .subscribe({ }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
-            .autoDispose()
+        .subscribe({ }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+        .autoDispose()
 
     fun onItemsDismiss(wordTranslations: List<WordTranslation>) = translationWordsInteractor.removeAll(wordTranslations)
-            .subscribe({ }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
-            .autoDispose()
+        .subscribe({ }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+        .autoDispose()
 
     fun onItemDismissUndo(wordTranslation: WordTranslation) = translationWordsInteractor.addReplace(wordTranslation)
-            .subscribe({ translationSyncInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
-            .autoDispose()
+        .subscribe({ translationWordsInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+        .autoDispose()
 
 
     fun onItemsDismissUndo(wordTranslations: List<WordTranslation>) = translationWordsInteractor.addReplaceAll(wordTranslations)
-            .subscribe({ translationSyncInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
-            .autoDispose()
+        .subscribe({ translationWordsInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+        .autoDispose()
 
     fun onConfirmItemDismiss(wordTranslation: WordTranslation) = onConfirmItemsDismiss(singletonList(wordTranslation))
 
     fun onConfirmItemsDismiss(wordTranslations: List<WordTranslation>) {
-        translationSyncInteractor.notifyDataChanged()
+        translationWordsInteractor.notifyDataChanged()
 
         ttsRepository.forget(wordTranslations.map { it.wordForeign }) //TODO get wordForeign not here
-                .subscribeOn(SchedulersFacade.io())
-                .subscribe({}, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
-                .autoDispose()
+            .subscribeOn(SchedulersFacade.io())
+            .subscribe({}, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+            .autoDispose()
     }
 
     fun onAddClicked() { //fab clicked
@@ -82,28 +80,28 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
         onEditClickedDisposable?.dispose()
 
         onEditClickedDisposable = clicksObservable
-                .debounce(200, TimeUnit.MILLISECONDS)
-                .subscribe { addEditWordMutableLiveData.postValue(Event(it)) }
-                .autoDispose()
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .subscribe { addEditWordMutableLiveData.postValue(Event(it)) }
+            .autoDispose()
     }
 
     fun onSpeakerClickedHandler(speakerObservable: Observable<WordTranslation>) {
         onSpeakerClickedDisposable?.dispose()
 
         onSpeakerClickedDisposable = speakerObservable
-                .debounce(200, TimeUnit.MILLISECONDS)
-                .switchMapSingle { wordTranslation ->
-                    ttsRepository.synthesize(wordTranslation.wordForeign)
-                            .subscribeOn(SchedulersFacade.io())
-                            .map { Resource.Success(it.absolutePath) as Resource<String> }
-                            .onErrorReturn { Resource.Error(it.message, it) }
-                }
-                .subscribe({
-                    ttsSubject.onNext(it)
-                }, {
-                    Log.e(javaClass.simpleName, it.message.orEmpty())
-                })
-                .autoDispose()
+            .debounce(200, TimeUnit.MILLISECONDS)
+            .switchMapSingle { wordTranslation ->
+                ttsRepository.synthesize(wordTranslation.wordForeign)
+                    .subscribeOn(SchedulersFacade.io())
+                    .map { Resource.Success(it.absolutePath) as Resource<String> }
+                    .onErrorReturn { Resource.Error(it.message, it) }
+            }
+            .subscribe({
+                ttsSubject.onNext(it)
+            }, {
+                Log.e(javaClass.simpleName, it.message.orEmpty())
+            })
+            .autoDispose()
     }
 
     private fun filter(list: List<WordTranslation>, filter: String): List<WordTranslation> {

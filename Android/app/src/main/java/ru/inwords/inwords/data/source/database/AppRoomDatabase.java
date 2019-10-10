@@ -15,11 +15,23 @@ import ru.inwords.inwords.game.data.source.LevelScoreRequestDao;
 import ru.inwords.inwords.profile.data.bean.User;
 import ru.inwords.inwords.profile.data.source.UserDao;
 import ru.inwords.inwords.translation.data.bean.WordTranslation;
+import ru.inwords.inwords.translation.data.deferred.LocalWordTranslationEntriesListDao;
+import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredEntry;
 import ru.inwords.inwords.translation.data.source.WordTranslationDao;
 
-@TypeConverters(RoomTypeConverter.class)
-@Database(entities = {WordTranslation.class, User.class,
-        Game.class, GameLevel.class, GameInfo.class, LevelScoreRequest.class}, version = 2)
+@TypeConverters(value = {
+        RoomTypeConverter.class,
+        RoomDeferredEntryManagerStatusConverter.class
+})
+@Database(entities = {
+        WordTranslation.class,
+        User.class,
+        Game.class,
+        GameLevel.class,
+        GameInfo.class,
+        LevelScoreRequest.class,
+        WordTranslationDeferredEntry.class
+}, version = 2)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract WordTranslationDao wordTranslationDao();
@@ -33,4 +45,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
     public abstract GameInfoDao gameInfoDao();
 
     public abstract LevelScoreRequestDao levelScoreRequestDao();
+
+    public abstract LocalWordTranslationEntriesListDao localWordTranslationEntriesListDao();
+
 }

@@ -7,11 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.translation.data.bean.WordTranslation
-import ru.inwords.inwords.translation.domain.interactor.TranslationSyncInteractor
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 
-class AddEditWordViewModel(private val translationWordsInteractor: TranslationWordsInteractor,
-                           private val translationSyncInteractor: TranslationSyncInteractor) : BasicViewModel() {
+class AddEditWordViewModel(private val translationWordsInteractor: TranslationWordsInteractor) : BasicViewModel() {
     private val addEditDoneMutableLiveData: MutableLiveData<Event<Unit>> = MutableLiveData()
 
     val addEditDoneLiveData: LiveData<Event<Unit>> get() = addEditDoneMutableLiveData
@@ -34,7 +32,7 @@ class AddEditWordViewModel(private val translationWordsInteractor: TranslationWo
                 translationWordsInteractor.update(wordToEdit, word)
             }
             action.subscribe({
-                translationSyncInteractor.notifyDataChanged()
+                translationWordsInteractor.notifyDataChanged()
             }, {
                 Log.e(this.javaClass.simpleName, it.message.orEmpty())
             })

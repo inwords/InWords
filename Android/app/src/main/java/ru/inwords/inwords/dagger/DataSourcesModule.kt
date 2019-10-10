@@ -65,22 +65,22 @@ class DataSourcesModule {
     @Singleton
     @UnauthorisedZone
     fun provideOkHttpClientUnauthorised(): OkHttpClient {
-        return provideOkHttpBuilder()
-            .build()
+        return provideBasicOkHttp()
     }
 
     @Provides
     @Singleton
     @AuthorisedZone
-    fun provideOkHttpClient(authenticator: BasicAuthenticator,
+    fun provideOkHttpClient(@UnauthorisedZone okHttpClient: OkHttpClient,
+                            authenticator: BasicAuthenticator,
                             tokenInterceptor: TokenInterceptor): OkHttpClient {
-        return provideOkHttpBuilder()
+        return okHttpClient.newBuilder() //so that it shares cache etc
             .addInterceptor(tokenInterceptor)
             .authenticator(authenticator)
             .build()
     }
 
-    private fun provideOkHttpBuilder(): OkHttpClient.Builder {
+    private fun provideBasicOkHttp(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG)
                 HttpLoggingInterceptor.Level.BODY
@@ -89,6 +89,7 @@ class DataSourcesModule {
             .connectTimeout(40, TimeUnit.SECONDS)
             .readTimeout(40, TimeUnit.SECONDS)
             .writeTimeout(40, TimeUnit.SECONDS)
+            .build()
     }
 
     @Provides

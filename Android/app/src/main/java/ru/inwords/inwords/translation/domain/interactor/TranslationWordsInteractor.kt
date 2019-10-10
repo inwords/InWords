@@ -17,5 +17,11 @@ interface TranslationWordsInteractor {
 
     fun update(oldWord: WordTranslation, newWord: WordTranslation): Completable
 
+    fun presyncOnStart(forceUpdate: Boolean = false): Completable
+
+    fun trySyncAllReposWithCache(): Completable
+
+    fun notifyDataChanged()
+
     fun clearCache()
 }

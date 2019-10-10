@@ -40,15 +40,15 @@ class MainActivity : DaggerAppCompatActivity() {
         setupBottomNavMenu(navController)
 
         keyboardStatusDisposable = KeyboardManager(this).status()
-                .subscribe {
-                    if (!stoppedKeyboardListener) {
-                        @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
-                        when (it) {
-                            KeyboardStatus.OPEN -> hideNavigation(true)
-                            KeyboardStatus.CLOSED -> showNavigation(true)
-                        }
+            .subscribe {
+                if (!stoppedKeyboardListener) {
+                    @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
+                    when (it) {
+                        KeyboardStatus.OPEN -> hideNavigation(true)
+                        KeyboardStatus.CLOSED -> showNavigation(true)
                     }
                 }
+            }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -62,6 +62,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     override fun onDestroy() {
         keyboardStatusDisposable?.dispose()
+
         super.onDestroy()
     }
 
@@ -106,7 +107,7 @@ class MainActivity : DaggerAppCompatActivity() {
         if (resultCode != ConnectionResult.SUCCESS) {
             if (apiAvailability.isUserResolvableError(resultCode)) {
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show()
+                    .show()
             } else {
                 Log.i(TAG, "This device is not supported.")
                 finish()

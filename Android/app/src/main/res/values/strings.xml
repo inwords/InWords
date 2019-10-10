@@ -70,11 +70,10 @@
     <!-- home start -->
     <string name="avatar">Аватар</string>
     <string name="dictionary_title">Ваш словарь</string>
-    <string name="words_in_dictionary">В вашем словаре %1$d слов</string>
     <string name="error_text_placeholder">Не удалось загрузить данные</string>
     <string name="loading_text_placeholder">Загрузка профиля</string>
     <string name="sign_up_proposal">Создайте аккаунт, чтобы использовать больше возможностей приложения</string>
-    <string name="user_experience">Ваш опыт на сегодня: %1$d</string>
+    <string name="user_experience">Опыт на сегодня: %1$d</string>
     <string name="choose_game">Выберите игру</string>
     <string name="game_remove">Удалить</string>
     <string name="accessibility_navigate_home">Navigate home</string>
@@ -83,6 +82,15 @@
     <string name="rating_not_loaded">Ваш рейтинг будет обновлён позднее :)</string>
     <string name="start_game_button_text">Поплыли!</string>
     <string name="unable_to_load_voice">Не удалось загрузить озвучку</string>
+
+    <plurals name="words_in_dictionary">
+        <item quantity="zero">В словаре %1$d слов</item>
+        <item quantity="one">В словаре %1$d слово</item>
+        <item quantity="two">В словаре %1$d слова</item>
+        <item quantity="few">В словаре %1$d слова</item>
+        <item quantity="many">В словаре %1$d слов</item>
+        <item quantity="other">В словаре %1$d слов</item>
+    </plurals>
     <!-- home end -->
 
     <!-- profile start -->
