@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import Button from 'components/Button';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
@@ -53,18 +53,18 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
           />
           <Grid
             container
-            justify="flex-end"
-            spacing={2}
+            justify="flex-start"
+            spacing={1}
             className={classes.actions}
           >
             <Grid item>
-              <Button component={Link} to="/profile" color="primary">
-                Отмена
+              <Button type="submit" color="primary">
+                Сохранить
               </Button>
             </Grid>
             <Grid item>
-              <Button type="submit" variant="contained" color="primary">
-                Сохранить
+              <Button component={Link} to="/profile">
+                Отмена
               </Button>
             </Grid>
           </Grid>

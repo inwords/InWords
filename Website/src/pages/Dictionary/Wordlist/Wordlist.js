@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import WordPairRow from './WordPairRow';
 
 function Wordlist({
@@ -16,28 +15,25 @@ function Wordlist({
   handleToggle
 }) {
   return (
-    <>
-      <Divider />
-      <FixedSizeList
-        height={listHeight}
-        width="100%"
-        outerRef={listRef}
-        outerElementType={List}
-        itemCount={wordPairs.length}
-        itemData={{
-          wordPairs,
-          checkedValues,
-          handleToggle,
-          editingModeEnabled,
-          handlePressButton,
-          handleReleaseButton
-        }}
-        itemSize={60}
-        onScroll={handleReleaseButton}
-      >
-        {WordPairRow}
-      </FixedSizeList>
-    </>
+    <FixedSizeList
+      height={listHeight}
+      width="100%"
+      outerRef={listRef}
+      outerElementType={List}
+      itemCount={wordPairs.length}
+      itemData={{
+        wordPairs,
+        checkedValues,
+        handleToggle,
+        editingModeEnabled,
+        handlePressButton,
+        handleReleaseButton
+      }}
+      itemSize={60}
+      onScroll={handleReleaseButton}
+    >
+      {WordPairRow}
+    </FixedSizeList>
   );
 }
 

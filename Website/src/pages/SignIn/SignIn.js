@@ -7,11 +7,11 @@ import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import TextField from 'components/TextField';
+import Button from 'components/Button';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -26,10 +26,15 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main
   },
   form: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    width: "100%",
+  },
+  formField: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0)
+    margin: theme.spacing(2, 0)
   },
   links: {
     marginTop: theme.spacing(2)
@@ -58,9 +63,8 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             value={inputs.email}
             onChange={handleChange}
             required
-            variant="outlined"
-            margin="normal"
             fullWidth
+            className={classes.formField}
           />
           <TextField
             id="password"
@@ -71,15 +75,15 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             value={inputs.password}
             onChange={handleChange}
             required
-            variant="outlined"
-            margin="normal"
             fullWidth
+            className={classes.formField}
           />
+          {/* <label htmlFor="email3">Email</label>
+          <Input id="email3" type="email" placeholder="email" /> */}
           <Button
             type="submit"
-            fullWidth
-            variant="contained"
             color="primary"
+            fullWidth
             className={classes.submit}
           >
             Войти

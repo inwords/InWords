@@ -1,0 +1,63 @@
+@import 'theme/theme';
+
+.text-field {
+  position: relative;
+}
+
+.text-field__label {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+  padding: 0 4px;
+  color: #9e9e9e;
+  font-family: inherit;
+  font-size: 16px;
+  background-color: #fff;
+  pointer-events: none;
+  transition: all 0.15s ease;
+
+  &--elevated {
+    top: -8px;
+    font-size: 13px;
+  }
+
+  &--active {
+    color: theme-prop-value(primary);
+  }
+}
+
+.text-field__input {
+  display: block;
+  border: 1px solid #a4a4a4;
+  padding: 16px 12px;
+  font-family: inherit;
+  font-size: 16px;
+  transition: border-color 0.15s ease;
+
+  &::-webkit-input-placeholder {
+    color: transparent;
+  }
+  &::-moz-placeholder {
+    color: transparent;
+  }
+  &:-ms-input-placeholder {
+    color: transparent;
+  }
+  &::-ms-input-placeholder {
+    color: transparent;
+  }
+
+  &:hover {
+    border-color: #494949;
+  }
+
+  &:focus {
+    outline: 2px solid theme-prop-value(primary);
+    outline-offset: -2px;
+    border-color: theme-prop-value(primary);
+  }
+
+  &--full-width {
+    width: 100%
+  }
+}

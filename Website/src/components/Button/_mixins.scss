@@ -1,0 +1,23 @@
+@import 'theme/theme';
+
+@mixin button-style($style) {
+  $color: theme-prop-value(on-#{$style});
+  $background-color: theme-prop-value($style);
+
+  color: $color;
+  background-color: $background-color;
+
+  &:hover,
+  &:focus {
+    background-color: darken($background-color, 5%);
+  }
+
+  &:focus::before {
+    border-color: lighten($background-color, 5%);
+  }
+
+  &:disabled {
+    color: transparentize($color, 0.4);
+    background-color: transparentize($background-color, 0.4);
+  }
+}

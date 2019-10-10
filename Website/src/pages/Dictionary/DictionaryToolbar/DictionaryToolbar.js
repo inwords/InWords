@@ -8,6 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Divider from '@material-ui/core/Divider';
 import Search from './Search';
 import DictionaryMenu from './DictionaryMenu';
 
@@ -43,57 +44,60 @@ function DictionaryToolbar({
   const numberOfChecked = checkedValues.length;
 
   return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.active]: editingModeEnabled
-      })}
-    >
-      {!editingModeEnabled ? (
-        <>
-          <Hidden xsDown>
+    <>
+      <Toolbar
+        className={clsx(classes.root, {
+          [classes.active]: editingModeEnabled
+        })}
+      >
+        {!editingModeEnabled ? (
+          <>
+            <Hidden xsDown>
+              <div className={classes.title}>
+                <Typography component="h1" variant="h6">
+                  Словарь
+                </Typography>
+              </div>
+              <div className={classes.spacer} />
+            </Hidden>
+            <Search value={inputs.pattern} onChange={handleChange} />
+          </>
+        ) : (
+          <>
+            <IconButton
+              aria-label="clear selection"
+              onClick={handleReset}
+              color="inherit"
+              className={classes.closeButton}
+            >
+              <CloseIcon />
+            </IconButton>
             <div className={classes.title}>
-              <Typography component="h1" variant="h6">
-                Словарь
+              <Typography component="h2" variant="h6">
+                Выбрано: {numberOfChecked}
               </Typography>
             </div>
             <div className={classes.spacer} />
-          </Hidden>
-          <Search value={inputs.pattern} onChange={handleChange} />
-        </>
-      ) : (
-        <>
-          <IconButton
-            aria-label="clear selection"
-            onClick={handleReset}
-            color="inherit"
-            className={classes.closeButton}
-          >
-            <CloseIcon />
-          </IconButton>
-          <div className={classes.title}>
-            <Typography component="h2" variant="h6">
-              Выбрано: {numberOfChecked}
-            </Typography>
-          </div>
-          <div className={classes.spacer} />
-          <IconButton
-            aria-label="delete"
-            onClick={() => {
-              handleDelete();
-              handleReset();
-            }}
-            color="secondary"
-            disabled={numberOfChecked === 0}
-          >
-            <DeleteIcon />
-          </IconButton>
-          <DictionaryMenu
-            disabled={numberOfChecked === 0}
-            checkedValues={checkedValues}
-          />
-        </>
-      )}
-    </Toolbar>
+            <IconButton
+              aria-label="delete"
+              onClick={() => {
+                handleDelete();
+                handleReset();
+              }}
+              color="secondary"
+              disabled={numberOfChecked === 0}
+            >
+              <DeleteIcon />
+            </IconButton>
+            <DictionaryMenu
+              disabled={numberOfChecked === 0}
+              checkedValues={checkedValues}
+            />
+          </>
+        )}
+      </Toolbar>
+      <Divider />
+    </>
   );
 }
 

@@ -1,0 +1,58 @@
+@import 'theme/theme';
+@import './mixins';
+
+.button {
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border: 2px solid transparent;
+  min-width: 120px;
+  padding: 9px 12px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &::before {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    border: 1px solid transparent;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 8px 0 theme-prop-value(shadow);
+  }
+
+  &:focus {
+    border-color: #000;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &--color--default {
+    @include button-style(default);
+  }
+
+  &--color--primary {
+    @include button-style(primary);
+  }
+
+  &--full-width {
+    width: 100%
+  }
+}

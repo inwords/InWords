@@ -1,0 +1,5 @@
+@import './variables';
+
+@function theme-prop-value($style) {
+  @return map-get($theme-property-values, $style);
+}
