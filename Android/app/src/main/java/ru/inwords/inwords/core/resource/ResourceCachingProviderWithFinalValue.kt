@@ -2,67 +2,60 @@ package ru.inwords.inwords.core.resource
 
 import android.annotation.SuppressLint
 import android.util.Log
+import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.Subject
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import java.io.InterruptedIOException
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * @property databaseInserter not wrapped as resource: calling onError if error
- * @property databaseGetter not wrapped as resource: calling onError if no items
+ * @property finalValueProvider not wrapped as resource: calling onError if no items
  * @property remoteDataProvider same rules
- * @property prefetchFromDatabase whether or not fetch data from database directly before remote
  */
-internal class ResourceCachingProvider<T : Any>(
-    private val databaseInserter: (T) -> Single<T>, //should be interface getAll insertAll only
-    private val databaseGetter: () -> Single<T>, //should be interface getAll insertAll only
-    private val remoteDataProvider: () -> Single<T>, //null if not prefetch
-    private val prefetchFromDatabase: Boolean = false
+internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
+    private val databaseInserter: (T) -> Completable, //should be interface getAll insertAll only
+    private val finalValueProvider: () -> Single<V>,
+    private val remoteDataProvider: () -> Single<T>
 ) {
-    private val askForContentStream: Subject<Unit> = PublishSubject.create()
-    private val fakeRemoteStream: Subject<Resource<T>> = PublishSubject.create()
+    private val askForContentStream = PublishSubject.create<Unit>()
 
-    private val resourceStream: Subject<Resource<T>> = BehaviorSubject.create()
+    private val askForFinalValue = BehaviorSubject.createDefault(Unit)
+
+    private val resourceStream = BehaviorSubject.create<Resource<V>>()
 
     private var shouldAskForUpdate = AtomicBoolean(false)
     private var inProgress = AtomicBoolean(false)
-
-    private val remoteObservable = if (prefetchFromDatabase) {
-        databaseGetter().flatMapMaybe { remoteDataProvider().wrapNetworkResource() }
-    } else {
-        remoteDataProvider().wrapNetworkResource()
-    }
 
     init {
         askForContentStream //TODO loading state emit somewhere
             .observeOn(SchedulersFacade.io())
             .doOnNext { inProgress.set(true) }
-            .switchMap {
-                fakeRemoteStream.mergeWith(remoteObservable
-                    .subscribeOn(SchedulersFacade.io()))
+            .switchMapMaybe {
+                remoteDataProvider()
+                    .subscribeOn(SchedulersFacade.io())
+                    .wrapNetworkResource()
             }
             .flatMapSingle { res ->
                 when (res) {
                     is Resource.Success -> databaseInserter(res.data)
                         .doOnError { Log.e(TAG, it.message.orEmpty()) }
-                        .wrapResourceOverwriteError(res)
+                        .onErrorComplete()
+                        .andThen(Single.just(res))
                     is Resource.Loading -> Single.just(res)
-                    is Resource.Error -> {
-                        Log.e(TAG, res.message.orEmpty())
-                        databaseGetter().wrapResource()
-                    }
+                    is Resource.Error -> Single.just(res)
                 }
             }
             .doOnNext {
                 shouldAskForUpdate.set(it is Resource.Error)
                 inProgress.set(false)
             }
+            .flatMap { askForFinalValue.flatMapSingle { finalValueProvider().wrapResource() } }
             .subscribe(resourceStream)
 
         askForContentUpdate()
@@ -74,20 +67,15 @@ internal class ResourceCachingProvider<T : Any>(
         askDirectForContentUpdate()
     }
 
+    fun askForFinalValue() {
+        askForFinalValue.onNext(Unit)
+    }
+
     fun invalidateContent() {
         shouldAskForUpdate.set(true)
     }
 
-    fun askForDatabaseContent() {
-        val t = Throwable("askForDatabaseContent")
-        fakeRemoteStream.onNext(Resource.Error(t.message, t))
-    }
-
-    fun postOnLoopback(value: T) {
-        fakeRemoteStream.onNext(Resource.Success(value))
-    }
-
-    fun observe(forceUpdate: Boolean = false): Observable<Resource<T>> {
+    fun observe(forceUpdate: Boolean = false): Observable<Resource<V>> {
         return if (forceUpdate || shouldAskForUpdate.compareAndSet(true, false)) {
             val resourceStream = if (inProgress.get()) {
                 this.resourceStream
@@ -105,11 +93,6 @@ internal class ResourceCachingProvider<T : Any>(
         askForContentStream.onNext(Unit)
     }
 
-    private fun Single<T>.wrapResourceOverwriteError(onErrorResource: Resource<T>): Single<Resource<T>> {
-        return map { Resource.Success(it) as Resource<T> }
-            .onErrorReturn { onErrorResource }
-    }
-
     private fun <T : Any> Single<T>.wrapNetworkResource(): Maybe<Resource<T>> {
         return map { Resource.Success(it) as Resource<T> }
             .toMaybe()
@@ -123,17 +106,22 @@ internal class ResourceCachingProvider<T : Any>(
             })
     }
 
-    class Locator<T : Any>(private val factory: (Int) -> ResourceCachingProvider<T>) {
-        @SuppressLint("UseSparseArrays")
-        private val cachingProvidersMap = HashMap<Int, ResourceCachingProvider<T>>()
+    private fun Single<V>.wrapResource(): Single<Resource<V>> {
+        return map { Resource.Success(it) as Resource<V> }
+            .onErrorReturn { Resource.Error(it.message, it) }
+    }
 
-        fun get(id: Int): ResourceCachingProvider<T> {
+    class Locator<T : Any, V : Any>(private val factory: (Int) -> ResourceCachingProviderWithFinalValue<T, V>) {
+        @SuppressLint("UseSparseArrays")
+        private val cachingProvidersMap = HashMap<Int, ResourceCachingProviderWithFinalValue<T, V>>()
+
+        fun get(id: Int): ResourceCachingProviderWithFinalValue<T, V> {
             synchronized(cachingProvidersMap) {
                 return cachingProvidersMap.getOrPut(id) { factory(id) }
             }
         }
 
-        fun getDefault(): ResourceCachingProvider<T> {
+        fun getDefault(): ResourceCachingProviderWithFinalValue<T, V> {
             return get(Int.MAX_VALUE)
         }
 
@@ -147,9 +135,4 @@ internal class ResourceCachingProvider<T : Any>(
     companion object {
         const val TAG: String = "ResourceCachingProvider"
     }
-}
-
-fun <T : Any> Single<T>.wrapResource(): Single<Resource<T>> {
-    return map { Resource.Success(it) as Resource<T> }
-        .onErrorReturn { Resource.Error(it.message, it) }
 }

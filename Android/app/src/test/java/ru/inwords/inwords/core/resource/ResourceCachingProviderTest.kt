@@ -39,11 +39,12 @@ internal class ResourceCachingProviderTest {
                 }
             }, //by id local
             {
-                str.append(1)
-                val s = str.toString()
-                println("remote get $s")
-                i[0]++
                 Single.create {
+                    str.append(1)
+                    val s = str.toString()
+                    println("remote get $s")
+                    i[0]++
+
                     try {
                         Thread.sleep(1000)
                         println("remote got $s")
@@ -61,13 +62,13 @@ internal class ResourceCachingProviderTest {
         val subject = PublishSubject.create<Resource<String>>()
         subject.subscribe { println("value $it") }
         subject.toFlowable(BackpressureStrategy.MISSING)
-                .subscribe(subscriber)
+            .subscribe(subscriber)
 
         Thread.sleep(50)
         println("1")
         provider.observe(true)
-                .observeOn(SchedulersFacade.io())
-                .subscribe { subject.onNext(it) }
+            .observeOn(SchedulersFacade.io())
+            .subscribe { subject.onNext(it) }
 
         Thread.sleep(50)
 //        subscriber.awaitCount(1, {}, 100)
@@ -78,29 +79,29 @@ internal class ResourceCachingProviderTest {
 
         println("2")
         provider.observe()
-                .observeOn(SchedulersFacade.io())
-                .subscribe { subject.onNext(it) }
+            .observeOn(SchedulersFacade.io())
+            .subscribe { subject.onNext(it) }
 
         Thread.sleep(50)
         println("3")
 
         provider.observe()
-                .observeOn(SchedulersFacade.io())
-                .subscribe { subject.onNext(it) }
+            .observeOn(SchedulersFacade.io())
+            .subscribe { subject.onNext(it) }
 
         Thread.sleep(50)
         println("4")
         provider.observe()
-                .observeOn(SchedulersFacade.io())
-                .subscribe { subject.onNext(it) }
+            .observeOn(SchedulersFacade.io())
+            .subscribe { subject.onNext(it) }
 
         val strr = "Remote val" + 11
 
         subscriber.awaitCount(4)
-                .assertNoErrors()
-                .assertValueCount(4)
-                .assertValueSet(setOf(Resource.Success(strr), Resource.Success(strr), Resource.Success(strr), Resource.Success(strr)))
-                .assertNotTerminated()
+            .assertNoErrors()
+            .assertValueCount(4)
+            .assertValueSet(setOf(Resource.Success(strr)))
+            .assertNotTerminated()
 
         assert(i[0] == 2)
         assert(localRepo.size == 1)
@@ -116,13 +117,13 @@ internal class ResourceCachingProviderTest {
             { Single.just(str) }) //by id remote
 
         provider.observe()
-                .test()
-                .awaitCount(1)
-                .assertNoErrors()
-                .assertValue { it is Resource.Success }
-                .assertValue { (it as Resource.Success).data == str }
-                .assertValueCount(1)
-                .assertNotTerminated()
+            .test()
+            .awaitCount(1)
+            .assertNoErrors()
+            .assertValue { it is Resource.Success }
+            .assertValue { (it as Resource.Success).data == str }
+            .assertValueCount(1)
+            .assertNotTerminated()
 
         assert(localRepo[id] == str)
         assert(localRepo.size == 1)
@@ -141,13 +142,13 @@ internal class ResourceCachingProviderTest {
             { Single.just(str) }) //by id remote
 
         provider.observe()
-                .test()
-                .awaitCount(1)
-                .assertNoErrors()
-                .assertValue { it is Resource.Success }
-                .assertValue { (it as Resource.Success).data == str }
-                .assertValueCount(1)
-                .assertNotTerminated()
+            .test()
+            .awaitCount(1)
+            .assertNoErrors()
+            .assertValue { it is Resource.Success }
+            .assertValue { (it as Resource.Success).data == str }
+            .assertValueCount(1)
+            .assertNotTerminated()
 
         assert(localRepo.size == 0)
     }
@@ -158,14 +159,14 @@ internal class ResourceCachingProviderTest {
 
         val provider = ResourceCachingProvider<String>(
             { data -> Single.fromCallable { localRepo.put(id, data) }.map { data } },
-            { Single.just(localRepo[id]) }, //by id local
-            { Single.just(str.toString()) }) //by id remote
+            { Single.fromCallable { localRepo[id] } }, //by id local
+            { Single.fromCallable { str.toString() } }) //by id remote
 
         val subscriber = TestSubscriber<Resource<String>>()
 
         provider.observe()
-                .toFlowable(BackpressureStrategy.BUFFER)
-                .subscribe(subscriber)
+            .toFlowable(BackpressureStrategy.BUFFER)
+            .subscribe(subscriber)
 
         subscriber.awaitCount(1)
 
@@ -173,13 +174,13 @@ internal class ResourceCachingProviderTest {
         provider.askForContentUpdate()
 
         subscriber
-                .awaitCount(3, {}, 50) //TODO
-                .assertNoErrors()
-                .assertValueAt(1) { it is Resource.Success }
-                .assertValueAt(1) { (it as Resource.Success).data == str.toString() }
-                .assertValueCount(2)
-                .assertTimeout()
-                .assertNotTerminated()
+            .awaitCount(3, {}, 50) //TODO
+            .assertNoErrors()
+            .assertValueAt(1) { it is Resource.Success }
+            .assertValueAt(1) { (it as Resource.Success).data == str.toString() }
+            .assertValueCount(2)
+            .assertTimeout()
+            .assertNotTerminated()
 
         assert(localRepo[id] == str.toString())
         assert(localRepo.size == 1)
@@ -201,13 +202,13 @@ internal class ResourceCachingProviderTest {
         localRepo[id] = str
 
         provider.observe()
-                .test()
-                .awaitCount(1)
-                .assertNoErrors()
-                .assertValue { it is Resource.Success }
-                .assertValue { (it as Resource.Success).data == str }
-                .assertValueCount(1)
-                .assertNotTerminated()
+            .test()
+            .awaitCount(1)
+            .assertNoErrors()
+            .assertValue { it is Resource.Success }
+            .assertValue { (it as Resource.Success).data == str }
+            .assertValueCount(1)
+            .assertNotTerminated()
 
         assert(localRepo[id] == str)
         assert(localRepo.size == 1)
@@ -225,12 +226,12 @@ internal class ResourceCachingProviderTest {
             { Single.error(Throwable("remote error")) }) //by id remote
 
         provider.observe()
-                .test()
-                .awaitCount(1)
-                .assertNoErrors()
-                .assertValue { it is Resource.Error }
-                .assertValueCount(1)
-                .assertNotTerminated()
+            .test()
+            .awaitCount(1)
+            .assertNoErrors()
+            .assertValue { it is Resource.Error }
+            .assertValueCount(1)
+            .assertNotTerminated()
 
         assert(localRepo.size == 0)
     }

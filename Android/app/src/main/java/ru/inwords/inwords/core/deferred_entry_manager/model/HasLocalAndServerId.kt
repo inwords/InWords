@@ -1,4 +1,4 @@
-package ru.inwords.inwords.core.deferred_entry_manager
+package ru.inwords.inwords.core.deferred_entry_manager.model
 
 interface HasLocalAndServerId {
     val localId: Long

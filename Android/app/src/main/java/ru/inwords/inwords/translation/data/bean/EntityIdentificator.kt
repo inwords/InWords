@@ -1,9 +1,10 @@
-package ru.inwords.inwords.core.deferred_entry_manager
+package ru.inwords.inwords.translation.data.bean
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import ru.inwords.inwords.core.deferred_entry_manager.model.CopyableWithId
 
 @Parcelize
 data class EntityIdentificator(

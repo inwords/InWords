@@ -2,7 +2,6 @@ package ru.inwords.inwords.dagger
 
 import dagger.Binds
 import dagger.Module
-import ru.inwords.inwords.dagger.annotations.LocalRepository
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepositoryImpl
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
@@ -20,11 +19,10 @@ import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractorImpl
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractorImpl
-import ru.inwords.inwords.translation.data.repository.TranslationWordsDatabaseRepository
-import ru.inwords.inwords.translation.data.repository.TranslationWordsLocalRepository
 import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 import ru.inwords.inwords.translation.data.repository.TranslationWordsWebApiRepository
-import ru.inwords.inwords.translation.domain.interactor.*
+import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
+import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractorImpl
 import javax.inject.Singleton
 
 @Module
@@ -55,17 +53,10 @@ interface DataAbstractModule {
     @Singleton
     fun profileInteractor(interactor: ProfileInteractorImpl): ProfileInteractor
 
-    @Binds
-    @Singleton
-    fun translationSyncInteractor(interactor: TranslationSyncInteractorImpl): TranslationSyncInteractor
 
     @Binds
     @Singleton
     fun translationWordsInteractor(interactor: TranslationWordsInteractorImpl): TranslationWordsInteractor
-
-    @Binds
-    @Singleton
-    fun translationWordsCacheInteractor(interactor: TranslationWordsLocalInteractor): TranslationWordsRepositoryInteractor
 
     //repos
     @Binds
@@ -73,11 +64,6 @@ interface DataAbstractModule {
 
     @Binds
     fun customGameGatewayController(customGameGatewayController: GameGatewayControllerImpl): CustomGameGatewayController
-
-    @Binds
-    @Singleton
-    @LocalRepository
-    fun translationWordsDatabaseRepository(repository: TranslationWordsDatabaseRepository): TranslationWordsLocalRepository
 
     @Binds
     @Singleton

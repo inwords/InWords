@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/word_addition_word"
-                android:inputType="textCapSentences"
+                android:inputType="textAutoCorrect"
                 android:lines="1"
                 android:maxLength="64"
                 android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/word_addition_translation"
-                android:inputType="textCapSentences"
+                android:inputType="textAutoCorrect"
                 android:lines="1"
                 android:maxLength="64"
                 android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"

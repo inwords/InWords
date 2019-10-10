@@ -2,15 +2,15 @@ package ru.inwords.inwords.core.deferred_entry_manager.repository
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.core.deferred_entry_manager.CopyableWithId
-import ru.inwords.inwords.core.deferred_entry_manager.DeferredEntry
-import ru.inwords.inwords.core.deferred_entry_manager.DeferredEntryFactory
-import ru.inwords.inwords.core.deferred_entry_manager.Status
+import ru.inwords.inwords.core.deferred_entry_manager.model.CopyableWithId
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntry
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntryFactory
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
 
 class LocalDeferredEntryRepository<V, T>(
-    private val databaseDao: DatabaseEntriesListDao<V, T>,
+    private val localDao: LocalEntriesListDao<V, T>,
     private val deferredEntryFactory: DeferredEntryFactory<V, T>
-) where V : CopyableWithId<V>, T : DeferredEntry<V> {
+) where V : CopyableWithId<V>, T : DeferredEntry<V, T> {
 
     /**
      * To add completely new value (with localId = 0) use [alreadySynced] = false (default)
@@ -27,11 +27,11 @@ class LocalDeferredEntryRepository<V, T>(
             }
         }
             .flatMap { entries ->
-                databaseDao.addReplaceAll(entries)
-                    .map { newIds ->
-                        entries.zip(newIds).map { (entry, newId) ->
-                            deferredEntryFactory.create(entry.status, entry.value.copyWithLocalId(newId))
-                        }
+                localDao.addReplaceAll(entries)
+                    .flatMap { newIds ->
+                        val newEntries = entries.zip(newIds).map { (entry, newId) -> entry.copyWithLocalId(newId) }
+
+                        localDao.addReplaceAll(newEntries).map { newEntries } //TODO shit
                     }
             }
     }
@@ -39,12 +39,12 @@ class LocalDeferredEntryRepository<V, T>(
     /**
      * Retrieve all stored [DeferredEntry]
      */
-    fun retrieveAll() = databaseDao.retrieveAll()
+    fun retrieveAll() = localDao.retrieveAll()
 
     /**
      * Retrieve all entries with [localIds]
      */
-    fun retrieveAllByLocalId(localIds: List<Long>) = databaseDao.retrieveAllByLocalId(localIds)
+    fun retrieveAllByLocalId(localIds: List<Long>) = localDao.retrieveAllByLocalId(localIds)
 
     /**
      * To defer value deletion (with status [Status.LOCALLY_DELETED]) use [deferred] = true (default)
@@ -52,22 +52,27 @@ class LocalDeferredEntryRepository<V, T>(
      */
     fun deleteAllLocalIds(localIds: List<Long>, deferred: Boolean = true): Completable {
         return if (deferred) {
-            databaseDao.retrieveAllByLocalId(localIds)
+            localDao.retrieveAllByLocalId(localIds)
                 .map { asLocallyDeleted(it) }
-                .flatMap { databaseDao.addReplaceAll(it) }
+                .flatMap { localDao.addReplaceAll(it) }
                 .ignoreElement()
         } else {
-            databaseDao.deleteAllLocalIds(localIds)
+            localDao.deleteAllLocalIds(localIds)
         }
     }
 
     /**
+     * Deletes all entries with remoteId > 0
+     */
+    fun deleteAllRemoteIds() = localDao.deleteAllServerIds()
+
+    /**
      * Deletes all matching entries
      */
-    fun deleteAllServerIds(serverIds: List<Int>) = databaseDao.deleteAllServerIds(serverIds)
+    fun deleteAllRemoteIds(serverIds: List<Int>) = localDao.deleteAllServerIds(serverIds)
 
     private fun asLocallyCreated(values: List<V>) = asDeferredEntries(Status.LOCALLY_CREATED, values)
     private fun asSynced(values: List<V>) = asDeferredEntries(Status.SYNCED, values)
     private fun asDeferredEntries(status: Status, values: List<V>) = values.map { deferredEntryFactory.create(status, it) }
-    private fun asLocallyDeleted(values: List<T>) = values.map { deferredEntryFactory.create(Status.LOCALLY_DELETED, it.value) }
+    private fun asLocallyDeleted(entries: List<T>): List<T> = entries.map { it.copyWithStatus(Status.LOCALLY_DELETED) }
 }

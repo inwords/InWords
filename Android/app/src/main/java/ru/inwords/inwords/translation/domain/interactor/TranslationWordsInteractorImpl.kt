@@ -1,36 +1,41 @@
 package ru.inwords.inwords.translation.domain.interactor
 
+import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
+import ru.inwords.inwords.core.resource.Resource
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
+import ru.inwords.inwords.translation.data.deferred.converter.WordTranslationValueConverter
+import ru.inwords.inwords.translation.data.sync.TranslationSyncController
 import javax.inject.Inject
 
 class TranslationWordsInteractorImpl @Inject
-internal constructor(private val repositoryInteractor: TranslationWordsRepositoryInteractor) : TranslationWordsInteractor {
-    private val wordsStream: Observable<List<WordTranslation>>
+internal constructor(private val adapterHolder: WordTranslationDeferredAdapterHolder,
+                     private val syncController: TranslationSyncController) : TranslationWordsInteractor {
+    private val wordTranslationValueConverter = WordTranslationValueConverter()
 
-    init {
-        this.wordsStream = repositoryInteractor.getList()
-                .map { list -> list.filter { it.serverId >= 0 } }
-                .share()
-                .replay(1)
-                .autoConnect()
-    }
 
     override fun addReplace(wordTranslation: WordTranslation): Completable {
-        return repositoryInteractor.add(wordTranslation)
+        return addReplaceAll(listOf(wordTranslation))
     }
 
     override fun addReplaceAll(wordTranslations: List<WordTranslation>): Completable {
-        return repositoryInteractor.addAll(wordTranslations)
+        return Single.fromCallable { wordTranslationValueConverter.convertList(wordTranslations) }
+            .flatMapCompletable { adapterHolder.addReplaceAll(it) }
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun remove(wordTranslation: WordTranslation): Completable {
-        return repositoryInteractor.markRemoved(wordTranslation)
+        return removeAll(listOf(wordTranslation))
     }
 
     override fun removeAll(wordTranslations: List<WordTranslation>): Completable {
-        return repositoryInteractor.markRemovedAll(wordTranslations)
+        return Single.fromCallable { wordTranslationValueConverter.convertList(wordTranslations) }
+            .flatMapCompletable { adapterHolder.removeAll(it) }
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun update(oldWord: WordTranslation, newWord: WordTranslation): Completable {
@@ -38,12 +43,25 @@ internal constructor(private val repositoryInteractor: TranslationWordsRepositor
     }
 
     override fun getAllWords(): Observable<List<WordTranslation>> {
-        return wordsStream
+        return adapterHolder.retrieveAll().map {
+            wordTranslationValueConverter.reverseList((it as? Resource.Success)?.data ?: emptyList())
+        }
+            .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun clearCache() {
-        repositoryInteractor.clearCache()
+    override fun presyncOnStart(forceUpdate: Boolean): Completable {
+        return syncController.presyncOnStart(forceUpdate)
+            .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
+            .subscribeOn(SchedulersFacade.io())
     }
+
+    override fun trySyncAllReposWithCache(): Completable {
+        return adapterHolder.tryUploadUpdatesToRemote()
+    }
+
+    override fun notifyDataChanged() = syncController.notifyDataChanged()
+
+    override fun clearCache() = adapterHolder.clearCache()
 
     companion object {
         // Tag used for debugging/logging

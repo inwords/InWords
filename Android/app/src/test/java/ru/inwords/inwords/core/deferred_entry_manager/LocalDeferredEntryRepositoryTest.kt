@@ -5,26 +5,29 @@ import io.mockk.spyk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.inwords.inwords.core.deferred_entry_manager.DatabaseEntriesListDaoMock.UnitDeferredEntry
-import ru.inwords.inwords.core.deferred_entry_manager.repository.DatabaseEntriesListDao
+import ru.inwords.inwords.core.deferred_entry_manager.LocalEntriesListDaoMock.UnitDeferredEntry
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntryFactory
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalDeferredEntryRepository
+import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
+import ru.inwords.inwords.translation.data.bean.EntityIdentificator
 
 internal class LocalDeferredEntryRepositoryTest {
 
-    private lateinit var databaseDao: DatabaseEntriesListDao<EntityIdentificator, UnitDeferredEntry>
+    private lateinit var localDao: LocalEntriesListDao<EntityIdentificator, UnitDeferredEntry>
 
     private lateinit var localDeferredEntryRepository: LocalDeferredEntryRepository<EntityIdentificator, UnitDeferredEntry>
 
     @BeforeEach
     fun before() {
-        databaseDao = spyk(DatabaseEntriesListDaoMock())
+        localDao = spyk(LocalEntriesListDaoMock())
 
         val deferredEntryFactory = object : DeferredEntryFactory<EntityIdentificator, UnitDeferredEntry> {
             override fun create(status: Status, value: EntityIdentificator): UnitDeferredEntry {
                 return UnitDeferredEntry(status, value)
             }
         }
-        localDeferredEntryRepository = LocalDeferredEntryRepository(databaseDao, deferredEntryFactory)
+        localDeferredEntryRepository = LocalDeferredEntryRepository(localDao, deferredEntryFactory)
     }
 
     @Test
@@ -40,7 +43,7 @@ internal class LocalDeferredEntryRepositoryTest {
             .test()
             .assertResult(entriesReference)
 
-        verify { databaseDao.addReplaceAll(entriesToAdd) }
+        verify { localDao.addReplaceAll(entriesToAdd) }
     }
 
     @Test
@@ -56,7 +59,7 @@ internal class LocalDeferredEntryRepositoryTest {
             .test()
             .assertResult(entriesReference)
 
-        verify { databaseDao.addReplaceAll(entriesToAdd) }
+        verify { localDao.addReplaceAll(entriesToAdd) }
     }
 
     @Test
@@ -71,7 +74,7 @@ internal class LocalDeferredEntryRepositoryTest {
             .test()
             .assertResult(entriesReference)
 
-        verify { databaseDao.retrieveAll() }
+        verify { localDao.retrieveAll() }
     }
 
     @Test
@@ -100,9 +103,9 @@ internal class LocalDeferredEntryRepositoryTest {
             .test()
             .assertComplete()
 
-        verify { databaseDao.retrieveAllByLocalId(localIds) }
-        verify { databaseDao.addReplaceAll(entriesUpdated) }
-        verify { databaseDao.deleteAllLocalIds(localIds) wasNot called }
+        verify { localDao.retrieveAllByLocalId(localIds) }
+        verify { localDao.addReplaceAll(entriesUpdated) }
+        verify { localDao.deleteAllLocalIds(localIds) wasNot called }
 
         localDeferredEntryRepository.retrieveAll()
             .test()
@@ -126,7 +129,7 @@ internal class LocalDeferredEntryRepositoryTest {
             .test()
             .assertComplete()
 
-        verify { databaseDao.deleteAllLocalIds(listOf(1, 3)) }
+        verify { localDao.deleteAllLocalIds(listOf(1, 3)) }
 
         localDeferredEntryRepository.retrieveAll()
             .test()
@@ -134,7 +137,29 @@ internal class LocalDeferredEntryRepositoryTest {
     }
 
     @Test
-    fun deleteAllServerIds() {
+    fun deleteAllServerIdsWithoutParameters() {
+        val values = listOf(EntityIdentificator(0, 1),
+            EntityIdentificator(0, 2),
+            EntityIdentificator(0, 3),
+            EntityIdentificator(0, 4)
+        )
+        localDeferredEntryRepository.addReplaceAll(values, true).blockingGet()
+
+        val entriesReference = emptyList<UnitDeferredEntry>()
+
+        localDeferredEntryRepository.deleteAllRemoteIds()
+            .test()
+            .assertResult()
+
+        verify { localDao.deleteAllServerIds() }
+
+        localDeferredEntryRepository.retrieveAll()
+            .test()
+            .assertResult(entriesReference)
+    }
+
+    @Test
+    fun deleteAllServerIdsWithParameters() {
         val values = listOf(EntityIdentificator(0, 1),
             EntityIdentificator(0, 2),
             EntityIdentificator(0, 3),
@@ -146,11 +171,11 @@ internal class LocalDeferredEntryRepositoryTest {
             UnitDeferredEntry(Status.SYNCED, values[3].copy(id = 4))
         )
 
-        localDeferredEntryRepository.deleteAllServerIds(listOf(1, 3))
+        localDeferredEntryRepository.deleteAllRemoteIds(listOf(1, 3))
             .test()
             .assertResult()
 
-        verify { databaseDao.deleteAllServerIds(listOf(1, 3)) }
+        verify { localDao.deleteAllServerIds(listOf(1, 3)) }
 
         localDeferredEntryRepository.retrieveAll()
             .test()

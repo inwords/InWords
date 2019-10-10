@@ -1,4 +1,4 @@
-package ru.inwords.inwords.translation.data
+package ru.inwords.inwords.translation.data.deferred
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -21,6 +21,9 @@ interface LocalWordTranslationEntriesListDao {
     @Query("DELETE FROM word_translation_deferred_entries WHERE id IN (:localIds)")
     fun deleteAllLocalIds(localIds: List<Long>): Completable
 
-    @Query("DELETE FROM word_translation_deferred_entries WHERE server_id IN (:serverIds)")
+    @Query("DELETE FROM word_translation_deferred_entries WHERE value_server_id > 0")
+    fun deleteAllServerIds(): Completable
+
+    @Query("DELETE FROM word_translation_deferred_entries WHERE value_server_id IN (:serverIds)")
     fun deleteAllServerIds(serverIds: List<Int>): Completable
 }

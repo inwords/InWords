@@ -10,9 +10,9 @@ class IntegrationViewModel internal constructor(authorisationInteractor: Authori
                                                 integrationInteractor: IntegrationInteractor) : BasicViewModel() {
     init {
         authorisationInteractor.trySignInExistingAccount()
-                .onErrorResumeNext { integrationInteractor.getOnUnauthorisedCallback() }
-                .subscribeOn(SchedulersFacade.io())
-                .subscribe({}, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
-                .autoDispose()
+            .onErrorResumeNext { integrationInteractor.getOnUnauthorisedCallback() }
+            .subscribeOn(SchedulersFacade.io())
+            .subscribe({}, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
+            .autoDispose()
     }
 }

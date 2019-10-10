@@ -17,7 +17,9 @@ class ProfileViewModel internal constructor(
 
     val profileDataSubject: Observable<Resource<User>> get() = profileInteractor.getAuthorisedUser()
 
-    val wordsCountSubject: Observable<Int> get() = translationWordsInteractor.getAllWords().map { it.size }
+    val wordsCountSubject: Observable<Int>
+        get() = translationWordsInteractor.getAllWords()
+            .map { it.size }
 
     private val _changeNickStatusLiveData = MutableLiveData<Event<Resource<Unit>>>()
 
@@ -25,13 +27,13 @@ class ProfileViewModel internal constructor(
 
     fun updateUser(newUser: User) {
         profileInteractor.updateUser(newUser)
-                .observeOn(SchedulersFacade.ui())
-                .doOnSubscribe { _changeNickStatusLiveData.postValue(Event(Resource.Loading())) }
-                .subscribe({
-                    _changeNickStatusLiveData.postValue(Event(Resource.Success(Unit)))
-                }, {
-                    _changeNickStatusLiveData.postValue(Event(Resource.Error(it.message, it)))
-                })
-                .autoDispose()
+            .observeOn(SchedulersFacade.ui())
+            .doOnSubscribe { _changeNickStatusLiveData.postValue(Event(Resource.Loading())) }
+            .subscribe({
+                _changeNickStatusLiveData.postValue(Event(Resource.Success(Unit)))
+            }, {
+                _changeNickStatusLiveData.postValue(Event(Resource.Error(it.message, it)))
+            })
+            .autoDispose()
     }
 }

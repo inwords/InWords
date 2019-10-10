@@ -1,8 +1,7 @@
-package ru.inwords.inwords.translation.data
+package ru.inwords.inwords.translation.data.deferred
 
 import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-import ru.inwords.inwords.core.deferred_entry_manager.CopyableWithId
+import ru.inwords.inwords.core.deferred_entry_manager.model.CopyableWithId
 
 data class WordTranslationValue(
     @ColumnInfo(name = "word_foreign")
@@ -11,12 +10,11 @@ data class WordTranslationValue(
     @ColumnInfo(name = "word_native")
     val wordNative: String,
 
-    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long = 0,
+    val id: Long,
 
     @ColumnInfo(name = "server_id")
-    val serverId: Int = 0
+    val serverId: Int
 ) : CopyableWithId<WordTranslationValue> {
     override val localId: Long get() = id
     override val remoteId: Int get() = serverId

@@ -25,21 +25,21 @@ abstract class AuthorisationViewModel protected constructor(protected var author
         authorisationStateLiveData.value = Event(AuthorisationViewState.loading())
 
         userCredentialsObservable
-                .flatMapSingle { userCredentials ->
-                    val validationErrorViewState = validateInput(userCredentials)
+            .flatMapSingle { userCredentials ->
+                val validationErrorViewState = validateInput(userCredentials)
 
-                    if (validationErrorViewState != null) {
-                        Single.just(validationErrorViewState)
-                    } else {
-                        performAuthAction(userCredentials)
-                                .andThen(Single.just(AuthorisationViewState.success()))
-                                .onErrorResumeNext { Single.just(AuthorisationViewState.error(it)) }
-                    }
+                if (validationErrorViewState != null) {
+                    Single.just(validationErrorViewState)
+                } else {
+                    performAuthAction(userCredentials)
+                        .andThen(Single.just(AuthorisationViewState.success()))
+                        .onErrorResumeNext { Single.just(AuthorisationViewState.error(it)) }
                 }
-                .subscribe {
-                    authorisationStateLiveData.postValue(Event(it))
-                }
-                .autoDispose()
+            }
+            .subscribe {
+                authorisationStateLiveData.postValue(Event(it))
+            }
+            .autoDispose()
     }
 
     protected abstract fun performAuthAction(userCredentials: UserCredentials): Completable

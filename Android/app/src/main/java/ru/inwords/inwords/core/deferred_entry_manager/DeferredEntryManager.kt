@@ -3,15 +3,18 @@ package ru.inwords.inwords.core.deferred_entry_manager
 import android.annotation.SuppressLint
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.core.deferred_entry_manager.Status.*
+import ru.inwords.inwords.core.deferred_entry_manager.model.CopyableWithId
+import ru.inwords.inwords.core.deferred_entry_manager.model.HasLocalAndServerId
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntry
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
+import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status.*
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalDeferredEntryRepository
-import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteDeferredEntryRepository
-import java.util.*
+import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteDeferredEntryWriteRepository
 
 class DeferredEntryManager<V, T>(
     private val localDeferredEntryRepository: LocalDeferredEntryRepository<V, T>,
-    private val remoteDeferredEntryRepository: RemoteDeferredEntryRepository<V>
-) where V : CopyableWithId<V>, T : DeferredEntry<V> {
+    private val remoteDeferredEntryWriteRepository: RemoteDeferredEntryWriteRepository<V>
+) where V : CopyableWithId<V>, T : DeferredEntry<V, T> {
     private val allowedExternalStatuses = setOf(SYNCED, LOCALLY_CREATED)
 
     fun retrieveAll(): Single<List<V>> {
@@ -19,17 +22,22 @@ class DeferredEntryManager<V, T>(
             .mapToExternal()
     }
 
-    fun createAll(values: List<V>): Single<List<V>> {
-        return localDeferredEntryRepository.addReplaceAll(values)
+    fun createAll(values: List<V>, alreadySynced: Boolean = false): Single<List<V>> {
+        return localDeferredEntryRepository.addReplaceAll(values, alreadySynced)
             .mapToExternal()
     }
 
     fun deleteAll(values: List<V>): Completable {
-        val localIds = values.valuesAsLocalIds()
+        val localIds = values.map { it.localId }
+//        remoteDeferredEntryWriteRepository.deleteAll(values.map { it.remoteId }).blockingGet()
         return localDeferredEntryRepository.retrieveAllByLocalId(localIds)
             .map { entries -> entries.groupByStatus() }
-            .flatMapCompletable { deleteListHandler(it) }
+            .flatMapCompletable(this::deleteListHandler)
     }
+
+    fun deleteAllRemoteIds() = localDeferredEntryRepository.deleteAllRemoteIds()
+
+    fun deleteAllRemoteIds(serverIds: List<Int>) = localDeferredEntryRepository.deleteAllRemoteIds(serverIds)
 
     fun tryUploadUpdatesToRemote(): Completable {
         return localDeferredEntryRepository.retrieveAll()
@@ -51,7 +59,7 @@ class DeferredEntryManager<V, T>(
 
                     LOCALLY_CREATED -> {
                         val localIds = entries.entriesAsLocalIds()
-                        localDeferredEntryRepository.deleteAllLocalIds(localIds, true)
+                        localDeferredEntryRepository.deleteAllLocalIds(localIds, false)
                             .also { completables.add(it) }
                     }
 
@@ -73,14 +81,14 @@ class DeferredEntryManager<V, T>(
                 when (status) {
                     LOCALLY_DELETED -> {
                         val serverIds = entries.entriesAsServerIds()
-                        remoteDeferredEntryRepository.deleteAll(serverIds)
-                            .andThen(localDeferredEntryRepository.deleteAllServerIds(serverIds))
+                        remoteDeferredEntryWriteRepository.deleteAll(serverIds)
+                            .andThen(localDeferredEntryRepository.deleteAllRemoteIds(serverIds))
                             .also { completables.add(it) }
                     }
 
                     LOCALLY_CREATED -> {
                         val values = entries.entriesAsValues()
-                        remoteDeferredEntryRepository.createAll(values)
+                        remoteDeferredEntryWriteRepository.createAll(values)
                             .flatMap { associatedIds ->
                                 localDeferredEntryRepository.addReplaceAll(mergeIds(values, associatedIds), alreadySynced = true)
                             }
@@ -100,15 +108,17 @@ class DeferredEntryManager<V, T>(
 
     private fun Single<List<T>>.mapToExternal() = map { entries ->
         entries
-            .filter { it.status in allowedExternalStatuses }
+            .filter {
+                //                Log.d("mapToExternal", it.toString())
+                it.status in allowedExternalStatuses
+            }
             .entriesAsValues()
     }
 
-    private fun List<V>.valuesAsLocalIds() = map { it.localId }
     private fun List<T>.entriesAsLocalIds() = map { it.localId }
     private fun List<T>.entriesAsServerIds() = map { it.remoteId }
     private fun List<T>.entriesAsValues() = map { it.value }
-    private fun List<T>.groupByStatus() = groupBy(DeferredEntry<V>::status)
+    private fun List<T>.groupByStatus() = groupBy(DeferredEntry<V, T>::status)
 
     private fun <I : HasLocalAndServerId> mergeIds(values: List<V>, associatedIds: List<I>): List<V> {
         if (values.isEmpty()) {
@@ -129,6 +139,10 @@ class DeferredEntryManager<V, T>(
         values.forEach { value ->
             associatedIdsSet[value.localId]?.let { newList.add(value.copyWithRemoteId(it.remoteId)) }
         }
+
+//        Log.d("mergeIdsValues", values.toString())
+//        Log.d("mergeIdsAssociatedIds", associatedIds.toString())
+//        Log.d("mergeIdsNewList", newList.toString())
 
         return newList
     }

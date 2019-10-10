@@ -17,28 +17,29 @@ class HomeViewModel internal constructor(
 
     private val profileData: Observable<CardWrapper>
         get() = profileInteractor.getAuthorisedUser()
-                .map {
-                    when (it) {
-                        is Resource.Success -> CardWrapper.ProfileModel(it.data)
-                        is Resource.Loading -> CardWrapper.ProfileLoadingMarker
-                        is Resource.Error -> CardWrapper.CreateAccountMarker
-                    }
+            .map {
+                when (it) {
+                    is Resource.Success -> CardWrapper.ProfileModel(it.data)
+                    is Resource.Loading -> CardWrapper.ProfileLoadingMarker
+                    is Resource.Error -> CardWrapper.CreateAccountMarker
                 }
-                .startWith(CardWrapper.ProfileLoadingMarker)
+            }
+            .startWith(CardWrapper.ProfileLoadingMarker)
 
     private val wordsCount: Observable<CardWrapper.DictionaryModel>
         get() = translationWordsInteractor.getAllWords()
-                .map { it.size }
-                .map { CardWrapper.DictionaryModel(true, it) }
-                .onErrorReturnItem(CardWrapper.DictionaryModel(false))
+            .map { it.size }
+            .startWith(0)
+            .map { CardWrapper.DictionaryModel(true, it) }
+            .onErrorReturnItem(CardWrapper.DictionaryModel(false))
 
     val cardWrappers
         get() = Observable.combineLatest(
-                profileData,
-                wordsCount,
-                BiFunction { profile: CardWrapper, dictionary: CardWrapper -> listOf(profile, dictionary) }
+            profileData,
+            wordsCount,
+            BiFunction { profile: CardWrapper, dictionary: CardWrapper -> listOf(profile, dictionary) }
         )
-                .applyDiffUtil()
+            .applyDiffUtil()
 
     fun getPolicyAgreementState() = integrationInteractor.getPolicyAgreementState()
 }

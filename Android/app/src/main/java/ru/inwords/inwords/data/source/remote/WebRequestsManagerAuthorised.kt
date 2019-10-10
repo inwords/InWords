@@ -2,9 +2,9 @@ package ru.inwords.inwords.data.source.remote
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.core.deferred_entry_manager.EntityIdentificator
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.profile.data.bean.User
+import ru.inwords.inwords.translation.data.bean.EntityIdentificator
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 
