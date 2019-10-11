@@ -3,11 +3,14 @@ $theme-property-values: (
   primary: #673ab7,
   secondary: #ff9800,
   error: #b00020,
+  background: #fff,
   on-default: #000,
   on-primary: #fff,
   on-secondary: #000,
   on-error: #fff,
-  background: #fff,
-  surface: #fff,
+  primary-on-background: rgba(0, 0, 0, 0.87),
+  secondary-on-background: rgba(0, 0, 0, 0.54),
+  hint-on-background: rgba(0, 0, 0, 0.38),
+  disabled-on-background: rgba(0, 0, 0, 0.38),
   shadow: rgba(0, 0, 0, 0.2)
 );

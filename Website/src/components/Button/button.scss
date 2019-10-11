@@ -14,19 +14,16 @@
   font-family: inherit;
   font-size: 15px;
   font-weight: 500;
+  user-select: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
-  &:hover:not(:disabled) {
+  &:hover {
     box-shadow: 0 4px 8px 0 theme-prop-value(shadow);
   }
 
   &:active {
     transform: scale(0.98);
-  }
-
-  &:disabled {
-    cursor: default;
   }
 
   &--color--default {
@@ -46,6 +43,15 @@
   }
 
   &--full-width {
-    width: 100%
+    width: 100%;
+  }
+
+  &#{&}--disabled {
+    pointer-events: none;
+    color: theme-prop-value(disabled-on-background);
+    background-color: transparentize(
+      theme-prop-value(disabled-on-background),
+      0.2
+    );
   }
 }

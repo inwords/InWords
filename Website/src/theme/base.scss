@@ -1,0 +1,13 @@
+@import './typography';
+
+html {
+  box-sizing: border-box;
+
+  & * {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  }
+}
+
+* {
+  box-sizing: inherit;
+}

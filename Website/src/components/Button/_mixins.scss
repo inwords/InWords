@@ -7,16 +7,11 @@
   color: $color;
   background-color: $background-color;
 
-  &:hover:not(:disabled) {
+  &:hover {
     border-color: darken($background-color, 7%);
   }
 
   &:active {
     background-color: darken($background-color, 7%);
-  }
-
-  &:disabled {
-    color: transparentize($color, 0.4);
-    background-color: transparentize($background-color, 0.4);
   }
 }

@@ -1,4 +1,8 @@
-import { beginLoading, endLoading, setSnackbar } from 'src/actions/commonActions';
+import {
+  beginLoading,
+  endLoading,
+  setSnackbar
+} from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/accessActions';
 import { history } from 'src/App';
 import apiAction from 'src/actions/apiAction';

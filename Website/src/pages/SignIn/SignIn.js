@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     marginTop: theme.spacing(1),
-    width: "100%",
+    width: '100%'
   },
   formField: {
     marginTop: theme.spacing(2),

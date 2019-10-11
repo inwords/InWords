@@ -7,16 +7,23 @@
 .text-field__label {
   position: absolute;
   left: 10px;
-  top: 13.2px;
+  top: 15px;
   padding: 0 4px;
-  color: rgba(0, 0, 0, 0.54);
+  color: theme-prop-value(secondary-on-background);
   font-family: inherit;
   font-size: 16px;
   pointer-events: none;
   transition: all 0.15s ease;
 
-  &--elevated {
-    top: -8px;
+  &--required {
+    &::after {
+      content: '*';
+      margin-left: 3px;
+    }
+  }
+
+  &--compact {
+    top: -7px;
     font-size: 13px;
     background-color: #fff;
   }
@@ -26,16 +33,17 @@
   }
 
   &--disabled {
-    color: transparentize(#9e9e9e, 0.4);
+    color: theme-prop-value(disabled-on-background);
   }
 }
 
 .text-field__input {
   display: block;
-  border: 1px solid rgba(0, 0, 0, 0.34);
+  border: 1px solid theme-prop-value(hint-on-background);
   padding: 14px 12px;
   font-family: inherit;
   font-size: 16px;
+  color: theme-prop-value(primary-on-background);
   transition: border-color 0.15s ease;
 
   &::-webkit-input-placeholder {
@@ -51,8 +59,8 @@
     color: transparent;
   }
 
-  &:hover:not(:disabled) {
-    border-color: rgba(0, 0, 0, 0.54);
+  &:hover {
+    border-color: theme-prop-value(primary-on-background);
   }
 
   &:focus {
@@ -62,11 +70,13 @@
   }
 
   &:disabled {
-    color: transparentize(#9e9e9e, 0.4);
+    pointer-events: none;
+    color: theme-prop-value(disabled-on-background);
+    border-color: theme-prop-value(disabled-on-background);
     background-color: inherit;
   }
 
   &--full-width {
-    width: 100%
+    width: 100%;
   }
 }

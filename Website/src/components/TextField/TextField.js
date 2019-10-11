@@ -10,14 +10,16 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     label,
     defaultValue,
     value,
+    required,
+    disabled,
     onChange,
     onFocus,
     onBlur,
-    disabled,
     fullWidth = false,
     className,
     ...rest
   } = props;
+
   const [empty, setEmpty] = React.useState(!Boolean(value || defaultValue));
   const [focused, setFocused] = React.useState(false);
 
@@ -57,7 +59,8 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     >
       <label
         className={classNames('text-field__label', {
-          'text-field__label--elevated': focused || !empty,
+          'text-field__label--required': required,
+          'text-field__label--compact': focused || !empty,
           'text-field__label--active': focused,
           'text-field__label--disabled': disabled
         })}
@@ -71,12 +74,13 @@ const TextField = React.forwardRef(function TextField(props, ref) {
         placeholder={label}
         defaultValue={defaultValue}
         value={value}
+        required={required}
         disabled={disabled}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={classNames('text-field__input', {
-          "text-field__input--full-width": fullWidth
+          'text-field__input--full-width': fullWidth
         })}
         {...rest}
       />
@@ -89,9 +93,12 @@ TextField.propTypes = {
   label: PropTypes.string.isRequired,
   defaultValue: PropTypes.string,
   value: PropTypes.string,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
+  fullWidth: PropTypes.bool,
   className: PropTypes.string
 };
 
