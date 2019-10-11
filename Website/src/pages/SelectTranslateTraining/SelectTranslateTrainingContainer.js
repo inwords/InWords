@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import shuffle from 'helpers/shuffle';
-import withReceivedGameLevel from 'components/withReceivedGameLevel';
-import TrainingWrapper from 'components/TrainingWrapper';
+import shuffle from 'src/helpers/shuffle';
+import withReceivedGameLevel from 'src/components/withReceivedGameLevel';
+import TrainingWrapper from 'src/components/TrainingWrapper';
 import SelectTranslateTraining from './SelectTranslateTraining';
-import TrainingResult from 'components/TrainingResult';
+import TrainingResult from 'src/components/TrainingResult';
 
 function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);

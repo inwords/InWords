@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveGamesInfo } from 'actions/gamesApiActions';
+import { receiveGamesInfo } from 'src/actions/gamesApiActions';
 import TrainingCategories from './TrainingCategories';
 
 function TrainingCategoriesContainer({ ...rest }) {

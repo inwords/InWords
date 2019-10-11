@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import useDialog from 'hooks/useDialog';
+import useDialog from 'src/hooks/useDialog';
 import WordPairAddDialog from './WordPairAddDialog';
 
 const useStyles = makeStyles(theme => ({

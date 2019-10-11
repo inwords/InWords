@@ -8,7 +8,7 @@ import store from './store';
 import theme from './theme';
 import App from './App';
 
-import 'fonts/index.css';
+import 'src/fonts/index.css';
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { sendActivationCode } from 'actions/accessApiActions';
-import useForm from 'hooks/useForm';
+import { sendActivationCode } from 'src/actions/accessApiActions';
+import useForm from 'src/hooks/useForm';
 import EmailEditDialog from './EmailEditDialog';
 
 function EmailEditDialogContainer({ ...rest }) {

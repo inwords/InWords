@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveGameLevel as receiveGameLevelAction } from 'actions/gamesApiActions';
+import { receiveGameLevel as receiveGameLevelAction } from 'src/actions/gamesApiActions';
 
 function withReceivedGameLevel(WrappedComponent) {
   function WithReceivedGameLevel({ match, history, ...rest }) {

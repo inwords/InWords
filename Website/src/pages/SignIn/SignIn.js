@@ -10,8 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import TextField from 'components/TextField';
-import Button from 'components/Button';
+import TextField from 'src/components/TextField';
+import Button from 'src/components/Button';
 
 const useStyles = makeStyles(theme => ({
   paper: {

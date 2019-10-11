@@ -1,7 +1,7 @@
 import React, { useCallback, memo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { initializeGameLevel } from 'actions/gamesActions';
+import { initializeGameLevel } from 'src/actions/gamesActions';
 import DictionaryMenu from './DictionaryMenu';
 
 function DictionaryMenuContainer({ checkedValues, ...rest }) {

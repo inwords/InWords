@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveGameInfo } from 'actions/gamesApiActions';
+import { receiveGameInfo } from 'src/actions/gamesApiActions';
 
 function withReceivedTrainingInfo(WrappedComponent) {
   function WithReceivedTrainingInfo({ match, ...rest }) {

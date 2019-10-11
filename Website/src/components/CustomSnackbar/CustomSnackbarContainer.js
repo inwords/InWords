@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { resetSnackbar } from 'actions/commonActions';
+import { resetSnackbar } from 'src/actions/commonActions';
 import CustomSnackbar from './CustomSnackbar';
 
 function CustomSnackbarContainer() {

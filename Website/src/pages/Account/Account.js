@@ -8,8 +8,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import useDialog from 'hooks/useDialog';
-import withReceivedUserInfo from 'components/withReceivedUserInfo';
+import useDialog from 'src/hooks/useDialog';
+import withReceivedUserInfo from 'src/components/withReceivedUserInfo';
 import EmailEditDialog from './EmailEditDialog';
 
 const useStyles = makeStyles(theme => ({

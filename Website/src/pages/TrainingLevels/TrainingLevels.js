@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
 import withReceivedTrainingInfo from './withReceivedTrainingInfo';
-import TrainingsNavigation from 'components/TrainingsNavigation';
+import TrainingsNavigation from 'src/components/TrainingsNavigation';
 
 function TrainingLevels({ gameId, levelsInfo, match }) {
   return (

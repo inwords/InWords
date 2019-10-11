@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import InternalNavigation from 'components/InternalNavigation';
+import InternalNavigation from 'src/components/InternalNavigation';
 
 function TrainingsNavigation({
   match: {

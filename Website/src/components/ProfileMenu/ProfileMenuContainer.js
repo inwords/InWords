@@ -1,6 +1,6 @@
 import React, { useCallback, memo } from 'react';
 import { useDispatch } from 'react-redux';
-import { denyAccess } from 'actions/accessActions';
+import { denyAccess } from 'src/actions/accessActions';
 import ProfileMenu from './ProfileMenu';
 
 function ProfileMenuContainer({ ...rest }) {

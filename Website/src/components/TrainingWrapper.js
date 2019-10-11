@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Container from '@material-ui/core/Container';
-import TrainingsNavigation from 'components/TrainingsNavigation';
+import TrainingsNavigation from 'src/components/TrainingsNavigation';
 
 function TrainingWrapper({ children }) {
   return (

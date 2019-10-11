@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveWordPairs } from 'actions/wordPairsApiActions';
+import { receiveWordPairs } from 'src/actions/wordPairsApiActions';
 import DictionaryWrapper from './DictionaryWrapper';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';

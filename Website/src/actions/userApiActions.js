@@ -1,7 +1,7 @@
 import apiAction from './apiAction';
 import { setSnackbar } from './commonActions';
 import * as userActions from './userActions';
-import { history } from 'App';
+import { history } from 'src/App';
 
 export function receiveUserInfoById(userId) {
   return apiAction({

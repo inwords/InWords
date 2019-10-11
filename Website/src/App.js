@@ -4,9 +4,9 @@ import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import CustomSnackbar from 'components/CustomSnackbar';
-import PageLayout from 'components/PageLayout';
-import ErrorBoundary from 'components/ErrorBoundary';
+import CustomSnackbar from 'src/components/CustomSnackbar';
+import PageLayout from 'src/components/PageLayout';
+import ErrorBoundary from 'src/components/ErrorBoundary';
 
 const SignIn = lazy(() => import('./pages/SignIn'));
 const SignUp = lazy(() => import('./pages/SignUp'));

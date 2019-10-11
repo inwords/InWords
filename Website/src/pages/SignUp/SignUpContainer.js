@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import useForm from 'hooks/useForm';
-import { signUp } from 'actions/accessApiActions';
+import useForm from 'src/hooks/useForm';
+import { signUp } from 'src/actions/accessApiActions';
 import SignUp from './SignUp';
 
 function SignUpContainer() {

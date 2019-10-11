@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { updateUserInfo } from 'actions/userApiActions';
-import useForm from 'hooks/useForm';
-import withReceivedUserInfo from 'components/withReceivedUserInfo';
+import { updateUserInfo } from 'src/actions/userApiActions';
+import useForm from 'src/hooks/useForm';
+import withReceivedUserInfo from 'src/components/withReceivedUserInfo';
 import ProfileSettings from './ProfileSettings';
 
 function ProfileSettingsContainer({ nickname, avatarPath }) {

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
-import usePrevious from 'hooks/usePrevious';
+import usePrevious from 'src/hooks/usePrevious';
 
 const useStyles = makeStyles(theme => ({
   snackbar: {

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { setSnackbar } from 'actions/commonActions';
-import { deleteWordPairs } from 'actions/wordPairsApiActions';
-import useForm from 'hooks/useForm';
+import { setSnackbar } from 'src/actions/commonActions';
+import { deleteWordPairs } from 'src/actions/wordPairsApiActions';
+import useForm from 'src/hooks/useForm';
 import DictionaryToolbar from './DictionaryToolbar';
 
 function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {

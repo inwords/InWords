@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Button from 'components/Button';
+import Button from 'src/components/Button';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
