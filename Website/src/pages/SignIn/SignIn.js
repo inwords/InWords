@@ -78,8 +78,6 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             fullWidth
             className={classes.formField}
           />
-          {/* <label htmlFor="email3">Email</label>
-          <Input id="email3" type="email" placeholder="email" /> */}
           <Button
             type="submit"
             color="primary"

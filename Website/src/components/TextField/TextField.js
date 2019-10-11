@@ -13,6 +13,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     onChange,
     onFocus,
     onBlur,
+    disabled,
     fullWidth = false,
     className,
     ...rest
@@ -54,12 +55,23 @@ const TextField = React.forwardRef(function TextField(props, ref) {
         [className]: className
       })}
     >
+      <label
+        className={classNames('text-field__label', {
+          'text-field__label--elevated': focused || !empty,
+          'text-field__label--active': focused,
+          'text-field__label--disabled': disabled
+        })}
+        htmlFor={id}
+      >
+        {label}
+      </label>
       <input
         ref={ref}
         id={id}
         placeholder={label}
         defaultValue={defaultValue}
         value={value}
+        disabled={disabled}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -68,15 +80,6 @@ const TextField = React.forwardRef(function TextField(props, ref) {
         })}
         {...rest}
       />
-      <label
-        className={classNames('text-field__label', {
-          'text-field__label--elevated': focused || !empty,
-          'text-field__label--active': focused
-        })}
-        htmlFor={id}
-      >
-        {label}
-      </label>
     </div>
   );
 });

@@ -1,4 +1,4 @@
-@import 'theme/theme';
+@import 'theme/functions';
 
 @mixin button-style($style) {
   $color: theme-prop-value(on-#{$style});
@@ -7,13 +7,12 @@
   color: $color;
   background-color: $background-color;
 
-  &:hover,
-  &:focus {
-    background-color: darken($background-color, 5%);
+  &:hover:not(:disabled) {
+    border-color: darken($background-color, 7%);
   }
 
-  &:focus::before {
-    border-color: lighten($background-color, 5%);
+  &:active {
+    background-color: darken($background-color, 7%);
   }
 
   &:disabled {
