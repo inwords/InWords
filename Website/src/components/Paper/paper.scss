@@ -1,0 +1,21 @@
+@import 'theme/functions';
+
+.paper {
+  background-color: theme-prop-value(surface);
+
+  &--elevation--1 {
+    box-shadow: theme-shadow-value(1);
+  }
+  &--elevation--2 {
+    box-shadow: theme-shadow-value(2);
+  }
+  &--elevation--3 {
+    box-shadow: theme-shadow-value(3);
+  }
+  &--elevation--4 {
+    box-shadow: theme-shadow-value(5);
+  }
+  &--elevation--5 {
+    box-shadow: theme-shadow-value(5);
+  }
+}

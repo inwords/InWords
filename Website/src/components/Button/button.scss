@@ -19,7 +19,7 @@
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    box-shadow: 0 4px 8px 0 theme-prop-value(shadow);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   &:active {
@@ -27,7 +27,7 @@
   }
 
   &--color--default {
-    @include button-style(default);
+    @include button-color(default);
 
     &:focus:not(:active) {
       outline-color: #000;
@@ -35,10 +35,10 @@
   }
 
   &--color--primary {
-    @include button-style(primary);
+    @include button-color(primary);
 
     &:focus:not(:active) {
-      outline-color: theme-prop-value(secondary);
+      outline-color: theme-color-value(secondary);
     }
   }
 
@@ -48,9 +48,9 @@
 
   &#{&}--disabled {
     pointer-events: none;
-    color: theme-prop-value(disabled-on-background);
+    color: theme-color-value(disabled-on-background);
     background-color: transparentize(
-      theme-prop-value(disabled-on-background),
+      theme-color-value(disabled-on-background),
       0.2
     );
   }

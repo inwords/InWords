@@ -1,5 +1,9 @@
 @import './variables';
 
-@function theme-prop-value($style) {
-  @return map-get($theme-property-values, $style);
+@function theme-color-value($style) {
+  @return map-get($theme-color-values, $style);
+}
+
+@function theme-shadow-value($elevation) {
+  @return map-get($theme-shadow-values, $elevation);
 }

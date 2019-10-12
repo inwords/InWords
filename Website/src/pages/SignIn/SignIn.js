@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import Paper from 'src/components/Paper';
 import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
+import { ReactComponent as Logo } from 'src/components/logo.svg';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -21,16 +20,18 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
+  logo: {
+    margin: theme.spacing(1, 1, 2),
+    width: 140
+  },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    margin: theme.spacing(1)
   },
   form: {
-    marginTop: theme.spacing(1),
     width: '100%'
   },
   formField: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(3),
     marginBottom: theme.spacing(1)
   },
   submit: {
@@ -47,9 +48,9 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
   return (
     <Container component="div" maxWidth="xs">
       <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <div className={classes.logo}>
+          <Logo />
+        </div>
         <Typography component="h1" variant="h5">
           Вход
         </Typography>

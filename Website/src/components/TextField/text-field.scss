@@ -9,7 +9,7 @@
   left: 10px;
   top: 15px;
   padding: 0 4px;
-  color: theme-prop-value(secondary-on-background);
+  color: theme-color-value(secondary-on-background);
   font-family: inherit;
   font-size: 16px;
   pointer-events: none;
@@ -29,21 +29,21 @@
   }
 
   &--active {
-    color: theme-prop-value(primary);
+    color: theme-color-value(primary);
   }
 
   &--disabled {
-    color: theme-prop-value(disabled-on-background);
+    color: theme-color-value(disabled-on-background);
   }
 }
 
 .text-field__input {
   display: block;
-  border: 1px solid theme-prop-value(hint-on-background);
+  border: 1px solid theme-color-value(hint-on-background);
   padding: 14px 12px;
   font-family: inherit;
   font-size: 16px;
-  color: theme-prop-value(primary-on-background);
+  color: theme-color-value(primary-on-background);
   transition: border-color 0.15s ease;
 
   &::-webkit-input-placeholder {
@@ -60,19 +60,19 @@
   }
 
   &:hover {
-    border-color: theme-prop-value(primary-on-background);
+    border-color: theme-color-value(primary-on-background);
   }
 
   &:focus {
-    outline: 2px solid theme-prop-value(primary);
+    outline: 2px solid theme-color-value(primary);
     outline-offset: -2px;
-    border-color: theme-prop-value(primary);
+    border-color: theme-color-value(primary);
   }
 
   &:disabled {
     pointer-events: none;
-    color: theme-prop-value(disabled-on-background);
-    border-color: theme-prop-value(disabled-on-background);
+    color: theme-color-value(disabled-on-background);
+    border-color: theme-color-value(disabled-on-background);
     background-color: inherit;
   }
 

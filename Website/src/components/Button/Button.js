@@ -43,7 +43,7 @@ const Button = React.forwardRef(function Button(props, ref) {
       className={classNames('button', `button--color--${color}`, {
         'button--full-width': fullWidth,
         'button--disabled': disabled,
-        [className]: className
+        [className]: Boolean(className)
       })}
       onClick={handleClick}
       {...buttonProps}

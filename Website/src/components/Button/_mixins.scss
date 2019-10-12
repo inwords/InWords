@@ -1,8 +1,8 @@
 @import 'theme/functions';
 
-@mixin button-style($style) {
-  $color: theme-prop-value(on-#{$style});
-  $background-color: theme-prop-value($style);
+@mixin button-color($style) {
+  $color: theme-color-value(on-#{$style});
+  $background-color: theme-color-value($style);
 
   color: $color;
   background-color: $background-color;

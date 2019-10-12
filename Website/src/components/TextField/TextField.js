@@ -54,7 +54,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
   return (
     <div
       className={classNames('text-field', {
-        [className]: className
+        [className]: Boolean(className)
       })}
     >
       <label
