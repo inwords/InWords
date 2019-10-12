@@ -10,7 +10,7 @@ const Button = React.forwardRef(function Button(props, ref) {
     children,
     disabled = false,
     onClick,
-    color = 'default',
+    color = 'secondary',
     fullWidth = false,
     className,
     ...rest
@@ -25,20 +25,20 @@ const Button = React.forwardRef(function Button(props, ref) {
     }
   };
 
-  const ComponentProp = component;
+  const Component = component;
 
   const buttonProps = {};
-  if (ComponentProp === 'button') {
+  if (Component === 'button') {
     buttonProps.disabled = disabled;
   } else {
-    if (ComponentProp !== 'a') {
+    if (Component !== 'a') {
       buttonProps.role = 'button';
     }
     buttonProps['aria-disabled'] = disabled;
   }
 
   return (
-    <ComponentProp
+    <Component
       ref={ref}
       className={classNames('button', `button--color--${color}`, {
         'button--full-width': fullWidth,
@@ -50,12 +50,12 @@ const Button = React.forwardRef(function Button(props, ref) {
       {...rest}
     >
       {children}
-    </ComponentProp>
+    </Component>
   );
 });
 
 Button.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  component: PropTypes.elementType,
   children: PropTypes.node,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,

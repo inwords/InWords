@@ -12,7 +12,7 @@
   text-decoration: none;
   line-height: 1;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 500;
   user-select: none;
   cursor: pointer;
@@ -26,19 +26,19 @@
     transform: scale(0.98);
   }
 
-  &--color--default {
-    @include button-color(default);
-
-    &:focus:not(:active) {
-      outline-color: #000;
-    }
-  }
-
   &--color--primary {
     @include button-color(primary);
 
     &:focus:not(:active) {
       outline-color: theme-color-value(secondary);
+    }
+  }
+
+  &--color--secondary {
+    @include button-color(secondary);
+
+    &:focus:not(:active) {
+      outline-color: theme-color-value(primary);
     }
   }
 
@@ -48,10 +48,7 @@
 
   &#{&}--disabled {
     pointer-events: none;
-    color: theme-color-value(disabled-on-background);
-    background-color: transparentize(
-      theme-color-value(disabled-on-background),
-      0.2
-    );
+    color: theme-color-value(text-disabled-on-background);
+    background-color: theme-color-value(disabled-on-background);
   }
 }

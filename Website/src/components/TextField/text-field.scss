@@ -9,9 +9,9 @@
   left: 10px;
   top: 15px;
   padding: 0 4px;
-  color: theme-color-value(secondary-on-background);
+  color: theme-color-value(text-secondary-on-background);
   font-family: inherit;
-  font-size: 16px;
+  font-size: 1rem;
   pointer-events: none;
   transition: all 0.15s ease;
 
@@ -23,8 +23,10 @@
   }
 
   &--compact {
+    left: 10px;
     top: -7px;
-    font-size: 13px;
+    transform: translate(0, 1.5px) scale(0.75);
+    transform-origin: top left;
     background-color: #fff;
   }
 
@@ -33,7 +35,7 @@
   }
 
   &--disabled {
-    color: theme-color-value(disabled-on-background);
+    color: theme-color-value(text-disabled-on-background);
   }
 }
 
@@ -42,8 +44,8 @@
   border: 1px solid theme-color-value(hint-on-background);
   padding: 14px 12px;
   font-family: inherit;
-  font-size: 16px;
-  color: theme-color-value(primary-on-background);
+  font-size: 1rem;
+  color: theme-color-value(text-primary-on-background);
   transition: border-color 0.15s ease;
 
   &::-webkit-input-placeholder {
@@ -71,7 +73,7 @@
 
   &:disabled {
     pointer-events: none;
-    color: theme-color-value(disabled-on-background);
+    color: theme-color-value(text-disabled-on-background);
     border-color: theme-color-value(disabled-on-background);
     background-color: inherit;
   }

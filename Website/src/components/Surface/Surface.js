@@ -2,24 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './paper.scss';
+import './surface.scss';
 
-const Paper = React.forwardRef(function Paper(props, ref) {
-  const {
-    component = 'div',
-    children,
-    elevation = 1,
-    className,
-    ...rest
-  } = props;
+const Surface = React.forwardRef(function Surface(props, ref) {
+  const { component = 'div', children, className, ...rest } = props;
 
   const ComponentProp = component;
 
   return (
     <ComponentProp
       ref={ref}
-      className={classNames('paper', {
-        [`paper--elevation--${elevation}`]: elevation > 0 && elevation <= 5,
+      className={classNames('surface', {
         [className]: Boolean(className)
       })}
       {...rest}
@@ -29,11 +22,10 @@ const Paper = React.forwardRef(function Paper(props, ref) {
   );
 });
 
-Paper.propTypes = {
+Surface.propTypes = {
   component: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   children: PropTypes.node,
-  elevation: PropTypes.number,
   className: PropTypes.string
 };
 
-export default Paper;
+export default Surface;

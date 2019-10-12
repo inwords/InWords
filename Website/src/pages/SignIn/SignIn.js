@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+//import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import Paper from 'src/components/Paper';
+//import Link from '@material-ui/core/Link';
+import Surface from 'src/components/Surface';
 import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
-import { ReactComponent as Logo } from 'src/components/logo.svg';
+import Typography from 'src/components/Typography';
+import Link from 'src/components/Link';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2, 0)
   },
   links: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(1)
   }
 }));
 
@@ -47,10 +47,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
 
   return (
     <Container component="div" maxWidth="xs">
-      <Paper className={classes.paper}>
-        <div className={classes.logo}>
-          <Logo />
-        </div>
+      <Surface className={classes.paper}>
         <Typography component="h1" variant="h5">
           Вход
         </Typography>
@@ -87,7 +84,6 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
           >
             Войти
           </Button>
-          <Divider />
           <Grid container justify="flex-end" className={classes.links}>
             <Grid item>
               <Link component={RouterLink} to="/signUp" variant="body2">
@@ -96,7 +92,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             </Grid>
           </Grid>
         </form>
-      </Paper>
+      </Surface>
     </Container>
   );
 }
