@@ -39,25 +39,25 @@ namespace InWords.WebApi.Controllers.v1
 
             int authorizedId = User.GetUserId();
 
-            List<SyncBase> answer = await wordsService.AddPairAsync(authorizedId, wordTranslations);
+            List<SyncBase> answer = await wordsService.AddPairAsync(authorizedId, wordTranslations).ConfigureAwait(false);
 
             return Ok(answer);
         }
 
-        //[Route("updatePair")]
-        //[HttpPost]
-        //public async Task<IActionResult> UpdatePair([FromBody] List<WordTranslation> wordTranslations)
-        //{
-        //    int authorizedId = User.Claims.GetUserId();
+        [Route("updatePair")]
+        [HttpPost]
+        public async Task<IActionResult> UpdatePair([FromBody] Dictionary<int, WordTranslation> wordTranslations)
+        {
+            int authorizedId = User.GetUserId();
 
-        //    List<SyncBase> answer = await wordsService.UpdateUserWordPair(authorizedId, wordTranslations);
+            List<SyncBase> answer = await wordsService.UpdateUserWordPairAsync(authorizedId, wordTranslations).ConfigureAwait(false);
 
-        //    return Ok(answer);
-        //}
+            return Ok(answer);
+        }
 
 
         /// <summary>
-        ///     Delete pairs from user dicrionary
+        ///     Delete pairs from user dictionary
         /// </summary>
         /// <returns>user with id</returns>
         /// <response code="200">OK pair deleted count</response>
@@ -73,7 +73,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             int authorizedId = User.GetUserId();
 
-            int pairDeleted = await wordsService.DeleteUserWordPairAsync(authorizedId, serverIds);
+            int pairDeleted = await wordsService.DeleteUserWordPairAsync(authorizedId, serverIds).ConfigureAwait(false);
 
             return Ok(pairDeleted);
         }

@@ -126,13 +126,16 @@ namespace InWords.WebApi.Services
             return resultPair;
         }
 
-        // TODO USE UPDATE METHOD ID UPDATE WORD PAIR
-        //private async Task<List<SyncBase>> UpdateUserWordPair(int userId, int userWordPairId,
-        //    WordTranslation wordTranslation)
-        //{
-        //    await DeleteUserWordPairAsync(userId, userWordPairId).ConfigureAwait(false);
-        //    SyncBase syncBase = await AddUserWordPairAsync(userId, wordTranslation).ConfigureAwait(false);
-        //    return new List<SyncBase> { syncBase };
-        //}
+        public async Task<List<SyncBase>> UpdateUserWordPairAsync(int userId, Dictionary<int, WordTranslation> wordTranslations)
+        {
+            var syncBase = new List<SyncBase>(wordTranslations.Count);
+            foreach (KeyValuePair<int, WordTranslation> wordTranslation in wordTranslations)
+            {
+                await DeleteUserWordPairAsync(userId, wordTranslation.Key).ConfigureAwait(false);
+                syncBase.Add(await AddUserWordPairAsync(userId, wordTranslation.Value).ConfigureAwait(false));
+            }
+
+            return syncBase;
+        }
     }
 }
