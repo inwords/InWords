@@ -39,7 +39,7 @@ namespace InWords.WebApi.Controllers.v1
 
             int authorizedId = User.GetUserId();
 
-            List<SyncBase> answer = await wordsService.AddPair(authorizedId, wordTranslations);
+            List<SyncBase> answer = await wordsService.AddPairAsync(authorizedId, wordTranslations);
 
             return Ok(answer);
         }
@@ -73,7 +73,7 @@ namespace InWords.WebApi.Controllers.v1
         {
             int authorizedId = User.GetUserId();
 
-            int pairDeleted = await wordsService.DeleteUserWordPair(authorizedId, serverIds);
+            int pairDeleted = await wordsService.DeleteUserWordPairAsync(authorizedId, serverIds);
 
             return Ok(pairDeleted);
         }
