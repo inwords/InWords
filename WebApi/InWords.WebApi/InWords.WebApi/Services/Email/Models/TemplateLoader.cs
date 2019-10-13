@@ -11,12 +11,12 @@ namespace InWords.WebApi.Services.Email.Models
         // TODO: in config injection 
         private static readonly string TemplateFolder = $"{Environment.CurrentDirectory}/AppData/EmailTemplates/";
 
-        public static async Task<string> LoadTemplate(EmailTemplates emailTemplate)
+        public static Task<string> LoadTemplate(EmailTemplates emailTemplate)
         {
             string path = Path.Combine(TemplateFolder, $"{emailTemplate}.html");
             using (var stream = new StreamReader(path))
             {
-                return await stream.ReadToEndAsync();
+                return stream.ReadToEndAsync();
             }
         }
 

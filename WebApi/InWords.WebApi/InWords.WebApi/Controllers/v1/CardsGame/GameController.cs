@@ -77,9 +77,9 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         /// <returns></returns>
         [HttpDelete]
         [Route("Delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public Task<IActionResult> Delete(int id)
         {
-            return await DeleteRange(id);
+            return DeleteRange(id);
         }
 
         /// <summary>

@@ -32,9 +32,9 @@ namespace InWords.WebApi.Providers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<TokenResponse> GetIdentity(BasicAuthClaims user)
+        public Task<TokenResponse> GetIdentity(BasicAuthClaims user)
         {
-            return await GetIdentity(user.Email, user.Password);
+            return GetIdentity(user.Email, user.Password);
         }
 
         /// <summary>

@@ -18,9 +18,9 @@ namespace InWords.WebApi.Services.GameService
             this.userGameLevelRepository = userGameLevelRepository;
         }
 
-        async Task<GameObject> IGameScoreService.GetGameStars(int userId, GameObject game)
+        Task<GameObject> IGameScoreService.GetGameStars(int userId, GameObject game)
         {
-            return await Task.Run(() => GetGameStarsAction(userId, game));
+            return Task.Run(() => GetGameStarsAction(userId, game));
         }
 
         /// <summary>
