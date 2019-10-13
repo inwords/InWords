@@ -45,6 +45,7 @@ namespace InWords.WebApi.Controllers.v1
         }
 
         [Route("updatePair")]
+        [ProducesResponseType(typeof(List<SyncBase>), StatusCodes.Status200OK)]
         [HttpPost]
         public async Task<IActionResult> UpdatePair([FromBody] Dictionary<int, WordTranslation> wordTranslations)
         {

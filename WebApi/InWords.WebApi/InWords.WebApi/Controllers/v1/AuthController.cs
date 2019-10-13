@@ -23,9 +23,6 @@ namespace InWords.WebApi.Controllers.v1
 
         private readonly EmailVerifierService emailVerifierService;
 
-        //todo remove
-        private readonly UserRepository userRepository;
-
 
         public AuthController(AccountRepository accountRepository,
             UserRepository userRepository,
@@ -33,7 +30,6 @@ namespace InWords.WebApi.Controllers.v1
         {
             this.accountRepository = accountRepository;
             this.emailVerifierService = emailVerifierService;
-            this.userRepository = userRepository;
             // todo inject
             accountIdentityProvider = new AccountIdentityProvider(accountRepository, userRepository);
         }
@@ -53,7 +49,8 @@ namespace InWords.WebApi.Controllers.v1
             try
             {
                 // get token
-                TokenResponse tokenResponse = await accountIdentityProvider.GetIdentity(user);
+                TokenResponse tokenResponse = await accountIdentityProvider.GetIdentity(user)
+                    .ConfigureAwait(false);
 
                 return Ok(tokenResponse);
             }
@@ -80,7 +77,8 @@ namespace InWords.WebApi.Controllers.v1
                 return BadRequest($"User already exists {user.Email}");
 
             //Create token
-            TokenResponse response = await CreateUserAccount(user);
+            TokenResponse response = await CreateUserAccount(user)
+                .ConfigureAwait(false);
 
             return Ok(response);
         }
@@ -89,16 +87,19 @@ namespace InWords.WebApi.Controllers.v1
         {
             //Create account in repository;
             Account account =
-                await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password);
+                await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password)
+                    .ConfigureAwait(false);
 
-            string username = account.Email.Remove(account.Email.IndexOf("@"));
+            string username = account.Email.Remove(account.Email.IndexOf("@", StringComparison.Ordinal));
 
-            // send verifeir email
-            await emailVerifierService.InstatiateVerifierMessage(account.AccountId, username, basicAuthClaims.Email);
+            // send verifier email
+            await emailVerifierService.InstatiateVerifierMessage(account.AccountId, username, basicAuthClaims.Email)
+                .ConfigureAwait(false);
 
             //Create token
             TokenResponse response =
-                await accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password);
+                await accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password)
+                    .ConfigureAwait(false);
 
             return response;
         }

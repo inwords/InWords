@@ -37,16 +37,24 @@ namespace InWords.WebApi.Controllers.v1
 
         [Route("SendActivationCode")]
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> SendActivationCode([FromBody] string email)
         {
-            int authorizedId = User.GetUserId();
-            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId), a => a.User)
+            Account account = accountRepository
+                .GetWithInclude(g => g.AccountId.Equals(User.GetUserId()), a => a.User)
                 .SingleOrDefault();
-            if (string.IsNullOrWhiteSpace(email)) email = account.Email;
+
+            if (account == null)
+                return NotFound();
+
+            if (string.IsNullOrWhiteSpace(email))
+                email = account.Email;
             try
             {
-                await emailVerifierService.InstatiateVerifierMessage(account.User, email);
+                await emailVerifierService.InstatiateVerifierMessage(account.User, email).ConfigureAwait(false);
             }
             catch (TimeoutException e)
             {
@@ -64,13 +72,15 @@ namespace InWords.WebApi.Controllers.v1
 
             try
             {
-                await emailCodeVerificationService.HasCorrectCode(authorizedId, emailClaims.Email, emailClaims.Code);
-                await accountRepository.SetEmail(authorizedId, emailClaims.Email);
+                await emailCodeVerificationService.HasCorrectCode(authorizedId, emailClaims.Email, emailClaims.Code)
+                    .ConfigureAwait(false);
+                await accountRepository.SetEmail(authorizedId, emailClaims.Email)
+                    .ConfigureAwait(false);
                 return NoContent();
             }
             catch (ArgumentNullException)
             {
-                return NotFound("Email not found or not registred");
+                return NotFound("Email not found or not registered");
             }
             catch (ArgumentException)
             {
@@ -84,10 +94,11 @@ namespace InWords.WebApi.Controllers.v1
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("Confirm/{encryptlink}")]
-        public async Task<IActionResult> ConfirmLink(string encryptlink)
+        [Route("Confirm/{encryptLink}")]
+        public async Task<IActionResult> ConfirmLink(string encryptLink)
         {
-            bool isExist = await emailLinkVerificationService.HasCorrectLink(encryptlink);
+            bool isExist = await emailLinkVerificationService.HasCorrectLink(encryptLink)
+                .ConfigureAwait(false);
             if (isExist) return Ok("Email has been successfully confirmed");
             return NotFound("Email not found");
         }
@@ -97,13 +108,16 @@ namespace InWords.WebApi.Controllers.v1
         [Authorize(Roles = nameof(RoleType.Admin))]
         public async Task<IActionResult> ConfirmUserById(int id)
         {
-            int authorizedId = id;
-            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(authorizedId), a => a.User)
+            Account account = accountRepository.GetWithInclude(g => g.AccountId.Equals(id), a => a.User)
                 .SingleOrDefault();
+
+            if (account == null)
+                return NotFound();
 
             try
             {
-                await emailVerifierService.InstatiateVerifierMessage(account.User, account.Email);
+                await emailVerifierService.InstatiateVerifierMessage(account.User, account.Email)
+                        .ConfigureAwait(false);
             }
             catch (TimeoutException e)
             {
