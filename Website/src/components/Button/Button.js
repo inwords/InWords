@@ -10,7 +10,7 @@ const Button = React.forwardRef(function Button(props, ref) {
     children,
     disabled = false,
     onClick,
-    color = 'secondary',
+    color = 'default',
     fullWidth = false,
     className,
     ...rest

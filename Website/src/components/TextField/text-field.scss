@@ -9,8 +9,7 @@
   left: 10px;
   top: 15px;
   padding: 0 4px;
-  color: theme-color-value(text-secondary-on-background);
-  font-family: inherit;
+  color: theme-palette-value(text-secondary);
   font-size: 1rem;
   pointer-events: none;
   transition: all 0.15s ease;
@@ -31,21 +30,20 @@
   }
 
   &--active {
-    color: theme-color-value(primary);
+    color: theme-palette-value(primary);
   }
 
   &--disabled {
-    color: theme-color-value(text-disabled-on-background);
+    color: theme-palette-value(text-disabled);
   }
 }
 
 .text-field__input {
   display: block;
-  border: 1px solid theme-color-value(hint-on-background);
+  border: 1px solid theme-palette-value(divider);
   padding: 14px 12px;
-  font-family: inherit;
   font-size: 1rem;
-  color: theme-color-value(text-primary-on-background);
+  color: theme-palette-value(text-primary);
   transition: border-color 0.15s ease;
 
   &::-webkit-input-placeholder {
@@ -62,20 +60,20 @@
   }
 
   &:hover {
-    border-color: theme-color-value(primary-on-background);
+    border-color: theme-palette-value(divider-dark);
   }
 
   &:focus {
-    outline: 2px solid theme-color-value(primary);
+    outline: 2px solid theme-palette-value(primary);
     outline-offset: -2px;
-    border-color: theme-color-value(primary);
+    border-color: theme-palette-value(primary);
   }
 
   &:disabled {
     pointer-events: none;
-    color: theme-color-value(text-disabled-on-background);
-    border-color: theme-color-value(disabled-on-background);
-    background-color: inherit;
+    color: theme-palette-value(text-disabled);
+    border-color: theme-palette-value(disabled);
+    background-color: theme-palette-value(disabled);
   }
 
   &--full-width {

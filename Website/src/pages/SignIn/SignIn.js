@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-//import Link from '@material-ui/core/Link';
-import Surface from 'src/components/Surface';
+import Paper from 'src/components/Paper';
 import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
 import Typography from 'src/components/Typography';
@@ -47,7 +45,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
 
   return (
     <Container component="div" maxWidth="xs">
-      <Surface className={classes.paper}>
+      <Paper className={classes.paper}>
         <Typography component="h1" variant="h5">
           Вход
         </Typography>
@@ -92,7 +90,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             </Grid>
           </Grid>
         </form>
-      </Surface>
+      </Paper>
     </Container>
   );
 }

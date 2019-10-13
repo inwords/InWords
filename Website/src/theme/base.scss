@@ -1,4 +1,5 @@
 @import './typography';
+@import './functions';
 
 html {
   box-sizing: border-box;
@@ -10,4 +11,8 @@ html {
 
 * {
   box-sizing: inherit;
+}
+
+body {
+  background-color: theme-palette-value(background);
 }

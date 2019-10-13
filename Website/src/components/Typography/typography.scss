@@ -2,7 +2,6 @@
 
 .typography {
   margin: 0;
-  font-family: inherit;
 
   &--variant--h1 {
     font-size: 6rem;
@@ -46,15 +45,15 @@
   }
 
   &--color--primary {
-    color: theme-color-value(primary);
+    color: theme-palette-value(primary);
   }
   &--color--secondary {
-    color: theme-color-value(secondary);
+    color: theme-palette-value(secondary);
   }
   &--color--text-primary {
-    color: theme-color-value(text-primary-on-background);
+    color: theme-palette-value(text-primary-on-background);
   }
   &--color--text-secondary {
-    color: theme-color-value(text-secondary-on-background);
+    color: theme-palette-value(text-secondary-on-background);
   }
 }

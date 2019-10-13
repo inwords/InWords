@@ -1,7 +1,7 @@
 @import './variables';
 
-@function theme-color-value($style) {
-  @return map-get($theme-color-values, $style);
+@function theme-palette-value($style) {
+  @return map-get($theme-palette-values, $style);
 }
 
 @function theme-shadow-value($elevation) {

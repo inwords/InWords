@@ -1,18 +1,37 @@
-$theme-color-values: (
+$theme-palette-values: (
   primary: #673ab7,
-  secondary: #bdbdbd,
+  primary-dark: #5e35b1,
+  default: #bdbdbd,
+  default-dark: #9e9e9e,
+  divider: #bdbdbd,
+  divider-dark: #616161,
   error: #b00020,
   surface: #fff,
-  on-default: #000,
+  background: #edeef0,
+  disabled: rgba(0, 0, 0, 0.17),
   on-primary: #fff,
-  on-secondary: #000,
-  on-error: #fff,
-  primary-on-background: rgba(0, 0, 0, 0.67),
-  secondary-on-background: rgba(0, 0, 0, 0.34),
-  hint-on-background: rgba(0, 0, 0, 0.18),
-  disabled-on-background: rgba(0, 0, 0, 0.18),
-  text-primary-on-background: rgba(0, 0, 0, 0.87),
-  text-secondary-on-background: rgba(0, 0, 0, 0.54),
-  text-hint-on-background: rgba(0, 0, 0, 0.38),
-  text-disabled-on-background: rgba(0, 0, 0, 0.38)
+  on-default: #000,
+  text-primary: rgba(0, 0, 0, 0.87),
+  text-secondary: rgba(0, 0, 0, 0.54),
+  text-hint: rgba(0, 0, 0, 0.38),
+  text-disabled: rgba(0, 0, 0, 0.38)
+);
+
+$theme-shadow-values: (
+  1: (
+    0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132),
+    0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108)
+  ),
+  2: (
+    0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132),
+    0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108)
+  ),
+  3: (
+    0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
+    0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)
+  ),
+  4: (
+    0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22),
+    0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)
+  )
 );
