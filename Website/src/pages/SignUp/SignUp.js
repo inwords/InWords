@@ -1,54 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
+import Container from 'src/components/Container';
+import Paper from 'src/components/Paper';
+import TextField from 'src/components/TextField';
+import Button from 'src/components/Button';
+import Typography from 'src/components/Typography';
+import Link from 'src/components/Link';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(4),
-    padding: theme.spacing(2, 3, 3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
-  },
-  form: {
-    marginTop: theme.spacing(1)
-  },
-  submit: {
-    margin: theme.spacing(3, 0)
-  },
-  links: {
-    marginTop: theme.spacing(2)
-  }
-}));
+import './sign-up.scss';
 
 function SignUp({ inputs, handleChange, handleSubmit }) {
-  const classes = useStyles();
-
   return (
-    <Container component="div" maxWidth="xs">
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+    <Container maxWidth="xs">
+      <Paper className="sign-up-paper">
         <Typography component="h1" variant="h5">
           Регистрация
         </Typography>
-        <form onSubmit={handleSubmit} className={classes.form}>
+        <form onSubmit={handleSubmit} className="sign-up-form">
           <TextField
             id="email"
             label="Email"
@@ -59,8 +28,7 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             onChange={handleChange}
             required
             fullWidth
-            variant="outlined"
-            margin="normal"
+            className="sign-up-form-field"
           />
           <TextField
             id="password"
@@ -72,26 +40,21 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             onChange={handleChange}
             required
             fullWidth
-            variant="outlined"
-            margin="normal"
+            className="sign-up-form-field"
           />
           <Button
             type="submit"
-            fullWidth
-            variant="contained"
             color="primary"
-            className={classes.submit}
+            fullWidth
+            className="sign-up-submit"
           >
             Зарегистрироваться
           </Button>
-          <Divider />
-          <Grid container justify="flex-end" className={classes.links}>
-            <Grid item>
-              <Link component={RouterLink} to="signIn" variant="body2">
-                Уже есть аккаунт? Войти
-              </Link>
-            </Grid>
-          </Grid>
+          <div className="sign-up-links">
+            <Link component={RouterLink} to="signIn" variant="body2">
+              Уже есть аккаунт? Войти
+            </Link>
+          </div>
         </form>
       </Paper>
     </Container>

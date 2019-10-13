@@ -1,0 +1,28 @@
+@import 'theme/functions';
+
+.sign-in-paper {
+  margin-top: theme-spacing(4);
+  padding: theme-spacing(3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sign-in-form {
+  width: 100%;
+}
+
+.sign-in-form-field {
+  margin-top: theme-spacing(3);
+  margin-bottom: theme-spacing(1);
+}
+
+.sign-in-submit {
+  margin-top: theme-spacing(2);
+}
+
+.sign-in-links {
+  margin-top: theme-spacing(3);
+  display: flex;
+  justify-content: flex-end;
+}

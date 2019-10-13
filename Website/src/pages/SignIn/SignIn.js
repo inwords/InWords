@@ -1,55 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import Container from 'src/components/Container';
 import Paper from 'src/components/Paper';
 import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(4),
-    padding: theme.spacing(2, 3, 3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  logo: {
-    margin: theme.spacing(1, 1, 2),
-    width: 140
-  },
-  avatar: {
-    margin: theme.spacing(1)
-  },
-  form: {
-    width: '100%'
-  },
-  formField: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(1)
-  },
-  submit: {
-    margin: theme.spacing(2, 0)
-  },
-  links: {
-    marginTop: theme.spacing(1)
-  }
-}));
+import './sign-in.scss';
 
 function SignIn({ inputs, handleChange, handleSubmit }) {
-  const classes = useStyles();
-
   return (
-    <Container component="div" maxWidth="xs">
-      <Paper className={classes.paper}>
+    <Container maxWidth="xs">
+      <Paper className="sign-in-paper">
         <Typography component="h1" variant="h5">
           Вход
         </Typography>
-        <form onSubmit={handleSubmit} className={classes.form}>
+        <form onSubmit={handleSubmit} className="sign-in-form">
           <TextField
             id="email"
             label="Email"
@@ -60,7 +28,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             onChange={handleChange}
             required
             fullWidth
-            className={classes.formField}
+            className="sign-in-form-field"
           />
           <TextField
             id="password"
@@ -72,23 +40,21 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             onChange={handleChange}
             required
             fullWidth
-            className={classes.formField}
+            className="sign-in-form-field"
           />
           <Button
             type="submit"
             color="primary"
             fullWidth
-            className={classes.submit}
+            className="sign-in-submit"
           >
             Войти
           </Button>
-          <Grid container justify="flex-end" className={classes.links}>
-            <Grid item>
-              <Link component={RouterLink} to="/signUp" variant="body2">
-                Нет аккаунта? Зарегистрироваться
-              </Link>
-            </Grid>
-          </Grid>
+          <div className="sign-in-links">
+            <Link component={RouterLink} to="/signUp" variant="body2">
+              Нет аккаунта? Зарегистрироваться
+            </Link>
+          </div>
         </form>
       </Paper>
     </Container>

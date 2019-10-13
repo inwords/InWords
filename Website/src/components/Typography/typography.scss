@@ -1,47 +1,31 @@
-@import 'theme/functions';
+@import 'theme/mixins';
 
 .typography {
   margin: 0;
 
   &--variant--h1 {
-    font-size: 6rem;
-    font-weight: 300;
-    line-height: 1;
+    @include theme-typography('h1')
   }
   &--variant--h2 {
-    font-size: 3.75rem;
-    font-weight: 300;
-    line-height: 1;
+    @include theme-typography('h2')
   }
   &--variant--h3 {
-    font-size: 3rem;
-    font-weight: 400;
-    line-height: 1.04;
+    @include theme-typography('h3')
   }
   &--variant--h4 {
-    font-size: 2.125rem;
-    font-weight: 400;
-    line-height: 1.17;
+    @include theme-typography('h4')
   }
   &--variant--h5 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.33;
+    @include theme-typography('h5')
   }
   &--variant--h6 {
-    font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 1.6;
+    @include theme-typography('h6')
   }
   &--variant--body1 {
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+    @include theme-typography('body1')
   }
   &--variant--body2 {
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.43;
+    @include theme-typography('body2')
   }
 
   &--color--primary {

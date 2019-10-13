@@ -1,7 +1,7 @@
 @import 'theme/functions';
 
 .paper {
-  background-color: theme-palette-value(surface);
+  background-color: theme-palette-value('surface');
 
   &--elevation-1 {
     box-shadow: theme-shadow-value(1);

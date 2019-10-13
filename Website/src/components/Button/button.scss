@@ -26,18 +26,18 @@
   }
 
   &--color--default {
-    @include colorize-button(default);
+    @include colorize-button('default');
 
     &:focus:not(:active) {
-      outline-color: theme-palette-value(on-default);
+      outline-color: theme-palette-value('on-default');
     }
   }
 
   &--color--primary {
-    @include colorize-button(primary);
+    @include colorize-button('primary');
 
     &:focus:not(:active) {
-      outline-color: theme-palette-value(default);
+      outline-color: theme-palette-value('divider');
     }
   }
 
@@ -47,7 +47,7 @@
 
   &#{&}--disabled {
     pointer-events: none;
-    color: theme-palette-value(text-disabled);
-    background-color: theme-palette-value(disabled);
+    color: theme-palette-value('text-disabled');
+    background-color: theme-palette-value('disabled');
   }
 }
