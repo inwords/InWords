@@ -32,7 +32,7 @@ namespace InWords.WebApi.AppStart
         ///     Startup constructor
         /// </summary>
         /// <param name="env"></param>
-        public Startup(IHostEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)

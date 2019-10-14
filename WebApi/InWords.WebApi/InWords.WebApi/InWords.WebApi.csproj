@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\aasle\YandexDisk\!Source\InWords\WebApi\InWords.WebApi\InWords.WebApi\InWords.WebApi.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\aasle\source\repos\InWords\WebApi\InWords.WebApi\InWords.WebApi\InWords.WebApi.xml</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 

@@ -25,8 +25,6 @@ namespace InWords.WebApi.AppStart
                 .ConfigureWebHostDefaults(webHostBuilder =>
                 {
                     webHostBuilder
-                        .UseContentRoot(Directory.GetCurrentDirectory())
-                        .UseIISIntegration()
                         .UseStartup<Startup>();
                 });
         }
