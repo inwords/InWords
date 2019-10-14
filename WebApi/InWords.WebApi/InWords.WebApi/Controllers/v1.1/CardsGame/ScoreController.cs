@@ -39,7 +39,7 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         [Route("Score")]
         [HttpPost]
         [ProducesResponseType(typeof(LevelScore), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ArgumentNullException), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostScore(CardGameScore cardGameScore)
         {
             int authorizedId = User.GetUserId();
@@ -72,15 +72,16 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         /// <returns>Quantity of stars and level id</returns>
         [Route("UploadScore")]
         [HttpPost]
-        public async Task<IActionResult> UploadScore(CardGameScore[] cardGameScores)
+        public async Task<IActionResult> UploadScore(List<CardGameScore> cardGameScores)
         {
             int authorizedId = User.GetUserId();
 
-            IEnumerable<LevelScore> answer;
+            List<LevelScore> answer;
             // save score to user level
             try
             {
-                answer = await gameResultService.SetResultsAsync(authorizedId, cardGameScores);
+                answer = (await gameResultService.SetResultsAsync(authorizedId, cardGameScores.ToArray())
+                    .ConfigureAwait(false)).ToList();
             }
             catch (ArgumentNullException e)
             {

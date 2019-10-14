@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
@@ -18,8 +19,7 @@ namespace InWords.WebApi.Swagger
         public static void Configure(IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
-            {
-                //declaration api doc versions 
+            { 
                 c.SwaggerDoc("v1.0", new OpenApiInfo  {Version = "v1.0", Title = "API V1.0"});
                 c.SwaggerDoc("v1.1", new OpenApiInfo  {Version = "v1.1", Title = "API V1.1"});
                 //Enable export XML dev comments to swagger
@@ -37,7 +37,6 @@ namespace InWords.WebApi.Swagger
             if (!apiDescription.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
 
             IEnumerable<ApiVersion> versions = GetApiVersions(methodInfo);
-
             return versions.Any(v => $"v{v.ToString()}" == docName);
         }
 
