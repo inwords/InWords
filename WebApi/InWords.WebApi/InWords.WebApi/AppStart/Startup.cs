@@ -1,5 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using InWords.Common.Extensions;
+using InWords.Data.Repositories;
+using InWords.Data.Repositories.Interfaces;
 using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
@@ -11,7 +17,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace InWords.WebApi.AppStart
 {
@@ -24,7 +32,7 @@ namespace InWords.WebApi.AppStart
         ///     Startup constructor
         /// </summary>
         /// <param name="env"></param>
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostEnvironment env)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -69,9 +77,6 @@ namespace InWords.WebApi.AppStart
             services.AddSwaggerInWords();
 
             services.Configure<FtpCredentials>(Configuration.GetSection(nameof(FtpCredentials)));
-
-            // Register the autofuc dependency injection
-            services.Configure(Configuration);
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace InWords.WebApi.AppStart
         /// <param name="app"></param>
         /// <param name="env"></param>
         /// <param name="loggerFactory"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
             // To design Swashbuckle components in a corporate style,
             // you need to add resources to serve static files
@@ -112,6 +117,21 @@ namespace InWords.WebApi.AppStart
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             app.UseMvc();
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // to register types of modules
+            Program.InModules.ForEach(m => m.ConfigureIoc(builder));
+
+            // register services
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .Where(a => a.Name.EndsWith("Service")
+                            && a.Namespace.StartsWith("InWords.WebApi.Services")
+                            && !a.Namespace.Contains("Abstractions"))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
         }
 
         /// <summary>
