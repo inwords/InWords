@@ -50,7 +50,7 @@ namespace InWords.WebApi.AppStart
             // Mvc and controllers mapping
             services
                 .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // allow use api from different sites
             services
