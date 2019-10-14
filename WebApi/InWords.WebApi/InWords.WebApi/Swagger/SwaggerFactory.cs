@@ -7,6 +7,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -19,8 +20,8 @@ namespace InWords.WebApi.Swagger
             services.AddSwaggerGen(c =>
             {
                 //declaration api doc versions 
-                c.SwaggerDoc("v1.0", new Info {Version = "v1.0", Title = "API V1.0"});
-                c.SwaggerDoc("v1.1", new Info {Version = "v1.1", Title = "API V1.1"});
+                c.SwaggerDoc("v1.0", new OpenApiInfo  {Version = "v1.0", Title = "API V1.0"});
+                c.SwaggerDoc("v1.1", new OpenApiInfo  {Version = "v1.1", Title = "API V1.1"});
                 //Enable export XML dev comments to swagger
                 ConfigureSwaggerComments(c);
                 //Provide custom strategy for selecting api 
