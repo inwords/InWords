@@ -72,7 +72,7 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         /// <returns>Quantity of stars and level id</returns>
         [Route("UploadScore")]
         [HttpPost]
-        public async Task<IActionResult> UploadScore(List<CardGameScore> cardGameScores)
+        public async Task<IActionResult> UploadScore(CardGameScore[] cardGameScores)
         {
             int authorizedId = User.GetUserId();
 
@@ -80,7 +80,7 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
             // save score to user level
             try
             {
-                answer = (await gameResultService.SetResultsAsync(authorizedId, cardGameScores.ToArray())
+                answer = (await gameResultService.SetResultsAsync(authorizedId, cardGameScores)
                     .ConfigureAwait(false)).ToList();
             }
             catch (ArgumentNullException e)
