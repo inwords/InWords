@@ -45,11 +45,11 @@ namespace InWords.WebApi.AppStart
         ///     This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
         /// <param name="services"></param>
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             // Mvc and controllers mapping
             services
-                .AddMvc()
+                .AddMvc(o=> o.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // allow use api from different sites
@@ -71,7 +71,7 @@ namespace InWords.WebApi.AppStart
             services.Configure<FtpCredentials>(Configuration.GetSection(nameof(FtpCredentials)));
 
             // Register the autofuc dependency injection
-            return services.Configure(Configuration);
+            services.Configure(Configuration);
         }
 
         /// <summary>
