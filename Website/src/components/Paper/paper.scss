@@ -1,18 +1,6 @@
-@import 'theme/functions';
+@import 'theme/mixins';
 
 .paper {
-  background-color: theme-palette-value('surface');
-
-  &--elevation-1 {
-    box-shadow: theme-shadow-value(1);
-  }
-  &--elevation-2 {
-    box-shadow: theme-shadow-value(2);
-  }
-  &--elevation-3 {
-    box-shadow: theme-shadow-value(3);
-  }
-  &--elevation-4 {
-    box-shadow: theme-shadow-value(4);
-  }
+  background-color: theme-palette('surface');
+  border: 1px solid theme-palette('divider');
 }

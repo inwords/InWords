@@ -5,14 +5,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Progress from './Progress';
+import Progress from '../components/Progress';
 import Hidden from '@material-ui/core/Hidden';
 import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
 import ProfileMenu from './ProfileMenu';
-import NavList from './NavList';
+import NavList from './NavList2';
 
 const drawerWidth = 240;
 
@@ -70,7 +70,7 @@ function PageLayout({ authorized, children }) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
+      {/* <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             aria-label="toggle drawer"
@@ -122,7 +122,7 @@ function PageLayout({ authorized, children }) {
             <NavList authorized={authorized} />
           </Drawer>
         </Hidden>
-      </nav>
+      </nav> */}
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {children}

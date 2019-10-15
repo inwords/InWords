@@ -1,14 +1,14 @@
 @import 'theme/functions';
 
 @mixin colorize-button($style) {
-  color: theme-palette-value(on-#{$style});
-  background-color: theme-palette-value($style);
+  color: theme-palette(on-#{$style});
+  background-color: theme-palette($style);
 
   &:hover {
-    border-color: theme-palette-value(#{$style}-dark);
+    border-color: theme-palette(#{$style}-dark);
   }
 
   &:active {
-    background-color: theme-palette-value(#{$style}-dark);
+    background-color: theme-palette(#{$style}-dark);
   }
 }

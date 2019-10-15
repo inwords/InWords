@@ -5,21 +5,23 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CustomSnackbar from 'src/components/CustomSnackbar';
-import PageLayout from 'src/components/PageLayout';
-import ErrorBoundary from 'src/components/ErrorBoundary';
+import PageLayout from 'src/layout/PageLayout';
+import ErrorBoundary from 'src/layout/ErrorBoundary';
 
-const SignIn = lazy(() => import('./pages/SignIn'));
-const SignUp = lazy(() => import('./pages/SignUp'));
-const Profile = lazy(() => import('./pages/Profile'));
-const ProfileSettings = lazy(() => import('./pages/ProfileSettings'));
-const Account = lazy(() => import('./pages/Account'));
-const Dictionary = lazy(() => import('./pages/Dictionary'));
-const TrainingCategories = lazy(() => import('./pages/TrainingCategories'));
-const TrainingTypes = lazy(() => import('./pages/TrainingTypes'));
-const TrainingLevels = lazy(() => import('./pages/TrainingLevels'));
-const Game = lazy(() => import('./pages/Game'));
+import Header from 'src/layout/Header';
+
+const SignIn = lazy(() => import('./routes/SignIn'));
+const SignUp = lazy(() => import('./routes/SignUp'));
+const Profile = lazy(() => import('./routes/Profile'));
+const ProfileSettings = lazy(() => import('./routes/ProfileSettings'));
+const Account = lazy(() => import('./routes/Account'));
+const Dictionary = lazy(() => import('./routes/Dictionary'));
+const TrainingCategories = lazy(() => import('./routes/TrainingCategories'));
+const TrainingTypes = lazy(() => import('./routes/TrainingTypes'));
+const TrainingLevels = lazy(() => import('./routes/TrainingLevels'));
+const Game = lazy(() => import('./routes/Game'));
 const SelectTranslateTraining = lazy(() =>
-  import('./pages/SelectTranslateTraining')
+  import('./routes/SelectTranslateTraining')
 );
 
 const history = createBrowserHistory();
@@ -39,6 +41,7 @@ function App() {
   return (
     <Router history={history}>
       <CustomSnackbar />
+      <Header />
       <PageLayout authorized={Boolean(userId)}>
         <ErrorBoundary>
           <Suspense

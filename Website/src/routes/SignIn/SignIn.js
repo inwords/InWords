@@ -13,7 +13,7 @@ import './sign-in.scss';
 function SignIn({ inputs, handleChange, handleSubmit }) {
   return (
     <Container maxWidth="xs">
-      <Paper className="sign-in-paper">
+      <div className="sign-in-surface">
         <Typography component="h1" variant="h5">
           Вход
         </Typography>
@@ -42,12 +42,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             fullWidth
             className="sign-in-form-field"
           />
-          <Button
-            type="submit"
-            color="primary"
-            fullWidth
-            className="sign-in-submit"
-          >
+          <Button type="submit" primary fullWidth className="sign-in-submit">
             Войти
           </Button>
           <div className="sign-in-links">
@@ -56,7 +51,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             </Link>
           </div>
         </form>
-      </Paper>
+      </div>
     </Container>
   );
 }

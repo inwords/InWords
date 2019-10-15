@@ -17,28 +17,22 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
-  &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-
   &:active {
     transform: scale(0.98);
   }
 
-  &--color--default {
-    @include colorize-button('default');
-
-    &:focus:not(:active) {
-      outline-color: theme-palette-value('on-default');
-    }
+  &:focus:not(:active) {
+    outline-color: #000;
   }
 
-  &--color--primary {
-    @include colorize-button('primary');
+  @include colorize-button('default');
 
+  &--primary {
     &:focus:not(:active) {
-      outline-color: theme-palette-value('divider');
+      outline-color: theme-palette('divider');
     }
+
+    @include colorize-button('primary');
   }
 
   &--full-width {
@@ -47,7 +41,7 @@
 
   &#{&}--disabled {
     pointer-events: none;
-    color: theme-palette-value('text-disabled');
-    background-color: theme-palette-value('disabled');
+    color: theme-palette('text-disabled');
+    background-color: theme-palette('disabled');
   }
 }

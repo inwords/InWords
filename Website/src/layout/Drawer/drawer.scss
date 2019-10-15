@@ -1,0 +1,34 @@
+@import 'theme/functions';
+@import 'theme/mixins';
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  transition: all 0.2s ease-in-out;
+  transform: translateY(-100%);
+
+  &--expanded {
+    transform: translateY(0);
+  }
+}
+
+.ui-mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  display: none;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.1s linear;
+
+  &--visible {
+    opacity: 1;
+    display: block;
+  }
+}

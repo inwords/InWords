@@ -58,7 +58,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
             className={classes.actions}
           >
             <Grid item>
-              <Button type="submit" color="primary">
+              <Button type="submit" primary>
                 Сохранить
               </Button>
             </Grid>

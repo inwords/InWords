@@ -6,6 +6,10 @@
   line-height: theme-typography-value($variant, line-height);
 }
 
+@mixin theme-shadow($elevation) {
+  box-shadow: theme-shadow-value($elevation);
+}
+
 @mixin theme-breakpoints-up($breakpoint) {
   @media only screen and (min-width: theme-breakpoints-value($breakpoint)) {
     @content;
@@ -13,7 +17,7 @@
 }
 
 @mixin theme-breakpoints-down($breakpoint) {
-  @media only screen and (max-width: theme-breakpoints-value($breakpoint)) {
+  @media only screen and (max-width: theme-breakpoints-value($breakpoint) - 1) {
     @content;
   }
 }

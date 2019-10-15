@@ -10,7 +10,7 @@ const Button = React.forwardRef(function Button(props, ref) {
     children,
     disabled = false,
     onClick,
-    color = 'default',
+    primary = false,
     fullWidth = false,
     className,
     ...rest
@@ -40,7 +40,8 @@ const Button = React.forwardRef(function Button(props, ref) {
   return (
     <Component
       ref={ref}
-      className={classNames('button', `button--color--${color}`, {
+      className={classNames('button', {
+        'button--primary': primary,
         'button--full-width': fullWidth,
         'button--disabled': disabled,
         [className]: Boolean(className)
@@ -59,7 +60,7 @@ Button.propTypes = {
   children: PropTypes.node,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
-  color: PropTypes.string,
+  primary: PropTypes.bool,
   fullWidth: PropTypes.bool,
   className: PropTypes.string
 };

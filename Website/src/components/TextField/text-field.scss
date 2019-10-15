@@ -10,7 +10,7 @@
   left: 10px;
   top: 15px;
   padding: 0 4px;
-  color: theme-palette-value('text-secondary');
+  color: theme-palette('text-secondary');
   font: inherit;
   pointer-events: none;
   transform-origin: top left;
@@ -29,21 +29,21 @@
   }
 
   &--active {
-    color: theme-palette-value('primary');
+    color: theme-palette('primary');
   }
 
   &--disabled {
-    color: theme-palette-value('text-disabled');
+    color: theme-palette('text-disabled');
   }
 }
 
 .text-field__input {
   display: block;
-  border: 1px solid theme-palette-value('divider');
+  border: 1px solid theme-palette('divider');
   border-radius: 0;
   padding: 14px 12px;
   font: inherit;
-  color: theme-palette-value('text-primary');
+  color: theme-palette('text-primary');
   transition: border-color 0.15s ease;
   -webkit-appearance: none;
 
@@ -61,20 +61,20 @@
   }
 
   &:hover {
-    border-color: theme-palette-value('divider-dark');
+    border-color: theme-palette('divider-dark');
   }
 
   &:focus {
-    outline: 2px solid theme-palette-value('primary');
+    outline: 2px solid theme-palette('primary');
     outline-offset: -2px;
-    border-color: theme-palette-value('primary');
+    border-color: theme-palette('primary');
   }
 
   &:disabled {
     pointer-events: none;
-    color: theme-palette-value('text-disabled');
-    border-color: theme-palette-value('disabled');
-    background-color: theme-palette-value('disabled');
+    color: theme-palette('text-disabled');
+    border-color: theme-palette('disabled');
+    background-color: theme-palette('disabled');
   }
 
   &--full-width {

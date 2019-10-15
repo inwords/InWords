@@ -29,15 +29,15 @@
   }
 
   &--color--primary {
-    color: theme-palette-value(primary);
+    color: theme-palette(primary);
   }
   &--color--secondary {
-    color: theme-palette-value(secondary);
+    color: theme-palette(secondary);
   }
   &--color--text-primary {
-    color: theme-palette-value(text-primary-on-background);
+    color: theme-palette(text-primary);
   }
   &--color--text-secondary {
-    color: theme-palette-value(text-secondary-on-background);
+    color: theme-palette(text-secondary);
   }
 }

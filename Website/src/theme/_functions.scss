@@ -1,14 +1,6 @@
 @import './variables';
 
-@function theme-spacing($values...) {
-  $spacing-values: '';
-  @each $value in $values {
-    $spacing-values: $spacing-values + ' ' + $value * $theme-spacing + 'px';
-  }
-  @return #{$spacing-values};
-}
-
-@function theme-palette-value($style) {
+@function theme-palette($style) {
   @return map-get($theme-palette-values, $style);
 }
 

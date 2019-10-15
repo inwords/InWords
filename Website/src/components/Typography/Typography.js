@@ -46,7 +46,7 @@ const Typography = React.forwardRef(function Typography(props, ref) {
 });
 
 Typography.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  component: PropTypes.elementType,
   children: PropTypes.node,
   variant: PropTypes.string,
   color: PropTypes.string,
