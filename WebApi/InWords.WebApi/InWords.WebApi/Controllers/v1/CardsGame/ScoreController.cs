@@ -99,7 +99,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             // todo single service/request implementation
             int userId = User.GetUserId();
             // find levels
-            GameObject answer = await gameService.GetGameObject(id);
+            GameObject answer = await gameService.GetGameObjectAsync(id);
             if (answer == null) return NotFound();
 
             // set stars
