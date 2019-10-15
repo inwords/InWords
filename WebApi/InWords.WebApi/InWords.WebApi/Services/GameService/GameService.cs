@@ -47,7 +47,7 @@ namespace InWords.WebApi.Services.GameService
             // Does not affect user experience
 
             // Add levels
-            foreach (LevelPack levelPack in gamePack.LevelPacks) await gameLevelService.AddLevel(gameBox, levelPack);
+            foreach (LevelPack levelPack in gamePack.LevelPacks) await gameLevelService.AddLevelAsync(gameBox, levelPack);
 
             var answer = new SyncBase(gameBox.CreationId);
 
