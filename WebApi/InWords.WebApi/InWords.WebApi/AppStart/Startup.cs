@@ -11,6 +11,7 @@ using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
 using InWords.WebApi.Services.FtpLoader.Model;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -132,6 +133,20 @@ namespace InWords.WebApi.AppStart
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
+
+            // mediator itself
+            builder
+                .RegisterType<Mediator>()
+                .As<IMediator>()
+                .InstancePerLifetimeScope();
+
+            // request & notification handlers
+            builder.Register<ServiceFactory>(context =>
+            {
+                var c = context.Resolve<IComponentContext>();
+                return t => c.Resolve(t);
+            });
+
         }
 
         /// <summary>
