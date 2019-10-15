@@ -63,7 +63,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         [HttpGet]
         public IActionResult GetLevel(int id)
         {
-            Level answer = gameLevelWordService.GetLevelWords(id);
+            Level answer = gameLevelWordService.GetLevelWordsAsync(id).Result;
 
             return Ok(answer);
         }

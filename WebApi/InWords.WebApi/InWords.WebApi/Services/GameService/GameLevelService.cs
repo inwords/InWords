@@ -18,7 +18,7 @@ namespace InWords.WebApi.Services.GameService
                 Level = levelPack.Level
             };
             gameLevel = await gameLevelRepository.CreateAsync(gameLevel).ConfigureAwait(false);
-            await gameLevelWordService.AddWordsToLevel(levelPack.WordTranslations, gameLevel.GameLevelId).ConfigureAwait(false);
+            await gameLevelWordService.AddWordsToLevelAsync(levelPack.WordTranslations, gameLevel.GameLevelId).ConfigureAwait(false);
             return gameLevel;
         }
 
