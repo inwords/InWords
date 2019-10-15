@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\InWords.WebApi\InWords.Service.Auth\InWords.Service.Auth.csproj" />
+    <ProjectReference Include="..\InWords.Service.Auth\InWords.Service.Auth.csproj" />
   </ItemGroup>
-
 </Project>

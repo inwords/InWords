@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\InWords.WebApi\InWords.Data.DTO\InWords.Data.DTO.csproj" />
-    <ProjectReference Include="..\..\..\InWords.WebApi\InWords.WebApi\InWords.WebApi.csproj" />
+    <ProjectReference Include="..\InWords.Data.DTO\InWords.Data.DTO.csproj" />
+    <ProjectReference Include="..\InWords.WebApi\InWords.WebApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>
