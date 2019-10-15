@@ -9,12 +9,12 @@ jobs:
   build:
 
     runs-on: windows-latest
-    
     steps:
     - uses: actions/checkout@v1
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.108
+        dotnet-version: 3.0.100      
     - name: Build with dotnet
+      working-directory: ./WebApi/InWords.WebApi
       run: dotnet build --configuration Release
