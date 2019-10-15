@@ -15,7 +15,7 @@ namespace InWords.WebApi.Services.GameService
         {
             foreach (WordTranslation pair in wordTranslations)
             {
-                WordPair wordPair = await wordsService.AddPair(pair);
+                WordPair wordPair = await wordsService.AddPairAsync(pair);
 
                 var gameLevelWord = new GameLevelWord
                 {

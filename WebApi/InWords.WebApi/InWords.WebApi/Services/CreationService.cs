@@ -24,7 +24,7 @@ namespace InWords.WebApi.Services
                 CreatorId = (int) creationInfo.CreatorId
             };
 
-            creation = await CreationRepository.CreateAsync(creation).ConfigureAwait(true);
+            creation = await CreationRepository.CreateAsync(creation).ConfigureAwait(false);
 
             IEnumerable<CreationDescription> creationDescriptions = creationInfo.Descriptions.Select(cd =>
                 new CreationDescription
@@ -35,7 +35,7 @@ namespace InWords.WebApi.Services
                     Description = cd.Description
                 });
 
-            await CreationDescriptionRepository.Create(creationDescriptions.ToArray()).ConfigureAwait(true);
+            await CreationDescriptionRepository.Create(creationDescriptions.ToArray()).ConfigureAwait(false);
 
             return creation;
         }

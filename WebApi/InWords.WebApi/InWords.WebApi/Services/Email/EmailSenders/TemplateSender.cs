@@ -19,7 +19,7 @@ namespace InWords.WebApi.Services.Email.EmailSenders
             string address,
             string name = "")
         {
-            string htmlText = await TemplateResolver.LoadTemplate(emailTemplate, templateReplace);
+            string htmlText = await TemplateResolver.LoadTemplateAsync(emailTemplate, templateReplace);
             string altText = StripHTML(htmlText);
             SetSubject(subject);
             SetHTML(htmlText, altText);

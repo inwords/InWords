@@ -48,14 +48,14 @@ namespace InWords.WebApi.Services.CardGame
                 cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToHashSet();
 
             // save score to storage
-            await gameScoreService.UploadScoreAsync(userId, levelScores).ConfigureAwait(true);
+            await gameScoreService.UploadScoreAsync(userId, levelScores).ConfigureAwait(false);
 
             // Calculate word metric;
             IKnowledgeQualifier[] knowledgeQualifiers 
                 = cardGameScores.Select(k => new CardGameKnowledge(k) as IKnowledgeQualifier).ToArray();
 
             // update words pairs license in store
-            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers).ConfigureAwait(true);
+            await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifiers).ConfigureAwait(false);
 
             return levelScores;
         }

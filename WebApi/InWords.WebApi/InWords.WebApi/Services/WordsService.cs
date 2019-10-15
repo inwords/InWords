@@ -23,17 +23,18 @@ namespace InWords.WebApi.Services
             this.wordRepository = wordRepository;
         }
 
-        public async Task<List<SyncBase>> AddPair(int userId, IEnumerable<WordTranslation> wordTranslations)
+        public async Task<List<SyncBase>> AddPairAsync(int userId, IEnumerable<WordTranslation> wordTranslations)
         {
             var answer = new List<SyncBase>();
 
             foreach (WordTranslation wordTranslation in wordTranslations)
-                answer.Add(await AddUserWordPair(userId, wordTranslation));
+                answer.Add(await AddUserWordPairAsync(userId, wordTranslation)
+                    .ConfigureAwait(false));
 
             return answer;
         }
 
-        public async Task<WordPair> AddPair(WordTranslation wordTranslation)
+        public Task<WordPair> AddPairAsync(WordTranslation wordTranslation)
         {
             var firstWordForeign = new Word
             {
@@ -45,7 +46,7 @@ namespace InWords.WebApi.Services
                 Content = wordTranslation.WordNative
             };
 
-            return await wordPairRepository.Stack(firstWordForeign, secondWordNative);
+            return wordPairRepository.Stack(firstWordForeign, secondWordNative);
         }
 
         public IEnumerable<int> UserWordsId(int userId)
@@ -74,32 +75,34 @@ namespace InWords.WebApi.Services
             return new WordTranslation(wordPair.WordForeign.Content, wordPair.WordNative.Content, id);
         }
 
-        public async Task<int> DeleteUserWordPair(int userId, IEnumerable<int> userWordPairIDs)
+        public async Task<int> DeleteUserWordPairAsync(int userId, IEnumerable<int> userWordPairIDs)
         {
             var wordsRemoved = 0;
-            foreach (int uwpId in userWordPairIDs) wordsRemoved += await DeleteUserWordPair(userId, uwpId);
+            foreach (int uwpId in userWordPairIDs)
+            {
+                wordsRemoved += await DeleteUserWordPairAsync(userId, uwpId).ConfigureAwait(false);
+            }
+
             return wordsRemoved;
         }
 
-        public async Task<int> DeleteUserWordPair(int userId, int userWordPairId)
+        public Task<int> DeleteUserWordPairAsync(int userId, int userWordPairId)
         {
-            //todo union.expect ??
+            // todo union.expect ??
             UserWordPair userWordsPair = userWordPairRepository
                 .GetWhere(uwp => uwp.UserWordPairId.Equals(userWordPairId) && uwp.UserId.Equals(userId))
                 .SingleOrDefault();
 
-            if (userWordsPair != null)
-                return await userWordPairRepository.Remove(userWordsPair);
-            return 0;
+            return userWordsPair != null ? userWordPairRepository.Remove(userWordsPair) : new Task<int>(() => 0);
         }
 
-        private async Task<SyncBase> AddUserWordPair(int userId, WordTranslation wordTranslation)
+        private async Task<SyncBase> AddUserWordPairAsync(int userId, WordTranslation wordTranslation)
         {
             // add word pair in repository
-            WordPair wordPair = await AddPair(wordTranslation);
+            WordPair wordPair = await AddPairAsync(wordTranslation).ConfigureAwait(false);
 
             // Load a word from a cell of a foreign word
-            Word wordForeign = await wordRepository.FindById(wordPair.WordForeignId);
+            Word wordForeign = await wordRepository.FindById(wordPair.WordForeignId).ConfigureAwait(false);
 
             // If the loaded foreign word does not match the word 
             // in the repository then the pair is considered inverted
@@ -111,7 +114,7 @@ namespace InWords.WebApi.Services
             };
 
             // add pair to user dictionary
-            createdPair = await userWordPairRepository.Stack(createdPair);
+            createdPair = await userWordPairRepository.Stack(createdPair).ConfigureAwait(false);
 
             // create answer
             var resultPair = new SyncBase
@@ -123,12 +126,16 @@ namespace InWords.WebApi.Services
             return resultPair;
         }
 
-        private async Task<List<SyncBase>> UpdateUserWordPair(int userId, int userWordPairId,
-            WordTranslation wordTranslation)
+        public async Task<List<SyncBase>> UpdateUserWordPairAsync(int userId, Dictionary<int, WordTranslation> wordTranslations)
         {
-            await DeleteUserWordPair(userId, userWordPairId);
-            SyncBase syncBase = await AddUserWordPair(userId, wordTranslation);
-            return new List<SyncBase> {syncBase};
+            var syncBase = new List<SyncBase>(wordTranslations.Count);
+            foreach (KeyValuePair<int, WordTranslation> wordTranslation in wordTranslations)
+            {
+                await DeleteUserWordPairAsync(userId, wordTranslation.Key).ConfigureAwait(false);
+                syncBase.Add(await AddUserWordPairAsync(userId, wordTranslation.Value).ConfigureAwait(false));
+            }
+
+            return syncBase;
         }
     }
 }
