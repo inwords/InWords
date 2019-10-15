@@ -1,21 +1,19 @@
-import React from 'react';
+import { useState } from 'react';
 
-function useDialog() {
-    const [open, setOpen] = React.useState(false);
+export default function useDialog() {
+  const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    return {
-        open,
-        handleClickOpen,
-        handleClose
-    };
+  return {
+    open,
+    handleOpen,
+    handleClose
+  };
 }
-
-export default useDialog;

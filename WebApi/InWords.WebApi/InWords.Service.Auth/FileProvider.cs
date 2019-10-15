@@ -7,12 +7,12 @@ namespace InWords.Service.Auth
     // TODO <T>
     internal class FileProvider
     {
-        public string FilePath { get; set; }
-
         public FileProvider(string path)
         {
             FilePath = path;
         }
+
+        public string FilePath { get; set; }
 
         public async void Save(string context)
         {
@@ -20,7 +20,6 @@ namespace InWords.Service.Auth
             {
                 await writer.WriteAsync(context);
             }
-
         }
 
         public string Open()
@@ -43,6 +42,5 @@ namespace InWords.Service.Auth
 
             return result;
         }
-
     }
 }

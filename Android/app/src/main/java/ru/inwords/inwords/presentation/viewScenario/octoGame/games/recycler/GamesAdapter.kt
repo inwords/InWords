@@ -11,12 +11,12 @@ class GamesAdapter(layoutInflater: LayoutInflater, onItemClickedListener: Subjec
         BaseSingleTypeAdapter<GameInfo, GameInfoViewHolder>(layoutInflater, onItemClickedListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameInfoViewHolder {
-        val v = inflater.inflate(R.layout.game_info, parent, false)
+        val v = layoutInflater.inflate(R.layout.game_info, parent, false)
 
-        return GameInfoViewHolder(v, onItemClickedListener)
+        return GameInfoViewHolder(v, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: GameInfoViewHolder, position: Int) {
-        holder.bind(values[position])
+        holder.bind(items[position])
     }
 }

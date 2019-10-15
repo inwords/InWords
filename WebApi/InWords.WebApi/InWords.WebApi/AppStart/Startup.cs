@@ -2,7 +2,9 @@
 using System.IO;
 using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
+using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
+using InWords.WebApi.Services.FtpLoader.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,13 +33,13 @@ namespace InWords.WebApi.AppStart
                 .AddJsonFile("appsettings.security.json", false, true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            InModule.Configuration = Configuration;
         }
 
         /// <summary>
         ///     This is the service configuration
         /// </summary>
         public IConfiguration Configuration { get; }
-
 
         /// <summary>
         ///     This method gets called by the runtime. Use this method to add services to the container.
@@ -66,6 +68,8 @@ namespace InWords.WebApi.AppStart
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
 
+            services.Configure<FtpCredentials>(Configuration.GetSection(nameof(FtpCredentials)));
+
             // Register the autofuc dependency injection
             return services.Configure(Configuration);
         }
@@ -90,19 +94,19 @@ namespace InWords.WebApi.AppStart
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "My API V1");
-                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "My API V1.1");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "InWords Web API V1");
+                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "InWords Web API V1.1");
                 c.RoutePrefix = string.Empty;
             });
 
             // Enable middleware to generated logs as a text file.
             LoggerConfiguration(loggerFactory);
 
-            // TODO: remove on Release
-            // if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-            }
+            else
+                app.UseMiddleware<SecureConnectionMiddleware>();
+
             app.UseAuthentication();
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -123,7 +127,6 @@ namespace InWords.WebApi.AppStart
         }
     }
 }
-
 // feature-used when adding new application-level functionality
 // fix - if fixed some serious bug
 // docs — all the documentation

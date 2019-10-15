@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using InWords.Data.Domains;
 using InWords.Data.DTO;
 using InWords.Data.Repositories;
-using InWords.WebApi.TransferData;
+using InWords.WebApi.Extensions;
 
 namespace InWords.WebApi.Services
 {
@@ -70,6 +70,7 @@ namespace InWords.WebApi.Services
         public WordTranslation GetWordTranslationById(int id)
         {
             WordPair wordPair = wordPairRepository.IncludeContent().Single(x => x.WordPairId.Equals(id));
+
             return new WordTranslation(wordPair.WordForeign.Content, wordPair.WordNative.Content, id);
         }
 
@@ -98,14 +99,14 @@ namespace InWords.WebApi.Services
             WordPair wordPair = await AddPair(wordTranslation);
 
             // Load a word from a cell of a foreign word
-            Word wordInForeign = await wordRepository.FindById(wordPair.WordForeignId);
+            Word wordForeign = await wordRepository.FindById(wordPair.WordForeignId);
 
             // If the loaded foreign word does not match the word 
             // in the repository then the pair is considered inverted
             var createdPair = new UserWordPair
             {
                 WordPairId = wordPair.WordPairId,
-                IsInvertPair = wordInForeign.Content != wordTranslation.WordForeign,
+                IsInvertPair = !wordForeign.Content.Equals(wordTranslation.WordForeign.ToLower()),
                 UserId = userId
             };
 

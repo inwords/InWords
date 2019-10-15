@@ -1,24 +1,23 @@
 import { combineReducers } from 'redux';
-import accessConstants from '../constants/accessConstants';
+import { DENY_ACCESS } from 'actions/accessActions';
 import common from './common';
 import access from './access';
 import userInfo from './userInfo';
 import wordPairs from './wordPairs';
-import game from './game';
+import games from './games';
 
 const appReducer = combineReducers({
-    common,
-    access,
-    userInfo,
-    wordPairs,
-    game
+  common,
+  access,
+  userInfo,
+  wordPairs,
+  games
 });
 
-const rootReducer = (state, action) => {
-    if (action.type === accessConstants.ACCESS_DENIAL) {
-        state = undefined;
-    }
-    return appReducer(state, action);
-};
+export default function rootReducer(state, action) {
+  if (action.type === DENY_ACCESS) {
+    state = undefined;
+  }
 
-export default rootReducer;
+  return appReducer(state, action);
+}

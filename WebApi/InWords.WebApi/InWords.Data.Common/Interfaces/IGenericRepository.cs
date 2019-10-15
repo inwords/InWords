@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace InWords.Data.Interfaces
+namespace InWords.Abstractions.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> Create(TEntity item);
+        Task<TEntity> CreateAsync(TEntity item);
         Task<TEntity[]> Create(params TEntity[] item);
-        Task<TEntity> FindById(int id);
+        Task<TEntity> FindById(params object[] id);
         IEnumerable<TEntity> GetAllEntities();
         IEnumerable<TEntity> GetWhere(Func<TEntity, bool> predicate);
         Task<int> Remove(params TEntity[] item);
         Task<TEntity> Update(TEntity item);
+        Task<int> Delete(Expression<Func<TEntity, bool>> predicate);
     }
 }

@@ -6,7 +6,7 @@ namespace InWords.Service.Auth.Models
     ///     Email and Password data transfer class
     /// </summary>
     public class BasicAuthClaims
-    { 
+    {
         [Required]
         [EmailAddress]
         [StringLength(64)]

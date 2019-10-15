@@ -1,11 +1,12 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
-import io.reactivex.Observable
+import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_game_level.*
 import kotlinx.android.synthetic.main.game_card_front.view.*
 import ru.inwords.flipview.FlipView
@@ -13,23 +14,25 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
 import ru.inwords.inwords.domain.CardsData
-import ru.inwords.inwords.domain.GAME_ID
-import ru.inwords.inwords.domain.GAME_LEVEL_INFO
 import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.domain.util.INVALID_ID
+import ru.inwords.inwords.presentation.GAME_ID
+import ru.inwords.inwords.presentation.GAME_LEVEL_INFO
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
-import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
 
 
 class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGameViewModelFactory>() {
+    override val layout = R.layout.fragment_game_level
+    override val classType = GameLevelViewModel::class.java
+
+    private val args by navArgs<GameLevelFragmentArgs>()
+
     //region arguments
     private lateinit var gameLevelInfo: GameLevelInfo
     private var gameId: Int = INVALID_ID
     //endregion arguments
-
-    private var gameEndBottomSheetFragment: GameEndBottomSheet? = null
 
     private val stateMap = HashMap<String, Boolean>()
     private var openedCard: FlipView? = null
@@ -39,17 +42,16 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        gameLevelInfo = savedInstanceState?.getSerializable(GAME_LEVEL_INFO) as? GameLevelInfo
-                ?: arguments?.getSerializable(GAME_LEVEL_INFO) as GameLevelInfo
+        gameLevelInfo = savedInstanceState?.getParcelable(GAME_LEVEL_INFO)
+                ?: args.gameLevelInfo
 
-        gameId = savedInstanceState?.getInt(GAME_ID)
-                ?: arguments?.getInt(GAME_ID) ?: INVALID_ID
+        gameId = savedInstanceState?.getInt(GAME_ID) ?: args.gameId
 
         viewModel.onGameLevelSelected(gameId, gameLevelInfo)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
+        outState.putParcelable(GAME_LEVEL_INFO, gameLevelInfo)
         outState.putInt(GAME_ID, gameId)
         super.onSaveInstanceState(outState)
     }
@@ -57,28 +59,20 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        compositeDisposable.add(viewModel.navigationStream().subscribe {
-            gameEndBottomSheetFragment?.dismiss()
-
-            when (it) {
-                FromGameEndEventsEnum.HOME -> navController.navigate(R.id.action_global_mainFragment)
-                FromGameEndEventsEnum.BACK -> navController.navigate(R.id.action_gameLevelFragment_pop)
-                else -> Unit
-            }
-        })
-
-        compositeDisposable.add(viewModel
-                .cardsStream()
+        viewModel.cardsStream()
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(::render, Throwable::printStackTrace))
+                .subscribe(::render) { Log.e(javaClass.simpleName, it.message.orEmpty()) }
+                .disposeOnViewDestroyed()
     }
 
     private fun render(cardsDataResource: Resource<CardsData>) {
 //        showIntro(cardsData)
         clearState()
 
-        if (cardsDataResource.success()) {
-            val cardsData = cardsDataResource.data!!
+        gameLevelInfo = viewModel.getCurrentLevelInfo()
+
+        if (cardsDataResource is Resource.Success) {
+            val cardsData = cardsDataResource.data
 
             cardsData.words.forEach { stateMap[it] = false }
 
@@ -139,18 +133,15 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
         if (stateMap.values.all { it }) {
             showGameEndDialog()
-
-            viewModel.onGameEnd(cardOpenClicksCount, stateMap.size)
         }
     }
 
     private fun showGameEndDialog() {
-        val nextLevelAvailable = viewModel.getNextLevelInfo().success()
-
-        gameEndBottomSheetFragment = GameEndBottomSheet.instance(gameLevelInfo.levelId, nextLevelAvailable).also {
-            supportFragmentInjector().inject(it)
-            it.show(childFragmentManager, GameEndBottomSheet::class.java.canonicalName)
-        }
+        navController.navigate(GameLevelFragmentDirections.actionGameLevelFragmentToGameEndBottomSheet(
+                gameLevelInfo.levelId,
+                cardOpenClicksCount,
+                stateMap.size
+        ))
     }
 
     private inner class CardClickListener(private val cardsData: CardsData) : View.OnClickListener {
@@ -173,21 +164,15 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
                     else -> { //second incorrect game_card opened
                         showingIncorrectCards = true
-                        compositeDisposable.add(Observable.timer(1100, TimeUnit.MILLISECONDS)
-                                .observeOn(SchedulersFacade.ui())
-                                .subscribe {
-                                    v.flip(true)
-                                    openedCard?.flip(true)
-                                    openedCard = null
-                                    showingIncorrectCards = false
-                                })
+                        v.postDelayed({
+                            v.flip(true)
+                            openedCard?.flip(true)
+                            openedCard = null
+                            showingIncorrectCards = false
+                        }, 1100)
                     }
                 }
             }
         }
     }
-
-    override fun getLayout() = R.layout.fragment_game_level
-
-    override fun getClassType() = GameLevelViewModel::class.java
 }

@@ -6,14 +6,13 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity(tableName = "word_translation_table",
         indices = {
                 @Index(value = {"word_foreign", "word_native"}, unique = true)
         })
-public class WordTranslation extends EntityIdentificator implements Cloneable, Serializable {
+public class WordTranslation extends EntityIdentificator {
     private static final int LOCAL_REMOVE_FLAG = Integer.MIN_VALUE;
 
     @NonNull
@@ -69,17 +68,9 @@ public class WordTranslation extends EntityIdentificator implements Cloneable, S
         return wordForeign;
     }
 
-    public void setWordForeign(@NonNull String wordForeign) {
-        this.wordForeign = wordForeign;
-    }
-
     @NonNull
     public String getWordNative() {
         return wordNative;
-    }
-
-    public void setWordNative(@NonNull String wordNative) {
-        this.wordNative = wordNative;
     }
 
     @NonNull

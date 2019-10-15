@@ -1,8 +1,8 @@
 ﻿namespace InWords.Data.DTO.GameBox
 {
     /// <summary>
-    /// Level info provides Level id, player stars, level number.
-    /// Is Available property.
+    ///     Level info provides Level id, player stars, level number.
+    ///     Is Available property.
     /// </summary>
     public class LevelInfo
     {

@@ -1,22 +1,24 @@
-import { API_CALL } from '../middleware/apiMiddleware';
+import { CALL_API } from 'middleware/apiMiddleware';
 
 export default function apiAction({
-    endpoint = '',
-    method = 'GET',
-    data = null,
-    actionsOnSuccess = [],
-    redirection = null,
-    errorMessage = null
+  apiVersion = 'v1.0',
+  endpoint = '',
+  method = 'GET',
+  authorizationRequired = true,
+  data = null,
+  actionsOnSuccess = [],
+  actionsOnFailure = []
 }) {
-    return {
-        type: API_CALL,
-        payload: {
-            endpoint,
-            method,
-            data,
-            actionsOnSuccess,
-            redirection,
-            errorMessage
-        }
-    };
-};
+  return {
+    type: CALL_API,
+    payload: {
+      apiVersion,
+      endpoint,
+      method,
+      authorizationRequired,
+      data,
+      actionsOnSuccess,
+      actionsOnFailure
+    }
+  };
+}

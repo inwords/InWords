@@ -1,23 +1,26 @@
 package ru.inwords.inwords.presentation.viewScenario.octoGame.games
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_games.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.GameInfo
-import ru.inwords.inwords.domain.GAME_INFO
+import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
-import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.GameInfosDiffUtilCallback
 import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.GamesAdapter
+import ru.inwords.inwords.presentation.viewScenario.octoGame.games.recycler.applyDiffUtil
 
 
 class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameViewModelFactory>() {
+    override val layout = R.layout.fragment_games
+    override val classType = GamesViewModel::class.java
+
     private lateinit var adapter: GamesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,18 +31,17 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
         gamesRecycler.layoutManager = GridLayoutManager(context, 2)
         gamesRecycler.adapter = adapter
 
-        compositeDisposable.add(viewModel.navigateToGame
-                .subscribe(::navigateToGame))
+        viewModel.navigateToGame.subscribe(::navigateToGame).disposeOnViewDestroyed()
 
-        compositeDisposable.add(viewModel.screenInfoStream()
+        viewModel.screenInfoStream()
                 .map {
-                    if (it.gameInfosResource.success()) {
-                        it.gameInfosResource.data!!
+                    if (it.gameInfosResource is Resource.Success) {
+                        it.gameInfosResource.data
                     } else {
                         emptyList()
                     }
                 }
-                .compose(RxDiffUtil.calculate(GameInfosDiffUtilCallback.Companion::create))
+                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
                 .doOnSubscribe { gamesRecycler.showShimmerAdapter() }
                 .doOnEach { gamesRecycler.hideShimmerAdapter() }
@@ -49,15 +51,13 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
 
                     fixOverscrollBehaviour(gamesRecycler)
                 }) {
-                    it.printStackTrace()
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()
-                })
+                }.disposeOnViewDestroyed()
     }
 
     private fun navigateToGame(gameInfo: GameInfo) {
-        val bundle = Bundle()
-        bundle.putSerializable(GAME_INFO, gameInfo)
-        navController.navigate(R.id.action_gamesFragment_to_gameLevelsFragment, bundle)
+        navController.navigate(GamesFragmentDirections.actionGamesFragmentToGameLevelsFragment(gameInfo))
     }
 
     private fun showPopupMenu(v: View) { //TODO
@@ -79,8 +79,4 @@ class GamesFragment : BaseContentFragment<GameInfo, GamesViewModel, OctoGameView
             }
         }
     }
-
-    override fun getLayout() = R.layout.fragment_games
-
-    override fun getClassType() = GamesViewModel::class.java
 }

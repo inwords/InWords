@@ -10,33 +10,34 @@
         layout="@layout/game_no_content"
         android:visibility="gone" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/game_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/space_xsmall"
             android:text="@string/choose_level"
-            android:textSize="24sp" />
+            android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default" />
 
         <!-- TODO: remove 100dp -->
         <ru.inwords.shimmer_recycler.ShimmerRecyclerView
             android:id="@+id/levelsRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="90dp"
-            android:paddingStart="@dimen/half_margin"
-            android:paddingEnd="@dimen/half_margin"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/space_xsmall"
+            android:paddingEnd="@dimen/space_xsmall"
             app:shimmer_demo_child_count="4"
             app:shimmer_demo_grid_child_count="3"
             app:shimmer_demo_layout="@layout/game_info_shimmer"
             app:shimmer_demo_layout_manager_type="grid"
             tools:listitem="@layout/game_level_info" />
-    </FrameLayout>
+    </LinearLayout>
 
     <include
         android:id="@+id/welcome_screen"

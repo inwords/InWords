@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using InWords.Data.Interfaces;
+using InWords.Abstractions.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace InWords.Data
+namespace InWords.Abstractions
 {
     public class Repository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
@@ -20,7 +20,7 @@ namespace InWords.Data
             DbSet = context.Set<TEntity>();
         }
 
-        public async Task<TEntity> Create(TEntity item)
+        public async Task<TEntity> CreateAsync(TEntity item)
         {
             await DbSet.AddAsync(item);
             await context.SaveChangesAsync();
@@ -34,7 +34,7 @@ namespace InWords.Data
             return items;
         }
 
-        public async Task<TEntity> FindById(int id)
+        public async Task<TEntity> FindById(params object[] id)
         {
             return await DbSet.FindAsync(id);
         }
@@ -59,17 +59,37 @@ namespace InWords.Data
             return await context.SaveChangesAsync();
         }
 
-        public async Task<int> Remove(IQueryable<TEntity> item)
-        {
-            foreach (TEntity currentItem in item) context.Entry(currentItem).State = EntityState.Deleted;
-            return await context.SaveChangesAsync();
-        }
-
         public async Task<TEntity> Update(TEntity item)
         {
             context.Entry(item).State = EntityState.Modified;
             await context.SaveChangesAsync();
             return item;
+        }
+
+        public async Task<int> Delete(Expression<Func<TEntity, bool>> predicate)
+        {
+            DbSet.RemoveRange(DbSet.Where(predicate));
+            return await context.SaveChangesAsync();
+        }
+
+        public async Task<int> RemoveAt(params int[] Ids)
+        {
+            var list = new List<TEntity>();
+            foreach (int id in Ids) list.Add(await DbSet.FindAsync(id));
+            return await Remove(list.ToArray());
+        }
+
+        public async Task<IEnumerable<TEntity>> Update(IEnumerable<TEntity> items)
+        {
+            foreach (TEntity item in items) context.Entry(item).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            return items;
+        }
+
+        public async Task<TEntity[]> UpdateAsync(params TEntity[] items)
+        {
+            await Update(items as IEnumerable<TEntity>).ConfigureAwait(true);
+            return items;
         }
 
         /// <summary>
@@ -82,7 +102,7 @@ namespace InWords.Data
         {
             TEntity entity = GetWhere(predicate).SingleOrDefault();
 
-            entity = entity ?? await Create(item);
+            entity = entity ?? await CreateAsync(item);
 
             return entity;
         }
@@ -117,6 +137,7 @@ namespace InWords.Data
             return includeProperties
                 .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
         }
+
         #endregion
     }
 }

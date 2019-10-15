@@ -6,12 +6,10 @@
 
         public int Score { get; set; }
 
-        #region ctor
         public LevelScore(int levelId, int score)
         {
-            this.LevelId = levelId;
-            this.Score = score;
+            LevelId = levelId;
+            Score = score;
         }
-        #endregion
     }
 }

@@ -6,6 +6,8 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.*
+import ru.inwords.inwords.data.repository.ResourceCachingProvider
+import ru.inwords.inwords.data.repository.wrapResource
 import ru.inwords.inwords.data.source.database.game.GameDao
 import ru.inwords.inwords.data.source.database.game.GameInfoDao
 import ru.inwords.inwords.data.source.database.game.GameLevelDao
@@ -26,48 +28,40 @@ class GameGatewayControllerImpl @Inject constructor(
     private val gameDatabaseRepository by lazy { GameDatabaseRepository<Game>(gameDao) }
     private val gameLevelDatabaseRepository by lazy { GameDatabaseRepository<GameLevel>(gameLevelDao) }
 
-    private val gamesInfoCachingProvider by lazy { createGamesInfoCachingProvider() }
+    private val gamesInfoCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGamesInfoCachingProvider() } }
     private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameCachingProvider(it) } }
     private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) } }
 
     override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<List<GameInfo>>> {
-        if (forceUpdate) {
-            gamesInfoCachingProvider.askForContentUpdate()
-        }
+        val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
 
-        return gamesInfoCachingProvider.observe()
+        return cachingProvider.observe(forceUpdate)
     }
 
     override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
         val cachingProvider = gameCachingProviderLocator.get(gameId)
 
-        if (forceUpdate) {
-            cachingProvider.askForContentUpdate()
-        }
-
-        return cachingProvider.observe()
+        return cachingProvider.observe(forceUpdate)
     }
 
     override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
         val cachingProvider = gameLevelCachingProviderLocator.get(levelId)
 
-        if (forceUpdate) {
-            cachingProvider.askForContentUpdate()
-        }
-
-        return cachingProvider.observe()
+        return cachingProvider.observe(forceUpdate)
     }
 
     override fun getScore(game: Game, levelScoreRequest: LevelScoreRequest): Single<Resource<LevelScore>> {
         return gameRemoteRepository.getScore(levelScoreRequest).wrapResource()
                 .flatMap { res ->
-                    if (res.error()) {
+                    if (res is Resource.Error) {
                         levelScoreRequestDao.insert(levelScoreRequest)
-                                .doOnError { Log.d(TAG, it.message) }
+                                .doOnError { Log.e(TAG, it.message.orEmpty()) }
                                 .map { res }
                                 .onErrorReturn { res }
                     } else {
-                        updateLocalScore(game, listOf(res.data!!))
+                        if (res is Resource.Success) {
+                            updateLocalScore(game, listOf(res.data))
+                        }
                         Single.just(res)
                     }
                 }
@@ -86,6 +80,12 @@ class GameGatewayControllerImpl @Inject constructor(
                         Single.error(t)
                     }
                 }
+    }
+
+    override fun clearCache() {
+        gamesInfoCachingProviderLocator.clear()
+        gameCachingProviderLocator.clear()
+        gameLevelCachingProviderLocator.clear()
     }
 
     private fun updateLocalScore(game: Game, levelScores: List<LevelScore>) {
@@ -121,6 +121,7 @@ class GameGatewayControllerImpl @Inject constructor(
                 {
                     uploadScoresToServer()
                             .ignoreElement()
+                            .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
                             .onErrorComplete()
                             .andThen(gameRemoteRepository.getGame(gameId))
                 }

@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/rating_not_loaded"
+        android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/button_retry"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,6 +22,7 @@
         android:id="@+id/rating_loading_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="@color/colorPrimary"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/button_retry"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,11 +31,10 @@
 
     <RatingBar
         android:id="@+id/rating_bar"
-        style="?attr/ratingBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="@dimen/half_margin"
+        android:layout_margin="@dimen/space_xsmall"
         android:isIndicator="true"
         android:numStars="3"
         android:progressBackgroundTint="@android:color/darker_gray"
@@ -50,12 +51,12 @@
     <ImageButton
         android:id="@+id/button_retry"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="@dimen/game_end_flow_button_size"
+        android:layout_height="@dimen/game_end_flow_button_size"
         android:contentDescription="@string/accessibility_navigate_home"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_refresh_black_24dp"
-        android:tint="@color/colorPrimary"
+        android:src="@drawable/ic_refresh_24dp"
+        android:tint="@color/primary_color_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rating_bar" />
@@ -69,37 +70,37 @@
         <ImageButton
             android:id="@+id/button_home"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/game_end_flow_button_size"
+            android:layout_height="@dimen/game_end_flow_button_size"
             android:layout_gravity="start"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/space_medium"
             android:contentDescription="@string/accessibility_navigate_home"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_home_black_24dp"
-            android:tint="@color/colorPrimary" />
+            android:src="@drawable/ic_home_24dp"
+            android:tint="@color/primary_color_selector" />
 
         <ImageButton
             android:id="@+id/button_back"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/game_end_flow_button_size"
+            android:layout_height="@dimen/game_end_flow_button_size"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/accessibility_go_to_levels_list"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_view_module_black_24dp"
-            android:tint="@color/colorPrimary" />
+            android:src="@drawable/ic_view_module_24dp"
+            android:tint="@color/primary_color_selector" />
 
         <ImageButton
             android:id="@+id/button_next"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/game_end_flow_button_size"
+            android:layout_height="@dimen/game_end_flow_button_size"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/space_medium"
             android:contentDescription="@string/accessibility_go_to_next_level"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_navigate_next_black_24dp"
-            android:tint="@color/colorPrimary" />
+            android:src="@drawable/ic_navigate_next_24dp"
+            android:tint="@color/primary_color_selector" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

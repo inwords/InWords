@@ -1,34 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 
-function useForm(initialState = {}, callback = () => {
-}) {
-    const [values, setValues] = React.useState(initialState);
+export default function useForm(initialInputs, action) {
+  const [inputs, setInputs] = useState(initialInputs);
 
-    const handleChange = prop => event => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
+  const handleChange = event => {
+    setInputs({
+      ...inputs,
+      [event.target.name]: event.target.value
+    });
+  };
 
-    const handleSubmit = event => {
-        callback();
-        event.preventDefault();
-    };
+  const handleSubmit = event => {
+    if (typeof action === 'function') {
+      action();
+    }
 
-    const handleReset = () => {
-        setValues(initialState);
-    };
+    event.preventDefault();
+  };
 
-    return {
-        values,
-        handleChange,
-        handleSubmit,
-        handleReset
-    };
+  return {
+    inputs,
+    setInputs,
+    handleChange,
+    handleSubmit
+  };
 }
-
-useForm.propTypes = {
-    initialState: PropTypes.object,
-    callback: PropTypes.func
-};
-
-export default useForm;

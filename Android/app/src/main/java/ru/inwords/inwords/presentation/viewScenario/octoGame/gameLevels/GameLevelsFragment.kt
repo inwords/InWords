@@ -2,37 +2,41 @@ package ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_game_levels.*
 import kotlinx.android.synthetic.main.game_welcome.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.fixOverscrollBehaviour
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.game.Game
 import ru.inwords.inwords.data.dto.game.GameInfo
 import ru.inwords.inwords.data.dto.game.GameLevelInfo
-import ru.inwords.inwords.domain.GAME_ID
-import ru.inwords.inwords.domain.GAME_INFO
-import ru.inwords.inwords.domain.GAME_LEVEL_INFO
+import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.octoGame.BaseContentFragment
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsAdapter
-import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.GameLevelsDiffUtilCallback
+import ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.recycler.applyDiffUtil
 
 class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, OctoGameViewModelFactory>() {
+    override val layout = R.layout.fragment_game_levels
+    override val classType = GameLevelsViewModel::class.java
+
+    private val args by navArgs<GameLevelsFragmentArgs>()
+
     private lateinit var gameInfo: GameInfo
     private lateinit var game: Game
     private lateinit var adapter: GameLevelsAdapter
 
     private var shownIntro = false
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        gameInfo = arguments?.getSerializable(GAME_INFO) as GameInfo
+        gameInfo = args.gameInfo
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,18 +52,18 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
         levelsRecycler.layoutManager = GridLayoutManager(context, 3)
         levelsRecycler.adapter = adapter
 
-        compositeDisposable.add(viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel))
+        viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
 
-        compositeDisposable.add(viewModel.screenInfoStream(gameInfo.gameId)
+        viewModel.screenInfoStream(gameInfo.gameId)
                 .map {
-                    if (it.gameResource.success()) {
-                        game = it.gameResource.data!!
+                    if (it.gameResource is Resource.Success) {
+                        game = it.gameResource.data
                         game.gameLevelInfos
                     } else {
                         emptyList()
                     }
                 }
-                .compose(RxDiffUtil.calculate(GameLevelsDiffUtilCallback.Companion::create))
+                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
                 .doOnSubscribe { levelsRecycler.showShimmerAdapter() }
                 .doOnEach { levelsRecycler.hideShimmerAdapter() }
@@ -69,16 +73,14 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
                     fixOverscrollBehaviour(levelsRecycler)
                 }) {
-                    it.printStackTrace()
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()
-                })
+                }
+                .disposeOnViewDestroyed()
     }
 
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
-        val bundle = Bundle()
-        bundle.putSerializable(GAME_LEVEL_INFO, gameLevelInfo)
-        bundle.putInt(GAME_ID, game.gameId)
-        navController.navigate(R.id.action_gameLevelsFragment_to_gameLevelFragment, bundle)
+        navController.navigate(GameLevelsFragmentDirections.actionGameLevelsFragmentToGameLevelFragment(gameLevelInfo, game.gameId))
     }
 
     private fun showIntro() {
@@ -96,8 +98,4 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
                     .withEndAction { welcome_screen?.visibility = View.GONE }
         }
     }
-
-    override fun getLayout() = R.layout.fragment_game_levels
-
-    override fun getClassType() = GameLevelsViewModel::class.java
 }

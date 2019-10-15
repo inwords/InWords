@@ -6,38 +6,41 @@
     android:layout_height="wrap_content"
     android:background="@android:color/background_light"
     android:orientation="horizontal"
-    android:padding="@dimen/margin_medium">
+    android:padding="@dimen/space_medium">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_marginEnd="@dimen/margin_extra_large"
+        android:layout_marginStart="@dimen/space_xsmall"
+        android:layout_marginEnd="@dimen/space_large_xxx"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_word_native"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:text="Обычная фраза" />
 
         <TextView
             android:id="@+id/tv_word_foreign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textAppearance="@style/TextAppearance.Inwords.Title.Default"
             tools:text="Simple phrase" />
+
+        <TextView
+            android:id="@+id/tv_word_native"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
+            tools:text="Обычная фраза" />
+
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/speaker_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
         android:contentDescription="@string/voice_translation"
-        android:padding="@dimen/half_margin"
+        android:paddingStart="@dimen/space_medium"
+        android:paddingTop="@dimen/space_xsmall"
+        android:paddingEnd="@dimen/space_xsmall"
+        android:paddingBottom="@dimen/space_xsmall"
         android:src="@drawable/ic_volume_up_black_24dp"
-        app:tint="@color/colorPrimary" />
+        app:tint="@color/icon_color_selector" />
 </FrameLayout>

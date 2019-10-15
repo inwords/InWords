@@ -1,13 +1,16 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 
-function usePrevious(value) {
-    const ref = React.useRef();
+export default function usePrevious(value) {
+  const ref = useRef();
 
-    React.useEffect(() => {
-        ref.current = value;
-    });
+  useEffect(() => {
+    ref.current = value;
+  });
 
-    return ref.current;
+  return ref.current;
 }
 
-export default usePrevious;
+usePrevious.propTypes = {
+  value: PropTypes.any.isRequired
+};

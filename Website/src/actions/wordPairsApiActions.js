@@ -1,64 +1,110 @@
-import wordPairsActions from './wordPairsActions';
 import apiAction from './apiAction';
+import * as wordPairsActions from './wordPairsActions';
+import { setSnackbar } from './commonActions';
 
-function pullWordPairs() {
-    return apiAction({
-        endpoint: 'Sync/PullWordPairs',
-        method: 'POST',
-        data: JSON.stringify([]),
-        actionsOnSuccess: [wordPairsActions.initializeWordPairs],
-        errorMessage: 'Не удалось загрузить словарь'
-    });
+export function receiveWordPairs() {
+  return apiAction({
+    endpoint: 'sync/pullWordPairs',
+    method: 'POST',
+    data: JSON.stringify([]),
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(wordPairsActions.initializeWordPairs(data));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
+      }
+    ]
+  });
 }
 
-function deleteWordPairs(pairIds) {
-    return apiAction({
-        endpoint: 'Words/DeletePair',
-        method: 'POST',
-        data: JSON.stringify(pairIds),
-        actionsOnSuccess: [() => wordPairsActions.updateWordPairsAfterDeletion(pairIds)],
-        errorMessage: 'Не удалось удалить слова'
-    });
+export function deleteWordPairs(pairIds) {
+  return apiAction({
+    endpoint: 'words/deletePair',
+    method: 'POST',
+    data: JSON.stringify(pairIds),
+    actionsOnSuccess: [
+      dispatch => {
+        dispatch(wordPairsActions.updateWordPairsAfterDeletion(pairIds));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось удалить слова' }));
+      }
+    ]
+  });
 }
 
-function addWordPair(wordPair) {
-    return apiAction({
-        endpoint: 'Words/AddPair',
+export function addWordPair(wordPair) {
+  return apiAction({
+    endpoint: 'words/addPair',
+    method: 'POST',
+    data: JSON.stringify([wordPair]),
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(
+          wordPairsActions.updateWordPairsAfterAddition({
+            serverId: data[0].serverId,
+            ...wordPair
+          })
+        );
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
+      }
+    ]
+  });
+}
+
+// Delete previous word pair and add new word pair
+export function editWordPair(pairId, wordPair) {
+  const addEditedWordPair = dispatch => {
+    dispatch(
+      apiAction({
+        endpoint: 'words/addPair',
         method: 'POST',
         data: JSON.stringify([wordPair]),
-        actionsOnSuccess: [data => wordPairsActions.updateWordPairsAfterAddition(configureWordPair(data, wordPair))],
-        errorMessage: 'Не удалось добавить слово'
-    });
+        actionsOnSuccess: [
+          (dispatch, data) => {
+            dispatch(
+              wordPairsActions.updateWordPairsAfterEditing(pairId, {
+                serverId: data[0].serverId,
+                ...wordPair
+              })
+            );
+          }
+        ],
+        actionsOnFailure: [
+          dispatch => {
+            dispatch(
+              setSnackbar({
+                text: 'Не удалось отредактировать слово'
+              })
+            );
+          }
+        ]
+      })
+    );
+  };
+
+  return apiAction({
+    endpoint: 'words/deletePair',
+    method: 'POST',
+    data: JSON.stringify([pairId]),
+    actionsOnSuccess: [addEditedWordPair],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(
+          setSnackbar({
+            text: 'Не удалось отредактировать слово'
+          })
+        );
+      }
+    ]
+  });
 }
-
-function deleteWordPairAsEditPart(pairId) {
-    return apiAction({
-        endpoint: 'Words/DeletePair',
-        method: 'POST',
-        data: JSON.stringify([pairId]),
-        errorMessage: 'Не удалось сохранить слово'
-    });
-}
-
-function addWordPairAsEditPart(wordPair) {
-    return apiAction({
-        endpoint: 'Words/AddPair',
-        method: 'POST',
-        data: JSON.stringify([wordPair]),
-        actionsOnSuccess: [data => wordPairsActions.updateWordPairsAfterEditing(wordPair.id, configureWordPair(data, wordPair))],
-        errorMessage: 'Не удалось сохранить слово'
-    });
-}
-
-const configureWordPair = (serverData, localWordPair) => ({
-    serverId: serverData[0].serverId,
-    ...localWordPair
-});
-
-export default {
-    pullWordPairs,
-    deleteWordPairs,
-    addWordPair,
-    deleteWordPairAsEditPart,
-    addWordPairAsEditPart
-};

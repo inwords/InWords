@@ -1,0 +1,7 @@
+﻿################################################################################
+# Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/WebApi/InWords.WebApi/InWords.WebApi.plog
+/WebApi/InWords.WebApi/PVS-Studio-log.plog

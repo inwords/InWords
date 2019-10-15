@@ -4,6 +4,7 @@ package ru.inwords.inwords.presentation.viewScenario.translation.translationMain
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -11,22 +12,27 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.fragment_translation_main.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.RxDiffUtil
 import ru.inwords.inwords.core.util.SchedulersFacade
 import ru.inwords.inwords.data.dto.WordTranslation
+import ru.inwords.inwords.domain.model.Resource
 import ru.inwords.inwords.presentation.viewScenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.viewScenario.translation.TranslationViewModelFactory
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.ItemTouchHelperAdapter
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.ItemTouchHelperEvents
 import ru.inwords.inwords.presentation.viewScenario.translation.recycler.WordTranslationsAdapter
-import ru.inwords.inwords.presentation.viewScenario.translation.recycler.WordTranslationsDiffUtilCallback
+import ru.inwords.inwords.presentation.viewScenario.translation.recycler.applyDiffUtil
 
 class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationViewModelFactory>(), ItemTouchHelperEvents {
+    override val layout = R.layout.fragment_translation_main
+    override val classType = TranslationMainViewModel::class.java
+
     private lateinit var adapter: WordTranslationsAdapter
 
     private lateinit var mediaPlayer: MediaPlayer
@@ -42,30 +48,32 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
 
         viewModel.addEditWordLiveData.observe(this, Observer { event ->
-            if (event.handle()) {
-                val args = Bundle()
-                val wordTranslation = event.peekContent()
-                args.putSerializable(WordTranslation::class.java.canonicalName, wordTranslation)
-                navController.navigate(R.id.action_translationMainFragment_to_addEditWordFragment, args)
+            event.contentIfNotHandled?.also {
+                navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(it))
             }
         })
 
-        compositeDisposable.add(viewModel.ttsStream
+        viewModel.ttsStream
+                .doOnNext {
+                    if (it is Resource.Success) {
+                        playAudio(it.data)
+                    }
+                }
                 .observeOn(SchedulersFacade.ui())
                 .subscribe { resource ->
                     progress_view.post { progress_view.progress = 0 }
 
-                    if (resource.success()) {
-                        playAudio(resource.data!!)
-                    } else {
+                    if (resource !is Resource.Success) {
                         Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
                     }
-                })
+                }
+                .disposeOnViewDestroyed()
 
-        compositeDisposable.add(viewModel.translationWordsStream
-                .compose(RxDiffUtil.calculate { oldItems, newItems -> WordTranslationsDiffUtilCallback.create(oldItems, newItems) })
+        viewModel.translationWordsStream
+                .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
-                .subscribe(adapter))
+                .subscribe(adapter)
+                .disposeOnViewDestroyed()
 
         viewModel.onAddClickedHandler(RxView.clicks(fab))
         viewModel.onEditClickedHandler(onItemClickedListener)
@@ -87,7 +95,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
             mediaPlayer.prepare()
             mediaPlayer.start()
         } catch (throwable: Throwable) {
-            throwable.printStackTrace()
+            Log.e(javaClass.simpleName, throwable.message.orEmpty())
         }
     }
 
@@ -108,14 +116,18 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     override fun onItemDismiss(position: Int) {
-        viewModel.onItemDismiss(adapter.values[position])
+        val item = adapter.items[position].clone()
+        viewModel.onItemDismiss(item.clone())
+
+        Snackbar.make(root_coordinator, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
+                .addCallback(SnackBarCallback(item))
+                .show()
     }
 
-    override fun getLayout(): Int {
-        return R.layout.fragment_translation_main
-    }
-
-    override fun getClassType(): Class<TranslationMainViewModel> {
-        return TranslationMainViewModel::class.java
+    private inner class SnackBarCallback(private val word: WordTranslation) : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+        override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
+            viewModel.onConfirmItemDismiss(word)
+        }
     }
 }

@@ -11,8 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1
 {
+    /// <inheritdoc />
     /// <summary>
-    ///     Everething about user
+    ///     Everything about user
     /// </summary>
     [Authorize]
     [ApiController]
@@ -67,11 +68,11 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
-        public async Task<IActionResult> GetUser()
+        public IActionResult GetUser()
         {
             int userId = User.GetUserId();
-
-            User user = await usersRepository.FindById(userId);
+#warning Security warning change User.Account to UserDTO
+            User user = usersRepository.GetUserAccount(userId);
 
             if (user == null) return NotFound();
 

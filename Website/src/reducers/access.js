@@ -1,21 +1,17 @@
-import accessConstants from '../constants/accessConstants';
+import { GRANT_ACCESS } from 'actions/accessActions';
 
 const initialState = {
-    token: null,
-    userId: null
+  token: null,
+  userId: null
 };
 
-const access = (state = initialState, action) => {
-    if (action.type === accessConstants.ACCESS_GRANT) {
-        if (action.payload.token && action.payload.userId) {
-            return {
-                token: action.payload.token,
-                userId: action.payload.userId
-            };
-        }
-        return state;
-    }
-    return state;
-};
+export default function access(state = initialState, action) {
+  if (action.type === GRANT_ACCESS) {
+    return {
+      token: action.payload.token,
+      userId: action.payload.userId
+    };
+  }
 
-export default access;
+  return state;
+}

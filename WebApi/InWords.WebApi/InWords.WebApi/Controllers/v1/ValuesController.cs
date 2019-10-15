@@ -1,7 +1,7 @@
-﻿using System;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Repositories;
 using InWords.Domain;
+using InWords.WebApi.Services.FtpLoader.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -90,20 +90,30 @@ namespace InWords.WebApi.Controllers.v1
         [Route("Score/{words}:{open}")]
         public IActionResult GetScore(int words, int open)
         {
-            int x = GameLogic.GameScore(words, open);
+            int x = CardGame.Score(words, open);
             return Ok(x);
+        }
+
+        [HttpGet]
+        [Route("ftp")]
+        public IActionResult GetFtp()
+        {
+            loader.Test();
+            return Ok(null);
         }
 
         #region ctor
 
         private readonly UserRepository userRepository;
+        private readonly FileLoader loader;
 
         /// <summary>
         /// </summary>
         /// <param name="context"></param>
-        public ValuesController(InWordsDataContext context)
+        public ValuesController(InWordsDataContext context, FileLoader ftpLoader)
         {
             userRepository = new UserRepository(context);
+            loader = ftpLoader;
         }
 
         #endregion

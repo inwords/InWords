@@ -8,6 +8,8 @@ import ru.inwords.inwords.presentation.viewScenario.authorisation.AuthorisationD
 import ru.inwords.inwords.presentation.viewScenario.home.HomeFragmentDaggerModule
 import ru.inwords.inwords.presentation.viewScenario.main_activity.MainActivityDaggerModule
 import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameDaggerModule
+import ru.inwords.inwords.presentation.viewScenario.policy.PolicyFragmentDaggerModule
+import ru.inwords.inwords.presentation.viewScenario.profile.ProfileFragmentDaggerModule
 import ru.inwords.inwords.presentation.viewScenario.translation.TranslationDaggerModule
 import javax.inject.Singleton
 
@@ -17,7 +19,9 @@ import javax.inject.Singleton
     HomeFragmentDaggerModule::class,
     TranslationDaggerModule::class,
     OctoGameDaggerModule::class,
-    MainActivityDaggerModule::class])
+    MainActivityDaggerModule::class,
+    ProfileFragmentDaggerModule::class,
+    PolicyFragmentDaggerModule::class])
 interface AppComponent : AndroidInjector<App> {
     fun inject(roomTypeConverter: RoomTypeConverter)
 

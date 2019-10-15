@@ -1,5 +1,6 @@
 package ru.inwords.inwords.domain.interactor.profile
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.data.dto.User
@@ -14,4 +15,13 @@ internal constructor(private val userRepository: UserRepository) : ProfileIntera
     }
 
     override fun getUserById(id: Int): Single<User> = userRepository.getUserById(id)
+
+    override fun updateUser(newUser: User): Completable {
+        return userRepository.updateUser(newUser)
+                .doOnComplete { userRepository.postOnLoopback(newUser) }
+    }
+
+    override fun clearCache() {
+        userRepository.clearCache()
+    }
 }

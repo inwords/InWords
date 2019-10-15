@@ -1,60 +1,114 @@
-import axios from 'axios';
-import commonActions from '../actions/commonActions';
-import accessActions from '../actions/accessActions';
-import history from '../history';
+import { beginLoading, endLoading, setSnackbar } from 'actions/commonActions';
+import { denyAccess } from 'actions/accessActions';
+import { history } from 'App';
+import apiAction from 'actions/apiAction';
 
-const API_ROOT = 'https://api.inwords.ru/v1.0/';
+const CALL_API = 'CALL_API';
 
-export const API_CALL = 'API_CALL';
+const API_ROOT = 'https://api.inwords.ru';
 
 const apiMiddleware = ({ dispatch, getState }) => next => action => {
+  if (action.type !== CALL_API) {
     next(action);
+    return;
+  }
 
-    if (action.type !== API_CALL) {
-        return;
+  const {
+    apiVersion,
+    endpoint,
+    method,
+    authorizationRequired,
+    data,
+    actionsOnSuccess,
+    actionsOnFailure
+  } = action.payload;
+
+  const headers = new Headers();
+
+  if (authorizationRequired) {
+    const token = getState().access.token;
+
+    if (!token) {
+      history.push('/signIn');
+      return;
     }
 
-    const {
-        endpoint,
-        method,
-        data,
-        actionsOnSuccess,
-        redirection,
-        errorMessage
-    } = action.payload;
+    headers.append('Authorization', `Bearer ${token}`);
+  }
 
-    const dataOrParams = ['GET', 'DELETE'].includes(method) ? 'params' : 'data';
+  if (data) {
+    headers.append('Content-Type', 'application/json');
+  }
 
-    dispatch(commonActions.beginLoading());
+  dispatch(beginLoading());
 
-    axios.request({
-        url: API_ROOT + endpoint,
-        method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getState().access.token}`
-        },
-        [dataOrParams]: data
+  fetch(`${API_ROOT}/${apiVersion}/${endpoint}`, {
+    method,
+    headers,
+    body: data
+  })
+    .then(response => {
+      dispatch(endLoading());
+
+      if (!response.ok) {
+        throw new HttpError(response.statusText, response.status);
+      }
+
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        return response.json();
+      } else {
+        return null; // Other content-types are not supported
+      }
     })
-        .then(({ data }) => {
-            dispatch(commonActions.endLoading());
-            actionsOnSuccess.forEach(action => dispatch(action(data)));
+    .then(data => {
+      actionsOnSuccess.forEach(action => {
+        action(dispatch, data);
+      });
+    })
+    .catch(error => {
+      dispatch(endLoading());
 
-            if (redirection) {
-                history.push(redirection);
+      if (error instanceof HttpError) {
+        const statusCode = error.statusCode;
+
+        if (statusCode === 401) {
+          dispatch(denyAccess());
+          history.push('/signIn');
+        } else {
+          actionsOnFailure.forEach(action => {
+            action(dispatch, statusCode);
+          });
+        }
+      } else if (error instanceof TypeError) {
+        dispatch(
+          setSnackbar({
+            text: 'Не удалось соединиться с сервером',
+            actionText: 'Повторить',
+            actionHandler: () => {
+              window.setTimeout(() => {
+                dispatch(
+                  apiAction({
+                    ...action.payload
+                  })
+                );
+              }, 100);
             }
-        })
-        .catch(error => {
-            dispatch(commonActions.endLoading());
-            dispatch(commonActions.setErrorMessage(errorMessage));
-
-            if (error.response && error.response.status === 401) {
-                dispatch(accessActions.denyAccess());
-                history.push('/login');
-            }
-
-            console.error(error.response);
-        })
+          })
+        );
+      } else {
+        dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
+      }
+    });
 };
 
+class HttpError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.name = this.constructor.name;
+    this.statusCode = statusCode;
+  }
+}
+
+export { CALL_API };
 export default apiMiddleware;

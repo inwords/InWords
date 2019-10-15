@@ -4,54 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/half_margin"
+    android:layout_height="@dimen/default_card_height"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="@dimen/medium_card_elevation"
-    tools:showIn="@layout/fragment_home">
+    app:cardElevation="@dimen/elevation_medium">
 
     <ImageView
         android:id="@+id/dict"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_marginTop="@dimen/half_margin"
-        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_width="@dimen/default_card_height"
+        android:layout_height="@dimen/default_card_height"
         android:contentDescription="@string/avatar"
-        android:elevation="@dimen/medium_card_elevation"
-        android:src="@drawable/ic_dictionary" />
+        android:elevation="@dimen/elevation_medium"
+        android:src="@drawable/ic_dictionary_layered" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="@dimen/half_margin"
-        android:elevation="@dimen/medium_card_elevation"
+        android:layout_marginStart="@dimen/space_giantx"
+        android:layout_marginTop="@dimen/space_xsmall"
+        android:elevation="@dimen/elevation_medium"
         android:ellipsize="end"
         android:lines="1"
-        android:paddingStart="@dimen/half_margin"
-        android:paddingEnd="@dimen/half_margin"
+        android:paddingStart="@dimen/space_xsmall"
+        android:paddingEnd="@dimen/space_xsmall"
         android:text="@string/dictionary_title"
-        android:textSize="24sp" />
+        android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default" />
 
     <TextView
         android:id="@+id/dictSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginStart="72dp"
-        android:layout_marginBottom="@dimen/half_margin"
-        android:elevation="@dimen/medium_card_elevation"
+        android:layout_marginStart="@dimen/space_giantx"
+        android:layout_marginBottom="@dimen/space_xsmall"
+        android:elevation="@dimen/elevation_medium"
         android:ellipsize="end"
         android:lines="1"
-        android:paddingStart="@dimen/half_margin"
-        android:paddingEnd="@dimen/half_margin"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
+        android:paddingStart="@dimen/space_xsmall"
+        android:paddingEnd="@dimen/space_xsmall"
+        android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary"
         tools:text="@string/words_in_dictionary" />
 
 </androidx.cardview.widget.CardView>

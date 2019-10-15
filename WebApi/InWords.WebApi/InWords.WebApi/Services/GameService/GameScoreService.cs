@@ -1,141 +1,147 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.Repositories;
-using InWords.Domain;
+using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService
 {
-    public class GameScoreService
+    public class GameScoreService : IGameScoreService
     {
-        //TODO : return full game info
-        public async Task<GameObject> GetGameStars(int userId, GameObject game)
-        {
-            // find user game box to find all user levels
-            UserGameBox userGameBox = userGameBoxRepository
-                .GetWhere(usb => usb.UserId.Equals(userId) && usb.GameBoxId.Equals(game.GameId))
-                .SingleOrDefault();
-            // if no saves found return default game value
-            if (userGameBox == null) return game;
+        private readonly UserGameLevelRepository userGameLevelRepository;
 
-            // load all saves
-            IEnumerable<UserGameLevel> userLevels =
-                userGameLevelRepository.GetWhere(ugl => ugl.UserGameBoxId.Equals(userGameBox.UserGameBoxId));
-            await SetLevelStars(game, userLevels);
-            return game;
+        public GameScoreService(UserGameLevelRepository userGameLevelRepository)
+        {
+            this.userGameLevelRepository = userGameLevelRepository;
         }
 
-        private async Task SetLevelStars(GameObject game, IEnumerable<UserGameLevel> userLevels)
+        async Task<GameObject> IGameScoreService.GetGameStars(int userId, GameObject game)
         {
-            // merge by level number
-            foreach (UserGameLevel level in userLevels)
-            {
-                LevelInfo userLevel = game.LevelInfos.Find(l => l.LevelId.Equals(level.GameLevelId));
-
-                if (userLevel == null)
-                {
-                    UserGameLevel nullGame = await userGameLevelRepository.FindById(level.UserGameLevelId);
-                    await userGameLevelRepository.Remove(nullGame);
-                }
-                else
-                {
-                    userLevel.PlayerStars = level.UserStars;
-                }
-            }
+            return await Task.Run(() => GetGameStarsAction(userId, game));
         }
 
-        public LevelScore GetLevelScore(LevelResult levelResult)
+        /// <summary>
+        ///     This is to local compute score
+        /// </summary>
+        /// <param name="levelResult"></param>
+        /// <returns></returns>
+        LevelScore IGameScoreService.GetLevelScore(LevelResult levelResult)
         {
-            int score = GameLogic.GameScore(levelResult.WordsCount, levelResult.OpeningQuantity);
+            int score = Domain.CardGame.Score(levelResult.WordsCount, levelResult.OpeningQuantity);
 
             var levelScore = new LevelScore(levelResult.LevelId, score);
 
             return levelScore;
         }
 
-        public async Task UpdateUserScore(int userId, LevelScore levelScore)
+        async Task IGameScoreService.PostScoreAsync(int userId, LevelScore levelScore)
         {
-            UserGameBox userGameBox = await EnsureUserGameBox(userId, levelScore);
+            IEnumerable<UserGameLevel> levels = userGameLevelRepository.GetWhere(ugl =>
+                ugl.UserId.Equals(userId) && ugl.GameLevelId.Equals(levelScore.LevelId));
 
-            await EnsureLevelScore(levelScore, userGameBox);
-        }
+            UserGameLevel level = levels.FirstOrDefault();
 
-        public async Task PushLevelScoreList(int userId, IEnumerable<LevelScore> levelScores)
-        {
-            // TODO speedup (1)
-            // Thought like for 3 hours, and did not implement a rational search
-            foreach (LevelScore levelScore in levelScores) await UpdateUserScore(userId, levelScore);
-        }
-
-
-        private async Task<UserGameBox> EnsureUserGameBox(int userId, LevelScore levelScore)
-        {
-            // Create user game stats
-            GameLevel gameLevel = await gameLevelRepository.FindById(levelScore.LevelId);
-
-            // if game level is not exits
-            if (gameLevel == null) throw new ArgumentNullException(nameof(gameLevel));
-
-            // find user game box that's contains user progress
-            UserGameBox userGameBox = userGameBoxRepository
-                                          .GetWhere(ugb =>
-                                              ugb.UserId.Equals(userId) && ugb.GameBoxId.Equals(gameLevel.GameBoxId))
-                                          .SingleOrDefault()
-                                      // create if not exists
-                                      ?? await userGameBoxRepository.Create(
-                                          new UserGameBox(userId, gameLevel.GameBoxId));
-
-            return userGameBox;
-        }
-
-        private async Task EnsureLevelScore(LevelScore levelScore, UserGameBox userGameBox)
-        {
-            // find user game level
-            UserGameLevel userGameLevel = userGameLevelRepository
-                .GetWhere(g =>
-                    g.GameLevelId.Equals(levelScore.LevelId) && g.UserGameBoxId.Equals(userGameBox.UserGameBoxId))
-                .SingleOrDefault();
-
-            // if user level score information not found then create save
-            if (userGameLevel == null)
+            // if exist update  
+            if (level != null)
             {
-                userGameLevel = new UserGameLevel(userGameBox.UserGameBoxId, levelScore.LevelId, levelScore.Score);
-                await userGameLevelRepository.Create(userGameLevel);
-            }
+                // don't update if worth
+                if (level.UserStars > levelScore.Score) return;
 
-            // if level score information found 
+                level.UserStars = levelScore.Score;
+                await userGameLevelRepository.Update(level).ConfigureAwait(false);
+            }
+            // add if not exist
             else
             {
-                // if score less or equals return current score do nothing
-                if (userGameLevel.UserStars >= levelScore.Score) return;
-
-                // else update score
-                userGameLevel.UserStars = levelScore.Score;
-                await userGameLevelRepository.Update(userGameLevel);
+                await AddLevels(userId, levelScore).ConfigureAwait(false);
             }
         }
 
-        #region Ctor
-
-        private readonly UserGameBoxRepository userGameBoxRepository;
-        private readonly UserGameLevelRepository userGameLevelRepository;
-        private readonly GameLevelRepository gameLevelRepository;
-
-        public GameScoreService(
-            UserGameBoxRepository userGameBoxRepository,
-            UserGameLevelRepository userGameLevelRepository,
-            GameLevelRepository gameLevelRepository
-        )
+        async Task IGameScoreService.UploadScoreAsync(int userId, IEnumerable<LevelScore> levelScores)
         {
-            this.userGameBoxRepository = userGameBoxRepository;
-            this.userGameLevelRepository = userGameLevelRepository;
-            this.gameLevelRepository = gameLevelRepository;
+            levelScores = levelScores.Where(l => l.LevelId > 0);
+            // to prevent multiply enumerable
+            LevelScore[] levelScoresArray = levelScores.ToArray();
+            // find all that exist
+            UserGameLevel[] levelsExist = GetExistingLevels(userId, levelScoresArray);
+            // add any that not in existing in database
+            LevelScore[] levelScoresToAdd = GetScoresExceptExist(levelScoresArray, levelsExist);
+
+            await UpdateLevelsAsync(levelsExist, levelScoresArray).ConfigureAwait(false);
+            await AddLevels(userId, levelScoresToAdd).ConfigureAwait(false);
         }
 
-        #endregion
+        private GameObject GetGameStarsAction(int userId, GameObject game)
+        {
+            GameObject gameCopy = game;
+
+            UserGameLevel[] levels = userGameLevelRepository.GetWhere(
+                g => gameCopy.LevelInfos.Any(i => i.LevelId.Equals(g.GameLevelId))
+                     && g.UserId.Equals(userId)).ToArray();
+
+            return SetStarsToLevels(gameCopy, levels);
+        }
+
+        // todo to dictionary
+        private static GameObject SetStarsToLevels(GameObject game, UserGameLevel[] levels)
+        {
+            Parallel.ForEach(game.LevelInfos,
+                level =>
+                {
+                    level.PlayerStars =
+                        levels.SingleOrDefault(l => l.GameLevelId.Equals(level.LevelId))?.UserStars ?? 0;
+                });
+            return game;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="levelsToUpdate">All levels that exist in database</param>
+        /// <param name="levelScores">All score that user send</param>
+        /// <returns></returns>
+        private Task UpdateLevelsAsync(IEnumerable<UserGameLevel> levelsToUpdate, IEnumerable<LevelScore> levelScores)
+        {
+            levelsToUpdate = from userGameLevel in levelsToUpdate
+                             join scores in levelScores on userGameLevel.GameLevelId equals scores.LevelId
+                             where scores.Score > userGameLevel.UserStars
+                             select new UserGameLevel
+                             {
+                                 GameLevelId = userGameLevel.GameLevelId,
+                                 UserStars = scores.Score,
+                                 UserId = userGameLevel.UserId,
+                                 UserGameLevelId = userGameLevel.UserGameLevelId
+                             };
+            return userGameLevelRepository.UpdateAsync(levelsToUpdate.ToArray());
+        }
+
+        private async Task AddLevels(int userId, params LevelScore[] levels)
+        {
+            // TODO CHECK IF LEVEL EXIST
+            UserGameLevel[] userGameLevels = levels.Select(levelScore => new UserGameLevel
+            {
+                UserId = userId,
+                UserStars = levelScore.Score,
+                GameLevelId = levelScore.LevelId
+            }).ToArray();
+            await userGameLevelRepository.Create(userGameLevels);
+        }
+
+        private UserGameLevel[] GetExistingLevels(int userId, LevelScore[] levelScores)
+        {
+            return userGameLevelRepository.GetWhere(ugl => ugl.UserId.Equals(userId)
+                                                           && levelScores.Any(ls => ls.LevelId.Equals(ugl.GameLevelId)))
+                .ToArray();
+        }
+
+        private static LevelScore[] GetScoresExceptExist(IEnumerable<LevelScore> levelScoresArray,
+            IEnumerable<UserGameLevel> levelsExist)
+        {
+            return (from ls in levelScoresArray
+                    where !levelsExist.Any(ltu => ltu.GameLevelId.Equals(ls.LevelId))
+                    select ls).ToArray();
+        }
     }
 }

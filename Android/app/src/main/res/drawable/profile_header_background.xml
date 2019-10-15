@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:gravity="bottom">
+        <shape>
+            <size android:height="@dimen/profile_rounded_shape_height" />
+            <corners
+                android:topLeftRadius="@dimen/profile_rounded_shape_height"
+                android:topRightRadius="@dimen/profile_rounded_shape_height" />
+            <solid android:color="?android:attr/windowBackground" />
+        </shape>
+    </item>
+</layer-list>

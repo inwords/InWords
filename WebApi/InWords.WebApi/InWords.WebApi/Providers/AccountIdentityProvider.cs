@@ -12,17 +12,18 @@ namespace InWords.WebApi.Providers
 {
     public class AccountIdentityProvider
     {
-        public readonly AccountRepository AccountRepository;
-
+        private readonly AccountRepository accountRepository;
         private readonly IPasswordSalter passwordSalter;
+        private readonly UserRepository userRepository;
 
         /// <summary>
         ///     Create provider via repository
         /// </summary>
         /// <param name="repository"></param>
-        public AccountIdentityProvider(AccountRepository repository)
+        public AccountIdentityProvider(AccountRepository repository, UserRepository userRepository)
         {
-            AccountRepository = repository;
+            this.userRepository = userRepository;
+            accountRepository = repository;
             passwordSalter = new SaltGenerator();
         }
 
@@ -31,9 +32,9 @@ namespace InWords.WebApi.Providers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public TokenResponse GetIdentity(BasicAuthClaims user)
+        public async Task<TokenResponse> GetIdentity(BasicAuthClaims user)
         {
-            return GetIdentity(user.Email, user.Password);
+            return await GetIdentity(user.Email, user.Password);
         }
 
         /// <summary>
@@ -43,16 +44,21 @@ namespace InWords.WebApi.Providers
         /// <param name="password"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public TokenResponse GetIdentity(string email, string password)
+        public async Task<TokenResponse> GetIdentity(string email, string password)
         {
-            Account account = AccountRepository.GetWhere(x => x.Email.Equals(email)).SingleOrDefault();
+            // find account by email
+            Account account = accountRepository
+                .GetWithInclude(
+                    x => x.Email.Equals(email)
+                         && passwordSalter.EqualsSequence(password, x.Hash),
+                    u => u.User)
+                .SingleOrDefault();
+
             if (account == null)
-                throw new ArgumentNullException($"Email not found {email}");
+                throw new ArgumentNullException($"Access denied {email}");
 
-            bool isValidPassword = passwordSalter.EqualsSequence(password, account.Hash);
-
-            if (!isValidPassword)
-                throw new ArgumentException("Invalid password");
+            account.User.LastLogin = DateTime.UtcNow;
+            await userRepository.Update(account.User);
 
             var response = new TokenResponse(account.AccountId, account.Role);
 
@@ -66,18 +72,18 @@ namespace InWords.WebApi.Providers
             {
                 Email = email,
                 Hash = saltedKey,
-                Role = RoleType.User,
-                RegistrationDate = DateTime.Now,
+                Role = RoleType.Unverified,
+                RegistrationDate = DateTime.UtcNow,
                 User = null
             };
 
             newAccount.User = new User
             {
-                NickName = "YourNick",
+                NickName = "User",
                 Experience = 0
             };
 
-            await AccountRepository.Create(newAccount);
+            await accountRepository.CreateAsync(newAccount);
 
             return newAccount;
         }

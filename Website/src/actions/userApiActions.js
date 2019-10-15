@@ -1,50 +1,57 @@
 import apiAction from './apiAction';
-import accessActions from './accessActions';
-import userActions from './userActions';
+import { setSnackbar } from './commonActions';
+import * as userActions from './userActions';
+import { history } from 'App';
 
-function login(userdata) {
-    return apiAction({
-        endpoint: 'Auth/Token',
-        method: 'POST',
-        data: JSON.stringify(userdata),
-        actionsOnSuccess: [accessActions.grantAccess],
-        redirection: '/wordlist',
-        errorMessage: 'Не удалось авторизоваться'
-    });
+export function receiveUserInfoById(userId) {
+  return apiAction({
+    endpoint: `users/${userId}`,
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(userActions.initializeUserInfo(data));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
+      }
+    ]
+  });
 }
 
-function register(userdata) {
-    return apiAction({
-        endpoint: 'Auth/Registration',
-        method: 'POST',
-        data: JSON.stringify(userdata),
-        redirection: '/login',
-        errorMessage: 'Не удалось зарегистрироваться'
-    });
+export function receiveUserInfo() {
+  return apiAction({
+    endpoint: 'users',
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(userActions.initializeUserInfo(data));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
+      }
+    ]
+  });
 }
 
-function receiveUserInfo(userId) {
-    return apiAction({
-        endpoint: `Users/${userId}`,
-        actionsOnSuccess: [userActions.initializeUserInfo],
-        errorMessage: 'Не удалось загрузить профиль'
-    });
+export function updateUserInfo(userInfo) {
+  return apiAction({
+    endpoint: 'users',
+    method: 'PUT',
+    data: JSON.stringify(userInfo),
+    actionsOnSuccess: [
+      dispatch => {
+        dispatch(userActions.updateUserInfo(userInfo));
+      },
+      () => {
+        history.push('/profile');
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
+      }
+    ]
+  });
 }
-
-function changeUserInfo(userInfo) {
-    return apiAction({
-        endpoint: 'Users',
-        method: 'PUT',
-        data: JSON.stringify(userInfo),
-        actionsOnSuccess: [() => userActions.updateUserInfo(userInfo)],
-        redirection: '/profile',
-        errorMessage: 'Не удалось сохранить профиль'
-    });
-}
-
-export default {
-    login,
-    register,
-    receiveUserInfo,
-    changeUserInfo
-};

@@ -1,21 +1,13 @@
 package ru.inwords.inwords.data.sync;
 
 import android.util.Log;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.inject.Inject;
-
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
+import ru.inwords.inwords.core.util.SchedulersFacade;
 import ru.inwords.inwords.dagger.annotations.CacheRepository;
 import ru.inwords.inwords.dagger.annotations.LocalRepository;
 import ru.inwords.inwords.data.dto.EntityIdentificator;
@@ -24,7 +16,12 @@ import ru.inwords.inwords.data.repository.translation.TranslationWordsLocalRepos
 import ru.inwords.inwords.data.repository.translation.TranslationWordsRemoteRepository;
 import ru.inwords.inwords.domain.util.WordsUtilKt;
 
-import static ru.inwords.inwords.data.sync.TranslationSyncController.Groups.ADD;
+import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TranslationSyncController {
     private final TranslationWordsLocalRepository inMemoryRepository;
@@ -60,7 +57,7 @@ public class TranslationSyncController {
                 .doOnNext(o -> trySyncAllReposWithCache()
                         .subscribeOn(Schedulers.io())
                         .subscribe(() -> {
-                        }, t -> Log.e("TranslationSync", t.getMessage())))
+                        }, t -> Log.e("TranslationSync", "" + t.getMessage())))
                 .subscribe();
     }
 
@@ -75,9 +72,9 @@ public class TranslationSyncController {
                 .map(EntityIdentificator::getServerId)
                 .filter(serverId -> serverId != 0)
                 .toList()
-                .doOnError(Throwable::printStackTrace)
+                .doOnError(t -> Log.e(this.getClass().getSimpleName(), "" + t.getMessage()))
                 .flatMap(remoteRepository::pullWords)
-                .doOnError(Throwable::printStackTrace)
+                .doOnError(t -> Log.e(this.getClass().getSimpleName(), "" + t.getMessage()))
                 .doOnSuccess(pullWordsAnswer -> {
                     List<Integer> removedServerIds = pullWordsAnswer.getRemovedServerIds();
                     List<WordTranslation> addedWords = pullWordsAnswer.getAddedWords();
@@ -92,7 +89,7 @@ public class TranslationSyncController {
                                 .blockingGet();
 
                         if (throwable != null) {
-                            throwable.printStackTrace();
+                            Log.e(this.getClass().getSimpleName(), "" + throwable.getMessage());
                         }
                     }
 
@@ -101,21 +98,21 @@ public class TranslationSyncController {
                                 localRepository.addReplaceAll(addedWords),
                                 inMemoryRepository.addReplaceAll(addedWords))
                                 .blockingSubscribe(wordTranslations -> {
-                                }, Throwable::printStackTrace);
+                                }, t -> Log.e(this.getClass().getSimpleName(), "" + t.getMessage()));
                     }
                 })
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(SchedulersFacade.INSTANCE.io());
     }
 
     public Completable trySyncAllReposWithCache() {
         return inMemoryRepository.getList()
-                .observeOn(Schedulers.computation())
+                .observeOn(SchedulersFacade.INSTANCE.computation())
                 .firstElement() //Берём все элементы только 1 раз
                 .flatMapObservable(Observable::fromIterable) //Выдаём их по одному
                 .groupBy(this::group) //Группируем
                 .flatMapSingle(GroupedObservable::toList) //Каждую группу пихаем в List
                 .filter(wordTranslations -> !wordTranslations.isEmpty()) //Смотрим, чтобы он был не пустой
-                .observeOn(Schedulers.io())
+                .observeOn(SchedulersFacade.INSTANCE.io())
                 .flatMapCompletable(this::groupedListHandler);
     }
 
@@ -123,7 +120,7 @@ public class TranslationSyncController {
         int serverId = wordTranslation.getWordIdentificator().getServerId();
 
         if (serverId == 0) {
-            return ADD;
+            return Groups.ADD;
         } else if (wordTranslation.isLocallyDeleted()) {
             return Groups.REMOVE_LOCAL;
         } else if (wordTranslation.isRemoteDeleted()) {
@@ -152,6 +149,7 @@ public class TranslationSyncController {
                                             inMemoryRepository.addReplaceAll(wordTranslations)).ignoreElements();
 
                                 })
+                                .doOnError(t -> Log.e(this.getClass().getSimpleName(), "" + t.getMessage()))
                                 .onErrorResumeNext(__ -> inMemoryRepository.addReplaceAll(wordTranslations).ignoreElement())
                         );
             }

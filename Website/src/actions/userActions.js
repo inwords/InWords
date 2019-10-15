@@ -1,16 +1,11 @@
-import userConstants from '../constants/userConstants';
-
-const initializeUserInfo = userInfo => ({
-    type: userConstants.USER_INFO_INITIALIZATION,
-    payload: userInfo
+export const INITIALIZE_USER_INFO = 'INITIALIZE_USER_INFO';
+export const initializeUserInfo = userInfo => ({
+  type: INITIALIZE_USER_INFO,
+  payload: userInfo
 });
 
-const updateUserInfo = userInfo => ({
-    type: userConstants.USER_INFO_UPDATE,
-    payload: userInfo
+export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
+export const updateUserInfo = userInfo => ({
+  type: UPDATE_USER_INFO,
+  payload: userInfo
 });
-
-export default {
-    initializeUserInfo,
-    updateUserInfo
-};

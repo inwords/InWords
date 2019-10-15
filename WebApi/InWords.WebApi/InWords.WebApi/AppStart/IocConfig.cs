@@ -2,7 +2,9 @@
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using InWords.Data;
+using InWords.Common.Extensions;
+using InWords.Data.Repositories;
+using InWords.Data.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,21 +17,17 @@ namespace InWords.WebApi.AppStart
             var builder = new ContainerBuilder();
             builder.Populate(services);
 
-            // register context
-            builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")))
-                .InstancePerLifetimeScope();
-
-
-            // register repositories
-            Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
-            builder.RegisterAssemblyTypes(repositoryAssembly)
-                .Where(a => a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data"))
-                .InstancePerLifetimeScope();
+            // to register types of modules
+            Program.InModules.ForEach(m => m.ConfigureIoc(builder));
 
             // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(a => a.Name.EndsWith("Service") && a.Namespace.StartsWith("InWords.WebApi.Services") &&
-                            !a.Namespace.Contains("Abstractions")).InstancePerLifetimeScope();
+                .Where(a => a.Name.EndsWith("Service")
+                            && a.Namespace.StartsWith("InWords.WebApi.Services")
+                            && !a.Namespace.Contains("Abstractions"))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
 
             IContainer container = builder.Build();
             return new AutofacServiceProvider(container);

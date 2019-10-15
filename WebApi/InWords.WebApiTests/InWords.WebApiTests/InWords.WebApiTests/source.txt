@@ -1,0 +1,997 @@
+﻿Список тем:
+1. Местоимения
+2. цифры
+3. цвета
+4. семья
+5. люди
+6. животные
+7. дни
+8. тело человека
+9. школа
+10. хобби
+11. еда
+12. одежда
+13. спорт
+14. дом
+15. погода
+16. транспорт
+17. больница
+Вступление:
+Привет! Добро пожаловать в удивительный подводный мир Inwords. Надевай ласты и поплыли!
+(кнопка “отправиться в путешествие”)
+
+Hi! Welcome to amazing underwater world Inwords. Put your flippers on and let’s dive together!
+(start the voyage)
+
+#Тема 1 []: Ктo? 
+Вчера кто-то из бросминожек украл мои чернила! Ты поможешь мне узнать, кто это сделал? (местоимения)
+
+Who?
+Yesterday one of my broctopuses stole my ink! Could you help me and guess who did the theft?
+
+1. I;я
+you;ты/вы
+2. we;мы
+they;они
+3. he;он
+she;она
+it;оно
+4. this;этот
+that;тот
+those;те
+these;эти
+Итоговый:
+I;я
+you;ты/вы
+we;мы
+they;они
+he;он
+she;она
+it;оно
+this;этот
+that;тот
+those;те
+these;эти
+
+Тема 2 []. Сосчитай! (цифры)
+Я еще не хожу в школу, поэтому не знаю цифры . Можешь мне помочь посчитать мои щупальца?
+
+Count!
+I don’t go to school yet, so I don’t know any numbers. Can you tell me how many tentacles I have?
+
+1. zero;ноль
+one;один
+two;два
+three;три
+2. four;четыре
+five;пять
+six;шесть
+seven;семь
+3. eight;восемь
+nine;девять
+ ten;десять
+4. eleven;одиннадцать
+twelve;двенадцать
+thirteen;тринадцать
+fourteen;четырнадцать
+5. fifteen;пятнадцать
+ sixteen;шестнадцать
+seventeen;семнадцать
+eighteen;восемнадцать
+nineteen;девятнадцать
+6. twenty;двадцать
+thirty;тридцать
+forty;сорок
+fifty;пятьдесят
+sixty;шестьдесят
+7. seventy;семьдесят
+eighty;восемьдесят
+ninety;девяносто
+hundred;сто
+thousand;тысяча
+Факт:
+Друг, представляешь, некоторые осьминоги от природы такие маленькие, что вырастают всего до 1 сантиметра, а самые большие до 4 метров!
+Friend, can you imagine, some octopuses are so tiny that grow only to 1 centimeter, however, the biggest ones are 4 meters long!
+
+Итоговый
+zero;ноль
+one;один
+two;два
+three;три
+four;четыре
+five;пять
+six;шесть
+seven;семь
+eight;восемь
+nine;девять
+ten;десять
+eleven;одиннадцать
+twelve;двенадцать
+thirteen;тринадцать
+fourteen;четырнадцать
+fifteen;пятнадцать
+sixteen;шестнадцать
+seventeen;семнадцать
+eighteen;восемнадцать
+nineteen;девятнадцать
+twenty;двадцать
+thirty;тридцать
+forty;сорок
+fifty;пятьдесят
+sixty;шестьдесят
+seventy;семьдесят
+eighty;восемьдесят
+ninety;девяносто
+hundred;сто
+thousand;тысяча
+
+
+Тема 3. У кого ярче? 
+Я вот подумываю купить новые кроссовки. Какой же цвет мне выбрать?
+
+Whose are brighter?
+I’m thinking of buying new sneakers. Which color is better?
+
+1. paint;краска
+colour;цвет
+2. red;красный
+yellow;жёлтый
+blue;синий
+3. grey;серый
+green;зеленый
+purple;фиолетовый
+orange;оранжевый
+4. pink;розовый
+black;черный
+white;белый
+brown;коричневый
+dark;темный
+light;светлый
+Факт:
+Мы, осьминоги, умеем маскироваться под окружающую среду, изменяя свою окраску. В спокойном состоянии мы коричневые, когда нас пугают - белые, а разозлившись - краснеем.
+Actually, we can alter our color in order to blend in with the surroundings. Relaxed we are brown, frightened white  and being angry we grow red.
+Итоговый
+black;черный
+white;белый
+dark;темный
+light;светлый
+red;красный
+brown;коричневый
+yellow;жёлтый
+colour;цвет
+blue;синий
+purple;фиолетовый
+grey;серый
+orange;оранжевый
+rainbow;радуга
+green;зеленый
+pink;розовый
+paint;краска
+
+Тема 4. Я и моя семья
+На выходных родители устраивают праздник в честь моего дня рождения. Приходи, будет весело!
+
+Me and my family
+This weekend my parents are holding my birthday’s party. You’re invited! It’ll be fun. 
+
+1. mother;мама
+father;папа
+son;сын
+daughter;дочь
+2. family;семья
+husband;муж
+wife; жена
+3. child;ребенок
+children;дети
+parents;родители
+4. sister;сестра
+brother;брат
+aunt;тетя
+uncle;дядя
+grandmother;бабушка
+grandfather;дедушка
+5.granddaughter;внучка
+grandson;внук
+cousin;кузен
+niece;племянница
+nephew;племянник
+relative;родственник
+Факт:
+Бабуля говорит, мы аристократы. Ведь у всех осьминогов голубая кровь.
+Because octopuses have blue blood, granny says we are royal.
+Итоговый
+mother; мама
+father;отец 
+son;сын
+daughter;дочь
+husband;муж
+wife; жена
+family;семья
+child;ребенок
+children;дети
+parent;родитель
+sister;сестра
+brother;брат
+husband;муж
+wife;жена
+aunt;тетя
+uncle;дядя
+grandmother;бабушка
+grandfather;дедушка
+granddaughter;внучка
+grandson;внук
+cousin;кузен
+niece;племянница
+nephew;племянник
+relative;родственник
+
+
+Тема 5. Люди 
+Дедуля рассказывал, что с появлением подводных лодок людей в нашем водном царстве стало больше. Я много знаю о вас! 
+My granddad told me stories about invention of first submarines. He says, after that, more and more people started visiting our water kingdom. I know many things about you, people, since then.
+1. child;ребенок
+children;дети
+people;люди
+2. man;мужчина
+men;мужчины
+woman;женщина
+women;женщины
+3. profession;профессия
+worker;рабочий
+
+
+Policeman;полицейский 
+Doctor;доктор 
+Nurse;мед. Сестра 
+Teacher;учитель 
+Fireman;пожарный 
+Vet;ветеринар 
+Housewife;домохозяйка 
+Pilot;пилот 
+Pupil;ученик 
+[доделать]
+
+   1. Мои друзья 
+Ты мне так хорошо помогаешь! Пришло время познакомить тебя с моими друзьями.
+
+
+My friends
+I’m so glad you’re helping me! It’s time to meet my friends.
+
+
+   1. cat;кот
+dog;собака
+   1. duck;утка
+fish;рыба
+frog;лягушка
+3) goat;козел
+sheep;овца
+snake;змея
+4) spider;паук
+ bear;медведь
+cow;корова
+crocodile;крокодил
+5) elephant;слон
+bird;птица
+dolphin;дельфин
+frog;лягушка
+6) lion;лев
+monkey;обезьяна
+lizard;ящерица
+mouse;мышь
+7) parrot;попугай
+shark;акула
+zoo;зоопарк
+penguin;пингвин
+fly;муха
+bat;летучая мышь
+Осьминоги, как и львы, хищники. Любим есть лобстеры, рыбу, креветки и даже птиц.
+As well as lions octopuses are predators. We adore eating fish, shrimps and even birds.
+Итоговый
+cat;кот
+dog;собака
+duck;утка
+fish;рыба
+frog;лягушка
+goat;козел
+sheep;овца
+snake;змея
+spider;паук
+bear;медведь
+cow;корова
+crocodile;крокодил
+elephant;слон
+bird;птица
+dolphin;дельфин
+frog;лягушка
+lion;лев
+monkey;обезьяна
+lizard;ящерица
+mouse;мышь
+parrot;попугай
+shark;акула
+zoo;зоопарк
+penguin;пингвин
+fly;муха
+bat;летучая мышь
+
+
+   1. День за днем 
+Я хожу на рисование, плавание и бокс. Посмотри, какое у меня сложное расписание!
+
+
+Days, days, days
+I attend classes in drawing, swimming and boxing. Look, my schedule is pretty complicated!  
+
+
+   1. day;день
+week;неделя
+month;месяц
+year;год
+2) morning ;утро
+afternoon;день
+evening;вечер
+night;ночь
+3)  winter;зима
+spring;весна
+summer;лето
+autumn;осень
+4) monday; понедельник
+tuesday;вторник
+wednesday;среда
+5) thursday;четверг
+friday;пятница
+saturday:суббота
+sunday;воскресенье 
+6) january;январь
+february;февраль
+march;март
+april;апрель
+may;май
+june;июнь
+7) july;июль
+august;август
+september;сентябрь
+october;октябрь
+november;ноябрь
+december;декабрь
+Однажды я попал в драку и не сломал ни одной косточки, потому что у осьминогов нет их вовсе! Мы можем проникать куда угодно, даже в отверстие, которое в 4 раза меньше тела.
+Once I got into fight and didn’t broke any bone  as octopuses don’t have them at all! We may penetrate everywhere, even into a hole which is 4 times smaller than our body.
+
+
+
+
+Итоговый:
+day;день
+week;неделя
+month;месяц
+year;год
+      morning ;утро
+day;день
+evening;вечер
+night;ночь
+      winter;зима
+spring;весна
+summer;лето
+autumn;осень
+monday; понедельник
+tuesday;вторник
+wednesday;среда
+thursday;четверг
+friday;пятница
+saturday:суббота
+sunday;воскресенье 
+january;январь
+february;февраль
+march;март
+april;апрель
+may;май
+june;июнь
+july;июль
+august;август
+september;сентябрь
+october;октябрь
+november;ноябрь
+december;декабрь
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   1. Тело человека
+Отгадай загадку! Что находится ниже твоих глаз, но выше твоего рта?
+
+
+Human’s body
+I have a puzzle for you! What’s between your eyes and your mouth?
+
+
+1) body;тело
+head;голова
+leg;нога
+arm;рука
+2)          face;лицо
+eye;глаз
+ear;ухо
+mouth;рот
+nose;нос
+3)      foot;стопа
+hand;ладонь
+back;спина
+neck;шея
+ tooth;зуб
+4) knee;колено
+stomach;живот
+chin;подбородок
+cheek;щека
+elbow;локоть
+5) nail;ноготь
+wrist;запястье
+shoulder;плечо
+hair;волосы
+Если вдруг я встречу хищника, то я смогу легко его отвлечь, отделив от себя любую конечность, и скорее убежать! Все равно это скоро восстановится, как хвост у ящерицы.
+If I happen to meet a predator I may draw his attention by removing any of my limbs and run away! It will be regenerated soon, after all.
+Итоговый
+body;тело
+head;голова
+leg;нога
+arm;рука
+ face;лицо
+eye;глаз
+ear;ухо
+mouth;рот
+nose;нос
+ tooth;зуб
+ foot;стопа
+hand;ладонь
+back;спина
+neck;шея
+shoulder;плечо
+stomach;живот
+ knee;колено
+elbow;локоть 
+chin;подбородок
+cheek;щека
+nail;ноготь
+wrist;запястье
+hair;волосы
+   1. В школе
+Хочешь смешную историю? Как-то дельфинчик из нашей школы забыл портфель дома! Теперь все зовут его Забывалкиным.
+
+
+At our school 
+Once a dolphin from our school left his school-bag at home. Now everyone calls him  Forgetkin
+
+
+   1. school;школа
+student;ученик
+
+
+   1. teacher;учитель
+classroom;кабинет
+class;класс
+
+
+   1. page;страница
+paper;бумага
+book;книга
+
+
+   1. pen;ручка
+pencil;карандаш
+ruler;линейка
+eraser;ластик
+
+
+   1. blackboard;классная доска
+desk;письменный стол
+pencil case;пенал
+rucksack;рюкзак
+schoolbag;портфель
+   1. test;тест
+example;пример
+question;вопрос
+sentence;предложение
+word;слово
+
+
+Итоговый
+school;школа
+student;ученик
+teacher;учитель
+classroom;кабинет
+class;класс
+page;страница
+paper;бумага
+book;книга
+pen;ручка
+pencil;карандаш
+ruler;линейка
+eraser;ластик
+blackboard;классная доска
+desk;письменный стол
+pencil case;пенал
+rucksack;рюкзак
+schoolbag;портфель
+test;тест
+example;пример
+question;вопрос
+sentence;предложение
+word;слово
+
+
+
+
+   1. Хобби
+
+
+Учиться - это хорошо, а заниматься любимым делом - ещё лучше! А какое хобби у тебя?
+ 
+Leisure
+
+
+Studying is good, but doing what you like is much better! What hobbies do you have?
+
+
+1) reading;чтение
+drawing;рисование
+2) dancing;танцы
+singing;пение
+art;искусство
+music;музыка  
+3) travelling;путешествие
+cooking;кулинария
+fishing;рыбалка
+photography;фотография
+4) roller-skating;катание на роликах
+computer game;компьютерная игра
+knitting;вязание
+gardening;садоводство
+
+
+Итоговый:
+
+reading;чтение
+drawing;рисование
+dancing;танцы
+singing;пение
+art;искусство
+music;музыка  
+travelling;путешествие
+cooking;кулинария
+fishing;рыбалка
+photography;фотография
+roller-skating;катание на роликах
+computer game;компьютерная игра
+knitting;вязание
+gardening;садоводство
+
+
+   1. Время спорта! 
+Я каждое утро делаю зарядку, и тебе советую! 
+
+
+Let’s do some sport!
+ I do a morning work-out daily and recommend you do the same.
+
+
+   1. game; игра
+ball;мяч
+2) score;cчет
+player;игрок
+3) jump;прыгать
+run;бегать
+swim;плавать
+walk;ходить
+4) badminton;бадминтон
+baseball;бейсбол
+basketball;баскетбол
+hockey;хоккей
+tennis;теннис
+5) kick;пинать
+skate;кататься на коньках
+throw;бросать
+win;выиграть
+lose;проиграть
+catch;ловить
+6) horse riding;верховая езда
+ice skating;катание на коньках
+football;футбол
+snowboarding;катание на сноуборде
+7)volleyball;волейбол
+playground;площадка
+swimming pool;бассейн
+goal;гол
+chess; шахматы
+8) ride (a horse);кататься (на лошади)
+play (football);играть (в футбол)
+climb (a tree);взбираться (на дерево)
+compete (in a race);участвовать/соревноваться (в скачках)
+
+
+Итоговый
+game;игра
+ball;мяч
+score;cчет
+player;игрок
+ jump;прыгать
+run;бегать
+swim;плавать
+walk;ходить
+badminton;бадминтон
+baseball;бейсбол
+basketball;баскетбол
+hockey;хоккей
+tennis;теннис
+kick;пинать
+skate;кататься на коньках
+throw;бросать
+win;выиграть
+lose;проиграть
+catch;ловить
+horse riding;верховая езда
+ice skating;катание на коньках
+football;футбол
+snowboarding;катание на сноуборде
+volleyball;волейбол
+playground;площадка
+swimming pool;бассейн
+goal;гол
+chess;шахматы
+ride (a horse);кататься (на лошади)
+play (football);играть (в футбол)
+climb (a tree);взбираться (на дерево)
+compete (in a race);участвовать/соревноваться (в скачках)
+
+
+   1. Ням-ням
+Книги - пища для ума. А что для животика?
+
+
+Yummy
+Books give you lots of food for thought, but what’s for tummy?
+
+
+1) breakfast;завтрак
+lunch;обед
+dinner;ужин
+supper;поздний ужин
+ 
+2) bread;хлеб
+pizza;пицца
+egg;яйцо
+fish;рыба
+fries;картофель фри
+ 
+3) cheese;сыр
+soup;суп
+chicken;курица
+sandwich;бутерброд
+carrot;морковь
+potato;картофель
+tomato;помидор
+cucumber;огурец
+ 
+4) banana;банан
+pear;груша
+apple;яблоко
+orange;апельсин
+strawberry;клубника
+melon;дыня
+watermelon;арбуз
+chocolate;шоколад
+ 
+5) water;вода
+milk;молоко
+juice;сок
+tea;чай
+coffee;кофе
+Чтобы почувствовать вкус еды, у нас есть щупальцы. На каждом более 10 тысяч вкусовых рецепторов, определяющих съедобность того или иного предмета.
+We taste food by tentacles. They have more than 10 000 receptors determining whether an object is edible or not.
+Итоговый:
+breakfast;завтрак
+lunch;обед
+dinner;ужин
+supper;поздний ужин
+bread;хлеб
+pizza;пицца
+egg;яйцо
+fish;рыба
+fries;картофель фри
+cheese;сыр
+soup;суп
+chicken;курица
+sandwich;бутерброд
+carrot;морковь
+potato;картофель
+tomato;помидор
+cucumber;огурец
+banana;банан
+pear;груша
+apple;яблоко
+orange;апельсин
+strawberry;клубника
+melon;дыня
+watermelon;арбуз
+chocolate;шоколад
+water;вода
+milk;молоко
+juice;сок
+tea;чай
+coffee;кофе
+
+
+   1. Сегодня я одет в...
+Оцени мой прикид от 1 до 10!
+
+
+Today I’m wearing…
+Rate my outfit from 1 to 10!
+
+
+   1. dress;платье
+trousers;брюки
+skirt;юбка
+coat;пальто
+2) jacket;пиджак, куртка
+t-shirt ;футболка
+jeans;джинсы
+shorts;шорты
+blouse;блуза
+shoes;туфли
+3) hat;шляпа
+cloak;плащ
+shirt;рубашка
+sweater;свитер
+sock;носок
+4) pajama;пижама
+cap;шапка
+glasses;очки
+tights;колготки
+scarf;шарф
+boots;ботинки, сапоги
+Итоговый
+             dress;платье
+trousers;брюки
+skirt;юбка
+coat;пальто
+jacket;пиджак, куртка
+t-shirt ;футболка
+jeans;джинсы
+shorts;шорты
+blouse;блуза
+shoes;туфли
+hat;шляпа
+cloak;плащ
+shirt;рубашка
+glasses;очки
+sweater;свитер
+sock;носок
+pajama;пижама
+cap;шапка
+tights;колготки
+scarf;шарф
+boots;ботинки, сапоги
+   1. Дом,  милый дом 
+Дома уютно, тапочки и добрая мама. У людей так же? 
+
+
+I like homely atmosphere, there is always mother with cookies. Is it the same with your home?
+
+
+   1. door;дверь
+     wall;стена
+2)  floor;пол
+     bed;кровать
+    roof;крыша
+    lamp;лампа
+     bath;ванна
+     table;стол
+     chair;стул
+              garage;гараж
+             couch;диван
+              shower;душ
+4)  clock;часы
+     window;окно
+      hairbrush;расческа
+      fireplace;камин
+     apartment;квартира
+     towel;полотенце
+     mirror;зеркало
+             stairs;лестница
+
+
+Итоговый
+
+
+      door;дверь
+     wall;стена
+     floor;пол
+     bed;кровать
+    roof;крыша
+    lamp;лампа
+     bath;ванна
+     table;стол
+     chair;стул
+     garage;гараж
+     couch;диван
+      shower;душ
+      clock;часы
+     window;окно
+      hairbrush;расческа
+      fireplace;камин
+     apartment;квартира
+     towel;полотенце
+     mirror;зеркало
+      stairs;лестница
+
+
+
+
+   1. Погода
+Мама говорит, что под водой не бывает снега. Я расстроился, и мне стало очень интересно, какая бывает погода у вас!
+
+
+My mother says it never snows under the water. I wish it would. Tell me, what weather is in your area?
+   1. hot;жаркий
+cold;холодный
+sun;солнце
+wind;ветер
+   1. cloud;облако
+rain;дождь
+snow;снег
+weather;погода
+warm;теплый
+ice;лёд
+   1. fog;туман
+storm;шторм
+temperature;температура
+dry;сухой
+wet;влажный
+air;воздух
+   1. What is the weather like?;Какая погода?
+It is windy today.;Сегодня ветрено.
+Итоговый
+hot;жаркий
+cold;холодный
+sun;солнце
+wind;ветер
+cloud;облако
+rain;дождь
+snow;снег
+weather;погода
+What is the weather like?;Какая погода?
+It is windy today.;Сегодня ветрено.
+fog;туман
+storm;шторм
+temperature;температура
+dry;сухой
+wet;влажный
+air;воздух
+
+
+
+
+
+
+   1. Транспорт
+
+
+Хоть у меня 6 ног и 2 руки, я все равно очень люблю кататься в автобусе. Давай вместе посмотрим, где можно покататься ещё!
+
+
+Transportation
+
+
+Even though I have 6 legs and 2 arms I very much like going by bus. Let’s explore what means else we can go by?
+
+
+   1. bike;велосипед
+car;машина
+   1. bus;автобус
+ship;корабль
+train;поезд
+plane;самолет
+3) motorbike;мотоцикл
+ticket;билет
+lorry;грузовик
+boat;лодка
+tractor;трактор
+taxi;такси
+4) railway station; вокзал
+timetable;расписание
+passenger;пассажир
+helicopter;вертолет
+driver;водитель
+wheel;колесо
+underground;метро
+means of transport;средство транспорта
+
+
+
+
+
+
+   1. Больница/болезни
+
+
+Иногда я так много думаю, что у меня начинает болеть головa! Пойдём со мной в больницу, я один боюсь.
+
+
+Sometimes I’m thinking so much that my head aches! Come with me to a doctor, I’m afraid to be there alone.
+
+
+   1. hospital;больница 
+meds;таблетки
+2) patient;пациент
+doctor;доктор
+health;здоровье
+illness;болезнь
+3) dentist;стоматолог
+ambulance;скорая помощь
+surgeon;хирург
+nurse;медсестра
+prescription;рецепт
+complaint;жалоба
+4)ache;боль
+earache;боль в ушах
+headache;головная боль
+toothache;зубная боль
+stomach-ache;боль в животе
+treatment;лечение
+5) injury;травма
+cough;кашель
+recovery;выздоровление
+pill;таблетка
+injection;укол
+fever;грипп
+chicken pox;ветрянка
+flu;грипп
+Ух, если я попаду в больницу, чтобы лечить сердце, уйдёт очень много денег! Ведь у меня аж 3 сердца: два, чтобы качать кровь через жабры, а третье качает кровь через тело.
+
+
+Alas! If I happen to be taken to hospital for treating my heart it would be extremely costly since I have 3 hearts; two to pump blood through my gills and a third one helps to circulate it through the whole body.
+
+
+
+
+
+
+Итоговый:
+hospital;больница 
+medicine;медицина
+patient;пациент
+doctor;доктор
+health;здоровье
+illness;болезнь
+dentist;стоматолог
+ambulance;скорая помощь
+surgeon;хирург
+nurse;медсестра
+prescription;рецепт
+complaint;жалоба
+ache;боль
+earache;боль в ушах
+headache;головная боль
+toothache;зубная боль
+stomach-ache;боль в животе
+treatment;лечение
+injury;травма
+cough;кашель
+recovery;выздоровление
+pill;таблетка
+injection;укол
+fever;грипп
+chicken pox;ветрянка
+flu;грипп

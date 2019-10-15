@@ -1,31 +1,45 @@
 import { combineReducers } from 'redux';
-import commonConstants from '../constants/commonConstants';
+import {
+  BEGIN_LOADING,
+  END_LOADING,
+  SET_SNACKBAR,
+  RESET_SNACKBAR
+} from 'actions/commonActions';
 
-const loading = (state = false, action) => {
-    switch (action.type) {
-        case commonConstants.LOADING_BEGIN:
-            return true;
-        case commonConstants.LOADING_END:
-            return false;
-        default:
-            return state;
-    }
+function loading(state = false, action) {
+  switch (action.type) {
+    case BEGIN_LOADING:
+      return true;
+    case END_LOADING:
+      return false;
+    default:
+      return state;
+  }
+}
+
+const initialSnackbarState = {
+  open: false,
+  text: '',
+  actionText: '',
+  actionHandler: null
 };
 
-const errorMessage = (state = null, action) => {
-    switch (action.type) {
-        case commonConstants.ERROR_MESSAGE_SETTING:
-            return action.payload;
-        case commonConstants.ERROR_MESSAGE_RESET:
-            return null;
-        default:
-            return state;
-    }
-};
+function snackbar(state = initialSnackbarState, action) {
+  switch (action.type) {
+    case SET_SNACKBAR:
+      return {
+        ...initialSnackbarState,
+        ...action.payload,
+        open: true
+      };
+    case RESET_SNACKBAR:
+      return initialSnackbarState;
+    default:
+      return state;
+  }
+}
 
-const common = combineReducers({
-    loading,
-    errorMessage
+export default combineReducers({
+  loading,
+  snackbar
 });
-
-export default common;

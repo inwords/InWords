@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Service.Auth.Extensions;
+using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +19,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Produces("application/json")]
     public class ScoreController : ControllerBase
     {
-        private readonly GameScoreService gameScoreService;
+        private readonly IGameScoreService gameScoreService;
         private readonly GameService gameService;
 
         public ScoreController(GameScoreService gameScoreService, GameService gameService)
@@ -40,10 +42,13 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             // calculate score
             LevelScore answer = gameScoreService.GetLevelScore(levelResult);
 
+            if (levelResult.LevelId < 0)
+                return Ok(answer);
+
             // save score to user level
             try
             {
-                await gameScoreService.UpdateUserScore(authorizedId, answer);
+                await gameScoreService.PostScoreAsync(authorizedId, answer);
             }
             catch (ArgumentNullException e)
             {
@@ -60,20 +65,25 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         /// <returns>Quantity of stars and level id</returns>
         [Route("UploadScore")]
         [HttpPost]
-        public async Task<IActionResult> UploadScore(IEnumerable<LevelScore> levelScores)
+        public async Task<IActionResult> UploadScore(IEnumerable<LevelResult> levelResults)
         {
             int authorizedId = User.GetUserId();
 
+            IEnumerable<LevelScore> answers = levelResults.Select(lr => gameScoreService.GetLevelScore(lr));
+
+            if (answers.Where(a => a.LevelId < 0).Count() > 0)
+                return Ok(answers);
+
             try
             {
-                await gameScoreService.PushLevelScoreList(authorizedId, levelScores);
+                await gameScoreService.UploadScoreAsync(authorizedId, answers);
             }
             catch (ArgumentNullException e)
             {
                 return BadRequest(e.Message);
             }
 
-            return Ok();
+            return Ok(answers);
         }
 
 

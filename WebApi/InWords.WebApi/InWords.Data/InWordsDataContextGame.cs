@@ -5,13 +5,9 @@ namespace InWords.Data
 {
     public partial class InWordsDataContext
     {
-        public DbSet<GameBox> GameBoxs { get; set; }
-
         public DbSet<GameLevel> GameLevels { get; set; }
 
         public DbSet<GameLevelWord> GameLevelWords { get; set; }
-
-        public DbSet<UserGameBox> UserGameBoxs { get; set; }
 
         public DbSet<UserGameLevel> UserGameLevels { get; set; }
     }
