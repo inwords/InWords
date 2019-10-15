@@ -7,11 +7,11 @@ namespace InWords.Data.DTO
         /// <summary>
         ///     List of new (added) words
         /// </summary>
-        public IEnumerable<WordTranslation> AddedWords;
+        public IEnumerable<WordTranslation> AddedWords { get; set; }
 
         /// <summary>
         ///     List of old (deleted) words
         /// </summary>
-        public IEnumerable<int> RemovedServerIds;
+        public IEnumerable<int> RemovedServerIds { get; set; }
     }
 }
