@@ -5,7 +5,7 @@
     <RootNamespace>InWords.Abstractions</RootNamespace>
     <AssemblyName>InWords.Abstractions</AssemblyName>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
