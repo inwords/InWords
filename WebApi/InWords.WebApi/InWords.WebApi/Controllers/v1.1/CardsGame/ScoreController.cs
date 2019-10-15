@@ -39,7 +39,7 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         [Route("Score")]
         [HttpPost]
         [ProducesResponseType(typeof(LevelScore), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ArgumentNullException), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostScore(CardGameScore cardGameScore)
         {
             int authorizedId = User.GetUserId();
@@ -52,11 +52,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
                 IEnumerable<int> games = cardGameScore.WordPairIdOpenCounts.Select(w => w.Key);
                 if (cardGameScore.GameLevelId <= 0)
                     cardGameScore.GameLevelId =
-                        await levelCreator.CreateUserLevelAsync(authorizedId, games).ConfigureAwait(true);
+                        await levelCreator.CreateUserLevelAsync(authorizedId, games).ConfigureAwait(false);
                 
                 // save scores
                 answer = await gameResultService.SetResultsAsync(authorizedId, cardGameScore)
-                                                .ConfigureAwait(true);
+                                                .ConfigureAwait(false);
             }
             catch (ArgumentNullException e)
             {
@@ -76,11 +76,12 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         {
             int authorizedId = User.GetUserId();
 
-            IEnumerable<LevelScore> answer;
+            List<LevelScore> answer;
             // save score to user level
             try
             {
-                answer = await gameResultService.SetResultsAsync(authorizedId, cardGameScores);
+                answer = (await gameResultService.SetResultsAsync(authorizedId, cardGameScores)
+                    .ConfigureAwait(false)).ToList();
             }
             catch (ArgumentNullException e)
             {

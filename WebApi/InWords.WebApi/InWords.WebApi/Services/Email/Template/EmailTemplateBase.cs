@@ -15,7 +15,7 @@ namespace InWords.WebApi.Services.Email.Template
 
         protected async void LoadTemplate(EmailTemplates template, Dictionary<string, string> keyValuePairs)
         {
-            await TemplateResolver.LoadTemplate(template, keyValuePairs);
+            await TemplateResolver.LoadTemplateAsync(template, keyValuePairs).ConfigureAwait(false);
         }
     }
 }
