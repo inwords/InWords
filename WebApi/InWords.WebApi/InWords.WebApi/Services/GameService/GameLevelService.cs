@@ -10,6 +10,16 @@ namespace InWords.WebApi.Services.GameService
 {
     public class GameLevelService
     {
+        private readonly GameLevelRepository gameLevelRepository;
+        private readonly GameLevelWordService gameLevelWordService;
+
+        public GameLevelService(GameLevelRepository gameLevelRepository,
+            GameLevelWordService gameLevelWordService)
+        {
+            this.gameLevelRepository = gameLevelRepository;
+            this.gameLevelWordService = gameLevelWordService;
+        }
+
         public async Task<GameLevel> AddLevelAsync(Creation gameBox, LevelPack levelPack)
         {
             var gameLevel = new GameLevel
@@ -49,18 +59,5 @@ namespace InWords.WebApi.Services.GameService
             return levelInfo;
         }
 
-        #region ctor
-
-        private readonly GameLevelRepository gameLevelRepository;
-        private readonly GameLevelWordService gameLevelWordService;
-
-        public GameLevelService(GameLevelRepository gameLevelRepository,
-            GameLevelWordService gameLevelWordService)
-        {
-            this.gameLevelRepository = gameLevelRepository;
-            this.gameLevelWordService = gameLevelWordService;
-        }
-
-        #endregion
     }
 }
