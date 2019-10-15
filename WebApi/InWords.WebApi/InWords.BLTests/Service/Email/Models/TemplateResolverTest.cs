@@ -15,7 +15,7 @@ namespace InWords.BLTests.Service.Email.Models
             EmailTemplates template = EmailTemplates.TestEmail;
             string expected = "<b>This is {test}</b>";
             // act
-            string actual = await TemplateResolver.LoadTemplate(template);
+            string actual = await TemplateResolver.LoadTemplateAsync(template);
             // test
             Assert.Equal(expected, actual);
         }
@@ -31,7 +31,7 @@ namespace InWords.BLTests.Service.Email.Models
                 {"{test}","bar" }
             };
             // act
-            string actual = await TemplateResolver.LoadTemplate(template, keyValuePairs);
+            string actual = await TemplateResolver.LoadTemplateAsync(template, keyValuePairs);
             // test
             Assert.Equal(expected, actual);
         }

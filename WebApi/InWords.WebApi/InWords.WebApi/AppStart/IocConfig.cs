@@ -12,7 +12,7 @@ namespace InWords.WebApi.AppStart
 {
     public static class IocConfig
     {
-        public static IServiceProvider Configure(this IServiceCollection services, IConfiguration Configuration)
+        public static void Configure(this IServiceCollection services, IConfiguration Configuration)
         {
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -28,9 +28,6 @@ namespace InWords.WebApi.AppStart
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
-
-            IContainer container = builder.Build();
-            return new AutofacServiceProvider(container);
         }
     }
 }
