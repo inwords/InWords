@@ -8,6 +8,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary
     {
         public override void ConfigureIoc(ContainerBuilder builder)
         {
+            //builder.RegisterType<MyHandler>().AsImplementedInterfaces().InstancePerDependency();
             //builder.RegisterType<FileLoader>().InstancePerLifetimeScope();
         }
     }
