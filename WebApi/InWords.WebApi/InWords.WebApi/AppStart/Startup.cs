@@ -2,7 +2,6 @@
 using System.IO;
 using System.Reflection;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
@@ -19,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace InWords.WebApi.AppStart
 {
@@ -58,6 +56,7 @@ namespace InWords.WebApi.AppStart
             // Mvc and controllers mapping
             services
                 .AddMvc(o=> o.EnableEndpointRouting = false)
+                .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // allow use api from different sites
@@ -126,9 +125,9 @@ namespace InWords.WebApi.AppStart
 
             // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(a => a.Name.EndsWith("Service")
-                            && a.Namespace.StartsWith("InWords.WebApi.Services")
-                            && !a.Namespace.Contains("Abstractions"))
+                .Where(a => a.Namespace != null && (a.Name.EndsWith("Service")
+                                                    && a.Namespace.StartsWith("InWords.WebApi.Services")
+                                                    && !a.Namespace.Contains("Abstractions")))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
