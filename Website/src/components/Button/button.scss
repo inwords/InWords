@@ -1,5 +1,3 @@
-@import './mixins';
-
 .button {
   position: relative;
   display: inline-block;
@@ -13,35 +11,49 @@
   line-height: 1;
   font-size: 1rem;
   font-weight: 500;
+  color: var(--color-on-neutral);
+  background-color: var(--color-neutral);
   user-select: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
+  &:hover {
+    border-color: var(--color-neutral-dark);
+  }
+
   &:active {
     transform: scale(0.98);
+    background-color: var(--color-neutral-dark);
   }
 
   &:focus:not(:active) {
-    outline-color: #000;
+    outline-color: var(--color-on-neutral);
   }
 
-  @include colorize-button('default');
-
   &--primary {
-    &:focus:not(:active) {
-      outline-color: theme-palette('divider');
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+
+    &:hover {
+      border-color: var(--color-primary-dark);
     }
 
-    @include colorize-button('primary');
+    &:active {
+      background-color: var(--color-primary-dark);
+    }
+
+    &:focus:not(:active) {
+      outline-color: var(--color-neutral);
+    }
   }
 
   &--full-width {
     width: 100%;
   }
 
-  &#{&}--disabled {
+  &--disabled {
     pointer-events: none;
-    color: theme-palette('text-disabled');
-    background-color: theme-palette('disabled');
+    color: var(--color-text-disabled);
+    background-color: var(--color-disabled);
   }
 }

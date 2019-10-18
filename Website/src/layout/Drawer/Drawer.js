@@ -17,10 +17,8 @@ function Drawer({ children, open, onClose }) {
         {children}
       </div>
       <div
-        role="button"
+        role="presentation"
         onClick={onClose}
-        onKeyPress={onClose}
-        tabIndex={0}
         className={classNames('ui-mask', {
           'ui-mask--visible': open
         })}

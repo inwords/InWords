@@ -1,52 +1,53 @@
 @import 'theme/mixins';
 
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  background-color: theme-palette('primary');
+// .header {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   z-index: 2;
+//   height: 5rem;
+//   background-color: theme-palette('primary');
 
-  &-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    height: 54px;
-    padding: 0 8px;
-    background-color: inherit;
-  }
+//   &-content {
+//     position: relative;
+//     z-index: inherit;
+//     display: flex;
+//     align-items: center;
+//     height: 54px;
+//     padding: 0 8px;
+//     background-color: inherit;
+//   }
 
-  &-button {
-    min-width: 32px;
-  }
+//   &-button {
+//     min-width: 32px;
+//   }
 
-  &-title {
-    margin-right: 10px;
-    display: inline-block;
-    padding: 8px 10px;
-    font-size: 18px;
-    line-height: 1;
-    color: theme-palette('on-primary');
+//   &-title {
+//     margin-right: 10px;
+//     display: inline-block;
+//     padding: 8px 10px;
+//     font-size: 1.4rem;
+//     line-height: 1;
+//     text-decoration: none;
+//     color: theme-palette('on-primary');
 
-    &:hover {
-      text-decoration: none;
-    }
-  }
+//     &:hover {
+//       text-decoration: none;
+//     }
+//   }
 
-  &-navigation {
-    @include theme-breakpoints-down(sm) {
-      display: none;
-    }
-  }
+//   &-navigation {
+//     @include theme-breakpoints-down(sm) {
+//       display: none;
+//     }
+//   }
 
-  &-mobile-navigation {
-    position: relative;
-    margin-left: auto;
+//   &-mobile-navigation {
+//     margin-left: auto;
 
-    @include theme-breakpoints-up(sm) {
-      display: none;
-    }
-  }
-}
+//     @include theme-breakpoints-up(sm) {
+//       display: none;
+//     }
+//   }
+// }

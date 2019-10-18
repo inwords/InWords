@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
@@ -6,36 +6,30 @@ import Link from 'src/components/Link';
 
 import './nav-list.scss';
 
-function NavList({ vertical = false }) {
+function NavList({ children, vertical = false }) {
   return (
     <ul className={classNames('nav-list', { 'nav-list--vertical': vertical })}>
-      <li className="nav-list__item">
+      {children}
+      {/* <li className="nav-list__item">
         <Link
           component={RouterLink}
           to="/dictionary"
-          className={classNames('nav-list__link', {
-            'nav-list__link--vertical': vertical
-          })}
+          className="nav-list__link"
         >
           Словарь
         </Link>
       </li>
       <li className="nav-list__item">
-        <Link
-          component={RouterLink}
-          to="/trainings"
-          className={classNames('nav-list__link', {
-            'nav-list__link--vertical': vertical
-          })}
-        >
+        <Link component={RouterLink} to="/trainings" className="nav-list__link">
           Обучение
         </Link>
-      </li>
+      </li> */}
     </ul>
   );
 }
 
 NavList.propTypes = {
+  children: PropTypes.node,
   vertical: PropTypes.bool
 };
 

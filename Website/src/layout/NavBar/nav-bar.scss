@@ -1,0 +1,60 @@
+@import 'theme/mixins';
+
+.nav-bar {
+  display: flex;
+  height: 64px;
+  padding: 0 24px;
+  background-color: var(--color-primary);
+
+  @include theme-breakpoints-down('md') {
+    height: 48px;
+  }
+
+  &__brand {
+    margin-right: 48px;
+    display: flex;
+    color: var(--color-on-primary);
+  }
+
+  &__brand-link {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-on-primary);
+
+    @include theme-breakpoints-down('md') {
+        font-size: 1.2rem;
+    }
+  }
+
+  &__block {
+    display: flex;
+  }
+
+  &__block-item {
+    display: flex;
+  }
+
+  &__menu-block {
+    flex: 1 1 auto;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--color-on-primary-dark);
+
+    &:hover {
+      color: var(--color-on-primary);
+    }
+  }
+}
+
+.menu-item + .menu-item {
+  margin-left: 16px;
+}

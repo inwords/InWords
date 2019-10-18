@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import classNames from 'classnames';
-import Paper from 'src/components/Paper';
-import Link from 'src/components/Link';
 import NavList from 'src/layout/NavList';
+import NavListItem from 'src/layout/NavListItem';
 import Drawer from 'src/layout/Drawer';
 import Container from 'src/components/Container';
 import Button from 'src/components/Button';
+import NavBar from 'src/layout/NavBar';
 
 import './header.scss';
+
+const navListItems = [
+  <NavListItem to="/dictionary">Словарь</NavListItem>,
+  <NavListItem to="/trainings">Обучение</NavListItem>
+];
 
 function Header() {
   const [open, setOpen] = React.useState(false);
@@ -27,30 +32,28 @@ function Header() {
   };
 
   return (
-    <header className={classNames('header')}>
-      <Container className="header-content">
-        <Link
-          variant="h5"
-          component={RouterLink}
-          to="/"
-          className="header-title"
-        >
-          INWORDS
-        </Link>
-        <div className="header-navigation">
-          <NavList />
-        </div>
-        <div className="header-mobile-navigation">
-          <Button onClick={handleToggle} className="header-button">
-            x
-          </Button>
-        </div>
-      </Container>
-      <div className="header-mobile-navigation">
-        <Drawer open={open} onClose={handleClose}>
-          <NavList vertical />
-        </Drawer>
-      </div>
+    // <header className={classNames('header')}>
+    //   <div className="header-content">
+    //     <RouterLink to="/" className="header-title">
+    //       INWORDS
+    //     </RouterLink>
+    //     <div className="header-navigation">
+    //       <NavList>{navListItems}</NavList>
+    //     </div>
+    //     <div className="header-mobile-navigation">
+    //       <Button onClick={handleToggle} className="header-button">
+    //         x
+    //       </Button>
+    //     </div>
+    //   </div>
+    //   <div className="header-mobile-navigation">
+    //     <Drawer open={open} onClose={handleClose}>
+    //       <NavList vertical>{navListItems}</NavList>
+    //     </Drawer>
+    //   </div>
+    // </header>
+    <header>
+      <NavBar />
     </header>
   );
 }

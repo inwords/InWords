@@ -1,0 +1,19 @@
+@import 'theme/functions';
+
+.nav-list__item {
+  width: inherit;
+}
+
+.nav-list__link {
+  display: inline-block;
+  padding: 12px 10px;
+  font-size: 1rem;
+  line-height: 1;
+  text-decoration: none;
+  color: darken(theme-palette('on-primary'), 20%);
+
+  &:hover {
+    text-decoration: none;
+    color: theme-palette('on-primary');
+  }
+}

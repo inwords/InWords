@@ -54,18 +54,14 @@ const TextField = React.forwardRef(function TextField(props, ref) {
   return (
     <div
       className={classNames('text-field', {
+        'text-field--disabled': disabled,
+        'text-field--required': required,
+        'text-field--compact': focused || !empty,
+        'text-field--active': focused,
         [className]: Boolean(className)
       })}
     >
-      <label
-        className={classNames('text-field__label', {
-          'text-field__label--required': required,
-          'text-field__label--compact': focused || !empty,
-          'text-field__label--active': focused,
-          'text-field__label--disabled': disabled
-        })}
-        htmlFor={id}
-      >
+      <label className="text-field__label" htmlFor={id}>
         {label}
       </label>
       <input

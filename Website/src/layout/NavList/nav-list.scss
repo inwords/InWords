@@ -23,19 +23,18 @@
   &__link {
     display: inline-block;
     padding: 12px 10px;
-    font-size: 14px;
-    text-transform: uppercase;
+    font-size: 1rem;
     line-height: 1;
     color: darken(theme-palette('on-primary'), 20%);
-
-    &--vertical {
-      display: block;
-      padding: 12px 14px;
-    }
 
     &:hover {
       text-decoration: none;
       color: theme-palette('on-primary');
     }
+  }
+
+  &--vertical &__link {
+    display: block;
+    padding: 12px 14px;
   }
 }

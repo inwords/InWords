@@ -11,7 +11,3 @@
 @function theme-breakpoints-value($breakpoint) {
   @return map-get($theme-breakpoints-values, $breakpoint);
 }
-
-@function theme-shadow-value($elevation) {
-  @return map-get($theme-shadow-values, $elevation);
-}
