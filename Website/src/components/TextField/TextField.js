@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import TextFieldLabel from './TextFieldLabel';
+import TextFieldInput from './TextFieldInput';
 
-import './text-field.scss';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+
+const styles = {
+  root: css`
+    position: relative;
+    font-size: 1rem;
+  `
+};
 
 const TextField = React.forwardRef(function TextField(props, ref) {
   const {
@@ -52,19 +61,17 @@ const TextField = React.forwardRef(function TextField(props, ref) {
   };
 
   return (
-    <div
-      className={classNames('text-field', {
-        'text-field--disabled': disabled,
-        'text-field--required': required,
-        'text-field--compact': focused || !empty,
-        'text-field--active': focused,
-        [className]: Boolean(className)
-      })}
-    >
-      <label className="text-field__label" htmlFor={id}>
+    <div css={[styles.root]} className={className}>
+      <TextFieldLabel
+        htmlFor={id}
+        compact={focused || !empty}
+        active={focused}
+        required={required}
+        disabled={disabled}
+      >
         {label}
-      </label>
-      <input
+      </TextFieldLabel>
+      <TextFieldInput
         ref={ref}
         id={id}
         placeholder={label}
@@ -75,9 +82,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={classNames('text-field__input', {
-          'text-field__input--full-width': fullWidth
-        })}
+        fullWidth={fullWidth}
         {...rest}
       />
     </div>

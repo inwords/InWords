@@ -8,9 +8,12 @@ import './nav-list.scss';
 
 function NavList({ children, vertical = false }) {
   return (
-    <ul className={classNames('nav-list', { 'nav-list--vertical': vertical })}>
-      {children}
-      {/* <li className="nav-list__item">
+    <nav>
+      <ul
+        className={classNames('nav-list', { 'nav-list--vertical': vertical })}
+      >
+        {children}
+        {/* <li className="nav-list__item">
         <Link
           component={RouterLink}
           to="/dictionary"
@@ -24,7 +27,8 @@ function NavList({ children, vertical = false }) {
           Обучение
         </Link>
       </li> */}
-    </ul>
+      </ul>
+    </nav>
   );
 }
 

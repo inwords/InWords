@@ -1,5 +1,14 @@
 @import 'theme/mixins';
 
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+}
+
 // .header {
 //   position: fixed;
 //   top: 0;

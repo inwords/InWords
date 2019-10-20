@@ -3,17 +3,19 @@
 
 .drawer {
   position: fixed;
-  right: 0;
+  top: 0;
+  bottom: 0;
   left: 0;
-  z-index: 1;
-  transform: translateY(-100%);
-  max-height: 240px;
+  z-index: 1000;
+  height: 100%;
   display: block;
   overflow: auto;
+  transform: translateX(-100%);
   transition: all 0.2s ease-in-out;
+  background-color: var(--color-surface);
 
   &--expanded {
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
@@ -23,7 +25,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: -1;
+  z-index: 4;
   display: block;
   visibility: hidden;
   opacity: 0;

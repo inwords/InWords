@@ -52,9 +52,14 @@ function Header() {
     //     </Drawer>
     //   </div>
     // </header>
-    <header>
-      <NavBar />
-    </header>
+    <div>
+      <header className="header">
+        <NavBar handleToggle={handleToggle} />
+      </header>
+      <Drawer open={open} onClose={handleClose}>
+        <NavList vertical>{navListItems}</NavList>
+      </Drawer>
+    </div>
   );
 }
 

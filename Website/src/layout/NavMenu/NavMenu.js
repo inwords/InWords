@@ -10,47 +10,12 @@ import NavList from 'src/layout/NavList';
 import NavListItem from 'src/layout/NavListItem';
 import Drawer from 'src/layout/Drawer';
 
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
-
 import './nav-bar.scss';
 
-const styles = {
-  root: css`
-    z-index: 999;
-    display: flex;
-    height: 64px;
-    width: 100%;
-    padding: 0 24px;
-    background-color: var(--color-primary);
-
-    @media (max-width: 600px) {
-      height: 48px;
-    }
-  `,
-  block: css`
-    display: flex;
-  `,
-  blockItem: css`
-    display: flex;
-  `,
-  brandBlock: css`
-    margin-right: 48px;
-    color: var(--color-on-primary);
-  `,
-  brandLink: css`
-    display: flex;
-    align-items: center;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: var(--color-on-primary);
-
-    @media (max-width: 600px) {
-      font-size: 1.2rem;
-    }
-  `
-};
+const navListItems = [
+  <NavListItem to="/dictionary">Словарь</NavListItem>,
+  <NavListItem to="/trainings">Обучение</NavListItem>
+];
 
 const IconButton = React.forwardRef(function Icon(props, ref) {
   const { children, primary, className, ...rest } = props;
@@ -69,9 +34,26 @@ const IconButton = React.forwardRef(function Icon(props, ref) {
   );
 });
 
-function NavBar({ handleToggle }) {
+function NavMenu({ handleToggle }) {
   return (
-    <div css={styles.root}>
+    <nav className="nav-bar">
+      <div className="nav-bar__brand">
+        <RouterLink to="/" className="nav-bar__brand-link">
+          InWords
+        </RouterLink>
+      </div>
+      <ui className="nav-bar__block nav-bar__block-menu">
+        <li className="nav-bar__block--item nav-bar__menu-item">
+          <RouterLink to="/dictionary" className="nav-bar__link">
+            Словарь
+          </RouterLink>
+        </li>
+        <li className="nav-bar__block--item nav-bar__menu-item">
+          <RouterLink to="/trainings" className="nav-bar__link">
+            Обучение
+          </RouterLink>
+        </li>
+      </ui>
       <div className="nav-bar__block nav-bar__block-menu-icon">
         <div className="nav-bar__block--item nav-bar__block--icon">
           <IconButton onClick={handleToggle} primary>
@@ -79,15 +61,10 @@ function NavBar({ handleToggle }) {
           </IconButton>
         </div>
       </div>
-      <div css={[styles.block, styles.brandBlock]}>
-        <RouterLink to="/" css={styles.brandLink}>
-          InWords
-        </RouterLink>
-      </div>
-    </div>
+    </nav>
   );
 }
 
-NavBar.propTypes = {};
+NavMenu.propTypes = {};
 
-export default NavBar;
+export default NavMenu;

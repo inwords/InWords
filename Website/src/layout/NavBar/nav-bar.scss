@@ -1,8 +1,10 @@
 @import 'theme/mixins';
 
 .nav-bar {
+  z-index: 999;
   display: flex;
   height: 64px;
+  width: 100%;
   padding: 0 24px;
   background-color: var(--color-primary);
 
@@ -12,7 +14,6 @@
 
   &__brand {
     margin-right: 48px;
-    display: flex;
     color: var(--color-on-primary);
   }
 
@@ -25,20 +26,35 @@
     color: var(--color-on-primary);
 
     @include theme-breakpoints-down('md') {
-        font-size: 1.2rem;
+      font-size: 1.2rem;
     }
   }
 
-  &__block {
+  &__block,
+  &__block--item {
     display: flex;
   }
 
-  &__block-item {
-    display: flex;
+  &__block--icon {
+    color: var(--color-on-primary);
   }
 
-  &__menu-block {
+  &__block-menu-icon {
+    @include theme-breakpoints-down('md') {
+      font-size: 1.2rem;
+    }
+  }
+
+  &__block-menu {
     flex: 1 1 auto;
+  }
+
+  &__menu-item + &__menu-item {
+    margin-left: 16px;
+  }
+
+  &__menu-item:hover &__link {
+    color: var(--color-on-primary);
   }
 
   &__link {
@@ -48,13 +64,39 @@
     font-size: 1rem;
     text-decoration: none;
     color: var(--color-on-primary-dark);
-
-    &:hover {
-      color: var(--color-on-primary);
-    }
   }
 }
 
-.menu-item + .menu-item {
-  margin-left: 16px;
+.icon-button {
+  color: var(--color-on-neutral);
+  background-color: var(--color-neutral);
+
+  &:hover {
+    border-color: var(--color-neutral-dark);
+  }
+
+  &:active {
+    background-color: var(--color-neutral-dark);
+  }
+
+  &:focus:not(:active) {
+    outline-color: var(--color-on-neutral);
+  }
+
+  &--primary {
+    color: var(--color-on-primary);
+    background-color: var(--color-primary);
+
+    &:hover {
+      border-color: var(--color-primary-dark);
+    }
+
+    &:active {
+      background-color: var(--color-primary-dark);
+    }
+
+    &:focus:not(:active) {
+      outline-color: var(--color-neutral);
+    }
+  }
 }

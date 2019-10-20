@@ -10,10 +10,10 @@
   font-size: 1rem;
   line-height: 1;
   text-decoration: none;
-  color: darken(theme-palette('on-primary'), 20%);
+  color: var(--color-text-primary);
 
   &:hover {
     text-decoration: none;
-    color: theme-palette('on-primary');
+    color: var(--color-text-primary)
   }
 }
