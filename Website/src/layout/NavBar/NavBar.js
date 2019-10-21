@@ -17,12 +17,8 @@ import './nav-bar.scss';
 
 const styles = {
   root: css`
-    z-index: 999;
     display: flex;
-    height: 64px;
     width: 100%;
-    padding: 0 24px;
-    background-color: var(--color-primary);
 
     @media (max-width: 600px) {
       height: 48px;

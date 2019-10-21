@@ -1,12 +1,11 @@
 @import 'theme/functions';
 
 .sign-in-surface {
-  margin-top: 32px;
+  margin-top: 64px;
   padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid theme-palette('divider');
   background-color: theme-palette('surface');
 }
 

@@ -10,10 +10,18 @@ import Link from 'src/components/Link';
 
 import './sign-in.scss';
 
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
+
 function SignIn({ inputs, handleChange, handleSubmit }) {
   return (
     <Container maxWidth="xs">
-      <div className="sign-in-surface">
+      <div
+        className="sign-in-surface"
+        css={theme => css`
+          box-shadow: ${theme.shadows[1]};
+        `}
+      >
         <Typography component="h1" variant="h5">
           Вход
         </Typography>

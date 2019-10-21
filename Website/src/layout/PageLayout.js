@@ -124,7 +124,6 @@ function PageLayout({ authorized, children }) {
         </Hidden>
       </nav> */}
       <main className={classes.content}>
-        <div className={classes.toolbar} />
         {children}
       </main>
     </div>

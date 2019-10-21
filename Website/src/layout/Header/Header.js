@@ -8,6 +8,10 @@ import Drawer from 'src/layout/Drawer';
 import Container from 'src/components/Container';
 import Button from 'src/components/Button';
 import NavBar from 'src/layout/NavBar';
+import Link from 'src/components/Link';
+
+import AppBar from 'src/components/AppBar';
+import Toolbar from 'src/components/Toolbar';
 
 import './header.scss';
 
@@ -52,14 +56,20 @@ function Header() {
     //     </Drawer>
     //   </div>
     // </header>
-    <div>
-      <header className="header">
-        <NavBar handleToggle={handleToggle} />
-      </header>
-      <Drawer open={open} onClose={handleClose}>
-        <NavList vertical>{navListItems}</NavList>
-      </Drawer>
-    </div>
+    // <div>
+    //   <header className="header">
+    //     <NavBar handleToggle={handleToggle} />
+    //   </header>
+    //   <Drawer open={open} onClose={handleClose}>
+    //     <NavList vertical>{navListItems}</NavList>
+    //   </Drawer>
+    // </div>
+    <AppBar>
+      <Toolbar>
+        {/* <NavBar handleToggle={handleToggle} /> */}
+        <Button>xxx</Button>
+      </Toolbar>
+    </AppBar>
   );
 }
 

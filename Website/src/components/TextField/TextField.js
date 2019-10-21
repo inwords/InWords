@@ -6,13 +6,6 @@ import TextFieldInput from './TextFieldInput';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 
-const styles = {
-  root: css`
-    position: relative;
-    font-size: 1rem;
-  `
-};
-
 const TextField = React.forwardRef(function TextField(props, ref) {
   const {
     id,
@@ -61,7 +54,13 @@ const TextField = React.forwardRef(function TextField(props, ref) {
   };
 
   return (
-    <div css={[styles.root]} className={className}>
+    <div
+      css={css`
+        position: relative;
+        font-size: 1rem;
+      `}
+      className={className}
+    >
       <TextFieldLabel
         htmlFor={id}
         compact={focused || !empty}
