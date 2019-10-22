@@ -1,31 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import Container from 'src/components/Container';
-import Paper from 'src/components/Paper';
-import TextField from 'src/components/TextField';
-import Button from 'src/components/Button';
-import Typography from 'src/components/Typography';
-import Link from 'src/components/Link';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 
-import './sign-in.scss';
-
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+const useStyles = makeStyles(theme => ({
+  paper: {
+    marginTop: theme.spacing(4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(3)
+  },
+  submit: {
+    marginTop: theme.spacing(2)
+  },
+  linksContainer: {
+    marginTop: theme.spacing(3),
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
+}));
 
 function SignIn({ inputs, handleChange, handleSubmit }) {
+  const classes = useStyles();
+
   return (
     <Container maxWidth="xs">
-      <div
-        className="sign-in-surface"
-        css={theme => css`
-          box-shadow: ${theme.shadows[1]};
-        `}
-      >
-        <Typography component="h1" variant="h5">
+      <Paper elevation={1} className={classes.paper}>
+        <Typography component="h1" variant="h5" gutterBottom>
           Вход
         </Typography>
-        <form onSubmit={handleSubmit} className="sign-in-form">
+        <form onSubmit={handleSubmit}>
           <TextField
             id="email"
             label="Email"
@@ -35,8 +46,9 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             value={inputs.email}
             onChange={handleChange}
             required
+            margin="normal"
+            variant="outlined"
             fullWidth
-            className="sign-in-form-field"
           />
           <TextField
             id="password"
@@ -47,19 +59,26 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             value={inputs.password}
             onChange={handleChange}
             required
+            margin="normal"
+            variant="outlined"
             fullWidth
-            className="sign-in-form-field"
           />
-          <Button type="submit" primary fullWidth className="sign-in-submit">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            className={classes.submit}
+          >
             Войти
           </Button>
-          <div className="sign-in-links">
+          <div className={classes.linksContainer}>
             <Link component={RouterLink} to="/signUp" variant="body2">
               Нет аккаунта? Зарегистрироваться
             </Link>
           </div>
         </form>
-      </div>
+      </Paper>
     </Container>
   );
 }

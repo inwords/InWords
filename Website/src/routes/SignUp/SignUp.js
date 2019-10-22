@@ -1,23 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import Container from 'src/components/Container';
-import Paper from 'src/components/Paper';
-import TextField from 'src/components/TextField';
-import Button from 'src/components/Button';
-import Typography from 'src/components/Typography';
-import Link from 'src/components/Link';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 
-import './sign-up.scss';
+const useStyles = makeStyles(theme => ({
+  paper: {
+    marginTop: theme.spacing(4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(3)
+  },
+  submit: {
+    marginTop: theme.spacing(2)
+  },
+  linksContainer: {
+    marginTop: theme.spacing(3),
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
+}));
 
 function SignUp({ inputs, handleChange, handleSubmit }) {
+  const classes = useStyles();
+
   return (
     <Container maxWidth="xs">
-      <Paper className="sign-up-paper">
-        <Typography component="h1" variant="h5">
+      <Paper elevation={1} className={classes.paper}>
+        <Typography component="h1" variant="h5" gutterBottom>
           Регистрация
         </Typography>
-        <form onSubmit={handleSubmit} className="sign-up-form">
+        <form onSubmit={handleSubmit}>
           <TextField
             id="email"
             label="Email"
@@ -27,8 +46,9 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             value={inputs.email}
             onChange={handleChange}
             required
+            margin="normal"
+            variant="outlined"
             fullWidth
-            className="sign-up-form-field"
           />
           <TextField
             id="password"
@@ -39,19 +59,21 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             value={inputs.password}
             onChange={handleChange}
             required
+            margin="normal"
+            variant="outlined"
             fullWidth
-            className="sign-up-form-field"
           />
           <Button
             type="submit"
+            variant="contained"
             color="primary"
             fullWidth
-            className="sign-up-submit"
+            className={classes.submit}
           >
             Зарегистрироваться
           </Button>
-          <div className="sign-up-links">
-            <Link component={RouterLink} to="signIn" variant="body2">
+          <div className={classes.linksContainer}>
+            <Link component={RouterLink} to="/signIn" variant="body2">
               Уже есть аккаунт? Войти
             </Link>
           </div>

@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import TextFieldLabel from './TextFieldLabel';
 import TextFieldInput from './TextFieldInput';
 
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+const base = css`
+  position: relative;
+  font-size: 1rem;
+`;
 
 const TextField = React.forwardRef(function TextField(props, ref) {
   const {
@@ -54,13 +58,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
   };
 
   return (
-    <div
-      css={css`
-        position: relative;
-        font-size: 1rem;
-      `}
-      className={className}
-    >
+    <div css={base} className={className}>
       <TextFieldLabel
         htmlFor={id}
         compact={focused || !empty}

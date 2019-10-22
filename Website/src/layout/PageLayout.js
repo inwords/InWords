@@ -70,7 +70,7 @@ function PageLayout({ authorized, children }) {
 
   return (
     <div className={classes.root}>
-      {/* <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             aria-label="toggle drawer"
@@ -122,8 +122,9 @@ function PageLayout({ authorized, children }) {
             <NavList authorized={authorized} />
           </Drawer>
         </Hidden>
-      </nav> */}
+      </nav>
       <main className={classes.content}>
+        <div className={classes.toolbar}></div>
         {children}
       </main>
     </div>

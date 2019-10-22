@@ -40,8 +40,8 @@ function App() {
 
   return (
     <Router history={history}>
+      {/* <Header /> */}
       <CustomSnackbar />
-      <Header />
       <PageLayout authorized={Boolean(userId)}>
         <ErrorBoundary>
           <Suspense

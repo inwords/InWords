@@ -6,16 +6,20 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Button from 'src/components/Button';
-import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(2),
     padding: theme.spacing(2, 3, 3)
   },
-  actions: {
-    marginTop: theme.spacing(2)
+  actionsContainer: {
+    marginTop: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  submit: {
+    marginLeft: theme.spacing(2)
   }
 }));
 
@@ -51,23 +55,19 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
             variant="filled"
             margin="normal"
           />
-          <Grid
-            container
-            justify="flex-start"
-            spacing={1}
-            className={classes.actions}
-          >
-            <Grid item>
-              <Button type="submit" primary>
-                Сохранить
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button component={Link} to="/profile">
-                Отмена
-              </Button>
-            </Grid>
-          </Grid>
+          <div className={classes.actionsContainer}>
+            <Button component={Link} to="/profile">
+              Отмена
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Сохранить
+            </Button>
+          </div>
         </form>
       </Paper>
     </Container>
