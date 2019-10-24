@@ -11,7 +11,7 @@ namespace InWords.WebApi.Services.BaseDataContext
         public override void ConfigureIoc(ContainerBuilder builder)
         {
             // register context
-            builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("MSSQLConnection")))
+            builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString("DefaultConnection")))
                 .InstancePerLifetimeScope();
 
             // register repositories
