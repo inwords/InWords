@@ -6,7 +6,7 @@
     android:id="@+id/profile_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.viewScenario.home.HomeFragment">
+    tools:context=".presentation.view_scenario.home.HomeFragment">
 
     <FrameLayout
         android:id="@+id/header_container"
@@ -113,7 +113,7 @@
                     android:inputType="textCapSentences"
                     android:maxLength="64"
                     android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default"
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
                     tools:enabled="true"
                     tools:text="Ник" />
             </com.google.android.material.textfield.TextInputLayout>

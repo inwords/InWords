@@ -5,7 +5,6 @@ import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.HttpException
-import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.data.source.remote.AuthExceptionType
 import ru.inwords.inwords.data.source.remote.AuthenticationException
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
@@ -13,6 +12,7 @@ import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorised
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.domain.util.getErrorMessage
+import ru.inwords.inwords.profile.data.bean.UserCredentials
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject

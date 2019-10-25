@@ -3,11 +3,11 @@ package ru.inwords.inwords.data.source.remote
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
-import ru.inwords.inwords.data.dto.EntityIdentificator
-import ru.inwords.inwords.data.dto.User
-import ru.inwords.inwords.data.dto.WordTranslation
-import ru.inwords.inwords.data.dto.game.*
-import ru.inwords.inwords.data.sync.PullWordsAnswer
+import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.profile.data.bean.User
+import ru.inwords.inwords.translation.data.bean.EntityIdentificator
+import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 
 interface ApiServiceAuthorised {
     //GAME
@@ -20,10 +20,10 @@ interface ApiServiceAuthorised {
     @GET("v1.0/Game/level/{levelId}")
     fun getLevel(@Path("levelId") levelId: Int): Single<GameLevel>
 
-    @POST("v1.0/Game/score")
+    @POST("v1.1/Game/score")
     fun getGameScore(@Body levelScoreRequest: LevelScoreRequest): Single<LevelScore>
 
-    @POST("v1.0/Game/UploadScore")
+    @POST("v1.1/Game/UploadScore")
     fun uploadScore(@Body levelScoreRequests: List<LevelScoreRequest>): Completable
 
     //Words

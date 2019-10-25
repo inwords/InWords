@@ -31,10 +31,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/word_addition_word"
-                android:inputType="textCapSentences"
+                android:inputType="textAutoCorrect"
                 android:lines="1"
                 android:maxLength="64"
-                android:textAppearance="@style/TextAppearance.Inwords.Body1.Default" />
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,10 +48,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/word_addition_translation"
-                android:inputType="textCapSentences"
+                android:inputType="textAutoCorrect"
                 android:lines="1"
                 android:maxLength="64"
-                android:textAppearance="@style/TextAppearance.Inwords.Body1.Default"
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
                 tools:text="Перевод" />
 
         </com.google.android.material.textfield.TextInputLayout>

@@ -62,7 +62,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpPost]
         [ProducesResponseType(typeof(PullWordsAnswer), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult PullWordPairs([FromBody] IEnumerable<int> serverIds)
+        public IActionResult PullWordPairs([FromBody] List<int> serverIds)
         {
             int authorizedId = User.GetUserId();
 

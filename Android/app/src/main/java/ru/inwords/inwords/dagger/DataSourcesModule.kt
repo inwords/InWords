@@ -12,6 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.inwords.inwords.BuildConfig
+import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.dagger.annotations.AuthorisedZone
 import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.dagger.annotations.UnauthorisedZone
@@ -35,8 +36,8 @@ class DataSourcesModule {
     @Singleton
     fun database(context: Context): AppRoomDatabase {
         return Room.databaseBuilder(context, AppRoomDatabase::class.java, "cache")
-                .fallbackToDestructiveMigration()
-                .build()
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
@@ -53,41 +54,42 @@ class DataSourcesModule {
 
     private fun provideRetrofit1(@AuthorisedZone client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .baseUrl(BuildConfig.API_URL)
-                .build()
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(client)
+            .baseUrl(BuildConfig.API_URL)
+            .build()
     }
 
     @Provides
     @Singleton
     @UnauthorisedZone
     fun provideOkHttpClientUnauthorised(): OkHttpClient {
-        return provideOkHttpBuilder()
-                .build()
+        return provideBasicOkHttp()
     }
 
     @Provides
     @Singleton
     @AuthorisedZone
-    fun provideOkHttpClient(authenticator: BasicAuthenticator,
+    fun provideOkHttpClient(@UnauthorisedZone okHttpClient: OkHttpClient,
+                            authenticator: BasicAuthenticator,
                             tokenInterceptor: TokenInterceptor): OkHttpClient {
-        return provideOkHttpBuilder()
-                .addInterceptor(tokenInterceptor)
-                .authenticator(authenticator)
-                .build()
+        return okHttpClient.newBuilder() //so that it shares cache etc
+            .addInterceptor(tokenInterceptor)
+            .authenticator(authenticator)
+            .build()
     }
 
-    private fun provideOkHttpBuilder(): OkHttpClient.Builder {
+    private fun provideBasicOkHttp(): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG)
-                    HttpLoggingInterceptor.Level.BODY
-                else
-                    HttpLoggingInterceptor.Level.NONE))
-                .connectTimeout(40, TimeUnit.SECONDS)
-                .readTimeout(40, TimeUnit.SECONDS)
-                .writeTimeout(40, TimeUnit.SECONDS)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG)
+                HttpLoggingInterceptor.Level.BODY
+            else
+                HttpLoggingInterceptor.Level.NONE))
+            .connectTimeout(40, TimeUnit.SECONDS)
+            .readTimeout(40, TimeUnit.SECONDS)
+            .writeTimeout(40, TimeUnit.SECONDS)
+            .build()
     }
 
     @Provides
@@ -95,5 +97,11 @@ class DataSourcesModule {
     @Singleton
     internal fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+    }
+
+    @Provides
+    @Singleton
+    fun provideResourceManager(context: Context): ResourceManager {
+        return ResourceManager(context)
     }
 }

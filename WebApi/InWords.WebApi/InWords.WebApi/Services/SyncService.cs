@@ -26,7 +26,7 @@ namespace InWords.WebApi.Services
             var pullResponse = new PullWordsAnswer
             {
                 RemovedServerIds = idsToDeleteOnClient.ToList(),
-                AddedWords = addedWords
+                AddedWords = addedWords.ToList()
             };
 
             return pullResponse;

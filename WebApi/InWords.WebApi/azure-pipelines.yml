@@ -17,19 +17,23 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-
 steps:
-- task: DotNetCoreInstaller@0
+- task: UseDotNet@2
+  displayName: 'Install .net core 3.0.100'
   inputs:
+    packageType: sdk
     version: '3.0.100'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
 - task: DotNetCoreCLI@2
-  displayName: Build
+  displayName: 'Build Release'
   inputs:
     command: build
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
-    arguments: '--configuration Release' # Update this to match your need
+    arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Run tests'
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
