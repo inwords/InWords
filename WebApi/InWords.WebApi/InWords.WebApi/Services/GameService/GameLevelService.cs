@@ -10,15 +10,25 @@ namespace InWords.WebApi.Services.GameService
 {
     public class GameLevelService
     {
-        public async Task<GameLevel> AddLevel(Creation gameBox, LevelPack levelPack)
+        private readonly GameLevelRepository gameLevelRepository;
+        private readonly GameLevelWordService gameLevelWordService;
+
+        public GameLevelService(GameLevelRepository gameLevelRepository,
+            GameLevelWordService gameLevelWordService)
+        {
+            this.gameLevelRepository = gameLevelRepository;
+            this.gameLevelWordService = gameLevelWordService;
+        }
+
+        public async Task<GameLevel> AddLevelAsync(Creation gameBox, LevelPack levelPack)
         {
             var gameLevel = new GameLevel
             {
                 GameBoxId = gameBox.CreationId,
                 Level = levelPack.Level
             };
-            gameLevel = await gameLevelRepository.CreateAsync(gameLevel);
-            await gameLevelWordService.AddWordsToLevel(levelPack.WordTranslations, gameLevel.GameLevelId);
+            gameLevel = await gameLevelRepository.CreateAsync(gameLevel).ConfigureAwait(false);
+            await gameLevelWordService.AddWordsToLevelAsync(levelPack.WordTranslations, gameLevel.GameLevelId).ConfigureAwait(false);
             return gameLevel;
         }
 
@@ -30,12 +40,12 @@ namespace InWords.WebApi.Services.GameService
             return gameLevels.Select(GetLevelInfo);
         }
 
-        public async Task<LevelInfo> GetLevel(int levelId)
-        {
-            GameLevel level = await gameLevelRepository.FindById(levelId);
+        //public async Task<LevelInfo> GetLevel(int levelId)
+        //{
+        //    GameLevel level = await gameLevelRepository.FindById(levelId).ConfigureAwait(false);
 
-            return GetLevelInfo(level);
-        }
+        //    return GetLevelInfo(level);
+        //}
 
         public LevelInfo GetLevelInfo(GameLevel level)
         {
@@ -49,18 +59,5 @@ namespace InWords.WebApi.Services.GameService
             return levelInfo;
         }
 
-        #region ctor
-
-        private readonly GameLevelRepository gameLevelRepository;
-        private readonly GameLevelWordService gameLevelWordService;
-
-        public GameLevelService(GameLevelRepository gameLevelRepository,
-            GameLevelWordService gameLevelWordService)
-        {
-            this.gameLevelRepository = gameLevelRepository;
-            this.gameLevelWordService = gameLevelWordService;
-        }
-
-        #endregion
     }
 }

@@ -34,7 +34,7 @@ namespace InWords.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
-            optionBuilder.UseSqlServer(connectionString);
+            optionBuilder.UseMySql(connectionString);
         }
 
         private void RecreateDb()

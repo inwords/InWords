@@ -34,7 +34,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         {
             int authorizedId = User.GetUserId();
 
-            SyncBase answer = await gameService.AddGamePack(authorizedId, gamePack);
+            SyncBase answer = await gameService.AddGamePackAsync(authorizedId, gamePack);
 
             return Ok(answer);
         }
@@ -63,7 +63,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         [HttpGet]
         public IActionResult GetLevel(int id)
         {
-            Level answer = gameLevelWordService.GetLevelWords(id);
+            Level answer = gameLevelWordService.GetLevelWordsAsync(id).Result;
 
             return Ok(answer);
         }
