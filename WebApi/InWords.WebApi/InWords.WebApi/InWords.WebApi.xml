@@ -155,7 +155,7 @@
                 Everething about sync
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.SyncController.PullWordPairs(System.Collections.Generic.IEnumerable{System.Int32})">
+        <member name="M:InWords.WebApi.Controllers.v1.SyncController.PullWordPairs(System.Collections.Generic.List{System.Int32})">
             <summary>
                 Pull word pairs
             </summary>
