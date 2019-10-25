@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Creations;
-using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO;
 using InWords.Data.DTO.Creation;
 using InWords.Data.DTO.GameBox;
@@ -36,18 +35,18 @@ namespace InWords.WebApi.Services.GameService
             this.gameLevelService = gameLevelService;
         }
 
-        public async Task<SyncBase> AddGamePack(int userId, GamePack gamePack)
+        public async Task<SyncBase> AddGamePackAsync(int userId, GamePack gamePack)
         {
             // allow gamePack.CreatorId if admin
             gamePack.CreationInfo.CreatorId = userId;
 
-            Creation gameBox = await CreateGameBox(gamePack);
+            Creation gameBox = await CreateGameBoxAsync(gamePack).ConfigureAwait(false);
 
             // Loading behind the scenes, the level will be processed on the server
             // Does not affect user experience
 
             // Add levels
-            foreach (LevelPack levelPack in gamePack.LevelPacks) await gameLevelService.AddLevel(gameBox, levelPack);
+            foreach (LevelPack levelPack in gamePack.LevelPacks) await gameLevelService.AddLevelAsync(gameBox, levelPack).ConfigureAwait(false);
 
             var answer = new SyncBase(gameBox.CreationId);
 
@@ -69,11 +68,9 @@ namespace InWords.WebApi.Services.GameService
                     });
         }
 
-        public async Task<Creation> CreateGameBox(GamePack gamePack)
+        public Task<Creation> CreateGameBoxAsync(GamePack gamePack)
         {
-            Creation creation = await creationService.AddCreationInfoAsync(gamePack.CreationInfo).ConfigureAwait(false);
-
-            return creation;
+            return creationService.AddCreationInfoAsync(gamePack.CreationInfo);
         }
 
         /// <summary>
@@ -81,10 +78,10 @@ namespace InWords.WebApi.Services.GameService
         /// </summary>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        public async Task<GameObject> GetGameObject(int gameId)
+        public async Task<GameObject> GetGameObjectAsync(int gameId)
         {
             // find game in database
-            Creation gameBox = await creationRepository.FindById(gameId);
+            Creation gameBox = await creationRepository.FindById(gameId).ConfigureAwait(false);
 
             if (gameBox == null) return null;
 

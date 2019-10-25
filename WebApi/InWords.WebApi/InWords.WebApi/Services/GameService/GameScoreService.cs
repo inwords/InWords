@@ -18,7 +18,7 @@ namespace InWords.WebApi.Services.GameService
             this.userGameLevelRepository = userGameLevelRepository;
         }
 
-        Task<GameObject> IGameScoreService.GetGameStars(int userId, GameObject game)
+        Task<GameObject> IGameScoreService.GetGameStarsAsync(int userId, GameObject game)
         {
             return Task.Run(() => GetGameStarsAction(userId, game));
         }
@@ -56,7 +56,7 @@ namespace InWords.WebApi.Services.GameService
             // add if not exist
             else
             {
-                await AddLevels(userId, levelScore).ConfigureAwait(false);
+                await AddLevelsAsync(userId, levelScore).ConfigureAwait(false);
             }
         }
 
@@ -71,7 +71,7 @@ namespace InWords.WebApi.Services.GameService
             LevelScore[] levelScoresToAdd = GetScoresExceptExist(levelScoresArray, levelsExist);
 
             await UpdateLevelsAsync(levelsExist, levelScoresArray).ConfigureAwait(false);
-            await AddLevels(userId, levelScoresToAdd).ConfigureAwait(false);
+            await AddLevelsAsync(userId, levelScoresToAdd).ConfigureAwait(false);
         }
 
         private GameObject GetGameStarsAction(int userId, GameObject game)
@@ -117,7 +117,7 @@ namespace InWords.WebApi.Services.GameService
             return userGameLevelRepository.UpdateAsync(levelsToUpdate.ToArray());
         }
 
-        private async Task AddLevels(int userId, params LevelScore[] levels)
+        private Task AddLevelsAsync(int userId, params LevelScore[] levels)
         {
             // TODO CHECK IF LEVEL EXIST
             UserGameLevel[] userGameLevels = levels.Select(levelScore => new UserGameLevel
@@ -126,7 +126,7 @@ namespace InWords.WebApi.Services.GameService
                 UserStars = levelScore.Score,
                 GameLevelId = levelScore.LevelId
             }).ToArray();
-            await userGameLevelRepository.Create(userGameLevels);
+            return userGameLevelRepository.Create(userGameLevels);
         }
 
         private UserGameLevel[] GetExistingLevels(int userId, LevelScore[] levelScores)

@@ -7,8 +7,7 @@
 
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.authorisation.registration.RegistrationFragment"
-        android:label="fragment_registration"
+        android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.registration.RegistrationFragment"
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment_pop"
@@ -19,8 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.authorisation.login.LoginFragment"
-        android:label="fragment_login"
+        android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.login.LoginFragment"
         tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_loginFragment_to_mainFragment_pop"
@@ -36,8 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.home.HomeFragment"
-        android:label="fragment_main"
+        android:name="ru.inwords.inwords.presentation.view_scenario.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_mainFragment_to_profileFragment"
@@ -70,8 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.profile.ProfileFragment"
-        android:label="fragment_profile"
+        android:name="ru.inwords.inwords.profile.presentation.view.ProfileFragment"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
@@ -91,8 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/policyFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.policy.PolicyFragment"
-        android:label="fragment_policy"
+        android:name="ru.inwords.inwords.presentation.view_scenario.policy.PolicyFragment"
         tools:layout="@layout/fragment_policy">
         <action
             android:id="@+id/action_policyFragment_pop"
@@ -100,8 +95,7 @@
     </fragment>
     <fragment
         android:id="@+id/translationMainFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.translation.translationMain.TranslationMainFragment"
-        android:label="fragment_translation_main"
+        android:name="ru.inwords.inwords.translation.presentation.view.translation_main.TranslationMainFragment"
         tools:layout="@layout/fragment_translation_main">
         <action
             android:id="@+id/action_translationMainFragment_to_addEditWordFragment"
@@ -111,11 +105,17 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_translationMainFragment_to_customGameCreatorFragment"
+            app:destination="@id/customGameCreatorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addEditWordFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.translation.addEditWord.AddEditWordFragment"
-        android:label="fragment_add_edit_word"
+        android:name="ru.inwords.inwords.translation.presentation.view.add_edit_word.AddEditWordFragment"
         tools:layout="@layout/fragment_add_edit_word">
         <action
             android:id="@+id/action_addEditWordFragment_pop"
@@ -123,12 +123,11 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="wordTranslation"
-            app:argType="ru.inwords.inwords.data.dto.WordTranslation" />
+            app:argType="ru.inwords.inwords.translation.data.bean.WordTranslation" />
     </fragment>
     <fragment
         android:id="@+id/gamesFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.games.GamesFragment"
-        android:label="fragment_games"
+        android:name="ru.inwords.inwords.game.presentation.games.GamesFragment"
         tools:layout="@layout/fragment_games">
         <action
             android:id="@+id/action_gamesFragment_to_gameLevelsFragment"
@@ -140,8 +139,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameLevelsFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevels.GameLevelsFragment"
-        android:label="fragment_game_levels"
+        android:name="ru.inwords.inwords.game.presentation.game_levels.GameLevelsFragment"
         tools:layout="@layout/fragment_game_levels">
         <action
             android:id="@+id/action_gameLevelsFragment_to_gameLevelFragment"
@@ -152,41 +150,49 @@
             app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="gameInfo"
-            app:argType="ru.inwords.inwords.data.dto.game.GameInfo" />
+            app:argType="ru.inwords.inwords.game.domain.model.GameInfoModel" />
     </fragment>
     <fragment
         android:id="@+id/gameLevelFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.GameLevelFragment"
-        android:label="fragment_game_level"
+        android:name="ru.inwords.inwords.game.presentation.game_level.GameLevelFragment"
         tools:layout="@layout/fragment_game_level">
         <action
             android:id="@+id/action_gameLevelFragment_to_gameEndBottomSheet"
             app:destination="@id/gameEndBottomSheet" />
         <argument
             android:name="gameLevelInfo"
-            app:argType="ru.inwords.inwords.data.dto.game.GameLevelInfo" />
+            app:argType="ru.inwords.inwords.game.data.bean.GameLevelInfo" />
         <argument
             android:name="gameId"
             app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="ru.inwords.inwords.presentation.viewScenario.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:name="ru.inwords.inwords.presentation.view_scenario.SettingsFragment" />
+
+    <fragment
+        android:id="@+id/customGameCreatorFragment"
+        android:name="ru.inwords.inwords.game.presentation.custom_game.CustomGameCreatorFragment"
+        tools:layout="@layout/fragment_custom_game_creator">
+        <action
+            android:id="@+id/action_customGameCreatorFragment_to_gameLevelFragment"
+            app:destination="@id/gameLevelFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="wordTranslations"
+            app:argType="ru.inwords.inwords.translation.data.bean.WordTranslation[]" />
+    </fragment>
 
     <dialog
         android:id="@+id/gameEndBottomSheet"
-        android:name="ru.inwords.inwords.presentation.viewScenario.octoGame.gameLevel.GameEndBottomSheet"
-        android:label="GameEndBottomSheet" >
+        android:name="ru.inwords.inwords.game.presentation.game_level.GameEndBottomSheet"
+        tools:layout="@layout/game_end">
         <argument
-            android:name="levelId"
-            app:argType="integer" />
-        <argument
-            android:name="cardOpenClicksCount"
-            app:argType="integer" />
-        <argument
-            android:name="cardsCount"
-            app:argType="integer" />
+            android:name="levelResultModel"
+            app:argType="ru.inwords.inwords.game.domain.model.LevelResultModel" />
         <action
             android:id="@+id/action_pop"
             app:popUpTo="@id/gameEndBottomSheet"

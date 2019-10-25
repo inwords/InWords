@@ -3,10 +3,10 @@ package ru.inwords.inwords.data.source.remote
 import io.reactivex.Single
 import retrofit2.http.*
 import ru.inwords.inwords.BuildConfig
-import ru.inwords.inwords.data.dto.UserCredentials
-import ru.inwords.inwords.data.dto.google.TtsSynthesizeRequest
-import ru.inwords.inwords.data.dto.google.TtsSynthesizeResponse
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
+import ru.inwords.inwords.profile.data.bean.UserCredentials
+import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest
+import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeResponse
 
 interface ApiServiceUnauthorised {
     @GET("/v1.0/values")

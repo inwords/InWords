@@ -2,9 +2,9 @@ package ru.inwords.inwords.data.source.remote
 
 import io.reactivex.Observable
 import io.reactivex.Single
-import ru.inwords.inwords.data.dto.UserCredentials
-import ru.inwords.inwords.data.dto.google.TtsSynthesizeRequest
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
+import ru.inwords.inwords.profile.data.bean.UserCredentials
+import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest
 
 interface WebRequestsManagerUnauthorised {
     val authenticatedNotifier: Observable<Boolean>
