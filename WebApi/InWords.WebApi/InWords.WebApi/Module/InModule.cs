@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
 namespace InWords.WebApi.Module
@@ -13,6 +14,8 @@ namespace InWords.WebApi.Module
     /// </summary>
     public abstract class InModule
     {
+        public static IWebHostEnvironment Environment;
+
         public static IConfiguration Configuration;
 
         public static IList<InModule> FindModules()

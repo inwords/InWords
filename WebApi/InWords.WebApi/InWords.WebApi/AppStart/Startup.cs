@@ -42,6 +42,7 @@ namespace InWords.WebApi.AppStart
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
             InModule.Configuration = Configuration;
+            InModule.Environment = env;
         }
 
         /// <summary>
