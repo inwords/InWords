@@ -110,19 +110,6 @@ internal class ResourceCachingProvider<T : Any>(
             .onErrorReturn { onErrorResource }
     }
 
-    private fun <T : Any> Single<T>.wrapNetworkResource(): Maybe<Resource<T>> {
-        return map { Resource.Success(it) as Resource<T> }
-            .toMaybe()
-            .onErrorResumeNext(Function {
-                if (it is InterruptedIOException || it is InterruptedException) {
-                    Log.e(TAG, "Interrupted exception intercepted: ${it.message.orEmpty()}")
-                    Maybe.empty<Resource<T>>()
-                } else {
-                    Maybe.just(Resource.Error(it.message, it))
-                }
-            })
-    }
-
     class Locator<T : Any>(private val factory: (Int) -> ResourceCachingProvider<T>) {
         @SuppressLint("UseSparseArrays")
         private val cachingProvidersMap = HashMap<Int, ResourceCachingProvider<T>>()
@@ -152,4 +139,17 @@ internal class ResourceCachingProvider<T : Any>(
 fun <T : Any> Single<T>.wrapResource(): Single<Resource<T>> {
     return map { Resource.Success(it) as Resource<T> }
         .onErrorReturn { Resource.Error(it.message, it) }
+}
+
+internal fun <T : Any> Single<T>.wrapNetworkResource(): Maybe<Resource<T>> {
+    return map { Resource.Success(it) as Resource<T> }
+        .toMaybe()
+        .onErrorResumeNext(Function {
+            if (it is InterruptedIOException || it is InterruptedException) {
+                Log.e(ResourceCachingProvider.TAG, "Interrupted exception intercepted: ${it.message.orEmpty()}")
+                Maybe.empty<Resource<T>>()
+            } else {
+                Maybe.just(Resource.Error(it.message, it))
+            }
+        })
 }

@@ -3,14 +3,11 @@ package ru.inwords.inwords.core.resource
 import android.annotation.SuppressLint
 import android.util.Log
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import java.io.InterruptedIOException
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -91,24 +88,6 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
 
     private fun askDirectForContentUpdate() {
         askForContentStream.onNext(Unit)
-    }
-
-    private fun <T : Any> Single<T>.wrapNetworkResource(): Maybe<Resource<T>> {
-        return map { Resource.Success(it) as Resource<T> }
-            .toMaybe()
-            .onErrorResumeNext(Function {
-                if (it is InterruptedIOException || it is InterruptedException) {
-                    Log.e(TAG, "Interrupted exception intercepted: ${it.message.orEmpty()}")
-                    Maybe.empty<Resource<T>>()
-                } else {
-                    Maybe.just(Resource.Error(it.message, it))
-                }
-            })
-    }
-
-    private fun Single<V>.wrapResource(): Single<Resource<V>> {
-        return map { Resource.Success(it) as Resource<V> }
-            .onErrorReturn { Resource.Error(it.message, it) }
     }
 
     class Locator<T : Any, V : Any>(private val factory: (Int) -> ResourceCachingProviderWithFinalValue<T, V>) {
