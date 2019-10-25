@@ -138,7 +138,7 @@ class GameGatewayControllerImpl @Inject constructor(
     private fun createGamesInfoCachingProvider(): ResourceCachingProvider<List<GameInfo>> {
         return ResourceCachingProvider(
             { data -> gameInfoDatabaseRepository.insertAll(data).map { data } },
-            { gameInfoDatabaseRepository.getAll() },
+            { gameInfoDatabaseRepository.getAll().map { gameInfos -> gameInfos.filter { it.gameId != CUSTOM_GAME_ID } } }, //TODO remove this filter
             { gameRemoteRepository.getGameInfos() }
         )
     }

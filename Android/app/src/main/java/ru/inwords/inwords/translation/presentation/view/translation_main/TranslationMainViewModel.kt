@@ -29,12 +29,13 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
 
     private val filterSubject = BehaviorSubject.createDefault("")
 
-    val translationWordsStream: Observable<List<WordTranslation>> = Observable.combineLatest(
-        translationWordsInteractor.getAllWords()
-            .map { list -> list.sortedBy { it.wordForeign } },
-        filterSubject,
-        BiFunction { t1: List<WordTranslation>, t2: String -> filter(t1, t2) })
-        .observeOn(SchedulersFacade.computation())
+    val translationWordsStream: Observable<List<WordTranslation>>
+        get() = Observable.combineLatest(
+            translationWordsInteractor.getAllWords()
+                .map { list -> list.sortedBy { it.wordForeign } },
+            filterSubject,
+            BiFunction { t1: List<WordTranslation>, t2: String -> filter(t1, t2) })
+            .observeOn(SchedulersFacade.computation())
 
     val addEditWordLiveData: LiveData<Event<WordTranslation>> = addEditWordMutableLiveData
     val ttsStream: Observable<Resource<String>> = ttsSubject
