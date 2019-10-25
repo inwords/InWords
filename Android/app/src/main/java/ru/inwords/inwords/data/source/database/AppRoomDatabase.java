@@ -31,7 +31,7 @@ import ru.inwords.inwords.translation.data.source.WordTranslationDao;
         GameInfo.class,
         LevelScoreRequest.class,
         WordTranslationDeferredEntry.class
-}, version = 2)
+}, version = 3)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract WordTranslationDao wordTranslationDao();

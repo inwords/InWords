@@ -20,11 +20,11 @@ buildscript {
                 RX_BINDING       : '2.2.0',
                 RETROFIT         : '2.6.0',
                 OK_HTTP          : '3.14.1',
-                ROOM             : '2.1.0',
+                ROOM             : '2.2.1',
                 LIFECYCLE        : '2.1.0',
                 DAGGER           : '2.23.2',
                 SHIMMER          : '0.4.0',
-                RECYCLER         : '1.1.0-beta04'
+                RECYCLER         : '1.1.0-rc01'
         ]
     }
 
