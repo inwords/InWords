@@ -4,13 +4,13 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import ru.inwords.inwords.App
 import ru.inwords.inwords.data.source.database.RoomTypeConverter
-import ru.inwords.inwords.presentation.viewScenario.authorisation.AuthorisationDaggerModule
-import ru.inwords.inwords.presentation.viewScenario.home.HomeFragmentDaggerModule
-import ru.inwords.inwords.presentation.viewScenario.main_activity.MainActivityDaggerModule
-import ru.inwords.inwords.presentation.viewScenario.octoGame.OctoGameDaggerModule
-import ru.inwords.inwords.presentation.viewScenario.policy.PolicyFragmentDaggerModule
-import ru.inwords.inwords.presentation.viewScenario.profile.ProfileFragmentDaggerModule
-import ru.inwords.inwords.presentation.viewScenario.translation.TranslationDaggerModule
+import ru.inwords.inwords.game.di.OctoGameDaggerModule
+import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationDaggerModule
+import ru.inwords.inwords.presentation.view_scenario.home.HomeFragmentDaggerModule
+import ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivityDaggerModule
+import ru.inwords.inwords.presentation.view_scenario.policy.PolicyFragmentDaggerModule
+import ru.inwords.inwords.profile.di.ProfileFragmentDaggerModule
+import ru.inwords.inwords.translation.di.TranslationDaggerModule
 import javax.inject.Singleton
 
 @Singleton

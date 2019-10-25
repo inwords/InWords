@@ -3,9 +3,9 @@ package ru.inwords.inwords.data.source.remote.session
 import android.content.SharedPreferences
 import io.reactivex.Single
 import ru.inwords.inwords.dagger.annotations.Common
-import ru.inwords.inwords.data.dto.UserCredentials
 import ru.inwords.inwords.data.source.remote.AuthExceptionType
 import ru.inwords.inwords.data.source.remote.AuthenticationException
+import ru.inwords.inwords.profile.data.bean.UserCredentials
 import javax.inject.Inject
 import javax.inject.Singleton
 

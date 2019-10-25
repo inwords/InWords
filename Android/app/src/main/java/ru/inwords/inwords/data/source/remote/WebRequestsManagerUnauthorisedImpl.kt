@@ -6,13 +6,13 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import ru.inwords.inwords.core.util.SchedulersFacade
-import ru.inwords.inwords.data.dto.UserCredentials
-import ru.inwords.inwords.data.dto.google.TtsSynthesizeRequest
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
 import ru.inwords.inwords.data.source.remote.session.validCredentials
+import ru.inwords.inwords.profile.data.bean.UserCredentials
+import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest
 import javax.inject.Inject
 
 class WebRequestsManagerUnauthorisedImpl @Inject
@@ -30,11 +30,11 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
 
     override fun getToken(userCredentials: UserCredentials): Single<TokenResponse> {
         return Single.just(userCredentials)
-                .updateToken()
-                .flatMap { tokenResponse ->
-                    authInfo.setCredentials(userCredentials)
-                            .map { tokenResponse }
-                }
+            .updateToken()
+            .flatMap { tokenResponse ->
+                authInfo.setCredentials(userCredentials)
+                    .map { tokenResponse }
+            }
     }
 
     private fun Single<UserCredentials>.updateToken(): Single<TokenResponse> {
@@ -42,11 +42,12 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
             if (it.validCredentials()) {
                 apiServiceUnauthorised.getToken(it)
             } else {
-                setAuthToken(AuthInfo.unauthorisedToken)
+                Single.just(AuthInfo.unauthorisedToken)
             }
         }
-                .applyAuthSessionHelper()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { setAuthToken(it) }
+            .applyAuthSessionHelper()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     private fun setAuthToken(tokenResponse: TokenResponse): Single<TokenResponse> {
@@ -61,29 +62,29 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
 
     override fun registerUser(userCredentials: UserCredentials): Single<TokenResponse> {
         return apiServiceUnauthorised.registerUser(userCredentials)
-                .applyAuthSessionHelper()
-                .zipWith(authInfo.setCredentials(userCredentials),
-                        BiFunction<TokenResponse, UserCredentials, TokenResponse> { tokenResponse, u -> tokenResponse })
-                .subscribeOn(Schedulers.io())
+            .applyAuthSessionHelper()
+            .zipWith(authInfo.setCredentials(userCredentials),
+                BiFunction<TokenResponse, UserCredentials, TokenResponse> { tokenResponse, u -> tokenResponse })
+            .subscribeOn(Schedulers.io())
     }
 
     override fun ttsSynthesize(request: TtsSynthesizeRequest, googleServicesApiKey: String): Single<String> { //TODO
         return apiServiceUnauthorised.ttsSynthesize(googleServicesApiKey, request)
-                .map { it.audioContent }
+            .map { it.audioContent }
     }
 
     private fun Single<TokenResponse>.applyAuthSessionHelper(): Single<TokenResponse> {
         return doOnSuccess { sessionHelper.resetThreshold() }
-                .onErrorResumeNext { throwable ->
-                    Log.e(javaClass.simpleName, throwable.message.orEmpty())
+            .onErrorResumeNext { throwable ->
+                Log.e(javaClass.simpleName, throwable.message.orEmpty())
 
-                    if (sessionHelper.interceptAuthError(throwable)) {
-                        setAuthToken(AuthInfo.unauthorisedToken)
-                    } else {
-                        setAuthToken(AuthInfo.errorToken)
-                    }
-                            .flatMap { Single.error<TokenResponse>(throwable) }
+                if (sessionHelper.interceptAuthError(throwable)) {
+                    setAuthToken(AuthInfo.unauthorisedToken)
+                } else {
+                    setAuthToken(AuthInfo.errorToken)
                 }
-                .flatMap { setAuthToken(it) }
+                    .flatMap { Single.error<TokenResponse>(throwable) }
+            }
+            .flatMap { setAuthToken(it) }
     }
 }

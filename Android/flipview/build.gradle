@@ -20,7 +20,6 @@ android {
 dependencies {
     //See main build.gradle for values & versions
     compileOnly "androidx.appcompat:appcompat:$versions.ANDROID_X"
-    implementation "androidx.annotation:annotation:$versions.ANDROID_X"
 }
 
 // Execute: gradlew clean install -P flipview

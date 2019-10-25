@@ -12,7 +12,8 @@ import ru.inwords.inwords.App
     AndroidSupportInjectionModule::class,
     DataSourcesModule::class,
     DataAbstractModule::class,
-    DataAccessModule::class])
+    DataAccessModule::class,
+    DeferredEntriesModule::class])
 abstract class AppModule {
     @Binds
     // Singleton annotation isn't necessary (in this case since Application instance is unique)
