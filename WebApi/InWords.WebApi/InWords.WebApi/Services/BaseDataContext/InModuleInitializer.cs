@@ -17,7 +17,7 @@ namespace InWords.WebApi.Services.BaseDataContext
             // register repositories
             Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
             builder.RegisterAssemblyTypes(repositoryAssembly)
-                .Where(a => a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data"))
+                .Where(a => a.Namespace != null && (a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data")))
                 .InstancePerLifetimeScope();
         }
     }

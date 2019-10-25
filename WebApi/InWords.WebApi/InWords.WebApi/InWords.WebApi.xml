@@ -155,7 +155,7 @@
                 Everething about sync
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.SyncController.PullWordPairs(System.Collections.Generic.List{System.Int32})">
+        <member name="M:InWords.WebApi.Controllers.v1.SyncController.PullWordPairs(System.Collections.Generic.IEnumerable{System.Int32})">
             <summary>
                 Pull word pairs
             </summary>
@@ -359,7 +359,7 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetGameStars(System.Int32,InWords.Data.DTO.GameBox.GameObject)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetGameStarsAsync(System.Int32,InWords.Data.DTO.GameBox.GameObject)">
             <summary>
                 This is to read user score on game level
             </summary>
@@ -476,7 +476,7 @@
             <param name="creationRepository"></param>
             <param name="gameLevelService"></param>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameService.GetGameObject(System.Int32)">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.GetGameObjectAsync(System.Int32)">
             <summary>
                 This is to get full information about certain game
             </summary>

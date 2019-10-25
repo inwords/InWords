@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using Autofac.Extensions.DependencyInjection;
 using InWords.WebApi.Module;
 using Microsoft.AspNetCore;
@@ -25,7 +26,13 @@ namespace InWords.WebApi.AppStart
                 .ConfigureWebHostDefaults(webHostBuilder =>
                 {
                     webHostBuilder
-                        .UseStartup<Startup>();
+                        .UseStartup<Startup>()
+                        .UseKestrel((hostingContext, options) =>
+                        {
+                            options.Listen(IPAddress.Loopback, 5100);
+                            options.Listen(IPAddress.Loopback, 5101,
+                                listenOptions => { listenOptions.UseHttps(); });
+                        });
                 });
         }
     }
