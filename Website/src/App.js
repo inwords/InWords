@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CustomSnackbar from 'src/components/CustomSnackbar';
-import PageLayout from 'src/layout/PageLayout';
+import ContentWrapper from 'src/layout/ContentWrapper';
 import ErrorBoundary from 'src/layout/ErrorBoundary';
 
 import Header from 'src/layout/Header';
@@ -40,9 +40,9 @@ function App() {
 
   return (
     <Router history={history}>
-      {/* <Header /> */}
       <CustomSnackbar />
-      <PageLayout authorized={Boolean(userId)}>
+      <Header />
+      <ContentWrapper authorized={Boolean(userId)}>
         <ErrorBoundary>
           <Suspense
             fallback={<CircularProgress className={classes.progress} />}
@@ -99,7 +99,7 @@ function App() {
             </Switch>
           </Suspense>
         </ErrorBoundary>
-      </PageLayout>
+      </ContentWrapper>
     </Router>
   );
 }

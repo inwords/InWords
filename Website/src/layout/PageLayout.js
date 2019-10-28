@@ -70,7 +70,7 @@ function PageLayout({ authorized, children }) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
+      {/* <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             aria-label="toggle drawer"
@@ -87,8 +87,8 @@ function PageLayout({ authorized, children }) {
           {authorized && <ProfileMenu />}
         </Toolbar>
         <Progress />
-      </AppBar>
-      <nav aria-label="main navigation">
+      </AppBar> */}
+      {/* <nav aria-label="main navigation">
         <Hidden lgUp>
           <SwipeableDrawer
             open={open}
@@ -122,7 +122,7 @@ function PageLayout({ authorized, children }) {
             <NavList authorized={authorized} />
           </Drawer>
         </Hidden>
-      </nav>
+      </nav> */}
       <main className={classes.content}>
         <div className={classes.toolbar}></div>
         {children}
