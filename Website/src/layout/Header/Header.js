@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 
 const useStyles = makeStyles(theme => ({
   header: {
+    zIndex: 1201,
     opacity: 0,
     transform: 'translateY(-100%)',
     transition: 'transform .3s cubic-bezier(.4, 0, .6, 1), opacity 0s .3s'
@@ -49,6 +50,7 @@ const useStyles = makeStyles(theme => ({
   navList: {
     margin: 0,
     display: 'flex',
+    justifyContent: 'space-around',
     padding: 0,
     listStyle: 'none',
     height: '100%'
@@ -56,10 +58,8 @@ const useStyles = makeStyles(theme => ({
   navItem: {
     display: 'flex',
     justifyContent: 'center',
-    height: '100%',
-    [theme.breakpoints.down('sm')]: {
-      width: '50%'
-    }
+    flex: 1,
+    height: '100%'
   },
   navLink: {
     position: 'relative',
@@ -149,7 +149,7 @@ function Header() {
                 className={classes.navLink}
                 activeClassName={classes.activeNavLink}
               >
-                Словарь
+                Вход
               </NavLink>
             </li>
             <li className={classes.navItem}>
@@ -161,7 +161,7 @@ function Header() {
                 className={classes.navLink}
                 activeClassName={classes.activeNavLink}
               >
-                Обучение
+                Регистрация
               </NavLink>
             </li>
           </ul>

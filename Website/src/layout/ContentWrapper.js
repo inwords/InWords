@@ -4,9 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   content: {
-    paddingTop: theme.spacing(10),
+    flexGrow: 1,
+    paddingTop: theme.spacing(11),
     [theme.breakpoints.down('sm')]: {
-      paddingTop: theme.spacing(15)
+      paddingTop: theme.spacing(16)
     }
   }
 }));
@@ -18,7 +19,6 @@ function ContentWrapper({ authorized, children }) {
 }
 
 ContentWrapper.propTypes = {
-  authorized: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired
 };
 
