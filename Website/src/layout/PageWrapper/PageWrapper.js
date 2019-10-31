@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Divider from '@material-ui/core/Divider';
+import useDrawer from 'src/hooks/useDrawer';
 import Header from 'src/layout/Header';
-import ContentWrapper from 'src/layout/ContentWrapper';
 import CustomDrawer from 'src/layout/CustomDrawer';
-
-const drawerWidth = 240;
+import ContentWrapper from 'src/layout/ContentWrapper';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,19 +19,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PageWrapper({ sideRoutes, authorized, children }) {
+function PageWrapper({ mainRoutes, sideRoutes, authorized, children }) {
   const classes = useStyles();
+  const { open, handleOpen, handleClose } = useDrawer();
 
   return (
     <div className={classes.root}>
-      <Header />
-      {sideRoutes && <CustomDrawer />}
+      <Header mainRoutes={mainRoutes} handleOpenDrawer={sideRoutes && handleOpen} />
+      {sideRoutes && <CustomDrawer sideRoutes={sideRoutes} />}
       <ContentWrapper>{children}</ContentWrapper>
     </div>
   );
 }
 
 PageWrapper.propTypes = {
+  mainRoutes: PropTypes.array,
   sideRoutes: PropTypes.arrayOf(
     PropTypes.shape({
       to: PropTypes.string.isRequired,

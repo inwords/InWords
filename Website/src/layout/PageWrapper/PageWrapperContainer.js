@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import PageWrapper from './PageWrapper';
 
+const routesAuthorized = [
+  {
+    to: '/dictionary',
+    text: 'Словарь'
+  },
+  {
+    to: '/trainings',
+    text: 'Обучение'
+  }
+];
+
 const routesUnauthorized = [
   {
     to: '/signIn',
@@ -32,6 +43,7 @@ function PageWrapperContainer({ match, ...rest }) {
 
   return (
     <PageWrapper
+      mainRoutes={routesUnauthorized}
       sideRoutes={nestedRoutesMap[location.pathname.split('/')[1]]}
       {...rest}
     />

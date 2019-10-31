@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import { Link as RouterLink, NavLink } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -19,32 +21,37 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     display: 'flex',
-    alignItems: 'stretch',
-    height: theme.spacing(8),
-    padding: theme.spacing(0, 2),
+    alignItems: 'center',
+    padding: theme.spacing(0, 3),
     [theme.breakpoints.down('sm')]: {
-      height: theme.spacing(13)
+      alignItems: 'start',
+      flexDirection: 'column'
     }
+  },
+  toolbarBlock: {
+    display: 'flex',
+    alignItems: 'center',
+    height: theme.spacing(8)
+  },
+  menuIcon: {
+    marginRight: theme.spacing(2)
   },
   brandLink: {
     display: 'flex',
     alignItems: 'center',
+    height: '100%',
     fontSize: '1rem',
     textTransform: 'uppercase',
     textDecoration: 'none',
-    color: 'inherit',
-    [theme.breakpoints.down('sm')]: {
-      height: theme.spacing(8)
-    }
+    color: 'inherit'
   },
   nav: {
     marginLeft: 'auto',
     overflow: 'hidden',
+    height: theme.spacing(8),
     [theme.breakpoints.down('sm')]: {
-      position: 'absolute',
-      left: 0,
-      top: theme.spacing(7),
-      right: 0
+      width: '100%',
+      height: theme.spacing(6)
     }
   },
   navList: {
@@ -67,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: '0 14px',
     fontSize: '1rem',
-    lineHeight: '48px',
+    height: '100%',
     textDecoration: 'none',
     color: theme.palette.grey[400],
     transition: 'color .1s cubic-bezier(.4, 0, .2, 1)',
@@ -94,32 +101,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Header() {
+function Header({ show, mainRoutes, handleOpenDrawer }) {
   const classes = useStyles();
-
-  const [show, setShow] = React.useState(true);
-  const prevScrollYRef = React.useRef(0);
-
-  React.useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.pageYOffset;
-      if (prevScrollYRef.current > currentScrollY) {
-        if (!show) {
-          setShow(true);
-        }
-      } else {
-        if (show && currentScrollY > 64) {
-          setShow(false);
-        }
-      }
-
-      prevScrollYRef.current = currentScrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [show]);
 
   return (
     <AppBar
@@ -129,41 +112,43 @@ function Header() {
       })}
     >
       <div className={classes.toolbar}>
-        <RouterLink
-          to="/"
-          variant="h6"
-          underline="none"
-          color="inherit"
-          className={classes.brandLink}
-        >
-          InWords
-        </RouterLink>
+        <div className={classes.toolbarBlock}>
+          {handleOpenDrawer && (
+            <IconButton
+              edge="start"
+              color="inherit"
+              className={classes.menuIcon}
+              onClick={handleOpenDrawer}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          <RouterLink
+            to="/"
+            variant="h6"
+            underline="none"
+            color="inherit"
+            className={classes.brandLink}
+          >
+            InWords
+          </RouterLink>
+        </div>
         <nav className={classes.nav}>
           <ul className={classes.navList}>
-            <li className={classes.navItem}>
-              <NavLink
-                to="/signIn"
-                variant="h6"
-                underline="none"
-                color="inherit"
-                className={classes.navLink}
-                activeClassName={classes.activeNavLink}
-              >
-                Вход
-              </NavLink>
-            </li>
-            <li className={classes.navItem}>
-              <NavLink
-                to="/signUp"
-                variant="h6"
-                underline="none"
-                color="inherit"
-                className={classes.navLink}
-                activeClassName={classes.activeNavLink}
-              >
-                Регистрация
-              </NavLink>
-            </li>
+            {mainRoutes.map(({ to, text }) => (
+              <li key={to} className={classes.navItem}>
+                <NavLink
+                  to={to}
+                  variant="h6"
+                  underline="none"
+                  color="inherit"
+                  className={classes.navLink}
+                  activeClassName={classes.activeNavLink}
+                >
+                  {text}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
@@ -171,6 +156,15 @@ function Header() {
   );
 }
 
-Header.propTypes = {};
+Header.propTypes = {
+  show: PropTypes.bool.isRequired,
+  mainRoutes: PropTypes.arrayOf(
+    PropTypes.shape({
+      to: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired
+    }).isRequired
+  ),
+  handleOpenDrawer: PropTypes.func
+};
 
 export default Header;
