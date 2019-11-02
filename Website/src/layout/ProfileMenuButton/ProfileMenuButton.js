@@ -8,16 +8,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
 import useMenu from 'src/hooks/useMenu';
 
-function ProfileMenu({ handleLogout }) {
+function ProfileMenuButton({ handleLogout }) {
   const { anchorEl, handleClick, handleClose } = useMenu();
 
   return (
-    <div>
+    <>
       <IconButton
         aria-label="user account"
         aria-controls="profile-menu"
         aria-haspopup="true"
         onClick={handleClick}
+        edge="end"
         color="inherit"
       >
         <AccountCircleIcon />
@@ -47,12 +48,12 @@ function ProfileMenu({ handleLogout }) {
           Выйти
         </MenuItem>
       </Menu>
-    </div>
+    </>
   );
 }
 
-ProfileMenu.propTypes = {
+ProfileMenuButton.propTypes = {
   handleLogout: PropTypes.func.isRequired
 };
 
-export default ProfileMenu;
+export default ProfileMenuButton;

@@ -11,7 +11,7 @@ import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Link from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
-import ProfileMenu from './ProfileMenu';
+import ProfileMenu from './ProfileMenuButton';
 import NavList from './NavList2';
 
 const drawerWidth = 240;

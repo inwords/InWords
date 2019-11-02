@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function CustomSnackbar({ open, text, actionText, handleAction, handleClose }) {
+function SmartSnackbar({ open, text, actionText, handleAction, handleClose }) {
   const classes = useStyles();
 
   const prevText = usePrevious(text);
@@ -62,7 +62,7 @@ function CustomSnackbar({ open, text, actionText, handleAction, handleClose }) {
   );
 }
 
-CustomSnackbar.propTypes = {
+SmartSnackbar.propTypes = {
   open: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
   actionText: PropTypes.string.isRequired,
@@ -70,4 +70,4 @@ CustomSnackbar.propTypes = {
   handleClose: PropTypes.func.isRequired
 };
 
-export default CustomSnackbar;
+export default SmartSnackbar;

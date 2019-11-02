@@ -4,11 +4,9 @@ import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import CustomSnackbar from 'src/components/CustomSnackbar';
+import SmartSnackbar from 'src/components/SmartSnackbar';
 import PageWrapper from 'src/layout/PageWrapper';
 import ErrorBoundary from 'src/layout/ErrorBoundary';
-
-import Header from 'src/layout/Header';
 
 const SignIn = lazy(() => import('./routes/SignIn'));
 const SignUp = lazy(() => import('./routes/SignUp'));
@@ -40,7 +38,7 @@ function App() {
 
   return (
     <Router history={history}>
-      <CustomSnackbar />
+      <SmartSnackbar />
       <ErrorBoundary>
         <Suspense fallback={<CircularProgress className={classes.progress} />}>
           <PageWrapper authorized={Boolean(userId)}>
