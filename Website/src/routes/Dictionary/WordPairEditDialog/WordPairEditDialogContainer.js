@@ -6,7 +6,10 @@ import useForm from 'src/hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
 function WordPairEditDialogContainer({
-  wordPair: { serverId, wordForeign, wordNative },
+  wordPair: { serverId, wordForeign, wordNative } = {
+    wordForeign: '',
+    wordNative: ''
+  },
   ...rest
 }) {
   const dispatch = useDispatch();
@@ -51,7 +54,7 @@ WordPairEditDialogContainer.propTypes = {
     serverId: PropTypes.number.isRequired,
     wordForeign: PropTypes.string.isRequired,
     wordNative: PropTypes.string.isRequired
-  }).isRequired,
+  }),
   visible: PropTypes.bool
 };
 

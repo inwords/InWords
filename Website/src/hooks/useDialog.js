@@ -13,6 +13,7 @@ export default function useDialog() {
 
   return {
     open,
+    setOpen,
     handleOpen,
     handleClose
   };

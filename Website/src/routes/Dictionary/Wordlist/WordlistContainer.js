@@ -1,47 +1,49 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Wordlist from './Wordlist';
 
-function WordlistContainer({ setEditingModeEnabled, ...rest }) {
-  const [listHeight, setListHeight] = useState(0);
+const limitOffset = 30;
 
-  const listRef = useRef();
-  const resizingTimerRef = useRef();
+function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
+  const buttonPressTimerRef = React.useRef();
 
-  useEffect(() => {
-    const getListHeight = () =>
-      window.innerHeight - listRef.current.getBoundingClientRect().top - 16;
-
-    const handleResize = () => {
-      window.clearTimeout(resizingTimerRef.current);
-
-      resizingTimerRef.current = window.setTimeout(() => {
-        setListHeight(getListHeight());
-      }, 200);
-    };
-
-    setListHeight(getListHeight());
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const buttonPressTimerRef = useRef();
-
-  const handlePressButton = () => {
+  const handlePressButton = React.useCallback(() => {
     buttonPressTimerRef.current = window.setTimeout(() => {
       setEditingModeEnabled(true);
     }, 500);
-  };
+  }, [setEditingModeEnabled]);
 
-  const handleReleaseButton = () => {
+  const handleReleaseButton = React.useCallback(() => {
     window.clearTimeout(buttonPressTimerRef.current);
-  };
+  }, []);
+
+  const [visibleWordPairs, setVisibleWordPairs] = React.useState([]);
+
+  React.useEffect(() => {
+    setVisibleWordPairs(wordPairs.slice(0, limitOffset));
+  }, [wordPairs]);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        visibleWordPairs.length < wordPairs.length
+      ) {
+        setVisibleWordPairs(prevVisibleWordPairs =>
+          wordPairs.slice(0, prevVisibleWordPairs.length + limitOffset)
+        );
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [wordPairs, visibleWordPairs.length]);
 
   return (
     <Wordlist
-      listHeight={listHeight}
-      listRef={listRef}
+      wordPairs={visibleWordPairs}
       handlePressButton={handlePressButton}
       handleReleaseButton={handleReleaseButton}
       {...rest}
@@ -50,11 +52,8 @@ function WordlistContainer({ setEditingModeEnabled, ...rest }) {
 }
 
 WordlistContainer.propTypes = {
-  editingModeEnabled: PropTypes.bool,
-  setEditingModeEnabled: PropTypes.func.isRequired,
-  wordPairs: PropTypes.array,
-  checkedValues: PropTypes.array,
-  handleToggle: PropTypes.func
+  wordPairs: PropTypes.array.isRequired,
+  setEditingModeEnabled: PropTypes.func.isRequired
 };
 
 export default WordlistContainer;

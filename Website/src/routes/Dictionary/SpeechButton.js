@@ -32,4 +32,4 @@ SpeechButton.propTypes = {
   text: PropTypes.string.isRequired
 };
 
-export default SpeechButton;
+export default React.memo(SpeechButton);

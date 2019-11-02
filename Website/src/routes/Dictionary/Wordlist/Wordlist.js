@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FixedSizeList } from 'react-window';
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import WordPairRow from './WordPairRow';
+import useDialog from 'src/hooks/useDialog';
+import WordlistItem from './WordlistItem';
+import WordPairEditDialog from '../WordPairEditDialog';
+
+const useStyles = makeStyles(theme => ({
+  list: {
+    marginBottom: theme.spacing(8)
+  }
+}));
 
 function Wordlist({
-  listHeight,
-  listRef,
   handlePressButton,
   handleReleaseButton,
   wordPairs,
@@ -14,34 +20,46 @@ function Wordlist({
   checkedValues,
   handleToggle
 }) {
+  const styles = useStyles();
+  const { open, setOpen, handleClose } = useDialog();
+  const [currentWordPair, setCurrentWordPair] = React.useState();
+
+  const handleOpen = React.useCallback(
+    wordPair => () => {
+      setOpen(true);
+      setCurrentWordPair(wordPair);
+    },
+    [setOpen]
+  );
+
   return (
-    <FixedSizeList
-      height={listHeight}
-      width="100%"
-      outerRef={listRef}
-      outerElementType={List}
-      itemCount={wordPairs.length}
-      itemData={{
-        wordPairs,
-        checkedValues,
-        handleToggle,
-        editingModeEnabled,
-        handlePressButton,
-        handleReleaseButton
-      }}
-      itemSize={60}
-      onScroll={handleReleaseButton}
-    >
-      {WordPairRow}
-    </FixedSizeList>
+    <>
+      <List className={styles.list}>
+        {wordPairs.map(wordPair => (
+          <WordlistItem
+            key={wordPair.serverId}
+            wordPair={wordPair}
+            editingModeEnabled={editingModeEnabled}
+            handlePressButton={handlePressButton}
+            handleReleaseButton={handleReleaseButton}
+            checked={checkedValues.includes(wordPair.serverId)}
+            handleToggle={handleToggle}
+            handleOpen={handleOpen}
+          />
+        ))}
+      </List>
+      <WordPairEditDialog
+        open={open}
+        handleClose={handleClose}
+        wordPair={currentWordPair}
+      />
+    </>
   );
 }
 
 Wordlist.propTypes = {
-  listHeight: PropTypes.number.isRequired,
   handlePressButton: PropTypes.func,
   handleReleaseButton: PropTypes.func,
-  listRef: PropTypes.object.isRequired,
   editingModeEnabled: PropTypes.bool.isRequired,
   wordPairs: PropTypes.array.isRequired,
   checkedValues: PropTypes.array,
