@@ -25,6 +25,8 @@ function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
 
   React.useEffect(() => {
     const handleScroll = () => {
+      handleReleaseButton();
+
       if (
         window.innerHeight + window.scrollY >= document.body.offsetHeight &&
         visibleWordPairs.length < wordPairs.length
@@ -39,7 +41,7 @@ function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [wordPairs, visibleWordPairs.length]);
+  }, [handleReleaseButton, wordPairs, visibleWordPairs.length]);
 
   return (
     <Wordlist
