@@ -4,22 +4,22 @@ import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import CustomSnackbar from 'components/CustomSnackbar';
-import PageLayout from 'components/PageLayout';
-import ErrorBoundary from 'components/ErrorBoundary';
+import SmartSnackbar from 'src/components/SmartSnackbar';
+import PageWrapper from 'src/layout/PageWrapper';
+import ErrorBoundary from 'src/layout/ErrorBoundary';
 
-const SignIn = lazy(() => import('./pages/SignIn'));
-const SignUp = lazy(() => import('./pages/SignUp'));
-const Profile = lazy(() => import('./pages/Profile'));
-const ProfileSettings = lazy(() => import('./pages/ProfileSettings'));
-const Account = lazy(() => import('./pages/Account'));
-const Dictionary = lazy(() => import('./pages/Dictionary'));
-const TrainingCategories = lazy(() => import('./pages/TrainingCategories'));
-const TrainingTypes = lazy(() => import('./pages/TrainingTypes'));
-const TrainingLevels = lazy(() => import('./pages/TrainingLevels'));
-const Game = lazy(() => import('./pages/Game'));
+const SignIn = lazy(() => import('./routes/SignIn'));
+const SignUp = lazy(() => import('./routes/SignUp'));
+const Profile = lazy(() => import('./routes/Profile'));
+const ProfileSettings = lazy(() => import('./routes/ProfileSettings'));
+const Account = lazy(() => import('./routes/Account'));
+const Dictionary = lazy(() => import('./routes/Dictionary'));
+const TrainingCategories = lazy(() => import('./routes/TrainingCategories'));
+const TrainingTypes = lazy(() => import('./routes/TrainingTypes'));
+const TrainingLevels = lazy(() => import('./routes/TrainingLevels'));
+const Game = lazy(() => import('./routes/Game'));
 const SelectTranslateTraining = lazy(() =>
-  import('./pages/SelectTranslateTraining')
+  import('./routes/SelectTranslateTraining')
 );
 
 const history = createBrowserHistory();
@@ -33,70 +33,107 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
-
   const userId = useSelector(store => store.access.userId);
 
   return (
     <Router history={history}>
-      <CustomSnackbar />
-      <PageLayout authorized={Boolean(userId)}>
-        <ErrorBoundary>
-          <Suspense
-            fallback={<CircularProgress className={classes.progress} />}
-          >
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() =>
-                  !userId ? (
-                    <Redirect to="/signIn" />
-                  ) : (
-                    <Redirect to="/dictionary" />
-                  )
-                }
-              />
-              <Route
-                exact
-                path="/profile"
-                render={() => <Redirect to={`/profile/${userId}`} />}
-              />
-              <Route path="/signIn" component={SignIn} />
-              <Route path="/signUp" component={SignUp} />
-              <Route path="/profile/:userId" component={Profile} />
-              <Route path="/profileSettings" component={ProfileSettings} />
-              <Route path="/account" component={Account} />
-              <Route path="/dictionary" component={Dictionary} />
-              <Route exact path="/trainings" component={TrainingCategories} />
-              <Route
-                exact
-                path="/trainings/:categoryId"
-                component={TrainingTypes}
-              />
-              <Route
-                exact
-                path="/trainings/:categoryId/:trainingId"
-                component={TrainingLevels}
-              />
-              <Route
-                path="/trainings/:categoryId/:trainingId/:levelId"
-                render={({ match, ...rest }) => {
-                  switch (match.params.trainingId) {
-                    case '0':
-                      return <Game match={match} {...rest} />;
-                    case '1':
-                      return (
-                        <SelectTranslateTraining match={match} {...rest} />
-                      );
-                    default:
-                      return null;
+      <SmartSnackbar />
+      <ErrorBoundary>
+        <Suspense fallback={<CircularProgress className={classes.progress} />}>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() =>
+                !userId ? (
+                  <Redirect to="/signIn" />
+                ) : (
+                  <Redirect to="/dictionary" />
+                )
+              }
+            />
+            <Route
+              exact
+              path="/profile"
+              render={() => <Redirect to={`/profile/${userId}`} />}
+            />
+            <Route path="/signIn">
+              <PageWrapper>
+                <SignIn />
+              </PageWrapper>
+            </Route>
+            <Route path="/signUp">
+              <PageWrapper>
+                <SignUp />
+              </PageWrapper>
+            </Route>
+            <Route path="/profile/:userId">
+              <PageWrapper authorized>
+                <Profile />
+              </PageWrapper>
+            </Route>
+            <Route path="/profileSettings">
+              <PageWrapper authorized>
+                <ProfileSettings />
+              </PageWrapper>
+            </Route>
+            <Route path="/account">
+              <PageWrapper authorized>
+                <Account />
+              </PageWrapper>
+            </Route>
+            <Route path="/dictionary">
+              <PageWrapper authorized>
+                <Dictionary />
+              </PageWrapper>
+            </Route>
+            <Route exact path="/trainings">
+              <PageWrapper
+                authorized
+                sideRoutes={[
+                  {
+                    to: '/trainings',
+                    text: 'Все категории'
                   }
-                }}
-              />
-            </Switch>
-          </Suspense>
-        </ErrorBoundary>
-      </PageLayout>
+                ]}
+              >
+                <TrainingCategories />
+              </PageWrapper>
+            </Route>
+            <Route exact path="/trainings/:categoryId">
+              <PageWrapper authorized>
+                <TrainingTypes />
+              </PageWrapper>
+            </Route>
+            <Route exact path="/trainings/:categoryId/:trainingId">
+              <PageWrapper authorized>
+                <TrainingLevels />
+              </PageWrapper>
+            </Route>
+            <Route
+              path="/trainings/:categoryId/:trainingId/:levelId"
+              render={({ match, ...rest }) => {
+                switch (match.params.trainingId) {
+                  case '0':
+                    return (
+                      <PageWrapper authorized>
+                        <Game match={match} {...rest} />
+                      </PageWrapper>
+                    );
+                  case '1':
+                    return (
+                      <PageWrapper authorized>
+                        <SelectTranslateTraining match={match} {...rest} />
+                      </PageWrapper>
+                    );
+                  default:
+                    return null;
+                }
+              }}
+            />
+          </Switch>
+        </Suspense>
+      </ErrorBoundary>
     </Router>
   );
 }

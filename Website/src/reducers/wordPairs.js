@@ -3,7 +3,7 @@ import {
   UPDATE_WORD_PAIRS_AFTER_DELETION,
   UPDATE_WORD_PAIRS_AFTER_ADDITION,
   UPDATE_WORD_PAIRS_AFTER_EDITING
-} from 'actions/wordPairsActions';
+} from 'src/actions/wordPairsActions';
 
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
   firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign);

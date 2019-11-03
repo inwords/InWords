@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveGameLevel as receiveGameLevelAction } from 'actions/gamesApiActions';
+import { receiveGameLevel as receiveGameLevelAction } from 'src/actions/gamesApiActions';
 
 function withReceivedGameLevel(WrappedComponent) {
-  function WithReceivedGameLevel({ match, ...rest }) {
+  function WithReceivedGameLevel({ match, history, ...rest }) {
     const { levelId, wordTranslations } = useSelector(
       store => store.games.gameLevel
     );
@@ -14,10 +14,14 @@ function withReceivedGameLevel(WrappedComponent) {
     const paramLevelId = +match.params.levelId;
 
     useEffect(() => {
-      if (levelId !== paramLevelId && paramLevelId !== 0) {
+      if (levelId !== paramLevelId) {
+        if (paramLevelId === 0) {
+          history.push('/dictionary');
+        }
+
         dispatch(receiveGameLevelAction(paramLevelId));
       }
-    }, [levelId, paramLevelId, dispatch]);
+    }, [levelId, paramLevelId, dispatch, history]);
 
     return (
       levelId === paramLevelId && (
@@ -35,7 +39,8 @@ function withReceivedGameLevel(WrappedComponent) {
   WithReceivedGameLevel.displayName = `withReceivedGameLevel(${wrappedComponentName})`;
 
   WithReceivedGameLevel.propTypes = {
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   return WithReceivedGameLevel;

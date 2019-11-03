@@ -4,7 +4,7 @@ import {
   INITIALIZE_GAME_INFO,
   UPDATE_GAME_INFO,
   INITIALIZE_GAME_LEVEL
-} from 'actions/gamesActions';
+} from 'src/actions/gamesActions';
 
 function gamesInfo(state = [], action) {
   switch (action.type) {

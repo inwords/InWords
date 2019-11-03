@@ -4,24 +4,29 @@ import { Link as RouterLink } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import InternalNavigation from 'components/InternalNavigation';
+import Container from '@material-ui/core/Container';
+import DynamicToolbarWrapper from 'src/components/DynamicToolbarWrapper';
+import InternalNavigation from 'src/components/InternalNavigation';
 
 function TrainingsNavigation({
   match: {
     params: { categoryId, trainingId, levelId }
   }
 }) {
-  if (categoryId === '0') {
-    return null;
-  }
-
-  return (
+  const navigation = (
     <InternalNavigation>
       {categoryId ? (
         [
-          <Link key={0} component={RouterLink} to="/trainings" color="inherit">
-            Категории
-          </Link>,
+          categoryId !== '0' && (
+            <Link
+              key={0}
+              component={RouterLink}
+              to="/trainings"
+              color="inherit"
+            >
+              Категории
+            </Link>
+          ),
           trainingId ? (
             [
               <Link
@@ -30,18 +35,20 @@ function TrainingsNavigation({
                 to={`/trainings/${categoryId}`}
                 color="inherit"
               >
-                Тренажеры
+                Тренировки
               </Link>,
               levelId ? (
                 [
-                  <Link
-                    key={2}
-                    component={RouterLink}
-                    to={`/trainings/${categoryId}/${trainingId}`}
-                    color="inherit"
-                  >
-                    Уровни
-                  </Link>,
+                  categoryId !== '0' && (
+                    <Link
+                      key={2}
+                      component={RouterLink}
+                      to={`/trainings/${categoryId}/${trainingId}`}
+                      color="inherit"
+                    >
+                      Уровни
+                    </Link>
+                  ),
                   <Typography key={3} color="textPrimary">
                     Уровень
                   </Typography>
@@ -54,7 +61,7 @@ function TrainingsNavigation({
             ]
           ) : (
             <Typography key={1} color="textPrimary">
-              Тренажеры
+              Тренировки
             </Typography>
           )
         ]
@@ -64,6 +71,15 @@ function TrainingsNavigation({
         </Typography>
       )}
     </InternalNavigation>
+  );
+
+  return (
+    <>
+      <DynamicToolbarWrapper>
+        <Container maxWidth="lg">{navigation}</Container>
+      </DynamicToolbarWrapper>
+      {navigation}
+    </>
   );
 }
 

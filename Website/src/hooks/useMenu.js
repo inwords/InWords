@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React from 'react';
 
 export default function useMenu() {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

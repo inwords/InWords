@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function usePrevious(value) {
-  const ref = useRef();
+  const ref = React.useRef();
 
-  useEffect(() => {
+  React.useEffect(() => {
     ref.current = value;
   });
 

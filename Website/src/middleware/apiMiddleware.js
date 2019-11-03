@@ -1,7 +1,11 @@
-import { beginLoading, endLoading, setSnackbar } from 'actions/commonActions';
-import { denyAccess } from 'actions/accessActions';
-import { history } from 'App';
-import apiAction from 'actions/apiAction';
+import {
+  beginLoading,
+  endLoading,
+  setSnackbar
+} from 'src/actions/commonActions';
+import { denyAccess } from 'src/actions/accessActions';
+import { history } from 'src/App';
+import apiAction from 'src/actions/apiAction';
 
 const CALL_API = 'CALL_API';
 

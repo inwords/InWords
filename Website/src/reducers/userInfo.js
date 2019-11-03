@@ -1,4 +1,7 @@
-import { INITIALIZE_USER_INFO, UPDATE_USER_INFO } from 'actions/userActions';
+import {
+  INITIALIZE_USER_INFO,
+  UPDATE_USER_INFO
+} from 'src/actions/userActions';
 
 const initialState = {
   userId: null,

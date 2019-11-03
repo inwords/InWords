@@ -4,7 +4,7 @@ import {
   END_LOADING,
   SET_SNACKBAR,
   RESET_SNACKBAR
-} from 'actions/commonActions';
+} from 'src/actions/commonActions';
 
 function loading(state = false, action) {
   switch (action.type) {

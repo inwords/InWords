@@ -1,7 +1,7 @@
 import apiAction from './apiAction';
 import { setSnackbar } from './commonActions';
 import { grantAccess } from './accessActions';
-import { history } from 'App';
+import { history } from 'src/App';
 
 export function signIn(userdata) {
   return apiAction({

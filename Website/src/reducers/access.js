@@ -1,4 +1,4 @@
-import { GRANT_ACCESS } from 'actions/accessActions';
+import { GRANT_ACCESS } from 'src/actions/accessActions';
 
 const initialState = {
   token: null,

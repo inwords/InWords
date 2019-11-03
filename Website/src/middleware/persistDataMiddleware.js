@@ -1,5 +1,5 @@
-import { saveState } from 'localStorage';
-import { GRANT_ACCESS, DENY_ACCESS } from 'actions/accessActions';
+import { saveState } from 'src/localStorage';
+import { GRANT_ACCESS, DENY_ACCESS } from 'src/actions/accessActions';
 
 const persistDataMiddleware = store => next => action => {
   switch (action.type) {

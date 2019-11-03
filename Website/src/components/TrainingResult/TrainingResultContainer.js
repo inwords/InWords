@@ -11,14 +11,19 @@ function TrainingResultContainer({ history, match, ...rest }) {
   const paramCategoryId = +match.params.categoryId;
   const paramTrainingId = +match.params.trainingId;
 
-  const handleRedirectionToLevels = () => {
-    history.push(`/trainings/${paramCategoryId}/${paramTrainingId}`);
-  };
-
   const handleRedirectionToNextLevel = () => {
+    if (paramLevelId === 0) {
+      history.push('/dictionary');
+      return;
+    }
+
     const levelIndex = levelsInfo.findIndex(
       levelInfo => levelInfo.levelId === paramLevelId
     );
+
+    const handleRedirectionToLevels = () => {
+      history.push(`/trainings/${paramCategoryId}/${paramTrainingId}`);
+    };
 
     if (levelIndex !== -1) {
       const nextLevelIndex = levelIndex + 1;
@@ -36,12 +41,7 @@ function TrainingResultContainer({ history, match, ...rest }) {
 
   return (
     <TrainingResult
-      handleRedirectionToLevels={
-        paramLevelId !== 0 ? handleRedirectionToLevels : null
-      }
-      handleRedirectionToNextLevel={
-        paramLevelId !== 0 ? handleRedirectionToNextLevel : null
-      }
+      handleRedirectionToNextLevel={handleRedirectionToNextLevel}
       {...rest}
     />
   );
