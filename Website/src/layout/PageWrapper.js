@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PageWrapper({ sideRoutes, authorized, children }) {
+function PageWrapper({ sideRoutes, authorized = false, children }) {
   const classes = useStyles();
   const { open, handleOpen, handleClose } = useDrawer();
 

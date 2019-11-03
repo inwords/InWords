@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: theme.palette.text.primary
   },
-  linkActive: {
+  activeLink: {
     fontWeight: '500',
     color: theme.palette.primary.main
   }

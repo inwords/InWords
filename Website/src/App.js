@@ -33,7 +33,6 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
-
   const userId = useSelector(store => store.access.userId);
 
   return (
@@ -41,68 +40,98 @@ function App() {
       <SmartSnackbar />
       <ErrorBoundary>
         <Suspense fallback={<CircularProgress className={classes.progress} />}>
-          <PageWrapper authorized={Boolean(userId)}>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() =>
-                  !userId ? (
-                    <Redirect to="/signIn" />
-                  ) : (
-                    <Redirect to="/dictionary" />
-                  )
-                }
-              />
-              <Route
-                exact
-                path="/profile"
-                render={() => <Redirect to={`/profile/${userId}`} />}
-              />
-              <Route path="/signIn">
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() =>
+                !userId ? (
+                  <Redirect to="/signIn" />
+                ) : (
+                  <Redirect to="/dictionary" />
+                )
+              }
+            />
+            <Route
+              exact
+              path="/profile"
+              render={() => <Redirect to={`/profile/${userId}`} />}
+            />
+            <Route path="/signIn">
+              <PageWrapper>
                 <SignIn />
-              </Route>
-              <Route path="/signUp">
+              </PageWrapper>
+            </Route>
+            <Route path="/signUp">
+              <PageWrapper>
                 <SignUp />
-              </Route>
-              <Route path="/profile/:userId">
+              </PageWrapper>
+            </Route>
+            <Route path="/profile/:userId">
+              <PageWrapper authorized>
                 <Profile />
-              </Route>
-              <Route path="/profileSettings">
+              </PageWrapper>
+            </Route>
+            <Route path="/profileSettings">
+              <PageWrapper authorized>
                 <ProfileSettings />
-              </Route>
-              <Route path="/account">
+              </PageWrapper>
+            </Route>
+            <Route path="/account">
+              <PageWrapper authorized>
                 <Account />
-              </Route>
-              <Route path="/dictionary">
+              </PageWrapper>
+            </Route>
+            <Route path="/dictionary">
+              <PageWrapper authorized>
                 <Dictionary />
-              </Route>
-              <Route exact path="/trainings">
-                <TrainingCategories />
-              </Route>
-              <Route exact path="/trainings/:categoryId">
-                <TrainingTypes />
-              </Route>
-              <Route exact path="/trainings/:categoryId/:trainingId">
-                <TrainingLevels />
-              </Route>
-              <Route
-                path="/trainings/:categoryId/:trainingId/:levelId"
-                render={({ match, ...rest }) => {
-                  switch (match.params.trainingId) {
-                    case '0':
-                      return <Game match={match} {...rest} />;
-                    case '1':
-                      return (
-                        <SelectTranslateTraining match={match} {...rest} />
-                      );
-                    default:
-                      return null;
+              </PageWrapper>
+            </Route>
+            <Route exact path="/trainings">
+              <PageWrapper
+                authorized
+                sideRoutes={[
+                  {
+                    to: '/trainings',
+                    text: 'Все категории'
                   }
-                }}
-              />
-            </Switch>
-          </PageWrapper>
+                ]}
+              >
+                <TrainingCategories />
+              </PageWrapper>
+            </Route>
+            <Route exact path="/trainings/:categoryId">
+              <PageWrapper authorized>
+                <TrainingTypes />
+              </PageWrapper>
+            </Route>
+            <Route exact path="/trainings/:categoryId/:trainingId">
+              <PageWrapper authorized>
+                <TrainingLevels />
+              </PageWrapper>
+            </Route>
+            <Route
+              path="/trainings/:categoryId/:trainingId/:levelId"
+              render={({ match, ...rest }) => {
+                switch (match.params.trainingId) {
+                  case '0':
+                    return (
+                      <PageWrapper authorized>
+                        <Game match={match} {...rest} />
+                      </PageWrapper>
+                    );
+                  case '1':
+                    return (
+                      <PageWrapper authorized>
+                        <SelectTranslateTraining match={match} {...rest} />
+                      </PageWrapper>
+                    );
+                  default:
+                    return null;
+                }
+              }}
+            />
+          </Switch>
         </Suspense>
       </ErrorBoundary>
     </Router>

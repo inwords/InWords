@@ -5,8 +5,8 @@ import Container from '@material-ui/core/Container';
 import { setSnackbar } from 'src/actions/commonActions';
 import { deleteWordPairs } from 'src/actions/wordPairsApiActions';
 import useForm from 'src/hooks/useForm';
+import DynamicToolbarWrapper from 'src/components/DynamicToolbarWrapper';
 import DictionaryToolbar from './DictionaryToolbar';
-import DynamicToolbarWrapper from './DynamicToolbarWrapper';
 
 function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
   const dispatch = useDispatch();

@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -24,7 +23,9 @@ const trainingTypesInfo = [
   }
 ];
 
-function TrainingTypes({ match }) {
+function TrainingTypes() {
+  const match = useRouteMatch();
+
   return (
     <Container component="div" maxWidth="lg">
       <TrainingsNavigation match={match} />
@@ -59,9 +60,5 @@ function TrainingTypes({ match }) {
     </Container>
   );
 }
-
-TrainingTypes.propTypes = {
-  match: PropTypes.object.isRequired
-};
 
 export default TrainingTypes;

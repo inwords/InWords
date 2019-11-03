@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -12,7 +12,9 @@ import Button from '@material-ui/core/Button';
 import withReceivedTrainingInfo from './withReceivedTrainingInfo';
 import TrainingsNavigation from 'src/components/TrainingsNavigation';
 
-function TrainingLevels({ gameId, levelsInfo, match }) {
+function TrainingLevels({ gameId, levelsInfo}) {
+  const match = useRouteMatch();
+
   return (
     <Container component="div" maxWidth="lg">
       <TrainingsNavigation match={match} />

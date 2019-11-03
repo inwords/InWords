@@ -4,6 +4,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
+import Container from '@material-ui/core/Container';
+import DynamicToolbarWrapper from 'src/components/DynamicToolbarWrapper';
 import InternalNavigation from 'src/components/InternalNavigation';
 
 function TrainingsNavigation({
@@ -11,7 +13,7 @@ function TrainingsNavigation({
     params: { categoryId, trainingId, levelId }
   }
 }) {
-  return (
+  const navigation = (
     <InternalNavigation>
       {categoryId ? (
         [
@@ -69,6 +71,15 @@ function TrainingsNavigation({
         </Typography>
       )}
     </InternalNavigation>
+  );
+
+  return (
+    <>
+      <DynamicToolbarWrapper>
+        <Container maxWidth="lg">{navigation}</Container>
+      </DynamicToolbarWrapper>
+      {navigation}
+    </>
   );
 }
 

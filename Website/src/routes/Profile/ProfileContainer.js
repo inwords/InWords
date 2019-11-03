@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveUserInfoById } from 'src/actions/userApiActions';
 import Profile from './Profile';
 
-function ProfileContainer({ match }) {
+function ProfileContainer() {
+  const params = useParams();
+
   const validUserId = useSelector(store => store.access.userId);
   const { userId, avatarPath, nickname, experience } = useSelector(
     store => store.userInfo
@@ -13,12 +15,12 @@ function ProfileContainer({ match }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const paramUserId = +match.params.userId;
+    const paramUserId = +params.userId;
 
     if (userId !== paramUserId) {
       dispatch(receiveUserInfoById(paramUserId));
     }
-  }, [userId, match.params.userId, dispatch]);
+  }, [userId, params.userId, dispatch]);
 
   return (
     <Profile
@@ -29,9 +31,5 @@ function ProfileContainer({ match }) {
     />
   );
 }
-
-ProfileContainer.propTypes = {
-  match: PropTypes.object.isRequired
-};
 
 export default ProfileContainer;

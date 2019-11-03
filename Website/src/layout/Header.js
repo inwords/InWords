@@ -57,6 +57,7 @@ function Header({ mainRoutes, rightNodes, handleOpenDrawer }) {
         <div className={classes.contextBlock}>
           {handleOpenDrawer && (
             <IconButton
+              aria-label="side-nav-menu"
               onClick={handleOpenDrawer}
               edge="start"
               color="inherit"

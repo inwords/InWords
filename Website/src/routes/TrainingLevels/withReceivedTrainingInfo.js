@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGameInfo } from 'src/actions/gamesApiActions';
 
 function withReceivedTrainingInfo(WrappedComponent) {
-  function WithReceivedTrainingInfo({ match, ...rest }) {
+  function WithReceivedTrainingInfo(props) {
+    const params = useParams();
+
     const { gameId, levelsInfo } = useSelector(store => store.games.gameInfo);
 
     const dispatch = useDispatch();
 
-    const paramCategoryId = +match.params.categoryId;
+    const paramCategoryId = +params.categoryId;
 
     useEffect(() => {
       if (gameId !== paramCategoryId) {
@@ -22,8 +25,7 @@ function withReceivedTrainingInfo(WrappedComponent) {
         <WrappedComponent
           gameId={gameId}
           levelsInfo={levelsInfo}
-          match={match}
-          {...rest}
+          {...props}
         />
       )
     );
