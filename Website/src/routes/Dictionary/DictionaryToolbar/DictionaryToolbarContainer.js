@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import Container from '@material-ui/core/Container';
 import { setSnackbar } from 'src/actions/commonActions';
 import { deleteWordPairs } from 'src/actions/wordPairsApiActions';
 import useForm from 'src/hooks/useForm';
 import DictionaryToolbar from './DictionaryToolbar';
+import DynamicToolbarWrapper from './DynamicToolbarWrapper';
 
 function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
     }, 200);
   }, [inputs, setPattern]);
 
-  return (
+  const toolbar = (
     <DictionaryToolbar
       checkedValues={checkedValues}
       handleDelete={handleDelete}
@@ -44,6 +46,17 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
       handleChange={handleChange}
       {...rest}
     />
+  );
+
+  return (
+    <>
+      <DynamicToolbarWrapper>
+        <Container component="div" maxWidth="md">
+          {toolbar}
+        </Container>
+      </DynamicToolbarWrapper>
+      {toolbar}
+    </>
   );
 }
 

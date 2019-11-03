@@ -1,8 +1,7 @@
 import React from 'react';
-import Header from './Header';
 
-function HeaderContainer(props) {
-  const [show, setShow] = React.useState(true);
+function useScrollShow(initialState = true, scrollTop = 0, inverse = false) {
+  const [show, setShow] = React.useState(initialState);
   const prevScrollYRef = React.useRef(0);
 
   React.useEffect(() => {
@@ -10,12 +9,15 @@ function HeaderContainer(props) {
       const currentScrollY = window.pageYOffset;
 
       if (prevScrollYRef.current - currentScrollY > 3 || currentScrollY === 0) {
-        if (!show) {
-          setShow(true);
+        if (!inverse ? !show : show) {
+          setShow(!inverse);
         }
-      } else if (prevScrollYRef.current - currentScrollY < -3) {
-        if (show && currentScrollY > 64) {
-          setShow(false);
+      } else if (
+        prevScrollYRef.current - currentScrollY < -3 &&
+        currentScrollY > scrollTop
+      ) {
+        if (!inverse ? show : !show) {
+          setShow(inverse);
         }
       }
 
@@ -25,9 +27,9 @@ function HeaderContainer(props) {
     window.addEventListener('scroll', handleScroll);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [show]);
+  }, [show, scrollTop, inverse]);
 
-  return <Header show={show} {...props} />;
+  return show;
 }
 
-export default HeaderContainer;
+export default useScrollShow;

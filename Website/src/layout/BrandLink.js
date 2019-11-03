@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  brandLink: {
+  root: {
     display: 'flex',
     alignItems: 'center',
     height: '100%',
@@ -26,7 +26,7 @@ function BrandLink({ className }) {
       variant="h6"
       underline="none"
       color="inherit"
-      className={clsx(classes.brandLink, className)}
+      className={clsx(classes.root, className)}
     >
       InWords
     </RouterLink>

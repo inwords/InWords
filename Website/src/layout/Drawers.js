@@ -11,26 +11,26 @@ import SideNavList from 'src/layout/SideNavList';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
-  drawer: {
+  root: {
     width: drawerWidth
   },
-  permanentDrawer: {
+  permanent: {
     [theme.breakpoints.down('md')]: {
       display: 'none'
     }
   },
-  swipableDrawer: {
+  swipable: {
     [theme.breakpoints.up('lg')]: {
       display: 'none'
     }
   },
-  drawerPaper: {
+  paper: {
     width: drawerWidth
   },
-  drawerHeader: {
+  header: {
     height: theme.spacing(8)
   },
-  drawerBrandLink: {
+  brandLink: {
     paddingLeft: theme.spacing(3)
   }
 }));
@@ -42,12 +42,12 @@ function Drawers({ sideRoutes, open, handleOpen, handleClose }) {
     <>
       <Drawer
         variant="permanent"
-        className={clsx(classes.drawer, classes.permanentDrawer)}
+        className={clsx(classes.root, classes.permanent)}
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.paper
         }}
       >
-        <div className={classes.drawerHeader}></div>
+        <div className={classes.header}></div>
         <Divider />
         <nav role="navigation">
           <SideNavList sideRoutes={sideRoutes} />
@@ -57,13 +57,13 @@ function Drawers({ sideRoutes, open, handleOpen, handleClose }) {
         open={open}
         onClose={handleClose}
         onOpen={handleOpen}
-        className={clsx(classes.drawer, classes.swipableDrawer)}
+        className={clsx(classes.root, classes.swipable)}
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.paper
         }}
       >
-        <div className={classes.drawerHeader}>
-          <BrandLink className={classes.drawerBrandLink} />
+        <div className={classes.header}>
+          <BrandLink className={classes.brandLink} />
         </div>
         <Divider />
         <nav role="navigation">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs } from 'src/actions/wordPairsApiActions';
+import Divider from '@material-ui/core/Divider';
 import DictionaryWrapper from './DictionaryWrapper';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
@@ -67,6 +68,7 @@ function WordlistContainer() {
         handleReset={handleReset}
         setPattern={setPattern}
       />
+      <Divider />
       <Wordlist
         editingModeEnabled={editingModeEnabled}
         setEditingModeEnabled={setEditingModeEnabled}

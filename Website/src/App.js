@@ -59,23 +59,33 @@ function App() {
                 path="/profile"
                 render={() => <Redirect to={`/profile/${userId}`} />}
               />
-              <Route path="/signIn" component={SignIn} />
-              <Route path="/signUp" component={SignUp} />
-              <Route path="/profile/:userId" component={Profile} />
-              <Route path="/profileSettings" component={ProfileSettings} />
-              <Route path="/account" component={Account} />
-              <Route path="/dictionary" component={Dictionary} />
-              <Route exact path="/trainings" component={TrainingCategories} />
-              <Route
-                exact
-                path="/trainings/:categoryId"
-                component={TrainingTypes}
-              />
-              <Route
-                exact
-                path="/trainings/:categoryId/:trainingId"
-                component={TrainingLevels}
-              />
+              <Route path="/signIn">
+                <SignIn />
+              </Route>
+              <Route path="/signUp">
+                <SignUp />
+              </Route>
+              <Route path="/profile/:userId">
+                <Profile />
+              </Route>
+              <Route path="/profileSettings">
+                <ProfileSettings />
+              </Route>
+              <Route path="/account">
+                <Account />
+              </Route>
+              <Route path="/dictionary">
+                <Dictionary />
+              </Route>
+              <Route exact path="/trainings">
+                <TrainingCategories />
+              </Route>
+              <Route exact path="/trainings/:categoryId">
+                <TrainingTypes />
+              </Route>
+              <Route exact path="/trainings/:categoryId/:trainingId">
+                <TrainingLevels />
+              </Route>
               <Route
                 path="/trainings/:categoryId/:trainingId/:levelId"
                 render={({ match, ...rest }) => {

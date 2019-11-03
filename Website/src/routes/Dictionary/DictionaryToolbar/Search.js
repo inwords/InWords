@@ -53,7 +53,7 @@ function Search({ value, onChange }) {
         <SearchIcon />
       </div>
       <InputBase
-        placeholder={!focused ? 'Поиск' : 'Введите слово или фразу'}
+        placeholder={!focused ? 'Поиск' : 'Введите слово'}
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput

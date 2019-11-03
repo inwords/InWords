@@ -7,7 +7,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import useMenu from 'src/hooks/useMenu';
 
-function DictionaryMenu({ disabled, handleLearning }) {
+function DictionaryMenuButton({ disabled, handleLearning }) {
   const { anchorEl, handleClick, handleClose } = useMenu();
 
   return (
@@ -18,6 +18,7 @@ function DictionaryMenu({ disabled, handleLearning }) {
         aria-haspopup="true"
         disabled={disabled}
         onClick={handleClick}
+        edge="end"
         color="inherit"
       >
         <MoreVertIcon />
@@ -44,9 +45,9 @@ function DictionaryMenu({ disabled, handleLearning }) {
   );
 }
 
-DictionaryMenu.propTypes = {
+DictionaryMenuButton.propTypes = {
   handleLearning: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired
 };
 
-export default DictionaryMenu;
+export default DictionaryMenuButton;

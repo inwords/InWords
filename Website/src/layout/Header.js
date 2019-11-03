@@ -2,36 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import useScrollShow from 'src/hooks/useScrollShow';
 import BrandLink from 'src/layout/BrandLink';
 import MainMavList from 'src/layout/MainNavList';
+import DynamicWrapper from 'src/components/DynamicWrapper';
+import Progress from 'src/components/Progress';
 
 const useStyles = makeStyles(theme => ({
-  header: {
-    zIndex: 1201,
-    opacity: 0,
-    transform: 'translateY(-100%)',
-    transition: 'transform .3s cubic-bezier(.4, 0, .6, 1), opacity 0s .3s'
-  },
-  headerShow: {
-    opacity: 1,
-    transform: 'translateY(0)',
-    transition: 'transform .3s cubic-bezier(.4, 0, .2, 1) .3s, opacity 0s .3s'
-  },
-  toolbar: {
+  context: {
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
     padding: theme.spacing(0, 3)
   },
-  toolbarBlock: {
+  contextBlock: {
     display: 'flex',
     alignItems: 'center',
     height: theme.spacing(8)
   },
-  toolbarBlockRight: {
+  contextBlockRight: {
     marginLeft: theme.spacing(3),
     [theme.breakpoints.down('sm')]: {
       marginLeft: 'auto'
@@ -56,24 +47,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Header({ show, mainRoutes, rightNodes, handleOpenDrawer }) {
+function Header({ mainRoutes, rightNodes, handleOpenDrawer }) {
   const classes = useStyles();
+  const show = useScrollShow(true, 64);
 
   return (
-    <AppBar
-      position="fixed"
-      className={clsx(classes.header, {
-        [classes.headerShow]: show
-      })}
-    >
-      <div className={classes.toolbar}>
-        <div className={classes.toolbarBlock}>
+    <DynamicWrapper component="header" show={show} primary>
+      <div className={classes.context}>
+        <div className={classes.contextBlock}>
           {handleOpenDrawer && (
             <IconButton
+              onClick={handleOpenDrawer}
               edge="start"
               color="inherit"
               className={classes.navMenuButton}
-              onClick={handleOpenDrawer}
             >
               <MenuIcon />
             </IconButton>
@@ -85,18 +72,18 @@ function Header({ show, mainRoutes, rightNodes, handleOpenDrawer }) {
         </nav>
         {rightNodes && (
           <div
-            className={clsx(classes.toolbarBlock, classes.toolbarBlockRight)}
+            className={clsx(classes.contextBlock, classes.contextBlockRight)}
           >
             {rightNodes}
           </div>
         )}
       </div>
-    </AppBar>
+      <Progress />
+    </DynamicWrapper>
   );
 }
 
 Header.propTypes = {
-  show: PropTypes.bool.isRequired,
   mainRoutes: PropTypes.array,
   rightNodes: PropTypes.arrayOf(PropTypes.node.isRequired),
   handleOpenDrawer: PropTypes.func

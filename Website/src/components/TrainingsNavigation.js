@@ -33,7 +33,7 @@ function TrainingsNavigation({
                 to={`/trainings/${categoryId}`}
                 color="inherit"
               >
-                Тренажеры
+                Тренировки
               </Link>,
               levelId ? (
                 [
@@ -59,7 +59,7 @@ function TrainingsNavigation({
             ]
           ) : (
             <Typography key={1} color="textPrimary">
-              Тренажеры
+              Тренировки
             </Typography>
           )
         ]

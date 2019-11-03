@@ -2,9 +2,9 @@ import React, { useCallback, memo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { initializeGameLevel } from 'src/actions/gamesActions';
-import DictionaryMenu from './DictionaryMenu';
+import DictionaryMenuButton from './DictionaryMenuButton';
 
-function DictionaryMenuContainer({ checkedValues, ...rest }) {
+function DictionaryMenuButtonContainer({ checkedValues, ...rest }) {
   const wordPairs = useSelector(store => store.wordPairs);
 
   const dispatch = useDispatch();
@@ -19,12 +19,12 @@ function DictionaryMenuContainer({ checkedValues, ...rest }) {
     );
   }, [dispatch, checkedValues, wordPairs]);
 
-  return <DictionaryMenu handleLearning={handleLearning} {...rest} />;
+  return <DictionaryMenuButton handleLearning={handleLearning} {...rest} />;
 }
 
-DictionaryMenuContainer.propTypes = {
+DictionaryMenuButtonContainer.propTypes = {
   checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   disabled: PropTypes.bool
 };
 
-export default memo(DictionaryMenuContainer);
+export default memo(DictionaryMenuButtonContainer);
