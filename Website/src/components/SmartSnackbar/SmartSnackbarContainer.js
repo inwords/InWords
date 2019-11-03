@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { resetSnackbar } from 'src/actions/commonActions';
-import SmartSnackbar from './SmartSnackbar'
+import SmartSnackbar from './SmartSnackbar';
 
 function SmartSnackbarContainer() {
   const { open, text, actionText, actionHandler } = useSelector(

@@ -22,11 +22,7 @@ function withReceivedTrainingInfo(WrappedComponent) {
 
     return (
       gameId === paramCategoryId && (
-        <WrappedComponent
-          gameId={gameId}
-          levelsInfo={levelsInfo}
-          {...props}
-        />
+        <WrappedComponent gameId={gameId} levelsInfo={levelsInfo} {...props} />
       )
     );
   }

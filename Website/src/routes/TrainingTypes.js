@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -8,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import TrainingsNavigation from 'src/components/TrainingsNavigation';
+import TrainingWrapper from 'src/components/TrainingWrapper';
 
 const trainingTypesInfo = [
   {
@@ -27,8 +26,7 @@ function TrainingTypes() {
   const match = useRouteMatch();
 
   return (
-    <Container component="div" maxWidth="lg">
-      <TrainingsNavigation match={match} />
+    <TrainingWrapper>
       <Grid container spacing={3}>
         {trainingTypesInfo.map(({ typeId, title, description }) => {
           return (
@@ -57,7 +55,7 @@ function TrainingTypes() {
           );
         })}
       </Grid>
-    </Container>
+    </TrainingWrapper>
   );
 }
 

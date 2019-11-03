@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useRouteMatch } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,14 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
 import withReceivedTrainingInfo from './withReceivedTrainingInfo';
-import TrainingsNavigation from 'src/components/TrainingsNavigation';
+import TrainingWrapper from 'src/components/TrainingWrapper';
 
-function TrainingLevels({ gameId, levelsInfo}) {
+function TrainingLevels({ gameId, levelsInfo }) {
   const match = useRouteMatch();
 
   return (
-    <Container component="div" maxWidth="lg">
-      <TrainingsNavigation match={match} />
+    <TrainingWrapper>
       <Grid container spacing={2}>
         {levelsInfo.map(({ levelId, level, playerStars, isAvailable }) => (
           <Grid key={levelId} item xs={6} sm={4} md={3}>
@@ -53,7 +51,7 @@ function TrainingLevels({ gameId, levelsInfo}) {
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </TrainingWrapper>
   );
 }
 
@@ -66,8 +64,7 @@ TrainingLevels.propTypes = {
       playerStars: PropTypes.number.isRequired,
       isAvailable: PropTypes.bool.isRequired
     }).isRequired
-  ).isRequired,
-  match: PropTypes.object.isRequired
+  ).isRequired
 };
 
 export default withReceivedTrainingInfo(TrainingLevels);

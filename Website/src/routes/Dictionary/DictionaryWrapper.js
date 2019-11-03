@@ -6,9 +6,7 @@ import Paper from '@material-ui/core/Paper';
 function WordlistWrapper({ children }) {
   return (
     <Container component="div" maxWidth="md">
-      <Paper>
-        {children}
-      </Paper>
+      <Paper>{children}</Paper>
     </Container>
   );
 }
