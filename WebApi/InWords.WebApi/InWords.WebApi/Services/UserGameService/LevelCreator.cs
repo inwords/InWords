@@ -39,8 +39,7 @@ namespace InWords.WebApi.Services.UserGameService
                 creation = new Creation { CreatorId = userId };
                 await creationRepository.CreateAsync(creation).ConfigureAwait(false);
             }
-            if (creation == null) throw new ArgumentNullException();
-
+            
             // add level by WordsPairs
             int levelsCount = gameLevelRepository.GetWhere(g => g.GameBoxId.Equals(creation.CreationId)).Count();
             var gameLevel = new GameLevel()

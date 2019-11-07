@@ -85,23 +85,20 @@ namespace InWords.WebApi.Controllers.v1
 
         private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {
+            string username = basicAuthClaims.Email.Remove(basicAuthClaims.Email.IndexOf("@", StringComparison.Ordinal));
+
             //Create account in repository;
-            Account account =
-                await accountIdentityProvider.CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password)
-                    .ConfigureAwait(false);
-
-            string username = account.Email.Remove(account.Email.IndexOf("@", StringComparison.Ordinal));
-
-            // send verifier email
-            await emailVerifierService.InstatiateVerifierMessage(account.AccountId, username, basicAuthClaims.Email)
+            Account account = await accountIdentityProvider
+                .CreateUserAccount(basicAuthClaims.Email, basicAuthClaims.Password, username)
                 .ConfigureAwait(false);
 
-            //Create token
-            TokenResponse response =
-                await accountIdentityProvider.GetIdentity(basicAuthClaims.Email, basicAuthClaims.Password)
-                    .ConfigureAwait(false);
-
-            return response;
+            // send verifier email
+            await emailVerifierService
+                .InstatiateVerifierMessage(account.AccountId, username, basicAuthClaims.Email)
+                .ConfigureAwait(false);
+            
+            // create and return token
+            return await accountIdentityProvider.GetIdentity(account).ConfigureAwait(false);
         }
     }
 }
