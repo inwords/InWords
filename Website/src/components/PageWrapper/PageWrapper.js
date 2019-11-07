@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import useDrawer from 'src/hooks/useDrawer';
-import Header from 'src/layout/Header';
-import Drawers from 'src/layout/Drawers';
-import ContentWrapper from 'src/layout/ContentWrapper';
-import ProfileMenuButton from 'src/layout/ProfileMenuButton';
+import Header from './Header';
+import Drawers from './Drawers/Drawers';
+import ContentWrapper from './ContentWrapper';
+import ProfileMenuButton from './ProfileMenuButton';
 
-const routesAuthorized = [
+const mainRoutes = [
   {
     to: '/dictionary',
     text: 'Словарь'
@@ -18,27 +18,9 @@ const routesAuthorized = [
   }
 ];
 
-const routesUnauthorized = [
-  {
-    to: '/signIn',
-    text: 'Вход'
-  },
-  {
-    to: '/signUp',
-    text: 'Регистрация'
-  }
-];
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex'
-  },
-  content: {
-    flexGrow: 1,
-    paddingTop: theme.spacing(11),
-    [theme.breakpoints.down('sm')]: {
-      paddingTop: theme.spacing(16)
-    }
   }
 }));
 
@@ -49,8 +31,7 @@ function PageWrapper({ sideRoutes, authorized = false, children }) {
   return (
     <div className={classes.root}>
       <Header
-        mainRoutes={authorized ? routesAuthorized : routesUnauthorized}
-        authorized={authorized}
+        mainRoutes={authorized ? mainRoutes : undefined}
         rightNodes={authorized ? [<ProfileMenuButton key={0} />] : undefined}
         handleOpenDrawer={sideRoutes && handleOpen}
       />
@@ -62,7 +43,7 @@ function PageWrapper({ sideRoutes, authorized = false, children }) {
           handleClose={handleClose}
         />
       )}
-      <ContentWrapper>{children}</ContentWrapper>
+      <ContentWrapper shifted={authorized}>{children}</ContentWrapper>
     </div>
   );
 }

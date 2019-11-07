@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
-import DynamicToolbarWrapper from 'src/components/DynamicToolbarWrapper';
+import DynamicToolbarWrapper from 'src/components/InvertedDynamicAppBar';
 import InternalNavigation from 'src/components/InternalNavigation';
 
 function TrainingsNavigation({

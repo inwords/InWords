@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import { setSnackbar } from 'src/actions/commonActions';
 import { deleteWordPairs } from 'src/actions/wordPairsApiActions';
 import useForm from 'src/hooks/useForm';
-import DynamicToolbarWrapper from 'src/components/DynamicToolbarWrapper';
+import DynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import DictionaryToolbar from './DictionaryToolbar';
 
 function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
@@ -50,11 +50,11 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
 
   return (
     <>
-      <DynamicToolbarWrapper>
+      <DynamicAppBar>
         <Container component="div" maxWidth="md">
           {toolbar}
         </Container>
-      </DynamicToolbarWrapper>
+      </DynamicAppBar>
       {toolbar}
     </>
   );

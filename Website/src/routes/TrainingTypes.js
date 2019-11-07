@@ -12,7 +12,7 @@ import TrainingWrapper from 'src/components/TrainingWrapper';
 const trainingTypesInfo = [
   {
     typeId: 0,
-    title: 'Игра "Карточки"',
+    title: 'Карточки',
     description: 'Описание появится позже'
   },
   {

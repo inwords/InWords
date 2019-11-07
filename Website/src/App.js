@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SmartSnackbar from 'src/components/SmartSnackbar';
-import PageWrapper from 'src/layout/PageWrapper';
-import ErrorBoundary from 'src/layout/ErrorBoundary';
+import PageWrapper from 'src/components/PageWrapper/PageWrapper';
+import ErrorBoundary from 'src/components/ErrorBoundary';
 
 const SignIn = lazy(() => import('./routes/SignIn'));
 const SignUp = lazy(() => import('./routes/SignUp'));
@@ -27,7 +27,9 @@ const history = createBrowserHistory();
 const useStyles = makeStyles(theme => ({
   progress: {
     display: 'block',
-    margin: 'auto'
+    marginTop: theme.spacing(4),
+    marginLeft: 'auto',
+    marginRight: 'auto'
   }
 }));
 
@@ -88,15 +90,7 @@ function App() {
               </PageWrapper>
             </Route>
             <Route exact path="/trainings">
-              <PageWrapper
-                authorized
-                sideRoutes={[
-                  {
-                    to: '/trainings',
-                    text: 'Все категории'
-                  }
-                ]}
-              >
+              <PageWrapper authorized>
                 <TrainingCategories />
               </PageWrapper>
             </Route>

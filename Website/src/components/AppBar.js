@@ -1,31 +1,63 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-/** @jsx jsx */
-import { jsx } from '@emotion/core';
-import Paper from 'src/components/Paper';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
-const AppBarPaper = styled(Paper)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  display: flex;
-  width: 100%;
-  background-color: ${props => props.theme.palette.primary.main};
-  color: ${props => props.theme.palette.primary.contrastText};
-`;
+const useStyles = makeStyles(theme => {
+  return {
+    root: {
+      position: 'fixed',
+      top: 0,
+      left: 'auto',
+      right: 0,
+      zIndex: 1201,
+      width: '100%',
+      opacity: 0,
+      transform: 'translateY(-100%)',
+      transition: 'transform .3s cubic-bezier(.4, 0, .6, 1), opacity 0s .3s'
+    },
+    show: {
+      opacity: 1,
+      transform: 'translateY(0)',
+      transition: 'transform .3s cubic-bezier(.4, 0, .2, 1) .3s, opacity 0s .3s'
+    },
+    primary: {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText
+    }
+  };
+});
 
-function AppBar({ children, ...rest }) {
+function AppBar({
+  children,
+  show,
+  primary = false,
+  className,
+  ...rest
+}) {
+  const classes = useStyles();
+
   return (
-    <AppBarPaper elevation={4} {...rest}>
+    <Paper
+      elevation={4}
+      square
+      className={clsx(classes.root, className, {
+        [classes.show]: show,
+        [classes.primary]: primary
+      })}
+      {...rest}
+    >
       {children}
-    </AppBarPaper>
+    </Paper>
   );
 }
 
 AppBar.propTypes = {
-  children: PropTypes.node
+  show: PropTypes.bool,
+  primary: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string
 };
 
 export default AppBar;

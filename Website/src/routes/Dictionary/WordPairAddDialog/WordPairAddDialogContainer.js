@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { addWordPair } from 'src/actions/wordPairsApiActions';
-import uuidv4 from 'src/helpers/uuidv4';
+import uuidv4 from 'src/utils/uuidv4';
 import useForm from 'src/hooks/useForm';
 import WordPairAddDialog from './WordPairAddDialog';
 

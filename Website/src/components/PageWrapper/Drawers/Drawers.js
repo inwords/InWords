@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Divider from '@material-ui/core/Divider';
-import BrandLink from 'src/layout/BrandLink';
-import SideNavList from 'src/layout/SideNavList';
+import BrandLink from 'src/components/BrandLink';
+import SideNavList from 'src/components/PageWrapper/Drawers/SideNavList';
 
 const drawerWidth = 240;
 
