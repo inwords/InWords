@@ -41,8 +41,9 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
         currentLevelIndex = gameLevelInfo.level - 1
 
         gameInteractor.getGame(gameId)
-            .doOnNext { storeGame(it) }
-            .flatMap { gameInteractor.getLevel(gameLevelInfo.levelId) }
+            .firstElement()
+            .doOnSuccess { storeGame(it) }
+            .flatMap { gameInteractor.getLevel(gameLevelInfo.levelId).firstElement() }
             .map {
                 when (it) {
                     is Resource.Success -> Resource.Success(CardsData(it.data.wordTranslations))
