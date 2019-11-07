@@ -39,14 +39,15 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_password"
                 android:inputType="textPassword"
-                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_medium">
+            android:layout_marginTop="@dimen/space_medium"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextConfirmPassword"
@@ -54,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_up_confirm_password"
                 android:inputType="textPassword"
-                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
+                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

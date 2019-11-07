@@ -23,8 +23,7 @@ class AddEditWordViewModel(private val translationWordsInteractor: TranslationWo
     }
 
     @SuppressLint("CheckResult")
-    private fun onAddEditWordDoneHandler(word: WordTranslation,
-                                         wordToEdit: WordTranslation?) {
+    private fun onAddEditWordDoneHandler(word: WordTranslation, wordToEdit: WordTranslation?) {
         if (word != wordToEdit) {
             val action = if (wordToEdit == null) {
                 translationWordsInteractor.addReplace(word)
