@@ -7,16 +7,18 @@ import ru.inwords.inwords.game.presentation.custom_game.CustomGameCreatorViewMod
 import ru.inwords.inwords.game.presentation.game_level.GameLevelViewModel
 import ru.inwords.inwords.game.presentation.game_levels.GameLevelsViewModel
 import ru.inwords.inwords.game.presentation.games.GamesViewModel
+import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class OctoGameViewModelFactory @Inject
-internal constructor(private val gameInteractor: GameInteractor) : ViewModelProvider.Factory {
+internal constructor(private val gameInteractor: GameInteractor,
+                     private val ttsRepository: TtsRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
         return when {
-            modelClass.isAssignableFrom(GameLevelViewModel::class.java) -> GameLevelViewModel(gameInteractor) as T
+            modelClass.isAssignableFrom(GameLevelViewModel::class.java) -> GameLevelViewModel(gameInteractor, ttsRepository) as T
             modelClass.isAssignableFrom(GameLevelsViewModel::class.java) -> GameLevelsViewModel(gameInteractor) as T
             modelClass.isAssignableFrom(GamesViewModel::class.java) -> GamesViewModel(gameInteractor) as T
             modelClass.isAssignableFrom(CustomGameCreatorViewModel::class.java) -> CustomGameCreatorViewModel(gameInteractor) as T

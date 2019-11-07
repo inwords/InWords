@@ -12,4 +12,9 @@
         android:layout_height="match_parent"
         android:gravity="center" />
 
+    <ru.inwords.designcorelib.custom_views.ProgressView
+        android:id="@+id/progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_progress_height" />
+
 </FrameLayout>

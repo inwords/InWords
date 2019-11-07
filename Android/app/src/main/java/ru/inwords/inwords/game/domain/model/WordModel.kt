@@ -8,5 +8,6 @@ import java.io.Serializable
  */
 data class WordModel(
     val wordTranslationServerId: Int,
+    val isForeign: Boolean,
     val word: String
 ) : Serializable

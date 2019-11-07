@@ -3,7 +3,10 @@ package ru.inwords.inwords.game.presentation.game_level
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
@@ -14,19 +17,29 @@ import ru.inwords.inwords.game.domain.CardsData
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.GameModel
 import ru.inwords.inwords.game.domain.model.LevelResultModel
+import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.game_level.FromGameEndEventsEnum.*
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
+import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 
-class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
+class GameLevelViewModel(private val gameInteractor: GameInteractor,
+                         private val ttsRepository: TtsRepository) : BasicViewModel() {
     private val _navigationFromGameEnd = MutableLiveData<Event<FromGameEndEventsEnum>>()
     private val _levelResult = MutableLiveData<Event<LevelResultModel>>()
+    private val ttsSubject = PublishSubject.create<Resource<String>>()
+    private val showProgressMutableLiveData = MutableLiveData<Event<Boolean>>()
 
     val levelResult: LiveData<Event<LevelResultModel>> = _levelResult
     val navigationFromGameEnd: LiveData<Event<FromGameEndEventsEnum>> = _navigationFromGameEnd
+    val ttsStream: Observable<Resource<String>> = ttsSubject
+    val showProgress: LiveData<Event<Boolean>> = showProgressMutableLiveData
 
-    private val gameLevelOrchestrator = GameLevelOrchestrator().apply {
-        setGameEndListener { _levelResult.postValue(Event(it)) }
-    }
+    private var ttsDisposable: Disposable? = null
+
+    private val gameLevelOrchestrator = GameLevelOrchestrator(onCardFlipped = { ttsWordModel(it) })
+        .apply {
+            setGameEndListener { _levelResult.postValue(Event(it)) }
+        }
 
     private lateinit var game: Game
     private var currentLevelIndex = 0
@@ -36,6 +49,8 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
     }
 
     fun onGameLevelSelected(gameId: Int, gameLevelInfo: GameLevelInfo, forceUpdate: Boolean = false) {
+        showProgressMutableLiveData.postValue(Event(true))
+
         compositeDisposable.clear()
 
         currentLevelIndex = gameLevelInfo.level - 1
@@ -55,6 +70,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
             .subscribe {
                 if (it is Resource.Success) {
                     gameLevelOrchestrator.updateGameScene(it.data, forceUpdate)
+                    showProgressMutableLiveData.postValue(Event(false))
                 }
             }
             .autoDispose()
@@ -103,5 +119,24 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor) : BasicView
 
     fun getScore(levelResultModel: LevelResultModel): Single<Resource<LevelScore>> {
         return gameInteractor.getScore(game, levelResultModel)
+    }
+
+    private fun ttsWordModel(wordModel: WordModel) {
+        if (wordModel.isForeign) {
+            ttsDisposable?.dispose()
+
+            showProgressMutableLiveData.postValue(Event(true))
+            ttsDisposable = ttsRepository.synthesize(wordModel.word)
+                .subscribeOn(SchedulersFacade.io())
+                .map { Resource.Success(it.absolutePath) as Resource<String> }
+                .onErrorReturn { Resource.Error(it.message, it) }
+                .subscribe({
+                    ttsSubject.onNext(it)
+                    showProgressMutableLiveData.postValue(Event(false))
+                }, {
+                    Log.e(javaClass.simpleName, it.message.orEmpty())
+                })
+                .autoDispose()
+        }
     }
 }
