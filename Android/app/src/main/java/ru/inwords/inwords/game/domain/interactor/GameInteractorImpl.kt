@@ -34,10 +34,7 @@ class GameInteractorImpl @Inject constructor(
     }
 
     override fun getScore(game: Game, levelResultModel: LevelResultModel): Single<Resource<LevelScore>> {
-        return Single.create<Resource<LevelScore>> { emitter ->
-            //so that it cant be disposed on a half-way
-            emitter.onSuccess(gameGatewayController.getScore(game, levelResultModel).blockingGet())
-        }.subscribeOn(SchedulersFacade.io())
+        return gameGatewayController.getScore(game, levelResultModel)
     }
 
     override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> {
