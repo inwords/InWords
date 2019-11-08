@@ -14,8 +14,8 @@ data class CardsData(val rawWordTranslations: List<WordTranslation>) { //TODO no
         val wordsMapping = HashMap<WordModel, WordModel>()
 
         for (wordTranslation in wordTranslations) {
-            val wordForeign = WordModel(wordTranslation.serverId, wordTranslation.wordForeign)
-            val wordNative = WordModel(wordTranslation.serverId, wordTranslation.wordNative)
+            val wordForeign = WordModel(wordTranslation.serverId, true, wordTranslation.wordForeign)
+            val wordNative = WordModel(wordTranslation.serverId, false, wordTranslation.wordNative)
 
             _words.add(wordForeign)
             _words.add(wordNative)

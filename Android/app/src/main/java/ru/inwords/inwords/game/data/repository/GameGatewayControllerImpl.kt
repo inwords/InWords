@@ -12,6 +12,7 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.game.data.converter.LevelResultConverter
 import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
+import ru.inwords.inwords.game.data.repository.custom_game.withUpdatedLevelScore
 import ru.inwords.inwords.game.data.source.GameDao
 import ru.inwords.inwords.game.data.source.GameInfoDao
 import ru.inwords.inwords.game.data.source.GameLevelDao
@@ -103,13 +104,18 @@ class GameGatewayControllerImpl @Inject constructor(
 
         return gameRemoteRepository.getScore(levelScoreRequest).wrapResource()
             .flatMap { res ->
-                if (res is Resource.Error) {
-                    levelScoreRequestDao.insert(levelScoreRequest)
+                when (res) {
+                    is Resource.Error -> levelScoreRequestDao.insert(levelScoreRequest)
                         .doOnError { Log.e(TAG, it.message.orEmpty()) }
                         .map { res }
                         .onErrorReturn { res }
-                } else {
-                    Single.just(res)
+                    is Resource.Success -> {
+                        gameCachingProviderLocator.get(game.gameId)
+                            .postOnLoopback(game.withUpdatedLevelScore(levelId = res.data.levelId, newScore = res.data.score))
+
+                        Single.just(res)
+                    }
+                    else -> Single.just(res)
                 }
             }
             .subscribeOn(SchedulersFacade.io())
@@ -169,4 +175,3 @@ class GameGatewayControllerImpl @Inject constructor(
         const val TAG: String = "GameGatewayController"
     }
 }
-

@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class BasicAuthenticator @Inject internal constructor(private val authenticatorTokenProvider: AuthenticatorTokenProvider) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
-        val header = response.request().header("Authorization")
+        val header = response.request.header("Authorization")
 
         if (header != null/* && header.contains(AuthInfo.errorToken.accessToken)*/) { //TODO: think about COSTIL
             return null // Give up, we've already failed to authenticate.
@@ -18,7 +18,7 @@ class BasicAuthenticator @Inject internal constructor(private val authenticatorT
 
         val tokenResponse = authenticatorTokenProvider.getToken().blockingGet()
 
-        return response.request().newBuilder()
+        return response.request.newBuilder()
                 .header("Authorization", tokenResponse.bearer)
                 .build()
     }

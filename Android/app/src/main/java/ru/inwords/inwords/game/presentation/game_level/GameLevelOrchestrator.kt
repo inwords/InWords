@@ -5,7 +5,7 @@ import ru.inwords.inwords.game.domain.CardsData
 import ru.inwords.inwords.game.domain.model.LevelResultModel
 import ru.inwords.inwords.game.domain.model.WordModel
 
-class GameLevelOrchestrator {
+class GameLevelOrchestrator(private val onCardFlipped: (WordModel) -> Unit) {
     private val stateMap = HashMap<WordModel, Boolean>()
     private var openedWord: OpenedWord? = null
     private var showingIncorrectCards: Boolean = false
@@ -72,6 +72,8 @@ class GameLevelOrchestrator {
             val openedCardWord = openedWord?.word
 
             wordTranslationIdOpenCount.addOrPut(word, 1)
+
+            onCardFlipped(word)
 
             when {
                 openedWord == null -> openedWord = OpenedWord(clickEvent.index, word) //first game_card opened

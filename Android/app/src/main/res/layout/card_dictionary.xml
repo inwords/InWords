@@ -46,6 +46,6 @@
         android:paddingStart="@dimen/space_xsmall"
         android:paddingEnd="@dimen/space_xsmall"
         android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary"
-        tools:text="@string/words_in_dictionary" />
+        tools:text="Слов в словаре" />
 
 </androidx.cardview.widget.CardView>

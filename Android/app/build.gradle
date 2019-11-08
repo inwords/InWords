@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs"
+apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: "de.mannodermaus.android-junit5"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
@@ -107,7 +107,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$versions.NAVIGATION"
 
     // RxJava
-    implementation "io.reactivex.rxjava2:rxjava:$versions.RX_JAVA"
+    implementation "io.reactivex.rxjava3:rxjava:$versions.RX_JAVA"
     implementation "io.reactivex.rxjava2:rxandroid:$versions.RX_ANDROID"
 
     //Fresco

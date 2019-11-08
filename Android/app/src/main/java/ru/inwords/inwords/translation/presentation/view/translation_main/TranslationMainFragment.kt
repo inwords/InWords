@@ -1,8 +1,6 @@
 package ru.inwords.inwords.translation.presentation.view.translation_main
 
 
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,6 +28,7 @@ import ru.inwords.inwords.core.recycler.SelectionKeyProvider
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
+import ru.inwords.inwords.texttospeech.TtsMediaPlayerAdapter
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.presentation.view.TranslationViewModelFactory
 import ru.inwords.inwords.translation.presentation.view.recycler.ItemTouchHelperAdapter
@@ -47,14 +46,11 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
     private var actionMode: ActionMode? = null
 
-    private lateinit var mediaPlayer: MediaPlayer
-    private val attrs = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build()
+    private lateinit var ttsMediaPlayerAdapter: TtsMediaPlayerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return super.onCreateView(inflater, container, savedInstanceState).also { view ->
             setupToolbar(view)
-
-            mediaPlayer = MediaPlayer()
 
             val onItemClickedListener = PublishSubject.create<WordTranslation>()
             val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
@@ -89,20 +85,16 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
             }
         }
 
-        viewModel.ttsStream
-            .doOnNext {
-                if (it is Resource.Success) {
-                    playAudio(it.data)
-                }
-            }
-            .observeOn(SchedulersFacade.ui())
-            .subscribe { resource ->
-                progress_view.post { progress_view.progress = 0 }
+        ttsMediaPlayerAdapter = TtsMediaPlayerAdapter { resource ->
+            progress_view.post { progress_view.progress = 0 }
 
-                if (resource !is Resource.Success) {
-                    Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
-                }
+            if (resource !is Resource.Success) {
+                Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
             }
+        }
+
+        ttsMediaPlayerAdapter
+            .observeTtsStream(viewModel.ttsStream)
             .disposeOnViewDestroyed()
 
         viewModel.translationWordsStream
@@ -113,8 +105,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     override fun onDestroyView() {
-        mediaPlayer.stop()
-        mediaPlayer.release()
+        ttsMediaPlayerAdapter.destroy()
 
         adapter.tracker = null
 
@@ -127,18 +118,6 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         super.onSaveInstanceState(outState)
         if (::tracker.isInitialized) {
             tracker.onSaveInstanceState(outState)
-        }
-    }
-
-    private fun playAudio(path: String) {
-        try {
-            mediaPlayer.reset()
-            mediaPlayer.setDataSource(path)
-            mediaPlayer.setAudioAttributes(attrs)
-            mediaPlayer.prepare()
-            mediaPlayer.start()
-        } catch (throwable: Throwable) {
-            Log.e(javaClass.simpleName, throwable.message.orEmpty())
         }
     }
 
