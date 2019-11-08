@@ -34,9 +34,9 @@ internal class ResourceCachingProvider<T : Any>(
     private var inProgress = AtomicBoolean(false)
 
     private val remoteObservable = if (prefetchFromDatabase) {
-        databaseGetter().flatMapMaybe { remoteDataProvider().wrapNetworkResource() }
+        Maybe.concatArrayEager(databaseGetter().wrapResourceSkipError(), remoteDataProvider().wrapNetworkResource()).toObservable()
     } else {
-        remoteDataProvider().wrapNetworkResource()
+        remoteDataProvider().wrapNetworkResource().toObservable()
     }
 
     init {
@@ -152,4 +152,10 @@ internal fun <T : Any> Single<T>.wrapNetworkResource(): Maybe<Resource<T>> {
                 Maybe.just(Resource.Error(it.message, it))
             }
         })
+}
+
+internal fun <T : Any> Single<T>.wrapResourceSkipError(): Maybe<Resource<T>> {
+    return map { Resource.Success(it) as Resource<T> }
+        .toMaybe()
+        .onErrorResumeNext(Maybe.empty<Resource<T>>())
 }

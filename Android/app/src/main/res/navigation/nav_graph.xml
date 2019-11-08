@@ -202,8 +202,8 @@
             app:popUpTo="@id/gameLevelFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_popUpTo_mainFragment"
-            app:popUpTo="@id/mainFragment" />
+            android:id="@+id/action_popUpTo_gamesFragment"
+            app:popUpTo="@id/gamesFragment" />
     </dialog>
 
     <action

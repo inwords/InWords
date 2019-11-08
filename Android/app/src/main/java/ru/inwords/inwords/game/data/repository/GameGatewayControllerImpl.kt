@@ -145,7 +145,8 @@ class GameGatewayControllerImpl @Inject constructor(
         return ResourceCachingProvider(
             { data -> gameInfoDatabaseRepository.insertAll(data).map { data } },
             { gameInfoDatabaseRepository.getAll().map { gameInfos -> gameInfos.filter { it.gameId != CUSTOM_GAME_ID } } }, //TODO remove this filter
-            { gameRemoteRepository.getGameInfos() }
+            { gameRemoteRepository.getGameInfos() },
+            prefetchFromDatabase = true
         )
     }
 
@@ -159,7 +160,8 @@ class GameGatewayControllerImpl @Inject constructor(
                     .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
                     .onErrorComplete()
                     .andThen(gameRemoteRepository.getGame(gameId))
-            }
+            },
+            prefetchFromDatabase = true
         )
     }
 
@@ -167,7 +169,8 @@ class GameGatewayControllerImpl @Inject constructor(
         return ResourceCachingProvider(
             { data -> gameLevelDatabaseRepository.insertAll(listOf(data)).map { data } },
             { gameLevelDatabaseRepository.getById(levelId) },
-            { gameRemoteRepository.getLevel(levelId) }
+            { gameRemoteRepository.getLevel(levelId) },
+            prefetchFromDatabase = true
         )
     }
 
