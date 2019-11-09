@@ -2,8 +2,8 @@ import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import PageProgress from 'src/components/PageProgress';
+import ScrollToTop from 'src/components/ScrollToTop';
 import SmartSnackbar from 'src/components/SmartSnackbar';
 import PageWrapper from 'src/components/PageWrapper/PageWrapper';
 import ErrorBoundary from 'src/components/ErrorBoundary';
@@ -24,24 +24,15 @@ const SelectTranslateTraining = lazy(() =>
 
 const history = createBrowserHistory();
 
-const useStyles = makeStyles(theme => ({
-  progress: {
-    display: 'block',
-    marginTop: theme.spacing(4),
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  }
-}));
-
 function App() {
-  const classes = useStyles();
   const userId = useSelector(store => store.access.userId);
 
   return (
     <Router history={history}>
+      <ScrollToTop />
       <SmartSnackbar />
       <ErrorBoundary>
-        <Suspense fallback={<CircularProgress className={classes.progress} />}>
+        <Suspense fallback={<PageProgress />}>
           <Switch>
             <Route
               exact

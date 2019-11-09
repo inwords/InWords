@@ -32,6 +32,9 @@ const useStyles = makeStyles(theme => ({
   },
   closeButton: {
     marginRight: theme.spacing(2)
+  },
+  deleteButton: {
+    color: theme.palette.error.main
   }
 }));
 
@@ -80,8 +83,8 @@ function DictionaryToolbar({
               handleDelete();
               handleReset();
             }}
-            color="secondary"
             disabled={numberOfChecked === 0}
+            className={classes.deleteButton}
           >
             <DeleteIcon />
           </IconButton>

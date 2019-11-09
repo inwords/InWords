@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
@@ -45,7 +45,6 @@ const useStyles = makeStyles(theme => ({
 
 function Search({ value, onChange }) {
   const classes = useStyles();
-  const [focused, setFocused] = useState(false);
 
   return (
     <div className={classes.search}>
@@ -53,7 +52,7 @@ function Search({ value, onChange }) {
         <SearchIcon />
       </div>
       <InputBase
-        placeholder={!focused ? 'Поиск' : 'Введите слово'}
+        placeholder="Поиск слова"
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput
@@ -62,13 +61,7 @@ function Search({ value, onChange }) {
           'aria-label': 'search',
           name: 'pattern',
           value,
-          onChange,
-          onFocus: () => {
-            setFocused(true);
-          },
-          onBlur: () => {
-            setFocused(false);
-          }
+          onChange
         }}
       />
     </div>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveLevelResult } from 'src/actions/gamesApiActions';
 import shuffle from 'src/utils/shuffle';
-import withReceivedGameLevel from 'src/components/withReceivedGameLevel';
+import withReceivedGameLevel from 'src/HOCs/withReceivedGameLevel';
 import TrainingWrapper from 'src/components/TrainingWrapper';
 import Game from './Game';
 import TrainingResult from 'src/components/TrainingResult';

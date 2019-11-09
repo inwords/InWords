@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveGameLevel as receiveGameLevelAction } from 'src/actions/gamesApiActions';
@@ -13,7 +13,7 @@ function withReceivedGameLevel(WrappedComponent) {
 
     const paramLevelId = +match.params.levelId;
 
-    useEffect(() => {
+    React.useEffect(() => {
       if (levelId !== paramLevelId) {
         if (paramLevelId === 0) {
           history.push('/dictionary');

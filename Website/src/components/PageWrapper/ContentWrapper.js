@@ -8,25 +8,25 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     paddingTop: theme.spacing(11)
   },
-  shifted: {
+  shift: {
     [theme.breakpoints.down('xs')]: {
       paddingTop: theme.spacing(17)
     }
   }
 }));
 
-function ContentWrapper({ shifted, children }) {
+function ContentWrapper({ shift, children }) {
   const classes = useStyles();
 
   return (
-    <main className={clsx(classes.root, { [classes.shifted]: shifted })}>
+    <main className={clsx(classes.root, { [classes.shift]: shift })}>
       {children}
     </main>
   );
 }
 
 ContentWrapper.propTypes = {
-  shifted: PropTypes.bool.isRequired,
+  shift: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired
 };
 

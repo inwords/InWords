@@ -38,6 +38,18 @@ const useStyles = makeStyles(theme => ({
 function Drawers({ sideRoutes, open, handleOpen, handleClose }) {
   const classes = useStyles();
 
+  const drawerContent = (
+    <>
+      <div className={classes.header}>
+        <BrandLink className={classes.brandLink} />
+      </div>
+      <Divider />
+      <nav role="navigation">
+        <SideNavList sideRoutes={sideRoutes} />
+      </nav>
+    </>
+  );
+
   return (
     <>
       <Drawer
@@ -47,11 +59,7 @@ function Drawers({ sideRoutes, open, handleOpen, handleClose }) {
           paper: classes.paper
         }}
       >
-        <div className={classes.header}></div>
-        <Divider />
-        <nav role="navigation">
-          <SideNavList sideRoutes={sideRoutes} />
-        </nav>
+        {drawerContent}
       </Drawer>
       <SwipeableDrawer
         open={open}
@@ -62,13 +70,7 @@ function Drawers({ sideRoutes, open, handleOpen, handleClose }) {
           paper: classes.paper
         }}
       >
-        <div className={classes.header}>
-          <BrandLink className={classes.brandLink} />
-        </div>
-        <Divider />
-        <nav role="navigation">
-          <SideNavList sideRoutes={sideRoutes} />
-        </nav>
+        {drawerContent}
       </SwipeableDrawer>
     </>
   );

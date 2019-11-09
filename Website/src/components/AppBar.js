@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -13,14 +12,28 @@ const useStyles = makeStyles(theme => {
       right: 0,
       zIndex: 1201,
       width: '100%',
-      opacity: 0,
       transform: 'translateY(-100%)',
-      transition: 'transform .3s cubic-bezier(.4, 0, .6, 1), opacity 0s .3s'
+      transition: 'transform .3s cubic-bezier(.4, 0, .2, 1), opacity 0s .3s',
+      backgroundColor: theme.palette.background.paper,
+      '&::after': {
+        content: "''",
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        zIndex: -1,
+        opacity: 0,
+        boxShadow: theme.shadows[4],
+        transition: 'opacity .3s .3s'
+      }
     },
     show: {
-      opacity: 1,
       transform: 'translateY(0)',
-      transition: 'transform .3s cubic-bezier(.4, 0, .2, 1) .3s, opacity 0s .3s'
+      transition: 'transform .3s cubic-bezier(.4, 0, .6, 1) .3s',
+      '&::after': {
+        opacity: 1
+      }
     },
     primary: {
       backgroundColor: theme.palette.primary.main,
@@ -30,6 +43,7 @@ const useStyles = makeStyles(theme => {
 });
 
 function AppBar({
+  component = 'header',
   children,
   show,
   primary = false,
@@ -38,10 +52,10 @@ function AppBar({
 }) {
   const classes = useStyles();
 
+  const Component = component;
+
   return (
-    <Paper
-      elevation={4}
-      square
+    <Component
       className={clsx(classes.root, className, {
         [classes.show]: show,
         [classes.primary]: primary
@@ -49,11 +63,12 @@ function AppBar({
       {...rest}
     >
       {children}
-    </Paper>
+    </Component>
   );
 }
 
 AppBar.propTypes = {
+  component: PropTypes.elementType,
   show: PropTypes.bool,
   primary: PropTypes.bool,
   children: PropTypes.node.isRequired,

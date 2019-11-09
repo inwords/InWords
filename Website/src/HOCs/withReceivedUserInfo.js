@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveUserInfo } from 'src/actions/userApiActions';
 
@@ -12,7 +12,7 @@ function withReceivedUserInfo(WrappedComponent) {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    React.useEffect(() => {
       if (!accountId) {
         dispatch(receiveUserInfo());
       }

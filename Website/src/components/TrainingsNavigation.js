@@ -2,10 +2,9 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import Container from '@material-ui/core/Container';
-import DynamicToolbarWrapper from 'src/components/InvertedDynamicAppBar';
+import Typography from '@material-ui/core/Typography';
+import InvertedDynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import InternalNavigation from 'src/components/InternalNavigation';
 
 function TrainingsNavigation({
@@ -75,9 +74,7 @@ function TrainingsNavigation({
 
   return (
     <>
-      <DynamicToolbarWrapper>
-        <Container maxWidth="lg">{navigation}</Container>
-      </DynamicToolbarWrapper>
+      <InvertedDynamicAppBar>{navigation}</InvertedDynamicAppBar>
       {navigation}
     </>
   );

@@ -43,7 +43,7 @@ function PageWrapper({ sideRoutes, authorized = false, children }) {
           handleClose={handleClose}
         />
       )}
-      <ContentWrapper shifted={authorized}>{children}</ContentWrapper>
+      <ContentWrapper shift={authorized}>{children}</ContentWrapper>
     </div>
   );
 }

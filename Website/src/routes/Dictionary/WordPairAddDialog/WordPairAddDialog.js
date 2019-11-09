@@ -14,7 +14,7 @@ import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
   translations: {
-    marginTop: theme.spacing(1)
+    marginTop: 12
   },
   chip: {
     margin: 4

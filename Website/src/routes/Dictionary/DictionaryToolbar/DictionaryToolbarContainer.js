@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import Container from '@material-ui/core/Container';
 import { setSnackbar } from 'src/actions/commonActions';
 import { deleteWordPairs } from 'src/actions/wordPairsApiActions';
 import useForm from 'src/hooks/useForm';
-import DynamicAppBar from 'src/components/InvertedDynamicAppBar';
+import InvertedDynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import DictionaryToolbar from './DictionaryToolbar';
 
 function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
@@ -50,11 +49,7 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
 
   return (
     <>
-      <DynamicAppBar>
-        <Container component="div" maxWidth="md">
-          {toolbar}
-        </Container>
-      </DynamicAppBar>
+      <InvertedDynamicAppBar>{toolbar}</InvertedDynamicAppBar>
       {toolbar}
     </>
   );

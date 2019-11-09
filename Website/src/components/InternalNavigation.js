@@ -7,6 +7,8 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const useStyles = makeStyles(theme => ({
   paper: {
+    display: 'flex',
+    alignItems: 'center',
     padding: theme.spacing(1, 2)
   }
 }));
