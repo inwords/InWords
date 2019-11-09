@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import useDrawer from 'src/hooks/useDrawer';
 import Header from './Header';
 import Drawers from './Drawers/Drawers';
@@ -18,18 +18,15 @@ const mainRoutes = [
   }
 ];
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex'
-  }
-}));
+const Wrapper = styled.div`
+  display: flex;
+`;
 
 function PageWrapper({ sideRoutes, authorized = false, children }) {
-  const classes = useStyles();
   const { open, handleOpen, handleClose } = useDrawer();
 
   return (
-    <div className={classes.root}>
+    <Wrapper>
       <Header
         mainRoutes={authorized ? mainRoutes : undefined}
         rightNodes={authorized ? [<ProfileMenuButton key={0} />] : undefined}
@@ -44,7 +41,7 @@ function PageWrapper({ sideRoutes, authorized = false, children }) {
         />
       )}
       <ContentWrapper shift={authorized}>{children}</ContentWrapper>
-    </div>
+    </Wrapper>
   );
 }
 

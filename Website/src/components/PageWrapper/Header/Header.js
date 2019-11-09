@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import BrandLink from 'src/components/BrandLink';
@@ -9,76 +8,69 @@ import DynamicAppBar from 'src/components/DynamicAppBar';
 import MainMavList from './MainNavList';
 import Progress from './Progress';
 
-const useStyles = makeStyles(theme => ({
-  context: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    padding: theme.spacing(0, 3)
-  },
-  contextBlock: {
-    display: 'flex',
-    alignItems: 'center',
-    height: theme.spacing(8)
-  },
-  contextBlockRight: {
-    marginLeft: theme.spacing(3),
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: 'auto'
-    }
-  },
-  navMenuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('lg')]: {
-      display: 'none'
-    }
-  },
-  nav: {
-    marginLeft: 'auto',
-    display: 'flex',
-    overflow: 'hidden',
-    height: theme.spacing(8),
-    [theme.breakpoints.down('xs')]: {
-      order: 1,
-      width: '100%',
-      height: theme.spacing(6)
-    }
+const Context = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: ${props => props.theme.spacing(0, 3)};
+`;
+
+const NavMenuButton = styled(IconButton)`
+  margin-right: 16px;
+  ${props => props.theme.breakpoints.up('lg')} {
+    display: none;
   }
-}));
+`;
+
+const Nav = styled.nav`
+  margin-left: auto;
+  display: flex;
+  overflow: hidden;
+  height: 64px;
+  ${props => props.theme.breakpoints.down('xs')} {
+    order: 1;
+    width: 100%;
+    height: 48px;
+  }
+`;
+
+const ContextBlock = styled.div`
+  display: flex;
+  align-items: center;
+  height: 64px;
+`;
+
+const RightContextBlock = styled(ContextBlock)`
+  margin-left: 24px;
+  ${props => props.theme.breakpoints.down('xs')} {
+    margin-left: auto;
+  }
+`;
 
 function Header({ mainRoutes, rightNodes, handleOpenDrawer }) {
-  const classes = useStyles();
-
   return (
     <DynamicAppBar component="header" primary>
-      <div className={classes.context}>
-        <div className={classes.contextBlock}>
+      <Context>
+        <ContextBlock>
           {handleOpenDrawer && (
-            <IconButton
+            <NavMenuButton
               aria-label="side-nav-menu"
               onClick={handleOpenDrawer}
               edge="start"
               color="inherit"
-              className={classes.navMenuButton}
             >
               <MenuIcon />
-            </IconButton>
+            </NavMenuButton>
           )}
           <BrandLink />
-        </div>
+        </ContextBlock>
         {mainRoutes && (
-          <nav className={classes.nav} role="navigation">
+          <Nav role="navigation">
             <MainMavList mainRoutes={mainRoutes} />
-          </nav>
+          </Nav>
         )}
-        {rightNodes && (
-          <div
-            className={clsx(classes.contextBlock, classes.contextBlockRight)}
-          >
-            {rightNodes}
-          </div>
-        )}
-      </div>
+        {rightNodes && <RightContextBlock>{rightNodes}</RightContextBlock>}
+      </Context>
       <Progress />
     </DynamicAppBar>
   );
