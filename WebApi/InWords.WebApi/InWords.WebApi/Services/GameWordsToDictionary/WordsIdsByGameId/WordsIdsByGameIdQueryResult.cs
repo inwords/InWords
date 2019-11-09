@@ -7,6 +7,6 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId
 {
     public class WordsIdsByGameIdQueryResult
     {
-        public List<int> WordsList { get; set; }
+        public List<int> WordTranslationsList { get; set; }
     }
 }

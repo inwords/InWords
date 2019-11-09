@@ -100,7 +100,7 @@
                 This is to get Words translation list of level
             </summary>
             <see cref="T:InWords.Data.DTO.GameBox.Level" />
-            <see cref="T:InWords.Data.DTO.WordTranslation" />
+            <see cref="T:InWords.Data.DTO.WordTranslationsList" />
             <param name="id"></param>
             <returns></returns>
         </member>
@@ -270,7 +270,7 @@
                 This is to CRUD words
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.AddPair(System.Collections.Generic.List{InWords.Data.DTO.WordTranslation})">
+        <member name="M:InWords.WebApi.Controllers.v1.WordsController.AddPair(System.Collections.Generic.List{InWords.Data.DTO.WordTranslationsList})">
             <summary>
                 Add list of words in dictionary
             </summary>
@@ -312,16 +312,16 @@
             <param name="descriptionInfos"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Extensions.UserWordPairExtensions.ToWordTranslations(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair})">
+        <member name="M:InWords.WebApi.Extensions.UserWordPairExtensions.ToWordTranslationsLists(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair})">
             <summary>
-                Convert UserWorkPair to WordTranslation
+                Convert UserWorkPair to WordTranslationsList
             </summary>
             <param name="userWordPairs"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Extensions.UserWordPairExtensions.ToWordTranslations(InWords.Data.Domains.UserWordPair)">
+        <member name="M:InWords.WebApi.Extensions.UserWordPairExtensions.ToWordTranslationsLists(InWords.Data.Domains.UserWordPair)">
             <summary>
-                Convert UserWorkPair to WordTranslation
+                Convert UserWorkPair to WordTranslationsList
             </summary>
             <param name="uwp"></param>
             <returns></returns>
