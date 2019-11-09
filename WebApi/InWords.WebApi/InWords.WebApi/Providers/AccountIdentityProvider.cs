@@ -31,6 +31,7 @@ namespace InWords.WebApi.Providers
         ///     This is to check user identity [FromBody]
         /// </summary>
         /// <param name="user"></param>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
         public Task<TokenResponse> GetIdentity(BasicAuthClaims user)
         {
@@ -57,6 +58,12 @@ namespace InWords.WebApi.Providers
             return GetIdentity(account);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="account"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <returns></returns>
         public async Task<TokenResponse> GetIdentity(Account account)
         {
             if (account == null)
