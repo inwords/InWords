@@ -1,11 +1,13 @@
 ﻿using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using MediatR;
 
 namespace InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId
 {
-    public class WordsIdsByGameIdHandler : RequestHandler<WordsIdsByGameQuery, WordsIdsByGameIdQueryResult>
+    public class WordsIdsByGameIdHandler : IRequestHandler<WordsIdsByGameQuery, WordsIdsByGameIdQueryResult>
     {
         private readonly InWordsDataContext context;
         public WordsIdsByGameIdHandler(InWordsDataContext context)
@@ -13,7 +15,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId
             this.context = context;
         }
 
-        protected override WordsIdsByGameIdQueryResult Handle(WordsIdsByGameQuery request)
+        public Task<WordsIdsByGameIdQueryResult> Handle(WordsIdsByGameQuery request, CancellationToken cancellationToken = default)
         {
             IQueryable<GameLevel> levelsQueryable = WhereCreationLevels(request);
 
@@ -21,7 +23,10 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId
 
             IQueryable<int> wordsId = levelWordsQueryable.Select(w => w.WordPairId);
 
-            return new WordsIdsByGameIdQueryResult { WordTranslationsList = wordsId.ToList() };
+            return Task.Run(() => new WordsIdsByGameIdQueryResult
+            {
+                WordTranslationsList = wordsId.ToList()
+            }, cancellationToken);
         }
 
         private IQueryable<GameLevelWord> WhereLevelWords(IQueryable<GameLevel> levelsQueryable)
