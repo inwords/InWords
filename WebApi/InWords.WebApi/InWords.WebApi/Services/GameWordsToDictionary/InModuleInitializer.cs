@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
+using InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId;
+using InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId;
 
 namespace InWords.WebApi.Services.GameWordsToDictionary
 {
@@ -7,7 +9,8 @@ namespace InWords.WebApi.Services.GameWordsToDictionary
     {
         public override void ConfigureIoc(ContainerBuilder builder)
         {
-            //builder.RegisterType<MyHandler>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<WordsIdsByGameIdHandler>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GameToUserHandler>().AsImplementedInterfaces().InstancePerDependency();
             //builder.RegisterType<FileLoader>().InstancePerLifetimeScope();
         }
     }
