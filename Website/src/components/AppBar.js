@@ -13,6 +13,12 @@ const AppBar = styled.header`
     !props.show
       ? 'transform .3s cubic-bezier(.4, 0, .2, 1), opacity 0s .3s'
       : 'transform .3s cubic-bezier(.4, 0, .6, 1) .3s'};
+  background-color: ${props =>
+    props.primary
+      ? props.theme.palette.primary.main
+      : props.theme.palette.background.paper};
+  color: ${props =>
+    props.primary ? props.theme.palette.primary.contrastText : 'inherit'};
   &::after {
     content: '';
     position: absolute;

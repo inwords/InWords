@@ -4,26 +4,25 @@ import { receiveUserInfo } from 'src/actions/userApiActions';
 
 function withReceivedUserInfo(WrappedComponent) {
   function WithReceivedUserInfo({ ...rest }) {
-    const {
-      account: { accountId, email },
-      nickname,
-      avatarPath
-    } = useSelector(store => store.userInfo);
+    const { userId, nickname, avatarPath, account } = useSelector(
+      store => store.userInfo
+    );
 
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-      if (!accountId) {
+      if (!account.accountId) {
         dispatch(receiveUserInfo());
       }
-    }, [accountId, dispatch]);
+    }, [account.accountId, dispatch]);
 
     return (
-      accountId && (
+      account.accountId && (
         <WrappedComponent
-          email={email}
+          userId={userId}
           nickname={nickname}
           avatarPath={avatarPath}
+          account={account}
           {...rest}
         />
       )

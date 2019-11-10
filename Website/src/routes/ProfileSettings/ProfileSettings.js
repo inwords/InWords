@@ -1,34 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(2),
-    padding: theme.spacing(2, 3, 3)
-  },
-  actionsContainer: {
-    marginTop: theme.spacing(2),
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-  submit: {
-    marginLeft: theme.spacing(2)
-  }
-}));
+const SettingsPaper = styled(Paper)`
+  margin-top: 16px;
+  padding: 16px 24px 24px;
+`;
+
+const ActionsContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const SubmitButton = styled(Button)`
+  margin-left: 16px;
+`;
 
 function ProfileSettings({ inputs, handleChange, handleSubmit }) {
-  const classes = useStyles();
-
   return (
     <Container component="div" maxWidth="sm">
-      <Paper className={classes.paper}>
+      <SettingsPaper>
         <Typography component="h1" variant="h5">
           Настройки профиля
         </Typography>
@@ -55,21 +53,16 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
             variant="filled"
             margin="normal"
           />
-          <div className={classes.actionsContainer}>
+          <ActionsContainer>
             <Button component={Link} to="/profile">
               Отмена
             </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
+            <SubmitButton type="submit" variant="contained" color="primary">
               Сохранить
-            </Button>
-          </div>
+            </SubmitButton>
+          </ActionsContainer>
         </form>
-      </Paper>
+      </SettingsPaper>
     </Container>
   );
 }

@@ -49,7 +49,7 @@ const RightContextBlock = styled(ContextBlock)`
 
 function Header({ mainRoutes, rightNodes, handleOpenDrawer }) {
   return (
-    <DynamicAppBar component="header" primary>
+    <DynamicAppBar primary>
       <Context>
         <ContextBlock>
           {handleOpenDrawer && (

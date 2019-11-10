@@ -28,6 +28,7 @@ function App() {
   const userId = useSelector(store => store.access.userId);
 
   return (
+    
     <Router history={history}>
       <ScrollToTop />
       <SmartSnackbar />

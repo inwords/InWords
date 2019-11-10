@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 import AppBar from 'src/components/AppBar';
 
-const PrimaryAppBar = styled(AppBar)`
-  background-color: ${props => props.theme.palette.primary.main};
-  color: ${props => props.theme.palette.primary.contrastText};
-`;
-
-function DynamicAppBar({ children }) {
+function DynamicAppBar({ children, ...rest }) {
   const [show, setShow] = React.useState(true);
   const prevScrollYRef = React.useRef(0);
 
@@ -37,7 +31,11 @@ function DynamicAppBar({ children }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [show]);
 
-  return <PrimaryAppBar show={show}>{children}</PrimaryAppBar>;
+  return (
+    <AppBar show={show} {...rest}>
+      {children}
+    </AppBar>
+  );
 }
 
 DynamicAppBar.propTypes = {

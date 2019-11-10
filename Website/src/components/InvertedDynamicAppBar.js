@@ -1,13 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 import AppBar from 'src/components/AppBar';
 
-const DefaultAppBar = styled(AppBar)`
-  background-color: ${props => props.theme.palette.background.paper};
-`;
-
-function InvertedDynamicAppBar({ children }) {
+function InvertedDynamicAppBar({ children, ...rest }) {
   const [show, setShow] = React.useState(false);
   const prevScrollYRef = React.useRef(0);
 
@@ -37,9 +32,9 @@ function InvertedDynamicAppBar({ children }) {
   }, [show]);
 
   return (
-    <DefaultAppBar as="div" show={show}>
+    <AppBar as="div" show={show} {...rest}>
       {children}
-    </DefaultAppBar>
+    </AppBar>
   );
 }
 
