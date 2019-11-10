@@ -1,7 +1,5 @@
-﻿using InWords.WebApi.Services.Email.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using InWords.WebApi.Services.Email.Models;
 using Xunit;
 
 namespace InWords.BLTests.Service.Email.Models
@@ -12,8 +10,8 @@ namespace InWords.BLTests.Service.Email.Models
         public async void LoadTestTemplateByEnam()
         {
             // preset
-            EmailTemplates template = EmailTemplates.TestEmail;
-            string expected = "<b>This is {test}</b>";
+            var template = EmailTemplates.TestEmail;
+            var expected = "<b>This is {test}</b>";
             // act
             string actual = await TemplateResolver.LoadTemplateAsync(template);
             // test
@@ -24,11 +22,11 @@ namespace InWords.BLTests.Service.Email.Models
         public async void ReplaceTemplateKeysByDictionary()
         {
             // preset
-            EmailTemplates template = EmailTemplates.TestEmail;
-            string expected = "<b>This is bar</b>";
-            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>()
+            var template = EmailTemplates.TestEmail;
+            var expected = "<b>This is bar</b>";
+            var keyValuePairs = new Dictionary<string, string>
             {
-                {"{test}","bar" }
+                {"{test}", "bar"}
             };
             // act
             string actual = await TemplateResolver.LoadTemplateAsync(template, keyValuePairs);

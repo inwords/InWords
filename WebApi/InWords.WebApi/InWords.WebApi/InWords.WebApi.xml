@@ -118,7 +118,16 @@
                 This is to delete more then one game at request
             </summary>
             <param name="ids">array of game to be deleted</param>
+            <response code="200">Count of deleted words</response>
             <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.AddWordsToUserDictionary(System.Int32)">
+            <summary>
+            Adds words to the user dictionary by GameId avoiding existing ones
+            </summary>
+            <param name="gameId">Game Id from which to take the words</param>
+            <response code="200">Count of added words</response>
+            <returns>Count of adding words</returns>
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
             <summary>
@@ -155,7 +164,7 @@
                 Everething about sync
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.SyncController.PullWordPairs(System.Collections.Generic.IEnumerable{System.Int32})">
+        <member name="M:InWords.WebApi.Controllers.v1.SyncController.PullWordPairs(System.Collections.Generic.List{System.Int32})">
             <summary>
                 Pull word pairs
             </summary>
@@ -348,6 +357,7 @@
                 This is to check user identity [FromBody]
             </summary>
             <param name="user"></param>
+            <exception cref="T:System.ArgumentException"></exception>
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(System.String,System.String)">
@@ -358,6 +368,13 @@
             <param name="password"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Data.Domains.Account)">
+            <summary>
+            </summary>
+            <param name="account"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetGameStarsAsync(System.Int32,InWords.Data.DTO.GameBox.GameObject)">
             <summary>
@@ -482,6 +499,11 @@
             </summary>
             <param name="gameId"></param>
             <returns></returns>
+        </member>
+        <member name="P:InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId.GameToUserQueryResult.WordsAdded">
+            <summary>
+                Total words added excluding existing ones
+            </summary>
         </member>
         <member name="M:InWords.WebApi.Services.UserWordPairService.Abstraction.KnowledgeLicenseProvider.Ebbinghaus(System.Int32,System.Double)">
             <summary>

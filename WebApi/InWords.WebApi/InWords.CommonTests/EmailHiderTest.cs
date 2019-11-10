@@ -1,12 +1,8 @@
 ﻿using InWords.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace InWords.BLTests.Service.Email.Models
 {
-
     public class EmailHiderTest
     {
         [Theory]
@@ -18,7 +14,6 @@ namespace InWords.BLTests.Service.Email.Models
         [InlineData("anonim", "an***@***")]
         [InlineData("@@@", "***@***")]
         [InlineData("", "***@***")]
-
         public void StandartEmailHideTest(string email, string expected)
         {
             // act

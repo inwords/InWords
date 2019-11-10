@@ -19,8 +19,9 @@ namespace InWords.WebApiTests.Models.CardGameParser
             string source = File.ReadAllText(filename);
             var parser = new TextParser(source);
             GamePack gameObject = parser.GetGameObject(1);
-            Assert.Equal("Ктo?",gameObject.CreationInfo.Descriptions[0].Title);
-            Assert.Equal("Вчера кто-то из бросминожек украл мои чернила! Ты поможешь мне узнать, кто это сделал? (местоимения)",
+            Assert.Equal("Ктo?", gameObject.CreationInfo.Descriptions[0].Title);
+            Assert.Equal(
+                "Вчера кто-то из бросминожек украл мои чернила! Ты поможешь мне узнать, кто это сделал? (местоимения)",
                 gameObject.CreationInfo.Descriptions[0].Description);
             Assert.Equal("Who?",
                 gameObject.CreationInfo.Descriptions[1].Title);

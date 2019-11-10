@@ -14,14 +14,14 @@ namespace InWords.Data.DTOTests.GameBox.LevelMetric
             var expected = new CardGameScore
             {
                 GameLevelId = 1,
-                WordPairIdOpenCounts = new Dictionary<int, int>() { { 2, 3 } }
+                WordPairIdOpenCounts = new Dictionary<int, int> {{2, 3}}
             };
 
-            Assert.Throws<NotSupportedException>(() => JsonSerializer.Serialize(expected)); 
+            Assert.Throws<NotSupportedException>(() => JsonSerializer.Serialize(expected));
             // replace when work and remove Add .AddNewtonsoftJson()
             // just after .AddControllers() / .AddMvc() or any other combination.
             // remove Microsoft.AspNetCore.Mvc.NewtonsoftJson
-            
+
             //string json = JsonSerializer.Serialize(expected);
             //var actual = JsonSerializer.Deserialize<CardGameScore>(json)
             //Assert.NotNull(actual);

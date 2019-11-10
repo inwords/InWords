@@ -6,7 +6,10 @@ using InWords.Data.Enums;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.GameService;
+using InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InWords.WebApi.Controllers.v1.CardsGame
@@ -22,6 +25,21 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Produces("application/json")]
     public class GameController : ControllerBase
     {
+        private readonly IMediator mediator;
+        private readonly CreationRepository creationRepository;
+        private readonly GameLevelWordService gameLevelWordService;
+        private readonly GameService gameService;
+
+        public GameController(CreationRepository creationRepository,
+            GameLevelWordService gameLevelWordService,
+            GameService gameService, IMediator mediator)
+        {
+            this.mediator = mediator;
+            this.creationRepository = creationRepository;
+            this.gameLevelWordService = gameLevelWordService;
+            this.gameService = gameService;
+        }
+
         /// <summary>
         ///     This is to add game pack from body use Game pack object
         /// </summary>
@@ -61,9 +79,10 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         /// <returns></returns>
         [Route("level/{id}")]
         [HttpGet]
-        public IActionResult GetLevel(int id)
+        public async Task<IActionResult> GetLevel(int id)
         {
-            Level answer = gameLevelWordService.GetLevelWordsAsync(id).Result;
+            Level answer = await gameLevelWordService.GetLevelWordsAsync(id)
+                .ConfigureAwait(false);
 
             return Ok(answer);
         }
@@ -77,6 +96,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         /// <returns></returns>
         [HttpDelete]
         [Route("Delete/{id}")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public Task<IActionResult> Delete(int id)
         {
             return DeleteRange(id);
@@ -86,9 +106,11 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         ///     This is to delete more then one game at request
         /// </summary>
         /// <param name="ids">array of game to be deleted</param>
+        /// <response code="200">Count of deleted words</response>
         /// <returns></returns>
         [HttpPost]
         [Route("DeleteRange")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteRange(params int[] ids)
         {
             int userId = User.GetUserId();
@@ -96,27 +118,50 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             string role = User.GetUserRole();
 
             int count = role == RoleType.Admin.ToString()
-                ? await creationRepository.DeleteGames(ids)
-                : await creationRepository.DeleteOwnGames(userId, ids);
+                ? await creationRepository.DeleteGames(ids).ConfigureAwait(false)
+                : await creationRepository.DeleteOwnGames(userId, ids).ConfigureAwait(false);
 
-            return count == 0 ? (IActionResult) NotFound("Zero object can be deleted") : Ok(count);
+            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }
 
-        #region Ctor
-
-        private readonly CreationRepository creationRepository;
-        private readonly GameLevelWordService gameLevelWordService;
-        private readonly GameService gameService;
-
-        public GameController(CreationRepository creationRepository,
-            GameLevelWordService gameLevelWordService,
-            GameService gameService)
+        /// <summary>
+        /// Adds words to the user dictionary by GameId avoiding existing ones
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /AddWordsToUserDictionary
+        ///     
+        ///     42 // id of the game
+        ///                
+        /// </remarks>
+        /// <param name="gameId">Game Id from which to take the words</param>
+        /// <response code="200">Count of added words</response>
+        /// <returns>Count of adding words</returns>
+        [HttpPost]
+        [Route("AddWordsToUserDictionary")]
+        [ProducesResponseType(typeof(GameToUserQueryResult), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddWordsToUserDictionary([FromBody] int gameId)
         {
-            this.creationRepository = creationRepository;
-            this.gameLevelWordService = gameLevelWordService;
-            this.gameService = gameService;
+            int userId = User.GetUserId();
+            var query = new GameToUserQuery(userId, gameId);
+            GameToUserQueryResult result = await mediator.Send(query).ConfigureAwait(false);
+            return Ok(result);
         }
-
-        #endregion
     }
 }
+
+///// <summary>
+///// Creates a TodoItem.
+///// </summary>
+///// <remarks>
+///// Sample request:
+/////
+/////     POST /Todo
+/////     {
+/////        "id": 1,
+/////        "name": "Item1",
+/////        "isComplete": true
+/////     }
+/////
+///// </remarks>

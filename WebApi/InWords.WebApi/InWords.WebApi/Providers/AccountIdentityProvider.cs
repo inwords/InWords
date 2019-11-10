@@ -31,6 +31,7 @@ namespace InWords.WebApi.Providers
         ///     This is to check user identity [FromBody]
         /// </summary>
         /// <param name="user"></param>
+        /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
         public Task<TokenResponse> GetIdentity(BasicAuthClaims user)
         {
@@ -44,7 +45,7 @@ namespace InWords.WebApi.Providers
         /// <param name="password"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<TokenResponse> GetIdentity(string email, string password)
+        public Task<TokenResponse> GetIdentity(string email, string password)
         {
             // find account by email
             Account account = accountRepository
@@ -54,18 +55,32 @@ namespace InWords.WebApi.Providers
                     u => u.User)
                 .SingleOrDefault();
 
+            return GetIdentity(account);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="account"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <returns></returns>
+        public async Task<TokenResponse> GetIdentity(Account account)
+        {
             if (account == null)
-                throw new ArgumentNullException($"Access denied {email}");
+                throw new ArgumentNullException("Access denied, Account is null");
+            if (account.Email == null)
+                throw new ArgumentNullException("Access denied, Email is null");
 
             account.User.LastLogin = DateTime.UtcNow;
-            await userRepository.Update(account.User);
+
+            await userRepository.Update(account.User)
+                .ConfigureAwait(false);
 
             var response = new TokenResponse(account.AccountId, account.Role);
 
             return response;
         }
 
-        public async Task<Account> CreateUserAccount(string email, string password)
+        public async Task<Account> CreateUserAccount(string email, string password, string nickName = "User")
         {
             byte[] saltedKey = passwordSalter.SaltPassword(password);
             var newAccount = new Account
@@ -79,7 +94,7 @@ namespace InWords.WebApi.Providers
 
             newAccount.User = new User
             {
-                NickName = "User",
+                NickName = nickName,
                 Experience = 0
             };
 

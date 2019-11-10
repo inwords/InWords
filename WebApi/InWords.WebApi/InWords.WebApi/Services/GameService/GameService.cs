@@ -16,9 +16,9 @@ namespace InWords.WebApi.Services.GameService
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
     public class GameService
     {
+        private readonly CreationRepository creationRepository;
         private readonly CreationService creationService;
         private readonly GameLevelService gameLevelService;
-        private readonly CreationRepository creationRepository;
 
         /// <summary>
         ///     Basic constructor
@@ -46,7 +46,8 @@ namespace InWords.WebApi.Services.GameService
             // Does not affect user experience
 
             // Add levels
-            foreach (LevelPack levelPack in gamePack.LevelPacks) await gameLevelService.AddLevelAsync(gameBox, levelPack).ConfigureAwait(false);
+            foreach (LevelPack levelPack in gamePack.LevelPacks)
+                await gameLevelService.AddLevelAsync(gameBox, levelPack).ConfigureAwait(false);
 
             var answer = new SyncBase(gameBox.CreationId);
 
@@ -55,17 +56,17 @@ namespace InWords.WebApi.Services.GameService
 
         public IEnumerable<GameInfo> GetGames()
         {
-            return (from creation in creationRepository.GetWhere(g => g.CreatorId == Creation.MainGames).ToList()
-                    let creationInfo = creationService.GetCreationInfo(creation.CreationId)
-                    let russianDescription = creationInfo.Descriptions.GetRus()
-                    select new GameInfo
-                    {
-                        CreatorId = creationInfo.CreatorId ?? 0,
-                        GameId = creation.CreationId,
-                        IsAvailable = true,
-                        Title = russianDescription.Title,
-                        Description = russianDescription.Description
-                    });
+            return from creation in creationRepository.GetWhere(g => g.CreatorId == Creation.MainGames).ToList()
+                let creationInfo = creationService.GetCreationInfo(creation.CreationId)
+                let russianDescription = creationInfo.Descriptions.GetRus()
+                select new GameInfo
+                {
+                    CreatorId = creationInfo.CreatorId ?? 0,
+                    GameId = creation.CreationId,
+                    IsAvailable = true,
+                    Title = russianDescription.Title,
+                    Description = russianDescription.Description
+                };
         }
 
         public Task<Creation> CreateGameBoxAsync(GamePack gamePack)

@@ -16,6 +16,11 @@ namespace InWords.Data
             RecreateDb();
         }
 
+        public InWordsDataContext(DbContextOptions<InWordsDataContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Account> Accounts { get; set; }
@@ -32,9 +37,9 @@ namespace InWords.Data
 
         public DbSet<CreationDescription> CreationDescriptions { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionBuilder.UseMySql(connectionString);
+            if (!optionsBuilder.IsConfigured) optionsBuilder.UseMySql(connectionString);
         }
 
         private void RecreateDb()

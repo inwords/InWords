@@ -44,14 +44,14 @@ namespace InWords.WebApi.Services.CardGame
         public async Task<IEnumerable<LevelScore>> SetResultsAsync(int userId, params CardGameScore[] cardGameScores)
         {
             // set sore;
-            IEnumerable<LevelScore> levelScores = 
+            IEnumerable<LevelScore> levelScores =
                 cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToHashSet();
 
             // save score to storage
             await gameScoreService.UploadScoreAsync(userId, levelScores).ConfigureAwait(false);
 
             // Calculate word metric;
-            IKnowledgeQualifier[] knowledgeQualifiers 
+            IKnowledgeQualifier[] knowledgeQualifiers
                 = cardGameScores.Select(k => new CardGameKnowledge(k) as IKnowledgeQualifier).ToArray();
 
             // update words pairs license in store

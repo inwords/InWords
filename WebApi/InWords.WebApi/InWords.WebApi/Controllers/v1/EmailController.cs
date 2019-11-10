@@ -117,7 +117,7 @@ namespace InWords.WebApi.Controllers.v1
             try
             {
                 await emailVerifierService.InstatiateVerifierMessage(account.User, account.Email)
-                        .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             catch (TimeoutException e)
             {

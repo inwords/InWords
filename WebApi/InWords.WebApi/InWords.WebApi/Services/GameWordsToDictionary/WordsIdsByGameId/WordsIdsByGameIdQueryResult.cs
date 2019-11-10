@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId
 {
     public class WordsIdsByGameIdQueryResult
     {
-        public List<int> WordsList { get; set; }
+        public List<int> WordTranslationsList { get; set; }
     }
 }

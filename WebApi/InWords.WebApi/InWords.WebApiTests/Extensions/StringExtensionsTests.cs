@@ -1,5 +1,5 @@
-﻿using Xunit;
-using InWords.WebApi.Extensions;
+﻿using InWords.WebApi.Extensions;
+using Xunit;
 
 namespace InWords.WebApiTests.Extensions
 {
