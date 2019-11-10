@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
@@ -16,16 +17,15 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId
             this.context = context;
         }
 
-        public Task<WordsIdsByGameIdQueryResult> Handle(WordsIdsByGameQuery request, CancellationToken cancellationToken = default)
+        public async Task<WordsIdsByGameIdQueryResult> Handle(WordsIdsByGameQuery request, CancellationToken cancellationToken = default)
         {
-            IQueryable<GameLevel> levelsQueryable = context.GameLevels.Levels(request.Id);
-            IQueryable<GameLevelWord> levelWordsQueryable = context.GameLevelWords.Words(levelsQueryable);
-            IQueryable<int> wordsId = levelWordsQueryable.AsNoTracking().Select(w => w.WordPairId);
+            IQueryable<int> wordsId = context.WordsInGame(request.Id);
+            List<int> wordsIdList = await wordsId.ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
-            return Task.Run(() => new WordsIdsByGameIdQueryResult
+            return new WordsIdsByGameIdQueryResult
             {
-                WordTranslationsList = wordsId.ToList()
-            }, cancellationToken);
+                WordTranslationsList = wordsIdList
+            };
         }
     }
 }

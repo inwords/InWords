@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InWords.Data;
 using InWords.Data.Creations.GameBox;
+using Microsoft.EntityFrameworkCore;
 
 namespace InWords.WebApi.Services.GameWordsToDictionary
 {
     public static class InWordsContextExtension
     {
+        public static IQueryable<int> WordsInGame(this InWordsDataContext context, int id)
+        {
+            IQueryable<GameLevel> levelsQueryable = context.GameLevels.Levels(id);
+            IQueryable<GameLevelWord> levelWordsQueryable = context.GameLevelWords.Words(levelsQueryable);
+            return levelWordsQueryable.AsNoTracking().Select(w => w.WordPairId);
+        }
         public static IQueryable<GameLevel> Levels(this IQueryable<GameLevel> gameLevels, int id)
         {
             return gameLevels.Where(gl => gl.GameBoxId.Equals(id));
