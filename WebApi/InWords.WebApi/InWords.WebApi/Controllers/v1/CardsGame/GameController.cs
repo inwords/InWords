@@ -127,6 +127,14 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         /// <summary>
         /// Adds words to the user dictionary by GameId avoiding existing ones
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /AddWordsToUserDictionary
+        ///     
+        ///     42 // id of the game
+        ///                
+        /// </remarks>
         /// <param name="gameId">Game Id from which to take the words</param>
         /// <response code="200">Count of added words</response>
         /// <returns>Count of adding words</returns>
@@ -142,3 +150,18 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         }
     }
 }
+
+///// <summary>
+///// Creates a TodoItem.
+///// </summary>
+///// <remarks>
+///// Sample request:
+/////
+/////     POST /Todo
+/////     {
+/////        "id": 1,
+/////        "name": "Item1",
+/////        "isComplete": true
+/////     }
+/////
+///// </remarks>

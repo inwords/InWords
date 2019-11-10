@@ -20,28 +20,43 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId
         public async Task<GameToUserQueryResult> Handle(GameToUserQuery request,
             CancellationToken cancellationToken = default)
         {
+            // find user word pairs
+            IQueryable<UserWordPair> userWordPairs = FindUserWordPairs(request);
+
+            // add to user words
+            await context.UserWordPairs.AddRangeAsync(userWordPairs, cancellationToken).ConfigureAwait(false);
+
+            // cache changes count
+            int count = await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            // return count
+            return new GameToUserQueryResult
+            {
+                WordsAdded = count
+            };
+        }
+
+        private IQueryable<UserWordPair> FindUserWordPairs(GameToUserQuery request)
+        {
             // find words
             IQueryable<int> wordsId = context.WordsInGame(request.CreationId);
 
-            // exclude existing words
+            // find user words
             IQueryable<int> userWords = UserWords(context.UserWordPairs, request.UserId);
-            wordsId = wordsId.Except(userWords);
 
-            IQueryable<UserWordPair> userWordPairs = wordsId.Select(w =>
+            // exclude existing words
+            wordsId = wordsId.Where(w => !userWords.Any(u => u.Equals(w)));
+
+            return SelectUserWordPairs(request, wordsId); ;
+        }
+
+        private static IQueryable<UserWordPair> SelectUserWordPairs(GameToUserQuery request, IQueryable<int> wordsId)
+        {
+            return wordsId.Select(w =>
                 new UserWordPair
                 {
                     WordPairId = w,
                     UserId = request.UserId
                 });
-
-            // add to user words
-            await context.UserWordPairs.AddRangeAsync(userWordPairs, cancellationToken).ConfigureAwait(false);
-
-            // return count
-            return new GameToUserQueryResult
-            {
-                WordsAdded = wordsId.Count()
-            };
         }
 
         private IQueryable<int> UserWords(DbSet<UserWordPair> userWordPairs, int userId)
