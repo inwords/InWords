@@ -18,7 +18,8 @@ namespace InWords.Data
 
         public InWordsDataContext(DbContextOptions<InWordsDataContext> options)
             : base(options)
-        { }
+        {
+        }
 
         public DbSet<User> Users { get; set; }
 
@@ -38,10 +39,7 @@ namespace InWords.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseMySql(connectionString);
-            }
+            if (!optionsBuilder.IsConfigured) optionsBuilder.UseMySql(connectionString);
         }
 
         private void RecreateDb()

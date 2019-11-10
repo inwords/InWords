@@ -12,10 +12,7 @@ namespace InWords.WebApi.Services.BaseDataContext
         public override void ConfigureIoc(ContainerBuilder builder)
         {
             var connection = "ProductionConnection";
-            if (Environment.IsDevelopment())
-            {
-                connection = "DefaultConnection";
-            }
+            if (Environment.IsDevelopment()) connection = "DefaultConnection";
 
             // register context
             builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString(connection)))
@@ -24,7 +21,8 @@ namespace InWords.WebApi.Services.BaseDataContext
             // register repositories
             Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
             builder.RegisterAssemblyTypes(repositoryAssembly)
-                .Where(a => a.Namespace != null && (a.Name.EndsWith("Repository") && a.Namespace.StartsWith("InWords.Data")))
+                .Where(a => a.Namespace != null && a.Name.EndsWith("Repository") &&
+                            a.Namespace.StartsWith("InWords.Data"))
                 .InstancePerLifetimeScope();
         }
     }

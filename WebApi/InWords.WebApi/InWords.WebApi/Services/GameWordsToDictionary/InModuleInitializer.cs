@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
-using InWords.WebApi.Services.FtpLoader.Model;
 
 namespace InWords.WebApi.Services.GameWordsToDictionary
 {

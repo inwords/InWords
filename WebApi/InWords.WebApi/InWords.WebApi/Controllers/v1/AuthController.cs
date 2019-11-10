@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using InWords.Data.Domains;
 using InWords.Data.Repositories;
@@ -86,7 +85,8 @@ namespace InWords.WebApi.Controllers.v1
 
         private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {
-            string username = basicAuthClaims.Email.Remove(basicAuthClaims.Email.IndexOf("@", StringComparison.Ordinal));
+            string username =
+                basicAuthClaims.Email.Remove(basicAuthClaims.Email.IndexOf("@", StringComparison.Ordinal));
 
             //Create account in repository;
             Account account = await accountIdentityProvider
@@ -97,7 +97,7 @@ namespace InWords.WebApi.Controllers.v1
             await emailVerifierService
                 .InstatiateVerifierMessage(account.AccountId, username, basicAuthClaims.Email)
                 .ConfigureAwait(false);
-            
+
             // create and return token
             return await accountIdentityProvider.GetIdentity(account).ConfigureAwait(false);
         }

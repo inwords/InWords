@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +13,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary
             IQueryable<GameLevelWord> levelWordsQueryable = context.GameLevelWords.Words(levelsQueryable);
             return levelWordsQueryable.AsNoTracking().Select(w => w.WordPairId).Distinct();
         }
+
         public static IQueryable<GameLevel> Levels(this IQueryable<GameLevel> gameLevels, int id)
         {
             return gameLevels.Where(gl => gl.GameBoxId.Equals(id));

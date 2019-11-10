@@ -1,9 +1,7 @@
-﻿using InWords.WebApi.Services.UserWordPairService;
+﻿using System;
+using InWords.WebApi.Services.UserWordPairService;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace InWords.BLTests.Service.UserWordPairService
@@ -14,10 +12,10 @@ namespace InWords.BLTests.Service.UserWordPairService
         public void EasyToRememberBehavior()
         {
             // prep
-            KnowledgeLicenseManager licenseManager = new KnowledgeLicenseManager();
-            KnowledgeLicense knowledgeLicense = new KnowledgeLicense();
-            KnowledgeQualitys knowledgeQuality = KnowledgeQualitys.EasyToRemember;
-            int expectedPeriod = 1;
+            var licenseManager = new KnowledgeLicenseManager();
+            var knowledgeLicense = new KnowledgeLicense();
+            var knowledgeQuality = KnowledgeQualitys.EasyToRemember;
+            var expectedPeriod = 1;
             // act
             KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
             bool expectedTimeLarger = UpdatedKnowledgeLicense.RepeatTime > DateTime.UtcNow;
@@ -32,32 +30,14 @@ namespace InWords.BLTests.Service.UserWordPairService
         public void EasyToRememberButEarlyRepeatGranting()
         {
             // prep
-            KnowledgeLicenseManager licenseManager = new KnowledgeLicenseManager();
-            KnowledgeLicense knowledgeLicense = new KnowledgeLicense()
+            var licenseManager = new KnowledgeLicenseManager();
+            var knowledgeLicense = new KnowledgeLicense
             {
                 Period = 0,
                 RepeatTime = DateTime.MaxValue
             };
-            KnowledgeQualitys knowledgeQuality = KnowledgeQualitys.EasyToRemember;
-            int expectedPeriod = 0;
-            // act
-            KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
-            // assert
-            Assert.Equal(expectedPeriod, UpdatedKnowledgeLicense.Period);
-        }
-
-        [Fact]
-        public void StillRememberBehavior()
-        {
-            // prep
-            KnowledgeLicenseManager licenseManager = new KnowledgeLicenseManager();
-            KnowledgeLicense knowledgeLicense = new KnowledgeLicense()
-            {
-                Period = 1,
-                RepeatTime = DateTime.Now
-            };
-            KnowledgeQualitys knowledgeQuality = KnowledgeQualitys.StillRemember;
-            int expectedPeriod = 1;
+            var knowledgeQuality = KnowledgeQualitys.EasyToRemember;
+            var expectedPeriod = 0;
             // act
             KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
             // assert
@@ -68,14 +48,32 @@ namespace InWords.BLTests.Service.UserWordPairService
         public void NoLongerRememberBehavior()
         {
             // prep
-            KnowledgeLicenseManager licenseManager = new KnowledgeLicenseManager();
-            KnowledgeLicense knowledgeLicense = new KnowledgeLicense()
+            var licenseManager = new KnowledgeLicenseManager();
+            var knowledgeLicense = new KnowledgeLicense
             {
                 Period = 1,
                 RepeatTime = DateTime.Now
             };
-            KnowledgeQualitys knowledgeQuality = KnowledgeQualitys.NoLongerRemember;
-            int expectedPeriod = 0;
+            var knowledgeQuality = KnowledgeQualitys.NoLongerRemember;
+            var expectedPeriod = 0;
+            // act
+            KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
+            // assert
+            Assert.Equal(expectedPeriod, UpdatedKnowledgeLicense.Period);
+        }
+
+        [Fact]
+        public void StillRememberBehavior()
+        {
+            // prep
+            var licenseManager = new KnowledgeLicenseManager();
+            var knowledgeLicense = new KnowledgeLicense
+            {
+                Period = 1,
+                RepeatTime = DateTime.Now
+            };
+            var knowledgeQuality = KnowledgeQualitys.StillRemember;
+            var expectedPeriod = 1;
             // act
             KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
             // assert

@@ -79,9 +79,7 @@ namespace InWords.WebApi.Services
         {
             var wordsRemoved = 0;
             foreach (int uwpId in userWordPairIDs)
-            {
                 wordsRemoved += await DeleteUserWordPairAsync(userId, uwpId).ConfigureAwait(false);
-            }
 
             return wordsRemoved;
         }
@@ -126,7 +124,8 @@ namespace InWords.WebApi.Services
             return resultPair;
         }
 
-        public async Task<List<SyncBase>> UpdateUserWordPairAsync(int userId, Dictionary<int, WordTranslation> wordTranslations)
+        public async Task<List<SyncBase>> UpdateUserWordPairAsync(int userId,
+            Dictionary<int, WordTranslation> wordTranslations)
         {
             var syncBase = new List<SyncBase>(wordTranslations.Count);
             foreach (KeyValuePair<int, WordTranslation> wordTranslation in wordTranslations)

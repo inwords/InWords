@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
@@ -12,11 +11,14 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId
     public class GameToUserHandler : IRequestHandler<GameToUserQuery, GameToUserQueryResult>
     {
         private readonly InWordsDataContext context;
+
         public GameToUserHandler(InWordsDataContext context)
         {
             this.context = context;
         }
-        public async Task<GameToUserQueryResult> Handle(GameToUserQuery request, CancellationToken cancellationToken = default)
+
+        public async Task<GameToUserQueryResult> Handle(GameToUserQuery request,
+            CancellationToken cancellationToken = default)
         {
             // find words
             IQueryable<int> wordsId = context.WordsInGame(request.CreationId);
@@ -26,7 +28,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId
             wordsId = wordsId.Except(userWords);
 
             IQueryable<UserWordPair> userWordPairs = wordsId.Select(w =>
-                new UserWordPair()
+                new UserWordPair
                 {
                     WordPairId = w,
                     UserId = request.UserId
@@ -36,7 +38,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId
             await context.UserWordPairs.AddRangeAsync(userWordPairs, cancellationToken).ConfigureAwait(false);
 
             // return count
-            return new GameToUserQueryResult()
+            return new GameToUserQueryResult
             {
                 WordsAdded = wordsId.Count()
             };

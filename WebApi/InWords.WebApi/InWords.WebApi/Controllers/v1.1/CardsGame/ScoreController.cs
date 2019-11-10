@@ -53,10 +53,10 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
                 if (cardGameScore.GameLevelId <= 0)
                     cardGameScore.GameLevelId =
                         await levelCreator.CreateUserLevelAsync(authorizedId, games).ConfigureAwait(false);
-                
+
                 // save scores
                 answer = await gameResultService.SetResultsAsync(authorizedId, cardGameScore)
-                                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
             }
             catch (ArgumentNullException e)
             {

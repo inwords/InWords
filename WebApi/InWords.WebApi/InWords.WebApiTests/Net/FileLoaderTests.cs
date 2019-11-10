@@ -2,12 +2,11 @@
 
 namespace InWords.WebApiTests.Net
 {
-   public class FileLoaderTests
+    public class FileLoaderTests
     {
         [Fact]
         public void TestConnection()
         {
-
         }
     }
 }

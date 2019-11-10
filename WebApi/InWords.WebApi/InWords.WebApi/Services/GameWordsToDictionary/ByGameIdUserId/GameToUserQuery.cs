@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId;
-using MediatR;
+﻿using MediatR;
 
 namespace InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId
 {
     public class GameToUserQuery : IRequest<GameToUserQueryResult>
     {
-        public int UserId { get; set; }
-        public int CreationId { get; set; }
         public GameToUserQuery(int userId, int creationId)
         {
             UserId = userId;
             CreationId = creationId;
         }
+
+        public int UserId { get; set; }
+        public int CreationId { get; set; }
     }
 }

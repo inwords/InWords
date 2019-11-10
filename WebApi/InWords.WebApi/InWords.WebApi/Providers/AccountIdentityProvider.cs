@@ -59,7 +59,6 @@ namespace InWords.WebApi.Providers
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="account"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -67,12 +66,12 @@ namespace InWords.WebApi.Providers
         public async Task<TokenResponse> GetIdentity(Account account)
         {
             if (account == null)
-                throw new ArgumentNullException($"Access denied, Account is null");
+                throw new ArgumentNullException("Access denied, Account is null");
             if (account.Email == null)
-                throw new ArgumentNullException($"Access denied, Email is null");
+                throw new ArgumentNullException("Access denied, Email is null");
 
             account.User.LastLogin = DateTime.UtcNow;
-            
+
             await userRepository.Update(account.User)
                 .ConfigureAwait(false);
 

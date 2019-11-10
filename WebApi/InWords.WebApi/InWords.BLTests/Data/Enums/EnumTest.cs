@@ -1,7 +1,4 @@
 ﻿using InWords.Data.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace InWords.BLTests.Data.Enums
@@ -12,9 +9,9 @@ namespace InWords.BLTests.Data.Enums
         public void EnumToStringTest()
         {
             // prep
-            string expected = "Admin";
-            RoleType fooBar = RoleType.Admin;
-            
+            var expected = "Admin";
+            var fooBar = RoleType.Admin;
+
             // act
             string nameOfString = nameof(RoleType.Admin);
             string toStringString = fooBar.ToString();
@@ -25,6 +22,5 @@ namespace InWords.BLTests.Data.Enums
             Assert.Equal(expected, toStringString);
             Assert.Equal(expected, interpString);
         }
-
     }
 }

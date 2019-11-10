@@ -1,12 +1,13 @@
-﻿using InWords.Data.Domains;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Services.Email;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
+
 namespace InWords.BLTests.Service.Email
 {
     public class EmailCodeSenderServiceTest
@@ -14,9 +15,9 @@ namespace InWords.BLTests.Service.Email
         private IEmailVerifierRepository InitilizeEmailRepo(int userId, int secondsTimeout)
         {
             var mock = new Mock<IEmailVerifierRepository>();
-            mock.Setup(a => a.GetWhere(It.IsAny<Func<EmailVerifies, bool>>())).Returns(new List<EmailVerifies>()
+            mock.Setup(a => a.GetWhere(It.IsAny<Func<EmailVerifies, bool>>())).Returns(new List<EmailVerifies>
             {
-                new EmailVerifies()
+                new EmailVerifies
                 {
                     SentTime = DateTime.UtcNow.AddSeconds(-secondsTimeout),
                     UserId = userId
@@ -30,10 +31,10 @@ namespace InWords.BLTests.Service.Email
         public void GetTimeoutTests(int seconds)
         {
             // Arrange
-            int userId = 0;
+            var userId = 0;
             int expectedSeconds = EmailCodeSenderService.EMAIL_TIMEOUT * 60 - seconds;
-            var repo = InitilizeEmailRepo(userId, seconds);
-            EmailCodeSenderService emailCodeSenderService = new EmailCodeSenderService(repo, null);
+            IEmailVerifierRepository repo = InitilizeEmailRepo(userId, seconds);
+            var emailCodeSenderService = new EmailCodeSenderService(repo, null);
             // act
             int actualSeconds = emailCodeSenderService.GetTimeout(userId);
             // assert
@@ -43,15 +44,16 @@ namespace InWords.BLTests.Service.Email
         [Fact]
         public async Task TrySendEmailOnTimeout()
         {
-            int userId = 0;
-            User user = new User
+            var userId = 0;
+            var user = new User
             {
                 UserId = userId
             };
-            int seconds = 3;
-            var repo = InitilizeEmailRepo(userId, seconds);
-            EmailCodeSenderService emailCodeSenderService = new EmailCodeSenderService(repo, null);
-            await Assert.ThrowsAsync<TimeoutException>(() => (emailCodeSenderService.SendCodeByEmail(user, "email", 0, "Link")));
+            var seconds = 3;
+            IEmailVerifierRepository repo = InitilizeEmailRepo(userId, seconds);
+            var emailCodeSenderService = new EmailCodeSenderService(repo, null);
+            await Assert.ThrowsAsync<TimeoutException>(() =>
+                emailCodeSenderService.SendCodeByEmail(user, "email", 0, "Link"));
         }
     }
 }

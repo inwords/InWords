@@ -58,7 +58,7 @@ namespace InWords.WebApi.AppStart
         {
             // Mvc and controllers mapping
             services
-                .AddMvc(o=> o.EnableEndpointRouting = false)
+                .AddMvc(o => o.EnableEndpointRouting = false)
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
@@ -132,9 +132,8 @@ namespace InWords.WebApi.AppStart
 
             // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .Where(a => a.Namespace != null && (a.Name.EndsWith("Service")
-                                                    && a.Namespace.StartsWith("InWords.WebApi.Services")
-                                                    && !a.Namespace.Contains("Abstractions")))
+                .Where(a => a.Namespace != null && a.Name.EndsWith("Service") &&
+                            a.Namespace.StartsWith("InWords.WebApi.Services") && !a.Namespace.Contains("Abstractions"))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
@@ -151,7 +150,6 @@ namespace InWords.WebApi.AppStart
                 var c = context.Resolve<IComponentContext>();
                 return t => c.Resolve(t);
             });
-
         }
 
         /// <summary>

@@ -39,7 +39,8 @@ namespace InWords.WebApi.Controllers.v1
 
             int authorizedId = User.GetUserId();
 
-            List<SyncBase> answer = await wordsService.AddPairAsync(authorizedId, wordTranslations).ConfigureAwait(false);
+            List<SyncBase> answer =
+                await wordsService.AddPairAsync(authorizedId, wordTranslations).ConfigureAwait(false);
 
             return Ok(answer);
         }
@@ -51,7 +52,8 @@ namespace InWords.WebApi.Controllers.v1
         {
             int authorizedId = User.GetUserId();
 
-            List<SyncBase> answer = await wordsService.UpdateUserWordPairAsync(authorizedId, wordTranslations).ConfigureAwait(false);
+            List<SyncBase> answer = await wordsService.UpdateUserWordPairAsync(authorizedId, wordTranslations)
+                .ConfigureAwait(false);
 
             return Ok(answer);
         }
