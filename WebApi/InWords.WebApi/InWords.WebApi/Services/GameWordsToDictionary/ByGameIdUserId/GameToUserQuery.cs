@@ -11,5 +11,10 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId
     {
         public int UserId { get; set; }
         public int CreationId { get; set; }
+        public GameToUserQuery(int userId, int creationId)
+        {
+            UserId = userId;
+            CreationId = creationId;
+        }
     }
 }

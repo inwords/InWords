@@ -16,7 +16,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId
         {
             this.context = context;
         }
-        public async Task<GameToUserQueryResult> Handle(GameToUserQuery request, CancellationToken cancellationToken)
+        public async Task<GameToUserQueryResult> Handle(GameToUserQuery request, CancellationToken cancellationToken = default)
         {
             // find words
             IQueryable<int> wordsId = context.WordsInGame(request.CreationId);

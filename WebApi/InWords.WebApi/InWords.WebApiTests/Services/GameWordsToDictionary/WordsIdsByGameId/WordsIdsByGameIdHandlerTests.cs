@@ -9,7 +9,7 @@ using Xunit;
 
 namespace InWords.WebApiTests.Services.GameWordsToDictionary.WordsIdsByGameId
 {
-    public class WordsIdsByGameQueryTests
+    public class WordsIdsByGameIdHandlerTests
     {
         [Fact]
         public async void HandleWords()
@@ -22,7 +22,9 @@ namespace InWords.WebApiTests.Services.GameWordsToDictionary.WordsIdsByGameId
             context.GameLevels.Add(new GameLevel() { GameLevelId = 1, GameBoxId = 1 });
             context.GameLevels.Add(new GameLevel() { GameLevelId = 2, GameBoxId = 1 });
             context.GameLevelWords.Add(new GameLevelWord() { GameLevelId = 1, GameLevelWordId = 1, WordPairId = 1 });
-            context.GameLevelWords.Add(new GameLevelWord() { GameLevelId = 2, GameLevelWordId = 2, WordPairId = 2 });
+            context.GameLevelWords.Add(new GameLevelWord() { GameLevelId = 2, GameLevelWordId = 2, WordPairId = 1 });
+            context.GameLevelWords.Add(new GameLevelWord() { GameLevelId = 2, GameLevelWordId = 3, WordPairId = 2 });
+
             context.SaveChanges();
 
             var words = new WordsIdsByGameIdHandler(context);

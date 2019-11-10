@@ -14,7 +14,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary
         {
             IQueryable<GameLevel> levelsQueryable = context.GameLevels.Levels(id);
             IQueryable<GameLevelWord> levelWordsQueryable = context.GameLevelWords.Words(levelsQueryable);
-            return levelWordsQueryable.AsNoTracking().Select(w => w.WordPairId);
+            return levelWordsQueryable.AsNoTracking().Select(w => w.WordPairId).Distinct();
         }
         public static IQueryable<GameLevel> Levels(this IQueryable<GameLevel> gameLevels, int id)
         {
