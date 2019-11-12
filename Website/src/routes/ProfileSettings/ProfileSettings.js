@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
-const SettingsPaper = styled(Paper)`
-  margin-top: 16px;
-  padding: 16px 24px 24px;
-`;
+import FormPaper from 'src/components/FormPaper';
 
 const ActionsContainer = styled.div`
   margin-top: 16px;
@@ -26,7 +21,7 @@ const SubmitButton = styled(Button)`
 function ProfileSettings({ inputs, handleChange, handleSubmit }) {
   return (
     <Container component="div" maxWidth="sm">
-      <SettingsPaper>
+      <FormPaper>
         <Typography component="h1" variant="h5">
           Настройки профиля
         </Typography>
@@ -62,7 +57,7 @@ function ProfileSettings({ inputs, handleChange, handleSubmit }) {
             </SubmitButton>
           </ActionsContainer>
         </form>
-      </SettingsPaper>
+      </FormPaper>
     </Container>
   );
 }

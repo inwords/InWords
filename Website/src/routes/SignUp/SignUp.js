@@ -1,38 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
-
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: theme.spacing(3)
-  },
-  submit: {
-    marginTop: theme.spacing(2)
-  },
-  linksContainer: {
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    justifyContent: 'flex-end'
-  }
-}));
+import EntryFormPaper from 'src/components/EntryFormPaper';
+import EntryLinksContainer from 'src/components/EntryLinksContainer';
+import EntrySubmitButton from 'src/components/EntrySubmitButton';
 
 function SignUp({ inputs, handleChange, handleSubmit }) {
-  const classes = useStyles();
-
   return (
     <Container maxWidth="xs">
-      <Paper elevation={1} className={classes.paper}>
+      <EntryFormPaper>
         <Typography component="h1" variant="h5" gutterBottom>
           Регистрация
         </Typography>
@@ -63,22 +43,21 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             variant="outlined"
             fullWidth
           />
-          <Button
+          <EntrySubmitButton
             type="submit"
             variant="contained"
             color="primary"
             fullWidth
-            className={classes.submit}
           >
             Зарегистрироваться
-          </Button>
-          <div className={classes.linksContainer}>
+          </EntrySubmitButton>
+          <EntryLinksContainer>
             <Link component={RouterLink} to="/signIn" variant="body2">
               Уже есть аккаунт? Войти
             </Link>
-          </div>
+          </EntryLinksContainer>
         </form>
-      </Paper>
+      </EntryFormPaper>
     </Container>
   );
 }

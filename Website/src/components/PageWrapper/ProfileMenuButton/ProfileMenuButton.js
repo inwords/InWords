@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,7 +12,7 @@ function ProfileMenuButton({ handleLogout }) {
   const { anchorEl, handleClick, handleClose } = useMenu();
 
   return (
-    <>
+    <Fragment>
       <IconButton
         aria-label="user account"
         aria-controls="profile-menu"
@@ -48,7 +48,7 @@ function ProfileMenuButton({ handleLogout }) {
           Выйти
         </MenuItem>
       </Menu>
-    </>
+    </Fragment>
   );
 }
 

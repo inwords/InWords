@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -53,16 +53,16 @@ function DictionaryToolbar({
   return (
     <div className={classes.root}>
       {!editingModeEnabled ? (
-        <>
+        <Fragment>
           <div className={clsx(classes.titleBlock, classes.normalTitleBlock)}>
             <Typography component="h1" variant="h6">
               Словарь
             </Typography>
           </div>
           <Search value={inputs.pattern} onChange={handleChange} />
-        </>
+        </Fragment>
       ) : (
-        <>
+        <Fragment>
           <IconButton
             edge="start"
             aria-label="clear selection"
@@ -92,7 +92,7 @@ function DictionaryToolbar({
             disabled={numberOfChecked === 0}
             checkedValues={checkedValues}
           />
-        </>
+        </Fragment>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -73,10 +73,10 @@ function TrainingsNavigation({
   );
 
   return (
-    <>
+    <Fragment>
       <InvertedDynamicAppBar>{navigation}</InvertedDynamicAppBar>
       {navigation}
-    </>
+    </Fragment>
   );
 }
 
@@ -84,4 +84,4 @@ TrainingsNavigation.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default memo(withRouter(TrainingsNavigation));
+export default React.memo(withRouter(TrainingsNavigation));

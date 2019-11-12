@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 const colorPairs = [
@@ -21,7 +21,7 @@ const colorPairs = [
 
 const emoticons = {
   3: (
-    <>
+    <Fragment>
       <ellipse rx="30" ry="40" cx="100" cy="120" fill="white" />
       <ellipse rx="30" ry="43" cx="170" cy="118" fill="white" />
       <circle r="10" cx="100" cy="115" fill="black" />
@@ -34,10 +34,10 @@ const emoticons = {
         fill="black"
         transform="rotate(-1, 135, 210)"
       />
-    </>
+    </Fragment>
   ),
   2: (
-    <>
+    <Fragment>
       <ellipse rx="30" ry="34" cx="100" cy="130" fill="white" />
       <ellipse rx="33" ry="38" cx="170" cy="130" fill="white" />
       <circle r="10" cx="100" cy="125" fill="black" />
@@ -50,10 +50,10 @@ const emoticons = {
         fill="black"
         transform="rotate(-1, 135, 210)"
       />
-    </>
+    </Fragment>
   ),
   1: (
-    <>
+    <Fragment>
       <circle r="30" cx="100" cy="130" fill="white" />
       <circle r="35" cx="170" cy="130" fill="white" />
       <circle r="10" cx="100" cy="130" fill="black" />
@@ -66,10 +66,10 @@ const emoticons = {
         fill="black"
         transform="rotate(-1, 135, 210)"
       />
-    </>
+    </Fragment>
   ),
   0: (
-    <>
+    <Fragment>
       <circle r="30" cx="100" cy="130" fill="white" />
       <circle r="35" cx="170" cy="130" fill="white" />
       <circle r="10" cx="100" cy="135" fill="black" />
@@ -82,7 +82,7 @@ const emoticons = {
         fill="black"
         transform="rotate(5, 135, 210)"
       />
-    </>
+    </Fragment>
   )
 };
 

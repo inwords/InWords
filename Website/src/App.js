@@ -24,11 +24,21 @@ const SelectTranslateTraining = lazy(() =>
 
 const history = createBrowserHistory();
 
+const dictionarySideRoutes = [
+  {
+    to: '/dictionary/my',
+    text: 'Мой словарь'
+  },
+  {
+    to: '/dictionary/wordSets',
+    text: 'Наборы слов'
+  }
+];
+
 function App() {
   const userId = useSelector(store => store.access.userId);
 
   return (
-    
     <Router history={history}>
       <ScrollToTop />
       <SmartSnackbar />
@@ -42,7 +52,7 @@ function App() {
                 !userId ? (
                   <Redirect to="/signIn" />
                 ) : (
-                  <Redirect to="/dictionary" />
+                  <Redirect to="/dictionary/my" />
                 )
               }
             />
@@ -76,8 +86,8 @@ function App() {
                 <Account />
               </PageWrapper>
             </Route>
-            <Route path="/dictionary">
-              <PageWrapper authorized>
+            <Route path="/dictionary/my">
+              <PageWrapper authorized sideRoutes={dictionarySideRoutes}>
                 <Dictionary />
               </PageWrapper>
             </Route>

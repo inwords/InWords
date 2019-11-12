@@ -1,43 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { NavLink as RouterNavLink } from 'react-router-dom';
+import styled from '@emotion/styled';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
-const useStyles = makeStyles(theme => ({
-  listItem: {
-    padding: 0
-  },
-  link: {
-    margin: 0,
-    padding: '10px 24px',
-    width: '100%',
-    fontWeight: '400',
-    textDecoration: 'none',
-    color: theme.palette.text.primary
-  },
-  activeLink: {
-    fontWeight: '500',
-    color: theme.palette.primary.main
+const NavListItem = styled(ListItem)`
+  padding: 0;
+`;
+
+const NavLink = styled(RouterNavLink)`
+  margin: 0;
+  padding: 10px 24px;
+  width: 100%;
+  font-weight: 400;
+  text-decoration: none;
+  color: ${props => props.theme.palette.text.primary};
+  &.active {
+    font-weight: 500;
+    color: ${props => props.theme.palette.primary.main};
   }
-}));
+`;
 
 function SideNavList({ sideRoutes }) {
-  const classes = useStyles();
-
   return (
     <List>
       {sideRoutes.map(({ to, text }) => (
-        <ListItem key={to} component="li" button className={classes.listItem}>
-          <NavLink
-            to={to}
-            className={classes.link}
-            activeClassName={classes.activeLink}
-          >
+        <NavListItem key={to} component="li" button>
+          <NavLink to={to} activeClassName="active">
             {text}
           </NavLink>
-        </ListItem>
+        </NavListItem>
       ))}
     </List>
   );

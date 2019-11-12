@@ -10,17 +10,17 @@ function DynamicAppBar({ children, ...rest }) {
     const handleScroll = () => {
       const currentScrollY = window.pageYOffset;
 
-      if (prevScrollYRef.current - currentScrollY > 1 || currentScrollY === 0) {
-        if (!show) {
-          setShow(true);
-        }
+      if (
+        (prevScrollYRef.current - currentScrollY > 1 || currentScrollY === 0) &&
+        !show
+      ) {
+        setShow(true);
       } else if (
         prevScrollYRef.current - currentScrollY < -1 &&
-        currentScrollY > 64
+        currentScrollY > 64 &&
+        show
       ) {
-        if (show) {
-          setShow(false);
-        }
+        setShow(false);
       }
 
       prevScrollYRef.current = currentScrollY;

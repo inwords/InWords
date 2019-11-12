@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -28,9 +28,9 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
 
   const { inputs, handleChange } = useForm({ pattern: '' });
 
-  const searchTimerRef = useRef();
+  const searchTimerRef = React.useRef();
 
-  useEffect(() => {
+  React.useEffect(() => {
     window.clearTimeout(searchTimerRef.current);
     searchTimerRef.current = window.setTimeout(() => {
       setPattern(inputs.pattern);
@@ -48,10 +48,10 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
   );
 
   return (
-    <>
+    <Fragment>
       <InvertedDynamicAppBar>{toolbar}</InvertedDynamicAppBar>
       {toolbar}
-    </>
+    </Fragment>
   );
 }
 

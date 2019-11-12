@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -20,7 +20,7 @@ function WordlistItem({
   const labelId = `checkbox-list-label-${serverId}`;
 
   return (
-    <>
+    <Fragment>
       <ListItem
         onClick={
           editingModeEnabled ? handleToggle(serverId) : handleOpen(wordPair)
@@ -53,7 +53,7 @@ function WordlistItem({
           <SpeechButton text={wordForeign} edge="end" />
         </ListItemSecondaryAction>
       </ListItem>
-    </>
+    </Fragment>
   );
 }
 

@@ -1,83 +1,54 @@
-import React from 'react';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Divider from '@material-ui/core/Divider';
-import BrandLink from 'src/components/BrandLink';
-import SideNavList from 'src/components/PageWrapper/Drawers/SideNavList';
+import DrawerContent from './DrawerContent';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: drawerWidth
-  },
-  permanent: {
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
-  },
-  swipable: {
-    [theme.breakpoints.up('lg')]: {
-      display: 'none'
-    }
-  },
-  paper: {
-    width: drawerWidth
-  },
-  header: {
-    height: theme.spacing(8)
-  },
-  brandLink: {
-    paddingLeft: theme.spacing(3)
+const drawerBase = css`
+  width: ${drawerWidth}px;
+`;
+
+const PermanentDrawer = styled(Drawer)`
+  ${drawerBase}
+  ${props => props.theme.breakpoints.down('md')} {
+    display: none;
   }
-}));
+`;
+
+const CustomSwipeableDrawer = styled(SwipeableDrawer)`
+  ${drawerBase}
+  ${props => props.theme.breakpoints.up('lg')} {
+    display: none;
+  }
+`;
+
+const paperProps = { style: { width: drawerWidth } };
 
 function Drawers({ sideRoutes, open, handleOpen, handleClose }) {
-  const classes = useStyles();
-
-  const drawerContent = (
-    <>
-      <div className={classes.header}>
-        <BrandLink className={classes.brandLink} />
-      </div>
-      <Divider />
-      <nav role="navigation">
-        <SideNavList sideRoutes={sideRoutes} />
-      </nav>
-    </>
-  );
-
   return (
-    <>
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.root, classes.permanent)}
-        classes={{
-          paper: classes.paper
-        }}
-      >
-        {drawerContent}
-      </Drawer>
-      <SwipeableDrawer
+    <Fragment>
+      <PermanentDrawer variant="permanent" PaperProps={paperProps}>
+        <DrawerContent sideRoutes={sideRoutes} />
+      </PermanentDrawer>
+      <CustomSwipeableDrawer
         open={open}
         onClose={handleClose}
         onOpen={handleOpen}
-        className={clsx(classes.root, classes.swipable)}
-        classes={{
-          paper: classes.paper
-        }}
+        PaperProps={paperProps}
       >
-        {drawerContent}
-      </SwipeableDrawer>
-    </>
+        <DrawerContent sideRoutes={sideRoutes} />
+      </CustomSwipeableDrawer>
+    </Fragment>
   );
 }
 
 Drawers.propTypes = {
-  sideRoutes: PropTypes.array.isRequired,
+  sideRoutes: PropTypes.array,
   open: PropTypes.bool.isRequired,
   handleOpen: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired

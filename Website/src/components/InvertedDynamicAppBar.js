@@ -10,17 +10,17 @@ function InvertedDynamicAppBar({ children, ...rest }) {
     const handleScroll = () => {
       const currentScrollY = window.pageYOffset;
 
-      if (prevScrollYRef.current - currentScrollY > 1 || currentScrollY === 0) {
-        if (show) {
-          setShow(false);
-        }
+      if (
+        (prevScrollYRef.current - currentScrollY > 1 || currentScrollY === 0) &&
+        show
+      ) {
+        setShow(false);
       } else if (
         prevScrollYRef.current - currentScrollY < -1 &&
-        currentScrollY > 256
+        currentScrollY > 256 &&
+        !show
       ) {
-        if (!show) {
-          setShow(true);
-        }
+        setShow(true);
       }
 
       prevScrollYRef.current = currentScrollY;
