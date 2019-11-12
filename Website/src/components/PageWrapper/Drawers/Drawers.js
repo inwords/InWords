@@ -11,9 +11,13 @@ const drawerWidth = 240;
 
 const drawerBase = css`
   width: ${drawerWidth}px;
+
+  & .MuiPaper-root {
+    width: ${drawerWidth}px;
+  }
 `;
 
-const PermanentDrawer = styled(Drawer)`
+const CustomDrawer = styled(Drawer)`
   ${drawerBase}
   ${props => props.theme.breakpoints.down('md')} {
     display: none;
@@ -27,19 +31,16 @@ const CustomSwipeableDrawer = styled(SwipeableDrawer)`
   }
 `;
 
-const paperProps = { style: { width: drawerWidth } };
-
 function Drawers({ sideRoutes, open, handleOpen, handleClose }) {
   return (
     <Fragment>
-      <PermanentDrawer variant="permanent" PaperProps={paperProps}>
+      <CustomDrawer variant="permanent">
         <DrawerContent sideRoutes={sideRoutes} />
-      </PermanentDrawer>
+      </CustomDrawer>
       <CustomSwipeableDrawer
         open={open}
         onClose={handleClose}
         onOpen={handleOpen}
-        PaperProps={paperProps}
       >
         <DrawerContent sideRoutes={sideRoutes} />
       </CustomSwipeableDrawer>

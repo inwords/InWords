@@ -20,45 +20,43 @@ const SubmitButton = styled(Button)`
 
 function ProfileSettings({ inputs, handleChange, handleSubmit }) {
   return (
-    <Container component="div" maxWidth="sm">
-      <FormPaper>
-        <Typography component="h1" variant="h5">
-          Настройки профиля
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            id="nickname"
-            label="Никнейм"
-            name="nickname"
-            value={inputs.nickname}
-            onChange={handleChange}
-            required
-            fullWidth
-            variant="filled"
-            margin="normal"
-          />
-          <TextField
-            id="avatar-path"
-            label="URL-адрес аватара"
-            type="url"
-            name="avatarPath"
-            value={inputs.avatarPath}
-            onChange={handleChange}
-            fullWidth
-            variant="filled"
-            margin="normal"
-          />
-          <ActionsContainer>
-            <Button component={Link} to="/profile">
-              Отмена
-            </Button>
-            <SubmitButton type="submit" variant="contained" color="primary">
-              Сохранить
-            </SubmitButton>
-          </ActionsContainer>
-        </form>
-      </FormPaper>
-    </Container>
+    <FormPaper>
+      <Typography component="h1" variant="h5">
+        Настройки профиля
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          id="nickname"
+          label="Никнейм"
+          name="nickname"
+          value={inputs.nickname}
+          onChange={handleChange}
+          required
+          fullWidth
+          variant="filled"
+          margin="normal"
+        />
+        <TextField
+          id="avatar-path"
+          label="URL-адрес аватара"
+          type="url"
+          name="avatarPath"
+          value={inputs.avatarPath}
+          onChange={handleChange}
+          fullWidth
+          variant="filled"
+          margin="normal"
+        />
+        <ActionsContainer>
+          <Button component={Link} to="/profile">
+            Отмена
+          </Button>
+          <SubmitButton type="submit" variant="contained" color="primary">
+            Сохранить
+          </SubmitButton>
+        </ActionsContainer>
+      </form>
+    </FormPaper>
   );
 }
 

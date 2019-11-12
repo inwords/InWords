@@ -20,20 +20,18 @@ function Account({ account: { email } }) {
   const { open, handleOpen, handleClose } = useDialog();
 
   return (
-    <Container component="div" maxWidth="sm">
-      <FormPaper>
-        <Typography component="h1" variant="h5">
-          Аккаунт
-        </Typography>
-        <AccountList>
-          <ListItem button onClick={handleOpen}>
-            <ListItemText primary="Email" secondary={email} />
-          </ListItem>
-          <EmailEditDialog open={open} handleClose={handleClose} />
-          <Divider component="li" variant="middle" />
-        </AccountList>
-      </FormPaper>
-    </Container>
+    <FormPaper>
+      <Typography component="h1" variant="h5">
+        Аккаунт
+      </Typography>
+      <AccountList>
+        <ListItem button onClick={handleOpen}>
+          <ListItemText primary="Email" secondary={email} />
+        </ListItem>
+        <EmailEditDialog open={open} handleClose={handleClose} />
+        <Divider component="li" variant="middle" />
+      </AccountList>
+    </FormPaper>
   );
 }
 

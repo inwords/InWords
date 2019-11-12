@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -9,34 +8,30 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Search from './Search';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    minHeight: theme.spacing(8),
-    padding: theme.spacing(0, 3)
-  },
-  titleBlock: {
-    marginRight: 'auto'
-  },
-  normalTitleBlock: {
-    [theme.breakpoints.down('xs')]: {
-      display: 'none'
-    }
-  },
-  spacer: {
-    flex: '1 1 100%',
-    [theme.breakpoints.down('xs')]: {
-      display: 'none'
-    }
-  },
-  closeButton: {
-    marginRight: theme.spacing(2)
-  },
-  deleteButton: {
-    color: theme.palette.error.main
+const ToolbarWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  padding: 0 24px;
+`;
+
+const TitleBlock = styled.div`
+  margin-right: auto;
+`;
+
+const EntryTitleBlock = styled(TitleBlock)`
+  ${props => props.theme.breakpoints.down('xs')} {
+    display: none;
   }
-}));
+`;
+
+const CloseIconButton = styled(IconButton)`
+  margin-right: 16px;
+`;
+
+const DeleteIconButton = styled(IconButton)`
+  color: ${props => props.theme.palette.error.main};
+`;
 
 function DictionaryToolbar({
   editingModeEnabled,
@@ -46,55 +41,51 @@ function DictionaryToolbar({
   inputs,
   handleChange
 }) {
-  const classes = useStyles();
-
   const numberOfChecked = checkedValues.length;
 
   return (
-    <div className={classes.root}>
+    <ToolbarWrapper>
       {!editingModeEnabled ? (
         <Fragment>
-          <div className={clsx(classes.titleBlock, classes.normalTitleBlock)}>
+          <EntryTitleBlock>
             <Typography component="h1" variant="h6">
               Словарь
             </Typography>
-          </div>
+          </EntryTitleBlock>
           <Search value={inputs.pattern} onChange={handleChange} />
         </Fragment>
       ) : (
         <Fragment>
-          <IconButton
+          <CloseIconButton
             edge="start"
             aria-label="clear selection"
             onClick={handleReset}
             color="inherit"
-            className={classes.closeButton}
           >
             <CloseIcon />
-          </IconButton>
-          <div className={classes.titleBlock}>
+          </CloseIconButton>
+          <TitleBlock>
             <Typography component="h2" variant="h6">
               Выбрано: {numberOfChecked}
             </Typography>
-          </div>
-          <IconButton
+          </TitleBlock>
+          <DeleteIconButton
             aria-label="delete"
             onClick={() => {
               handleDelete();
               handleReset();
             }}
             disabled={numberOfChecked === 0}
-            className={classes.deleteButton}
           >
             <DeleteIcon />
-          </IconButton>
+          </DeleteIconButton>
           <DictionaryMenuButton
             disabled={numberOfChecked === 0}
             checkedValues={checkedValues}
           />
         </Fragment>
       )}
-    </div>
+    </ToolbarWrapper>
   );
 }
 

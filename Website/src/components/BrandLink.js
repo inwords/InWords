@@ -1,40 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-    fontSize: '1rem',
-    fontWeight: 500,
-    textTransform: 'uppercase',
-    textDecoration: 'none',
-    color: 'inherit'
-  }
-}));
-
-function BrandLink({ className }) {
-  const classes = useStyles();
-
-  return (
-    <RouterLink
-      to="/"
-      variant="h6"
-      underline="none"
-      color="inherit"
-      className={clsx(classes.root, className)}
-    >
-      InWords
-    </RouterLink>
-  );
-}
-
-BrandLink.propTypes = {
-  className: PropTypes.string
-};
+const BrandLink = styled(RouterLink)`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+`;
 
 export default BrandLink;

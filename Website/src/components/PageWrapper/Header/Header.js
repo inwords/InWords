@@ -62,7 +62,7 @@ function Header({ mainRoutes, rightNodes, handleOpenDrawer }) {
               <MenuIcon />
             </NavMenuButton>
           )}
-          <BrandLink />
+          <BrandLink to="/">InWords</BrandLink>
         </ContextBlock>
         {mainRoutes && (
           <Nav role="navigation">

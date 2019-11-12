@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
+import Container from '@material-ui/core/Container';
 import PageProgress from 'src/components/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
 import SmartSnackbar from 'src/components/SmartSnackbar';
@@ -24,17 +25,6 @@ const SelectTranslateTraining = lazy(() =>
 
 const history = createBrowserHistory();
 
-const dictionarySideRoutes = [
-  {
-    to: '/dictionary/my',
-    text: 'Мой словарь'
-  },
-  {
-    to: '/dictionary/wordSets',
-    text: 'Наборы слов'
-  }
-];
-
 function App() {
   const userId = useSelector(store => store.access.userId);
 
@@ -52,7 +42,7 @@ function App() {
                 !userId ? (
                   <Redirect to="/signIn" />
                 ) : (
-                  <Redirect to="/dictionary/my" />
+                  <Redirect to="/dictionary" />
                 )
               }
             />
@@ -63,12 +53,16 @@ function App() {
             />
             <Route path="/signIn">
               <PageWrapper>
-                <SignIn />
+                <Container maxWidth="xs">
+                  <SignIn />
+                </Container>
               </PageWrapper>
             </Route>
             <Route path="/signUp">
               <PageWrapper>
-                <SignUp />
+                <Container maxWidth="xs">
+                  <SignUp />
+                </Container>
               </PageWrapper>
             </Route>
             <Route path="/profile/:userId">
@@ -78,17 +72,23 @@ function App() {
             </Route>
             <Route path="/profileSettings">
               <PageWrapper authorized>
-                <ProfileSettings />
+                <Container component="div" maxWidth="sm">
+                  <ProfileSettings />
+                </Container>
               </PageWrapper>
             </Route>
             <Route path="/account">
               <PageWrapper authorized>
-                <Account />
+                <Container component="div" maxWidth="sm">
+                  <Account />
+                </Container>
               </PageWrapper>
             </Route>
-            <Route path="/dictionary/my">
-              <PageWrapper authorized sideRoutes={dictionarySideRoutes}>
-                <Dictionary />
+            <Route path="/dictionary">
+              <PageWrapper authorized>
+                <Container component="div" maxWidth="md">
+                  <Dictionary />
+                </Container>
               </PageWrapper>
             </Route>
             <Route exact path="/trainings">

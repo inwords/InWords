@@ -17,7 +17,7 @@ function DrawerContent({ sideRoutes }) {
   return (
     <Fragment>
       <DrawerHeader>
-        <DrawerBrandLink />
+        <DrawerBrandLink to="/">InWords</DrawerBrandLink>
       </DrawerHeader>
       <Divider />
       <nav role="navigation">

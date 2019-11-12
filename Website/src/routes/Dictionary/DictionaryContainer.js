@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveWordPairs } from 'src/actions/wordPairsApiActions';
+import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
-import DictionaryWrapper from './DictionaryWrapper';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
 import WordPairAddButton from './WordPairAddButton';
@@ -61,7 +61,7 @@ function WordlistContainer() {
   );
 
   return (
-    <DictionaryWrapper>
+    <Paper>
       <DictionaryToolbar
         editingModeEnabled={editingModeEnabled}
         checkedValues={checkedValues}
@@ -77,7 +77,7 @@ function WordlistContainer() {
         handleToggle={handleToggle}
       />
       <WordPairAddButton visible={!editingModeEnabled} />
-    </DictionaryWrapper>
+    </Paper>
   );
 }
 
