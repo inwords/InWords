@@ -6,7 +6,9 @@ import Container from '@material-ui/core/Container';
 import PageProgress from 'src/components/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
 import SmartSnackbar from 'src/components/SmartSnackbar';
-import PageWrapper from 'src/components/PageWrapper/PageWrapper';
+import PageWrapper from 'src/components/PageWrapper';
+import AuthorizedPageWrapper from 'src/components/AuthorizedPageWrapper';
+import TrainingPageWrapper from 'src/components/TrainingPageWrapper';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 
 const SignIn = lazy(() => import('./routes/SignIn'));
@@ -66,45 +68,51 @@ function App() {
               </PageWrapper>
             </Route>
             <Route path="/profile/:userId">
-              <PageWrapper authorized>
+              <AuthorizedPageWrapper>
                 <Profile />
-              </PageWrapper>
+              </AuthorizedPageWrapper>
             </Route>
             <Route path="/profileSettings">
-              <PageWrapper authorized>
+              <AuthorizedPageWrapper>
                 <Container component="div" maxWidth="sm">
                   <ProfileSettings />
                 </Container>
-              </PageWrapper>
+              </AuthorizedPageWrapper>
             </Route>
             <Route path="/account">
-              <PageWrapper authorized>
+              <AuthorizedPageWrapper>
                 <Container component="div" maxWidth="sm">
                   <Account />
                 </Container>
-              </PageWrapper>
+              </AuthorizedPageWrapper>
             </Route>
             <Route path="/dictionary">
-              <PageWrapper authorized>
+              <AuthorizedPageWrapper>
                 <Container component="div" maxWidth="md">
                   <Dictionary />
                 </Container>
-              </PageWrapper>
+              </AuthorizedPageWrapper>
             </Route>
             <Route exact path="/trainings">
-              <PageWrapper authorized>
-                <TrainingCategories />
-              </PageWrapper>
+              <TrainingPageWrapper>
+                <Container component="div" maxWidth="lg">
+                  <TrainingCategories />
+                </Container>
+              </TrainingPageWrapper>
             </Route>
             <Route exact path="/trainings/:categoryId">
-              <PageWrapper authorized>
-                <TrainingTypes />
-              </PageWrapper>
+              <TrainingPageWrapper>
+                <Container component="div" maxWidth="lg">
+                  <TrainingTypes />
+                </Container>
+              </TrainingPageWrapper>
             </Route>
             <Route exact path="/trainings/:categoryId/:trainingId">
-              <PageWrapper authorized>
-                <TrainingLevels />
-              </PageWrapper>
+              <TrainingPageWrapper>
+                <Container component="div" maxWidth="lg">
+                  <TrainingLevels />
+                </Container>
+              </TrainingPageWrapper>
             </Route>
             <Route
               path="/trainings/:categoryId/:trainingId/:levelId"
@@ -112,15 +120,19 @@ function App() {
                 switch (match.params.trainingId) {
                   case '0':
                     return (
-                      <PageWrapper authorized>
-                        <Game match={match} {...rest} />
-                      </PageWrapper>
+                      <TrainingPageWrapper>
+                        <Container component="div" maxWidth="lg">
+                          <Game match={match} {...rest} />
+                        </Container>
+                      </TrainingPageWrapper>
                     );
                   case '1':
                     return (
-                      <PageWrapper authorized>
-                        <SelectTranslateTraining match={match} {...rest} />
-                      </PageWrapper>
+                      <TrainingPageWrapper>
+                        <Container component="div" maxWidth="lg">
+                          <SelectTranslateTraining match={match} {...rest} />
+                        </Container>
+                      </TrainingPageWrapper>
                     );
                   default:
                     return null;

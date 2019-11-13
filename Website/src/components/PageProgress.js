@@ -1,20 +1,11 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles(theme => ({
-  progress: {
-    display: 'block',
-    marginTop: theme.spacing(4),
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  }
-}));
-
-function PageProgress() {
-  const classes = useStyles();
-
-  return <CircularProgress className={classes.progress} />;
-}
+const PageProgress = styled(CircularProgress)`
+  display: block;
+  margin-top: 32px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 export default PageProgress;

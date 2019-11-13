@@ -13,7 +13,7 @@ const ContentWrapper = styled.main`
 
 ContentWrapper.propTypes = {
   shift: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node.isRequired
 };
 
 export default ContentWrapper;

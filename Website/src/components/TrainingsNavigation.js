@@ -1,76 +1,80 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import InvertedDynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import InternalNavigation from 'src/components/InternalNavigation';
 
-function TrainingsNavigation({
-  match: {
-    params: { categoryId, trainingId, levelId }
-  }
-}) {
-  const navigation = (
-    <InternalNavigation>
-      {categoryId ? (
-        [
-          categoryId !== '0' && (
+const linkTexts = ['Категории', 'Тренировки', 'Уровни', 'Уровень'];
+
+function TrainingsNavigation() {
+  const { categoryId, trainingId, levelId } = useParams();
+
+  const navigationLinks = [];
+
+  if (categoryId) {
+    if (categoryId !== '0') {
+      navigationLinks.push(
+        <Link key={0} component={RouterLink} to="/trainings" color="inherit">
+          {linkTexts[0]}
+        </Link>
+      );
+    }
+
+    if (trainingId) {
+      navigationLinks.push(
+        <Link
+          key={1}
+          component={RouterLink}
+          to={`/trainings/${categoryId}`}
+          color="inherit"
+        >
+          {linkTexts[1]}
+        </Link>
+      );
+
+      if (levelId) {
+        if (categoryId !== '0') {
+          navigationLinks.push(
             <Link
-              key={0}
+              key={2}
               component={RouterLink}
-              to="/trainings"
+              to={`/trainings/${categoryId}/${trainingId}`}
               color="inherit"
             >
-              Категории
+              {linkTexts[2]}
             </Link>
-          ),
-          trainingId ? (
-            [
-              <Link
-                key={1}
-                component={RouterLink}
-                to={`/trainings/${categoryId}`}
-                color="inherit"
-              >
-                Тренировки
-              </Link>,
-              levelId ? (
-                [
-                  categoryId !== '0' && (
-                    <Link
-                      key={2}
-                      component={RouterLink}
-                      to={`/trainings/${categoryId}/${trainingId}`}
-                      color="inherit"
-                    >
-                      Уровни
-                    </Link>
-                  ),
-                  <Typography key={3} color="textPrimary">
-                    Уровень
-                  </Typography>
-                ]
-              ) : (
-                <Typography key={2} color="textPrimary">
-                  Уровни
-                </Typography>
-              )
-            ]
-          ) : (
-            <Typography key={1} color="textPrimary">
-              Тренировки
-            </Typography>
-          )
-        ]
-      ) : (
-        <Typography key={0} color="textPrimary">
-          Категории
+          );
+        }
+
+        navigationLinks.push(
+          <Typography key={3} color="textPrimary">
+            {linkTexts[3]}
+          </Typography>
+        );
+      } else {
+        navigationLinks.push(
+          <Typography key={2} color="textPrimary">
+            {linkTexts[2]}
+          </Typography>
+        );
+      }
+    } else {
+      navigationLinks.push(
+        <Typography key={1} color="textPrimary">
+          {linkTexts[1]}
         </Typography>
-      )}
-    </InternalNavigation>
-  );
+      );
+    }
+  } else {
+    navigationLinks.push(
+      <Typography key={0} color="textPrimary">
+        {linkTexts[0]}
+      </Typography>
+    );
+  }
+
+  const navigation = <InternalNavigation>{navigationLinks}</InternalNavigation>;
 
   return (
     <Fragment>
@@ -80,8 +84,4 @@ function TrainingsNavigation({
   );
 }
 
-TrainingsNavigation.propTypes = {
-  match: PropTypes.object.isRequired
-};
-
-export default React.memo(withRouter(TrainingsNavigation));
+export default React.memo(TrainingsNavigation);

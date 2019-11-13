@@ -5,31 +5,19 @@ import useDrawer from 'src/hooks/useDrawer';
 import Header from './Header';
 import Drawers from './Drawers/Drawers';
 import ContentWrapper from './ContentWrapper';
-import ProfileMenuButton from './ProfileMenuButton';
-
-const mainRoutes = [
-  {
-    to: '/dictionary',
-    text: 'Словарь'
-  },
-  {
-    to: '/trainings',
-    text: 'Обучение'
-  }
-];
 
 const Wrapper = styled.div`
   display: flex;
 `;
 
-function PageWrapper({ sideRoutes, authorized = false, children }) {
+function PageWrapper({ mainRoutes, sideRoutes, rightNodes, children }) {
   const { open, handleOpen, handleClose } = useDrawer();
 
   return (
     <Wrapper>
       <Header
-        mainRoutes={authorized ? mainRoutes : undefined}
-        rightNodes={authorized ? [<ProfileMenuButton key={0} />] : undefined}
+        mainRoutes={mainRoutes}
+        rightNodes={rightNodes}
         handleOpenDrawer={sideRoutes && handleOpen}
       />
       {sideRoutes && (
@@ -40,15 +28,15 @@ function PageWrapper({ sideRoutes, authorized = false, children }) {
           handleClose={handleClose}
         />
       )}
-      <ContentWrapper shift={authorized}>{children}</ContentWrapper>
+      <ContentWrapper shift={Boolean(mainRoutes)}>{children}</ContentWrapper>
     </Wrapper>
   );
 }
 
 PageWrapper.propTypes = {
   sideRoutes: PropTypes.array,
-  authorized: PropTypes.bool,
-  children: PropTypes.node.isRequired
+  mainRoutes: PropTypes.array,
+  children: PropTypes.node
 };
 
 export default PageWrapper;

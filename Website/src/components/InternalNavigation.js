@@ -1,30 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import styled from '@emotion/styled';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(1, 2)
-  }
-}));
+const BreadcrumbsWrapper = styled.div`
+  padding: 8px 16px;
+  background-color: ${props => props.theme.palette.background.paper};
+`;
 
 function InternalNavigation({ children }) {
-  const classes = useStyles();
-
   return (
-    <Paper elevation={0} className={classes.paper}>
+    <BreadcrumbsWrapper>
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
         {children}
       </Breadcrumbs>
-    </Paper>
+    </BreadcrumbsWrapper>
   );
 }
 

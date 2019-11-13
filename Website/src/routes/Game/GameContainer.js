@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { saveLevelResult } from 'src/actions/gamesApiActions';
 import shuffle from 'src/utils/shuffle';
 import withReceivedGameLevel from 'src/HOCs/withReceivedGameLevel';
-import TrainingWrapper from 'src/components/TrainingWrapper';
+import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
 import Game from './Game';
 import TrainingResult from 'src/components/TrainingResult';
 
@@ -135,7 +135,7 @@ function GameContainer({ levelId, wordTranslations }) {
   };
 
   return (
-    <TrainingWrapper>
+    <TrainingNavWrapper>
       {!isResultReady ? (
         <Game
           wordsInfo={wordsInfo}
@@ -148,7 +148,7 @@ function GameContainer({ levelId, wordTranslations }) {
       ) : (
         <TrainingResult score={score} handleReplay={handleReplay} />
       )}
-    </TrainingWrapper>
+    </TrainingNavWrapper>
   );
 }
 
