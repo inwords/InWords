@@ -15,7 +15,7 @@ pool:
   vmImage: 'windows-2019'
 
 variables:
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Release -r linux-x64'
 
 steps:
 - task: UseDotNet@2
@@ -28,7 +28,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Build Release'
   inputs:
-    command: build -r linux-x64
+    command: build
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
