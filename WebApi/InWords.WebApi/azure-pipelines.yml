@@ -43,6 +43,6 @@ steps:
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiBuild'
   inputs:
-    path: $(System.DefaultWorkingDirectory)/bin/WebApp
+    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0
     artifact: _WebApiBuild
   condition: succeeded()
