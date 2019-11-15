@@ -27,13 +27,6 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: DotNetCoreCLI@2
-  displayName: 'Clean solutions'
-  inputs:
-    command: clean
-    projects: '**/InWords.WebApi/InWords.WebApi.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-
-- task: DotNetCoreCLI@2
   displayName: 'Build Release'
   inputs:
     command: build
