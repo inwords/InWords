@@ -15,8 +15,10 @@ pool:
   vmImage: 'windows-2019'
 
 variables:
-  buildConfiguration: 'Release'
+  buildConfiguration: '-c Release'
+  testConfiguration: '-c Release --collect "Code coverage"'
 
+# Build Stage
 steps:
 - task: UseDotNet@2
   displayName: 'Install .net core 3.0.100'
@@ -26,16 +28,36 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build Release'
+  displayName: 'build Release'
   inputs:
     command: build
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '$(buildConfiguration)'
 
+# Test stage
 - task: DotNetCoreCLI@2
   displayName: 'Run tests'
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+    arguments: '$(testConfiguration)'
     publishTestResults: true
+    
+# Publish artifacts stage
+- task: DownloadSecureFile@1
+  displayName: 'Download configuration file'
+  inputs:
+    secureFile: 'appsettings.security.json'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(Agent.TempDirectory)
+    Contents: appsettings.security.json
+    TargetFolder: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish artifacts: _WebApiBuild'
+  inputs:
+    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/
+    artifact: _WebApiBuild
+  condition: succeeded()
