@@ -27,6 +27,13 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: DotNetCoreCLI@2
+  displayName: 'Clean solutions'
+  inputs:
+    command: clean
+    projects: '**/InWords.WebApi/InWords.WebApi.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
   displayName: 'Build Release'
   inputs:
     command: build
@@ -44,6 +51,6 @@ steps:
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiBuild'
   inputs:
-    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0
+    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/linux-x64
     artifact: _WebApiBuild
   condition: succeeded()
