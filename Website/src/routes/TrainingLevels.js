@@ -8,10 +8,10 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
-import withReceivedTrainingInfo from './withReceivedTrainingInfo';
+import withReceivedTrainingCategoryInfo from '../HOCs/withReceivedTrainingCategoryInfo';
 import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
 
-function TrainingLevels({ gameId, levelsInfo }) {
+function TrainingLevels({ trainingId, levelsInfo }) {
   const match = useRouteMatch();
 
   return (
@@ -56,7 +56,7 @@ function TrainingLevels({ gameId, levelsInfo }) {
 }
 
 TrainingLevels.propTypes = {
-  gameId: PropTypes.number.isRequired,
+  trainingId: PropTypes.number.isRequired,
   levelsInfo: PropTypes.arrayOf(
     PropTypes.exact({
       levelId: PropTypes.number.isRequired,
@@ -67,4 +67,4 @@ TrainingLevels.propTypes = {
   ).isRequired
 };
 
-export default withReceivedTrainingInfo(TrainingLevels);
+export default withReceivedTrainingCategoryInfo(TrainingLevels);

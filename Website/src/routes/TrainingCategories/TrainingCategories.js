@@ -10,13 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
 
-function TrainingCategories({ gamesInfo }) {
+function TrainingCategories({ trainingCategories }) {
   const match = useRouteMatch();
 
   return (
     <TrainingNavWrapper>
       <Grid container spacing={3}>
-        {gamesInfo.map(({ gameId, title, description, isAvailable }) => (
+        {trainingCategories.map(({ gameId, title, description, isAvailable }) => (
           <Grid key={gameId} item xs={12} sm={6} md={4}>
             <Card>
               <CardHeader title={title} />
@@ -43,7 +43,7 @@ function TrainingCategories({ gamesInfo }) {
 }
 
 TrainingCategories.propTypes = {
-  gamesInfo: PropTypes.arrayOf(
+  trainingCategories: PropTypes.arrayOf(
     PropTypes.shape({
       gameId: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import TrainingResult from './TrainingResult';
 
 function TrainingResultContainer({ history, match, ...rest }) {
-  const { levelsInfo } = useSelector(store => store.games.gameInfo);
+  const { levelsInfo } = useSelector(store => store.training.trainingCategoryInfo);
 
   const paramLevelId = +match.params.levelId;
   const paramCategoryId = +match.params.categoryId;

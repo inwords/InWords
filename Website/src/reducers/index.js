@@ -4,14 +4,14 @@ import common from './common';
 import access from './access';
 import userInfo from './userInfo';
 import wordPairs from './wordPairs';
-import games from './games';
+import training from './training';
 
 const appReducer = combineReducers({
   common,
   access,
   userInfo,
   wordPairs,
-  games
+  training
 });
 
 export default function rootReducer(state, action) {

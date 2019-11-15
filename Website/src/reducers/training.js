@@ -1,33 +1,33 @@
 import { combineReducers } from 'redux';
 import {
-  INITIALIZE_GAMES_INFO,
-  INITIALIZE_GAME_INFO,
-  UPDATE_GAME_INFO,
-  INITIALIZE_GAME_LEVEL
-} from 'src/actions/gamesActions';
+  INITIALIZE_TRAINING_CATEGORIES,
+  INITIALIZE_TRAINING_CATEGORY_INFO,
+  UPDATE_TRAINING_CATEGORY_LEVEL_RESULT,
+  INITIALIZE_TRAINING_LEVEL
+} from 'src/actions/trainingActions';
 
-function gamesInfo(state = [], action) {
+function trainingCategories(state = [], action) {
   switch (action.type) {
-    case INITIALIZE_GAMES_INFO:
+    case INITIALIZE_TRAINING_CATEGORIES:
       return action.payload || [];
     default:
       return state;
   }
 }
 
-const initialGameInfoState = {
-  gameId: null,
+const initialTrainingCategoryInfoState = {
+  trainingId: null,
   levelsInfo: []
 };
 
-function gameInfo(state = initialGameInfoState, action) {
+function trainingCategoryInfo(state = initialTrainingCategoryInfoState, action) {
   switch (action.type) {
-    case INITIALIZE_GAME_INFO:
+    case INITIALIZE_TRAINING_CATEGORY_INFO:
       return {
-        gameId: action.payload.gameId,
+        trainingId: action.payload.gameId,
         levelsInfo: action.payload.levelInfos || []
       };
-    case UPDATE_GAME_INFO:
+    case UPDATE_TRAINING_CATEGORY_LEVEL_RESULT:
       return {
         ...state,
         levelsInfo: state.levelsInfo.map(levelInfo => {
@@ -46,14 +46,14 @@ function gameInfo(state = initialGameInfoState, action) {
   }
 }
 
-const initialGameLevelState = {
+const initialTrainingLevelState = {
   levelId: null,
   wordTranslations: []
 };
 
-function gameLevel(state = initialGameLevelState, action) {
+function trainingLevel(state = initialTrainingLevelState, action) {
   switch (action.type) {
-    case INITIALIZE_GAME_LEVEL:
+    case INITIALIZE_TRAINING_LEVEL:
       return {
         levelId: action.payload.levelId,
         wordTranslations: action.payload.wordTranslations || []
@@ -64,7 +64,7 @@ function gameLevel(state = initialGameLevelState, action) {
 }
 
 export default combineReducers({
-  gamesInfo,
-  gameInfo,
-  gameLevel
+  trainingCategories,
+  trainingCategoryInfo,
+  trainingLevel
 });

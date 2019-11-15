@@ -1,29 +1,29 @@
 import apiAction from './apiAction';
-import * as gamesActions from './gamesActions';
+import * as trainingActions from './trainingActions';
 import { setSnackbar } from './commonActions';
 
-export function receiveGamesInfo() {
+export function receiveTrainingCategories() {
   return apiAction({
     endpoint: 'game/gameInfo',
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(gamesActions.initializeGamesInfo(data));
+        dispatch(trainingActions.initializeTrainingCategories(data));
       }
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить категорию' }));
+        dispatch(setSnackbar({ text: 'Не удалось загрузить категории' }));
       }
     ]
   });
 }
 
-export function receiveGameInfo(gameId) {
+export function receiveTrainingCategoryInfo(categoryId) {
   return apiAction({
-    endpoint: `game/${gameId}`,
+    endpoint: `game/${categoryId}`,
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(gamesActions.initializeGameInfo(data));
+        dispatch(trainingActions.initializeTrainingCategoryInfo(data));
       }
     ],
     actionsOnFailure: [
@@ -34,12 +34,12 @@ export function receiveGameInfo(gameId) {
   });
 }
 
-export function receiveGameLevel(levelId) {
+export function receiveTrainingLevel(levelId) {
   return apiAction({
     endpoint: `game/level/${levelId}`,
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(gamesActions.initializeGameLevel(data));
+        dispatch(trainingActions.initializeTrainingLevel(data));
       }
     ],
     actionsOnFailure: [
@@ -50,7 +50,7 @@ export function receiveGameLevel(levelId) {
   });
 }
 
-export function saveLevelResult(levelResult, actionOnSuccess) {
+export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
   return apiAction({
     apiVersion: 'v1.1',
     endpoint: 'game/score',
@@ -58,7 +58,7 @@ export function saveLevelResult(levelResult, actionOnSuccess) {
     data: JSON.stringify(levelResult),
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(gamesActions.updateGameInfo(data));
+        dispatch(trainingActions.updateTrainingCategoryLevelResult(data));
       },
       (_, data) => {
         actionOnSuccess(data);

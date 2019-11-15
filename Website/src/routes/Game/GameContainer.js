@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { saveLevelResult } from 'src/actions/gamesApiActions';
+import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
 import withReceivedGameLevel from 'src/HOCs/withReceivedGameLevel';
 import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
@@ -57,7 +57,7 @@ function GameContainer({ levelId, wordTranslations }) {
       }, 1500);
 
       dispatch(
-        saveLevelResult(
+        saveTrainingLevelResult(
           {
             gameLevelId: levelId,
             wordPairIdOpenCounts
