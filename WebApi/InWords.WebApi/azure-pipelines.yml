@@ -16,6 +16,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release -r linux-x64'
+  testConfiguration: 'Release'
 
 steps:
 - task: UseDotNet@2
@@ -37,7 +38,7 @@ steps:
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+    arguments: '--configuration $(testConfiguration) --collect "Code coverage"'
     publishTestResults: true
 
 - task: PublishPipelineArtifact@1
