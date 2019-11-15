@@ -28,7 +28,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Build Release'
   inputs:
-    command: build
+    command: build -r linux-x64
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '--configuration $(buildConfiguration)'
 

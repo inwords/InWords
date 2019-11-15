@@ -122,12 +122,20 @@
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.AddWordsToUserDictionary(System.Int32)">
-            <summary>
-            Adds words to the user dictionary by GameId avoiding existing ones
-            </summary>
-            <param name="gameId">Game Id from which to take the words</param>
-            <response code="200">Count of added words</response>
-            <returns>Count of adding words</returns>
+             <summary>
+             Adds words to the user dictionary by GameId avoiding existing ones
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /AddWordsToUserDictionary
+                 
+                 42 // id of the game
+                            
+             </remarks>
+             <param name="gameId">Game Id from which to take the words</param>
+             <response code="200">Count of added words</response>
+             <returns>Count of adding words</returns>
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
             <summary>
