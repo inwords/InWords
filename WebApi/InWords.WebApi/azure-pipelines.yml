@@ -15,8 +15,8 @@ pool:
   vmImage: 'windows-2019'
 
 variables:
-  buildConfiguration: 'Release -r linux-x64'
-  testConfiguration: 'Release'
+  buildConfiguration: '-c Release -r linux-x64 --self-contained false'
+  testConfiguration: '-c Release --collect "Code coverage"'
 
 steps:
 - task: UseDotNet@2
@@ -27,23 +27,23 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build Release'
+  displayName: 'Publish Release linux-x64'
   inputs:
-    command: build
+    command: publish
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Run tests'
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(testConfiguration) --collect "Code coverage"'
+    arguments: '$(testConfiguration)'
     publishTestResults: true
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiBuild'
   inputs:
-    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/linux-x64
+    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/linux-x64/publish
     artifact: _WebApiBuild
   condition: succeeded()
