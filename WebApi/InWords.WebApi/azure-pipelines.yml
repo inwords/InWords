@@ -18,13 +18,6 @@ variables:
   buildConfiguration: '-c Release'
   testConfiguration: '-c Release --collect "Code coverage"'
 
-# Pre-job Download security files
-- task: DownloadSecureFile@1
-  displayName: 'Download configuration file'
-  inputs:
-    secureFile: 'appsettings.security.json'
-
-
 # Build Stage
 steps:
 - task: UseDotNet@2
@@ -44,6 +37,11 @@ steps:
 # Test stage
 
 # Publish artifacts stage
+- task: DownloadSecureFile@1
+  displayName: 'Download configuration file'
+  inputs:
+    secureFile: 'appsettings.security.json'
+
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(Agent.TempDirectory)
