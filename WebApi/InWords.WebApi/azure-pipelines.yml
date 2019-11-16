@@ -37,6 +37,7 @@ steps:
 # Test stage
 
 # Public artifacts stage
+# Authorize resource
 - task: DownloadSecureFile@1
   displayName: 'Download configuration file'
   inputs:
