@@ -62,9 +62,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Game({
-  wordsInfo,
-  selectedWordsInfo,
-  completedPairIdsInfo,
+  wordPairs,
+  selectedWordPairs,
+  completedPairIdsMap,
   selectedCompletedPairId,
   isGameCompleted,
   isResultReady,
@@ -73,7 +73,7 @@ function Game({
   const classes = useStyles();
 
   const root = useMemo(() => {
-    const columnsNum = Math.ceil(Math.sqrt(wordsInfo.length));
+    const columnsNum = Math.ceil(Math.sqrt(wordPairs.length));
 
     if (columnsNum <= 2) {
       return classes.twoColumnsLayout;
@@ -82,12 +82,12 @@ function Game({
     } else {
       return classes.fourColumnsLayout;
     }
-  }, [wordsInfo.length, classes]);
+  }, [wordPairs.length, classes]);
 
   return (
     <div className={root}>
       <Grid container justify="center" spacing={cardsSpacing}>
-        {wordsInfo.map(({ id, pairId, word }) => (
+        {wordPairs.map(({ id, pairId, word }) => (
           <Grid key={id} item>
             <Grow in={!isGameCompleted}>
               <div>
@@ -98,9 +98,9 @@ function Game({
                 >
                   <Zoom
                     in={
-                      completedPairIdsInfo[pairId] ||
+                      completedPairIdsMap[pairId] ||
                       Boolean(
-                        selectedWordsInfo.find(
+                        selectedWordPairs.find(
                           selectedWordInfo => selectedWordInfo.id === id
                         )
                       )
@@ -123,19 +123,19 @@ function Game({
 }
 
 Game.propTypes = {
-  wordsInfo: PropTypes.arrayOf(
+  wordPairs: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.number.isRequired,
       pairId: PropTypes.number.isRequired,
       word: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
-  selectedWordsInfo: PropTypes.arrayOf(
+  selectedWordPairs: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired
     }).isRequired
   ).isRequired,
-  completedPairIdsInfo: PropTypes.objectOf(PropTypes.bool.isRequired)
+  completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired)
     .isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
   isGameCompleted: PropTypes.bool.isRequired,

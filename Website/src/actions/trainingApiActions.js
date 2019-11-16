@@ -34,13 +34,17 @@ export function receiveTrainingCategory(categoryId) {
   });
 }
 
-export function addTrainingCategoryWordsToDictionary(categoryId) {
+export function addCategoryWordsToDictionary(categoryId) {
   return apiAction({
     endpoint: 'game/addWordsToUserDictionary',
     method: 'POST',
+    data: JSON.stringify(categoryId),
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(setSnackbar({ text: `Добавлено слов: ${data}` }));
+        console.log(data);
+        dispatch(
+          setSnackbar({ text: `Добавлено новых слов: ${data.wordsAdded}` })
+        );
       }
     ],
     actionsOnFailure: [
@@ -75,7 +79,7 @@ export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
     data: JSON.stringify(levelResult),
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(trainingActions.updateTrainingCategoryLevelResult(data));
+        dispatch(trainingActions.updateLevelResult(data));
       },
       (_, data) => {
         actionOnSuccess(data);

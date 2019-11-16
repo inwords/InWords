@@ -1,18 +1,12 @@
 import {
-  INITIALIZE_WORD_PAIRS,
-  UPDATE_WORD_PAIRS_AFTER_DELETION,
-  UPDATE_WORD_PAIRS_AFTER_ADDITION,
-  UPDATE_WORD_PAIRS_AFTER_EDITING
+  SYNC_WORD_PAIRS,
+  DELETE_WORD_PAIRS,
+  ADD_WORD_PAIRS,
+  EDIT_WORD_PAIRS
 } from 'src/actions/dictionaryActions';
 
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
   firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign);
-
-const trimWordPair = wordPair => ({
-  ...wordPair,
-  wordForeign: wordPair.wordForeign.trim(),
-  wordNative: wordPair.wordNative.trim()
-});
 
 export default function wordPairs(
   state = {
@@ -22,66 +16,54 @@ export default function wordPairs(
   action
 ) {
   switch (action.type) {
-    case INITIALIZE_WORD_PAIRS:
+    case SYNC_WORD_PAIRS:
       return {
         actual: true,
         wordPairs: state.wordPairs
-          .concat(
-            action.payload.addedWords
-              .map(wordPair => trimWordPair(wordPair))
-              .sort(lexicographicalComparison)
-          )
           .filter(
             ({ serverId }) =>
               !action.payload.removedServerIds.includes(serverId)
           )
+          .concat(action.payload.addedWords.sort(lexicographicalComparison))
       };
-    case UPDATE_WORD_PAIRS_AFTER_DELETION:
+    case DELETE_WORD_PAIRS:
       return {
         ...state,
         wordPairs: state.wordPairs.filter(
           ({ serverId }) => !action.payload.includes(serverId)
         )
       };
-    case UPDATE_WORD_PAIRS_AFTER_ADDITION:
+    case ADD_WORD_PAIRS: {
+      const wordPairs = state.wordPairs.concat(action.payload);
+
+      const wordPairsMap = {};
+      wordPairs.forEach(wordPair => {
+        wordPairsMap[wordPair.serverId] = wordPair;
+      });
+
       return {
         ...state,
-        wordPairs: state.wordPairs
-          .concat(
-            action.payload
-              .filter(
-                ({ serverId }) =>
-                  !state.wordPairs.find(
-                    wordPair => wordPair.serverId === serverId
-                  )
-              )
-              .map(wordPair => trimWordPair(wordPair))
-          )
-          .sort(lexicographicalComparison)
+        wordPairs: Object.values(wordPairsMap).sort(lexicographicalComparison)
       };
-    case UPDATE_WORD_PAIRS_AFTER_EDITING:
-      if (
-        state.wordPairs.find(
-          ({ serverId }) => serverId === action.payload.wordPair.serverId
-        )
-      ) {
-        return {
-          ...state,
-          wordPairs: state.wordPairs.filter(
-            ({ serverId }) => serverId !== action.payload.pairId
-          )
-        };
-      }
+    }
+    case EDIT_WORD_PAIRS: {
+      const wordPairs = state.wordPairs.map(wordPair => {
+        const foundEditedWordPair = action.payload.find(
+          ({ oldServerId }) => oldServerId === wordPair.serverId
+        );
+        return foundEditedWordPair ? foundEditedWordPair : wordPair;
+      });
+
+      const wordPairsMap = {};
+      wordPairs.forEach(wordPair => {
+        wordPairsMap[wordPair.serverId] = wordPair;
+      });
+
       return {
         ...state,
-        wordPairs: state.wordPairs
-          .map(wordPair =>
-            wordPair.serverId === action.payload.pairId
-              ? action.payload.wordPair
-              : wordPair
-          )
-          .sort(lexicographicalComparison)
+        wordPairs: Object.values(wordPairsMap).sort(lexicographicalComparison)
       };
+    }
     default:
       return state;
   }

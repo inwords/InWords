@@ -1,5 +1,8 @@
 Options -MultiViews
 RewriteEngine On
 
+RewriteCond %{HTTPS} !=on
+RewriteRule .* https://%{SERVER_NAME}/$1 [R,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.html [QSA,L]

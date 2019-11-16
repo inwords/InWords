@@ -9,11 +9,11 @@ import Game from './Game';
 import TrainingResult from 'src/components/TrainingResult';
 
 function GameContainer({ levelId, wordTranslations }) {
-  const [wordsInfo, setWordsInfo] = useState([]);
-  const [selectedWordsInfo, setSelectedWordsInfo] = useState([]);
-  const [completedPairIdsInfo, setCompletedPairIdsInfo] = useState({});
+  const [wordPairs, setWordPairs] = useState([]);
+  const [selectedWordPairs, setSelectedWordPairs] = useState([]);
+  const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
-  const [wordPairIdOpenCounts, setWordPairIdOpenCounts] = useState({});
+  const [wordPairIdOpenCountsMap, setWordPairIdOpenCountsMap] = useState({});
   const [isGameCompleted, setIsGameCompleted] = useState(false);
   const [isResultReady, setIsResultReady] = useState(false);
   const [score, setScore] = useState(null);
@@ -21,7 +21,7 @@ function GameContainer({ levelId, wordTranslations }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const wordsInfo = Array.prototype.concat.apply(
+    const wordPairs = Array.prototype.concat.apply(
       [],
       shuffle([...wordTranslations])
         .slice(0, 8)
@@ -39,14 +39,14 @@ function GameContainer({ levelId, wordTranslations }) {
         ])
     );
 
-    setWordsInfo(shuffle(wordsInfo));
+    setWordPairs(shuffle(wordPairs));
   }, [wordTranslations]);
 
   useEffect(() => {
-    const numberOfcompletedPairs = Object.keys(completedPairIdsInfo).length;
+    const numberOfcompletedPairs = Object.keys(completedPairIdsMap).length;
     if (
       numberOfcompletedPairs > 0 &&
-      numberOfcompletedPairs === wordsInfo.length / 2
+      numberOfcompletedPairs === wordPairs.length / 2
     ) {
       window.setTimeout(() => {
         setIsGameCompleted(true);
@@ -60,7 +60,7 @@ function GameContainer({ levelId, wordTranslations }) {
         saveTrainingLevelResult(
           {
             gameLevelId: levelId,
-            wordPairIdOpenCounts
+            wordPairIdOpenCounts: wordPairIdOpenCountsMap
           },
           data => {
             setScore(data.score);
@@ -69,66 +69,66 @@ function GameContainer({ levelId, wordTranslations }) {
       );
     }
   }, [
-    completedPairIdsInfo,
-    wordsInfo.length,
+    completedPairIdsMap,
+    wordPairs.length,
     levelId,
-    wordPairIdOpenCounts,
+    wordPairIdOpenCountsMap,
     dispatch
   ]);
 
   const handleClick = (pairId, id) => () => {
-    if (completedPairIdsInfo[pairId]) {
+    if (completedPairIdsMap[pairId]) {
       setSelectedCompletedPairId(pairId);
       return;
     }
 
     if (
-      selectedWordsInfo.length === 2 ||
-      (selectedWordsInfo.length && selectedWordsInfo[0].id === id)
+      selectedWordPairs.length === 2 ||
+      (selectedWordPairs.length && selectedWordPairs[0].id === id)
     ) {
       return;
     }
 
-    if (selectedWordsInfo.length < 2) {
-      setSelectedWordsInfo(selectedWordsInfo =>
-        selectedWordsInfo.concat({
+    if (selectedWordPairs.length < 2) {
+      setSelectedWordPairs(selectedWordPairs =>
+        selectedWordPairs.concat({
           id,
           pairId
         })
       );
 
-      setWordPairIdOpenCounts(wordPairIdOpenCounts => ({
-        ...wordPairIdOpenCounts,
-        [pairId]: wordPairIdOpenCounts[pairId]
-          ? wordPairIdOpenCounts[pairId] + 1
+      setWordPairIdOpenCountsMap(wordPairIdOpenCountsMap => ({
+        ...wordPairIdOpenCountsMap,
+        [pairId]: wordPairIdOpenCountsMap[pairId]
+          ? wordPairIdOpenCountsMap[pairId] + 1
           : 1
       }));
     }
 
-    if (selectedWordsInfo.length === 1) {
-      if (selectedWordsInfo[0].pairId === pairId) {
-        setSelectedWordsInfo([]);
+    if (selectedWordPairs.length === 1) {
+      if (selectedWordPairs[0].pairId === pairId) {
+        setSelectedWordPairs([]);
 
-        setCompletedPairIdsInfo(completedPairIdsInfo => ({
-          ...completedPairIdsInfo,
+        setCompletedPairIdsMap(completedPairIdsMap => ({
+          ...completedPairIdsMap,
           [pairId]: true
         }));
 
         setSelectedCompletedPairId(pairId);
       } else {
         window.setTimeout(() => {
-          setSelectedWordsInfo([]);
+          setSelectedWordPairs([]);
         }, 700);
       }
     }
   };
 
   const handleReplay = () => {
-    setWordsInfo(wordInfo => shuffle([...wordInfo]));
-    setSelectedWordsInfo([]);
-    setCompletedPairIdsInfo({});
+    setWordPairs(wordInfo => shuffle([...wordInfo]));
+    setSelectedWordPairs([]);
+    setCompletedPairIdsMap({});
     setSelectedCompletedPairId(-1);
-    setWordPairIdOpenCounts({});
+    setWordPairIdOpenCountsMap({});
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
@@ -138,9 +138,9 @@ function GameContainer({ levelId, wordTranslations }) {
     <TrainingNavWrapper>
       {!isResultReady ? (
         <Game
-          wordsInfo={wordsInfo}
-          selectedWordsInfo={selectedWordsInfo}
-          completedPairIdsInfo={completedPairIdsInfo}
+          wordPairs={wordPairs}
+          selectedWordPairs={selectedWordPairs}
+          completedPairIdsMap={completedPairIdsMap}
           selectedCompletedPairId={selectedCompletedPairId}
           isGameCompleted={isGameCompleted}
           handleClick={handleClick}

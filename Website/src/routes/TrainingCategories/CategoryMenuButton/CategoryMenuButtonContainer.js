@@ -1,24 +1,22 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { initializeTrainingLevel } from 'src/actions/trainingActions';
+import { addCategoryWordsToDictionary } from 'src/actions/trainingApiActions';
 import CategoryMenuButton from './CategoryMenuButton';
 
-function CategoryMenuButtonContainer() {
-//   const wordPairs = useSelector(store => store.wordPairs);
+function CategoryMenuButtonContainer({categoryId}) {
+  const dispatch = useDispatch();
+  const handleAddingInDictionary = () => {
+    dispatch(addCategoryWordsToDictionary(categoryId));
+  };
 
-//   const dispatch = useDispatch();
-//   const handleAddingInDictionary = () => {
-//     dispatch(
-//       initializeTrainingLevel({
-//         levelId: 0,
-//         wordTranslations: wordPairs.filter(({ serverId }) =>
-//           checkedValues.includes(serverId)
-//         )
-//       })
-//     );
-//   };
-
-  return <CategoryMenuButton />;
+  return (
+    <CategoryMenuButton handleAddingInDictionary={handleAddingInDictionary} />
+  );
 }
+
+CategoryMenuButtonContainer.propTypes = {
+  categoryId: PropTypes.number.isRequired
+};
 
 export default memo(CategoryMenuButtonContainer);

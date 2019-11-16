@@ -21,7 +21,10 @@ function TrainingCategories({ trainingCategories }) {
           ({ gameId, title, description, isAvailable }) => (
             <Grid key={gameId} item xs={12} sm={6} md={4}>
               <Card>
-                <CardHeader title={title} action={<CategoryMenuButton />} />
+                <CardHeader
+                  title={title}
+                  action={<CategoryMenuButton categoryId={gameId} />}
+                />
                 <CardContent>
                   <Typography variant="body2">{description}</Typography>
                 </CardContent>

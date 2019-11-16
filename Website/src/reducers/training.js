@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import {
   INITIALIZE_TRAINING_CATEGORIES,
   INITIALIZE_TRAINING_CATEGORY,
-  UPDATE_TRAINING_CATEGORY_LEVEL_RESULT,
+  UPDATE_LEVEL_RESULT,
   INITIALIZE_TRAINING_LEVEL
 } from 'src/actions/trainingActions';
 
@@ -28,7 +28,7 @@ function trainingCategory(
         trainingId: action.payload.gameId,
         levelsInfo: action.payload.levelInfos || []
       };
-    case UPDATE_TRAINING_CATEGORY_LEVEL_RESULT:
+    case UPDATE_LEVEL_RESULT:
       return {
         ...state,
         levelsInfo: state.levelsInfo.map(levelInfo => {

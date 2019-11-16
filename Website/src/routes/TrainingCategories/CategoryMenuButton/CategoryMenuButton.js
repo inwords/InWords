@@ -6,7 +6,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import useMenu from 'src/hooks/useMenu';
 
-function CategoryMenuButton({ disabled, handleLearning }) {
+function CategoryMenuButton({ handleAddingInDictionary }) {
   const { anchorEl, handleClick, handleClose } = useMenu();
 
   return (
@@ -15,7 +15,6 @@ function CategoryMenuButton({ disabled, handleLearning }) {
         aria-label="category features"
         aria-controls="category-menu"
         aria-haspopup="true"
-        disabled={disabled}
         onClick={handleClick}
         color="inherit"
       >
@@ -30,7 +29,7 @@ function CategoryMenuButton({ disabled, handleLearning }) {
       >
         <MenuItem
           onClick={() => {
-            //handleLearning();
+            handleAddingInDictionary();
             handleClose();
           }}
         >
@@ -41,6 +40,8 @@ function CategoryMenuButton({ disabled, handleLearning }) {
   );
 }
 
-CategoryMenuButton.propTypes = {};
+CategoryMenuButton.propTypes = {
+  handleAddingInDictionary: PropTypes.func.isRequired
+};
 
 export default CategoryMenuButton;

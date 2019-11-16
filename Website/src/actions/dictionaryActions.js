@@ -1,29 +1,23 @@
-export const INITIALIZE_WORD_PAIRS = 'INITIALIZE_WORD_PAIRS';
-export const initializeWordPairs = data => ({
-  type: INITIALIZE_WORD_PAIRS,
+export const SYNC_WORD_PAIRS = 'SYNC_WORD_PAIRS';
+export const syncWordPairs = data => ({
+  type: SYNC_WORD_PAIRS,
   payload: data
 });
 
-export const UPDATE_WORD_PAIRS_AFTER_DELETION =
-  'UPDATE_WORD_PAIRS_AFTER_DELETION';
-export const updateWordPairsAfterDeletion = pairIds => ({
-  type: UPDATE_WORD_PAIRS_AFTER_DELETION,
+export const DELETE_WORD_PAIRS = 'DELETE_WORD_PAIRS';
+export const deleteWordPairs = pairIds => ({
+  type: DELETE_WORD_PAIRS,
   payload: pairIds
 });
 
-export const UPDATE_WORD_PAIRS_AFTER_ADDITION =
-  'UPDATE_WORD_PAIRS_AFTER_ADDITION';
-export const updateWordPairsAfterAddition = wordPairs => ({
-  type: UPDATE_WORD_PAIRS_AFTER_ADDITION,
+export const ADD_WORD_PAIRS = 'ADD_WORD_PAIRS';
+export const addWordPairs = wordPairs => ({
+  type: ADD_WORD_PAIRS,
   payload: wordPairs
 });
 
-export const UPDATE_WORD_PAIRS_AFTER_EDITING =
-  'UPDATE_WORD_PAIRS_AFTER_EDITING';
-export const updateWordPairsAfterEditing = (pairId, wordPair) => ({
-  type: UPDATE_WORD_PAIRS_AFTER_EDITING,
-  payload: {
-    pairId: pairId,
-    wordPair: wordPair
-  }
+export const EDIT_WORD_PAIRS = 'EDIT_WORD_PAIRS';
+export const editWordPairs = wordPairs => ({
+  type: EDIT_WORD_PAIRS,
+  payload: wordPairs
 });

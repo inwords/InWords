@@ -9,7 +9,7 @@ export function syncWordPairs(wordPairs) {
     data: JSON.stringify(wordPairs),
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(wordPairsActions.initializeWordPairs(data));
+        dispatch(wordPairsActions.syncWordPairs(data));
       }
     ],
     actionsOnFailure: [
@@ -27,7 +27,7 @@ export function deleteWordPairs(pairIds) {
     data: JSON.stringify(pairIds),
     actionsOnSuccess: [
       dispatch => {
-        dispatch(wordPairsActions.updateWordPairsAfterDeletion(pairIds));
+        dispatch(wordPairsActions.deleteWordPairs(pairIds));
       }
     ],
     actionsOnFailure: [
@@ -46,7 +46,7 @@ export function addWordPairs(wordPairs) {
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(
-          wordPairsActions.updateWordPairsAfterAddition(
+          wordPairsActions.addWordPairs(
             wordPairs.map((wordPair, index) => ({
               ...wordPair,
               serverId: data[index].serverId
@@ -63,18 +63,21 @@ export function addWordPairs(wordPairs) {
   });
 }
 
-export function editWordPair(pairId, wordPair) {
+export function editWordPairs(wordPairsMap) {
   return apiAction({
     endpoint: 'words/updatePair',
     method: 'POST',
-    data: JSON.stringify({ [pairId]: wordPair }),
+    data: JSON.stringify(wordPairsMap),
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(
-          wordPairsActions.updateWordPairsAfterEditing(pairId, {
-            serverId: data[0].serverId,
-            ...wordPair
-          })
+          wordPairsActions.editWordPairs(
+            Object.entries(wordPairsMap).map((wordPairEntry, index) => ({
+              ...wordPairEntry[1],
+              oldServerId: +wordPairEntry[0],
+              serverId: data[index].serverId
+            }))
+          )
         );
       }
     ],
