@@ -46,9 +46,9 @@ steps:
 # Publish artifacts stage
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: 'appsettings.security.json'
-    TargetFolder: '/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/'
+    SourceFolder: $(Agent.TempDirectory)
+    Contents: appsettings.security.json
+    TargetFolder: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiBuild'
