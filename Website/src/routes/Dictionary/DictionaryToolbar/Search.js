@@ -1,77 +1,65 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 
-const useStyles = makeStyles(theme => ({
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.black, 0.07),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.black, 0.11)
-    },
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 'auto'
-    }
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  inputRoot: {
-    width: '100%',
-    color: 'inherit'
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 120,
-      '&:focus': {
-        width: 200
+const SearchWrapper = styled.div`
+  position: relative;
+  border-radius: ${props => props.theme.shape.borderRadius}px;
+  background-color: rgba(0, 0, 0, 0.07);
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.11);
+  }
+  width: 100%;
+  ${props => props.theme.breakpoints.up('sm')} {
+    width: auto;
+  }
+
+  & .MuiInputBase-root {
+    width: 100%;
+    color: inherit;
+  }
+
+  & .MuiInputBase-input {
+    padding 8px 8px 8px 56px;
+    transition: width 300ms cubic-bezier(0.4,0,0.2,1) 0ms;
+    width: 100%;
+    ${props => props.theme.breakpoints.up('sm')} {
+      width: 120px;
+      &:focus {
+        width: 200px;
       }
     }
   }
-}));
+`;
+
+const SearchIconWrapper = styled.div`
+  width: 56px;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 function Search({ value, onChange }) {
-  const classes = useStyles();
-  const [focused, setFocused] = useState(false);
-
   return (
-    <div className={classes.search}>
-      <div className={classes.searchIcon}>
+    <SearchWrapper>
+      <SearchIconWrapper>
         <SearchIcon />
-      </div>
+      </SearchIconWrapper>
       <InputBase
-        placeholder={!focused ? 'Поиск' : 'Введите слово'}
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput
-        }}
+        placeholder="Поиск слова"
         inputProps={{
           'aria-label': 'search',
           name: 'pattern',
           value,
-          onChange,
-          onFocus: () => {
-            setFocused(true);
-          },
-          onBlur: () => {
-            setFocused(false);
-          }
+          onChange
         }}
       />
-    </div>
+    </SearchWrapper>
   );
 }
 

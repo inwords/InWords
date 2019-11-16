@@ -9,8 +9,8 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
-import LightTooltip from 'src/components/LightTooltip';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -115,7 +115,7 @@ function SelectTranslateTraining({
           }
 
           return (
-            <LightTooltip
+            <Tooltip
               key={id}
               title={translation}
               open={id === selectedWordId}
@@ -134,7 +134,7 @@ function SelectTranslateTraining({
                 {word || '-'}
                 {icon}
               </Button>
-            </LightTooltip>
+            </Tooltip>
           );
         })}
       </div>

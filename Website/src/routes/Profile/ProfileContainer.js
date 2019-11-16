@@ -1,35 +1,25 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { receiveUserInfoById } from 'src/actions/userApiActions';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import withReceivedCommonUserInfo from 'src/HOCs/withReceivedCommonUserInfo';
 import Profile from './Profile';
 
-function ProfileContainer() {
-  const params = useParams();
-
+function ProfileContainer({ userId, nickname, avatarPath }) {
   const validUserId = useSelector(store => store.access.userId);
-  const { userId, avatarPath, nickname, experience } = useSelector(
-    store => store.userInfo
-  );
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const paramUserId = +params.userId;
-
-    if (userId !== paramUserId) {
-      dispatch(receiveUserInfoById(paramUserId));
-    }
-  }, [userId, params.userId, dispatch]);
 
   return (
     <Profile
       avatarPath={avatarPath}
       nickname={nickname}
-      experience={experience}
       editingAvailable={validUserId && validUserId === userId}
     />
   );
 }
 
-export default ProfileContainer;
+ProfileContainer.propTypes = {
+  userId: PropTypes.number.isRequired,
+  nickname: PropTypes.string.isRequired,
+  avatarPath: PropTypes.string.isRequired
+};
+
+export default withReceivedCommonUserInfo(ProfileContainer);

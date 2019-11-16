@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Fade from '@material-ui/core/Fade';
@@ -38,7 +38,7 @@ function TrainingResult({
     <Fade in>
       <Paper className={classes.paper}>
         {score !== null && (
-          <>
+          <Fragment>
             <div className={classes.smiley}>
               <Smiley score={score} />
             </div>
@@ -56,7 +56,7 @@ function TrainingResult({
                 color={score > 2 ? 'secondary' : 'disabled'}
               />
             </div>
-          </>
+          </Fragment>
         )}
         <div>
           <IconButton aria-label="replay" onClick={handleReplay}>

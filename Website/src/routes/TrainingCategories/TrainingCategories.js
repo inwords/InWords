@@ -8,42 +8,48 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import TrainingWrapper from 'src/components/TrainingWrapper';
+import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
+import CategoryMenuButton from './CategoryMenuButton';
 
-function TrainingCategories({ gamesInfo }) {
+function TrainingCategories({ trainingCategories }) {
   const match = useRouteMatch();
 
   return (
-    <TrainingWrapper>
+    <TrainingNavWrapper>
       <Grid container spacing={3}>
-        {gamesInfo.map(({ gameId, title, description, isAvailable }) => (
-          <Grid key={gameId} item xs={12} sm={6} md={4}>
-            <Card>
-              <CardHeader title={title} />
-              <CardContent>
-                <Typography variant="body2">{description}</Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  component={Link}
-                  to={`${match.url}/${gameId}`}
-                  disabled={!isAvailable}
-                  size="small"
-                  color="primary"
-                >
-                  Выбрать
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
+        {trainingCategories.map(
+          ({ gameId, title, description, isAvailable }) => (
+            <Grid key={gameId} item xs={12} sm={6} md={4}>
+              <Card>
+                <CardHeader
+                  title={title}
+                  action={<CategoryMenuButton categoryId={gameId} />}
+                />
+                <CardContent>
+                  <Typography variant="body2">{description}</Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    component={Link}
+                    to={`${match.url}/${gameId}`}
+                    disabled={!isAvailable}
+                    size="small"
+                    color="primary"
+                  >
+                    Выбрать
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          )
+        )}
       </Grid>
-    </TrainingWrapper>
+    </TrainingNavWrapper>
   );
 }
 
 TrainingCategories.propTypes = {
-  gamesInfo: PropTypes.arrayOf(
+  trainingCategories: PropTypes.arrayOf(
     PropTypes.shape({
       gameId: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,

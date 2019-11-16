@@ -7,13 +7,13 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import TrainingWrapper from 'src/components/TrainingWrapper';
+import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
 
 const trainingTypesInfo = [
   {
     typeId: 0,
-    title: 'Игра "Карточки"',
-    description: 'Описание появится позже'
+    title: 'Карточки',
+    description: 'Необходимо открыть правильную пару "Слово-перевод"'
   },
   {
     typeId: 1,
@@ -26,7 +26,7 @@ function TrainingTypes() {
   const match = useRouteMatch();
 
   return (
-    <TrainingWrapper>
+    <TrainingNavWrapper>
       <Grid container spacing={3}>
         {trainingTypesInfo.map(({ typeId, title, description }) => {
           return (
@@ -55,7 +55,7 @@ function TrainingTypes() {
           );
         })}
       </Grid>
-    </TrainingWrapper>
+    </TrainingNavWrapper>
   );
 }
 

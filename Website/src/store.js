@@ -10,7 +10,7 @@ let middleware = [apiMiddleware, persistDataMiddleware];
 
 if (process.env.NODE_ENV !== 'production') {
   const { logger } = require('redux-logger');
-  middleware = [...middleware, logger];
+  middleware = [logger, ...middleware];
 }
 
 const store = createStore(

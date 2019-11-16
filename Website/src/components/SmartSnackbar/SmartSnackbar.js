@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 import usePrevious from 'src/hooks/usePrevious';
 
 const useStyles = makeStyles(theme => ({
-  snackbar: {
+  above: {
     [theme.breakpoints.down('xs')]: {
       bottom: 90
     }
@@ -55,8 +55,8 @@ function SmartSnackbar({ open, text, actionText, handleAction, handleClose }) {
       action={action}
       className={clsx({
         /* Snackbar appears above, when page has FAB.
-        DOM API is the simplest way for check (but not the best!) */
-        [classes.snackbar]: Boolean(document.getElementById('fab'))
+        DOM API is the simplest way for check */
+        [classes.above]: Boolean(document.getElementById('fab'))
       })}
     />
   );

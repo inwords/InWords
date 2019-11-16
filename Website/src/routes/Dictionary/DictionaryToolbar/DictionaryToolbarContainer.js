@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import Container from '@material-ui/core/Container';
 import { setSnackbar } from 'src/actions/commonActions';
-import { deleteWordPairs } from 'src/actions/wordPairsApiActions';
+import { deleteWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
-import DynamicToolbarWrapper from 'src/components/DynamicToolbarWrapper';
+import InvertedDynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import DictionaryToolbar from './DictionaryToolbar';
 
 function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
@@ -29,9 +28,9 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
 
   const { inputs, handleChange } = useForm({ pattern: '' });
 
-  const searchTimerRef = useRef();
+  const searchTimerRef = React.useRef();
 
-  useEffect(() => {
+  React.useEffect(() => {
     window.clearTimeout(searchTimerRef.current);
     searchTimerRef.current = window.setTimeout(() => {
       setPattern(inputs.pattern);
@@ -49,14 +48,10 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
   );
 
   return (
-    <>
-      <DynamicToolbarWrapper>
-        <Container component="div" maxWidth="md">
-          {toolbar}
-        </Container>
-      </DynamicToolbarWrapper>
+    <Fragment>
+      <InvertedDynamicAppBar>{toolbar}</InvertedDynamicAppBar>
       {toolbar}
-    </>
+    </Fragment>
   );
 }
 

@@ -1,23 +1,23 @@
-import React, { useCallback, memo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { initializeGameLevel } from 'src/actions/gamesActions';
+import { initializeTrainingLevel } from 'src/actions/trainingActions';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
 function DictionaryMenuButtonContainer({ checkedValues, ...rest }) {
   const wordPairs = useSelector(store => store.wordPairs);
 
   const dispatch = useDispatch();
-  const handleLearning = useCallback(() => {
+  const handleLearning = () => {
     dispatch(
-      initializeGameLevel({
+      initializeTrainingLevel({
         levelId: 0,
         wordTranslations: wordPairs.filter(({ serverId }) =>
           checkedValues.includes(serverId)
         )
       })
     );
-  }, [dispatch, checkedValues, wordPairs]);
+  };
 
   return <DictionaryMenuButton handleLearning={handleLearning} {...rest} />;
 }

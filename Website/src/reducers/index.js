@@ -3,15 +3,15 @@ import { DENY_ACCESS } from 'src/actions/accessActions';
 import common from './common';
 import access from './access';
 import userInfo from './userInfo';
-import wordPairs from './wordPairs';
-import games from './games';
+import dictionary from './dictionary';
+import training from './training';
 
 const appReducer = combineReducers({
   common,
   access,
   userInfo,
-  wordPairs,
-  games
+  dictionary,
+  training
 });
 
 export default function rootReducer(state, action) {

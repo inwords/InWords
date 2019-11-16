@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,7 +11,7 @@ function DictionaryMenuButton({ disabled, handleLearning }) {
   const { anchorEl, handleClick, handleClose } = useMenu();
 
   return (
-    <div>
+    <Fragment>
       <IconButton
         aria-label="dictionary features"
         aria-controls="dictionary-menu"
@@ -38,10 +38,10 @@ function DictionaryMenuButton({ disabled, handleLearning }) {
             handleClose();
           }}
         >
-          Изучение
+          Изучать
         </MenuItem>
       </Menu>
-    </div>
+    </Fragment>
   );
 }
 

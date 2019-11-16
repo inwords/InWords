@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import shuffle from 'src/helpers/shuffle';
-import withReceivedGameLevel from 'src/components/withReceivedGameLevel';
-import TrainingWrapper from 'src/components/TrainingWrapper';
+import shuffle from 'src/utils/shuffle';
+import withReceivedGameLevel from 'src/HOCs/withReceivedGameLevel';
+import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
 import SelectTranslateTraining from './SelectTranslateTraining';
 import TrainingResult from 'src/components/TrainingResult';
 
@@ -135,7 +135,7 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
   };
 
   return (
-    <TrainingWrapper>
+    <TrainingNavWrapper>
       {!isResultReady ? (
         <SelectTranslateTraining
           currentWordSet={currentWordSet}
@@ -149,7 +149,7 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
       ) : (
         <TrainingResult score={score} handleReplay={handleReplay} />
       )}
-    </TrainingWrapper>
+    </TrainingNavWrapper>
   );
 }
 

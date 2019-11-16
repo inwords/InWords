@@ -1,40 +1,35 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import Zoom from '@material-ui/core/Zoom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import useDialog from 'src/hooks/useDialog';
 import WordPairAddDialog from './WordPairAddDialog';
 
-const useStyles = makeStyles(theme => ({
-  fab: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2)
-  }
-}));
+const FixedFab = styled(Fab)`
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+`;
 
 function WordPairAddButton({ visible }) {
-  const classes = useStyles();
-
   const { open, handleOpen, handleClose } = useDialog();
 
   return (
-    <>
+    <Fragment>
       <Zoom in={visible}>
-        <Fab
+        <FixedFab
           id="fab"
           aria-label="add"
           onClick={handleOpen}
           color="primary"
-          className={classes.fab}
         >
           <AddIcon />
-        </Fab>
+        </FixedFab>
       </Zoom>
       <WordPairAddDialog open={open} handleClose={handleClose} />
-    </>
+    </Fragment>
   );
 }
 

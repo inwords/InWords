@@ -1,30 +1,40 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-/** @jsx jsx */
-import { jsx } from '@emotion/core';
-import Paper from 'src/components/Paper';
 
-const AppBarPaper = styled(Paper)`
+const AppBar = styled.header`
   position: fixed;
   top: 0;
-  left: 0;
+  left: auto;
   right: 0;
-  z-index: 999;
-  display: flex;
+  z-index: 1201;
   width: 100%;
-  background-color: ${props => props.theme.palette.primary.main};
-  color: ${props => props.theme.palette.primary.contrastText};
+  transform: ${props => (!props.show ? 'translateY(-100%)' : 'translateY(0)')};
+  transition: ${props =>
+    !props.show
+      ? 'transform .3s cubic-bezier(.4, 0, .2, 1), opacity 0s .3s'
+      : 'transform .3s cubic-bezier(.4, 0, .6, 1) .3s'};
+  background-color: ${props =>
+    props.primary
+      ? props.theme.palette.primary.main
+      : props.theme.palette.background.paper};
+  color: ${props =>
+    props.primary ? props.theme.palette.primary.contrastText : 'inherit'};
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    opacity: ${props => (!props.show ? 0 : 1)};
+    box-shadow: ${props => props.theme.shadows[4]};
+    transition: opacity 0.3s 0.3s;
+  }
 `;
 
-function AppBar({ children, ...rest }) {
-  return (
-    <AppBarPaper elevation={4} {...rest}>
-      {children}
-    </AppBarPaper>
-  );
-}
-
 AppBar.propTypes = {
+  show: PropTypes.bool,
   children: PropTypes.node
 };
 

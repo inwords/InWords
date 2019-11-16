@@ -1,26 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import List from '@material-ui/core/List';
 import useDialog from 'src/hooks/useDialog';
 import WordlistItem from './WordlistItem';
 import WordPairEditDialog from '../WordPairEditDialog';
 
-const useStyles = makeStyles(theme => ({
-  list: {
-    marginBottom: theme.spacing(8)
-  }
-}));
+const WordList = styled(List)`
+  margin-bottom: 64px;
+`;
 
-function Wordlist({
-  handlePressButton,
-  handleReleaseButton,
-  wordPairs,
-  editingModeEnabled,
-  checkedValues,
-  handleToggle
-}) {
-  const styles = useStyles();
+function Wordlist({ wordPairs, checkedValues, ...rest }) {
   const { open, setOpen, handleClose } = useDialog();
   const [currentWordPair, setCurrentWordPair] = React.useState();
 
@@ -33,37 +23,30 @@ function Wordlist({
   );
 
   return (
-    <>
-      <List className={styles.list}>
+    <Fragment>
+      <WordList>
         {wordPairs.map(wordPair => (
           <WordlistItem
             key={wordPair.serverId}
             wordPair={wordPair}
-            editingModeEnabled={editingModeEnabled}
-            handlePressButton={handlePressButton}
-            handleReleaseButton={handleReleaseButton}
             checked={checkedValues.includes(wordPair.serverId)}
-            handleToggle={handleToggle}
             handleOpen={handleOpen}
+            {...rest}
           />
         ))}
-      </List>
+      </WordList>
       <WordPairEditDialog
         open={open}
         handleClose={handleClose}
         wordPair={currentWordPair}
       />
-    </>
+    </Fragment>
   );
 }
 
 Wordlist.propTypes = {
-  handlePressButton: PropTypes.func,
-  handleReleaseButton: PropTypes.func,
-  editingModeEnabled: PropTypes.bool.isRequired,
   wordPairs: PropTypes.array.isRequired,
-  checkedValues: PropTypes.array,
-  handleToggle: PropTypes.func
+  checkedValues: PropTypes.array.isRequired
 };
 
 export default Wordlist;

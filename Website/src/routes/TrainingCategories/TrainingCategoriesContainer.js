@@ -1,20 +1,24 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveGamesInfo } from 'src/actions/gamesApiActions';
+import { receiveTrainingCategories } from 'src/actions/trainingApiActions';
 import TrainingCategories from './TrainingCategories';
 
 function TrainingCategoriesContainer({ ...rest }) {
-  const gamesInfo = useSelector(store => store.games.gamesInfo);
+  const trainingCategories = useSelector(
+    store => store.training.trainingCategories
+  );
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!gamesInfo.length) {
-      dispatch(receiveGamesInfo());
+  React.useEffect(() => {
+    if (!trainingCategories.length) {
+      dispatch(receiveTrainingCategories());
     }
-  }, [gamesInfo.length, dispatch]);
+  }, [trainingCategories.length, dispatch]);
 
-  return <TrainingCategories gamesInfo={gamesInfo} {...rest} />;
+  return (
+    <TrainingCategories trainingCategories={trainingCategories} {...rest} />
+  );
 }
 
 export default TrainingCategoriesContainer;

@@ -43,7 +43,7 @@ export function signUp(userdata) {
         );
       },
       () => {
-        history.push(`/profile`);
+        history.push('/profile');
       }
     ],
     actionsOnFailure: [
