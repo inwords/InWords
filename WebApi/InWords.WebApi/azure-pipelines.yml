@@ -38,7 +38,6 @@ steps:
 
 # Public artifacts stage
 - task: DownloadSecureFile@1
-  name: appsettings.security.json
   displayName: 'Download configuration file'
   inputs:
     secureFile: 'appsettings.security.json'
