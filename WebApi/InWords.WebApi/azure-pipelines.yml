@@ -18,6 +18,13 @@ variables:
   buildConfiguration: '-c Release'
   testConfiguration: '-c Release --collect "Code coverage"'
 
+# Pre-job Download security files
+- task: DownloadSecureFile@1
+  displayName: 'Download configuration file'
+  inputs:
+    secureFile: 'appsettings.security.json'
+
+
 # Build Stage
 steps:
 - task: UseDotNet@2
@@ -36,13 +43,12 @@ steps:
 
 # Test stage
 
-# Public artifacts stage
-# Authorize resource
-- task: DownloadSecureFile@1
-  displayName: 'Download configuration file'
+# Publish artifacts stage
+- task: CopyFiles@2
   inputs:
-    secureFile: 'appsettings.security.json'
-  condition: succeeded()
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: 'appsettings.security.json'
+    TargetFolder: '/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/'
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiBuild'
