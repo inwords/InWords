@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { editWordPair } from 'src/actions/wordPairsApiActions';
+import { editWordPair } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 

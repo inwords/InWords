@@ -13,9 +13,9 @@ export const updateWordPairsAfterDeletion = pairIds => ({
 
 export const UPDATE_WORD_PAIRS_AFTER_ADDITION =
   'UPDATE_WORD_PAIRS_AFTER_ADDITION';
-export const updateWordPairsAfterAddition = wordPair => ({
+export const updateWordPairsAfterAddition = wordPairs => ({
   type: UPDATE_WORD_PAIRS_AFTER_ADDITION,
-  payload: wordPair
+  payload: wordPairs
 });
 
 export const UPDATE_WORD_PAIRS_AFTER_EDITING =

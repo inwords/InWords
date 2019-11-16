@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { addWordPair } from 'src/actions/wordPairsApiActions';
+import { addWordPairs } from 'src/actions/dictionaryApiActions';
 import uuidv4 from 'src/utils/uuidv4';
 import useForm from 'src/hooks/useForm';
 import WordPairAddDialog from './WordPairAddDialog';
@@ -23,7 +23,7 @@ function WordPairAddDialogContainer({ ...rest }) {
       wordNative: ''
     },
     () => {
-      dispatch(addWordPair(inputs));
+      dispatch(addWordPairs([inputs]));
     }
   );
 

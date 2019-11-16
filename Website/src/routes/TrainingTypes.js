@@ -13,7 +13,7 @@ const trainingTypesInfo = [
   {
     typeId: 0,
     title: 'Карточки',
-    description: 'Описание появится позже'
+    description: 'Необходимо открыть правильную пару "Слово-перевод"'
   },
   {
     typeId: 1,

@@ -8,7 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
-import withReceivedTrainingCategoryInfo from '../HOCs/withReceivedTrainingCategoryInfo';
+import withReceivedTrainingCategory from '../HOCs/withReceivedTrainingCategory';
 import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
 
 function TrainingLevels({ trainingId, levelsInfo }) {
@@ -67,4 +67,4 @@ TrainingLevels.propTypes = {
   ).isRequired
 };
 
-export default withReceivedTrainingCategoryInfo(TrainingLevels);
+export default withReceivedTrainingCategory(TrainingLevels);

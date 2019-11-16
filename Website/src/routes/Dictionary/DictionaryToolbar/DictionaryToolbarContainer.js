@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { deleteWordPairs } from 'src/actions/wordPairsApiActions';
+import { deleteWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
 import InvertedDynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import DictionaryToolbar from './DictionaryToolbar';

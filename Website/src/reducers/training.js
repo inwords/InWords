@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   INITIALIZE_TRAINING_CATEGORIES,
-  INITIALIZE_TRAINING_CATEGORY_INFO,
+  INITIALIZE_TRAINING_CATEGORY,
   UPDATE_TRAINING_CATEGORY_LEVEL_RESULT,
   INITIALIZE_TRAINING_LEVEL
 } from 'src/actions/trainingActions';
@@ -15,14 +15,15 @@ function trainingCategories(state = [], action) {
   }
 }
 
-const initialTrainingCategoryInfoState = {
-  trainingId: null,
-  levelsInfo: []
-};
-
-function trainingCategoryInfo(state = initialTrainingCategoryInfoState, action) {
+function trainingCategory(
+  state = {
+    trainingId: null,
+    levelsInfo: []
+  },
+  action
+) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_CATEGORY_INFO:
+    case INITIALIZE_TRAINING_CATEGORY:
       return {
         trainingId: action.payload.gameId,
         levelsInfo: action.payload.levelInfos || []
@@ -46,12 +47,13 @@ function trainingCategoryInfo(state = initialTrainingCategoryInfoState, action) 
   }
 }
 
-const initialTrainingLevelState = {
-  levelId: null,
-  wordTranslations: []
-};
-
-function trainingLevel(state = initialTrainingLevelState, action) {
+function trainingLevel(
+  state = {
+    levelId: null,
+    wordTranslations: []
+  },
+  action
+) {
   switch (action.type) {
     case INITIALIZE_TRAINING_LEVEL:
       return {
@@ -65,6 +67,6 @@ function trainingLevel(state = initialTrainingLevelState, action) {
 
 export default combineReducers({
   trainingCategories,
-  trainingCategoryInfo,
+  trainingCategory,
   trainingLevel
 });

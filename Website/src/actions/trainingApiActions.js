@@ -18,17 +18,34 @@ export function receiveTrainingCategories() {
   });
 }
 
-export function receiveTrainingCategoryInfo(categoryId) {
+export function receiveTrainingCategory(categoryId) {
   return apiAction({
     endpoint: `game/${categoryId}`,
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingCategoryInfo(data));
+        dispatch(trainingActions.initializeTrainingCategory(data));
       }
     ],
     actionsOnFailure: [
       dispatch => {
         dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
+      }
+    ]
+  });
+}
+
+export function addTrainingCategoryWordsToDictionary(categoryId) {
+  return apiAction({
+    endpoint: 'game/addWordsToUserDictionary',
+    method: 'POST',
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(setSnackbar({ text: `Добавлено слов: ${data}` }));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось добавить слова' }));
       }
     ]
   });

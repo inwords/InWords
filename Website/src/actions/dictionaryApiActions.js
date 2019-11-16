@@ -1,12 +1,12 @@
 import apiAction from './apiAction';
-import * as wordPairsActions from './wordPairsActions';
+import * as wordPairsActions from './dictionaryActions';
 import { setSnackbar } from './commonActions';
 
-export function receiveWordPairs() {
+export function syncWordPairs(wordPairs) {
   return apiAction({
     endpoint: 'sync/pullWordPairs',
     method: 'POST',
-    data: JSON.stringify([]),
+    data: JSON.stringify(wordPairs),
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(wordPairsActions.initializeWordPairs(data));
@@ -38,18 +38,20 @@ export function deleteWordPairs(pairIds) {
   });
 }
 
-export function addWordPair(wordPair) {
+export function addWordPairs(wordPairs) {
   return apiAction({
     endpoint: 'words/addPair',
     method: 'POST',
-    data: JSON.stringify([wordPair]),
+    data: JSON.stringify(wordPairs),
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(
-          wordPairsActions.updateWordPairsAfterAddition({
-            serverId: data[0].serverId,
-            ...wordPair
-          })
+          wordPairsActions.updateWordPairsAfterAddition(
+            wordPairs.map((wordPair, index) => ({
+              ...wordPair,
+              serverId: data[index].serverId
+            }))
+          )
         );
       }
     ],
@@ -61,47 +63,26 @@ export function addWordPair(wordPair) {
   });
 }
 
-// Delete previous word pair and add new word pair
 export function editWordPair(pairId, wordPair) {
-  const addEditedWordPair = dispatch => {
-    dispatch(
-      apiAction({
-        endpoint: 'words/addPair',
-        method: 'POST',
-        data: JSON.stringify([wordPair]),
-        actionsOnSuccess: [
-          (dispatch, data) => {
-            dispatch(
-              wordPairsActions.updateWordPairsAfterEditing(pairId, {
-                serverId: data[0].serverId,
-                ...wordPair
-              })
-            );
-          }
-        ],
-        actionsOnFailure: [
-          dispatch => {
-            dispatch(
-              setSnackbar({
-                text: 'Не удалось отредактировать слово'
-              })
-            );
-          }
-        ]
-      })
-    );
-  };
-
   return apiAction({
-    endpoint: 'words/deletePair',
+    endpoint: 'words/updatePair',
     method: 'POST',
-    data: JSON.stringify([pairId]),
-    actionsOnSuccess: [addEditedWordPair],
+    data: JSON.stringify({ [pairId]: wordPair }),
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(
+          wordPairsActions.updateWordPairsAfterEditing(pairId, {
+            serverId: data[0].serverId,
+            ...wordPair
+          })
+        );
+      }
+    ],
     actionsOnFailure: [
       dispatch => {
         dispatch(
           setSnackbar({
-            text: 'Не удалось отредактировать слово'
+            text: 'Не удалось изменить слово'
           })
         );
       }

@@ -1,4 +1,4 @@
-import React, { useCallback, memo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { initializeTrainingLevel } from 'src/actions/trainingActions';
@@ -8,7 +8,7 @@ function DictionaryMenuButtonContainer({ checkedValues, ...rest }) {
   const wordPairs = useSelector(store => store.wordPairs);
 
   const dispatch = useDispatch();
-  const handleLearning = useCallback(() => {
+  const handleLearning = () => {
     dispatch(
       initializeTrainingLevel({
         levelId: 0,
@@ -17,7 +17,7 @@ function DictionaryMenuButtonContainer({ checkedValues, ...rest }) {
         )
       })
     );
-  }, [dispatch, checkedValues, wordPairs]);
+  };
 
   return <DictionaryMenuButton handleLearning={handleLearning} {...rest} />;
 }

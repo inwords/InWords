@@ -1,13 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveTrainingCategoryInfo } from 'src/actions/trainingApiActions';
+import { receiveTrainingCategory } from 'src/actions/trainingApiActions';
 
-function withReceivedTrainingCategoryInfo(WrappedComponent) {
-  function WithReceivedTrainingCategoryInfo(props) {
+function withReceivedTrainingCategory(WrappedComponent) {
+  function WithReceivedTrainingCategory(props) {
     const params = useParams();
 
-    const { trainingId, levelsInfo } = useSelector(store => store.training.trainingCategoryInfo);
+    const { trainingId, levelsInfo } = useSelector(store => store.training.trainingCategory);
 
     const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ function withReceivedTrainingCategoryInfo(WrappedComponent) {
 
     React.useEffect(() => {
       if (trainingId !== paramCategoryId) {
-        dispatch(receiveTrainingCategoryInfo(paramCategoryId));
+        dispatch(receiveTrainingCategory(paramCategoryId));
       }
     }, [trainingId, paramCategoryId, dispatch]);
 
@@ -28,9 +28,9 @@ function withReceivedTrainingCategoryInfo(WrappedComponent) {
 
   const wrappedComponentName =
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
-  withReceivedTrainingCategoryInfo.displayName = `withReceivedTrainingCategoryInfo(${wrappedComponentName})`;
+  withReceivedTrainingCategory.displayName = `withReceivedTrainingCategory(${wrappedComponentName})`;
 
-  return WithReceivedTrainingCategoryInfo;
+  return WithReceivedTrainingCategory;
 }
 
-export default withReceivedTrainingCategoryInfo;
+export default withReceivedTrainingCategory;

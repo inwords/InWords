@@ -4,11 +4,11 @@ export const initializeTrainingCategories = trainingCategories => ({
   payload: trainingCategories
 });
 
-export const INITIALIZE_TRAINING_CATEGORY_INFO =
-  'INITIALIZE_TRAINING_CATEGORY_INFO';
-export const initializeTrainingCategoryInfo = categoryInfo => ({
-  type: INITIALIZE_TRAINING_CATEGORY_INFO,
-  payload: categoryInfo
+export const INITIALIZE_TRAINING_CATEGORY =
+  'INITIALIZE_TRAINING_CATEGORY';
+export const initializeTrainingCategory = trainingCategory => ({
+  type: INITIALIZE_TRAINING_CATEGORY,
+  payload: trainingCategory
 });
 
 export const UPDATE_TRAINING_CATEGORY_LEVEL_RESULT =
