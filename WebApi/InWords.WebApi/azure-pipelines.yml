@@ -35,7 +35,14 @@ steps:
     arguments: '$(buildConfiguration)'
 
 # Test stage
-
+- task: DotNetCoreCLI@2
+  displayName: 'Run tests'
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '$(testConfiguration)'
+    publishTestResults: true
+    
 # Publish artifacts stage
 - task: DownloadSecureFile@1
   displayName: 'Download configuration file'
