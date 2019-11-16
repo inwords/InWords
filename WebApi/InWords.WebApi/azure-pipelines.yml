@@ -33,17 +33,11 @@ steps:
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '$(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Run tests'
-  inputs:
-    command: test
-    projects: '**/*Tests/*.csproj'
-    arguments: '$(testConfiguration)'
-    publishTestResults: true
+
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiBuild'
   inputs:
-    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/linux-x64/publish
+    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/linux-x64/
     artifact: _WebApiBuild
   condition: succeeded()
