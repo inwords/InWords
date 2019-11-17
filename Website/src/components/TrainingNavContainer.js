@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import TrainingsNavigation from 'src/components/TrainingsNavigation';
 
-const ContentWrapper = styled.div`
+const ContentContainer = styled.div`
   margin-top: 16px;
 `;
 
-function TrainingNavWrapper({ children }) {
+function TrainingNavContainer({ children }) {
   return (
     <Fragment>
       <TrainingsNavigation />
-      <ContentWrapper>{children}</ContentWrapper>
+      <ContentContainer>{children}</ContentContainer>
     </Fragment>
   );
 }
 
-TrainingNavWrapper.propTypes = {
+TrainingNavContainer.propTypes = {
   children: PropTypes.object.isRequired
 };
 
-export default TrainingNavWrapper;
+export default TrainingNavContainer;

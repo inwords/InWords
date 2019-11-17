@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-const ContentWrapper = styled.main`
+const ContentContainer = styled.main`
   flex-grow: 1;
   padding-top: 88px;
   ${props =>
@@ -11,9 +11,9 @@ const ContentWrapper = styled.main`
     }`}
 `;
 
-ContentWrapper.propTypes = {
+ContentContainer.propTypes = {
   shift: PropTypes.bool,
   children: PropTypes.node.isRequired
 };
 
-export default ContentWrapper;
+export default ContentContainer;

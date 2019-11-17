@@ -9,13 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
 import withReceivedTrainingCategory from '../HOCs/withReceivedTrainingCategory';
-import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
+import TrainingNavContainer from 'src/components/TrainingNavContainer';
 
 function TrainingLevels({ trainingId, levelsInfo }) {
   const match = useRouteMatch();
 
   return (
-    <TrainingNavWrapper>
+    <TrainingNavContainer>
       <Grid container spacing={2}>
         {levelsInfo.map(({ levelId, level, playerStars, isAvailable }) => (
           <Grid key={levelId} item xs={6} sm={4} md={3}>
@@ -51,7 +51,7 @@ function TrainingLevels({ trainingId, levelsInfo }) {
           </Grid>
         ))}
       </Grid>
-    </TrainingNavWrapper>
+    </TrainingNavContainer>
   );
 }
 

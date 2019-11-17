@@ -34,6 +34,8 @@ function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
         setVisibleWordPairs(prevVisibleWordPairs =>
           wordPairs.slice(0, prevVisibleWordPairs.length + limitOffset)
         );
+      } else if (window.pageYOffset === 0) {
+        setVisibleWordPairs(wordPairs.slice(0, limitOffset));
       }
     };
 

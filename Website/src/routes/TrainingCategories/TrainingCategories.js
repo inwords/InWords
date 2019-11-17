@@ -8,14 +8,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
+import TrainingNavContainer from 'src/components/TrainingNavContainer';
 import CategoryMenuButton from './CategoryMenuButton';
 
 function TrainingCategories({ trainingCategories }) {
   const match = useRouteMatch();
 
   return (
-    <TrainingNavWrapper>
+    <TrainingNavContainer>
       <Grid container spacing={3}>
         {trainingCategories.map(
           ({ gameId, title, description, isAvailable }) => (
@@ -44,7 +44,7 @@ function TrainingCategories({ trainingCategories }) {
           )
         )}
       </Grid>
-    </TrainingNavWrapper>
+    </TrainingNavContainer>
   );
 }
 

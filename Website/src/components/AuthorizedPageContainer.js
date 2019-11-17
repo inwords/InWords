@@ -1,6 +1,6 @@
 import React from 'react';
 import ProfileMenuButton from 'src/components/ProfileMenuButton';
-import PageWrapper from 'src/components/PageWrapper';
+import PageContainer from 'src/components/PageContainer';
 
 const mainRoutes = [
   {
@@ -13,9 +13,9 @@ const mainRoutes = [
   }
 ];
 
-function AuthorizedPageWrapper({ ...rest }) {
+function AuthorizedPageContainer({ ...rest }) {
   return (
-    <PageWrapper
+    <PageContainer
       mainRoutes={mainRoutes}
       rightNodes={[<ProfileMenuButton key={0} />]}
       {...rest}
@@ -23,4 +23,4 @@ function AuthorizedPageWrapper({ ...rest }) {
   );
 }
 
-export default AuthorizedPageWrapper;
+export default AuthorizedPageContainer;

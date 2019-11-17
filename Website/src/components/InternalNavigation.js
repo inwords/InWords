@@ -4,21 +4,21 @@ import styled from '@emotion/styled';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
-const BreadcrumbsWrapper = styled.div`
+const BreadcrumbsContainer = styled.div`
   padding: 8px 16px;
   background-color: ${props => props.theme.palette.background.paper};
 `;
 
 function InternalNavigation({ children }) {
   return (
-    <BreadcrumbsWrapper>
+    <BreadcrumbsContainer>
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
         {children}
       </Breadcrumbs>
-    </BreadcrumbsWrapper>
+    </BreadcrumbsContainer>
   );
 }
 

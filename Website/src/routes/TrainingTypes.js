@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
+import TrainingNavContainer from 'src/components/TrainingNavContainer';
 
 const trainingTypesInfo = [
   {
@@ -26,7 +26,7 @@ function TrainingTypes() {
   const match = useRouteMatch();
 
   return (
-    <TrainingNavWrapper>
+    <TrainingNavContainer>
       <Grid container spacing={3}>
         {trainingTypesInfo.map(({ typeId, title, description }) => {
           return (
@@ -55,7 +55,7 @@ function TrainingTypes() {
           );
         })}
       </Grid>
-    </TrainingNavWrapper>
+    </TrainingNavContainer>
   );
 }
 

@@ -8,7 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Search from './Search';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
-const ToolbarWrapper = styled.div`
+const ToolbarContainer = styled.div`
   display: flex;
   align-items: center;
   min-height: 64px;
@@ -44,7 +44,7 @@ function DictionaryToolbar({
   const numberOfChecked = checkedValues.length;
 
   return (
-    <ToolbarWrapper>
+    <ToolbarContainer>
       {!editingModeEnabled ? (
         <Fragment>
           <EntryTitleBlock>
@@ -85,7 +85,7 @@ function DictionaryToolbar({
           />
         </Fragment>
       )}
-    </ToolbarWrapper>
+    </ToolbarContainer>
   );
 }
 

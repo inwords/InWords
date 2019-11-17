@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import List from 'src/components/List';
 
 const NavListItem = styled(ListItem)`
   padding: 0;

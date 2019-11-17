@@ -6,9 +6,9 @@ import Container from '@material-ui/core/Container';
 import PageProgress from 'src/components/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
 import SmartSnackbar from 'src/components/SmartSnackbar';
-import PageWrapper from 'src/components/PageWrapper';
-import AuthorizedPageWrapper from 'src/components/AuthorizedPageWrapper';
-import TrainingPageWrapper from 'src/components/TrainingPageWrapper';
+import PageContainer from 'src/components/PageContainer';
+import AuthorizedPageContainer from 'src/components/AuthorizedPageContainer';
+import TrainingPageContainer from 'src/components/TrainingPageContainer';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 
 const SignIn = lazy(() => import('./routes/SignIn'));
@@ -54,65 +54,65 @@ function App() {
               render={() => <Redirect to={`/profile/${userId}`} />}
             />
             <Route path="/signIn">
-              <PageWrapper>
+              <PageContainer>
                 <Container maxWidth="xs">
                   <SignIn />
                 </Container>
-              </PageWrapper>
+              </PageContainer>
             </Route>
             <Route path="/signUp">
-              <PageWrapper>
+              <PageContainer>
                 <Container maxWidth="xs">
                   <SignUp />
                 </Container>
-              </PageWrapper>
+              </PageContainer>
             </Route>
             <Route path="/profile/:userId">
-              <AuthorizedPageWrapper>
+              <AuthorizedPageContainer>
                 <Profile />
-              </AuthorizedPageWrapper>
+              </AuthorizedPageContainer>
             </Route>
             <Route path="/profileSettings">
-              <AuthorizedPageWrapper>
+              <AuthorizedPageContainer>
                 <Container component="div" maxWidth="sm">
                   <ProfileSettings />
                 </Container>
-              </AuthorizedPageWrapper>
+              </AuthorizedPageContainer>
             </Route>
             <Route path="/account">
-              <AuthorizedPageWrapper>
+              <AuthorizedPageContainer>
                 <Container component="div" maxWidth="sm">
                   <Account />
                 </Container>
-              </AuthorizedPageWrapper>
+              </AuthorizedPageContainer>
             </Route>
             <Route path="/dictionary">
-              <AuthorizedPageWrapper>
+              <AuthorizedPageContainer>
                 <Container component="div" maxWidth="md">
                   <Dictionary />
                 </Container>
-              </AuthorizedPageWrapper>
+              </AuthorizedPageContainer>
             </Route>
             <Route exact path="/trainings">
-              <TrainingPageWrapper>
+              <TrainingPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingCategories />
                 </Container>
-              </TrainingPageWrapper>
+              </TrainingPageContainer>
             </Route>
             <Route exact path="/trainings/:categoryId">
-              <TrainingPageWrapper>
+              <TrainingPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingTypes />
                 </Container>
-              </TrainingPageWrapper>
+              </TrainingPageContainer>
             </Route>
             <Route exact path="/trainings/:categoryId/:trainingId">
-              <TrainingPageWrapper>
+              <TrainingPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingLevels />
                 </Container>
-              </TrainingPageWrapper>
+              </TrainingPageContainer>
             </Route>
             <Route
               path="/trainings/:categoryId/:trainingId/:levelId"
@@ -120,19 +120,19 @@ function App() {
                 switch (match.params.trainingId) {
                   case '0':
                     return (
-                      <TrainingPageWrapper>
+                      <TrainingPageContainer>
                         <Container component="div" maxWidth="lg">
                           <Game match={match} {...rest} />
                         </Container>
-                      </TrainingPageWrapper>
+                      </TrainingPageContainer>
                     );
                   case '1':
                     return (
-                      <TrainingPageWrapper>
+                      <TrainingPageContainer>
                         <Container component="div" maxWidth="lg">
                           <SelectTranslateTraining match={match} {...rest} />
                         </Container>
-                      </TrainingPageWrapper>
+                      </TrainingPageContainer>
                     );
                   default:
                     return null;

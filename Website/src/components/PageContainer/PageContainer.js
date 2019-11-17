@@ -4,17 +4,17 @@ import styled from '@emotion/styled';
 import useDrawer from 'src/hooks/useDrawer';
 import Header from './Header';
 import Drawers from './Drawers/Drawers';
-import ContentWrapper from './ContentWrapper';
+import ContentContainer from './ContentContainer';
 
-const Wrapper = styled.div`
+const Container = styled.div`
   display: flex;
 `;
 
-function PageWrapper({ mainRoutes, sideRoutes, rightNodes, children }) {
+function PageContainer({ mainRoutes, sideRoutes, rightNodes, children }) {
   const { open, handleOpen, handleClose } = useDrawer();
 
   return (
-    <Wrapper>
+    <Container>
       <Header
         mainRoutes={mainRoutes}
         rightNodes={rightNodes}
@@ -28,15 +28,17 @@ function PageWrapper({ mainRoutes, sideRoutes, rightNodes, children }) {
           handleClose={handleClose}
         />
       )}
-      <ContentWrapper shift={Boolean(mainRoutes)}>{children}</ContentWrapper>
-    </Wrapper>
+      <ContentContainer shift={Boolean(mainRoutes)}>
+        {children}
+      </ContentContainer>
+    </Container>
   );
 }
 
-PageWrapper.propTypes = {
+PageContainer.propTypes = {
   sideRoutes: PropTypes.array,
   mainRoutes: PropTypes.array,
   children: PropTypes.node
 };
 
-export default PageWrapper;
+export default PageContainer;

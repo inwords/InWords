@@ -9,17 +9,11 @@ function DynamicAppBar({ children, ...rest }) {
   React.useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.pageYOffset;
+      const diff = prevScrollYRef.current - currentScrollY;
 
-      if (
-        (prevScrollYRef.current - currentScrollY > 1 || currentScrollY === 0) &&
-        !show
-      ) {
+      if ((diff > 1 || currentScrollY === 0) && !show) {
         setShow(true);
-      } else if (
-        prevScrollYRef.current - currentScrollY < -1 &&
-        currentScrollY > 64 &&
-        show
-      ) {
+      } else if (diff < -1 && currentScrollY > 64 && show) {
         setShow(false);
       }
 

@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import List from '@material-ui/core/List';
 import useDialog from 'src/hooks/useDialog';
+import List from 'src/components/List';
 import WordlistItem from './WordlistItem';
 import WordPairEditDialog from '../WordPairEditDialog';
 
 const WordList = styled(List)`
-  margin-bottom: 64px;
+  margin: 0 0 64px;
 `;
 
 function Wordlist({ wordPairs, checkedValues, ...rest }) {
