@@ -5,7 +5,7 @@ import { initializeTrainingLevel } from 'src/actions/trainingActions';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
 function DictionaryMenuButtonContainer({ checkedValues, ...rest }) {
-  const wordPairs = useSelector(store => store.wordPairs);
+  const { wordPairs } = useSelector(store => store.dictionary);
 
   const dispatch = useDispatch();
   const handleLearning = () => {

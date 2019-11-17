@@ -1,8 +1,8 @@
 Options -MultiViews
 RewriteEngine On
 
-RewriteCond %{HTTPS} !=on
-RewriteRule .* https://%{SERVER_NAME}/$1 [R,L]
+RewriteCond %{SERVER_PORT} !^443$
+RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.html [QSA,L]
