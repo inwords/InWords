@@ -1,9 +1,10 @@
-﻿using InWords.Data.DTO.GameBox;
+﻿using System.Collections.Generic;
+using InWords.Data.DTO.GameBox;
 using MediatR;
 
 namespace InWords.WebApi.Services.UserGameService.GetUsersGameHistory
 {
-    public class GetUserGameStoryQuery : IRequest<LevelInfo>
+    public class GetUserGameStoryQuery : IRequest<List<LevelInfo>>
     {
         public int UserId { get; set; }
         public int StoryCount { get; set; }
