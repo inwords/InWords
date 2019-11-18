@@ -12,18 +12,17 @@ import ru.inwords.inwords.core.resource.wrapResource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.game.data.converter.LevelResultConverter
+import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderHolder
 import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
 import ru.inwords.inwords.game.data.repository.custom_game.withUpdatedLevelScore
 import ru.inwords.inwords.game.data.source.GameDao
 import ru.inwords.inwords.game.data.source.GameInfoDao
 import ru.inwords.inwords.game.data.source.GameLevelDao
-import ru.inwords.inwords.game.data.source.LevelScoreRequestDao
 import ru.inwords.inwords.game.domain.converter.GameDomainConverter
 import ru.inwords.inwords.game.domain.converter.GamesInfoDomainConverter
 import ru.inwords.inwords.game.domain.model.GameModel
 import ru.inwords.inwords.game.domain.model.GamesInfoModel
 import ru.inwords.inwords.game.domain.model.LevelResultModel
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,7 +33,8 @@ class GameGatewayControllerImpl @Inject constructor(
     gameInfoDao: GameInfoDao,
     gameDao: GameDao,
     gameLevelDao: GameLevelDao,
-    private val levelScoreRequestDao: LevelScoreRequestDao) : GameGatewayController, CustomGameGatewayController {
+    private val levelScoreDeferredUploaderHolder: LevelScoreDeferredUploaderHolder
+) : GameGatewayController, CustomGameGatewayController {
 
     private val gameInfoDatabaseRepository by lazy { GameDatabaseRepository<GameInfo>(gameInfoDao) }
     private val gameDatabaseRepository by lazy { GameDatabaseRepository<Game>(gameDao) }
@@ -99,37 +99,15 @@ class GameGatewayControllerImpl @Inject constructor(
     override fun getScore(game: Game, levelResultModel: LevelResultModel): Single<Resource<LevelScore>> {
         val levelScoreRequest = wordOpenCountsConverter.convert(levelResultModel)
 
-        return gameRemoteRepository.getScore(levelScoreRequest).wrapResource(Source.NETWORK)
-            .flatMap { res ->
-                when (res) {
-                    is Resource.Error -> levelScoreRequestDao.insert(levelScoreRequest)
-                        .doOnError { Log.e(TAG, it.message.orEmpty()) }
-                        .map { res }
-                        .onErrorReturn { res }
-                    is Resource.Success -> {
-                        gameCachingProviderLocator.get(game.gameId)
-                            .postOnLoopback(game.withUpdatedLevelScore(levelId = res.data.levelId, newScore = res.data.score))
-
-                        Single.just(res)
-                    }
-                    else -> Single.just(res)
-                }
-            }
+        return levelScoreDeferredUploaderHolder.getScore(levelScoreRequest) { res ->
+            gameCachingProviderLocator.get(game.gameId)
+                .postOnLoopback(game.withUpdatedLevelScore(levelId = res.data.levelId, newScore = res.data.score))
+        }
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> { //TODO выпилить
-        return levelScoreRequestDao.getAllScores()
-            .filter { it.isNotEmpty() }
-            .flatMapSingle { levelScores -> gameRemoteRepository.uploadScore(levelScores).map { levelScores } }
-            .flatMap { levelScores -> levelScoreRequestDao.deleteAll().map { levelScores } }
-            .onErrorResumeNext { t ->
-                if (t is NoSuchElementException) { //skip error if it is because of filter
-                    Single.just(emptyList())
-                } else {
-                    Single.error(t)
-                }
-            }
+    override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> {
+        return levelScoreDeferredUploaderHolder.tryUploadDataToRemote()
     }
 
     override fun clearCache() {
