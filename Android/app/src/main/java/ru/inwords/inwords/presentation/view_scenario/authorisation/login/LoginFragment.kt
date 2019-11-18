@@ -27,7 +27,7 @@ class LoginFragment : SigningBaseFragment<LoginViewModel, AuthorisationViewModel
 
     override fun navigateOnSuccess() {
         KeyboardUtils.hideKeyboard(view)
-        navController.navigate(LoginFragmentDirections.actionLoginFragmentToMainFragmentPop())
+        navController.navigate(LoginFragmentDirections.actionPopOutOfAuth())
     }
 
     private fun navigateToRegistration() {
