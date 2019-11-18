@@ -100,7 +100,7 @@ internal class ResourceCachingProviderTest {
         subscriber.awaitCount(4)
             .assertNoErrors()
             .assertValueCount(4)
-            .assertValueSet(setOf(Resource.Success(strr)))
+            .assertValueSet(setOf(Resource.Success(strr, Source.NETWORK)))
             .assertNotTerminated()
 
         assert(i[0] == 2)
@@ -122,6 +122,7 @@ internal class ResourceCachingProviderTest {
             .assertNoErrors()
             .assertValue { it is Resource.Success }
             .assertValue { (it as Resource.Success).data == str }
+            .assertValue { (it as Resource.Success).source == Source.NETWORK }
             .assertValueCount(1)
             .assertNotTerminated()
 
@@ -147,6 +148,7 @@ internal class ResourceCachingProviderTest {
             .assertNoErrors()
             .assertValue { it is Resource.Success }
             .assertValue { (it as Resource.Success).data == str }
+            .assertValue { (it as Resource.Success).source == Source.NETWORK }
             .assertValueCount(1)
             .assertNotTerminated()
 
@@ -178,6 +180,7 @@ internal class ResourceCachingProviderTest {
             .assertNoErrors()
             .assertValueAt(1) { it is Resource.Success }
             .assertValueAt(1) { (it as Resource.Success).data == str.toString() }
+            .assertValueAt(1) { (it as Resource.Success).source == Source.NETWORK }
             .assertValueCount(2)
             .assertTimeout()
             .assertNotTerminated()
@@ -207,6 +210,7 @@ internal class ResourceCachingProviderTest {
             .assertNoErrors()
             .assertValue { it is Resource.Success }
             .assertValue { (it as Resource.Success).data == str }
+            .assertValue { (it as Resource.Success).source == Source.CACHE }
             .assertValueCount(1)
             .assertNotTerminated()
 
@@ -230,6 +234,7 @@ internal class ResourceCachingProviderTest {
             .awaitCount(1)
             .assertNoErrors()
             .assertValue { it is Resource.Error }
+            .assertValue { (it as Resource.Error).source == Source.CACHE }
             .assertValueCount(1)
             .assertNotTerminated()
 
