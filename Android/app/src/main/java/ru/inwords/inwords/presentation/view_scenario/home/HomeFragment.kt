@@ -41,7 +41,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                 is CardWrapper.CreateAccountMarker -> navController.navigate(HomeFragmentDirections.actionMainFragmentToLoginFragment())
                 is CardWrapper.ProfileLoadingMarker -> Unit
                 is CardWrapper.ProfileModel -> navController.navigate(HomeFragmentDirections.actionMainFragmentToProfileFragment())
-                is CardWrapper.DictionaryModel -> navController.navigate(HomeFragmentDirections.actionMainFragmentToTranslationMainFragment())
+                is CardWrapper.DictionaryModel -> navController.navigate(HomeFragmentDirections.actionMainFragmentToDictionary())
             }
         }
     }

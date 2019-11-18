@@ -5,40 +5,24 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
-    <fragment
-        android:id="@+id/registrationFragment"
-        android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.registration.RegistrationFragment"
-        tools:layout="@layout/fragment_sign_up">
-        <action
-            android:id="@+id/action_registrationFragment_to_loginFragment_pop"
-            app:popUpTo="@id/loginFragment" />
-        <action
-            android:id="@+id/action_registrationFragment_to_mainFragment_pop"
-            app:popUpTo="@id/mainFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.login.LoginFragment"
-        tools:layout="@layout/fragment_sign_in">
-        <action
-            android:id="@+id/action_loginFragment_to_mainFragment_pop"
-            app:popUpTo="@id/mainFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-    </fragment>
+    <action
+        android:id="@+id/action_global_mainFragment"
+        app:destination="@id/mainFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_right" />
+    <action
+        android:id="@+id/action_global_dictionary"
+        app:destination="@id/graph_dictionary"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_right" />
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="ru.inwords.inwords.presentation.view_scenario.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_mainFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
+            app:destination="@id/graph_profile"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -46,15 +30,15 @@
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_mainFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
+            app:destination="@id/graph_auth"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_mainFragment_to_translationMainFragment"
-            app:destination="@id/translationMainFragment"
+            android:id="@+id/action_mainFragment_to_dictionary"
+            app:destination="@id/graph_dictionary"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -66,91 +50,12 @@
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="ru.inwords.inwords.profile.presentation.view.ProfileFragment"
-        tools:layout="@layout/fragment_profile">
-        <action
-            android:id="@+id/action_profileFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_profileFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
         android:id="@+id/policyFragment"
         android:name="ru.inwords.inwords.presentation.view_scenario.policy.PolicyFragment"
         tools:layout="@layout/fragment_policy">
         <action
             android:id="@+id/action_policyFragment_pop"
             app:popUpTo="@id/mainFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/translationMainFragment"
-        android:name="ru.inwords.inwords.translation.presentation.view.translation_main.TranslationMainFragment"
-        tools:layout="@layout/fragment_translation_main">
-        <action
-            android:id="@+id/action_translationMainFragment_to_addEditWordFragment"
-            app:destination="@id/addEditWordFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_translationMainFragment_to_customGameCreatorFragment"
-            app:destination="@id/customGameCreatorFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/addEditWordFragment"
-        android:name="ru.inwords.inwords.translation.presentation.view.add_edit_word.AddEditWordFragment"
-        tools:layout="@layout/fragment_add_edit_word">
-        <action
-            android:id="@+id/action_addEditWordFragment_pop"
-            app:popUpTo="@id/addEditWordFragment"
-            app:popUpToInclusive="true" />
-        <argument
-            android:name="wordTranslation"
-            app:argType="ru.inwords.inwords.translation.data.bean.WordTranslation" />
-    </fragment>
-    <fragment
-        android:id="@+id/gamesFragment"
-        android:name="ru.inwords.inwords.game.presentation.games.GamesFragment"
-        tools:layout="@layout/fragment_games">
-        <action
-            android:id="@+id/action_gamesFragment_to_gameLevelsFragment"
-            app:destination="@id/gameLevelsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/gameLevelsFragment"
-        android:name="ru.inwords.inwords.game.presentation.game_levels.GameLevelsFragment"
-        tools:layout="@layout/fragment_game_levels">
-        <action
-            android:id="@+id/action_gameLevelsFragment_to_gameLevelFragment"
-            app:destination="@id/gameLevelFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <argument
-            android:name="gameInfo"
-            app:argType="ru.inwords.inwords.game.domain.model.GameInfoModel" />
     </fragment>
     <fragment
         android:id="@+id/gameLevelFragment"
@@ -165,25 +70,6 @@
         <argument
             android:name="gameId"
             app:argType="integer" />
-    </fragment>
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="ru.inwords.inwords.presentation.view_scenario.SettingsFragment" />
-
-    <fragment
-        android:id="@+id/customGameCreatorFragment"
-        android:name="ru.inwords.inwords.game.presentation.custom_game.CustomGameCreatorFragment"
-        tools:layout="@layout/fragment_custom_game_creator">
-        <action
-            android:id="@+id/action_customGameCreatorFragment_to_gameLevelFragment"
-            app:destination="@id/gameLevelFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <argument
-            android:name="wordTranslations"
-            app:argType="ru.inwords.inwords.translation.data.bean.WordTranslation[]" />
     </fragment>
 
     <dialog
@@ -206,15 +92,147 @@
             app:popUpTo="@id/gamesFragment" />
     </dialog>
 
-    <action
-        android:id="@+id/action_global_mainFragment"
-        app:destination="@id/mainFragment"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_right" />
-    <action
-        android:id="@+id/action_global_translationMainFragment"
-        app:destination="@id/translationMainFragment"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_right" />
+    <navigation
+        android:id="@+id/graph_dictionary"
+        app:startDestination="@id/translationMainFragment">
+        <fragment
+            android:id="@+id/addEditWordFragment"
+            android:name="ru.inwords.inwords.translation.presentation.view.add_edit_word.AddEditWordFragment"
+            tools:layout="@layout/fragment_add_edit_word">
+            <action
+                android:id="@+id/action_addEditWordFragment_pop"
+                app:popUpTo="@id/addEditWordFragment"
+                app:popUpToInclusive="true" />
+            <argument
+                android:name="wordTranslation"
+                app:argType="ru.inwords.inwords.translation.data.bean.WordTranslation" />
+        </fragment>
+        <fragment
+            android:id="@+id/translationMainFragment"
+            android:name="ru.inwords.inwords.translation.presentation.view.translation_main.TranslationMainFragment"
+            tools:layout="@layout/fragment_translation_main">
+            <action
+                android:id="@+id/action_translationMainFragment_to_addEditWordFragment"
+                app:destination="@id/addEditWordFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpToInclusive="false" />
+            <action
+                android:id="@+id/action_translationMainFragment_to_customGameCreatorFragment"
+                app:destination="@id/customGameCreatorFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/customGameCreatorFragment"
+            android:name="ru.inwords.inwords.game.presentation.custom_game.CustomGameCreatorFragment"
+            tools:layout="@layout/fragment_custom_game_creator">
+            <action
+                android:id="@+id/action_customGameCreatorFragment_to_gameLevelFragment"
+                app:destination="@id/gameLevelFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+            <argument
+                android:name="wordTranslations"
+                app:argType="ru.inwords.inwords.translation.data.bean.WordTranslation[]" />
+        </fragment>
+    </navigation>
+
+    <navigation
+        android:id="@+id/graph_game_selection"
+        app:startDestination="@id/gamesFragment">
+        <fragment
+            android:id="@+id/gamesFragment"
+            android:name="ru.inwords.inwords.game.presentation.games.GamesFragment"
+            tools:layout="@layout/fragment_games">
+            <action
+                android:id="@+id/action_gamesFragment_to_gameLevelsFragment"
+                app:destination="@id/gameLevelsFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/gameLevelsFragment"
+            android:name="ru.inwords.inwords.game.presentation.game_levels.GameLevelsFragment"
+            tools:layout="@layout/fragment_game_levels">
+            <action
+                android:id="@+id/action_gameLevelsFragment_to_gameLevelFragment"
+                app:destination="@id/gameLevelFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+            <argument
+                android:name="gameInfo"
+                app:argType="ru.inwords.inwords.game.domain.model.GameInfoModel" />
+        </fragment>
+    </navigation>
+
+    <navigation
+        android:id="@+id/graph_profile"
+        app:startDestination="@id/profileFragment">
+        <fragment
+            android:id="@+id/profileFragment"
+            android:name="ru.inwords.inwords.profile.presentation.view.ProfileFragment"
+            tools:layout="@layout/fragment_profile">
+            <action
+                android:id="@+id/action_profileFragment_to_loginFragment"
+                app:destination="@id/graph_auth"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpToInclusive="false" />
+            <action
+                android:id="@+id/action_profileFragment_to_settingsFragment"
+                app:destination="@id/settingsFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+            android:id="@+id/settingsFragment"
+            android:name="ru.inwords.inwords.presentation.view_scenario.SettingsFragment" />
+    </navigation>
+
+    <navigation
+        android:id="@+id/graph_auth"
+        app:startDestination="@id/loginFragment">
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.login.LoginFragment"
+            tools:layout="@layout/fragment_sign_in">
+            <action
+                android:id="@+id/action_loginFragment_to_registrationFragment"
+                app:destination="@id/registrationFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpToInclusive="false" />
+        </fragment>
+        <fragment
+            android:id="@+id/registrationFragment"
+            android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.registration.RegistrationFragment"
+            tools:layout="@layout/fragment_sign_up">
+            <action
+                android:id="@+id/action_registrationFragment_to_loginFragment_pop"
+                app:popUpTo="@id/loginFragment" />
+        </fragment>
+
+        <action
+            android:id="@+id/action_pop_out_of_auth"
+            app:popUpTo="@id/graph_auth"
+            app:popUpToInclusive="true" />
+    </navigation>
 
 </navigation>
