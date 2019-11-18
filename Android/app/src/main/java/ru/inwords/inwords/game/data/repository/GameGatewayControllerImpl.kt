@@ -7,6 +7,7 @@ import io.reactivex.Single
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.resource.ResourceCachingProvider
+import ru.inwords.inwords.core.resource.Source
 import ru.inwords.inwords.core.resource.wrapResource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.bean.*
@@ -72,9 +73,7 @@ class GameGatewayControllerImpl @Inject constructor(
     }
 
     private fun getGameLocal(gameId: Int): Single<Resource<Game>> {
-        return gameDatabaseRepository.getById(gameId)
-            .map { Resource.Success(it) as Resource<Game> }
-            .onErrorReturn { Resource.Error(it.message, it) }
+        return gameDatabaseRepository.getById(gameId).wrapResource(Source.CACHE)
     }
 
     override fun storeGame(game: Game): Completable {
@@ -90,9 +89,7 @@ class GameGatewayControllerImpl @Inject constructor(
     }
 
     private fun getLevelLocal(levelId: Int): Single<Resource<GameLevel>> {
-        return gameLevelDatabaseRepository.getById(levelId)
-            .map { Resource.Success(it) as Resource<GameLevel> }
-            .onErrorReturn { Resource.Error(it.message, it) }
+        return gameLevelDatabaseRepository.getById(levelId).wrapResource(Source.CACHE)
     }
 
     override fun storeLevel(gameLevel: GameLevel): Completable {
@@ -102,7 +99,7 @@ class GameGatewayControllerImpl @Inject constructor(
     override fun getScore(game: Game, levelResultModel: LevelResultModel): Single<Resource<LevelScore>> {
         val levelScoreRequest = wordOpenCountsConverter.convert(levelResultModel)
 
-        return gameRemoteRepository.getScore(levelScoreRequest).wrapResource()
+        return gameRemoteRepository.getScore(levelScoreRequest).wrapResource(Source.NETWORK)
             .flatMap { res ->
                 when (res) {
                     is Resource.Error -> levelScoreRequestDao.insert(levelScoreRequest)

@@ -34,7 +34,7 @@ internal class ResourceCachingProvider<T : Any>(
     private var inProgress = AtomicBoolean(false)
 
     private val remoteObservable = if (prefetchFromDatabase) {
-        Maybe.concatArrayEager(databaseGetter().wrapResourceSkipError(), remoteDataProvider().wrapNetworkResource()).toObservable()
+        Maybe.concatArrayEager(databaseGetter().wrapResourceSkipError(Source.PREFETCH), remoteDataProvider().wrapNetworkResource()).toObservable()
     } else {
         remoteDataProvider().wrapNetworkResource().toObservable()
     }
@@ -51,11 +51,11 @@ internal class ResourceCachingProvider<T : Any>(
                 when (res) {
                     is Resource.Success -> databaseInserter(res.data)
                         .doOnError { Log.e(TAG, it.message.orEmpty()) }
-                        .wrapResourceOverwriteError(res)
+                        .wrapDatabaseInserterResource(res, res.source)
                     is Resource.Loading -> Single.just(res)
                     is Resource.Error -> {
                         Log.e(TAG, res.message.orEmpty())
-                        databaseGetter().wrapResource()
+                        databaseGetter().wrapResource(Source.CACHE)
                     }
                 }
             }
@@ -80,11 +80,11 @@ internal class ResourceCachingProvider<T : Any>(
 
     fun askForDatabaseContent() {
         val t = Throwable("askForDatabaseContent")
-        fakeRemoteStream.onNext(Resource.Error(t.message, t))
+        fakeRemoteStream.onNext(Resource.Error(t.message, t, Source.NOT_SET))
     }
 
     fun postOnLoopback(value: T) {
-        fakeRemoteStream.onNext(Resource.Success(value))
+        fakeRemoteStream.onNext(Resource.Success(value, Source.NOT_SET))
     }
 
     fun observe(forceUpdate: Boolean = false): Observable<Resource<T>> {
@@ -105,8 +105,8 @@ internal class ResourceCachingProvider<T : Any>(
         askForContentStream.onNext(Unit)
     }
 
-    private fun Single<T>.wrapResourceOverwriteError(onErrorResource: Resource<T>): Single<Resource<T>> {
-        return map { Resource.Success(it) as Resource<T> }
+    private fun Single<T>.wrapDatabaseInserterResource(onErrorResource: Resource<T>, source: Source): Single<Resource<T>> {
+        return map { Resource.Success(it, source) as Resource<T> }
             .onErrorReturn { onErrorResource }
     }
 
@@ -136,26 +136,26 @@ internal class ResourceCachingProvider<T : Any>(
     }
 }
 
-fun <T : Any> Single<T>.wrapResource(): Single<Resource<T>> {
-    return map { Resource.Success(it) as Resource<T> }
-        .onErrorReturn { Resource.Error(it.message, it) }
+fun <T : Any> Single<T>.wrapResource(source: Source): Single<Resource<T>> {
+    return map { Resource.Success(it, source) as Resource<T> }
+        .onErrorReturn { Resource.Error(it.message, it, source) }
 }
 
 internal fun <T : Any> Single<T>.wrapNetworkResource(): Maybe<Resource<T>> {
-    return map { Resource.Success(it) as Resource<T> }
+    return map { Resource.Success(it, Source.NETWORK) as Resource<T> }
         .toMaybe()
         .onErrorResumeNext(Function {
             if (it is InterruptedIOException || it is InterruptedException) {
                 Log.e(ResourceCachingProvider.TAG, "Interrupted exception intercepted: ${it.message.orEmpty()}")
                 Maybe.empty<Resource<T>>()
             } else {
-                Maybe.just(Resource.Error(it.message, it))
+                Maybe.just(Resource.Error(it.message, it, Source.NETWORK))
             }
         })
 }
 
-internal fun <T : Any> Single<T>.wrapResourceSkipError(): Maybe<Resource<T>> {
-    return map { Resource.Success(it) as Resource<T> }
+internal fun <T : Any> Single<T>.wrapResourceSkipError(source: Source): Maybe<Resource<T>> {
+    return map { Resource.Success(it, source) as Resource<T> }
         .toMaybe()
         .onErrorResumeNext(Maybe.empty<Resource<T>>())
 }
