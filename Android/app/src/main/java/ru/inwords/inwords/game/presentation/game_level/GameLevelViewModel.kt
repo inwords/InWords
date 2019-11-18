@@ -94,6 +94,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
                     when (val queryResult = queryResultResource.data) {
                         is ContinueGameQueryResult.NextLevelInfo -> {
                             onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
+                            _navigationFromGameEnd.postValue(Event(NEXT))
                         }
                         is ContinueGameQueryResult.NextGameInfo -> {
                             _navigationFromGameEnd.postValue(Event(GAMES_FRAGMENT)) //TODO show congrats screen with action "go to next"
