@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
+using InWords.WebApi.Services.UserGameService.GetUsersGameHistory;
 
 namespace InWords.WebApi.Services.UserGameService
 {
@@ -8,6 +9,7 @@ namespace InWords.WebApi.Services.UserGameService
         public override void ConfigureIoc(ContainerBuilder builder)
         {
             builder.RegisterType<LevelCreator>();
+            builder.RegisterType<GetUserGameStoryHandler>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }
