@@ -5,21 +5,47 @@ using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
 using InWords.Data.Domains;
+using InWords.Data.DTO;
+using InWords.WebApi.Extensions;
 using InWords.WebApi.Services.Abstractions;
-using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords
 {
-    public class GetLearningUserWordsHandler : ContextRequestHandler<GetLearningUserWordsQuery,List<UserWordPair>,InWordsDataContext>
+    public class GetLearningUserWordsHandler : ContextRequestHandler<GetLearningUserWordsQuery, IEnumerable<WordTranslation>, InWordsDataContext>
     {
-        public GetLearningUserWordsHandler(InWordsDataContext context) : base(context) { }
-
-        public override Task<List<UserWordPair>> Handle(GetLearningUserWordsQuery request, CancellationToken cancellationToken = default)
+        public GetLearningUserWordsHandler(InWordsDataContext context) : base(context)
         {
-            var userWordPairs = Context.UserWordPairs.Where(uwp => uwp.UserId.Equals(request.UserId));
+        }
+
+        public override async Task<IEnumerable<WordTranslation>> Handle(GetLearningUserWordsQuery request,
+            CancellationToken cancellationToken = default)
+        {
             var currentPeriod = DateTime.UtcNow.AddDays(1);
-            var needToLearn = userWordPairs.Where(uwp => uwp.TimeGap < currentPeriod);
-            return base.Handle(request, cancellationToken);
+            var userWordPairs = SelectUsersWordPairs(request.UserId);
+            var pairsToLearn = SelectPairsToLearn(userWordPairs, currentPeriod);
+
+            var userWordPairsLoaded = await pairsToLearn
+                .Include(u => u.WordPair)
+                .ThenInclude(wp => wp.WordForeign)
+                .Include(u => u.WordPair.WordNative)
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+
+            return userWordPairsLoaded.ToWordTranslations();
+        }
+
+        private static IQueryable<UserWordPair> SelectPairsToLearn(IQueryable<UserWordPair> userWordPairs, DateTime currentPeriod)
+        {
+            return userWordPairs.Where(uwp => uwp.TimeGap < currentPeriod);
+        }
+
+        private IQueryable<UserWordPair> SelectUsersWordPairs(int userId)
+        {
+            return Context.UserWordPairs.Where(uwp => uwp.UserId.Equals(userId));
         }
     }
 }
