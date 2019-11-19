@@ -28,6 +28,8 @@ namespace InWords.WebApi.AppStart
     /// </summary>
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        
         /// <summary>
         ///     Startup constructor
         /// </summary>
@@ -48,7 +50,6 @@ namespace InWords.WebApi.AppStart
         /// <summary>
         ///     This is the service configuration
         /// </summary>
-        public IConfiguration Configuration { get; }
 
         /// <summary>
         ///     This method gets called by the runtime. Use this method to add services to the container.
@@ -71,7 +72,6 @@ namespace InWords.WebApi.AppStart
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions);
 
-
             // api version info
             services.AddApiVersioningInWords();
 
@@ -79,6 +79,9 @@ namespace InWords.WebApi.AppStart
             services.AddSwaggerInWords();
 
             services.Configure<FtpCredentials>(Configuration.GetSection(nameof(FtpCredentials)));
+
+            // to register types of modules
+            Program.InModules.ForEach(m => m.ConfigureServices(services));
         }
 
         /// <summary>
@@ -123,6 +126,9 @@ namespace InWords.WebApi.AppStart
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             app.UseMvc();
+
+            // to register types of modules
+            Program.InModules.ForEach(m => m.ConfigureApp(app));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

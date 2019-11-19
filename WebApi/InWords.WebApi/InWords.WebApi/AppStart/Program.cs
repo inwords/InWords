@@ -3,6 +3,7 @@ using System.Net;
 using Autofac.Extensions.DependencyInjection;
 using InWords.WebApi.Module;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
 
 namespace InWords.WebApi.AppStart
@@ -27,9 +28,22 @@ namespace InWords.WebApi.AppStart
                         .UseStartup<Startup>()
                         .UseKestrel((hostingContext, options) =>
                         {
-                            options.Listen(IPAddress.Loopback, 5100);
+                            options.Listen(IPAddress.Loopback, 5100,
+                                listenOptions => listenOptions.Protocols = HttpProtocols.Http1
+                                );
+
                             options.Listen(IPAddress.Loopback, 5101,
-                                listenOptions => { listenOptions.UseHttps(); });
+                                listenOptions =>
+                                {
+                                    listenOptions.UseHttps();
+                                    listenOptions.Protocols = HttpProtocols.Http1;
+                                });
+
+                            options.Listen(IPAddress.Loopback, 5102, o =>
+                            {
+                                o.UseHttps();
+                                o.Protocols = HttpProtocols.Http2;
+                            });
                         });
                 });
         }

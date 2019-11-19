@@ -5,6 +5,10 @@
     <UserSecretsId>40828328-da8a-4ef5-adfb-5289dc326f59</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Protobuf Include="gRPC\Protos\greet.proto" GrpcServices="Server" />
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile></DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -40,7 +44,6 @@
     <PackageReference Include="MailKit" Version="2.4.1" />
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
-
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -64,11 +67,6 @@
     <None Update="AppData\CardsGames.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="grpc\Protos\" />
-    <Folder Include="grpc\Services\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
