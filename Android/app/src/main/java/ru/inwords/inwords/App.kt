@@ -6,6 +6,8 @@ import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.os.StrictMode.VmPolicy
+import android.util.Log
+import androidx.work.Configuration
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
 import dagger.android.AndroidInjector
@@ -19,7 +21,7 @@ import ru.inwords.inwords.data.repository.SettingsRepository
 import javax.inject.Inject
 
 
-class App : Application(), HasAndroidInjector {
+class App : Application(), HasAndroidInjector, Configuration.Provider {
     companion object {
         lateinit var appComponent: AppComponent
     }
@@ -50,6 +52,11 @@ class App : Application(), HasAndroidInjector {
 
         appComponent = appComponentInternal
     }
+
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setMinimumLoggingLevel(if (BuildConfig.DEBUG) Log.INFO else Log.ERROR)
+            .build()
 
     override fun androidInjector(): AndroidInjector<Any> {
         return dispatchingAndroidInjector

@@ -7,13 +7,14 @@ buildscript {
         targetSdk = 29
         buildTools = "29.0.2"
 
-        kotlin_version = '1.3.50'
+        kotlin_version = '1.3.60'
 
         versions = [
                 ANDROID_X        : '1.1.0',
                 MATERIAL_COMP    : '1.0.0',
                 CONSTRAINT_LAYOUT: '1.1.3',
                 NAVIGATION       : '2.1.0',
+                WORK_MANAGER     : '2.2.0',
                 CORE_KTX         : '1.1.0',
                 RX_JAVA          : '3.0.0-RC4',
                 RX_ANDROID       : '2.1.1',
@@ -40,7 +41,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.5.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "de.mannodermaus.gradle.plugins:android-junit5:1.5.1.0"
-        classpath 'com.google.gms:google-services:4.3.1'
+        classpath 'com.google.gms:google-services:4.3.3'
         classpath 'io.fabric.tools:gradle:1.31.0' //crashlytics
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.NAVIGATION"
         // NOTE: Do not place your application dependencies here; they belong

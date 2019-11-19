@@ -4,6 +4,7 @@ import io.reactivex.Single
 import ru.inwords.inwords.core.deferred_uploader.DeferredUploader
 import ru.inwords.inwords.core.deferred_uploader.DeferredUploaderLocalDao
 import ru.inwords.inwords.core.deferred_uploader.DeferredUploaderRemoteDao
+import ru.inwords.inwords.data.WorkManagerWrapper
 import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.data.bean.LevelScoreRequest
 import ru.inwords.inwords.game.data.repository.GameRemoteRepository
@@ -11,7 +12,8 @@ import ru.inwords.inwords.game.data.source.LevelScoreRequestDao
 
 class LevelScoreDeferredUploaderFactory(
     private val gameRemoteRepository: GameRemoteRepository,
-    private val levelScoreRequestDao: LevelScoreRequestDao) {
+    private val levelScoreRequestDao: LevelScoreRequestDao,
+    private val workManagerWrapper: WorkManagerWrapper) {
 
     private val deferredUploaderLocalDao = object : DeferredUploaderLocalDao<LevelScoreRequest> {
         override fun retrieveAll(): Single<List<LevelScoreRequest>> {
@@ -19,7 +21,9 @@ class LevelScoreDeferredUploaderFactory(
         }
 
         override fun addReplace(entry: LevelScoreRequest): Single<Long> {
-            return levelScoreRequestDao.insert(entry)
+            return levelScoreRequestDao.insert(entry).doOnSuccess {
+                workManagerWrapper.enqueue<LevelScoreUploadWorker>("LevelScoreUploadWorker")
+            }
         }
 
         override fun deleteAll(): Single<Int> {
