@@ -1,59 +1,81 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
+import ListItemText from './ListItemText';
+import ListItemIcon from './ListItemIcon';
 import SpeechButton from './SpeechButton';
+
+const WordlistItemRoot = styled(ListItem)`
+  ${props => props.theme.breakpoints.down('xs')} {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+`;
+
+const ListItemCheckbox = styled(Checkbox)`
+  ${props => props.theme.breakpoints.down('xs')} {
+    margin-left: -12px;
+  }
+`;
 
 function WordlistItem({
   wordPair,
   editingModeEnabled,
-  handlePressButton,
-  handleReleaseButton,
   checked,
   handleToggle,
   handleOpen
 }) {
-  const { serverId, wordForeign, wordNative } = wordPair;
-  const labelId = `checkbox-list-label-${serverId}`;
+  const { serverId, wordForeign } = wordPair;
+
+  const listItemCheckboxIcon = React.useMemo(
+    () => (
+      <ListItemIcon>
+        <ListItemCheckbox
+          inputProps={{ 'aria-labelledby': `pair-${serverId}` }}
+          tabIndex={-1}
+          checked={checked}
+          disableRipple
+          onClick={handleToggle(serverId)}
+        />
+      </ListItemIcon>
+    ),
+    [serverId, checked, handleToggle]
+  );
+
+  const listItemText = React.useMemo(
+    () => (
+      <ListItemText
+        id={`pair-${wordPair.serverId}`}
+        primary={wordPair.wordForeign || '-'}
+        secondary={wordPair.wordNative || '-'}
+      />
+    ),
+    [wordPair]
+  );
+
+  const listItemSpeechAction = React.useMemo(
+    () => (
+      <ListItemSecondaryAction>
+        <SpeechButton text={wordForeign} />
+      </ListItemSecondaryAction>
+    ),
+    [wordForeign]
+  );
 
   return (
-    <Fragment>
-      <ListItem
-        onClick={
-          editingModeEnabled ? handleToggle(serverId) : handleOpen(wordPair)
-        }
-        onTouchStart={handlePressButton}
-        onTouchEnd={handleReleaseButton}
-        onMouseDown={handlePressButton}
-        onMouseUp={handleReleaseButton}
-        onMouseLeave={handleReleaseButton}
-        button
-        dense
-      >
-        {editingModeEnabled && (
-          <ListItemIcon>
-            <Checkbox
-              inputProps={{ 'aria-labelledby': labelId }}
-              tabIndex={-1}
-              checked={checked}
-              edge="start"
-              disableRipple
-            />
-          </ListItemIcon>
-        )}
-        <ListItemText
-          id={labelId}
-          primary={wordForeign || '-'}
-          secondary={wordNative || '-'}
-        />
-        <ListItemSecondaryAction>
-          <SpeechButton text={wordForeign} edge="end" />
-        </ListItemSecondaryAction>
-      </ListItem>
-    </Fragment>
+    <WordlistItemRoot
+      onClick={
+        !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
+      }
+      button
+    >
+      {listItemCheckboxIcon}
+      {listItemText}
+      {listItemSpeechAction}
+    </WordlistItemRoot>
   );
 }
 
@@ -64,8 +86,6 @@ WordlistItem.propTypes = {
     wordNative: PropTypes.string.isRequired
   }).isRequired,
   editingModeEnabled: PropTypes.bool.isRequired,
-  handlePressButton: PropTypes.func.isRequired,
-  handleReleaseButton: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleOpen: PropTypes.func.isRequired

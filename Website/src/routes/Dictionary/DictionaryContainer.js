@@ -7,7 +7,7 @@ import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
 import WordPairAddButton from './WordPairAddButton';
 
-function WordlistContainer() {
+function DictionaryContainer() {
   const { actual, wordPairs } = useSelector(store => store.dictionary);
 
   const dispatch = useDispatch();
@@ -21,7 +21,9 @@ function WordlistContainer() {
   const [checkedValues, setCheckedValues] = useState([]);
 
   const handleToggle = useCallback(
-    value => () => {
+    value => event => {
+      event.stopPropagation();
+
       setCheckedValues(checkedValues => {
         const currentIndex = checkedValues.indexOf(value);
         const newChecked = [...checkedValues];
@@ -40,9 +42,20 @@ function WordlistContainer() {
 
   const [editingModeEnabled, setEditingModeEnabled] = useState(false);
 
+  React.useEffect(() => {
+    if (checkedValues.length > 0) {
+      if (!editingModeEnabled) {
+        setEditingModeEnabled(true);
+      }
+    } else if (checkedValues.length === 0) {
+      if (editingModeEnabled) {
+        setEditingModeEnabled(false);
+      }
+    }
+  }, [checkedValues, editingModeEnabled]);
+
   const handleReset = () => {
     setCheckedValues([]);
-    setEditingModeEnabled(false);
   };
 
   const [pattern, setPattern] = useState('');
@@ -71,7 +84,6 @@ function WordlistContainer() {
       <Divider />
       <Wordlist
         editingModeEnabled={editingModeEnabled}
-        setEditingModeEnabled={setEditingModeEnabled}
         wordPairs={!pattern ? wordPairs : filteredWordPairs}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
@@ -81,4 +93,4 @@ function WordlistContainer() {
   );
 }
 
-export default WordlistContainer;
+export default DictionaryContainer;

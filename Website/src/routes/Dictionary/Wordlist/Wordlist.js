@@ -7,7 +7,7 @@ import WordlistItem from './WordlistItem';
 import WordPairEditDialog from '../WordPairEditDialog';
 
 const WordList = styled(List)`
-  margin: 0 0 64px;
+  margin: 8px 0 64px;
 `;
 
 function Wordlist({ wordPairs, checkedValues, ...rest }) {

@@ -4,19 +4,7 @@ import Wordlist from './Wordlist';
 
 const limitOffset = 30;
 
-function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
-  const buttonPressTimerRef = React.useRef();
-
-  const handlePressButton = React.useCallback(() => {
-    buttonPressTimerRef.current = window.setTimeout(() => {
-      setEditingModeEnabled(true);
-    }, 500);
-  }, [setEditingModeEnabled]);
-
-  const handleReleaseButton = React.useCallback(() => {
-    window.clearTimeout(buttonPressTimerRef.current);
-  }, []);
-
+function WordlistContainer({ wordPairs, ...rest }) {
   const [visibleWordPairs, setVisibleWordPairs] = React.useState([]);
 
   React.useEffect(() => {
@@ -25,8 +13,6 @@ function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      handleReleaseButton();
-
       if (
         window.innerHeight + window.scrollY >= document.body.offsetHeight &&
         visibleWordPairs.length < wordPairs.length
@@ -34,8 +20,6 @@ function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
         setVisibleWordPairs(prevVisibleWordPairs =>
           wordPairs.slice(0, prevVisibleWordPairs.length + limitOffset)
         );
-      } else if (window.pageYOffset === 0) {
-        setVisibleWordPairs(wordPairs.slice(0, limitOffset));
       }
     };
 
@@ -43,21 +27,13 @@ function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [handleReleaseButton, wordPairs, visibleWordPairs.length]);
+  }, [wordPairs, visibleWordPairs.length]);
 
-  return (
-    <Wordlist
-      wordPairs={visibleWordPairs}
-      handlePressButton={handlePressButton}
-      handleReleaseButton={handleReleaseButton}
-      {...rest}
-    />
-  );
+  return <Wordlist wordPairs={visibleWordPairs} {...rest} />;
 }
 
 WordlistContainer.propTypes = {
-  wordPairs: PropTypes.array.isRequired,
-  setEditingModeEnabled: PropTypes.func.isRequired
+  wordPairs: PropTypes.array.isRequired
 };
 
 export default WordlistContainer;
