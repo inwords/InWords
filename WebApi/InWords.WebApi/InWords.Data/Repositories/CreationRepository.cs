@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using InWords.Abstractions;
+using InWords.Common;
 using InWords.Data.Creations;
 
 namespace InWords.Data.Repositories
