@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
+using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {
