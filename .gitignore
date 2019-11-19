@@ -6,3 +6,4 @@
 /WebApi/InWords.WebApi/InWords.WebApi.plog
 /WebApi/InWords.WebApi/PVS-Studio-log.plog
 /WebApi/InWords.WebApi/InWords.WebApi/appsettings.Production.json
+*.DotSettings.user
