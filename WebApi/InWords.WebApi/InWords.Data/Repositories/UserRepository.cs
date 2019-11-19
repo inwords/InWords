@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using InWords.Abstractions;
 using InWords.Common;
 using InWords.Data.Domains;
 

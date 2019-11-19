@@ -1,4 +1,4 @@
-﻿using InWords.Abstractions;
+﻿using InWords.Common;
 using InWords.Data.Creations.GameBox;
 
 namespace InWords.Data.Repositories
