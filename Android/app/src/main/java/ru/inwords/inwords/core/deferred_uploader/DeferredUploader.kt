@@ -17,7 +17,7 @@ class DeferredUploader<T : Any, R : Any, U : Any>(
     private val deferredUploaderLocalDao: DeferredUploaderLocalDao<T>,
     private val deferredUploaderRemoteDao: DeferredUploaderRemoteDao<T, R, U>
 ) : DeferredUploaderActions<T, R> {
-    override fun getScore(request: T, onSuccessListener: (Resource.Success<R>) -> Unit): Single<Resource<R>> {
+    override fun request(request: T, onSuccessListener: (Resource.Success<R>) -> Unit): Single<Resource<R>> {
         return deferredUploaderRemoteDao.request(request).wrapResource(Source.NETWORK)
             .flatMap { res ->
                 when (res) {
