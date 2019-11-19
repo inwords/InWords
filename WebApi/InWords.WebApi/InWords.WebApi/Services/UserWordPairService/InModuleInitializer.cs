@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
+using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {
@@ -7,7 +8,8 @@ namespace InWords.WebApi.Services.UserWordPairService
     {
         public override void ConfigureIoc(ContainerBuilder builder)
         {
-
+            builder.RegisterType<GetLearningUserWords>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GetLearningUserWordsId>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }

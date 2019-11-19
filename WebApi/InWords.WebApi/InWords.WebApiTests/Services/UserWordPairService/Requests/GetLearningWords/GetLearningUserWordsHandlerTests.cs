@@ -25,7 +25,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService.Requests.GetLearningW
 
             context.SaveChanges();
 
-            var words = new GetLearningUserWordsHandler(context);
+            var words = new GetLearningUserWords(context);
             var test = await words.Handle(new GetLearningUserWordsQuery(userId)).ConfigureAwait(false);
 
             Assert.Equal(3, test.Count());
