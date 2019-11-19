@@ -99,7 +99,7 @@ class GameGatewayControllerImpl @Inject constructor(
     override fun getScore(game: Game, levelResultModel: LevelResultModel): Single<Resource<LevelScore>> {
         val levelScoreRequest = wordOpenCountsConverter.convert(levelResultModel)
 
-        return levelScoreDeferredUploaderHolder.getScore(levelScoreRequest) { res ->
+        return levelScoreDeferredUploaderHolder.request(levelScoreRequest) { res ->
             gameCachingProviderLocator.get(game.gameId)
                 .postOnLoopback(game.withUpdatedLevelScore(levelId = res.data.levelId, newScore = res.data.score))
         }

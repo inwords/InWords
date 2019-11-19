@@ -4,6 +4,7 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import ru.inwords.inwords.App
 import ru.inwords.inwords.data.source.database.RoomTypeConverter
+import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreUploadWorker
 import ru.inwords.inwords.game.di.OctoGameDaggerModule
 import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationDaggerModule
 import ru.inwords.inwords.presentation.view_scenario.home.HomeFragmentDaggerModule
@@ -24,6 +25,7 @@ import javax.inject.Singleton
     PolicyFragmentDaggerModule::class])
 interface AppComponent : AndroidInjector<App> {
     fun inject(roomTypeConverter: RoomTypeConverter)
+    fun inject(LevelScoreUploadWorker: LevelScoreUploadWorker)
 
     @Component.Factory
     interface Factory : AndroidInjector.Factory<App>

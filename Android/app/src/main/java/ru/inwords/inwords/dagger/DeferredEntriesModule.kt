@@ -1,7 +1,10 @@
 package ru.inwords.inwords.dagger
 
+import android.content.Context
+import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
+import ru.inwords.inwords.data.WorkManagerWrapper
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderFactory
@@ -30,10 +33,17 @@ class DeferredEntriesModule {
     @Provides
     fun levelScoreDeferredUploaderHolder(
         gameRemoteRepository: GameRemoteRepository,
-        levelScoreRequestDao: LevelScoreRequestDao
+        levelScoreRequestDao: LevelScoreRequestDao,
+        workManagerWrapper: WorkManagerWrapper
     ): LevelScoreDeferredUploaderHolder {
-        val factory = LevelScoreDeferredUploaderFactory(gameRemoteRepository, levelScoreRequestDao)
+        val factory = LevelScoreDeferredUploaderFactory(gameRemoteRepository, levelScoreRequestDao, workManagerWrapper)
 
         return LevelScoreDeferredUploaderHolder(factory)
+    }
+
+    @Singleton
+    @Provides
+    fun workManager(context: Context): WorkManager {
+        return WorkManager.getInstance(context)
     }
 }

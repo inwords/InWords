@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ru.inwords.inwords">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -47,6 +48,12 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${crashlytics}" />
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            android:exported="false"
+            tools:node="remove" />
     </application>
 
 </manifest>
