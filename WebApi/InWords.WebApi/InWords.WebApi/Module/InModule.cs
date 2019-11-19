@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace InWords.WebApi.Module
 {
     /// <summary>
     ///     This is to improve project infrastructure using reflection
-    ///     and file segragation
+    ///     and file segregation
     /// </summary>
     public abstract class InModule
     {
@@ -21,20 +23,31 @@ namespace InWords.WebApi.Module
         public static IList<InModule> FindModules()
         {
             IEnumerable<InModule> instances = from t in Assembly.GetExecutingAssembly().GetTypes()
-                where t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(InModule))
-                select Activator.CreateInstance(t) as InModule;
+                                              where t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(InModule))
+                                              select Activator.CreateInstance(t) as InModule;
             return instances.ToList();
         }
 
         /// <summary>
         ///     This is to segregate Ioc configuration layer from startup class
         /// </summary>
-        public abstract void ConfigureIoc(ContainerBuilder builder);
+        public virtual void ConfigureIoc(ContainerBuilder builder) { }
 
-        // Service
 
-        // Repository
+        /// <summary>
+        ///     This is to provide service collection to configure
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns>Service collection</returns>
+        public virtual void ConfigureServices(IServiceCollection services) { }
 
+        /// <summary>
+        ///    This is to provide ApplicationBuilder to configure
+        /// </summary>
+        /// <param name="app"></param>
+        public virtual void ConfigureApp(IApplicationBuilder app) { }
+
+        // Database
         // Api
     }
 }
