@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
-const ListItemIcon = styled.div`
+const WordlistItemIcon = styled.div`
   display: inline-flex;
   min-width: 56px;
 `;
 
-export default ListItemIcon;
+export default WordlistItemIcon;

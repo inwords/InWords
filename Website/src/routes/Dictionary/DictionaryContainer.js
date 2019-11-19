@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { syncWordPairs } from 'src/actions/dictionaryApiActions';
 import Paper from '@material-ui/core/Paper';
@@ -12,15 +12,15 @@ function DictionaryContainer() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!actual) {
       dispatch(syncWordPairs(wordPairs));
     }
   }, [actual, wordPairs, dispatch]);
 
-  const [checkedValues, setCheckedValues] = useState([]);
+  const [checkedValues, setCheckedValues] = React.useState([]);
 
-  const handleToggle = useCallback(
+  const handleToggle = React.useCallback(
     value => event => {
       event.stopPropagation();
 
@@ -40,7 +40,7 @@ function DictionaryContainer() {
     []
   );
 
-  const [editingModeEnabled, setEditingModeEnabled] = useState(false);
+  const [editingModeEnabled, setEditingModeEnabled] = React.useState(false);
 
   React.useEffect(() => {
     if (checkedValues.length > 0) {
@@ -58,9 +58,9 @@ function DictionaryContainer() {
     setCheckedValues([]);
   };
 
-  const [pattern, setPattern] = useState('');
+  const [pattern, setPattern] = React.useState('');
 
-  const filteredWordPairs = useMemo(
+  const filteredWordPairs = React.useMemo(
     () =>
       wordPairs.filter(({ wordForeign, wordNative }) => {
         const upperCaseSearchWord = pattern.toUpperCase();

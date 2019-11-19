@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import useDialog from 'src/hooks/useDialog';
 import Wordlist from './Wordlist';
+import WordPairEditDialog from '../WordPairEditDialog';
 
 const limitOffset = 30;
 
@@ -29,7 +31,31 @@ function WordlistContainer({ wordPairs, ...rest }) {
     };
   }, [wordPairs, visibleWordPairs.length]);
 
-  return <Wordlist wordPairs={visibleWordPairs} {...rest} />;
+  const { open, setOpen, handleClose } = useDialog();
+  const [currentWordPair, setCurrentWordPair] = React.useState();
+
+  const handleOpen = React.useCallback(
+    wordPair => () => {
+      setOpen(true);
+      setCurrentWordPair(wordPair);
+    },
+    [setOpen]
+  );
+
+  return (
+    <Fragment>
+      <Wordlist
+        wordPairs={visibleWordPairs}
+        handleOpen={handleOpen}
+        {...rest}
+      />
+      <WordPairEditDialog
+        open={open}
+        handleClose={handleClose}
+        wordPair={currentWordPair}
+      />
+    </Fragment>
+  );
 }
 
 WordlistContainer.propTypes = {

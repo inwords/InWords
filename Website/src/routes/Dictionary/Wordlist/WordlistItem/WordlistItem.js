@@ -1,25 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemText from './ListItemText';
-import ListItemIcon from './ListItemIcon';
+import WordlistItemContainer from './WordlistItemContainer';
+import WordlistItemButton from './WordlistItemButton';
+import WordlistItemCheckbox from './WordlistItemCheckbox';
+import WordlistItemText from './WordlistItemText';
+import WordlistItemIcon from './WordlistItemIcon';
 import SpeechButton from './SpeechButton';
-
-const WordlistItemRoot = styled(ListItem)`
-  ${props => props.theme.breakpoints.down('xs')} {
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-`;
-
-const ListItemCheckbox = styled(Checkbox)`
-  ${props => props.theme.breakpoints.down('xs')} {
-    margin-left: -12px;
-  }
-`;
 
 function WordlistItem({
   wordPair,
@@ -32,22 +19,22 @@ function WordlistItem({
 
   const listItemCheckboxIcon = React.useMemo(
     () => (
-      <ListItemIcon>
-        <ListItemCheckbox
+      <WordlistItemIcon>
+        <WordlistItemCheckbox
           inputProps={{ 'aria-labelledby': `pair-${serverId}` }}
           tabIndex={-1}
           checked={checked}
           disableRipple
           onClick={handleToggle(serverId)}
         />
-      </ListItemIcon>
+      </WordlistItemIcon>
     ),
     [serverId, checked, handleToggle]
   );
 
   const listItemText = React.useMemo(
     () => (
-      <ListItemText
+      <WordlistItemText
         id={`pair-${wordPair.serverId}`}
         primary={wordPair.wordForeign || '-'}
         secondary={wordPair.wordNative || '-'}
@@ -66,16 +53,19 @@ function WordlistItem({
   );
 
   return (
-    <WordlistItemRoot
-      onClick={
-        !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
-      }
-      button
-    >
-      {listItemCheckboxIcon}
-      {listItemText}
+    <WordlistItemContainer>
+      <WordlistItemButton
+        onClick={
+          !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
+        }
+        role="button"
+      >
+        {listItemCheckboxIcon}
+        {listItemText}
+      </WordlistItemButton>
+
       {listItemSpeechAction}
-    </WordlistItemRoot>
+    </WordlistItemContainer>
   );
 }
 

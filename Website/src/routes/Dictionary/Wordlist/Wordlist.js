@@ -1,52 +1,28 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import useDialog from 'src/hooks/useDialog';
-import List from 'src/components/List';
+import WordlistRoot from './WordlistRoot';
 import WordlistItem from './WordlistItem';
-import WordPairEditDialog from '../WordPairEditDialog';
 
-const WordList = styled(List)`
-  margin: 8px 0 64px;
-`;
-
-function Wordlist({ wordPairs, checkedValues, ...rest }) {
-  const { open, setOpen, handleClose } = useDialog();
-  const [currentWordPair, setCurrentWordPair] = React.useState();
-
-  const handleOpen = React.useCallback(
-    wordPair => () => {
-      setOpen(true);
-      setCurrentWordPair(wordPair);
-    },
-    [setOpen]
-  );
-
+function Wordlist({ wordPairs, checkedValues, handleOpen, ...rest }) {
   return (
-    <Fragment>
-      <WordList>
-        {wordPairs.map(wordPair => (
-          <WordlistItem
-            key={wordPair.serverId}
-            wordPair={wordPair}
-            checked={checkedValues.includes(wordPair.serverId)}
-            handleOpen={handleOpen}
-            {...rest}
-          />
-        ))}
-      </WordList>
-      <WordPairEditDialog
-        open={open}
-        handleClose={handleClose}
-        wordPair={currentWordPair}
-      />
-    </Fragment>
+    <WordlistRoot>
+      {wordPairs.map(wordPair => (
+        <WordlistItem
+          key={wordPair.serverId}
+          wordPair={wordPair}
+          checked={checkedValues.includes(wordPair.serverId)}
+          handleOpen={handleOpen}
+          {...rest}
+        />
+      ))}
+    </WordlistRoot>
   );
 }
 
 Wordlist.propTypes = {
   wordPairs: PropTypes.array.isRequired,
-  checkedValues: PropTypes.array.isRequired
+  checkedValues: PropTypes.array.isRequired,
+  handleOpen: PropTypes.func.isRequired
 };
 
 export default Wordlist;
