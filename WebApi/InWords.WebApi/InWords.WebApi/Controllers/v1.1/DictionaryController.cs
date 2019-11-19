@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using InWords.Data.DTO;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
+using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +26,7 @@ namespace InWords.WebApi.Controllers.v1._1
         }
 
         /// <summary>
-        ///     Get user dictionary words to be repeated
+        ///     Get user dictionary words pairs to be repeated. Use when dictionary is not loaded or storage unavailable 
         /// </summary>
         /// <returns>Quantity of stars</returns>
         /// <response code="200">Words to be repeated</response>
@@ -39,6 +40,24 @@ namespace InWords.WebApi.Controllers.v1._1
             int authorizedId = User.GetUserId();
             var query = new GetLearningUserWordsQuery(authorizedId);
             List<WordTranslation> result = await mediator.Send(query).ConfigureAwait(false);
+            return Ok(result);
+        }
+
+        /// <summary>
+        ///     Get user dictionary word pairs ids to be repeated. Use when dictionary is downloaded and resolve worlds on client
+        /// </summary>
+        /// <returns>Quantity of stars</returns>
+        /// <response code="200">Word pairs Ids to be repeated</response>
+        /// <response code="401">Unauthorized access</response>
+        [Route("trainingIds")]
+        [HttpGet]
+        [ProducesResponseType(typeof(List<int>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetTrainingIds()
+        {
+            int authorizedId = User.GetUserId();
+            var query = new GetLearningUserWordsIdsQuery(authorizedId);
+            List<int> result = await mediator.Send(query).ConfigureAwait(false);
             return Ok(result);
         }
     }
