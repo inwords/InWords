@@ -9,6 +9,10 @@ const WordlistItemButton = styled.div`
   padding-right: 48px;
   padding-bottom: 8px;
   padding-left: 16px;
+  transition: ${props =>
+    props.theme.transitions.create('background-color', {
+      duration: props.theme.transitions.duration.shortest
+    })};
   cursor: pointer;
   user-select: none;
 

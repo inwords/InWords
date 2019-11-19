@@ -93,21 +93,28 @@ function App() {
                 </Container>
               </AuthorizedPageContainer>
             </Route>
-            <Route exact path="/trainings">
+            <Route exact path="/training/all">
               <TrainingPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingCategories />
                 </Container>
               </TrainingPageContainer>
             </Route>
-            <Route exact path="/trainings/:categoryId">
+            <Route exact path="/training/history">
+              <TrainingPageContainer>
+                <Container component="div" maxWidth="lg">
+                  Тут скоро появится история
+                </Container>
+              </TrainingPageContainer>
+            </Route>
+            <Route exact path="/training/:categoryId">
               <TrainingPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingTypes />
                 </Container>
               </TrainingPageContainer>
             </Route>
-            <Route exact path="/trainings/:categoryId/:trainingId">
+            <Route exact path="/training/:categoryId/:trainingId">
               <TrainingPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingLevels />
@@ -115,7 +122,7 @@ function App() {
               </TrainingPageContainer>
             </Route>
             <Route
-              path="/trainings/:categoryId/:trainingId/:levelId"
+              path="/training/:categoryId/:trainingId/:levelId"
               render={({ match, ...rest }) => {
                 switch (match.params.trainingId) {
                   case '0':

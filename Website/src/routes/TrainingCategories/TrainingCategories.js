@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -12,8 +12,6 @@ import TrainingNavContainer from 'src/components/TrainingNavContainer';
 import CategoryMenuButton from './CategoryMenuButton';
 
 function TrainingCategories({ trainingCategories }) {
-  const match = useRouteMatch();
-
   return (
     <TrainingNavContainer>
       <Grid container spacing={3}>
@@ -31,7 +29,7 @@ function TrainingCategories({ trainingCategories }) {
                 <CardActions>
                   <Button
                     component={Link}
-                    to={`${match.url}/${gameId}`}
+                    to={`/training/${gameId}`}
                     disabled={!isAvailable}
                     size="small"
                     color="primary"

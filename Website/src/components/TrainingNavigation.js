@@ -7,7 +7,7 @@ import InternalNavigation from 'src/components/InternalNavigation';
 
 const linkTexts = ['Категории', 'Тренировки', 'Уровни', 'Уровень'];
 
-function TrainingsNavigation() {
+function TrainingNavigation() {
   const { categoryId, trainingId, levelId } = useParams();
 
   const navigationLinks = [];
@@ -15,7 +15,7 @@ function TrainingsNavigation() {
   if (categoryId) {
     if (categoryId !== '0') {
       navigationLinks.push(
-        <Link key={0} component={RouterLink} to="/trainings" color="inherit">
+        <Link key={0} component={RouterLink} to="/training/all" color="inherit">
           {linkTexts[0]}
         </Link>
       );
@@ -26,7 +26,7 @@ function TrainingsNavigation() {
         <Link
           key={1}
           component={RouterLink}
-          to={`/trainings/${categoryId}`}
+          to={`/training/${categoryId}`}
           color="inherit"
         >
           {linkTexts[1]}
@@ -39,7 +39,7 @@ function TrainingsNavigation() {
             <Link
               key={2}
               component={RouterLink}
-              to={`/trainings/${categoryId}/${trainingId}`}
+              to={`/training/${categoryId}/${trainingId}`}
               color="inherit"
             >
               {linkTexts[2]}
@@ -84,4 +84,4 @@ function TrainingsNavigation() {
   );
 }
 
-export default React.memo(TrainingsNavigation);
+export default React.memo(TrainingNavigation);

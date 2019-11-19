@@ -22,14 +22,14 @@ function TrainingResultContainer({ history, match, ...rest }) {
     );
 
     const handleRedirectionToLevels = () => {
-      history.push(`/trainings/${paramCategoryId}/${paramTrainingId}`);
+      history.push(`/training/${paramCategoryId}/${paramTrainingId}`);
     };
 
     if (levelIndex !== -1) {
       const nextLevelIndex = levelIndex + 1;
       if (levelsInfo[nextLevelIndex]) {
         history.push(
-          `/trainings/${paramCategoryId}/${paramTrainingId}/${levelsInfo[nextLevelIndex].levelId}`
+          `/training/${paramCategoryId}/${paramTrainingId}/${levelsInfo[nextLevelIndex].levelId}`
         );
       } else {
         handleRedirectionToLevels();

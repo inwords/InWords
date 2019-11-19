@@ -32,7 +32,7 @@ function DictionaryMenuButton({ disabled, handleLearning }) {
       >
         <MenuItem
           component={Link}
-          to="/trainings/0"
+          to="/training/0"
           onClick={() => {
             handleLearning();
             handleClose();

@@ -8,7 +8,7 @@ const mainRoutes = [
     text: 'Словарь'
   },
   {
-    to: '/trainings',
+    to: '/training/all',
     text: 'Обучение'
   }
 ];

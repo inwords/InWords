@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import TrainingsNavigation from 'src/components/TrainingsNavigation';
+import TrainingNavigation from 'src/components/TrainingNavigation';
 
 const ContentContainer = styled.div`
   margin-top: 16px;
@@ -10,7 +10,7 @@ const ContentContainer = styled.div`
 function TrainingNavContainer({ children }) {
   return (
     <Fragment>
-      <TrainingsNavigation />
+      <TrainingNavigation />
       <ContentContainer>{children}</ContentContainer>
     </Fragment>
   );
