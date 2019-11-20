@@ -22,11 +22,11 @@ const NavLink = styled(RouterNavLink)`
   }
 `;
 
-function SideNavList({ routes }) {
+function SideNavList({ routes, handleClose }) {
   return (
     <List>
       {routes.map(({ to, text }) => (
-        <NavListItem key={to} component="li" button>
+        <NavListItem key={to} component="li" button onClick={handleClose}>
           <NavLink to={to} activeClassName="active">
             {text}
           </NavLink>
@@ -42,7 +42,8 @@ SideNavList.propTypes = {
       to: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired
     }).isRequired
-  )
+  ),
+  handleClose: PropTypes.func.isRequired
 };
 
 export default SideNavList;

@@ -87,9 +87,6 @@ function App() {
               </AuthorizedPageContainer>
             </Route>
             <Route exact path="/training">
-              <Redirect to="/training/all" />
-            </Route>
-            <Route exact path="/training/all">
               <AuthorizedPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingCategories />

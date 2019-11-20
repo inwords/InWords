@@ -42,7 +42,7 @@ function Drawers({ routes, open, handleOpen, handleClose }) {
         onClose={handleClose}
         onOpen={handleOpen}
       >
-        <DrawerContent routes={routes} />
+        <DrawerContent handleClose={handleClose} routes={routes} />
       </CustomSwipeableDrawer>
     </Fragment>
   );

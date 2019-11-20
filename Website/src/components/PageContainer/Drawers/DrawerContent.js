@@ -13,7 +13,7 @@ const DrawerBrandLink = styled(BrandLink)`
   padding-left: 24px;
 `;
 
-function DrawerContent({ routes }) {
+function DrawerContent({ routes, ...rest }) {
   return (
     <Fragment>
       <DrawerHeader>
@@ -21,7 +21,7 @@ function DrawerContent({ routes }) {
       </DrawerHeader>
       <Divider />
       <nav role="navigation">
-        <SideNavList routes={routes} />
+        <SideNavList routes={routes} {...rest} />
       </nav>
     </Fragment>
   );
