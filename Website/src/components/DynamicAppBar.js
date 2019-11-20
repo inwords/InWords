@@ -11,11 +11,11 @@ function DynamicAppBar({ children, ...rest }) {
       const currentScrollY = window.pageYOffset;
       const diff = prevScrollYRef.current - currentScrollY;
 
-      if (diff > 1 || currentScrollY === 0) {
+      if (diff >= 4 || currentScrollY === 0) {
         if (!show) {
           setShow(true);
         }
-      } else if (diff < -1 && currentScrollY > 64) {
+      } else if (diff <= -4 && currentScrollY > 64) {
         if (show) {
           setShow(false);
         }

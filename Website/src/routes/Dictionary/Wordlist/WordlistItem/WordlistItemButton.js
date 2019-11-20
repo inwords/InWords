@@ -5,9 +5,10 @@ const WordlistItemButton = styled.div`
   position: relative;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 9px;
+  min-height: 60px;
+  padding-top: 4px;
   padding-right: 48px;
-  padding-bottom: 8px;
+  padding-bottom: 4px;
   padding-left: 16px;
   transition: ${props =>
     props.theme.transitions.create('background-color', {
@@ -18,11 +19,6 @@ const WordlistItemButton = styled.div`
 
   &:hover {
     background-color: ${props => props.theme.palette.action.hover};
-  }
-
-  ${props => props.theme.breakpoints.down('xs')} {
-    padding-top: 4px;
-    padding-bottom: 4px;
   }
 `;
 

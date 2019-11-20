@@ -36,8 +36,8 @@ function WordlistItem({
     () => (
       <WordlistItemText
         id={`pair-${wordPair.serverId}`}
-        primary={wordPair.wordForeign || '-'}
-        secondary={wordPair.wordNative || '-'}
+        primary={wordPair.wordForeign}
+        secondary={wordPair.wordNative}
       />
     ),
     [wordPair]

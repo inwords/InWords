@@ -4,24 +4,16 @@ import useDialog from 'src/hooks/useDialog';
 import Wordlist from './Wordlist';
 import WordPairEditDialog from '../WordPairEditDialog';
 
-const limitOffset = 30;
+const limitOffset = 50;
 
 function WordlistContainer({ wordPairs, ...rest }) {
   const [visibleWordPairs, setVisibleWordPairs] = React.useState([]);
-
-  React.useEffect(() => {
-    setVisibleWordPairs(wordPairs.slice(0, limitOffset));
-  }, [wordPairs]);
+  const [limit, setLimit] = React.useState(limitOffset);
 
   React.useEffect(() => {
     const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        visibleWordPairs.length < wordPairs.length
-      ) {
-        setVisibleWordPairs(prevVisibleWordPairs =>
-          wordPairs.slice(0, prevVisibleWordPairs.length + limitOffset)
-        );
+      if (window.innerHeight + window.scrollY >= limit * 60) {
+        setLimit(limit => limit + limitOffset);
       }
     };
 
@@ -29,7 +21,13 @@ function WordlistContainer({ wordPairs, ...rest }) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [wordPairs, visibleWordPairs.length]);
+  }, [wordPairs, limit]);
+
+  React.useEffect(() => {
+    if (visibleWordPairs.length < wordPairs.length) {
+      setVisibleWordPairs(wordPairs.slice(0, limit));
+    }
+  }, [wordPairs, visibleWordPairs.length, limit]);
 
   const { open, setOpen, handleClose } = useDialog();
   const [currentWordPair, setCurrentWordPair] = React.useState();
