@@ -37,22 +37,16 @@ function App() {
       <ErrorBoundary>
         <Suspense fallback={<PageProgress />}>
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                !userId ? (
-                  <Redirect to="/signIn" />
-                ) : (
-                  <Redirect to="/dictionary" />
-                )
-              }
-            />
-            <Route
-              exact
-              path="/profile"
-              render={() => <Redirect to={`/profile/${userId}`} />}
-            />
+            <Route exact path="/">
+              {!userId ? (
+                <Redirect to="/signIn" />
+              ) : (
+                <Redirect to="/dictionary" />
+              )}
+            </Route>
+            <Route exact path="/profile">
+              {<Redirect to={`/profile/${userId}`} />}
+            </Route>
             <Route path="/signIn">
               <PageContainer>
                 <Container maxWidth="xs">
@@ -92,6 +86,9 @@ function App() {
                   <Dictionary />
                 </Container>
               </AuthorizedPageContainer>
+            </Route>
+            <Route exact path="/training">
+              <Redirect to="/training/all" />
             </Route>
             <Route exact path="/training/all">
               <TrainingPageContainer>

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { initializeTrainingLevel } from 'src/actions/trainingActions';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
-function DictionaryMenuButtonContainer({ checkedValues, ...rest }) {
+function DictionaryMenuButtonContainer({ checkedValues }) {
   const { wordPairs } = useSelector(store => store.dictionary);
 
   const dispatch = useDispatch();
@@ -19,12 +19,11 @@ function DictionaryMenuButtonContainer({ checkedValues, ...rest }) {
     );
   };
 
-  return <DictionaryMenuButton handleLearning={handleLearning} {...rest} />;
+  return <DictionaryMenuButton handleLearning={handleLearning} />;
 }
 
 DictionaryMenuButtonContainer.propTypes = {
-  checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  disabled: PropTypes.bool
+  checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
 };
 
 export default memo(DictionaryMenuButtonContainer);

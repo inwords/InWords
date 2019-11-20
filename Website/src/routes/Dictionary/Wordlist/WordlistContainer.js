@@ -4,7 +4,7 @@ import useDialog from 'src/hooks/useDialog';
 import Wordlist from './Wordlist';
 import WordPairEditDialog from '../WordPairEditDialog';
 
-const limitOffset = 50;
+const limitOffset = 40;
 
 function WordlistContainer({ wordPairs, ...rest }) {
   const [visibleWordPairs, setVisibleWordPairs] = React.useState([]);

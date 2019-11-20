@@ -75,14 +75,10 @@ function DictionaryToolbar({
               handleDelete();
               handleReset();
             }}
-            disabled={numberOfChecked === 0}
           >
             <DeleteIcon />
           </DeleteIconButton>
-          <DictionaryMenuButton
-            disabled={numberOfChecked === 0}
-            checkedValues={checkedValues}
-          />
+          <DictionaryMenuButton checkedValues={checkedValues} />
         </Fragment>
       )}
     </DictionaryToolbarRoot>
