@@ -1,26 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FixedSizeList as List } from 'react-window';
 import WordlistRoot from './WordlistRoot';
 import WordlistItem from './WordlistItem';
 
-function Wordlist({ wordPairs, checkedValues, handleOpen, ...rest }) {
+function Wordlist({ wordPairs, checkedValues, listHeight, ...rest }) {
   return (
-    <WordlistRoot>
-      {wordPairs.map(wordPair => (
-        <WordlistItem
-          key={wordPair.serverId}
-          wordPair={wordPair}
-          checked={checkedValues.includes(wordPair.serverId)}
-          handleOpen={handleOpen}
-          {...rest}
-        />
-      ))}
-    </WordlistRoot>
+    <List
+      innerElementType={WordlistRoot}
+      height={listHeight}
+      itemCount={wordPairs.length}
+      itemSize={60}
+      itemData={{
+        wordPairs,
+        checkedValues,
+        ...rest
+      }}
+    >
+      {WordlistItem}
+    </List>
   );
 }
 
 Wordlist.propTypes = {
   wordPairs: PropTypes.array.isRequired,
+  listHeight: PropTypes.number.isRequired,
   checkedValues: PropTypes.array.isRequired,
   handleOpen: PropTypes.func.isRequired
 };

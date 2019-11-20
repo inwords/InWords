@@ -13,7 +13,7 @@ const DrawerBrandLink = styled(BrandLink)`
   padding-left: 24px;
 `;
 
-function DrawerContent({ sideRoutes }) {
+function DrawerContent({ routes }) {
   return (
     <Fragment>
       <DrawerHeader>
@@ -21,14 +21,14 @@ function DrawerContent({ sideRoutes }) {
       </DrawerHeader>
       <Divider />
       <nav role="navigation">
-        <SideNavList sideRoutes={sideRoutes} />
+        <SideNavList routes={routes} />
       </nav>
     </Fragment>
   );
 }
 
 DrawerContent.propTypes = {
-  sideRoutes: PropTypes.array.isRequired
+  routes: PropTypes.array.isRequired
 };
 
 export default DrawerContent;

@@ -8,7 +8,6 @@ import ScrollToTop from 'src/components/ScrollToTop';
 import SmartSnackbar from 'src/components/SmartSnackbar';
 import PageContainer from 'src/components/PageContainer';
 import AuthorizedPageContainer from 'src/components/AuthorizedPageContainer';
-import TrainingPageContainer from 'src/components/TrainingPageContainer';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 
 const SignIn = lazy(() => import('./routes/SignIn'));
@@ -91,32 +90,32 @@ function App() {
               <Redirect to="/training/all" />
             </Route>
             <Route exact path="/training/all">
-              <TrainingPageContainer>
+              <AuthorizedPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingCategories />
                 </Container>
-              </TrainingPageContainer>
+              </AuthorizedPageContainer>
             </Route>
             <Route exact path="/training/history">
-              <TrainingPageContainer>
+              <AuthorizedPageContainer>
                 <Container component="div" maxWidth="lg">
                   Тут скоро появится история
                 </Container>
-              </TrainingPageContainer>
+              </AuthorizedPageContainer>
             </Route>
             <Route exact path="/training/:categoryId">
-              <TrainingPageContainer>
+              <AuthorizedPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingTypes />
                 </Container>
-              </TrainingPageContainer>
+              </AuthorizedPageContainer>
             </Route>
             <Route exact path="/training/:categoryId/:trainingId">
-              <TrainingPageContainer>
+              <AuthorizedPageContainer>
                 <Container component="div" maxWidth="lg">
                   <TrainingLevels />
                 </Container>
-              </TrainingPageContainer>
+              </AuthorizedPageContainer>
             </Route>
             <Route
               path="/training/:categoryId/:trainingId/:levelId"
@@ -124,19 +123,19 @@ function App() {
                 switch (match.params.trainingId) {
                   case '0':
                     return (
-                      <TrainingPageContainer>
+                      <AuthorizedPageContainer>
                         <Container component="div" maxWidth="lg">
                           <Game match={match} {...rest} />
                         </Container>
-                      </TrainingPageContainer>
+                      </AuthorizedPageContainer>
                     );
                   case '1':
                     return (
-                      <TrainingPageContainer>
+                      <AuthorizedPageContainer>
                         <Container component="div" maxWidth="lg">
                           <SelectTranslateTraining match={match} {...rest} />
                         </Container>
-                      </TrainingPageContainer>
+                      </AuthorizedPageContainer>
                     );
                   default:
                     return null;

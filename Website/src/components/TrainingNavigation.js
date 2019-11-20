@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import InvertedDynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import InternalNavigation from 'src/components/InternalNavigation';
 
 const linkTexts = ['Категории', 'Тренировки', 'Уровни', 'Уровень'];
@@ -76,12 +75,7 @@ function TrainingNavigation() {
 
   const navigation = <InternalNavigation>{navigationLinks}</InternalNavigation>;
 
-  return (
-    <Fragment>
-      <InvertedDynamicAppBar>{navigation}</InvertedDynamicAppBar>
-      {navigation}
-    </Fragment>
-  );
+  return <Fragment>{navigation}</Fragment>;
 }
 
 export default React.memo(TrainingNavigation);

@@ -52,10 +52,10 @@ const NavLink = styled(RouterNavLink)`
   }
 `;
 
-function MainNavList({ show, mainRoutes, handleOpenDrawer }) {
+function MainNavList({ show, routes, handleOpenDrawer }) {
   return (
     <NavList>
-      {mainRoutes.map(({ to, text }) => (
+      {routes.map(({ to, text }) => (
         <NavListItem key={to}>
           <NavLink to={to} activeClassName="active">
             {text}
@@ -67,7 +67,7 @@ function MainNavList({ show, mainRoutes, handleOpenDrawer }) {
 }
 
 MainNavList.propTypes = {
-  mainRoutes: PropTypes.arrayOf(
+  routes: PropTypes.arrayOf(
     PropTypes.shape({
       to: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired

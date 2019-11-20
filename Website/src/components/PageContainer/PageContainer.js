@@ -10,34 +10,29 @@ const Container = styled.div`
   display: flex;
 `;
 
-function PageContainer({ mainRoutes, sideRoutes, rightNodes, children }) {
+function PageContainer({ routes, rightNodes, children }) {
   const { open, handleOpen, handleClose } = useDrawer();
 
   return (
     <Container>
       <Header
-        mainRoutes={mainRoutes}
+        routes={routes}
         rightNodes={rightNodes}
-        handleOpenDrawer={sideRoutes && handleOpen}
+        handleOpenDrawer={routes && handleOpen}
       />
-      {sideRoutes && (
-        <Drawers
-          sideRoutes={sideRoutes}
-          open={open}
-          handleOpen={handleOpen}
-          handleClose={handleClose}
-        />
-      )}
-      <ContentContainer shift={Boolean(mainRoutes)}>
-        {children}
-      </ContentContainer>
+      <Drawers
+        routes={routes}
+        open={open}
+        handleOpen={handleOpen}
+        handleClose={handleClose}
+      />
+      <ContentContainer>{children}</ContentContainer>
     </Container>
   );
 }
 
 PageContainer.propTypes = {
-  sideRoutes: PropTypes.array,
-  mainRoutes: PropTypes.array,
+  routes: PropTypes.array,
   children: PropTypes.node
 };
 

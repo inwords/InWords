@@ -5,7 +5,7 @@ const WordlistItemButton = styled.div`
   position: relative;
   align-items: center;
   justify-content: flex-start;
-  min-height: 60px;
+  height: 100%;
   padding-top: 4px;
   padding-right: 48px;
   padding-bottom: 4px;

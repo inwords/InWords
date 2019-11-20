@@ -22,10 +22,10 @@ const NavLink = styled(RouterNavLink)`
   }
 `;
 
-function SideNavList({ sideRoutes }) {
+function SideNavList({ routes }) {
   return (
     <List>
-      {sideRoutes.map(({ to, text }) => (
+      {routes.map(({ to, text }) => (
         <NavListItem key={to} component="li" button>
           <NavLink to={to} activeClassName="active">
             {text}
@@ -37,7 +37,7 @@ function SideNavList({ sideRoutes }) {
 }
 
 SideNavList.propTypes = {
-  sideRoutes: PropTypes.arrayOf(
+  routes: PropTypes.arrayOf(
     PropTypes.shape({
       to: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired

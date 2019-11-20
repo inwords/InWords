@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import WordlistItemContainer from './WordlistItemContainer';
 import WordlistItemButton from './WordlistItemButton';
 import WordlistItemCheckbox from './WordlistItemCheckbox';
 import WordlistItemText from './WordlistItemText';
@@ -8,19 +7,13 @@ import WordlistItemSecondaryAction from './WordlistItemSecondaryAction';
 import WordlistItemIcon from './WordlistItemIcon';
 import SpeechButton from './SpeechButton';
 
-function WordlistItem({
-  data: {
-    wordPairs,
-    checkedValues,
-    handleToggle,
-    handleOpen,
-    editingModeEnabled
-  },
-  index,
-  style
+function WordlistItemContent({
+  wordPair,
+  checked,
+  handleToggle,
+  handleOpen,
+  editingModeEnabled
 }) {
-  const wordPair = wordPairs[index];
-
   const { serverId, wordForeign } = wordPair;
 
   const listItemCheckboxIcon = React.useMemo(
@@ -29,13 +22,13 @@ function WordlistItem({
         <WordlistItemCheckbox
           inputProps={{ 'aria-labelledby': `pair-${serverId}` }}
           tabIndex={-1}
-          checked={checkedValues.includes(serverId)}
+          checked={checked}
           disableRipple
           onClick={handleToggle(serverId)}
         />
       </WordlistItemIcon>
     ),
-    [serverId, checkedValues, handleToggle]
+    [serverId, checked, handleToggle]
   );
 
   const listItemText = React.useMemo(
@@ -59,7 +52,7 @@ function WordlistItem({
   );
 
   return (
-    <WordlistItemContainer style={style}>
+    <Fragment>
       <WordlistItemButton
         onClick={
           !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
@@ -70,26 +63,20 @@ function WordlistItem({
         {listItemText}
       </WordlistItemButton>
       {listItemSpeechAction}
-    </WordlistItemContainer>
+    </Fragment>
   );
 }
 
-WordlistItem.propTypes = {
-  data: PropTypes.shape({
-    wordPairs: PropTypes.arrayOf(
-      PropTypes.shape({
-        serverId: PropTypes.number.isRequired,
-        wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired
-      }).isRequired
-    ).isRequired,
-    checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-    editingModeEnabled: PropTypes.bool.isRequired,
-    handleToggle: PropTypes.func.isRequired,
-    handleOpen: PropTypes.func.isRequired
+WordlistItemContent.propTypes = {
+  wordPair: PropTypes.shape({
+    serverId: PropTypes.number.isRequired,
+    wordForeign: PropTypes.string.isRequired,
+    wordNative: PropTypes.string.isRequired
   }).isRequired,
-  index: PropTypes.number.isRequired,
-  style: PropTypes.object.isRequired
+  checked: PropTypes.bool.isRequired,
+  editingModeEnabled: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+  handleOpen: PropTypes.func.isRequired
 };
 
-export default WordlistItem;
+export default React.memo(WordlistItemContent);

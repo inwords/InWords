@@ -17,7 +17,7 @@ const Context = styled.div`
 
 const NavMenuButton = styled(IconButton)`
   margin-right: 16px;
-  ${props => props.theme.breakpoints.up('lg')} {
+  ${props => props.theme.breakpoints.up('md')} {
     display: none;
   }
 `;
@@ -27,10 +27,9 @@ const Nav = styled.nav`
   display: flex;
   overflow: hidden;
   height: 64px;
-  ${props => props.theme.breakpoints.down('xs')} {
-    order: 1;
-    width: 100%;
-    height: 48px;
+
+  ${props => props.theme.breakpoints.down('sm')} {
+    display: none;
   }
 `;
 
@@ -42,12 +41,13 @@ const ContextBlock = styled.div`
 
 const RightContextBlock = styled(ContextBlock)`
   margin-left: 24px;
-  ${props => props.theme.breakpoints.down('xs')} {
+
+  ${props => props.theme.breakpoints.down('sm')} {
     margin-left: auto;
   }
 `;
 
-function Header({ mainRoutes, rightNodes, handleOpenDrawer }) {
+function Header({ routes, rightNodes, handleOpenDrawer }) {
   return (
     <DynamicAppBar primary>
       <Context>
@@ -64,9 +64,9 @@ function Header({ mainRoutes, rightNodes, handleOpenDrawer }) {
           )}
           <BrandLink to="/">InWords</BrandLink>
         </ContextBlock>
-        {mainRoutes && (
+        {routes && (
           <Nav role="navigation">
-            <MainMavList mainRoutes={mainRoutes} />
+            <MainMavList routes={routes} />
           </Nav>
         )}
         {rightNodes && <RightContextBlock>{rightNodes}</RightContextBlock>}
@@ -77,7 +77,7 @@ function Header({ mainRoutes, rightNodes, handleOpenDrawer }) {
 }
 
 Header.propTypes = {
-  mainRoutes: PropTypes.arrayOf(
+  routes: PropTypes.arrayOf(
     PropTypes.exact({
       to: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired

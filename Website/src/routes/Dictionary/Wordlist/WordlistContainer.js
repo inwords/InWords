@@ -1,33 +1,39 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'src/utils/debounce';
 import useDialog from 'src/hooks/useDialog';
 import Wordlist from './Wordlist';
 import WordPairEditDialog from '../WordPairEditDialog';
 
-const limitOffset = 40;
+const heightOffset = 176;
 
 function WordlistContainer({ wordPairs, ...rest }) {
-  const [visibleWordPairs, setVisibleWordPairs] = React.useState([]);
-  const [limit, setLimit] = React.useState(limitOffset);
+  const [listHeight, setListHeight] = React.useState(
+    () => window.innerHeight - heightOffset
+  );
 
   React.useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= limit * 60) {
-        setLimit(limit => limit + limitOffset);
-      }
-    };
+    const handleResize = debounce(() => {
+      setListHeight(window.innerHeight - heightOffset);
+    }, 100);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [wordPairs, limit]);
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [listHeight]);
 
   React.useEffect(() => {
-    if (visibleWordPairs.length < wordPairs.length) {
-      setVisibleWordPairs(wordPairs.slice(0, limit));
-    }
-  }, [wordPairs, visibleWordPairs.length, limit]);
+    const offset = 170;
+    setListHeight(window.innerHeight - offset);
+
+    const handleResize = debounce(() => {
+      setListHeight(window.innerHeight - offset);
+    }, 200);
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [listHeight]);
 
   const { open, setOpen, handleClose } = useDialog();
   const [currentWordPair, setCurrentWordPair] = React.useState();
@@ -43,7 +49,8 @@ function WordlistContainer({ wordPairs, ...rest }) {
   return (
     <Fragment>
       <Wordlist
-        wordPairs={visibleWordPairs}
+        wordPairs={wordPairs}
+        listHeight={listHeight}
         handleOpen={handleOpen}
         {...rest}
       />

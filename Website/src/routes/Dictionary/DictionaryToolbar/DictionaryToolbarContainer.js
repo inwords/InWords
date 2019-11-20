@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { deleteWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
-import InvertedDynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import DictionaryToolbar from './DictionaryToolbar';
 
 function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
@@ -47,12 +46,7 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
     />
   );
 
-  return (
-    <Fragment>
-      <InvertedDynamicAppBar>{toolbar}</InvertedDynamicAppBar>
-      {toolbar}
-    </Fragment>
-  );
+  return <Fragment>{toolbar}</Fragment>;
 }
 
 DictionaryToolbarContainer.propTypes = {

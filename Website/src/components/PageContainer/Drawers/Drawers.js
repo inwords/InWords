@@ -19,37 +19,37 @@ const drawerBase = css`
 
 const CustomDrawer = styled(Drawer)`
   ${drawerBase}
-  ${props => props.theme.breakpoints.down('md')} {
+  ${props => props.theme.breakpoints.down('sm')} {
     display: none;
   }
 `;
 
 const CustomSwipeableDrawer = styled(SwipeableDrawer)`
   ${drawerBase}
-  ${props => props.theme.breakpoints.up('lg')} {
+  ${props => props.theme.breakpoints.up('md')} {
     display: none;
   }
 `;
 
-function Drawers({ sideRoutes, open, handleOpen, handleClose }) {
+function Drawers({ routes, open, handleOpen, handleClose }) {
   return (
     <Fragment>
-      <CustomDrawer variant="permanent">
-        <DrawerContent sideRoutes={sideRoutes} />
-      </CustomDrawer>
+      {/* <CustomDrawer variant="permanent">
+        <DrawerContent routes={routes} />
+      </CustomDrawer> */}
       <CustomSwipeableDrawer
         open={open}
         onClose={handleClose}
         onOpen={handleOpen}
       >
-        <DrawerContent sideRoutes={sideRoutes} />
+        <DrawerContent routes={routes} />
       </CustomSwipeableDrawer>
     </Fragment>
   );
 }
 
 Drawers.propTypes = {
-  sideRoutes: PropTypes.array,
+  routes: PropTypes.array,
   open: PropTypes.bool.isRequired,
   handleOpen: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired
