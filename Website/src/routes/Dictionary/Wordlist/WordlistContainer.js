@@ -5,7 +5,7 @@ import useDialog from 'src/hooks/useDialog';
 import Wordlist from './Wordlist';
 import WordPairEditDialog from '../WordPairEditDialog';
 
-const heightOffset = 176;
+const heightOffset = 153;
 
 function WordlistContainer({ wordPairs, ...rest }) {
   const [listHeight, setListHeight] = React.useState(
@@ -15,24 +15,15 @@ function WordlistContainer({ wordPairs, ...rest }) {
   React.useEffect(() => {
     const handleResize = debounce(() => {
       setListHeight(window.innerHeight - heightOffset);
-    }, 100);
-
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, [listHeight]);
-
-  React.useEffect(() => {
-    const offset = 170;
-    setListHeight(window.innerHeight - offset);
-
-    const handleResize = debounce(() => {
-      setListHeight(window.innerHeight - offset);
     }, 200);
 
     window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+    };
   }, [listHeight]);
 
   const { open, setOpen, handleClose } = useDialog();

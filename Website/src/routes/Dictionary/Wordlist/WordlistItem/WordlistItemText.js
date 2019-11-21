@@ -30,7 +30,7 @@ function WordlistItemText({ primary, secondary, ...rest }) {
 
 WordlistItemText.propTypes = {
   primary: PropTypes.string,
-  serverId: PropTypes.string
+  secondary: PropTypes.string
 };
 
-export default WordlistItemText;
+export default React.memo(WordlistItemText);

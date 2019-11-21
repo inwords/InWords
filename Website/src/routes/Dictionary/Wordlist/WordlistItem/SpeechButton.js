@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import IconButton from '@material-ui/core/IconButton';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
 const synth = window.speechSynthesis;
@@ -18,7 +17,27 @@ const handleClick = text => () => {
   synth.speak(speech);
 };
 
-const SpeechButtonRoot = styled(IconButton)`
+const SpeechButtonRoot = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  font-size: ${props => props.theme.typography.pxToRem(24)};
+  border: 0;
+  border-radius: 50%;
+  color: ${props => props.theme.palette.action.active};
+  cursor: pointer;
+  outline: 0;
+  background-color: transparent;
+  transition: ${props =>
+    props.theme.transitions.create('background-color', {
+      duration: props.theme.transitions.duration.shortest
+    })};
+
+  &:hover {
+    background-color: ${props => props.theme.palette.action.hover};
+  }
+
   ${props => props.theme.breakpoints.down('xs')} {
     margin-right: -12px;
   }
@@ -42,4 +61,4 @@ SpeechButton.propTypes = {
   text: PropTypes.string.isRequired
 };
 
-export default SpeechButton;
+export default React.memo(SpeechButton);

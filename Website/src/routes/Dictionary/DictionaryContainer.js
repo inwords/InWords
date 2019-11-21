@@ -22,8 +22,6 @@ function DictionaryContainer() {
 
   const handleToggle = React.useCallback(
     value => event => {
-      event.stopPropagation();
-
       setCheckedValues(checkedValues => {
         const currentIndex = checkedValues.indexOf(value);
         const newChecked = [...checkedValues];
@@ -74,7 +72,7 @@ function DictionaryContainer() {
   );
 
   return (
-    <Paper>
+    <Paper square>
       <DictionaryToolbar
         editingModeEnabled={editingModeEnabled}
         checkedValues={checkedValues}

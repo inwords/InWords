@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WordlistItemContainer from './WordlistItemContainer';
 import WordlistItemButton from './WordlistItemButton';
-import WordlistItemCheckbox from './WordlistItemCheckbox';
 import WordlistItemText from './WordlistItemText';
 import WordlistItemSecondaryAction from './WordlistItemSecondaryAction';
 import WordlistItemIcon from './WordlistItemIcon';
+import WordlistItemCheckbox from './WordlistItemCheckbox';
 import SpeechButton from './SpeechButton';
+
+const handleCheckboxClick = event => {
+  event.stopPropagation();
+};
 
 function WordlistItem({
   data: {
@@ -20,7 +23,6 @@ function WordlistItem({
   style
 }) {
   const wordPair = wordPairs[index];
-
   const { serverId, wordForeign } = wordPair;
 
   const listItemCheckboxIcon = React.useMemo(
@@ -31,35 +33,16 @@ function WordlistItem({
           tabIndex={-1}
           checked={checkedValues.includes(serverId)}
           disableRipple
-          onClick={handleToggle(serverId)}
+          onChange={handleToggle(serverId)}
+          onClick={handleCheckboxClick}
         />
       </WordlistItemIcon>
     ),
     [serverId, checkedValues, handleToggle]
   );
 
-  const listItemText = React.useMemo(
-    () => (
-      <WordlistItemText
-        id={`pair-${wordPair.serverId}`}
-        primary={wordPair.wordForeign}
-        secondary={wordPair.wordNative}
-      />
-    ),
-    [wordPair]
-  );
-
-  const listItemSpeechAction = React.useMemo(
-    () => (
-      <WordlistItemSecondaryAction>
-        <SpeechButton text={wordForeign} />
-      </WordlistItemSecondaryAction>
-    ),
-    [wordForeign]
-  );
-
   return (
-    <WordlistItemContainer style={style}>
+    <div style={style}>
       <WordlistItemButton
         onClick={
           !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
@@ -67,10 +50,16 @@ function WordlistItem({
         role="button"
       >
         {listItemCheckboxIcon}
-        {listItemText}
+        <WordlistItemText
+          id={`pair-${wordPair.serverId}`}
+          primary={wordPair.wordForeign}
+          secondary={wordPair.wordNative}
+        />
       </WordlistItemButton>
-      {listItemSpeechAction}
-    </WordlistItemContainer>
+      <WordlistItemSecondaryAction>
+        <SpeechButton text={wordForeign} />
+      </WordlistItemSecondaryAction>
+    </div>
   );
 }
 
