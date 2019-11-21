@@ -7,6 +7,8 @@ using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
+using InWords.WebApi.Services.GameService.GetGameLevels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,11 +21,16 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     [Produces("application/json")]
     public class ScoreController : ControllerBase
     {
+        private readonly IMediator mediator;
         private readonly IGameScoreService gameScoreService;
         private readonly GameService gameService;
 
-        public ScoreController(GameScoreService gameScoreService, GameService gameService)
+        public ScoreController(
+            IMediator mediator,
+            GameScoreService gameScoreService,
+            GameService gameService)
         {
+            this.mediator = mediator;
             this.gameScoreService = gameScoreService;
             this.gameService = gameService;
         }
@@ -96,16 +103,9 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         [HttpGet]
         public async Task<IActionResult> GetGame(int id)
         {
-            // todo single service/request implementation
             int userId = User.GetUserId();
-            // find levels
-            GameObject answer = await gameService.GetGameObjectAsync(id);
-            if (answer == null) return NotFound();
-
-            // set stars
-            answer = await gameScoreService.GetGameStarsAsync(userId, answer);
-
-            return Ok(answer);
+            GameObject result = await mediator.Send(new GetLevelsByGameIdQuery(id, userId)).ConfigureAwait(false);
+            return Ok(result);
         }
     }
 }

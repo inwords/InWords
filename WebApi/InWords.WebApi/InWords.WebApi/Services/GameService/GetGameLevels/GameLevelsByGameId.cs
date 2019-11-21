@@ -23,7 +23,7 @@ namespace InWords.WebApi.Services.GameService.GetGameLevels
 
             // join users score
             IQueryable<LevelInfo> starredLevels = from level in levelsOfGame
-                                                  join userLevel in Context.UserGameLevels on level.GameLevelId equals userLevel.GameLevelId into st
+                                                  join userLevel in Context.UserGameLevels.Where(u => u.UserId.Equals(request.UserId)) on level.GameLevelId equals userLevel.GameLevelId into st
                                                   from userLevel in st.DefaultIfEmpty()
                                                   select new LevelInfo()
                                                   {

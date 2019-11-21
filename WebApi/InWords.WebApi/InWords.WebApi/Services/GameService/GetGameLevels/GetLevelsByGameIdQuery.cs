@@ -10,5 +10,12 @@ namespace InWords.WebApi.Services.GameService.GetGameLevels
     public class GetLevelsByGameIdQuery : IRequest<GameObject>
     {
         public int GameId { get; set; }
+        public int UserId { get; set; }
+
+        public GetLevelsByGameIdQuery(int gameId,int userId)
+        {
+            GameId = gameId;
+            UserId = userId;
+        }
     }
 }
