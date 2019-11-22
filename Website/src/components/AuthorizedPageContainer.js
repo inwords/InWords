@@ -10,6 +10,10 @@ const routes = [
   {
     to: '/training',
     text: 'Обучение'
+  },
+  {
+    to: '/training/history',
+    text: 'История'
   }
 ];
 

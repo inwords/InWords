@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import BrandLink from 'src/components/BrandLink';
-import DynamicAppBar from 'src/components/DynamicAppBar';
+import AppBar from 'src/components/AppBar';
 import MainMavList from './MainNavList';
 import Progress from './Progress';
 
@@ -49,7 +49,7 @@ const RightContextBlock = styled(ContextBlock)`
 
 function Header({ routes, rightNodes, handleOpenDrawer }) {
   return (
-    <DynamicAppBar primary>
+    <AppBar>
       <Context>
         <ContextBlock>
           {handleOpenDrawer && (
@@ -72,7 +72,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
         {rightNodes && <RightContextBlock>{rightNodes}</RightContextBlock>}
       </Context>
       <Progress />
-    </DynamicAppBar>
+    </AppBar>
   );
 }
 

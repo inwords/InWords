@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from 'src/components/IconButton';
 import useMenu from 'src/hooks/useMenu';
 
 function DictionaryMenuButton({ handleLearning }) {
@@ -17,8 +17,8 @@ function DictionaryMenuButton({ handleLearning }) {
         aria-controls="dictionary-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        edge="end"
         color="inherit"
+        edge="end"
       >
         <MoreVertIcon />
       </IconButton>

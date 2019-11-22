@@ -14,6 +14,25 @@ const handleCheckboxClick = event => {
 const MemorizedListItemText = React.memo(ListItemText);
 const MemorizedListItemSecondaryAction = React.memo(ListItemSecondaryAction);
 
+const MemorizedListItemCheckboxIcon = React.memo(function ListItemCheckboxIcon({
+  serverId,
+  checkedValues,
+  handleToggle
+}) {
+  return (
+    <ListItemIcon>
+      <Checkbox
+        inputProps={{ 'aria-labelledby': `pair-${serverId}` }}
+        tabIndex={-1}
+        checked={checkedValues.includes(serverId)}
+        onChange={handleToggle(serverId)}
+        onClick={handleCheckboxClick}
+        edge="start"
+      />
+    </ListItemIcon>
+  );
+});
+
 function WordlistItem({
   data: {
     wordPairs,
@@ -28,21 +47,6 @@ function WordlistItem({
   const wordPair = wordPairs[index];
   const { serverId, handleSpeech } = wordPair;
 
-  const listItemCheckboxIcon = React.useMemo(
-    () => (
-      <ListItemIcon>
-        <Checkbox
-          inputProps={{ 'aria-labelledby': `pair-${serverId}` }}
-          tabIndex={-1}
-          checked={checkedValues.includes(serverId)}
-          onChange={handleToggle(serverId)}
-          onClick={handleCheckboxClick}
-        />
-      </ListItemIcon>
-    ),
-    [serverId, checkedValues, handleToggle]
-  );
-
   return (
     <li style={style}>
       <ListItemButton
@@ -52,7 +56,11 @@ function WordlistItem({
         }
         role="button"
       >
-        {listItemCheckboxIcon}
+        <MemorizedListItemCheckboxIcon
+          serverId={serverId}
+          checkedValues={checkedValues}
+          handleToggle={handleToggle}
+        />
         <MemorizedListItemText
           id={`pair-${wordPair.serverId}`}
           primary={wordPair.wordForeign}
@@ -60,7 +68,7 @@ function WordlistItem({
         />
       </ListItemButton>
       <MemorizedListItemSecondaryAction>
-        <SpeechButton handleSpeech={handleSpeech} />
+        <SpeechButton edge="end" handleSpeech={handleSpeech} />
       </MemorizedListItemSecondaryAction>
     </li>
   );

@@ -10,6 +10,9 @@ const defaultStyles = props => css`
 
   &:hover {
     background-color: ${props.theme.palette.action.hover};
+    @media (hover: none) {
+      background-color: transparent;
+    }
   }
 `;
 
@@ -18,6 +21,9 @@ const primaryStyles = props => css`
 
   &:hover {
     background-color: ${fade(props.theme.palette.primary.main, 0.15)};
+    @media (hover: none) {
+      background-color: transparent;
+    }
   }
 `;
 
@@ -26,6 +32,31 @@ const secondaryStyles = props => css`
 
   &:hover {
     background-color: ${fade(props.theme.palette.secondary.main, 0.15)};
+    @media (hover: none) {
+      background-color: transparent;
+    }
+  }
+`;
+
+const errorStyles = props => css`
+  color: ${props.theme.palette.error.main};
+
+  &:hover {
+    background-color: ${fade(props.theme.palette.error.main, 0.15)};
+    @media (hover: none) {
+      background-color: transparent;
+    }
+  }
+`;
+
+const inheritStyles = props => css`
+  color: inherit;
+
+  &:hover {
+    background-color: ${props.theme.palette.action.hover};
+    @media (hover: none) {
+      background-color: transparent;
+    }
   }
 `;
 
@@ -47,18 +78,24 @@ const IconButton = styled(ButtonBase, {
         return primaryStyles;
       case 'secondary':
         return secondaryStyles;
+      case 'error':
+        return errorStyles;
       case 'inherit':
-        return 'inherit';
+        return inheritStyles;
       default:
         return defaultStyles;
     }
   }}
 
-  &:hover: {
-    @media (hover: none) {
-      background-color: transparent;
+  ${props => {
+    switch (props.edge) {
+      case 'start':
+        return 'margin-left: -12px;';
+      case 'end':
+        return 'margin-right: -12px;';
+      default:
     }
-  }
+  }}
 
   &:disabled,
   &.disabled {

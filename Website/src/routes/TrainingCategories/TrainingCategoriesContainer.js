@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { receiveTrainingCategories } from 'src/actions/trainingApiActions';
 import TrainingCategories from './TrainingCategories';
 
-function TrainingCategoriesContainer({ ...rest }) {
+function TrainingCategoriesContainer() {
   const trainingCategories = useSelector(
     store => store.training.trainingCategories
   );
@@ -16,9 +16,7 @@ function TrainingCategoriesContainer({ ...rest }) {
     }
   }, [trainingCategories.length, dispatch]);
 
-  return (
-    <TrainingCategories trainingCategories={trainingCategories} {...rest} />
-  );
+  return <TrainingCategories trainingCategories={trainingCategories} />;
 }
 
 export default TrainingCategoriesContainer;

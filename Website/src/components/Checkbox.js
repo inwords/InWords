@@ -29,7 +29,10 @@ const CheckboxBox = styled.span`
   border: solid;
   border-width: 2px;
   border-radius: 2px;
-  border-color: ${props => props.theme.palette.primary.main};
+  border-color: ${props =>
+    props.checked
+      ? props.theme.palette.primary.main
+      : props.theme.palette.text.secondary};
   background-color: ${props =>
     props.checked ? props.theme.palette.primary.main : 'transparent'};
 `;
@@ -48,15 +51,29 @@ const CheckboxMark = styled.span`
   transform: rotate(45deg);
 `;
 
-function Checkbox({ checked, inputProps, className, ...rest }) {
+function Checkbox({
+  id,
+  tabIndex,
+  checked,
+  defaultChecked,
+  required,
+  disabled,
+  onChange,
+  inputProps,
+  ...rest
+}) {
   return (
-    <IconButton color="primary" className={className}>
+    <IconButton as="span" color="primary" {...rest}>
       <CheckboxLabel>
         <CheckboxInput
           type="checkbox"
+          tabIndex={tabIndex}
           checked={checked}
+          defaultChecked={defaultChecked}
+          required={required}
+          disabled={disabled}
+          onChange={onChange}
           {...inputProps}
-          {...rest}
         />
         <CheckboxBox checked={checked} />
         <CheckboxMark checked={checked} />
@@ -66,9 +83,14 @@ function Checkbox({ checked, inputProps, className, ...rest }) {
 }
 
 Checkbox.propTypes = {
-  inputProps: PropTypes.object,
+  id: PropTypes.number,
+  tabIndex: PropTypes.number,
   checked: PropTypes.bool,
-  className: PropTypes.string
+  defaultChecked: PropTypes.bool,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func,
+  inputProps: PropTypes.object
 };
 
 export default Checkbox;

@@ -1,10 +1,8 @@
 import styled from '@emotion/styled';
+import Paper from 'src/components/Paper';
 
-const FormPaper = styled.div`
+const FormPaper = styled(Paper)`
   padding: 24px;
-  border-radius: ${props => props.theme.shape.borderRadius}px;
-  box-shadow: ${props => props.theme.shadows[1]};
-  background-color: ${props => props.theme.palette.background.paper};
 `;
 
 export default FormPaper;

@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from 'src/components/IconButton';
 import Search from './Search';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
@@ -27,10 +27,6 @@ const EntryTitleBlock = styled(TitleBlock)`
 
 const CloseIconButton = styled(IconButton)`
   margin-right: 16px;
-`;
-
-const DeleteIconButton = styled(IconButton)`
-  color: ${props => props.theme.palette.error.main};
 `;
 
 function DictionaryToolbar({
@@ -69,15 +65,16 @@ function DictionaryToolbar({
               Выбрано: {numberOfChecked}
             </Typography>
           </TitleBlock>
-          <DeleteIconButton
+          <IconButton
             aria-label="delete"
             onClick={() => {
               handleDelete();
               handleReset();
             }}
+            color="error"
           >
             <DeleteIcon />
-          </DeleteIconButton>
+          </IconButton>
           <DictionaryMenuButton checkedValues={checkedValues} />
         </Fragment>
       )}

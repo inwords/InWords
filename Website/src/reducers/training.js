@@ -3,7 +3,8 @@ import {
   INITIALIZE_TRAINING_CATEGORIES,
   INITIALIZE_TRAINING_CATEGORY,
   UPDATE_LEVEL_RESULT,
-  INITIALIZE_TRAINING_LEVEL
+  INITIALIZE_TRAINING_LEVEL,
+  INITIALIZE_TRAINING_HISTORY
 } from 'src/actions/trainingActions';
 
 function trainingCategories(state = [], action) {
@@ -65,8 +66,27 @@ function trainingLevel(
   }
 }
 
+function trainingHistory(
+  state = {
+    actual: false,
+    recentTrainings: []
+  },
+  action
+) {
+  switch (action.type) {
+    case INITIALIZE_TRAINING_HISTORY:
+      return {
+        actual: true,
+        recentTrainings: action.payload || []
+      };
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   trainingCategories,
   trainingCategory,
-  trainingLevel
+  trainingLevel,
+  trainingHistory
 });

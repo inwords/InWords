@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { syncWordPairs } from 'src/actions/dictionaryApiActions';
-import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
+import Paper from 'src/components/Paper';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
 import WordPairAddButton from './WordPairAddButton';

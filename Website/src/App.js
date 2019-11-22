@@ -19,6 +19,7 @@ const Dictionary = lazy(() => import('./routes/Dictionary'));
 const TrainingCategories = lazy(() => import('./routes/TrainingCategories'));
 const TrainingTypes = lazy(() => import('./routes/TrainingTypes'));
 const TrainingLevels = lazy(() => import('./routes/TrainingLevels'));
+const TrainingHistory = lazy(() => import('./routes/TrainingHistory'));
 const Game = lazy(() => import('./routes/Game'));
 const SelectTranslateTraining = lazy(() =>
   import('./routes/SelectTranslateTraining')
@@ -96,7 +97,7 @@ function App() {
             <Route exact path="/training/history">
               <AuthorizedPageContainer>
                 <Container component="div" maxWidth="lg">
-                  Тут скоро появится история
+                  <TrainingHistory />
                 </Container>
               </AuthorizedPageContainer>
             </Route>

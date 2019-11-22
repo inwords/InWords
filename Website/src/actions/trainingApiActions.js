@@ -92,3 +92,20 @@ export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
     ]
   });
 }
+
+export function receiveTrainingHistory() {
+  return apiAction({
+    apiVersion: 'v1.1',
+    endpoint: 'customLevel/history',
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(trainingActions.initializeTrainingHistory(data));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
+      }
+    ]
+  });
+}
