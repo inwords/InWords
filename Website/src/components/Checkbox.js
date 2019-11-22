@@ -1,24 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-
-const CheckboxRoot = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: ${props =>
-    props.theme.transitions.create('background-color', {
-      duration: props.theme.transitions.duration.shortest
-    })};
-
-  &:hover {
-    background-color: ${props => props.theme.palette.action.hover};
-  }
-`;
+import IconButton from 'src/components/IconButton';
 
 const CheckboxLabel = styled.span`
   display: flex;
@@ -43,13 +26,10 @@ const CheckboxBox = styled.span`
   display: inline-block;
   width: 18px;
   height: 18px;
-  border: solid};
+  border: solid;
   border-width: 2px;
   border-radius: 2px;
-  border-color: ${props =>
-    props.checked
-      ? props.theme.palette.primary.main
-      : props.theme.palette.action.active};
+  border-color: ${props => props.theme.palette.primary.main};
   background-color: ${props =>
     props.checked ? props.theme.palette.primary.main : 'transparent'};
 `;
@@ -61,14 +41,16 @@ const CheckboxMark = styled.span`
   top: 14px;
   width: 6px;
   height: 11px;
-  border: 2px solid ${props => props.theme.palette.primary.contrastText};
+  border: solid;
+  border-width: 2px;
+  border-color: ${props => props.theme.palette.primary.contrastText};
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 `;
 
-function WordlistItemCheckbox({ checked, inputProps, ...rest }) {
+function Checkbox({ checked, inputProps, className, ...rest }) {
   return (
-    <CheckboxRoot>
+    <IconButton color="primary" className={className}>
       <CheckboxLabel>
         <CheckboxInput
           type="checkbox"
@@ -79,13 +61,14 @@ function WordlistItemCheckbox({ checked, inputProps, ...rest }) {
         <CheckboxBox checked={checked} />
         <CheckboxMark checked={checked} />
       </CheckboxLabel>
-    </CheckboxRoot>
+    </IconButton>
   );
 }
 
-WordlistItemCheckbox.propTypes = {
+Checkbox.propTypes = {
   inputProps: PropTypes.object,
-  checked: PropTypes.bool
+  checked: PropTypes.bool,
+  className: PropTypes.string
 };
 
-export default React.memo(WordlistItemCheckbox);
+export default Checkbox;

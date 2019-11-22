@@ -7,6 +7,9 @@ import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
 import WordPairAddButton from './WordPairAddButton';
 
+const synth = window.speechSynthesis;
+const lang = 'en-US';
+
 function DictionaryContainer() {
   const { actual, wordPairs } = useSelector(store => store.dictionary);
 
@@ -17,6 +20,30 @@ function DictionaryContainer() {
       dispatch(syncWordPairs(wordPairs));
     }
   }, [actual, wordPairs, dispatch]);
+
+  const [extendedWordPairs, setExtendedWordPairs] = React.useState([]);
+
+  React.useEffect(() => {
+    setExtendedWordPairs(
+      wordPairs.map(wordPair => {
+        const handleSpeech = () => {
+          if (synth.speaking) {
+            synth.cancel();
+          }
+
+          const speech = new SpeechSynthesisUtterance(wordPair.wordForeign);
+          speech.lang = lang;
+
+          synth.speak(speech);
+        };
+
+        return {
+          ...wordPair,
+          handleSpeech
+        };
+      })
+    );
+  }, [wordPairs]);
 
   const [checkedValues, setCheckedValues] = React.useState([]);
 
@@ -60,7 +87,7 @@ function DictionaryContainer() {
 
   const filteredWordPairs = React.useMemo(
     () =>
-      wordPairs.filter(({ wordForeign, wordNative }) => {
+      extendedWordPairs.filter(({ wordForeign, wordNative }) => {
         const upperCaseSearchWord = pattern.toUpperCase();
 
         return (
@@ -68,7 +95,7 @@ function DictionaryContainer() {
           wordNative.toUpperCase().includes(upperCaseSearchWord)
         );
       }),
-    [pattern, wordPairs]
+    [pattern, extendedWordPairs]
   );
 
   return (
@@ -82,7 +109,7 @@ function DictionaryContainer() {
       <Divider />
       <Wordlist
         editingModeEnabled={editingModeEnabled}
-        wordPairs={!pattern ? wordPairs : filteredWordPairs}
+        wordPairs={!pattern ? extendedWordPairs : filteredWordPairs}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />

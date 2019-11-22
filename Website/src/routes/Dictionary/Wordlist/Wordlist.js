@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FixedSizeList as List } from 'react-window';
-import WordlistRoot from './WordlistRoot';
+import { FixedSizeList } from 'react-window';
+import List from 'src/components/List';
 import WordlistItem from './WordlistItem';
 
 function Wordlist({ wordPairs, checkedValues, listHeight, ...rest }) {
   return (
-    <List
-      innerElementType={WordlistRoot}
+    <FixedSizeList
+      innerElementType={List}
       height={listHeight}
       itemCount={wordPairs.length}
-      itemSize={60}
+      itemSize={56}
       itemData={{
         wordPairs,
         checkedValues,
@@ -18,7 +18,7 @@ function Wordlist({ wordPairs, checkedValues, listHeight, ...rest }) {
       }}
     >
       {WordlistItem}
-    </List>
+    </FixedSizeList>
   );
 }
 

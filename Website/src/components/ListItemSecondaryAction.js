@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 
-const WordlistItemSecondaryAction = styled.div`
+const ListItemSecondaryAction = styled.div`
   position: absolute;
   top: 50%;
-  right: 16px;
+  right: 4px;
   transform: translateY(-50%);
 `;
 
-export default WordlistItemSecondaryAction;
+export default ListItemSecondaryAction;

@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WordlistItemButton from './WordlistItemButton';
-import WordlistItemText from './WordlistItemText';
-import WordlistItemSecondaryAction from './WordlistItemSecondaryAction';
-import WordlistItemIcon from './WordlistItemIcon';
-import WordlistItemCheckbox from './WordlistItemCheckbox';
+import ListItemButton from 'src/components/ListItemButton';
+import ListItemText from 'src/components/ListItemText';
+import ListItemSecondaryAction from 'src/components/ListItemSecondaryAction';
+import ListItemIcon from 'src/components/ListItemIcon';
+import Checkbox from 'src/components/Checkbox';
 import SpeechButton from './SpeechButton';
 
 const handleCheckboxClick = event => {
   event.stopPropagation();
 };
+
+const MemorizedListItemText = React.memo(ListItemText);
+const MemorizedListItemSecondaryAction = React.memo(ListItemSecondaryAction);
 
 function WordlistItem({
   data: {
@@ -23,43 +26,43 @@ function WordlistItem({
   style
 }) {
   const wordPair = wordPairs[index];
-  const { serverId, wordForeign } = wordPair;
+  const { serverId, handleSpeech } = wordPair;
 
   const listItemCheckboxIcon = React.useMemo(
     () => (
-      <WordlistItemIcon>
-        <WordlistItemCheckbox
+      <ListItemIcon>
+        <Checkbox
           inputProps={{ 'aria-labelledby': `pair-${serverId}` }}
           tabIndex={-1}
           checked={checkedValues.includes(serverId)}
-          disableRipple
           onChange={handleToggle(serverId)}
           onClick={handleCheckboxClick}
         />
-      </WordlistItemIcon>
+      </ListItemIcon>
     ),
     [serverId, checkedValues, handleToggle]
   );
 
   return (
-    <div style={style}>
-      <WordlistItemButton
+    <li style={style}>
+      <ListItemButton
+        hasSecondaryAction
         onClick={
           !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
         }
         role="button"
       >
         {listItemCheckboxIcon}
-        <WordlistItemText
+        <MemorizedListItemText
           id={`pair-${wordPair.serverId}`}
           primary={wordPair.wordForeign}
           secondary={wordPair.wordNative}
         />
-      </WordlistItemButton>
-      <WordlistItemSecondaryAction>
-        <SpeechButton text={wordForeign} />
-      </WordlistItemSecondaryAction>
-    </div>
+      </ListItemButton>
+      <MemorizedListItemSecondaryAction>
+        <SpeechButton handleSpeech={handleSpeech} />
+      </MemorizedListItemSecondaryAction>
+    </li>
   );
 }
 
@@ -69,7 +72,8 @@ WordlistItem.propTypes = {
       PropTypes.shape({
         serverId: PropTypes.number.isRequired,
         wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired
+        wordNative: PropTypes.string.isRequired,
+        handleSpeech: PropTypes.func.isRequired
       }).isRequired
     ).isRequired,
     checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
