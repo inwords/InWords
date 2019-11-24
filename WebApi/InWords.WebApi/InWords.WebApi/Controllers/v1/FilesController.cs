@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,26 +25,42 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(typeof(IEnumerable<IFormFile>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post(List<IFormFile> files)
+        public async Task<IActionResult> Post(IFormFile file)
         {
-            long size = files.Sum(f => f.Length);
+            long size = file.Length;
+            if (file.Length <= 0) return NoContent();
 
-            // full path to file in temp location
-            string filePath = Path.GetTempFileName();
-
-            foreach (IFormFile formFile in files)
+            // process image
+            using (var image = new Bitmap(System.Drawing.Image.FromStream(file.OpenReadStream())))
             {
-                if (formFile.Length <= 0) continue;
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                //set 256x256
+                int imageSize = 256;
+                int width, height;
+                if (image.Width < image.Height)
                 {
-                    await formFile.CopyToAsync(stream);
+                    width = imageSize;
+                    height = Convert.ToInt32(image.Height * imageSize / (double)image.Width);
                 }
-            }
+                else
+                {
+                    width = Convert.ToInt32(image.Width * imageSize / (double)image.Height);
+                    height = imageSize;
+                }
+                var resized = new Bitmap(image, width, height);
 
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-            return Ok(new {count = files.Count, size, filePath});
+                // crop
+                var cropArea = new Rectangle(0, 0, imageSize, imageSize);
+                Bitmap cropImage = resized.Clone(cropArea, resized.PixelFormat);
+
+                //encode webP TODO
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+                Directory.CreateDirectory(filePath);
+                string fileName = $"{Guid.NewGuid()}.jpeg";
+                filePath = Path.Combine(filePath, fileName);
+                cropImage.Save(filePath, ImageFormat.Jpeg);
+
+            }
+            return Ok(new { size });
         }
     }
 }

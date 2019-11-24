@@ -52,6 +52,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.0.0-rc2" />
+    <PackageReference Include="System.Drawing.Common" Version="4.6.1" />
   </ItemGroup>
 
   <ItemGroup>
