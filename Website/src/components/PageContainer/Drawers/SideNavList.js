@@ -2,23 +2,34 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
-import ListItemButton from 'src/components/ListItemButton';
 import List from 'src/components/List';
 import Divider from 'src/components/Divider';
 
-const NavListItemButton = styled(ListItemButton)`
+const NavListItem = styled.li`
+  display: flex;
   align-items: flex-start;
   flex-direction: column;
-  padding: 6px 0;
-`;
-
-const NavLink = styled(RouterNavLink)`
-  margin: 0;
-  padding: 5px 24px;
-  width: 100%;
-  font-weight: 500;
+  padding: ${props => (props.nested ? '0' : '6px 0 8px')};
+  cursor: pointer;
+  user-select: none;
   text-decoration: none;
   color: ${props => props.theme.palette.text.primary};
+  transition: ${props =>
+    props.theme.transitions.create('background-color', {
+      duration: props.theme.transitions.duration.shortest
+    })};
+`;
+
+const NavLinkBase = styled(RouterNavLink)`
+  margin: 0;
+  width: 100%;
+  text-decoration: none;
+  color: ${props => props.theme.palette.text.primary};
+
+  &:hover {
+    background-color: ${props => props.theme.palette.action.hover};
+  }
+
   &.active {
     font-weight: 500;
     color: ${props => props.theme.palette.primary.main};
@@ -27,12 +38,19 @@ const NavLink = styled(RouterNavLink)`
 
 const NestedNavList = styled(List)`
   width: 100%;
+  padding-top: 4px;
+`;
+
+const NavLink = styled(NavLinkBase)`
+  padding: 8px 24px;
+  font-weight: 500;
+  font-size: ${props => props.theme.typography.body1.fontSize};
 `;
 
 const NestedNavLink = styled(NavLink)`
+  padding: 6px 24px;
   font-weight: 400;
-  font-size: 0.875rem;
-  padding: 0 24px;
+  font-size: ${props => props.theme.typography.body2.fontSize};
 `;
 
 function SideNavList({ routes, handleClose }) {
@@ -40,22 +58,22 @@ function SideNavList({ routes, handleClose }) {
     <List>
       {routes.map(({ to, text, nestedRoutes }) => (
         <Fragment key={to}>
-          <NavListItemButton as="li" onClick={handleClose}>
+          <NavListItem as="li" onClick={handleClose}>
             <NavLink to={to} activeClassName="active">
               {text}
             </NavLink>
             {nestedRoutes && (
               <NestedNavList>
                 {nestedRoutes.map(({ to, text, nestedRoutes }) => (
-                  <NavListItemButton key={to} as="li" onClick={handleClose}>
+                  <NavListItem key={to} as="li" onClick={handleClose} nested>
                     <NestedNavLink to={to} activeClassName="active">
                       {text}
                     </NestedNavLink>
-                  </NavListItemButton>
+                  </NavListItem>
                 ))}
               </NestedNavList>
             )}
-          </NavListItemButton>
+          </NavListItem>
           <Divider />
         </Fragment>
       ))}

@@ -1,23 +1,19 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import DrawerContent from './DrawerContent';
 
 const drawerWidth = 240;
 
-const drawerBase = css`
+const CustomSwipeableDrawer = styled(SwipeableDrawer)`
   width: ${drawerWidth}px;
 
   & .MuiPaper-root {
     width: ${drawerWidth}px;
   }
-`;
 
-const CustomSwipeableDrawer = styled(SwipeableDrawer)`
-  ${drawerBase}
-  ${props => props.theme.breakpoints.up('md')} {
+  ${props => props.theme.breakpoints.up('lg')} {
     display: none;
   }
 `;

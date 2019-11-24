@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
-import List from 'src/components/List';
 
-const Menu = styled(List)`
+const Menu = styled.ul`
+  position: relative;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
   overflow-x: hidden;
   overflow-y: auto;
 `;

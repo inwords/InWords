@@ -17,7 +17,7 @@ const Context = styled.div`
 
 const NavMenuButton = styled(IconButton)`
   margin-right: 16px;
-  ${props => props.theme.breakpoints.up('md')} {
+  ${props => props.theme.breakpoints.up('lg')} {
     display: none;
   }
 `;
@@ -28,7 +28,7 @@ const Nav = styled.nav`
   overflow: hidden;
   height: 64px;
 
-  ${props => props.theme.breakpoints.down('sm')} {
+  ${props => props.theme.breakpoints.down('md')} {
     display: none;
   }
 `;
@@ -42,7 +42,7 @@ const ContextBlock = styled.div`
 const RightContextBlock = styled(ContextBlock)`
   margin-left: 24px;
 
-  ${props => props.theme.breakpoints.down('sm')} {
+  ${props => props.theme.breakpoints.down('md')} {
     margin-left: auto;
   }
 `;

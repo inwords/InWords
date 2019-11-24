@@ -10,13 +10,10 @@ import SideNavList from './SideNavList';
 
 const Container = styled.div`
   display: flex;
-  padding-top: 88px;
 `;
 
-const SideNavContainer = styled(ContentContainer)`
-  max-width: 240px;
-
-  ${props => props.theme.breakpoints.down('sm')} {
+const SideNavContainer = styled.div`
+  ${props => props.theme.breakpoints.down('md')} {
     display: none;
   }
 `;

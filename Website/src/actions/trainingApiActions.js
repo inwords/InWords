@@ -12,7 +12,7 @@ export function receiveTrainingCategories() {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить категории' }));
+        dispatch(setSnackbar({ text: 'Не удалось загрузить курсы' }));
       }
     ]
   });

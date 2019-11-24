@@ -10,7 +10,6 @@ const ListItem = styled.div`
   padding-right: ${props => (props.hasSecondaryAction ? '56px' : '16px')};
   padding-bottom: ${props => (props.dense ? '4px' : '6px')};
   padding-left: 16px;
-  ${props => props.theme.typography.body1}
 `;
 
 ListItem.propTypes = {

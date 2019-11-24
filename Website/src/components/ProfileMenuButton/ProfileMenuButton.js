@@ -19,6 +19,10 @@ const ProfileMenu = styled(Menu)`
   max-height: calc(100vh - 64px);
 `;
 
+const ProfileMenuItem = styled(MenuItem)`
+  font-size: ${props => props.theme.typography.body1.fontSize};
+`;
+
 function ProfileMenuButton({ handleLogout }) {
   const { show, handleToggle, handleClose } = usePopup();
 
@@ -36,14 +40,14 @@ function ProfileMenuButton({ handleLogout }) {
       </IconButton>
       <Popup show={show} side="right">
         <ProfileMenu as="div" id="profile-menu" onClick={handleClickMenu}>
-          <MenuItem as={Link} to="/profile" onClick={handleClose}>
+          <ProfileMenuItem as={Link} to="/profile" onClick={handleClose}>
             Профиль
-          </MenuItem>
-          <MenuItem as={Link} to="/account" onClick={handleClose}>
+          </ProfileMenuItem>
+          <ProfileMenuItem as={Link} to="/account" onClick={handleClose}>
             Аккаунт
-          </MenuItem>
+          </ProfileMenuItem>
           <Divider />
-          <MenuItem
+          <ProfileMenuItem
             as={Link}
             to="/signIn"
             onClick={() => {
@@ -52,7 +56,7 @@ function ProfileMenuButton({ handleLogout }) {
             }}
           >
             Выйти
-          </MenuItem>
+          </ProfileMenuItem>
         </ProfileMenu>
       </Popup>
     </PopupContainer>
