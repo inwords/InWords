@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import useDrawer from 'src/hooks/useDrawer';
 import Header from './Header';
@@ -13,22 +13,30 @@ const Container = styled.div`
 `;
 
 const SideNavContainer = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 240px;
+  padding-top: 88px;
+  border-right: 1px solid ${props => props.theme.palette.divider};
+  background-color: ${props => props.theme.palette.background.paper};
+
   ${props => props.theme.breakpoints.down('md')} {
     display: none;
   }
 `;
 
-function getNestedRoutes(routes, url) {
-  const route = routes && routes.find(({ to }) => url.startsWith(to));
+function getNestedRoutes(routes, pathname) {
+  const route = routes && routes.find(({ to }) => pathname.startsWith(to));
   return route && route.nestedRoutes;
 }
 
 function PageContainer({ routes, rightNodes, children }) {
   const { open, handleOpen, handleClose } = useDrawer();
 
-  const { url } = useRouteMatch();
+  const { pathname } = useLocation();
 
-  const nestedRoutes = getNestedRoutes(routes, url);
+  const nestedRoutes = getNestedRoutes(routes, pathname);
 
   return (
     <Container>
@@ -37,18 +45,20 @@ function PageContainer({ routes, rightNodes, children }) {
         rightNodes={rightNodes}
         handleOpenDrawer={routes && handleOpen}
       />
-      <Drawers
-        routes={routes}
-        open={open}
-        handleOpen={handleOpen}
-        handleClose={handleClose}
-      />
+      {routes && (
+        <Drawers
+          routes={routes}
+          open={open}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+        />
+      )}
       {nestedRoutes && (
         <SideNavContainer>
           <SideNavList routes={nestedRoutes} />
         </SideNavContainer>
       )}
-      <ContentContainer as="main">{children}</ContentContainer>
+      <ContentContainer shift>{children}</ContentContainer>
     </Container>
   );
 }

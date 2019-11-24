@@ -6,10 +6,7 @@ import styled from '@emotion/styled';
 import List from 'src/components/List';
 
 const NavList = styled(List)`
-  position: sticky;
-  top: 0;
-  padding-top: 88px;
-  width: 240px;
+  width: 100%;
 `;
 
 const NavListItem = styled.li`
@@ -32,7 +29,7 @@ const NavLink = styled(RouterNavLink)`
   font-weight: 400;
   text-decoration: none;
   color: ${props => props.theme.palette.text.primary};
-  font-size: ${props => props.theme.typography.body1.fontSize};
+  font-size: ${props => props.theme.typography.body2.fontSize};
 
   &:hover {
     background-color: ${props => props.theme.palette.action.hover};

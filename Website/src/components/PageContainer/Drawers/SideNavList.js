@@ -10,9 +10,6 @@ const NavListItem = styled.li`
   align-items: flex-start;
   flex-direction: column;
   padding: ${props => (props.nested ? '0' : '6px 0 8px')};
-  cursor: pointer;
-  user-select: none;
-  text-decoration: none;
   color: ${props => props.theme.palette.text.primary};
   transition: ${props =>
     props.theme.transitions.create('background-color', {
@@ -23,6 +20,8 @@ const NavListItem = styled.li`
 const NavLinkBase = styled(RouterNavLink)`
   margin: 0;
   width: 100%;
+  cursor: pointer;
+  user-select: none;
   text-decoration: none;
   color: ${props => props.theme.palette.text.primary};
 
@@ -58,15 +57,19 @@ function SideNavList({ routes, handleClose }) {
     <List>
       {routes.map(({ to, text, nestedRoutes }) => (
         <Fragment key={to}>
-          <NavListItem as="li" onClick={handleClose}>
-            <NavLink to={to} activeClassName="active">
+          <NavListItem as="li">
+            <NavLink to={to} onClick={handleClose} activeClassName="active">
               {text}
             </NavLink>
             {nestedRoutes && (
               <NestedNavList>
                 {nestedRoutes.map(({ to, text, nestedRoutes }) => (
-                  <NavListItem key={to} as="li" onClick={handleClose} nested>
-                    <NestedNavLink to={to} activeClassName="active">
+                  <NavListItem key={to} as="li" nested>
+                    <NestedNavLink
+                      to={to}
+                      onClick={handleClose}
+                      activeClassName="active"
+                    >
                       {text}
                     </NestedNavLink>
                   </NavListItem>

@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
 import Container from '@material-ui/core/Container';
@@ -7,7 +8,7 @@ import PageProgress from 'src/components/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
 import SmartSnackbar from 'src/components/SmartSnackbar';
 import PageContainer from 'src/components/PageContainer';
-import AuthorizedPageContainer from 'src/components/AuthorizedPageContainer';
+import ProfileMenuButton from 'src/components/ProfileMenuButton';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 
 const SignIn = lazy(() => import('./routes/SignIn'));
@@ -27,6 +28,27 @@ const SelectTranslateTraining = lazy(() =>
 
 const history = createBrowserHistory();
 
+const routes = [
+  {
+    to: '/dictionary',
+    text: 'Словарь'
+  },
+  {
+    to: '/training',
+    text: 'Обучение',
+    nestedRoutes: [
+      {
+        to: '/training/main',
+        text: 'Курсы'
+      },
+      {
+        to: '/training/history',
+        text: 'История'
+      }
+    ]
+  }
+];
+
 function App() {
   const userId = useSelector(store => store.access.userId);
 
@@ -36,114 +58,95 @@ function App() {
       <SmartSnackbar />
       <ErrorBoundary>
         <Suspense fallback={<PageProgress />}>
-          <Switch>
-            <Route exact path="/">
-              {!userId ? (
-                <Redirect to="/signIn" />
-              ) : (
-                <Redirect to="/dictionary" />
-              )}
-            </Route>
-            <Route exact path="/profile">
-              {<Redirect to={`/profile/${userId}`} />}
-            </Route>
-            <Route path="/signIn">
-              <PageContainer>
+          <PageContainer
+            routes={userId ? routes : undefined}
+            rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
+          >
+            <Switch>
+              <Route exact path="/">
+                {!userId ? (
+                  <Redirect to="/signIn" />
+                ) : (
+                  <Redirect to="/dictionary" />
+                )}
+              </Route>
+              <Route exact path="/profile">
+                {<Redirect to={`/profile/${userId}`} />}
+              </Route>
+              <Route path="/signIn">
                 <Container maxWidth="xs">
                   <SignIn />
                 </Container>
-              </PageContainer>
-            </Route>
-            <Route path="/signUp">
-              <PageContainer>
+              </Route>
+              <Route path="/signUp">
                 <Container maxWidth="xs">
                   <SignUp />
                 </Container>
-              </PageContainer>
-            </Route>
-            <Route path="/profile/:userId">
-              <AuthorizedPageContainer>
+              </Route>
+              <Route path="/profile/:userId">
                 <Profile />
-              </AuthorizedPageContainer>
-            </Route>
-            <Route path="/profileSettings">
-              <AuthorizedPageContainer>
-                <Container component="div" maxWidth="sm">
+              </Route>
+              <Route path="/profileSettings">
+                <Container maxWidth="sm">
                   <ProfileSettings />
                 </Container>
-              </AuthorizedPageContainer>
-            </Route>
-            <Route path="/account">
-              <AuthorizedPageContainer>
-                <Container component="div" maxWidth="sm">
+              </Route>
+              <Route path="/account">
+                <Container maxWidth="sm">
                   <Account />
                 </Container>
-              </AuthorizedPageContainer>
-            </Route>
-            <Route path="/dictionary">
-              <AuthorizedPageContainer>
-                <Container component="div" maxWidth="md">
+              </Route>
+              <Route path="/dictionary">
+                <Container maxWidth="md">
                   <Dictionary />
                 </Container>
-              </AuthorizedPageContainer>
-            </Route>
-            <Route exact path="/training">
-              <Redirect to="/training/main" />
-            </Route>
-            <Route exact path="/training/main">
-              <AuthorizedPageContainer>
-                <Container component="div" maxWidth="lg">
+              </Route>
+              <Route exact path="/training">
+                <Redirect to="/training/main" />
+              </Route>
+              <Route exact path="/training/main">
+                <Container maxWidth="lg">
                   <TrainingCategories />
                 </Container>
-              </AuthorizedPageContainer>
-            </Route>
-            <Route exact path="/training/history">
-              <AuthorizedPageContainer>
-                <Container component="div" maxWidth="lg">
+              </Route>
+              <Route exact path="/training/history">
+                <Container maxWidth="lg">
                   <TrainingHistory />
                 </Container>
-              </AuthorizedPageContainer>
-            </Route>
-            <Route exact path="/training/:categoryId">
-              <AuthorizedPageContainer>
-                <Container component="div" maxWidth="lg">
+              </Route>
+              <Route exact path="/training/:categoryId">
+                <Container maxWidth="lg">
                   <TrainingTypes />
                 </Container>
-              </AuthorizedPageContainer>
-            </Route>
-            <Route exact path="/training/:categoryId/:trainingId">
-              <AuthorizedPageContainer>
-                <Container component="div" maxWidth="lg">
+              </Route>
+              <Route exact path="/training/:categoryId/:trainingId">
+                <Container maxWidth="lg">
                   <TrainingLevels />
                 </Container>
-              </AuthorizedPageContainer>
-            </Route>
-            <Route
-              path="/training/:categoryId/:trainingId/:levelId"
-              render={({ match, ...rest }) => {
-                switch (match.params.trainingId) {
-                  case '0':
-                    return (
-                      <AuthorizedPageContainer>
-                        <Container component="div" maxWidth="lg">
+              </Route>
+              <Route
+                path="/training/:categoryId/:trainingId/:levelId"
+                render={({ match, ...rest }) => {
+                  switch (match.params.trainingId) {
+                    case '0':
+                      return (
+                        <Container maxWidth="lg">
                           <Game match={match} {...rest} />
                         </Container>
-                      </AuthorizedPageContainer>
-                    );
-                  case '1':
-                    return (
-                      <AuthorizedPageContainer>
-                        <Container component="div" maxWidth="lg">
+                      );
+                    case '1':
+                      return (
+                        <Container maxWidth="lg">
                           <SelectTranslateTraining match={match} {...rest} />
                         </Container>
-                      </AuthorizedPageContainer>
-                    );
-                  default:
-                    return null;
-                }
-              }}
-            />
-          </Switch>
+                      );
+                    default:
+                      return null;
+                  }
+                }}
+              />
+            </Switch>
+          </PageContainer>
         </Suspense>
       </ErrorBoundary>
     </Router>
