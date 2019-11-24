@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
+using ImageProcessor;
+using ImageProcessor.Plugins.WebP.Imaging.Formats;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,42 +27,61 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(typeof(IEnumerable<IFormFile>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post(IFormFile file)
+        private async Task<IActionResult> Post(IFormFile file)
         {
-            long size = file.Length;
             if (file.Length <= 0) return NoContent();
 
             // process image
-            using (var image = new Bitmap(System.Drawing.Image.FromStream(file.OpenReadStream())))
+            using var image = new Bitmap(Image.FromStream(file.OpenReadStream()));
+
+            //set 256x256
+            const int imageSize = 256;
+            using Bitmap resized = ResizeBitmap(image, 256);
+
+            // crop
+            var cropArea = new Rectangle(0, 0, imageSize, imageSize);
+            using Bitmap cropImage = resized.Clone(cropArea, resized.PixelFormat);
+
+            // Then save in WebP format
+            string webPImagePath = $"{CreatePath()}.WebP";
+            SaveToWebP(cropImage, webPImagePath);
+
+            return Ok(new { webPImagePath });
+        }
+
+        private static Bitmap ResizeBitmap(Image bitmap, int minSize)
+        {
+            int width, height;
+            if (bitmap.Width < bitmap.Height)
             {
-                //set 256x256
-                int imageSize = 256;
-                int width, height;
-                if (image.Width < image.Height)
-                {
-                    width = imageSize;
-                    height = Convert.ToInt32(image.Height * imageSize / (double)image.Width);
-                }
-                else
-                {
-                    width = Convert.ToInt32(image.Width * imageSize / (double)image.Height);
-                    height = imageSize;
-                }
-                var resized = new Bitmap(image, width, height);
-
-                // crop
-                var cropArea = new Rectangle(0, 0, imageSize, imageSize);
-                Bitmap cropImage = resized.Clone(cropArea, resized.PixelFormat);
-
-                //encode webP TODO
-                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
-                Directory.CreateDirectory(filePath);
-                string fileName = $"{Guid.NewGuid()}.jpeg";
-                filePath = Path.Combine(filePath, fileName);
-                cropImage.Save(filePath, ImageFormat.Jpeg);
-
+                width = minSize;
+                height = Convert.ToInt32(bitmap.Height * minSize / (double)bitmap.Width);
             }
-            return Ok(new { size });
+            else
+            {
+                width = Convert.ToInt32(bitmap.Width * minSize / (double)bitmap.Height);
+                height = minSize;
+            }
+            return new Bitmap(bitmap, width, height);
+        }
+
+        private static string CreatePath()
+        {
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+            Directory.CreateDirectory(filePath);
+            string fileName = $"{Guid.NewGuid()}";
+            return Path.Combine(filePath, fileName);
+        }
+
+
+        private static void SaveToWebP(Image cropImage, string webPImagePath)
+        {
+            using var webPFileStream = new FileStream(webPImagePath, FileMode.Create);
+            using var imageFactory = new ImageFactory(preserveExifData: false);
+            imageFactory.Load(cropImage)
+                .Format(new WebPFormat())
+                .Quality(80)
+                .Save(webPFileStream);
         }
     }
 }
