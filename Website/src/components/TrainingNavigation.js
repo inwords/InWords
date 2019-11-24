@@ -14,7 +14,12 @@ function TrainingNavigation() {
   if (categoryId) {
     if (categoryId !== '0') {
       navigationLinks.push(
-        <Link key={0} component={RouterLink} to="/training" color="inherit">
+        <Link
+          key={0}
+          component={RouterLink}
+          to="/training/main"
+          color="inherit"
+        >
           {linkTexts[0]}
         </Link>
       );

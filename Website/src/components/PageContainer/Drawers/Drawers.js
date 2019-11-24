@@ -1,9 +1,7 @@
-import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import DrawerContent from './DrawerContent';
 
@@ -17,13 +15,6 @@ const drawerBase = css`
   }
 `;
 
-const CustomDrawer = styled(Drawer)`
-  ${drawerBase}
-  ${props => props.theme.breakpoints.down('sm')} {
-    display: none;
-  }
-`;
-
 const CustomSwipeableDrawer = styled(SwipeableDrawer)`
   ${drawerBase}
   ${props => props.theme.breakpoints.up('md')} {
@@ -33,18 +24,13 @@ const CustomSwipeableDrawer = styled(SwipeableDrawer)`
 
 function Drawers({ routes, open, handleOpen, handleClose }) {
   return (
-    <Fragment>
-      {/* <CustomDrawer variant="permanent">
-        <DrawerContent routes={routes} />
-      </CustomDrawer> */}
-      <CustomSwipeableDrawer
-        open={open}
-        onClose={handleClose}
-        onOpen={handleOpen}
-      >
-        <DrawerContent handleClose={handleClose} routes={routes} />
-      </CustomSwipeableDrawer>
-    </Fragment>
+    <CustomSwipeableDrawer
+      open={open}
+      onClose={handleClose}
+      onOpen={handleOpen}
+    >
+      <DrawerContent handleClose={handleClose} routes={routes} />
+    </CustomSwipeableDrawer>
   );
 }
 

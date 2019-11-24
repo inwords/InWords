@@ -11,7 +11,8 @@ const ButtonBase = styled.button`
   user-select: none;
   text-decoration: none;
 
-  &[disabled] {
+  &[disabled],
+  &.disabled {
     cursor: default;
   }
 `;

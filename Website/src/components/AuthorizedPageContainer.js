@@ -9,11 +9,17 @@ const routes = [
   },
   {
     to: '/training',
-    text: 'Обучение'
-  },
-  {
-    to: '/training/history',
-    text: 'История'
+    text: 'Обучение',
+    nestedRoutes: [
+      {
+        to: '/training/main',
+        text: 'Категории'
+      },
+      {
+        to: '/training/history',
+        text: 'История'
+      }
+    ]
   }
 ];
 

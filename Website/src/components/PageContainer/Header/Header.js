@@ -78,7 +78,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
 
 Header.propTypes = {
   routes: PropTypes.arrayOf(
-    PropTypes.exact({
+    PropTypes.shape({
       to: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired
     }).isRequired

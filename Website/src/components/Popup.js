@@ -18,7 +18,7 @@ const Popup = styled(PopupPaper)`
         return 'left: 0';
     }
   }};
-  visibility: ${props => (props.show ? 'visible' : 'hide')};
+  visibility: ${props => (props.show ? 'visible' : 'hidden')};
   opacity: ${props => (props.show ? '1' : '0')};
   transition: opacity 100ms linear, visibility 100ms linear;
 `;

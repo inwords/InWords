@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-const ContentContainer = styled.main`
+const ContentContainer = styled.div`
   flex-grow: 1;
-  padding-top: 88px;
 `;
 
 ContentContainer.propTypes = {
