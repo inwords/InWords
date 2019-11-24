@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using FluentFTP;
 using Microsoft.Extensions.Options;
 
@@ -14,8 +16,26 @@ namespace InWords.WebApi.Services.FtpLoader.Model
             ftpCredentials = config.Value;
         }
 
+        public async Task<string> UploadAsync(Stream stream, ProjectDirectories directory, string filename = null,string fileFormat = null)
+        {
+            if (fileFormat == null)
+                fileFormat = ".tmp";
+
+            if (filename == null)
+                filename = $"{Guid.NewGuid()}".Replace("-", "").Substring(0, 16) + fileFormat;
+
+            using FtpClient client = GetConnectedClient();
+
+            string path = Path.Combine(ProjectDirectory.Resolve(directory), filename);
+            client.CreateDirectory(path);
+            await client.UploadAsync(stream, path).ConfigureAwait(false);
+
+            return Path.Combine(ftpCredentials.DirectoryPath, path);
+        }
+
         private FtpClient GetConnectedClient()
         {
+            //TODO Inject client
             var client = new FtpClient(ftpCredentials.Server)
             {
                 Credentials = new NetworkCredential(ftpCredentials.Login, ftpCredentials.Password)
@@ -24,73 +44,62 @@ namespace InWords.WebApi.Services.FtpLoader.Model
             return client;
         }
 
-        public string UploadAvatar()
-        {
-            using var client = GetConnectedClient();
-            
-            throw new NotImplementedException();
-        }
 
-        private void Test()
-        {
-            // create an FTP client
-            // if you don't specify login credentials, we use the "anonymous" user account
-            var client = new FtpClient(ftpCredentials.Server)
-            {
-                Credentials = new NetworkCredential(ftpCredentials.Login, ftpCredentials.Password)
-            };
-            client.Connect();
 
-            // get a list of files and directories in the "/http" folder
-            foreach (FtpListItem item in client.GetListing("/http/InWords/Resource/Drawable"))
-                // if this is a file
+        //private void Test()
+        //{
+        //    // create an FTP client
+        //    // if you don't specify login credentials, we use the "anonymous" user account
+        //    var client = new FtpClient(ftpCredentials.Server)
+        //    {
+        //        Credentials = new NetworkCredential(ftpCredentials.Login, ftpCredentials.Password)
+        //    };
+        //    client.Connect();
 
-                if (item.Type == FtpFileSystemObjectType.File)
-                {
-                    // get the file size
-                    long size = client.GetFileSize(item.FullName);
+        //    // get a list of files and directories in the "/http" folder
+        //    foreach (FtpListItem item in client.GetListing("/http/InWords/Resource/Drawable"))
+        //        // if this is a file
 
-                    // get modified date/time of the file or folder
-                    DateTime time = client.GetModifiedTime(item.FullName);
-                }
+        //        if (item.Type == FtpFileSystemObjectType.File)
+        //        {
+        //            // get the file size
+        //            long size = client.GetFileSize(item.FullName);
 
-            //// upload a file
-            //client.UploadFile(@"C:\MyVideo.mp4", "/http/MyVideo.mp4");
+        //            // get modified date/time of the file or folder
+        //            DateTime time = client.GetModifiedTime(item.FullName);
+        //        }
 
-            //// rename the uploaded file
-            //client.Rename("/http/MyVideo.mp4", "/http/MyVideo_2.mp4");
+        //// upload a file
+        //client.UploadFile(@"C:\MyVideo.mp4", "/http/MyVideo.mp4");
 
-            //// download the file again
-            //client.DownloadFile(@"C:\MyVideo_2.mp4", "/http/MyVideo_2.mp4");
+        //// rename the uploaded file
+        //client.Rename("/http/MyVideo.mp4", "/http/MyVideo_2.mp4");
 
-            //// delete the file
-            //client.DeleteFile("/http/MyVideo_2.mp4");
+        //// download the file again
+        //client.DownloadFile(@"C:\MyVideo_2.mp4", "/http/MyVideo_2.mp4");
 
-            //// delete a folder recursively
-            //client.DeleteDirectory("/http/extras/");
+        //// delete the file
+        //client.DeleteFile("/http/MyVideo_2.mp4");
 
-            //// check if a file exists
-            //if (client.FileExists("/http/big2.txt"))
-            //{
-            //}
+        //// delete a folder recursively
+        //client.DeleteDirectory("/http/extras/");
 
-            //// check if a folder exists
-            //if (client.DirectoryExists("/http/extras/"))
-            //{
-            //}
+        //// check if a file exists
+        //if (client.FileExists("/http/big2.txt"))
+        //{
+        //}
 
-            //// upload a file and retry 3 times before giving up
-            //client.RetryAttempts = 3;
-            //client.UploadFile(@"C:\MyVideo.mp4", "/http/big.txt", FtpExists.Overwrite, false, FtpVerify.Retry);
+        //// check if a folder exists
+        //if (client.DirectoryExists("/http/extras/"))
+        //{
+        //}
 
-            // disconnect! good bye!
-            client.Disconnect();
-            client.Dispose();
-        }
+        //// upload a file and retry 3 times before giving up
+        //client.RetryAttempts = 3;
+        //client.UploadFile(@"C:\MyVideo.mp4", "/http/big.txt", FtpExists.Overwrite, false, FtpVerify.Retry);
 
-        public bool Connect()
-        {
-            return true;
-        }
+        //// disconnect! good bye!
+        //client.Disconnect();
+        //client.Dispose();
     }
 }

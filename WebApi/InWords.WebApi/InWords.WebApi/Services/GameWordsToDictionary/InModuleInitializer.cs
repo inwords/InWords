@@ -11,7 +11,6 @@ namespace InWords.WebApi.Services.GameWordsToDictionary
         {
             builder.RegisterType<WordsIdsByGameIdHandler>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<GameToUserHandler>().AsImplementedInterfaces().InstancePerDependency();
-            //builder.RegisterType<FileLoader>().InstancePerLifetimeScope();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace InWords.WebApi.Services.UsersAvatars.UploadAvatar
+﻿namespace InWords.WebApi.Services.UsersAvatars.FileUploadAvatar
 {
     public class UploadAvatarQueryResult
     {
