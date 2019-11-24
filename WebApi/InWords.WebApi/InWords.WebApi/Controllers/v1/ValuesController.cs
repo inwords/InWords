@@ -94,14 +94,6 @@ namespace InWords.WebApi.Controllers.v1
             return Ok(x);
         }
 
-        [HttpGet]
-        [Route("ftp")]
-        public IActionResult GetFtp()
-        {
-            loader.Test();
-            return Ok(null);
-        }
-
         #region ctor
 
         private readonly UserRepository userRepository;

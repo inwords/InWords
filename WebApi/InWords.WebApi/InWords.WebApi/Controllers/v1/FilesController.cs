@@ -31,39 +31,14 @@ namespace InWords.WebApi.Controllers.v1
         {
             if (file.Length <= 0) return NoContent();
 
-            // process image
-            using var image = new Bitmap(Image.FromStream(file.OpenReadStream()));
-
-            //set 256x256
-            const int imageSize = 256;
-            using Bitmap resized = ResizeBitmap(image, 256);
-
-            // crop
-            var cropArea = new Rectangle(0, 0, imageSize, imageSize);
-            using Bitmap cropImage = resized.Clone(cropArea, resized.PixelFormat);
-
+            
             // Then save in WebP format
             string webPImagePath = $"{CreatePath()}.WebP";
-            SaveToWebP(cropImage, webPImagePath);
-
+            
             return Ok(new { webPImagePath });
         }
 
-        private static Bitmap ResizeBitmap(Image bitmap, int minSize)
-        {
-            int width, height;
-            if (bitmap.Width < bitmap.Height)
-            {
-                width = minSize;
-                height = Convert.ToInt32(bitmap.Height * minSize / (double)bitmap.Width);
-            }
-            else
-            {
-                width = Convert.ToInt32(bitmap.Width * minSize / (double)bitmap.Height);
-                height = minSize;
-            }
-            return new Bitmap(bitmap, width, height);
-        }
+        
 
         private static string CreatePath()
         {

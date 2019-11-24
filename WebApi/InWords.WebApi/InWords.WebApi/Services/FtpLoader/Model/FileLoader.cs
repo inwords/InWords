@@ -14,7 +14,24 @@ namespace InWords.WebApi.Services.FtpLoader.Model
             ftpCredentials = config.Value;
         }
 
-        public void Test()
+        private FtpClient GetConnectedClient()
+        {
+            var client = new FtpClient(ftpCredentials.Server)
+            {
+                Credentials = new NetworkCredential(ftpCredentials.Login, ftpCredentials.Password)
+            };
+            client.Connect();
+            return client;
+        }
+
+        public string UploadAvatar()
+        {
+            using var client = GetConnectedClient();
+            
+            throw new NotImplementedException();
+        }
+
+        private void Test()
         {
             // create an FTP client
             // if you don't specify login credentials, we use the "anonymous" user account
