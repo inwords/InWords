@@ -1,54 +1,61 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
+import styled from '@emotion/styled';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
-import useMenu from 'src/hooks/useMenu';
+import Divider from 'src/components/Divider';
+import IconButton from 'src/components/IconButton';
+import usePopup from 'src/hooks/usePopup';
+import PopupContainer from 'src/components/PopupContainer';
+import Popup from 'src/components/Popup';
+import Menu from 'src/components/Menu';
+import MenuItem from 'src/components/MenuItem';
+
+const handleClickMenu = event => {
+  event.stopPropagation();
+};
+
+const ProfileMenu = styled(Menu)`
+  max-height: calc(100vh - 64px);
+`;
 
 function ProfileMenuButton({ handleLogout }) {
-  const { anchorEl, handleClick, handleClose } = useMenu();
+  const { show, handleToggle, handleClose } = usePopup();
 
   return (
-    <Fragment>
+    <PopupContainer>
       <IconButton
         aria-label="user account"
         aria-controls="profile-menu"
         aria-haspopup="true"
-        onClick={handleClick}
+        onClick={handleToggle}
         edge="end"
         color="inherit"
       >
         <AccountCircleIcon />
       </IconButton>
-      <Menu
-        id="profile-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem component={Link} to="/profile" onClick={handleClose}>
-          Профиль
-        </MenuItem>
-        <MenuItem component={Link} to="/account" onClick={handleClose}>
-          Аккаунт
-        </MenuItem>
-        <Divider />
-        <MenuItem
-          component={Link}
-          to="/signIn"
-          onClick={() => {
-            handleLogout();
-            handleClose();
-          }}
-        >
-          Выйти
-        </MenuItem>
-      </Menu>
-    </Fragment>
+      <Popup show={show} side="right">
+        <ProfileMenu as="div" id="profile-menu" onClick={handleClickMenu}>
+          <MenuItem as={Link} to="/profile" onClick={handleClose}>
+            Профиль
+          </MenuItem>
+          <MenuItem as={Link} to="/account" onClick={handleClose}>
+            Аккаунт
+          </MenuItem>
+          <Divider />
+          <MenuItem
+            as={Link}
+            to="/signIn"
+            onClick={() => {
+              handleLogout();
+              handleClose();
+            }}
+          >
+            Выйти
+          </MenuItem>
+        </ProfileMenu>
+      </Popup>
+    </PopupContainer>
   );
 }
 

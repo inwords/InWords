@@ -50,11 +50,11 @@ function WordlistItem({
   return (
     <li style={style}>
       <ListItemButton
-        hasSecondaryAction
         onClick={
           !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
         }
-        role="button"
+        hasSecondaryAction
+        dense
       >
         <MemorizedListItemCheckboxIcon
           serverId={serverId}

@@ -6,10 +6,11 @@ const ListItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 4px;
+  padding-top: ${props => (props.dense ? '4px' : '6px')};
   padding-right: ${props => (props.hasSecondaryAction ? '56px' : '16px')};
-  padding-bottom: 4px;
+  padding-bottom: ${props => (props.dense ? '4px' : '6px')};
   padding-left: 16px;
+  ${props => props.theme.typography.body1}
 `;
 
 ListItem.propTypes = {

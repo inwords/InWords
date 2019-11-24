@@ -65,6 +65,8 @@ function Checkbox({
   return (
     <IconButton as="span" color="primary" {...rest}>
       <CheckboxLabel>
+        <CheckboxBox checked={checked} />
+        <CheckboxMark checked={checked} />
         <CheckboxInput
           type="checkbox"
           tabIndex={tabIndex}
@@ -75,8 +77,6 @@ function Checkbox({
           onChange={onChange}
           {...inputProps}
         />
-        <CheckboxBox checked={checked} />
-        <CheckboxMark checked={checked} />
       </CheckboxLabel>
     </IconButton>
   );

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const ListItemContainer = styled.div`
+const ListItemContainer = styled.li`
   position: relative;
 `;
 
