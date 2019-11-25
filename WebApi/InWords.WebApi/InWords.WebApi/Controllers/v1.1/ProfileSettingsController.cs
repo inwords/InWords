@@ -1,15 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using InWords.Data.DTO;
+﻿using System.Threading.Tasks;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.UsersAvatars.FileUploadAvatar;
-using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
-using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Operations;
 
 namespace InWords.WebApi.Controllers.v1._1
 {

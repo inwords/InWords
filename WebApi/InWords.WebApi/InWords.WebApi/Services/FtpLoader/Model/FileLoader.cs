@@ -16,13 +16,13 @@ namespace InWords.WebApi.Services.FtpLoader.Model
             ftpCredentials = config.Value;
         }
 
-        public async Task<string> UploadAsync(Stream stream, ProjectDirectories directory, string filename = null,string fileFormat = null)
+        public async Task<string> UploadAsync(Stream stream, ProjectDirectories directory, string filename = null, string fileFormat = null)
         {
             if (string.IsNullOrWhiteSpace(fileFormat))
                 fileFormat = ".tmp";
 
             if (string.IsNullOrWhiteSpace(filename))
-                filename = $"{Guid.NewGuid()}".Replace("-", "").Substring(0, 16) + fileFormat;
+                filename = $"{Guid.NewGuid()}".Replace("-", "").Substring(0, 16) + fileFormat.ToLower();
 
             using FtpClient client = GetConnectedClient();
 
@@ -33,11 +33,18 @@ namespace InWords.WebApi.Services.FtpLoader.Model
 
             await client.UploadAsync(stream, path).ConfigureAwait(false);
 
-            var x = Path.Combine(ftpCredentials.DirectoryPath, path).Replace(@"\", "/").ToLower();
-
-            return x;
+            return Path.Combine(ftpCredentials.DirectoryPath, path).Replace(@"\", "/");
         }
 
+        public async Task DeleteAsync(string path)
+        {
+            path = path.Replace(ftpCredentials.DirectoryPath, "");
+            using FtpClient client = GetConnectedClient();
+            if (await client.FileExistsAsync(path).ConfigureAwait(false))
+            {
+                await client.DeleteFileAsync(path).ConfigureAwait(false);
+            }
+        }
 
         private FtpClient GetConnectedClient()
         {
