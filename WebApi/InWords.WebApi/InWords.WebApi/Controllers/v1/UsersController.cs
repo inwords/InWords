@@ -107,10 +107,7 @@ namespace InWords.WebApi.Controllers.v1
             // UpdateNickname
             if (user.NickName != null) authorizedUser.NickName = user.NickName;
 
-            // Update avatar
-            if (user.AvatarPath != null) authorizedUser.AvatarPath = user.AvatarPath;
-
-            await usersRepository.Update(authorizedUser);
+            await usersRepository.Update(authorizedUser).ConfigureAwait(false);
 
             return NoContent();
         }
