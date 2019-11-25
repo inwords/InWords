@@ -18,20 +18,26 @@ namespace InWords.WebApi.Services.FtpLoader.Model
 
         public async Task<string> UploadAsync(Stream stream, ProjectDirectories directory, string filename = null,string fileFormat = null)
         {
-            if (fileFormat == null)
+            if (string.IsNullOrWhiteSpace(fileFormat))
                 fileFormat = ".tmp";
 
-            if (filename == null)
+            if (string.IsNullOrWhiteSpace(filename))
                 filename = $"{Guid.NewGuid()}".Replace("-", "").Substring(0, 16) + fileFormat;
 
             using FtpClient client = GetConnectedClient();
 
-            string path = Path.Combine(ProjectDirectory.Resolve(directory), filename);
-            client.CreateDirectory(path);
+            string directoryPath = ProjectDirectory.Resolve(directory);
+
+            client.CreateDirectory(directoryPath);
+            string path = Path.Combine(directoryPath, filename);
+
             await client.UploadAsync(stream, path).ConfigureAwait(false);
 
-            return Path.Combine(ftpCredentials.DirectoryPath, path);
+            var x = Path.Combine(ftpCredentials.DirectoryPath, path).Replace(@"\", "/").ToLower();
+
+            return x;
         }
+
 
         private FtpClient GetConnectedClient()
         {

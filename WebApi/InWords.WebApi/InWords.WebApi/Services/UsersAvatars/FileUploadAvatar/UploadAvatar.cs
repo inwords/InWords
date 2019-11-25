@@ -9,13 +9,14 @@ using InWords.Data;
 using InWords.Data.Domains;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.FtpLoader.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace InWords.WebApi.Services.UsersAvatars.FileUploadAvatar
 {
     public class UploadAvatar : ContextRequestHandler<UploadAvatarQuery, UploadAvatarQueryResult, InWordsDataContext>
     {
         const int IMAGE_SIZE = 256;
-
+        private const string FILE_FORMAT = ".WebP";
         private readonly FileLoader fileLoader;
 
         public UploadAvatar(InWordsDataContext context, FileLoader fileLoader) : base(context)
@@ -25,25 +26,37 @@ namespace InWords.WebApi.Services.UsersAvatars.FileUploadAvatar
 
         public override async Task<UploadAvatarQueryResult> Handle(UploadAvatarQuery request, CancellationToken cancellationToken = default)
         {
-            using var imageFromRequest = new Bitmap(Image.FromStream(request.AvatarFile.OpenReadStream()));
-            using Bitmap resizedTo256 = ResizeBitmap(imageFromRequest, 256);
-
-            var cropRectangle = new Rectangle(0, 0, IMAGE_SIZE, IMAGE_SIZE);
-            using Bitmap croppedAvatar = resizedTo256.Clone(cropRectangle, resizedTo256.PixelFormat);
-
+            string avatarUrl;
+            
+            // proceed avatar 
+            using Bitmap croppedAvatar = ResizeAndCropImage(request.AvatarFile);
             // Then save in WebP format
             string temp = SaveToWebP(croppedAvatar);
-
+            
             // save to ftp
-            string fileFormat = ".WebP";
-            string url = await fileLoader.UploadAsync(new FileStream(temp, FileMode.Open), ProjectDirectories.Avatars)
-                .ConfigureAwait(false);
+            await using (Stream tempFileStream = new FileStream(temp, FileMode.Open))
+            {
+                avatarUrl = await fileLoader.UploadAsync(tempFileStream, ProjectDirectories.Avatars, fileFormat: FILE_FORMAT)
+                    .ConfigureAwait(false);
+            }
 
             File.Delete(temp);
 
-            await UpdateUserAvatarAsync(request.UserId, cancellationToken, url).ConfigureAwait(false);
+            // update avatar context
+            await UpdateUserAvatarAsync(request.UserId, cancellationToken, avatarUrl).ConfigureAwait(false);
 
-            return new UploadAvatarQueryResult() { AvatarPath = url };
+            return new UploadAvatarQueryResult() { AvatarPath = avatarUrl };
+        }
+
+        private Bitmap ResizeAndCropImage(IFormFile file)
+        {
+            using var imageFromRequest = new Bitmap(Image.FromStream(file.OpenReadStream()));
+
+            using Bitmap resizedTo256 = ResizeBitmap(imageFromRequest, 256);
+
+            var cropRectangle = new Rectangle(0, 0, IMAGE_SIZE, IMAGE_SIZE);
+
+            return resizedTo256.Clone(cropRectangle, resizedTo256.PixelFormat);
         }
 
         private Task UpdateUserAvatarAsync(int userId, CancellationToken cancellationToken, string url)
