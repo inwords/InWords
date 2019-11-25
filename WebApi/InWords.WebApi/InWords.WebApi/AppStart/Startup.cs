@@ -78,8 +78,6 @@ namespace InWords.WebApi.AppStart
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
 
-            services.Configure<FtpCredentials>(Configuration.GetSection(nameof(FtpCredentials)));
-
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureServices(services));
         }
