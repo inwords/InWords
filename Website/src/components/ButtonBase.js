@@ -10,11 +10,6 @@ const ButtonBase = styled.button`
   cursor: pointer;
   user-select: none;
   text-decoration: none;
-
-  &[disabled],
-  &.disabled {
-    cursor: default;
-  }
 `;
 
 export default ButtonBase;

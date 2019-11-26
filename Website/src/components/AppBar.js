@@ -6,10 +6,11 @@ const AppBar = styled.header`
   top: 0;
   left: auto;
   right: 0;
-  z-index: 1201;
+  z-index: ${props => props.theme.zIndex.appBar};
   width: 100%;
   background-color: ${props => props.theme.palette.primary.main};
   color: ${props => props.theme.palette.primary.contrastText};
+
   &::after {
     content: '';
     position: absolute;

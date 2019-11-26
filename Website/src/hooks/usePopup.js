@@ -12,17 +12,17 @@ export default function usePopup() {
   };
 
   React.useEffect(() => {
-    const handleClose = () => {
-      if (show) {
+    if (show) {
+      const handleClose = () => {
         setOpen(false);
-      }
-    };
+      };
 
-    window.addEventListener('click', handleClose);
+      window.addEventListener('click', handleClose);
 
-    return () => {
-      window.removeEventListener('click', handleClose);
-    };
+      return () => {
+        window.removeEventListener('click', handleClose);
+      };
+    }
   }, [show]);
 
   return {

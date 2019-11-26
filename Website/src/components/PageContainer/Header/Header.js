@@ -17,6 +17,7 @@ const Context = styled.div`
 
 const NavMenuButton = styled(IconButton)`
   margin-right: 16px;
+
   ${props => props.theme.breakpoints.up('lg')} {
     display: none;
   }

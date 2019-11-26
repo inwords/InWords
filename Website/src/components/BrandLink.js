@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 const BrandLink = styled(RouterLink)`
   display: flex;
   align-items: center;
-  height: 100%;
+  min-height: 64px;
   font-size: 1rem;
   font-weight: 500;
   text-transform: uppercase;

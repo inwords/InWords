@@ -99,8 +99,9 @@ const IconButton = styled(ButtonBase, {
 
   &:disabled,
   &.disabled {
-    background-color: transparent;
     color: ${props => props.theme.palette.action.disabled};
+    background-color: transparent;
+    cursor: default;
   }
 `;
 

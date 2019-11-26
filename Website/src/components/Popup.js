@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Paper from 'src/components/Paper';
 
 const PopupPaper = React.forwardRef((props, ref) => {
-  return <Paper ref={ref} elevation={8} {...props} />;
+  return <Paper ref={ref} elevation={8} square {...props} />;
 });
 
 const Popup = styled(PopupPaper)`

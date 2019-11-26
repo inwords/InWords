@@ -4,41 +4,32 @@ import { NavLink as RouterNavLink } from 'react-router-dom';
 import { fade } from '@material-ui/core/styles';
 import styled from '@emotion/styled';
 import List from 'src/components/List';
+import ListItemButtonBase from 'src/components/ListItemButtonBase';
 
 const NavList = styled(List)`
   width: 100%;
 `;
 
-const NavListItem = styled.li`
-  display: flex;
-  padding: 0;
-  cursor: pointer;
-  user-select: none;
-  text-decoration: none;
-  color: ${props => props.theme.palette.text.primary};
-  transition: ${props =>
-    props.theme.transitions.create('background-color', {
-      duration: props.theme.transitions.duration.shortest
-    })};
-`;
-
-const NavLink = styled(RouterNavLink)`
-  margin: 0;
+const NavLink = styled(ListItemButtonBase)`
   padding: 10px 24px;
   width: 100%;
   font-weight: 400;
-  text-decoration: none;
-  color: ${props => props.theme.palette.text.primary};
   font-size: ${props => props.theme.typography.body2.fontSize};
-
-  &:hover {
-    background-color: ${props => props.theme.palette.action.hover};
-  }
+  color: ${props => props.theme.palette.text.primary};
+  transition: ${props =>
+    props.theme.transitions.create(['background-color'], {
+      duration: props.theme.transitions.duration.shortest
+    })};
 
   &.active {
     font-weight: 500;
     color: ${props => props.theme.palette.primary.main};
     background-color: ${props => fade(props.theme.palette.primary.main, 0.15)};
+  }
+
+  &:hover {
+    font-weight: 500;
+    color: ${props => props.theme.palette.primary.main};
   }
 `;
 
@@ -46,11 +37,16 @@ function SideNavList({ routes, handleClose }) {
   return (
     <NavList>
       {routes.map(({ to, text }) => (
-        <NavListItem key={to} as="li" button onClick={handleClose}>
-          <NavLink to={to} activeClassName="active">
+        <li key={to}>
+          <NavLink
+            as={RouterNavLink}
+            to={to}
+            activeClassName="active"
+            onClick={handleClose}
+          >
             {text}
           </NavLink>
-        </NavListItem>
+        </li>
       ))}
     </NavList>
   );

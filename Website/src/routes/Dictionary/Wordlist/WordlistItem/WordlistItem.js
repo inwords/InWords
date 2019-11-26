@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ListItem from 'src/components/ListItem';
 import ListItemButton from 'src/components/ListItemButton';
 import ListItemText from 'src/components/ListItemText';
 import ListItemSecondaryAction from 'src/components/ListItemSecondaryAction';
@@ -48,7 +49,7 @@ function WordlistItem({
   const { serverId, handleSpeech } = wordPair;
 
   return (
-    <li style={style}>
+    <ListItem style={style}>
       <ListItemButton
         onClick={
           !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
@@ -70,7 +71,7 @@ function WordlistItem({
       <MemorizedListItemSecondaryAction>
         <SpeechButton edge="end" handleSpeech={handleSpeech} />
       </MemorizedListItemSecondaryAction>
-    </li>
+    </ListItem>
   );
 }
 

@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { useRouteMatch, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import useDrawer from 'src/hooks/useDrawer';
 import Header from './Header';
-import Drawers from './Drawers/Drawers';
 import ContentContainer from './ContentContainer';
 import SideNavList from './SideNavList';
+import Drawer from './Drawer';
+import DrawerContent from './DrawerContent';
+import UIMask from './UIMask';
 
 const Container = styled.div`
   display: flex;
 `;
 
-const SideNavContainer = styled.div`
+const SideNavContainer = styled.nav`
   position: fixed;
   top: 0;
   bottom: 0;
+  overflow-y: auto;
   width: 240px;
   padding-top: 88px;
   border-right: 1px solid ${props => props.theme.palette.divider};
@@ -46,19 +49,21 @@ function PageContainer({ routes, rightNodes, children }) {
         handleOpenDrawer={routes && handleOpen}
       />
       {routes && (
-        <Drawers
-          routes={routes}
-          open={open}
-          handleOpen={handleOpen}
-          handleClose={handleClose}
-        />
+        <Fragment>
+          <Drawer role="navigation" open={open}>
+            <DrawerContent handleClose={handleClose} routes={routes} />
+          </Drawer>
+          <UIMask show={open} onClick={handleClose} />
+        </Fragment>
       )}
       {nestedRoutes && (
         <SideNavContainer>
           <SideNavList routes={nestedRoutes} />
         </SideNavContainer>
       )}
-      <ContentContainer shift>{children}</ContentContainer>
+      <ContentContainer shift={Boolean(nestedRoutes)}>
+        {children}
+      </ContentContainer>
     </Container>
   );
 }

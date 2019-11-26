@@ -3,32 +3,27 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Divider from '@material-ui/core/Divider';
 import BrandLink from 'src/components/BrandLink';
-import SideNavList from './SideNavList';
-
-const DrawerHeader = styled.div`
-  height: 64px;
-`;
+import NavList from './NavList';
 
 const DrawerBrandLink = styled(BrandLink)`
   padding-left: 24px;
 `;
 
-function DrawerContent({ routes, ...rest }) {
+function DrawerContent({ routes, handleClose, ...rest }) {
   return (
     <Fragment>
-      <DrawerHeader>
-        <DrawerBrandLink to="/">InWords</DrawerBrandLink>
-      </DrawerHeader>
+      <DrawerBrandLink onClick={handleClose} to="/">
+        InWords
+      </DrawerBrandLink>
       <Divider />
-      <nav role="navigation">
-        <SideNavList routes={routes} {...rest} />
-      </nav>
+      <NavList handleClose={handleClose} routes={routes} {...rest} />
     </Fragment>
   );
 }
 
 DrawerContent.propTypes = {
-  routes: PropTypes.array.isRequired
+  routes: PropTypes.array.isRequired,
+  handleClose: PropTypes.func.isRequired
 };
 
 export default DrawerContent;

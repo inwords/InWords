@@ -9,9 +9,9 @@ import usePopup from 'src/hooks/usePopup';
 import PopupContainer from 'src/components/PopupContainer';
 import Popup from 'src/components/Popup';
 import Menu from 'src/components/Menu';
-import MenuItem from 'src/components/MenuItem';
+import MenuItemButton from 'src/components/MenuItemButton';
 
-const handleClickMenu = event => {
+const handleMenuClick = event => {
   event.stopPropagation();
 };
 
@@ -19,7 +19,8 @@ const ProfileMenu = styled(Menu)`
   max-height: calc(100vh - 64px);
 `;
 
-const ProfileMenuItem = styled(MenuItem)`
+const ProfileMenuItemButton = styled(MenuItemButton)`
+  color: ${props => props.theme.palette.text.primary};
   font-size: ${props => props.theme.typography.body1.fontSize};
 `;
 
@@ -39,24 +40,38 @@ function ProfileMenuButton({ handleLogout }) {
         <AccountCircleIcon />
       </IconButton>
       <Popup show={show} side="right">
-        <ProfileMenu as="div" id="profile-menu" onClick={handleClickMenu}>
-          <ProfileMenuItem as={Link} to="/profile" onClick={handleClose}>
-            Профиль
-          </ProfileMenuItem>
-          <ProfileMenuItem as={Link} to="/account" onClick={handleClose}>
-            Аккаунт
-          </ProfileMenuItem>
+        <ProfileMenu id="profile-menu" onClick={handleMenuClick}>
+          <li>
+            <ProfileMenuItemButton
+              as={Link}
+              to="/profile"
+              onClick={handleClose}
+            >
+              Профиль
+            </ProfileMenuItemButton>
+          </li>
+          <li>
+            <ProfileMenuItemButton
+              as={Link}
+              to="/account"
+              onClick={handleClose}
+            >
+              Аккаунт
+            </ProfileMenuItemButton>
+          </li>
           <Divider />
-          <ProfileMenuItem
-            as={Link}
-            to="/signIn"
-            onClick={() => {
-              handleLogout();
-              handleClose();
-            }}
-          >
-            Выйти
-          </ProfileMenuItem>
+          <li>
+            <ProfileMenuItemButton
+              as={Link}
+              to="/signIn"
+              onClick={() => {
+                handleLogout();
+                handleClose();
+              }}
+            >
+              Выйти
+            </ProfileMenuItemButton>
+          </li>
         </ProfileMenu>
       </Popup>
     </PopupContainer>
