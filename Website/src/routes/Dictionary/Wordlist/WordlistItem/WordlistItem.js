@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { fade } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 import ListItem from 'src/components/ListItem';
 import ListItemButton from 'src/components/ListItemButton';
 import ListItemText from 'src/components/ListItemText';
@@ -7,6 +9,10 @@ import ListItemSecondaryAction from 'src/components/ListItemSecondaryAction';
 import ListItemIcon from 'src/components/ListItemIcon';
 import Checkbox from 'src/components/Checkbox';
 import SpeechButton from './SpeechButton';
+
+const WordlistItemButton = styled(ListItemButton)`
+  border-bottom: 1px solid ${props => fade(props.theme.palette.divider, 0.08)};
+`;
 
 const handleCheckboxClick = event => {
   event.stopPropagation();
@@ -50,7 +56,7 @@ function WordlistItem({
 
   return (
     <ListItem style={style}>
-      <ListItemButton
+      <WordlistItemButton
         onClick={
           !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
         }
@@ -67,7 +73,7 @@ function WordlistItem({
           primary={wordPair.wordForeign}
           secondary={wordPair.wordNative}
         />
-      </ListItemButton>
+      </WordlistItemButton>
       <MemorizedListItemSecondaryAction>
         <SpeechButton edge="end" handleSpeech={handleSpeech} />
       </MemorizedListItemSecondaryAction>

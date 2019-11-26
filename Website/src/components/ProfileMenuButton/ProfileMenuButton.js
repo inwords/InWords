@@ -21,7 +21,7 @@ const ProfileMenu = styled(Menu)`
 
 const ProfileMenuItemButton = styled(MenuItemButton)`
   color: ${props => props.theme.palette.text.primary};
-  font-size: ${props => props.theme.typography.body1.fontSize};
+  font-size: ${props => props.theme.typography.body2.fontSize};
 `;
 
 function ProfileMenuButton({ handleLogout }) {
@@ -48,15 +48,6 @@ function ProfileMenuButton({ handleLogout }) {
               onClick={handleClose}
             >
               Профиль
-            </ProfileMenuItemButton>
-          </li>
-          <li>
-            <ProfileMenuItemButton
-              as={Link}
-              to="/account"
-              onClick={handleClose}
-            >
-              Аккаунт
             </ProfileMenuItemButton>
           </li>
           <Divider />

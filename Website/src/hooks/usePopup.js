@@ -1,33 +1,32 @@
 import React from 'react';
 
 export default function usePopup() {
-  const [show, setOpen] = React.useState(false);
+  const [show, setShow] = React.useState(false);
 
-  const handleToggle = () => {
-    setOpen(show => !show);
+  const handleToggle = event => {
+    event.stopPropagation();
+    setShow(show => !show);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = event => {
+    event.stopPropagation();
+    setShow(false);
   };
 
   React.useEffect(() => {
     if (show) {
       const handleClose = () => {
-        setOpen(false);
+        setShow(false);
+        window.removeEventListener('click', handleClose);
       };
 
       window.addEventListener('click', handleClose);
-
-      return () => {
-        window.removeEventListener('click', handleClose);
-      };
     }
   }, [show]);
 
   return {
     show,
-    setOpen,
+    setShow,
     handleToggle,
     handleClose
   };

@@ -14,14 +14,17 @@ const NavLinkBase = styled(ListItemButtonBase)`
   width: 100%;
   color: ${props => props.theme.palette.text.primary};
   transition: ${props =>
-    props.theme.transitions.create(['background-color'], {
+    props.theme.transitions.create(['background-color', 'color'], {
       duration: props.theme.transitions.duration.shortest
     })};
 
   &:hover,
   &.active {
-    font-weight: 500;
     color: ${props => props.theme.palette.primary.main};
+  }
+
+  &.active {
+    font-weight: 500;
   }
 `;
 
@@ -65,7 +68,7 @@ function NavList({ routes, handleClose }) {
           {nestedRoutes && (
             <NestedNavList>
               {nestedRoutes.map(({ to, text, nestedRoutes }) => (
-                <li key={to} nested>
+                <li key={to}>
                   <NestedNavLink
                     as={RouterNavLink}
                     to={to}

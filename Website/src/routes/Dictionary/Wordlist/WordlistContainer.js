@@ -17,12 +17,21 @@ function WordlistContainer({ wordPairs, ...rest }) {
       setListHeight(window.innerHeight - heightOffset);
     }, 200);
 
+    const onOrientationChange = debounce(() => {
+      const afterOrientationChange = () => {
+        setListHeight(window.innerHeight - heightOffset);
+        window.removeEventListener('resize', afterOrientationChange);
+      };
+
+      window.addEventListener('resize', afterOrientationChange);
+    }, 200);
+
     window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
+    window.addEventListener('orientationchange', onOrientationChange);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
+      window.removeEventListener('orientationchange', onOrientationChange);
     };
   }, [listHeight]);
 

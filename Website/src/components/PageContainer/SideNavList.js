@@ -17,19 +17,18 @@ const NavLink = styled(ListItemButtonBase)`
   font-size: ${props => props.theme.typography.body2.fontSize};
   color: ${props => props.theme.palette.text.primary};
   transition: ${props =>
-    props.theme.transitions.create(['background-color'], {
+    props.theme.transitions.create(['background-color', 'color'], {
       duration: props.theme.transitions.duration.shortest
     })};
 
+  &:hover,
   &.active {
-    font-weight: 500;
     color: ${props => props.theme.palette.primary.main};
-    background-color: ${props => fade(props.theme.palette.primary.main, 0.15)};
   }
 
-  &:hover {
+  &.active {
     font-weight: 500;
-    color: ${props => props.theme.palette.primary.main};
+    background-color: ${props => fade(props.theme.palette.primary.main, 0.15)};
   }
 `;
 

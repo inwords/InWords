@@ -1,9 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import { useRouteMatch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
-import Container from '@material-ui/core/Container';
+import Container from 'src/components/Container';
 import PageProgress from 'src/components/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
 import SmartSnackbar from 'src/components/SmartSnackbar';
@@ -14,8 +13,6 @@ import ErrorBoundary from 'src/components/ErrorBoundary';
 const SignIn = lazy(() => import('./routes/SignIn'));
 const SignUp = lazy(() => import('./routes/SignUp'));
 const Profile = lazy(() => import('./routes/Profile'));
-const ProfileSettings = lazy(() => import('./routes/ProfileSettings'));
-const Account = lazy(() => import('./routes/Account'));
 const Dictionary = lazy(() => import('./routes/Dictionary'));
 const TrainingCategories = lazy(() => import('./routes/TrainingCategories'));
 const TrainingTypes = lazy(() => import('./routes/TrainingTypes'));
@@ -70,9 +67,6 @@ function App() {
                   <Redirect to="/dictionary" />
                 )}
               </Route>
-              <Route exact path="/profile">
-                {<Redirect to={`/profile/${userId}`} />}
-              </Route>
               <Route path="/signIn">
                 <Container maxWidth="xs">
                   <SignIn />
@@ -83,17 +77,9 @@ function App() {
                   <SignUp />
                 </Container>
               </Route>
-              <Route path="/profile/:userId">
-                <Profile />
-              </Route>
-              <Route path="/profileSettings">
-                <Container maxWidth="sm">
-                  <ProfileSettings />
-                </Container>
-              </Route>
-              <Route path="/account">
-                <Container maxWidth="sm">
-                  <Account />
+              <Route path="/profile">
+                <Container maxWidth="md">
+                  <Profile />
                 </Container>
               </Route>
               <Route path="/dictionary">

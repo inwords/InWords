@@ -21,7 +21,7 @@ function Account({ account: { email } }) {
   return (
     <FormPaper>
       <Typography component="h1" variant="h5">
-        Аккаунт
+        Настройки
       </Typography>
       <AccountList>
         <ListItem button onClick={handleOpen}>
