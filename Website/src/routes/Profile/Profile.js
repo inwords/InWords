@@ -22,17 +22,17 @@ const ProfilePictureSection = styled(ProfileSection)`
   align-items: center;
 `;
 
-const ProfilePersonalSection = styled(ProfileSection)`
-  width: 100%;
-  padding-top: 16px;
-  padding-left: 64px;
-`;
-
 const ProfilePicture = styled.img`
   width: 180px;
   height: 180px;
   object-fit: cover;
   border-radius: 50%;
+`;
+
+const ProfilePersonalSection = styled(ProfileSection)`
+  width: 100%;
+  padding-top: 16px;
+  padding-left: 64px;
 `;
 
 const SecondaryProfileInfo = styled.div`
@@ -54,6 +54,10 @@ const PersonalInfo = styled.div`
   width: 50%;
 `;
 
+const PersonalEditLinks = styled.div`
+  width: 40%;
+`;
+
 const PersonalInfoText = styled.span`
   ${props => props.theme.typography.body1}
 
@@ -62,11 +66,7 @@ const PersonalInfoText = styled.span`
   }
 `;
 
-const PersonalEditLinks = styled.div`
-  width: 40%;
-`;
-
-const ControlLink = styled.span`
+const ControlButton = styled.span`
   cursor: pointer;
   user-select: none;
   color: ${props => props.theme.palette.primary.main};
@@ -81,12 +81,12 @@ const ControlLink = styled.span`
   }
 `;
 
-const ControlAvatarLink = styled(ControlLink)`
+const AvatarControlButton = styled(ControlButton)`
   margin: 12px 0;
 `;
 
-const Nickname = styled.h2`
-  margin: 0;
+const NicknameText = styled.h2`
+  margin: 0 0 4px 0;
   ${props => props.theme.typography.h3}
 
   ${props => props.theme.breakpoints.down('sm')} {
@@ -116,20 +116,20 @@ function Profile({ avatarPath, nickname, editingAvailable, email }) {
             'https://i.pinimg.com/originals/4a/8c/59/4a8c590f714f67d0dc6c50e34b1e469a.jpg'
           }
         />
-        <ControlAvatarLink>Изменить аватар</ControlAvatarLink>
+        <AvatarControlButton>Изменить аватар</AvatarControlButton>
       </ProfilePictureSection>
       <ProfilePersonalSection>
-        <Nickname>{nickname}</Nickname>
-        <ControlLink onClick={handleOpen2}>Изменить никнейм</ControlLink>
+        <NicknameText>{nickname}</NicknameText>
+        <ControlButton onClick={handleOpen2}>Изменить никнейм</ControlButton>
         <SecondaryProfileInfo>
           <PersonalInfoContainer>
             <PersonalInfo>
               <PersonalInfoText>{email}</PersonalInfoText>
             </PersonalInfo>
             <PersonalEditLinks>
-              <ControlLink onClick={handleOpen1}>
+              <ControlButton onClick={handleOpen1}>
                 Изменить электронный адрес
-              </ControlLink>
+              </ControlButton>
             </PersonalEditLinks>
           </PersonalInfoContainer>
         </SecondaryProfileInfo>

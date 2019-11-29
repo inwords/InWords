@@ -9,7 +9,6 @@ export default function usePopup() {
   };
 
   const handleClose = event => {
-    event.stopPropagation();
     setShow(false);
   };
 

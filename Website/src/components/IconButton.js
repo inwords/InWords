@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import isPropValid from '@emotion/is-prop-valid';
 import ButtonBase from 'src/components/ButtonBase';
 
-const defaultStyles = props => css`
+const defaultColorStyles = props => css`
   color: ${props.theme.palette.action.active};
 
   &:hover {
@@ -16,7 +16,7 @@ const defaultStyles = props => css`
   }
 `;
 
-const primaryStyles = props => css`
+const primaryColorStyles = props => css`
   color: ${props.theme.palette.primary.main};
 
   &:hover {
@@ -27,7 +27,7 @@ const primaryStyles = props => css`
   }
 `;
 
-const secondaryStyles = props => css`
+const secondaryColorStyles = props => css`
   color: ${props.theme.palette.secondary.main};
 
   &:hover {
@@ -38,7 +38,7 @@ const secondaryStyles = props => css`
   }
 `;
 
-const errorStyles = props => css`
+const errorColorStyles = props => css`
   color: ${props.theme.palette.error.main};
 
   &:hover {
@@ -49,7 +49,7 @@ const errorStyles = props => css`
   }
 `;
 
-const inheritStyles = props => css`
+const inheritColorStyles = props => css`
   color: inherit;
 
   &:hover {
@@ -75,15 +75,15 @@ const IconButton = styled(ButtonBase, {
   ${props => {
     switch (props.color) {
       case 'primary':
-        return primaryStyles;
+        return primaryColorStyles;
       case 'secondary':
-        return secondaryStyles;
+        return secondaryColorStyles;
       case 'error':
-        return errorStyles;
+        return errorColorStyles;
       case 'inherit':
-        return inheritStyles;
+        return inheritColorStyles;
       default:
-        return defaultStyles;
+        return defaultColorStyles;
     }
   }}
 

@@ -34,12 +34,12 @@ const NestedNavList = styled(List)`
 
 const NavLink = styled(NavLinkBase)`
   padding: 10px 24px;
-  font-size: ${props => props.theme.typography.body1.fontSize};
+  ${props => props.theme.typography.body1};
 `;
 
 const NestedNavLink = styled(NavLinkBase)`
   padding: 4px 36px;
-  font-size: ${props => props.theme.typography.body2.fontSize};
+  ${props => props.theme.typography.body2};
 
   &.active::before {
     content: '';

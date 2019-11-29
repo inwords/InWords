@@ -6,9 +6,9 @@ import useDrawer from 'src/hooks/useDrawer';
 import Header from './Header';
 import ContentContainer from './ContentContainer';
 import SideNavList from './SideNavList';
-import Drawer from './Drawer';
+import Drawer from '../Drawer';
 import DrawerContent from './DrawerContent';
-import UIMask from './UIMask';
+import UIMask from '../UIMask';
 
 const Container = styled.div`
   display: flex;
@@ -49,12 +49,9 @@ function PageContainer({ routes, rightNodes, children }) {
         handleOpenDrawer={routes && handleOpen}
       />
       {routes && (
-        <Fragment>
-          <Drawer role="navigation" open={open}>
-            <DrawerContent handleClose={handleClose} routes={routes} />
-          </Drawer>
-          <UIMask show={open} onClick={handleClose} />
-        </Fragment>
+        <Drawer role="navigation" open={open} onClose={handleClose}>
+          <DrawerContent handleClose={handleClose} routes={routes} />
+        </Drawer>
       )}
       {nestedRoutes && (
         <SideNavContainer>

@@ -99,7 +99,7 @@ function DictionaryContainer() {
   );
 
   return (
-    <Paper square>
+    <Paper>
       <DictionaryToolbar
         editingModeEnabled={editingModeEnabled}
         checkedValues={checkedValues}

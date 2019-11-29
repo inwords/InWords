@@ -10,7 +10,7 @@ import EntrySubmitButton from 'src/components/EntrySubmitButton';
 
 function SignUp({ inputs, handleChange, handleSubmit }) {
   return (
-    <EntryFormPaper square>
+    <EntryFormPaper>
       <Typography component="h1" variant="h5" gutterBottom>
         Регистрация
       </Typography>

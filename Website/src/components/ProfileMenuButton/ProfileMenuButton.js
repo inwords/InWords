@@ -20,8 +20,8 @@ const ProfileMenu = styled(Menu)`
 `;
 
 const ProfileMenuItemButton = styled(MenuItemButton)`
+  ${props => props.theme.typography.body2};
   color: ${props => props.theme.palette.text.primary};
-  font-size: ${props => props.theme.typography.body2.fontSize};
 `;
 
 function ProfileMenuButton({ handleLogout }) {

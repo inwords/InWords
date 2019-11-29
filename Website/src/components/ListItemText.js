@@ -1,6 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+import Typography from 'src/components/Typography';
 
 const ListItemTextRoot = styled.div`
   margin-top: 4px;
@@ -8,22 +10,20 @@ const ListItemTextRoot = styled.div`
   flex: 1 1 auto;
 `;
 
-const ListItemTextPrimary = styled.span`
-  ${props => props.theme.typography.body2}
-  color: ${props => props.theme.palette.text.primary};
-`;
-
-const ListItemTextSecondary = styled.span`
-  display: block;
-  ${props => props.theme.typography.body2}
-  color: ${props => props.theme.palette.text.secondary};
-`;
-
 function ListItemText({ primary, secondary, ...rest }) {
   return (
     <ListItemTextRoot {...rest}>
-      <ListItemTextPrimary>{primary}</ListItemTextPrimary>
-      {secondary && <ListItemTextSecondary>{secondary}</ListItemTextSecondary>}
+      <Typography>{primary}</Typography>
+      {secondary && (
+        <Typography
+          color="textSecondary"
+          css={css`
+            display: block;
+          `}
+        >
+          {secondary}
+        </Typography>
+      )}
     </ListItemTextRoot>
   );
 }

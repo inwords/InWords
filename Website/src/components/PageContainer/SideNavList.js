@@ -13,8 +13,7 @@ const NavList = styled(List)`
 const NavLink = styled(ListItemButtonBase)`
   padding: 10px 24px;
   width: 100%;
-  font-weight: 400;
-  font-size: ${props => props.theme.typography.body2.fontSize};
+  ${props => props.theme.typography.body2};
   color: ${props => props.theme.palette.text.primary};
   transition: ${props =>
     props.theme.transitions.create(['background-color', 'color'], {

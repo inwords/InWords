@@ -2,9 +2,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Paper from 'src/components/Paper';
 
-const PopupPaper = React.forwardRef((props, ref) => {
-  return <Paper ref={ref} elevation={8} square {...props} />;
-});
+const PopupPaper = props => {
+  return <Paper elevation={8} square {...props} />;
+};
 
 const Popup = styled(PopupPaper)`
   position: absolute;
