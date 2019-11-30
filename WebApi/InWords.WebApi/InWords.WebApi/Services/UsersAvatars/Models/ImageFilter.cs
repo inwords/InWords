@@ -70,6 +70,7 @@ namespace InWords.WebApi.Services.UsersAvatars.Models
         {
 
             string webPImagePath = $"{CreatePath()}.WebP";
+            #warning error on webp linux saving
             //using var webPFileStream = new FileStream(webPImagePath, FileMode.Create);
             //using var imageFactory = new ImageFactory(preserveExifData: false);
             //imageFactory.Load(cropImage)
