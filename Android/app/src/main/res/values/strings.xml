@@ -74,13 +74,13 @@
     <string name="loading_text_placeholder">Загрузка профиля</string>
     <string name="sign_up_proposal">Создайте аккаунт, чтобы использовать больше возможностей приложения</string>
     <string name="user_experience">Опыт на сегодня: %1$d</string>
-    <string name="choose_game">Выберите игру</string>
+    <string name="choose_game">Выберите тему</string>
     <string name="game_remove">Удалить</string>
     <string name="accessibility_navigate_home">Navigate home</string>
     <string name="accessibility_go_to_levels_list">Go to levels list</string>
     <string name="accessibility_go_to_next_level">Go to next level</string>
     <string name="rating_not_loaded">Ваш рейтинг будет обновлён позднее :)</string>
-    <string name="start_game_button_text">Поплыли!</string>
+    <string name="start_game_button_text">Поплыли</string>
     <string name="unable_to_load_voice">Не удалось загрузить озвучку</string>
 
     <plurals name="words_in_dictionary">

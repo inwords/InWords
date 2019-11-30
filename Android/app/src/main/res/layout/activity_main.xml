@@ -25,6 +25,7 @@
         android:background="@color/colorPrimary"
         app:itemIconTint="@color/text_color_default_inverse"
         app:itemTextColor="@color/text_color_default_inverse"
+        app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/navigation" />
 

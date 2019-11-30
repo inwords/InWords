@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".game.presentation.game_levels.GameLevelsFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/appbar_height">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title="@string/choose_level" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ru.inwords.shimmer_recycler.ShimmerRecyclerView
+        android:id="@+id/levels_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="@dimen/space_xsmall"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:shimmer_demo_child_count="4"
+        app:shimmer_demo_grid_child_count="3"
+        app:shimmer_demo_layout="@layout/game_info_shimmer"
+        app:shimmer_demo_layout_manager_type="grid"
+        tools:listitem="@layout/game_level_info" />
+
     <include
         layout="@layout/game_no_content"
         android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/game_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/space_xsmall"
-            android:text="@string/choose_level"
-            android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default" />
-
-        <ru.inwords.shimmer_recycler.ShimmerRecyclerView
-            android:id="@+id/levelsRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingStart="@dimen/space_xsmall"
-            android:paddingEnd="@dimen/space_xsmall"
-            app:shimmer_demo_child_count="4"
-            app:shimmer_demo_grid_child_count="3"
-            app:shimmer_demo_layout="@layout/game_info_shimmer"
-            app:shimmer_demo_layout_manager_type="grid"
-            tools:listitem="@layout/game_level_info" />
-    </LinearLayout>
 
     <include
         android:id="@+id/welcome_screen"
         layout="@layout/game_welcome"
         android:visibility="gone" />
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
