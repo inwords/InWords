@@ -115,11 +115,16 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
         val currentLevelInfo = getCurrentLevelInfo() ?: return
 
         when (path) {
-            NEXT -> Completable.fromAction { queryContinueGame() }
-                .subscribeOn(SchedulersFacade.io())
-                .subscribe({}, { t -> Log.wtf(javaClass.simpleName, t.message.orEmpty()) })
-                .autoDispose()
-            REFRESH -> onGameLevelSelected(game.gameId, currentLevelInfo, true)
+            NEXT -> {
+                Completable.fromAction { queryContinueGame() }
+                    .subscribeOn(SchedulersFacade.io())
+                    .subscribe({}, { t -> Log.wtf(javaClass.simpleName, t.message.orEmpty()) })
+                    .autoDispose()
+            }
+            REFRESH -> {
+                _navigationFromGameEnd.postValue(Event(path))
+                onGameLevelSelected(game.gameId, currentLevelInfo, true)
+            }
             else -> _navigationFromGameEnd.postValue(Event(path))
         }
     }
