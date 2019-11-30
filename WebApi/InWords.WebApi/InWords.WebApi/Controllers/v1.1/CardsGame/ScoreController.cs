@@ -32,30 +32,30 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         ///     Use this to post score after game
         /// </summary>
         /// <deprecated>true</deprecated>
-        /// <param name="cardGameScore"></param>
+        /// <param name="levelMetricQuery"></param>
         /// <returns>Quantity of stars</returns>
         /// <response code="200">OK, scored</response>
         /// <response code="400">Null on request</response>
         [Route("Score")]
         [HttpPost]
-        [ProducesResponseType(typeof(LevelScore), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(LevelMetricQueryResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PostScore(CardGameScore cardGameScore)
+        public async Task<IActionResult> PostScore(LevelMetricQuery levelMetricQuery)
         {
             int authorizedId = User.GetUserId();
 
-            LevelScore answer;
+            LevelMetricQueryResult answer;
             // save score to user level
             try
             {
                 // foreach level that doesn't have game create game
-                IEnumerable<int> games = cardGameScore.WordPairIdOpenCounts.Select(w => w.Key);
-                if (cardGameScore.GameLevelId <= 0)
-                    cardGameScore.GameLevelId =
+                IEnumerable<int> games = levelMetricQuery.WordPairIdOpenCounts.Select(w => w.Key);
+                if (levelMetricQuery.GameLevelId <= 0)
+                    levelMetricQuery.GameLevelId =
                         await levelCreator.CreateUserLevelAsync(authorizedId, games).ConfigureAwait(false);
 
                 // save scores
-                answer = await gameResultService.SetResultsAsync(authorizedId, cardGameScore)
+                answer = await gameResultService.SetResultsAsync(authorizedId, levelMetricQuery)
                     .ConfigureAwait(false);
             }
             catch (ArgumentNullException e)
@@ -72,11 +72,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         /// <returns>Quantity of stars and level id</returns>
         [Route("UploadScore")]
         [HttpPost]
-        public async Task<IActionResult> UploadScore(CardGameScore[] cardGameScores)
+        public async Task<IActionResult> UploadScore(LevelMetricQuery[] cardGameScores)
         {
             int authorizedId = User.GetUserId();
 
-            List<LevelScore> answer;
+            List<LevelMetricQueryResult> answer;
             // save score to user level
             try
             {

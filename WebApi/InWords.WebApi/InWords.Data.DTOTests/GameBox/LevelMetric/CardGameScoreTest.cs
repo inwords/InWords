@@ -11,7 +11,7 @@ namespace InWords.Data.DTOTests.GameBox.LevelMetric
         [Fact]
         public void SerializationTest()
         {
-            var expected = new CardGameScore
+            var expected = new LevelMetricQuery
             {
                 GameLevelId = 1,
                 WordPairIdOpenCounts = new Dictionary<int, int> {{2, 3}}
@@ -23,7 +23,7 @@ namespace InWords.Data.DTOTests.GameBox.LevelMetric
             // remove Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
             //string json = JsonSerializer.Serialize(expected);
-            //var actual = JsonSerializer.Deserialize<CardGameScore>(json)
+            //var actual = JsonSerializer.Deserialize<LevelMetricQuery>(json)
             //Assert.NotNull(actual);
             //Assert.Equal(1, actual.GameLevelId);
             //Assert.NotNull(actual.WordPairIdOpenCounts);

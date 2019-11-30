@@ -5,13 +5,13 @@ namespace InWords.Data.DTO.Extentions
 {
     public static class CardGameScoreExtentions
     {
-        public static LevelResult ToLevelResult(this CardGameScore cardGameScore)
+        public static LevelResult ToLevelResult(this LevelMetricQuery levelMetricQuery)
         {
             var levelResult = new LevelResult
             {
-                LevelId = cardGameScore.GameLevelId,
-                OpeningQuantity = cardGameScore.WordPairIdOpenCounts.Sum(s => s.Value),
-                WordsCount = cardGameScore.WordPairIdOpenCounts.Count * 2
+                LevelId = levelMetricQuery.GameLevelId,
+                OpeningQuantity = levelMetricQuery.WordPairIdOpenCounts.Sum(s => s.Value),
+                WordsCount = levelMetricQuery.WordPairIdOpenCounts.Count * 2
             };
             return levelResult;
         }

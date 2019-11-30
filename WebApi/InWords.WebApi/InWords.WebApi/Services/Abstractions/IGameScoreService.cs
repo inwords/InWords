@@ -21,16 +21,16 @@ namespace InWords.WebApi.Services.Abstractions
         /// </summary>
         /// <param name="levelResult"></param>
         /// <returns></returns>
-        LevelScore GetLevelScore(LevelResult levelResult);
+        LevelMetricQueryResult GetLevelScore(LevelResult levelResult);
 
         /// <summary>
         ///     This is to set level score to user level storage
         /// </summary>
         /// <param name="userId"></param>
-        /// <param name="levelScore"></param>
+        /// <param name="levelMetricQueryResult"></param>
         /// <exception cref="ArgumentNullException">Null game box is not find</exception>
         /// <returns></returns>
-        Task PostScoreAsync(int userId, LevelScore levelScore);
+        Task PostScoreAsync(int userId, LevelMetricQueryResult levelMetricQueryResult);
 
         /// <summary>
         ///     This is to push all score from cache storage
@@ -38,6 +38,6 @@ namespace InWords.WebApi.Services.Abstractions
         /// <param name="userId"></param>
         /// <param name="levelScores"></param>
         /// <returns></returns>
-        Task UploadScoreAsync(int userId, IEnumerable<LevelScore> levelScores);
+        Task UploadScoreAsync(int userId, IEnumerable<LevelMetricQueryResult> levelScores);
     }
 }
