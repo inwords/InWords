@@ -12,7 +12,13 @@ const DrawerBrandLink = styled(BrandLink)`
 function DrawerContent({ routes, handleClose, ...rest }) {
   return (
     <Fragment>
-      <DrawerBrandLink onClick={handleClose} to="/">
+      <DrawerBrandLink
+        onClick={event => {
+          event.preventDefault();
+          handleClose();
+        }}
+        to="/"
+      >
         InWords
       </DrawerBrandLink>
       <Divider />

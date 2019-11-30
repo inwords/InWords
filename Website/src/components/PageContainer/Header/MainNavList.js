@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { NavLink as RouterNavLink } from 'react-router-dom';
+import { NavLink as RouterNavLink, useLocation } from 'react-router-dom';
 
 const NavList = styled.ul`
   margin: 0;
@@ -11,6 +11,14 @@ const NavList = styled.ul`
   list-style: none;
   width: 100%;
   height: 100%;
+  color: ${props =>
+    props.active
+      ? props.theme.palette.grey[400]
+      : props.theme.palette.primary.contrastText};
+
+  &:hover {
+    color: ${props => props.theme.palette.grey[400]};
+  }
 `;
 
 const NavListItem = styled.li`
@@ -28,7 +36,7 @@ const NavLink = styled(RouterNavLink)`
   font-size: 1rem;
   height: 100%;
   text-decoration: none;
-  color: ${props => props.theme.palette.grey[400]};
+  color: inherit;
   transition: color 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
@@ -56,8 +64,20 @@ const NavLink = styled(RouterNavLink)`
 `;
 
 function MainNavList({ show, routes, handleOpenDrawer }) {
+  const [active, setActive] = React.useState();
+
+  const location = useLocation();
+
+  React.useEffect(() => {
+    setActive(
+      routes.some(({ to }) => {
+        return location.pathname.startsWith(to);
+      })
+    );
+  }, [routes, location]);
+
   return (
-    <NavList>
+    <NavList active={active}>
       {routes.map(({ to, text }) => (
         <NavListItem key={to}>
           <NavLink to={to} activeClassName="active">

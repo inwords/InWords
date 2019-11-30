@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+import TextField from '@material-ui/core/TextField';
+import Dialog from 'src/components/Dialog';
+import DialogTitle from 'src/components/DialogTitle';
+import DialogContent from 'src/components/DialogContent';
+import DialogActions from 'src/components/DialogActions';
+import Typography from 'src/components/Typography';
+import Link from 'src/components/Link';
 
 const useStyles = makeStyles(theme => ({
   translations: {
@@ -28,25 +27,14 @@ function WordPairAddDialog({
   handleChange,
   handleSubmit,
   translationsInfo,
-  handleTranslationSelection,
-  handleReset
+  handleTranslationSelection
 }) {
   const classes = useStyles();
-  const theme = useTheme();
-
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleCloseWithReset = () => {
-    handleClose();
-    handleReset();
-  };
-
   return (
     <Dialog
       aria-labelledby="word-pair-add-dialog"
       open={open}
-      onClose={handleCloseWithReset}
-      fullScreen={fullScreen}
+      onClose={handleClose}
     >
       <DialogTitle id="word-pair-add-dialog">Добавление слова</DialogTitle>
       <DialogContent>
@@ -54,7 +42,7 @@ function WordPairAddDialog({
           id="word-pair-add-form"
           onSubmit={event => {
             handleSubmit(event);
-            handleCloseWithReset();
+            handleClose();
           }}
         >
           <TextField
@@ -93,7 +81,7 @@ function WordPairAddDialog({
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCloseWithReset}>Отмена</Button>
+        <Button onClick={handleClose}>Отмена</Button>
         <Button type="submit" form="word-pair-add-form" color="primary">
           Добавить
         </Button>
@@ -117,8 +105,7 @@ WordPairAddDialog.propTypes = {
       translation: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
-  handleTranslationSelection: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired
+  handleTranslationSelection: PropTypes.func.isRequired
 };
 
 export default WordPairAddDialog;

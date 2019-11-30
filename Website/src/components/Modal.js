@@ -18,7 +18,7 @@ function Modal({
   keepMounted = false,
   handleBackdropClick,
   children,
-  BackdropProps,
+  transitionDuration,
   ...rest
 }) {
   const [exited, setExited] = React.useState(true);
@@ -26,14 +26,12 @@ function Modal({
   React.useEffect(() => {
     if (open) {
       setExited(false);
+    } else {
+      setTimeout(() => {
+        setExited(true);
+      }, transitionDuration);
     }
-  }, [open]);
-
-  const handleTransition = () => {
-    if (!open) {
-      setExited(true);
-    }
-  };
+  }, [open, transitionDuration]);
 
   if (!keepMounted && !open && exited) {
     return null;
@@ -47,10 +45,10 @@ function Modal({
       {...rest}
     >
       <Backdrop
+        preAnimated={!keepMounted}
         open={open}
         onClick={handleBackdropClick}
-        onTransitionEnd={handleTransition}
-        {...BackdropProps}
+        transitionDuration={transitionDuration}
       />
       {children}
     </ModalRoot>,
@@ -63,9 +61,7 @@ Modal.propTypes = {
   keepMounted: PropTypes.bool,
   handleBackdropClick: PropTypes.func,
   children: PropTypes.node,
-  BackdropProps: PropTypes.shape({
-    transitionDuration: PropTypes.number
-  })
+  transitionDuration: PropTypes.number
 };
 
 export default Modal;

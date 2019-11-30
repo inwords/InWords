@@ -38,7 +38,7 @@ const NavLink = styled(NavLinkBase)`
 `;
 
 const NestedNavLink = styled(NavLinkBase)`
-  padding: 4px 36px;
+  padding: 4px 24px 4px 40px;
   ${props => props.theme.typography.body2};
 
   &.active::before {

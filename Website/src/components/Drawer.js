@@ -40,9 +40,7 @@ function Drawer({ open, onClose, ...rest }) {
       open={open}
       handleBackdropClick={onClose}
       keepMounted
-      BackdropProps={{
-        transitionDuration: transitionDuration[open ? 'enter' : 'exit']
-      }}
+      transitionDuration={transitionDuration[open ? 'enter' : 'exit']}
     >
       <DrawerPaper open={open} {...rest} />
     </Modal>

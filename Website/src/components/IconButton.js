@@ -63,6 +63,8 @@ const inheritColorStyles = props => css`
 const IconButton = styled(ButtonBase, {
   shouldForwardProp: prop => isPropValid(prop) && prop !== 'color'
 })`
+  border: 0;
+  outline: 0;
   padding: 12px;
   font-size: ${props => props.theme.typography.pxToRem(24)};
   border-radius: 50%;

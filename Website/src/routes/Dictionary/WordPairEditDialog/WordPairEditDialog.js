@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Dialog from 'src/components/Dialog';
+import DialogTitle from 'src/components/DialogTitle';
+import DialogContent from 'src/components/DialogContent';
+import DialogActions from 'src/components/DialogActions';
 
 function WordPairEditDialog({
   open,
@@ -17,21 +15,11 @@ function WordPairEditDialog({
   handleSubmit,
   handleReset
 }) {
-  const theme = useTheme();
-
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleCloseWithReset = () => {
-    handleClose();
-    handleReset();
-  };
-
   return (
     <Dialog
       aria-labelledby="word-pair-edit-dialog"
       open={open}
-      onClose={handleCloseWithReset}
-      fullScreen={fullScreen}
+      onClose={handleClose}
     >
       <DialogTitle id="word-pair-edit-dialog">Редактирование слова</DialogTitle>
       <DialogContent>
@@ -39,7 +27,7 @@ function WordPairEditDialog({
           id="word-pair-edit-form"
           onSubmit={event => {
             handleSubmit(event);
-            handleCloseWithReset();
+            handleClose();
           }}
         >
           <TextField
@@ -63,7 +51,7 @@ function WordPairEditDialog({
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCloseWithReset}>Отмена</Button>
+        <Button onClick={handleClose}>Отмена</Button>
         <Button type="submit" form="word-pair-edit-form" color="primary">
           Готово
         </Button>

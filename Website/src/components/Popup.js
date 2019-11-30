@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Paper from 'src/components/Paper';
 
 const PopupPaper = props => {
-  return <Paper elevation={8} square {...props} />;
+  return <Paper elevation={8} {...props} />;
 };
 
 const Popup = styled(PopupPaper)`
