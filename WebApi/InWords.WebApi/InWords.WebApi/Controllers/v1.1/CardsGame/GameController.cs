@@ -14,15 +14,15 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
 {
     [Authorize]
     [ApiVersion("1.1")]
-    [Route("v{version:apiVersion}/Game")]
+    [Route("v{version:apiVersion}/game")]
     [ApiController]
     [Produces("application/json")]
-    public class ScoreController : ControllerBase
+    public class GameController : ControllerBase
     {
         private readonly GameResultService gameResultService;
         private readonly LevelCreator levelCreator;
 
-        public ScoreController(GameResultService gameResultService, LevelCreator levelCreator)
+        public GameController(GameResultService gameResultService, LevelCreator levelCreator)
         {
             this.gameResultService = gameResultService;
             this.levelCreator = levelCreator;
