@@ -39,6 +39,7 @@ export function addCategoryWordsToDictionary(categoryId) {
     endpoint: 'game/addWordsToUserDictionary',
     method: 'POST',
     data: JSON.stringify(categoryId),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
         console.log(data);
@@ -77,6 +78,7 @@ export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
     endpoint: 'game/score',
     method: 'POST',
     data: JSON.stringify(levelResult),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(trainingActions.updateLevelResult(data));

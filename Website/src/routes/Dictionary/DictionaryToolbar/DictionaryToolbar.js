@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Typography from 'src/components/Typography';
 import IconButton from 'src/components/IconButton';
 import Search from './Search';
 import DictionaryMenuButton from './DictionaryMenuButton';
@@ -44,7 +44,7 @@ function DictionaryToolbar({
       {!editingModeEnabled ? (
         <Fragment>
           <EntryTitleBlock>
-            <Typography component="h1" variant="h6">
+            <Typography as="h1" variant="h6">
               Словарь
             </Typography>
           </EntryTitleBlock>
@@ -61,7 +61,7 @@ function DictionaryToolbar({
             <CloseIcon />
           </CloseIconButton>
           <TitleBlock>
-            <Typography component="h2" variant="h6">
+            <Typography as="h2" variant="h6">
               Выбрано: {numberOfChecked}
             </Typography>
           </TitleBlock>

@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import useDialog from 'src/hooks/useDialog';
-import EmailEditDialog from './EmailEditDialog';
+import LineButton from 'src/components/LineButton';
+import AvatarEditDialog from './AvatarEditDialog';
 import NicknameEditDialog from './NicknameEditDialog';
+import EmailEditDialog from './EmailEditDialog';
 
 const ProfileRoot = styled.div`
   display: flex;
@@ -66,23 +68,7 @@ const PersonalInfoText = styled.span`
   }
 `;
 
-const ControlButton = styled.span`
-  display: inline-flex;
-  cursor: pointer;
-  user-select: none;
-  color: ${props => props.theme.palette.primary.main};
-  transition: ${props =>
-    props.theme.transitions.create('color', {
-      duration: props.theme.transitions.duration.shortest
-    })};
-
-  &:hover,
-  &:active {
-    color: ${props => props.theme.palette.secondary.main};
-  }
-`;
-
-const AvatarControlButton = styled(ControlButton)`
+const AvatarLineButton = styled(LineButton)`
   margin: 12px 0;
 `;
 
@@ -97,48 +83,52 @@ const NicknameText = styled.h2`
 
 function Profile({ avatarPath, nickname, editingAvailable, email }) {
   const {
-    open: open1,
-    handleOpen: handleOpen1,
-    handleClose: handleClose1
+    open: openAvatar,
+    handleOpen: handleOpenAvatar,
+    handleClose: handleCloseAvatar
   } = useDialog();
 
   const {
-    open: open2,
-    handleOpen: handleOpen2,
-    handleClose: handleClose2
+    open: openNickname,
+    handleOpen: handleOpenNickname,
+    handleClose: handleCloseNickname
+  } = useDialog();
+
+  const {
+    open: openEmail,
+    handleOpen: handleOpenEmail,
+    handleClose: handleCloseEmail
   } = useDialog();
 
   return (
     <ProfileRoot>
       <ProfilePictureSection>
-        <ProfilePicture
-          alt="Изображение профиля"
-          src={
-            'https://i.pinimg.com/originals/4a/8c/59/4a8c590f714f67d0dc6c50e34b1e469a.jpg'
-          }
-        />
-        <AvatarControlButton>Изменить аватар</AvatarControlButton>
+        <ProfilePicture alt="Изображение профиля" src={avatarPath} />
+        <AvatarLineButton onClick={handleOpenAvatar}>
+          Изменить аватар
+        </AvatarLineButton>
       </ProfilePictureSection>
       <ProfilePersonalSection>
         <NicknameText>{nickname}</NicknameText>
-        <ControlButton onClick={handleOpen2}>Изменить никнейм</ControlButton>
+        <LineButton onClick={handleOpenNickname}>Изменить никнейм</LineButton>
         <SecondaryProfileInfo>
           <PersonalInfoContainer>
             <PersonalInfo>
               <PersonalInfoText>{email}</PersonalInfoText>
             </PersonalInfo>
             <PersonalEditLinks>
-              <ControlButton onClick={handleOpen1}>
+              <LineButton onClick={handleOpenEmail}>
                 Изменить электронный адрес
-              </ControlButton>
+              </LineButton>
             </PersonalEditLinks>
           </PersonalInfoContainer>
         </SecondaryProfileInfo>
       </ProfilePersonalSection>
-      <EmailEditDialog open={open1} handleClose={handleClose1} />
+      <AvatarEditDialog open={openAvatar} handleClose={handleCloseAvatar} />
+      <EmailEditDialog open={openEmail} handleClose={handleCloseEmail} />
       <NicknameEditDialog
-        open={open2}
-        handleClose={handleClose2}
+        open={openNickname}
+        handleClose={handleCloseNickname}
         nickname={nickname}
       />
     </ProfileRoot>

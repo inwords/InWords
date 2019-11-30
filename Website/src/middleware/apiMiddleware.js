@@ -18,13 +18,14 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
   }
 
   const {
-    apiVersion,
-    endpoint,
-    method,
-    authorizationRequired,
-    data,
-    actionsOnSuccess,
-    actionsOnFailure
+    apiVersion = 'v1.0',
+    endpoint = '',
+    method = 'GET',
+    authorizationRequired = true,
+    data = null,
+    contentType = null,
+    actionsOnSuccess = [],
+    actionsOnFailure = []
   } = action.payload;
 
   const headers = new Headers();
@@ -40,8 +41,8 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     headers.append('Authorization', `Bearer ${token}`);
   }
 
-  if (data) {
-    headers.append('Content-Type', 'application/json');
+  if (data && contentType) {
+    headers.append('Content-Type', contentType);
   }
 
   dispatch(beginLoading());
