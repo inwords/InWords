@@ -33,7 +33,6 @@ function DictionaryContainer() {
 
           const speech = new SpeechSynthesisUtterance(wordPair.wordForeign);
           speech.lang = lang;
-
           synth.speak(speech);
         };
 

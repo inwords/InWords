@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -6,9 +6,8 @@ import useDrawer from 'src/hooks/useDrawer';
 import Header from './Header';
 import ContentContainer from './ContentContainer';
 import SideNavList from './SideNavList';
-import Drawer from '../Drawer';
+import Drawer from 'src/components/Drawer';
 import DrawerContent from './DrawerContent';
-import UIMask from '../UIMask';
 
 const Container = styled.div`
   display: flex;

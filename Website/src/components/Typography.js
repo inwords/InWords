@@ -19,6 +19,7 @@ const colorTextSecondaryStyle = props => css`
 `;
 
 const Typography = styled.span`
+  margin: 0;
   ${props => props.theme.typography[props.variant || 'body2']}
   ${props => {
     switch (props.color || 'textPrimary') {

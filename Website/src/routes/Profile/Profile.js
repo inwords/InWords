@@ -29,7 +29,7 @@ const ProfilePicture = styled.img`
   border-radius: 50%;
 `;
 
-const ProfilePersonalSection = styled(ProfileSection)`
+const ProfilePersonalSection = styled.div`
   width: 100%;
   padding-top: 16px;
   padding-left: 64px;
@@ -67,6 +67,7 @@ const PersonalInfoText = styled.span`
 `;
 
 const ControlButton = styled.span`
+  display: inline-flex;
   cursor: pointer;
   user-select: none;
   color: ${props => props.theme.palette.primary.main};

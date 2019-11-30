@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { fade } from '@material-ui/core/styles';
+import isPropValid from '@emotion/is-prop-valid';
 import styled from '@emotion/styled';
 import Modal from 'src/components/Modal';
-import UIMask from 'src/components/UIMask';
 
-const DrawerRoot = styled.nav`
+const transitionDuration = {
+  enter: 225,
+  exit: 150
+};
+
+const DrawerPaper = styled('nav', {
+  shouldForwardProp: prop => isPropValid(prop) && prop !== 'open'
+})`
   position: fixed;
   top: 0;
   right: auto;
@@ -17,7 +24,10 @@ const DrawerRoot = styled.nav`
   border-right: 1px solid ${props => fade(props.theme.palette.divider, 0.08)};
   background-color: ${props => props.theme.palette.background.paper};
   transform: ${props => (props.open ? 'translateX(0)' : 'translateX(-100%)')};
-  transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  transition-property: transform;
+  transition-duration: ${props =>
+    transitionDuration[props.open ? 'enter' : 'exit']}ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
   ${props => props.theme.breakpoints.up('lg')} {
     display: none;
@@ -25,24 +35,16 @@ const DrawerRoot = styled.nav`
 `;
 
 function Drawer({ open, onClose, ...rest }) {
-  const [exited, setExited] = React.useState(true);
-
-  const handleTransition = () => {
-    if (!open) {
-      setExited(true);
-    }
-  };
-
-  React.useEffect(() => {
-    if (open) {
-      setExited(false);
-    }
-  }, [open]);
-
   return (
-    <Modal show={open || !exited}>
-      <UIMask show={open} onClick={onClose} />
-      <DrawerRoot onTransitionEnd={handleTransition} open={open} {...rest} />
+    <Modal
+      open={open}
+      handleBackdropClick={onClose}
+      keepMounted
+      BackdropProps={{
+        transitionDuration: transitionDuration[open ? 'enter' : 'exit']
+      }}
+    >
+      <DrawerPaper open={open} {...rest} />
     </Modal>
   );
 }
