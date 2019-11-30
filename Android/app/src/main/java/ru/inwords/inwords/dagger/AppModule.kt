@@ -13,7 +13,8 @@ import ru.inwords.inwords.App
     DataSourcesModule::class,
     DataAbstractModule::class,
     DataAccessModule::class,
-    DeferredEntriesModule::class])
+    DeferredEntriesModule::class,
+    DataModule::class])
 abstract class AppModule {
     @Binds
     // Singleton annotation isn't necessary (in this case since Application instance is unique)

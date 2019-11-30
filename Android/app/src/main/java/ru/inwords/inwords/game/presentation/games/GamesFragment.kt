@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_games.*
 import ru.inwords.inwords.R
@@ -21,15 +22,19 @@ class GamesFragment : BaseContentFragment<GameInfoModel, GamesViewModel, OctoGam
     override val layout = R.layout.fragment_games
     override val classType = GamesViewModel::class.java
 
+    override val noContentViewId = R.id.games_recycler
+
     private lateinit var adapter: GamesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        NavigationUI.setupWithNavController(toolbar, navController)
+
         adapter = GamesAdapter(viewModel.navigateToGame)
 
-        gamesRecycler.layoutManager = GridLayoutManager(context, 2)
-        gamesRecycler.adapter = adapter
+        games_recycler.layoutManager = GridLayoutManager(context, 2)
+        games_recycler.adapter = adapter
 
         viewModel.navigateToGame.subscribe(::navigateToGame).disposeOnViewDestroyed()
 
@@ -46,13 +51,13 @@ class GamesFragment : BaseContentFragment<GameInfoModel, GamesViewModel, OctoGam
             .observeOn(SchedulersFacade.computation())
             .applyDiffUtil()
             .observeOn(SchedulersFacade.ui())
-            .doOnSubscribe { gamesRecycler.showShimmerAdapter() }
-            .doOnEach { gamesRecycler.hideShimmerAdapter() }
+            .doOnSubscribe { games_recycler.showShimmerAdapter() }
+            .doOnEach { games_recycler.hideShimmerAdapter() }
             .subscribe({
                 showScreenState(it.first)
                 adapter.accept(it)
 
-                fixOverscrollBehaviour(gamesRecycler)
+                fixOverscrollBehaviour(games_recycler)
             }) {
                 Log.e(javaClass.simpleName, it.message.orEmpty())
                 showNoContent()

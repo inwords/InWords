@@ -49,4 +49,15 @@ interface ApiServiceAuthorised {
 
     @GET("/v1.0/values/getlogin")
     fun getLogin(): Single<String>
+
+    //dictionary
+
+    @GET("/v1.1/dictionary/training")
+    fun getWordsForTraining(): Single<List<WordTranslation>>
+
+    /**
+     * Int stands for [WordTranslation.serverId]
+     */
+    @GET("/v1.1/dictionary/trainingIds")
+    fun getIdsForTraining(): Single<List<Int>>
 }

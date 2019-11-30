@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/elevation_medium">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/primary_text"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_xmedium_large"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:text="Тренируйте словарный запас"
+            android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
+            app:layout_constraintEnd_toStartOf="@+id/media_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sub_text"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:text="Алгоритм составит упражнение на основе слов в Вашем словаре"
+            android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
+            app:layout_constraintEnd_toStartOf="@+id/media_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/primary_text" />
+
+        <ImageView
+            android:id="@+id/media_image"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/octopus_school" />
+
+        <Button
+            android:id="@+id/action_button_1"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_xsmall"
+            android:minWidth="@dimen/zero"
+            android:paddingStart="@dimen/space_xsmall"
+            android:paddingEnd="@dimen/space_xsmall"
+            android:text="@string/start_game_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/media_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

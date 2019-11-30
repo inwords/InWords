@@ -5,7 +5,7 @@
     android:id="@+id/root_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".translation.presentation.view.translation_main.TranslationMainFragment">
+    tools:context=".translation.presentation.translation_main.TranslationMainFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
