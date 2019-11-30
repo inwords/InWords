@@ -16,19 +16,20 @@ namespace InWords.WebApi.Services.FtpLoader.Model
             ftpCredentials = config.Value;
         }
 
-        public async Task<string> UploadAsync(Stream stream, ProjectDirectories directory, string filename = null, string fileFormat = null)
+        public async Task<string> UploadAsync(string filePath, ProjectDirectories directory)
         {
-            if (string.IsNullOrWhiteSpace(fileFormat))
-                fileFormat = ".tmp";
+            await using Stream stream = new FileStream(filePath, FileMode.Open);
 
-            if (string.IsNullOrWhiteSpace(filename))
-                filename = $"{Guid.NewGuid()}".Replace("-", "").Substring(0, 16) + fileFormat.ToLower();
+            string fileFormat = filePath.Substring(filePath.LastIndexOf('.'));
+            
+            string filename = $"{Guid.NewGuid()}".Replace("-", "").Substring(0, 16) + fileFormat.ToLower();
 
             using FtpClient client = GetConnectedClient();
 
             string directoryPath = ProjectDirectory.Resolve(directory);
 
             client.CreateDirectory(directoryPath);
+            
             string path = Path.Combine(directoryPath, filename);
 
             await client.UploadAsync(stream, path).ConfigureAwait(false);

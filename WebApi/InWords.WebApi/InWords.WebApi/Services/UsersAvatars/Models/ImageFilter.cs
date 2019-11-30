@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using ImageProcessor;
 using ImageProcessor.Plugins.WebP.Imaging.Formats;
 using InWords.WebApi.Extensions.BitmapExtensions;
@@ -66,13 +68,17 @@ namespace InWords.WebApi.Services.UsersAvatars.Models
         //TODO file saver
         private static string SaveToWebP(Image cropImage)
         {
+
             string webPImagePath = $"{CreatePath()}.WebP";
-            using var webPFileStream = new FileStream(webPImagePath, FileMode.Create);
-            using var imageFactory = new ImageFactory(preserveExifData: false);
-            imageFactory.Load(cropImage)
-                .Format(new WebPFormat())
-                .Quality(80)
-                .Save(webPFileStream);
+            //using var webPFileStream = new FileStream(webPImagePath, FileMode.Create);
+            //using var imageFactory = new ImageFactory(preserveExifData: false);
+            //imageFactory.Load(cropImage)
+            //    .Format(new WebPFormat())
+            //    .Quality(80)
+            //    .Save(webPFileStream);
+            var encoder = ImageCodecInfo.GetImageEncoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
+            var encParams = new EncoderParameters() { Param = new[] { new EncoderParameter(Encoder.Quality,90L) } };
+            cropImage.Save(webPImagePath, ImageFormat.Jpeg);
             return webPImagePath;
         }
         private static string CreatePath()
