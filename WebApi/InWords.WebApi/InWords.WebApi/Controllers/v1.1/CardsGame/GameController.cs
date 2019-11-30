@@ -36,7 +36,7 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         /// <returns>Quantity of stars</returns>
         /// <response code="200">OK, scored</response>
         /// <response code="400">Null on request</response>
-        [Route("Score")]
+        [Route("score")]
         [HttpPost]
         [ProducesResponseType(typeof(LevelMetricQueryResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
@@ -66,6 +66,7 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
             return Ok(answer);
         }
 
+        #warning will be refactored
         /// <summary>
         ///     Use to upload user results
         /// </summary>
