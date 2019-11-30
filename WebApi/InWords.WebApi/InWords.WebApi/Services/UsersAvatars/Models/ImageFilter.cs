@@ -4,8 +4,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using ImageProcessor;
-using ImageProcessor.Plugins.WebP.Imaging.Formats;
 using InWords.WebApi.Extensions.BitmapExtensions;
 using Microsoft.AspNetCore.Http;
 
@@ -69,8 +67,8 @@ namespace InWords.WebApi.Services.UsersAvatars.Models
         private static string SaveToWebP(Image cropImage)
         {
 
-            string webPImagePath = $"{CreatePath()}.WebP";
-            #warning error on webp linux saving
+            string webPImagePath = $"{CreatePath()}.jpeg";
+            // TODO error gdi+ required
             //using var webPFileStream = new FileStream(webPImagePath, FileMode.Create);
             //using var imageFactory = new ImageFactory(preserveExifData: false);
             //imageFactory.Load(cropImage)
