@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.DTO.Extentions;
+using InWords.Data.DTO.Extensions;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;

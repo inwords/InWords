@@ -40,7 +40,7 @@
             </summary>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetricHandler.LevelMetricHandlerQuery)">
             <summary>
                 Use this to post score after game
             </summary>
@@ -50,7 +50,7 @@
             <response code="200">OK, scored</response>
             <response code="400">Null on request</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.UploadScore(InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery[])">
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.UploadScore(InWords.Data.DTO.GameBox.LevelMetricHandler.LevelMetricHandlerQuery[])">
             <summary>
                 Use to upload user results
             </summary>
@@ -137,7 +137,7 @@
              <response code="200">Count of added words</response>
              <returns>Count of adding words</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetricHandler.LevelResult)">
             <summary>
                 Use this to post score after game
             </summary>
@@ -145,7 +145,7 @@
             <param name="levelResult"></param>
             <returns>Quantity of stars</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelResult})">
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetricHandler.LevelResult})">
             <summary>
                 Use to upload user results
             </summary>
@@ -392,14 +392,14 @@
             <param name="game"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetLevelMetricQueryResult(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetLevelMetricHandlerQueryResult(InWords.Data.DTO.GameBox.LevelMetricHandler.LevelResult)">
             <summary>
                 This is to update user score on game level
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetricHandler.LevelMetricHandlerQueryResult)">
             <summary>
                 This is to set level score to user level storage
             </summary>
@@ -408,7 +408,7 @@
             <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult})">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetricHandler.LevelMetricHandlerQueryResult})">
             <summary>
                 This is to push all score from cache storage
             </summary>
@@ -416,7 +416,7 @@
             <param name="levelMetricQueryResults"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
+        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetricHandler.LevelMetricHandlerQuery)">
             <summary>
                 This is to get score by level and update information of memorizing user word pairs
             </summary>
@@ -473,14 +473,14 @@
                 send it by <see cref="T:InWords.WebApi.Services.Email.EmailSenders.EmailTemplateSender" />
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetLevelMetricQueryResult(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetLevelMetricHandlerQueryResult(InWords.Data.DTO.GameBox.LevelMetricHandler.LevelResult)">
             <summary>
                 This is to local compute score
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Creations.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult})">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Creations.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetricHandler.LevelMetricHandlerQueryResult})">
             <summary>
             </summary>
             <param name="levelsToUpdate">All levels that exist in database</param>

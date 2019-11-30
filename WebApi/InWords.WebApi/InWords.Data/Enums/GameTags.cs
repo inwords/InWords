@@ -4,6 +4,7 @@
     {
         Official,
         CustomLevelsHistory,
+        CustomPublic,
         Favorite
     }
 }

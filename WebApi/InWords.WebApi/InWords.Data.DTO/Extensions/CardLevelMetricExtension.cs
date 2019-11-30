@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using InWords.Data.DTO.GameBox.LevelMetric;
 
-namespace InWords.Data.DTO.Extentions
+namespace InWords.Data.DTO.Extensions
 {
-    public static class CardGameScoreExtentions
+    public static class CardLevelMetricExtension
     {
         public static LevelResult ToLevelResult(this LevelMetricQuery levelMetricQuery)
         {

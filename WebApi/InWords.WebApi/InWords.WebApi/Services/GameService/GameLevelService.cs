@@ -41,13 +41,6 @@ namespace InWords.WebApi.Services.GameService
             return gameLevels.Select(GetLevelInfo);
         }
 
-        //public async Task<LevelInfo> GetLevel(int levelId)
-        //{
-        //    GameLevel level = await gameLevelRepository.FindById(levelId).ConfigureAwait(false);
-
-        //    return GetLevelInfo(level);
-        //}
-
         public LevelInfo GetLevelInfo(GameLevel level)
         {
             var levelInfo = new LevelInfo
