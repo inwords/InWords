@@ -9,6 +9,7 @@ import com.google.android.material.card.MaterialCardView
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
+import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
@@ -30,8 +31,8 @@ class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorV
 //        gamesRecycler.adapter = adapter
 
         viewModel.navigateToGameLevel
-                .observeOn(SchedulersFacade.ui())
-                .subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
+            .observeOn(SchedulersFacade.ui())
+            .subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
 
         view.findViewById<MaterialCardView>(R.id.play_cards_card_view).setOnClickListener {
             it.isClickable = false
@@ -63,6 +64,6 @@ class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorV
     }
 
     private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
-        navController.navigate(CustomGameCreatorFragmentDirections.actionCustomGameCreatorFragmentToGameLevelFragment(gameLevelInfo, -2))
+        navController.navigate(CustomGameCreatorFragmentDirections.actionCustomGameCreatorFragmentToGameLevelFragment(gameLevelInfo, CUSTOM_GAME_ID))
     }
 }
