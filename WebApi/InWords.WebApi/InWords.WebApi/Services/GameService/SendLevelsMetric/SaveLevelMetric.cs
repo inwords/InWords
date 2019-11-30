@@ -2,14 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
+using InWords.Data.DTO.Extensions;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService.SendLevelsMetric
 {
-    public class LevelMetricHandler : ContextRequestHandler<LevelMetricQuery, LevelMetricQueryResult, InWordsDataContext>
+    public class SaveLevelMetric : ContextRequestHandler<LevelMetricQuery, LevelMetricQueryResult, InWordsDataContext>
     {
-        public LevelMetricHandler(InWordsDataContext context) : base(context)
+        public SaveLevelMetric(InWordsDataContext context) : base(context)
         {
 
         }
@@ -17,7 +18,7 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
         public override Task<LevelMetricQueryResult> Handle(LevelMetricQuery request, CancellationToken cancellationToken = default)
         {
             // calculate stars & update knowledge about words
-
+            
             // select metric when level exist
             var userLevels = Context.UserGameLevels.Where(g => g.UserId.Equals(request.UserId));
 

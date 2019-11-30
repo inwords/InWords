@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using InWords.Data.DTO.GameBox.LevelMetric;
 
 namespace InWords.Data.DTO.Extensions
@@ -14,6 +16,15 @@ namespace InWords.Data.DTO.Extensions
                 WordsCount = levelMetricQuery.WordPairIdOpenCounts.Count * 2
             };
             return levelResult;
+        }
+
+        /// <summary>
+        /// Convert metric to levelId and score
+        /// </summary>
+        public static Dictionary<int, int> ConvertToLevelStars(this LevelMetricQuery levelMetricQuery)
+        {
+
+            throw new NotImplementedException();
         }
     }
 }
