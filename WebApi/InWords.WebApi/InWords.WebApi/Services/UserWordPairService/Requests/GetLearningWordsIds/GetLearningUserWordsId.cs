@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds
 {
-    public class GetLearningUserWordsId : ContextRequestHandler<GetLearningUserWordsIdsQuery, List<int>, InWordsDataContext>
+    public class GetLearningUserWordsId : ContextRequestHandler<GetLearningUserWordsIdQuery, List<int>, InWordsDataContext>
     {
         public GetLearningUserWordsId(InWordsDataContext context) : base(context) { }
 
-        public override Task<List<int>> Handle(GetLearningUserWordsIdsQuery request, CancellationToken cancellationToken = default)
+        public override Task<List<int>> Handle(GetLearningUserWordsIdQuery request, CancellationToken cancellationToken = default)
         {
             IQueryable<UserWordPair> pairsToLearn = Context.UserWordPairs.QueryPairsToLearn(request);
             return pairsToLearn.Select(p => p.UserWordPairId).ToListAsync(cancellationToken: cancellationToken);
