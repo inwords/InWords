@@ -56,7 +56,7 @@ namespace InWords.WebApi.Controllers.v1._1
         public async Task<IActionResult> GetTrainingIds()
         {
             int authorizedId = User.GetUserId();
-            var query = new GetLearningUserWordsIdsQuery(authorizedId);
+            var query = new GetLearningUserWordsIdQuery(authorizedId);
             List<int> result = await mediator.Send(query).ConfigureAwait(false);
             return Ok(result);
         }
