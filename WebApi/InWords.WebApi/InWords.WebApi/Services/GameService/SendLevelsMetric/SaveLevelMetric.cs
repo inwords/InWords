@@ -17,6 +17,7 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
 
         public override Task<LevelMetricQueryResult> Handle(LevelMetricQuery request, CancellationToken cancellationToken = default)
         {
+            #warning continue her
             // calculate stars & update knowledge about words
             
             // select metric when level exist
