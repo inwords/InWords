@@ -13,13 +13,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords
 {
-    public class GetLearningUserWords : ContextRequestHandler<GetLearningUserWordsQuery, IEnumerable<WordTranslation>, InWordsDataContext>
+    public class GetLearningUserWords : ContextRequestHandler<GetLearningUserWordsQuery, List<WordTranslation>, InWordsDataContext>
     {
         public GetLearningUserWords(InWordsDataContext context) : base(context)
         {
         }
 
-        public override async Task<IEnumerable<WordTranslation>> Handle(GetLearningUserWordsQuery request,
+        public override async Task<List<WordTranslation>> Handle(GetLearningUserWordsQuery request,
             CancellationToken cancellationToken = default)
         {
             IQueryable<UserWordPair> pairsToLearn = Context.UserWordPairs.QueryPairsToLearn(request);
@@ -32,7 +32,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords
                 .ToListAsync()
                 .ConfigureAwait(false);
 
-            return userWordPairsLoaded.ToWordTranslations();
+            return userWordPairsLoaded.ToWordTranslations().ToList();
         }
     }
 }
