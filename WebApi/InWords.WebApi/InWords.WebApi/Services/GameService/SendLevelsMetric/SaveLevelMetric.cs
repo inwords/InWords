@@ -37,50 +37,90 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
             ImmutableArray<ClassicCardLevelMetric> metrics = request.Metrics;
 
             // calculate stars
-            Dictionary<int, int> levelsScores = metrics
-                .ToDictionary(m => m.GameLevelId, m => m.Score());
-
+            Dictionary<int, int> levelsScores = metrics.ToDictionary(m => m.GameLevelId, m => m.Score());
             ImmutableArray<ClassicCardLevelResult> scores = levelsScores.Select(d => new ClassicCardLevelResult(d.Key, d.Value)).ToImmutableArray();
 
-            // select metric when level exist
-            var userLevels = Context.UserGameLevels.Where(g => g.UserId.Equals(request.UserId));
+            // Handle history games=========
+            // select history levels where GameLevelId is 0;
+            var historyLevels = metrics.Where(g => g.GameLevelId.Equals(0)).Select(u => u.UserWordPairIdOpenCounts.Values);
 
-            // select existed level and default if empty
-            var mapExistedLevel = (from gameLevel in Context.GameLevels
-                                   join userGameLevel in userLevels on gameLevel.GameLevelId equals userGameLevel.GameLevelId into ugl
-                                   from levels in ugl.DefaultIfEmpty()
-                                   select levels).ToHashSet();
-
-            // add to history when not exist
-            var historyLevels = mapExistedLevel.Where(g => g.GameLevelId.Equals(0));
-
-            // Find history Game
-            Creation historyGame = (from gameTags in Context.GameTags
-                                    where gameTags.Tags.Equals(GameTags.CustomLevelsHistory)
-                                    join game in Context.Creations on gameTags.GameId equals game.CreationId
-                                    select game).SingleOrDefault();
-            // Create if not exist
-            if (historyGame is null)
+            var historyLevelsList = metrics.ToList();
+            if (historyLevelsList.Count > 0)
             {
-                historyGame = new Creation { CreatorId = request.UserId };
-                Context.Creations.Add(historyGame);
-                await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                GameTag tag = new GameTag
+                // Find history Game
+                Creation historyGame = (from gameTags in Context.GameTags
+                                        where gameTags.Tags.Equals(GameTags.CustomLevelsHistory)
+                                        join game in Context.Creations on gameTags.GameId equals game.CreationId
+                                        select game).SingleOrDefault();
+                // Create if not exist
+                if (historyGame is null)
                 {
-                    Tags = GameTags.CustomLevelsHistory,
-                    UserId = request.UserId,
-                    GameId = historyGame.CreationId
-                };
-                Context.GameTags.Add(tag);
-                await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            }
+                    historyGame = new Creation { CreatorId = request.UserId };
+                    Context.Creations.Add(historyGame);
+                    await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                    GameTag tag = new GameTag
+                    {
+                        Tags = GameTags.CustomLevelsHistory,
+                        UserId = request.UserId,
+                        GameId = historyGame.CreationId
+                    };
+                    Context.GameTags.Add(tag);
+                    await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                }
 
-            // add game if game not exist
-            //IEnumerable<UserGameLevel> scoreGames = mapExistedLevel.Except(historyGames);
-            //foreach (var scoreGame in scoreGames)
-            //{
-            //    if(scoreGame.UserStars>=request.)
-            //}
+                // add words to game 
+                var gameLevelMetric =
+                    new Dictionary<GameLevel, ClassicCardLevelMetric>(historyLevelsList.Count);
+                foreach (var historyLevel in historyLevelsList)
+                {
+                    var gameLevel = new GameLevel { GameBoxId = historyGame.CreationId };
+                    gameLevelMetric.Add(gameLevel, historyLevel);
+                }
+                Context.GameLevels.AddRange(gameLevelMetric.Keys);
+                // save games
+                await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                
+                // save levels
+                foreach (var historyLevel in gameLevelMetric.Keys)
+                {
+                    
+                    HashSet<GameLevelWord> wordsInMetric = gameLevelMetric[historyLevel].UserWordPairIdOpenCounts.Values.Select(d => new GameLevelWord()
+                    { GameLevelId = historyLevel.GameLevelId, WordPairId = d })
+                        .ToHashSet();
+
+                    historyLevel.GameLevelWords.UnionWith(wordsInMetric);
+                }
+                //TODO save UserLevelScore
+                await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                #warning continue here
+
+                //UserGameLevel userGameLevel = new UserGameLevel(request.UserId,);
+            }
+            //==============
+
+            // Handle Existing UserGameLevel
+            // TODO
+            // Create Nonexistent UserGameLevel
+            // TODO 
+        
+            //// select metric when level exist
+            //var userLevels = Context.UserGameLevels.Where(g => g.UserId.Equals(request.UserId));
+
+            //// select existed level and default if empty
+            //var mapExistedLevel = (from gameLevel in Context.GameLevels
+            //                       join userGameLevel in userLevels on gameLevel.GameLevelId equals userGameLevel.GameLevelId into ugl
+            //                       from levels in ugl.DefaultIfEmpty()
+            //                       select levels).ToHashSet();
+
+
+            ////IEnumerable<UserGameLevel> scoreGames = mapExistedLevel.Except(historyGames);
+            ////foreach (var scoreGame in scoreGames)
+            ////{
+            ////    if(scoreGame.UserStars>=request.)
+            ////}
+
+
+
 
             UpdateUserWordPairKnowledgeInfo(metrics);
             await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
