@@ -31,12 +31,11 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
                 throw new ArgumentNullException(nameof(request));
 
             // cache metrics reference
-            var metrics = request.Metrics;
+            ImmutableArray<ClassicCardLevelMetric> metrics = request.Metrics;
 
             // calculate stars
-            ImmutableDictionary<int, int> levelsScores = metrics
-                .ToDictionary(m => m.GameLevelId, m => m.Score())
-                .ToImmutableDictionary();
+            Dictionary<int, int> levelsScores = metrics
+                .ToDictionary(m => m.GameLevelId, m => m.Score());
 
             ImmutableArray<ClassicCardLevelResult> scores = levelsScores.Select(d => new ClassicCardLevelResult(d.Key, d.Value)).ToImmutableArray();
 

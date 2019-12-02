@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Creations.GameBox;
@@ -9,6 +10,7 @@ using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService
 {
+    [Obsolete]
     public class GameScoreService : IGameScoreService
     {
         private readonly UserGameLevelRepository userGameLevelRepository;
