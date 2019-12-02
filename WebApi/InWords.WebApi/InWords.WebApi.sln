@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Encryption", "InWords.Service.Encryption\InWords.Service.Encryption.csproj", "{21A744E8-498E-4E25-8EDD-B43E21626600}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Domain", "InWords.Domain\InWords.Domain.csproj", "{02DF8AB4-1E13-4414-8B49-01FBFE7D5E88}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Data.DTO", "InWords.Data.DTO\InWords.Data.DTO.csproj", "{1AB890AF-DDE9-4571-B924-1C32E6BE62F8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Service.Auth", "InWords.Service.Auth\InWords.Service.Auth.csproj", "{38BF2A2C-0AE6-4662-A9D5-B0F649BD4F0B}"
@@ -54,10 +52,6 @@ Global
 		{21A744E8-498E-4E25-8EDD-B43E21626600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21A744E8-498E-4E25-8EDD-B43E21626600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21A744E8-498E-4E25-8EDD-B43E21626600}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02DF8AB4-1E13-4414-8B49-01FBFE7D5E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02DF8AB4-1E13-4414-8B49-01FBFE7D5E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02DF8AB4-1E13-4414-8B49-01FBFE7D5E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02DF8AB4-1E13-4414-8B49-01FBFE7D5E88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1AB890AF-DDE9-4571-B924-1C32E6BE62F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1AB890AF-DDE9-4571-B924-1C32E6BE62F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AB890AF-DDE9-4571-B924-1C32E6BE62F8}.Release|Any CPU.ActiveCfg = Release|Any CPU

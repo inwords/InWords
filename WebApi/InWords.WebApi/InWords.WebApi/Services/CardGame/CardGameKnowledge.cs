@@ -5,7 +5,7 @@ using InWords.WebApi.Services.UserWordPairService.Enum;
 
 namespace InWords.WebApi.Services.CardGame
 {
-    public class CardGameKnowledge : IKnowledgeQualifier
+    public sealed class  CardGameKnowledge : IKnowledgeQualifier
     {
         private readonly LevelMetricQuery levelMetricQuery;
 

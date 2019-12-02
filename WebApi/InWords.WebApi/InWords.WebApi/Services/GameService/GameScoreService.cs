@@ -30,7 +30,7 @@ namespace InWords.WebApi.Services.GameService
         /// <returns></returns>
         LevelMetricQueryResult IGameScoreService.GetLevelScore(LevelResult levelResult)
         {
-            int score = Domain.CardGame.Score(levelResult.WordsCount, levelResult.OpeningQuantity);
+            int score = Data.DTO.Services.CardGame.Score(levelResult.WordsCount, levelResult.OpeningQuantity);
 
             var levelScore = new LevelMetricQueryResult(levelResult.LevelId, score);
 
