@@ -3,7 +3,6 @@ import { fade } from '@material-ui/core/styles';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import isPropValid from '@emotion/is-prop-valid';
-import ButtonBase from 'src/components/ButtonBase';
 
 const defaultColorStyles = props => css`
   color: ${props.theme.palette.action.active};
@@ -60,9 +59,16 @@ const inheritColorStyles = props => css`
   }
 `;
 
-const IconButton = styled(ButtonBase, {
+const IconButton = styled('button', {
   shouldForwardProp: prop => isPropValid(prop) && prop !== 'color'
 })`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
   border: 0;
   outline: 0;
   padding: 12px;

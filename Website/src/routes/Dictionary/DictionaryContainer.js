@@ -1,7 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { syncWordPairs } from 'src/actions/dictionaryApiActions';
-import Divider from '@material-ui/core/Divider';
+import useWordPairs from 'src/hooks/useWordPairs';
+import Divider from 'src/components/Divider';
 import Paper from 'src/components/Paper';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
@@ -11,15 +10,7 @@ const synth = window.speechSynthesis;
 const lang = 'en-US';
 
 function DictionaryContainer() {
-  const { actual, wordPairs } = useSelector(store => store.dictionary);
-
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    if (!actual) {
-      dispatch(syncWordPairs(wordPairs));
-    }
-  }, [actual, wordPairs, dispatch]);
+  const wordPairs = useWordPairs();
 
   const [extendedWordPairs, setExtendedWordPairs] = React.useState([]);
 

@@ -11,6 +11,7 @@ import Checkbox from 'src/components/Checkbox';
 import SpeechButton from './SpeechButton';
 
 const WordlistItemButton = styled(ListItemButton)`
+  height: 56px;
   border-bottom: 1px solid ${props => fade(props.theme.palette.divider, 0.08)};
 `;
 
@@ -61,7 +62,6 @@ function WordlistItem({
           !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
         }
         hasSecondaryAction
-        dense
       >
         <MemorizedListItemCheckboxIcon
           serverId={serverId}

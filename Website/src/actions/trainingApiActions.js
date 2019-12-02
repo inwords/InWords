@@ -111,3 +111,24 @@ export function receiveTrainingHistory() {
     ]
   });
 }
+
+export function receiveTrainingWordPairs() {
+  return apiAction({
+    apiVersion: 'v1.1',
+    endpoint: 'dictionary/training',
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(trainingActions.initializeTrainingWordPairs(data));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(
+          setSnackbar({
+            text: 'Не удалось загрузить слова для повторения'
+          })
+        );
+      }
+    ]
+  });
+}

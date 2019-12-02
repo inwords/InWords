@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import ButtonBase from 'src/components/ButtonBase';
 
 const standartColorStyles = props => css`
   border: 1px solid rgb(138, 136, 134);
@@ -11,9 +10,6 @@ const standartColorStyles = props => css`
   &:active,
   &:hover {
     background-color: rgb(243, 242, 241);
-    @media (hover: none) {
-      background-color: transparent;
-    }
   }
 `;
 
@@ -25,13 +21,15 @@ const primaryColorStyles = props => css`
   &:active,
   &:hover {
     background-color: ${props.theme.palette.primary.dark};
-    @media (hover: none) {
-      background-color: transparent;
-    }
   }
 `;
 
-const Button = styled(ButtonBase)`
+const Button = styled.button`
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
   min-width: ${props =>
     props.fullWidth ? '100%' : props.large ? '110px' : '80px'};
   border-radius: 2px;

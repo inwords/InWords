@@ -27,3 +27,9 @@ export const initializeTrainingHistory = trainingHistory => ({
   type: INITIALIZE_TRAINING_HISTORY,
   payload: trainingHistory
 });
+
+export const INITIALIZE_TRAINING_WORD_PAIRS = 'INITIALIZE_TRAINING_WORD_PAIRS';
+export const initializeTrainingWordPairs = wordPairs => ({
+  type: INITIALIZE_TRAINING_WORD_PAIRS,
+  payload: wordPairs
+});

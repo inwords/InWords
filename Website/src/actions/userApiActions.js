@@ -64,17 +64,14 @@ export function uploadUserAvatar(formData) {
     method: 'PUT',
     data: formData,
     actionsOnSuccess: [
-      // dispatch => {
-      //   dispatch(userActions.updateUserInfo(userInfo));
-      // },
-      // () => {
-      //   history.push('/profile');
-      // }
+      (dispatch, data) => {
+        dispatch(userActions.updateUserInfo(data));
+      }
     ],
     actionsOnFailure: [
-      // dispatch => {
-      //   dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
-      // }
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
+      }
     ]
   });
 }

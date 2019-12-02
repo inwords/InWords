@@ -13,6 +13,7 @@ import ErrorBoundary from 'src/components/ErrorBoundary';
 const SignIn = lazy(() => import('./routes/SignIn'));
 const SignUp = lazy(() => import('./routes/SignUp'));
 const Profile = lazy(() => import('./routes/Profile'));
+const DictionaryMain = lazy(() => import('./routes/DictionaryMain'));
 const Dictionary = lazy(() => import('./routes/Dictionary'));
 const TrainingCategories = lazy(() => import('./routes/TrainingCategories'));
 const TrainingTypes = lazy(() => import('./routes/TrainingTypes'));
@@ -28,7 +29,17 @@ const history = createBrowserHistory();
 const routes = [
   {
     to: '/dictionary',
-    text: 'Словарь'
+    text: 'Словарь',
+    nestedRoutes: [
+      {
+        to: '/dictionary/main',
+        text: 'Главная'
+      },
+      {
+        to: '/dictionary/my',
+        text: 'Мой словарь'
+      }
+    ]
   },
   {
     to: '/training',
@@ -53,12 +64,12 @@ function App() {
     <Router history={history}>
       <ScrollToTop />
       <SmartSnackbar />
-      <ErrorBoundary>
-        <Suspense fallback={<PageProgress />}>
-          <PageContainer
-            routes={userId ? routes : undefined}
-            rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
-          >
+      <Suspense fallback={<PageProgress />}>
+        <PageContainer
+          routes={userId ? routes : undefined}
+          rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
+        >
+          <ErrorBoundary>
             <Switch>
               <Route exact path="/">
                 {!userId ? (
@@ -82,7 +93,15 @@ function App() {
                   <Profile />
                 </Container>
               </Route>
-              <Route path="/dictionary">
+              <Route exact path="/dictionary">
+                <Redirect to="/dictionary/main" />
+              </Route>
+              <Route path="/dictionary/main">
+                <Container maxWidth="md">
+                  <DictionaryMain />
+                </Container>
+              </Route>
+              <Route path="/dictionary/my">
                 <Container maxWidth="md">
                   <Dictionary />
                 </Container>
@@ -90,7 +109,7 @@ function App() {
               <Route exact path="/training">
                 <Redirect to="/training/main" />
               </Route>
-              <Route exact path="/training/main">
+              <Route path="/training/main">
                 <Container maxWidth="lg">
                   <TrainingCategories />
                 </Container>
@@ -111,6 +130,7 @@ function App() {
                 </Container>
               </Route>
               <Route
+                exact
                 path="/training/:categoryId/:trainingId/:levelId"
                 render={({ match, ...rest }) => {
                   switch (match.params.trainingId) {
@@ -132,9 +152,9 @@ function App() {
                 }}
               />
             </Switch>
-          </PageContainer>
-        </Suspense>
-      </ErrorBoundary>
+          </ErrorBoundary>
+        </PageContainer>
+      </Suspense>
     </Router>
   );
 }

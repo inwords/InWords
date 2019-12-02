@@ -38,6 +38,10 @@ const NestedNavLink = styled(NavLinkBase)`
   padding: 4px 24px 4px 40px;
   font-size: ${props => props.theme.typography.body2.fontSize};
 
+  &.active {
+    font-weight: 500;
+  }
+
   &.active::before {
     content: '';
     position: absolute;

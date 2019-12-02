@@ -10,7 +10,7 @@ function Wordlist({ wordPairs, checkedValues, listHeight, ...rest }) {
       innerElementType={List}
       height={listHeight}
       itemCount={wordPairs.length}
-      itemSize={57}
+      itemSize={56}
       itemData={{
         wordPairs,
         checkedValues,

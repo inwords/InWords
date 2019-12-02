@@ -32,7 +32,7 @@ export default function userInfo(state = initialState, action) {
     case UPDATE_USER_INFO:
       return {
         ...state,
-        nickname: action.payload.nickname
+        ...action.payload
       };
     default:
       return state;
