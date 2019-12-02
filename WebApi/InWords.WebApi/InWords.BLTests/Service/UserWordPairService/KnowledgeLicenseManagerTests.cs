@@ -3,6 +3,7 @@ using InWords.WebApi.Services.UserWordPairService;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Models;
 using Xunit;
+using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.KnowledgeLicenseCalculator;
 
 namespace InWords.BLTests.Service.UserWordPairService
 {
@@ -12,7 +13,7 @@ namespace InWords.BLTests.Service.UserWordPairService
         public void EasyToRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseManager();
+            var licenseManager = new KnowledgeLicenseCalculator();
             var knowledgeLicense = new KnowledgeLicense();
             var knowledgeQuality = KnowledgeQualitys.EasyToRemember;
             var expectedPeriod = 1;
@@ -30,7 +31,7 @@ namespace InWords.BLTests.Service.UserWordPairService
         public void EasyToRememberButEarlyRepeatGranting()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseManager();
+            var licenseManager = new KnowledgeLicenseCalculator();
             var knowledgeLicense = new KnowledgeLicense
             {
                 Period = 0,
@@ -48,7 +49,7 @@ namespace InWords.BLTests.Service.UserWordPairService
         public void NoLongerRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseManager();
+            var licenseManager = new KnowledgeLicenseCalculator();
             var knowledgeLicense = new KnowledgeLicense
             {
                 Period = 1,
@@ -66,7 +67,7 @@ namespace InWords.BLTests.Service.UserWordPairService
         public void StillRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseManager();
+            var licenseManager = new KnowledgeLicenseCalculator();
             var knowledgeLicense = new KnowledgeLicense
             {
                 Period = 1,

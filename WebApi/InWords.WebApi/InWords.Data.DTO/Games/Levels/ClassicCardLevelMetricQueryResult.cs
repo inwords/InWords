@@ -1,15 +1,13 @@
-﻿namespace InWords.Data.DTO.Games.Levels
+﻿using System.Collections.Immutable;
+
+namespace InWords.Data.DTO.Games.Levels
 {
     public class ClassicCardLevelMetricQueryResult
     {
-        public ClassicCardLevelMetricQueryResult(int levelId, int score)
+        public ImmutableArray<ClassicCardLevelResult> ClassicCardLevelResult { get; set; }
+        public ClassicCardLevelMetricQueryResult(ImmutableArray<ClassicCardLevelResult> classicCardLevelResult)
         {
-            LevelId = levelId;
-            Score = score;
+            ClassicCardLevelResult = classicCardLevelResult;
         }
-
-        public int LevelId { get; set; }
-
-        public int Score { get; set; }
     }
 }

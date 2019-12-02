@@ -7,12 +7,13 @@ using InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {
-    public class KnowledgeLicenseManager
+    [Obsolete]
+    public class KnowledgeLicenseCalculator
     {
         private const int DAYS_GRANTING_TIMESPAN = 1;
         private readonly Dictionary<KnowledgeQualitys, KnowledgeLicenseProvider> knowledgeGaranter;
 
-        public KnowledgeLicenseManager()
+        public KnowledgeLicenseCalculator()
         {
             knowledgeGaranter = new Dictionary<KnowledgeQualitys, KnowledgeLicenseProvider>
             {
