@@ -6,10 +6,13 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
+using InWords.Data.Creations;
+using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Enums;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.DTO.Games.Levels;
+using InWords.Data.Enums;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.UserWordPairService;
 using InWords.WebApi.Services.UserWordPairService.Models;
@@ -49,10 +52,31 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
                                    select levels).ToHashSet();
 
             // add to history when not exist
-            var historyGames = mapExistedLevel.Where(g => g.GameLevelId.Equals(0));
+            var historyLevels = mapExistedLevel.Where(g => g.GameLevelId.Equals(0));
+
+            // Find history Game
+            Creation historyGame = (from gameTags in Context.GameTags
+                                    where gameTags.Tags.Equals(GameTags.CustomLevelsHistory)
+                                    join game in Context.Creations on gameTags.GameId equals game.CreationId
+                                    select game).SingleOrDefault();
+            // Create if not exist
+            if (historyGame is null)
+            {
+                historyGame = new Creation { CreatorId = request.UserId };
+                Context.Creations.Add(historyGame);
+                await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                GameTag tag = new GameTag
+                {
+                    Tags = GameTags.CustomLevelsHistory,
+                    UserId = request.UserId,
+                    GameId = historyGame.CreationId
+                };
+                Context.GameTags.Add(tag);
+                await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            }
 
             // add game if game not exist
-            var scoreGames = mapExistedLevel.Except(historyGames);
+            //IEnumerable<UserGameLevel> scoreGames = mapExistedLevel.Except(historyGames);
             //foreach (var scoreGame in scoreGames)
             //{
             //    if(scoreGame.UserStars>=request.)
