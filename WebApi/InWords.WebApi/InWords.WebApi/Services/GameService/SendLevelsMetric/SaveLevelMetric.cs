@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
+using InWords.Data.Domains;
+using InWords.Data.DTO.Enums;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.DTO.Games.Levels;
 using InWords.WebApi.Services.Abstractions;
@@ -22,12 +25,16 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            // calculate stars & update knowledge about words
-            
-            // metric to score
-            Dictionary<int, int> levelsScores = request.Metrics.ToDictionary(m => m.GameLevelId, m => m.Score());
+            // cache metrics reference
+            var metrics = request.Metrics;
 
-            // metric to knowledge
+            // calculate stars & update knowledge about words
+
+            // metric to score
+            var levelsScores = metrics
+                .ToDictionary(m => m.GameLevelId, m => m.Score())
+                .ToImmutableDictionary();
+
 
 
             // select metric when level exist
@@ -48,6 +55,17 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
             //{
             //    if(scoreGame.UserStars>=request.)
             //}
+
+            // update user words
+            // metric to knowledge
+            var userPairsQuality = metrics.Select(m => m.Qualify());
+
+            ImmutableDictionary<int, KnowledgeQualities> knowledgeQualities = userPairsQuality.SelectMany(dict => dict)
+                .ToLookup(pair => pair.Key, pair => pair.Value)
+                .ToDictionary(group => group.Key, v => v.Max())
+                .ToImmutableDictionary();
+
+            IQueryable<UserWordPair> userWordPairs = Context.UserWordPairs.Where(d => knowledgeQualities.Keys.Any(x => x.Equals(d.UserWordPairId)));
 
 
             return base.Handle(request, cancellationToken);

@@ -529,7 +529,7 @@
             <param name="PairKnowledges">Int is <see cref="T:InWords.Data.Domains.UserWordPair" /> id</param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualitys})">
+        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualities})">
             <summary>
                 This method for updating <see cref="T:InWords.Data.Domains.UserWordPair" />'s learning period and time to learning
                 using PairKnowledges from IKnowledgeQualifier.

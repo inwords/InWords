@@ -18,12 +18,5 @@ namespace InWords.Data.DTO.Services
             else if (openingQuantity <= wordsCount * 2.5) score = 1;
             return score;
         }
-
-        public static int Score(Dictionary<string, int> wordPariDicrionary)
-        {
-            int wordsCount = wordPariDicrionary.Count * 2;
-            int openingQuantity = wordPariDicrionary.Sum(s => s.Value);
-            return Score(wordsCount, openingQuantity);
-        }
     }
 }
