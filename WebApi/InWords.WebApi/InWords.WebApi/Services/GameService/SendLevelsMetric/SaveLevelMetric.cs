@@ -1,14 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
-using InWords.Data.DTO.Extensions;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService.SendLevelsMetric
 {
-    public class SaveLevelMetric : ContextRequestHandler<LevelMetricQuery, LevelMetricQueryResult, InWordsDataContext>
+    public class SaveLevelMetric : ContextRequestHandler<List<LevelMetricQuery>, LevelMetricQueryResult, InWordsDataContext>
     {
         public SaveLevelMetric(InWordsDataContext context) : base(context)
         {
