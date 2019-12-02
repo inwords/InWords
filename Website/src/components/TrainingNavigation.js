@@ -4,7 +4,7 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import InternalNavigation from 'src/components/InternalNavigation';
 
-const linkTexts = ['Курсы', 'Тренировки', 'Уровни', 'Уровень'];
+const linkTexts = ['Темы', 'Тренировки', 'Уровни', 'Уровень'];
 
 function TrainingNavigation() {
   const { categoryId, trainingId, levelId } = useParams();

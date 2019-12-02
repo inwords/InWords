@@ -41,12 +41,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
           variant="outlined"
           fullWidth
         />
-        <EntrySubmitButton
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-        >
+        <EntrySubmitButton type="submit" primary large fullWidth>
           Войти
         </EntrySubmitButton>
         <EntryLinksContainer>

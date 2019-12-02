@@ -36,7 +36,7 @@ const routes = [
     nestedRoutes: [
       {
         to: '/training/main',
-        text: 'Курсы'
+        text: 'Темы'
       },
       {
         to: '/training/history',

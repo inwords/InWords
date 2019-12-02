@@ -6,7 +6,7 @@ import Modal from 'src/components/Modal';
 import Paper from 'src/components/Paper';
 
 const transitionDuration = {
-  enter: 225,
+  enter: 0,
   exit: 150
 };
 
@@ -22,23 +22,11 @@ const DialogContainer = styled('div', {
   transition-duration: ${props =>
     transitionDuration[props.open ? 'enter' : 'exit']}ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-
-  ${props =>
-    props.open &&
-    `@keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-    animation: fadeIn ${transitionDuration.enter}ms cubic-bezier(0.4, 0, 0.2, 1);
-  `}
 `;
 
 const DialogPaper = styled(Paper)`
   display: flex;
+  min-width: 400px;
   max-width: 600px;
   max-height: calc(100% - 64px);
   flex-direction: column;

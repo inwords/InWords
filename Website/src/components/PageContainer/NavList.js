@@ -22,10 +22,6 @@ const NavLinkBase = styled(ListItemButtonBase)`
   &.active {
     color: ${props => props.theme.palette.primary.main};
   }
-
-  &.active {
-    font-weight: 500;
-  }
 `;
 
 const NestedNavList = styled(List)`
@@ -34,12 +30,13 @@ const NestedNavList = styled(List)`
 
 const NavLink = styled(NavLinkBase)`
   padding: 10px 24px;
-  ${props => props.theme.typography.body1};
+  font-size: ${props => props.theme.typography.body1.fontSize};
+  font-weight: 500;
 `;
 
 const NestedNavLink = styled(NavLinkBase)`
   padding: 4px 24px 4px 40px;
-  ${props => props.theme.typography.body2};
+  font-size: ${props => props.theme.typography.body2.fontSize};
 
   &.active::before {
     content: '';

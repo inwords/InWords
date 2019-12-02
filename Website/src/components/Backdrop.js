@@ -13,24 +13,10 @@ const Backdrop = styled('div', {
   z-index: -1;
   opacity: ${props => (props.open ? 1 : 0)};
   overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.4);
   transition-property: opacity;
   transition-duration: ${props => props.transitionDuration || 1}ms;
   transition-timing-function: linear;
-
-  ${props =>
-    props.preAnimated &&
-    props.open &&
-    `@keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-    animation: fadeIn ${props.transitionDuration}ms cubic-bezier(0.4, 0, 0.2, 1);
-  `}
 `;
 
 Backdrop.propTypes = {

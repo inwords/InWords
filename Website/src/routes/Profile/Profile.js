@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import useDialog from 'src/hooks/useDialog';
 import LineButton from 'src/components/LineButton';
+import EmailIcon from '@material-ui/icons/Email';
 import AvatarEditDialog from './AvatarEditDialog';
 import NicknameEditDialog from './NicknameEditDialog';
 import EmailEditDialog from './EmailEditDialog';
@@ -46,18 +47,34 @@ const SecondaryProfileInfo = styled.div`
 const PersonalInfoContainer = styled.div`
   display: flex;
   margin: 12px 0;
+`;
 
-  ${props => props.theme.breakpoints.down('xs')} {
-    flex-direction: column;
-  }
+const PersonalInfoIconContainer = styled.div`
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
 `;
 
 const PersonalInfo = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+`;
+
+const PersonalInfoValue = styled.div`
   width: 50%;
+
+  ${props => props.theme.breakpoints.down('xs')} {
+    width: 100%;
+  }
 `;
 
 const PersonalEditLinks = styled.div`
   width: 40%;
+
+  ${props => props.theme.breakpoints.down('xs')} {
+    width: 100%;
+  }
 `;
 
 const PersonalInfoText = styled.span`
@@ -113,14 +130,19 @@ function Profile({ avatarPath, nickname, editingAvailable, email }) {
         <LineButton onClick={handleOpenNickname}>Изменить никнейм</LineButton>
         <SecondaryProfileInfo>
           <PersonalInfoContainer>
+            <PersonalInfoIconContainer>
+              <EmailIcon />
+            </PersonalInfoIconContainer>
             <PersonalInfo>
-              <PersonalInfoText>{email}</PersonalInfoText>
+              <PersonalInfoValue>
+                <PersonalInfoText>{email}</PersonalInfoText>
+              </PersonalInfoValue>
+              <PersonalEditLinks>
+                <LineButton onClick={handleOpenEmail}>
+                  Изменить электронный адрес
+                </LineButton>
+              </PersonalEditLinks>
             </PersonalInfo>
-            <PersonalEditLinks>
-              <LineButton onClick={handleOpenEmail}>
-                Изменить электронный адрес
-              </LineButton>
-            </PersonalEditLinks>
           </PersonalInfoContainer>
         </SecondaryProfileInfo>
       </ProfilePersonalSection>

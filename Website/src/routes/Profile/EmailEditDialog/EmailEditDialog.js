@@ -5,8 +5,9 @@ import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogContentText from 'src/components/DialogContentText';
 import DialogActions from 'src/components/DialogActions';
+import DialogAction from 'src/components/DialogAction';
+import Button from 'src/components/Button';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 function EmailEditDialog({
   open,
@@ -48,10 +49,14 @@ function EmailEditDialog({
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Отмена</Button>
-        <Button type="submit" form="email-edit-form" color="primary">
-          Сохранить
-        </Button>
+        <DialogAction>
+          <Button type="submit" form="email-edit-form" primary>
+            Сохранить
+          </Button>
+        </DialogAction>
+        <DialogAction>
+          <Button onClick={handleClose}>Отмена</Button>
+        </DialogAction>
       </DialogActions>
     </Dialog>
   );

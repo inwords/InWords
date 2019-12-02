@@ -45,7 +45,6 @@ function Modal({
       {...rest}
     >
       <Backdrop
-        preAnimated={!keepMounted}
         open={open}
         onClick={handleBackdropClick}
         transitionDuration={transitionDuration}

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Button from '@material-ui/core/Button';
+import Button from 'src/components/Button';
 
 const EntrySubmitButton = styled(Button)`
   margin-top: 16px;

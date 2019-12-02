@@ -4,10 +4,8 @@ import Dialog from 'src/components/Dialog';
 import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogActions from 'src/components/DialogActions';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import styled from '@emotion/styled-base';
-import ButtonBase from 'src/components/ButtonBase';
+import DialogAction from 'src/components/DialogAction';
+import Button from 'src/components/Button';
 
 const AvatarEditDialog = React.forwardRef(function AvatarEditDialog(
   { open, handleClose, handleSubmit },
@@ -34,10 +32,14 @@ const AvatarEditDialog = React.forwardRef(function AvatarEditDialog(
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Отмена</Button>
-        <Button type="submit" form="avatar-edit-form" color="primary">
-          Сохранить
-        </Button>
+        <DialogAction>
+          <Button type="submit" form="avatar-edit-form" primary>
+            Сохранить
+          </Button>
+        </DialogAction>
+        <DialogAction>
+          <Button onClick={handleClose}>Отмена</Button>
+        </DialogAction>
       </DialogActions>
     </Dialog>
   );
