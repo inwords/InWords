@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace InWords.Data.DTO.Services
 {
+    [Obsolete]
     public static class CardGame
     {
         public static int Score(int wordsCount, int openingQuantity)

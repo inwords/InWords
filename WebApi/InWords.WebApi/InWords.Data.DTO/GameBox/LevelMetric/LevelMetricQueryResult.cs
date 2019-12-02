@@ -1,5 +1,8 @@
-﻿namespace InWords.Data.DTO.GameBox.LevelMetric
+﻿using System;
+
+namespace InWords.Data.DTO.GameBox.LevelMetric
 {
+    [Obsolete]
     public class LevelMetricQueryResult
     {
         public LevelMetricQueryResult(int levelId, int score)

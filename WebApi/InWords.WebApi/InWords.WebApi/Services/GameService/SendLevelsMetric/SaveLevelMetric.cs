@@ -1,25 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
 using InWords.Data.DTO.GameBox.LevelMetric;
+using InWords.Data.DTO.Games.Levels;
 using InWords.WebApi.Services.Abstractions;
 
 namespace InWords.WebApi.Services.GameService.SendLevelsMetric
 {
-    public class SaveLevelMetric : ContextRequestHandler<List<LevelMetricQuery>, LevelMetricQueryResult, InWordsDataContext>
+    public class SaveLevelMetric : ContextRequestHandler<ClassicCardLevelMetricQuery, ClassicCardLevelMetricQueryResult, InWordsDataContext>
     {
         public SaveLevelMetric(InWordsDataContext context) : base(context)
         {
 
         }
 
-        public override Task<LevelMetricQueryResult> Handle(LevelMetricQuery request, CancellationToken cancellationToken = default)
+        public override Task<ClassicCardLevelMetricQueryResult> Handle(ClassicCardLevelMetricQuery request, CancellationToken cancellationToken = default)
         {
-            #warning continue here
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
             // calculate stars & update knowledge about words
             
+            // metric to score
+            Dictionary<int, int> levelsScores = request.Metrics.ToDictionary(m => m.GameLevelId, m => m.Score());
+
+            // metric to knowledge
+
 
             // select metric when level exist
             var userLevels = Context.UserGameLevels.Where(g => g.UserId.Equals(request.UserId));
