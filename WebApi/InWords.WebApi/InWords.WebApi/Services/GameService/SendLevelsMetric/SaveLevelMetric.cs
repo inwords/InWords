@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Enums;
+using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.DTO.Games.Levels;
 using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Services.UserWordPairService;
 using InWords.WebApi.Services.UserWordPairService.Models;
 using Microsoft.EntityFrameworkCore;
 using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.Models.KnowledgeLicenseCalculator;

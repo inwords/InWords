@@ -4,7 +4,6 @@ using InWords.Data.Domains;
 using InWords.WebApi.Extensions.InWordsDataContext;
 using InWords.WebApi.Services.UserWordPairService.Models;
 using InWords.WebApi.Services.UserWordPairService.Requests;
-using InWords.WebApi.Services.UserWordPairService.Requests.Abstractions;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
 
 namespace InWords.WebApi.Services.UserWordPairService.Extension
