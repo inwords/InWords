@@ -4,7 +4,9 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using InWords.Common.Extensions;
 using InWords.Data;
+using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Enums;
 using InWords.Data.DTO.Games.Levels;
@@ -33,13 +35,33 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
 
             // calculate stars
             Dictionary<int, int> levelsScores = metrics.ToDictionary(m => m.GameLevelId, m => m.Score());
+            // select scores
             ImmutableArray<ClassicCardLevelResult> scores = levelsScores.Select(d => new ClassicCardLevelResult(d.Key, d.Value)).ToImmutableArray();
 
             await HandleNewHistoryGamesAsync(request, cancellationToken).ConfigureAwait(false);
 
             // TODO Handle Existing UserGameLevel
+            var allGameIds = metrics.Select(d => d.GameLevelId).ToList();
+            var currentUserContext = Context.UserGameLevels.Where(d => d.UserId.Equals(request.UserId));
+            var existingUserGameLevels = currentUserContext.Where(x => allGameIds.Any(d => d.Equals(x.GameLevelId)));
             // TODO Create Nonexistent UserGameLevel
-            // TODO Update Scores
+            var nonexistent = allGameIds.Except(existingUserGameLevels.Select(d => d.GameLevelId));
+            var nonexistentUserGameLevels = nonexistent.Select(n => new UserGameLevel()
+            {
+                UserId = request.UserId,
+                GameLevelId = n,
+                UserStars = levelsScores[n]
+            });
+            foreach (UserGameLevel level in existingUserGameLevels)
+            {
+                if (level.UserStars < levelsScores[level.GameLevelId])
+                {
+                    level.UserStars = levelsScores[level.GameLevelId];
+                }
+            }
+            Context.UserGameLevels.AddRange(nonexistentUserGameLevels);
+            await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            // TODO Try async after async
             UpdateUserWordPairKnowledgeInfo(metrics);
             await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             return new ClassicCardLevelMetricQueryResult(scores);
