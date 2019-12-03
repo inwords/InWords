@@ -50,7 +50,7 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
         {
             var customLevel = new CustomLevelMetricQuery(request);
 
-            return new CustomLevelMetricRequest(Context).Handle(customLevel, cancellationToken);
+            return new CreateHistoryLevelsRequest(Context).Handle(customLevel, cancellationToken);
         }
 
         // TODO To commands
