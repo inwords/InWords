@@ -90,7 +90,7 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
                 foreach (var historyLevel in historyLevelsList)
                 {
                     var gameLevel = new GameLevel { GameBoxId = historyGame.CreationId };
-                    gameLevelMetric.Add(gameLevel, historyLevel);
+                    //gameLevelMetric.Add(gameLevel, historyLevel);
                 }
 
                 Context.GameLevels.AddRange(gameLevelMetric.Keys);

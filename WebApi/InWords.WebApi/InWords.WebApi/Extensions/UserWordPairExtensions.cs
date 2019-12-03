@@ -2,7 +2,6 @@
 using System.Linq;
 using InWords.Data.Domains;
 using InWords.Data.DTO;
-using Microsoft.EntityFrameworkCore;
 
 namespace InWords.WebApi.Extensions
 {
@@ -36,7 +35,7 @@ namespace InWords.WebApi.Extensions
             return addedWord;
         }
 
-        public static IQueryable<UserWordPair> WereAny(this DbSet<UserWordPair> userWordPairs, IEnumerable<int> allUsersWordPairInRequest)
+        public static IQueryable<UserWordPair> WhereAny(this IQueryable<UserWordPair> userWordPairs, IEnumerable<int> allUsersWordPairInRequest)
         {
             return userWordPairs.Where(d => allUsersWordPairInRequest.Any(m => m.Equals(d.UserWordPairId)));
         }

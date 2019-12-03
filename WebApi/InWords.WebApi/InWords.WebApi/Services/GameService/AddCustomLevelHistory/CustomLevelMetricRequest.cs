@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Games.Levels;
 using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Extensions
+using InWords.WebApi.Extensions;
 
 namespace InWords.WebApi.Services.GameService.AddCustomLevelHistory
 {
@@ -28,7 +29,7 @@ namespace InWords.WebApi.Services.GameService.AddCustomLevelHistory
             if (metricList.Count <= 0) return new CustomLevelMetricQuery();
             // if games count more than zero
             var allUsersWordPairInRequest = metricList.Select(d => d.WordPairIdOpenCounts.Count).Distinct();
-            var userWordPairsToWordPairs = Context.UserWordPairs.WereAny(allUsersWordPairInRequest)
+            var userWordPairsToWordPairs = Context.UserWordPairs.WhereAny(allUsersWordPairInRequest)
                 .ToDictionary(d => d.UserWordPairId, d => d.WordPairId);
 
 
@@ -44,7 +45,8 @@ namespace InWords.WebApi.Services.GameService.AddCustomLevelHistory
 
             // return filled gameIds in metric
 
-            return base.Handle(request, cancellationToken);
+            throw new NotImplementedException();
+            //base.Handle(request, cancellationToken);
         }
 
         
