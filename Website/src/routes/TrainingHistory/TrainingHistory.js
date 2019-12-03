@@ -17,7 +17,7 @@ function TrainingHistory({ recentTrainings }) {
           <Card>
             <CardContent>
               <Typography gutterBottom variant="h5">
-                Уровень {level}
+                {level}
               </Typography>
               <div>
                 <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />

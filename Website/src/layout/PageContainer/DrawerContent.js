@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Divider from '@material-ui/core/Divider';
-import BrandLink from 'src/components/BrandLink';
+import BrandLink from 'src/layout/BrandLink';
 import NavList from './NavList';
 
 const DrawerBrandLink = styled(BrandLink)`

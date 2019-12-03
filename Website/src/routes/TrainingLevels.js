@@ -9,49 +9,40 @@ import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
 import withReceivedTrainingCategory from '../HOCs/withReceivedTrainingCategory';
-import TrainingNavContainer from 'src/components/TrainingNavContainer';
 
 function TrainingLevels({ trainingId, levelsInfo }) {
   const match = useRouteMatch();
 
   return (
-    <TrainingNavContainer>
-      <Grid container spacing={2}>
-        {levelsInfo.map(({ levelId, level, playerStars, isAvailable }) => (
-          <Grid key={levelId} item xs={6} sm={4} md={3}>
-            <Card>
-              <CardContent>
-                <Typography gutterBottom variant="h5">
-                  Уровень {level}
-                </Typography>
-                <div>
-                  <StarIcon
-                    color={playerStars > 0 ? 'secondary' : 'disabled'}
-                  />
-                  <StarIcon
-                    color={playerStars > 1 ? 'secondary' : 'disabled'}
-                  />
-                  <StarIcon
-                    color={playerStars > 2 ? 'secondary' : 'disabled'}
-                  />
-                </div>
-              </CardContent>
-              <CardActions>
-                <Button
-                  component={Link}
-                  to={`${match.url}/${levelId}`}
-                  size="small"
-                  color="primary"
-                  disabled={!isAvailable}
-                >
-                  Выбрать
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </TrainingNavContainer>
+    <Grid container spacing={2}>
+      {levelsInfo.map(({ levelId, level, playerStars, isAvailable }) => (
+        <Grid key={levelId} item xs={6} sm={4} md={3}>
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant="h5">
+                {level}
+              </Typography>
+              <div>
+                <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />
+                <StarIcon color={playerStars > 1 ? 'secondary' : 'disabled'} />
+                <StarIcon color={playerStars > 2 ? 'secondary' : 'disabled'} />
+              </div>
+            </CardContent>
+            <CardActions>
+              <Button
+                component={Link}
+                to={`${match.url}/${levelId}`}
+                size="small"
+                color="primary"
+                disabled={!isAvailable}
+              >
+                Выбрать
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
   );
 }
 

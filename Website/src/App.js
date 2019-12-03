@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux';
 import Container from 'src/components/Container';
 import PageProgress from 'src/components/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
-import SmartSnackbar from 'src/components/SmartSnackbar';
-import PageContainer from 'src/components/PageContainer';
-import ProfileMenuButton from 'src/components/ProfileMenuButton';
-import ErrorBoundary from 'src/components/ErrorBoundary';
+import SmartSnackbar from 'src/layout/SmartSnackbar';
+import PageContainer from 'src/layout/PageContainer';
+import ProfileMenuButton from 'src/layout/ProfileMenuButton';
+import ErrorBoundary from 'src/layout/ErrorBoundary';
 
 const SignIn = lazy(() => import('./routes/SignIn'));
 const SignUp = lazy(() => import('./routes/SignUp'));
@@ -17,6 +17,7 @@ const DictionaryMain = lazy(() => import('./routes/DictionaryMain'));
 const Dictionary = lazy(() => import('./routes/Dictionary'));
 const TrainingCategories = lazy(() => import('./routes/TrainingCategories'));
 const TrainingTypes = lazy(() => import('./routes/TrainingTypes'));
+const MainTrainingTypes = lazy(() => import('./routes/MainTrainingTypes'));
 const TrainingLevels = lazy(() => import('./routes/TrainingLevels'));
 const TrainingHistory = lazy(() => import('./routes/TrainingHistory'));
 const Game = lazy(() => import('./routes/Game'));
@@ -47,11 +48,15 @@ const routes = [
     nestedRoutes: [
       {
         to: '/training/main',
-        text: 'Темы'
+        text: 'Тренировки'
       },
       {
         to: '/training/history',
         text: 'История'
+      },
+      {
+        to: '/training/themes',
+        text: 'Темы'
       }
     ]
   }
@@ -109,7 +114,33 @@ function App() {
               <Route exact path="/training">
                 <Redirect to="/training/main" />
               </Route>
-              <Route path="/training/main">
+              <Route exact path="/training/main">
+                <Container maxWidth="lg">
+                  <MainTrainingTypes />
+                </Container>
+              </Route>
+              <Route
+                path="/training/main/:trainingId/:levelId"
+                render={({ match, ...rest }) => {
+                  switch (match.params.trainingId) {
+                    case '0':
+                      return (
+                        <Container maxWidth="lg">
+                          <Game match={match} {...rest} />
+                        </Container>
+                      );
+                    case '1':
+                      return (
+                        <Container maxWidth="lg">
+                          <SelectTranslateTraining match={match} {...rest} />
+                        </Container>
+                      );
+                    default:
+                      return null;
+                  }
+                }}
+              ></Route>
+              <Route exact path="/training/themes">
                 <Container maxWidth="lg">
                   <TrainingCategories />
                 </Container>
@@ -119,19 +150,19 @@ function App() {
                   <TrainingHistory />
                 </Container>
               </Route>
-              <Route exact path="/training/:categoryId">
+              <Route exact path="/training/themes/:categoryId">
                 <Container maxWidth="lg">
                   <TrainingTypes />
                 </Container>
               </Route>
-              <Route exact path="/training/:categoryId/:trainingId">
+              <Route exact path="/training/themes/:categoryId/:trainingId">
                 <Container maxWidth="lg">
                   <TrainingLevels />
                 </Container>
               </Route>
               <Route
                 exact
-                path="/training/:categoryId/:trainingId/:levelId"
+                path="/training/themes/:categoryId/:trainingId/:levelId"
                 render={({ match, ...rest }) => {
                   switch (match.params.trainingId) {
                     case '0':

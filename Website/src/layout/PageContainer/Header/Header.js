@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from 'src/components/IconButton';
-import BrandLink from 'src/components/BrandLink';
+import BrandLink from 'src/layout/BrandLink';
 import AppBar from 'src/components/AppBar';
 import MainMavList from './MainNavList';
 import Progress from './Progress';

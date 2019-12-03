@@ -33,12 +33,12 @@ const AvatarEditDialog = React.forwardRef(function AvatarEditDialog(
       </DialogContent>
       <DialogActions>
         <DialogAction>
+          <Button onClick={handleClose}>Отменить</Button>
+        </DialogAction>
+        <DialogAction>
           <Button type="submit" form="avatar-edit-form" primary>
             Сохранить
           </Button>
-        </DialogAction>
-        <DialogAction>
-          <Button onClick={handleClose}>Отмена</Button>
         </DialogAction>
       </DialogActions>
     </Dialog>

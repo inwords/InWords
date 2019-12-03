@@ -4,9 +4,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
-import EntryFormPaper from 'src/components/EntryFormPaper';
-import EntryLinksContainer from 'src/components/EntryLinksContainer';
-import EntrySubmitButton from 'src/components/EntrySubmitButton';
+import EntryFormPaper from 'src/layout/EntryFormPaper';
+import EntryLinksContainer from 'src/layout/EntryLinksContainer';
+import EntrySubmitButton from 'src/layout/EntrySubmitButton';
 
 function SignIn({ inputs, handleChange, handleSubmit }) {
   return (

@@ -4,9 +4,8 @@ import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
 import withReceivedGameLevel from 'src/HOCs/withReceivedGameLevel';
-import TrainingNavContainer from 'src/components/TrainingNavContainer';
 import Game from './Game';
-import TrainingResult from 'src/components/TrainingResult';
+import TrainingResult from 'src/layout/TrainingResult';
 
 function GameContainer({ levelId, wordTranslations }) {
   const [wordPairs, setWordPairs] = useState([]);
@@ -134,21 +133,17 @@ function GameContainer({ levelId, wordTranslations }) {
     setScore(null);
   };
 
-  return (
-    <TrainingNavContainer>
-      {!isResultReady ? (
-        <Game
-          wordPairs={wordPairs}
-          selectedWordPairs={selectedWordPairs}
-          completedPairIdsMap={completedPairIdsMap}
-          selectedCompletedPairId={selectedCompletedPairId}
-          isGameCompleted={isGameCompleted}
-          handleClick={handleClick}
-        />
-      ) : (
-        <TrainingResult score={score} handleReplay={handleReplay} />
-      )}
-    </TrainingNavContainer>
+  return !isResultReady ? (
+    <Game
+      wordPairs={wordPairs}
+      selectedWordPairs={selectedWordPairs}
+      completedPairIdsMap={completedPairIdsMap}
+      selectedCompletedPairId={selectedCompletedPairId}
+      isGameCompleted={isGameCompleted}
+      handleClick={handleClick}
+    />
+  ) : (
+    <TrainingResult score={score} handleReplay={handleReplay} />
   );
 }
 

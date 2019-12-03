@@ -45,7 +45,7 @@ function DictionaryToolbar({
         <Fragment>
           <EntryTitleBlock>
             <Typography as="h1" variant="h6">
-              Словарь
+              Мой словарь
             </Typography>
           </EntryTitleBlock>
           <Search value={inputs.pattern} onChange={handleChange} />

@@ -46,12 +46,12 @@ function NicknameEditDialog({
       </DialogContent>
       <DialogActions>
         <DialogAction>
+          <Button onClick={handleClose}>Отменить</Button>
+        </DialogAction>
+        <DialogAction>
           <Button type="submit" form="nickname-edit-form" primary>
             Сохранить
           </Button>
-        </DialogAction>
-        <DialogAction>
-          <Button onClick={handleClose}>Отмена</Button>
         </DialogAction>
       </DialogActions>
     </Dialog>

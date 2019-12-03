@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import FormPaper from 'src/components/FormPaper';
+import FormPaper from 'src/layout/FormPaper';
 
 const EntryFormPaper = styled(FormPaper)`
   margin-top: 32px;

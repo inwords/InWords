@@ -6,6 +6,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const BreadcrumbsContainer = styled.div`
   padding: 8px 16px;
+  margin-bottom: 16px;
   background-color: ${props => props.theme.palette.background.paper};
 `;
 
