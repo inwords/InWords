@@ -2,24 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
-using InWords.Data.Creations;
-using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Enums;
-using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.DTO.Games.Levels;
-using InWords.Data.Enums;
 using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Services.UserWordPairService;
+using InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory;
 using InWords.WebApi.Services.UserWordPairService.Models;
 using Microsoft.EntityFrameworkCore;
 using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.Models.KnowledgeLicenseCalculator;
 
-namespace InWords.WebApi.Services.GameService.SendLevelsMetric
+namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
 {
     public class SaveLevelMetric : ContextRequestHandler<ClassicCardLevelMetricQuery, ClassicCardLevelMetricQueryResult, InWordsDataContext>
     {
@@ -40,81 +35,25 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
             Dictionary<int, int> levelsScores = metrics.ToDictionary(m => m.GameLevelId, m => m.Score());
             ImmutableArray<ClassicCardLevelResult> scores = levelsScores.Select(d => new ClassicCardLevelResult(d.Key, d.Value)).ToImmutableArray();
 
-            // Handle history games=========
-            // select history levels where GameLevelId is 0;
-            await HandleNewHistoryGames(request, cancellationToken).ConfigureAwait(false);
-            //==============
+            await HandleNewHistoryGamesAsync(request, cancellationToken).ConfigureAwait(false);
 
-            // Handle Existing UserGameLevel
-            // TODO
-            // Create Nonexistent UserGameLevel
-            // TODO 
-
+            // TODO Handle Existing UserGameLevel
+            // TODO Create Nonexistent UserGameLevel
+            // TODO Update Scores
             UpdateUserWordPairKnowledgeInfo(metrics);
             await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             return new ClassicCardLevelMetricQueryResult(scores);
 
         }
 
-        private async Task HandleNewHistoryGames(ClassicCardLevelMetricQuery request, CancellationToken cancellationToken)
+        private Task<CustomLevelMetricQuery> HandleNewHistoryGamesAsync(CardLevelMetricQuery request, CancellationToken cancellationToken)
         {
-            var metrics = request.Metrics;
-            var historyLevels = metrics.Where(g => g.GameLevelId.Equals(0)).Select(u => u.WordPairIdOpenCounts.Values);
-            var historyLevelsList = historyLevels.ToList();
-            if (historyLevelsList.Count > 0)
-            {
-                //// Find history Game
-                //Creation historyGame = (from gameTags in Context.GameTags
-                //                        where gameTags.Tags.Equals(GameTags.CustomLevelsHistory)
-                //                        join game in Context.Creations on gameTags.GameId equals game.CreationId
-                //                        select game).SingleOrDefault();
-                //// Create if not exist
-                //if (historyGame is null)
-                //{
-                //    historyGame = new Creation { CreatorId = request.UserId };
-                //    Context.Creations.Add(historyGame);
-                //    await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                //    GameTag tag = new GameTag
-                //    {
-                //        Tags = GameTags.CustomLevelsHistory,
-                //        UserId = request.UserId,
-                //        GameId = historyGame.CreationId
-                //    };
-                //    Context.GameTags.Add(tag);
-                //    await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                //}
+            var customLevel = new CustomLevelMetricQuery(request);
 
-                // add words to game 
-                var gameLevelMetric =
-                    new Dictionary<GameLevel, ClassicCardLevelMetric>(historyLevelsList.Count);
-                foreach (var historyLevel in historyLevelsList)
-                {
-                    var gameLevel = new GameLevel { GameBoxId = historyGame.CreationId };
-                    //gameLevelMetric.Add(gameLevel, historyLevel);
-                }
-
-                Context.GameLevels.AddRange(gameLevelMetric.Keys);
-                // save games
-                await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-
-                // save levels
-                foreach (var historyLevel in gameLevelMetric.Keys)
-                {
-                    HashSet<GameLevelWord> wordsInMetric = gameLevelMetric[historyLevel].WordPairIdOpenCounts.Values
-                        .Select(d => new GameLevelWord()
-                        { GameLevelId = historyLevel.GameLevelId, WordPairId = d })
-                        .ToHashSet();
-
-                    historyLevel.GameLevelWords.UnionWith(wordsInMetric);
-                }
-
-                //TODO save UserLevelScore
-                await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-
-                //UserGameLevel userGameLevel = new UserGameLevel(request.UserId,);
-            }
+            return new CustomLevelMetricRequest(Context).Handle(customLevel, cancellationToken);
         }
 
+        // TODO To commands
         private void UpdateUserWordPairKnowledgeInfo(ImmutableArray<ClassicCardLevelMetric> metrics)
         {
             IEnumerable<ImmutableDictionary<int, KnowledgeQualities>> userPairsQuality = metrics.Select(m => m.Qualify());

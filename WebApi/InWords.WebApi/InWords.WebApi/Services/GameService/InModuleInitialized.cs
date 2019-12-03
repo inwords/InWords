@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
-using InWords.WebApi.Services.GameService.GetGameLevels;
+using InWords.WebApi.Services.GameService.Requests.GetGameLevels;
 
 
 namespace InWords.WebApi.Services.GameService

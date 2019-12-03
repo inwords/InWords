@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.DTO.GameBox;
+﻿using InWords.Data.DTO.GameBox;
 using MediatR;
 
-namespace InWords.WebApi.Services.GameService.GetGameLevels
+namespace InWords.WebApi.Services.GameService.Requests.GetGameLevels
 {
     public class GetLevelsByGameIdQuery : IRequest<GameObject>
     {

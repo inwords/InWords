@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
-using InWords.Data.Domains;
 using InWords.Data.DTO.Games.Levels;
-using InWords.Data.Enums;
-using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Extensions;
-using InWords.WebApi.Services.GameService.Requests;
+using InWords.WebApi.Services.Abstractions;
 
-namespace InWords.WebApi.Services.GameService.AddCustomLevelHistory
+namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
 {
     public class CustomLevelMetricRequest : ContextRequestHandler<CustomLevelMetricQuery, CustomLevelMetricQuery, InWordsDataContext>
     {

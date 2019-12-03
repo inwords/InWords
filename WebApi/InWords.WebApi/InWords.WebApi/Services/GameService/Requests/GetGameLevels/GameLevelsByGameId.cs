@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO.GameBox;
 using InWords.WebApi.Services.Abstractions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace InWords.WebApi.Services.GameService.GetGameLevels
+namespace InWords.WebApi.Services.GameService.Requests.GetGameLevels
 {
     public class GameLevelsByGameId : ContextRequestHandler<GetLevelsByGameIdQuery, GameObject, InWordsDataContext>
     {
