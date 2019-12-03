@@ -63,26 +63,26 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
             var historyLevelsList = historyLevels.ToList();
             if (historyLevelsList.Count > 0)
             {
-                // Find history Game
-                Creation historyGame = (from gameTags in Context.GameTags
-                                        where gameTags.Tags.Equals(GameTags.CustomLevelsHistory)
-                                        join game in Context.Creations on gameTags.GameId equals game.CreationId
-                                        select game).SingleOrDefault();
-                // Create if not exist
-                if (historyGame is null)
-                {
-                    historyGame = new Creation { CreatorId = request.UserId };
-                    Context.Creations.Add(historyGame);
-                    await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                    GameTag tag = new GameTag
-                    {
-                        Tags = GameTags.CustomLevelsHistory,
-                        UserId = request.UserId,
-                        GameId = historyGame.CreationId
-                    };
-                    Context.GameTags.Add(tag);
-                    await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                }
+                //// Find history Game
+                //Creation historyGame = (from gameTags in Context.GameTags
+                //                        where gameTags.Tags.Equals(GameTags.CustomLevelsHistory)
+                //                        join game in Context.Creations on gameTags.GameId equals game.CreationId
+                //                        select game).SingleOrDefault();
+                //// Create if not exist
+                //if (historyGame is null)
+                //{
+                //    historyGame = new Creation { CreatorId = request.UserId };
+                //    Context.Creations.Add(historyGame);
+                //    await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                //    GameTag tag = new GameTag
+                //    {
+                //        Tags = GameTags.CustomLevelsHistory,
+                //        UserId = request.UserId,
+                //        GameId = historyGame.CreationId
+                //    };
+                //    Context.GameTags.Add(tag);
+                //    await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                //}
 
                 // add words to game 
                 var gameLevelMetric =
