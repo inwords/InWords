@@ -8,13 +8,19 @@ namespace InWords.Data.DTO.Games.Levels
 {
     public class ClassicCardLevelMetric : ILevelScore, IKnowledgeQualifier
     {
+        /// <summary>
+        /// Represent a shared game level id, id equals zero if it, history brand new levels
+        /// </summary>
         public int GameLevelId { get; set; }
-        public Dictionary<int, int> UserWordPairIdOpenCounts { get; set; }
+        /// <summary>
+        /// Word Pair Id means users need to store theirs global word pair id
+        /// </summary>
+        public Dictionary<int, int> WordPairIdOpenCounts { get; set; }
         public int Score()
         {
             var score = 0;
-            int wordsCount = UserWordPairIdOpenCounts.Count * 2;
-            int openingQuantity = UserWordPairIdOpenCounts.Sum(s => s.Value);
+            int wordsCount = WordPairIdOpenCounts.Count * 2;
+            int openingQuantity = WordPairIdOpenCounts.Sum(s => s.Value);
             int bestOpeningsCount = wordsCount * 2 - 2;
             if (openingQuantity <= bestOpeningsCount)
                 score = 3;
@@ -27,7 +33,7 @@ namespace InWords.Data.DTO.Games.Levels
         public ImmutableDictionary<int, KnowledgeQualities> Qualify()
         {
             var qualifyPairs = new Dictionary<int, KnowledgeQualities>();
-            foreach ((int key, int value) in UserWordPairIdOpenCounts)
+            foreach ((int key, int value) in WordPairIdOpenCounts)
                 qualifyPairs[key] = QualityOfPair(value);
 
             return qualifyPairs.ToImmutableDictionary();

@@ -42,9 +42,25 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
 
             // Handle history games=========
             // select history levels where GameLevelId is 0;
-            var historyLevels = metrics.Where(g => g.GameLevelId.Equals(0)).Select(u => u.UserWordPairIdOpenCounts.Values);
+            await HandleNewHistoryGames(request, cancellationToken).ConfigureAwait(false);
+            //==============
 
-            var historyLevelsList = metrics.ToList();
+            // Handle Existing UserGameLevel
+            // TODO
+            // Create Nonexistent UserGameLevel
+            // TODO 
+
+            UpdateUserWordPairKnowledgeInfo(metrics);
+            await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return new ClassicCardLevelMetricQueryResult(scores);
+
+        }
+
+        private async Task HandleNewHistoryGames(ClassicCardLevelMetricQuery request, CancellationToken cancellationToken)
+        {
+            var metrics = request.Metrics;
+            var historyLevels = metrics.Where(g => g.GameLevelId.Equals(0)).Select(u => u.WordPairIdOpenCounts.Values);
+            var historyLevelsList = historyLevels.ToList();
             if (historyLevelsList.Count > 0)
             {
                 // Find history Game
@@ -76,56 +92,27 @@ namespace InWords.WebApi.Services.GameService.SendLevelsMetric
                     var gameLevel = new GameLevel { GameBoxId = historyGame.CreationId };
                     gameLevelMetric.Add(gameLevel, historyLevel);
                 }
+
                 Context.GameLevels.AddRange(gameLevelMetric.Keys);
                 // save games
                 await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                
+
                 // save levels
                 foreach (var historyLevel in gameLevelMetric.Keys)
                 {
-                    
-                    HashSet<GameLevelWord> wordsInMetric = gameLevelMetric[historyLevel].UserWordPairIdOpenCounts.Values.Select(d => new GameLevelWord()
-                    { GameLevelId = historyLevel.GameLevelId, WordPairId = d })
+                    HashSet<GameLevelWord> wordsInMetric = gameLevelMetric[historyLevel].WordPairIdOpenCounts.Values
+                        .Select(d => new GameLevelWord()
+                        { GameLevelId = historyLevel.GameLevelId, WordPairId = d })
                         .ToHashSet();
 
                     historyLevel.GameLevelWords.UnionWith(wordsInMetric);
                 }
+
                 //TODO save UserLevelScore
                 await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                #warning continue here
 
                 //UserGameLevel userGameLevel = new UserGameLevel(request.UserId,);
             }
-            //==============
-
-            // Handle Existing UserGameLevel
-            // TODO
-            // Create Nonexistent UserGameLevel
-            // TODO 
-        
-            //// select metric when level exist
-            //var userLevels = Context.UserGameLevels.Where(g => g.UserId.Equals(request.UserId));
-
-            //// select existed level and default if empty
-            //var mapExistedLevel = (from gameLevel in Context.GameLevels
-            //                       join userGameLevel in userLevels on gameLevel.GameLevelId equals userGameLevel.GameLevelId into ugl
-            //                       from levels in ugl.DefaultIfEmpty()
-            //                       select levels).ToHashSet();
-
-
-            ////IEnumerable<UserGameLevel> scoreGames = mapExistedLevel.Except(historyGames);
-            ////foreach (var scoreGame in scoreGames)
-            ////{
-            ////    if(scoreGame.UserStars>=request.)
-            ////}
-
-
-
-
-            UpdateUserWordPairKnowledgeInfo(metrics);
-            await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            return new ClassicCardLevelMetricQueryResult(scores);
-
         }
 
         private void UpdateUserWordPairKnowledgeInfo(ImmutableArray<ClassicCardLevelMetric> metrics)
