@@ -41,9 +41,10 @@ namespace InWords.WebApi.Services.GameService.AddCustomLevelHistory
             Creation historyGame = await GetUsersCustomGameAsync(request.UserId).ConfigureAwait(false);
 
             // add levels to game & save
-            Task<List<GameLevel>> levels = CreateLevels(historyGame.CreationId, historyLevelsCount);
+            List<GameLevel> levels = await CreateLevels(historyGame.CreationId, historyLevelsCount).ConfigureAwait(false);
             
             // add words to level
+
 
             // return filled gameIds in metric
 
@@ -53,7 +54,7 @@ namespace InWords.WebApi.Services.GameService.AddCustomLevelHistory
 
         private Task<Creation> GetUsersCustomGameAsync(int userId)
         {
-            return new GetHistoryGame(Context).Handle(userId);
+            return new GetHistoryGame(Context).HandleAsync(userId);
         }
 
         private async Task<List<GameLevel>> CreateLevels(int historyGame, int count)

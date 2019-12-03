@@ -14,24 +14,23 @@ namespace InWords.WebApi.Services.GameService.Requests
             this.context = context;
         }
 
-        public async Task<Creation> Handle(int userId)
+        public async Task<Creation> HandleAsync(int userId)
         {
             Creation historyGame = FindHistoryGame();
             // Create if not exist
-            if (historyGame is null)
+            if (!(historyGame is null)) return historyGame;
+            
+            historyGame = new Creation { CreatorId = userId };
+            context.Creations.Add(historyGame);
+            await context.SaveChangesAsync().ConfigureAwait(false);
+            var tag = new GameTag
             {
-                historyGame = new Creation { CreatorId = userId };
-                context.Creations.Add(historyGame);
-                await context.SaveChangesAsync().ConfigureAwait(false);
-                var tag = new GameTag
-                {
-                    Tags = GameTags.CustomLevelsHistory,
-                    UserId = userId,
-                    GameId = historyGame.CreationId
-                };
-                context.GameTags.Add(tag);
-                await context.SaveChangesAsync().ConfigureAwait(false);
-            }
+                Tags = GameTags.CustomLevelsHistory,
+                UserId = userId,
+                GameId = historyGame.CreationId
+            };
+            context.GameTags.Add(tag);
+            await context.SaveChangesAsync().ConfigureAwait(false);
 
             return historyGame;
         }
