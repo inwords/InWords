@@ -15,12 +15,10 @@
             </summary>
             <param name="env"></param>
         </member>
-        <member name="P:InWords.WebApi.AppStart.Startup.Configuration">
+        <member name="M:InWords.WebApi.AppStart.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
                 This is the service configuration
             </summary>
-        </member>
-        <member name="M:InWords.WebApi.AppStart.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
                 This method gets called by the runtime. Use this method to add services to the container.
             </summary>
@@ -40,7 +38,7 @@
             </summary>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQuery)">
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.CardGameScore)">
             <summary>
                 Use this to post score after game
             </summary>
@@ -55,6 +53,31 @@
                 Use to upload user results
             </summary>
             <returns>Quantity of stars and level id</returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1._1.DictionaryController.GetTraining">
+            <summary>
+                Get user dictionary words pairs to be repeated. Use when dictionary is not loaded or storage unavailable 
+            </summary>
+            <returns>Quantity of stars</returns>
+            <response code="200">Words to be repeated</response>
+            <response code="401">Unauthorized access</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1._1.DictionaryController.GetTrainingIds">
+            <summary>
+                Get user dictionary word pairs ids to be repeated. Use when dictionary is downloaded and resolve worlds on client
+            </summary>
+            <returns>Quantity of stars</returns>
+            <response code="200">Word pairs Ids to be repeated</response>
+            <response code="401">Unauthorized access</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1._1.ProfileSettings.UploadAvatar(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+                Use this to update user avatar
+            </summary>
+            <returns>Quantity of stars</returns>
+            <response code="200">Words to be repeated</response>
+            <response code="401">Unauthorized access</response>
+            <response code="417">File is zero length</response>
         </member>
         <member name="T:InWords.WebApi.Controllers.v1.AuthController">
             <inheritdoc />
@@ -158,14 +181,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.FilesController.Post(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
-            <summary>
-                Upload file to static storage
-            </summary>
-            <returns>list of users like nickname</returns>
-            <response code="200">OK</response>
-            <response code="401">Unauthorized</response>
         </member>
         <member name="T:InWords.WebApi.Controllers.v1.SyncController">
             <summary>
@@ -343,16 +358,80 @@
             <param name="uwp"></param>
             <returns></returns>
         </member>
+        <member name="T:InWords.WebApi.gRPC.Services.GreetReflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/greet.proto</summary>
+        </member>
+        <member name="P:InWords.WebApi.gRPC.Services.GreetReflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/greet.proto</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.HelloRequest">
+            <summary>
+            The request message containing the user's name.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.HelloRequest.NameFieldNumber">
+            <summary>Field number for the "name" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.HelloReply">
+            <summary>
+            The response message containing the greetings.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.HelloReply.MessageFieldNumber">
+            <summary>Field number for the "message" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.Greeter">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:InWords.WebApi.gRPC.Services.Greeter.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.Greeter.GreeterBase">
+            <summary>Base class for server-side implementations of Greeter</summary>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.Greeter.GreeterBase.SayHello(InWords.WebApi.gRPC.Services.HelloRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.Greeter.BindService(InWords.WebApi.gRPC.Services.Greeter.GreeterBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.Greeter.BindService(Grpc.Core.ServiceBinderBase,InWords.WebApi.gRPC.Services.Greeter.GreeterBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
         <member name="T:InWords.WebApi.Module.InModule">
             <summary>
                 This is to improve project infrastructure using reflection
-                and file segragation
+                and file segregation
             </summary>
         </member>
         <member name="M:InWords.WebApi.Module.InModule.ConfigureIoc(Autofac.ContainerBuilder)">
             <summary>
                 This is to segregate Ioc configuration layer from startup class
             </summary>
+        </member>
+        <member name="M:InWords.WebApi.Module.InModule.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                This is to provide service collection to configure
+            </summary>
+            <param name="services"></param>
+            <returns>Service collection</returns>
+        </member>
+        <member name="M:InWords.WebApi.Module.InModule.ConfigureApp(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+               This is to provide ApplicationBuilder to configure
+            </summary>
+            <param name="app"></param>
         </member>
         <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.#ctor(InWords.Data.Repositories.AccountRepository,InWords.Data.Repositories.UserRepository)">
             <summary>
