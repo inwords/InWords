@@ -41,8 +41,6 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="FluentFTP" Version="28.0.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.25.0" />
-    <PackageReference Include="ImageProcessor" Version="2.7.0.100" />
-    <PackageReference Include="ImageProcessor.Plugins.WebP" Version="1.2.0.100" />
     <PackageReference Include="MailKit" Version="2.4.1" />
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />

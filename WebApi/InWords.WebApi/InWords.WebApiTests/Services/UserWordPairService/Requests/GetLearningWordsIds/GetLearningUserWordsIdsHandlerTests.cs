@@ -29,7 +29,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService.Requests.GetLearningW
             context.SaveChanges();
 
             var words = new GetLearningUserWordsId(context);
-            var test = await words.Handle(new GetLearningUserWordsIdsQuery(userId)).ConfigureAwait(false);
+            var test = await words.Handle(new GetLearningUserWordsIdQuery(userId)).ConfigureAwait(false);
 
             Assert.Equal(3, test.Count());
         }

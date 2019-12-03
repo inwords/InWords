@@ -33,11 +33,8 @@ namespace InWords.WebApi.Services.UsersAvatars.FileUploadAvatar
 
                 string disposableWebP = image.CreateTempWebP();
 
-                // save to ftp
-                await using Stream tempFileStream = new FileStream(disposableWebP, FileMode.Open);
-
                 avatarUrl = await fileLoader
-                    .UploadAsync(tempFileStream, ProjectDirectories.Avatars, fileFormat: FILE_FORMAT)
+                    .UploadAsync(disposableWebP, ProjectDirectories.Avatars)
                     .ConfigureAwait(false);
             }
             
