@@ -29,7 +29,7 @@ namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
             int historyLevelsCount = metricList.Count;
             if (historyLevelsCount <= 0) return new CustomLevelMetricQuery();
             // if games count more than zero
-            var allUsersWordPairInRequest = metricList.Select(d => d.WordPairIdOpenCounts.Count).Distinct();
+            var allUsersWordPairInRequest = metricList.SelectMany(d => d.WordPairIdOpenCounts.Keys).Distinct();
             // load wordPairIds words from userWordPairIs 
             Dictionary<int, int> userWordPairsToWordPairs = Context.UserWordPairs.WhereAny(allUsersWordPairInRequest)
                 .ToDictionary(d => d.UserWordPairId, d => d.WordPairId);
@@ -66,29 +66,37 @@ namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
                 metrics[i].GameLevelId = levels[i].GameLevelId;
 
                 // translate words
-                List<int> translated = Translate(metrics, userWordPairsToWordPairs, i);
+                Translate(metrics[i], userWordPairsToWordPairs);
 
                 // Add Add level words
-                IEnumerable<GameLevelWord> gameLevelWords = translated.Select(t => new GameLevelWord()
-                {
-                    GameLevelId = levels[i].GameLevelId,
-                    WordPairId = t
-                });
+                IEnumerable<GameLevelWord> gameLevelWords = metrics[i]
+                    .WordPairIdOpenCounts
+                    .Select(t => new GameLevelWord()
+                    {
+                        GameLevelId = levels[i].GameLevelId,
+                        WordPairId = t.Key
+                    });
 
                 Context.GameLevelWords.AddRange(gameLevelWords);
             }
             return Context.SaveChangesAsync();
         }
 
-        private static List<int> Translate(List<ClassicCardLevelMetric> metrics,
-            Dictionary<int, int> userWordPairsToWordPairs,
-            int i)
+        private static void Translate(ClassicCardLevelMetric metric,
+            Dictionary<int, int> userWordPairsToWordPairs)
         {
-            IEnumerable<int> currentUserWordPairIds = metrics[i].WordPairIdOpenCounts.Select(d => d.Key);
-            List<int> userWordPairIds = currentUserWordPairIds.ToList();
-            var translated = new List<int>(userWordPairIds.Count);
-            translated.AddRange(userWordPairIds.Select(value => userWordPairsToWordPairs[value]));
-            return translated;
+
+            var translatedDictionary = new Dictionary<int, int>();
+
+            foreach (var wordPair in metric.WordPairIdOpenCounts)
+            {
+                var translatedKey = userWordPairsToWordPairs[wordPair.Key];
+                translatedDictionary.Add(translatedKey, wordPair.Value);
+            }
+
+            metric.WordPairIdOpenCounts = translatedDictionary;
+
+            IEnumerable<int> levelWordPairsId = metric.WordPairIdOpenCounts.Select(d => d.Key);
         }
 
         private async Task<List<GameLevel>> CreateLevelsAsync(int historyGame, int count)
