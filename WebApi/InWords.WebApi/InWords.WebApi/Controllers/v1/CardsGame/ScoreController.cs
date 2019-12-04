@@ -7,7 +7,7 @@ using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
-using InWords.WebApi.Services.GameService.GetGameLevels;
+using InWords.WebApi.Services.GameService.Requests.GetGameLevels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +47,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         {
             int authorizedId = User.GetUserId();
             // calculate score
-            LevelScore answer = gameScoreService.GetLevelScore(levelResult);
+            LevelMetricQueryResult answer = gameScoreService.GetLevelScore(levelResult);
 
             if (levelResult.LevelId < 0)
                 return Ok(answer);
@@ -76,7 +76,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         {
             int authorizedId = User.GetUserId();
 
-            IEnumerable<LevelScore> answers = levelResults.Select(lr => gameScoreService.GetLevelScore(lr));
+            IEnumerable<LevelMetricQueryResult> answers = levelResults.Select(lr => gameScoreService.GetLevelScore(lr));
 
             if (answers.Where(a => a.LevelId < 0).Count() > 0)
                 return Ok(answers);

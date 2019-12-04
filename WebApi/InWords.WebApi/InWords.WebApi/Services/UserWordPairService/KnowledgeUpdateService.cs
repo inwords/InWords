@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Domains;
@@ -10,15 +11,16 @@ using InWords.WebApi.Services.UserWordPairService.Models;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {
+    [Obsolete]
     public class KnowledgeUpdateService : IUserWordPairService
     {
-        private readonly KnowledgeLicenseManager knowledgeLicenseManager;
+        private readonly KnowledgeLicenseCalculator knowledgeLicenseCalculator;
         private readonly UserWordPairRepository userWordPairRepository;
 
         public KnowledgeUpdateService(UserWordPairRepository userWordPairRepository)
         {
             this.userWordPairRepository = userWordPairRepository;
-            knowledgeLicenseManager = new KnowledgeLicenseManager();
+            knowledgeLicenseCalculator = new KnowledgeLicenseCalculator();
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace InWords.WebApi.Services.UserWordPairService
                 KnowledgeLicense knowledgeLicense = userWordPair.GetLicense();
 
                 // update license by license and quality
-                knowledgeLicense = knowledgeLicenseManager.Update(knowledgeLicense, quality);
+                knowledgeLicense = knowledgeLicenseCalculator.Update(knowledgeLicense, quality);
 
                 // set license in pair strucure 
                 userWordPair.SetLicense(knowledgeLicense);

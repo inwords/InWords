@@ -1,23 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 
 namespace InWords.WebApi.Services.CardGame
 {
-    public class CardGameKnowledge : IKnowledgeQualifier
+    [Obsolete]
+    public sealed class  CardGameKnowledge : IKnowledgeQualifier
     {
-        private readonly CardGameScore cardGameScore;
+        private readonly LevelMetricQuery levelMetricQuery;
 
-        public CardGameKnowledge(CardGameScore cardGameScore)
+        public CardGameKnowledge(LevelMetricQuery levelMetricQuery)
         {
-            this.cardGameScore = cardGameScore;
+            this.levelMetricQuery = levelMetricQuery;
         }
 
         Dictionary<int, KnowledgeQualitys> IKnowledgeQualifier.Qualify()
         {
             var qualifyPairs = new Dictionary<int, KnowledgeQualitys>();
-            foreach ((int key, int value) in cardGameScore.WordPairIdOpenCounts)
+            foreach ((int key, int value) in levelMetricQuery.WordPairIdOpenCounts)
                 qualifyPairs[key] = QualityOfPair(value);
             return qualifyPairs;
         }

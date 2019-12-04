@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Creations;
@@ -14,6 +15,7 @@ namespace InWords.WebApi.Services.GameService
     ///     Service that contain CRUD for Game
     /// </summary>
     /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
+    [Obsolete]
     public class GameService
     {
         private readonly CreationRepository creationRepository;

@@ -45,6 +45,7 @@
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -59,7 +60,6 @@
     <ProjectReference Include="..\InWords.Common\InWords.Common.csproj" />
     <ProjectReference Include="..\InWords.Data.DTO\InWords.Data.DTO.csproj" />
     <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
-    <ProjectReference Include="..\InWords.Domain\InWords.Domain.csproj" />
     <ProjectReference Include="..\InWords.Service.Auth\InWords.Service.Auth.csproj" />
     <ProjectReference Include="..\InWords.Service.Encryption\InWords.Service.Encryption.csproj" />
   </ItemGroup>
@@ -68,6 +68,10 @@
     <None Update="AppData\CardsGames.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\GameService\Commands\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

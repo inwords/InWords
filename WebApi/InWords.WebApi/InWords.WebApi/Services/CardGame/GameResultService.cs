@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.DTO.Extentions;
+using InWords.Data.DTO.Extensions;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
@@ -25,26 +25,26 @@ namespace InWords.WebApi.Services.CardGame
         ///     This is to get score by level and update information of memorizing user word pairs
         /// </summary>
         /// <param name="userId"></param>
-        /// <param name="cardGameScore"></param>
+        /// <param name="levelMetricQuery"></param>
         /// <returns></returns>
-        public async Task<LevelScore> SetResultsAsync(int userId, CardGameScore cardGameScore)
+        public async Task<LevelMetricQueryResult> SetResultsAsync(int userId, LevelMetricQuery levelMetricQuery)
         {
             // set sore;
-            LevelScore levelScore = gameScoreService.GetLevelScore(cardGameScore.ToLevelResult());
+            LevelMetricQueryResult levelMetricQueryResult = gameScoreService.GetLevelScore(levelMetricQuery.ToLevelResult());
 
             // save score to storage
-            await gameScoreService.PostScoreAsync(userId, levelScore).ConfigureAwait(false);
+            await gameScoreService.PostScoreAsync(userId, levelMetricQueryResult).ConfigureAwait(false);
             // Calculate word metric;
-            IKnowledgeQualifier knowledgeQualifier = new CardGameKnowledge(cardGameScore);
+            IKnowledgeQualifier knowledgeQualifier = new CardGameKnowledge(levelMetricQuery);
             // update words pairs license in store
             await knowledgeUpdateService.UpdateKnowledge(userId, knowledgeQualifier).ConfigureAwait(false);
-            return levelScore;
+            return levelMetricQueryResult;
         }
 
-        public async Task<IEnumerable<LevelScore>> SetResultsAsync(int userId, params CardGameScore[] cardGameScores)
+        public async Task<IEnumerable<LevelMetricQueryResult>> SetResultsAsync(int userId, params LevelMetricQuery[] cardGameScores)
         {
             // set sore;
-            IEnumerable<LevelScore> levelScores =
+            IEnumerable<LevelMetricQueryResult> levelScores =
                 cardGameScores.Select(c => gameScoreService.GetLevelScore(c.ToLevelResult())).ToHashSet();
 
             // save score to storage

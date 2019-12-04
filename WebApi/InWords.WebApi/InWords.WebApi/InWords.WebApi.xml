@@ -38,26 +38,17 @@
             </summary>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.CustomLevelController.GetHistory">
-            <summary>
-                Use this to get last custom played games
-            </summary>
-            <deprecated>true</deprecated>
-            <returns>History of users custom levels</returns>
-            <response code="401">Unauthorized</response>
-            <response code="200">OK</response>
-        </member>
         <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.CardGameScore)">
             <summary>
                 Use this to post score after game
             </summary>
             <deprecated>true</deprecated>
-            <param name="cardGameScore"></param>
+            <param name="levelMetricQuery"></param>
             <returns>Quantity of stars</returns>
             <response code="200">OK, scored</response>
             <response code="400">Null on request</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.UploadScore(InWords.Data.DTO.GameBox.LevelMetric.CardGameScore[])">
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.UploadScore(InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQuery[])">
             <summary>
                 Use to upload user results
             </summary>
@@ -169,7 +160,7 @@
              <response code="200">Count of added words</response>
              <returns>Count of adding words</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
             <summary>
                 Use this to post score after game
             </summary>
@@ -177,11 +168,11 @@
             <param name="levelResult"></param>
             <returns>Quantity of stars</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelResult})">
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult})">
             <summary>
                 Use to upload user results
             </summary>
-            <param name="levelScores"></param>
+            <param name="levelMetricQueryResults"></param>
             <returns>Quantity of stars and level id</returns>
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.GetGame(System.Int32)">
@@ -480,36 +471,36 @@
             <param name="game"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetLevelScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetSaveLevelMetricQueryResult(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
             <summary>
                 This is to update user score on game level
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelScore)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult)">
             <summary>
                 This is to set level score to user level storage
             </summary>
             <param name="userId"></param>
-            <param name="levelScore"></param>
+            <param name="levelMetricQueryResult"></param>
             <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelScore})">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult})">
             <summary>
                 This is to push all score from cache storage
             </summary>
             <param name="userId"></param>
-            <param name="levelScores"></param>
+            <param name="levelMetricQueryResults"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.CardGameScore)">
+        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQuery)">
             <summary>
                 This is to get score by level and update information of memorizing user word pairs
             </summary>
             <param name="userId"></param>
-            <param name="cardGameScore"></param>
+            <param name="levelMetricQuery"></param>
             <returns></returns>
         </member>
         <member name="T:InWords.WebApi.Services.CreationService">
@@ -561,18 +552,18 @@
                 send it by <see cref="T:InWords.WebApi.Services.Email.EmailSenders.EmailTemplateSender" />
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetLevelScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetSaveLevelMetricQueryResult(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
             <summary>
                 This is to local compute score
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Creations.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelScore})">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Creations.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult})">
             <summary>
             </summary>
             <param name="levelsToUpdate">All levels that exist in database</param>
-            <param name="levelScores">All score that user send</param>
+            <param name="levelMetricQueryResults">All score that user send</param>
             <returns></returns>
         </member>
         <member name="T:InWords.WebApi.Services.GameService.GameService">
@@ -617,7 +608,7 @@
             <param name="PairKnowledges">Int is <see cref="T:InWords.Data.Domains.UserWordPair" /> id</param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualitys})">
+        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualities})">
             <summary>
                 This method for updating <see cref="T:InWords.Data.Domains.UserWordPair" />'s learning period and time to learning
                 using PairKnowledges from IKnowledgeQualifier.

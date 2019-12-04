@@ -34,5 +34,10 @@ namespace InWords.WebApi.Extensions
             addedWord.ServerId = uwp.UserWordPairId;
             return addedWord;
         }
+
+        public static IQueryable<UserWordPair> WhereAny(this IQueryable<UserWordPair> userWordPairs, IEnumerable<int> allUsersWordPairInRequest)
+        {
+            return userWordPairs.Where(d => allUsersWordPairInRequest.Any(m => m.Equals(d.UserWordPairId)));
+        }
     }
 }

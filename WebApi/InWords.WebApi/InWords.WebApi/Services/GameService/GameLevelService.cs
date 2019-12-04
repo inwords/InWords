@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Creations;
@@ -8,6 +9,7 @@ using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services.GameService
 {
+    [Obsolete]
     public class GameLevelService
     {
         private readonly GameLevelRepository gameLevelRepository;
@@ -40,13 +42,6 @@ namespace InWords.WebApi.Services.GameService
             // convert to level info
             return gameLevels.Select(GetLevelInfo);
         }
-
-        //public async Task<LevelInfo> GetLevel(int levelId)
-        //{
-        //    GameLevel level = await gameLevelRepository.FindById(levelId).ConfigureAwait(false);
-
-        //    return GetLevelInfo(level);
-        //}
 
         public LevelInfo GetLevelInfo(GameLevel level)
         {

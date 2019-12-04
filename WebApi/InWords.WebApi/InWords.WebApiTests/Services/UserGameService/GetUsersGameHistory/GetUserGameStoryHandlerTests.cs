@@ -2,6 +2,7 @@
 using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
+using InWords.Data.Enums;
 using InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId;
 using InWords.WebApi.Services.UserGameService.GetUsersGameHistory;
 using InWords.WebApiTests.Controllers.v1._0;
@@ -20,9 +21,11 @@ namespace InWords.WebApiTests.Services.UserGameService.GetUsersGameHistory
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
 
             var creation2 = new Creation { CreatorId = userId + 1 }; // != user 
-            var creation1 = new Creation { CreatorId = userId };
+            var creation1 = new Creation { CreatorId = userId, CreationId = 2 };
+
             context.Creations.Add(creation1);
             context.Creations.Add(creation2);
+            context.GameTags.Add(new GameTag() { Tags = GameTags.CustomLevelsHistory, GameId = 2, UserId = userId });
             creation1.GameLevels.Add(new GameLevel() { GameBox = creation1 });
             creation1.GameLevels.Add(new GameLevel() { GameBox = creation1 });
             creation2.GameLevels.Add(new GameLevel() { GameBox = creation2 });
