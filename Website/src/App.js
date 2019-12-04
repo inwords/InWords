@@ -9,21 +9,13 @@ import SmartSnackbar from 'src/layout/SmartSnackbar';
 import PageContainer from 'src/layout/PageContainer';
 import ProfileMenuButton from 'src/layout/ProfileMenuButton';
 import ErrorBoundary from 'src/layout/ErrorBoundary';
+import TrainingRouter from './TrainingRouter';
 
 const SignIn = lazy(() => import('./routes/SignIn'));
 const SignUp = lazy(() => import('./routes/SignUp'));
 const Profile = lazy(() => import('./routes/Profile'));
 const DictionaryMain = lazy(() => import('./routes/DictionaryMain'));
 const Dictionary = lazy(() => import('./routes/Dictionary'));
-const TrainingCategories = lazy(() => import('./routes/TrainingCategories'));
-const TrainingTypes = lazy(() => import('./routes/TrainingTypes'));
-const MainTrainingTypes = lazy(() => import('./routes/MainTrainingTypes'));
-const TrainingLevels = lazy(() => import('./routes/TrainingLevels'));
-const TrainingHistory = lazy(() => import('./routes/TrainingHistory'));
-const Game = lazy(() => import('./routes/Game'));
-const SelectTranslateTraining = lazy(() =>
-  import('./routes/SelectTranslateTraining')
-);
 
 const history = createBrowserHistory();
 
@@ -111,77 +103,9 @@ function App() {
                   <Dictionary />
                 </Container>
               </Route>
-              <Route exact path="/training">
-                <Redirect to="/training/main" />
+              <Route path="/training">
+                <TrainingRouter />
               </Route>
-              <Route exact path="/training/main">
-                <Container maxWidth="lg">
-                  <MainTrainingTypes />
-                </Container>
-              </Route>
-              <Route
-                path="/training/main/:trainingId/:levelId"
-                render={({ match, ...rest }) => {
-                  switch (match.params.trainingId) {
-                    case '0':
-                      return (
-                        <Container maxWidth="lg">
-                          <Game match={match} {...rest} />
-                        </Container>
-                      );
-                    case '1':
-                      return (
-                        <Container maxWidth="lg">
-                          <SelectTranslateTraining match={match} {...rest} />
-                        </Container>
-                      );
-                    default:
-                      return null;
-                  }
-                }}
-              ></Route>
-              <Route exact path="/training/themes">
-                <Container maxWidth="lg">
-                  <TrainingCategories />
-                </Container>
-              </Route>
-              <Route exact path="/training/history">
-                <Container maxWidth="lg">
-                  <TrainingHistory />
-                </Container>
-              </Route>
-              <Route exact path="/training/themes/:categoryId">
-                <Container maxWidth="lg">
-                  <TrainingTypes />
-                </Container>
-              </Route>
-              <Route exact path="/training/themes/:categoryId/:trainingId">
-                <Container maxWidth="lg">
-                  <TrainingLevels />
-                </Container>
-              </Route>
-              <Route
-                exact
-                path="/training/themes/:categoryId/:trainingId/:levelId"
-                render={({ match, ...rest }) => {
-                  switch (match.params.trainingId) {
-                    case '0':
-                      return (
-                        <Container maxWidth="lg">
-                          <Game match={match} {...rest} />
-                        </Container>
-                      );
-                    case '1':
-                      return (
-                        <Container maxWidth="lg">
-                          <SelectTranslateTraining match={match} {...rest} />
-                        </Container>
-                      );
-                    default:
-                      return null;
-                  }
-                }}
-              />
             </Switch>
           </ErrorBoundary>
         </PageContainer>
