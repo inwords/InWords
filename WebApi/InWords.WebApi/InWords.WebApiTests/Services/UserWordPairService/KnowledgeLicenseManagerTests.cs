@@ -1,11 +1,10 @@
 ﻿using System;
-using InWords.WebApi.Services.UserWordPairService;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Models;
 using Xunit;
 using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.KnowledgeLicenseCalculator;
 
-namespace InWords.BLTests.Service.UserWordPairService
+namespace InWords.WebApiTests.Services.UserWordPairService
 {
     public class KnowledgeLicenseManagerTests
     {

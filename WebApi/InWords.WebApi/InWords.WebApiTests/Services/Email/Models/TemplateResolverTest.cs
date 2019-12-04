@@ -2,7 +2,7 @@
 using InWords.WebApi.Services.Email.Models;
 using Xunit;
 
-namespace InWords.BLTests.Service.Email.Models
+namespace InWords.WebApiTests.Services.Email.Models
 {
     public class TemplateResolverTest
     {

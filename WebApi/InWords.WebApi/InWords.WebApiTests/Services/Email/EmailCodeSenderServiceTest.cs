@@ -5,10 +5,9 @@ using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Services.Email;
-using Moq;
 using Xunit;
 
-namespace InWords.BLTests.Service.Email
+namespace InWords.WebApiTests.Services.Email
 {
     public class EmailCodeSenderServiceTest
     {

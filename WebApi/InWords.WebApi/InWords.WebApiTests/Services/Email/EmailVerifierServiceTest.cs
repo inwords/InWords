@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace InWords.BLTests.Service.Email
+namespace InWords.WebApiTests.Services.Email
 {
     public class EmailVerifierServiceTest
     {

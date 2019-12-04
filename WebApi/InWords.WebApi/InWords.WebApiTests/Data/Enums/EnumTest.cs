@@ -1,7 +1,7 @@
 ﻿using InWords.Data.Enums;
 using Xunit;
 
-namespace InWords.BLTests.Data.Enums
+namespace InWords.WebApiTests.Data.Enums
 {
     public class EnumTest
     {
