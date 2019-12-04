@@ -17,13 +17,8 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
 {
     public class CreateHistoryLevelsRequestTests
     {
-        [Fact]
-        public async void HistoryLevelHistoryGameExistWordsExists()
+        private void CreateContextWithExistedGame(InWordsDataContext context, int userId)
         {
-            const int userId = 1;
-            // initialise
-            await using InWordsDataContext context = InWordsDataContextFactory.Create();
-
             context.Creations.Add(new Creation { CreationId = 1 });
             context.GameTags.Add(new GameTag() { UserId = userId, Tags = GameTags.CustomLevelsHistory, GameId = 1 });
             context.WordPairs.AddRange(new List<WordPair>()
@@ -40,6 +35,15 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
                 new UserWordPair(){UserWordPairId = 3, WordPairId = 4,UserId = userId},
             });
 
+        }
+
+        [Fact]
+        public async void HistoryLevelHistoryGameExistWordsExists()
+        {
+            const int userId = 1;
+            // initialise
+            await using InWordsDataContext context = InWordsDataContextFactory.Create();
+            CreateContextWithExistedGame(context, userId);
             await context.SaveChangesAsync().ConfigureAwait(false);
 
             var testQuery = new CustomLevelMetricQuery()
@@ -52,9 +56,9 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
                         GameLevelId = 0,
                         WordPairIdOpenCounts = new Dictionary<int, int>()
                         {
-                            { 1, 1 },
-                            { 2, 2},
-                            { 3, 3}
+                            { 1, 4 },
+                            { 2, 5},
+                            { 3, 1}
                         }
                     }
                 }.ToImmutableArray()
@@ -63,7 +67,7 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
 
             // act
             var handler = new CreateHistoryLevelsRequest(context);
-            var actualResult = await handler.Handle(testQuery).ConfigureAwait(false);
+            CustomLevelMetricQuery actualResult = await handler.Handle(testQuery).ConfigureAwait(false);
 
             // assert
             var expectedLevels = 1;
@@ -73,6 +77,9 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
             var actualLevelWords = context.GameLevelWords
                 .Where(d => actualLevels.Contains(d.GameLevel));
             Assert.Equal(expectedLevelWords, actualLevelWords.Count());
+
+            Assert.Equal(4, actualResult.Metrics[0].WordPairIdOpenCounts[2]);
+
             context.Dispose();
         }
 
@@ -107,7 +114,7 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
             var handler = new CreateHistoryLevelsRequest(context);
 
             // assert
-            await Assert.ThrowsAsync<ArgumentOutOfRangeException>(()=>handler.Handle(testQuery)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => handler.Handle(testQuery)).ConfigureAwait(false);
             context.Dispose();
         }
     }
