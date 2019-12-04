@@ -36,12 +36,17 @@ namespace InWords.WebApi.Controllers.v1._1
         [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
         public async Task<IActionResult> UploadAvatar(IFormFile file)
         {
-            if (file.Length <= 0) return StatusCode(417, "File is zero length");
+            if (IsNullOrZeroLength(file)) return StatusCode(417, "File is zero length");
 
             int authorizedId = User.GetUserId();
             var query = new UploadAvatarQuery(authorizedId,file);
             UploadAvatarQueryResult result = await mediator.Send(query).ConfigureAwait(false);
             return Ok(result);
+        }
+
+        private static bool IsNullOrZeroLength(IFormFile file)
+        {
+            return file != null && file.Length <= 0;
         }
     }
 }

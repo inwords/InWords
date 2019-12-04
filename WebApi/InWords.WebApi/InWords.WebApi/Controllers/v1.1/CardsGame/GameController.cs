@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.DTO.GameBox.LevelMetric;
+using InWords.Data.DTO.Games.Levels;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.CardGame;
 using InWords.WebApi.Services.UserGameService;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +22,11 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
     [Produces("application/json")]
     public class GameController : ControllerBase
     {
-        private readonly GameResultService gameResultService;
-        private readonly LevelCreator levelCreator;
+        private readonly IMediator mediator;
 
-        public GameController(GameResultService gameResultService, LevelCreator levelCreator)
+        public GameController(IMediator mediator)
         {
-            this.gameResultService = gameResultService;
-            this.levelCreator = levelCreator;
+            this.mediator = mediator;
         }
 
         /// <summary>
@@ -38,35 +39,45 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         /// <response code="400">Null on request</response>
         [Route("score")]
         [HttpPost]
+        [Obsolete]
         [ProducesResponseType(typeof(LevelMetricQueryResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PostScore(LevelMetricQuery levelMetricQuery)
         {
-            int authorizedId = User.GetUserId();
+            // Convert to new request
+            var classicCardsMetrics = new ClassicCardLevelMetricQuery
+            {
+                UserId = User.GetUserId(),
+                Metrics = new List<ClassicCardLevelMetric>()
+                {
+                    new ClassicCardLevelMetric()
+                    {
+                        GameLevelId = levelMetricQuery.GameLevelId,
+                        WordPairIdOpenCounts = levelMetricQuery.WordPairIdOpenCounts
+                    }
+                }.ToImmutableArray()
+            };
 
-            LevelMetricQueryResult answer;
-            // save score to user level
+            // Actual code
+            ClassicCardLevelMetricQueryResult result;
             try
             {
-                // foreach level that doesn't have game create game
-                IEnumerable<int> games = levelMetricQuery.WordPairIdOpenCounts.Select(w => w.Key);
-                if (levelMetricQuery.GameLevelId <= 0)
-                    levelMetricQuery.GameLevelId =
-                        await levelCreator.CreateUserLevelAsync(authorizedId, games).ConfigureAwait(false);
-
-                // save scores
-                answer = await gameResultService.SetResultsAsync(authorizedId, levelMetricQuery)
+                result = await mediator.Send(classicCardsMetrics)
                     .ConfigureAwait(false);
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentOutOfRangeException e)
             {
                 return BadRequest(e.Message);
             }
 
+            // convert to obsolete answer
+            var scoreInfo = result.ClassicCardLevelResult.FirstOrDefault();
+            LevelMetricQueryResult answer =
+                new LevelMetricQueryResult(scoreInfo.LevelId, scoreInfo.Score);
+
             return Ok(answer);
         }
 
-        #warning will be refactored
         /// <summary>
         ///     Use to upload user results
         /// </summary>
@@ -75,21 +86,35 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         [HttpPost]
         public async Task<IActionResult> UploadScore(LevelMetricQuery[] cardGameScores)
         {
-            int authorizedId = User.GetUserId();
+            var classicCardMetric = cardGameScores.Select(l => new ClassicCardLevelMetric()
+            {
+                GameLevelId = l.GameLevelId,
+                WordPairIdOpenCounts = l.WordPairIdOpenCounts
+            });
 
-            List<LevelMetricQueryResult> answer;
-            // save score to user level
+            // Convert to new request
+            var classicCardsMetrics = new ClassicCardLevelMetricQuery
+            {
+                UserId = User.GetUserId(),
+                Metrics = classicCardMetric.ToImmutableArray()
+            };
+
+            // Actual code
+            ClassicCardLevelMetricQueryResult result;
             try
             {
-                answer = (await gameResultService.SetResultsAsync(authorizedId, cardGameScores)
-                    .ConfigureAwait(false)).ToList();
+                result = await mediator.Send(classicCardsMetrics)
+                    .ConfigureAwait(false);
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentOutOfRangeException e)
             {
                 return BadRequest(e.Message);
             }
 
-            return Ok(answer);
+            // convert to obsolete answer
+            var scoreInfo = result.ClassicCardLevelResult.Select(m => new LevelMetricQueryResult(m.LevelId, m.Score));
+
+            return Ok(scoreInfo.ToList());
         }
     }
 }
