@@ -82,7 +82,8 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
         ///     Use to upload user results
         /// </summary>
         /// <returns>Quantity of stars and level id</returns>
-        [Route("UploadScore")]
+        [Route("uploadScore")]
+        [Obsolete]
         [HttpPost]
         public async Task<IActionResult> UploadScore(LevelMetricQuery[] cardGameScores)
         {
