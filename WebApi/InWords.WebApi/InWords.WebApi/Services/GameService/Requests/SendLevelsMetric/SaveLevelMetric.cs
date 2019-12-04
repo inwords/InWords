@@ -36,21 +36,43 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             Dictionary<int, int> levelsScores = metrics.ToDictionary(m => m.GameLevelId, m => m.Score());
             // select scores
             ImmutableArray<ClassicCardLevelResult> scores = levelsScores.Select(d => new ClassicCardLevelResult(d.Key, d.Value)).ToImmutableArray();
-
+            // translate UserWordPairs to WordPairs and create GameLevels
             await HandleNewHistoryGamesAsync(request, cancellationToken).ConfigureAwait(false);
 
-            // TODO Handle Existing UserGameLevel
-            var allGameIds = metrics.Select(d => d.GameLevelId).ToList();
-            var currentUserContext = Context.UserGameLevels.Where(d => d.UserId.Equals(request.UserId));
-            var existingUserGameLevels = currentUserContext.Where(x => allGameIds.Any(d => d.Equals(x.GameLevelId)));
-            // TODO Create Nonexistent UserGameLevel
-            var nonexistent = allGameIds.Except(existingUserGameLevels.Select(d => d.GameLevelId));
+            // TODO Handle Update score
+            // TODO Existing UserGameLevel
+            IEnumerable<int> nonexistent = HandleExistingUserGamesScore(request, metrics, levelsScores);
+            HandleNonexistentUserGameLevels(request, nonexistent, levelsScores);
+            await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            
+            // TODO Try async after async
+            UpdateUserWordPairKnowledgeInfo(metrics);
+            await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            return new ClassicCardLevelMetricQueryResult(scores);
+
+        }
+
+        private void HandleNonexistentUserGameLevels(
+            ClassicCardLevelMetricQuery request, 
+            IEnumerable<int> nonexistent,
+            Dictionary<int, int> levelsScores)
+        {
             var nonexistentUserGameLevels = nonexistent.Select(n => new UserGameLevel()
             {
                 UserId = request.UserId,
                 GameLevelId = n,
                 UserStars = levelsScores[n]
             });
+            Context.UserGameLevels.AddRange(nonexistentUserGameLevels);
+        }
+
+        private IEnumerable<int> HandleExistingUserGamesScore(ClassicCardLevelMetricQuery request, 
+            ImmutableArray<ClassicCardLevelMetric> metrics,
+            Dictionary<int, int> levelsScores)
+        {
+            var allGameIds = metrics.Select(d => d.GameLevelId).ToList();
+            var currentUserContext = Context.UserGameLevels.Where(d => d.UserId.Equals(request.UserId));
+            var existingUserGameLevels = currentUserContext.Where(x => allGameIds.Any(d => d.Equals(x.GameLevelId)));
             foreach (UserGameLevel level in existingUserGameLevels)
             {
                 if (level.UserStars < levelsScores[level.GameLevelId])
@@ -58,13 +80,10 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
                     level.UserStars = levelsScores[level.GameLevelId];
                 }
             }
-            Context.UserGameLevels.AddRange(nonexistentUserGameLevels);
-            await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            // TODO Try async after async
-            UpdateUserWordPairKnowledgeInfo(metrics);
-            await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            return new ClassicCardLevelMetricQueryResult(scores);
 
+            // TODO Create Nonexistent UserGameLevel
+            var nonexistent = allGameIds.Except(existingUserGameLevels.Select(d => d.GameLevelId));
+            return nonexistent;
         }
 
         private Task<CustomLevelMetricQuery> HandleNewHistoryGamesAsync(CardLevelMetricQuery request, CancellationToken cancellationToken)

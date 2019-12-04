@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Games.Levels;
 using InWords.Data.Enums;
+using InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory;
 using InWords.WebApi.Services.GameService.Requests.SendLevelsMetric;
 using InWords.WebApiTests.Controllers.v1._0;
 using Xunit;
 
-namespace InWords.WebApiTests.Services.GameService.Requests
+namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistory
 {
-    public class SendLevelsMetricTests
+    public class CreateHistoryLevelsRequestTests
     {
         [Fact]
-        public async void HistoryLevel_HistoryGameExist_WordsExists()
+        public async void HistoryLevelHistoryGameExistWordsExists()
         {
             const int userId = 1;
             // initialise
@@ -41,8 +40,8 @@ namespace InWords.WebApiTests.Services.GameService.Requests
             });
 
             await context.SaveChangesAsync().ConfigureAwait(false);
-            
-            var testQuery = new ClassicCardLevelMetricQuery()
+
+            var testQuery = new CustomLevelMetricQuery()
             {
                 UserId = userId,
                 Metrics = new List<ClassicCardLevelMetric>()
@@ -62,13 +61,18 @@ namespace InWords.WebApiTests.Services.GameService.Requests
 
 
             // act
-            var handler = new SaveLevelMetric(context);
+            var handler = new CreateHistoryLevelsRequest(context);
             var actualResult = await handler.Handle(testQuery).ConfigureAwait(false);
 
             // assert
-            var expectedGameCount = 3;
-            var actualLevelsCount = context.GameLevels.Count(g => g.GameBoxId.Equals(1));
-            Assert.Equal(expectedGameCount, actualLevelsCount);
+            var expectedLevels = 1;
+            List<GameLevel> actualLevels = context.GameLevels.Where(g => g.GameBoxId.Equals(1)).ToList();
+            Assert.Equal(expectedLevels, actualLevels.Count);
+            var expectedLevelWords = 3;
+            IQueryable<GameLevelWord> actualLevelWords =
+                context.GameLevelWords
+                    .Where(d => actualLevels.Any(l => l.GameBoxId.Equals(d.GameLevelId)));
+            Assert.Equal(expectedLevelWords, actualLevelWords.Count());
             context.Dispose();
         }
 
@@ -81,7 +85,7 @@ namespace InWords.WebApiTests.Services.GameService.Requests
             context.Creations.Add(new Creation { CreationId = 1 });
             context.GameTags.Add(new GameTag() { UserId = 1, Tags = GameTags.CustomLevelsHistory, GameId = 1 });
 
-            ClassicCardLevelMetricQuery testQuery = new ClassicCardLevelMetricQuery()
+            var testQuery = new CustomLevelMetricQuery()
             {
                 UserId = 1,
                 Metrics = new List<ClassicCardLevelMetric>()
@@ -102,7 +106,7 @@ namespace InWords.WebApiTests.Services.GameService.Requests
             await context.SaveChangesAsync().ConfigureAwait(false);
 
             // act
-            var handler = new SaveLevelMetric(context);
+            var handler = new CreateHistoryLevelsRequest(context);
             var actualResult = await handler.Handle(testQuery).ConfigureAwait(false);
 
             // assert
