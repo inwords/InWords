@@ -5,13 +5,14 @@ using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Services.Email;
+using Moq;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.Email
 {
     public class EmailCodeSenderServiceTest
     {
-        private IEmailVerifierRepository InitilizeEmailRepo(int userId, int secondsTimeout)
+        private IEmailVerifierRepository MockEmailRepo(int userId, int secondsTimeout)
         {
             var mock = new Mock<IEmailVerifierRepository>();
             mock.Setup(a => a.GetWhere(It.IsAny<Func<EmailVerifies, bool>>())).Returns(new List<EmailVerifies>
@@ -32,7 +33,7 @@ namespace InWords.WebApiTests.Services.Email
             // Arrange
             var userId = 0;
             int expectedSeconds = EmailCodeSenderService.EMAIL_TIMEOUT * 60 - seconds;
-            IEmailVerifierRepository repo = InitilizeEmailRepo(userId, seconds);
+            IEmailVerifierRepository repo = MockEmailRepo(userId, seconds);
             var emailCodeSenderService = new EmailCodeSenderService(repo, null);
             // act
             int actualSeconds = emailCodeSenderService.GetTimeout(userId);
@@ -49,7 +50,7 @@ namespace InWords.WebApiTests.Services.Email
                 UserId = userId
             };
             var seconds = 3;
-            IEmailVerifierRepository repo = InitilizeEmailRepo(userId, seconds);
+            IEmailVerifierRepository repo = MockEmailRepo(userId, seconds);
             var emailCodeSenderService = new EmailCodeSenderService(repo, null);
             await Assert.ThrowsAsync<TimeoutException>(() =>
                 emailCodeSenderService.SendCodeByEmail(user, "email", 0, "Link"));
