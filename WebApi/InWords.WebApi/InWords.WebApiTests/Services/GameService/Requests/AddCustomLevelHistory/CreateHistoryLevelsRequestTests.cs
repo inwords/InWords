@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using InWords.Data;
@@ -69,9 +70,8 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
             List<GameLevel> actualLevels = context.GameLevels.Where(g => g.GameBoxId.Equals(1)).ToList();
             Assert.Equal(expectedLevels, actualLevels.Count);
             var expectedLevelWords = 3;
-            IQueryable<GameLevelWord> actualLevelWords =
-                context.GameLevelWords
-                    .Where(d => actualLevels.Any(l => l.GameBoxId.Equals(d.GameLevelId)));
+            var actualLevelWords = context.GameLevelWords
+                .Where(d => actualLevels.Contains(d.GameLevel));
             Assert.Equal(expectedLevelWords, actualLevelWords.Count());
             context.Dispose();
         }
@@ -81,10 +81,8 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
         {
             // initialise
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
-
             context.Creations.Add(new Creation { CreationId = 1 });
             context.GameTags.Add(new GameTag() { UserId = 1, Tags = GameTags.CustomLevelsHistory, GameId = 1 });
-
             var testQuery = new CustomLevelMetricQuery()
             {
                 UserId = 1,
@@ -95,24 +93,21 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
                         GameLevelId = 0,
                         WordPairIdOpenCounts = new Dictionary<int, int>()
                         {
-                            { 1, 1 },
-                            { 2, 2},
-                            { 3, 3}
+                            { 1, 2},
+                            { 2, 3},
+                            { 3, 4}
                         }
                     }
                 }.ToImmutableArray()
             };
-
             await context.SaveChangesAsync().ConfigureAwait(false);
+
 
             // act
             var handler = new CreateHistoryLevelsRequest(context);
-            var actualResult = await handler.Handle(testQuery).ConfigureAwait(false);
 
             // assert
-            var expectedGameCount = 3;
-            var actualLevelsCount = context.GameLevels.Count(g => g.GameBoxId.Equals(1));
-            Assert.Equal(expectedGameCount, actualLevelsCount);
+            await Assert.ThrowsAsync<ArgumentOutOfRangeException>(()=>handler.Handle(testQuery)).ConfigureAwait(false);
             context.Dispose();
         }
     }

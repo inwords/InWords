@@ -29,10 +29,16 @@ namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
             int historyLevelsCount = metricList.Count;
             if (historyLevelsCount <= 0) return new CustomLevelMetricQuery();
             // if games count more than zero
-            var allUsersWordPairInRequest = metricList.SelectMany(d => d.WordPairIdOpenCounts.Keys).Distinct();
+            var allUsersWordPairInRequest = metricList.SelectMany(d => d.WordPairIdOpenCounts.Keys)
+                .Distinct()
+                .ToList();
+
             // load wordPairIds words from userWordPairIs 
             Dictionary<int, int> userWordPairsToWordPairs = Context.UserWordPairs.WhereAny(allUsersWordPairInRequest)
                 .ToDictionary(d => d.UserWordPairId, d => d.WordPairId);
+
+
+            CheckWordsExistens(allUsersWordPairInRequest, userWordPairsToWordPairs);
 
             // find history game
             Creation historyGame = await GetUsersCustomGameAsync(request.UserId).ConfigureAwait(false);
@@ -44,6 +50,16 @@ namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
             await AddWordsToLevel(levels, metricList, userWordPairsToWordPairs).ConfigureAwait(false);
 
             return request;
+        }
+
+        private static void CheckWordsExistens(List<int> allUsersWordPairInRequest, Dictionary<int, int> userWordPairsToWordPairs)
+        {
+            IEnumerable<int> except = allUsersWordPairInRequest.Except(userWordPairsToWordPairs.Select(d => d.Key));
+            if (except.Any())
+            {
+                throw new ArgumentOutOfRangeException(
+                    $"{nameof(allUsersWordPairInRequest)} metrics contains user words that were not found in the database");
+            }
         }
 
         private Task<Creation> GetUsersCustomGameAsync(int userId)
