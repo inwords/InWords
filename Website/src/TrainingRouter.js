@@ -57,9 +57,60 @@ function TrainingRouter() {
       ></Route>
       <Route exact path={`${url}/history`}>
         <Container maxWidth="lg">
+          <Breadcrumbs>
+            <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
+          </Breadcrumbs>
           <TrainingHistory />
         </Container>
       </Route>
+      <Route
+        exact
+        path={`${url}/history/:levelId`}
+        render={({ match, ...rest }) => (
+          <Container maxWidth="lg">
+            <Breadcrumbs>
+              <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/history/${match.params.levelId}`}>
+                Тренировки
+              </BreadcrumbsLink>
+            </Breadcrumbs>
+            <TrainingTypes />
+          </Container>
+        )}
+      ></Route>
+      <Route
+        exact
+        path={`${url}/history/:levelId/:trainingId`}
+        render={({ match, ...rest }) => {
+          switch (match.params.trainingId) {
+            case '0':
+              return (
+                <Container maxWidth="lg">
+                  <Breadcrumbs>
+                    <BreadcrumbsLink to={`${url}/history`}>
+                      История
+                    </BreadcrumbsLink>
+                    <BreadcrumbsLink
+                      to={`${url}/history/${match.params.levelId}`}
+                    >
+                      Тренировки
+                    </BreadcrumbsLink>
+                    <BreadcrumbsLink
+                      to={`${url}/history/${match.params.levelId}/${match.params.trainingId}`}
+                    >
+                      Карточки
+                    </BreadcrumbsLink>
+                  </Breadcrumbs>
+                  <Game match={match} {...rest} />
+                </Container>
+              );
+            case '1':
+              return null;
+            default:
+              return null;
+          }
+        }}
+      ></Route>
       <Route exact path={`${url}/themes`}>
         <Container maxWidth="lg">
           <Breadcrumbs>

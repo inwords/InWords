@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import StarIcon from '@material-ui/icons/Star';
 
 function TrainingHistory({ recentTrainings }) {
+  const match = useRouteMatch();
+
   return (
     <Grid container spacing={3}>
       {recentTrainings.map(({ levelId, level, playerStars, isAvailable }) => (
@@ -28,7 +30,7 @@ function TrainingHistory({ recentTrainings }) {
             <CardActions>
               <Button
                 component={Link}
-                to={`/training/0/0/${levelId}`}
+                to={`${match.url}/${levelId}`}
                 size="small"
                 color="primary"
                 disabled={!isAvailable}
