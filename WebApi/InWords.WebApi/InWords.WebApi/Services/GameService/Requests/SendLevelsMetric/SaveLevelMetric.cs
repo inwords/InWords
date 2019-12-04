@@ -29,6 +29,9 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
+            // translate UserWordPairs to WordPairs and create GameLevels
+            await HandleNewHistoryGamesAsync(request, cancellationToken).ConfigureAwait(false);
+
             // cache metrics reference
             ImmutableArray<ClassicCardLevelMetric> metrics = request.Metrics;
 
@@ -36,15 +39,13 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             Dictionary<int, int> levelsScores = metrics.ToDictionary(m => m.GameLevelId, m => m.Score());
             // select scores
             ImmutableArray<ClassicCardLevelResult> scores = levelsScores.Select(d => new ClassicCardLevelResult(d.Key, d.Value)).ToImmutableArray();
-            // translate UserWordPairs to WordPairs and create GameLevels
-            await HandleNewHistoryGamesAsync(request, cancellationToken).ConfigureAwait(false);
 
             // TODO Handle Update score
             // TODO Existing UserGameLevel
             IEnumerable<int> nonexistent = HandleExistingUserGamesScore(request, metrics, levelsScores);
             HandleNonexistentUserGameLevels(request, nonexistent, levelsScores);
             await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            
+
             // TODO Try async after async
             UpdateUserWordPairKnowledgeInfo(metrics);
             await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -53,7 +54,7 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
         }
 
         private void HandleNonexistentUserGameLevels(
-            ClassicCardLevelMetricQuery request, 
+            ClassicCardLevelMetricQuery request,
             IEnumerable<int> nonexistent,
             Dictionary<int, int> levelsScores)
         {
@@ -66,7 +67,7 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             Context.UserGameLevels.AddRange(nonexistentUserGameLevels);
         }
 
-        private IEnumerable<int> HandleExistingUserGamesScore(ClassicCardLevelMetricQuery request, 
+        private IEnumerable<int> HandleExistingUserGamesScore(ClassicCardLevelMetricQuery request,
             ImmutableArray<ClassicCardLevelMetric> metrics,
             Dictionary<int, int> levelsScores)
         {
@@ -104,9 +105,9 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
                 .ToImmutableDictionary();
             // select users words
             IQueryable<UserWordPair> userWordPairs =
-                Context.UserWordPairs.Where(d => knowledgeQualities.Keys.Any(x => x.Equals(d.UserWordPairId)));
+                Context.UserWordPairs
+                    .Where(d => knowledgeQualities.Keys.Any(x => x.Equals(d.WordPairId)));
             Dictionary<UserWordPair, KnowledgeLicense> dictionary = userWordPairs
-                .AsNoTracking()
                 .ToDictionary(u => u, u => new KnowledgeLicense()
                 {
                     Period = u.LearningPeriod,
@@ -117,12 +118,10 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             foreach (UserWordPair uwp in dictionary.Keys)
             {
                 var knowledgeLicense =
-                    KnowledgeLicenseCalculator.Update(dictionary[uwp], knowledgeQualities[uwp.UserWordPairId]);
+                    KnowledgeLicenseCalculator.Update(dictionary[uwp], knowledgeQualities[uwp.WordPairId]);
                 uwp.LearningPeriod = knowledgeLicense.Period;
                 uwp.TimeGap = knowledgeLicense.RepeatTime;
             }
-
-            Context.UserWordPairs.UpdateRange(dictionary.Keys);
         }
     }
 }
