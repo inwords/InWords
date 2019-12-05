@@ -105,16 +105,10 @@ internal constructor(private val apiServiceAuthorised: ApiServiceAuthorised,
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getScore(levelScoreRequest: LevelScoreRequest): Single<LevelScore> {
+    override fun getScore(trainingEstimateRequest: TrainingEstimateRequest): Single<List<LevelScore>> {
         return valve()
-            .flatMap { apiServiceAuthorised.getGameScore(levelScoreRequest) }
-            .interceptError()
-            .subscribeOn(SchedulersFacade.io())
-    }
-
-    override fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean> {
-        return valve()
-            .flatMap { apiServiceAuthorised.uploadScore(levelScoreRequests).toSingleDefault(true) }
+            .flatMap { apiServiceAuthorised.getLevelScore(trainingEstimateRequest) }
+            .map { it.classicCardLevelResult }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

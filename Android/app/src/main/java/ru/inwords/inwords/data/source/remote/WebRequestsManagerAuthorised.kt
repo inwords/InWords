@@ -33,9 +33,7 @@ interface WebRequestsManagerAuthorised {
 
     fun getLevel(levelId: Int): Single<GameLevel>
 
-    fun getScore(levelScoreRequest: LevelScoreRequest): Single<LevelScore>
-
-    fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean>
+    fun getScore(trainingEstimateRequest: TrainingEstimateRequest): Single<List<LevelScore>>
 
     fun getWordsForTraining(): Single<List<WordTranslation>>
 
