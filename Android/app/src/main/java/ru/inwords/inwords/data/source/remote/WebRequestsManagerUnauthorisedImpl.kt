@@ -10,7 +10,7 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
-import ru.inwords.inwords.data.source.remote.session.validCredentials
+import ru.inwords.inwords.data.source.remote.session.requireCredentials
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest
 import javax.inject.Inject
@@ -29,7 +29,7 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
     }
 
     override fun getToken(userCredentials: UserCredentials): Single<TokenResponse> {
-        return Single.just(userCredentials)
+        return Single.fromCallable { userCredentials.requireCredentials() }
             .updateToken()
             .flatMap { tokenResponse ->
                 authInfo.setCredentials(userCredentials)
@@ -38,13 +38,7 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
     }
 
     private fun Single<UserCredentials>.updateToken(): Single<TokenResponse> {
-        return flatMap {
-            if (it.validCredentials()) {
-                apiServiceUnauthorised.getToken(it)
-            } else {
-                Single.just(AuthInfo.unauthorisedToken)
-            }
-        }
+        return flatMap { apiServiceUnauthorised.getToken(it) }
             .flatMap { setAuthToken(it) }
             .applyAuthSessionHelper()
             .subscribeOn(SchedulersFacade.io())
@@ -79,11 +73,11 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
                 Log.e(javaClass.simpleName, throwable.message.orEmpty())
 
                 if (sessionHelper.interceptAuthError(throwable)) {
-                    setAuthToken(AuthInfo.unauthorisedToken)
+                    setAuthToken(AuthInfo.unauthorisedToken) //TODO this has no sense in real
+                        .flatMap { Single.error<TokenResponse>(throwable) }
                 } else {
-                    setAuthToken(AuthInfo.errorToken)
+                    Single.error<TokenResponse>(throwable)
                 }
-                    .flatMap { Single.error<TokenResponse>(throwable) }
             }
             .flatMap { setAuthToken(it) }
     }
