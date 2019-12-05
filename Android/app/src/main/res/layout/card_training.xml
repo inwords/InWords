@@ -19,7 +19,7 @@
             android:layout_marginEnd="@dimen/space_medium"
             android:text="Тренируйте словарный запас"
             android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
-            app:layout_constraintEnd_toStartOf="@+id/media_image"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,20 +31,36 @@
             android:layout_marginEnd="@dimen/space_medium"
             android:text="Алгоритм составит упражнение на основе слов в Вашем словаре"
             android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
-            app:layout_constraintEnd_toStartOf="@+id/media_image"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/primary_text" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.57" />
+
         <ImageView
             android:id="@+id/media_image"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="@dimen/constraint_match_parent"
             android:layout_marginTop="@dimen/space_medium"
             android:layout_marginEnd="@dimen/space_medium"
             android:importantForAccessibility="no"
+            app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/octopus_school" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="sub_text,media_image" />
 
         <Button
             android:id="@+id/action_button_1"
@@ -58,7 +74,7 @@
             android:text="@string/start_game_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/media_image" />
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -56,6 +56,10 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
         viewModel.navigateToCustomGameCreator.observe(this::getLifecycle) {
             navController.navigate(HomeFragmentDirections.toCustomGameCreatorFragment(it.toTypedArray()))
         }
+
+        viewModel.profile.observe(this::getLifecycle) {
+            toolbar.title = it.userName
+        }
     }
 
     private fun setupToolbar(view: View) = with(view) {
@@ -83,8 +87,8 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
     private fun subscribeRecycler(): Disposable {
         return viewModel.cardWrappers
             .observeOn(SchedulersFacade.ui())
-            .subscribe({
-                adapter.accept(it)
+            .subscribe({ result ->
+                adapter.accept(result)
 
                 fixOverscrollBehaviour(cards_recycler)
             }) {

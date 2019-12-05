@@ -1,6 +1,8 @@
 package ru.inwords.inwords.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -10,6 +12,7 @@ import ru.inwords.inwords.home.recycler.CardWrapper
 import ru.inwords.inwords.home.recycler.applyDiffUtil
 import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
+import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
 import ru.inwords.inwords.training.domain.TrainingInteractor
 import ru.inwords.inwords.translation.data.bean.WordTranslation
@@ -22,8 +25,10 @@ class HomeViewModel internal constructor(
     private val trainingInteractor: TrainingInteractor) : BasicViewModel() {
 
     private val navigateToCustomGameCreatorLiveData = SingleLiveEvent<List<WordTranslation>>()
+    private val profileLiveData = MutableLiveData<User>()
 
     val navigateToCustomGameCreator: LiveData<List<WordTranslation>> = navigateToCustomGameCreatorLiveData
+    val profile: LiveData<User> = profileLiveData
 
     private val profileData: Observable<CardWrapper>
         get() = profileInteractor.getAuthorisedUser()
@@ -47,7 +52,17 @@ class HomeViewModel internal constructor(
         get() = Observable.combineLatest(
             profileData,
             wordsCount,
-            BiFunction { profile: CardWrapper, dictionary: CardWrapper -> listOf(profile, dictionary, CardWrapper.WordsTrainingMarker) }
+            BiFunction { profile: CardWrapper, dictionary: CardWrapper ->
+                if (profile is CardWrapper.ProfileModel || profile is CardWrapper.ProfileLoadingMarker) {
+                    if (profile is CardWrapper.ProfileModel){
+                        profileLiveData.postValue(profile.user)
+                    }
+
+                    listOf(dictionary, CardWrapper.WordsTrainingMarker)
+                } else {
+                    listOf(profile, dictionary, CardWrapper.WordsTrainingMarker)
+                }
+            }
         )
             .applyDiffUtil()
 
@@ -57,6 +72,9 @@ class HomeViewModel internal constructor(
         Single.fromCallable { trainingInteractor.getActualWordsForTraining() }
             .subscribe({
                 navigateToCustomGameCreatorLiveData.postValue(it)
-            }, {})
+            }, {
+                Log.e(javaClass.simpleName, it.message.orEmpty())
+            })
+            .autoDispose()
     }
 }
