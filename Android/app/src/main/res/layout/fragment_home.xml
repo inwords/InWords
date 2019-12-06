@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:menu="@menu/home_menu_default"
-            app:title="Octo Vasia Gamer" />
+            app:title="@string/app_name" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView

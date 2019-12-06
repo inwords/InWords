@@ -18,8 +18,7 @@ internal constructor(private val translationWordsInteractor: TranslationWordsInt
                      private val gameInteractor: GameInteractor,
                      private val integrationDatabaseRepository: IntegrationDatabaseRepository) : IntegrationInteractor {
     override fun getOnAuthCallback(): Completable = Completable.mergeDelayError(listOf(
-        translationWordsInteractor.presyncOnStart()
-            .andThen(translationWordsInteractor.trySyncAllReposWithCache())
+        translationWordsInteractor.trySyncAllReposWithCache()
             .subscribeOn(SchedulersFacade.io()),
         gameInteractor.uploadScoresToServer()
             .ignoreElement()
