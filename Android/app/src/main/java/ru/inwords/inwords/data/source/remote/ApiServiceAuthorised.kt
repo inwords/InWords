@@ -20,11 +20,8 @@ interface ApiServiceAuthorised {
     @GET("v1.0/Game/level/{levelId}")
     fun getLevel(@Path("levelId") levelId: Int): Single<GameLevel>
 
-    @POST("v1.1/Game/score")
-    fun getGameScore(@Body levelScoreRequest: LevelScoreRequest): Single<LevelScore>
-
-    @POST("v1.1/Game/UploadScore")
-    fun uploadScore(@Body levelScoreRequests: List<LevelScoreRequest>): Completable
+    @POST("/v1.1/training/estimate")
+    fun getLevelScore(@Body levelScoreRequest: TrainingEstimateRequest): Single<TrainingEstimateResponse>
 
     //Words
     @POST("/v1.0/words/DeletePair")
@@ -49,4 +46,15 @@ interface ApiServiceAuthorised {
 
     @GET("/v1.0/values/getlogin")
     fun getLogin(): Single<String>
+
+    //dictionary
+
+    @GET("/v1.1/dictionary/training")
+    fun getWordsForTraining(): Single<List<WordTranslation>>
+
+    /**
+     * Int stands for [WordTranslation.serverId]
+     */
+    @GET("/v1.1/dictionary/trainingIds")
+    fun getIdsForTraining(): Single<List<Int>>
 }

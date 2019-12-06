@@ -2,24 +2,28 @@ package ru.inwords.inwords.game.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.inwords.inwords.R
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 abstract class BaseContentFragment<
-        T,
-        ViewModelType : ViewModel,
-        ViewModelFactory : ViewModelProvider.Factory>
+    T,
+    ViewModelType : ViewModel,
+    ViewModelFactory : ViewModelProvider.Factory>
     : FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory>() {
 
     protected lateinit var gameContent: View
     protected lateinit var gameNoContent: View
 
+    @get:IdRes
+    abstract val noContentViewId: Int
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gameContent = view.findViewById(R.id.game_content)
+        gameContent = view.findViewById(noContentViewId)
         gameNoContent = view.findViewById(R.id.game_no_content)
     }
 

@@ -11,14 +11,14 @@ class TokenInterceptor @Inject internal constructor(private val authInfo: AuthIn
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
 
-        if (request.header("Authorization") != null) {
+        if (request.header("Authorization") == AuthInfo.unauthorisedToken.bearer) {
             return chain.proceed(request)
         }
 
         val token = authInfo.getAuthToken().blockingGet()
 
         val newRequest = request.newBuilder()
-                .addHeader("Authorization", token)
+                .addHeader("Authorization", token.bearer)
                 .build()
 
         return chain.proceed(newRequest)
