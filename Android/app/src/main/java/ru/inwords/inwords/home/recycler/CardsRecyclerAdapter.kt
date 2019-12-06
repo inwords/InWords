@@ -50,7 +50,7 @@ class CardsRecyclerAdapter(
             is CardWrapper.ProfileLoadingMarker -> CardTypes.PROFILE_LOADING.ordinal
             is CardWrapper.ProfileModel -> CardTypes.PROFILE.ordinal
             is CardWrapper.DictionaryModel -> CardTypes.DICTIONARY.ordinal
-            is CardWrapper.WordsTrainingMarker -> CardTypes.WORDS_TRAINING.ordinal
+            is CardWrapper.WordsTrainingModel -> CardTypes.WORDS_TRAINING.ordinal
         }
     }
 
@@ -60,7 +60,7 @@ class CardsRecyclerAdapter(
             is CardWrapper.ProfileLoadingMarker -> (holder as ProfileLoadingViewHolder).bind(item)
             is CardWrapper.ProfileModel -> (holder as ProfileViewHolder).bind(item)
             is CardWrapper.DictionaryModel -> (holder as DictionaryViewHolder).bind(item)
-            is CardWrapper.WordsTrainingMarker -> (holder as WordsTrainingViewHolder).bind(item)
+            is CardWrapper.WordsTrainingModel -> (holder as WordsTrainingViewHolder).bind(item)
         }
     }
 }

@@ -4,11 +4,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
+import io.reactivex.subjects.BehaviorSubject
+import ru.inwords.inwords.R
+import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.home.recycler.CardWrapper
+import ru.inwords.inwords.home.recycler.SimpleState
 import ru.inwords.inwords.home.recycler.applyDiffUtil
 import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
@@ -22,19 +26,24 @@ class HomeViewModel internal constructor(
     private val translationWordsInteractor: TranslationWordsInteractor,
     private val profileInteractor: ProfileInteractor,
     private val integrationInteractor: IntegrationInteractor,
-    private val trainingInteractor: TrainingInteractor) : BasicViewModel() {
+    private val trainingInteractor: TrainingInteractor,
+    private val resourceManager: ResourceManager) : BasicViewModel() {
 
+    private val errorLiveData = SingleLiveEvent<String>()
     private val navigateToCustomGameCreatorLiveData = SingleLiveEvent<List<WordTranslation>>()
     private val profileLiveData = MutableLiveData<User>()
 
     val navigateToCustomGameCreator: LiveData<List<WordTranslation>> = navigateToCustomGameCreatorLiveData
     val profile: LiveData<User> = profileLiveData
+    val error: LiveData<String> = errorLiveData
+
+    private val training = BehaviorSubject.createDefault(CardWrapper.WordsTrainingModel(SimpleState.READY))
 
     private val profileData: Observable<CardWrapper>
         get() = profileInteractor.getAuthorisedUser()
             .map {
                 when (it) {
-                    is Resource.Success -> CardWrapper.ProfileModel(it.data)
+                    is Resource.Success -> CardWrapper.ProfileModel(it.data).also { model -> profileLiveData.postValue(model.user) }
                     is Resource.Loading -> CardWrapper.ProfileLoadingMarker
                     is Resource.Error -> CardWrapper.CreateAccountMarker
                 }
@@ -52,15 +61,12 @@ class HomeViewModel internal constructor(
         get() = Observable.combineLatest(
             profileData,
             wordsCount,
-            BiFunction { profile: CardWrapper, dictionary: CardWrapper ->
+            training,
+            Function3 { profile: CardWrapper, dictionary: CardWrapper.DictionaryModel, training: CardWrapper.WordsTrainingModel ->
                 if (profile is CardWrapper.ProfileModel || profile is CardWrapper.ProfileLoadingMarker) {
-                    if (profile is CardWrapper.ProfileModel){
-                        profileLiveData.postValue(profile.user)
-                    }
-
-                    listOf(dictionary, CardWrapper.WordsTrainingMarker)
+                    listOf(dictionary, training)
                 } else {
-                    listOf(profile, dictionary, CardWrapper.WordsTrainingMarker)
+                    listOf(profile, dictionary) //create account here
                 }
             }
         )
@@ -69,10 +75,15 @@ class HomeViewModel internal constructor(
     fun getPolicyAgreementState() = integrationInteractor.getPolicyAgreementState()
 
     fun onWordsTrainingClicked() {
-        Single.fromCallable { trainingInteractor.getActualWordsForTraining() }
+        Observable.fromCallable { trainingInteractor.getActualWordsForTraining() }
+            .subscribeOn(SchedulersFacade.io())
+            .doOnSubscribe { training.onNext(CardWrapper.WordsTrainingModel(SimpleState.LOADING)) }
             .subscribe({
                 navigateToCustomGameCreatorLiveData.postValue(it)
+                training.onNext(CardWrapper.WordsTrainingModel(SimpleState.READY))
             }, {
+                training.onNext(CardWrapper.WordsTrainingModel(SimpleState.ERROR))
+                errorLiveData.postValue(resourceManager.getString(R.string.unable_to_load_exercise))
                 Log.e(javaClass.simpleName, it.message.orEmpty())
             })
             .autoDispose()

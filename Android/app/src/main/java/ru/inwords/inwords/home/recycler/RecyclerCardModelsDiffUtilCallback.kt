@@ -8,11 +8,12 @@ import ru.inwords.inwords.core.recycler.SimpleDiffUtilCallback
 
 class RecyclerCardModelsDiffUtilCallback internal constructor(oldGameLevels: List<CardWrapper>,
                                                               newGameLevels: List<CardWrapper>) :
-        SimpleDiffUtilCallback<CardWrapper>(oldGameLevels, newGameLevels) {
+    SimpleDiffUtilCallback<CardWrapper>(oldGameLevels, newGameLevels) {
 
     override fun areItemsTheSame(oldItem: CardWrapper, newItem: CardWrapper): Boolean {
         return oldItem is CardWrapper.DictionaryModel && newItem is CardWrapper.DictionaryModel ||
-                oldItem == newItem
+            oldItem is CardWrapper.WordsTrainingModel && newItem is CardWrapper.WordsTrainingModel ||
+            oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: CardWrapper, newItem: CardWrapper): Boolean {
@@ -28,5 +29,5 @@ class RecyclerCardModelsDiffUtilCallback internal constructor(oldGameLevels: Lis
 
 fun Observable<List<CardWrapper>>.applyDiffUtil(): Observable<Pair<List<CardWrapper>, DiffUtil.DiffResult>> {
     return observeOn(Schedulers.computation())
-            .compose(RxDiffUtil.calculate { old, new -> RecyclerCardModelsDiffUtilCallback(old, new) })
+        .compose(RxDiffUtil.calculate { old, new -> RecyclerCardModelsDiffUtilCallback(old, new) })
 }

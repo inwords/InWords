@@ -82,6 +82,8 @@
     <string name="rating_not_loaded">Ваш рейтинг будет обновлён позднее :)</string>
     <string name="start_game_button_text">Поплыли</string>
     <string name="unable_to_load_voice">Не удалось загрузить озвучку</string>
+    <string name="unable_to_load_exercise">Не удалось загрузить упражнение</string>
+    <string name="exercise_loading">Упражнение загружается</string>
 
     <plurals name="words_in_dictionary">
         <item quantity="zero">В словаре %1$d слов</item>
@@ -95,7 +97,6 @@
 
     <!-- profile start -->
     <string name="change_account">Сменить аккаунт</string>
-    <string name="settings">Настройки</string>
     <string name="policy_privacy_agreement">Используя приложение, вы соглашаетесь с  \nполитикой конфиденциальности</string>
     <string name="button_apply_text">Подтвердить</string>
     <string name="nick_text">Ник</string>
@@ -110,8 +111,10 @@
     <!-- policy end -->
 
     <!-- unsorted start -->
+    <string name="settings">Настройки</string>
     <string name="search">Поиск</string>
     <string name="cancel">Отменить</string>
+    <string name="try_again">Попробовать еще раз</string>
 
     <!-- unsorted end -->
 
