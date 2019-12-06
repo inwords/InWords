@@ -40,9 +40,9 @@ class AuthInfo @Inject constructor(@Common private val sharedPreferences: Shared
         }
     }
 
-    fun getAuthToken(): Single<String> {
+    fun getAuthToken(): Single<TokenResponse> {
         return getCredentials()
-            .map { tokenResponse.bearer }
+            .map { tokenResponse }
     }
 
     val isNoToken: Boolean get() = tokenResponse == noToken

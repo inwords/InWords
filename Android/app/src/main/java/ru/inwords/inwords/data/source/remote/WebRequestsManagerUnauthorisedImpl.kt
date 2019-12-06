@@ -48,8 +48,6 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
         return Single.fromCallable {
             this.authInfo.tokenResponse = tokenResponse
 
-            authenticatedNotifierSubject.onNext(!authInfo.isNoToken)
-
             tokenResponse
         }
     }
@@ -80,5 +78,6 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
                 }
             }
             .flatMap { setAuthToken(it) }
+            .doFinally { authenticatedNotifierSubject.onNext(!authInfo.isUnauthorised) }
     }
 }
