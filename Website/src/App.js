@@ -10,12 +10,11 @@ import PageContainer from 'src/layout/PageContainer';
 import ProfileMenuButton from 'src/layout/ProfileMenuButton';
 import ErrorBoundary from 'src/layout/ErrorBoundary';
 import TrainingRouter from './TrainingRouter';
+import DictionaryRouter from './DictionaryRouter';
 
-const SignIn = lazy(() => import('./routes/SignIn'));
-const SignUp = lazy(() => import('./routes/SignUp'));
-const Profile = lazy(() => import('./routes/Profile'));
-const DictionaryMain = lazy(() => import('./routes/DictionaryMain'));
-const Dictionary = lazy(() => import('./routes/Dictionary'));
+const SignIn = lazy(() => import('src/routes/SignIn'));
+const SignUp = lazy(() => import('src/routes/SignUp'));
+const Profile = lazy(() => import('src/routes/Profile'));
 
 const history = createBrowserHistory();
 
@@ -90,18 +89,8 @@ function App() {
                   <Profile />
                 </Container>
               </Route>
-              <Route exact path="/dictionary">
-                <Redirect to="/dictionary/main" />
-              </Route>
-              <Route path="/dictionary/main">
-                <Container maxWidth="md">
-                  <DictionaryMain />
-                </Container>
-              </Route>
-              <Route path="/dictionary/my">
-                <Container maxWidth="md">
-                  <Dictionary />
-                </Container>
+              <Route path="/dictionary">
+                <DictionaryRouter />
               </Route>
               <Route path="/training">
                 <TrainingRouter />

@@ -4,7 +4,8 @@ import {
   INITIALIZE_TRAINING_CATEGORY,
   UPDATE_LEVEL_RESULT,
   INITIALIZE_TRAINING_LEVEL,
-  INITIALIZE_TRAINING_HISTORY
+  INITIALIZE_TRAINING_HISTORY,
+  INITIALIZE_TRAINING_WORD_PAIRS
 } from 'src/actions/trainingActions';
 
 function trainingCategories(state = [], action) {
@@ -39,7 +40,10 @@ function trainingCategory(
 
           return {
             ...levelInfo,
-            playerStars: Math.max(levelInfo.playerStars, action.payload.score)
+            playerStars: Math.max(
+              levelInfo.playerStars,
+              action.payload.classicCardLevelResult[0].score
+            )
           };
         })
       };
@@ -48,18 +52,12 @@ function trainingCategory(
   }
 }
 
-function trainingLevel(
-  state = {
-    levelId: null,
-    wordTranslations: []
-  },
-  action
-) {
+function trainingLevelsMap(state = {}, action) {
   switch (action.type) {
     case INITIALIZE_TRAINING_LEVEL:
       return {
-        levelId: action.payload.levelId,
-        wordTranslations: action.payload.wordTranslations || []
+        ...state,
+        [action.payload.levelId]: action.payload
       };
     default:
       return state;
@@ -84,9 +82,28 @@ function trainingHistory(
   }
 }
 
+function trainingWordPairs(
+  state = {
+    actual: false,
+    wordPairs: []
+  },
+  action
+) {
+  switch (action.type) {
+    case INITIALIZE_TRAINING_WORD_PAIRS:
+      return {
+        actual: true,
+        wordPairs: action.payload || []
+      };
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   trainingCategories,
   trainingCategory,
-  trainingLevel,
-  trainingHistory
+  trainingLevelsMap,
+  trainingHistory,
+  trainingWordPairs
 });

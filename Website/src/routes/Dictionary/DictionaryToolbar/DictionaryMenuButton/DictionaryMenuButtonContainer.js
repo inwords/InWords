@@ -11,7 +11,7 @@ function DictionaryMenuButtonContainer({ checkedValues }) {
   const handleLearning = () => {
     dispatch(
       initializeTrainingLevel({
-        levelId: 0,
+        levelId: -1,
         wordTranslations: wordPairs.filter(({ serverId }) =>
           checkedValues.includes(serverId)
         )

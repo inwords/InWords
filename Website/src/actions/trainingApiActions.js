@@ -42,7 +42,6 @@ export function addCategoryWordsToDictionary(categoryId) {
     contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
-        console.log(data);
         dispatch(
           setSnackbar({ text: `Добавлено новых слов: ${data.wordsAdded}` })
         );
@@ -75,9 +74,9 @@ export function receiveTrainingLevel(levelId) {
 export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
   return apiAction({
     apiVersion: 'v1.1',
-    endpoint: 'game/score',
+    endpoint: 'training/estimate',
     method: 'POST',
-    data: JSON.stringify(levelResult),
+    data: JSON.stringify({ metrics: [levelResult] }),
     contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
@@ -118,12 +117,7 @@ export function receiveTrainingWordPairs() {
     endpoint: 'dictionary/training',
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(
-          trainingActions.initializeTrainingLevel({
-            levelId: 0,
-            wordTranslations: data
-          })
-        );
+        dispatch(trainingActions.initializeTrainingWordPairs(data));
       }
     ],
     actionsOnFailure: [

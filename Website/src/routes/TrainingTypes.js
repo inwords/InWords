@@ -33,11 +33,7 @@ function TrainingTypes({ endpoint = '' }) {
               <CardActions>
                 <Button
                   component={Link}
-                  to={
-                    match.params.categoryId !== '0'
-                      ? `${match.url}/${typeId}${endpoint}`
-                      : `${match.url}/${typeId}/0/0`
-                  }
+                  to={`${match.url}/${typeId}${endpoint}`}
                   size="small"
                   color="primary"
                 >

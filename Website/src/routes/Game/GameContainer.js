@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
-import withReceivedGameLevel from 'src/HOCs/withReceivedGameLevel';
+import withReceivedTrainingLevel from 'src/HOCs/withReceivedTrainingLevel';
 import Game from './Game';
 import TrainingResult from 'src/layout/TrainingResult';
 
@@ -55,14 +55,15 @@ function GameContainer({ levelId, wordTranslations }) {
         setIsResultReady(true);
       }, 1500);
 
+      const gameLevelId = levelId < 0 ? 0 : levelId;
       dispatch(
         saveTrainingLevelResult(
           {
-            gameLevelId: levelId,
+            gameLevelId,
             wordPairIdOpenCounts: wordPairIdOpenCountsMap
           },
           data => {
-            setScore(data.score);
+            setScore(data.classicCardLevelResult[0].score);
           }
         )
       );
@@ -158,4 +159,4 @@ GameContainer.propTypes = {
   ).isRequired
 };
 
-export default withReceivedGameLevel(GameContainer);
+export default withReceivedTrainingLevel(GameContainer);

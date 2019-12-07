@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'src/utils/shuffle';
-import withReceivedGameLevel from 'src/HOCs/withReceivedGameLevel';
+import withReceivedGameLevel from 'src/HOCs/withReceivedTrainingLevel';
 import SelectTranslateTraining from './SelectTranslateTraining';
 import TrainingResult from 'src/layout/TrainingResult';
 

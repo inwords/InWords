@@ -31,7 +31,7 @@ function DictionaryMenuButton({ handleLearning }) {
       >
         <MenuItem
           component={Link}
-          to="/training/0"
+          to="/training/dictionary"
           onClick={() => {
             handleLearning();
             handleClose();

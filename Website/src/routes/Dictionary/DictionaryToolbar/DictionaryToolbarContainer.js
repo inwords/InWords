@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -36,7 +36,7 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
     }, 200);
   }, [inputs, setPattern]);
 
-  const toolbar = (
+  return (
     <DictionaryToolbar
       checkedValues={checkedValues}
       handleDelete={handleDelete}
@@ -45,8 +45,6 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
       {...rest}
     />
   );
-
-  return <Fragment>{toolbar}</Fragment>;
 }
 
 DictionaryToolbarContainer.propTypes = {

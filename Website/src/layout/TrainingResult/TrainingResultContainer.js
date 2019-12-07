@@ -1,19 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import TrainingResult from './TrainingResult';
 
-function TrainingResultContainer({ history, match, ...rest }) {
+function TrainingResultContainer(props) {
+  const params = useParams();
+  const history = useHistory();
+
   const { levelsInfo } = useSelector(store => store.training.trainingCategory);
 
-  const paramLevelId = +match.params.levelId;
-  const paramCategoryId = +match.params.categoryId;
-  const paramTrainingId = +match.params.trainingId;
+  const paramLevelId = +params.levelId;
+  const paramCategoryId = +params.categoryId;
+  const paramTrainingId = +params.trainingId;
 
   const handleRedirectionToNextLevel = () => {
     if (paramLevelId === 0) {
-      history.push('/dictionary');
+      history.push('/training');
       return;
     }
 
@@ -22,14 +24,14 @@ function TrainingResultContainer({ history, match, ...rest }) {
     );
 
     const handleRedirectionToLevels = () => {
-      history.push(`/training/${paramCategoryId}/${paramTrainingId}`);
+      history.push(`/training/themes/${paramCategoryId}/${paramTrainingId}`);
     };
 
     if (levelIndex !== -1) {
       const nextLevelIndex = levelIndex + 1;
       if (levelsInfo[nextLevelIndex]) {
         history.push(
-          `/training/${paramCategoryId}/${paramTrainingId}/${levelsInfo[nextLevelIndex].levelId}`
+          `/training/themes/${paramCategoryId}/${paramTrainingId}/${levelsInfo[nextLevelIndex].levelId}`
         );
       } else {
         handleRedirectionToLevels();
@@ -42,16 +44,9 @@ function TrainingResultContainer({ history, match, ...rest }) {
   return (
     <TrainingResult
       handleRedirectionToNextLevel={handleRedirectionToNextLevel}
-      {...rest}
+      {...props}
     />
   );
 }
 
-TrainingResultContainer.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  score: PropTypes.number,
-  handleReplay: PropTypes.func
-};
-
-export default withRouter(TrainingResultContainer);
+export default TrainingResultContainer;

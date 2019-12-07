@@ -36,6 +36,10 @@ const ProfilePersonalSection = styled.div`
   width: 100%;
   padding-top: 16px;
   padding-left: 64px;
+
+  ${props => props.theme.breakpoints.down('xs')} {
+    padding-left: 32px;
+  }
 `;
 
 const SecondaryProfileInfo = styled.div`
