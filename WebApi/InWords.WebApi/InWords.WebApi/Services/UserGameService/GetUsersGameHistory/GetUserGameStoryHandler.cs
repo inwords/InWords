@@ -23,7 +23,7 @@ namespace InWords.WebApi.Services.UserGameService.GetUsersGameHistory
 
         public Task<List<LevelInfo>> Handle(GetUserGameStoryQuery request, CancellationToken cancellationToken = default)
         {
-            IQueryable<Creation> userHistoryGames = SelectUserCustomGameHistory(request);
+            IQueryable<Game> userHistoryGames = SelectUserCustomGameHistory(request);
 
             IQueryable<GameLevel> userHistoryLevels = SelectLevelsInGame(userHistoryGames);
 
@@ -46,17 +46,17 @@ namespace InWords.WebApi.Services.UserGameService.GetUsersGameHistory
                    };
         }
 
-        private IQueryable<GameLevel> SelectLevelsInGame(IQueryable<Creation> allUsersGames)
+        private IQueryable<GameLevel> SelectLevelsInGame(IQueryable<Game> allUsersGames)
         {
-            return context.GameLevels.Where(g => allUsersGames.Any(a => a.CreationId.Equals(g.GameBoxId)));
+            return context.GameLevels.Where(g => allUsersGames.Any(a => a.GameId.Equals(g.GameId)));
         }
 
-        private IQueryable<Creation> SelectUserCustomGameHistory(GetUserGameStoryQuery request)
+        private IQueryable<Game> SelectUserCustomGameHistory(GetUserGameStoryQuery request)
         {
             return from tags in context.GameTags
                    where tags.UserId.Equals(request.UserId)
                          && tags.Tags.Equals(GameTags.CustomLevelsHistory)
-                   join creation in context.Creations on tags.GameId equals creation.CreationId
+                   join creation in context.Games on tags.GameId equals creation.GameId
                    select creation;
         }
     }

@@ -9,16 +9,16 @@ namespace InWords.Data.Creations
     /// <summary>
     ///     Words Set with levels
     /// </summary>
-    public class Creation
+    public class Game
     {
         [NotMapped] public static int MainGames = 122;
-        public Creation()
+        public Game()
         {
             GameLevels = new HashSet<GameLevel>(0);
         }
 
-        [Key] public int CreationId { get; set; }
-        [ForeignKey(nameof(CreationId))] public HashSet<GameLevel> GameLevels { get; set; }
+        [Key] public int GameId { get; set; }
+        [ForeignKey(nameof(GameId))] public HashSet<GameLevel> GameLevels { get; set; }
 
         public int CreatorId { get; set; }
 

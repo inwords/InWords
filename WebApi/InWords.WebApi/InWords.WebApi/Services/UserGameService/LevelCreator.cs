@@ -33,18 +33,18 @@ namespace InWords.WebApi.Services.UserGameService
                 userWordPairRepository.GetWhere(u => userWordPairIds.Contains(u.UserWordPairId));
 
             // create if not user game catalog exist 
-            Creation creation = creationRepository.GetWhere(c => c.CreatorId.Equals(userId)).SingleOrDefault();
-            if (creation == null)
+            Game game = creationRepository.GetWhere(c => c.CreatorId.Equals(userId)).SingleOrDefault();
+            if (game == null)
             {
-                creation = new Creation {CreatorId = userId};
-                await creationRepository.CreateAsync(creation).ConfigureAwait(false);
+                game = new Game {CreatorId = userId};
+                await creationRepository.CreateAsync(game).ConfigureAwait(false);
             }
 
             // add level by WordsPairs
-            int levelsCount = gameLevelRepository.GetWhere(g => g.GameBoxId.Equals(creation.CreationId)).Count();
+            int levelsCount = gameLevelRepository.GetWhere(g => g.GameId.Equals(game.GameId)).Count();
             var gameLevel = new GameLevel
             {
-                GameBoxId = creation.CreationId,
+                GameId = game.GameId,
                 Level = levelsCount + 1
             };
             gameLevel = await gameLevelRepository.CreateAsync(gameLevel).ConfigureAwait(false);

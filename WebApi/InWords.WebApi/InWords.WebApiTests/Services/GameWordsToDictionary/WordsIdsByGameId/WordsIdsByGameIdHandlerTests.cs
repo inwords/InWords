@@ -14,11 +14,11 @@ namespace InWords.WebApiTests.Services.GameWordsToDictionary.WordsIdsByGameId
         {
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
 
-            var creation = new Creation {CreationId = 1};
+            var creation = new Game {GameId = 1};
 
-            context.Creations.Add(creation);
-            context.GameLevels.Add(new GameLevel {GameLevelId = 1, GameBoxId = 1});
-            context.GameLevels.Add(new GameLevel {GameLevelId = 2, GameBoxId = 1});
+            context.Games.Add(creation);
+            context.GameLevels.Add(new GameLevel {GameLevelId = 1, GameId = 1});
+            context.GameLevels.Add(new GameLevel {GameLevelId = 2, GameId = 1});
             context.GameLevelWords.Add(new GameLevelWord {GameLevelId = 1, GameLevelWordId = 1, WordPairId = 1});
             context.GameLevelWords.Add(new GameLevelWord {GameLevelId = 2, GameLevelWordId = 2, WordPairId = 1});
             context.GameLevelWords.Add(new GameLevelWord {GameLevelId = 2, GameLevelWordId = 3, WordPairId = 2});

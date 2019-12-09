@@ -12,7 +12,7 @@ namespace InWords.Data.Creations
         public int GameId { get; set; }
 
         [ForeignKey(nameof(GameId))]
-        public Creation Creation { get; set; }
+        public Game Game { get; set; }
 
         public int UserId { get; set; }
 

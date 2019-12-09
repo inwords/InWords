@@ -16,7 +16,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary
 
         public static IQueryable<GameLevel> Levels(this IQueryable<GameLevel> gameLevels, int id)
         {
-            return gameLevels.Where(gl => gl.GameBoxId.Equals(id));
+            return gameLevels.Where(gl => gl.GameId.Equals(id));
         }
 
         public static IQueryable<GameLevelWord> Words(this IQueryable<GameLevelWord> gameLevelWords,

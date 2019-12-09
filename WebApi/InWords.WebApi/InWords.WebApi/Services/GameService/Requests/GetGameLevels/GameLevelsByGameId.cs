@@ -16,7 +16,7 @@ namespace InWords.WebApi.Services.GameService.Requests.GetGameLevels
         public override async Task<GameObject> Handle(GetLevelsByGameIdQuery request, CancellationToken cancellationToken = default)
         {
             // select levels
-            IQueryable<GameLevel> levelsOfGame = Context.GameLevels.Where(l => l.GameBoxId.Equals(request.GameId));
+            IQueryable<GameLevel> levelsOfGame = Context.GameLevels.Where(l => l.GameId.Equals(request.GameId));
 
             // join users score
             IQueryable<LevelInfo> starredLevels = from level in levelsOfGame

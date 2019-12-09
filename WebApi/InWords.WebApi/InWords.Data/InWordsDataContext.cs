@@ -33,7 +33,7 @@ namespace InWords.Data
 
         public DbSet<UserWordPair> UserWordPairs { get; set; }
 
-        public DbSet<Creation> Creations { get; set; }
+        public DbSet<Game> Games { get; set; }
 
         public DbSet<CreationDescription> CreationDescriptions { get; set; }
 
