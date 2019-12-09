@@ -19,7 +19,7 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
     {
         private void CreateContextWithExistedGame(InWordsDataContext context, int userId)
         {
-            context.Creations.Add(new Creation { CreationId = 1 });
+            context.Games.Add(new Game { GameId = 1 });
             context.GameTags.Add(new GameTag() { UserId = userId, Tags = GameTags.CustomLevelsHistory, GameId = 1 });
             context.WordPairs.AddRange(new List<WordPair>()
             {
@@ -71,7 +71,7 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
 
             // assert
             var expectedLevels = 1;
-            List<GameLevel> actualLevels = context.GameLevels.Where(g => g.GameBoxId.Equals(1)).ToList();
+            List<GameLevel> actualLevels = context.GameLevels.Where(g => g.GameId.Equals(1)).ToList();
             Assert.Equal(expectedLevels, actualLevels.Count);
             var expectedLevelWords = 3;
             var actualLevelWords = context.GameLevelWords
@@ -88,7 +88,7 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
         {
             // initialise
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
-            context.Creations.Add(new Creation { CreationId = 1 });
+            context.Games.Add(new Game { GameId = 1 });
             context.GameTags.Add(new GameTag() { UserId = 1, Tags = GameTags.CustomLevelsHistory, GameId = 1 });
             var testQuery = new CustomLevelMetricQuery()
             {

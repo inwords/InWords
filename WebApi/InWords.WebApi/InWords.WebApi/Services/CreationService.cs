@@ -9,17 +9,17 @@ using InWords.Data.Repositories;
 namespace InWords.WebApi.Services
 {
     /// <summary>
-    ///     Service that contain CRUD for Creations
+    ///     Service that contain CRUD for Games
     /// </summary>
-    /// <see cref="Creation" />
+    /// <see cref="Game" />
     public class CreationService
     {
-        public async Task<Creation> AddCreationInfoAsync(CreationInfo creationInfo)
+        public async Task<Game> AddCreationInfoAsync(CreationInfo creationInfo)
         {
             if (creationInfo.CreatorId == null)
                 throw new ArgumentNullException($"{nameof(creationInfo)} creator not found");
 
-            var creation = new Creation
+            var creation = new Game
             {
                 CreatorId = (int) creationInfo.CreatorId
             };
@@ -29,7 +29,7 @@ namespace InWords.WebApi.Services
             IEnumerable<CreationDescription> creationDescriptions = creationInfo.Descriptions.Select(cd =>
                 new CreationDescription
                 {
-                    CreationId = creation.CreationId,
+                    CreationId = creation.GameId,
                     LanguageId = cd.LangId,
                     Title = cd.Title,
                     Description = cd.Description
@@ -42,24 +42,24 @@ namespace InWords.WebApi.Services
 
         public CreationInfo GetCreationInfo(int id)
         {
-            // find creation information
-            Creation creation = CreationRepository
+            // find game information
+            Game game = CreationRepository
                 .GetWithInclude(n => n.Creator)
-                .SingleOrDefault(c => c.CreationId.Equals(id));
+                .SingleOrDefault(c => c.GameId.Equals(id));
 
-            if (creation == null) return null;
+            if (game == null) return null;
 
-            // select creation description from descriptions repository
+            // select game description from descriptions repository
             List<CreationDescription> descriptionList =
-                CreationDescriptionRepository.GetWhere(cd => cd.CreationId == creation.CreationId).ToList();
+                CreationDescriptionRepository.GetWhere(cd => cd.CreationId == game.GameId).ToList();
 
             // form descriptions infos
             List<DescriptionInfo> descriptions = GetDescriptionInfos(descriptionList);
 
             var creationInfo = new CreationInfo
             {
-                CreatorId = creation.CreatorId,
-                CreatorNickname = creation.Creator.NickName,
+                CreatorId = game.CreatorId,
+                CreatorNickname = game.Creator.NickName,
                 Descriptions = descriptions
             };
 
@@ -75,8 +75,8 @@ namespace InWords.WebApi.Services
 
         public async Task<int> DeleteCreation(int id)
         {
-            Creation creation = await CreationRepository.FindById(id);
-            int deletionsCount = await CreationRepository.Remove(creation);
+            Game game = await CreationRepository.FindById(id);
+            int deletionsCount = await CreationRepository.Remove(game);
             return deletionsCount;
         }
 

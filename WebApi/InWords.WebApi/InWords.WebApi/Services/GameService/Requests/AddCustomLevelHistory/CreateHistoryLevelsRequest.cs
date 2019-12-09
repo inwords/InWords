@@ -41,10 +41,10 @@ namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
             CheckWordsExistens(allUsersWordPairInRequest, userWordPairsToWordPairs);
 
             // find history game
-            Creation historyGame = await GetUsersCustomGameAsync(request.UserId).ConfigureAwait(false);
+            Game historyGame = await GetUsersCustomGameAsync(request.UserId).ConfigureAwait(false);
 
             // add levels to game & save
-            List<GameLevel> levels = await CreateLevelsAsync(historyGame.CreationId, historyLevelsCount).ConfigureAwait(false);
+            List<GameLevel> levels = await CreateLevelsAsync(historyGame.GameId, historyLevelsCount).ConfigureAwait(false);
 
             // add words to level & update metric
             await AddWordsToLevel(levels, metricList, userWordPairsToWordPairs).ConfigureAwait(false);
@@ -62,7 +62,7 @@ namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
             }
         }
 
-        private Task<Creation> GetUsersCustomGameAsync(int userId)
+        private Task<Game> GetUsersCustomGameAsync(int userId)
         {
             return new GetHistoryGame(Context).HandleAsync(userId);
         }
@@ -118,7 +118,7 @@ namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
         private async Task<List<GameLevel>> CreateLevelsAsync(int historyGame, int count)
         {
             IEnumerable<GameLevel> gameLevels = Enumerable.Range(0, count)
-                .Select(historyLevel => new GameLevel { GameBoxId = historyGame });
+                .Select(historyLevel => new GameLevel { GameId = historyGame });
 
             List<GameLevel> gameLevelsList = gameLevels.ToList();
 

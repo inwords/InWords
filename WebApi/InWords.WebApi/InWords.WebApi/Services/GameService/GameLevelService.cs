@@ -22,11 +22,11 @@ namespace InWords.WebApi.Services.GameService
             this.gameLevelWordService = gameLevelWordService;
         }
 
-        public async Task<GameLevel> AddLevelAsync(Creation gameBox, LevelPack levelPack)
+        public async Task<GameLevel> AddLevelAsync(Game gameBox, LevelPack levelPack)
         {
             var gameLevel = new GameLevel
             {
-                GameBoxId = gameBox.CreationId,
+                GameId = gameBox.GameId,
                 Level = levelPack.Level
             };
             gameLevel = await gameLevelRepository.CreateAsync(gameLevel).ConfigureAwait(false);
@@ -35,10 +35,10 @@ namespace InWords.WebApi.Services.GameService
             return gameLevel;
         }
 
-        public IEnumerable<LevelInfo> GetLevels(Creation gameBox)
+        public IEnumerable<LevelInfo> GetLevels(Game gameBox)
         {
             // find all game levels 
-            IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetWhere(l => l.GameBoxId == gameBox.CreationId);
+            IEnumerable<GameLevel> gameLevels = gameLevelRepository.GetWhere(l => l.GameId == gameBox.GameId);
             // convert to level info
             return gameLevels.Select(GetLevelInfo);
         }

@@ -14,7 +14,7 @@ namespace InWords.WebApi.Services.GameService
     /// <summary>
     ///     Service that contain CRUD for Game
     /// </summary>
-    /// <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
+    /// <see cref="T:InWords.Data.Models.InWords.Games.Game" />
     [Obsolete]
     public class GameService
     {
@@ -42,7 +42,7 @@ namespace InWords.WebApi.Services.GameService
             // allow gamePack.CreatorId if admin
             gamePack.CreationInfo.CreatorId = userId;
 
-            Creation gameBox = await CreateGameBoxAsync(gamePack).ConfigureAwait(false);
+            Game gameBox = await CreateGameBoxAsync(gamePack).ConfigureAwait(false);
 
             // Loading behind the scenes, the level will be processed on the server
             // Does not affect user experience
@@ -51,27 +51,27 @@ namespace InWords.WebApi.Services.GameService
             foreach (LevelPack levelPack in gamePack.LevelPacks)
                 await gameLevelService.AddLevelAsync(gameBox, levelPack).ConfigureAwait(false);
 
-            var answer = new SyncBase(gameBox.CreationId);
+            var answer = new SyncBase(gameBox.GameId);
 
             return answer;
         }
 
         public IEnumerable<GameInfo> GetGames()
         {
-            return from creation in creationRepository.GetWhere(g => g.CreatorId == Creation.MainGames).ToList()
-                let creationInfo = creationService.GetCreationInfo(creation.CreationId)
+            return from creation in creationRepository.GetWhere(g => g.CreatorId == Game.MainGames).ToList()
+                let creationInfo = creationService.GetCreationInfo(creation.GameId)
                 let russianDescription = creationInfo.Descriptions.GetRus()
                 select new GameInfo
                 {
                     CreatorId = creationInfo.CreatorId ?? 0,
-                    GameId = creation.CreationId,
+                    GameId = creation.GameId,
                     IsAvailable = true,
                     Title = russianDescription.Title,
                     Description = russianDescription.Description
                 };
         }
 
-        public Task<Creation> CreateGameBoxAsync(GamePack gamePack)
+        public Task<Game> CreateGameBoxAsync(GamePack gamePack)
         {
             return creationService.AddCreationInfoAsync(gamePack.CreationInfo);
         }
@@ -84,19 +84,19 @@ namespace InWords.WebApi.Services.GameService
         public async Task<GameObject> GetGameObjectAsync(int gameId)
         {
             // find game in database
-            Creation gameBox = await creationRepository.FindById(gameId).ConfigureAwait(false);
+            Game gameBox = await creationRepository.FindById(gameId).ConfigureAwait(false);
 
             if (gameBox == null) return null;
 
             // find the creator of the game
-            CreationInfo creationInfo = creationService.GetCreationInfo(gameBox.CreationId);
+            CreationInfo creationInfo = creationService.GetCreationInfo(gameBox.GameId);
 
             // load level infos
             IEnumerable<LevelInfo> levelInfos = gameLevelService.GetLevels(gameBox);
 
             var game = new GameObject
             {
-                GameId = gameBox.CreationId,
+                GameId = gameBox.GameId,
                 Creator = creationInfo
                     .CreatorNickname, //TODO: V3080 https://www.viva64.com/en/w/v3080/ Possible null dereference. Consider inspecting 'creationInfo'.
                 LevelInfos = levelInfos.ToList()

@@ -337,7 +337,7 @@
             <summary>
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Extensions.Transfer.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Data.DTO.Creation.DescriptionInfo})">
+        <member name="M:InWords.WebApi.Extensions.Transfer.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Data.DTO.Game.DescriptionInfo})">
             <summary>
                 Test method returning Russian description
             </summary>
@@ -503,11 +503,11 @@
             <param name="levelMetricQuery"></param>
             <returns></returns>
         </member>
-        <member name="T:InWords.WebApi.Services.CreationService">
+        <member name="T:InWords.WebApi.Services.GameService">
             <summary>
-                Service that contain CRUD for Creations
+                Service that contain CRUD for Games
             </summary>
-            <see cref="T:InWords.Data.Creations.Creation" />
+            <see cref="T:InWords.Data.Games.Game" />
         </member>
         <member name="M:InWords.WebApi.Services.Email.EmailCodeVerificationService.HasCorrectCode(System.Int32,System.String,System.Int32)">
             <summary>
@@ -559,7 +559,7 @@
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Creations.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult})">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Games.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult})">
             <summary>
             </summary>
             <param name="levelsToUpdate">All levels that exist in database</param>
@@ -570,14 +570,14 @@
             <summary>
                 Service that contain CRUD for Game
             </summary>
-            <see cref="T:InWords.Data.Models.InWords.Creations.Creation" />
+            <see cref="T:InWords.Data.Models.InWords.Games.Game" />
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameService.#ctor(InWords.WebApi.Services.CreationService,InWords.Data.Repositories.CreationRepository,InWords.WebApi.Services.GameService.GameLevelService)">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.#ctor(InWords.WebApi.Services.GameService,InWords.Data.Repositories.GameRepository,InWords.WebApi.Services.GameService.GameLevelService)">
             <summary>
                 Basic constructor
             </summary>
-            <param name="creationService"></param>
-            <param name="creationRepository"></param>
+            <param name="gameService"></param>
+            <param name="gameRepository"></param>
             <param name="gameLevelService"></param>
         </member>
         <member name="M:InWords.WebApi.Services.GameService.GameService.GetGameObjectAsync(System.Int32)">

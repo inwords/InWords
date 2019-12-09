@@ -17,9 +17,9 @@ namespace InWords.WebApiTests.Services.GameService.Requests.SendLevelsMetric
     {
         private void CreateGameContext(InWordsDataContext context)
         {
-            context.Creations.Add(new Creation() { CreationId = 1 });
+            context.Games.Add(new Game() { GameId = 1 });
             context.GameTags.Add(new GameTag() { UserId = 1, GameId = 1 });
-            context.GameLevels.Add(new GameLevel() { GameLevelId = 1, GameBoxId = 1 });
+            context.GameLevels.Add(new GameLevel() { GameLevelId = 1, GameId = 1 });
             context.WordPairs.AddRange(new List<WordPair>()
             {
                 new WordPair() {WordPairId = 2},

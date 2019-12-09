@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace InWords.WebApi.Services.GameService.Requests
 {
@@ -14,20 +15,20 @@ namespace InWords.WebApi.Services.GameService.Requests
             this.context = context;
         }
 
-        public async Task<Creation> HandleAsync(int userId)
+        public async Task<Game> HandleAsync(int userId)
         {
-            Creation historyGame = FindHistoryGame();
+            Game historyGame = FindHistoryGame();
             // Create if not exist
             if (!(historyGame is null)) return historyGame;
             
-            historyGame = new Creation { CreatorId = userId };
-            context.Creations.Add(historyGame);
+            historyGame = new Game { CreatorId = userId };
+            context.Games.Add(historyGame);
             await context.SaveChangesAsync().ConfigureAwait(false);
             var tag = new GameTag
             {
                 Tags = GameTags.CustomLevelsHistory,
                 UserId = userId,
-                GameId = historyGame.CreationId
+                GameId = historyGame.GameId
             };
             context.GameTags.Add(tag);
             await context.SaveChangesAsync().ConfigureAwait(false);
@@ -35,12 +36,12 @@ namespace InWords.WebApi.Services.GameService.Requests
             return historyGame;
         }
 
-        private Creation FindHistoryGame()
+        private Game FindHistoryGame()
         {
             return (from gameTags in context.GameTags
                     where gameTags.Tags.Equals(GameTags.CustomLevelsHistory)
-                    join game in context.Creations on gameTags.GameId equals game.CreationId
-                    select game).SingleOrDefault();
+                    join game in context.Games on gameTags.GameId equals game.GameId
+                    select game).AsNoTracking().SingleOrDefault();
         }
     }
 }

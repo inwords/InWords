@@ -15,7 +15,7 @@ namespace InWords.Data.Creations
 
         public int CreationId { get; set; }
 
-        [ForeignKey(nameof(CreationId))] public virtual Creation Creation { get; set; }
+        [ForeignKey(nameof(CreationId))] public virtual Game Game { get; set; }
 
         /// <summary>
         ///     Description on this lang

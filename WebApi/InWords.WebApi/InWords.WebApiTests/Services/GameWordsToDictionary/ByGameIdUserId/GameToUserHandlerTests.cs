@@ -18,9 +18,9 @@ namespace InWords.WebApiTests.Services.GameWordsToDictionary.ByGameIdUserId
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
 
             // Two levels with two words, total words 4
-            context.Creations.Add(new Creation {CreationId = 1});
-            context.GameLevels.Add(new GameLevel {GameLevelId = 1, GameBoxId = 1});
-            context.GameLevels.Add(new GameLevel {GameLevelId = 2, GameBoxId = 1});
+            context.Games.Add(new Game {GameId = 1});
+            context.GameLevels.Add(new GameLevel {GameLevelId = 1, GameId = 1});
+            context.GameLevels.Add(new GameLevel {GameLevelId = 2, GameId = 1});
             context.GameLevelWords.Add(new GameLevelWord {GameLevelId = 1, GameLevelWordId = 1, WordPairId = 1});
             context.GameLevelWords.Add(new GameLevelWord {GameLevelId = 1, GameLevelWordId = 2, WordPairId = 2});
             context.GameLevelWords.Add(new GameLevelWord {GameLevelId = 2, GameLevelWordId = 3, WordPairId = 1});
