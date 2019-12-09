@@ -24,6 +24,34 @@ namespace InWords.WebApi.Controllers.v1._1
 
         /// <summary>
         /// Use this to upload user's level's metric
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /estimate
+        ///     
+        ///   {
+        ///    "metrics": [
+        ///    {
+        ///        "gameLevelId": 12,
+        ///        "wordPairIdOpenCounts": {
+        ///            "1": 4,
+        ///            "2": 5,
+        ///            "5": 1
+        ///        }
+        ///    },
+        ///   "metrics": [
+        ///    {
+        ///        "gameLevelId": 0, (NOTE: If gameLevelId is zero game will be created in history)
+        ///        "wordPairIdOpenCounts": {
+        ///            "3": 1,
+        ///            "2": 2,
+        ///            "1": 3
+        ///        }
+        ///    }
+        ///    ]
+        ///   }
+        ///                
+        /// </remarks>
         /// </summary>
         [HttpPost]
         [Route("estimate")]
