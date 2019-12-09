@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
+import withLocalStorageData from 'src/HOCs/withLocalStorageData';
 import withReceivedTrainingLevel from 'src/HOCs/withReceivedTrainingLevel';
 import Game from './Game';
 import TrainingResult from 'src/layout/TrainingResult';
 
-function GameContainer({ levelId, wordTranslations }) {
+function GameContainer({ levelId, wordTranslations, localData }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
@@ -23,7 +24,7 @@ function GameContainer({ levelId, wordTranslations }) {
     const wordPairs = Array.prototype.concat.apply(
       [],
       shuffle([...wordTranslations])
-        .slice(0, 8)
+        .slice(0, localData['training-words-quantity'] || 8)
         .map((wordPair, index) => [
           {
             id: index * 2,
@@ -39,7 +40,7 @@ function GameContainer({ levelId, wordTranslations }) {
     );
 
     setWordPairs(shuffle(wordPairs));
-  }, [wordTranslations]);
+  }, [wordTranslations, localData]);
 
   useEffect(() => {
     const numberOfcompletedPairs = Object.keys(completedPairIdsMap).length;
@@ -156,7 +157,12 @@ GameContainer.propTypes = {
       wordForeign: PropTypes.string.isRequired,
       wordNative: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  localData: PropTypes.shape({
+    'training-words-quantity': PropTypes.string
+  })
 };
 
-export default withReceivedTrainingLevel(GameContainer);
+export default withReceivedTrainingLevel(
+  withLocalStorageData(GameContainer, ['training-words-quantity'])
+);

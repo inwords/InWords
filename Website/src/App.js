@@ -30,6 +30,10 @@ const routes = [
       {
         to: '/dictionary/my',
         text: 'Мой словарь'
+      },
+      {
+        to: '/dictionary/sets',
+        text: 'Наборы'
       }
     ]
   },
@@ -44,10 +48,6 @@ const routes = [
       {
         to: '/training/history',
         text: 'История'
-      },
-      {
-        to: '/training/themes',
-        text: 'Темы'
       }
     ]
   }

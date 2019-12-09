@@ -4,12 +4,10 @@ import Container from 'src/components/Container';
 import Breadcrumbs from 'src/components/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/BreadcrumbsLink';
 
-const TrainingCategories = lazy(() => import('src/routes/TrainingCategories'));
 const TrainingTypes = lazy(() => import('src/routes/TrainingTypes'));
 const TrainingLevelCreator = lazy(() =>
   import('src/routes/TrainingLevelCreator')
 );
-const TrainingLevels = lazy(() => import('src/routes/TrainingLevels'));
 const TrainingHistory = lazy(() => import('src/routes/TrainingHistory'));
 const TrainingSwitcher = lazy(() => import('src/routes/TrainingSwitcher'));
 
@@ -90,74 +88,6 @@ function TrainingRouter() {
           </Container>
         )}
       ></Route>
-      <Route exact path={`${url}/themes`}>
-        <Container maxWidth="lg">
-          <Breadcrumbs>
-            <BreadcrumbsLink to={`${url}/themes`}>Темы</BreadcrumbsLink>
-          </Breadcrumbs>
-          <TrainingCategories />
-        </Container>
-      </Route>
-      <Route
-        exact
-        path={`${url}/themes/:categoryId`}
-        render={({ match: { params } }) => (
-          <Container maxWidth="lg">
-            <Breadcrumbs>
-              <BreadcrumbsLink to={`${url}/themes`}>Темы</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/themes/${params.categoryId}`}>
-                Тренировки
-              </BreadcrumbsLink>
-            </Breadcrumbs>
-            <TrainingTypes />
-          </Container>
-        )}
-      ></Route>
-      <Route
-        exact
-        path={`${url}/themes/:categoryId/:trainingId`}
-        render={({ match: { params } }) => (
-          <Container maxWidth="lg">
-            <Breadcrumbs>
-              <BreadcrumbsLink to={`${url}/themes`}>Темы</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/themes/${params.categoryId}`}>
-                Тренировки
-              </BreadcrumbsLink>
-              <BreadcrumbsLink
-                to={`${url}/themes/${params.categoryId}/${params.trainingId}`}
-              >
-                Уровни
-              </BreadcrumbsLink>
-            </Breadcrumbs>
-            <TrainingLevels />
-          </Container>
-        )}
-      ></Route>
-      <Route
-        exact
-        path={`${url}/themes/:categoryId/:trainingId/:levelId`}
-        render={({ match: { params } }) => (
-          <Container maxWidth="lg">
-            <Breadcrumbs>
-              <BreadcrumbsLink to={`${url}/themes`}>Темы</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/themes/${params.categoryId}`}>
-                Тренировки
-              </BreadcrumbsLink>
-              <BreadcrumbsLink
-                to={`${url}/themes/${params.categoryId}/${params.trainingId}`}
-              >
-                Уровни
-              </BreadcrumbsLink>
-              <BreadcrumbsLink
-                to={`${url}/themes/${params.categoryId}/${params.trainingId}/${params.levelId}`}
-              >
-                Карточки
-              </BreadcrumbsLink>
-            </Breadcrumbs>
-            <TrainingSwitcher trainingId={+params.trainingId} />
-          </Container>
-        )}
-      />
       <Route exact path={`${url}/dictionary`}>
         <Container maxWidth="md">
           <Breadcrumbs>

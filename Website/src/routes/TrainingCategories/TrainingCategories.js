@@ -1,18 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useRouteMatch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import CategoryMenuButton from './CategoryMenuButton';
 
 function TrainingCategories({ trainingCategories }) {
-  const match = useRouteMatch();
-
   return (
     <Grid container spacing={3}>
       {trainingCategories.map(({ gameId, title, description, isAvailable }) => (
@@ -25,17 +20,6 @@ function TrainingCategories({ trainingCategories }) {
             <CardContent>
               <Typography variant="body2">{description}</Typography>
             </CardContent>
-            <CardActions>
-              <Button
-                component={Link}
-                to={`${match.path}/${gameId}`}
-                disabled={!isAvailable}
-                size="small"
-                color="primary"
-              >
-                Выбрать
-              </Button>
-            </CardActions>
           </Card>
         </Grid>
       ))}

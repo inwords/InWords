@@ -4,6 +4,7 @@ import Container from 'src/components/Container';
 
 const DictionaryMain = lazy(() => import('src/routes/DictionaryMain'));
 const Dictionary = lazy(() => import('src/routes/Dictionary'));
+const TrainingCategories = lazy(() => import('src/routes/TrainingCategories'));
 
 function DictionaryRouter() {
   const { url } = useRouteMatch();
@@ -21,6 +22,11 @@ function DictionaryRouter() {
       <Route path={`${url}/my`}>
         <Container maxWidth="md">
           <Dictionary />
+        </Container>
+      </Route>
+      <Route exact path={`${url}/sets`}>
+        <Container maxWidth="lg">
+          <TrainingCategories />
         </Container>
       </Route>
     </Switch>
