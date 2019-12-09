@@ -71,13 +71,14 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
 
         viewModel.navigationFromGameEnd.observe(this::getLifecycle) {
             when (it.contentIfNotHandled ?: return@observe) {
-                FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToMainFragment())
+                FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionGlobalMainFragment())
                 FromGameEndEventsEnum.BACK -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
+                FromGameEndEventsEnum.GAMES_FRAGMENT -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGamesFragment())
                 else -> navController.navigate(GameEndBottomSheetDirections.actionPop())
             }
         }
 
-        setupView(viewModel.getNextLevelInfo() is Resource.Success)
+        setupView()
     }
 
     override fun onDetach() {
@@ -85,17 +86,11 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
         super.onDetach()
     }
 
-    private fun setupView(nextLevelAvailable: Boolean) {
+    private fun setupView() {
         button_home.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.HOME) }
         button_back.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.BACK) }
         button_next.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.NEXT) }
         button_retry.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.REFRESH) }
-
-        if (nextLevelAvailable) {
-            button_next.visibility = View.VISIBLE
-        } else {
-            button_next.visibility = View.GONE
-        }
     }
 
     private fun showSuccess(levelScore: LevelScore) {

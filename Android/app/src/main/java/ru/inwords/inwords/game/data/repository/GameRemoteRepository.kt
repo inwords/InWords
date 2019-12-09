@@ -21,10 +21,12 @@ class GameRemoteRepository @Inject constructor(private val webRequestsManagerAut
     }
 
     fun getScore(levelScoreRequest: LevelScoreRequest): Single<LevelScore> {
-        return webRequestsManagerAuthorised.getScore(levelScoreRequest)
+        return webRequestsManagerAuthorised.getScore(TrainingEstimateRequest(listOf(levelScoreRequest)))
+            .map { it.first() }
     }
 
     fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean> {
-        return webRequestsManagerAuthorised.uploadScore(levelScoreRequests)
+        return webRequestsManagerAuthorised.getScore(TrainingEstimateRequest(levelScoreRequests))
+            .map { true }
     }
 }

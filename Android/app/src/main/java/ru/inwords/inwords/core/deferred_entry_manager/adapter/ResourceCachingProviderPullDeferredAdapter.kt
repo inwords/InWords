@@ -50,7 +50,9 @@ class ResourceCachingProviderPullDeferredAdapter<V, T>(
 
             if (removed.isNotEmpty()) {
                 deferredEntryManager.deleteAllRemoteIds(removed)
-            } else if (added.isNotEmpty()) {
+                    .also { completables.add(it) }
+            }
+            if (added.isNotEmpty()) {
                 deferredEntryManager.createAll(added, alreadySynced = true)
                     .ignoreElement()
                     .also { completables.add(it) }

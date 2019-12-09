@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ru.inwords.inwords.presentation.NestedCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".translation.presentation.view.translation_main.TranslationMainFragment">
+    tools:context=".translation.presentation.translation_main.TranslationMainFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -47,4 +47,4 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_progress_height" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</ru.inwords.inwords.presentation.NestedCoordinatorLayout>

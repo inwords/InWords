@@ -52,7 +52,7 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
                 shouldAskForUpdate.set(it is Resource.Error)
                 inProgress.set(false)
             }
-            .flatMap { askForFinalValue.flatMapSingle { finalValueProvider().wrapResource() } }
+            .flatMap { askForFinalValue.flatMapSingle { finalValueProvider().wrapResource(Source.NOT_SET) } }
             .subscribe(resourceStream)
 
         askForContentUpdate()

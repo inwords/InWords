@@ -28,9 +28,8 @@ import javax.inject.Singleton
 @Module
 interface DataAbstractModule {
     @Binds
+    @Singleton
     fun authorisationWebInteractor(interactor: AuthorisationWebInteractor): AuthorisationInteractor
-    // Singleton annotation isn't necessary (in this case since Application instance is unique)
-    // but is here for convention.
 
     @Binds
     @Singleton

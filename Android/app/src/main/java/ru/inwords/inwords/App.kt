@@ -6,11 +6,15 @@ import android.os.Build
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.os.StrictMode.VmPolicy
+import android.util.Log
+import androidx.work.Configuration
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
 import okhttp3.OkHttpClient
 import ru.inwords.inwords.dagger.AppComponent
 import ru.inwords.inwords.dagger.DaggerAppComponent
@@ -19,7 +23,7 @@ import ru.inwords.inwords.data.repository.SettingsRepository
 import javax.inject.Inject
 
 
-class App : Application(), HasAndroidInjector {
+class App : Application(), HasAndroidInjector, Configuration.Provider {
     companion object {
         lateinit var appComponent: AppComponent
     }
@@ -49,7 +53,22 @@ class App : Application(), HasAndroidInjector {
         addStrictModeIfDebug()
 
         appComponent = appComponentInternal
+
+        RxJavaPlugins.setErrorHandler { e ->
+            if (e is UndeliverableException) {
+                Log.wtf("App", e.message.orEmpty())
+            } else {
+                Thread.currentThread().also { thread ->
+                    thread.uncaughtExceptionHandler?.uncaughtException(thread, e)
+                }
+            }
+        }
     }
+
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setMinimumLoggingLevel(if (BuildConfig.DEBUG) Log.INFO else Log.ERROR)
+            .build()
 
     override fun androidInjector(): AndroidInjector<Any> {
         return dispatchingAndroidInjector

@@ -23,7 +23,7 @@ internal constructor(private val apiServiceAuthorised: ApiServiceAuthorised,
     private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
 
     override fun notifyAuthStateChanged(authorised: Boolean) {
-        if (authorised){
+        if (authorised) {
             sessionHelper.resetThreshold()
         }
         authenticatedNotifierSubject.onNext(authorised)
@@ -35,95 +35,103 @@ internal constructor(private val apiServiceAuthorised: ApiServiceAuthorised,
 
     override fun getLogin(): Single<String> {
         return valve()
-                .flatMap { apiServiceAuthorised.getLogin() }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.getLogin() }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getAuthorisedUser(): Single<User> {
         return valve()
-                .flatMap { apiServiceAuthorised.getAuthorisedUser() }
-                .interceptError()
-                //.flatMap(Observable::fromIterable)
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.getAuthorisedUser() }
+            .interceptError()
+            //.flatMap(Observable::fromIterable)
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getUserById(id: Int): Single<User> {
         return valve()
-                .flatMap { apiServiceAuthorised.getUserById(id) }
-                .interceptError()
-                //.flatMap(Observable::fromIterable)
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.getUserById(id) }
+            .interceptError()
+            //.flatMap(Observable::fromIterable)
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun updateUser(newUser: User): Completable {
         return valve()
-                .flatMapCompletable { apiServiceAuthorised.updateUser(newUser) }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMapCompletable { apiServiceAuthorised.updateUser(newUser) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
         return valve()
-                .flatMap { apiServiceAuthorised.addPairs(wordTranslations) }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.addPairs(wordTranslations) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun removeAllServerIds(serverIds: List<Int>): Single<Int> {
         return valve()
-                .flatMap { apiServiceAuthorised.deletePairs(serverIds) }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.deletePairs(serverIds) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer> {
         return valve()
-                .flatMap { apiServiceAuthorised.pullWordsPairs(serverIds) }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.pullWordsPairs(serverIds) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getGameInfos(): Single<List<GameInfo>> {
         return valve()
-                .flatMap { apiServiceAuthorised.getGameInfos() }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.getGameInfos() }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getGame(gameId: Int): Single<Game> {
         return valve()
-                .flatMap { apiServiceAuthorised.getGame(gameId) }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.getGame(gameId) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun getLevel(levelId: Int): Single<GameLevel> {
         return valve()
-                .flatMap { apiServiceAuthorised.getLevel(levelId) }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.getLevel(levelId) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getScore(levelScoreRequest: LevelScoreRequest): Single<LevelScore> {
+    override fun getScore(trainingEstimateRequest: TrainingEstimateRequest): Single<List<LevelScore>> {
         return valve()
-                .flatMap { apiServiceAuthorised.getGameScore(levelScoreRequest) }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.getLevelScore(trainingEstimateRequest) }
+            .map { it.classicCardLevelResult }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean> {
+    override fun getWordsForTraining(): Single<List<WordTranslation>> {
         return valve()
-                .flatMap { apiServiceAuthorised.uploadScore(levelScoreRequests).toSingleDefault(true) }
-                .interceptError()
-                .subscribeOn(SchedulersFacade.io())
+            .flatMap { apiServiceAuthorised.getWordsForTraining() }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
+    }
+
+    override fun getIdsForTraining(): Single<List<Int>> {
+        return valve()
+            .flatMap { apiServiceAuthorised.getIdsForTraining() }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     private fun valve(): Single<Unit> {
         return Observable.just(Unit)
-                .doOnNext { sessionHelper.requireThreshold() }
-                .compose(ObservableTransformers.valve(authenticatedNotifierSubject, false))
-                .firstOrError()
+            .doOnNext { sessionHelper.requireThreshold() }
+            .compose(ObservableTransformers.valve(authenticatedNotifierSubject, false))
+            .firstOrError()
     }
 
     private fun <T> Single<T>.interceptError(): Single<T> {

@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_game_levels.view.*
+import kotlinx.android.synthetic.main.fragment_translation_main.*
 import kotlinx.android.synthetic.main.game_welcome.view.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.recycler.fixOverscrollBehaviour
@@ -25,6 +27,8 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     override val layout = R.layout.fragment_game_levels
     override val classType = GameLevelsViewModel::class.java
 
+    override val noContentViewId = R.id.levels_recycler
+
     private val args by navArgs<GameLevelsFragmentArgs>()
 
     private var gameId: Int = INVALID_ID
@@ -36,8 +40,8 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
         return super.onCreateView(inflater, container, savedInstanceState).apply {
             adapter = GameLevelsAdapter(viewModel.navigateToGameLevel)
 
-            levelsRecycler.layoutManager = GridLayoutManager(context, 3)
-            levelsRecycler.adapter = adapter
+            levels_recycler.layoutManager = GridLayoutManager(context, 3)
+            levels_recycler.adapter = adapter
 
             if (!shownIntro) {
                 showIntro(this)
@@ -48,6 +52,8 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        NavigationUI.setupWithNavController(toolbar, navController)
 
         viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
 
@@ -63,13 +69,13 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
                 }
                 .applyDiffUtil()
                 .observeOn(SchedulersFacade.ui())
-                .doOnSubscribe { view.levelsRecycler.showShimmerAdapter() }
-                .doOnEach { view.levelsRecycler.hideShimmerAdapter() }
+                .doOnSubscribe { view.levels_recycler.showShimmerAdapter() }
+                .doOnEach { view.levels_recycler.hideShimmerAdapter() }
                 .subscribe({
                     showScreenState(it.first)
                     adapter.accept(it)
 
-                    fixOverscrollBehaviour(view.levelsRecycler)
+                    fixOverscrollBehaviour(view.levels_recycler)
                 }) {
                     Log.e(javaClass.simpleName, it.message.orEmpty())
                     showNoContent()

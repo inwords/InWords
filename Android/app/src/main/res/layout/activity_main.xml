@@ -6,15 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity">
+    tools:context=".presentation.view_scenario.main_activity.MainActivity">
 
     <fragment
         android:id="@+id/main_nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/zero"
+        android:layout_height="@dimen/constraint_match_parent"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_behavior=".presentation.ScrollingViewWithBottomNavigationBehavior"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
@@ -22,9 +23,12 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:background="@color/colorPrimary"
         app:itemIconTint="@color/text_color_default_inverse"
         app:itemTextColor="@color/text_color_default_inverse"
+        app:labelVisibilityMode="selected"
+        app:layout_behavior=".presentation.BottomNavigationBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/navigation" />
 

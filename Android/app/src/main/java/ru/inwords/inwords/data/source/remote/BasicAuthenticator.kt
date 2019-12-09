@@ -4,6 +4,7 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,8 +13,8 @@ class BasicAuthenticator @Inject internal constructor(private val authenticatorT
     override fun authenticate(route: Route?, response: Response): Request? {
         val header = response.request.header("Authorization")
 
-        if (header != null/* && header.contains(AuthInfo.errorToken.accessToken)*/) { //TODO: think about COSTIL
-            return null // Give up, we've already failed to authenticate.
+        if (header == AuthInfo.unauthorisedToken.bearer) {
+            return null
         }
 
         val tokenResponse = authenticatorTokenProvider.getToken().blockingGet()

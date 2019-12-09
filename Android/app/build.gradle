@@ -13,8 +13,8 @@ android {
         applicationId "ru.inwords.inwords"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
-        versionCode 11
-        versionName "1.6"
+        versionCode 12
+        versionName "1.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
@@ -106,13 +106,21 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.NAVIGATION"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.NAVIGATION"
 
+    // Work manager
+    implementation "androidx.work:work-runtime-ktx:$versions.WORK_MANAGER"
+    implementation "androidx.work:work-rxjava2:$versions.WORK_MANAGER"
+
     // RxJava
     implementation "io.reactivex.rxjava3:rxjava:$versions.RX_JAVA"
     implementation "io.reactivex.rxjava2:rxandroid:$versions.RX_ANDROID"
 
     //Fresco
-    implementation 'com.facebook.fresco:fresco:2.0.0'
-    implementation "com.facebook.fresco:imagepipeline-okhttp3:2.0.0"
+    implementation('com.facebook.fresco:fresco:2.1.0') {
+        exclude group: 'com.facebook.soloader', module: 'soloader'
+    }
+    implementation("com.facebook.fresco:imagepipeline-okhttp3:2.1.0") {
+        exclude group: 'com.facebook.soloader', module: 'soloader'
+    }
 
     //Shimmer
     implementation "com.facebook.shimmer:shimmer:$versions.SHIMMER"

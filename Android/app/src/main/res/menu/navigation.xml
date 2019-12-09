@@ -7,18 +7,13 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@id/translationMainFragment"
-        android:icon="@drawable/ic_library_books_24dp"
-        android:title="@string/title_dictionary" />
-
-    <item
-        android:id="@id/gamesFragment"
+        android:id="@id/graph_game_selection"
         android:icon="@drawable/ic_games_24dp"
         android:title="@string/title_game" />
 
     <item
-        android:id="@id/profileFragment"
-        android:icon="@drawable/ic_profile_24dp"
-        android:title="@string/title_profile" />
+        android:id="@id/graph_dictionary"
+        android:icon="@drawable/ic_library_books_24dp"
+        android:title="@string/title_dictionary" />
 
 </menu>

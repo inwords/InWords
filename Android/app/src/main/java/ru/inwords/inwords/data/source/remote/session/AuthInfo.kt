@@ -30,16 +30,7 @@ class AuthInfo @Inject constructor(@Common private val sharedPreferences: Shared
         }
 
     fun getCredentials(): Single<UserCredentials> {
-        return Single.fromCallable {
-            val credentials = credentialsInternal
-
-            if (!credentials.validCredentials()) {
-                throw AuthenticationException("invalid credentials (no credentials)",
-                        AuthExceptionType.NO_CREDENTIALS)
-            }
-
-            credentials
-        }
+        return Single.fromCallable { credentialsInternal.requireCredentials() }
     }
 
     fun setCredentials(userCredentials: UserCredentials): Single<UserCredentials> {
@@ -49,18 +40,16 @@ class AuthInfo @Inject constructor(@Common private val sharedPreferences: Shared
         }
     }
 
-    fun getAuthToken(): Single<String> {
+    fun getAuthToken(): Single<TokenResponse> {
         return getCredentials()
-                .map { tokenResponse.bearer }
+            .map { tokenResponse }
     }
 
     val isNoToken: Boolean get() = tokenResponse == noToken
-    val isError: Boolean get() = tokenResponse == errorToken
     val isUnauthorised: Boolean get() = tokenResponse == unauthorisedToken
 
     companion object {
         val noToken = TokenResponse()
-        val errorToken = TokenResponse("error_token")
         val unauthorisedToken = TokenResponse("invalid_token")
     }
 }
@@ -69,3 +58,12 @@ const val PREFS_EMAIL = "em"
 const val PREFS_PASSWORD = "pa"
 
 fun UserCredentials.validCredentials() = email.isNotBlank() && password.isNotBlank()
+
+fun UserCredentials.requireCredentials(): UserCredentials {
+    if (!validCredentials()) {
+        throw AuthenticationException("invalid credentials (no credentials)",
+            AuthExceptionType.NO_CREDENTIALS)
+    }
+
+    return this
+}

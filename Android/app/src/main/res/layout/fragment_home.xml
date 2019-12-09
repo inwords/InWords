@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ru.inwords.inwords.presentation.NestedCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.view_scenario.home.HomeFragment">
+    tools:context=".home.HomeFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/appbar_height">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:menu="@menu/home_menu_default"
+            app:title="@string/app_name" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cards_recycler"
@@ -14,6 +28,7 @@
         android:clipToPadding="false"
         android:paddingStart="@dimen/space_medium"
         android:paddingTop="@dimen/space_medium"
-        android:paddingEnd="@dimen/space_medium" />
+        android:paddingEnd="@dimen/space_medium"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</LinearLayout>
+</ru.inwords.inwords.presentation.NestedCoordinatorLayout>
