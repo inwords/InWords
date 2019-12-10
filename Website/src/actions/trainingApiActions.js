@@ -117,7 +117,12 @@ export function receiveTrainingWordPairs() {
     endpoint: 'dictionary/training',
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingWordPairs(data));
+        dispatch(
+          trainingActions.initializeTrainingLevel({
+            levelId: 0,
+            wordTranslations: data
+          })
+        );
       }
     ],
     actionsOnFailure: [

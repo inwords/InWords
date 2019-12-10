@@ -43,17 +43,25 @@ function GameContainer({ levelId, wordTranslations, localData }) {
   }, [wordTranslations, localData]);
 
   useEffect(() => {
+    let timer1;
+    let timer2;
+
     const numberOfcompletedPairs = Object.keys(completedPairIdsMap).length;
     if (
       numberOfcompletedPairs > 0 &&
       numberOfcompletedPairs === wordPairs.length / 2
     ) {
-      window.setTimeout(() => {
+      timer1 = setTimeout(() => {
         setIsGameCompleted(true);
       }, 1000);
 
-      window.setTimeout(() => {
+      timer2 = setTimeout(() => {
         setIsResultReady(true);
+
+        setSelectedWordPairs([]);
+        setCompletedPairIdsMap({});
+        setSelectedCompletedPairId(-1);
+        setWordPairIdOpenCountsMap({});
       }, 1500);
 
       const gameLevelId = levelId < 0 ? 0 : levelId;
@@ -69,9 +77,14 @@ function GameContainer({ levelId, wordTranslations, localData }) {
         )
       );
     }
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   }, [
     completedPairIdsMap,
-    wordPairs.length,
+    wordPairs,
     levelId,
     wordPairIdOpenCountsMap,
     dispatch
@@ -126,10 +139,6 @@ function GameContainer({ levelId, wordTranslations, localData }) {
 
   const handleReplay = () => {
     setWordPairs(wordInfo => shuffle([...wordInfo]));
-    setSelectedWordPairs([]);
-    setCompletedPairIdsMap({});
-    setSelectedCompletedPairId(-1);
-    setWordPairIdOpenCountsMap({});
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
@@ -145,7 +154,11 @@ function GameContainer({ levelId, wordTranslations, localData }) {
       handleClick={handleClick}
     />
   ) : (
-    <TrainingResult score={score} handleReplay={handleReplay} />
+    <TrainingResult
+      wordPairs={wordPairs}
+      score={score}
+      handleReplay={handleReplay}
+    />
   );
 }
 

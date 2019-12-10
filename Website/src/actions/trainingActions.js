@@ -16,6 +16,16 @@ export const initializeTrainingLevel = trainingLevel => ({
   payload: trainingLevel
 });
 
+export const REMOVE_TRAINING_LEVEL_WORD_PAIRS =
+  'REMOVE_TRAINING_LEVEL_WORD_PAIRS';
+export const removeTrainingLevelWordPairs = (levelId, pairIds) => ({
+  type: REMOVE_TRAINING_LEVEL_WORD_PAIRS,
+  payload: {
+    levelId,
+    pairIds
+  }
+});
+
 export const UPDATE_LEVEL_RESULT = 'UPDATE_LEVEL_RESULT';
 export const updateLevelResult = levelResult => ({
   type: UPDATE_LEVEL_RESULT,
@@ -26,10 +36,4 @@ export const INITIALIZE_TRAINING_HISTORY = 'INITIALIZE_TRAINING_HISTORY';
 export const initializeTrainingHistory = trainingHistory => ({
   type: INITIALIZE_TRAINING_HISTORY,
   payload: trainingHistory
-});
-
-export const INITIALIZE_TRAINING_WORD_PAIRS = 'INITIALIZE_TRAINING_WORD_PAIRS';
-export const initializeTrainingWordPairs = trainingWordPairs => ({
-  type: INITIALIZE_TRAINING_WORD_PAIRS,
-  payload: trainingWordPairs
 });

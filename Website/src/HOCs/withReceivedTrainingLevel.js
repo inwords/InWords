@@ -17,7 +17,10 @@ function withReceivedTrainingLevel(WrappedComponent) {
     const paramLevelId = +params.levelId;
 
     React.useEffect(() => {
-      if (!trainingLevelsMap[paramLevelId]) {
+      if (
+        !trainingLevelsMap[paramLevelId] ||
+        !trainingLevelsMap[paramLevelId].wordTranslations.length
+      ) {
         switch (paramLevelId) {
           case 0:
             history.push('/training');
@@ -28,7 +31,9 @@ function withReceivedTrainingLevel(WrappedComponent) {
           default:
         }
 
-        dispatch(receiveTrainingLevel(paramLevelId));
+        if (!trainingLevelsMap[paramLevelId]) {
+          dispatch(receiveTrainingLevel(paramLevelId));
+        }
       }
     }, [trainingLevelsMap, paramLevelId, dispatch, history]);
 

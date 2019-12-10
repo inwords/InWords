@@ -5,9 +5,7 @@ import Breadcrumbs from 'src/components/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/BreadcrumbsLink';
 
 const TrainingTypes = lazy(() => import('src/routes/TrainingTypes'));
-const TrainingLevelCreator = lazy(() =>
-  import('src/routes/TrainingLevelCreator')
-);
+const MainTrainingTypes = lazy(() => import('src/routes/MainTrainingTypes'));
 const TrainingHistory = lazy(() => import('src/routes/TrainingHistory'));
 const TrainingSwitcher = lazy(() => import('src/routes/TrainingSwitcher'));
 
@@ -21,11 +19,10 @@ function TrainingRouter() {
       </Route>
       <Route exact path={`${url}/main`}>
         <Container maxWidth="lg">
-          <TrainingLevelCreator />
           <Breadcrumbs>
             <BreadcrumbsLink to={`${url}/main`}>Тренировки</BreadcrumbsLink>
           </Breadcrumbs>
-          <TrainingTypes endpoint="/0" />
+          <MainTrainingTypes endpoint="/0" />
         </Container>
       </Route>
       <Route
@@ -70,7 +67,7 @@ function TrainingRouter() {
       ></Route>
       <Route
         exact
-        path={`${url}/history/:trainingId/:levelId`}
+        path={`${url}/history/:levelId/:trainingId`}
         render={({ match: { params } }) => (
           <Container maxWidth="lg">
             <Breadcrumbs>

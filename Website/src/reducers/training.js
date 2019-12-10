@@ -4,8 +4,8 @@ import {
   INITIALIZE_TRAINING_CATEGORY,
   UPDATE_LEVEL_RESULT,
   INITIALIZE_TRAINING_LEVEL,
-  INITIALIZE_TRAINING_HISTORY,
-  INITIALIZE_TRAINING_WORD_PAIRS
+  REMOVE_TRAINING_LEVEL_WORD_PAIRS,
+  INITIALIZE_TRAINING_HISTORY
 } from 'src/actions/trainingActions';
 
 function trainingCategories(state = [], action) {
@@ -59,6 +59,18 @@ function trainingLevelsMap(state = {}, action) {
         ...state,
         [action.payload.levelId]: action.payload
       };
+    case REMOVE_TRAINING_LEVEL_WORD_PAIRS:
+      return {
+        ...state,
+        [action.payload.levelId]: {
+          ...state[action.payload.levelId],
+          wordTranslations: state[
+            action.payload.levelId
+          ].wordTranslations.filter(
+            ({ serverId }) => !action.payload.pairIds.includes(serverId)
+          )
+        }
+      };
     default:
       return state;
   }
@@ -82,28 +94,9 @@ function trainingHistory(
   }
 }
 
-function trainingWordPairs(
-  state = {
-    actual: false,
-    wordPairs: []
-  },
-  action
-) {
-  switch (action.type) {
-    case INITIALIZE_TRAINING_WORD_PAIRS:
-      return {
-        actual: true,
-        wordPairs: action.payload || []
-      };
-    default:
-      return state;
-  }
-}
-
 export default combineReducers({
   trainingCategories,
   trainingCategory,
   trainingLevelsMap,
-  trainingHistory,
-  trainingWordPairs
+  trainingHistory
 });

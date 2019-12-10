@@ -3,17 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { receiveTrainingWordPairs } from 'src/actions/trainingApiActions';
 
 export default function useTrainingWordPairs() {
-  const { actual, wordPairs } = useSelector(
-    store => store.training.trainingWordPairs
+  const trainingLevelsMap = useSelector(
+    store => store.training.trainingLevelsMap
   );
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (!actual) {
+    if (!trainingLevelsMap[0]) {
       dispatch(receiveTrainingWordPairs());
     }
-  }, [actual, dispatch]);
+  }, [trainingLevelsMap, dispatch]);
 
-  return wordPairs;
+  return (trainingLevelsMap[0] && trainingLevelsMap[0].wordTranslations) || [];
 }

@@ -1,50 +1,75 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeTrainingLevelWordPairs } from 'src/actions/trainingActions';
 import TrainingResult from './TrainingResult';
 
-function TrainingResultContainer(props) {
+function TrainingResultContainer({ wordPairs, handleReplay, ...rest }) {
   const params = useParams();
   const history = useHistory();
 
-  const { levelsInfo } = useSelector(store => store.training.trainingCategory);
+  const { recentTrainings } = useSelector(
+    store => store.training.trainingHistory
+  );
+  const dispatch = useDispatch();
 
   const paramLevelId = +params.levelId;
-  const paramCategoryId = +params.categoryId;
   const paramTrainingId = +params.trainingId;
 
   const handleRedirectionToNextLevel = () => {
-    if (paramLevelId === 0) {
-      history.push('/training');
-      return;
-    }
+    if (paramLevelId === 0 || paramLevelId === -1) {
+      dispatch(
+        removeTrainingLevelWordPairs(
+          paramLevelId,
+          wordPairs.map(wordPair => wordPair.pairId)
+        )
+      );
 
-    const levelIndex = levelsInfo.findIndex(
-      levelInfo => levelInfo.levelId === paramLevelId
-    );
+      setTimeout(() => {
+        handleReplay();
+      }, 0);
+    } else {
+      const levelIndex = recentTrainings.findIndex(
+        ({ levelId }) => levelId === paramLevelId
+      );
 
-    const handleRedirectionToLevels = () => {
-      history.push(`/training/themes/${paramCategoryId}/${paramTrainingId}`);
-    };
-
-    if (levelIndex !== -1) {
       const nextLevelIndex = levelIndex + 1;
-      if (levelsInfo[nextLevelIndex]) {
+      if (recentTrainings[nextLevelIndex]) {
         history.push(
-          `/training/themes/${paramCategoryId}/${paramTrainingId}/${levelsInfo[nextLevelIndex].levelId}`
+          `/training/history/${recentTrainings[nextLevelIndex].levelId}/${paramTrainingId}`
         );
       } else {
-        handleRedirectionToLevels();
+        history.push('/training');
       }
-    } else {
-      handleRedirectionToLevels();
     }
+
+    // const levelIndex = levelsInfo.findIndex(
+    //   levelInfo => levelInfo.levelId === paramLevelId
+    // );
+
+    // const handleRedirectionToLevels = () => {
+    //   history.push(`/training/themes/${paramCategoryId}/${paramTrainingId}`);
+    // };
+
+    // if (levelIndex !== -1) {
+    //   const nextLevelIndex = levelIndex + 1;
+    //   if (levelsInfo[nextLevelIndex]) {
+    //     history.push(
+    //       `/training/themes/${paramCategoryId}/${paramTrainingId}/${levelsInfo[nextLevelIndex].levelId}`
+    //     );
+    //   } else {
+    //     handleRedirectionToLevels();
+    //   }
+    // } else {
+    //   handleRedirectionToLevels();
+    // }
   };
 
   return (
     <TrainingResult
+      handleReplay={handleReplay}
       handleRedirectionToNextLevel={handleRedirectionToNextLevel}
-      {...props}
+      {...rest}
     />
   );
 }
