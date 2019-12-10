@@ -86,6 +86,43 @@ namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistor
         [Fact]
         public async void GameThereAreNoWordsInTheDatabase()
         {
+            int userId = 2;
+            // initialise
+            await using InWordsDataContext context = InWordsDataContextFactory.Create();
+            CreateContextWithExistedGame(context, userId - 1);
+
+            var testQuery = new CustomLevelMetricQuery()
+            {
+                UserId = userId,
+                Metrics = new List<ClassicCardLevelMetric>()
+                {
+                    new ClassicCardLevelMetric()
+                    {
+                        GameLevelId = 0,
+                        WordPairIdOpenCounts = new Dictionary<int, int>()
+                        {
+                            { 1, 2},
+                            { 2, 3},
+                            { 3, 4}
+                        }
+                    }
+                }.ToImmutableArray()
+            };
+            await context.SaveChangesAsync().ConfigureAwait(false);
+
+
+            // act
+            var handler = new CreateHistoryLevelsRequest(context);
+            var result = await handler.Handle(testQuery).ConfigureAwait(false);
+            // assert
+            Assert.Equal(2, context.Games.Count());
+            Assert.Equal(2, context.GameTags.Count());
+            context.Dispose();
+        }
+
+        [Fact]
+        public async void HistoryNonExistWordsExist()
+        {
             // initialise
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
             context.Games.Add(new Game { GameId = 1 });

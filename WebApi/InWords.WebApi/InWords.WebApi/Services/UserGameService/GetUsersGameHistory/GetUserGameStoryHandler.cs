@@ -46,9 +46,9 @@ namespace InWords.WebApi.Services.UserGameService.GetUsersGameHistory
                    };
         }
 
-        private IQueryable<GameLevel> SelectLevelsInGame(IQueryable<Game> allUsersGames)
+        private IQueryable<GameLevel> SelectLevelsInGame(IQueryable<Game> userHistoryGames)
         {
-            return context.GameLevels.Where(g => allUsersGames.Any(a => a.GameId.Equals(g.GameId)));
+            return context.GameLevels.Where(g => userHistoryGames.Any(a => a.GameId.Equals(g.GameId)));
         }
 
         private IQueryable<Game> SelectUserCustomGameHistory(GetUserGameStoryQuery request)
