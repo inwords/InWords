@@ -17,10 +17,10 @@ namespace InWords.WebApi.Services.GameService.Requests
 
         public async Task<Game> HandleAsync(int userId)
         {
-            Game historyGame = FindHistoryGame();
+            Game historyGame = FindHistoryGame(userId);
             // Create if not exist
             if (!(historyGame is null)) return historyGame;
-            
+
             historyGame = new Game { CreatorId = userId };
             context.Games.Add(historyGame);
             await context.SaveChangesAsync().ConfigureAwait(false);
@@ -36,10 +36,10 @@ namespace InWords.WebApi.Services.GameService.Requests
             return historyGame;
         }
 
-        private Game FindHistoryGame()
+        private Game FindHistoryGame(int userId)
         {
             return (from gameTags in context.GameTags
-                    where gameTags.Tags.Equals(GameTags.CustomLevelsHistory)
+                    where gameTags.Tags.Equals(GameTags.CustomLevelsHistory) && gameTags.UserId.Equals(userId)
                     join game in context.Games on gameTags.GameId equals game.GameId
                     select game).AsNoTracking().SingleOrDefault();
         }

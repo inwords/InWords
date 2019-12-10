@@ -24,6 +24,7 @@ namespace InWords.WebApi.Controllers.v1._1
 
         /// <summary>
         /// Use this to upload user's level's metric
+        /// </summary>
         /// <remarks>
         /// Sample request:
         ///
@@ -52,7 +53,6 @@ namespace InWords.WebApi.Controllers.v1._1
         ///   }
         ///                
         /// </remarks>
-        /// </summary>
         [HttpPost]
         [Route("estimate")]
         public async Task<IActionResult> Estimate(ClassicCardLevelMetricQuery classicCardsMetrics)
