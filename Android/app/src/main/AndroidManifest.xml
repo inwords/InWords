@@ -19,6 +19,7 @@
             android:name="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

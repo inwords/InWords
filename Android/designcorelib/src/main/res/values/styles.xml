@@ -7,8 +7,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
+
+        <item name="android:windowBackground">@color/white</item>
 
         <!-- ActionMode -->
         <item name="actionModeStyle">@style/ActionModeStyle</item>

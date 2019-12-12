@@ -14,7 +14,6 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -31,7 +30,6 @@ import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.texttospeech.TtsMediaPlayerAdapter
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.presentation.TranslationViewModelFactory
-import ru.inwords.inwords.translation.presentation.recycler.ItemTouchHelperAdapter
 import ru.inwords.inwords.translation.presentation.recycler.ItemTouchHelperEvents
 import ru.inwords.inwords.translation.presentation.recycler.WordTranslationsAdapter
 import ru.inwords.inwords.translation.presentation.recycler.applyDiffUtil
@@ -156,9 +154,9 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         recycler_view.adapter = adapter
         recycler_view.addItemDecoration(dividerItemDecoration)
 
-        val callback = ItemTouchHelperAdapter(this@TranslationMainFragment) //TODO
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(recycler_view)
+//        val callback = ItemTouchHelperAdapter(this@TranslationMainFragment) //TODO
+//        val touchHelper = ItemTouchHelper(callback)
+//        touchHelper.attachToRecyclerView(recycler_view)
 
         setupTracker(view)
 
@@ -180,7 +178,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
                 StorageStrategy.createParcelableStorage(WordTranslation::class.java)
             ).build()
 
-        tracker.addObserver(object : SelectionTracker.SelectionObserver<Any>() {
+        tracker.addObserver(object : SelectionTracker.SelectionObserver<WordTranslation>() {
             override fun onSelectionChanged() {
                 super.onSelectionChanged()
 

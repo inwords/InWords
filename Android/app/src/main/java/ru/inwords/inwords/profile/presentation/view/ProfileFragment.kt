@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.facebook.imagepipeline.request.ImageRequestBuilder
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -16,6 +19,7 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.KeyboardUtils
+import ru.inwords.inwords.presentation.createAppBarNavIconOnScrimColorAnimatorListener
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.presentation.view_scenario.renderPolicyText
 import ru.inwords.inwords.profile.data.bean.User
@@ -28,6 +32,8 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
     lateinit var user: User
 
+    private var navIconAnimationListener: AppBarLayout.OnOffsetChangedListener? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
@@ -38,6 +44,16 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val colorCollapsed = ResourcesCompat.getColor(resources, R.color.colorPrimary, context?.theme)
+        val colorExpanded = ResourcesCompat.getColor(resources, R.color.white, context?.theme)
+
+        navIconAnimationListener = createAppBarNavIconOnScrimColorAnimatorListener(toolbar, collapsing_toolbar, colorExpanded, colorCollapsed)
+            .apply {
+                appbar_layout.addOnOffsetChangedListener(this)
+            }
+
+        NavigationUI.setupWithNavController(collapsing_toolbar, toolbar, navController)
 
         to_login_button.setOnClickListener(toLoginClickListener())
 
@@ -53,6 +69,11 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
         renderPolicyText(policy_text_view)
     }
 
+    override fun onDestroyView() {
+        navIconAnimationListener?.let { appbar_layout.removeOnOffsetChangedListener(it) }
+        super.onDestroyView()
+    }
+
     private fun subscribeUser(): Disposable {
         fun renderUser(userResource: Resource<User>) {
             if (userResource is Resource.Success) {
@@ -60,9 +81,9 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
                 if (user.avatar != null) {
                     val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(user.avatar))
-                            .setProgressiveRenderingEnabled(true)
-                            .setLocalThumbnailPreviewsEnabled(true)
-                            .build()
+                        .setProgressiveRenderingEnabled(true)
+                        .setLocalThumbnailPreviewsEnabled(true)
+                        .build()
 
                     avatar_image.setImageRequest(request)
                 } else {
@@ -82,8 +103,8 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
         }
 
         return viewModel.profileDataSubject
-                .observeOn(SchedulersFacade.ui())
-                .subscribe(::renderUser)
+            .observeOn(SchedulersFacade.ui())
+            .subscribe(::renderUser)
     }
 
     private fun subscribeNicknameUpdateResult() {
@@ -99,7 +120,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
                     renderErrorViewState()
 
                     Snackbar.make(profile_root, "Не удалось изменить ник. Попробуйте ещё раз", Snackbar.LENGTH_LONG)
-                            .show()
+                        .show()
                 }
             }
         }
@@ -156,8 +177,8 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     }
 
     private fun toLoginClickListener() = Navigation
-            .createNavigateOnClickListener(R.id.action_profileFragment_to_loginFragment, null)
+        .createNavigateOnClickListener(R.id.action_profileFragment_to_loginFragment, null)
 
     private fun toSettingsClickListener() = Navigation
-            .createNavigateOnClickListener(R.id.action_profileFragment_to_settingsFragment, null)
+        .createNavigateOnClickListener(R.id.action_profileFragment_to_settingsFragment, null)
 }

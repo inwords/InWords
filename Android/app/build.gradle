@@ -93,7 +93,10 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.ANDROID_X"
 
     implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-alpha06"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-beta01"
+
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+
     implementation "androidx.constraintlayout:constraintlayout:$versions.CONSTRAINT_LAYOUT"
 
     //preference

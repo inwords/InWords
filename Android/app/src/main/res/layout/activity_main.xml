@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/constraint_match_parent"
         app:defaultNavHost="true"
-        app:layout_behavior=".presentation.ScrollingViewWithBottomNavigationBehavior"
         app:layout_constraintBottom_toTopOf="@id/navigation"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
@@ -24,10 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
-        app:itemIconTint="@color/text_color_default_inverse"
-        app:itemTextColor="@color/text_color_default_inverse"
-        app:labelVisibilityMode="selected"
+        app:itemIconTint="@color/bottom_bar_color_selector"
+        app:itemTextColor="@color/bottom_bar_color_selector"
+        app:labelVisibilityMode="labeled"
         app:layout_behavior=".presentation.BottomNavigationBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/navigation" />
