@@ -1,70 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/ToolbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/space_xmedium_large"
-        android:paddingTop="@dimen/space_xxxxgiant"
-        android:paddingRight="@dimen/space_xmedium_large"
-        android:paddingBottom="@dimen/space_xxxxgiant">
+        android:layout_height="@dimen/appbar_height">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/large_logo_height"
-            android:contentDescription="@string/inwords_logotype"
-            android:src="@drawable/ic_new_word" />
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title="@string/dictionary_title" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_large">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/space_xmedium_large"
+            android:paddingTop="@dimen/space_xxxxgiant"
+            android:paddingRight="@dimen/space_xmedium_large"
+            android:paddingBottom="@dimen/space_xxxxgiant">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextNativeWord"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/large_logo_height"
+                android:contentDescription="@string/inwords_logotype"
+                android:src="@drawable/ic_new_word" />
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/word_addition_word"
-                android:inputType="textAutoCorrect"
-                android:lines="1"
-                android:maxLength="64"
-                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
+                android:layout_marginTop="@dimen/space_large">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextNativeWord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/word_addition_word"
+                    android:inputType="textAutoCorrect"
+                    android:lines="1"
+                    android:maxLength="64"
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_medium">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextForeignWord"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/word_addition_translation"
-                android:inputType="textAutoCorrect"
-                android:lines="1"
-                android:maxLength="64"
-                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
-                tools:text="Перевод" />
+                android:layout_marginTop="@dimen/space_medium">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextForeignWord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/word_addition_translation"
+                    android:inputType="textAutoCorrect"
+                    android:lines="1"
+                    android:maxLength="64"
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+                    tools:text="Перевод" />
 
-        <Button
-            android:id="@+id/buttonConfirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_large"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="@string/button_add_text"
-            android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/buttonConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_large"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="@string/button_add_text"
+                android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
 
-</ScrollView>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

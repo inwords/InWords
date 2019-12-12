@@ -2,6 +2,7 @@ package ru.inwords.inwords.presentation.view_scenario.authorisation.registration
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.ui.NavigationUI
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import ru.inwords.inwords.R
@@ -23,6 +24,8 @@ class RegistrationFragment : SigningBaseFragment<RegistrationViewModel, Authoris
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        NavigationUI.setupWithNavController(toolbar, navController)
 
         textViewSignIn.setOnClickListener { viewModel.onNavigateClicked() } //TODO clicks
         buttonTrySign.setOnClickListener { viewModel.onSignClicked(credentials) }

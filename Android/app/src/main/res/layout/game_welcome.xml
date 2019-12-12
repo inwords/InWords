@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ru.inwords.inwords.presentation.NestedCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground"
+    android:background="@color/white"
     tools:context="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingTop="@dimen/appbar_height"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +43,7 @@
                 android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
                 tools:text="Хочешь смешную историю? Как-то дельфинчик из нашей школы забыл портфель дома! Теперь все зовут его Забывалкиным" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/startButton"
@@ -53,4 +56,4 @@
         android:text="@string/start_game_button_text"
         android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
 
-</FrameLayout>
+</ru.inwords.inwords.presentation.NestedCoordinatorLayout>
