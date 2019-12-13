@@ -1,76 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useRouteMatch } from 'react-router-dom';
-import styled from '@emotion/styled';
+import { Link as RouterLink, useRouteMatch, useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import useForm from 'src/hooks/useForm';
-import { saveValue } from 'src/localStorage';
+import { useSelector } from 'react-redux';
+import getWordEnding from 'src/utils/getWordEnding';
 import withLocalStorageData from 'src/HOCs/withLocalStorageData';
+import Card from 'src/components/Card';
+import CardContent from 'src/components/CardContent';
+import CardActions from 'src/components/CardActions';
+import CardTitle from 'src/components/CardTitle';
+import CardAction from 'src/components/CardAction';
+import Typoghraphy from 'src/components/Typography';
+import TrainingTypesSettings from 'src/layout/TrainingTypesSettings';
+import TrainingCardSection from 'src/layout/TrainingCardSection';
+import TrainingSchoolIcon from 'src/layout/TrainingSchoolIcon';
 
-const trainingTypesInfo = [
-  {
-    typeId: 0,
-    title: 'Карточки',
-    description: 'Необходимо открыть правильную пару "Слово-Перевод"'
-  }
-];
-
-const TypesSettings = styled.div`
-  margin-bottom: 8px;
-`;
-
-function TrainingTypes({ localData, endpoint = '' }) {
+function TrainingTypes({ trainingTypesInfo, localData, level = 0 }) {
   const match = useRouteMatch();
+  const params = useParams();
 
-  const { inputs, handleChange } = useForm({
-    quantity: localData['training-words-quantity'] || 2
-  });
-
-  React.useEffect(() => {
-    saveValue('training-words-quantity', inputs.quantity);
-  }, [inputs.quantity]);
+  const trainingLevelsMap = useSelector(
+    store => store.training.trainingLevelsMap
+  );
 
   return (
     <>
-      <TypesSettings>
-        <label htmlFor="quantity">Слов в тренировке</label>
-        <div>
-          <input
-            id="quantity"
-            name="quantity"
-            type="range"
-            min="2"
-            max="8"
-            value={inputs.quantity}
-            onChange={handleChange}
-          />
-        </div>
-        <span>{inputs.quantity}</span>
-      </TypesSettings>
+      <TrainingTypesSettings />
       <Grid container spacing={3}>
         {trainingTypesInfo.map(({ typeId, title, description }) => {
           return (
             <Grid key={typeId} item xs={12} sm={6} md={4}>
               <Card>
-                <CardHeader title={title} />
                 <CardContent>
-                  <Typography variant="body2">{description}</Typography>
+                  <CardTitle as="h2">{title}</CardTitle>
+                  <Typoghraphy as="p">{description}</Typoghraphy>
+                  {trainingLevelsMap[level] && (
+                    <TrainingCardSection>
+                      <TrainingSchoolIcon />
+                      <span>
+                        На изучение:{' '}
+                        {trainingLevelsMap[level].wordTranslations.length} слов
+                        {getWordEnding(
+                          trainingLevelsMap[level].wordTranslations.length
+                        )}
+                      </span>
+                    </TrainingCardSection>
+                  )}
                 </CardContent>
                 <CardActions>
-                  <Button
-                    component={Link}
-                    to={`${match.url}/${typeId}${endpoint}`}
-                    size="small"
-                    color="primary"
+                  <CardAction
+                    as={RouterLink}
+                    to={
+                      params.levelId !== undefined
+                        ? `${match.url}/${typeId}`
+                        : `${match.url}/${typeId}/${level}`
+                    }
                   >
-                    Выбрать
-                  </Button>
+                    Поплыли
+                  </CardAction>
                 </CardActions>
               </Card>
             </Grid>
@@ -85,7 +72,7 @@ TrainingTypes.propTypes = {
   localData: PropTypes.shape({
     'training-words-quantity': PropTypes.string
   }),
-  endpoint: PropTypes.string
+  level: PropTypes.number.isRequired
 };
 
 export default withLocalStorageData(TrainingTypes, ['training-words-quantity']);

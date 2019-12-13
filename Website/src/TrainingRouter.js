@@ -9,6 +9,14 @@ const MainTrainingTypes = lazy(() => import('src/routes/MainTrainingTypes'));
 const TrainingHistory = lazy(() => import('src/routes/TrainingHistory'));
 const TrainingSwitcher = lazy(() => import('src/routes/TrainingSwitcher'));
 
+const trainingTypesInfo = [
+  {
+    typeId: 0,
+    title: 'Закрытые карточки',
+    description: 'Необходимо правильно открыть пару карточек «Слово-Перевод»'
+  }
+];
+
 function TrainingRouter() {
   const { url } = useRouteMatch();
 
@@ -22,7 +30,7 @@ function TrainingRouter() {
           <Breadcrumbs>
             <BreadcrumbsLink to={`${url}/main`}>Тренировки</BreadcrumbsLink>
           </Breadcrumbs>
-          <MainTrainingTypes endpoint="/0" />
+          <MainTrainingTypes trainingTypesInfo={trainingTypesInfo} />
         </Container>
       </Route>
       <Route
@@ -61,7 +69,10 @@ function TrainingRouter() {
                 Тренировки
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <TrainingTypes />
+            <TrainingTypes
+              trainingTypesInfo={trainingTypesInfo}
+              level={+params.levelId}
+            />
           </Container>
         )}
       ></Route>
@@ -92,7 +103,7 @@ function TrainingRouter() {
               Тренировки
             </BreadcrumbsLink>
           </Breadcrumbs>
-          <TrainingTypes endpoint="/-1" />
+          <TrainingTypes trainingTypesInfo={trainingTypesInfo} level={-1} />
         </Container>
       </Route>
       <Route

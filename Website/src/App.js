@@ -24,16 +24,12 @@ const routes = [
     text: 'Словарь',
     nestedRoutes: [
       {
-        to: '/dictionary/main',
-        text: 'Главная'
-      },
-      {
         to: '/dictionary/my',
         text: 'Мой словарь'
       },
       {
         to: '/dictionary/sets',
-        text: 'Наборы'
+        text: 'Наборы слов'
       }
     ]
   },
@@ -71,7 +67,7 @@ function App() {
                 {!userId ? (
                   <Redirect to="/signIn" />
                 ) : (
-                  <Redirect to="/dictionary" />
+                  <Redirect to="/training" />
                 )}
               </Route>
               <Route path="/signIn">

@@ -1,53 +1,33 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import styled from '@emotion/styled';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import SchoolIcon from '@material-ui/icons/School';
 import Grid from '@material-ui/core/Grid';
-import Paper from 'src/components/Paper';
-import useWordPairs from 'src/hooks/useWordPairs';
+import Card from 'src/components/Card';
+import CardContent from 'src/components/CardContent';
+import CardActions from 'src/components/CardActions';
+import CardTitle from 'src/components/CardTitle';
+import CardAction from 'src/components/CardAction';
+import Typoghraphy from 'src/components/Typography';
 import useTrainingWordPairs from 'src/hooks/useTrainingWordPairs';
 
-const DictionaryCard = styled(Paper)`
+const TrainingCardSection = styled.div`
+  margin-top: 16px;
   display: flex;
   align-items: center;
-  padding: 24px;
-  border-radius: 2px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  user-select: none;
-  text-decoration: none;
-
-  transition: ${props =>
-    props.theme.transitions.create('box-shadow', {
-      duration: props.theme.transitions.duration.shortest
-    })};
-
-  &:hover {
-    box-shadow: ${props => props.theme.shadows[4]};
-  }
+  font-weight: 500;
 `;
 
-const DictionaryCardIconContainer = styled.div`
+const TrainingSchoolIcon = styled(SchoolIcon)`
   color: ${props => props.theme.palette.primary.light};
-  margin-right: 32px;
-`;
-
-const DictionaryCardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const DictionaryCardValue = styled.span`
-  display: block;
-  font-weight: 400;
+  margin-right: 8px;
+  font-weight: 500;
 `;
 
 function getWordEnding(n) {
   const end = n % 10;
 
-  if (end === 0 || n >= 5) {
+  if (end === 0 || end >= 5) {
     return '';
   }
   if (end !== 1) {
@@ -58,49 +38,31 @@ function getWordEnding(n) {
 }
 
 function DictionaryMain() {
-  const history = useHistory();
-
-  const wordPairs = useWordPairs();
   const trainingWordPairs = useTrainingWordPairs();
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={4}>
-        <DictionaryCard
-          onClick={() => {
-            history.push('/dictionary/my');
-          }}
-          role="link"
-        >
-          <DictionaryCardIconContainer>
-            <LibraryBooksIcon fontSize="large" />
-          </DictionaryCardIconContainer>
-          <DictionaryCardContent>
-            <span>Всего</span>
-            <DictionaryCardValue>
-              {wordPairs.length} слов{getWordEnding(wordPairs.length)}
-            </DictionaryCardValue>
-          </DictionaryCardContent>
-        </DictionaryCard>
-      </Grid>
-      <Grid item xs={12} sm={6} md={4}>
-        <DictionaryCard
-          onClick={() => {
-            history.push('/training/main');
-          }}
-          role="link"
-        >
-          <DictionaryCardIconContainer>
-            <SchoolIcon fontSize="large" />
-          </DictionaryCardIconContainer>
-          <DictionaryCardContent>
-            <span>На повторение</span>
-            <DictionaryCardValue>
-              {trainingWordPairs.length} слов
-              {getWordEnding(trainingWordPairs.length)}
-            </DictionaryCardValue>
-          </DictionaryCardContent>
-        </DictionaryCard>
+        <Card>
+          <CardContent>
+            <CardTitle as="h2">Закрытые карточки</CardTitle>
+            <Typoghraphy as="p">
+              Необходимо правильно открыть пару карточек «Слово-Перевод»
+            </Typoghraphy>
+            <TrainingCardSection>
+              <TrainingSchoolIcon />
+              <span>
+                На повторение: {trainingWordPairs.length} слов
+                {getWordEnding(trainingWordPairs.length)}
+              </span>
+            </TrainingCardSection>
+          </CardContent>
+          <CardActions>
+            <CardAction as={RouterLink} to="/training/main">
+              Поплыли
+            </CardAction>
+          </CardActions>
+        </Card>
       </Grid>
     </Grid>
   );
