@@ -1,61 +1,70 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'src/utils/debounce';
+import useDialog from 'src/hooks/useDialog';
 import Wordlist from './Wordlist';
+import WordPairEditDialog from '../WordPairEditDialog';
 
-const limitOffset = 30;
+const heightOffset = 153;
 
-function WordlistContainer({ wordPairs, setEditingModeEnabled, ...rest }) {
-  const buttonPressTimerRef = React.useRef();
-
-  const handlePressButton = React.useCallback(() => {
-    buttonPressTimerRef.current = window.setTimeout(() => {
-      setEditingModeEnabled(true);
-    }, 500);
-  }, [setEditingModeEnabled]);
-
-  const handleReleaseButton = React.useCallback(() => {
-    window.clearTimeout(buttonPressTimerRef.current);
-  }, []);
-
-  const [visibleWordPairs, setVisibleWordPairs] = React.useState([]);
+function WordlistContainer({ wordPairs, ...rest }) {
+  const [listHeight, setListHeight] = React.useState(
+    () => window.innerHeight - heightOffset
+  );
 
   React.useEffect(() => {
-    setVisibleWordPairs(wordPairs.slice(0, limitOffset));
-  }, [wordPairs]);
+    const handleResize = debounce(() => {
+      setListHeight(window.innerHeight - heightOffset);
+    }, 200);
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      handleReleaseButton();
+    const onOrientationChange = debounce(() => {
+      const afterOrientationChange = () => {
+        setListHeight(window.innerHeight - heightOffset);
+        window.removeEventListener('resize', afterOrientationChange);
+      };
 
-      if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-        visibleWordPairs.length < wordPairs.length
-      ) {
-        setVisibleWordPairs(prevVisibleWordPairs =>
-          wordPairs.slice(0, prevVisibleWordPairs.length + limitOffset)
-        );
-      }
-    };
+      window.addEventListener('resize', afterOrientationChange);
+    }, 200);
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', onOrientationChange);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', onOrientationChange);
     };
-  }, [handleReleaseButton, wordPairs, visibleWordPairs.length]);
+  }, [listHeight]);
+
+  const { open, setOpen, handleClose } = useDialog();
+  const [currentWordPair, setCurrentWordPair] = React.useState();
+
+  const handleOpen = React.useCallback(
+    wordPair => () => {
+      setOpen(true);
+      setCurrentWordPair(wordPair);
+    },
+    [setOpen]
+  );
 
   return (
-    <Wordlist
-      wordPairs={visibleWordPairs}
-      handlePressButton={handlePressButton}
-      handleReleaseButton={handleReleaseButton}
-      {...rest}
-    />
+    <Fragment>
+      <Wordlist
+        wordPairs={wordPairs}
+        listHeight={listHeight}
+        handleOpen={handleOpen}
+        {...rest}
+      />
+      <WordPairEditDialog
+        open={open}
+        handleClose={handleClose}
+        wordPair={currentWordPair}
+      />
+    </Fragment>
   );
 }
 
 WordlistContainer.propTypes = {
-  wordPairs: PropTypes.array.isRequired,
-  setEditingModeEnabled: PropTypes.func.isRequired
+  wordPairs: PropTypes.array.isRequired
 };
 
 export default WordlistContainer;

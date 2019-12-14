@@ -9,6 +9,7 @@ export function signIn(userdata) {
     method: 'POST',
     authorizationRequired: false,
     data: JSON.stringify(userdata),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(grantAccess(data));
@@ -31,6 +32,7 @@ export function signUp(userdata) {
     method: 'POST',
     authorizationRequired: false,
     data: JSON.stringify(userdata),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(grantAccess(data));
@@ -59,6 +61,7 @@ export function sendActivationCode(email) {
     endpoint: 'email/sendActivationCode',
     method: 'POST',
     data: JSON.stringify(email),
+    contentType: 'application/json',
     actionsOnSuccess: [
       dispatch => {
         dispatch(

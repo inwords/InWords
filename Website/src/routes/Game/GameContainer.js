@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
-import withReceivedGameLevel from 'src/HOCs/withReceivedGameLevel';
-import TrainingNavWrapper from 'src/components/TrainingNavWrapper';
+import withLocalStorageData from 'src/HOCs/withLocalStorageData';
+import withReceivedTrainingLevel from 'src/HOCs/withReceivedTrainingLevel';
 import Game from './Game';
-import TrainingResult from 'src/components/TrainingResult';
+import TrainingResult from 'src/layout/TrainingResult';
 
-function GameContainer({ levelId, wordTranslations }) {
+function GameContainer({ levelId, wordTranslations, localData }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
@@ -24,7 +24,7 @@ function GameContainer({ levelId, wordTranslations }) {
     const wordPairs = Array.prototype.concat.apply(
       [],
       shuffle([...wordTranslations])
-        .slice(0, 8)
+        .slice(0, localData['training-words-quantity'] || 8)
         .map((wordPair, index) => [
           {
             id: index * 2,
@@ -40,37 +40,51 @@ function GameContainer({ levelId, wordTranslations }) {
     );
 
     setWordPairs(shuffle(wordPairs));
-  }, [wordTranslations]);
+  }, [wordTranslations, localData]);
 
   useEffect(() => {
+    let timer1;
+    let timer2;
+
     const numberOfcompletedPairs = Object.keys(completedPairIdsMap).length;
     if (
       numberOfcompletedPairs > 0 &&
       numberOfcompletedPairs === wordPairs.length / 2
     ) {
-      window.setTimeout(() => {
+      timer1 = setTimeout(() => {
         setIsGameCompleted(true);
       }, 1000);
 
-      window.setTimeout(() => {
+      timer2 = setTimeout(() => {
         setIsResultReady(true);
+
+        setSelectedWordPairs([]);
+        setCompletedPairIdsMap({});
+        setSelectedCompletedPairId(-1);
+        setWordPairIdOpenCountsMap({});
       }, 1500);
 
+      const gameLevelId = levelId < 0 ? 0 : levelId;
       dispatch(
         saveTrainingLevelResult(
           {
-            gameLevelId: levelId,
+            gameLevelId,
             wordPairIdOpenCounts: wordPairIdOpenCountsMap
           },
           data => {
-            setScore(data.score);
+            setScore(data.classicCardLevelResult[0].score);
           }
         )
       );
     }
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   }, [
     completedPairIdsMap,
-    wordPairs.length,
+    wordPairs,
     levelId,
     wordPairIdOpenCountsMap,
     dispatch
@@ -125,30 +139,26 @@ function GameContainer({ levelId, wordTranslations }) {
 
   const handleReplay = () => {
     setWordPairs(wordInfo => shuffle([...wordInfo]));
-    setSelectedWordPairs([]);
-    setCompletedPairIdsMap({});
-    setSelectedCompletedPairId(-1);
-    setWordPairIdOpenCountsMap({});
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
   };
 
-  return (
-    <TrainingNavWrapper>
-      {!isResultReady ? (
-        <Game
-          wordPairs={wordPairs}
-          selectedWordPairs={selectedWordPairs}
-          completedPairIdsMap={completedPairIdsMap}
-          selectedCompletedPairId={selectedCompletedPairId}
-          isGameCompleted={isGameCompleted}
-          handleClick={handleClick}
-        />
-      ) : (
-        <TrainingResult score={score} handleReplay={handleReplay} />
-      )}
-    </TrainingNavWrapper>
+  return !isResultReady ? (
+    <Game
+      wordPairs={wordPairs}
+      selectedWordPairs={selectedWordPairs}
+      completedPairIdsMap={completedPairIdsMap}
+      selectedCompletedPairId={selectedCompletedPairId}
+      isGameCompleted={isGameCompleted}
+      handleClick={handleClick}
+    />
+  ) : (
+    <TrainingResult
+      wordPairs={wordPairs}
+      score={score}
+      handleReplay={handleReplay}
+    />
   );
 }
 
@@ -160,7 +170,12 @@ GameContainer.propTypes = {
       wordForeign: PropTypes.string.isRequired,
       wordNative: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  localData: PropTypes.shape({
+    'training-words-quantity': PropTypes.string
+  })
 };
 
-export default withReceivedGameLevel(GameContainer);
+export default withReceivedTrainingLevel(
+  withLocalStorageData(GameContainer, ['training-words-quantity'])
+);

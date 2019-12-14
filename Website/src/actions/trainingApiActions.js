@@ -12,7 +12,7 @@ export function receiveTrainingCategories() {
     ],
     actionsOnFailure: [
       dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить категории' }));
+        dispatch(setSnackbar({ text: 'Не удалось загрузить темы' }));
       }
     ]
   });
@@ -39,9 +39,9 @@ export function addCategoryWordsToDictionary(categoryId) {
     endpoint: 'game/addWordsToUserDictionary',
     method: 'POST',
     data: JSON.stringify(categoryId),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
-        console.log(data);
         dispatch(
           setSnackbar({ text: `Добавлено новых слов: ${data.wordsAdded}` })
         );
@@ -74,9 +74,10 @@ export function receiveTrainingLevel(levelId) {
 export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
   return apiAction({
     apiVersion: 'v1.1',
-    endpoint: 'game/score',
+    endpoint: 'training/estimate',
     method: 'POST',
-    data: JSON.stringify(levelResult),
+    data: JSON.stringify({ metrics: [levelResult] }),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(trainingActions.updateLevelResult(data));
@@ -88,6 +89,49 @@ export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
     actionsOnFailure: [
       dispatch => {
         dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));
+      }
+    ]
+  });
+}
+
+export function receiveTrainingHistory() {
+  return apiAction({
+    apiVersion: 'v1.1',
+    endpoint: 'customLevel/history',
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(trainingActions.initializeTrainingHistory(data));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
+      }
+    ]
+  });
+}
+
+export function receiveTrainingWordPairs() {
+  return apiAction({
+    apiVersion: 'v1.1',
+    endpoint: 'dictionary/training',
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(
+          trainingActions.initializeTrainingLevel({
+            levelId: 0,
+            wordTranslations: data
+          })
+        );
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(
+          setSnackbar({
+            text: 'Не удалось загрузить слова для повторения'
+          })
+        );
       }
     ]
   });

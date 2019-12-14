@@ -8,7 +8,7 @@ import {
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
   firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign);
 
-export default function wordPairs(
+export default function dictionary(
   state = {
     actual: false,
     wordPairs: []

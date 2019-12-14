@@ -40,6 +40,7 @@ export function updateUserInfo(userInfo) {
     endpoint: 'users',
     method: 'PUT',
     data: JSON.stringify(userInfo),
+    contentType: 'application/json',
     actionsOnSuccess: [
       dispatch => {
         dispatch(userActions.updateUserInfo(userInfo));
@@ -51,6 +52,25 @@ export function updateUserInfo(userInfo) {
     actionsOnFailure: [
       dispatch => {
         dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
+      }
+    ]
+  });
+}
+
+export function uploadUserAvatar(formData) {
+  return apiAction({
+    apiVersion: 'v1.1',
+    endpoint: 'profileSettings/uploadAvatar',
+    method: 'PUT',
+    data: formData,
+    actionsOnSuccess: [
+      (dispatch, data) => {
+        dispatch(userActions.updateUserInfo(data));
+      }
+    ],
+    actionsOnFailure: [
+      dispatch => {
+        dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
       }
     ]
   });

@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { deleteWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
-import InvertedDynamicAppBar from 'src/components/InvertedDynamicAppBar';
 import DictionaryToolbar from './DictionaryToolbar';
 
 function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
@@ -37,7 +36,7 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
     }, 200);
   }, [inputs, setPattern]);
 
-  const toolbar = (
+  return (
     <DictionaryToolbar
       checkedValues={checkedValues}
       handleDelete={handleDelete}
@@ -45,13 +44,6 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
       handleChange={handleChange}
       {...rest}
     />
-  );
-
-  return (
-    <Fragment>
-      <InvertedDynamicAppBar>{toolbar}</InvertedDynamicAppBar>
-      {toolbar}
-    </Fragment>
   );
 }
 

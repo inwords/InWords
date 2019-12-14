@@ -7,6 +7,7 @@ export function syncWordPairs(wordPairs) {
     endpoint: 'sync/pullWordPairs',
     method: 'POST',
     data: JSON.stringify(wordPairs),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(wordPairsActions.syncWordPairs(data));
@@ -25,6 +26,7 @@ export function deleteWordPairs(pairIds) {
     endpoint: 'words/deletePair',
     method: 'POST',
     data: JSON.stringify(pairIds),
+    contentType: 'application/json',
     actionsOnSuccess: [
       dispatch => {
         dispatch(wordPairsActions.deleteWordPairs(pairIds));
@@ -43,6 +45,7 @@ export function addWordPairs(wordPairs) {
     endpoint: 'words/addPair',
     method: 'POST',
     data: JSON.stringify(wordPairs),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(
@@ -68,6 +71,7 @@ export function editWordPairs(wordPairsMap) {
     endpoint: 'words/updatePair',
     method: 'POST',
     data: JSON.stringify(wordPairsMap),
+    contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(

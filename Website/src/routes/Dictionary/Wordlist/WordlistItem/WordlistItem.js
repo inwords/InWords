@@ -1,74 +1,103 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Checkbox from '@material-ui/core/Checkbox';
+import { fade } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
+import ListItem from 'src/components/ListItem';
+import ListItemButton from 'src/components/ListItemButton';
+import ListItemText from 'src/components/ListItemText';
+import ListItemSecondaryAction from 'src/components/ListItemSecondaryAction';
+import ListItemIcon from 'src/components/ListItemIcon';
+import Checkbox from 'src/components/Checkbox';
 import SpeechButton from './SpeechButton';
 
-function WordlistItem({
-  wordPair,
-  editingModeEnabled,
-  handlePressButton,
-  handleReleaseButton,
-  checked,
-  handleToggle,
-  handleOpen
+const WordlistItemButton = styled(ListItemButton)`
+  height: 56px;
+  border-bottom: 1px solid ${props => fade(props.theme.palette.divider, 0.08)};
+`;
+
+const handleCheckboxClick = event => {
+  event.stopPropagation();
+};
+
+const MemorizedListItemText = React.memo(ListItemText);
+const MemorizedListItemSecondaryAction = React.memo(ListItemSecondaryAction);
+
+const MemorizedListItemCheckboxIcon = React.memo(function ListItemCheckboxIcon({
+  serverId,
+  checkedValues,
+  handleToggle
 }) {
-  const { serverId, wordForeign, wordNative } = wordPair;
-  const labelId = `checkbox-list-label-${serverId}`;
+  return (
+    <ListItemIcon>
+      <Checkbox
+        inputProps={{ 'aria-labelledby': `pair-${serverId}` }}
+        tabIndex={-1}
+        checked={checkedValues.includes(serverId)}
+        onChange={handleToggle(serverId)}
+        onClick={handleCheckboxClick}
+        edge="start"
+      />
+    </ListItemIcon>
+  );
+});
+
+function WordlistItem({
+  data: {
+    wordPairs,
+    checkedValues,
+    handleToggle,
+    handleOpen,
+    editingModeEnabled
+  },
+  index,
+  style
+}) {
+  const wordPair = wordPairs[index];
+  const { serverId, handleSpeech } = wordPair;
 
   return (
-    <Fragment>
-      <ListItem
+    <ListItem style={style}>
+      <WordlistItemButton
         onClick={
-          editingModeEnabled ? handleToggle(serverId) : handleOpen(wordPair)
+          !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
         }
-        onTouchStart={handlePressButton}
-        onTouchEnd={handleReleaseButton}
-        onMouseDown={handlePressButton}
-        onMouseUp={handleReleaseButton}
-        onMouseLeave={handleReleaseButton}
-        button
-        dense
+        hasSecondaryAction
       >
-        {editingModeEnabled && (
-          <ListItemIcon>
-            <Checkbox
-              inputProps={{ 'aria-labelledby': labelId }}
-              tabIndex={-1}
-              checked={checked}
-              edge="start"
-              disableRipple
-            />
-          </ListItemIcon>
-        )}
-        <ListItemText
-          id={labelId}
-          primary={wordForeign || '-'}
-          secondary={wordNative || '-'}
+        <MemorizedListItemCheckboxIcon
+          serverId={serverId}
+          checkedValues={checkedValues}
+          handleToggle={handleToggle}
         />
-        <ListItemSecondaryAction>
-          <SpeechButton text={wordForeign} edge="end" />
-        </ListItemSecondaryAction>
-      </ListItem>
-    </Fragment>
+        <MemorizedListItemText
+          id={`pair-${wordPair.serverId}`}
+          primary={wordPair.wordForeign}
+          secondary={wordPair.wordNative}
+        />
+      </WordlistItemButton>
+      <MemorizedListItemSecondaryAction>
+        <SpeechButton edge="end" handleSpeech={handleSpeech} />
+      </MemorizedListItemSecondaryAction>
+    </ListItem>
   );
 }
 
 WordlistItem.propTypes = {
-  wordPair: PropTypes.shape({
-    serverId: PropTypes.number.isRequired,
-    wordForeign: PropTypes.string.isRequired,
-    wordNative: PropTypes.string.isRequired
+  data: PropTypes.shape({
+    wordPairs: PropTypes.arrayOf(
+      PropTypes.shape({
+        serverId: PropTypes.number.isRequired,
+        wordForeign: PropTypes.string.isRequired,
+        wordNative: PropTypes.string.isRequired,
+        handleSpeech: PropTypes.func.isRequired
+      }).isRequired
+    ).isRequired,
+    checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+    editingModeEnabled: PropTypes.bool.isRequired,
+    handleToggle: PropTypes.func.isRequired,
+    handleOpen: PropTypes.func.isRequired
   }).isRequired,
-  editingModeEnabled: PropTypes.bool.isRequired,
-  handlePressButton: PropTypes.func.isRequired,
-  handleReleaseButton: PropTypes.func.isRequired,
-  checked: PropTypes.bool.isRequired,
-  handleToggle: PropTypes.func.isRequired,
-  handleOpen: PropTypes.func.isRequired
+  index: PropTypes.number.isRequired,
+  style: PropTypes.object.isRequired
 };
 
-export default React.memo(WordlistItem);
+export default WordlistItem;

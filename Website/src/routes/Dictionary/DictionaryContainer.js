@@ -1,27 +1,44 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { syncWordPairs } from 'src/actions/dictionaryApiActions';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
+import React from 'react';
+import useWordPairs from 'src/hooks/useWordPairs';
+import Divider from 'src/components/Divider';
+import Paper from 'src/components/Paper';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
 import WordPairAddButton from './WordPairAddButton';
 
-function WordlistContainer() {
-  const { actual, wordPairs } = useSelector(store => store.dictionary);
+const synth = window.speechSynthesis;
+const lang = 'en-US';
 
-  const dispatch = useDispatch();
+function DictionaryContainer() {
+  const wordPairs = useWordPairs();
 
-  useEffect(() => {
-    if (!actual) {
-      dispatch(syncWordPairs(wordPairs));
-    }
-  }, [actual, wordPairs, dispatch]);
+  const [extendedWordPairs, setExtendedWordPairs] = React.useState([]);
 
-  const [checkedValues, setCheckedValues] = useState([]);
+  React.useEffect(() => {
+    setExtendedWordPairs(
+      wordPairs.map(wordPair => {
+        const handleSpeech = () => {
+          if (synth.speaking) {
+            synth.cancel();
+          }
 
-  const handleToggle = useCallback(
-    value => () => {
+          const speech = new SpeechSynthesisUtterance(wordPair.wordForeign);
+          speech.lang = lang;
+          synth.speak(speech);
+        };
+
+        return {
+          ...wordPair,
+          handleSpeech
+        };
+      })
+    );
+  }, [wordPairs]);
+
+  const [checkedValues, setCheckedValues] = React.useState([]);
+
+  const handleToggle = React.useCallback(
+    value => event => {
       setCheckedValues(checkedValues => {
         const currentIndex = checkedValues.indexOf(value);
         const newChecked = [...checkedValues];
@@ -38,18 +55,29 @@ function WordlistContainer() {
     []
   );
 
-  const [editingModeEnabled, setEditingModeEnabled] = useState(false);
+  const [editingModeEnabled, setEditingModeEnabled] = React.useState(false);
+
+  React.useEffect(() => {
+    if (checkedValues.length > 0) {
+      if (!editingModeEnabled) {
+        setEditingModeEnabled(true);
+      }
+    } else if (checkedValues.length === 0) {
+      if (editingModeEnabled) {
+        setEditingModeEnabled(false);
+      }
+    }
+  }, [checkedValues, editingModeEnabled]);
 
   const handleReset = () => {
     setCheckedValues([]);
-    setEditingModeEnabled(false);
   };
 
-  const [pattern, setPattern] = useState('');
+  const [pattern, setPattern] = React.useState('');
 
-  const filteredWordPairs = useMemo(
+  const filteredWordPairs = React.useMemo(
     () =>
-      wordPairs.filter(({ wordForeign, wordNative }) => {
+      extendedWordPairs.filter(({ wordForeign, wordNative }) => {
         const upperCaseSearchWord = pattern.toUpperCase();
 
         return (
@@ -57,7 +85,7 @@ function WordlistContainer() {
           wordNative.toUpperCase().includes(upperCaseSearchWord)
         );
       }),
-    [pattern, wordPairs]
+    [pattern, extendedWordPairs]
   );
 
   return (
@@ -71,8 +99,7 @@ function WordlistContainer() {
       <Divider />
       <Wordlist
         editingModeEnabled={editingModeEnabled}
-        setEditingModeEnabled={setEditingModeEnabled}
-        wordPairs={!pattern ? wordPairs : filteredWordPairs}
+        wordPairs={!pattern ? extendedWordPairs : filteredWordPairs}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />
@@ -81,4 +108,4 @@ function WordlistContainer() {
   );
 }
 
-export default WordlistContainer;
+export default DictionaryContainer;

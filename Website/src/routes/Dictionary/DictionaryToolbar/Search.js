@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 
-const SearchWrapper = styled.div`
+const SearchContainer = styled.div`
   position: relative;
   border-radius: ${props => props.theme.shape.borderRadius}px;
   background-color: rgba(0, 0, 0, 0.07);
@@ -34,7 +34,7 @@ const SearchWrapper = styled.div`
   }
 `;
 
-const SearchIconWrapper = styled.div`
+const SearchIconContainer = styled.div`
   width: 56px;
   height: 100%;
   position: absolute;
@@ -46,10 +46,10 @@ const SearchIconWrapper = styled.div`
 
 function Search({ value, onChange }) {
   return (
-    <SearchWrapper>
-      <SearchIconWrapper>
+    <SearchContainer>
+      <SearchIconContainer>
         <SearchIcon />
-      </SearchIconWrapper>
+      </SearchIconContainer>
       <InputBase
         placeholder="Поиск слова"
         inputProps={{
@@ -59,7 +59,7 @@ function Search({ value, onChange }) {
           onChange
         }}
       />
-    </SearchWrapper>
+    </SearchContainer>
   );
 }
 

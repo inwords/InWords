@@ -2,30 +2,52 @@ import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
-import Container from '@material-ui/core/Container';
+import Container from 'src/components/Container';
 import PageProgress from 'src/components/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
-import SmartSnackbar from 'src/components/SmartSnackbar';
-import PageWrapper from 'src/components/PageWrapper';
-import AuthorizedPageWrapper from 'src/components/AuthorizedPageWrapper';
-import TrainingPageWrapper from 'src/components/TrainingPageWrapper';
-import ErrorBoundary from 'src/components/ErrorBoundary';
+import SmartSnackbar from 'src/layout/SmartSnackbar';
+import PageContainer from 'src/layout/PageContainer';
+import ProfileMenuButton from 'src/layout/ProfileMenuButton';
+import ErrorBoundary from 'src/layout/ErrorBoundary';
+import TrainingRouter from './TrainingRouter';
+import DictionaryRouter from './DictionaryRouter';
 
-const SignIn = lazy(() => import('./routes/SignIn'));
-const SignUp = lazy(() => import('./routes/SignUp'));
-const Profile = lazy(() => import('./routes/Profile'));
-const ProfileSettings = lazy(() => import('./routes/ProfileSettings'));
-const Account = lazy(() => import('./routes/Account'));
-const Dictionary = lazy(() => import('./routes/Dictionary'));
-const TrainingCategories = lazy(() => import('./routes/TrainingCategories'));
-const TrainingTypes = lazy(() => import('./routes/TrainingTypes'));
-const TrainingLevels = lazy(() => import('./routes/TrainingLevels'));
-const Game = lazy(() => import('./routes/Game'));
-const SelectTranslateTraining = lazy(() =>
-  import('./routes/SelectTranslateTraining')
-);
+const SignIn = lazy(() => import('src/routes/SignIn'));
+const SignUp = lazy(() => import('src/routes/SignUp'));
+const Profile = lazy(() => import('src/routes/Profile'));
 
 const history = createBrowserHistory();
+
+const routes = [
+  {
+    to: '/dictionary',
+    text: 'Словарь',
+    nestedRoutes: [
+      {
+        to: '/dictionary/my',
+        text: 'Мой словарь'
+      },
+      {
+        to: '/dictionary/sets',
+        text: 'Наборы слов'
+      }
+    ]
+  },
+  {
+    to: '/training',
+    text: 'Обучение',
+    nestedRoutes: [
+      {
+        to: '/training/main',
+        text: 'Тренировки'
+      },
+      {
+        to: '/training/history',
+        text: 'История'
+      }
+    ]
+  }
+];
 
 function App() {
   const userId = useSelector(store => store.access.userId);
@@ -34,114 +56,45 @@ function App() {
     <Router history={history}>
       <ScrollToTop />
       <SmartSnackbar />
-      <ErrorBoundary>
-        <Suspense fallback={<PageProgress />}>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                !userId ? (
+      <Suspense fallback={<PageProgress />}>
+        <PageContainer
+          routes={userId ? routes : undefined}
+          rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
+        >
+          <ErrorBoundary>
+            <Switch>
+              <Route exact path="/">
+                {!userId ? (
                   <Redirect to="/signIn" />
                 ) : (
-                  <Redirect to="/dictionary" />
-                )
-              }
-            />
-            <Route
-              exact
-              path="/profile"
-              render={() => <Redirect to={`/profile/${userId}`} />}
-            />
-            <Route path="/signIn">
-              <PageWrapper>
+                  <Redirect to="/training" />
+                )}
+              </Route>
+              <Route path="/signIn">
                 <Container maxWidth="xs">
                   <SignIn />
                 </Container>
-              </PageWrapper>
-            </Route>
-            <Route path="/signUp">
-              <PageWrapper>
+              </Route>
+              <Route path="/signUp">
                 <Container maxWidth="xs">
                   <SignUp />
                 </Container>
-              </PageWrapper>
-            </Route>
-            <Route path="/profile/:userId">
-              <AuthorizedPageWrapper>
-                <Profile />
-              </AuthorizedPageWrapper>
-            </Route>
-            <Route path="/profileSettings">
-              <AuthorizedPageWrapper>
-                <Container component="div" maxWidth="sm">
-                  <ProfileSettings />
+              </Route>
+              <Route path="/profile">
+                <Container maxWidth="md">
+                  <Profile />
                 </Container>
-              </AuthorizedPageWrapper>
-            </Route>
-            <Route path="/account">
-              <AuthorizedPageWrapper>
-                <Container component="div" maxWidth="sm">
-                  <Account />
-                </Container>
-              </AuthorizedPageWrapper>
-            </Route>
-            <Route path="/dictionary">
-              <AuthorizedPageWrapper>
-                <Container component="div" maxWidth="md">
-                  <Dictionary />
-                </Container>
-              </AuthorizedPageWrapper>
-            </Route>
-            <Route exact path="/trainings">
-              <TrainingPageWrapper>
-                <Container component="div" maxWidth="lg">
-                  <TrainingCategories />
-                </Container>
-              </TrainingPageWrapper>
-            </Route>
-            <Route exact path="/trainings/:categoryId">
-              <TrainingPageWrapper>
-                <Container component="div" maxWidth="lg">
-                  <TrainingTypes />
-                </Container>
-              </TrainingPageWrapper>
-            </Route>
-            <Route exact path="/trainings/:categoryId/:trainingId">
-              <TrainingPageWrapper>
-                <Container component="div" maxWidth="lg">
-                  <TrainingLevels />
-                </Container>
-              </TrainingPageWrapper>
-            </Route>
-            <Route
-              path="/trainings/:categoryId/:trainingId/:levelId"
-              render={({ match, ...rest }) => {
-                switch (match.params.trainingId) {
-                  case '0':
-                    return (
-                      <TrainingPageWrapper>
-                        <Container component="div" maxWidth="lg">
-                          <Game match={match} {...rest} />
-                        </Container>
-                      </TrainingPageWrapper>
-                    );
-                  case '1':
-                    return (
-                      <TrainingPageWrapper>
-                        <Container component="div" maxWidth="lg">
-                          <SelectTranslateTraining match={match} {...rest} />
-                        </Container>
-                      </TrainingPageWrapper>
-                    );
-                  default:
-                    return null;
-                }
-              }}
-            />
-          </Switch>
-        </Suspense>
-      </ErrorBoundary>
+              </Route>
+              <Route path="/dictionary">
+                <DictionaryRouter />
+              </Route>
+              <Route path="/training">
+                <TrainingRouter />
+              </Route>
+            </Switch>
+          </ErrorBoundary>
+        </PageContainer>
+      </Suspense>
     </Router>
   );
 }

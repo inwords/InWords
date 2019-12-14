@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import EntryFormPaper from 'src/components/EntryFormPaper';
-import EntryLinksContainer from 'src/components/EntryLinksContainer';
-import EntrySubmitButton from 'src/components/EntrySubmitButton';
+import Typography from 'src/components/Typography';
+import Link from 'src/components/Link';
+import EntryFormPaper from 'src/layout/EntryFormPaper';
+import EntryLinksContainer from 'src/layout/EntryLinksContainer';
+import EntrySubmitButton from 'src/layout/EntrySubmitButton';
 
 function SignIn({ inputs, handleChange, handleSubmit }) {
   return (
     <EntryFormPaper>
-      <Typography component="h1" variant="h5" gutterBottom>
+      <Typography component="h1" variant="h5">
         Вход
       </Typography>
       <form onSubmit={handleSubmit}>
@@ -41,16 +41,11 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
           variant="outlined"
           fullWidth
         />
-        <EntrySubmitButton
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-        >
+        <EntrySubmitButton type="submit" primary large fullWidth>
           Войти
         </EntrySubmitButton>
         <EntryLinksContainer>
-          <Link component={RouterLink} to="/signUp" variant="body2">
+          <Link as={RouterLink} to="/signUp">
             Нет аккаунта? Зарегистрироваться
           </Link>
         </EntryLinksContainer>

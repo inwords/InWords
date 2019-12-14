@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
@@ -14,24 +14,26 @@ const headers = new Headers({
   'Content-Type': 'application/x-www-form-urlencoded'
 });
 
-function WordPairAddDialogContainer({ ...rest }) {
+const initialInputs = {
+  wordForeign: '',
+  wordNative: ''
+};
+
+function WordPairAddDialogContainer({ open, ...rest }) {
   const dispatch = useDispatch();
 
   const { inputs, setInputs, handleChange, handleSubmit } = useForm(
-    {
-      wordForeign: '',
-      wordNative: ''
-    },
+    initialInputs,
     () => {
       dispatch(addWordPairs([inputs]));
     }
   );
 
-  const [translationsInfo, setTranslationsInfo] = useState([]);
+  const [translationsInfo, setTranslationsInfo] = React.useState([]);
 
-  const translationTimeoutRef = useRef();
+  const translationTimeoutRef = React.useRef();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const word = inputs.wordForeign.slice().trim();
     if (!word.match(/^[a-z0-9 ]+$/i)) {
       window.clearTimeout(translationTimeoutRef.current);
@@ -97,31 +99,21 @@ function WordPairAddDialogContainer({ ...rest }) {
     }
   };
 
-  const handleReset = () => {
-    setInputs({
-      wordForeign: '',
-      wordNative: ''
-    });
-
-    setTranslationsInfo([]);
-  };
-
   return (
     <WordPairAddDialog
+      open={open}
       inputs={inputs}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       translationsInfo={translationsInfo}
       handleTranslationSelection={handleTranslationSelection}
-      handleReset={handleReset}
       {...rest}
     />
   );
 }
 
 WordPairAddDialogContainer.propTypes = {
-  open: PropTypes.bool,
-  handleClose: PropTypes.func
+  open: PropTypes.bool.isRequired
 };
 
 export default WordPairAddDialogContainer;

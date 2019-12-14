@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Typography from 'src/components/Typography';
+import IconButton from 'src/components/IconButton';
 import Search from './Search';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
-const ToolbarWrapper = styled.div`
+const DictionaryToolbarRoot = styled.div`
   display: flex;
   align-items: center;
   min-height: 64px;
@@ -29,10 +29,6 @@ const CloseIconButton = styled(IconButton)`
   margin-right: 16px;
 `;
 
-const DeleteIconButton = styled(IconButton)`
-  color: ${props => props.theme.palette.error.main};
-`;
-
 function DictionaryToolbar({
   editingModeEnabled,
   checkedValues,
@@ -44,12 +40,12 @@ function DictionaryToolbar({
   const numberOfChecked = checkedValues.length;
 
   return (
-    <ToolbarWrapper>
+    <DictionaryToolbarRoot>
       {!editingModeEnabled ? (
         <Fragment>
           <EntryTitleBlock>
-            <Typography component="h1" variant="h6">
-              Словарь
+            <Typography as="h1" variant="h6">
+              Мой словарь
             </Typography>
           </EntryTitleBlock>
           <Search value={inputs.pattern} onChange={handleChange} />
@@ -65,27 +61,24 @@ function DictionaryToolbar({
             <CloseIcon />
           </CloseIconButton>
           <TitleBlock>
-            <Typography component="h2" variant="h6">
+            <Typography as="h2" variant="h6">
               Выбрано: {numberOfChecked}
             </Typography>
           </TitleBlock>
-          <DeleteIconButton
+          <IconButton
             aria-label="delete"
             onClick={() => {
               handleDelete();
               handleReset();
             }}
-            disabled={numberOfChecked === 0}
+            color="error"
           >
             <DeleteIcon />
-          </DeleteIconButton>
-          <DictionaryMenuButton
-            disabled={numberOfChecked === 0}
-            checkedValues={checkedValues}
-          />
+          </IconButton>
+          <DictionaryMenuButton checkedValues={checkedValues} />
         </Fragment>
       )}
-    </ToolbarWrapper>
+    </DictionaryToolbarRoot>
   );
 }
 

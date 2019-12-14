@@ -6,19 +6,11 @@ const AppBar = styled.header`
   top: 0;
   left: auto;
   right: 0;
-  z-index: 1201;
+  z-index: ${props => props.theme.zIndex.appBar};
   width: 100%;
-  transform: ${props => (!props.show ? 'translateY(-100%)' : 'translateY(0)')};
-  transition: ${props =>
-    !props.show
-      ? 'transform .3s cubic-bezier(.4, 0, .2, 1), opacity 0s .3s'
-      : 'transform .3s cubic-bezier(.4, 0, .6, 1) .3s'};
-  background-color: ${props =>
-    props.primary
-      ? props.theme.palette.primary.main
-      : props.theme.palette.background.paper};
-  color: ${props =>
-    props.primary ? props.theme.palette.primary.contrastText : 'inherit'};
+  background-color: ${props => props.theme.palette.primary.main};
+  color: ${props => props.theme.palette.primary.contrastText};
+
   &::after {
     content: '';
     position: absolute;
@@ -27,9 +19,7 @@ const AppBar = styled.header`
     bottom: 0;
     left: 0;
     z-index: -1;
-    opacity: ${props => (!props.show ? 0 : 1)};
     box-shadow: ${props => props.theme.shadows[4]};
-    transition: opacity 0.3s 0.3s;
   }
 `;
 

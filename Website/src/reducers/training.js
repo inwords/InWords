@@ -3,7 +3,9 @@ import {
   INITIALIZE_TRAINING_CATEGORIES,
   INITIALIZE_TRAINING_CATEGORY,
   UPDATE_LEVEL_RESULT,
-  INITIALIZE_TRAINING_LEVEL
+  INITIALIZE_TRAINING_LEVEL,
+  REMOVE_TRAINING_LEVEL_WORD_PAIRS,
+  INITIALIZE_TRAINING_HISTORY
 } from 'src/actions/trainingActions';
 
 function trainingCategories(state = [], action) {
@@ -38,7 +40,10 @@ function trainingCategory(
 
           return {
             ...levelInfo,
-            playerStars: Math.max(levelInfo.playerStars, action.payload.score)
+            playerStars: Math.max(
+              levelInfo.playerStars,
+              action.payload.classicCardLevelResult[0].score
+            )
           };
         })
       };
@@ -47,18 +52,42 @@ function trainingCategory(
   }
 }
 
-function trainingLevel(
+function trainingLevelsMap(state = {}, action) {
+  switch (action.type) {
+    case INITIALIZE_TRAINING_LEVEL:
+      return {
+        ...state,
+        [action.payload.levelId]: action.payload
+      };
+    case REMOVE_TRAINING_LEVEL_WORD_PAIRS:
+      return {
+        ...state,
+        [action.payload.levelId]: {
+          ...state[action.payload.levelId],
+          wordTranslations: state[
+            action.payload.levelId
+          ].wordTranslations.filter(
+            ({ serverId }) => !action.payload.pairIds.includes(serverId)
+          )
+        }
+      };
+    default:
+      return state;
+  }
+}
+
+function trainingHistory(
   state = {
-    levelId: null,
-    wordTranslations: []
+    actual: false,
+    recentTrainings: []
   },
   action
 ) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_LEVEL:
+    case INITIALIZE_TRAINING_HISTORY:
       return {
-        levelId: action.payload.levelId,
-        wordTranslations: action.payload.wordTranslations || []
+        actual: true,
+        recentTrainings: (action.payload || []).slice(0, 30)
       };
     default:
       return state;
@@ -68,5 +97,6 @@ function trainingLevel(
 export default combineReducers({
   trainingCategories,
   trainingCategory,
-  trainingLevel
+  trainingLevelsMap,
+  trainingHistory
 });
