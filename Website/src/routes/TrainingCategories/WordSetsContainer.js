@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveTrainingCategories } from 'src/actions/trainingApiActions';
-import TrainingCategories from './TrainingCategories';
+import { receiveTrainingCategories } from './node_modules/src/actions/trainingApiActions';
+import WordSets from './WordSets';
 
-function TrainingCategoriesContainer() {
+function WordSetsContainer() {
   const trainingCategories = useSelector(
     store => store.training.trainingCategories
   );
@@ -16,7 +16,7 @@ function TrainingCategoriesContainer() {
     }
   }, [trainingCategories.length, dispatch]);
 
-  return <TrainingCategories trainingCategories={trainingCategories} />;
+  return <WordSets trainingCategories={trainingCategories} />;
 }
 
-export default TrainingCategoriesContainer;
+export default WordSetsContainer;

@@ -3,7 +3,7 @@ import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
 import Container from 'src/components/Container';
 
 const Dictionary = lazy(() => import('src/routes/Dictionary'));
-const TrainingCategories = lazy(() => import('src/routes/TrainingCategories'));
+const WordSets = lazy(() => import('src/routes/WordSets'));
 
 function DictionaryRouter() {
   const { url } = useRouteMatch();
@@ -20,7 +20,7 @@ function DictionaryRouter() {
       </Route>
       <Route exact path={`${url}/sets`}>
         <Container maxWidth="lg">
-          <TrainingCategories />
+          <WordSets />
         </Container>
       </Route>
     </Switch>

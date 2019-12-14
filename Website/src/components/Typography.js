@@ -20,6 +20,8 @@ const colorTextSecondaryStyle = props => css`
 
 const Typography = styled.span`
   margin: 0;
+  margin-bottom: ${props => props.gutterBottom && '0.35em'};
+
   ${props => props.theme.typography[props.variant || 'body2']}
   ${props => {
     switch (props.color || 'textPrimary') {

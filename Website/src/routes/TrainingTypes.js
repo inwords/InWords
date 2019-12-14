@@ -8,8 +8,8 @@ import withLocalStorageData from 'src/HOCs/withLocalStorageData';
 import Card from 'src/components/Card';
 import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
-import CardTitle from 'src/components/CardTitle';
-import CardAction from 'src/components/CardAction';
+import Typography from 'src/components/Typography';
+import Link from 'src/components/Link';
 import Typoghraphy from 'src/components/Typography';
 import TrainingTypesSettings from 'src/layout/TrainingTypesSettings';
 import TrainingCardSection from 'src/layout/TrainingCardSection';
@@ -32,7 +32,9 @@ function TrainingTypes({ trainingTypesInfo, localData, level = 0 }) {
             <Grid key={typeId} item xs={12} sm={6} md={4}>
               <Card>
                 <CardContent>
-                  <CardTitle as="h2">{title}</CardTitle>
+                  <Typography as="h2" variant="h5" gutterBottom>
+                    {title}
+                  </Typography>
                   <Typoghraphy as="p">{description}</Typoghraphy>
                   {trainingLevelsMap[level] && (
                     <TrainingCardSection>
@@ -48,16 +50,17 @@ function TrainingTypes({ trainingTypesInfo, localData, level = 0 }) {
                   )}
                 </CardContent>
                 <CardActions>
-                  <CardAction
+                  <Link
                     as={RouterLink}
                     to={
                       params.levelId !== undefined
                         ? `${match.url}/${typeId}`
                         : `${match.url}/${typeId}/${level}`
                     }
+                    variant="body1"
                   >
                     Поплыли
-                  </CardAction>
+                  </Link>
                 </CardActions>
               </Card>
             </Grid>

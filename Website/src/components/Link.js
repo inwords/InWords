@@ -1,15 +1,17 @@
+import React from 'react';
 import styled from '@emotion/styled';
+import Typography from 'src/components/Typography';
 
-const Link = styled.a`
-  display: inline-flex;
+const LinkRoot = styled(Typography)`
   cursor: pointer;
   text-decoration: none;
-  color: ${props => props.theme.palette.primary.main};
 
   &:hover,
   &:active {
     text-decoration: underline;
   }
 `;
+
+const Link = props => <LinkRoot as="a" color="primary" {...props} />;
 
 export default Link;

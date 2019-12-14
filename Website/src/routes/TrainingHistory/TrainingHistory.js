@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Card from 'src/components/Card';
+import CardContent from 'src/components/CardContent';
+import CardActions from 'src/components/CardActions';
+import CardTitle from 'src/components/CardTitle';
+import CardAction from 'src/components/CardAction';
 import StarIcon from '@material-ui/icons/Star';
 
 function TrainingHistory({ recentTrainings }) {
@@ -14,13 +14,11 @@ function TrainingHistory({ recentTrainings }) {
 
   return (
     <Grid container spacing={3}>
-      {recentTrainings.map(({ levelId, level, playerStars, isAvailable }) => (
+      {recentTrainings.map(({ levelId, level, playerStars }) => (
         <Grid key={levelId} item xs={6} sm={4} md={3}>
           <Card>
             <CardContent>
-              <Typography gutterBottom variant="h5">
-                {level}
-              </Typography>
+              <CardTitle>Уровень {levelId}</CardTitle>
               <div>
                 <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />
                 <StarIcon color={playerStars > 1 ? 'secondary' : 'disabled'} />
@@ -28,15 +26,9 @@ function TrainingHistory({ recentTrainings }) {
               </div>
             </CardContent>
             <CardActions>
-              <Button
-                component={Link}
-                to={`${match.url}/${levelId}`}
-                size="small"
-                color="primary"
-                disabled={!isAvailable}
-              >
+              <CardAction as={RouterLink} to={`${match.url}/${levelId}`}>
                 Выбрать
-              </Button>
+              </CardAction>
             </CardActions>
           </Card>
         </Grid>
