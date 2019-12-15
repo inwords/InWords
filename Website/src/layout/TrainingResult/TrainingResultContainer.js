@@ -11,6 +11,7 @@ function TrainingResultContainer({ wordPairs, handleReplay, ...rest }) {
   const { recentTrainings } = useSelector(
     store => store.training.trainingHistory
   );
+
   const dispatch = useDispatch();
 
   const paramLevelId = +params.levelId;
@@ -42,27 +43,6 @@ function TrainingResultContainer({ wordPairs, handleReplay, ...rest }) {
         history.push('/training');
       }
     }
-
-    // const levelIndex = levelsInfo.findIndex(
-    //   levelInfo => levelInfo.levelId === paramLevelId
-    // );
-
-    // const handleRedirectionToLevels = () => {
-    //   history.push(`/training/themes/${paramCategoryId}/${paramTrainingId}`);
-    // };
-
-    // if (levelIndex !== -1) {
-    //   const nextLevelIndex = levelIndex + 1;
-    //   if (levelsInfo[nextLevelIndex]) {
-    //     history.push(
-    //       `/training/themes/${paramCategoryId}/${paramTrainingId}/${levelsInfo[nextLevelIndex].levelId}`
-    //     );
-    //   } else {
-    //     handleRedirectionToLevels();
-    //   }
-    // } else {
-    //   handleRedirectionToLevels();
-    // }
   };
 
   return (
