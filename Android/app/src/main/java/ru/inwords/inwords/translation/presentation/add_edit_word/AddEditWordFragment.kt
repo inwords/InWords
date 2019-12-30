@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.fragment_add_edit_word.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.utils.KeyboardUtils
@@ -29,6 +30,8 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        NavigationUI.setupWithNavController(toolbar, navController)
 
         setUpViewState()
 
@@ -76,6 +79,7 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
     }
 
     private fun popBackToTranslationMain() {
+        toolbar.requestFocus() //TODO другой метод скрытия клавиатуры?
         KeyboardUtils.hideKeyboard(view)
         navController.navigate(AddEditWordFragmentDirections.actionAddEditWordFragmentPop())
     }

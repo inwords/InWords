@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ru.inwords.inwords.presentation.NestedCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,12 +7,12 @@
     tools:context=".game.presentation.games.GamesFragment">
 
     <com.google.android.material.appbar.AppBarLayout
+        style="@style/ToolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/appbar_height">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|enterAlways|snap"
@@ -36,4 +36,4 @@
         layout="@layout/game_no_content"
         android:visibility="gone" />
 
-</ru.inwords.inwords.presentation.NestedCoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

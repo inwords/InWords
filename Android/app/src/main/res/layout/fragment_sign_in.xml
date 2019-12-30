@@ -1,100 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/ToolbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/space_xmedium_large"
-        android:paddingTop="@dimen/space_xxxxgiant"
-        android:paddingRight="@dimen/space_xmedium_large">
+        android:layout_height="@dimen/appbar_height">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/large_logo_height"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_logo" />
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title="@string/sign_in" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_large">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/sign_in_email"
-                android:inputType="textEmailAddress"
-                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_medium"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/sign_in_password"
-                android:inputType="textPassword"
-                android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ru.inwords.designcorelib.custom_views.button.ActionProcessButton
-            android:id="@+id/buttonEnterSignIn"
-            style="@style/AuthorisationButton"
-            android:text="@string/sign_in_enter"
-            android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
-            app:pb_textError="Повторить"
-            app:pb_textProgress="@string/sign_in_in_process" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xxxxgiant"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/space_xmedium_large"
+            android:paddingTop="@dimen/space_xxxxgiant"
+            android:paddingRight="@dimen/space_xmedium_large"
+            android:paddingBottom="@dimen/space_xmedium_large">
 
-            <TextView
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/large_logo_height"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_logo" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_large">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sign_in_email"
+                    android:inputType="textEmailAddress"
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sign_in_password"
+                    android:inputType="textPassword"
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ru.inwords.designcorelib.custom_views.button.ActionProcessButton
+                android:id="@+id/buttonEnterSignIn"
+                style="@style/AuthorisationButton"
+                android:text="@string/sign_in_enter"
+                android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
+                app:pb_textError="Повторить"
+                app:pb_textProgress="@string/sign_in_in_process" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="2.5dp"
-                android:paddingRight="2.5dp"
-                android:text="@string/sign_in_no_account"
-                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
+                android:layout_marginTop="@dimen/space_xxxxgiant"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="2.5dp"
+                    android:paddingRight="2.5dp"
+                    android:text="@string/sign_in_no_account"
+                    android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
+
+                <TextView
+                    android:id="@+id/textViewSignUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:paddingLeft="2.5dp"
+                    android:paddingRight="2.5dp"
+                    android:text="@string/sign_in_sign_up"
+                    android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/textViewSignUp"
+                android:id="@+id/textViewRestorePassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
                 android:background="?selectableItemBackground"
-                android:paddingLeft="2.5dp"
-                android:paddingRight="2.5dp"
-                android:text="@string/sign_in_sign_up"
+                android:text="@string/sign_in_restore_password"
                 android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textViewRestorePassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_medium"
-            android:background="?selectableItemBackground"
-            android:text="@string/sign_in_restore_password"
-            android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
-
-    </LinearLayout>
-
-</ScrollView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

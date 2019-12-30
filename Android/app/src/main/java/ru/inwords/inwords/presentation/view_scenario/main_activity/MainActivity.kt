@@ -52,7 +52,13 @@ class MainActivity : DaggerAppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.policyFragment -> hideNavigation()
+                R.id.policyFragment,
+                R.id.profileFragment,
+                R.id.registrationFragment,
+                R.id.loginFragment,
+                R.id.gameLevelFragment,
+                R.id.gameEndBottomSheet,
+                R.id.addEditWordFragment -> hideNavigation()
 //                R.id.customGameCreatorFragment -> hideNavigation()
 
                 else -> showNavigation()

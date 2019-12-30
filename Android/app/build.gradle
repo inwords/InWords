@@ -13,8 +13,8 @@ android {
         applicationId "ru.inwords.inwords"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
-        versionCode 12
-        versionName "1.7"
+        versionCode 13
+        versionName "1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
@@ -34,6 +34,7 @@ android {
         release {
             debuggable false
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             manifestPlaceholders = [crashlytics: "true"]
@@ -93,7 +94,10 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.ANDROID_X"
 
     implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-alpha06"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-beta01"
+
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+
     implementation "androidx.constraintlayout:constraintlayout:$versions.CONSTRAINT_LAYOUT"
 
     //preference

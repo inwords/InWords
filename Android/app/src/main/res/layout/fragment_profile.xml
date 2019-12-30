@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,164 +7,200 @@
     android:layout_height="match_parent"
     tools:context=".home.HomeFragment">
 
-    <FrameLayout
-        android:id="@+id/header_container"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_layout"
+        style="@style/ToolbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/profile_header_height">
+        android:layout_height="wrap_content">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/header_background"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:importantForAccessibility="no"
-            app:actualImageResource="@drawable/frame"
-            app:actualImageScaleType="focusCrop" />
+            android:layout_height="@dimen/profile_header_height"
+            app:contentScrim="@color/white"
+            app:expandedTitleMarginBottom="100dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.Inwords.CollapsingToolbarLayoutExpandedTextStyle"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:toolbarId="@id/toolbar">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/avatar_image"
-            android:layout_width="@dimen/profile_avatar_size"
-            android:layout_height="@dimen/profile_avatar_size"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/space_xsmall"
-            android:layout_marginTop="@dimen/space_large"
-            android:layout_marginBottom="@dimen/space_large_xxx"
-            android:contentDescription="@string/avatar"
-            android:elevation="@dimen/elevation_medium"
-            app:failureImage="@drawable/ic_octopus1"
-            app:roundAsCircle="true"
-            app:roundingBorderColor="@color/colorSecondary"
-            app:roundingBorderWidth="@dimen/profile_avatar_border_width" />
+            <FrameLayout
+                android:id="@+id/header_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/profile_rounded_shape_height"
-            android:layout_gravity="bottom"
-            android:background="@drawable/profile_header_background" />
-    </FrameLayout>
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/header_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:importantForAccessibility="no"
+                    app:actualImageResource="@drawable/frame"
+                    app:actualImageScaleType="focusCrop" />
 
-    <LinearLayout
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/avatar_image"
+                    android:layout_width="@dimen/profile_avatar_size"
+                    android:layout_height="@dimen/profile_avatar_size"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/space_xsmall"
+                    android:layout_marginTop="@dimen/space_large"
+                    android:layout_marginBottom="@dimen/space_large_xxx"
+                    android:contentDescription="@string/avatar"
+                    android:elevation="@dimen/elevation_medium"
+                    app:failureImage="@drawable/ic_octopus1"
+                    app:roundAsCircle="true"
+                    app:roundingBorderColor="@color/colorSecondary"
+                    app:roundingBorderWidth="@dimen/profile_avatar_border_width" />
+            </FrameLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/appbar_height"
+                app:layout_collapseMode="pin"
+                app:title="@string/title_profile" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/profile_header_height"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingTop="@dimen/space_medium"
+        android:paddingBottom="@dimen/profile_header_height"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/content_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/profile_edit_text_height">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/name_edit_apply_button"
-                android:layout_width="@dimen/icon_size_default"
-                android:layout_height="@dimen/icon_size_default"
-                android:layout_gravity="center_vertical|end"
-                android:layout_margin="@dimen/space_medium"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/button_apply_text"
-                android:enabled="false"
-                android:src="@drawable/ic_check_24dp"
-                android:tint="@color/icon_color_selector"
-                android:visibility="invisible">
-
-                <requestFocus />
-            </ImageButton>
-
-            <ImageButton
-                android:id="@+id/name_edit_edit_button"
-                android:layout_width="@dimen/icon_size_default"
-                android:layout_height="@dimen/icon_size_default"
-                android:layout_gravity="center_vertical|end"
-                android:layout_margin="@dimen/space_medium"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/button_edit_text"
-                android:enabled="false"
-                android:src="@drawable/ic_create_24dp"
-                android:tint="@color/icon_color_selector" />
-
-            <ProgressBar
-                android:id="@+id/name_edit_progress"
-                android:layout_width="@dimen/icon_size_default"
-                android:layout_height="@dimen/icon_size_default"
-                android:layout_gravity="center_vertical|end"
-                android:layout_margin="@dimen/space_medium"
-                android:visibility="invisible" />
-
-            <View
-                android:layout_width="@dimen/icon_size_small"
-                android:layout_height="@dimen/icon_size_small"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/space_medium"
-                android:background="@drawable/ic_insert_emoticon_24dp"
-                android:backgroundTint="@color/icon_color_selector" />
-
-            <com.google.android.material.textfield.TextInputLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/space_xxxxgiant"
-                android:layout_marginEnd="@dimen/space_xxxxgiant">
+                android:layout_marginBottom="@dimen/space_small">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/name_edit_text"
+                <ImageButton
+                    android:id="@+id/name_edit_apply_button"
+                    android:layout_width="@dimen/icon_size_default"
+                    android:layout_height="@dimen/icon_size_default"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_margin="@dimen/space_medium"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/button_apply_text"
+                    android:enabled="false"
+                    android:src="@drawable/ic_check_24dp"
+                    android:tint="@color/icon_color_selector_primary"
+                    android:visibility="invisible">
+
+                    <requestFocus />
+                </ImageButton>
+
+                <ImageButton
+                    android:id="@+id/name_edit_edit_button"
+                    android:layout_width="@dimen/icon_size_default"
+                    android:layout_height="@dimen/icon_size_default"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_margin="@dimen/space_medium"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/button_edit_text"
+                    android:enabled="false"
+                    android:src="@drawable/ic_create_24dp"
+                    android:tint="@color/icon_color_selector_primary" />
+
+                <ProgressBar
+                    android:id="@+id/name_edit_progress"
+                    android:layout_width="@dimen/icon_size_default"
+                    android:layout_height="@dimen/icon_size_default"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_margin="@dimen/space_medium"
+                    android:visibility="invisible" />
+
+                <View
+                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_height="@dimen/icon_size_small"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/space_medium"
+                    android:background="@drawable/ic_insert_emoticon_24dp"
+                    android:backgroundTint="@color/icon_color_selector_primary" />
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="@string/nick_text"
-                    android:inputType="textCapSentences"
-                    android:maxLength="64"
-                    android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
-                    tools:enabled="true"
-                    tools:text="Ник" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </FrameLayout>
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/space_xxxxgiant"
+                    android:layout_marginEnd="@dimen/space_xxxxgiant">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:layout_marginStart="@dimen/space_medium"
-            android:layout_marginEnd="@dimen/space_medium"
-            android:background="@color/divider_color" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="@string/nick_text"
+                        android:inputType="textCapSentences"
+                        android:maxLength="64"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+                        tools:enabled="true"
+                        tools:text="Ник" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </FrameLayout>
 
-        <TextView
-            android:id="@+id/to_login_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:drawableStart="@drawable/ic_account_circle_24dp"
-            android:drawablePadding="@dimen/space_medium"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/space_medium"
-            android:paddingTop="@dimen/space_xsmall"
-            android:paddingEnd="@dimen/space_medium"
-            android:paddingBottom="@dimen/space_xsmall"
-            android:text="@string/change_account"
-            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginStart="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/space_medium"
+                android:background="@color/divider_color" />
 
-        <TextView
-            android:id="@+id/settings_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:drawableStart="@drawable/ic_settings_24dp"
-            android:drawablePadding="@dimen/space_medium"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/space_medium"
-            android:paddingTop="@dimen/space_xsmall"
-            android:paddingEnd="@dimen/space_medium"
-            android:paddingBottom="@dimen/space_xsmall"
-            android:text="@string/settings"
-            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/to_login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:drawableStart="@drawable/ic_account_circle_24dp"
+                android:drawablePadding="@dimen/space_medium"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingTop="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:paddingBottom="@dimen/space_xsmall"
+                android:text="@string/change_account"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
-    <TextView
-        android:id="@+id/policy_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/space_xsmall"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:text="@string/policy_privacy_agreement"
-        android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
+            <TextView
+                android:id="@+id/settings_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:drawableStart="@drawable/ic_settings_24dp"
+                android:drawablePadding="@dimen/space_medium"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingTop="@dimen/space_xsmall"
+                android:paddingEnd="@dimen/space_medium"
+                android:paddingBottom="@dimen/space_xsmall"
+                android:text="@string/settings"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
+
+            <TextView
+                android:id="@+id/policy_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/space_medium"
+                android:layout_marginTop="@dimen/space_xxxxgiant"
+                android:layout_marginEnd="@dimen/space_medium"
+                android:layout_marginBottom="@dimen/space_xsmall"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="@string/policy_privacy_agreement"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

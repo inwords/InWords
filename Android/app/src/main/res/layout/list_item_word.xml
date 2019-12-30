@@ -42,5 +42,5 @@
         android:paddingEnd="@dimen/space_xsmall"
         android:paddingBottom="@dimen/space_xsmall"
         android:src="@drawable/ic_volume_up_black_24dp"
-        app:tint="@color/icon_color_selector" />
+        app:tint="@color/icon_color_selector_primary" />
 </FrameLayout>

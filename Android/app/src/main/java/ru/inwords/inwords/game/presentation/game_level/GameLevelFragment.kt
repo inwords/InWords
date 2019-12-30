@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.fragment_game_level.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.Event
@@ -42,6 +43,8 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        NavigationUI.setupWithNavController(toolbar, navController)
 
         viewModel.showProgress.observe(this::getLifecycle) {
             it.contentIfNotHandled?.let {

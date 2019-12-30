@@ -2,6 +2,7 @@ package ru.inwords.inwords.presentation.view_scenario.authorisation.login
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.utils.KeyboardUtils
@@ -16,6 +17,8 @@ class LoginFragment : SigningBaseFragment<LoginViewModel, AuthorisationViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        NavigationUI.setupWithNavController(toolbar, navController)
 
         buttonTrySign.setOnClickListener { viewModel.onSignClicked(credentials) }
         textViewSignUp.setOnClickListener { viewModel.onNavigateClicked() } //TODO clicks
