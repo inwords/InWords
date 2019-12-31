@@ -7,6 +7,7 @@ $theme-property-values: (
   palette-default-main: $theme-palette-default-main,
   palette-default-dark: darken($theme-palette-default-main, 8),
   palette-default-darker: darken($theme-palette-default-main, 14),
+  palette-on-default: choose-contrast-color($theme-palette-default-main),
   palette-primary-main: $theme-palette-primary-main,
   palette-primary-dark: darken($theme-palette-primary-main, 6),
   palette-primary-darker: darken($theme-palette-primary-main, 10),
@@ -23,6 +24,11 @@ $theme-property-values: (
   palette-action-selected: rgba(0, 0, 0, 0.14),
   palette-action-disabled: rgba(0, 0, 0, 0.26),
   palette-action-disabled-background: rgba(0, 0, 0, 0.12),
+  breakpoints-xs: 0,
+  breakpoints-sm: 600px,
+  breakpoints-md: 960px,
+  breakpoints-lg: 1280px,
+  breakpoints-xl: 1920px,
   depth-shadow-0: none,
   depth-shadow-4: #{0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132),
   0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108)},
@@ -31,5 +37,7 @@ $theme-property-values: (
   depth-shadow-16: #{0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
   0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)},
   depth-shadow-64: #{0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22),
-  0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)}
+  0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)},
+  z-index-drawer: 1200,
+  z-index-modal: 1300
 );

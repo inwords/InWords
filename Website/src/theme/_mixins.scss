@@ -7,3 +7,21 @@
     }
   }
 }
+
+@mixin theme-breakpoints-down($size) {
+  @if $size == xs {
+    @media only screen and (max-width: 444) {
+      @content;
+    }
+  } @else {
+    @media only screen and (max-width: map-get($theme-property-values, breakpoints-#{$size})) {
+      @content;
+    }
+  }
+}
+
+@mixin theme-breakpoints-up($size) {
+  @media only screen and (min-width: map-get($theme-property-values, breakpoints-#{$size})) {
+    @content;
+  }
+}

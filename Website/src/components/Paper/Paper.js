@@ -9,9 +9,11 @@ function Paper({ component = 'div', depthShadow = 4, className, ...rest }) {
 
   return (
     <Component
-      className={classNames('paper', `paper--depth-shadow--${depthShadow}`, {
-        [className]: className
-      })}
+      className={classNames(
+        'paper',
+        `paper--depth-shadow--${depthShadow}`,
+        className
+      )}
       {...rest}
     />
   );

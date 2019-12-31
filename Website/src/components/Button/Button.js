@@ -12,9 +12,7 @@ function Button({ component = 'button', primary = false, className, ...rest }) {
       className={classNames(
         'button',
         `button--${primary ? 'primary' : 'default'}`,
-        {
-          [className]: className
-        }
+        className
       )}
       {...rest}
     />

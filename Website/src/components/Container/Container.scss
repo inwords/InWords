@@ -1,0 +1,18 @@
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+
+  $sizes: xs, sm, md, lg, xl;
+  @each $size in $sizes {
+    &--max-width--#{$size} {
+      @if $size == xs {
+        max-width: 444px;
+      } @else {
+        max-width: var(--breakpoints-#{$size});
+      }
+    }
+  }
+}

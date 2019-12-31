@@ -1,24 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import Backdrop from 'src/components/Backdrop';
 
-const ModalRoot = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: ${props => props.theme.zIndex.modal};
-`;
+import './Modal.css';
 
 function Modal({
   open,
   keepMounted = false,
   handleBackdropClick,
-  children,
   transitionDuration,
+  children,
+  className,
   ...rest
 }) {
   const [exited, setExited] = React.useState(true);
@@ -38,7 +32,8 @@ function Modal({
   }
 
   return ReactDOM.createPortal(
-    <ModalRoot
+    <div
+      className={classNames('modal', className)}
       style={{
         visibility: exited ? 'hidden' : 'visible'
       }}
@@ -50,7 +45,7 @@ function Modal({
         transitionDuration={transitionDuration}
       />
       {children}
-    </ModalRoot>,
+    </div>,
     document.body
   );
 }
@@ -59,8 +54,8 @@ Modal.propTypes = {
   open: PropTypes.bool,
   keepMounted: PropTypes.bool,
   handleBackdropClick: PropTypes.func,
-  children: PropTypes.node,
-  transitionDuration: PropTypes.number
+  transitionDuration: PropTypes.number,
+  children: PropTypes.node
 };
 
 export default Modal;

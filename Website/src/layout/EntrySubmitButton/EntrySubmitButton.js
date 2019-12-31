@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'src/components/Button';
 
-import './EntrySubmitButton.scss';
+import './EntrySubmitButton.css';
 
 function EntrySubmitButton(props) {
   return (
