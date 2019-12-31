@@ -24,7 +24,6 @@ const AppBar = styled.header`
 `;
 
 AppBar.propTypes = {
-  show: PropTypes.bool,
   children: PropTypes.node
 };
 

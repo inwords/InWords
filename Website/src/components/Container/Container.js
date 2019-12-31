@@ -7,11 +7,7 @@ import './Container.scss';
 function Container({ maxWidth = 'md', className, ...rest }) {
   return (
     <div
-      className={classNames(
-        'container',
-        `container--max-width--${maxWidth}`,
-        className
-      )}
+      className={classNames('container', `container--${maxWidth}`, className)}
       {...rest}
     />
   );

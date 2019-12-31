@@ -1,17 +1,13 @@
 @import './functions';
 
-$theme-palette-default-main: #9e9e9e;
-$theme-palette-primary-main: #6200ea;
+$theme-palette-default: #bdbdbd;
+$theme-palette-primary: #6200ea;
 
 $theme-property-values: (
-  palette-default-main: $theme-palette-default-main,
-  palette-default-dark: darken($theme-palette-default-main, 8),
-  palette-default-darker: darken($theme-palette-default-main, 14),
-  palette-on-default: choose-contrast-color($theme-palette-default-main),
-  palette-primary-main: $theme-palette-primary-main,
-  palette-primary-dark: darken($theme-palette-primary-main, 6),
-  palette-primary-darker: darken($theme-palette-primary-main, 10),
-  palette-on-primary: choose-contrast-color($theme-palette-primary-main),
+  palette-default: $theme-palette-default,
+  palette-on-default: choose-contrast-color($theme-palette-default),
+  palette-primary: $theme-palette-primary,
+  palette-on-primary: choose-contrast-color($theme-palette-primary),
   palette-divider: rgba(0, 0, 0, 0.12),
   palette-background-paper: #fff,
   palette-background-default: #fafafa,
@@ -19,11 +15,14 @@ $theme-property-values: (
   palette-text-secondary: rgba(0, 0, 0, 0.54),
   palette-text-disabled: rgba(0, 0, 0, 0.38),
   palette-text-hint: rgba(0, 0, 0, 0.38),
-  palette-action-active: rgba(0, 0, 0, 0.54),
-  palette-action-hover: rgba(0, 0, 0, 0.08),
-  palette-action-selected: rgba(0, 0, 0, 0.14),
-  palette-action-disabled: rgba(0, 0, 0, 0.26),
-  palette-action-disabled-background: rgba(0, 0, 0, 0.12),
+  palette-disabled: rgba(0, 0, 0, 0.26),
+  palette-disabled-background: rgba(0, 0, 0, 0.12),
+  palette-button-default-background: $theme-palette-default,
+  palette-button-default-hover-background: darken($theme-palette-default, 8),
+  palette-button-default-active-background: darken($theme-palette-default, 14),
+  palette-button-primary-background: $theme-palette-primary,
+  palette-button-primary-hover-background: darken($theme-palette-primary, 8),
+  palette-button-primary-active-background: darken($theme-palette-primary, 14),
   breakpoints-xs: 0,
   breakpoints-sm: 600px,
   breakpoints-md: 960px,
@@ -40,4 +39,61 @@ $theme-property-values: (
   0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)},
   z-index-drawer: 1200,
   z-index-modal: 1300
+);
+
+$theme-typography-values: (
+  h1: (
+    font-weight: 300,
+    font-size: 6rem,
+    line-height: 1.167,
+    letter-spacing: -0.01562em
+  ),
+  h2: (
+    font-weight: 300,
+    font-size: 3.75rem,
+    line-height: 1.2,
+    letter-spacing: -0.00833em
+  ),
+  h3: (
+    font-weight: 400,
+    font-size: 3rem,
+    line-height: 1.167,
+    letter-spacing: 0em
+  ),
+  h4: (
+    font-weight: 400,
+    font-size: 2.125rem,
+    line-height: 1.235,
+    letter-spacing: 0.00735em
+  ),
+  h5: (
+    font-weight: 400,
+    font-size: 1.5rem,
+    line-height: 1.334,
+    letter-spacing: 0em
+  ),
+  h6: (
+    font-weight: 500,
+    font-size: 1.25rem,
+    line-height: 1.6,
+    letter-spacing: -0.01562em
+  ),
+  body1: (
+    font-weight: 400,
+    font-size: 1rem,
+    line-height: 1.5,
+    letter-spacing: 0.00938em
+  ),
+  body2: (
+    font-weight: 400,
+    font-size: 0.875rem,
+    line-height: 1.43,
+    letter-spacing: 0.01071em
+  ),
+  button: (
+    font-weight: 500,
+    font-size: 0.875rem,
+    line-height: 1.75,
+    letter-spacing: 0.0075em
+  )
 );

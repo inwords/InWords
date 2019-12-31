@@ -8,7 +8,6 @@ import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
-import Typoghraphy from 'src/components/Typography';
 import TrainingTypesSettings from 'src/layout/TrainingTypesSettings';
 import TrainingCardSection from 'src/layout/TrainingCardSection';
 import TrainingSchoolIcon from 'src/layout/TrainingSchoolIcon';
@@ -29,7 +28,7 @@ function MainTrainingTypes({ trainingTypesInfo, localData }) {
                   <Typography as="h2" variant="h5" gutterBottom>
                     {title}
                   </Typography>
-                  <Typoghraphy as="p">{description}</Typoghraphy>
+                  <Typography as="p">{description}</Typography>
                   <TrainingCardSection>
                     <TrainingSchoolIcon />
                     <span>На повторение: {trainingWordPairs.length}</span>

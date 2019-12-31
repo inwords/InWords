@@ -1,0 +1,13 @@
+@mixin styled-button($style) {
+  color: var(--palette-on-#{$style});
+  background-color: var(--palette-button-#{$style}-background);
+
+  &:hover,
+  &:focus {
+    background-color: var(--palette-button-#{$style}-hover-background);
+  }
+
+  &:active {
+    background-color: var(--palette-button-#{$style}-active-background);
+  }
+}

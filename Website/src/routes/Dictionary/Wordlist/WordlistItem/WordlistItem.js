@@ -19,7 +19,6 @@ const handleCheckboxClick = event => {
   event.stopPropagation();
 };
 
-const MemorizedListItemText = React.memo(ListItemText);
 const MemorizedListItemSecondaryAction = React.memo(ListItemSecondaryAction);
 
 const MemorizedListItemCheckboxIcon = React.memo(function ListItemCheckboxIcon({
@@ -68,7 +67,7 @@ function WordlistItem({
           checkedValues={checkedValues}
           handleToggle={handleToggle}
         />
-        <MemorizedListItemText
+        <ListItemText
           id={`pair-${wordPair.serverId}`}
           primary={wordPair.wordForeign}
           secondary={wordPair.wordNative}
