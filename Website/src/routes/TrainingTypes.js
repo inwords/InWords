@@ -4,7 +4,6 @@ import { Link as RouterLink, useRouteMatch, useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import { useSelector } from 'react-redux';
 import withLocalStorageData from 'src/HOCs/withLocalStorageData';
-import getWordEnding from 'src/utils/getWordEnding';
 import Card from 'src/components/Card';
 import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
@@ -41,10 +40,7 @@ function TrainingTypes({ trainingTypesInfo, localData, level = 0 }) {
                       <TrainingSchoolIcon />
                       <span>
                         На изучение:{' '}
-                        {trainingLevelsMap[level].wordTranslations.length} слов
-                        {getWordEnding(
-                          trainingLevelsMap[level].wordTranslations.length
-                        )}
+                        {trainingLevelsMap[level].wordTranslations.length}
                       </span>
                     </TrainingCardSection>
                   )}

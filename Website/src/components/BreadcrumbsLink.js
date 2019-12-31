@@ -10,7 +10,7 @@ const BreadcrumbsLink = styled(Link)`
   line-height: 36px;
   font-size: 1rem;
   font-weight: 400;
-  color: ${props => props.theme.palette.primary.main};
+  color: ${props => props.theme.palette.text.primary};
   text-decoration: none;
 
   &:hover {

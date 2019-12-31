@@ -9,6 +9,7 @@ import store from './store';
 import theme from './theme';
 import App from './App';
 
+import './theme/theme.scss';
 import './fonts/index.css';
 
 ReactDOM.render(

@@ -1,0 +1,55 @@
+.button {
+  position: relative;
+  display: inline-block;
+  min-width: 80px;
+  min-height: 32px;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 16px;
+  border-radius: 2px;
+  outline: 0;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &--default {
+    border: 1px solid var(--palette-default-main);
+    color: var(--palette-text-primary);
+    background-color: transparent;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+
+    &:hover,
+    &:focus {
+      border-color: var(--palette-default-dark);
+      background-color: var(--palette-action-hover);
+    }
+
+    &:active {
+      border-color: var(--palette-default-darker);
+      background-color: var(--palette-action-selected);
+    }
+  }
+
+  &--primary {
+    border: 0;
+    color: var(--palette-on-primary);
+    background-color: var(--palette-primary-main);
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-primary-dark);
+    }
+
+    &:active {
+      background-color: var(--palette-primary-darker);
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+    pointer-events: none;
+    color: var(--palette-action-disabled);
+    background-color: var(--palette-action-disabled-background);
+  }
+}

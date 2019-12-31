@@ -1,0 +1,35 @@
+@import './functions';
+
+$theme-palette-default-main: #9e9e9e;
+$theme-palette-primary-main: #6200ea;
+
+$theme-property-values: (
+  palette-default-main: $theme-palette-default-main,
+  palette-default-dark: darken($theme-palette-default-main, 8),
+  palette-default-darker: darken($theme-palette-default-main, 14),
+  palette-primary-main: $theme-palette-primary-main,
+  palette-primary-dark: darken($theme-palette-primary-main, 6),
+  palette-primary-darker: darken($theme-palette-primary-main, 10),
+  palette-on-primary: choose-contrast-color($theme-palette-primary-main),
+  palette-divider: rgba(0, 0, 0, 0.12),
+  palette-background-paper: #fff,
+  palette-background-default: #fafafa,
+  palette-text-primary: rgba(0, 0, 0, 0.87),
+  palette-text-secondary: rgba(0, 0, 0, 0.54),
+  palette-text-disabled: rgba(0, 0, 0, 0.38),
+  palette-text-hint: rgba(0, 0, 0, 0.38),
+  palette-action-active: rgba(0, 0, 0, 0.54),
+  palette-action-hover: rgba(0, 0, 0, 0.08),
+  palette-action-selected: rgba(0, 0, 0, 0.14),
+  palette-action-disabled: rgba(0, 0, 0, 0.26),
+  palette-action-disabled-background: rgba(0, 0, 0, 0.12),
+  depth-shadow-0: none,
+  depth-shadow-4: #{0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132),
+  0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108)},
+  depth-shadow-8: #{0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132),
+  0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108)},
+  depth-shadow-16: #{0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
+  0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)},
+  depth-shadow-64: #{0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22),
+  0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)}
+);

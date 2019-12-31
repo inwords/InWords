@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import getWordEnding from 'src/utils/getWordEnding';
 import useTrainingWordPairs from 'src/hooks/useTrainingWordPairs';
 import withLocalStorageData from 'src/HOCs/withLocalStorageData';
 import Card from 'src/components/Card';
@@ -21,7 +20,6 @@ function MainTrainingTypes({ trainingTypesInfo, localData }) {
 
   return (
     <>
-      <TrainingTypesSettings />
       <Grid container spacing={3}>
         {trainingTypesInfo.map(({ typeId, title, description }) => {
           return (
@@ -34,11 +32,9 @@ function MainTrainingTypes({ trainingTypesInfo, localData }) {
                   <Typoghraphy as="p">{description}</Typoghraphy>
                   <TrainingCardSection>
                     <TrainingSchoolIcon />
-                    <span>
-                      На повторение: {trainingWordPairs.length} слов
-                      {getWordEnding(trainingWordPairs.length)}
-                    </span>
+                    <span>На повторение: {trainingWordPairs.length}</span>
                   </TrainingCardSection>
+                  <TrainingTypesSettings />
                 </CardContent>
                 <CardActions>
                   <Link

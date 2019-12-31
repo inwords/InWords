@@ -1,0 +1,9 @@
+@import './variables';
+
+@mixin core-styles {
+  :root {
+    @each $style in map-keys($theme-property-values) {
+      --#{$style}: #{map-get($theme-property-values, $style)};
+    }
+  }
+}

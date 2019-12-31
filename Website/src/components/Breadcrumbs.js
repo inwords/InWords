@@ -13,6 +13,10 @@ const BreadcrumbsList = styled.ol`
   padding: 0;
   flex-wrap: wrap;
   align-items: center;
+
+  & li:last-of-type > a {
+    font-weight: 500;
+  }
 `;
 
 const BreadcrumbsListItem = styled.li`

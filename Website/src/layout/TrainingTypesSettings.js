@@ -19,13 +19,13 @@ function TrainingTypesSettings({ localData }) {
   return (
     <div
       css={css`
-        margin: 8px 8px 16px;
+        margin: 16px 8px;
       `}
     >
       <Typography
         as="label"
         htmlFor="quantity"
-        variant="body1"
+        variant="body2"
         gutterBottom
         css={css`
           display: inline-block;

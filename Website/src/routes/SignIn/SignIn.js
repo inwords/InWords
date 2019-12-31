@@ -41,9 +41,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
           variant="outlined"
           fullWidth
         />
-        <EntrySubmitButton type="submit" primary large fullWidth>
-          Войти
-        </EntrySubmitButton>
+        <EntrySubmitButton>Войти</EntrySubmitButton>
         <EntryLinksContainer>
           <Link as={RouterLink} to="/signUp">
             Нет аккаунта? Зарегистрироваться
