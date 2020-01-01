@@ -38,7 +38,7 @@ function MainTrainingTypes({ trainingTypesInfo, localData }) {
                 <CardActions>
                   <Link
                     variant="body1"
-                    as={RouterLink}
+                    component={RouterLink}
                     to={`${match.url}/${typeId}/0`}
                   >
                     Поплыли

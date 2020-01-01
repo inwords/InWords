@@ -1,0 +1,30 @@
+.breadcrumbs {
+  margin-bottom: 16px;
+  color: var(--palette-text-secondary);
+
+  &__list {
+    margin: 0;
+    display: flex;
+    padding: 0;
+    flex-wrap: wrap;
+    align-items: center;
+
+    & li:last-of-type > a {
+      font-weight: 500;
+    }
+  }
+
+  &__list-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+  }
+
+  &__list-item-separator {
+    display: flex;
+    margin-left: 4px;
+    user-select: none;
+    margin-right: 4px;
+  }
+}

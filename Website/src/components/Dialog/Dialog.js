@@ -19,14 +19,14 @@ function Dialog({ open, onClose, className, ...rest }) {
       transitionDuration={transitionDuration[open ? 'enter' : 'exit']}
     >
       <div
-        className="dialog"
+        className={classNames('dialog', className)}
         style={{
           opacity: open ? 1 : 0,
           transitionDuration: `${transitionDuration[open ? 'enter' : 'exit']}ms`
         }}
       >
         <Paper
-          className={classNames('dialog__paper', className)}
+          className="dialog__paper"
           onClick={event => {
             event.stopPropagation();
           }}

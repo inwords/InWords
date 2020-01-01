@@ -1,0 +1,22 @@
+.breadcrumbs-link {
+  display: flex;
+  padding-top: 0px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  padding-left: 8px;
+  line-height: 36px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--palette-text-primary);
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--palette-action-hover);
+    text-decoration: none;
+  }
+
+  &:active {
+    background-color: var(--palette-action-selected);
+  }
+}

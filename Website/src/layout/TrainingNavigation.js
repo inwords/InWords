@@ -13,12 +13,7 @@ function TrainingNavigation() {
 
   if (categoryId) {
     navigationLinks.push(
-      <Link
-        key={1}
-        component={RouterLink}
-        to={`/training/${categoryId}`}
-        color="inherit"
-      >
+      <Link key={1} component={RouterLink} to={`/training/${categoryId}`}>
         {linkTexts[0]}
       </Link>
     );
@@ -29,7 +24,6 @@ function TrainingNavigation() {
       key={1}
       component={RouterLink}
       to={`/training/${categoryId}/${trainingId}`}
-      color="inherit"
     >
       {linkTexts[1]}
     </Link>

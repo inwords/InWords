@@ -46,7 +46,7 @@ function TrainingTypes({ trainingTypesInfo, localData, level = 0 }) {
                 </CardContent>
                 <CardActions>
                   <Link
-                    as={RouterLink}
+                    component={RouterLink}
                     to={
                       params.levelId !== undefined
                         ? `${match.url}/${typeId}`

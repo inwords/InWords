@@ -135,8 +135,7 @@ Game.propTypes = {
       id: PropTypes.number.isRequired
     }).isRequired
   ).isRequired,
-  completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired)
-    .isRequired,
+  completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
   isGameCompleted: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired

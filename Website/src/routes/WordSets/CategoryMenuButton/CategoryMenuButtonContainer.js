@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { addCategoryWordsToDictionary } from 'src/actions/trainingApiActions';
 import CategoryMenuButton from './CategoryMenuButton';
 
-function CategoryMenuButtonContainer({categoryId}) {
+function CategoryMenuButtonContainer({ categoryId }) {
   const dispatch = useDispatch();
   const handleAddingInDictionary = () => {
     dispatch(addCategoryWordsToDictionary(categoryId));
