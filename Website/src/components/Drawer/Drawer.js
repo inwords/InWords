@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Paper from 'src/components/Paper';
 import Modal from 'src/components/Modal';
 
 import './Drawer.scss';
@@ -18,7 +19,9 @@ function Drawer({ open, onClose, className, ...rest }) {
       keepMounted
       transitionDuration={transitionDuration[open ? 'enter' : 'exit']}
     >
-      <nav
+      <Paper
+        component="nav"
+        depthShadow={16}
         className={classNames('drawer', className)}
         style={{
           transform: open ? 'translateX(0)' : 'translateX(-100%)',

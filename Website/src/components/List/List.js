@@ -1,10 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './List.css';
 
-function List({ className, ...rest }) {
-  return <div className={classNames('list', className)} {...rest} />;
+function List({ component = 'ul', className, ...rest }) {
+  const Component = component;
+
+  return <Component className={classNames('list', className)} {...rest} />;
 }
+
+List.propTypes = {
+  component: PropTypes.elementType
+};
 
 export default List;

@@ -1,7 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
-import styled from '@emotion/styled';
-
-const BrandLink = styled(RouterLink)`
+.iw-brand-link {
   display: flex;
   align-items: center;
   min-height: 64px;
@@ -10,6 +7,4 @@ const BrandLink = styled(RouterLink)`
   text-transform: uppercase;
   text-decoration: none;
   color: inherit;
-`;
-
-export default BrandLink;
+}

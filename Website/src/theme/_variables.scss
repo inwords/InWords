@@ -38,6 +38,7 @@ $theme-property-values: (
   0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)},
   depth-shadow-64: #{0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22),
   0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)},
+  z-index-app-bar: 1100,
   z-index-drawer: 1200,
   z-index-modal: 1300
 );
@@ -77,7 +78,7 @@ $theme-typography-values: (
     font-weight: 500,
     font-size: 1.25rem,
     line-height: 1.6,
-    letter-spacing: -0.01562em
+    letter-spacing: 0.0075em
   ),
   body1: (
     font-weight: 400,

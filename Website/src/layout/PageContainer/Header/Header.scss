@@ -1,0 +1,63 @@
+@import 'src/theme/mixins';
+
+.header {
+  position: fixed;
+  top: 0;
+  left: auto;
+  right: 0;
+  z-index: var(--z-index-app-bar);
+  width: 100%;
+  background-color: var(--palette-primary);
+  color: var(--palette-on-primary);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    box-shadow: var(--depth-shadow-16);
+  }
+
+  &__context {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0 24px;
+  }
+
+  &__context-block {
+    display: flex;
+    align-items: center;
+    height: 64px;
+
+    &--right {
+      margin-left: 24px;
+
+      @include theme-breakpoints-down(md) {
+        margin-left: auto;
+      }
+    }
+  }
+
+  &__nav {
+    margin-left: auto;
+    display: flex;
+    overflow: hidden;
+    height: 64px;
+
+    @include theme-breakpoints-down(md) {
+      display: none;
+    }
+  }
+
+  &__nav-menu-button {
+    margin-right: 16px;
+
+    @include theme-breakpoints-up(lg) {
+      display: none;
+    }
+  }
+}
