@@ -5,24 +5,34 @@ import { editWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
+const defaultWordPair = {
+  wordForeign: '',
+  wordNative: ''
+};
+
 function WordPairEditDialogContainer({
   open,
-  wordPair: { serverId, wordForeign, wordNative } = {
-    wordForeign: '',
-    wordNative: ''
-  },
+  wordPair = defaultWordPair,
   ...rest
 }) {
   const dispatch = useDispatch();
 
-  const initialInputs = {
-    wordForeign,
-    wordNative
-  };
+  const { inputs, setInputs, handleChange, handleSubmit } = useForm(
+    {
+      wordForeign: wordPair.wordForeign,
+      wordNative: wordPair.wordNative
+    },
+    () => {
+      dispatch(editWordPairs({ [wordPair.serverId]: inputs }));
+    }
+  );
 
-  const { inputs, handleChange, handleSubmit } = useForm(initialInputs, () => {
-    dispatch(editWordPairs({ [serverId]: inputs }));
-  });
+  React.useEffect(() => {
+    setInputs({
+      wordForeign: wordPair.wordForeign,
+      wordNative: wordPair.wordNative
+    });
+  }, [setInputs, wordPair]);
 
   return (
     <WordPairEditDialog

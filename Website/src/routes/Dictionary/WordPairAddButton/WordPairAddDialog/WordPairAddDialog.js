@@ -1,24 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
-import TextField from '@material-ui/core/TextField';
 import Dialog from 'src/components/Dialog';
 import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogActions from 'src/components/DialogActions';
+import DialogAction from 'src/components/DialogAction';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
+import FormGroup from 'src/components/FormGroup';
+import TextField from 'src/components/TextField';
+import Button from 'src/components/Button';
 
-const useStyles = makeStyles(theme => ({
-  translations: {
-    marginTop: 12
-  },
-  chip: {
-    margin: 4
-  }
-}));
+import './WordPairAddDialog.css';
 
 function WordPairAddDialog({
   open,
@@ -29,7 +23,6 @@ function WordPairAddDialog({
   translationsInfo,
   handleTranslationSelection
 }) {
-  const classes = useStyles();
   return (
     <Dialog
       aria-labelledby="word-pair-add-dialog"
@@ -45,46 +38,52 @@ function WordPairAddDialog({
             handleClose();
           }}
         >
-          <TextField
-            id="word-foreign"
-            label="Слово или фраза на английском"
-            name="wordForeign"
-            value={inputs.wordForeign}
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            id="word-native"
-            label="Перевод"
-            name="wordNative"
-            value={inputs.wordNative}
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
-          />
+          <FormGroup>
+            <TextField
+              id="word-foreign"
+              placeholder="Слово или фраза на английском"
+              name="wordForeign"
+              value={inputs.wordForeign}
+              onChange={handleChange}
+              fullWidth
+            />
+          </FormGroup>
+          <FormGroup>
+            <TextField
+              id="word-native"
+              placeholder="Перевод"
+              name="wordNative"
+              value={inputs.wordNative}
+              onChange={handleChange}
+              fullWidth
+            />
+          </FormGroup>
         </form>
         <Typography variant="body2">
           Реализовано с помощью сервиса{' '}
           <Link href="https://tech.yandex.ru/dictionary">«Яндекс.Словарь»</Link>
         </Typography>
-        <div className={classes.translations}>
+        <div className="word-pair-add-dialog-translations">
           {translationsInfo.map(({ id, translation }) => (
             <Chip
               key={id}
               label={translation}
               onClick={handleTranslationSelection(id)}
               variant="outlined"
-              className={classes.chip}
+              className="word-pair-add-dialog-chip"
             />
           ))}
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Отмена</Button>
-        <Button type="submit" form="word-pair-add-form" color="primary">
-          Добавить
-        </Button>
+        <DialogAction>
+          <Button onClick={handleClose}>Отмена</Button>
+        </DialogAction>
+        <DialogAction>
+          <Button type="submit" form="word-pair-add-form" primary>
+            Добавить
+          </Button>
+        </DialogAction>
       </DialogActions>
     </Dialog>
   );

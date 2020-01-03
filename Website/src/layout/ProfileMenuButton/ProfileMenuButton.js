@@ -8,21 +8,12 @@ import IconButton from 'src/components/IconButton';
 import usePopup from 'src/hooks/usePopup';
 import PopupContainer from 'src/components/PopupContainer';
 import Popup from 'src/components/Popup';
-import Menu from 'src/components/Menu';
+import ResponsiveMenu from 'src/components/ResponsiveMenu';
 import MenuItem from 'src/components/MenuItem';
 
 const handleMenuClick = event => {
   event.stopPropagation();
 };
-
-const ProfileMenu = styled(Menu)`
-  max-height: calc(100vh - 64px);
-`;
-
-const ProfileMenuItem = styled(MenuItem)`
-  ${props => props.theme.typography.body2};
-  color: ${props => props.theme.palette.text.primary};
-`;
 
 function ProfileMenuButton({ handleLogout }) {
   const { show, handleToggle, handleClose } = usePopup();
@@ -47,23 +38,19 @@ function ProfileMenuButton({ handleLogout }) {
         <AccountCircleIcon />
       </IconButton>
       <Popup show={show} side="right">
-        <ProfileMenu
+        <ResponsiveMenu
           id="profile-menu"
           anchorEl={anchorEl}
           onClick={handleMenuClick}
         >
           <li>
-            <ProfileMenuItem
-              component={Link}
-              to="/profile"
-              onClick={handleClose}
-            >
+            <MenuItem component={Link} to="/profile" onClick={handleClose}>
               Профиль
-            </ProfileMenuItem>
+            </MenuItem>
           </li>
           <Divider />
           <li>
-            <ProfileMenuItem
+            <MenuItem
               component={Link}
               to="/signIn"
               onClick={() => {
@@ -72,9 +59,9 @@ function ProfileMenuButton({ handleLogout }) {
               }}
             >
               Выйти
-            </ProfileMenuItem>
+            </MenuItem>
           </li>
-        </ProfileMenu>
+        </ResponsiveMenu>
       </Popup>
     </PopupContainer>
   );

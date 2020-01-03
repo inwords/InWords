@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
+import FormGroup from 'src/components/FormGroup';
+import TextField from 'src/components/TextField';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
 import EntryFormPaper from 'src/layout/EntryFormPaper';
@@ -11,36 +12,36 @@ import EntrySubmitButton from 'src/layout/EntrySubmitButton';
 function SignIn({ inputs, handleChange, handleSubmit }) {
   return (
     <EntryFormPaper>
-      <Typography component="h1" variant="h5">
+      <Typography component="h1" variant="h5" gutterBottom>
         Вход
       </Typography>
       <form onSubmit={handleSubmit}>
-        <TextField
-          id="email"
-          label="Email"
-          type="email"
-          autoComplete="email"
-          name="email"
-          value={inputs.email}
-          onChange={handleChange}
-          required
-          margin="normal"
-          variant="outlined"
-          fullWidth
-        />
-        <TextField
-          id="password"
-          label="Пароль"
-          type="password"
-          autoComplete="current-password"
-          name="password"
-          value={inputs.password}
-          onChange={handleChange}
-          required
-          margin="normal"
-          variant="outlined"
-          fullWidth
-        />
+        <FormGroup>
+          <TextField
+            id="email"
+            placeholder="Email"
+            type="email"
+            autoComplete="email"
+            name="email"
+            value={inputs.email}
+            onChange={handleChange}
+            required
+            fullWidth
+          />
+        </FormGroup>
+        <FormGroup>
+          <TextField
+            id="password"
+            placeholder="Пароль"
+            type="password"
+            autoComplete="current-password"
+            name="password"
+            value={inputs.password}
+            onChange={handleChange}
+            required
+            fullWidth
+          />
+        </FormGroup>
         <EntrySubmitButton>Войти</EntrySubmitButton>
         <EntryLinksContainer>
           <Link component={RouterLink} to="/signUp">

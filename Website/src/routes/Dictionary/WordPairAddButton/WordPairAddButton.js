@@ -1,17 +1,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 import Zoom from '@material-ui/core/Zoom';
-import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import useDialog from 'src/hooks/useDialog';
+import Fab from 'src/components/Fab';
 import WordPairAddDialog from './WordPairAddDialog';
 
-const FixedFab = styled(Fab)`
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-`;
+import './WordPairAddButton.css';
 
 function WordPairAddButton({ visible }) {
   const { open, handleOpen, handleClose } = useDialog();
@@ -19,14 +14,14 @@ function WordPairAddButton({ visible }) {
   return (
     <Fragment>
       <Zoom in={visible}>
-        <FixedFab
+        <Fab
           id="fab"
           aria-label="add"
           onClick={handleOpen}
-          color="primary"
+          className="word-pair-add-button"
         >
           <AddIcon />
-        </FixedFab>
+        </Fab>
       </Zoom>
       <WordPairAddDialog open={open} handleClose={handleClose} />
     </Fragment>

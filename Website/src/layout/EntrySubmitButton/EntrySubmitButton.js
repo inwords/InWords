@@ -5,7 +5,13 @@ import './EntrySubmitButton.css';
 
 function EntrySubmitButton(props) {
   return (
-    <Button type="submit" primary className="entry-submit-button" {...props} />
+    <Button
+      type="submit"
+      primary
+      fullWidth
+      className="entry-submit-button"
+      {...props}
+    />
   );
 }
 

@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import Dialog from 'src/components/Dialog';
 import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogActions from 'src/components/DialogActions';
+import DialogAction from 'src/components/DialogAction';
+import FormGroup from 'src/components/FormGroup';
+import TextField from 'src/components/TextField';
+import Button from 'src/components/Button';
 
 function WordPairEditDialog({
   open,
@@ -30,31 +32,37 @@ function WordPairEditDialog({
             handleClose();
           }}
         >
-          <TextField
-            id="word-foreign"
-            label="Слово или фраза на английском"
-            name="wordForeign"
-            value={inputs.wordForeign}
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            id="word-native"
-            label="Перевод"
-            name="wordNative"
-            value={inputs.wordNative}
-            onChange={handleChange}
-            margin="normal"
-            fullWidth
-          />
+          <FormGroup>
+            <TextField
+              id="word-foreign"
+              placeholder="Слово или фраза на английском"
+              name="wordForeign"
+              value={inputs.wordForeign}
+              onChange={handleChange}
+              fullWidth
+            />
+          </FormGroup>
+          <FormGroup>
+            <TextField
+              id="word-native"
+              placeholder="Перевод"
+              name="wordNative"
+              value={inputs.wordNative}
+              onChange={handleChange}
+              fullWidth
+            />
+          </FormGroup>
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Отмена</Button>
-        <Button type="submit" form="word-pair-edit-form" color="primary">
-          Готово
-        </Button>
+        <DialogAction>
+          <Button onClick={handleClose}>Отмена</Button>
+        </DialogAction>
+        <DialogAction>
+          <Button type="submit" form="word-pair-edit-form" primary>
+            Готово
+          </Button>
+        </DialogAction>
       </DialogActions>
     </Dialog>
   );

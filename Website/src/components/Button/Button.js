@@ -4,7 +4,13 @@ import classNames from 'classnames';
 
 import './Button.scss';
 
-function Button({ component = 'button', primary = false, className, ...rest }) {
+function Button({
+  component = 'button',
+  primary = false,
+  fullWidth = false,
+  className,
+  ...rest
+}) {
   const Component = component;
 
   return (
@@ -12,6 +18,9 @@ function Button({ component = 'button', primary = false, className, ...rest }) {
       className={classNames(
         'button',
         `button--${primary ? 'primary' : 'default'}`,
+        {
+          'button--full-width': fullWidth
+        },
         className
       )}
       {...rest}
@@ -21,7 +30,8 @@ function Button({ component = 'button', primary = false, className, ...rest }) {
 
 Button.propTypes = {
   component: PropTypes.elementType,
-  primary: PropTypes.bool
+  primary: PropTypes.bool,
+  fullWidth: PropTypes.bool
 };
 
 export default Button;

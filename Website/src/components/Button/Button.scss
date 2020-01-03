@@ -25,6 +25,10 @@
     @include styled-button(primary);
   }
 
+  &--full-width {
+    width: 100%;
+  }
+
   &:disabled {
     cursor: default;
     pointer-events: none;

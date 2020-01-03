@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'src/utils/debounce';
 import useDialog from 'src/hooks/useDialog';
 import Wordlist from './Wordlist';
-import WordPairEditDialog from '../WordPairEditDialog';
+import WordPairEditDialog from './WordPairEditDialog';
 
 const heightOffset = 153;
 
@@ -40,8 +40,8 @@ function WordlistContainer({ wordPairs, ...rest }) {
 
   const handleOpen = React.useCallback(
     wordPair => () => {
-      setOpen(true);
       setCurrentWordPair(wordPair);
+      setOpen(true);
     },
     [setOpen]
   );

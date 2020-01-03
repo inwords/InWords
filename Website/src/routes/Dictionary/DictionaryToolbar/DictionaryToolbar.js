@@ -5,7 +5,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from 'src/components/Typography';
 import IconButton from 'src/components/IconButton';
-import Search from './Search';
+import DictionarySearch from './DictionarySearch';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
 const DictionaryToolbarRoot = styled.div`
@@ -48,7 +48,7 @@ function DictionaryToolbar({
               Мой словарь
             </Typography>
           </EntryTitleBlock>
-          <Search value={inputs.pattern} onChange={handleChange} />
+          <DictionarySearch value={inputs.pattern} onChange={handleChange} />
         </Fragment>
       ) : (
         <Fragment>

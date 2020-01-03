@@ -1,0 +1,9 @@
+@import 'src/theme/mixins';
+
+.dictionary-search {
+  width: 200px;
+
+  @include theme-breakpoints-down(sm) {
+    width: 100%;
+  }
+}
