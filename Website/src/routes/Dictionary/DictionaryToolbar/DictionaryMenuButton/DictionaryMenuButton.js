@@ -1,46 +1,49 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import usePopup from 'src/hooks/usePopup';
+import PopupContainer from 'src/components/PopupContainer';
+import Popup from 'src/components/Popup';
+import ResponsiveMenu from 'src/components/ResponsiveMenu';
+import MenuItem from 'src/components/MenuItem';
 import IconButton from 'src/components/IconButton';
-import useMenu from 'src/hooks/useMenu';
 
 function DictionaryMenuButton({ handleLearning }) {
-  const { anchorEl, handleClick, handleClose } = useMenu();
+  const { show, handleToggle, handleClose } = usePopup();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   return (
-    <Fragment>
+    <PopupContainer>
       <IconButton
         aria-label="dictionary features"
         aria-controls="dictionary-menu"
         aria-haspopup="true"
-        onClick={handleClick}
+        onClick={event => {
+          setAnchorEl(event.currentTarget);
+          handleToggle(event);
+        }}
         color="inherit"
         edge="end"
       >
         <MoreVertIcon />
       </IconButton>
-      <Menu
-        id="dictionary-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem
-          component={Link}
-          to="/training/dictionary"
-          onClick={() => {
-            handleLearning();
-            handleClose();
-          }}
-        >
-          Изучать
-        </MenuItem>
-      </Menu>
-    </Fragment>
+      <Popup show={show} side="right">
+        <ResponsiveMenu id="dictionary-menu" anchorEl={anchorEl}>
+          <MenuItem
+            component={Link}
+            to="/training/dictionary"
+            onClick={() => {
+              handleLearning();
+              handleClose();
+            }}
+          >
+            Изучать
+          </MenuItem>
+        </ResponsiveMenu>
+      </Popup>
+    </PopupContainer>
   );
 }
 

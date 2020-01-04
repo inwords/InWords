@@ -1,33 +1,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from 'src/components/Typography';
 import IconButton from 'src/components/IconButton';
-import Search from './Search';
+import DictionarySearch from './DictionarySearch';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
-const DictionaryToolbarRoot = styled.div`
-  display: flex;
-  align-items: center;
-  min-height: 64px;
-  padding: 0 24px;
-`;
-
-const TitleBlock = styled.div`
-  margin-right: auto;
-`;
-
-const EntryTitleBlock = styled(TitleBlock)`
-  ${props => props.theme.breakpoints.down('xs')} {
-    display: none;
-  }
-`;
-
-const CloseIconButton = styled(IconButton)`
-  margin-right: 16px;
-`;
+import './DictionaryToolbar.scss';
 
 function DictionaryToolbar({
   editingModeEnabled,
@@ -40,45 +20,46 @@ function DictionaryToolbar({
   const numberOfChecked = checkedValues.length;
 
   return (
-    <DictionaryToolbarRoot>
+    <div className="dictionary-toolbar">
       {!editingModeEnabled ? (
         <Fragment>
-          <EntryTitleBlock>
+          <div className="dictionary-toolbar__title-block dictionary-toolbar__title-block-main">
             <Typography as="h1" variant="h6">
               Мой словарь
             </Typography>
-          </EntryTitleBlock>
-          <Search value={inputs.pattern} onChange={handleChange} />
+          </div>
+          <DictionarySearch value={inputs.pattern} onChange={handleChange} />
         </Fragment>
       ) : (
         <Fragment>
-          <CloseIconButton
+          <IconButton
             edge="start"
             aria-label="clear selection"
             onClick={handleReset}
             color="inherit"
+            className="dictionary-toolbar__close-button"
           >
             <CloseIcon />
-          </CloseIconButton>
-          <TitleBlock>
+          </IconButton>
+          <div className="dictionary-toolbar__title-block">
             <Typography as="h2" variant="h6">
               Выбрано: {numberOfChecked}
             </Typography>
-          </TitleBlock>
+          </div>
           <IconButton
             aria-label="delete"
             onClick={() => {
               handleDelete();
               handleReset();
             }}
-            color="error"
+            className="dictionary-toolbar__delete-button"
           >
             <DeleteIcon />
           </IconButton>
           <DictionaryMenuButton checkedValues={checkedValues} />
         </Fragment>
       )}
-    </DictionaryToolbarRoot>
+    </div>
   );
 }
 

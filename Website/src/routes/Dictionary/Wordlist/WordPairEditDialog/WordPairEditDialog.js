@@ -1,0 +1,82 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import Dialog from 'src/components/Dialog';
+import DialogTitle from 'src/components/DialogTitle';
+import DialogContent from 'src/components/DialogContent';
+import DialogActions from 'src/components/DialogActions';
+import DialogAction from 'src/components/DialogAction';
+import FormGroup from 'src/components/FormGroup';
+import TextField from 'src/components/TextField';
+import Button from 'src/components/Button';
+
+function WordPairEditDialog({
+  open,
+  handleClose,
+  inputs,
+  handleChange,
+  handleSubmit,
+  handleReset
+}) {
+  return (
+    <Dialog
+      aria-labelledby="word-pair-edit-dialog"
+      open={open}
+      onClose={handleClose}
+    >
+      <DialogTitle id="word-pair-edit-dialog">Редактирование слова</DialogTitle>
+      <DialogContent>
+        <form
+          id="word-pair-edit-form"
+          onSubmit={event => {
+            handleSubmit(event);
+            handleClose();
+          }}
+        >
+          <FormGroup>
+            <TextField
+              id="word-foreign"
+              placeholder="Слово или фраза на английском"
+              name="wordForeign"
+              value={inputs.wordForeign}
+              onChange={handleChange}
+              fullWidth
+            />
+          </FormGroup>
+          <FormGroup>
+            <TextField
+              id="word-native"
+              placeholder="Перевод"
+              name="wordNative"
+              value={inputs.wordNative}
+              onChange={handleChange}
+              fullWidth
+            />
+          </FormGroup>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <DialogAction>
+          <Button onClick={handleClose}>Отмена</Button>
+        </DialogAction>
+        <DialogAction>
+          <Button type="submit" form="word-pair-edit-form" primary>
+            Готово
+          </Button>
+        </DialogAction>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+WordPairEditDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  inputs: PropTypes.exact({
+    wordForeign: PropTypes.string.isRequired,
+    wordNative: PropTypes.string.isRequired
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
+};
+
+export default WordPairEditDialog;

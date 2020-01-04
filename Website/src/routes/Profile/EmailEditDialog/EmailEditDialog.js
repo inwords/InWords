@@ -6,8 +6,9 @@ import DialogContent from 'src/components/DialogContent';
 import DialogContentText from 'src/components/DialogContentText';
 import DialogActions from 'src/components/DialogActions';
 import DialogAction from 'src/components/DialogAction';
+import FormGroup from 'src/components/FormGroup';
+import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
-import TextField from '@material-ui/core/TextField';
 
 function EmailEditDialog({
   open,
@@ -34,18 +35,19 @@ function EmailEditDialog({
             handleClose();
           }}
         >
-          <TextField
-            id="email"
-            label="Новый email"
-            type="email"
-            autoComplete="email"
-            name="email"
-            value={inputs.email}
-            onChange={handleChange}
-            required
-            margin="normal"
-            fullWidth
-          />
+          <FormGroup>
+            <TextField
+              id="email"
+              placeholder="Новый email"
+              type="email"
+              autoComplete="email"
+              name="email"
+              value={inputs.email}
+              onChange={handleChange}
+              required
+              fullWidth
+            />
+          </FormGroup>
         </form>
       </DialogContent>
       <DialogActions>

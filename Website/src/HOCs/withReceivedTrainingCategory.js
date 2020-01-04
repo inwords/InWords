@@ -7,7 +7,9 @@ function withReceivedTrainingCategory(WrappedComponent) {
   function WithReceivedTrainingCategory(props) {
     const params = useParams();
 
-    const { trainingId, levelsInfo } = useSelector(store => store.training.trainingCategory);
+    const { trainingId, levelsInfo } = useSelector(
+      store => store.training.trainingCategory
+    );
 
     const dispatch = useDispatch();
 
@@ -21,7 +23,11 @@ function withReceivedTrainingCategory(WrappedComponent) {
 
     return (
       trainingId === paramCategoryId && (
-        <WrappedComponent trainingId={trainingId} levelsInfo={levelsInfo} {...props} />
+        <WrappedComponent
+          trainingId={trainingId}
+          levelsInfo={levelsInfo}
+          {...props}
+        />
       )
     );
   }

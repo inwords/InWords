@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch, useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import { useSelector } from 'react-redux';
-import getWordEnding from 'src/utils/getWordEnding';
 import withLocalStorageData from 'src/HOCs/withLocalStorageData';
 import Card from 'src/components/Card';
 import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
-import Typoghraphy from 'src/components/Typography';
 import TrainingTypesSettings from 'src/layout/TrainingTypesSettings';
 import TrainingCardSection from 'src/layout/TrainingCardSection';
 import TrainingSchoolIcon from 'src/layout/TrainingSchoolIcon';
@@ -35,23 +33,20 @@ function TrainingTypes({ trainingTypesInfo, localData, level = 0 }) {
                   <Typography as="h2" variant="h5" gutterBottom>
                     {title}
                   </Typography>
-                  <Typoghraphy as="p">{description}</Typoghraphy>
+                  <Typography as="p">{description}</Typography>
                   {trainingLevelsMap[level] && (
                     <TrainingCardSection>
                       <TrainingSchoolIcon />
                       <span>
                         На изучение:{' '}
-                        {trainingLevelsMap[level].wordTranslations.length} слов
-                        {getWordEnding(
-                          trainingLevelsMap[level].wordTranslations.length
-                        )}
+                        {trainingLevelsMap[level].wordTranslations.length}
                       </span>
                     </TrainingCardSection>
                   )}
                 </CardContent>
                 <CardActions>
                   <Link
-                    as={RouterLink}
+                    component={RouterLink}
                     to={
                       params.levelId !== undefined
                         ? `${match.url}/${typeId}`

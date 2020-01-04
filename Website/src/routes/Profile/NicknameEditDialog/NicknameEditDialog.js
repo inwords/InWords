@@ -5,7 +5,8 @@ import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogActions from 'src/components/DialogActions';
 import DialogAction from 'src/components/DialogAction';
-import TextField from '@material-ui/core/TextField';
+import FormGroup from 'src/components/FormGroup';
+import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
 
 function NicknameEditDialog({
@@ -30,18 +31,19 @@ function NicknameEditDialog({
             handleClose();
           }}
         >
-          <TextField
-            id="nickname"
-            label="Новый никнейм"
-            type="nickname"
-            autoComplete="nickname"
-            name="nickname"
-            value={inputs.nickname}
-            onChange={handleChange}
-            required
-            margin="normal"
-            fullWidth
-          />
+          <FormGroup>
+            <TextField
+              id="nickname"
+              placeholder="Новый никнейм"
+              type="nickname"
+              autoComplete="nickname"
+              name="nickname"
+              value={inputs.nickname}
+              onChange={handleChange}
+              required
+              fullWidth
+            />
+          </FormGroup>
         </form>
       </DialogContent>
       <DialogActions>

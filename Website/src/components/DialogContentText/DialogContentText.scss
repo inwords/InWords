@@ -1,0 +1,7 @@
+@import 'src/theme/mixins';
+
+.dialog-content-text {
+  margin-bottom: 12px;
+  @include theme-typography(body1);
+  color: var(--palette-text-secondary);
+}

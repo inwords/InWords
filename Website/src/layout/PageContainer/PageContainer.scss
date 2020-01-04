@@ -1,0 +1,41 @@
+@import 'src/theme/mixins';
+
+.page-container {
+  display: flex;
+
+  &__drawer {
+    @include theme-breakpoints-up(lg) {
+      display: none;
+    }
+  }
+
+  &__drawer-brand-link {
+    padding-left: 24px;
+  }
+
+  &__side-nav {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    width: 240px;
+    padding-top: 88px;
+    border-right: 1px solid var(--palette-divider);
+    background-color: var(--palette-background-paper);
+
+    @include theme-breakpoints-down(lg) {
+      display: none;
+    }
+  }
+
+  &__main {
+    padding-top: 88px;
+    flex-grow: 1;
+
+    &--with-nav {
+      @include theme-breakpoints-up(lg) {
+        padding-left: 240px;
+      }
+    }
+  }
+}

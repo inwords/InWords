@@ -15,7 +15,7 @@ export function signIn(userdata) {
         dispatch(grantAccess(data));
       },
       () => {
-        history.push('/dictionary');
+        history.push('/training');
       }
     ],
     actionsOnFailure: [

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import getWordEnding from 'src/utils/getWordEnding';
 import useTrainingWordPairs from 'src/hooks/useTrainingWordPairs';
 import withLocalStorageData from 'src/HOCs/withLocalStorageData';
 import Card from 'src/components/Card';
@@ -9,7 +8,6 @@ import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
-import Typoghraphy from 'src/components/Typography';
 import TrainingTypesSettings from 'src/layout/TrainingTypesSettings';
 import TrainingCardSection from 'src/layout/TrainingCardSection';
 import TrainingSchoolIcon from 'src/layout/TrainingSchoolIcon';
@@ -31,19 +29,16 @@ function MainTrainingTypes({ trainingTypesInfo, localData }) {
                   <Typography as="h2" variant="h5" gutterBottom>
                     {title}
                   </Typography>
-                  <Typoghraphy as="p">{description}</Typoghraphy>
+                  <Typography as="p">{description}</Typography>
                   <TrainingCardSection>
                     <TrainingSchoolIcon />
-                    <span>
-                      На повторение: {trainingWordPairs.length} слов
-                      {getWordEnding(trainingWordPairs.length)}
-                    </span>
+                    <span>На повторение: {trainingWordPairs.length}</span>
                   </TrainingCardSection>
                 </CardContent>
                 <CardActions>
                   <Link
                     variant="body1"
-                    as={RouterLink}
+                    component={RouterLink}
                     to={`${match.url}/${typeId}/0`}
                   >
                     Поплыли

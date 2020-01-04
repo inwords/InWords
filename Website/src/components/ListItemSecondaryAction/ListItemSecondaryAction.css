@@ -1,0 +1,6 @@
+.list-item-secondary-action {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}

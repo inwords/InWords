@@ -1,31 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import usePopup from 'src/hooks/usePopup';
 import Divider from 'src/components/Divider';
 import IconButton from 'src/components/IconButton';
-import usePopup from 'src/hooks/usePopup';
 import PopupContainer from 'src/components/PopupContainer';
 import Popup from 'src/components/Popup';
-import Menu from 'src/components/Menu';
-import MenuItemButton from 'src/components/MenuItemButton';
-
-const handleMenuClick = event => {
-  event.stopPropagation();
-};
-
-const ProfileMenu = styled(Menu)`
-  max-height: calc(100vh - 64px);
-`;
-
-const ProfileMenuItemButton = styled(MenuItemButton)`
-  ${props => props.theme.typography.body2};
-  color: ${props => props.theme.palette.text.primary};
-`;
+import ResponsiveMenu from 'src/components/ResponsiveMenu';
+import MenuItem from 'src/components/MenuItem';
 
 function ProfileMenuButton({ handleLogout }) {
   const { show, handleToggle, handleClose } = usePopup();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   return (
     <PopupContainer>
@@ -33,27 +21,26 @@ function ProfileMenuButton({ handleLogout }) {
         aria-label="user account"
         aria-controls="profile-menu"
         aria-haspopup="true"
-        onClick={handleToggle}
+        onClick={event => {
+          setAnchorEl(event.currentTarget);
+          handleToggle(event);
+        }}
         edge="end"
         color="inherit"
       >
         <AccountCircleIcon />
       </IconButton>
       <Popup show={show} side="right">
-        <ProfileMenu id="profile-menu" onClick={handleMenuClick}>
+        <ResponsiveMenu id="profile-menu" anchorEl={anchorEl}>
           <li>
-            <ProfileMenuItemButton
-              as={Link}
-              to="/profile"
-              onClick={handleClose}
-            >
+            <MenuItem component={Link} to="/profile" onClick={handleClose}>
               Профиль
-            </ProfileMenuItemButton>
+            </MenuItem>
           </li>
           <Divider />
           <li>
-            <ProfileMenuItemButton
-              as={Link}
+            <MenuItem
+              component={Link}
               to="/signIn"
               onClick={() => {
                 handleLogout();
@@ -61,9 +48,9 @@ function ProfileMenuButton({ handleLogout }) {
               }}
             >
               Выйти
-            </ProfileMenuItemButton>
+            </MenuItem>
           </li>
-        </ProfileMenu>
+        </ResponsiveMenu>
       </Popup>
     </PopupContainer>
   );
