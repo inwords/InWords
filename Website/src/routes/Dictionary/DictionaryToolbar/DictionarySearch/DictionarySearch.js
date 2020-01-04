@@ -1,21 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from 'src/components/TextField';
+import Input from 'src/components/Input';
+import SearchIcon from '@material-ui/icons/Search';
 
 import './DictionarySearch.scss';
 
 function DictionarySearch({ value, onChange }) {
   return (
-    <TextField
-      id="dictionary-search"
-      aria-label="search"
-      type="search"
-      placeholder="Поиск слова"
-      name="pattern"
-      value={value}
-      onChange={onChange}
-      className="dictionary-search"
-    />
+    <div className="dictionary-search-field">
+      <div className="dictionary-search-field__icon">
+        <SearchIcon />
+      </div>
+      <Input
+        id="dictionary-search"
+        aria-label="search"
+        type="text"
+        placeholder="Поиск слова"
+        name="pattern"
+        value={value}
+        onChange={onChange}
+        className="dictionary-search-field__input"
+      />
+    </div>
   );
 }
 

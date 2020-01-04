@@ -43,7 +43,7 @@ function TrainingRouter() {
               <BreadcrumbsLink
                 to={`${url}/main/${params.trainingId}/${params.levelId}`}
               >
-                Карточки
+                Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
             <TrainingSwitcher trainingId={+params.trainingId} />
@@ -60,36 +60,15 @@ function TrainingRouter() {
       </Route>
       <Route
         exact
-        path={`${url}/history/:levelId`}
-        render={({ match: { params } }) => (
-          <Container maxWidth="lg">
-            <Breadcrumbs>
-              <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/history/${params.levelId}`}>
-                Тренировки
-              </BreadcrumbsLink>
-            </Breadcrumbs>
-            <TrainingTypes
-              trainingTypesInfo={trainingTypesInfo}
-              level={+params.levelId}
-            />
-          </Container>
-        )}
-      ></Route>
-      <Route
-        exact
         path={`${url}/history/:levelId/:trainingId`}
         render={({ match: { params } }) => (
           <Container maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/history/${params.levelId}`}>
-                Тренировки
-              </BreadcrumbsLink>
               <BreadcrumbsLink
                 to={`${url}/history/${params.levelId}/${params.trainingId}`}
               >
-                Карточки
+                Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
             <TrainingSwitcher trainingId={+params.trainingId} />
@@ -118,7 +97,7 @@ function TrainingRouter() {
               <BreadcrumbsLink
                 to={`${url}/dictionary/${params.levelId}/${params.trainingId}`}
               >
-                Карточки
+                Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
             <TrainingSwitcher trainingId={+params.trainingId} />

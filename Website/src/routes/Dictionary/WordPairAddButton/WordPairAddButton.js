@@ -14,14 +14,11 @@ function WordPairAddButton({ visible }) {
   return (
     <Fragment>
       <Zoom in={visible}>
-        <Fab
-          id="fab"
-          aria-label="add"
-          onClick={handleOpen}
-          className="word-pair-add-button"
-        >
-          <AddIcon />
-        </Fab>
+        <div className="word-pair-add-button">
+          <Fab id="fab" aria-label="add" onClick={handleOpen}>
+            <AddIcon />
+          </Fab>
+        </div>
       </Zoom>
       <WordPairAddDialog open={open} handleClose={handleClose} />
     </Fragment>

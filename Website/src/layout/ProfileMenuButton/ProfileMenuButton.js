@@ -1,29 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import styled from '@emotion/styled';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import usePopup from 'src/hooks/usePopup';
 import Divider from 'src/components/Divider';
 import IconButton from 'src/components/IconButton';
-import usePopup from 'src/hooks/usePopup';
 import PopupContainer from 'src/components/PopupContainer';
 import Popup from 'src/components/Popup';
 import ResponsiveMenu from 'src/components/ResponsiveMenu';
 import MenuItem from 'src/components/MenuItem';
 
-const handleMenuClick = event => {
-  event.stopPropagation();
-};
-
 function ProfileMenuButton({ handleLogout }) {
   const { show, handleToggle, handleClose } = usePopup();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-    handleToggle(event);
-  };
 
   return (
     <PopupContainer>
@@ -31,18 +21,17 @@ function ProfileMenuButton({ handleLogout }) {
         aria-label="user account"
         aria-controls="profile-menu"
         aria-haspopup="true"
-        onClick={handleClick}
+        onClick={event => {
+          setAnchorEl(event.currentTarget);
+          handleToggle(event);
+        }}
         edge="end"
         color="inherit"
       >
         <AccountCircleIcon />
       </IconButton>
       <Popup show={show} side="right">
-        <ResponsiveMenu
-          id="profile-menu"
-          anchorEl={anchorEl}
-          onClick={handleMenuClick}
-        >
+        <ResponsiveMenu id="profile-menu" anchorEl={anchorEl}>
           <li>
             <MenuItem component={Link} to="/profile" onClick={handleClose}>
               Профиль

@@ -18,7 +18,7 @@ function TrainingHistory({ recentTrainings }) {
         <Grid key={levelId} item xs={6} sm={4} md={3}>
           <Card>
             <CardContent>
-              <CardTitle>Уровень {levelId}</CardTitle>
+              <CardTitle>Тренировка {levelId}</CardTitle>
               <div>
                 <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />
                 <StarIcon color={playerStars > 1 ? 'secondary' : 'disabled'} />
@@ -26,8 +26,8 @@ function TrainingHistory({ recentTrainings }) {
               </div>
             </CardContent>
             <CardActions>
-              <CardAction as={RouterLink} to={`${match.url}/${levelId}`}>
-                Выбрать
+              <CardAction as={RouterLink} to={`${match.url}/${levelId}/0`}>
+                Поплыли
               </CardAction>
             </CardActions>
           </Card>

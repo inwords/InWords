@@ -12,6 +12,7 @@ $theme-property-values: (
   palette-primary-hover: darken($theme-palette-primary, 8),
   palette-primary-active: darken($theme-palette-primary, 14),
   palette-on-primary: choose-contrast-color($theme-palette-primary),
+  palette-error: #d50000,
   palette-divider: rgba(0, 0, 0, 0.12),
   palette-background-paper: #fff,
   palette-background-default: #fafafa,

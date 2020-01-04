@@ -1,9 +1,32 @@
 @import 'src/theme/mixins';
 
-.dictionary-search {
-  width: 200px;
+.dictionary-search-field {
+  position: relative;
 
   @include theme-breakpoints-down(sm) {
     width: 100%;
+  }
+
+  &__icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 56px;
+    pointer-events: none;
+  }
+
+  &__input {
+    padding-left: 56px;
+    transition: width 300ms ease-in-out;
+
+    @include theme-breakpoints-up(sm) {
+      width: 180px;
+
+      &:focus {
+        width: 280px;
+      }
+    }
   }
 }

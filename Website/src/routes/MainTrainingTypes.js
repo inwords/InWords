@@ -19,6 +19,7 @@ function MainTrainingTypes({ trainingTypesInfo, localData }) {
 
   return (
     <>
+      <TrainingTypesSettings />
       <Grid container spacing={3}>
         {trainingTypesInfo.map(({ typeId, title, description }) => {
           return (
@@ -33,7 +34,6 @@ function MainTrainingTypes({ trainingTypesInfo, localData }) {
                     <TrainingSchoolIcon />
                     <span>На повторение: {trainingWordPairs.length}</span>
                   </TrainingCardSection>
-                  <TrainingTypesSettings />
                 </CardContent>
                 <CardActions>
                   <Link

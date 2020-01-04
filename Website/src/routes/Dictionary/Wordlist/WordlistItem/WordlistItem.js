@@ -8,6 +8,8 @@ import ListItemIcon from 'src/components/ListItemIcon';
 import Checkbox from 'src/components/Checkbox';
 import SpeechButton from './SpeechButton';
 
+import './WordlistItem.css';
+
 const handleCheckboxClick = event => {
   event.stopPropagation();
 };
@@ -35,7 +37,7 @@ function WordlistItem({
         }
         button
         hasSecondaryAction
-        style={{ height: 56 }}
+        className="wordlist-item"
       >
         <ListItemIcon>
           <Checkbox

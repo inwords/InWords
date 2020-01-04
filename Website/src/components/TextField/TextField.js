@@ -1,40 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Input from 'src/components/Input';
+import useCombinedRefs from 'src/hooks/useCombinedRefs';
 
 import './TextField.scss';
 
-function TextField({
-  id,
-  placeholder,
-  name,
-  type,
-  autoComplete,
-  defaultValue,
-  value,
-  required,
-  disabled,
-  onChange,
-  onFocus,
-  onBlur,
-  fullWidth = false,
-  className,
-  inputProps,
-  ...rest
-}) {
-  const [empty, setEmpty] = React.useState(!(value || defaultValue));
+const TextField = React.forwardRef(function TextField(
+  {
+    id,
+    placeholder,
+    name,
+    type,
+    autoComplete,
+    defaultValue,
+    value,
+    required,
+    disabled,
+    onChange,
+    onFocus,
+    onBlur,
+    fullWidth = false,
+    className,
+    inputProps,
+    ...rest
+  },
+  ref
+) {
+  const [empty, setEmpty] = React.useState(!value);
   const [focused, setFocused] = React.useState(false);
+
+  const inputRef = React.useRef();
+  const combinedRef = useCombinedRefs(ref, inputRef);
+
+  React.useEffect(() => {
+    setEmpty(!combinedRef.current);
+  }, [combinedRef]);
 
   React.useEffect(() => {
     setEmpty(!value);
   }, [value]);
 
   const handleChange = event => {
-    if (event.target.value) {
-      setEmpty(false);
-    } else {
-      setEmpty(true);
-    }
+    setEmpty(!event.target.value);
 
     if (onChange) {
       onChange(event);
@@ -79,7 +87,8 @@ function TextField({
       >
         {placeholder}
       </label>
-      <input
+      <Input
+        ref={combinedRef}
         id={id}
         name={name}
         type={type}
@@ -92,14 +101,12 @@ function TextField({
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={classNames('text-field__input', {
-          'text-field__label--active': focused
-        })}
+        className="text-field__input"
         {...inputProps}
       />
     </div>
   );
-}
+});
 
 TextField.propTypes = {
   id: PropTypes.string.isRequired,
