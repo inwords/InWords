@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
+import { register } from './serviceWorker';
 import { Provider } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { ThemeProvider } from 'emotion-theming';
@@ -24,4 +24,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-serviceWorker.register();
+register();

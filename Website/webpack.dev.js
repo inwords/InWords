@@ -5,8 +5,7 @@ const common = require('./webpack.common.js');
 module.exports = merge(common, {
   mode: 'development',
   output: {
-    filename: 'static/js/[name].chunk.js',
-    publicPath: '/'
+    filename: 'static/js/[name].chunk.js'
   },
   devtool: 'source-map',
   devServer: {

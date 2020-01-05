@@ -2,6 +2,14 @@
   "name": "inwords",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "format": "prettier --write src/**/*.js",
+    "lint": "eslint src/**/*.js"
+  },
+  "author": "Prometium",
+  "license": "ISC",
   "dependencies": {
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
@@ -18,24 +26,6 @@
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6"
-  },
-  "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
-    "format": "prettier --write src/**/*.js",
-    "lint": "eslint src/**/*.js"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
@@ -55,6 +45,7 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "workbox-webpack-plugin": "^4.3.1"
   }
 }
