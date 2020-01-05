@@ -10,7 +10,7 @@ import EmailEditDialog from './EmailEditDialog';
 
 import './Profile.scss';
 
-function Profile({ avatarPath, nickname, editingAvailable, email }) {
+function Profile({ avatarPath, nickname, email }) {
   const {
     open: openAvatar,
     handleOpen: handleOpenAvatar,
@@ -83,7 +83,6 @@ function Profile({ avatarPath, nickname, editingAvailable, email }) {
 Profile.propTypes = {
   nickname: PropTypes.string.isRequired,
   avatarPath: PropTypes.string.isRequired,
-  editingAvailable: PropTypes.bool.isRequired,
   email: PropTypes.string.isRequired
 };
 

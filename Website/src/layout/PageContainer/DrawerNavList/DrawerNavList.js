@@ -20,7 +20,7 @@ function DrawerNavList({ routes, handleClose }) {
           </NavLink>
           {nestedRoutes && (
             <List className="drawer-nav-list__nested">
-              {nestedRoutes.map(({ to, text, nestedRoutes }) => (
+              {nestedRoutes.map(({ to, text }) => (
                 <li key={to}>
                   <NavLink
                     to={to}

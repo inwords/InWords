@@ -26,12 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function TrainingResult({
-  score,
-  handleRedirectionToLevels,
-  handleRedirectionToNextLevel,
-  handleReplay
-}) {
+function TrainingResult({ score, handleRedirectionToNextLevel, handleReplay }) {
   const classes = useStyles();
 
   return (
@@ -76,7 +71,6 @@ function TrainingResult({
 
 TrainingResult.propTypes = {
   score: PropTypes.number,
-  handleRedirectionToLevels: PropTypes.func,
   handleRedirectionToNextLevel: PropTypes.func,
   handleReplay: PropTypes.func.isRequired
 };

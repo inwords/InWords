@@ -67,7 +67,6 @@ function Game({
   completedPairIdsMap,
   selectedCompletedPairId,
   isGameCompleted,
-  isResultReady,
   handleClick
 }) {
   const classes = useStyles();

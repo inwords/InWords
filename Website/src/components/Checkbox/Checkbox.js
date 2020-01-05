@@ -26,6 +26,7 @@ function Checkbox({
           <CheckBoxOutlineBlankIcon color="action" />
         )}
         <input
+          id={id}
           type="checkbox"
           tabIndex={tabIndex}
           checked={checked}

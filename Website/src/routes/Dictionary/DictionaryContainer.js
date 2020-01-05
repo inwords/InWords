@@ -38,7 +38,7 @@ function DictionaryContainer() {
   const [checkedValues, setCheckedValues] = React.useState([]);
 
   const handleToggle = React.useCallback(
-    value => event => {
+    value => () => {
       setCheckedValues(checkedValues => {
         const currentIndex = checkedValues.indexOf(value);
         const newChecked = [...checkedValues];

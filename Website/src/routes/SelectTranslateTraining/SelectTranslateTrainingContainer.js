@@ -5,7 +5,7 @@ import withReceivedGameLevel from 'src/HOCs/withReceivedTrainingLevel';
 import SelectTranslateTraining from './SelectTranslateTraining';
 import TrainingResult from 'src/layout/TrainingResult';
 
-function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
+function SelectTranslateTrainingContainer({ wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
   const [currentWordSet, setCurrentWordSet] = useState(undefined);
@@ -149,7 +149,6 @@ function SelectTranslateTrainingContainer({ levelId, wordTranslations }) {
 }
 
 SelectTranslateTrainingContainer.propTypes = {
-  levelId: PropTypes.number.isRequired,
   wordTranslations: PropTypes.arrayOf(
     PropTypes.shape({
       serverId: PropTypes.number.isRequired,

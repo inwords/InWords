@@ -10,7 +10,7 @@ import StarIcon from '@material-ui/icons/Star';
 import Button from '@material-ui/core/Button';
 import withReceivedTrainingCategory from '../HOCs/withReceivedTrainingCategory';
 
-function TrainingLevels({ trainingId, levelsInfo }) {
+function TrainingLevels({ levelsInfo }) {
   const match = useRouteMatch();
 
   return (
@@ -47,7 +47,6 @@ function TrainingLevels({ trainingId, levelsInfo }) {
 }
 
 TrainingLevels.propTypes = {
-  trainingId: PropTypes.number.isRequired,
   levelsInfo: PropTypes.arrayOf(
     PropTypes.exact({
       levelId: PropTypes.number.isRequired,

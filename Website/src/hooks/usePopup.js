@@ -8,7 +8,7 @@ export default function usePopup() {
     setShow(show => !show);
   };
 
-  const handleClose = event => {
+  const handleClose = () => {
     setShow(false);
   };
 

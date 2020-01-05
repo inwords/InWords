@@ -70,7 +70,7 @@ function WordPairAddDialogContainer({ open, ...rest }) {
 
           setTranslationsInfo(newTranslationsInfo);
         })
-        .catch(error => {
+        .catch(_ => {
           setTranslationsInfo([]);
         });
     };

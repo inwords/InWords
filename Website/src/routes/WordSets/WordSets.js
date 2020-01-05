@@ -10,7 +10,7 @@ import Button from 'src/components/Button';
 function WordSets({ trainingCategories, handleAddingInDictionary }) {
   return (
     <Grid container spacing={3}>
-      {trainingCategories.map(({ gameId, title, description, isAvailable }) => (
+      {trainingCategories.map(({ gameId, title, description }) => (
         <Grid key={gameId} item xs={12} sm={6} md={4}>
           <Card>
             <CardContent>

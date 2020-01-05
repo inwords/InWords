@@ -12,7 +12,7 @@ import TrainingTypesSettings from 'src/layout/TrainingTypesSettings';
 import TrainingCardSection from 'src/layout/TrainingCardSection';
 import TrainingSchoolIcon from 'src/layout/TrainingSchoolIcon';
 
-function MainTrainingTypes({ trainingTypesInfo, localData }) {
+function MainTrainingTypes({ trainingTypesInfo }) {
   const trainingWordPairs = useTrainingWordPairs();
 
   const match = useRouteMatch();

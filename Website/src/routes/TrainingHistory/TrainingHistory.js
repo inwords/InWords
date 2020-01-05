@@ -14,7 +14,7 @@ function TrainingHistory({ recentTrainings }) {
 
   return (
     <Grid container spacing={3}>
-      {recentTrainings.map(({ levelId, level, playerStars }) => (
+      {recentTrainings.map(({ levelId, playerStars }) => (
         <Grid key={levelId} item xs={6} sm={4} md={3}>
           <Card>
             <CardContent>

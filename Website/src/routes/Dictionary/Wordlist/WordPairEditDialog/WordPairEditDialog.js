@@ -14,8 +14,7 @@ function WordPairEditDialog({
   handleClose,
   inputs,
   handleChange,
-  handleSubmit,
-  handleReset
+  handleSubmit
 }) {
   return (
     <Dialog

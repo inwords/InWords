@@ -13,7 +13,7 @@ import TrainingTypesSettings from 'src/layout/TrainingTypesSettings';
 import TrainingCardSection from 'src/layout/TrainingCardSection';
 import TrainingSchoolIcon from 'src/layout/TrainingSchoolIcon';
 
-function TrainingTypes({ trainingTypesInfo, localData, level = 0 }) {
+function TrainingTypes({ trainingTypesInfo, level = 0 }) {
   const match = useRouteMatch();
   const params = useParams();
 
@@ -67,9 +67,6 @@ function TrainingTypes({ trainingTypesInfo, localData, level = 0 }) {
 }
 
 TrainingTypes.propTypes = {
-  localData: PropTypes.shape({
-    'training-words-quantity': PropTypes.string
-  }),
   level: PropTypes.number.isRequired
 };
 
