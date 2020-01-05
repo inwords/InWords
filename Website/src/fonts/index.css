@@ -8,6 +8,7 @@
     url('roboto-v20-cyrillic-300.woff2') format('woff2'),
     url('roboto-v20-cyrillic-300.woff') format('woff');
 }
+
 /* roboto-regular - cyrillic */
 @font-face {
   font-family: 'Roboto';
@@ -18,6 +19,7 @@
     url('roboto-v20-cyrillic-regular.woff2') format('woff2'),
     url('roboto-v20-cyrillic-regular.woff') format('woff');
 }
+
 /* roboto-500 - cyrillic */
 @font-face {
   font-family: 'Roboto';
@@ -27,14 +29,4 @@
   src: local('Roboto Medium'), local('Roboto-Medium'),
     url('roboto-v20-cyrillic-500.woff2') format('woff2'),
     url('roboto-v20-cyrillic-500.woff') format('woff');
-}
-/* roboto-700 - cyrillic */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Roboto Bold'), local('Roboto-Bold'),
-    url('roboto-v20-cyrillic-700.woff2') format('woff2'),
-    url('roboto-v20-cyrillic-700.woff') format('woff');
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Input from 'src/components/Input';
 import useCombinedRefs from 'src/hooks/useCombinedRefs';
+import Input from 'src/components/Input';
 
 import './TextField.scss';
 

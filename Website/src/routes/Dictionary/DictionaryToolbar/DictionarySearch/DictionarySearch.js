@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from 'src/components/Input';
 import SearchIcon from '@material-ui/icons/Search';
+import Input from 'src/components/Input';
 
 import './DictionarySearch.scss';
 

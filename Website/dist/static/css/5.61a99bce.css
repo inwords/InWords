@@ -1,0 +1,27 @@
+.dialog{display:flex;align-items:center;justify-content:center;height:100%;transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1)}.dialog__paper{display:flex;min-width:400px;max-width:600px;max-height:calc(100% - 64px);flex-direction:column}@media only screen and (max-width: 600px){.dialog__paper{width:100%;height:100%;max-width:100%;max-height:none}}
+
+.dialog-title {
+  margin: 0;
+  flex: 0 0 auto;
+  padding: 16px 24px;
+}
+
+.dialog-content {
+  flex: 1 1 auto;
+  padding: 8px 24px;
+  overflow-y: auto;
+}
+
+.dialog-actions {
+  margin-right: -4px;
+  flex: 0 0 auto;
+  display: flex;
+  padding: 24px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.dialog-action {
+  margin: 0 4px;
+}
+
