@@ -2,9 +2,9 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -51,6 +51,9 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].[contenthash:8].css',
       chunkFilename: 'static/css/[id].[contenthash:8].css'
+    }),
+    new CompressionPlugin({
+      threshold: 4096
     }),
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,
