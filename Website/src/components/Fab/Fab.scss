@@ -16,14 +16,14 @@
 
   &:hover,
   &:focus {
-    background-color: var(--palette-primary-hover);
+    background-color: var(--palette-primary-darker);
     @media (hover: none) {
       background-color: transparent;
     }
   }
 
   &:active {
-    background-color: var(--palette-primary-active);
+    background-color: var(--palette-primary-darkest);
   }
 
   &:disabled {

@@ -39,10 +39,7 @@ function PageContainer({ routes, rightNodes, children }) {
           onClose={handleClose}
         >
           <BrandLink
-            onClick={event => {
-              event.preventDefault();
-              handleClose();
-            }}
+            onClick={handleClose}
             to="/"
             className="page-container__drawer-brand-link"
           >

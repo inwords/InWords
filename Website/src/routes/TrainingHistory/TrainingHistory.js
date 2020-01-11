@@ -5,8 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Card from 'src/components/Card';
 import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
-import CardTitle from 'src/components/CardTitle';
-import CardAction from 'src/components/CardAction';
+import Typography from 'src/components/Typography';
+import LinkButton from 'src/components/LinkButton';
 import StarIcon from '@material-ui/icons/Star';
 
 function TrainingHistory({ recentTrainings }) {
@@ -18,7 +18,9 @@ function TrainingHistory({ recentTrainings }) {
         <Grid key={levelId} item xs={6} sm={4} md={3}>
           <Card>
             <CardContent>
-              <CardTitle>Тренировка {levelId}</CardTitle>
+              <Typography component="h2" variant="h5" gutterBottom>
+                Тренировка {levelId}
+              </Typography>
               <div>
                 <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />
                 <StarIcon color={playerStars > 1 ? 'secondary' : 'disabled'} />
@@ -26,9 +28,13 @@ function TrainingHistory({ recentTrainings }) {
               </div>
             </CardContent>
             <CardActions>
-              <CardAction as={RouterLink} to={`${match.url}/${levelId}/0`}>
+              <LinkButton
+                as={RouterLink}
+                to={`${match.url}/${levelId}/0`}
+                primary
+              >
                 Поплыли
-              </CardAction>
+              </LinkButton>
             </CardActions>
           </Card>
         </Grid>

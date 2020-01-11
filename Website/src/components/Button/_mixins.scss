@@ -4,10 +4,10 @@
 
   &:hover,
   &:focus {
-    background-color: var(--palette-#{$style}-hover);
+    background-color: var(--palette-#{$style}-darker);
   }
 
   &:active {
-    background-color: var(--palette-#{$style}-active);
+    background-color: var(--palette-#{$style}-darkest);
   }
 }

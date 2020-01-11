@@ -7,7 +7,7 @@ import Card from 'src/components/Card';
 import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
 import Typography from 'src/components/Typography';
-import Link from 'src/components/Link';
+import LinkButton from 'src/components/LinkButton';
 import TrainingTypesSettings from 'src/layout/TrainingTypesSettings';
 import TrainingCardSection from 'src/layout/TrainingCardSection';
 import TrainingSchoolIcon from 'src/layout/TrainingSchoolIcon';
@@ -26,23 +26,23 @@ function MainTrainingTypes({ trainingTypesInfo }) {
             <Grid key={typeId} item xs={12} sm={6} md={4}>
               <Card>
                 <CardContent>
-                  <Typography as="h2" variant="h5" gutterBottom>
+                  <Typography component="h2" variant="h5" gutterBottom>
                     {title}
                   </Typography>
-                  <Typography as="p">{description}</Typography>
+                  <Typography component="p">{description}</Typography>
                   <TrainingCardSection>
                     <TrainingSchoolIcon />
                     <span>На повторение: {trainingWordPairs.length}</span>
                   </TrainingCardSection>
                 </CardContent>
                 <CardActions>
-                  <Link
-                    variant="body1"
+                  <LinkButton
                     component={RouterLink}
                     to={`${match.url}/${typeId}/0`}
+                    primary
                   >
                     Поплыли
-                  </Link>
+                  </LinkButton>
                 </CardActions>
               </Card>
             </Grid>
