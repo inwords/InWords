@@ -1,0 +1,12 @@
+.training-setting-name {
+  display: inline-block;
+}
+
+.training-setting {
+  display: flex;
+  align-items: center;
+}
+
+.training-setting__slider {
+  margin-right: 8px;
+}

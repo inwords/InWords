@@ -31,7 +31,7 @@ function ProfileMenuButton({ handleLogout }) {
         <AccountCircleIcon />
       </IconButton>
       <Popup show={show} side="right">
-        <ResponsiveMenu id="profile-menu" anchorEl={anchorEl}>
+        <ResponsiveMenu id="profile-menu" anchorEl={anchorEl} responsive={show}>
           <li>
             <MenuItem component={Link} to="/profile" onClick={handleClose}>
               Профиль

@@ -5,7 +5,6 @@ import Breadcrumbs from 'src/components/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/BreadcrumbsLink';
 
 const TrainingTypes = lazy(() => import('src/routes/TrainingTypes'));
-const MainTrainingTypes = lazy(() => import('src/routes/MainTrainingTypes'));
 const TrainingHistory = lazy(() => import('src/routes/TrainingHistory'));
 const TrainingSwitcher = lazy(() => import('src/routes/TrainingSwitcher'));
 
@@ -30,7 +29,7 @@ function TrainingRouter() {
           <Breadcrumbs>
             <BreadcrumbsLink to={`${url}/main`}>Тренировки</BreadcrumbsLink>
           </Breadcrumbs>
-          <MainTrainingTypes trainingTypesInfo={trainingTypesInfo} />
+          <TrainingTypes trainingTypesInfo={trainingTypesInfo} />
         </Container>
       </Route>
       <Route

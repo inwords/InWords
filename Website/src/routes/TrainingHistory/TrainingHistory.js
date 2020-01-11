@@ -29,7 +29,7 @@ function TrainingHistory({ recentTrainings }) {
             </CardContent>
             <CardActions>
               <LinkButton
-                as={RouterLink}
+                component={RouterLink}
                 to={`${match.url}/${levelId}/0`}
                 primary
               >

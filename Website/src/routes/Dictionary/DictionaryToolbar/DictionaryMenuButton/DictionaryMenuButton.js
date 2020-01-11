@@ -30,7 +30,11 @@ function DictionaryMenuButton({ handleLearning }) {
         <MoreVertIcon />
       </IconButton>
       <Popup show={show} side="right">
-        <ResponsiveMenu id="dictionary-menu" anchorEl={anchorEl}>
+        <ResponsiveMenu
+          id="dictionary-menu"
+          anchorEl={anchorEl}
+          responsive={show}
+        >
           <MenuItem
             component={Link}
             to="/training/dictionary"

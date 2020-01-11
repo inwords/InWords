@@ -9,8 +9,8 @@ import SmartSnackbar from 'src/layout/SmartSnackbar';
 import PageContainer from 'src/layout/PageContainer';
 import ProfileMenuButton from 'src/layout/ProfileMenuButton';
 import ErrorBoundary from 'src/layout/ErrorBoundary';
-import TrainingRouter from './TrainingRouter';
-import DictionaryRouter from './DictionaryRouter';
+import TrainingRouter from 'src/routers/TrainingRouter';
+import DictionaryRouter from 'src/routers/DictionaryRouter';
 
 const SignIn = lazy(() => import('src/routes/SignIn'));
 const SignUp = lazy(() => import('src/routes/SignUp'));
