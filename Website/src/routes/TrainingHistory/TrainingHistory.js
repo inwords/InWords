@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Card from 'src/components/Card';
+import CardHeader from 'src/components/CardHeader';
 import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
-import Typography from 'src/components/Typography';
 import LinkButton from 'src/components/LinkButton';
 import StarIcon from '@material-ui/icons/Star';
 
@@ -17,10 +17,8 @@ function TrainingHistory({ recentTrainings }) {
       {recentTrainings.map(({ levelId, playerStars }) => (
         <Grid key={levelId} item xs={6} sm={4} md={3}>
           <Card>
+            <CardHeader title={`Тренировка ${levelId}`} />
             <CardContent>
-              <Typography component="h2" variant="h5" gutterBottom>
-                Тренировка {levelId}
-              </Typography>
               <div>
                 <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />
                 <StarIcon color={playerStars > 1 ? 'secondary' : 'disabled'} />

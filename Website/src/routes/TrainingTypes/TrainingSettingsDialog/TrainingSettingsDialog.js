@@ -36,13 +36,7 @@ function TrainingSettingsDialog({
             handleClose();
           }}
         >
-          <Typography
-            as="label"
-            htmlFor="quantity"
-            variant="body2"
-            gutterBottom
-            className="training-setting-name"
-          >
+          <Typography component="label" htmlFor="quantity" variant="body2">
             Слов в тренировке
           </Typography>
           <div className="training-setting">

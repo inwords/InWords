@@ -9,11 +9,11 @@
   color: var(--palette-on-primary);
 
   &:hover {
-    color: var(--palette-default);
+    color: rgba(255, 255, 255, 0.6);
   }
 
   &--active {
-    color: var(--palette-default);
+    color: rgba(255, 255, 255, 0.6);
   }
 
   &__item {

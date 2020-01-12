@@ -1,8 +1,5 @@
-.training-setting-name {
-  display: inline-block;
-}
-
 .training-setting {
+  margin-top: 4px;
   display: flex;
   align-items: center;
 }

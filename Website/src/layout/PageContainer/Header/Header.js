@@ -4,7 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from 'src/components/IconButton';
 import BrandLink from 'src/layout/BrandLink';
 import HeaderNavList from './HeaderNavList';
-import Progress from './Progress';
+import APIProgress from './APIProgress';
 
 import './Header.scss';
 
@@ -37,7 +37,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
           </div>
         )}
       </div>
-      <Progress />
+      <APIProgress />
     </header>
   );
 }

@@ -5,12 +5,12 @@ $theme-palette-primary: #6200ea;
 
 $theme-property-values: (
   palette-default: $theme-palette-default,
-  palette-default-darker: darken($theme-palette-default, 8),
-  palette-default-darkest: darken($theme-palette-default, 14),
+  palette-default-dark: darken($theme-palette-default, 8),
+  palette-default-darker: darken($theme-palette-default, 14),
   palette-on-default: choose-contrast-color($theme-palette-default),
   palette-primary: $theme-palette-primary,
-  palette-primary-darker: darken($theme-palette-primary, 8),
-  palette-primary-darkest: darken($theme-palette-primary, 14),
+  palette-primary-dark: darken($theme-palette-primary, 8),
+  palette-primary-darker: darken($theme-palette-primary, 14),
   palette-on-primary: choose-contrast-color($theme-palette-primary),
   palette-error: #d50000,
   palette-divider: rgba(0, 0, 0, 0.12),

@@ -3,7 +3,7 @@ import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
 import Container from 'src/components/Container';
-import PageProgress from 'src/components/PageProgress';
+import PageProgress from 'src/layout/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
 import SmartSnackbar from 'src/layout/SmartSnackbar';
 import PageContainer from 'src/layout/PageContainer';
@@ -56,12 +56,12 @@ function App() {
     <Router history={history}>
       <ScrollToTop />
       <SmartSnackbar />
-      <Suspense fallback={<PageProgress />}>
-        <PageContainer
-          routes={userId ? routes : undefined}
-          rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
-        >
-          <ErrorBoundary>
+      <PageContainer
+        routes={userId ? routes : undefined}
+        rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
+      >
+        <ErrorBoundary>
+          <Suspense fallback={<PageProgress />}>
             <Switch>
               <Route exact path="/">
                 {!userId ? (
@@ -92,9 +92,9 @@ function App() {
                 <TrainingRouter />
               </Route>
             </Switch>
-          </ErrorBoundary>
-        </PageContainer>
-      </Suspense>
+          </Suspense>
+        </ErrorBoundary>
+      </PageContainer>
     </Router>
   );
 }
