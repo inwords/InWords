@@ -1,3 +1,19 @@
 @import './mixins';
 
 @include core-styles;
+
+html {
+  box-sizing: border-box;
+}
+
+html * {
+  font-family: 'Roboto', sans-serif;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: var(--palette-background-default);
+}
