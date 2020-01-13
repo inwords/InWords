@@ -16,10 +16,13 @@ export default function usePopup() {
     if (show) {
       const handleClose = () => {
         setShow(false);
-        window.removeEventListener('click', handleClose);
       };
 
       window.addEventListener('click', handleClose);
+
+      return () => {
+        window.removeEventListener('click', handleClose);
+      };
     }
   }, [show]);
 
