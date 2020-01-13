@@ -13,7 +13,7 @@ function ResponsiveMenu({ anchorEl, responsive = true, style = {}, ...rest }) {
 
       const handleResize = debounce(() => {
         setMaxHeight(window.innerHeight - rect.top - rect.height);
-      }, 100);
+      }, 200);
 
       window.addEventListener('resize', handleResize);
 

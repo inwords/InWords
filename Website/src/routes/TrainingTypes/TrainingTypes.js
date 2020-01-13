@@ -2,10 +2,11 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import Grid from '@material-ui/core/Grid';
 import SchoolIcon from '@material-ui/icons/School';
 import { receiveTrainingWordPairs } from 'src/actions/trainingApiActions';
 import useDialog from 'src/hooks/useDialog';
+import Grid from 'src/components/Grid';
+import GridItem from 'src/components/GridItem';
 import Card from 'src/components/Card';
 import CardHeader from 'src/components/CardHeader';
 import CardContent from 'src/components/CardContent';
@@ -38,10 +39,10 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
 
   return (
     <Fragment>
-      <Grid container spacing={3}>
+      <Grid spacing={3}>
         {trainingTypesInfo.map(({ typeId, title, description }) => {
           return (
-            <Grid key={typeId} item xs={12} sm={6} md={4}>
+            <GridItem key={typeId} xs={12} sm={6} md={4}>
               <Card>
                 <CardHeader
                   title={title}
@@ -79,7 +80,7 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
                   </LinkButton>
                 </CardActions>
               </Card>
-            </Grid>
+            </GridItem>
           );
         })}
       </Grid>

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
+import Grid from 'src/components/Grid';
+import GridItem from 'src/components/GridItem';
 import Card from 'src/components/Card';
 import CardHeader from 'src/components/CardHeader';
 import CardContent from 'src/components/CardContent';
@@ -13,9 +14,9 @@ function TrainingHistory({ recentTrainings }) {
   const match = useRouteMatch();
 
   return (
-    <Grid container spacing={3}>
+    <Grid spacing={3}>
       {recentTrainings.map(({ levelId, playerStars }) => (
-        <Grid key={levelId} item xs={6} sm={4} md={3}>
+        <GridItem key={levelId} xs={6} sm={4} md={3}>
           <Card>
             <CardHeader title={`Тренировка ${levelId}`} />
             <CardContent>
@@ -35,7 +36,7 @@ function TrainingHistory({ recentTrainings }) {
               </LinkButton>
             </CardActions>
           </Card>
-        </Grid>
+        </GridItem>
       ))}
     </Grid>
   );
