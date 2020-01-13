@@ -9,7 +9,7 @@ import Menu from 'src/components/Menu';
 import MenuItem from 'src/components/MenuItem';
 
 function TrainingSettingsMenuButton({ handleOpen }) {
-  const { show, handleToggle, handleClose } = usePopup();
+  const { show, handleToggle } = usePopup();
 
   return (
     <PopupContainer>
@@ -24,14 +24,7 @@ function TrainingSettingsMenuButton({ handleOpen }) {
       <Popup show={show} side="right">
         <Menu id="training-menu">
           <li>
-            <MenuItem
-              onClick={() => {
-                handleOpen();
-                handleClose();
-              }}
-            >
-              Настройки
-            </MenuItem>
+            <MenuItem onClick={handleOpen}>Настройки</MenuItem>
           </li>
         </Menu>
       </Popup>

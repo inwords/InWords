@@ -36,7 +36,7 @@
     &--right {
       margin-left: 24px;
 
-      @include theme-breakpoints-down(md) {
+      @include theme-breakpoints-down(lg) {
         margin-left: auto;
       }
     }
@@ -48,7 +48,7 @@
     overflow: hidden;
     height: 64px;
 
-    @include theme-breakpoints-down(md) {
+    @include theme-breakpoints-down(lg) {
       display: none;
     }
   }

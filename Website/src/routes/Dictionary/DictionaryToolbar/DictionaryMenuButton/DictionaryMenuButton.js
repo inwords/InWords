@@ -10,9 +10,7 @@ import MenuItem from 'src/components/MenuItem';
 import IconButton from 'src/components/IconButton';
 
 function DictionaryMenuButton({ handleLearning }) {
-  const { show, handleToggle, handleClose } = usePopup();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { show, handleToggle, anchorEl } = usePopup();
 
   return (
     <PopupContainer>
@@ -20,10 +18,7 @@ function DictionaryMenuButton({ handleLearning }) {
         aria-label="dictionary features"
         aria-controls="dictionary-menu"
         aria-haspopup="true"
-        onClick={event => {
-          setAnchorEl(event.currentTarget);
-          handleToggle(event);
-        }}
+        onClick={handleToggle}
         color="inherit"
         edge="end"
       >
@@ -38,10 +33,7 @@ function DictionaryMenuButton({ handleLearning }) {
           <MenuItem
             component={Link}
             to="/training/dictionary"
-            onClick={() => {
-              handleLearning();
-              handleClose();
-            }}
+            onClick={handleLearning}
           >
             Изучать
           </MenuItem>

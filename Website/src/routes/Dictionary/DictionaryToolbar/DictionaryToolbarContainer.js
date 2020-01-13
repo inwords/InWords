@@ -30,10 +30,13 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
   const searchTimerRef = React.useRef();
 
   React.useEffect(() => {
-    window.clearTimeout(searchTimerRef.current);
     searchTimerRef.current = window.setTimeout(() => {
       setPattern(inputs.pattern);
     }, 200);
+
+    return () => {
+      window.clearTimeout(searchTimerRef.current);
+    };
   }, [inputs, setPattern]);
 
   return (

@@ -11,9 +11,7 @@ import ResponsiveMenu from 'src/components/ResponsiveMenu';
 import MenuItem from 'src/components/MenuItem';
 
 function ProfileMenuButton({ handleLogout }) {
-  const { show, handleToggle, handleClose } = usePopup();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { show, handleToggle, anchorEl } = usePopup();
 
   return (
     <PopupContainer>
@@ -21,10 +19,7 @@ function ProfileMenuButton({ handleLogout }) {
         aria-label="user account"
         aria-controls="profile-menu"
         aria-haspopup="true"
-        onClick={event => {
-          setAnchorEl(event.currentTarget);
-          handleToggle(event);
-        }}
+        onClick={handleToggle}
         edge="end"
         color="inherit"
       >
@@ -33,20 +28,13 @@ function ProfileMenuButton({ handleLogout }) {
       <Popup show={show} side="right">
         <ResponsiveMenu id="profile-menu" anchorEl={anchorEl} responsive={show}>
           <li>
-            <MenuItem component={Link} to="/profile" onClick={handleClose}>
+            <MenuItem component={Link} to="/profile">
               Профиль
             </MenuItem>
           </li>
           <Divider />
           <li>
-            <MenuItem
-              component={Link}
-              to="/signIn"
-              onClick={() => {
-                handleLogout();
-                handleClose();
-              }}
-            >
+            <MenuItem component={Link} to="/signIn" onClick={handleLogout}>
               Выйти
             </MenuItem>
           </li>

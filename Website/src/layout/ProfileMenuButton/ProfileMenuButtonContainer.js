@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 import { denyAccess } from 'src/actions/accessActions';
 import ProfileMenuButton from './ProfileMenuButton';
 
-function ProfileMenuButtonContainer({ ...rest }) {
+function ProfileMenuButtonContainer(props) {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(denyAccess());
   };
 
-  return <ProfileMenuButton handleLogout={handleLogout} {...rest} />;
+  return <ProfileMenuButton handleLogout={handleLogout} {...props} />;
 }
 
 export default memo(ProfileMenuButtonContainer);

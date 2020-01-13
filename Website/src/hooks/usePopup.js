@@ -1,25 +1,30 @@
 import React from 'react';
 
+const touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+
 export default function usePopup() {
   const [show, setShow] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleToggle = event => {
-    event.stopPropagation();
     setShow(show => !show);
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setShow(false);
+  const handleClose = event => {
+    if (!anchorEl.contains(event.target)) {
+      setShow(false);
+      setAnchorEl(null);
+    }
   };
 
   React.useEffect(() => {
     if (show) {
-      const handleClose = () => {
-        setShow(false);
-        window.removeEventListener('click', handleClose);
-      };
+      window.addEventListener(touchEvent, handleClose);
 
-      window.addEventListener('click', handleClose);
+      return () => {
+        window.removeEventListener(touchEvent, handleClose);
+      };
     }
   }, [show]);
 
@@ -27,6 +32,6 @@ export default function usePopup() {
     show,
     setShow,
     handleToggle,
-    handleClose
+    anchorEl
   };
 }
