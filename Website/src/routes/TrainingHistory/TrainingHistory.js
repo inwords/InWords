@@ -30,7 +30,8 @@ function TrainingHistory({ recentTrainings }) {
               <LinkButton
                 component={RouterLink}
                 to={`${match.url}/${levelId}/0`}
-                primary
+                variant="text"
+                color="primary"
               >
                 Поплыли
               </LinkButton>

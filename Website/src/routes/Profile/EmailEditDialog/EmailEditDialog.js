@@ -55,7 +55,7 @@ function EmailEditDialog({
           <Button onClick={handleClose}>Отменить</Button>
         </DialogAction>
         <DialogAction>
-          <Button type="submit" form="email-edit-form" primary>
+          <Button type="submit" form="email-edit-form" color="primary">
             Сохранить
           </Button>
         </DialogAction>

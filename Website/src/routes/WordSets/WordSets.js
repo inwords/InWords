@@ -20,7 +20,11 @@ function WordSets({ trainingCategories, handleAddingInDictionary }) {
               <Typography>{description}</Typography>
             </CardContent>
             <CardActions>
-              <Button primary onClick={handleAddingInDictionary(gameId)}>
+              <Button
+                onClick={handleAddingInDictionary(gameId)}
+                variant="text"
+                color="primary"
+              >
                 Добавить в словарь
               </Button>
             </CardActions>

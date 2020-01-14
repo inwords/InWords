@@ -32,6 +32,7 @@ export default function usePopup() {
     show,
     setShow,
     handleToggle,
+    handleClose,
     anchorEl
   };
 }

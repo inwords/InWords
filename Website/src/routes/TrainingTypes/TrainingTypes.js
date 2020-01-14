@@ -74,7 +74,8 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
                   <LinkButton
                     component={RouterLink}
                     to={`${match.url}/${typeId}/${level}`}
-                    primary
+                    variant="text"
+                    color="primary"
                   >
                     Поплыли
                   </LinkButton>

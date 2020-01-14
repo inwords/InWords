@@ -19,7 +19,7 @@
     font-size: 1rem;
     pointer-events: none;
     transform-origin: top left;
-    transition: color 0.15s ease, transform 0.15s ease;
+    transition: transform 0.15s ease;
 
     &--compact {
       color: var(--palette-text-secondary);

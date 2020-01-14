@@ -11,8 +11,7 @@ function Menu({ component = 'ul', className, ...rest }) {
 }
 
 Menu.propTypes = {
-  component: PropTypes.elementType,
-  onClick: PropTypes.func
+  component: PropTypes.elementType
 };
 
 export default Menu;

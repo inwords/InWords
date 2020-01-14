@@ -58,7 +58,7 @@ function WordPairEditDialog({
           <Button onClick={handleClose}>Отмена</Button>
         </DialogAction>
         <DialogAction>
-          <Button type="submit" form="word-pair-edit-form" primary>
+          <Button type="submit" form="word-pair-edit-form" color="primary">
             Готово
           </Button>
         </DialogAction>

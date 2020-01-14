@@ -80,7 +80,7 @@ function WordPairAddDialog({
           <Button onClick={handleClose}>Отмена</Button>
         </DialogAction>
         <DialogAction>
-          <Button type="submit" form="word-pair-add-form" primary>
+          <Button type="submit" form="word-pair-add-form" color="primary">
             Добавить
           </Button>
         </DialogAction>

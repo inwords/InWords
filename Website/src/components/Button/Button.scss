@@ -2,37 +2,37 @@
 @import './mixins';
 
 .button {
-  position: relative;
   display: inline-block;
   min-width: 80px;
   min-height: 32px;
-  padding: 0 16px;
-  border: 0;
+  border: none;
   border-radius: 2px;
-  outline: 0;
+  outline: none;
   cursor: pointer;
   user-select: none;
   font-family: inherit;
+  text-transform: uppercase;
   transition: background-color 0.2s ease-in-out;
 
   @include theme-typography(button);
 
-  &--default {
-    @include styled-button(default);
+  &--contained-default {
+    @include styled-contained-button(default);
   }
 
-  &--primary {
-    @include styled-button(primary);
+  &--contained-primary {
+    @include styled-contained-button(primary);
+  }
+
+  &--text-default {
+    @include styled-text-button(default);
+  }
+
+  &--text-primary {
+    @include styled-text-button(primary);
   }
 
   &--full-width {
     width: 100%;
-  }
-
-  &:disabled {
-    cursor: default;
-    pointer-events: none;
-    color: var(--palette-action-disabled);
-    background-color: var(--palette-action-disabled-background);
   }
 }

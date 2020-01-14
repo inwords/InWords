@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import EmailIcon from '@material-ui/icons/Email';
 import useDialog from 'src/hooks/useDialog';
 import Typography from 'src/components/Typography';
-import LinearButton from 'src/components/LinearButton';
+import Button from 'src/components/Button';
 import AvatarEditDialog from './AvatarEditDialog';
 import NicknameEditDialog from './NicknameEditDialog';
 import EmailEditDialog from './EmailEditDialog';
@@ -37,15 +37,17 @@ function Profile({ avatarPath, nickname, email }) {
           src={avatarPath}
           className="profile__picture"
         />
-        <LinearButton onClick={handleOpenAvatar}>Изменить аватар</LinearButton>
+        <Button onClick={handleOpenAvatar} variant="text" color="primary">
+          Изменить аватар
+        </Button>
       </div>
       <div className="profile__personal-section">
         <Typography component="h2" variant="h3" className="profile__nickname">
           {nickname}
         </Typography>
-        <LinearButton onClick={handleOpenNickname}>
+        <Button onClick={handleOpenNickname} variant="text" color="primary">
           Изменить никнейм
-        </LinearButton>
+        </Button>
         <div className="profile__personal-info">
           <div className="profile__personal-info-entry">
             <div className="profile__personal-info-entry-icon">
@@ -61,9 +63,13 @@ function Profile({ avatarPath, nickname, email }) {
                 </Typography>
               </div>
               <div className="profile__personal-info-edit-links">
-                <LinearButton onClick={handleOpenEmail}>
+                <Button
+                  onClick={handleOpenEmail}
+                  variant="text"
+                  color="primary"
+                >
                   Изменить электронный адрес
-                </LinearButton>
+                </Button>
               </div>
             </div>
           </div>

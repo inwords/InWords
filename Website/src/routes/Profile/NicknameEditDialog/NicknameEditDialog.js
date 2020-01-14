@@ -51,7 +51,7 @@ function NicknameEditDialog({
           <Button onClick={handleClose}>Отменить</Button>
         </DialogAction>
         <DialogAction>
-          <Button type="submit" form="nickname-edit-form" primary>
+          <Button type="submit" form="nickname-edit-form" color="primary">
             Сохранить
           </Button>
         </DialogAction>
