@@ -2,7 +2,7 @@
   display: block;
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--palette-default);
+  border: 1px solid var(--palette-default-main);
   border-radius: 2px;
   font-size: 1rem;
   color: var(--palette-text-primary);
@@ -13,9 +13,8 @@
   }
 
   &:focus {
-    outline: none;
-    box-shadow: inset 0 0 0 1px var(--palette-primary);
-    border-color: var(--palette-primary);
+    outline: 1px solid var(--palette-primary-main);
+    border-color: var(--palette-primary-main);
   }
 
   &:disabled {

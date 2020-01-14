@@ -1,8 +1,11 @@
 .dialog-actions {
-  margin-right: -4px;
   flex: 0 0 auto;
   display: flex;
-  padding: 24px;
+  padding: 8px;
   align-items: center;
   justify-content: flex-end;
+
+  & > :not(:first-child) {
+    margin-left: 8px;
+  }
 }

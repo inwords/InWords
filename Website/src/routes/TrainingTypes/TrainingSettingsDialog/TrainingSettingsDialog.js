@@ -4,7 +4,6 @@ import Dialog from 'src/components/Dialog';
 import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogActions from 'src/components/DialogActions';
-import DialogAction from 'src/components/DialogAction';
 import Typography from 'src/components/Typography';
 import Slider from 'src/components/Slider';
 import Button from 'src/components/Button';
@@ -54,21 +53,23 @@ function TrainingSettingsDialog({
         </form>
       </DialogContent>
       <DialogActions>
-        <DialogAction>
-          <Button
-            onClick={() => {
-              handleClose();
-              handleReset();
-            }}
-          >
-            Отменить
-          </Button>
-        </DialogAction>
-        <DialogAction>
-          <Button type="submit" form="training-settings-form" primary>
-            Сохранить
-          </Button>
-        </DialogAction>
+        <Button
+          onClick={() => {
+            handleClose();
+            handleReset();
+          }}
+          variant="text"
+        >
+          Отменить
+        </Button>
+        <Button
+          type="submit"
+          form="training-settings-form"
+          variant="text"
+          color="primary"
+        >
+          Сохранить
+        </Button>
       </DialogActions>
     </Dialog>
   );

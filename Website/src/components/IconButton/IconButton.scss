@@ -3,38 +3,55 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 0;
   border-radius: 50%;
-  outline: 0;
   padding: 12px;
-  cursor: pointer;
-  user-select: none;
-  text-decoration: none;
   background-color: transparent;
   transition: background-color 0.2s ease-in-out;
 
   &:hover,
   &:focus {
-    background-color: var(--palette-action-hover);
     @media (hover: none) {
       background-color: transparent;
     }
   }
 
-  &:active {
-    background-color: var(--palette-action-selected);
-  }
-
   &--color--default {
     color: var(--palette-text-secondary);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-action-hover);
+    }
+
+    &:active {
+      background-color: var(--palette-action-selected);
+    }
   }
 
   &--color--primary {
-    color: var(--palette-primary);
+    color: var(--palette-primary-main);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-primary-transparentize-more);
+    }
+
+    &:active {
+      background-color: var(--palette-primary-transparentize-less);
+    }
   }
 
   &--color--inherit {
     color: inherit;
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-action-hover);
+    }
+
+    &:active {
+      background-color: var(--palette-action-selected);
+    }
   }
 
   &--edge--start {

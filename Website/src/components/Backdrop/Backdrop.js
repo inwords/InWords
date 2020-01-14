@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './Backdrop.scss';
+import './Backdrop.css';
 
 function Backdrop({
   open = false,

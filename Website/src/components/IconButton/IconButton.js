@@ -1,20 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import ButtonBase from 'src/components/ButtonBase';
 
 import './IconButton.scss';
 
-function IconButton({
-  component = 'button',
-  color = 'default',
-  edge,
-  className,
-  ...rest
-}) {
-  const Component = component;
-
+function IconButton({ color = 'default', edge, className, ...rest }) {
   return (
-    <Component
+    <ButtonBase
       className={classNames(
         'icon-button',
         `icon-button--color--${color}`,
@@ -29,7 +22,6 @@ function IconButton({
 }
 
 IconButton.propTypes = {
-  component: PropTypes.elementType,
   color: PropTypes.string,
   edge: PropTypes.string
 };

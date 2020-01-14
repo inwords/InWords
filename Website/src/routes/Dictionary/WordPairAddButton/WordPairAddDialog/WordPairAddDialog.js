@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Chip from '@material-ui/core/Chip';
 import Dialog from 'src/components/Dialog';
 import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogActions from 'src/components/DialogActions';
-import DialogAction from 'src/components/DialogAction';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
 import FormGroup from 'src/components/FormGroup';
 import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
+import Chip from 'src/components/Chip';
 
 import './WordPairAddDialog.css';
 
@@ -67,23 +66,26 @@ function WordPairAddDialog({
           {translationsInfo.map(({ id, translation }) => (
             <Chip
               key={id}
-              label={translation}
               onClick={handleTranslationSelection(id)}
-              variant="outlined"
               className="word-pair-add-dialog-chip"
-            />
+            >
+              {translation}
+            </Chip>
           ))}
         </div>
       </DialogContent>
       <DialogActions>
-        <DialogAction>
-          <Button onClick={handleClose}>Отмена</Button>
-        </DialogAction>
-        <DialogAction>
-          <Button type="submit" form="word-pair-add-form" color="primary">
-            Добавить
-          </Button>
-        </DialogAction>
+        <Button onClick={handleClose} variant="text">
+          Отмена
+        </Button>
+        <Button
+          type="submit"
+          form="word-pair-add-form"
+          variant="text"
+          color="primary"
+        >
+          Добавить
+        </Button>
       </DialogActions>
     </Dialog>
   );

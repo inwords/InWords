@@ -1,21 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import ButtonBase from 'src/components/ButtonBase';
 
 import './Button.scss';
 
 function Button({
-  component = 'button',
   variant = 'contained',
   color = 'default',
   fullWidth = false,
   className,
   ...rest
 }) {
-  const Component = component;
-
   return (
-    <Component
+    <ButtonBase
       className={classNames(
         'button',
         `button--${variant}-${color}`,
@@ -30,7 +28,6 @@ function Button({
 }
 
 Button.propTypes = {
-  component: PropTypes.elementType,
   variant: PropTypes.string,
   color: PropTypes.string,
   fullWidth: PropTypes.bool

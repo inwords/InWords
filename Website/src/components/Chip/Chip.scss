@@ -1,0 +1,24 @@
+@import 'src/theme/mixins';
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  border-radius: 16px;
+  padding: 0 12px;
+  color: var(--palette-default-contrast-text);
+  background-color: transparent;
+  font-size: 0.8125rem;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: var(--palette-action-hover);
+  }
+
+  &:active {
+    background-color: var(--palette-action-selected);
+  }
+}

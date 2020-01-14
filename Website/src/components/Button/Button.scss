@@ -1,15 +1,10 @@
 @import 'src/theme/mixins';
-@import './mixins';
 
 .button {
   display: inline-block;
   min-width: 80px;
-  min-height: 32px;
-  border: none;
+  height: 32px;
   border-radius: 2px;
-  outline: none;
-  cursor: pointer;
-  user-select: none;
   font-family: inherit;
   text-transform: uppercase;
   transition: background-color 0.2s ease-in-out;
@@ -17,19 +12,77 @@
   @include theme-typography(button);
 
   &--contained-default {
-    @include styled-contained-button(default);
+    padding: 0 16px;
+    color: var(--palette-default-contrast-text);
+    background-color: var(--palette-default-main);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-default-darken-less);
+    }
+
+    &:active {
+      background-color: var(--palette-default-darken-more);
+    }
+
+    &:disabled {
+      background-color: var(--palette-action-disabled-background);
+    }
   }
 
   &--contained-primary {
-    @include styled-contained-button(primary);
+    padding: 0 16px;
+    color: var(--palette-primary-contrast-text);
+    background-color: var(--palette-primary-main);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-primary-darken-less);
+    }
+
+    &:active {
+      background-color: var(--palette-primary-darken-more);
+    }
+
+    &:disabled {
+      background-color: var(--palette-action-disabled-background);
+    }
   }
 
   &--text-default {
-    @include styled-text-button(default);
+    padding: 0 8px;
+    background: none;
+    color: var(--palette-default);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-action-hover);
+    }
+
+    &:active {
+      background-color: var(--palette-action-selected);
+    }
   }
 
   &--text-primary {
-    @include styled-text-button(primary);
+    padding: 0 8px;
+    background: none;
+    color: var(--palette-primary-main);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-primary-transparentize-more);
+    }
+
+    &:active {
+      background-color: var(--palette-primary-transparentize-less);
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+    pointer-events: none;
+    color: var(--palette-action-disabled);
   }
 
   &--full-width {

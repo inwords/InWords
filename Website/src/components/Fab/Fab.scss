@@ -1,29 +1,23 @@
 .fab {
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 0;
   border-radius: 50%;
-  outline: 0;
   padding: 12px;
-  cursor: pointer;
-  user-select: none;
-  text-decoration: none;
-  background-color: var(--palette-primary);
-  color: var(--palette-on-primary);
+  background-color: var(--palette-primary-main);
+  color: var(--palette-primary-contrast-text);
   transition: background-color 0.2s ease-in-out;
 
   &:hover,
   &:focus {
-    background-color: var(--palette-primary-dark);
+    background-color: var(--palette-primary-darken-less);
     @media (hover: none) {
       background-color: transparent;
     }
   }
 
   &:active {
-    background-color: var(--palette-primary-darker);
+    background-color: var(--palette-primary-darken-more);
   }
 
   &:disabled {

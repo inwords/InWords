@@ -4,7 +4,6 @@ import Dialog from 'src/components/Dialog';
 import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogActions from 'src/components/DialogActions';
-import DialogAction from 'src/components/DialogAction';
 import FormGroup from 'src/components/FormGroup';
 import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
@@ -47,14 +46,17 @@ function NicknameEditDialog({
         </form>
       </DialogContent>
       <DialogActions>
-        <DialogAction>
-          <Button onClick={handleClose}>Отменить</Button>
-        </DialogAction>
-        <DialogAction>
-          <Button type="submit" form="nickname-edit-form" color="primary">
-            Сохранить
-          </Button>
-        </DialogAction>
+        <Button onClick={handleClose} variant="text">
+          Отменить
+        </Button>
+        <Button
+          type="submit"
+          form="nickname-edit-form"
+          variant="text"
+          color="primary"
+        >
+          Сохранить
+        </Button>
       </DialogActions>
     </Dialog>
   );
