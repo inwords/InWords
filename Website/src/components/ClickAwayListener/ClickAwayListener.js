@@ -1,0 +1,47 @@
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+
+import './ClickAwayListener.css';
+
+function ClickAwayListener({
+  children,
+  onClickAway,
+  onClick,
+  active = true,
+  ...rest
+}) {
+  const handleClickAway = event => {
+    if (onClickAway) {
+      onClickAway(event);
+    }
+  };
+
+  const handleClick = event => {
+    event.stopPropagation();
+
+    if (onClick) {
+      onClick(event);
+    }
+  };
+
+  return (
+    <Fragment>
+      {React.cloneElement(children, {
+        onClick: handleClick,
+        ...rest
+      })}
+      {active && (
+        <div onClick={handleClickAway} className="click-away-listener" />
+      )}
+    </Fragment>
+  );
+}
+
+ClickAwayListener.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClickAway: PropTypes.func,
+  onClick: PropTypes.func,
+  active: PropTypes.bool
+};
+
+export default ClickAwayListener;
