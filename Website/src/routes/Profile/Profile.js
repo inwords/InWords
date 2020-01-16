@@ -4,6 +4,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import useDialog from 'src/hooks/useDialog';
 import Typography from 'src/components/Typography';
 import Button from 'src/components/Button';
+import FadeAnimation from 'src/components/FadeAnimation';
 import AvatarEditDialog from './AvatarEditDialog';
 import NicknameEditDialog from './NicknameEditDialog';
 import EmailEditDialog from './EmailEditDialog';
@@ -32,11 +33,13 @@ function Profile({ avatarPath, nickname, email }) {
   return (
     <div className="profile">
       <div className="profile__picture-section">
-        <img
-          alt="Изображение профиля"
-          src={avatarPath}
-          className="profile__picture"
-        />
+        <FadeAnimation>
+          <img
+            alt="Изображение профиля"
+            src={avatarPath}
+            className="profile__picture"
+          />
+        </FadeAnimation>
         <Button onClick={handleOpenAvatar} variant="text" color="primary">
           Изменить аватар
         </Button>

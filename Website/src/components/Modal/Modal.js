@@ -24,9 +24,13 @@ function Modal({
     if (open) {
       setExited(false);
     } else {
-      setTimeout(() => {
+      let timer = setTimeout(() => {
         setExited(true);
       }, 150);
+
+      return () => {
+        clearTimeout(timer);
+      };
     }
   }, [open]);
 

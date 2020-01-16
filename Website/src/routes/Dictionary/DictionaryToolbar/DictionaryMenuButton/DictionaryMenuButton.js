@@ -10,7 +10,7 @@ import MenuItem from 'src/components/MenuItem';
 import IconButton from 'src/components/IconButton';
 
 function DictionaryMenuButton({ handleLearning }) {
-  const { show, handleToggle, anchorEl } = usePopup();
+  const { show, handleOpen, handleClose, anchorEl } = usePopup();
 
   return (
     <PopupContainer>
@@ -18,13 +18,13 @@ function DictionaryMenuButton({ handleLearning }) {
         aria-label="dictionary features"
         aria-controls="dictionary-menu"
         aria-haspopup="true"
-        onClick={handleToggle}
+        onClick={handleOpen}
         color="inherit"
         edge="end"
       >
         <MoreVertIcon />
       </IconButton>
-      <Popup show={show} side="right">
+      <Popup show={show} side="right" onClose={handleClose}>
         <ResponsiveMenu
           id="dictionary-menu"
           anchorEl={anchorEl}
@@ -33,7 +33,10 @@ function DictionaryMenuButton({ handleLearning }) {
           <MenuItem
             component={Link}
             to="/training/dictionary"
-            onClick={handleLearning}
+            onClick={() => {
+              handleLearning();
+              handleClose();
+            }}
           >
             Изучать
           </MenuItem>

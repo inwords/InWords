@@ -8,8 +8,8 @@ import Popup from 'src/components/Popup';
 import Menu from 'src/components/Menu';
 import MenuItem from 'src/components/MenuItem';
 
-function TrainingSettingsMenuButton({ handleOpen }) {
-  const { show, handleToggle } = usePopup();
+function TrainingSettingsMenuButton({ handleOpen: handeOpenDialog }) {
+  const { show, handleOpen, handleClose } = usePopup();
 
   return (
     <PopupContainer>
@@ -17,14 +17,21 @@ function TrainingSettingsMenuButton({ handleOpen }) {
         aria-label="training settings"
         aria-controls="training-menu"
         aria-haspopup="true"
-        onClick={handleToggle}
+        onClick={handleOpen}
       >
         <MoreVertIcon />
       </IconButton>
-      <Popup show={show} side="right">
+      <Popup show={show} side="right" onClose={handleClose}>
         <Menu id="training-menu">
           <li>
-            <MenuItem onClick={handleOpen}>Настройки</MenuItem>
+            <MenuItem
+              onClick={() => {
+                handeOpenDialog();
+                handleClose();
+              }}
+            >
+              Настройки
+            </MenuItem>
           </li>
         </Menu>
       </Popup>
