@@ -1,43 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from 'src/components/Paper';
-import Typography from 'src/components/Typography';
 import Fade from 'src/components/Fade';
 import Zoom from 'src/components/Zoom';
 
 import './Game.scss';
-
-const cardDimension = 110;
-const cardsSpacing = 1;
-
-const useStyles = makeStyles(theme => ({
-  twoColumnsLayout: {
-    [theme.breakpoints.up(
-      cardDimension * 2 + theme.spacing(cardsSpacing * 4)
-    )]: {
-      width: cardDimension * 2 + theme.spacing(cardsSpacing * 2),
-      margin: 'auto'
-    }
-  },
-  threeColumnsLayout: {
-    [theme.breakpoints.up(
-      cardDimension * 3 + theme.spacing(cardsSpacing * 6)
-    )]: {
-      width: cardDimension * 3 + theme.spacing(cardsSpacing * 3),
-      margin: 'auto'
-    }
-  },
-  fourColumnsLayout: {
-    [theme.breakpoints.up(
-      cardDimension * 4 + theme.spacing(cardsSpacing * 8)
-    )]: {
-      width: cardDimension * 4 + theme.spacing(cardsSpacing * 4),
-      margin: 'auto'
-    }
-  }
-}));
 
 function Game({
   wordPairs,
