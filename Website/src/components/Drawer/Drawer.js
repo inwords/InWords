@@ -13,19 +13,16 @@ const transitionDuration = {
 
 function Drawer({ open, onClose, className, ...rest }) {
   return (
-    <Modal
-      open={open}
-      handleBackdropClick={onClose}
-      keepMounted
-      transitionDuration={transitionDuration[open ? 'enter' : 'exit']}
-    >
+    <Modal open={open} handleBackdropClick={onClose} keepMounted>
       <Paper
         component="nav"
         depthShadow={16}
         className={classNames('drawer', className)}
         style={{
           transform: open ? 'translateX(0)' : 'translateX(-100%)',
-          transitionDuration: `${transitionDuration[open ? 'enter' : 'exit']}ms`
+          transition: `transform ${
+            transitionDuration[open ? 'enter' : 'exit']
+          }ms cubic-bezier(0.4, 0, 0.2, 1)`
         }}
         {...rest}
       />

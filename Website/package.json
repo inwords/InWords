@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "format": "prettier --write src/**/*.js",
+    "format": "prettier --write src/**/*.{js,css,scss}",
     "lint": "eslint src/**/*.js"
   },
   "author": "Prometium",
@@ -26,10 +26,10 @@
     "redux-logger": "^3.0.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.0",
-    "@babel/preset-env": "^7.8.0",
-    "@babel/preset-react": "^7.8.0",
-    "autoprefixer": "^9.7.3",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "autoprefixer": "^9.7.4",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
@@ -44,7 +44,7 @@
     "node-sass": "^4.13.0",
     "postcss-loader": "^3.0.0",
     "prettier": "1.19.1",
-    "sass-loader": "^8.0.1",
+    "sass-loader": "^8.0.2",
     "style-loader": "^1.1.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",

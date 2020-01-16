@@ -7,8 +7,5 @@
   z-index: var(--z-index-drawer);
   overflow-y: auto;
   width: 240px;
-  border-right: 1px solid var(--palette-divider);
   background-color: var(--palette-background-paper);
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }

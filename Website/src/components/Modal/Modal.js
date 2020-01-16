@@ -2,15 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Backdrop from 'src/components/Backdrop';
 
-import './Modal.css';
+import './Modal.scss';
+
+const transitionDuration = {
+  enter: 225,
+  exit: 150
+};
 
 function Modal({
   open,
   keepMounted = false,
   handleBackdropClick,
-  transitionDuration,
   children,
   className,
   ...rest
@@ -23,9 +26,9 @@ function Modal({
     } else {
       setTimeout(() => {
         setExited(true);
-      }, transitionDuration);
+      }, 150);
     }
-  }, [open, transitionDuration]);
+  }, [open]);
 
   if (!keepMounted && !open && exited) {
     return null;
@@ -35,14 +38,21 @@ function Modal({
     <div
       className={classNames('modal', className)}
       style={{
-        visibility: exited ? 'hidden' : 'visible'
+        visibility: exited ? 'hidden' : undefined
       }}
       {...rest}
     >
-      <Backdrop
-        open={open}
+      <div
         onClick={handleBackdropClick}
-        transitionDuration={transitionDuration}
+        className={classNames('modal__backdrop', {
+          'modal__backdrop--animated': !keepMounted
+        })}
+        style={{
+          opacity: open ? 1 : 0,
+          transition: `opacity ${
+            transitionDuration[open ? 'enter' : 'exit']
+          }ms linear`
+        }}
       />
       {children}
     </div>,
@@ -54,7 +64,6 @@ Modal.propTypes = {
   open: PropTypes.bool,
   keepMounted: PropTypes.bool,
   handleBackdropClick: PropTypes.func,
-  transitionDuration: PropTypes.number,
   children: PropTypes.node
 };
 

@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Grow from '@material-ui/core/Grow';
-import Zoom from '@material-ui/core/Zoom';
+import Fade from 'src/components/Fade';
+import Zoom from 'src/components/Zoom';
 
 const cardDimension = 110;
 const cardsSpacing = 1;
@@ -88,7 +88,7 @@ function Game({
       <Grid container justify="center" spacing={cardsSpacing}>
         {wordPairs.map(({ id, pairId, word }) => (
           <Grid key={id} item>
-            <Grow in={!isGameCompleted}>
+            <Fade in={!isGameCompleted}>
               <div>
                 <Paper
                   elevation={selectedCompletedPairId === pairId ? 8 : 2}
@@ -113,7 +113,7 @@ function Game({
                   </Zoom>
                 </Paper>
               </div>
-            </Grow>
+            </Fade>
           </Grid>
         ))}
       </Grid>
