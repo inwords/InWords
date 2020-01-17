@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Icon from 'src/components/Icon';
 import usePopup from 'src/hooks/usePopup';
 import PopupContainer from 'src/components/PopupContainer';
 import Popup from 'src/components/Popup';
@@ -22,7 +22,7 @@ function DictionaryMenuButton({ handleLearning }) {
         color="inherit"
         edge="end"
       >
-        <MoreVertIcon />
+        <Icon>more_horiz</Icon>
       </IconButton>
       <Popup show={show} side="right" onClose={handleClose}>
         <ResponsiveMenu

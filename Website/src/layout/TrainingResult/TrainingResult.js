@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import StarIcon from '@material-ui/icons/Star';
-import ReplayIcon from '@material-ui/icons/Replay';
-import FastForwardIcon from '@material-ui/icons/FastForward';
+import Icon from 'src/components/Icon';
 import FadeAnimation from 'src/components/FadeAnimation';
 import Paper from 'src/components/Paper';
 import IconButton from 'src/components/IconButton';
@@ -20,30 +18,27 @@ function TrainingResult({ score, handleRedirectionToNextLevel, handleReplay }) {
               <Smiley score={score} />
             </div>
             <div className="training-result-stars">
-              <StarIcon
-                fontSize="large"
-                color={score > 0 ? 'secondary' : 'disabled'}
-              />
-              <StarIcon
-                fontSize="large"
-                color={score > 1 ? 'secondary' : 'disabled'}
-              />
-              <StarIcon
-                fontSize="large"
-                color={score > 2 ? 'secondary' : 'disabled'}
-              />
+              <Icon fontSize="large" color={score > 0 ? 'primary' : 'disabled'}>
+                star
+              </Icon>
+              <Icon fontSize="large" color={score > 1 ? 'primary' : 'disabled'}>
+                star
+              </Icon>
+              <Icon fontSize="large" color={score > 2 ? 'primary' : 'disabled'}>
+                star
+              </Icon>
             </div>
           </Fragment>
         )}
         <div>
           <IconButton aria-label="replay" onClick={handleReplay}>
-            <ReplayIcon fontSize="large" />
+            <Icon fontSize="large">replay</Icon>
           </IconButton>
           <IconButton
             aria-label="next level"
             onClick={handleRedirectionToNextLevel}
           >
-            <FastForwardIcon fontSize="large" />
+            <Icon fontSize="large">fast_forward</Icon>
           </IconButton>
         </div>
       </Paper>

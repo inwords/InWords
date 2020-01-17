@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MenuIcon from '@material-ui/icons/Menu';
+import Icon from 'src/components/Icon';
 import IconButton from 'src/components/IconButton';
 import BrandLink from 'src/layout/BrandLink';
 import HeaderNavList from './HeaderNavList';
@@ -21,7 +21,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
               color="inherit"
               className="header__nav-menu-button"
             >
-              <MenuIcon />
+              <Icon>menu</Icon>
             </IconButton>
           )}
           <BrandLink to="/">InWords</BrandLink>

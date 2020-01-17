@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import SchoolIcon from '@material-ui/icons/School';
 import { receiveTrainingWordPairs } from 'src/actions/trainingApiActions';
 import useDialog from 'src/hooks/useDialog';
+import Icon from 'src/components/Icon';
 import Grid from 'src/components/Grid';
 import GridItem from 'src/components/GridItem';
 import Card from 'src/components/Card';
@@ -27,7 +27,7 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
     if (level !== -1 && !trainingLevelsMap[0]) {
       dispatch(receiveTrainingWordPairs());
     }
-  }, [trainingLevelsMap, dispatch]);
+  }, [level, trainingLevelsMap, dispatch]);
 
   const trainingLevelsMap = useSelector(
     store => store.training.trainingLevelsMap
@@ -59,10 +59,12 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
                   <Typography component="p">{description}</Typography>
                   {trainingLevelsMap[level] && (
                     <div className="training-type-card-pairs-info">
-                      <SchoolIcon
+                      <Icon
                         color="action"
                         className="training-type-card-pairs-info__icon"
-                      />
+                      >
+                        school
+                      </Icon>
                       <Typography className="training-type-card-pairs-info__text">
                         На изучение:{' '}
                         {trainingLevelsMap[level].wordTranslations.length}

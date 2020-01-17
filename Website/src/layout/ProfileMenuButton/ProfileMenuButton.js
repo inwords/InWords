@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import usePopup from 'src/hooks/usePopup';
+import Icon from 'src/components/Icon';
 import Divider from 'src/components/Divider';
 import IconButton from 'src/components/IconButton';
 import PopupContainer from 'src/components/PopupContainer';
@@ -23,7 +23,7 @@ function ProfileMenuButton({ handleLogout }) {
         edge="end"
         color="inherit"
       >
-        <AccountCircleIcon />
+        <Icon>account_circle</Icon>
       </IconButton>
       <Popup show={show} side="right" onClose={handleClose}>
         <ResponsiveMenu id="profile-menu" anchorEl={anchorEl} responsive={show}>

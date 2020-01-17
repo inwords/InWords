@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import CloseIcon from '@material-ui/icons/Close';
-import DeleteIcon from '@material-ui/icons/Delete';
+import Icon from 'src/components/Icon';
 import Typography from 'src/components/Typography';
 import IconButton from 'src/components/IconButton';
 import DictionarySearch from './DictionarySearch';
@@ -39,7 +38,7 @@ function DictionaryToolbar({
             color="inherit"
             className="dictionary-toolbar__close-button"
           >
-            <CloseIcon />
+            <Icon>close</Icon>
           </IconButton>
           <div className="dictionary-toolbar__title-block">
             <Typography as="h2" variant="h6">
@@ -54,7 +53,7 @@ function DictionaryToolbar({
             }}
             className="dictionary-toolbar__delete-button"
           >
-            <DeleteIcon />
+            <Icon>delete</Icon>
           </IconButton>
           <DictionaryMenuButton checkedValues={checkedValues} />
         </Fragment>

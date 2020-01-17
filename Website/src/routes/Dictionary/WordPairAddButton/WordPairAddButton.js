@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import AddIcon from '@material-ui/icons/Add';
 import useDialog from 'src/hooks/useDialog';
+import Icon from 'src/components/Icon';
 import Zoom from 'src/components/Zoom';
 import Fab from 'src/components/Fab';
 import WordPairAddDialog from './WordPairAddDialog';
@@ -16,7 +16,7 @@ function WordPairAddButton({ visible }) {
       <Zoom in={visible}>
         <div className="word-pair-add-button-container">
           <Fab id="fab" aria-label="add" onClick={handleOpen}>
-            <AddIcon />
+            <Icon>add</Icon>
           </Fab>
         </div>
       </Zoom>

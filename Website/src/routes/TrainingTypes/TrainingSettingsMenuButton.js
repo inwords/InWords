@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import usePopup from 'src/hooks/usePopup';
+import Icon from 'src/components/Icon';
 import IconButton from 'src/components/IconButton';
 import PopupContainer from 'src/components/PopupContainer';
 import Popup from 'src/components/Popup';
@@ -19,7 +19,7 @@ function TrainingSettingsMenuButton({ handleOpen: handeOpenDialog }) {
         aria-haspopup="true"
         onClick={handleOpen}
       >
-        <MoreVertIcon />
+        <Icon>more_vert</Icon>
       </IconButton>
       <Popup show={show} side="right" onClose={handleClose}>
         <Menu id="training-menu">

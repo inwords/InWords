@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EmailIcon from '@material-ui/icons/Email';
 import useDialog from 'src/hooks/useDialog';
+import Icon from 'src/components/Icon';
 import Typography from 'src/components/Typography';
 import Button from 'src/components/Button';
 import FadeAnimation from 'src/components/FadeAnimation';
@@ -54,7 +54,7 @@ function Profile({ avatarPath, nickname, email }) {
         <div className="profile-personal-info">
           <div className="profile-personal-info-entry">
             <div className="profile-personal-info-entry-icon">
-              <EmailIcon color="action" />
+              <Icon color="action">email</Icon>
             </div>
             <div className="profile-personal-info-entry-content">
               <div className="profile-personal-info-value">

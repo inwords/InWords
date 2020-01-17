@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import Icon from 'src/components/Icon';
 import IconButton from 'src/components/IconButton';
 
 import './Checkbox.scss';
@@ -21,9 +20,9 @@ function Checkbox({
     <IconButton as="span" color="primary" {...rest}>
       <div className="checkbox">
         {checked ? (
-          <CheckBoxIcon />
+          <Icon>check_box</Icon>
         ) : (
-          <CheckBoxOutlineBlankIcon color="action" />
+          <Icon color="action">check_box_outline_blank</Icon>
         )}
         <input
           id={id}

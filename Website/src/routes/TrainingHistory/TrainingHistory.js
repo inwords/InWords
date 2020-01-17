@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
+import Icon from 'src/components/Icon';
 import Grid from 'src/components/Grid';
 import GridItem from 'src/components/GridItem';
 import Card from 'src/components/Card';
@@ -8,7 +9,6 @@ import CardHeader from 'src/components/CardHeader';
 import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
 import LinkButton from 'src/components/LinkButton';
-import StarIcon from '@material-ui/icons/Star';
 
 function TrainingHistory({ recentTrainings }) {
   const match = useRouteMatch();
@@ -21,9 +21,15 @@ function TrainingHistory({ recentTrainings }) {
             <CardHeader title={`Тренировка ${levelId}`} />
             <CardContent>
               <div>
-                <StarIcon color={playerStars > 0 ? 'secondary' : 'disabled'} />
-                <StarIcon color={playerStars > 1 ? 'secondary' : 'disabled'} />
-                <StarIcon color={playerStars > 2 ? 'secondary' : 'disabled'} />
+                <Icon color={playerStars > 0 ? 'primary' : 'disabled'}>
+                  star
+                </Icon>
+                <Icon color={playerStars > 1 ? 'primary' : 'disabled'}>
+                  star
+                </Icon>
+                <Icon color={playerStars > 2 ? 'primary' : 'disabled'}>
+                  star
+                </Icon>
               </div>
             </CardContent>
             <CardActions>
