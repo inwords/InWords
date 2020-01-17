@@ -21,10 +21,13 @@ function GameContainer({ levelId, wordTranslations, localData }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const trainingSettings =
+      (localData.trainingsSettings && localData.trainingsSettings[0]) || {};
+
     const wordPairs = Array.prototype.concat.apply(
       [],
       shuffle([...wordTranslations])
-        .slice(0, localData['training-words-quantity'] || 8)
+        .slice(0, trainingSettings.quantity || 8)
         .map((wordPair, index) => [
           {
             id: index * 2,
@@ -172,10 +175,10 @@ GameContainer.propTypes = {
     }).isRequired
   ).isRequired,
   localData: PropTypes.shape({
-    'training-words-quantity': PropTypes.string
+    trainingsSettings: PropTypes.object
   })
 };
 
 export default withReceivedTrainingLevel(
-  withLocalStorageData(GameContainer, ['training-words-quantity'])
+  withLocalStorageData(GameContainer, ['trainingsSettings'])
 );

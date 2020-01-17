@@ -2,15 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Animation({
-  animationName,
   children,
-  transitionDuration = 225,
-  style,
+  animationName,
+  animationDuration = 225,
+  animationTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)',
+  style = {},
   ...rest
 }) {
   return React.cloneElement(children, {
     style: {
-      animation: `${animationName} ${transitionDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+      animationName,
+      animationDuration: `${animationDuration}ms`,
+      animationTimingFunction,
       ...style
     },
     ...rest
@@ -18,9 +21,10 @@ function Animation({
 }
 
 Animation.propTypes = {
-  animationName: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  transitionDuration: PropTypes.number
+  animationName: PropTypes.string.isRequired,
+  animationDuration: PropTypes.number,
+  animationTimingFunction: PropTypes.string
 };
 
 export default Animation;

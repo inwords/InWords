@@ -2,26 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import ClickAwayListener from 'src/components/ClickAwayListener';
+import Fade from 'src/components/Fade';
 import Paper from 'src/components/Paper';
 
 import './Popup.scss';
 
-function Popup({ show = false, side = 'left', onClose, className, ...rest }) {
+function Popup({
+  show = false,
+  side = 'left',
+  onClose,
+  children,
+  className,
+  ...rest
+}) {
   return (
-    <ClickAwayListener active={show} onClickAway={onClose}>
+    <Fade in={show}>
       <Paper
         depthShadow={8}
-        className={classNames(
-          'popup',
-          `popup--side--${side}`,
-          {
-            'popup--visible': show
-          },
-          className
-        )}
+        className={classNames('popup', `popup--side--${side}`, className)}
         {...rest}
-      />
-    </ClickAwayListener>
+      >
+        <ClickAwayListener active={show} onClickAway={onClose}>
+          {children}
+        </ClickAwayListener>
+      </Paper>
+    </Fade>
   );
 }
 

@@ -6,17 +6,30 @@ import useForm from 'src/hooks/useForm';
 import TrainingSettingsDialog from './TrainingSettingsDialog';
 
 function TrainingSettingsDialogContainer({ typeId, open, localData, ...rest }) {
-  const initialInputs = { quantity: localData['training-words-quantity'] || 8 };
+  const trainingSettings =
+    (localData.trainingsSettings && localData.trainingsSettings[typeId]) || {};
 
-  const { inputs, setInputs, handleChange } = useForm(initialInputs);
+  const quantity = trainingSettings.quantity || '8';
+
+  const { inputs, setInputs, handleChange } = useForm({
+    quantity
+  });
+
+  React.useEffect(() => {
+    setInputs({ quantity });
+  }, [setInputs, quantity]);
 
   const handleSubmit = event => {
-    saveValue('training-words-quantity', inputs.quantity);
+    saveValue('trainingsSettings', {
+      [typeId]: {
+        quantity: inputs.quantity
+      }
+    });
     event.preventDefault();
   };
 
   const handleReset = () => {
-    setInputs(initialInputs);
+    setInputs({ quantity });
   };
 
   return (
@@ -39,5 +52,5 @@ TrainingSettingsDialogContainer.propTypes = {
 };
 
 export default withLocalStorageData(TrainingSettingsDialogContainer, [
-  'training-words-quantity'
+  'trainingsSettings'
 ]);

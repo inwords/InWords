@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Modal from 'src/components/Modal';
+import ClickAwayListener from 'src/components/ClickAwayListener';
 import Fade from 'src/components/Fade';
 import Paper from 'src/components/Paper';
 
@@ -12,15 +13,14 @@ function Dialog({ open, onClose, className, ...rest }) {
     <Modal open={open} onClick={onClose}>
       <Fade in={open}>
         <div className={classNames('dialog', className)}>
-          <Paper
-            className="dialog__paper"
-            onClick={event => {
-              event.stopPropagation();
-            }}
-            role="dialog"
-            depthShadow={64}
-            {...rest}
-          />
+          <ClickAwayListener>
+            <Paper
+              className="dialog__paper"
+              role="dialog"
+              depthShadow={64}
+              {...rest}
+            />
+          </ClickAwayListener>
         </div>
       </Fade>
     </Modal>

@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const transitionDuration = {
+const initialTransitionDurations = {
   enter: 225,
   exit: 150
 };
 
 function Transition({
-  component,
-  transitionProperty,
   in: inProp,
+  component,
+  transitionDurations = initialTransitionDurations,
+  transitionProperty,
+  transitionTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)',
   style = {},
   onTransitionEnd,
   ...rest
@@ -37,13 +39,16 @@ function Transition({
   return (
     <Component
       style={{
-        transition: `${transitionProperty} ${
-          transitionDuration[inProp ? 'enter' : 'exit']
-        }ms cubic-bezier(0.4, 0, 0.2, 1)`,
+        transitionProperty,
+        transitionDuration: `${
+          transitionDurations[inProp ? 'enter' : 'exit']
+        }ms`,
+        transitionTimingFunction,
         visibility: exited ? 'hidden' : undefined,
         ...style
       }}
-      transitionDuration={transitionDuration.enter}
+      animationDuration={transitionDurations.enter}
+      animationTimingFunction={transitionTimingFunction}
       onTransitionEnd={handleTransitionEnd}
       {...rest}
     />
@@ -51,9 +56,14 @@ function Transition({
 }
 
 Transition.propTypes = {
-  component: PropTypes.elementType.isRequired,
-  transitionProperty: PropTypes.string.isRequired,
   in: PropTypes.bool,
+  component: PropTypes.elementType.isRequired,
+  transitionDurations: PropTypes.exact({
+    enter: PropTypes.number.isRequired,
+    exit: PropTypes.number.isRequired
+  }),
+  transitionProperty: PropTypes.string.isRequired,
+  transitionTimingFunction: PropTypes.string,
   style: PropTypes.object,
   onTransitionEnd: PropTypes.func
 };
