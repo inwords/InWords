@@ -11,8 +11,8 @@ import './Header.scss';
 function Header({ routes, rightNodes, handleOpenDrawer }) {
   return (
     <header className="header">
-      <div className="header__context">
-        <div className="header__context-block">
+      <div className="header__content">
+        <div className="header__content-block">
           {handleOpenDrawer && (
             <IconButton
               aria-label="side-nav-menu"
@@ -32,7 +32,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
           </nav>
         )}
         {rightNodes && (
-          <div className="header__context-block header__context-block--right">
+          <div className="header__content-block header__content-block--right">
             {rightNodes}
           </div>
         )}

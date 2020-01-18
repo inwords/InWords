@@ -21,14 +21,13 @@
     box-shadow: var(--depth-shadow-16);
   }
 
-  &__context {
+  &__content {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     padding: 0 24px;
   }
 
-  &__context-block {
+  &__content-block {
     display: flex;
     align-items: center;
     height: 64px;

@@ -7,6 +7,7 @@ import './Checkbox.scss';
 
 function Checkbox({
   id,
+  name,
   tabIndex,
   checked,
   defaultChecked,
@@ -26,6 +27,7 @@ function Checkbox({
         )}
         <input
           id={id}
+          name={name}
           type="checkbox"
           tabIndex={tabIndex}
           checked={checked}
@@ -42,7 +44,8 @@ function Checkbox({
 }
 
 Checkbox.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
+  name: PropTypes.string,
   tabIndex: PropTypes.number,
   checked: PropTypes.bool,
   defaultChecked: PropTypes.bool,

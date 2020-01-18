@@ -8,8 +8,12 @@ import withReceivedTrainingLevel from 'src/HOCs/withReceivedTrainingLevel';
 import Game from './Game';
 import TrainingResult from 'src/layout/TrainingResult';
 
+const synth = window.speechSynthesis;
+const lang = 'en-US';
+
 function GameContainer({ levelId, wordTranslations, localData }) {
   const [wordPairs, setWordPairs] = useState([]);
+  const [voice, setVoice] = useState(false);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
@@ -23,6 +27,8 @@ function GameContainer({ levelId, wordTranslations, localData }) {
   useEffect(() => {
     const trainingSettings =
       (localData.trainingsSettings && localData.trainingsSettings[0]) || {};
+
+    setVoice(trainingSettings.voice);
 
     const wordPairs = Array.prototype.concat.apply(
       [],
@@ -93,7 +99,17 @@ function GameContainer({ levelId, wordTranslations, localData }) {
     dispatch
   ]);
 
-  const handleClick = (pairId, id) => () => {
+  const handleClick = (pairId, id, word) => () => {
+    if (voice & (id % 2 == 0)) {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+
+      const speech = new SpeechSynthesisUtterance(word);
+      speech.lang = lang;
+      synth.speak(speech);
+    }
+
     if (completedPairIdsMap[pairId]) {
       setSelectedCompletedPairId(pairId);
       return;

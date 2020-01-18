@@ -6,30 +6,27 @@ import useForm from 'src/hooks/useForm';
 import TrainingSettingsDialog from './TrainingSettingsDialog';
 
 function TrainingSettingsDialogContainer({ typeId, open, localData, ...rest }) {
-  const trainingSettings =
-    (localData.trainingsSettings && localData.trainingsSettings[typeId]) || {};
-
-  const quantity = trainingSettings.quantity || '8';
-
-  const { inputs, setInputs, handleChange } = useForm({
-    quantity
-  });
+  const { inputs, setInputs, handleChange } = useForm();
 
   React.useEffect(() => {
-    setInputs({ quantity });
-  }, [setInputs, quantity]);
+    const trainingSettings =
+      (localData.trainingsSettings && localData.trainingsSettings[typeId]) ||
+      {};
+
+    const quantity = trainingSettings.quantity || '8';
+    const voice = trainingSettings.voice || false;
+
+    setInputs({ quantity, voice });
+  }, [localData.trainingsSettings, typeId, setInputs]);
 
   const handleSubmit = event => {
     saveValue('trainingsSettings', {
       [typeId]: {
-        quantity: inputs.quantity
+        ...inputs
       }
     });
-    event.preventDefault();
-  };
 
-  const handleReset = () => {
-    setInputs({ quantity });
+    event.preventDefault();
   };
 
   return (
@@ -38,7 +35,6 @@ function TrainingSettingsDialogContainer({ typeId, open, localData, ...rest }) {
       inputs={inputs}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
-      handleReset={handleReset}
       {...rest}
     />
   );

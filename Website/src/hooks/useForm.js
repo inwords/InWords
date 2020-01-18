@@ -1,12 +1,16 @@
 import React from 'react';
 
-export default function useForm(initialInputs, action) {
+export default function useForm(initialInputs = {}, action) {
   const [inputs, setInputs] = React.useState(initialInputs);
 
   const handleChange = event => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
     setInputs({
       ...inputs,
-      [event.target.name]: event.target.value
+      [name]: value
     });
   };
 

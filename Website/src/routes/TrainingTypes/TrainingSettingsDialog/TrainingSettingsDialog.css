@@ -1,9 +1,18 @@
-.training-setting {
-  margin-top: 4px;
+.training-setting-col {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.training-setting-row {
   display: flex;
   align-items: center;
 }
 
-.training-setting__slider {
+.training-setting-slider {
   margin-right: 8px;
+}
+
+.training-setting-checkbox {
+  margin-left: 8px;
 }

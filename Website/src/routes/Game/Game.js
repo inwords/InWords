@@ -32,7 +32,7 @@ function Game({
         <Fade key={id} in={!isGameCompleted}>
           <div>
             <Paper
-              onClick={handleClick(pairId, id)}
+              onClick={handleClick(pairId, id, word)}
               depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
               className="game-card"
             >
