@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/policyFragment"
-        android:name="ru.inwords.inwords.presentation.view_scenario.policy.PolicyFragment"
+        android:name="ru.inwords.inwords.policy.presentation.PolicyFragment"
         tools:layout="@layout/fragment_policy">
         <action
             android:id="@+id/action_policyFragment_pop"

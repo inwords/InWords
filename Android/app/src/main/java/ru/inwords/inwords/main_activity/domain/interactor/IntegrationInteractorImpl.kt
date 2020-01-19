@@ -2,7 +2,6 @@ package ru.inwords.inwords.main_activity.domain.interactor
 
 import android.util.Log
 import io.reactivex.Completable
-import io.reactivex.Single
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
@@ -41,13 +40,5 @@ internal constructor(private val translationWordsInteractor: TranslationWordsInt
             profileInteractor.clearCache()
             translationWordsInteractor.clearCache()
         }
-    }
-
-    override fun getPolicyAgreementState(): Single<Boolean> {
-        return integrationDatabaseRepository.getPolicyAgreementState()
-    }
-
-    override fun setPolicyAgreementState(state: Boolean): Completable {
-        return integrationDatabaseRepository.setPolicyAgreementState(state)
     }
 }

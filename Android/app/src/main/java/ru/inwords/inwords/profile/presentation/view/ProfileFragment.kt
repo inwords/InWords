@@ -19,9 +19,9 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.KeyboardUtils
+import ru.inwords.inwords.policy.presentation.renderPolicyText
 import ru.inwords.inwords.presentation.createAppBarNavIconOnScrimColorAnimatorListener
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
-import ru.inwords.inwords.presentation.view_scenario.renderPolicyText
 import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.presentation.ProfileViewModelFactory
 

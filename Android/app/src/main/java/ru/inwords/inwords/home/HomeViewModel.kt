@@ -13,7 +13,7 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.home.recycler.CardWrapper
 import ru.inwords.inwords.home.recycler.SimpleState
 import ru.inwords.inwords.home.recycler.applyDiffUtil
-import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
+import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.User
@@ -25,9 +25,10 @@ import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteract
 class HomeViewModel internal constructor(
     private val translationWordsInteractor: TranslationWordsInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val integrationInteractor: IntegrationInteractor,
+    private val policyInteractor: PolicyInteractor,
     private val trainingInteractor: TrainingInteractor,
-    private val resourceManager: ResourceManager) : BasicViewModel() {
+    private val resourceManager: ResourceManager
+) : BasicViewModel() {
 
     private val errorLiveData = SingleLiveEvent<String>()
     private val navigateToCustomGameCreatorLiveData = SingleLiveEvent<List<WordTranslation>>()
@@ -72,7 +73,7 @@ class HomeViewModel internal constructor(
         )
             .applyDiffUtil()
 
-    fun getPolicyAgreementState() = integrationInteractor.getPolicyAgreementState()
+    fun getPolicyAgreementState() = policyInteractor.getPolicyAgreementState()
 
     fun onWordsTrainingClicked() {
         Observable.fromCallable { trainingInteractor.getActualWordsForTraining() }

@@ -1,4 +1,4 @@
-package ru.inwords.inwords.presentation.view_scenario
+package ru.inwords.inwords.policy.presentation
 
 import android.content.Intent
 import android.net.Uri
