@@ -117,6 +117,7 @@
     <string name="search">Поиск</string>
     <string name="cancel">Отменить</string>
     <string name="try_again">Попробовать еще раз</string>
+    <string name="incorrect_word_input">Вы ввели некорректное слово</string>
 
     <!-- unsorted end -->
 

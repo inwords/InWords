@@ -42,12 +42,13 @@
                 android:src="@drawable/ic_new_word" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/native_word_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_large">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextNativeWord"
+                    android:id="@+id/native_word_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/word_addition_word"
@@ -59,12 +60,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/foreign_word_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_medium">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextForeignWord"
+                    android:id="@+id/foreign_word_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/word_addition_translation"

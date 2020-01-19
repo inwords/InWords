@@ -1,14 +1,16 @@
 package ru.inwords.inwords.translation.presentation.add_edit_word
 
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.fragment_add_edit_word.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.AfterTextChangedWatcher
 import ru.inwords.inwords.core.utils.KeyboardUtils
+import ru.inwords.inwords.core.utils.observe
+import ru.inwords.inwords.core.validation.ValidationResult
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.presentation.TranslationViewModelFactory
@@ -19,23 +21,23 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
 
     private val args by navArgs<AddEditWordFragmentArgs>()
 
-    private var isEditing: Boolean = false
-
-    private lateinit var wordToEdit: WordTranslation
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        wordToEdit = args.wordTranslation
-    }
+    private val isEditing: Boolean
+        get() {
+            return args.wordTranslation.wordNative.isEmpty()
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         NavigationUI.setupWithNavController(toolbar, navController)
 
-        setUpViewState()
+        val wordToEdit = args.wordTranslation
 
-        viewModel.addEditDoneLiveData.observe(this::getLifecycle) {
+        setupViewState(wordToEdit)
+
+        setupValidation()
+
+        observe(viewModel.addEditDoneLiveData) {
             if (it.handle()) {
                 popBackToTranslationMain()
             }
@@ -52,21 +54,31 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
         }
     }
 
-    private fun getEnteredWord(): WordTranslation { //TODO: validate input
-        val wordForeign = editTextForeignWord.text.toString()
-        val wordNative = editTextNativeWord.text.toString()
+    private fun setupValidation() {
+        native_word_edit_text.addTextChangedListener(AfterTextChangedWatcher { native_word_layout.error = null })
+        foreign_word_edit_text.addTextChangedListener(AfterTextChangedWatcher { foreign_word_layout.error = null })
+
+        observe(viewModel.validationLiveData) {
+            if (it.wordNativeState is ValidationResult.Error) {
+                native_word_layout.error = it.wordNativeState.message
+            }
+            if (it.wordForeignState is ValidationResult.Error) {
+                foreign_word_layout.error = it.wordForeignState.message
+            }
+        }
+    }
+
+    private fun getEnteredWord(): WordTranslation {
+        val wordForeign = foreign_word_edit_text.text.toString()
+        val wordNative = native_word_edit_text.text.toString()
 
         return WordTranslation(wordForeign, wordNative)
     }
 
-    private fun setUpViewState() {
+    private fun setupViewState(wordToEdit: WordTranslation) {
         if (wordToEdit.wordNative.isEmpty()) {
-            isEditing = false
-
             buttonConfirm.text = getString(R.string.button_add_text)
         } else {
-            isEditing = true
-
             buttonConfirm.text = getString(R.string.button_edit_text)
         }
 
@@ -74,8 +86,8 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
     }
 
     private fun renderEditingWords(wordTranslation: WordTranslation) {
-        editTextNativeWord.setText(wordTranslation.wordNative)
-        editTextForeignWord.setText(wordTranslation.wordForeign)
+        native_word_edit_text.setText(wordTranslation.wordNative)
+        foreign_word_edit_text.setText(wordTranslation.wordForeign)
     }
 
     private fun popBackToTranslationMain() {
