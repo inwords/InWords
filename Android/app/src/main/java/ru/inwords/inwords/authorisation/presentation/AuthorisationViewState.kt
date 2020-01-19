@@ -1,4 +1,4 @@
-package ru.inwords.inwords.presentation.view_scenario.authorisation
+package ru.inwords.inwords.authorisation.presentation
 
 data class AuthorisationViewState(
         val status: Status,

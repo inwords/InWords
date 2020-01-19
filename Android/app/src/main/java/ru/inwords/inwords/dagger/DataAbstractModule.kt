@@ -2,14 +2,14 @@ package ru.inwords.inwords.dagger
 
 import dagger.Binds
 import dagger.Module
+import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
+import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationWebInteractor
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepositoryImpl
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorisedImpl
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorised
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorisedImpl
-import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
-import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationWebInteractor
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractorImpl
 import ru.inwords.inwords.game.data.repository.CustomGameGatewayController

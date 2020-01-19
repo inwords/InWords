@@ -1,9 +1,9 @@
-package ru.inwords.inwords.presentation.view_scenario.authorisation
+package ru.inwords.inwords.authorisation.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ru.inwords.inwords.presentation.view_scenario.authorisation.login.LoginFragment
-import ru.inwords.inwords.presentation.view_scenario.authorisation.registration.RegistrationFragment
+import ru.inwords.inwords.authorisation.presentation.login.LoginFragment
+import ru.inwords.inwords.authorisation.presentation.registration.RegistrationFragment
 
 @Module
 abstract class AuthorisationDaggerModule {

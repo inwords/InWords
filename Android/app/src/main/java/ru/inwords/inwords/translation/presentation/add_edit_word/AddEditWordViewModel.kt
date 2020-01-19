@@ -5,11 +5,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.inwords.inwords.R
+import ru.inwords.inwords.authorisation.validators.WordTranslationValidationState
+import ru.inwords.inwords.authorisation.validators.validateWordTranslation
 import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.validation.ValidationResult
-import ru.inwords.inwords.domain.validators.WordTranslationValidationState
-import ru.inwords.inwords.domain.validators.validateWordTranslation
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor

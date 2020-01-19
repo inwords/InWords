@@ -1,11 +1,11 @@
-package ru.inwords.inwords.presentation.view_scenario.authorisation
+package ru.inwords.inwords.authorisation.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
+import ru.inwords.inwords.authorisation.presentation.login.LoginViewModel
+import ru.inwords.inwords.authorisation.presentation.registration.RegistrationViewModel
 import ru.inwords.inwords.core.managers.ResourceManager
-import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
-import ru.inwords.inwords.presentation.view_scenario.authorisation.login.LoginViewModel
-import ru.inwords.inwords.presentation.view_scenario.authorisation.registration.RegistrationViewModel
 import javax.inject.Inject
 
 class AuthorisationViewModelFactory @Inject

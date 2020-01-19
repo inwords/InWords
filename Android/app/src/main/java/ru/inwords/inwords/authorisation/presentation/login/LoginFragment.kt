@@ -1,4 +1,4 @@
-package ru.inwords.inwords.presentation.view_scenario.authorisation.login
+package ru.inwords.inwords.authorisation.presentation.login
 
 import android.os.Bundle
 import android.view.View
@@ -6,14 +6,14 @@ import androidx.core.view.isVisible
 import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
+import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
 import ru.inwords.inwords.core.AfterTextChangedWatcher
 import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.utils.KeyboardUtils
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.core.validation.ValidationResult
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
-import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationViewModelFactory
-import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationViewState
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationViewModelFactory>() {

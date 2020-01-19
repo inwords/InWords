@@ -2,7 +2,7 @@ package ru.inwords.inwords.presentation.view_scenario.main_activity
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
+import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import javax.inject.Inject
 

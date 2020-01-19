@@ -218,7 +218,7 @@
         app:startDestination="@id/loginFragment">
         <fragment
             android:id="@+id/loginFragment"
-            android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.login.LoginFragment"
+            android:name="ru.inwords.inwords.authorisation.presentation.login.LoginFragment"
             tools:layout="@layout/fragment_sign_in">
             <action
                 android:id="@+id/action_loginFragment_to_registrationFragment"
@@ -231,7 +231,7 @@
         </fragment>
         <fragment
             android:id="@+id/registrationFragment"
-            android:name="ru.inwords.inwords.presentation.view_scenario.authorisation.registration.RegistrationFragment"
+            android:name="ru.inwords.inwords.authorisation.presentation.registration.RegistrationFragment"
             tools:layout="@layout/fragment_sign_up">
             <action
                 android:id="@+id/action_registrationFragment_to_loginFragment_pop"

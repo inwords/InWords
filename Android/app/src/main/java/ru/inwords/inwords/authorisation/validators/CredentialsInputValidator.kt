@@ -1,4 +1,4 @@
-package ru.inwords.inwords.domain.validators
+package ru.inwords.inwords.authorisation.validators
 
 import ru.inwords.inwords.core.validation.SimpleValidator
 import ru.inwords.inwords.core.validation.ValidationResult

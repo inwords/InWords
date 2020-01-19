@@ -1,21 +1,21 @@
-package ru.inwords.inwords.presentation.view_scenario.authorisation.login
+package ru.inwords.inwords.authorisation.presentation.registration
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Single
 import ru.inwords.inwords.R
+import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
+import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
+import ru.inwords.inwords.authorisation.validators.UserCredentialsWithConfirmationValidationState
+import ru.inwords.inwords.authorisation.validators.validateUserCredentialsWithConfirmation
 import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.validation.ValidationResult
-import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationInteractor
-import ru.inwords.inwords.domain.validators.UserCredentialsValidationState
-import ru.inwords.inwords.domain.validators.validateUserCredentials
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
-import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationViewState
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 
-class LoginViewModel(
+class RegistrationViewModel(
     private val authorisationInteractor: AuthorisationInteractor,
     private val resourceManager: ResourceManager
 ) : BasicViewModel() {
@@ -25,26 +25,32 @@ class LoginViewModel(
     val authorisationState: LiveData<Event<AuthorisationViewState>> = authorisationStateLiveData
     val navigateTo: LiveData<Event<Unit>> = navigateToLiveData
 
-    private val validationMutableLiveData = MutableLiveData<UserCredentialsValidationState>()
-    val validationLiveData: LiveData<UserCredentialsValidationState> get() = validationMutableLiveData
+    private val validationMutableLiveData = MutableLiveData<UserCredentialsWithConfirmationValidationState>()
+    val validationLiveData: LiveData<UserCredentialsWithConfirmationValidationState> get() = validationMutableLiveData
 
     fun onNavigateClicked() {
         navigateToLiveData.postValue(Event(Unit))
     }
 
-    fun onSignInClicked(userCredentials: UserCredentials) {
+    fun onSignClicked(userCredentials: UserCredentials, passwordConfirmation: String) {
         authorisationStateLiveData.value = Event(AuthorisationViewState.loading())
 
-        val validationState = validateUserCredentials(
+        val validationState = validateUserCredentialsWithConfirmation(
             userCredentials,
+            passwordConfirmation,
             { resourceManager.getString(R.string.incorrect_input_email) },
-            { resourceManager.getString(R.string.incorrect_input_password) }
+            { resourceManager.getString(R.string.incorrect_input_password) },
+            { resourceManager.getString(R.string.incorrect_input_password_confirmation) }
         )
 
-        if (validationState.emailState is ValidationResult.Error || validationState.passwordState is ValidationResult.Error) {
+        if (
+            validationState.emailState is ValidationResult.Error ||
+            validationState.passwordState is ValidationResult.Error ||
+            validationState.passwordConfirmationState is ValidationResult.Error
+        ) {
             validationMutableLiveData.postValue(validationState)
         } else {
-            authorisationInteractor.signIn(userCredentials)
+            authorisationInteractor.signUp(userCredentials)
                 .andThen(Single.just(AuthorisationViewState.success()))
                 .onErrorResumeNext { Single.just(AuthorisationViewState.error(it)) }
                 .subscribe({

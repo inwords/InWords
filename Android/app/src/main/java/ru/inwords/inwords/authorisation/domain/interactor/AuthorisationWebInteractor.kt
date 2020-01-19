@@ -1,4 +1,4 @@
-package ru.inwords.inwords.domain.interactor.authorisation
+package ru.inwords.inwords.authorisation.domain.interactor
 
 import android.annotation.SuppressLint
 import android.util.Log

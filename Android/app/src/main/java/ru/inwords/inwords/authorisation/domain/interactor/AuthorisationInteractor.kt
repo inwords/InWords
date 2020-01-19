@@ -1,4 +1,4 @@
-package ru.inwords.inwords.domain.interactor.authorisation
+package ru.inwords.inwords.authorisation.domain.interactor
 
 import io.reactivex.Completable
 import ru.inwords.inwords.profile.data.bean.UserCredentials
