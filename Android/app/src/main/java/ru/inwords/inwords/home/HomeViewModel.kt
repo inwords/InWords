@@ -10,10 +10,10 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.home.recycler.CardWrapper
 import ru.inwords.inwords.home.recycler.SimpleState
 import ru.inwords.inwords.home.recycler.applyDiffUtil
+import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.User

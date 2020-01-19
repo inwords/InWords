@@ -1,4 +1,4 @@
-package ru.inwords.inwords.domain.interactor.integration
+package ru.inwords.inwords.main_activity.domain.interactor
 
 import io.reactivex.Completable
 import io.reactivex.Single

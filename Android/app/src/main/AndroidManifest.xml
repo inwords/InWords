@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity"
+            android:name="ru.inwords.inwords.main_activity.presentation.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"

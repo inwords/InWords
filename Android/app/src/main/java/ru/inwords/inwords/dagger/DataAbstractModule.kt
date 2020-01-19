@@ -10,13 +10,13 @@ import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorisedImpl
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorised
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorisedImpl
-import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
-import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractorImpl
 import ru.inwords.inwords.game.data.repository.CustomGameGatewayController
 import ru.inwords.inwords.game.data.repository.GameGatewayController
 import ru.inwords.inwords.game.data.repository.GameGatewayControllerImpl
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractorImpl
+import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
+import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractorImpl
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractorImpl
 import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository

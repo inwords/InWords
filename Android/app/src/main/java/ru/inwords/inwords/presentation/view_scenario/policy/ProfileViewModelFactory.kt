@@ -2,7 +2,7 @@ package ru.inwords.inwords.presentation.view_scenario.policy
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
+import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import javax.inject.Inject
 
 class PolicyViewModelFactory @Inject

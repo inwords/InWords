@@ -1,4 +1,4 @@
-package ru.inwords.inwords.presentation.view_scenario.main_activity
+package ru.inwords.inwords.main_activity.presentation
 
 import android.os.Bundle
 import android.util.Log

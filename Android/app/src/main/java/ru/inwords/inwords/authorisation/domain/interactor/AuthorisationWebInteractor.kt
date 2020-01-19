@@ -10,8 +10,8 @@ import ru.inwords.inwords.data.source.remote.AuthenticationException
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorised
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
-import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.domain.util.getErrorMessage
+import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -20,7 +20,8 @@ import javax.inject.Inject
 class AuthorisationWebInteractor @Inject
 internal constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised,
                      private val webRequestsManagerUnauthorised: WebRequestsManagerUnauthorised,
-                     private val integrationInteractor: IntegrationInteractor) : AuthorisationInteractor {
+                     private val integrationInteractor: IntegrationInteractor
+) : AuthorisationInteractor {
     init {
         init() //bypass SuppressLint restrictions
     }

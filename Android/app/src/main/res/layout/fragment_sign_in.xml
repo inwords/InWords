@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity">
+    tools:context=".main_activity.presentation.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         style="@style/ToolbarStyle"
