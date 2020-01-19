@@ -33,8 +33,6 @@ class LoginViewModel(
     }
 
     fun onSignInClicked(userCredentials: UserCredentials) {
-        authorisationStateLiveData.value = Event(AuthorisationViewState.loading())
-
         val validationState = validateUserCredentials(
             userCredentials,
             { resourceManager.getString(R.string.incorrect_input_email) },
@@ -44,6 +42,8 @@ class LoginViewModel(
         if (validationState.emailState is ValidationResult.Error || validationState.passwordState is ValidationResult.Error) {
             validationMutableLiveData.postValue(validationState)
         } else {
+            authorisationStateLiveData.value = Event(AuthorisationViewState.loading())
+
             authorisationInteractor.signIn(userCredentials)
                 .andThen(Single.just(AuthorisationViewState.success()))
                 .onErrorResumeNext { Single.just(AuthorisationViewState.error(it)) }

@@ -33,8 +33,6 @@ class RegistrationViewModel(
     }
 
     fun onSignClicked(userCredentials: UserCredentials, passwordConfirmation: String) {
-        authorisationStateLiveData.value = Event(AuthorisationViewState.loading())
-
         val validationState = validateUserCredentialsWithConfirmation(
             userCredentials,
             passwordConfirmation,
@@ -50,6 +48,8 @@ class RegistrationViewModel(
         ) {
             validationMutableLiveData.postValue(validationState)
         } else {
+            authorisationStateLiveData.value = Event(AuthorisationViewState.loading())
+
             authorisationInteractor.signUp(userCredentials)
                 .andThen(Single.just(AuthorisationViewState.success()))
                 .onErrorResumeNext { Single.just(AuthorisationViewState.error(it)) }
