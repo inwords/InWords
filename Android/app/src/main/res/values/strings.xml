@@ -117,7 +117,10 @@
     <string name="search">Поиск</string>
     <string name="cancel">Отменить</string>
     <string name="try_again">Попробовать еще раз</string>
-    <string name="incorrect_word_input">Вы ввели некорректное слово</string>
+    <string name="incorrect_input_word">Вы ввели некорректное слово</string>
+    <string name="incorrect_input_email">Вы ввели некорректный email</string>
+    <string name="incorrect_input_password">Вы ввели некорректный пароль</string>
+    <string name="incorrect_input_password_confirmation">Пароли не совпадают</string>
 
     <!-- unsorted end -->
 
