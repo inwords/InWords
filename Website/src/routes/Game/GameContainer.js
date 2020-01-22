@@ -100,16 +100,6 @@ function GameContainer({ levelId, wordTranslations, localData }) {
   ]);
 
   const handleClick = (pairId, id, word) => () => {
-    if (voice & (id % 2 == 0)) {
-      if (synth.speaking) {
-        synth.cancel();
-      }
-
-      const speech = new SpeechSynthesisUtterance(word);
-      speech.lang = lang;
-      synth.speak(speech);
-    }
-
     if (completedPairIdsMap[pairId]) {
       setSelectedCompletedPairId(pairId);
       return;
@@ -153,6 +143,18 @@ function GameContainer({ levelId, wordTranslations, localData }) {
           setSelectedWordPairs([]);
         }, 700);
       }
+    }
+
+    if (voice & (id % 2 == 0)) {
+      setTimeout(() => {
+        if (synth.speaking) {
+          synth.cancel();
+        }
+
+        const speech = new SpeechSynthesisUtterance(word);
+        speech.lang = lang;
+        synth.speak(speech);
+      }, 0);
     }
   };
 

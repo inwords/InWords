@@ -1,23 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withLocalStorageData from 'src/HOCs/withLocalStorageData';
-import { saveValue } from 'src/localStorage';
+import { loadValue, saveValue } from 'src/localStorage';
 import useForm from 'src/hooks/useForm';
 import TrainingSettingsDialog from './TrainingSettingsDialog';
 
-function TrainingSettingsDialogContainer({ typeId, open, localData, ...rest }) {
-  const { inputs, setInputs, handleChange } = useForm();
+function TrainingSettingsDialogContainer({ typeId, open, ...rest }) {
+  const { inputs, setInputs, handleChange } = useForm({});
 
   React.useEffect(() => {
-    const trainingSettings =
-      (localData.trainingsSettings && localData.trainingsSettings[typeId]) ||
-      {};
+    if (open) {
+      const trainingsSettingsLocalData = loadValue('trainingsSettings');
 
-    const quantity = trainingSettings.quantity || '8';
-    const voice = trainingSettings.voice || false;
+      const trainingSettings =
+        (trainingsSettingsLocalData && trainingsSettingsLocalData[typeId]) ||
+        {};
 
-    setInputs({ quantity, voice });
-  }, [localData.trainingsSettings, typeId, setInputs]);
+      const quantity = trainingSettings.quantity || '8';
+      const voice = trainingSettings.voice || false;
+
+      setInputs({ quantity, voice });
+    }
+  }, [open, typeId, setInputs]);
 
   const handleSubmit = event => {
     saveValue('trainingsSettings', {
@@ -41,12 +44,7 @@ function TrainingSettingsDialogContainer({ typeId, open, localData, ...rest }) {
 }
 
 TrainingSettingsDialogContainer.propTypes = {
-  open: PropTypes.bool,
-  localData: PropTypes.shape({
-    quantity: PropTypes.string
-  }).isRequired
+  open: PropTypes.bool
 };
 
-export default withLocalStorageData(TrainingSettingsDialogContainer, [
-  'trainingsSettings'
-]);
+export default TrainingSettingsDialogContainer;

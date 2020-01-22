@@ -55,7 +55,6 @@ function App() {
   return (
     <Router history={history}>
       <ScrollToTop />
-      <SmartSnackbar />
       <PageContainer
         routes={userId ? routes : undefined}
         rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
@@ -95,6 +94,7 @@ function App() {
           </Suspense>
         </ErrorBoundary>
       </PageContainer>
+      <SmartSnackbar />
     </Router>
   );
 }

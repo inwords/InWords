@@ -8,12 +8,18 @@ import NicknameEditDialog from './NicknameEditDialog';
 function NicknameEditDialogContainer({ nickname, open, ...rest }) {
   const dispatch = useDispatch();
 
-  const { inputs, handleChange, handleSubmit } = useForm(
-    { nickname: nickname },
+  const { inputs, setInputs, handleChange, handleSubmit } = useForm(
+    { nickname },
     () => {
       dispatch(updateUserInfo(inputs));
     }
   );
+
+  React.useEffect(() => {
+    if (open) {
+      setInputs({ nickname });
+    }
+  }, [open, setInputs, nickname]);
 
   return (
     <NicknameEditDialog
