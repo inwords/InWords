@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Transition from 'src/components/Transition';
-import ZoomAnimation from 'src/components/ZoomAnimation';
 
 function Zoom({ in: inProp, style = {}, ...rest }) {
   return (
     <Transition
-      component={ZoomAnimation}
       transitionProperty="transform"
       in={inProp}
       style={{

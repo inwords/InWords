@@ -5,7 +5,7 @@ import Paper from 'src/components/Paper';
 import Modal from 'src/components/Modal';
 import ClickAwayListener from 'src/components/ClickAwayListener';
 
-import './Drawer.scss';
+import './Drawer.css';
 
 const transitionDuration = {
   enter: 225,

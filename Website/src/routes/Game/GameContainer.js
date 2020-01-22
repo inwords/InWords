@@ -33,7 +33,7 @@ function GameContainer({ levelId, wordTranslations, localData }) {
     const wordPairs = Array.prototype.concat.apply(
       [],
       shuffle([...wordTranslations])
-        .slice(0, trainingSettings.quantity || 8)
+        .slice(0, (levelId <= 0 ? trainingSettings.quantity : 8) || 8)
         .map((wordPair, index) => [
           {
             id: index * 2,

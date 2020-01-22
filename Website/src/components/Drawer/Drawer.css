@@ -7,5 +7,5 @@
   z-index: var(--z-index-drawer);
   overflow-y: auto;
   width: 240px;
-  background-color: var(--palette-background-paper);
+  border-radius: 0;
 }

@@ -7,8 +7,8 @@ const initialTransitionDurations = {
 };
 
 function Transition({
+  children,
   in: inProp,
-  component,
   transitionDurations = initialTransitionDurations,
   transitionProperty,
   transitionTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -34,30 +34,22 @@ function Transition({
     }
   };
 
-  const Component = component;
-
-  return (
-    <Component
-      style={{
-        transitionProperty,
-        transitionDuration: `${
-          transitionDurations[inProp ? 'enter' : 'exit']
-        }ms`,
-        transitionTimingFunction,
-        visibility: exited ? 'hidden' : undefined,
-        ...style
-      }}
-      animationDuration={transitionDurations.enter}
-      animationTimingFunction={transitionTimingFunction}
-      onTransitionEnd={handleTransitionEnd}
-      {...rest}
-    />
-  );
+  return React.cloneElement(children, {
+    style: {
+      transitionProperty,
+      transitionDuration: `${transitionDurations[inProp ? 'enter' : 'exit']}ms`,
+      transitionTimingFunction,
+      visibility: exited ? 'hidden' : undefined,
+      ...style
+    },
+    onTransitionEnd: handleTransitionEnd,
+    ...rest
+  });
 }
 
 Transition.propTypes = {
+  children: PropTypes.node.isRequired,
   in: PropTypes.bool,
-  component: PropTypes.elementType.isRequired,
   transitionDurations: PropTypes.exact({
     enter: PropTypes.number.isRequired,
     exit: PropTypes.number.isRequired

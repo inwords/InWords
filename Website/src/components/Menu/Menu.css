@@ -1,5 +1,6 @@
 .menu {
   position: relative;
+  z-index: inherit;
   margin: 0;
   padding: 4px 0;
   list-style: none;
