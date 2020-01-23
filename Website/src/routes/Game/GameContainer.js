@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
-import withLocalStorageData from 'src/HOCs/withLocalStorageData';
+import useDialog from 'src/hooks/useDialog';
 import withReceivedTrainingLevel from 'src/HOCs/withReceivedTrainingLevel';
+import GamePairsDialog from './GamePairsDialog';
 import Game from './Game';
 import TrainingResult from 'src/layout/TrainingResult';
 
-const synth = window.speechSynthesis;
-const lang = 'en-US';
-
-function GameContainer({ levelId, wordTranslations, localData }) {
+function GameContainer({ levelId, wordTranslations }) {
   const [wordPairs, setWordPairs] = useState([]);
-  const [voice, setVoice] = useState(false);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
@@ -25,31 +22,25 @@ function GameContainer({ levelId, wordTranslations, localData }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const trainingSettings =
-      (localData.trainingsSettings && localData.trainingsSettings[0]) || {};
-
-    setVoice(trainingSettings.voice);
-
     const wordPairs = Array.prototype.concat.apply(
       [],
-      shuffle([...wordTranslations])
-        .slice(0, (levelId <= 0 ? trainingSettings.quantity : 8) || 8)
-        .map((wordPair, index) => [
-          {
-            id: index * 2,
-            pairId: wordPair.serverId,
-            word: wordPair.wordForeign
-          },
-          {
-            id: index * 2 + 1,
-            pairId: wordPair.serverId,
-            word: wordPair.wordNative
-          }
-        ])
+      wordTranslations.map((wordPair, index) => [
+        {
+          id: index * 2,
+          pairId: wordPair.serverId,
+          word: wordPair.wordForeign,
+          onSpeech: wordPair.onSpeech
+        },
+        {
+          id: index * 2 + 1,
+          pairId: wordPair.serverId,
+          word: wordPair.wordNative
+        }
+      ])
     );
 
     setWordPairs(shuffle(wordPairs));
-  }, [wordTranslations, localData]);
+  }, [wordTranslations, levelId]);
 
   useEffect(() => {
     let timer1;
@@ -99,7 +90,7 @@ function GameContainer({ levelId, wordTranslations, localData }) {
     dispatch
   ]);
 
-  const handleClick = (pairId, id, word) => () => {
+  const handleClick = (pairId, id, onSpeech) => () => {
     if (completedPairIdsMap[pairId]) {
       setSelectedCompletedPairId(pairId);
       return;
@@ -145,35 +136,37 @@ function GameContainer({ levelId, wordTranslations, localData }) {
       }
     }
 
-    if (voice & (id % 2 == 0)) {
-      setTimeout(() => {
-        if (synth.speaking) {
-          synth.cancel();
-        }
-
-        const speech = new SpeechSynthesisUtterance(word);
-        speech.lang = lang;
-        synth.speak(speech);
-      }, 0);
+    if (onSpeech) {
+      onSpeech();
     }
   };
+
+  const { open, handleOpen, handleClose } = useDialog(true);
 
   const handleReplay = () => {
     setWordPairs(wordInfo => shuffle([...wordInfo]));
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
+    handleOpen();
   };
 
   return !isResultReady ? (
-    <Game
-      wordPairs={wordPairs}
-      selectedWordPairs={selectedWordPairs}
-      completedPairIdsMap={completedPairIdsMap}
-      selectedCompletedPairId={selectedCompletedPairId}
-      isGameCompleted={isGameCompleted}
-      handleClick={handleClick}
-    />
+    <Fragment>
+      <Game
+        wordPairs={wordPairs}
+        selectedWordPairs={selectedWordPairs}
+        completedPairIdsMap={completedPairIdsMap}
+        selectedCompletedPairId={selectedCompletedPairId}
+        isGameCompleted={isGameCompleted}
+        handleClick={handleClick}
+      />
+      <GamePairsDialog
+        open={open}
+        handleClose={handleClose}
+        wordPairs={wordTranslations}
+      />
+    </Fragment>
   ) : (
     <TrainingResult
       wordPairs={wordPairs}
@@ -189,14 +182,10 @@ GameContainer.propTypes = {
     PropTypes.shape({
       serverId: PropTypes.number.isRequired,
       wordForeign: PropTypes.string.isRequired,
-      wordNative: PropTypes.string.isRequired
+      wordNative: PropTypes.string.isRequired,
+      onSpeech: PropTypes.func
     }).isRequired
-  ).isRequired,
-  localData: PropTypes.shape({
-    trainingsSettings: PropTypes.object
-  })
+  ).isRequired
 };
 
-export default withReceivedTrainingLevel(
-  withLocalStorageData(GameContainer, ['trainingsSettings'])
-);
+export default withReceivedTrainingLevel(GameContainer);

@@ -26,7 +26,7 @@ function DictionaryContainer() {
   React.useEffect(() => {
     setExtendedWordPairs(
       wordPairs.map(wordPair => {
-        const handleSpeech = () => {
+        const onSpeech = () => {
           if (synth.speaking) {
             synth.cancel();
           }
@@ -38,7 +38,7 @@ function DictionaryContainer() {
 
         return {
           ...wordPair,
-          handleSpeech
+          onSpeech
         };
       })
     );

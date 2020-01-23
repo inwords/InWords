@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Paper from 'src/components/Paper';
+import FadeAnimation from 'src/components/FadeAnimation';
 import Fade from 'src/components/Fade';
 import Zoom from 'src/components/Zoom';
 
@@ -28,31 +29,33 @@ function Game({
 
   return (
     <div className={classNames('game-field', `game-field--cols-${cols}`)}>
-      {wordPairs.map(({ id, pairId, word }) => (
-        <Fade key={id} in={!isGameCompleted}>
-          <div>
-            <Paper
-              onClick={handleClick(pairId, id, word)}
-              depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
-              className="game-card"
-            >
-              <Zoom
-                in={
-                  completedPairIdsMap[pairId] ||
-                  Boolean(
-                    selectedWordPairs.find(
-                      selectedWordInfo => selectedWordInfo.id === id
-                    )
-                  )
-                }
+      {wordPairs.map(({ id, pairId, word, onSpeech }) => (
+        <FadeAnimation key={id}>
+          <Fade in={!isGameCompleted}>
+            <div>
+              <Paper
+                onClick={handleClick(pairId, id, onSpeech)}
+                depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
+                className="game-card"
               >
-                <div className="game-card-content">
-                  <span className="game-card-text">{word}</span>
-                </div>
-              </Zoom>
-            </Paper>
-          </div>
-        </Fade>
+                <Zoom
+                  in={
+                    completedPairIdsMap[pairId] ||
+                    Boolean(
+                      selectedWordPairs.find(
+                        selectedWordInfo => selectedWordInfo.id === id
+                      )
+                    )
+                  }
+                >
+                  <div className="game-card-content">
+                    <span className="game-card-text">{word}</span>
+                  </div>
+                </Zoom>
+              </Paper>
+            </div>
+          </Fade>
+        </FadeAnimation>
       ))}
     </div>
   );
@@ -63,7 +66,8 @@ Game.propTypes = {
     PropTypes.exact({
       id: PropTypes.number.isRequired,
       pairId: PropTypes.number.isRequired,
-      word: PropTypes.string.isRequired
+      word: PropTypes.string.isRequired,
+      onSpeech: PropTypes.func
     }).isRequired
   ).isRequired,
   selectedWordPairs: PropTypes.arrayOf(

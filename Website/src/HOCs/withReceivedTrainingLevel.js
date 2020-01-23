@@ -2,6 +2,11 @@ import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveTrainingLevel } from 'src/actions/trainingApiActions';
+import { loadValue } from 'src/localStorage';
+import shuffle from 'src/utils/shuffle';
+
+const synth = window.speechSynthesis;
+const lang = 'en-US';
 
 function withReceivedTrainingLevel(WrappedComponent) {
   function WithReceivedTrainingLevel(props) {
@@ -14,9 +19,14 @@ function withReceivedTrainingLevel(WrappedComponent) {
 
     const dispatch = useDispatch();
 
-    const paramLevelId = +params.levelId;
+    const [
+      preparedWordTranslations,
+      setPreparedWordTranslations
+    ] = React.useState();
 
     React.useEffect(() => {
+      const paramLevelId = +params.levelId;
+
       if (
         !trainingLevelsMap[paramLevelId] ||
         !trainingLevelsMap[paramLevelId].wordTranslations.length
@@ -34,14 +44,53 @@ function withReceivedTrainingLevel(WrappedComponent) {
         if (!trainingLevelsMap[paramLevelId]) {
           dispatch(receiveTrainingLevel(paramLevelId));
         }
+      } else {
+        const trainingsSettingsLocalData = loadValue('trainingsSettings');
+
+        const trainingSettings =
+          (trainingsSettingsLocalData &&
+            trainingsSettingsLocalData[+params.trainingId]) ||
+          {};
+
+        if (trainingLevelsMap[paramLevelId]) {
+          let wordTranslations = shuffle([
+            ...trainingLevelsMap[paramLevelId].wordTranslations
+          ]).slice(
+            0,
+            (paramLevelId <= 0 ? trainingSettings.quantity : undefined) || 8
+          );
+
+          if (trainingSettings.voice) {
+            wordTranslations = wordTranslations.map(wordTranslation => {
+              const onSpeech = () => {
+                if (synth.speaking) {
+                  synth.cancel();
+                }
+
+                const speech = new SpeechSynthesisUtterance(
+                  wordTranslation.wordForeign
+                );
+                speech.lang = lang;
+                synth.speak(speech);
+              };
+
+              return {
+                ...wordTranslation,
+                onSpeech
+              };
+            });
+          }
+
+          setPreparedWordTranslations(wordTranslations);
+        }
       }
-    }, [trainingLevelsMap, paramLevelId, dispatch, history]);
+    }, [trainingLevelsMap, params, dispatch, history]);
 
     return (
-      Boolean(trainingLevelsMap[paramLevelId]) && (
+      Boolean(preparedWordTranslations) && (
         <WrappedComponent
-          levelId={trainingLevelsMap[paramLevelId].levelId}
-          wordTranslations={trainingLevelsMap[paramLevelId].wordTranslations}
+          levelId={+params.levelId}
+          wordTranslations={preparedWordTranslations}
           {...props}
         />
       )

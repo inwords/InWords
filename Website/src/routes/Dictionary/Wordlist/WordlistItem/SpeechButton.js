@@ -5,10 +5,10 @@ import IconButton from 'src/components/IconButton';
 
 const synth = window.speechSynthesis;
 
-function SpeechButton({ handleSpeech, ...rest }) {
+function SpeechButton({ onSpeech, ...rest }) {
   return (
     Boolean(synth) && (
-      <IconButton aria-label="speak" onClick={handleSpeech} {...rest}>
+      <IconButton aria-label="speak" onClick={onSpeech} {...rest}>
         <Icon>volume_up</Icon>
       </IconButton>
     )
@@ -16,7 +16,7 @@ function SpeechButton({ handleSpeech, ...rest }) {
 }
 
 SpeechButton.propTypes = {
-  handleSpeech: PropTypes.func.isRequired
+  onSpeech: PropTypes.func.isRequired
 };
 
 export default React.memo(SpeechButton);

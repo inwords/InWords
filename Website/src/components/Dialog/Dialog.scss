@@ -1,12 +1,16 @@
 @import 'src/theme/mixins';
 
 .dialog {
+  position: relative;
+  z-index: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
 
   &__paper {
+    position: relative;
+    z-index: inherit;
     display: flex;
     min-width: 400px;
     max-width: 600px;
