@@ -64,7 +64,7 @@ function Game({
 Game.propTypes = {
   wordPairs: PropTypes.arrayOf(
     PropTypes.exact({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       pairId: PropTypes.number.isRequired,
       word: PropTypes.string.isRequired,
       onSpeech: PropTypes.func
@@ -72,7 +72,7 @@ Game.propTypes = {
   ).isRequired,
   selectedWordPairs: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired
+      id: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
   completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,

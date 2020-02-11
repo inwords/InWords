@@ -27,10 +27,7 @@ function withReceivedTrainingLevel(WrappedComponent) {
     React.useEffect(() => {
       const paramLevelId = +params.levelId;
 
-      if (
-        !trainingLevelsMap[paramLevelId] ||
-        !trainingLevelsMap[paramLevelId].wordTranslations.length
-      ) {
+      if (!trainingLevelsMap[paramLevelId]) {
         switch (paramLevelId) {
           case 0:
             history.push('/training');
@@ -39,10 +36,8 @@ function withReceivedTrainingLevel(WrappedComponent) {
             history.push('/dictionary');
             return;
           default:
-        }
-
-        if (!trainingLevelsMap[paramLevelId]) {
-          dispatch(receiveTrainingLevel(paramLevelId));
+            setPreparedWordTranslations(undefined);
+            dispatch(receiveTrainingLevel(paramLevelId));
         }
       } else {
         const trainingsSettingsLocalData = loadValue('trainingsSettings');
@@ -53,12 +48,15 @@ function withReceivedTrainingLevel(WrappedComponent) {
           {};
 
         if (trainingLevelsMap[paramLevelId]) {
-          let wordTranslations = shuffle([
-            ...trainingLevelsMap[paramLevelId].wordTranslations
-          ]).slice(
-            0,
-            (paramLevelId <= 0 ? trainingSettings.quantity : undefined) || 8
-          );
+          let wordTranslations =
+            trainingLevelsMap[paramLevelId].wordTranslations;
+
+          if (paramLevelId <= 0) {
+            wordTranslations = shuffle([...wordTranslations]).slice(
+              0,
+              trainingSettings.quantity || 8
+            );
+          }
 
           if (trainingSettings.voice) {
             wordTranslations = wordTranslations.map(wordTranslation => {
