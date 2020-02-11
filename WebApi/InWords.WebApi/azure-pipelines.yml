@@ -53,7 +53,7 @@ steps:
   inputs:
     SourceFolder: $(Agent.TempDirectory)
     Contents: appsettings.security.json
-    TargetFolder: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.0/
+    TargetFolder: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.1/
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiBuild'
