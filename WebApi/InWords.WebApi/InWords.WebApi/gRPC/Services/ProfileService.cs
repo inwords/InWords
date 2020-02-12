@@ -20,6 +20,11 @@ namespace InWords.WebApi.gRPC.Services
             RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
             return reply;
         }
+
+        public override Task<TokenReply> GetToken(TokenRequest request, ServerCallContext context)
+        {
+            return base.GetToken(request, context);
+        }
         // Registration
         // Token
         // Update Email

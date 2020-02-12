@@ -9,6 +9,7 @@
   <ItemGroup>
     <Protobuf Include="gRPC\Protos\greet.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\registration.v2.proto" GrpcServices="Server" />
+    <Protobuf Include="gRPC\Protos\token.v2.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
