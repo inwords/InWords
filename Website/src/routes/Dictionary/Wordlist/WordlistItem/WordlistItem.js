@@ -26,7 +26,7 @@ function WordlistItem({
   style
 }) {
   const wordPair = wordPairs[index];
-  const { serverId, handleSpeech } = wordPair;
+  const { serverId, onSpeech } = wordPair;
 
   return (
     <ListItemContainer style={style}>
@@ -56,7 +56,7 @@ function WordlistItem({
         />
       </ListItem>
       <ListItemSecondaryAction>
-        <SpeechButton edge="end" handleSpeech={handleSpeech} />
+        <SpeechButton edge="end" onSpeech={onSpeech} />
       </ListItemSecondaryAction>
     </ListItemContainer>
   );
@@ -69,7 +69,7 @@ WordlistItem.propTypes = {
         serverId: PropTypes.number.isRequired,
         wordForeign: PropTypes.string.isRequired,
         wordNative: PropTypes.string.isRequired,
-        handleSpeech: PropTypes.func.isRequired
+        onSpeech: PropTypes.func.isRequired
       }).isRequired
     ).isRequired,
     checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,

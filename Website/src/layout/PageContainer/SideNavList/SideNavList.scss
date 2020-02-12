@@ -8,12 +8,12 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 100%;
     padding: 10px 24px;
     cursor: pointer;
     user-select: none;
     text-decoration: none;
     @include theme-typography(body2);
+    font-weight: 500;
     color: var(--palette-text-primary);
     transition: background-color 0.2s ease-in-out;
 
@@ -23,7 +23,6 @@
 
     &:active,
     &.active {
-      font-weight: 500;
       background-color: var(--palette-action-selected);
     }
   }

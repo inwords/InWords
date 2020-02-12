@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
+import { removeTrainingLevelWordPairs } from 'src/actions/trainingActions';
 import shuffle from 'src/utils/shuffle';
-import withLocalStorageData from 'src/HOCs/withLocalStorageData';
+import useDialog from 'src/hooks/useDialog';
 import withReceivedTrainingLevel from 'src/HOCs/withReceivedTrainingLevel';
+import GamePairsDialog from './GamePairsDialog';
 import Game from './Game';
 import TrainingResult from 'src/layout/TrainingResult';
 
-function GameContainer({ levelId, wordTranslations, localData }) {
+function GameContainer({ levelId, wordTranslations }) {
   const [wordPairs, setWordPairs] = useState([]);
+  const [recentWordPairs, setRecentWordPairs] = useState([]);
+  const [newServerLevelId, setNewServerLevelId] = useState();
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
@@ -23,56 +27,66 @@ function GameContainer({ levelId, wordTranslations, localData }) {
   useEffect(() => {
     const wordPairs = Array.prototype.concat.apply(
       [],
-      shuffle([...wordTranslations])
-        .slice(0, localData['training-words-quantity'] || 8)
-        .map((wordPair, index) => [
-          {
-            id: index * 2,
-            pairId: wordPair.serverId,
-            word: wordPair.wordForeign
-          },
-          {
-            id: index * 2 + 1,
-            pairId: wordPair.serverId,
-            word: wordPair.wordNative
-          }
-        ])
+      wordTranslations.map(wordPair => [
+        {
+          id: `foreign-${wordPair.serverId}`,
+          pairId: wordPair.serverId,
+          word: wordPair.wordForeign,
+          onSpeech: wordPair.onSpeech
+        },
+        {
+          id: `native-${wordPair.serverId}`,
+          pairId: wordPair.serverId,
+          word: wordPair.wordNative
+        }
+      ])
     );
 
     setWordPairs(shuffle(wordPairs));
-  }, [wordTranslations, localData]);
+  }, [wordTranslations, levelId]);
 
   useEffect(() => {
     let timer1;
     let timer2;
 
-    const numberOfcompletedPairs = Object.keys(completedPairIdsMap).length;
+    const numberOfCompletedPairs = Object.keys(completedPairIdsMap).length;
     if (
-      numberOfcompletedPairs > 0 &&
-      numberOfcompletedPairs === wordPairs.length / 2
+      numberOfCompletedPairs > 0 &&
+      numberOfCompletedPairs === wordPairs.length / 2
     ) {
-      timer1 = setTimeout(() => {
-        setIsGameCompleted(true);
-      }, 1000);
-
-      timer2 = setTimeout(() => {
-        setIsResultReady(true);
-
-        setSelectedWordPairs([]);
-        setCompletedPairIdsMap({});
-        setSelectedCompletedPairId(-1);
-        setWordPairIdOpenCountsMap({});
-      }, 1500);
-
-      const gameLevelId = levelId < 0 ? 0 : levelId;
+      const serverLevelId = levelId < 0 ? 0 : levelId;
       dispatch(
         saveTrainingLevelResult(
           {
-            gameLevelId,
+            gameLevelId: newServerLevelId || serverLevelId,
             wordPairIdOpenCounts: wordPairIdOpenCountsMap
           },
           data => {
-            setScore(data.classicCardLevelResult[0].score);
+            timer1 = setTimeout(() => {
+              setIsGameCompleted(true);
+            }, 1000);
+
+            timer2 = setTimeout(() => {
+              setSelectedWordPairs([]);
+              setCompletedPairIdsMap({});
+              setSelectedCompletedPairId(-1);
+              setWordPairIdOpenCountsMap({});
+              setRecentWordPairs(wordPairs);
+
+              if (levelId <= 0) {
+                dispatch(
+                  removeTrainingLevelWordPairs(
+                    levelId,
+                    wordPairs.map(wordPair => wordPair.pairId)
+                  )
+                );
+              }
+
+              setScore(data.classicCardLevelResult[0].score);
+              setNewServerLevelId(data.classicCardLevelResult[0].levelId);
+
+              setIsResultReady(true);
+            }, 1500);
           }
         )
       );
@@ -86,11 +100,12 @@ function GameContainer({ levelId, wordTranslations, localData }) {
     completedPairIdsMap,
     wordPairs,
     levelId,
+    newServerLevelId,
     wordPairIdOpenCountsMap,
     dispatch
   ]);
 
-  const handleClick = (pairId, id) => () => {
+  const handleClick = (pairId, id, onSpeech) => () => {
     if (completedPairIdsMap[pairId]) {
       setSelectedCompletedPairId(pairId);
       return;
@@ -135,28 +150,51 @@ function GameContainer({ levelId, wordTranslations, localData }) {
         }, 700);
       }
     }
+
+    if (onSpeech) {
+      onSpeech();
+    }
   };
 
-  const handleReplay = () => {
-    setWordPairs(wordInfo => shuffle([...wordInfo]));
+  const { open, handleOpen, handleClose } = useDialog(true);
+
+  const prepareToNextLevel = () => {
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
+    setNewServerLevelId(undefined);
+
+    handleOpen();
+  };
+
+  const handleReplay = () => {
+    setIsGameCompleted(false);
+    setIsResultReady(false);
+    setScore(null);
+    setWordPairs(shuffle([...recentWordPairs]));
   };
 
   return !isResultReady ? (
-    <Game
-      wordPairs={wordPairs}
-      selectedWordPairs={selectedWordPairs}
-      completedPairIdsMap={completedPairIdsMap}
-      selectedCompletedPairId={selectedCompletedPairId}
-      isGameCompleted={isGameCompleted}
-      handleClick={handleClick}
-    />
+    <Fragment>
+      <Game
+        wordPairs={wordPairs}
+        selectedWordPairs={selectedWordPairs}
+        completedPairIdsMap={completedPairIdsMap}
+        selectedCompletedPairId={selectedCompletedPairId}
+        isGameCompleted={isGameCompleted}
+        handleClick={handleClick}
+      />
+      <GamePairsDialog
+        open={open}
+        handleClose={handleClose}
+        wordPairs={wordTranslations}
+      />
+    </Fragment>
   ) : (
     <TrainingResult
       wordPairs={wordPairs}
       score={score}
+      prepareToNextLevel={prepareToNextLevel}
       handleReplay={handleReplay}
     />
   );
@@ -168,14 +206,10 @@ GameContainer.propTypes = {
     PropTypes.shape({
       serverId: PropTypes.number.isRequired,
       wordForeign: PropTypes.string.isRequired,
-      wordNative: PropTypes.string.isRequired
+      wordNative: PropTypes.string.isRequired,
+      onSpeech: PropTypes.func
     }).isRequired
-  ).isRequired,
-  localData: PropTypes.shape({
-    'training-words-quantity': PropTypes.string
-  })
+  ).isRequired
 };
 
-export default withReceivedTrainingLevel(
-  withLocalStorageData(GameContainer, ['training-words-quantity'])
-);
+export default withReceivedTrainingLevel(GameContainer);

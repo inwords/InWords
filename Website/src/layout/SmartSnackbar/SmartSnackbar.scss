@@ -1,0 +1,7 @@
+@import 'src/theme/mixins';
+
+.smart-snackbar--above {
+  @include theme-breakpoints-down(sm) {
+    bottom: 90px;
+  }
+}

@@ -2,8 +2,20 @@
 
 @mixin core-styles {
   :root {
-    @each $style in map-keys($theme-property-values) {
-      --#{$style}: #{map-get($theme-property-values, $style)};
+    @each $style in map-keys($theme-palette-values) {
+      --palette-#{$style}: #{map-get($theme-palette-values, $style)};
+    }
+
+    @each $style in map-keys($theme-breakpoints-values) {
+      --breakpoints-#{$style}: #{map-get($theme-breakpoints-values, $style)};
+    }
+
+    @each $style in map-keys($theme-depth-shadow-values) {
+      --depth-shadow-#{$style}: #{map-get($theme-depth-shadow-values, $style)};
+    }
+
+    @each $style in map-keys($theme-z-index-values) {
+      --z-index-#{$style}: #{map-get($theme-z-index-values, $style)};
     }
   }
 }
@@ -14,22 +26,22 @@
       @content;
     }
   } @else {
-    @media only screen and (max-width: map-get($theme-property-values, breakpoints-#{$size})) {
+    @media only screen and (max-width: map-get($theme-breakpoints-values, $size)) {
       @content;
     }
   }
 }
 
 @mixin theme-breakpoints-up($size) {
-  @media only screen and (min-width: map-get($theme-property-values, breakpoints-#{$size})) {
+  @media only screen and (min-width: map-get($theme-breakpoints-values, $size)) {
     @content;
   }
 }
 
 @mixin theme-typography($variant) {
   $variant-values: map-get($theme-typography-values, $variant);
-  $properties: font-weight, font-size, line-height, letter-spacing;
 
+  $properties: font-weight, font-size, line-height, letter-spacing;
   @each $property in $properties {
     #{$property}: map-get($variant-values, $property);
   }

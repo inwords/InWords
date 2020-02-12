@@ -1,0 +1,11 @@
+.drawer {
+  position: fixed;
+  top: 0;
+  right: auto;
+  left: 0;
+  height: 100%;
+  z-index: var(--z-index-drawer);
+  overflow-y: auto;
+  width: 240px;
+  border-radius: 0;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Icon from 'src/components/Icon';
 import Input from 'src/components/Input';
-import SearchIcon from '@material-ui/icons/Search';
 
 import './DictionarySearch.scss';
 
@@ -9,7 +9,7 @@ function DictionarySearch({ value, onChange }) {
   return (
     <div className="dictionary-search-field">
       <div className="dictionary-search-field__icon">
-        <SearchIcon />
+        <Icon>search</Icon>
       </div>
       <Input
         id="dictionary-search"

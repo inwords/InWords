@@ -4,29 +4,14 @@ import classNames from 'classnames';
 
 import './Menu.css';
 
-function Menu({ component = 'ul', onClick, className, ...rest }) {
+function Menu({ component = 'ul', className, ...rest }) {
   const Component = component;
 
-  const handleClick = event => {
-    event.stopPropagation();
-
-    if (onClick) {
-      onClick(event);
-    }
-  };
-
-  return (
-    <Component
-      className={classNames('menu', className)}
-      onClick={handleClick}
-      {...rest}
-    />
-  );
+  return <Component className={classNames('menu', className)} {...rest} />;
 }
 
 Menu.propTypes = {
-  component: PropTypes.elementType,
-  onClick: PropTypes.func
+  component: PropTypes.elementType
 };
 
 export default Menu;

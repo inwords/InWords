@@ -7,7 +7,7 @@ function EntrySubmitButton(props) {
   return (
     <Button
       type="submit"
-      primary
+      color="primary"
       fullWidth
       className="entry-submit-button"
       {...props}

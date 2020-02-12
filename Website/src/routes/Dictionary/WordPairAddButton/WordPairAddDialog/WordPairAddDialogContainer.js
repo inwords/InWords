@@ -14,18 +14,26 @@ const headers = new Headers({
   'Content-Type': 'application/x-www-form-urlencoded'
 });
 
+const initialInputs = {
+  wordForeign: '',
+  wordNative: ''
+};
+
 function WordPairAddDialogContainer({ open, ...rest }) {
   const dispatch = useDispatch();
 
   const { inputs, setInputs, handleChange, handleSubmit } = useForm(
-    {
-      wordForeign: '',
-      wordNative: ''
-    },
+    initialInputs,
     () => {
       dispatch(addWordPairs([inputs]));
     }
   );
+
+  React.useEffect(() => {
+    if (open) {
+      setInputs(initialInputs);
+    }
+  }, [open, setInputs]);
 
   const [translationsInfo, setTranslationsInfo] = React.useState([]);
 
@@ -70,7 +78,7 @@ function WordPairAddDialogContainer({ open, ...rest }) {
 
           setTranslationsInfo(newTranslationsInfo);
         })
-        .catch(error => {
+        .catch(_ => {
           setTranslationsInfo([]);
         });
     };

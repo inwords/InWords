@@ -1,0 +1,35 @@
+@import 'src/theme/mixins';
+
+.snackbar {
+  position: fixed;
+  z-index: var(--z-index-snackbar);
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  display: flex;
+  padding: 6px 16px;
+  flex-wrap: wrap;
+  background-color: rgb(50, 50, 50);
+  color: #fff;
+
+  @include theme-typography(body2);
+
+  @include theme-breakpoints-up(sm) {
+    right: auto;
+    bottom: 24px;
+    left: 24px;
+    min-width: 288px;
+  }
+
+  &__message {
+    padding: 8px 0;
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: -8px;
+    padding-left: 16px;
+  }
+}

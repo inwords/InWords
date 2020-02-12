@@ -7,7 +7,7 @@ import './ListItem.scss';
 function ListItem({
   component = 'li',
   button = false,
-  hasSecondaryAction,
+  hasSecondaryAction = false,
   className,
   ...rest
 }) {

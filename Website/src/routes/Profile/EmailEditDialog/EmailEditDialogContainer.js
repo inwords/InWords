@@ -5,12 +5,23 @@ import { sendActivationCode } from 'src/actions/accessApiActions';
 import useForm from 'src/hooks/useForm';
 import EmailEditDialog from './EmailEditDialog';
 
+const initialInputs = { email: '' };
+
 function EmailEditDialogContainer({ open, ...rest }) {
   const dispatch = useDispatch();
 
-  const { inputs, handleChange, handleSubmit } = useForm({ email: '' }, () => {
-    dispatch(sendActivationCode(inputs.email));
-  });
+  const { inputs, setInputs, handleChange, handleSubmit } = useForm(
+    initialInputs,
+    () => {
+      dispatch(sendActivationCode(inputs.email));
+    }
+  );
+
+  React.useEffect(() => {
+    if (open) {
+      setInputs(initialInputs);
+    }
+  }, [open, setInputs]);
 
   return (
     <EmailEditDialog

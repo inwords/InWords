@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import Container from 'src/components/Container';
+import Typography from 'src/components/Typography';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class ErrorBoundary extends Component {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -18,11 +18,11 @@ class ErrorBoundary extends Component {
       return (
         <Container component="div" maxWidth="sm">
           <Typography component="h1" variant="h4" gutterBottom>
-            Что-то пошло не так :(
+            Что-то пошло не так ☹
           </Typography>
-          <Typography>
+          <Typography variant="body1">
             К сожалению, не удалось загрузить страницу. Проверьте соединение с
-            интернетом или повторите попытку позже
+            интернетом или повторите попытку позже.
           </Typography>
         </Container>
       );

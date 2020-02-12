@@ -1,0 +1,16 @@
+@import 'src/theme/mixins';
+
+.grid-item {
+  $sizes: xs, sm, md, lg, xl;
+  @each $size in $sizes {
+    @for $col from 1 through 12 {
+      &--#{$size}--#{$col} {
+        @include theme-breakpoints-up($size) {
+          flex-grow: 0;
+          max-width: percentage($col / 12);
+          flex-basis: percentage($col / 12);
+        }
+      }
+    }
+  }
+}

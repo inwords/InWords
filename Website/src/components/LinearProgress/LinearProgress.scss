@@ -1,0 +1,44 @@
+@keyframes indeterminateFirst {
+  0% {
+    left: -100%;
+    width: 100%;
+  }
+  100% {
+    left: 100%;
+    width: 10%;
+  }
+}
+
+@keyframes indeterminateSecond {
+  0% {
+    left: -150%;
+    width: 100%;
+  }
+  100% {
+    left: 100%;
+    width: 10%;
+  }
+}
+
+.linear-progress {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: var(--palette-primary-main);
+
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    background-color: var(--palette-primary-contrast-text);
+    animation: indeterminateFirst 1.5s infinite ease-out;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    background-color: var(--palette-primary-contrast-text);
+    animation: indeterminateSecond 1.5s infinite ease-in;
+  }
+}

@@ -9,7 +9,7 @@
   &__label {
     position: absolute;
     left: 10px;
-    top: 11px;
+    top: 13px;
     max-width: calc(100% - 12px);
     padding: 0 4px;
     white-space: nowrap;
@@ -19,7 +19,7 @@
     font-size: 1rem;
     pointer-events: none;
     transform-origin: top left;
-    transition: color 0.15s ease, transform 0.15s ease;
+    transition: transform 0.15s ease;
 
     &--compact {
       color: var(--palette-text-secondary);
@@ -28,7 +28,7 @@
     }
 
     &--active {
-      color: var(--palette-primary);
+      color: var(--palette-primary-main);
     }
 
     &--required {

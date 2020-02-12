@@ -11,7 +11,9 @@ function Paper({ component = 'div', depthShadow = 4, className, ...rest }) {
     <Component
       className={classNames(
         'paper',
-        `paper--depth-shadow--${depthShadow}`,
+        {
+          [`paper--depth-shadow--${depthShadow}`]: depthShadow !== 0
+        },
         className
       )}
       {...rest}

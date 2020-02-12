@@ -5,14 +5,14 @@ import { editWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
-const defaultWordPair = {
+const fakeWordPair = {
   wordForeign: '',
   wordNative: ''
 };
 
 function WordPairEditDialogContainer({
   open,
-  wordPair = defaultWordPair,
+  wordPair = fakeWordPair,
   ...rest
 }) {
   const dispatch = useDispatch();
@@ -28,11 +28,13 @@ function WordPairEditDialogContainer({
   );
 
   React.useEffect(() => {
-    setInputs({
-      wordForeign: wordPair.wordForeign,
-      wordNative: wordPair.wordNative
-    });
-  }, [setInputs, wordPair]);
+    if (open) {
+      setInputs({
+        wordForeign: wordPair.wordForeign,
+        wordNative: wordPair.wordNative
+      });
+    }
+  }, [open, setInputs, wordPair]);
 
   return (
     <WordPairEditDialog

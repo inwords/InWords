@@ -1,82 +1,54 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import StarIcon from '@material-ui/icons/Star';
-import ReplayIcon from '@material-ui/icons/Replay';
-import FastForwardIcon from '@material-ui/icons/FastForward';
+import Icon from 'src/components/Icon';
+import FadeAnimation from 'src/components/FadeAnimation';
+import Paper from 'src/components/Paper';
+import IconButton from 'src/components/IconButton';
 import Smiley from './Smiley';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: 220,
-    padding: theme.spacing(3, 0),
-    margin: 'auto'
-  },
-  smiley: {
-    marginBottom: theme.spacing(1)
-  },
-  stars: {
-    marginBottom: theme.spacing(1)
-  }
-}));
+import './TrainingResult.css';
 
-function TrainingResult({
-  score,
-  handleRedirectionToLevels,
-  handleRedirectionToNextLevel,
-  handleReplay
-}) {
-  const classes = useStyles();
-
+function TrainingResult({ score, handleRedirectionToNextLevel, handleReplay }) {
   return (
-    <Fade in>
-      <Paper className={classes.paper}>
+    <FadeAnimation>
+      <Paper className="training-result-paper">
         {score !== null && (
           <Fragment>
-            <div className={classes.smiley}>
+            <div className="training-result-smiley">
               <Smiley score={score} />
             </div>
-            <div className={classes.stars}>
-              <StarIcon
-                fontSize="large"
-                color={score > 0 ? 'secondary' : 'disabled'}
-              />
-              <StarIcon
-                fontSize="large"
-                color={score > 1 ? 'secondary' : 'disabled'}
-              />
-              <StarIcon
-                fontSize="large"
-                color={score > 2 ? 'secondary' : 'disabled'}
-              />
+            <div className="training-result-stars">
+              {Array(score).fill(
+                <Icon fontSize="large" color="gold">
+                  star
+                </Icon>
+              )}
+              {Array(3 - score).fill(
+                <Icon fontSize="large" color="disabled">
+                  star
+                </Icon>
+              )}
             </div>
           </Fragment>
         )}
         <div>
           <IconButton aria-label="replay" onClick={handleReplay}>
-            <ReplayIcon fontSize="large" />
+            <Icon fontSize="large">replay</Icon>
           </IconButton>
           <IconButton
             aria-label="next level"
             onClick={handleRedirectionToNextLevel}
           >
-            <FastForwardIcon fontSize="large" />
+            <Icon fontSize="large">fast_forward</Icon>
           </IconButton>
         </div>
       </Paper>
-    </Fade>
+    </FadeAnimation>
   );
 }
 
 TrainingResult.propTypes = {
   score: PropTypes.number,
-  handleRedirectionToLevels: PropTypes.func,
   handleRedirectionToNextLevel: PropTypes.func,
   handleReplay: PropTypes.func.isRequired
 };

@@ -1,22 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
+import classNames from 'classnames';
+import Snackbar from 'src/components/Snackbar';
+import Button from 'src/components/Button';
 import usePrevious from 'src/hooks/usePrevious';
 
-const useStyles = makeStyles(theme => ({
-  above: {
-    [theme.breakpoints.down('xs')]: {
-      bottom: 90
-    }
-  }
-}));
+import './SmartSnackbar.scss';
 
 function SmartSnackbar({ open, text, actionText, handleAction, handleClose }) {
-  const classes = useStyles();
-
   const prevText = usePrevious(text);
   const prevActionText = usePrevious(actionText);
 
@@ -24,39 +15,30 @@ function SmartSnackbar({ open, text, actionText, handleAction, handleClose }) {
   if (open) {
     action = actionText && (
       <Button
-        color="secondary"
-        size="small"
         onClick={() => {
           handleAction();
           handleClose();
         }}
+        variant="text"
       >
         {actionText}
       </Button>
     );
   } else {
-    action = prevActionText && (
-      <Button color="secondary" size="small">
-        {prevActionText}
-      </Button>
-    );
+    action = prevActionText && <Button variant="text">{prevActionText}</Button>;
   }
 
   return (
     <Snackbar
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left'
-      }}
       open={open}
       autoHideDuration={5000}
       onClose={handleClose}
       message={<span>{open ? text : prevText}</span>}
       action={action}
-      className={clsx({
+      className={classNames({
         /* Snackbar appears above, when page has FAB.
         DOM API is the simplest way for check */
-        [classes.above]: Boolean(document.getElementById('fab'))
+        'smart-snackbar--above': Boolean(document.getElementById('fab'))
       })}
     />
   );

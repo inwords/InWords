@@ -1,0 +1,36 @@
+.slider {
+  display: inline-block;
+
+  &__input {
+    -webkit-appearance: none;
+    height: 8px;
+    border-radius: 2px;
+    outline: none;
+    opacity: 0.7;
+    background-color: var(--palette-default-main);
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: var(--palette-default-contrast-text);
+      cursor: pointer;
+    }
+
+    &::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: var(--palette-default-contrast-text);
+      cursor: pointer;
+    }
+  }
+}

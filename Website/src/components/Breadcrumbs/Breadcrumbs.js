@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import classNames from 'classnames';
+import Icon from 'src/components/Icon';
 
 import './Breadcrumbs.scss';
 
@@ -9,7 +9,7 @@ function Breadcrumbs({ children, className, ...rest }) {
 
   const separators = Array(React.Children.count(children) - 1).fill(
     <li aria-hidden="true" className="breadcrumbs__list-item-separator">
-      <NavigateNextIcon />
+      <Icon>navigate_next</Icon>
     </li>
   );
 

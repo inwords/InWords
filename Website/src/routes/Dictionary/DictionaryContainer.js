@@ -1,5 +1,6 @@
 import React from 'react';
-import useWordPairs from 'src/hooks/useWordPairs';
+import { useSelector, useDispatch } from 'react-redux';
+import { syncWordPairs } from 'src/actions/dictionaryApiActions';
 import Divider from 'src/components/Divider';
 import Paper from 'src/components/Paper';
 import DictionaryToolbar from './DictionaryToolbar';
@@ -10,14 +11,22 @@ const synth = window.speechSynthesis;
 const lang = 'en-US';
 
 function DictionaryContainer() {
-  const wordPairs = useWordPairs();
+  const { actual, wordPairs } = useSelector(store => store.dictionary);
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (!actual) {
+      dispatch(syncWordPairs(wordPairs));
+    }
+  }, [actual, wordPairs, dispatch]);
 
   const [extendedWordPairs, setExtendedWordPairs] = React.useState([]);
 
   React.useEffect(() => {
     setExtendedWordPairs(
       wordPairs.map(wordPair => {
-        const handleSpeech = () => {
+        const onSpeech = () => {
           if (synth.speaking) {
             synth.cancel();
           }
@@ -29,7 +38,7 @@ function DictionaryContainer() {
 
         return {
           ...wordPair,
-          handleSpeech
+          onSpeech
         };
       })
     );
@@ -38,7 +47,7 @@ function DictionaryContainer() {
   const [checkedValues, setCheckedValues] = React.useState([]);
 
   const handleToggle = React.useCallback(
-    value => event => {
+    value => () => {
       setCheckedValues(checkedValues => {
         const currentIndex = checkedValues.indexOf(value);
         const newChecked = [...checkedValues];
@@ -88,18 +97,23 @@ function DictionaryContainer() {
     [pattern, extendedWordPairs]
   );
 
+  const handleCheckAll = () => {
+    setCheckedValues(filteredWordPairs.map(({ serverId }) => serverId));
+  };
+
   return (
     <Paper>
       <DictionaryToolbar
         editingModeEnabled={editingModeEnabled}
         checkedValues={checkedValues}
         handleReset={handleReset}
+        handleCheckAll={handleCheckAll}
         setPattern={setPattern}
       />
       <Divider />
       <Wordlist
         editingModeEnabled={editingModeEnabled}
-        wordPairs={!pattern ? extendedWordPairs : filteredWordPairs}
+        wordPairs={filteredWordPairs}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />

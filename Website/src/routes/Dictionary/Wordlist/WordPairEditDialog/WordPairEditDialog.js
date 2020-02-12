@@ -4,7 +4,6 @@ import Dialog from 'src/components/Dialog';
 import DialogTitle from 'src/components/DialogTitle';
 import DialogContent from 'src/components/DialogContent';
 import DialogActions from 'src/components/DialogActions';
-import DialogAction from 'src/components/DialogAction';
 import FormGroup from 'src/components/FormGroup';
 import TextField from 'src/components/TextField';
 import Button from 'src/components/Button';
@@ -14,8 +13,7 @@ function WordPairEditDialog({
   handleClose,
   inputs,
   handleChange,
-  handleSubmit,
-  handleReset
+  handleSubmit
 }) {
   return (
     <Dialog
@@ -55,14 +53,17 @@ function WordPairEditDialog({
         </form>
       </DialogContent>
       <DialogActions>
-        <DialogAction>
-          <Button onClick={handleClose}>Отмена</Button>
-        </DialogAction>
-        <DialogAction>
-          <Button type="submit" form="word-pair-edit-form" primary>
-            Готово
-          </Button>
-        </DialogAction>
+        <Button onClick={handleClose} variant="text">
+          Отмена
+        </Button>
+        <Button
+          type="submit"
+          form="word-pair-edit-form"
+          variant="text"
+          color="primary"
+        >
+          Готово
+        </Button>
       </DialogActions>
     </Dialog>
   );

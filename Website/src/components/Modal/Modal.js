@@ -2,32 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Backdrop from 'src/components/Backdrop';
+import Fade from 'src/components/Fade';
 
-import './Modal.css';
+import './Modal.scss';
 
-function Modal({
-  open,
-  keepMounted = false,
-  handleBackdropClick,
-  transitionDuration,
-  children,
-  className,
-  ...rest
-}) {
+const transitionDurations = {
+  enter: 225,
+  exit: 150
+};
+
+function Modal({ open, keepMounted = false, children, className, ...rest }) {
   const [exited, setExited] = React.useState(true);
 
   React.useEffect(() => {
     if (open) {
       setExited(false);
     } else {
-      setTimeout(() => {
+      let timer = setTimeout(() => {
         setExited(true);
-      }, transitionDuration);
-    }
-  }, [open, transitionDuration]);
+      }, transitionDurations.exit);
 
-  if (!keepMounted && !open && exited) {
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [open]);
+
+  if (!keepMounted && exited) {
     return null;
   }
 
@@ -35,15 +36,17 @@ function Modal({
     <div
       className={classNames('modal', className)}
       style={{
-        visibility: exited ? 'hidden' : 'visible'
+        visibility: exited ? 'hidden' : undefined
       }}
       {...rest}
     >
-      <Backdrop
-        open={open}
-        onClick={handleBackdropClick}
-        transitionDuration={transitionDuration}
-      />
+      <Fade
+        in={open}
+        transitionDurations={transitionDurations}
+        transitionTimingFunction="linear"
+      >
+        <div className="modal__backdrop" />
+      </Fade>
       {children}
     </div>,
     document.body
@@ -53,8 +56,6 @@ function Modal({
 Modal.propTypes = {
   open: PropTypes.bool,
   keepMounted: PropTypes.bool,
-  handleBackdropClick: PropTypes.func,
-  transitionDuration: PropTypes.number,
   children: PropTypes.node
 };
 

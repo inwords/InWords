@@ -1,7 +1,7 @@
 import { saveState } from 'src/localStorage';
 import { GRANT_ACCESS, DENY_ACCESS } from 'src/actions/accessActions';
 
-const persistDataMiddleware = store => next => action => {
+const persistDataMiddleware = () => next => action => {
   switch (action.type) {
     case GRANT_ACCESS:
       saveState({

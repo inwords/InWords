@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import useDrawer from 'src/hooks/useDrawer';
 import Drawer from 'src/components/Drawer';
 import Divider from 'src/components/Divider';
+import Icon from 'src/components/Icon';
+import IconButton from 'src/components/IconButton';
 import BrandLink from 'src/layout/BrandLink';
 import Header from './Header';
 import DrawerNavList from './DrawerNavList';
@@ -38,16 +40,18 @@ function PageContainer({ routes, rightNodes, children }) {
           open={open}
           onClose={handleClose}
         >
-          <BrandLink
-            onClick={event => {
-              event.preventDefault();
-              handleClose();
-            }}
-            to="/"
-            className="page-container__drawer-brand-link"
-          >
-            InWords
-          </BrandLink>
+          <div className="page-container__drawer-header">
+            <IconButton
+              aria-label="side-nav-menu"
+              onClick={handleClose}
+              edge="start"
+              color="inherit"
+              className="page-container__drawer-header-menu-button"
+            >
+              <Icon>menu</Icon>
+            </IconButton>
+            <BrandLink>InWords</BrandLink>
+          </div>
           <Divider />
           <DrawerNavList handleClose={handleClose} routes={routes} />
         </Drawer>

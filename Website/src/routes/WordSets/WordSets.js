@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
+import Grid from 'src/components/Grid';
+import GridItem from 'src/components/GridItem';
 import Card from 'src/components/Card';
+import CardHeader from 'src/components/CardHeader';
 import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
 import Typography from 'src/components/Typography';
@@ -9,23 +11,25 @@ import Button from 'src/components/Button';
 
 function WordSets({ trainingCategories, handleAddingInDictionary }) {
   return (
-    <Grid container spacing={3}>
-      {trainingCategories.map(({ gameId, title, description, isAvailable }) => (
-        <Grid key={gameId} item xs={12} sm={6} md={4}>
+    <Grid spacing={3}>
+      {trainingCategories.map(({ gameId, title, description }) => (
+        <GridItem key={gameId} xs={12} sm={6} md={4} lg={3}>
           <Card>
+            <CardHeader title={title} />
             <CardContent>
-              <Typography as="h2" variant="h5" gutterBottom>
-                {title}
-              </Typography>
               <Typography>{description}</Typography>
             </CardContent>
             <CardActions>
-              <Button primary onClick={handleAddingInDictionary(gameId)}>
+              <Button
+                onClick={handleAddingInDictionary(gameId)}
+                variant="text"
+                color="primary"
+              >
                 Добавить в словарь
               </Button>
             </CardActions>
           </Card>
-        </Grid>
+        </GridItem>
       ))}
     </Grid>
   );
