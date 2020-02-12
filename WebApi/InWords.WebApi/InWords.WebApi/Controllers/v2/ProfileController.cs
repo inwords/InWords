@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -36,11 +37,42 @@ namespace InWords.WebApi.Controllers.v2
         [HttpPost]
         [ProducesResponseType(typeof(RegistrationReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetTraining(RegistrationRequest request)
+        public async Task<IActionResult> Register(RegistrationRequest request)
         {
-            var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
-            RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-            return Ok(reply);
+            try
+            {
+                var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
+                RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest($"{e.Message}");
+            }
+        }
+
+        /// <summary>
+        ///     Use this to get token
+        /// </summary>
+        /// <returns>user's access token</returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Access denied</response>
+        [ProducesResponseType(typeof(TokenReply), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("token")]
+        [HttpPost]
+        public async Task<IActionResult> Token([FromBody] TokenRequest request)
+        {
+            try
+            {
+                var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
+                TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

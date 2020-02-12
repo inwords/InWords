@@ -3,11 +3,9 @@ syntax = "proto3";
 package Registration.v2;
 
 // The greeting service definition.
-service Profile {
+service Registrator {
 	// Sends a greeting
 	rpc Register (RegistrationRequest) returns (RegistrationReply);
-	rpc GetToken (TokenRequest) returns (TokenReply);
-
 }
 
 // The request message containing the user's credentials.
@@ -19,17 +17,5 @@ message RegistrationRequest {
 // The response message containing the Token.
 message RegistrationReply {
 	int64 userid = 1;
-	string token = 2;
-}
-
-// The request message containing the user's credentials.
-message TokenRequest {
-	string email = 1;
-	string password = 2;
-}
-
-// The response message containing the Token.
-message TokenReply {
-	int64 userId = 1;
 	string token = 2;
 }
