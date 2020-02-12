@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using System.Globalization;
-using InWords.WebApi.Services.Email;
 using InWords.Service.Auth.Models;
+using InWords.WebApi.Services.Email.Abstractions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace InWords.WebApi.Services.Users.Registration
 {
     public class UserRegistration : StructRequestHandler<RegistrationRequest, RegistrationReply, InWordsDataContext>
     {
-        private readonly EmailVerifierService emailVerifierService;
+        private readonly IEmailVerifierService emailVerifierService;
 
         public UserRegistration(InWordsDataContext context,
-            EmailVerifierService emailVerifierService) : base(context)
+            IEmailVerifierService emailVerifierService) : base(context)
         {
             this.emailVerifierService = emailVerifierService;
         }
@@ -29,16 +30,8 @@ namespace InWords.WebApi.Services.Users.Registration
 
             RegistrationRequest requestData = request.Value;
 
-            bool alredyExist = Context.Accounts.Any(a => string.Equals(a.Email, requestData.Email, StringComparison.InvariantCultureIgnoreCase));
-
-            string? errorString = Strings.ResourceManager.GetString("Email already exist", CultureInfo.CurrentCulture);
-
-            // if already exist throw custom exception
-            if (alredyExist)
-                throw new ArgumentException(errorString);
-
-            // if email is free register user
-
+            ThrowIfAlreadyExist(requestData.Email);
+            
             string nickname = NicknameGenerator.FromEmail(requestData.Email);
 
             AccountRegistration accountRegistration = new AccountRegistration(requestData.Email, requestData.Password, nickname);
@@ -63,6 +56,18 @@ namespace InWords.WebApi.Services.Users.Registration
             };
 
             return registrationReply;
+        }
+
+        [DoesNotReturn] public void ThrowIfAlreadyExist(string email) 
+        {
+            bool alredyExist = Context.Accounts.Any(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
+
+            // if already exist throw custom exception
+            if (alredyExist)
+            {
+                string? errorString = Strings.ResourceManager.GetString("Email already exist", CultureInfo.CurrentCulture);
+                throw new ArgumentException(errorString);
+            }
         }
     }
 }
