@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using System.Globalization;
-using System.Diagnostics.CodeAnalysis;
-using System.Resources;
-using System.Reflection;
 using InWords.WebApi.Services.Email;
 using InWords.Service.Auth.Models;
 

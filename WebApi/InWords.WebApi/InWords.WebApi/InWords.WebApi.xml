@@ -38,7 +38,16 @@
             </summary>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.CardGameScore)">
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.CustomLevelController.GetHistory">
+            <summary>
+                Use this to get last custom played games
+            </summary>
+            <deprecated>true</deprecated>
+            <returns>History of users custom levels</returns>
+            <response code="401">Unauthorized</response>
+            <response code="200">OK</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.GameController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
             <summary>
                 Use this to post score after game
             </summary>
@@ -48,7 +57,7 @@
             <response code="200">OK, scored</response>
             <response code="400">Null on request</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.UploadScore(InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQuery[])">
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.GameController.UploadScore(InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery[])">
             <summary>
                 Use to upload user results
             </summary>
@@ -78,6 +87,39 @@
             <response code="200">Words to be repeated</response>
             <response code="401">Unauthorized access</response>
             <response code="417">File is zero length</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1._1.TrainingController.Estimate(InWords.Data.DTO.Games.Levels.ClassicCardLevelMetricQuery)">
+             <summary>
+             Use this to upload user's level's metric
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /estimate
+                 
+               {
+                "metrics": [
+                {
+                    "gameLevelId": 12,
+                    "wordPairIdOpenCounts": {
+                        "1": 4,
+                        "2": 5,
+                        "5": 1
+                    }
+                },
+               "metrics": [
+                {
+                    "gameLevelId": 0, (NOTE: If gameLevelId is zero game will be created in history)
+                    "wordPairIdOpenCounts": {
+                        "3": 1,
+                        "2": 2,
+                        "1": 3
+                    }
+                }
+                ]
+               }
+                            
+             </remarks>
         </member>
         <member name="T:InWords.WebApi.Controllers.v1.AuthController">
             <inheritdoc />
@@ -160,7 +202,7 @@
              <response code="200">Count of added words</response>
              <returns>Count of adding words</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
             <summary>
                 Use this to post score after game
             </summary>
@@ -168,11 +210,11 @@
             <param name="levelResult"></param>
             <returns>Quantity of stars</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult})">
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelResult})">
             <summary>
                 Use to upload user results
             </summary>
-            <param name="levelMetricQueryResults"></param>
+            <param name="levelScores"></param>
             <returns>Quantity of stars and level id</returns>
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.GetGame(System.Int32)">
@@ -326,6 +368,20 @@
             </summary>
             <param name="wordsService"></param>
         </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.GetTraining(Registration.V2.RegistrationRequest)">
+            <summary>
+            Use this to register user
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+            <remarks>
+            Token will be sent in response to the request.               
+             
+            During registration a activation message will be sent to the user's email. 
+             
+            400 means that the user was not found or the password was entered incorrectly
+            </remarks>
+        </member>
         <member name="M:InWords.WebApi.Extensions.StringExtensions.StripHTML(System.String)">
             <summary>
                 This is to get raw text inside html/xml tags
@@ -337,7 +393,7 @@
             <summary>
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Extensions.Transfer.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Data.DTO.Game.DescriptionInfo})">
+        <member name="M:InWords.WebApi.Extensions.Transfer.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Data.DTO.Creation.DescriptionInfo})">
             <summary>
                 Test method returning Russian description
             </summary>
@@ -471,14 +527,14 @@
             <param name="game"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetSaveLevelMetricQueryResult(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetLevelScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
             <summary>
                 This is to update user score on game level
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult)">
             <summary>
                 This is to set level score to user level storage
             </summary>
@@ -487,15 +543,15 @@
             <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult})">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult})">
             <summary>
                 This is to push all score from cache storage
             </summary>
             <param name="userId"></param>
-            <param name="levelMetricQueryResults"></param>
+            <param name="levelScores"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQuery)">
+        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
             <summary>
                 This is to get score by level and update information of memorizing user word pairs
             </summary>
@@ -503,11 +559,11 @@
             <param name="levelMetricQuery"></param>
             <returns></returns>
         </member>
-        <member name="T:InWords.WebApi.Services.GameService">
+        <member name="T:InWords.WebApi.Services.CreationService">
             <summary>
                 Service that contain CRUD for Games
             </summary>
-            <see cref="T:InWords.Data.Games.Game" />
+            <see cref="T:InWords.Data.Creations.Game" />
         </member>
         <member name="M:InWords.WebApi.Services.Email.EmailCodeVerificationService.HasCorrectCode(System.Int32,System.String,System.Int32)">
             <summary>
@@ -552,18 +608,18 @@
                 send it by <see cref="T:InWords.WebApi.Services.Email.EmailSenders.EmailTemplateSender" />
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetSaveLevelMetricQueryResult(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetLevelScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
             <summary>
                 This is to local compute score
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Games.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult})">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Creations.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult})">
             <summary>
             </summary>
             <param name="levelsToUpdate">All levels that exist in database</param>
-            <param name="levelMetricQueryResults">All score that user send</param>
+            <param name="levelScores">All score that user send</param>
             <returns></returns>
         </member>
         <member name="T:InWords.WebApi.Services.GameService.GameService">
@@ -572,12 +628,12 @@
             </summary>
             <see cref="T:InWords.Data.Models.InWords.Games.Game" />
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameService.#ctor(InWords.WebApi.Services.GameService,InWords.Data.Repositories.GameRepository,InWords.WebApi.Services.GameService.GameLevelService)">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.#ctor(InWords.WebApi.Services.CreationService,InWords.Data.Repositories.CreationRepository,InWords.WebApi.Services.GameService.GameLevelService)">
             <summary>
                 Basic constructor
             </summary>
-            <param name="gameService"></param>
-            <param name="gameRepository"></param>
+            <param name="creationService"></param>
+            <param name="creationRepository"></param>
             <param name="gameLevelService"></param>
         </member>
         <member name="M:InWords.WebApi.Services.GameService.GameService.GetGameObjectAsync(System.Int32)">
@@ -608,7 +664,7 @@
             <param name="PairKnowledges">Int is <see cref="T:InWords.Data.Domains.UserWordPair" /> id</param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualities})">
+        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualitys})">
             <summary>
                 This method for updating <see cref="T:InWords.Data.Domains.UserWordPair" />'s learning period and time to learning
                 using PairKnowledges from IKnowledgeQualifier.
@@ -643,6 +699,63 @@
                 Warning! To use this enable xml comments output
             </summary>
             <param name="c"></param>
+        </member>
+        <member name="T:Registration.V2.RegistrationV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/registration.v2.proto</summary>
+        </member>
+        <member name="P:Registration.V2.RegistrationV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/registration.v2.proto</summary>
+        </member>
+        <member name="T:Registration.V2.RegistrationRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:Registration.V2.RegistrationRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:Registration.V2.RegistrationRequest.PasswordFieldNumber">
+            <summary>Field number for the "password" field.</summary>
+        </member>
+        <member name="T:Registration.V2.RegistrationReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:Registration.V2.RegistrationReply.UseridFieldNumber">
+            <summary>Field number for the "userid" field.</summary>
+        </member>
+        <member name="F:Registration.V2.RegistrationReply.TokenFieldNumber">
+            <summary>Field number for the "token" field.</summary>
+        </member>
+        <member name="T:Registration.V2.Registrator">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:Registration.V2.Registrator.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:Registration.V2.Registrator.RegistratorBase">
+            <summary>Base class for server-side implementations of Registrator</summary>
+        </member>
+        <member name="M:Registration.V2.Registrator.RegistratorBase.Register(Registration.V2.RegistrationRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:Registration.V2.Registrator.BindService(Registration.V2.Registrator.RegistratorBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:Registration.V2.Registrator.BindService(Grpc.Core.ServiceBinderBase,Registration.V2.Registrator.RegistratorBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
     </members>
 </doc>

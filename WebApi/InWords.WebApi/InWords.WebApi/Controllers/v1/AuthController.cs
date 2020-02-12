@@ -66,6 +66,7 @@ namespace InWords.WebApi.Controllers.v1
         /// <returns>A newly created token</returns>
         /// <response code="200">returns new token</response>
         /// <response code="400">User already exists</response>
+        [Obsolete("Registration method is obsolete, use v2")]
         [Route("registration")]
         [HttpPost]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
@@ -82,6 +83,7 @@ namespace InWords.WebApi.Controllers.v1
 
             return Ok(response);
         }
+        
         [Obsolete]
         private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {
