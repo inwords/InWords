@@ -10,11 +10,14 @@ namespace InWords.WebApi.Services.Abstractions
 {
     public class ContextRequestHandler<TQuery, TResult, TContext> : IRequestHandler<TQuery, TResult> where TQuery : IRequest<TResult>
     {
-        protected readonly TContext Context;
+        private readonly TContext context;
         public ContextRequestHandler(TContext context)
         {
-            this.Context = context;
+            this.context = context;
         }
+
+        protected TContext Context => context;
+
         public virtual Task<TResult> Handle(TQuery request, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();

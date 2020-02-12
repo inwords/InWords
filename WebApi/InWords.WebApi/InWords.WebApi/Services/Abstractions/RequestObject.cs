@@ -2,7 +2,7 @@
 
 namespace InWords.WebApi.Services.Abstractions
 {
-    public abstract class RequestObject<TRequest, TReply> : IRequest<TReply> where TRequest : class where TReply : class
+    public abstract class RequestObject<TRequest, TReply> : IRequest<TReply> where TRequest : new() where TReply : new()
     {
         public TRequest Value { get; set; }
         public RequestObject(TRequest value)
