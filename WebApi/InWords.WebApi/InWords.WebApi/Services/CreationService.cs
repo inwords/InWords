@@ -8,6 +8,7 @@ using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services
 {
+    [Obsolete]
     /// <summary>
     ///     Service that contain CRUD for Games
     /// </summary>

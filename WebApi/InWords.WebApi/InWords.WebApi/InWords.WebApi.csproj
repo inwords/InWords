@@ -22,9 +22,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\GameService\Commands\**" />
     <Compile Remove="wwwroot\**" />
+    <Content Remove="Services\GameService\Commands\**" />
     <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="Services\GameService\Commands\**" />
     <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="Services\GameService\Commands\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
 
@@ -73,10 +77,6 @@
     <None Update="AppData\CardsGames.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\GameService\Commands\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
