@@ -11,7 +11,8 @@ namespace InWords.WebApi.AppStart
 {
     public static class IocConfig
     {
-        public static void Configure(this IServiceCollection services, IConfiguration Configuration)
+        // IConfiguration Configuration
+        public static void Configure(this IServiceCollection services)
         {
             var builder = new ContainerBuilder();
             builder.Populate(services);

@@ -24,7 +24,7 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
 
         }
 
-        public override async Task<ClassicCardLevelMetricQueryResult> Handle(ClassicCardLevelMetricQuery request, CancellationToken cancellationToken = default)
+        public override async Task<ClassicCardLevelMetricQueryResult> HandleRequest(ClassicCardLevelMetricQuery request, CancellationToken cancellationToken = default)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));

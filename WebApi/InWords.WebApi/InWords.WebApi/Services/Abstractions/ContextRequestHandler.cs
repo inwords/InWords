@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +11,21 @@ namespace InWords.WebApi.Services.Abstractions
 {
     public class ContextRequestHandler<TQuery, TResult, TContext> : IRequestHandler<TQuery, TResult> where TQuery : IRequest<TResult>
     {
-        protected readonly TContext Context;
+        private readonly TContext context;
         public ContextRequestHandler(TContext context)
         {
-            this.Context = context;
+            this.context = context;
         }
-        public virtual Task<TResult> Handle(TQuery request, CancellationToken cancellationToken = default)
+
+        protected TContext Context => context;
+
+        public Task<TResult> Handle(TQuery request, CancellationToken cancellationToken = default)
+        {
+            // TODO: Logging
+            return HandleRequest(request, cancellationToken);
+        }
+
+        public virtual Task<TResult> HandleRequest(TQuery request, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

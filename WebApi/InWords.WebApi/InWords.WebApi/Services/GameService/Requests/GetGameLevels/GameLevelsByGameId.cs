@@ -13,7 +13,7 @@ namespace InWords.WebApi.Services.GameService.Requests.GetGameLevels
     {
         public GameLevelsByGameId(InWordsDataContext context) : base(context) { }
 
-        public override async Task<GameObject> Handle(GetLevelsByGameIdQuery request, CancellationToken cancellationToken = default)
+        public override async Task<GameObject> HandleRequest(GetLevelsByGameIdQuery request, CancellationToken cancellationToken = default)
         {
             // select levels
             IQueryable<GameLevel> levelsOfGame = Context.GameLevels.Where(l => l.GameId.Equals(request.GameId));

@@ -15,6 +15,7 @@ namespace InWords.WebApi.Services.Email
             builder.RegisterType<EmailSender>();
             builder.RegisterType<TextSender>();
             builder.RegisterType<TemplateSender>();
+            builder.RegisterType<EmailVerifierService>().AsImplementedInterfaces();
         }
     }
 }

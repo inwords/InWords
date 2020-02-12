@@ -108,6 +108,7 @@ namespace InWords.WebApi.AppStart
             {
                 c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "InWords Web API V1");
                 c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "InWords Web API V1.1");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "InWords Web API V2 (grpc is allowed)");
                 c.RoutePrefix = string.Empty;
             });
 

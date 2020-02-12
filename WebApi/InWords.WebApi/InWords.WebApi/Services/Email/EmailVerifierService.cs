@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using InWords.Data.Domains;
 using InWords.Data.Repositories;
+using InWords.WebApi.Services.Email.Abstractions;
 
 namespace InWords.WebApi.Services.Email
 {
     /// <summary>
     ///     This is register a user's profile for review by email
     /// </summary>
-    public class EmailVerifierService
+    public class EmailVerifierService : IEmailVerifierService
     {
         private readonly ShortCodeGeneratorService codeGenerator;
         private readonly EmailCodeSenderService emailCodeSenderService;

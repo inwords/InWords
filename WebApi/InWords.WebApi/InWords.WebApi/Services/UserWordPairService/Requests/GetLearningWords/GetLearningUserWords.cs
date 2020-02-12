@@ -19,7 +19,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords
         {
         }
 
-        public override async Task<List<WordTranslation>> Handle(GetLearningUserWordsQuery request,
+        public override async Task<List<WordTranslation>> HandleRequest(GetLearningUserWordsQuery request,
             CancellationToken cancellationToken = default)
         {
             IQueryable<UserWordPair> pairsToLearn = Context.UserWordPairs.QueryPairsToLearn(request);
