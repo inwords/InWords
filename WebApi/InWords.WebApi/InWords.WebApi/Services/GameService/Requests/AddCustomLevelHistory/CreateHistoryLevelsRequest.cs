@@ -19,7 +19,7 @@ namespace InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory
 
         }
 
-        public override async Task<CustomLevelMetricQuery> Handle(CustomLevelMetricQuery request, CancellationToken cancellationToken = default)
+        public override async Task<CustomLevelMetricQuery> HandleRequest(CustomLevelMetricQuery request, CancellationToken cancellationToken = default)
         {
             if (request == null) return new CustomLevelMetricQuery();
 

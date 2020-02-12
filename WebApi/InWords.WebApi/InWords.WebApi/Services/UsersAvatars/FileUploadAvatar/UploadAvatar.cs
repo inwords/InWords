@@ -20,7 +20,7 @@ namespace InWords.WebApi.Services.UsersAvatars.FileUploadAvatar
             this.fileLoader = fileLoader;
         }
 
-        public override async Task<UploadAvatarQueryResult> Handle(UploadAvatarQuery request, CancellationToken cancellationToken = default)
+        public override async Task<UploadAvatarQueryResult> HandleRequest(UploadAvatarQuery request, CancellationToken cancellationToken = default)
         {
             string avatarUrl;
 

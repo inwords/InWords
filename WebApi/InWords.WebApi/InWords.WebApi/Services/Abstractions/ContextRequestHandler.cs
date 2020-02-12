@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +19,13 @@ namespace InWords.WebApi.Services.Abstractions
 
         protected TContext Context => context;
 
-        public virtual Task<TResult> Handle(TQuery request, CancellationToken cancellationToken = default)
+        public Task<TResult> Handle(TQuery request, CancellationToken cancellationToken = default)
+        {
+            // TODO: Logging
+            return HandleRequest(request, cancellationToken);
+        }
+
+        public virtual Task<TResult> HandleRequest(TQuery request, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

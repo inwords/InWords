@@ -82,7 +82,7 @@ namespace InWords.WebApi.Controllers.v1
 
             return Ok(response);
         }
-
+        [Obsolete]
         private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {
             string username =

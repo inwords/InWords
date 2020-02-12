@@ -14,7 +14,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsI
     {
         public GetLearningUserWordsId(InWordsDataContext context) : base(context) { }
 
-        public override Task<List<int>> Handle(GetLearningUserWordsIdQuery request, CancellationToken cancellationToken = default)
+        public override Task<List<int>> HandleRequest(GetLearningUserWordsIdQuery request, CancellationToken cancellationToken = default)
         {
             IQueryable<UserWordPair> pairsToLearn = Context.UserWordPairs.QueryPairsToLearn(request);
             return pairsToLearn.Select(p => p.UserWordPairId).ToListAsync(cancellationToken: cancellationToken);

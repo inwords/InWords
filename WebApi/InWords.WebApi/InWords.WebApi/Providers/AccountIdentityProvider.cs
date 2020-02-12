@@ -7,9 +7,11 @@ using InWords.Data.Repositories;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
+using InWords.WebApi.Services.Users;
 
 namespace InWords.WebApi.Providers
 {
+    [Obsolete]
     public class AccountIdentityProvider
     {
         private readonly AccountRepository accountRepository;
@@ -80,27 +82,13 @@ namespace InWords.WebApi.Providers
             return response;
         }
 
-        public async Task<Account> CreateUserAccount(string email, string password, string nickName = "User")
+        public async Task<Account> CreateUserAccount(string email, string password, string nickName = "")
         {
-            byte[] saltedKey = passwordSalter.SaltPassword(password);
-            var newAccount = new Account
-            {
-                Email = email,
-                Hash = saltedKey,
-                Role = RoleType.Unverified,
-                RegistrationDate = DateTime.UtcNow,
-                User = null
-            };
+            AccountRegistration accountRegistration = new AccountRegistration(email, password, nickName);
+            
+            Account registredAccount = await accountRepository.CreateAsync(accountRegistration.Account);
 
-            newAccount.User = new User
-            {
-                NickName = nickName,
-                Experience = 0
-            };
-
-            await accountRepository.CreateAsync(newAccount);
-
-            return newAccount;
+            return registredAccount;
         }
     }
 }
