@@ -4,7 +4,11 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import TrainingResult from './TrainingResult';
 
-function TrainingResultContainer({ handleReset, handleReplay, ...rest }) {
+function TrainingResultContainer({
+  prepareToNextLevel,
+  handleReplay,
+  ...rest
+}) {
   const params = useParams();
   const history = useHistory();
 
@@ -50,7 +54,7 @@ function TrainingResultContainer({ handleReset, handleReplay, ...rest }) {
       }
     }
 
-    handleReset();
+    prepareToNextLevel();
   };
 
   return (
@@ -63,7 +67,7 @@ function TrainingResultContainer({ handleReset, handleReplay, ...rest }) {
 }
 
 TrainingResultContainer.propTypes = {
-  handleReset: PropTypes.func.isRequired,
+  prepareToNextLevel: PropTypes.func.isRequired,
   handleReplay: PropTypes.func.isRequired
 };
 

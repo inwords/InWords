@@ -97,18 +97,23 @@ function DictionaryContainer() {
     [pattern, extendedWordPairs]
   );
 
+  const handleCheckAll = () => {
+    setCheckedValues(filteredWordPairs.map(({ serverId }) => serverId));
+  };
+
   return (
     <Paper>
       <DictionaryToolbar
         editingModeEnabled={editingModeEnabled}
         checkedValues={checkedValues}
         handleReset={handleReset}
+        handleCheckAll={handleCheckAll}
         setPattern={setPattern}
       />
       <Divider />
       <Wordlist
         editingModeEnabled={editingModeEnabled}
-        wordPairs={!pattern ? extendedWordPairs : filteredWordPairs}
+        wordPairs={filteredWordPairs}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />

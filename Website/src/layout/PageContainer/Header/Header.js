@@ -24,7 +24,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
               <Icon>menu</Icon>
             </IconButton>
           )}
-          <BrandLink to="/">InWords</BrandLink>
+          <BrandLink>InWords</BrandLink>
         </div>
         {routes && (
           <nav role="navigation" className="header__nav">

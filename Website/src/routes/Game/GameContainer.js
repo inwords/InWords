@@ -13,6 +13,7 @@ import TrainingResult from 'src/layout/TrainingResult';
 function GameContainer({ levelId, wordTranslations }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
+  const [newServerLevelId, setNewServerLevelId] = useState();
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
@@ -53,38 +54,39 @@ function GameContainer({ levelId, wordTranslations }) {
       numberOfCompletedPairs > 0 &&
       numberOfCompletedPairs === wordPairs.length / 2
     ) {
-      timer1 = setTimeout(() => {
-        setIsGameCompleted(true);
-      }, 1000);
-
-      timer2 = setTimeout(() => {
-        setSelectedWordPairs([]);
-        setCompletedPairIdsMap({});
-        setSelectedCompletedPairId(-1);
-        setWordPairIdOpenCountsMap({});
-        setRecentWordPairs(wordPairs);
-
-        if (levelId <= 0) {
-          dispatch(
-            removeTrainingLevelWordPairs(
-              levelId,
-              wordPairs.map(wordPair => wordPair.pairId)
-            )
-          );
-        }
-
-        setIsResultReady(true);
-      }, 1500);
-
-      const gameLevelId = levelId < 0 ? 0 : levelId;
+      const serverLevelId = levelId < 0 ? 0 : levelId;
       dispatch(
         saveTrainingLevelResult(
           {
-            gameLevelId,
+            gameLevelId: newServerLevelId || serverLevelId,
             wordPairIdOpenCounts: wordPairIdOpenCountsMap
           },
           data => {
-            setScore(data.classicCardLevelResult[0].score);
+            timer1 = setTimeout(() => {
+              setIsGameCompleted(true);
+            }, 1000);
+
+            timer2 = setTimeout(() => {
+              setSelectedWordPairs([]);
+              setCompletedPairIdsMap({});
+              setSelectedCompletedPairId(-1);
+              setWordPairIdOpenCountsMap({});
+              setRecentWordPairs(wordPairs);
+
+              if (levelId <= 0) {
+                dispatch(
+                  removeTrainingLevelWordPairs(
+                    levelId,
+                    wordPairs.map(wordPair => wordPair.pairId)
+                  )
+                );
+              }
+
+              setScore(data.classicCardLevelResult[0].score);
+              setNewServerLevelId(data.classicCardLevelResult[0].levelId);
+
+              setIsResultReady(true);
+            }, 1500);
           }
         )
       );
@@ -98,6 +100,7 @@ function GameContainer({ levelId, wordTranslations }) {
     completedPairIdsMap,
     wordPairs,
     levelId,
+    newServerLevelId,
     wordPairIdOpenCountsMap,
     dispatch
   ]);
@@ -153,17 +156,22 @@ function GameContainer({ levelId, wordTranslations }) {
     }
   };
 
-  const { open, handleClose } = useDialog(true);
+  const { open, handleOpen, handleClose } = useDialog(true);
 
-  const handleReset = () => {
+  const prepareToNextLevel = () => {
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
+    setNewServerLevelId(undefined);
+
+    handleOpen();
   };
 
   const handleReplay = () => {
+    setIsGameCompleted(false);
+    setIsResultReady(false);
+    setScore(null);
     setWordPairs(shuffle([...recentWordPairs]));
-    handleReset();
   };
 
   return !isResultReady ? (
@@ -186,7 +194,7 @@ function GameContainer({ levelId, wordTranslations }) {
     <TrainingResult
       wordPairs={wordPairs}
       score={score}
-      handleReset={handleReset}
+      prepareToNextLevel={prepareToNextLevel}
       handleReplay={handleReplay}
     />
   );

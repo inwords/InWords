@@ -21,15 +21,10 @@ function TrainingHistory({ recentTrainings }) {
             <CardHeader title={`Тренировка ${levelId}`} />
             <CardContent>
               <div>
-                <Icon color={playerStars > 0 ? 'primary' : 'disabled'}>
-                  star
-                </Icon>
-                <Icon color={playerStars > 1 ? 'primary' : 'disabled'}>
-                  star
-                </Icon>
-                <Icon color={playerStars > 2 ? 'primary' : 'disabled'}>
-                  star
-                </Icon>
+                {Array(playerStars).fill(<Icon color="gold">star</Icon>)}
+                {Array(3 - playerStars).fill(
+                  <Icon color="disabled">star</Icon>
+                )}
               </div>
             </CardContent>
             <CardActions>

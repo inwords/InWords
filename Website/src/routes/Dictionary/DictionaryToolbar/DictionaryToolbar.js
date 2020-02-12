@@ -13,6 +13,7 @@ function DictionaryToolbar({
   checkedValues,
   handleDelete,
   handleReset,
+  handleCheckAll,
   inputs,
   handleChange
 }) {
@@ -36,9 +37,16 @@ function DictionaryToolbar({
             aria-label="clear selection"
             onClick={handleReset}
             color="inherit"
-            className="dictionary-toolbar__close-button"
           >
             <Icon>close</Icon>
+          </IconButton>
+          <IconButton
+            aria-label="check all"
+            onClick={handleCheckAll}
+            color="inherit"
+            className="dictionary-toolbar__done-all-button"
+          >
+            <Icon>done_all</Icon>
           </IconButton>
           <div className="dictionary-toolbar__title-block">
             <Typography as="h2" variant="h6">
@@ -67,6 +75,7 @@ DictionaryToolbar.propTypes = {
   checkedValues: PropTypes.array.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleCheckAll: PropTypes.func.isRequired,
   inputs: PropTypes.exact({
     pattern: PropTypes.string.isRequired
   }).isRequired,

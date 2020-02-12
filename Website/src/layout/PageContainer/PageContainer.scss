@@ -9,8 +9,14 @@
     }
   }
 
-  &__drawer-brand-link {
+  &__drawer-header {
+    display: flex;
+    align-items: center;
     padding-left: 24px;
+  }
+
+  &__drawer-header-menu-button {
+    margin-right: 16px;
   }
 
   &__side-nav {
