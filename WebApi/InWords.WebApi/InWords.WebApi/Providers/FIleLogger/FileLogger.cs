@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using InWords.WebApi.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -28,22 +29,30 @@ namespace InWords.WebApi.Providers.FIleLogger
             return true;
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
+        public async void Log<TState>(LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception exception,
             Func<TState, Exception, string> formatter)
         {
             if (formatter == null) return;
 
-            LogFile($"[{logLevel.ToString().Remove(3)}] {formatter(state, exception)}");
+            await LogFile($"[{logLevel.ToString().Remove(3)}] {formatter(state, exception)}")
+                .ConfigureAwait(false);
 
             if (logLevel.Equals(LogLevel.Error)) LogException(exception);
         }
 
-        private void LogFile(string content)
+        private Task LogFile(string content)
         {
-            lock (_lock)
+            byte[] encodedText = Encoding.Unicode.GetBytes($"{content}{Environment.NewLine}");
+
+            using (FileStream sourceStream = new FileStream(filePath,
+                FileMode.Append, FileAccess.Write, FileShare.None,
+                bufferSize: 4096, useAsync: true))
             {
-                File.AppendAllText(filePath, $"{content}{Environment.NewLine}");
-            }
+                return sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
+            };
         }
 
         private void LogException(Exception exception)
