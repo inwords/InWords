@@ -8,6 +8,13 @@ import shuffle from 'src/utils/shuffle';
 const synth = window.speechSynthesis;
 const lang = 'en-US';
 
+const initialCardSettings = {
+  cardDimension: 120,
+  cardTextSize: 16
+};
+
+const CardSettingsContext = React.createContext(initialCardSettings);
+
 function withReceivedTrainingLevel(WrappedComponent) {
   function WithReceivedTrainingLevel(props) {
     const params = useParams();
@@ -23,6 +30,8 @@ function withReceivedTrainingLevel(WrappedComponent) {
       preparedWordTranslations,
       setPreparedWordTranslations
     ] = React.useState();
+
+    const [cardSettings, setCardSettings] = React.useState(initialCardSettings);
 
     React.useEffect(() => {
       const paramLevelId = +params.levelId;
@@ -46,6 +55,11 @@ function withReceivedTrainingLevel(WrappedComponent) {
           (trainingsSettingsLocalData &&
             trainingsSettingsLocalData[+params.trainingId]) ||
           {};
+
+        setCardSettings({
+          cardDimension: +trainingSettings.cardDimension || 120,
+          cardTextSize: +trainingSettings.cardTextSize || 16
+        });
 
         if (trainingLevelsMap[paramLevelId]) {
           let wordTranslations =
@@ -86,11 +100,13 @@ function withReceivedTrainingLevel(WrappedComponent) {
 
     return (
       Boolean(preparedWordTranslations) && (
-        <WrappedComponent
-          levelId={+params.levelId}
-          wordTranslations={preparedWordTranslations}
-          {...props}
-        />
+        <CardSettingsContext.Provider value={cardSettings}>
+          <WrappedComponent
+            levelId={+params.levelId}
+            wordTranslations={preparedWordTranslations}
+            {...props}
+          />
+        </CardSettingsContext.Provider>
       )
     );
   }
@@ -102,4 +118,5 @@ function withReceivedTrainingLevel(WrappedComponent) {
   return WithReceivedTrainingLevel;
 }
 
+export { CardSettingsContext };
 export default withReceivedTrainingLevel;

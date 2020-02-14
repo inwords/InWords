@@ -17,8 +17,10 @@ function TrainingSettingsDialogContainer({ typeId, open, ...rest }) {
 
       const quantity = trainingSettings.quantity || '8';
       const voice = trainingSettings.voice || false;
+      const cardDimension = trainingSettings.cardDimension || 120;
+      const cardTextSize = trainingSettings.cardTextSize || 16;
 
-      setInputs({ quantity, voice });
+      setInputs({ quantity, voice, cardDimension, cardTextSize });
     }
   }, [open, typeId, setInputs]);
 

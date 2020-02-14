@@ -9,6 +9,7 @@ import Typography from 'src/components/Typography';
 import Slider from 'src/components/Slider';
 import Checkbox from 'src/components/Checkbox';
 import Button from 'src/components/Button';
+import GameCard from 'src/layout/GameCard';
 
 import './TrainingSettingsDialog.css';
 
@@ -36,7 +37,7 @@ function TrainingSettingsDialog({
             handleClose();
           }}
         >
-          <FormGroup className="training-setting-col">
+          <FormGroup className="training-settings-col">
             <Typography
               component="label"
               htmlFor="training-words-quantity"
@@ -52,12 +53,12 @@ function TrainingSettingsDialog({
                 max="8"
                 value={inputs.quantity}
                 onChange={handleChange}
-                className="training-setting-slider"
+                className="training-settings-slider"
               />
               <span>{inputs.quantity}</span>
             </div>
           </FormGroup>
-          <FormGroup className="training-setting-row">
+          <FormGroup className="training-settings-row">
             <Typography
               component="label"
               htmlFor="training-words-voice"
@@ -70,9 +71,67 @@ function TrainingSettingsDialog({
               name="voice"
               checked={inputs.voice}
               onChange={handleChange}
-              className="training-setting-checkbox"
+              className="training-settings-checkbox"
             />
           </FormGroup>
+          <div className="training-settings-row">
+            <div className="training-settings-col">
+              <FormGroup className="training-settings-col">
+                <Typography
+                  component="label"
+                  htmlFor="training-card-dimension"
+                  variant="body2"
+                >
+                  Размер карточки
+                </Typography>
+                <div>
+                  <Slider
+                    id="training-card-dimension"
+                    name="cardDimension"
+                    min="80"
+                    max="140"
+                    step="5"
+                    value={inputs.cardDimension}
+                    onChange={handleChange}
+                    className="training-settings-slider"
+                  />
+                  <span>{inputs.cardDimension}px</span>
+                </div>
+              </FormGroup>
+              <FormGroup className="training-settings-col">
+                <Typography
+                  component="label"
+                  htmlFor="training-card-text-size"
+                  variant="body2"
+                >
+                  Размер текста на карточке
+                </Typography>
+                <div>
+                  <Slider
+                    id="training-card-text-size"
+                    name="cardTextSize"
+                    min="12"
+                    max="24"
+                    step="1"
+                    value={inputs.cardTextSize}
+                    onChange={handleChange}
+                    className="training-settings-slider"
+                  />
+                  <span>{inputs.cardTextSize}px</span>
+                </div>
+              </FormGroup>
+            </div>
+            <div className="training-settings-col">
+              <div className="training-settings-game-card-container">
+                <GameCard
+                  dimension={+inputs.cardDimension}
+                  textSize={+inputs.cardTextSize}
+                >
+                  Word
+                </GameCard>
+              </div>
+            </div>
+          </div>
         </form>
       </DialogContent>
       <DialogActions>

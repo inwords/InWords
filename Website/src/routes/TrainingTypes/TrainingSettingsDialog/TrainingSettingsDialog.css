@@ -1,18 +1,24 @@
-.training-setting-col {
+.training-settings-col {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
 }
 
-.training-setting-row {
+.training-settings-row {
   display: flex;
   align-items: center;
 }
 
-.training-setting-slider {
+.training-settings-slider {
   margin-right: 8px;
 }
 
-.training-setting-checkbox {
+.training-settings-checkbox {
   margin-left: 8px;
+}
+
+.training-settings-game-card-container {
+  margin-left: 16px;
+  width: 140px;
+  height: 140px;
 }

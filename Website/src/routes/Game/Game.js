@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { CardSettingsContext } from 'src/HOCs/withReceivedTrainingLevel';
 import Paper from 'src/components/Paper';
 import FadeAnimation from 'src/components/FadeAnimation';
 import Fade from 'src/components/Fade';
 import Zoom from 'src/components/Zoom';
+import GameCard from 'src/layout/GameCard';
 
 import './Game.scss';
 
@@ -27,32 +29,35 @@ function Game({
     return colsNum;
   }, [wordPairs.length]);
 
+  const gameCardSettings = React.useContext(CardSettingsContext);
+
   return (
-    <div className={classNames('game-field', `game-field--cols-${cols}`)}>
+    <div
+      className="game-field"
+      style={{
+        maxWidth: gameCardSettings.cardDimension * cols + 8 * cols
+      }}
+    >
       {wordPairs.map(({ id, pairId, word, onSpeech }) => (
         <FadeAnimation key={id}>
           <Fade in={!isGameCompleted}>
             <div>
-              <Paper
+              <GameCard
+                open={
+                  completedPairIdsMap[pairId] ||
+                  Boolean(
+                    selectedWordPairs.find(
+                      selectedWordInfo => selectedWordInfo.id === id
+                    )
+                  )
+                }
+                dimension={gameCardSettings.cardDimension}
+                textSize={gameCardSettings.cardTextSize}
                 onClick={handleClick(pairId, id, onSpeech)}
                 depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
-                className="game-card"
               >
-                <Zoom
-                  in={
-                    completedPairIdsMap[pairId] ||
-                    Boolean(
-                      selectedWordPairs.find(
-                        selectedWordInfo => selectedWordInfo.id === id
-                      )
-                    )
-                  }
-                >
-                  <div className="game-card-content">
-                    <span className="game-card-text">{word}</span>
-                  </div>
-                </Zoom>
-              </Paper>
+                {word}
+              </GameCard>
             </div>
           </Fade>
         </FadeAnimation>
