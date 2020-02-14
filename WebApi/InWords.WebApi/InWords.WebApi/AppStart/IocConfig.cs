@@ -20,7 +20,9 @@ namespace InWords.WebApi.AppStart
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureIoc(builder));
 
+#warning obsoleted
             // register services
+            // TODO: remove
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(a => a.Name.EndsWith("Service")
                             && a.Namespace.StartsWith("InWords.WebApi.Services")
@@ -28,6 +30,7 @@ namespace InWords.WebApi.AppStart
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
+            // end warning
         }
     }
 }

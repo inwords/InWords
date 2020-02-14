@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using InWords.WebApi.Services.Email.Models;
 using InWords.WebApi.Services.Email.Template;
 
@@ -10,12 +11,15 @@ namespace InWords.WebApi.Services.Email.EmailSenders
         {
         }
 
-        public async Task SendMailAsync(string email, EmailTemplateBase emailTemplateBase)
+        public Task SendMailAsync(string email, EmailTemplateBase emailTemplateBase)
         {
+            if (emailTemplateBase == null)
+                throw new ArgumentNullException($"{emailTemplateBase} is null");
+
             AddAddressees("", email);
             SetSubject(emailTemplateBase.Subject);
             SetHTML(emailTemplateBase.HtmlBody, emailTemplateBase.AltText);
-            await base.SendEmailAsync();
+            return base.SendEmailAsync();
         }
     }
 }
