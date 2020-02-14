@@ -9,7 +9,7 @@ namespace InWords.WebApi.Services.Email.Models
     {
         public static string Next()
         {
-            return $"{new Guid()}";
+            return $"{Guid.NewGuid()}";
         }
     }
 }
