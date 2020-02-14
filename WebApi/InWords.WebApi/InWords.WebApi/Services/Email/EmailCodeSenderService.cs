@@ -10,6 +10,7 @@ using InWords.WebApi.Services.Email.Models;
 
 namespace InWords.WebApi.Services.Email
 {
+    [Obsolete]
     public class EmailCodeSenderService
     {
         public const int EMAIL_TIMEOUT = 2; // MINUTES;

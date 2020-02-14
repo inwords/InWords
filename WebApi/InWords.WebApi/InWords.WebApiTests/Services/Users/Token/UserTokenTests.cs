@@ -6,7 +6,7 @@ using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.Token;
 using InWords.WebApiTests.Controllers.v1._0;
 using Moq;
-using Registration.V2;
+using ProfilePackage.V2;
 using System;
 using System.Collections.Generic;
 using System.Text;

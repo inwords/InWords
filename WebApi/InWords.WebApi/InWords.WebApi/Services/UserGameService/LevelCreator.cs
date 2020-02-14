@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data;
@@ -9,6 +10,7 @@ using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services.UserGameService
 {
+    [Obsolete]
     public class LevelCreator
     {
         private readonly CreationRepository creationRepository;
