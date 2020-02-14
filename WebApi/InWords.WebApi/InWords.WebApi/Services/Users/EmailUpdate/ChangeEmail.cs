@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using InWords.Data;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Email.EmailSenders;
 using InWords.WebApi.Services.Email.Template;
 using ProfilePackage.V2;
@@ -12,8 +13,8 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
 {
     public class ChangeEmail : AuthorizedRequestObjectHandler<EmailChangeRequest, EmailChangeReply, InWordsDataContext>
     {
-        private readonly EmailTemplateSender emailTemplateSender;
-        public ChangeEmail(InWordsDataContext context, EmailTemplateSender emailTemplateSender) : base(context)
+        private readonly IEmailTemplateSender emailTemplateSender;
+        public ChangeEmail(InWordsDataContext context, IEmailTemplateSender emailTemplateSender) : base(context)
         {
             this.emailTemplateSender = emailTemplateSender;
         }

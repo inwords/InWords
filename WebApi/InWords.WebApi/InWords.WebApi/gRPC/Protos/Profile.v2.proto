@@ -36,7 +36,6 @@ message TokenReply {
 
 message EmailChangeRequest{
 	string email = 1;
-	int32 code = 2;
 }
 
 message EmailChangeReply{
