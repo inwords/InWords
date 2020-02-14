@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using ProfilePackage.V2;
 using MediatR;
 using InWords.WebApi.Services.Abstractions;
+using Microsoft.AspNetCore.Authorization;
+using InWords.Service.Auth.Extensions;
 
 namespace InWords.WebApi.gRPC.Services
 {
@@ -30,6 +32,18 @@ namespace InWords.WebApi.gRPC.Services
             TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
             return reply;
             // TODO: how to return error in grpc
+        }
+
+        [Authorize]
+        public override async Task<EmailChangeReply> RequestEmailUpdate(EmailChangeRequest request, ServerCallContext context)
+        {
+            var reqestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(request)
+            {
+                // TODO: how it works
+                UserId = context.GetHttpContext().User.GetUserId()
+            };
+            EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return reply;
         }
 
         // Update Email

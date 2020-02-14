@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProfilePackage.V2;
@@ -70,6 +72,31 @@ namespace InWords.WebApi.Controllers.v2
                 return Ok(reply);
             }
             catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        /// <summary>
+        ///   Use this to request update user's email
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Authorize]
+        [ProducesResponseType(typeof(EmailChangeRequest), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("updateEmail")]
+        public async Task<IActionResult> UpdateEmail([FromBody] EmailChangeRequest request)
+        {
+            try
+            {
+                var reqestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(request)
+                {
+                    UserId = User.GetUserId()
+                };
+                EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentNullException e)
             {
                 return BadRequest(e.Message);
             }
