@@ -369,7 +369,7 @@
             </summary>
             <param name="wordsService"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Register(Registration.V2.RegistrationRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Register(ProfilePackage.V2.RegistrationRequest)">
             <summary>
             Use this to register user
             </summary>
@@ -383,13 +383,20 @@
             400 means that the user was not found or the password was entered incorrectly
             </remarks>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Token(Registration.V2.TokenRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Token(ProfilePackage.V2.TokenRequest)">
             <summary>
                 Use this to get token
             </summary>
             <returns>user's access token</returns>
             <response code="200">Success</response>
             <response code="400">Access denied</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.UpdateEmail(ProfilePackage.V2.EmailChangeRequest)">
+            <summary>
+              Use this to request update user's email
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Extensions.StringExtensions.StripHTML(System.String)">
             <summary>
@@ -560,20 +567,6 @@
             <param name="levelScores"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
-            <summary>
-                This is to get score by level and update information of memorizing user word pairs
-            </summary>
-            <param name="userId"></param>
-            <param name="levelMetricQuery"></param>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Services.CreationService">
-            <summary>
-                Service that contain CRUD for Games
-            </summary>
-            <see cref="T:InWords.Data.Creations.Game" />
-        </member>
         <member name="M:InWords.WebApi.Services.Email.EmailCodeVerificationService.HasCorrectCode(System.Int32,System.String,System.Int32)">
             <summary>
                 This is to check code and if it's right code dispose all email verification.
@@ -657,6 +650,14 @@
                 Total words added excluding existing ones
             </summary>
         </member>
+        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
+            <summary>
+                This is to get score by level and update information of memorizing user word pairs
+            </summary>
+            <param name="userId"></param>
+            <param name="levelMetricQuery"></param>
+            <returns></returns>
+        </member>
         <member name="M:InWords.WebApi.Services.UserWordPairService.Abstraction.KnowledgeLicenseProvider.Ebbinghaus(System.Int32,System.Double)">
             <summary>
                 Implementation of
@@ -709,68 +710,74 @@
             </summary>
             <param name="c"></param>
         </member>
-        <member name="T:Registration.V2.RegistrationV2Reflection">
-            <summary>Holder for reflection information generated from gRPC/Protos/registration.v2.proto</summary>
+        <member name="T:ProfilePackage.V2.ProfileV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/Profile.v2.proto</summary>
         </member>
-        <member name="P:Registration.V2.RegistrationV2Reflection.Descriptor">
-            <summary>File descriptor for gRPC/Protos/registration.v2.proto</summary>
+        <member name="P:ProfilePackage.V2.ProfileV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/Profile.v2.proto</summary>
         </member>
-        <member name="T:Registration.V2.RegistrationRequest">
+        <member name="T:ProfilePackage.V2.RegistrationRequest">
             <summary>
             The request message containing the user's credentials.
             </summary>
         </member>
-        <member name="F:Registration.V2.RegistrationRequest.EmailFieldNumber">
+        <member name="F:ProfilePackage.V2.RegistrationRequest.EmailFieldNumber">
             <summary>Field number for the "email" field.</summary>
         </member>
-        <member name="F:Registration.V2.RegistrationRequest.PasswordFieldNumber">
+        <member name="F:ProfilePackage.V2.RegistrationRequest.PasswordFieldNumber">
             <summary>Field number for the "password" field.</summary>
         </member>
-        <member name="T:Registration.V2.RegistrationReply">
+        <member name="T:ProfilePackage.V2.RegistrationReply">
             <summary>
             The response message containing the Token.
             </summary>
         </member>
-        <member name="F:Registration.V2.RegistrationReply.UseridFieldNumber">
+        <member name="F:ProfilePackage.V2.RegistrationReply.UseridFieldNumber">
             <summary>Field number for the "userid" field.</summary>
         </member>
-        <member name="F:Registration.V2.RegistrationReply.TokenFieldNumber">
+        <member name="F:ProfilePackage.V2.RegistrationReply.TokenFieldNumber">
             <summary>Field number for the "token" field.</summary>
         </member>
-        <member name="T:Registration.V2.TokenRequest">
+        <member name="T:ProfilePackage.V2.TokenRequest">
             <summary>
             The request message containing the user's credentials.
             </summary>
         </member>
-        <member name="F:Registration.V2.TokenRequest.EmailFieldNumber">
+        <member name="F:ProfilePackage.V2.TokenRequest.EmailFieldNumber">
             <summary>Field number for the "email" field.</summary>
         </member>
-        <member name="F:Registration.V2.TokenRequest.PasswordFieldNumber">
+        <member name="F:ProfilePackage.V2.TokenRequest.PasswordFieldNumber">
             <summary>Field number for the "password" field.</summary>
         </member>
-        <member name="T:Registration.V2.TokenReply">
+        <member name="T:ProfilePackage.V2.TokenReply">
             <summary>
             The response message containing the Token.
             </summary>
         </member>
-        <member name="F:Registration.V2.TokenReply.UserIdFieldNumber">
+        <member name="F:ProfilePackage.V2.TokenReply.UserIdFieldNumber">
             <summary>Field number for the "userId" field.</summary>
         </member>
-        <member name="F:Registration.V2.TokenReply.TokenFieldNumber">
+        <member name="F:ProfilePackage.V2.TokenReply.TokenFieldNumber">
             <summary>Field number for the "token" field.</summary>
         </member>
-        <member name="T:Registration.V2.Registrator">
+        <member name="F:ProfilePackage.V2.EmailChangeRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.EmailChangeReply.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="T:ProfilePackage.V2.Profile">
             <summary>
             The greeting service definition.
             </summary>
         </member>
-        <member name="P:Registration.V2.Registrator.Descriptor">
+        <member name="P:ProfilePackage.V2.Profile.Descriptor">
             <summary>Service descriptor</summary>
         </member>
-        <member name="T:Registration.V2.Registrator.RegistratorBase">
-            <summary>Base class for server-side implementations of Registrator</summary>
+        <member name="T:ProfilePackage.V2.Profile.ProfileBase">
+            <summary>Base class for server-side implementations of Profile</summary>
         </member>
-        <member name="M:Registration.V2.Registrator.RegistratorBase.Register(Registration.V2.RegistrationRequest,Grpc.Core.ServerCallContext)">
+        <member name="M:ProfilePackage.V2.Profile.ProfileBase.Register(ProfilePackage.V2.RegistrationRequest,Grpc.Core.ServerCallContext)">
             <summary>
             Sends a greeting
             </summary>
@@ -778,11 +785,11 @@
             <param name="context">The context of the server-side call handler being invoked.</param>
             <returns>The response to send back to the client (wrapped by a task).</returns>
         </member>
-        <member name="M:Registration.V2.Registrator.BindService(Registration.V2.Registrator.RegistratorBase)">
+        <member name="M:ProfilePackage.V2.Profile.BindService(ProfilePackage.V2.Profile.ProfileBase)">
             <summary>Creates service definition that can be registered with a server</summary>
             <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
-        <member name="M:Registration.V2.Registrator.BindService(Grpc.Core.ServiceBinderBase,Registration.V2.Registrator.RegistratorBase)">
+        <member name="M:ProfilePackage.V2.Profile.BindService(Grpc.Core.ServiceBinderBase,ProfilePackage.V2.Profile.ProfileBase)">
             <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
             Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
             <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>

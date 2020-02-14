@@ -85,6 +85,7 @@ namespace InWords.WebApi.Controllers.v2
         [ProducesResponseType(typeof(EmailChangeRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("updateEmail")]
+        [HttpPost]
         public async Task<IActionResult> UpdateEmail([FromBody] EmailChangeRequest request)
         {
             try
