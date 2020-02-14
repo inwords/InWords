@@ -4,7 +4,7 @@ using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Registration.V2;
+using ProfilePackage.V2;
 
 namespace InWords.WebApi.Controllers.v2
 {

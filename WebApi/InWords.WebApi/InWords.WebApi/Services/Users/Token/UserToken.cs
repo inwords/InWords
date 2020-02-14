@@ -4,7 +4,7 @@ using InWords.Service.Auth.Models;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
 using InWords.WebApi.Services.Abstractions;
-using Registration.V2;
+using ProfilePackage.V2;
 using System;
 using System.Collections.Generic;
 using System.Linq;

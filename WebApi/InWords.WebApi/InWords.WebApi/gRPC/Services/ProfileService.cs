@@ -1,6 +1,6 @@
 ﻿using Grpc.Core;
 using System.Threading.Tasks;
-using Registration.V2;
+using ProfilePackage.V2;
 using MediatR;
 using InWords.WebApi.Services.Abstractions;
 
@@ -33,6 +33,7 @@ namespace InWords.WebApi.gRPC.Services
         }
 
         // Update Email
+        // Confirm Email
         // Reset Password
         // Update Password
         // Delete Profile

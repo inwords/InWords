@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package Registration.v2;
+package ProfilePackage.v2;
 
 // The greeting service definition.
 service Profile {
 	// Sends a greeting
 	rpc Register (RegistrationRequest) returns (RegistrationReply);
 	rpc GetToken (TokenRequest) returns (TokenReply);
-
+	rpc RequestEmailUpdate (EmailUpdateRequest) returns (EmailUpdateReply);
 }
 
 // The request message containing the user's credentials.
@@ -32,4 +32,21 @@ message TokenRequest {
 message TokenReply {
 	int64 userId = 1;
 	string token = 2;
+}
+
+message EmailUpdateRequest{
+	string email = 1;
+}
+
+message EmailUpdateReply{
+	string email = 1;
+}
+
+message EmailConfirmRequest{
+	string email = 1;
+	int32 code = 2;
+}
+
+message EmailConfirmReply{
+	string email = 1;
 }
