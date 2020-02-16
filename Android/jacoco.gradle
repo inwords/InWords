@@ -81,7 +81,7 @@ allprojects { project ->
     }
 }
 
-task getJacocoReports1() {
+task jacocoAggregateReports() {
     group = "Reporting"
     subprojects.forEach { subproject ->
         subproject.tasks.withType(JacocoReport).forEach { task ->
