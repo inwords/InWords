@@ -62,5 +62,3 @@ steps:
   inputs:
     codeCoverageTool: 'JaCoCo'
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/app/getJacocoReports/getJacocoReports.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/app/getJacocoReports/getJacocoReports/html'
-    additionalCodeCoverageFiles: '$(System.DefaultWorkingDirectory)/**/*.exec'
