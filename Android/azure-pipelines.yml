@@ -44,6 +44,13 @@ steps:
     gradleOptions: '-Xmx3072m'
     tasks: 'assembleDebug'
 
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Android/'
+    gradleWrapperFile: 'Android/gradlew'
+    gradleOptions: '-Xmx3072m'
+    tasks: 'getJacocoReports1'
+
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
