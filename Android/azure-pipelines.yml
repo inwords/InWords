@@ -36,13 +36,20 @@ steps:
   inputs:
     workingDirectory: 'Android/'
     gradleWrapperFile: 'Android/gradlew'
-    tasks: 'test getJacocoReports1'
+    tasks: 'test'
     publishJUnitResults: true
     testResultsFiles: '**/testReleaseUnitTest/TEST-*.xml'
     testRunTitle: 'Run JUnit5 tests'
     javaHomeOption: 'JDKVersion'
     gradleOptions: '-Xmx3072m'
     sonarQubeRunAnalysis: false
+
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Android/'
+    gradleWrapperFile: 'Android/gradlew'
+    gradleOptions: '-Xmx3072m'
+    tasks: 'getJacocoReports1'
 
 - task: PublishCodeCoverageResults@1
   inputs:
