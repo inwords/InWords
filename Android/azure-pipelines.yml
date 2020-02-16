@@ -43,3 +43,10 @@ steps:
     gradleWrapperFile: 'Android/gradlew'
     gradleOptions: '-Xmx3072m'
     tasks: 'assembleDebug'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/InWords/Android/app/build/reports/jacoco/app/getJacocoReports/getJacocoReports.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/InWords/Android/app/build/reports/jacoco/app/getJacocoReports/getJacocoReports/html'
+    additionalCodeCoverageFiles: '$(System.DefaultWorkingDirectory)/**/*.exec'
