@@ -7,6 +7,8 @@
 .training-settings-row {
   display: flex;
   align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .training-settings-slider {
@@ -18,7 +20,8 @@
 }
 
 .training-settings-game-card-container {
-  margin-left: 16px;
-  width: 140px;
-  height: 140px;
+  padding-top: 16px;
+  padding-left: 16px;
+  width: 156px;
+  height: 156px;
 }
