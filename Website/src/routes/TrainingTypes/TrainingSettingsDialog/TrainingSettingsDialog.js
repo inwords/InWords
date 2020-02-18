@@ -68,8 +68,24 @@ function TrainingSettingsDialog({
             </Typography>
             <Checkbox
               id="training-words-voice"
-              name="voice"
-              checked={inputs.voice}
+              name="voiceOn"
+              checked={inputs.voiceOn}
+              onChange={handleChange}
+              className="training-settings-checkbox"
+            />
+          </FormGroup>
+          <FormGroup className="training-settings-row">
+            <Typography
+              component="label"
+              htmlFor="training-words-list-on"
+              variant="body2"
+            >
+              Показывать слова перед тренировкой
+            </Typography>
+            <Checkbox
+              id="training-words-list-on"
+              name="listOn"
+              checked={inputs.listOn}
               onChange={handleChange}
               className="training-settings-checkbox"
             />
@@ -156,7 +172,10 @@ TrainingSettingsDialog.propTypes = {
   handleClose: PropTypes.func.isRequired,
   inputs: PropTypes.shape({
     quantity: PropTypes.string,
-    voice: PropTypes.bool
+    voiceOn: PropTypes.bool,
+    listOn: PropTypes.bool,
+    cardDimension: PropTypes.string,
+    cardTextSize: PropTypes.string
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired

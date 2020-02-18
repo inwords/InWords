@@ -10,7 +10,7 @@ import GamePairsDialog from './GamePairsDialog';
 import Game from './Game';
 import TrainingResult from 'src/layout/TrainingResult';
 
-function GameContainer({ levelId, wordTranslations }) {
+function GameContainer({ levelId, wordTranslations, listOn }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
   const [newServerLevelId, setNewServerLevelId] = useState();
@@ -156,7 +156,7 @@ function GameContainer({ levelId, wordTranslations }) {
     }
   };
 
-  const { open, handleOpen, handleClose } = useDialog(true);
+  const { open, handleOpen, handleClose } = useDialog(listOn);
 
   const prepareToNextLevel = () => {
     setIsGameCompleted(false);
@@ -164,7 +164,9 @@ function GameContainer({ levelId, wordTranslations }) {
     setScore(null);
     setNewServerLevelId(undefined);
 
-    handleOpen();
+    if (listOn) {
+      handleOpen();
+    }
   };
 
   const handleReplay = () => {
@@ -209,7 +211,8 @@ GameContainer.propTypes = {
       wordNative: PropTypes.string.isRequired,
       onSpeech: PropTypes.func
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  listOn: PropTypes.bool.isRequired
 };
 
 export default withReceivedTrainingLevel(GameContainer);

@@ -16,11 +16,16 @@ function TrainingSettingsDialogContainer({ typeId, open, ...rest }) {
         {};
 
       const quantity = trainingSettings.quantity || '8';
-      const voice = trainingSettings.voice || false;
+      const voiceOn =
+        trainingSettings.voiceOn !== undefined
+          ? trainingSettings.voiceOn
+          : false;
+      const listOn =
+        trainingSettings.listOn !== undefined ? trainingSettings.listOn : true;
       const cardDimension = trainingSettings.cardDimension || 120;
       const cardTextSize = trainingSettings.cardTextSize || 16;
 
-      setInputs({ quantity, voice, cardDimension, cardTextSize });
+      setInputs({ quantity, voiceOn, listOn, cardDimension, cardTextSize });
     }
   }, [open, typeId, setInputs]);
 

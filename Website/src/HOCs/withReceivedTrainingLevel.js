@@ -26,6 +26,8 @@ function withReceivedTrainingLevel(WrappedComponent) {
 
     const dispatch = useDispatch();
 
+    const [listOn, setListOn] = React.useState(true);
+
     const [
       preparedWordTranslations,
       setPreparedWordTranslations
@@ -61,6 +63,10 @@ function withReceivedTrainingLevel(WrappedComponent) {
           cardTextSize: +trainingSettings.cardTextSize || 16
         });
 
+        if (trainingSettings.listOn !== undefined) {
+          setListOn(trainingSettings.listOn);
+        }
+
         if (trainingLevelsMap[paramLevelId]) {
           let wordTranslations =
             trainingLevelsMap[paramLevelId].wordTranslations;
@@ -72,7 +78,7 @@ function withReceivedTrainingLevel(WrappedComponent) {
             );
           }
 
-          if (trainingSettings.voice) {
+          if (trainingSettings.voiceOn) {
             wordTranslations = wordTranslations.map(wordTranslation => {
               const onSpeech = () => {
                 if (synth.speaking) {
@@ -104,6 +110,7 @@ function withReceivedTrainingLevel(WrappedComponent) {
           <WrappedComponent
             levelId={+params.levelId}
             wordTranslations={preparedWordTranslations}
+            listOn={listOn}
             {...props}
           />
         </CardSettingsContext.Provider>
