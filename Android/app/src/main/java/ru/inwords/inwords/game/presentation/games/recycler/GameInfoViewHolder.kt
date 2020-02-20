@@ -3,13 +3,12 @@ package ru.inwords.inwords.game.presentation.games.recycler
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.game_level_info.view.*
 import ru.inwords.inwords.game.domain.model.GameInfoModel
 
 class GameInfoViewHolder internal
-constructor(itemView: View, private val onItemClickedListener: Subject<GameInfoModel>?) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener {
+constructor(itemView: View, private val onItemClickedListener: ((GameInfoModel) -> Unit)?) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     private val title: TextView = itemView.title
 
@@ -26,6 +25,6 @@ constructor(itemView: View, private val onItemClickedListener: Subject<GameInfoM
     }
 
     override fun onClick(v: View) {
-        onItemClickedListener?.onNext(gameInfo)
+        onItemClickedListener?.invoke(gameInfo)
     }
 }

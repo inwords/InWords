@@ -8,4 +8,8 @@ class PolicyViewModel internal constructor(private val policyInteractor: PolicyI
     fun setPolicyAgreementState(state: Boolean): Completable {
         return policyInteractor.setPolicyAgreementState(state)
     }
+
+    fun popBack() {
+        navigateTo(PolicyFragmentDirections.actionPolicyFragmentPop())
+    }
 }

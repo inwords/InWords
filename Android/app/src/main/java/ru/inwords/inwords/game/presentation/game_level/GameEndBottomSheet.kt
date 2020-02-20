@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.game_end.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.data.validId
 import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.domain.model.LevelResultModel
@@ -69,8 +70,8 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
                 }
             })
 
-        viewModel.navigationFromGameEnd.observe(this::getLifecycle) {
-            when (it.contentIfNotHandled ?: return@observe) {
+        observe(viewModel.navigationFromGameEnd) {
+            when (it) {
                 FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionGlobalMainFragment())
                 FromGameEndEventsEnum.BACK -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
                 FromGameEndEventsEnum.GAMES_FRAGMENT -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGamesFragment())

@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -50,16 +49,14 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         return super.onCreateView(inflater, container, savedInstanceState).also { view ->
             setupToolbar(view)
 
-            val onItemClickedListener = PublishSubject.create<WordTranslation>()
             val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
-            setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
+            setupRecyclerView(view, onSpeakerClickedListener)
 
             if (savedInstanceState != null) {
                 tracker.onRestoreInstanceState(savedInstanceState)
                 onTrackerSelectionChanged()
             }
 
-            viewModel.onEditClickedHandler(onItemClickedListener)
             viewModel.onSpeakerClickedHandler(onSpeakerClickedListener.doOnNext { view.progress_view.progress = 50 })
 
             view.fab.setOnClickListener { viewModel.onAddClicked() } //TODO clicks
@@ -69,19 +66,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
-
-        viewModel.addEditWordLiveData.observe(this::getLifecycle) { event ->
-            event.contentIfNotHandled?.also {
-                navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(it))
-            }
-        }
-
-        viewModel.navigateToPlayLiveData.observe(this::getLifecycle) { event ->
-            event.contentIfNotHandled?.also {
-                navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToCustomGameCreatorFragment(it.toTypedArray()))
-            }
-        }
+        setupWithNavController(toolbar)
 
         ttsMediaPlayerAdapter = TtsMediaPlayerAdapter { resource ->
             progress_view.post { progress_view.progress = 0 }
@@ -141,11 +126,10 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     private fun setupRecyclerView(view: View,
-                                  onItemClickedListener: Subject<WordTranslation>,
                                   onSpeakerClickedListener: Subject<WordTranslation>) = with(view) {
         val context = view.context
 
-        adapter = WordTranslationsAdapter(onItemClickedListener, onSpeakerClickedListener)
+        adapter = WordTranslationsAdapter({ viewModel.onEditClicked(it) }, onSpeakerClickedListener)
 
         val layoutManager = LinearLayoutManager(context)
         val dividerItemDecoration = DividerItemDecoration(context, layoutManager.orientation)

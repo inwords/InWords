@@ -3,13 +3,12 @@ package ru.inwords.inwords.home.recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.subjects.Subject
 import ru.inwords.inwords.R
 import ru.inwords.inwords.game.presentation.BaseSingleTypeAdapter
 import ru.inwords.inwords.home.viewholders.*
 
 class CardsRecyclerAdapter(
-    onItemClickListener: Subject<CardWrapper>
+    onItemClickListener: (CardWrapper) -> Unit
 ) : BaseSingleTypeAdapter<CardWrapper, RecyclerView.ViewHolder>(onItemClickListener) {
 
     enum class CardTypes {

@@ -5,14 +5,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.fragment_game_level.*
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
-import ru.inwords.inwords.game.domain.model.LevelResultModel
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.GAME_LEVEL_INFO
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
@@ -46,7 +43,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
+        setupWithNavController(toolbar)
 
         observe(viewModel.showProgress) {
             it.contentIfNotHandled?.let {
@@ -57,7 +54,6 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
             }
         }
 
-        observe(viewModel.levelResult, this::showGameEndDialog)
         viewModel.onAttachGameScene(GameScene(WeakReference(table)))
 
         ttsMediaPlayerAdapter = TtsMediaPlayerAdapter { resource ->
@@ -69,16 +65,5 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         ttsMediaPlayerAdapter
             .observeTtsStream(viewModel.ttsStream)
             .disposeOnViewDestroyed()
-    }
-
-    private fun showGameEndDialog(levelResultEvent: Event<LevelResultModel>) {
-        val levelResultModel = levelResultEvent.contentIfNotHandled ?: return
-        val levelId = viewModel.getCurrentLevelInfo()?.levelId ?: return
-
-        navController.navigate(
-            GameLevelFragmentDirections.actionGameLevelFragmentToGameEndBottomSheet(
-                levelResultModel.copy(levelId = levelId)
-            )
-        )
     }
 }

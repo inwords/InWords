@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_games.*
 import ru.inwords.inwords.R
@@ -29,14 +28,12 @@ class GamesFragment : BaseContentFragment<GameInfoModel, GamesViewModel, OctoGam
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
+        setupWithNavController(toolbar)
 
-        adapter = GamesAdapter(viewModel.navigateToGame)
+        adapter = GamesAdapter { viewModel.navigateToGame(it) }
 
         games_recycler.layoutManager = GridLayoutManager(context, 2)
         games_recycler.adapter = adapter
-
-        viewModel.navigateToGame.subscribe(::navigateToGame).disposeOnViewDestroyed()
 
         viewModel.screenInfoStream()
             .observeOn(SchedulersFacade.ui())
@@ -62,10 +59,6 @@ class GamesFragment : BaseContentFragment<GameInfoModel, GamesViewModel, OctoGam
                 Log.e(javaClass.simpleName, it.message.orEmpty())
                 showNoContent()
             }.disposeOnViewDestroyed()
-    }
-
-    private fun navigateToGame(gameInfo: GameInfoModel) {
-        navController.navigate(GamesFragmentDirections.actionGamesFragmentToGameLevelsFragment(gameInfo))
     }
 
     private fun showPopupMenu(v: View) { //TODO

@@ -8,9 +8,9 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.game.presentation.BaseSingleTypeAdapter
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 
-class WordTranslationsAdapter(onItemClickedListener: Subject<WordTranslation>,
+class WordTranslationsAdapter(onItemClickedListener: (WordTranslation) -> Unit,
                               private val onSpeakerClickedListener: Subject<WordTranslation>) :
-        BaseSingleTypeAdapter<WordTranslation, WordTranslationViewHolder>(onItemClickedListener) {
+    BaseSingleTypeAdapter<WordTranslation, WordTranslationViewHolder>(onItemClickedListener) {
 
     var tracker: SelectionTracker<WordTranslation>? = null
 

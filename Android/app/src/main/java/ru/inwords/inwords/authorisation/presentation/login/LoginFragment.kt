@@ -3,7 +3,6 @@ package ru.inwords.inwords.authorisation.presentation.login
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
@@ -23,7 +22,7 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
+        setupWithNavController(toolbar)
 
         setupValidation()
 
@@ -37,11 +36,6 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
         }
         textViewSignUp.setOnClickListener { viewModel.onNavigateClicked() } //TODO clicks
 
-        observe(viewModel.navigateTo) { event ->
-            event.contentIfNotHandled?.also {
-                navigateToRegistration()
-            }
-        }
         observe(viewModel.authorisationState) {
             processViewState(it)
         }
@@ -128,10 +122,6 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
 
     private fun navigateOnSuccess() {
         KeyboardUtils.hideKeyboard(view)
-        navController.navigate(LoginFragmentDirections.actionPopOutOfAuth())
-    }
-
-    private fun navigateToRegistration() {
-        navController.navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+        viewModel.popOutOfAuth()
     }
 }

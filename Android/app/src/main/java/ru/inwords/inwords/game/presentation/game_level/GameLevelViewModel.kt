@@ -22,19 +22,18 @@ import ru.inwords.inwords.game.domain.model.GameModel
 import ru.inwords.inwords.game.domain.model.LevelResultModel
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.game_level.FromGameEndEventsEnum.*
+import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 
 class GameLevelViewModel(private val gameInteractor: GameInteractor,
                          private val continueGameInteractor: ContinueGameInteractor,
                          private val ttsRepository: TtsRepository) : BasicViewModel() {
-    private val _navigationFromGameEnd = MutableLiveData<Event<FromGameEndEventsEnum>>()
-    private val _levelResult = MutableLiveData<Event<LevelResultModel>>()
+    private val _navigationFromGameEnd = SingleLiveEvent<FromGameEndEventsEnum>()
     private val ttsSubject = PublishSubject.create<Resource<String>>()
     private val showProgressMutableLiveData = MutableLiveData<Event<Boolean>>()
 
-    val levelResult: LiveData<Event<LevelResultModel>> = _levelResult
-    val navigationFromGameEnd: LiveData<Event<FromGameEndEventsEnum>> = _navigationFromGameEnd
+    val navigationFromGameEnd: LiveData<FromGameEndEventsEnum> = _navigationFromGameEnd
     val ttsStream: Observable<Resource<String>> = ttsSubject
     val showProgress: LiveData<Event<Boolean>> = showProgressMutableLiveData
 
@@ -42,7 +41,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
 
     private val gameLevelOrchestrator = GameLevelOrchestrator(onCardFlipped = { ttsWordModel(it) })
         .apply {
-            setGameEndListener { _levelResult.postValue(Event(it)) }
+            setGameEndListener { showGameEndDialog(it) }
         }
 
     private lateinit var game: Game
@@ -94,13 +93,13 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
                     when (val queryResult = queryResultResource.data) {
                         is ContinueGameQueryResult.NextLevelInfo -> {
                             onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
-                            _navigationFromGameEnd.postValue(Event(NEXT))
+                            _navigationFromGameEnd.postValue(NEXT)
                         }
                         is ContinueGameQueryResult.NextGameInfo -> {
-                            _navigationFromGameEnd.postValue(Event(GAMES_FRAGMENT)) //TODO show congrats screen with action "go to next"
+                            _navigationFromGameEnd.postValue(GAMES_FRAGMENT) //TODO show congrats screen with action "go to next"
                         }
                         ContinueGameQueryResult.NoMoreGames -> {
-                            _navigationFromGameEnd.postValue(Event(GAMES_FRAGMENT)) //TODO show congrats screen
+                            _navigationFromGameEnd.postValue(GAMES_FRAGMENT) //TODO show congrats screen
                         }
                     }
                 }
@@ -122,10 +121,10 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
                     .autoDispose()
             }
             REFRESH -> {
-                _navigationFromGameEnd.postValue(Event(path))
+                _navigationFromGameEnd.postValue(path)
                 onGameLevelSelected(game.gameId, currentLevelInfo, true)
             }
-            else -> _navigationFromGameEnd.postValue(Event(path))
+            else -> _navigationFromGameEnd.postValue(path)
         }
     }
 
@@ -150,5 +149,15 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
                 })
                 .autoDispose()
         }
+    }
+
+    private fun showGameEndDialog(levelResultModel: LevelResultModel) {
+        val levelId = getCurrentLevelInfo()?.levelId ?: return
+
+        navigateTo(
+            GameLevelFragmentDirections.actionGameLevelFragmentToGameEndBottomSheet(
+                levelResultModel.copy(levelId = levelId)
+            )
+        )
     }
 }
