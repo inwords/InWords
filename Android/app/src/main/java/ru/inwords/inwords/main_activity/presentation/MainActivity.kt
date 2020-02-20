@@ -35,6 +35,8 @@ class MainActivity : DaggerAppCompatActivity() {
 
         navController = Navigation.findNavController(this, R.id.main_nav_host_fragment)
 
+        viewModel.toString()
+
         setupBottomNavMenu(navController)
 
         keyboardStatusDisposable = KeyboardManager(this).status()

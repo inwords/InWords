@@ -1,11 +1,18 @@
 package ru.inwords.inwords.game.presentation.game_level
 
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
+import androidx.core.view.marginBottom
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
+import androidx.core.view.marginTop
+import androidx.core.widget.TextViewCompat
 import kotlinx.android.synthetic.main.game_card_front.view.*
 import ru.inwords.flipview.FlipView
 import ru.inwords.inwords.R
@@ -54,6 +61,13 @@ class GameScene(private val container: WeakReference<TableLayout>) {
             else -> 3
         }
         val rows = ceil(words.size / cols.toFloat()).toInt()
+
+        val cardSizePx = if (table.measuredHeight < table.measuredWidth) {
+            table.measuredHeight / rows
+        } else {
+            table.measuredWidth / cols
+        }
+
         for (i in 0 until rows) {
             val tableRow = TableRow(context)
             tableRow.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -67,6 +81,18 @@ class GameScene(private val container: WeakReference<TableLayout>) {
                 }
 
                 val flipView = layoutInflater.inflate(R.layout.game_card, tableRow, false) as FlipView
+                flipView.layoutParams = flipView.layoutParams.apply {
+                    height = cardSizePx - (flipView.marginTop + flipView.marginBottom)
+                    width = cardSizePx - (flipView.marginStart + flipView.marginEnd)
+                }
+
+                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+                    flipView.frontLayout as TextView,
+                    12, //TODO remove hardcode
+                    24,
+                    1,
+                    TypedValue.COMPLEX_UNIT_SP
+                )
 
                 with(flipView) {
                     flipViews.add(WeakReference(this))
