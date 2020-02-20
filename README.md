@@ -7,3 +7,6 @@ Api Deploy [![Deploy Status](https://vsrm.dev.azure.com/InWords/_apis/public/Rel
 Api Test Coverage ![Coverage](https://img.shields.io/azure-devops/coverage/InWords/InWordsWebApi/4)
 
 Android Build Pipeline [![Build Status](https://dev.azure.com/InWords/InWordsWebApi/_apis/build/status/Android%20Gradle?branchName=android-develop)](https://dev.azure.com/InWords/InWordsWebApi/_build/latest?definitionId=6&branchName=android-develop)
+
+Api Test Coverage ![Coverage](https://img.shields.io/azure-devops/coverage/InWords/InWordsWebApi/6)
+
