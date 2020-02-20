@@ -20,16 +20,14 @@ class RegistrationViewModel(
     private val resourceManager: ResourceManager
 ) : BasicViewModel() {
     private val authorisationStateLiveData = MutableLiveData<Event<AuthorisationViewState>>()
-    private val navigateToLiveData = MutableLiveData<Event<Unit>>()
 
     val authorisationState: LiveData<Event<AuthorisationViewState>> = authorisationStateLiveData
-    val navigateTo: LiveData<Event<Unit>> = navigateToLiveData
 
     private val validationMutableLiveData = MutableLiveData<UserCredentialsWithConfirmationValidationState>()
     val validationLiveData: LiveData<UserCredentialsWithConfirmationValidationState> get() = validationMutableLiveData
 
     fun onNavigateClicked() {
-        navigateToLiveData.postValue(Event(Unit))
+        navigateToLogin()
     }
 
     fun onSignClicked(userCredentials: UserCredentials, passwordConfirmation: String) {
@@ -60,5 +58,13 @@ class RegistrationViewModel(
                 })
                 .autoDispose()
         }
+    }
+
+    private fun navigateToLogin() {
+        navigateTo(RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragmentPop())
+    }
+
+    fun popOutOfAuth() {
+        navigateTo(RegistrationFragmentDirections.actionPopOutOfAuth())
     }
 }

@@ -8,14 +8,14 @@ import ru.inwords.inwords.core.recycler.SelectableViewHolder
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 
 class WordTranslationViewHolder(itemView: View,
-                                onItemClickedListener: Subject<WordTranslation>?,
+                                onItemClickedListener: ((WordTranslation) -> Unit)?,
                                 onSpeakerClickedListener: Subject<WordTranslation>)
     : SelectableViewHolder<WordTranslation>(itemView) {
     private var wordNativeTextView: TextView = itemView.tv_word_native
     private var wordForeignTextView: TextView = itemView.tv_word_foreign
 
     init {
-        onItemClickedListener?.let { listener -> itemView.setOnClickListener { listener.onNext(item) } }
+        onItemClickedListener?.let { listener -> itemView.setOnClickListener { listener.invoke(item) } }
         itemView.speaker_view.setOnClickListener { onSpeakerClickedListener.onNext(item) }
         itemView.setOnLongClickListener { true }
     }

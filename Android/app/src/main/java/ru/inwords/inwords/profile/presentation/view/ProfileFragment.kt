@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
@@ -19,6 +18,7 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.KeyboardUtils
+import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.policy.presentation.renderPolicyText
 import ru.inwords.inwords.presentation.createAppBarNavIconOnScrimColorAnimatorListener
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
@@ -53,7 +53,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
                 appbar_layout.addOnOffsetChangedListener(this)
             }
 
-        NavigationUI.setupWithNavController(collapsing_toolbar, toolbar, navController)
+        setupWithNavController(collapsing_toolbar, toolbar)
 
         to_login_button.setOnClickListener(toLoginClickListener())
 
@@ -108,7 +108,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     }
 
     private fun subscribeNicknameUpdateResult() {
-        viewModel.changeNickname.observe(this::getLifecycle) {
+        observe(viewModel.changeNickname) {
             when (it.contentIfNotHandled) {
                 is Resource.Success -> {
                     renderDefaultViewState()

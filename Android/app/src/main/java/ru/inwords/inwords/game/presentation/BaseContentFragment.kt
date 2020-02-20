@@ -3,14 +3,14 @@ package ru.inwords.inwords.game.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.inwords.inwords.R
+import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 abstract class BaseContentFragment<
     T,
-    ViewModelType : ViewModel,
+    ViewModelType : BasicViewModel,
     ViewModelFactory : ViewModelProvider.Factory>
     : FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory>() {
 

@@ -19,9 +19,9 @@ class PolicyFragment : FragmentWithViewModelAndNav<PolicyViewModel, PolicyViewMo
             start_button.isEnabled = false
 
             viewModel.setPolicyAgreementState(true)
-                    .subscribeOn(SchedulersFacade.io())
-                    .observeOn(SchedulersFacade.ui())
-                    .subscribe { navController.navigate(PolicyFragmentDirections.actionPolicyFragmentPop()) }
+                .subscribeOn(SchedulersFacade.io())
+                .observeOn(SchedulersFacade.ui())
+                .subscribe { viewModel.popBack() }
         }
 
         renderPolicyText(policy_text_view)

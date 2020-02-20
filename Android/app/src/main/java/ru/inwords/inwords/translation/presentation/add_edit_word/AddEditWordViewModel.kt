@@ -24,16 +24,16 @@ class AddEditWordViewModel(
     private val validationMutableLiveData = MutableLiveData<WordTranslationValidationState>()
     val validationLiveData: LiveData<WordTranslationValidationState> get() = validationMutableLiveData
 
-    fun onEditWordDoneHandler(word: WordTranslation, wordToEdit: WordTranslation) {
-        onAddEditWordDoneHandler(word, wordToEdit)
+    fun onEditWordDone(word: WordTranslation, wordToEdit: WordTranslation) {
+        onAddEditWord(word, wordToEdit)
     }
 
-    fun onAddWordDoneHandler(word: WordTranslation) {
-        onAddEditWordDoneHandler(word, null)
+    fun onAddWordDone(word: WordTranslation) {
+        onAddEditWord(word, null)
     }
 
     @SuppressLint("CheckResult")
-    private fun onAddEditWordDoneHandler(word: WordTranslation, wordToEdit: WordTranslation?) {
+    private fun onAddEditWord(word: WordTranslation, wordToEdit: WordTranslation?) {
         val validationState = validateWordTranslation(
             word,
             { resourceManager.getString(R.string.incorrect_input_word) },
@@ -55,7 +55,11 @@ class AddEditWordViewModel(
                     Log.e(javaClass.simpleName, it.message.orEmpty())
                 })
             }
-            addEditDoneMutableLiveData.postValue(Event(Unit))
+            popBackToTranslationMain()
         }
+    }
+
+    private fun popBackToTranslationMain() {
+        navigateTo(AddEditWordFragmentDirections.actionAddEditWordFragmentPop())
     }
 }

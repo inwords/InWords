@@ -4,7 +4,6 @@ package ru.inwords.inwords.translation.presentation.add_edit_word
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
 import kotlinx.android.synthetic.main.fragment_add_edit_word.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.AfterTextChangedWatcher
@@ -29,7 +28,7 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
+        setupWithNavController(toolbar)
 
         val wordToEdit = args.wordTranslation
 
@@ -39,7 +38,8 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
 
         observe(viewModel.addEditDoneLiveData) {
             if (it.handle()) {
-                popBackToTranslationMain()
+                toolbar.requestFocus() //TODO другой метод скрытия клавиатуры?
+                KeyboardUtils.hideKeyboard(view)
             }
         }
 
@@ -47,9 +47,9 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
             val enteredWord = getEnteredWord()
 
             if (isEditing) {
-                viewModel.onEditWordDoneHandler(enteredWord, wordToEdit)
+                viewModel.onEditWordDone(enteredWord, wordToEdit)
             } else {
-                viewModel.onAddWordDoneHandler(enteredWord)
+                viewModel.onAddWordDone(enteredWord)
             }
         }
     }
@@ -88,11 +88,5 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
     private fun renderEditingWords(wordTranslation: WordTranslation) {
         native_word_edit_text.setText(wordTranslation.wordNative)
         foreign_word_edit_text.setText(wordTranslation.wordForeign)
-    }
-
-    private fun popBackToTranslationMain() {
-        toolbar.requestFocus() //TODO другой метод скрытия клавиатуры?
-        KeyboardUtils.hideKeyboard(view)
-        navController.navigate(AddEditWordFragmentDirections.actionAddEditWordFragmentPop())
     }
 }

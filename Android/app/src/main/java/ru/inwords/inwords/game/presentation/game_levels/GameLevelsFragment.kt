@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.GridLayoutManager
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_game_levels.view.*
@@ -38,7 +37,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return super.onCreateView(inflater, container, savedInstanceState).apply {
-            adapter = GameLevelsAdapter(viewModel.navigateToGameLevel)
+            adapter = GameLevelsAdapter { viewModel.navigateToGameLevel(it, gameId) }
 
             levels_recycler.layoutManager = GridLayoutManager(context, 3)
             levels_recycler.adapter = adapter
@@ -53,44 +52,38 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
-
-        viewModel.navigateToGameLevel.subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
+        setupWithNavController(toolbar)
 
         viewModel.screenInfoStream(args.gameInfo.gameId)
-                .map {
-                    if (it is Resource.Success) {
-                        gameId = it.data.game.gameId
-                        it.data.game.gameLevelInfos
-                    } else {
-                        showNoContent()
-                        emptyList() //TODO show error LUL
-                    }
-                }
-                .applyDiffUtil()
-                .observeOn(SchedulersFacade.ui())
-                .doOnSubscribe { view.levels_recycler.showShimmerAdapter() }
-                .doOnEach { view.levels_recycler.hideShimmerAdapter() }
-                .subscribe({
-                    showScreenState(it.first)
-                    adapter.accept(it)
-
-                    fixOverscrollBehaviour(view.levels_recycler)
-                }) {
-                    Log.e(javaClass.simpleName, it.message.orEmpty())
+            .map {
+                if (it is Resource.Success) {
+                    gameId = it.data.game.gameId
+                    it.data.game.gameLevelInfos
+                } else {
                     showNoContent()
+                    emptyList() //TODO show error LUL
                 }
-                .disposeOnViewDestroyed()
-    }
+            }
+            .applyDiffUtil()
+            .observeOn(SchedulersFacade.ui())
+            .doOnSubscribe { view.levels_recycler.showShimmerAdapter() }
+            .doOnEach { view.levels_recycler.hideShimmerAdapter() }
+            .subscribe({
+                showScreenState(it.first)
+                adapter.accept(it)
 
-    private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
-        navController.navigate(GameLevelsFragmentDirections.actionGameLevelsFragmentToGameLevelFragment(gameLevelInfo, gameId))
+                fixOverscrollBehaviour(view.levels_recycler)
+            }) {
+                Log.e(javaClass.simpleName, it.message.orEmpty())
+                showNoContent()
+            }
+            .disposeOnViewDestroyed()
     }
 
     private fun showIntro(view: View) = with(view) {
         val imageRequest = ImageRequestBuilder
-                .newBuilderWithResourceId(R.drawable.octopus_default)
-                .build()
+            .newBuilderWithResourceId(R.drawable.octopus_default)
+            .build()
 
         welcome_image.setImageRequest(imageRequest)
         welcome_text.text = args.gameInfo.description
@@ -98,8 +91,8 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
 
         startButton.setOnClickListener {
             welcome_screen.animate()
-                    .alpha(0f)
-                    .withEndAction { welcome_screen?.visibility = View.GONE }
+                .alpha(0f)
+                .withEndAction { welcome_screen?.visibility = View.GONE }
         }
     }
 }

@@ -4,13 +4,12 @@ import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.subjects.Subject
 import kotlinx.android.synthetic.main.game_level_info.view.*
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 
 class GameLevelViewHolder internal
-constructor(itemView: View, private val onItemClickedListener: Subject<GameLevelInfo>?) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener {
+constructor(itemView: View, private val onItemClickedListener: ((GameLevelInfo) -> Unit)?) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     private val ratingBar: RatingBar = itemView.rating_bar
     private val title: TextView = itemView.title
@@ -29,6 +28,6 @@ constructor(itemView: View, private val onItemClickedListener: Subject<GameLevel
     }
 
     override fun onClick(v: View) {
-        onItemClickedListener?.onNext(gameLevelInfo)
+        onItemClickedListener?.invoke(gameLevelInfo)
     }
 }

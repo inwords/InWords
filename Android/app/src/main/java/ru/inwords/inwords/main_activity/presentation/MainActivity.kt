@@ -3,7 +3,7 @@ package ru.inwords.inwords.main_activity.presentation
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class MainActivity : DaggerAppCompatActivity() {
     @Inject
     internal lateinit var modelFactory: IntegrationViewModelFactory
-    private lateinit var viewModel: IntegrationViewModel
+    private val viewModel: IntegrationViewModel by viewModels { modelFactory }
 
     private lateinit var navController: NavController
 
@@ -32,8 +32,6 @@ class MainActivity : DaggerAppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         checkPlayServices()
-
-        viewModel = getViewModel()
 
         navController = Navigation.findNavController(this, R.id.main_nav_host_fragment)
 
@@ -123,9 +121,6 @@ class MainActivity : DaggerAppCompatActivity() {
         return true
     }
 
-    private fun getViewModel(): IntegrationViewModel {
-        return ViewModelProviders.of(this, modelFactory).get(IntegrationViewModel::class.java)
-    }
 
     companion object {
         const val TAG = "MainActivity"
