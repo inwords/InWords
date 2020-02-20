@@ -10,3 +10,4 @@ Android Build Pipeline [![Build Status](https://dev.azure.com/InWords/InWordsWeb
 
 Android Test Coverage ![Coverage](https://img.shields.io/azure-devops/coverage/InWords/InWordsWebApi/6)
 
+CodeFactor [![CodeFactor](https://www.codefactor.io/repository/github/inwords/inwords/badge/master)](https://www.codefactor.io/repository/github/inwords/inwords/overview/master)
