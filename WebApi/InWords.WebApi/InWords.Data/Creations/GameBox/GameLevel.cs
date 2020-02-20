@@ -12,10 +12,10 @@ namespace InWords.Data.Creations.GameBox
         }
 
         [Key] public int GameLevelId { get; set; }
-        public int Level { get; set; }
 
         public int GameId { get; set; }
         public virtual Game Game { get; set; }
+        public int Level { get; set; }
         public HashSet<GameLevelWord> GameLevelWords { get; set; }
     }
 }
