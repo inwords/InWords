@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -69,6 +68,6 @@ abstract class FragmentWithViewModelAndNav<ViewModelType : BasicViewModel, ViewM
     }
 
     protected fun provideViewModel(): ViewModelType {
-        return ViewModelProviders.of(this, modelFactory).get(classType)
+        return ViewModelProvider(this, modelFactory).get(classType)
     }
 }
