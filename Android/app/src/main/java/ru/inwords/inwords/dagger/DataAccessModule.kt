@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
+import ru.inwords.inwords.data.repository.SettingsRepository
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
 import ru.inwords.inwords.game.data.repository.CustomGameGatewayController
 import ru.inwords.inwords.game.data.repository.custom_game.CustomGameCreator
@@ -40,8 +41,9 @@ internal class DataAccessModule {
     @Provides
     @Singleton
     fun ttsRep(databaseRepository: TtsDatabaseRepository,
-               remoteRepository: TtsRemoteRepository): TtsRepository {
-        return TtsCachingRepository(databaseRepository, remoteRepository)
+               remoteRepository: TtsRemoteRepository,
+               settingsRepository: SettingsRepository): TtsRepository {
+        return TtsCachingRepository(databaseRepository, remoteRepository, settingsRepository)
     }
 
     @Provides

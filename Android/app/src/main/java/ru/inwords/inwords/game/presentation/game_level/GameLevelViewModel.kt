@@ -11,6 +11,7 @@ import io.reactivex.subjects.PublishSubject
 import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.data.repository.SettingsRepository
 import ru.inwords.inwords.game.data.bean.Game
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.data.bean.LevelScore
@@ -28,7 +29,8 @@ import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 
 class GameLevelViewModel(private val gameInteractor: GameInteractor,
                          private val continueGameInteractor: ContinueGameInteractor,
-                         private val ttsRepository: TtsRepository) : BasicViewModel() {
+                         private val ttsRepository: TtsRepository,
+                         private val settingsRepository: SettingsRepository) : BasicViewModel() {
     private val _navigationFromGameEnd = SingleLiveEvent<FromGameEndEventsEnum>()
     private val ttsSubject = PublishSubject.create<Resource<String>>()
     private val showProgressMutableLiveData = MutableLiveData<Event<Boolean>>()
@@ -48,6 +50,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
     private var currentLevelIndex = 0
 
     fun onAttachGameScene(gameScene: GameScene) {
+        gameScene.scaleGame = settingsRepository.scaleGame
         gameLevelOrchestrator.attachGameScene(gameScene)
     }
 

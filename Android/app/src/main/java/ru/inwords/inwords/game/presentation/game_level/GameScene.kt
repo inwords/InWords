@@ -1,11 +1,19 @@
 package ru.inwords.inwords.game.presentation.game_level
 
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
+import androidx.annotation.Px
+import androidx.core.view.marginBottom
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
+import androidx.core.view.marginTop
+import androidx.core.widget.TextViewCompat
 import kotlinx.android.synthetic.main.game_card_front.view.*
 import ru.inwords.flipview.FlipView
 import ru.inwords.inwords.R
@@ -17,6 +25,7 @@ import kotlin.math.ceil
 class GameScene(private val container: WeakReference<TableLayout>) {
     private val flipViews = mutableListOf<WeakReference<FlipView>>()
 
+    var scaleGame: Boolean = false
     private var cardClickConsumer: ((ClickEvent) -> Unit)? = null
 
     var cardsData: CardsData? = null
@@ -54,6 +63,13 @@ class GameScene(private val container: WeakReference<TableLayout>) {
             else -> 3
         }
         val rows = ceil(words.size / cols.toFloat()).toInt()
+
+        val cardSizePx = if (table.measuredHeight < table.measuredWidth) {
+            table.measuredHeight / if (scaleGame) rows else 4
+        } else {
+            table.measuredWidth / if (scaleGame) cols else 3
+        }
+
         for (i in 0 until rows) {
             val tableRow = TableRow(context)
             tableRow.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -67,6 +83,10 @@ class GameScene(private val container: WeakReference<TableLayout>) {
                 }
 
                 val flipView = layoutInflater.inflate(R.layout.game_card, tableRow, false) as FlipView
+
+                if (scaleGame) {
+                    scaleGameCard(flipView, cardSizePx)
+                }
 
                 with(flipView) {
                     flipViews.add(WeakReference(this))
@@ -86,6 +106,21 @@ class GameScene(private val container: WeakReference<TableLayout>) {
 
     fun postDelayed(delayMillis: Long, action: () -> Unit): Boolean {
         return container.get()?.postDelayed(action, delayMillis) ?: false
+    }
+
+    private fun scaleGameCard(flipView: FlipView, @Px cardSizePx: Int) {
+        flipView.layoutParams = flipView.layoutParams.apply {
+            height = cardSizePx - (flipView.marginTop + flipView.marginBottom)
+            width = cardSizePx - (flipView.marginStart + flipView.marginEnd)
+        }
+
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+            flipView.frontLayout as TextView,
+            12, //TODO remove hardcode
+            24,
+            1,
+            TypedValue.COMPLEX_UNIT_SP
+        )
     }
 
     private fun toSeqIndex(i: Int, j: Int, rows: Int) = i * rows + j
