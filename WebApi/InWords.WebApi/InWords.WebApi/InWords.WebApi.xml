@@ -710,6 +710,114 @@
             </summary>
             <param name="c"></param>
         </member>
+        <member name="T:Dictionary.V2.DictionaryV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/Dictionary.v2.proto</summary>
+        </member>
+        <member name="P:Dictionary.V2.DictionaryV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/Dictionary.v2.proto</summary>
+        </member>
+        <member name="T:Dictionary.V2.GetWordsRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:Dictionary.V2.GetWordsRequest.WordsFieldNumber">
+            <summary>Field number for the "Words" field.</summary>
+        </member>
+        <member name="T:Dictionary.V2.WordsReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:Dictionary.V2.WordsReply.UserWordPairsFieldNumber">
+            <summary>Field number for the "UserWordPairs" field.</summary>
+        </member>
+        <member name="F:Dictionary.V2.WordsReply.WordForeignFieldNumber">
+            <summary>Field number for the "WordForeign" field.</summary>
+        </member>
+        <member name="F:Dictionary.V2.WordsReply.WordNativeFieldNumber">
+            <summary>Field number for the "wordNative" field.</summary>
+        </member>
+        <member name="T:Dictionary.V2.DictionaryProvider">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:Dictionary.V2.DictionaryProvider.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:Dictionary.V2.DictionaryProvider.DictionaryProviderBase">
+            <summary>Base class for server-side implementations of DictionaryProvider</summary>
+        </member>
+        <member name="M:Dictionary.V2.DictionaryProvider.DictionaryProviderBase.GetWords(Dictionary.V2.GetWordsRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:Dictionary.V2.DictionaryProvider.BindService(Dictionary.V2.DictionaryProvider.DictionaryProviderBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:Dictionary.V2.DictionaryProvider.BindService(Grpc.Core.ServiceBinderBase,Dictionary.V2.DictionaryProvider.DictionaryProviderBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="T:WordSet.V2.WordSetV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/WordSet.v2.proto</summary>
+        </member>
+        <member name="P:WordSet.V2.WordSetV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/WordSet.v2.proto</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetWordsRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWordsRequest.WordSetIdFieldNumber">
+            <summary>Field number for the "WordSetId" field.</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetWordsReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWordsReply.WordSetIdFieldNumber">
+            <summary>Field number for the "WordSetId" field.</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetProvider">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:WordSet.V2.WordSetProvider.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetProvider.WordSetProviderBase">
+            <summary>Base class for server-side implementations of WordSetProvider</summary>
+        </member>
+        <member name="M:WordSet.V2.WordSetProvider.WordSetProviderBase.GetWordsList(WordSet.V2.WordSetWordsRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:WordSet.V2.WordSetProvider.BindService(WordSet.V2.WordSetProvider.WordSetProviderBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:WordSet.V2.WordSetProvider.BindService(Grpc.Core.ServiceBinderBase,WordSet.V2.WordSetProvider.WordSetProviderBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
         <member name="T:ProfilePackage.V2.ProfileV2Reflection">
             <summary>Holder for reflection information generated from gRPC/Protos/Profile.v2.proto</summary>
         </member>
