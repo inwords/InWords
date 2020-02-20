@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="Игра">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_format_size_primary_32dp"
+            android:key="@string/key_scale_game"
+            android:persistent="true"
+            android:summary="Игровые карточки будут занимать всё доступное на экране пространство, а текст будет крупнее"
+            android:title="Увеличить текст в игре" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="Произношение">
         <SwitchPreference
             android:defaultValue="false"
-            android:icon="@drawable/ic_volume_up_secondary_24dp"
+            android:icon="@drawable/ic_volume_up_primary_32dp"
             android:key="@string/key_use_opus"
+            android:persistent="true"
             android:summary="Для озвучки использовать формат OGG OPUS, а не MP3 (может не поддерживаться на некоторых устройствах)"
-            android:title="Использовать OPUS"
-            android:persistent="true"/>
+            android:title="Использовать OPUS" />
     </PreferenceCategory>
 
 </PreferenceScreen>
