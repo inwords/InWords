@@ -14,7 +14,7 @@ function TrainingSettingsMenuButton({ handleOpen: handeOpenDialog }) {
   return (
     <PopupContainer>
       <IconButton
-        aria-label="training settings"
+        aria-label="training menu"
         aria-controls="training-menu"
         aria-haspopup="true"
         onClick={handleOpen}

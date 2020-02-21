@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import shuffle from 'src/utils/shuffle';
 import withReceivedGameLevel from 'src/HOCs/withReceivedTrainingLevel';
 import SelectTranslateTraining from './SelectTranslateTraining';
-import TrainingResult from 'src/layout/TrainingResult';
+import TrainingResult from 'src/templates/TrainingResult';
 
 function SelectTranslateTrainingContainer({ wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);

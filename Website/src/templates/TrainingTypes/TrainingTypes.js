@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { receiveTrainingWordPairs } from 'src/actions/trainingApiActions';
 import useDialog from 'src/hooks/useDialog';
 import Icon from 'src/components/Icon';
 import Grid from 'src/components/Grid';
@@ -18,20 +16,16 @@ import TrainingSettingsDialog from './TrainingSettingsDialog';
 
 import './TrainingTypes.scss';
 
-function TrainingTypes({ trainingTypesInfo, level = 0 }) {
+const trainingTypesInfo = [
+  {
+    typeId: 0,
+    title: 'Закрытые карточки',
+    description: 'Необходимо правильно открыть пару карточек «Слово-Перевод»'
+  }
+];
+
+function TrainingTypes({ trainingLevel }) {
   const match = useRouteMatch();
-
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    if (level !== -1 && !trainingLevelsMap[0]) {
-      dispatch(receiveTrainingWordPairs());
-    }
-  }, [level, trainingLevelsMap, dispatch]);
-
-  const trainingLevelsMap = useSelector(
-    store => store.training.trainingLevelsMap
-  );
 
   const [currentTypeId, setCurrentTypeId] = React.useState();
 
@@ -57,7 +51,7 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
                 />
                 <CardContent>
                   <Typography component="p">{description}</Typography>
-                  {trainingLevelsMap[level] && (
+                  {trainingLevel.wordTranslations && (
                     <div className="training-type-card-pairs-info">
                       <Icon
                         color="action"
@@ -66,8 +60,8 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
                         school
                       </Icon>
                       <Typography className="training-type-card-pairs-info__text">
-                        На изучение:{' '}
-                        {trainingLevelsMap[level].wordTranslations.length}
+                        Слов на изучение:{' '}
+                        {trainingLevel.wordTranslations.length}
                       </Typography>
                     </div>
                   )}
@@ -75,7 +69,7 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
                 <CardActions>
                   <LinkButton
                     component={RouterLink}
-                    to={`${match.url}/${typeId}/${level}`}
+                    to={`${match.url}/${typeId}`}
                     variant="text"
                     color="primary"
                   >
@@ -97,14 +91,10 @@ function TrainingTypes({ trainingTypesInfo, level = 0 }) {
 }
 
 TrainingTypes.propTypes = {
-  trainingTypesInfo: PropTypes.arrayOf(
-    PropTypes.exact({
-      typeId: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
-  level: PropTypes.number
+  trainingLevel: PropTypes.shape({
+    levelId: PropTypes.number.isRequired,
+    wordTranslations: PropTypes.array
+  }).isRequired
 };
 
 export default TrainingTypes;

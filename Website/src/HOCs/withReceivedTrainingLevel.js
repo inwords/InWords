@@ -72,11 +72,13 @@ function withReceivedTrainingLevel(WrappedComponent) {
             trainingLevelsMap[paramLevelId].wordTranslations;
 
           if (paramLevelId <= 0) {
-            wordTranslations = shuffle([...wordTranslations]).slice(
-              0,
-              trainingSettings.quantity || 8
-            );
+            wordTranslations = shuffle([...wordTranslations]);
           }
+
+          wordTranslations = wordTranslations.slice(
+            0,
+            trainingSettings.quantity || 8
+          );
 
           if (trainingSettings.voiceOn) {
             wordTranslations = wordTranslations.map(wordTranslation => {

@@ -7,7 +7,7 @@ import Drawer from 'src/components/Drawer';
 import Divider from 'src/components/Divider';
 import Icon from 'src/components/Icon';
 import IconButton from 'src/components/IconButton';
-import BrandLink from 'src/layout/BrandLink';
+import BrandLink from 'src/templates/BrandLink';
 import Header from './Header';
 import DrawerNavList from './DrawerNavList';
 import SideNavList from './SideNavList';

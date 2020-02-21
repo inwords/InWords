@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Game from 'src/routes/Game';
 
-function TrainingSwitcher({ trainingId }) {
+function TrainingSwitcher({ trainingId, ...rest }) {
   switch (trainingId) {
     case 0:
-      return <Game />;
+      return <Game {...rest} />;
     default:
       return null;
   }

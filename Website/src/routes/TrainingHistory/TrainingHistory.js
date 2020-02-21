@@ -16,7 +16,7 @@ function TrainingHistory({ recentTrainings }) {
   return (
     <Grid spacing={3}>
       {recentTrainings.map(({ levelId, playerStars }) => (
-        <GridItem key={levelId} xs={6} sm={4} md={3}>
+        <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardHeader title={`Тренировка ${levelId}`} />
             <CardContent>

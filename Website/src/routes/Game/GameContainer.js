@@ -2,15 +2,20 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
-import { removeTrainingLevelWordPairs } from 'src/actions/trainingActions';
 import shuffle from 'src/utils/shuffle';
 import useDialog from 'src/hooks/useDialog';
 import withReceivedTrainingLevel from 'src/HOCs/withReceivedTrainingLevel';
 import GamePairsDialog from './GamePairsDialog';
 import Game from './Game';
-import TrainingResult from 'src/layout/TrainingResult';
+import TrainingResult from 'src/templates/TrainingResult';
 
-function GameContainer({ levelId, wordTranslations, listOn }) {
+function GameContainer({
+  levelId,
+  wordTranslations,
+  listOn,
+  onGameEnd,
+  onNextLevel
+}) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
   const [newServerLevelId, setNewServerLevelId] = useState();
@@ -73,14 +78,7 @@ function GameContainer({ levelId, wordTranslations, listOn }) {
               setWordPairIdOpenCountsMap({});
               setRecentWordPairs(wordPairs);
 
-              if (levelId <= 0) {
-                dispatch(
-                  removeTrainingLevelWordPairs(
-                    levelId,
-                    wordPairs.map(wordPair => wordPair.pairId)
-                  )
-                );
-              }
+              onGameEnd({ levelId, wordPairs, levelResult: data });
 
               setScore(data.classicCardLevelResult[0].score);
               setNewServerLevelId(data.classicCardLevelResult[0].levelId);
@@ -102,7 +100,8 @@ function GameContainer({ levelId, wordTranslations, listOn }) {
     levelId,
     newServerLevelId,
     wordPairIdOpenCountsMap,
-    dispatch
+    dispatch,
+    onGameEnd
   ]);
 
   const handleClick = (pairId, id, onSpeech) => () => {
@@ -158,16 +157,20 @@ function GameContainer({ levelId, wordTranslations, listOn }) {
 
   const { open, handleOpen, handleClose } = useDialog(listOn);
 
-  const prepareToNextLevel = () => {
-    setIsGameCompleted(false);
-    setIsResultReady(false);
-    setScore(null);
-    setNewServerLevelId(undefined);
+  const handleNextLevel = onNextLevel
+    ? () => {
+        onNextLevel();
 
-    if (listOn) {
-      handleOpen();
-    }
-  };
+        setIsGameCompleted(false);
+        setIsResultReady(false);
+        setScore(null);
+        setNewServerLevelId(undefined);
+
+        if (listOn) {
+          handleOpen();
+        }
+      }
+    : null;
 
   const handleReplay = () => {
     setIsGameCompleted(false);
@@ -196,7 +199,7 @@ function GameContainer({ levelId, wordTranslations, listOn }) {
     <TrainingResult
       wordPairs={wordPairs}
       score={score}
-      prepareToNextLevel={prepareToNextLevel}
+      handleNextLevel={handleNextLevel}
       handleReplay={handleReplay}
     />
   );
@@ -212,7 +215,9 @@ GameContainer.propTypes = {
       onSpeech: PropTypes.func
     }).isRequired
   ).isRequired,
-  listOn: PropTypes.bool.isRequired
+  listOn: PropTypes.bool.isRequired,
+  onGameEnd: PropTypes.func.isRequired,
+  onNextLevel: PropTypes.func
 };
 
 export default withReceivedTrainingLevel(GameContainer);

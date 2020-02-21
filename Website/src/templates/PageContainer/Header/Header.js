@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'src/components/Icon';
 import IconButton from 'src/components/IconButton';
-import BrandLink from 'src/layout/BrandLink';
+import BrandLink from 'src/templates/BrandLink';
 import HeaderNavList from './HeaderNavList';
 import APIProgress from './APIProgress';
 

@@ -5,9 +5,9 @@ import FormGroup from 'src/components/FormGroup';
 import TextField from 'src/components/TextField';
 import Typography from 'src/components/Typography';
 import Link from 'src/components/Link';
-import EntryFormPaper from 'src/layout/EntryFormPaper';
-import EntryLinksContainer from 'src/layout/EntryLinksContainer';
-import EntrySubmitButton from 'src/layout/EntrySubmitButton';
+import EntryFormPaper from 'src/templates/EntryFormPaper';
+import EntryLinksContainer from 'src/templates/EntryLinksContainer';
+import EntrySubmitButton from 'src/templates/EntrySubmitButton';
 
 function SignUp({ inputs, handleChange, handleSubmit }) {
   return (

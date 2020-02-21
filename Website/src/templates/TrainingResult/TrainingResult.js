@@ -8,7 +8,7 @@ import Smiley from './Smiley';
 
 import './TrainingResult.css';
 
-function TrainingResult({ score, handleRedirectionToNextLevel, handleReplay }) {
+function TrainingResult({ score, handleNextLevel, handleReplay }) {
   return (
     <FadeAnimation>
       <Paper className="training-result-paper">
@@ -18,16 +18,9 @@ function TrainingResult({ score, handleRedirectionToNextLevel, handleReplay }) {
               <Smiley score={score} />
             </div>
             <div className="training-result-stars">
-              {Array(score).fill(
-                <Icon fontSize="large" color="gold">
-                  star
-                </Icon>
-              )}
-              {Array(3 - score).fill(
-                <Icon fontSize="large" color="disabled">
-                  star
-                </Icon>
-              )}
+              <Icon color={score > 0 ? 'gold' : 'disabled'}>star</Icon>
+              <Icon color={score > 1 ? 'gold' : 'disabled'}>star</Icon>
+              <Icon color={score > 2 ? 'gold' : 'disabled'}>star</Icon>
             </div>
           </Fragment>
         )}
@@ -35,12 +28,11 @@ function TrainingResult({ score, handleRedirectionToNextLevel, handleReplay }) {
           <IconButton aria-label="replay" onClick={handleReplay}>
             <Icon fontSize="large">replay</Icon>
           </IconButton>
-          <IconButton
-            aria-label="next level"
-            onClick={handleRedirectionToNextLevel}
-          >
-            <Icon fontSize="large">fast_forward</Icon>
-          </IconButton>
+          {handleNextLevel && (
+            <IconButton aria-label="next level" onClick={handleNextLevel}>
+              <Icon fontSize="large">fast_forward</Icon>
+            </IconButton>
+          )}
         </div>
       </Paper>
     </FadeAnimation>
@@ -49,7 +41,7 @@ function TrainingResult({ score, handleRedirectionToNextLevel, handleReplay }) {
 
 TrainingResult.propTypes = {
   score: PropTypes.number,
-  handleRedirectionToNextLevel: PropTypes.func,
+  handleNextLevel: PropTypes.func,
   handleReplay: PropTypes.func.isRequired
 };
 

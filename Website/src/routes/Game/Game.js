@@ -6,7 +6,7 @@ import Paper from 'src/components/Paper';
 import FadeAnimation from 'src/components/FadeAnimation';
 import Fade from 'src/components/Fade';
 import Zoom from 'src/components/Zoom';
-import GameCard from 'src/layout/GameCard';
+import GameCard from 'src/templates/GameCard';
 
 import './Game.scss';
 

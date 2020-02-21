@@ -8,6 +8,7 @@ import CardContent from 'src/components/CardContent';
 import CardActions from 'src/components/CardActions';
 import Typography from 'src/components/Typography';
 import Button from 'src/components/Button';
+import WordSetsMenuButton from './WordSetsMenuButton';
 
 function WordSets({ trainingCategories, handleAddingInDictionary }) {
   return (
@@ -15,7 +16,10 @@ function WordSets({ trainingCategories, handleAddingInDictionary }) {
       {trainingCategories.map(({ gameId, title, description }) => (
         <GridItem key={gameId} xs={12} sm={6} md={4} lg={3}>
           <Card>
-            <CardHeader title={title} />
+            <CardHeader
+              title={title}
+              action={<WordSetsMenuButton gameId={gameId} />}
+            />
             <CardContent>
               <Typography>{description}</Typography>
             </CardContent>

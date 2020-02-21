@@ -3,12 +3,12 @@ import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
 import Container from 'src/components/Container';
-import PageProgress from 'src/layout/PageProgress';
 import ScrollToTop from 'src/components/ScrollToTop';
-import SmartSnackbar from 'src/layout/SmartSnackbar';
-import PageContainer from 'src/layout/PageContainer';
-import ProfileMenuButton from 'src/layout/ProfileMenuButton';
-import ErrorBoundary from 'src/layout/ErrorBoundary';
+import PageProgress from 'src/templates/PageProgress';
+import SmartSnackbar from 'src/templates/SmartSnackbar';
+import PageContainer from 'src/templates/PageContainer';
+import ProfileMenuButton from 'src/templates/ProfileMenuButton';
+import ErrorBoundary from 'src/templates/ErrorBoundary';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
 
@@ -38,7 +38,7 @@ const routes = [
     text: 'Обучение',
     nestedRoutes: [
       {
-        to: '/training/main',
+        to: '/training/main/0',
         text: 'Тренировки'
       },
       {

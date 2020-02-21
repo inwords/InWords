@@ -9,7 +9,7 @@ import Typography from 'src/components/Typography';
 import Slider from 'src/components/Slider';
 import Checkbox from 'src/components/Checkbox';
 import Button from 'src/components/Button';
-import GameCard from 'src/layout/GameCard';
+import GameCard from 'src/templates/GameCard';
 
 import './TrainingSettingsDialog.css';
 
@@ -43,7 +43,7 @@ function TrainingSettingsDialog({
               htmlFor="training-words-quantity"
               variant="body2"
             >
-              Слов в тренировке
+              Максимум слов в тренировке
             </Typography>
             <div>
               <Slider
