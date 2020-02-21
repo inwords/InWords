@@ -5,6 +5,7 @@ using MediatR;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using InWords.Service.Auth.Extensions;
+using System;
 
 namespace InWords.WebApi.gRPC.Services
 {
@@ -44,6 +45,17 @@ namespace InWords.WebApi.gRPC.Services
             };
             EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
             return reply;
+        }
+        [Authorize]
+        public override async Task<ConfirmEmailReply> ConfirmEmail(ConfirmEmailRequest request, ServerCallContext context)
+        {
+            var reqestObject = new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(request)
+            {
+                UserId = context.GetHttpContext().User.GetUserId()
+            };
+            ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return reply;
+            // TODO: how to return error in grpc
         }
 
         // Update Email

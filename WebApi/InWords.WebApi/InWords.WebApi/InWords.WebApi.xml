@@ -398,6 +398,27 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.ConfirmEmail(ProfilePackage.V2.ConfirmEmailRequest)">
+            <summary>
+              Use this to confirm email code
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.Register(WordSet.V2.WordSetWordsRequest)">
+            <summary>
+            This is to get word's in word set
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+            <remarks>
+             
+            . 
+            Word's marked as hasAdded if user already has this word in the dictionary.               
+             
+            
+            </remarks>
+        </member>
         <member name="M:InWords.WebApi.Extensions.StringExtensions.StripHTML(System.String)">
             <summary>
                 This is to get raw text inside html/xml tags
@@ -736,7 +757,7 @@
             <summary>Field number for the "WordForeign" field.</summary>
         </member>
         <member name="F:Dictionary.V2.WordsReply.WordNativeFieldNumber">
-            <summary>Field number for the "wordNative" field.</summary>
+            <summary>Field number for the "WordNative" field.</summary>
         </member>
         <member name="T:Dictionary.V2.DictionaryProvider">
             <summary>
@@ -781,13 +802,25 @@
         <member name="F:WordSet.V2.WordSetWordsRequest.WordSetIdFieldNumber">
             <summary>Field number for the "WordSetId" field.</summary>
         </member>
-        <member name="T:WordSet.V2.WordSetWordsReply">
+        <member name="F:WordSet.V2.WordSetWordsReply.WordsFieldNumber">
+            <summary>Field number for the "Words" field.</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetWord">
             <summary>
             The response message containing the Token.
             </summary>
         </member>
-        <member name="F:WordSet.V2.WordSetWordsReply.WordSetIdFieldNumber">
-            <summary>Field number for the "WordSetId" field.</summary>
+        <member name="F:WordSet.V2.WordSetWord.WordPairIdFieldNumber">
+            <summary>Field number for the "WordPairId" field.</summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWord.HasAddedFieldNumber">
+            <summary>Field number for the "HasAdded" field.</summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWord.WordForeignFieldNumber">
+            <summary>Field number for the "WordForeign" field.</summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWord.WordNativeFieldNumber">
+            <summary>Field number for the "WordNative" field.</summary>
         </member>
         <member name="T:WordSet.V2.WordSetProvider">
             <summary>
@@ -872,6 +905,15 @@
             <summary>Field number for the "email" field.</summary>
         </member>
         <member name="F:ProfilePackage.V2.EmailChangeReply.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.ConfirmEmailRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.ConfirmEmailRequest.CodeFieldNumber">
+            <summary>Field number for the "code" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.ConfirmEmailReply.EmailFieldNumber">
             <summary>Field number for the "email" field.</summary>
         </member>
         <member name="T:ProfilePackage.V2.Profile">
