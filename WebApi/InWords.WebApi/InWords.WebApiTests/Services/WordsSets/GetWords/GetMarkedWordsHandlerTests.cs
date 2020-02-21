@@ -73,5 +73,34 @@ namespace InWords.WebApiTests.Services.WordsSets.GetWords
             Assert.Equal(2, reply.Words.Count);
 
         }
+
+        [Fact]
+        public async Task GetWordsAsyncUserHasOne()
+        {
+
+            // arrange
+            await using InWordsDataContext context = InWordsDataContextFactory.Create();
+            await CreateTestContext(context);
+            WordSetWordsRequest requestData = new WordSetWordsRequest()
+            {
+                WordSetId = context.Games.First().GameId
+            };
+            var request = new AuthorizedRequestObject<WordSetWordsRequest, WordSetWordsReply>(requestData)
+            {
+                UserId = context.Users.First().UserId
+            };
+            context.UserWordPairs.Add(new UserWordPair()
+            {
+                UserId = context.Users.First().UserId,
+                WordPairId = context.Games.First().GameLevels.First().GameLevelWords.First().WordPairId
+            }); ;
+            context.SaveChanges();
+            // act
+            var reply = await new GetMarkedWordsHandler(context).Handle(request);
+
+            // assert
+            Assert.Single(reply.Words.Where(d => d.HasAdded.Equals(true)));
+            Assert.Single(reply.Words.Where(d => d.HasAdded.Equals(false)));
+        }
     }
 }
