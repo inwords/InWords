@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
-<!-- Active URL: http://ondras.zarovi.cz/sql/demo/?keyword=default -->
+<!-- Active URL: https://ondras.zarovi.cz/sql/demo/?keyword=default -->
 <sql>
 <datatypes db="mysql">
 	<group label="Numeric" color="rgb(238,238,170)">
@@ -37,15 +37,15 @@
 		<type label="SET" length="1" sql="SET" quote=""/>
 		<type label="Bit" length="0" sql="bit" quote=""/>
 	</group>
-</datatypes><table x="57" y="317" name="Accounts">
+</datatypes><table x="79" y="246" name="Accounts">
 <row name="AccountID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="Email" null="1" autoincrement="0">
 <datatype>CHAR(64)</datatype>
 <default>NULL</default></row>
-<row name="Password" null="1" autoincrement="0">
-<datatype>CHAR(32)</datatype>
+<row name="Hash" null="1" autoincrement="0">
+<datatype>BINARY(128)</datatype>
 <default>NULL</default></row>
 <row name="Role" null="1" autoincrement="0">
 <datatype>SMALLINT(2)</datatype>
@@ -53,14 +53,11 @@
 <row name="RegistrationDate" null="1" autoincrement="0">
 <datatype>DATETIME</datatype>
 <default>NULL</default></row>
-<row name="UserID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>AccountID</part>
 </key>
 </table>
-<table x="32" y="619" name="Languages">
+<table x="40" y="660" name="Languages">
 <row name="LanguageID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -71,19 +68,7 @@
 <part>LanguageID</part>
 </key>
 </table>
-<table x="789" y="254" name="GameBoxs">
-<row name="GameBoxID" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="CreationID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Creations" row="CreationID" />
-</row>
-<key type="PRIMARY" name="">
-<part>GameBoxID</part>
-</key>
-</table>
-<table x="1362" y="464" name="GameLevelWords">
+<table x="1253" y="403" name="GameLevelWords">
 <row name="GameLevelWordID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -99,7 +84,7 @@
 <part>GameLevelWordID</part>
 </key>
 </table>
-<table x="261" y="329" name="Users">
+<table x="272" y="246" name="Users">
 <row name="UserID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="Accounts" row="AccountID" />
@@ -113,27 +98,14 @@
 <row name="Expirience" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
+<row name="LastLogin" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>UserID</part>
 </key>
 </table>
-<table x="1004" y="82" name="UserGameBoxs">
-<row name="UserGameBoxID" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="UserID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Users" row="UserID" />
-</row>
-<row name="GameBoxID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="GameBoxs" row="GameBoxID" />
-</row>
-<key type="PRIMARY" name="">
-<part>UserGameBoxID</part>
-</key>
-</table>
-<table x="577" y="609" name="UserWordPairs">
+<table x="660" y="622" name="UserWordPairs">
 <row name="UserWordPairID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -149,7 +121,7 @@
 <part>UserWordPairID</part>
 </key>
 </table>
-<table x="210" y="729" name="Words">
+<table x="269" y="727" name="Words">
 <row name="WordID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -164,7 +136,7 @@
 <part>WordID</part>
 </key>
 </table>
-<table x="386" y="730" name="WordPairs">
+<table x="440" y="704" name="WordPairs">
 <row name="WordPairID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -183,21 +155,12 @@
 <part>WordPairID</part>
 </key>
 </table>
-<table x="1015" y="313" name="GameLevels">
+<table x="1015" y="315" name="GameLevels">
 <row name="GameLevelID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="GameBoxID" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default><relation table="GameBoxs" row="GameBoxID" />
+<default>NULL</default><relation table="Games" row="GameId" />
 </row>
-<row name="Title" null="1" autoincrement="0">
-<datatype>VARCHAR(32)</datatype>
-<default>NULL</default></row>
-<row name="TotalStars" null="1" autoincrement="0">
-<datatype>INT</datatype>
-<default>NULL</default></row>
-<row name="SuccessStars" null="1" autoincrement="0">
+<row name="GameId" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="Level" null="1" autoincrement="0">
@@ -207,13 +170,13 @@
 <part>GameLevelID</part>
 </key>
 </table>
-<table x="1376" y="89" name="UserGameLevels">
+<table x="1274" y="48" name="UserGameLevels">
 <row name="UserGameLevelID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="UserGameBoxID" null="1" autoincrement="0">
+<row name="UserId" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="UserGameBoxs" row="UserGameBoxID" />
+<default>NULL</default><relation table="Users" row="UserID" />
 </row>
 <row name="GameLevelID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -226,13 +189,13 @@
 <part>UserGameLevelID</part>
 </key>
 </table>
-<table x="726" y="415" name="CreationDescriptions">
+<table x="800" y="433" name="CreationDescriptions">
 <row name="CreationDescriptionID" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="CreationID" null="1" autoincrement="0">
+<row name="GameId" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Creations" row="CreationID" />
+<default>NULL</default><relation table="Games" row="GameId" />
 </row>
 <row name="LanguageID" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -248,8 +211,8 @@
 <part>CreationDescriptionID</part>
 </key>
 </table>
-<table x="515" y="379" name="Creations">
-<row name="CreationID" null="1" autoincrement="1">
+<table x="563" y="354" name="Games">
+<row name="GameId" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
 <row name="CreatorID" null="1" autoincrement="0">
@@ -257,7 +220,25 @@
 <default>NULL</default><relation table="Users" row="UserID" />
 </row>
 <key type="PRIMARY" name="">
-<part>CreationID</part>
+<part>GameId</part>
+</key>
+</table>
+<table x="806" y="217" name="GameTag">
+<row name="GameTagId" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="GameId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Games" row="GameId" />
+</row>
+<row name="UserId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Tag" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>GameTagId</part>
 </key>
 </table>
 </sql>

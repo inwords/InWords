@@ -16,11 +16,10 @@ namespace InWords.Data.Creations
         {
             GameLevels = new HashSet<GameLevel>(0);
         }
-
         [Key] public int GameId { get; set; }
-        [ForeignKey(nameof(GameId))] public HashSet<GameLevel> GameLevels { get; set; }
-
         public int CreatorId { get; set; }
+
+        [ForeignKey(nameof(GameId))] public HashSet<GameLevel> GameLevels { get; set; }
 
         [ForeignKey(nameof(CreatorId))] public virtual User Creator { get; set; }
 

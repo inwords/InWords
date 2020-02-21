@@ -36,23 +36,16 @@ namespace InWords.WebApi.Providers.FIleLogger
             Func<TState, Exception, string> formatter)
         {
             if (formatter == null) return;
-
-            await LogFile($"[{logLevel.ToString().Remove(3)}] {formatter(state, exception)}")
-                .ConfigureAwait(false);
-
+            LogFile($"[{logLevel.ToString().Remove(3)}] {formatter(state, exception)}");
             if (logLevel.Equals(LogLevel.Error)) LogException(exception);
         }
 
-        private Task LogFile(string content)
+        private void LogFile(string content)
         {
-            byte[] encodedText = Encoding.Unicode.GetBytes($"{content}{Environment.NewLine}");
-
-            using (FileStream sourceStream = new FileStream(filePath,
-                FileMode.Append, FileAccess.Write, FileShare.None,
-                bufferSize: 4096, useAsync: true))
+            lock (_lock)
             {
-                return sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
-            };
+                File.AppendAllText(filePath, content);
+            }
         }
 
         private void LogException(Exception exception)
