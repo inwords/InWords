@@ -37,7 +37,7 @@ namespace InWords.WebApi.Controllers.v2
         /// </remarks>
         [Route("getwordslist")]
         [HttpPost]
-        [ProducesResponseType(typeof(WordSetWordsRequest), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(WordSetWordsReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register(WordSetWordsRequest request)
         {
