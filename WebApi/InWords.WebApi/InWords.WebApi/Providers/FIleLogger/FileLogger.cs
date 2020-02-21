@@ -43,16 +43,13 @@ namespace InWords.WebApi.Providers.FIleLogger
             if (logLevel.Equals(LogLevel.Error)) LogException(exception);
         }
 
-        private Task LogFile(string content)
+        private Task LogFile(string content, bool append = true)
         {
-            byte[] encodedText = Encoding.Unicode.GetBytes($"{content}{Environment.NewLine}");
-
-            using (FileStream sourceStream = new FileStream(filePath,
-                FileMode.Append, FileAccess.Write, FileShare.None,
-                bufferSize: 4096, useAsync: true))
+            using (FileStream stream = new FileStream(filePath, append ? FileMode.Append : FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
+            using (StreamWriter sw = new StreamWriter(stream))
             {
-                return sourceStream.WriteAsync(encodedText, 0, encodedText.Length);
-            };
+                return sw.WriteLineAsync(content);
+            }
         }
 
         private void LogException(Exception exception)

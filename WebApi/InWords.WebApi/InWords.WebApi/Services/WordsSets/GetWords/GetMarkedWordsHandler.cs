@@ -37,8 +37,8 @@ namespace InWords.WebApi.Services.WordsSets.GetWords
             var wordsByWordIds = Context.WordPairs.Where(w => wordsIdInLevels.Any(d => d.WordPairId.Equals(w.WordPairId)));
             var loadedWords = wordsByWordIds
                 .Include(d => d.WordForeign)
-                .Include(w => w.WordNative).
-                Select(wp => new WordSetWord()
+                .Include(w => w.WordNative)
+                .Select(wp => new WordSetWord()
                 {
                     WordPairId = wp.WordPairId,
                     WordForeign = wp.WordForeign.Content,
