@@ -102,5 +102,32 @@ namespace InWords.WebApi.Controllers.v2
                 return BadRequest(e.Message);
             }
         }
+
+        /// <summary>
+        ///   Use this to confirm email code
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Authorize]
+        [ProducesResponseType(typeof(ConfirmEmailRequest), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("confirmEmail")]
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request)
+        {
+            try
+            {
+                var reqestObject = new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(request)
+                {
+                    UserId = User.GetUserId()
+                };
+                ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

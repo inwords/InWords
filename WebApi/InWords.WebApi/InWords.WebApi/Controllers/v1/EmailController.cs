@@ -65,6 +65,7 @@ namespace InWords.WebApi.Controllers.v1
         }
 
         [HttpPost]
+        [Obsolete]
         [Route("ConfirmCode")]
         public async Task<IActionResult> ConfirmCode([FromBody] EmailClaims emailClaims)
         {

@@ -50,5 +50,37 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
             Assert.Equal(newEmail, test.Email);
             Assert.Equal(newEmail, context.Accounts.First().Email);
         }
+
+        [Fact]
+        public async void ConfirmInValidCode()
+        {
+            // arrange
+            int userId = 1;
+            int rightCode = 111111;
+            int badCode = 222222;
+            string newEmail = "new@mail.ru";
+            await using InWordsDataContext context = InWordsDataContextFactory.Create();
+            await context.AddAccount(userId);
+            context.EmailVerifies.Add(new EmailVerifies()
+            {
+                UserId = userId,
+                Code = rightCode,
+                Email = newEmail
+            });
+            await context.SaveChangesAsync();
+            Account account = context.Accounts.First();
+
+            // act
+            var requestObject =
+                new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(
+                    new ConfirmEmailRequest() { Email = newEmail, Code = badCode })
+                {
+                    UserId = account.AccountId
+                };
+
+            // assert 
+            var registration = new ConfirmEmail(context);
+            await Assert.ThrowsAsync<ArgumentNullException>(() => registration.HandleRequest(requestObject));
+        }
     }
 }
