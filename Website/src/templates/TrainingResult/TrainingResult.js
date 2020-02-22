@@ -18,9 +18,15 @@ function TrainingResult({ score, handleNextLevel, handleReplay }) {
               <Smiley score={score} />
             </div>
             <div className="training-result-stars">
-              <Icon color={score > 0 ? 'gold' : 'disabled'}>star</Icon>
-              <Icon color={score > 1 ? 'gold' : 'disabled'}>star</Icon>
-              <Icon color={score > 2 ? 'gold' : 'disabled'}>star</Icon>
+              <Icon color={score > 0 ? 'gold' : 'disabled'} fontSize="large">
+                star
+              </Icon>
+              <Icon color={score > 1 ? 'gold' : 'disabled'} fontSize="large">
+                star
+              </Icon>
+              <Icon color={score > 2 ? 'gold' : 'disabled'} fontSize="large">
+                star
+              </Icon>
             </div>
           </Fragment>
         )}

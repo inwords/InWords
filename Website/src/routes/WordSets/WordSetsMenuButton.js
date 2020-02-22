@@ -32,7 +32,7 @@ function WordSetsMenuButton({ gameId }) {
               to={`${match.url}/training/${gameId}`}
               onClick={handleClose}
             >
-              Уровни
+              Демо-обучение
             </MenuItem>
           </li>
         </Menu>

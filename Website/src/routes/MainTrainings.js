@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { receiveTrainingWordPairs } from 'src/actions/trainingApiActions';
 import TrainingTypes from 'src/templates/TrainingTypes';
 
-function Trainings() {
+function MainTrainings() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -22,8 +22,8 @@ function Trainings() {
   );
 }
 
-Trainings.propTypes = {
+MainTrainings.propTypes = {
   level: PropTypes.number
 };
 
-export default Trainings;
+export default MainTrainings;

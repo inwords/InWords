@@ -4,18 +4,11 @@ import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
 import useDialog from 'src/hooks/useDialog';
-import withReceivedTrainingLevel from 'src/HOCs/withReceivedTrainingLevel';
 import GamePairsDialog from './GamePairsDialog';
 import Game from './Game';
 import TrainingResult from 'src/templates/TrainingResult';
 
-function GameContainer({
-  levelId,
-  wordTranslations,
-  listOn,
-  onGameEnd,
-  onNextLevel
-}) {
+function GameContainer({ trainingLevel, listOn, onGameEnd, onNextLevel }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
   const [newServerLevelId, setNewServerLevelId] = useState();
@@ -32,7 +25,7 @@ function GameContainer({
   useEffect(() => {
     const wordPairs = Array.prototype.concat.apply(
       [],
-      wordTranslations.map(wordPair => [
+      trainingLevel.wordTranslations.map(wordPair => [
         {
           id: `foreign-${wordPair.serverId}`,
           pairId: wordPair.serverId,
@@ -48,7 +41,7 @@ function GameContainer({
     );
 
     setWordPairs(shuffle(wordPairs));
-  }, [wordTranslations, levelId]);
+  }, [trainingLevel]);
 
   useEffect(() => {
     let timer1;
@@ -59,6 +52,8 @@ function GameContainer({
       numberOfCompletedPairs > 0 &&
       numberOfCompletedPairs === wordPairs.length / 2
     ) {
+      const levelId = trainingLevel.levelId;
+
       const serverLevelId = levelId < 0 ? 0 : levelId;
       dispatch(
         saveTrainingLevelResult(
@@ -97,7 +92,7 @@ function GameContainer({
   }, [
     completedPairIdsMap,
     wordPairs,
-    levelId,
+    trainingLevel,
     newServerLevelId,
     wordPairIdOpenCountsMap,
     dispatch,
@@ -192,7 +187,7 @@ function GameContainer({
       <GamePairsDialog
         open={open}
         handleClose={handleClose}
-        wordPairs={wordTranslations}
+        wordPairs={trainingLevel.wordTranslations}
       />
     </Fragment>
   ) : (
@@ -206,18 +201,20 @@ function GameContainer({
 }
 
 GameContainer.propTypes = {
-  levelId: PropTypes.number.isRequired,
-  wordTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      serverId: PropTypes.number.isRequired,
-      wordForeign: PropTypes.string.isRequired,
-      wordNative: PropTypes.string.isRequired,
-      onSpeech: PropTypes.func
-    }).isRequired
-  ).isRequired,
+  trainingLevel: PropTypes.shape({
+    levelId: PropTypes.number.isRequired,
+    wordTranslations: PropTypes.arrayOf(
+      PropTypes.shape({
+        serverId: PropTypes.number.isRequired,
+        wordForeign: PropTypes.string.isRequired,
+        wordNative: PropTypes.string.isRequired,
+        onSpeech: PropTypes.func
+      }).isRequired
+    ).isRequired
+  }).isRequired,
   listOn: PropTypes.bool.isRequired,
   onGameEnd: PropTypes.func.isRequired,
   onNextLevel: PropTypes.func
 };
 
-export default withReceivedTrainingLevel(GameContainer);
+export default GameContainer;

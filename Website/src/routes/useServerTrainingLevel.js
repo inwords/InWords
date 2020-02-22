@@ -2,9 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { receiveTrainingLevel } from 'src/actions/trainingApiActions';
-import TrainingTypes from 'src/templates/TrainingTypes';
 
-function WordSetsTrainings() {
+export default function useServerTrainingLevel() {
   const trainingLevelsMap = useSelector(
     store => store.training.trainingLevelsMap
   );
@@ -19,15 +18,7 @@ function WordSetsTrainings() {
     if (!trainingLevelsMap[paramLevelId]) {
       dispatch(receiveTrainingLevel(paramLevelId));
     }
-  }, [trainingLevelsMap, paramLevelId, dispatch]);
+  }, [trainingLevelsMap, dispatch, paramLevelId]);
 
-  return (
-    <TrainingTypes
-      trainingLevel={
-        trainingLevelsMap[paramLevelId] || { levelId: paramLevelId }
-      }
-    />
-  );
+  return trainingLevelsMap[paramLevelId];
 }
-
-export default WordSetsTrainings;

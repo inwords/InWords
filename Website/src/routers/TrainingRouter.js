@@ -4,7 +4,7 @@ import Container from 'src/components/Container';
 import Breadcrumbs from 'src/components/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/BreadcrumbsLink';
 
-const Trainings = lazy(() => import('src/routes/Trainings'));
+const MainTrainings = lazy(() => import('src/routes/MainTrainings'));
 const TrainingHistory = lazy(() => import('src/routes/TrainingHistory'));
 const MainTrainingSwitcher = lazy(() =>
   import('src/routes/MainTrainingSwitcher')
@@ -23,7 +23,7 @@ function TrainingRouter() {
       </Route>
       <Route exact path={`${url}/main/0`}>
         <Container maxWidth="lg">
-          <Trainings />
+          <MainTrainings />
         </Container>
       </Route>
       <Route

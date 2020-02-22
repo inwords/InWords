@@ -1,11 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { removeTrainingLevelWordPairs } from 'src/actions/trainingActions';
-import TrainingSwitcher from 'src/templates/TrainingSwitcher';
+import useClientTrainingLevel from 'src/routes/useClientTrainingLevel';
+import TrainingSwitcher from 'src/routes/TrainingSwitcher';
 
 function DictionaryTrainingSwitcher({ ...rest }) {
-  const history = useHistory();
+  const trainingLevel = useClientTrainingLevel('/dictionary');
 
   const dispatch = useDispatch();
 
@@ -18,25 +19,23 @@ function DictionaryTrainingSwitcher({ ...rest }) {
     );
   };
 
-  const trainingLevelsMap = useSelector(
-    store => store.training.trainingLevelsMap
-  );
+  const history = useHistory();
 
   const onNextLevel = () => {
-    if (
-      !trainingLevelsMap[-1] ||
-      !trainingLevelsMap[-1].wordTranslations.length
-    ) {
+    if (!trainingLevel || !trainingLevel.wordTranslations.length) {
       history.push('/dictionary');
     }
   };
 
   return (
-    <TrainingSwitcher
-      onGameEnd={onGameEnd}
-      onNextLevel={onNextLevel}
-      {...rest}
-    />
+    Boolean(trainingLevel) && (
+      <TrainingSwitcher
+        onGameEnd={onGameEnd}
+        onNextLevel={onNextLevel}
+        trainingLevel={trainingLevel}
+        {...rest}
+      />
+    )
   );
 }
 

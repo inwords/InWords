@@ -2,11 +2,11 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateLevelResult } from 'src/actions/trainingActions';
-import TrainingSwitcher from 'src/templates/TrainingSwitcher';
+import useServerTrainingLevel from 'src/routes/useServerTrainingLevel';
+import TrainingSwitcher from 'src/routes/TrainingSwitcher';
 
 function WordSetsTrainingSwitcher({ ...rest }) {
-  const history = useHistory();
-  const params = useParams();
+  const trainingLevel = useServerTrainingLevel();
 
   const dispatch = useDispatch();
 
@@ -17,6 +17,9 @@ function WordSetsTrainingSwitcher({ ...rest }) {
   const trainingCategory = useSelector(
     store => store.training.trainingCategory
   );
+
+  const history = useHistory();
+  const params = useParams();
 
   const onNextLevel = () => {
     const currentLevelIndex = trainingCategory.levelsInfo.findIndex(
@@ -38,11 +41,14 @@ function WordSetsTrainingSwitcher({ ...rest }) {
   };
 
   return (
-    <TrainingSwitcher
-      onGameEnd={onGameEnd}
-      onNextLevel={onNextLevel}
-      {...rest}
-    />
+    Boolean(trainingLevel) && (
+      <TrainingSwitcher
+        onGameEnd={onGameEnd}
+        onNextLevel={onNextLevel}
+        trainingLevel={trainingLevel}
+        {...rest}
+      />
+    )
   );
 }
 

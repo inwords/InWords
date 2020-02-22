@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { CardSettingsContext } from 'src/HOCs/withReceivedTrainingLevel';
-import Paper from 'src/components/Paper';
+import CardSettingsContext from 'src/routes/CardSettingsContext';
 import FadeAnimation from 'src/components/FadeAnimation';
 import Fade from 'src/components/Fade';
-import Zoom from 'src/components/Zoom';
 import GameCard from 'src/templates/GameCard';
 
 import './Game.scss';
