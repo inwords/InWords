@@ -2,19 +2,19 @@ import React, { Suspense, lazy } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { useSelector } from 'react-redux';
-import Container from 'src/components/Container';
-import ScrollToTop from 'src/components/ScrollToTop';
-import PageProgress from 'src/templates/PageProgress';
-import SmartSnackbar from 'src/templates/SmartSnackbar';
-import PageContainer from 'src/templates/PageContainer';
-import ProfileMenuButton from 'src/templates/ProfileMenuButton';
-import ErrorBoundary from 'src/templates/ErrorBoundary';
+import Container from 'src/components/core/Container';
+import ScrollToTop from 'src/components/core/ScrollToTop';
+import PageProgress from 'src/components/layout/PageProgress';
+import SmartSnackbar from 'src/components/layout/SmartSnackbar';
+import PageContainer from 'src/components/layout/PageContainer';
+import ProfileMenuButton from 'src/components/layout/ProfileMenuButton';
+import ErrorBoundary from 'src/components/layout/ErrorBoundary';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
 
-const SignIn = lazy(() => import('src/routes/SignIn'));
-const SignUp = lazy(() => import('src/routes/SignUp'));
-const Profile = lazy(() => import('src/routes/Profile'));
+const SignIn = lazy(() => import('src/components/routes/SignIn'));
+const SignUp = lazy(() => import('src/components/routes/SignUp'));
+const Profile = lazy(() => import('src/components/routes/Profile'));
 
 const history = createBrowserHistory();
 

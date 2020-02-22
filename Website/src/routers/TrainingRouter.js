@@ -1,16 +1,20 @@
 import React, { lazy } from 'react';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import Container from 'src/components/Container';
-import Breadcrumbs from 'src/components/Breadcrumbs';
-import BreadcrumbsLink from 'src/components/BreadcrumbsLink';
+import Container from 'src/components/core/Container';
+import Breadcrumbs from 'src/components/core/Breadcrumbs';
+import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 
-const MainTrainings = lazy(() => import('src/routes/MainTrainings'));
-const TrainingHistory = lazy(() => import('src/routes/TrainingHistory'));
+const MainTrainingTypes = lazy(() =>
+  import('src/components/routes/MainTrainingTypes')
+);
+const TrainingHistory = lazy(() =>
+  import('src/components/routes/TrainingHistory')
+);
 const MainTrainingSwitcher = lazy(() =>
-  import('src/routes/MainTrainingSwitcher')
+  import('src/components/routes/MainTrainingSwitcher')
 );
 const HistoryTrainingSwitcher = lazy(() =>
-  import('src/routes/HistoryTrainingSwitcher')
+  import('src/components/routes/HistoryTrainingSwitcher')
 );
 
 function TrainingRouter() {
@@ -23,7 +27,7 @@ function TrainingRouter() {
       </Route>
       <Route exact path={`${url}/main/0`}>
         <Container maxWidth="lg">
-          <MainTrainings />
+          <MainTrainingTypes />
         </Container>
       </Route>
       <Route

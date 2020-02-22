@@ -1,21 +1,25 @@
 import React, { lazy } from 'react';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import Container from 'src/components/Container';
-import Breadcrumbs from 'src/components/Breadcrumbs';
-import BreadcrumbsLink from 'src/components/BreadcrumbsLink';
+import Container from 'src/components/core/Container';
+import Breadcrumbs from 'src/components/core/Breadcrumbs';
+import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 
-const Dictionary = lazy(() => import('src/routes/Dictionary'));
-const DictionaryTrainings = lazy(() =>
-  import('src/routes/DictionaryTrainings')
+const Dictionary = lazy(() => import('src/components/routes/Dictionary'));
+const DictionaryTrainingTypes = lazy(() =>
+  import('src/components/routes/DictionaryTrainingTypes')
 );
 const DictionaryTrainingSwitcher = lazy(() =>
-  import('src/routes/DictionaryTrainingSwitcher')
+  import('src/components/routes/DictionaryTrainingSwitcher')
 );
-const WordSets = lazy(() => import('src/routes/WordSets'));
-const TrainingLevels = lazy(() => import('src/routes/TrainingLevels'));
-const WordSetsTrainings = lazy(() => import('src/routes/WordSetsTrainings'));
+const WordSets = lazy(() => import('src/components/routes/WordSets'));
+const TrainingLevels = lazy(() =>
+  import('src/components/routes/TrainingLevels')
+);
+const WordSetsTrainingTypes = lazy(() =>
+  import('src/components/routes/WordSetsTrainingTypes')
+);
 const WordSetsTrainingSwitcher = lazy(() =>
-  import('src/routes/WordSetsTrainingSwitcher')
+  import('src/components/routes/WordSetsTrainingSwitcher')
 );
 
 function DictionaryRouter() {
@@ -38,7 +42,7 @@ function DictionaryRouter() {
               Тренировки
             </BreadcrumbsLink>
           </Breadcrumbs>
-          <DictionaryTrainings />
+          <DictionaryTrainingTypes />
         </Container>
       </Route>
       <Route
@@ -96,7 +100,7 @@ function DictionaryRouter() {
                 Тренировки
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <WordSetsTrainings />
+            <WordSetsTrainingTypes />
           </Container>
         )}
       />
