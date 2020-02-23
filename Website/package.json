@@ -10,6 +10,9 @@
   },
   "author": "Prometium",
   "license": "ISC",
+  "browserslist": [
+    "defaults"
+  ],
   "dependencies": {
     "classnames": "^2.2.6",
     "history": "^4.10.1",

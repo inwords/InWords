@@ -1,0 +1,28 @@
+@import 'src/theme/mixins';
+
+.game-card {
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--palette-primary-main);
+  @include theme-typography(body1);
+  transition: box-shadow 200ms ease-in-out;
+}
+
+.game-card-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 2px;
+  background-color: var(--palette-background-paper);
+}
+
+.game-card-text {
+  width: 100%;
+  padding: 8px;
+  text-align: center;
+  line-height: 1.3;
+  word-wrap: break-word;
+  font-weight: 500;
+}
