@@ -13,6 +13,9 @@ const TrainingHistory = lazy(() =>
 const MainTrainingSwitcher = lazy(() =>
   import('src/components/routes/MainTrainingSwitcher')
 );
+const HistoryTrainingTypes = lazy(() =>
+  import('src/components/routes/HistoryTrainingTypes')
+);
 const HistoryTrainingSwitcher = lazy(() =>
   import('src/components/routes/HistoryTrainingSwitcher')
 );
@@ -54,11 +57,29 @@ function TrainingRouter() {
       </Route>
       <Route
         exact
+        path={`${url}/history/:levelId`}
+        render={({ match: { params } }) => (
+          <Container maxWidth="lg">
+            <Breadcrumbs>
+              <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/history/${params.levelId}`}>
+                Тренировки
+              </BreadcrumbsLink>
+            </Breadcrumbs>
+            <HistoryTrainingTypes />
+          </Container>
+        )}
+      />
+      <Route
+        exact
         path={`${url}/history/:levelId/:trainingId`}
         render={({ match: { params } }) => (
           <Container maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/history/${params.levelId}`}>
+                Тренировки
+              </BreadcrumbsLink>
               <BreadcrumbsLink
                 to={`${url}/history/${params.levelId}/${params.trainingId}`}
               >
@@ -68,7 +89,7 @@ function TrainingRouter() {
             <HistoryTrainingSwitcher trainingId={+params.trainingId} />
           </Container>
         )}
-      ></Route>
+      />
     </Switch>
   );
 }

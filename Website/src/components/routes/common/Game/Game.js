@@ -20,8 +20,8 @@ function Game({
 
     if (colsNum <= 2) {
       return 2;
-    } else if (colsNum >= 4) {
-      return 4;
+    } else if (colsNum === 3) {
+      return 3;
     }
     return colsNum;
   }, [wordPairs.length]);

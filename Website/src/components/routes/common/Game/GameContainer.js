@@ -8,7 +8,7 @@ import GamePairsDialog from './GamePairsDialog';
 import Game from './Game';
 import TrainingResult from 'src/components/routes/common/TrainingResult';
 
-function GameContainer({ trainingLevel, listOn, onGameEnd, onNextLevel }) {
+function GameContainer({ trainingLevel, listOn, onResult, onNextLevel }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
   const [newServerLevelId, setNewServerLevelId] = useState();
@@ -43,62 +43,6 @@ function GameContainer({ trainingLevel, listOn, onGameEnd, onNextLevel }) {
     setWordPairs(shuffle(wordPairs));
   }, [trainingLevel]);
 
-  useEffect(() => {
-    let timer1;
-    let timer2;
-
-    const numberOfCompletedPairs = Object.keys(completedPairIdsMap).length;
-    if (
-      numberOfCompletedPairs > 0 &&
-      numberOfCompletedPairs === wordPairs.length / 2
-    ) {
-      const levelId = trainingLevel.levelId;
-
-      const serverLevelId = levelId < 0 ? 0 : levelId;
-      dispatch(
-        saveTrainingLevelResult(
-          {
-            gameLevelId: newServerLevelId || serverLevelId,
-            wordPairIdOpenCounts: wordPairIdOpenCountsMap
-          },
-          data => {
-            timer1 = setTimeout(() => {
-              setIsGameCompleted(true);
-            }, 1000);
-
-            timer2 = setTimeout(() => {
-              setSelectedWordPairs([]);
-              setCompletedPairIdsMap({});
-              setSelectedCompletedPairId(-1);
-              setWordPairIdOpenCountsMap({});
-              setRecentWordPairs(wordPairs);
-
-              onGameEnd({ levelId, wordPairs, levelResult: data });
-
-              setScore(data.classicCardLevelResult[0].score);
-              setNewServerLevelId(data.classicCardLevelResult[0].levelId);
-
-              setIsResultReady(true);
-            }, 1500);
-          }
-        )
-      );
-    }
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
-  }, [
-    completedPairIdsMap,
-    wordPairs,
-    trainingLevel,
-    newServerLevelId,
-    wordPairIdOpenCountsMap,
-    dispatch,
-    onGameEnd
-  ]);
-
   const handleClick = (pairId, id, onSpeech) => () => {
     if (completedPairIdsMap[pairId]) {
       setSelectedCompletedPairId(pairId);
@@ -128,14 +72,17 @@ function GameContainer({ trainingLevel, listOn, onGameEnd, onNextLevel }) {
       }));
     }
 
+    let newCompletedPairIdsMap = completedPairIdsMap;
     if (selectedWordPairs.length === 1) {
       if (selectedWordPairs[0].pairId === pairId) {
         setSelectedWordPairs([]);
 
-        setCompletedPairIdsMap(completedPairIdsMap => ({
+        newCompletedPairIdsMap = {
           ...completedPairIdsMap,
           [pairId]: true
-        }));
+        };
+
+        setCompletedPairIdsMap(newCompletedPairIdsMap);
 
         setSelectedCompletedPairId(pairId);
       } else {
@@ -148,24 +95,64 @@ function GameContainer({ trainingLevel, listOn, onGameEnd, onNextLevel }) {
     if (onSpeech) {
       onSpeech();
     }
+
+    const numberOfCompletedPairs = Object.keys(newCompletedPairIdsMap).length;
+    if (
+      numberOfCompletedPairs > 0 &&
+      numberOfCompletedPairs === wordPairs.length / 2
+    ) {
+      const levelId = trainingLevel.levelId;
+
+      const serverLevelId = levelId < 0 ? 0 : levelId;
+      dispatch(
+        saveTrainingLevelResult(
+          {
+            gameLevelId: newServerLevelId || serverLevelId,
+            wordPairIdOpenCounts: wordPairIdOpenCountsMap
+          },
+          data => {
+            setTimeout(() => {
+              setIsGameCompleted(true);
+            }, 1000);
+
+            setTimeout(() => {
+              setSelectedWordPairs([]);
+              setCompletedPairIdsMap({});
+              setSelectedCompletedPairId(-1);
+              setWordPairIdOpenCountsMap({});
+              setRecentWordPairs(wordPairs);
+
+              if (onResult) {
+                onResult({ levelId, wordPairs, levelResult: data });
+              }
+
+              setScore(data.classicCardLevelResult[0].score);
+              setNewServerLevelId(data.classicCardLevelResult[0].levelId);
+
+              setIsResultReady(true);
+            }, 1500);
+          }
+        )
+      );
+    }
   };
 
   const { open, handleOpen, handleClose } = useDialog(listOn);
 
-  const handleNextLevel = onNextLevel
-    ? () => {
-        onNextLevel();
+  const handleNextLevel = () => {
+    if (onNextLevel) {
+      onNextLevel();
+    }
 
-        setIsGameCompleted(false);
-        setIsResultReady(false);
-        setScore(null);
-        setNewServerLevelId(undefined);
+    setIsGameCompleted(false);
+    setIsResultReady(false);
+    setScore(null);
+    setNewServerLevelId(undefined);
 
-        if (listOn) {
-          handleOpen();
-        }
-      }
-    : null;
+    if (listOn) {
+      handleOpen();
+    }
+  };
 
   const handleReplay = () => {
     setIsGameCompleted(false);
@@ -213,7 +200,7 @@ GameContainer.propTypes = {
     ).isRequired
   }).isRequired,
   listOn: PropTypes.bool.isRequired,
-  onGameEnd: PropTypes.func.isRequired,
+  onResult: PropTypes.func,
   onNextLevel: PropTypes.func
 };
 

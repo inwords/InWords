@@ -1,34 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import withReceivedUserInfo from 'src/HOCs/withReceivedUserInfo';
+import { useSelector, useDispatch } from 'react-redux';
+import { receiveUserInfo } from 'src/actions/userApiActions';
 import Profile from './Profile';
 
-function ProfileContainer({
-  userId,
-  nickname,
-  avatarPath,
-  account: { email }
-}) {
-  const validUserId = useSelector(store => store.access.userId);
+function ProfileContainer() {
+  const { nickname, avatarPath, account } = useSelector(
+    store => store.userInfo
+  );
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (!account.accountId) {
+      dispatch(receiveUserInfo());
+    }
+  }, [account.accountId, dispatch]);
 
   return (
     <Profile
       avatarPath={avatarPath}
       nickname={nickname}
-      editingAvailable={validUserId && validUserId === userId}
-      email={email}
+      email={account.email}
     />
   );
 }
 
-ProfileContainer.propTypes = {
-  userId: PropTypes.number.isRequired,
-  nickname: PropTypes.string.isRequired,
-  avatarPath: PropTypes.string.isRequired,
-  account: PropTypes.shape({
-    email: PropTypes.string.isRequired
-  }).isRequired
-};
-
-export default withReceivedUserInfo(ProfileContainer);
+export default ProfileContainer;

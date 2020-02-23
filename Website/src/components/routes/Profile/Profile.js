@@ -87,9 +87,9 @@ function Profile({ avatarPath, nickname, email }) {
 }
 
 Profile.propTypes = {
-  nickname: PropTypes.string.isRequired,
-  avatarPath: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired
+  nickname: PropTypes.string,
+  avatarPath: PropTypes.string,
+  email: PropTypes.string
 };
 
 export default Profile;

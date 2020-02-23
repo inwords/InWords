@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateLevelResult } from 'src/actions/trainingActions';
-import useServerTrainingLevel from 'src/components/routes/common/useServerTrainingLevel';
+import useServerTrainingLevel from 'src/components/routes/common-hooks/useServerTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
 function WordSetsTrainingSwitcher({ ...rest }) {
@@ -10,7 +10,7 @@ function WordSetsTrainingSwitcher({ ...rest }) {
 
   const dispatch = useDispatch();
 
-  const onGameEnd = ({ levelResult }) => {
+  const onResult = ({ levelResult }) => {
     dispatch(updateLevelResult(levelResult));
   };
 
@@ -30,25 +30,24 @@ function WordSetsTrainingSwitcher({ ...rest }) {
       const nextLevelIndex = currentLevelIndex + 1;
       const nextLevel = trainingCategory.levelsInfo[nextLevelIndex];
 
-      if (nextLevel.levelId) {
+      if (nextLevel) {
         history.push(
           `/dictionary/sets/training/${params.categoryId}/${nextLevel.levelId}/${params.trainingId}`
         );
+        return;
       }
-    } else {
-      history.push('/dictionary/sets');
     }
+
+    history.push('/dictionary/sets');
   };
 
   return (
-    Boolean(trainingLevel) && (
-      <TrainingSwitcher
-        onGameEnd={onGameEnd}
-        onNextLevel={onNextLevel}
-        trainingLevel={trainingLevel}
-        {...rest}
-      />
-    )
+    <TrainingSwitcher
+      onResult={onResult}
+      onNextLevel={onNextLevel}
+      trainingLevel={trainingLevel}
+      {...rest}
+    />
   );
 }
 

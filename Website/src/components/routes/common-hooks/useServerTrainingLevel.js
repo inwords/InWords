@@ -20,5 +20,10 @@ export default function useServerTrainingLevel() {
     }
   }, [trainingLevelsMap, dispatch, paramLevelId]);
 
-  return trainingLevelsMap[paramLevelId];
+  return (
+    trainingLevelsMap[paramLevelId] || {
+      levelId: paramLevelId,
+      wordTranslations: []
+    }
+  );
 }

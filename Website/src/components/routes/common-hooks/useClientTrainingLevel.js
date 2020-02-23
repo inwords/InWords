@@ -18,5 +18,10 @@ export default function useClientTrainingLevel(redirectionURL) {
     }
   }, [trainingLevelsMap, paramLevelId, history, redirectionURL]);
 
-  return trainingLevelsMap[paramLevelId];
+  return (
+    trainingLevelsMap[paramLevelId] || {
+      levelId: paramLevelId,
+      wordTranslations: []
+    }
+  );
 }

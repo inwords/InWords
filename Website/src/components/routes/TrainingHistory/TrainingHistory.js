@@ -21,16 +21,15 @@ function TrainingHistory({ recentTrainings }) {
             <CardHeader title={`Тренировка ${levelId}`} />
             <CardContent>
               <div>
-                {Array(playerStars).fill(<Icon color="gold">star</Icon>)}
-                {Array(3 - playerStars).fill(
-                  <Icon color="disabled">star</Icon>
-                )}
+                <Icon color={playerStars > 0 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={playerStars > 1 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={playerStars > 2 ? 'gold' : 'disabled'}>star</Icon>
               </div>
             </CardContent>
             <CardActions>
               <LinkButton
                 component={RouterLink}
-                to={`${match.url}/${levelId}/0`}
+                to={`${match.url}/${levelId}`}
                 variant="text"
                 color="primary"
               >

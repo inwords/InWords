@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { removeTrainingLevelWordPairs } from 'src/actions/trainingActions';
-import useClientTrainingLevel from 'src/components/routes/common/useClientTrainingLevel';
+import useClientTrainingLevel from 'src/components/routes/common-hooks/useClientTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
 function MainTrainingSwitcher({ ...rest }) {
@@ -9,7 +9,7 @@ function MainTrainingSwitcher({ ...rest }) {
 
   const dispatch = useDispatch();
 
-  const onGameEnd = ({ levelId, wordPairs }) => {
+  const onResult = ({ levelId, wordPairs }) => {
     dispatch(
       removeTrainingLevelWordPairs(
         levelId,
@@ -25,14 +25,12 @@ function MainTrainingSwitcher({ ...rest }) {
   };
 
   return (
-    Boolean(trainingLevel) && (
-      <TrainingSwitcher
-        onGameEnd={onGameEnd}
-        onNextLevel={onNextLevel}
-        trainingLevel={trainingLevel}
-        {...rest}
-      />
-    )
+    <TrainingSwitcher
+      onResult={onResult}
+      onNextLevel={onNextLevel}
+      trainingLevel={trainingLevel}
+      {...rest}
+    />
   );
 }
 

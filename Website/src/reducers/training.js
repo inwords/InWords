@@ -90,7 +90,7 @@ function trainingHistory(
     case INITIALIZE_TRAINING_HISTORY:
       return {
         actual: true,
-        recentTrainings: (action.payload || []).slice(0, 30).reverse()
+        recentTrainings: (action.payload || []).slice(0, 30)
       };
     default:
       return state;
