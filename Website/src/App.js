@@ -21,17 +21,7 @@ const history = createBrowserHistory();
 const routes = [
   {
     to: '/dictionary',
-    text: 'Словарь',
-    nestedRoutes: [
-      {
-        to: '/dictionary/my',
-        text: 'Мой словарь'
-      },
-      {
-        to: '/dictionary/sets',
-        text: 'Наборы слов'
-      }
-    ]
+    text: 'Словарь'
   },
   {
     to: '/training',
@@ -44,6 +34,10 @@ const routes = [
       {
         to: '/training/history',
         text: 'История'
+      },
+      {
+        to: '/training/courses',
+        text: 'Курсы'
       }
     ]
   }

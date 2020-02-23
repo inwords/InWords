@@ -19,6 +19,16 @@ const HistoryTrainingTypes = lazy(() =>
 const HistoryTrainingSwitcher = lazy(() =>
   import('src/components/routes/HistoryTrainingSwitcher')
 );
+const Courses = lazy(() => import('src/components/routes/Courses'));
+const TrainingLevels = lazy(() =>
+  import('src/components/routes/TrainingLevels')
+);
+const CoursesTrainingTypes = lazy(() =>
+  import('src/components/routes/CoursesTrainingTypes')
+);
+const CoursesTrainingSwitcher = lazy(() =>
+  import('src/components/routes/CoursesTrainingSwitcher')
+);
 
 function TrainingRouter() {
   const { url } = useRouteMatch();
@@ -49,7 +59,7 @@ function TrainingRouter() {
             <MainTrainingSwitcher trainingId={+params.trainingId} />
           </Container>
         )}
-      ></Route>
+      />
       <Route exact path={`${url}/history`}>
         <Container maxWidth="lg">
           <TrainingHistory />
@@ -87,6 +97,71 @@ function TrainingRouter() {
               </BreadcrumbsLink>
             </Breadcrumbs>
             <HistoryTrainingSwitcher trainingId={+params.trainingId} />
+          </Container>
+        )}
+      />
+      <Route exact path={`${url}/courses`}>
+        <Container maxWidth="lg">
+          <Courses />
+        </Container>
+      </Route>
+      <Route
+        exact
+        path={`${url}/courses/:categoryId`}
+        render={({ match: { params } }) => (
+          <Container maxWidth="lg">
+            <Breadcrumbs>
+              <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/courses/${params.categoryId}`}>
+                Уровни
+              </BreadcrumbsLink>
+            </Breadcrumbs>
+            <TrainingLevels />
+          </Container>
+        )}
+      />
+      <Route
+        exact
+        path={`${url}/courses/:categoryId/:levelId`}
+        render={({ match: { params } }) => (
+          <Container maxWidth="lg">
+            <Breadcrumbs>
+              <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/courses/${params.categoryId}`}>
+                Уровни
+              </BreadcrumbsLink>
+              <BreadcrumbsLink
+                to={`${url}/courses/${params.categoryId}/${params.levelId}`}
+              >
+                Тренировки
+              </BreadcrumbsLink>
+            </Breadcrumbs>
+            <CoursesTrainingTypes />
+          </Container>
+        )}
+      />
+      <Route
+        exact
+        path={`${url}/courses/:categoryId/:levelId/:trainingId`}
+        render={({ match: { params } }) => (
+          <Container maxWidth="lg">
+            <Breadcrumbs>
+              <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/courses/${params.categoryId}`}>
+                Уровни
+              </BreadcrumbsLink>
+              <BreadcrumbsLink
+                to={`${url}/courses/${params.categoryId}/${params.levelId}`}
+              >
+                Тренировки
+              </BreadcrumbsLink>
+              <BreadcrumbsLink
+                to={`${url}/courses/${params.categoryId}/${params.levelId}/${params.trainingId}`}
+              >
+                Тренировка
+              </BreadcrumbsLink>
+            </Breadcrumbs>
+            <CoursesTrainingSwitcher trainingId={+params.trainingId} />
           </Container>
         )}
       />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
@@ -7,10 +8,12 @@ import CardHeader from 'src/components/core/CardHeader';
 import CardContent from 'src/components/core/CardContent';
 import CardActions from 'src/components/core/CardActions';
 import Typography from 'src/components/core/Typography';
-import Button from 'src/components/core/Button';
-import WordSetsMenuButton from './WordSetsMenuButton';
+import LinkButton from 'src/components/core/LinkButton';
+import CoursesMenuButton from './CoursesMenuButton';
 
-function WordSets({ trainingCategories, handleAddingInDictionary }) {
+function Courses({ trainingCategories }) {
+  const match = useRouteMatch();
+
   return (
     <Grid spacing={3}>
       {trainingCategories.map(({ gameId, title, description }) => (
@@ -18,19 +21,20 @@ function WordSets({ trainingCategories, handleAddingInDictionary }) {
           <Card>
             <CardHeader
               title={title}
-              action={<WordSetsMenuButton gameId={gameId} />}
+              action={<CoursesMenuButton gameId={gameId} />}
             />
             <CardContent>
               <Typography>{description}</Typography>
             </CardContent>
             <CardActions>
-              <Button
-                onClick={handleAddingInDictionary(gameId)}
+              <LinkButton
+                component={Link}
+                to={`${match.url}/${gameId}`}
                 variant="text"
                 color="primary"
               >
-                Добавить в словарь
-              </Button>
+                Пройти
+              </LinkButton>
             </CardActions>
           </Card>
         </GridItem>
@@ -39,7 +43,7 @@ function WordSets({ trainingCategories, handleAddingInDictionary }) {
   );
 }
 
-WordSets.propTypes = {
+Courses.propTypes = {
   trainingCategories: PropTypes.arrayOf(
     PropTypes.shape({
       gameId: PropTypes.number.isRequired,
@@ -47,8 +51,7 @@ WordSets.propTypes = {
       description: PropTypes.string.isRequired,
       isAvailable: PropTypes.bool.isRequired
     }).isRequired
-  ).isRequired,
-  handleAddingInDictionary: PropTypes.func.isRequired
+  ).isRequired
 };
 
-export default WordSets;
+export default Courses;
