@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package ProfilePackage.v2;
+
+// The greeting service definition.
+service Profile {
+	// Sends a greeting
+	rpc Register (RegistrationRequest) returns (RegistrationReply);
+	rpc GetToken (TokenRequest) returns (TokenReply);
+	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
+	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
+}
+
+// The request message containing the user's credentials.
+message RegistrationRequest {
+	string email = 1;
+	string password = 2;
+}
+
+// The response message containing the Token.
+message RegistrationReply {
+	int64 userid = 1;
+	string token = 2;
+}
+
+// The request message containing the user's credentials.
+message TokenRequest {
+	string email = 1;
+	string password = 2;
+}
+
+// The response message containing the Token.
+message TokenReply {
+	int64 userId = 1;
+	string token = 2;
+}
+
+message EmailChangeRequest{
+	string email = 1;
+}
+
+message EmailChangeReply{
+	string email = 1;
+}
+
+message ConfirmEmailRequest{
+	string email = 1;
+	int32 code = 2;
+}
+
+message ConfirmEmailReply{
+	string email = 1;
+}

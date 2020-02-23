@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using InWords.WebApi.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -28,13 +29,14 @@ namespace InWords.WebApi.Providers.FIleLogger
             return true;
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
+        public async void Log<TState>(LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception exception,
             Func<TState, Exception, string> formatter)
         {
             if (formatter == null) return;
-
             LogFile($"[{logLevel.ToString().Remove(3)}] {formatter(state, exception)}");
-
             if (logLevel.Equals(LogLevel.Error)) LogException(exception);
         }
 
@@ -42,7 +44,7 @@ namespace InWords.WebApi.Providers.FIleLogger
         {
             lock (_lock)
             {
-                File.AppendAllText(filePath, $"{content}{Environment.NewLine}");
+                File.AppendAllText(filePath, content);
             }
         }
 

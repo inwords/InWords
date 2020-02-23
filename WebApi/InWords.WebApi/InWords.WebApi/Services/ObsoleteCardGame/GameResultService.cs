@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.DTO.Extensions;
@@ -10,6 +11,7 @@ using InWords.WebApi.Services.UserWordPairService.Abstraction;
 
 namespace InWords.WebApi.Services.CardGame
 {
+    [Obsolete]
     public class GameResultService
     {
         private readonly IGameScoreService gameScoreService;

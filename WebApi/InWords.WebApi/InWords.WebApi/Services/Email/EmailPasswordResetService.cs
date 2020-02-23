@@ -6,6 +6,7 @@ using InWords.WebApi.Services.Email.Template;
 
 namespace InWords.WebApi.Services.Email
 {
+    [Obsolete]
     public class EmailPasswordResetService
     {
         //IResetPasswordEmail resetPasswordEmail;

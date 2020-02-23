@@ -1,4 +1,4 @@
-﻿using Registration.V2;
+﻿using ProfilePackage.V2;
 using InWords.Data;
 using InWords.WebApi.Services.Abstractions;
 using System.Threading;

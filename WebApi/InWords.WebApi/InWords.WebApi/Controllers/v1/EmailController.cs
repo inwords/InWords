@@ -34,7 +34,7 @@ namespace InWords.WebApi.Controllers.v1
             this.emailCodeVerificationService = emailCodeVerificationService;
             this.emailLinkVerificationService = emailLinkVerificationService;
         }
-
+        [Obsolete]
         [Route("SendActivationCode")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -65,6 +65,7 @@ namespace InWords.WebApi.Controllers.v1
         }
 
         [HttpPost]
+        [Obsolete]
         [Route("ConfirmCode")]
         public async Task<IActionResult> ConfirmCode([FromBody] EmailClaims emailClaims)
         {

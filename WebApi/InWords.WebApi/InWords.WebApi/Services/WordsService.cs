@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InWords.Data.Domains;
@@ -8,6 +9,7 @@ using InWords.WebApi.Extensions;
 
 namespace InWords.WebApi.Services
 {
+    [Obsolete]
     public class WordsService
     {
         private readonly UserWordPairRepository userWordPairRepository;

@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Registration.V2;
+using ProfilePackage.V2;
 
 namespace InWords.WebApi.Controllers.v2
 {
@@ -36,11 +39,95 @@ namespace InWords.WebApi.Controllers.v2
         [HttpPost]
         [ProducesResponseType(typeof(RegistrationReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetTraining(RegistrationRequest request)
+        public async Task<IActionResult> Register(RegistrationRequest request)
         {
-            var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
-            RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-            return Ok(reply);
+            try
+            {
+                var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
+                RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest($"{e.Message}");
+            }
+        }
+
+        /// <summary>
+        ///     Use this to get token
+        /// </summary>
+        /// <returns>user's access token</returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">Access denied</response>
+        [ProducesResponseType(typeof(TokenReply), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("token")]
+        [HttpPost]
+        public async Task<IActionResult> Token([FromBody] TokenRequest request)
+        {
+            try
+            {
+                var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
+                TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        /// <summary>
+        ///   Use this to request update user's email
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Authorize]
+        [ProducesResponseType(typeof(EmailChangeRequest), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("updateEmail")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateEmail([FromBody] EmailChangeRequest request)
+        {
+            try
+            {
+                var reqestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(request)
+                {
+                    UserId = User.GetUserId()
+                };
+                EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        /// <summary>
+        ///   Use this to confirm email code
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Authorize]
+        [ProducesResponseType(typeof(ConfirmEmailRequest), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("confirmEmail")]
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request)
+        {
+            try
+            {
+                var reqestObject = new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(request)
+                {
+                    UserId = User.GetUserId()
+                };
+                ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

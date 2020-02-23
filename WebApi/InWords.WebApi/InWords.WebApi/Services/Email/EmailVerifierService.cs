@@ -9,6 +9,7 @@ namespace InWords.WebApi.Services.Email
     /// <summary>
     ///     This is register a user's profile for review by email
     /// </summary>
+    [Obsolete]
     public class EmailVerifierService : IEmailVerifierService
     {
         private readonly ShortCodeGeneratorService codeGenerator;

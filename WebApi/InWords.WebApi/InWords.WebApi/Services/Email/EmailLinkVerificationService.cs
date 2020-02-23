@@ -5,6 +5,7 @@ using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services.Email
 {
+    [Obsolete]
     public class EmailLinkVerificationService
     {
         private readonly AccountRepository accountRepository;

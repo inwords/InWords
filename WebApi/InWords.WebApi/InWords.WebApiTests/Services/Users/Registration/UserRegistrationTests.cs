@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using InWords.WebApi.Services.Abstractions;
-using Registration.V2;
+using ProfilePackage.V2;
 using Xunit;
 using System.Linq;
 using InWords.Data.Domains;
