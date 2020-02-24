@@ -4,7 +4,7 @@ import { loadValue, saveValue } from 'src/localStorage';
 import useForm from 'src/hooks/useForm';
 import TrainingSettingsDialog from './TrainingSettingsDialog';
 
-function TrainingSettingsDialogContainer({ typeId, open, ...rest }) {
+function TrainingSettingsDialogContainer({ open, ...rest }) {
   const { inputs, setInputs, handleChange } = useForm({});
 
   React.useEffect(() => {
@@ -12,8 +12,7 @@ function TrainingSettingsDialogContainer({ typeId, open, ...rest }) {
       const trainingsSettingsLocalData = loadValue('trainingsSettings');
 
       const trainingSettings =
-        (trainingsSettingsLocalData && trainingsSettingsLocalData[typeId]) ||
-        {};
+        (trainingsSettingsLocalData && trainingsSettingsLocalData[0]) || {};
 
       const quantity = trainingSettings.quantity || '8';
       const voiceOn =
@@ -27,11 +26,11 @@ function TrainingSettingsDialogContainer({ typeId, open, ...rest }) {
 
       setInputs({ quantity, voiceOn, listOn, cardDimension, cardTextSize });
     }
-  }, [open, typeId, setInputs]);
+  }, [open, setInputs]);
 
   const handleSubmit = event => {
     saveValue('trainingsSettings', {
-      [typeId]: {
+      [0]: {
         ...inputs
       }
     });

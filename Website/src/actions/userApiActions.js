@@ -5,7 +5,7 @@ import { history } from 'src/App';
 
 export function receiveUserInfoById(userId) {
   return apiAction({
-    endpoint: `users/${userId}`,
+    endpoint: `/users/${userId}`,
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(userActions.initializeUserInfo(data));
@@ -21,7 +21,7 @@ export function receiveUserInfoById(userId) {
 
 export function receiveUserInfo() {
   return apiAction({
-    endpoint: 'users',
+    endpoint: '/users',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(userActions.initializeUserInfo(data));
@@ -37,7 +37,7 @@ export function receiveUserInfo() {
 
 export function updateUserInfo(userInfo) {
   return apiAction({
-    endpoint: 'users',
+    endpoint: '/users',
     method: 'PUT',
     data: JSON.stringify(userInfo),
     contentType: 'application/json',
@@ -59,8 +59,8 @@ export function updateUserInfo(userInfo) {
 
 export function uploadUserAvatar(formData) {
   return apiAction({
-    apiVersion: 'v1.1',
-    endpoint: 'profileSettings/uploadAvatar',
+    apiVersion: '1.1',
+    endpoint: '/profileSettings/uploadAvatar',
     method: 'PUT',
     data: formData,
     actionsOnSuccess: [

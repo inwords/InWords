@@ -5,7 +5,7 @@ import { history } from 'src/App';
 
 export function signIn(userdata) {
   return apiAction({
-    endpoint: 'auth/token',
+    endpoint: '/auth/token',
     method: 'POST',
     authorizationRequired: false,
     data: JSON.stringify(userdata),
@@ -28,7 +28,7 @@ export function signIn(userdata) {
 
 export function signUp(userdata) {
   return apiAction({
-    endpoint: 'auth/registration',
+    endpoint: '/auth/registration',
     method: 'POST',
     authorizationRequired: false,
     data: JSON.stringify(userdata),
@@ -58,7 +58,7 @@ export function signUp(userdata) {
 
 export function sendActivationCode(email) {
   return apiAction({
-    endpoint: 'email/sendActivationCode',
+    endpoint: '/email/sendActivationCode',
     method: 'POST',
     data: JSON.stringify(email),
     contentType: 'application/json',

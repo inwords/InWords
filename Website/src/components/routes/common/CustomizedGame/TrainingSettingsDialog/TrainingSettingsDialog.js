@@ -59,6 +59,14 @@ function TrainingSettingsDialog({
             </div>
           </FormGroup>
           <FormGroup className="training-settings-row">
+            <Checkbox
+              id="training-words-voice"
+              name="voiceOn"
+              checked={inputs.voiceOn}
+              onChange={handleChange}
+              edge="start"
+              className="training-settings-checkbox"
+            />
             <Typography
               component="label"
               htmlFor="training-words-voice"
@@ -66,15 +74,16 @@ function TrainingSettingsDialog({
             >
               Озвучивать английские слова
             </Typography>
-            <Checkbox
-              id="training-words-voice"
-              name="voiceOn"
-              checked={inputs.voiceOn}
-              onChange={handleChange}
-              className="training-settings-checkbox"
-            />
           </FormGroup>
           <FormGroup className="training-settings-row">
+            <Checkbox
+              id="training-words-list-on"
+              name="listOn"
+              checked={inputs.listOn}
+              onChange={handleChange}
+              edge="start"
+              className="training-settings-checkbox"
+            />
             <Typography
               component="label"
               htmlFor="training-words-list-on"
@@ -82,13 +91,6 @@ function TrainingSettingsDialog({
             >
               Показывать слова перед тренировкой
             </Typography>
-            <Checkbox
-              id="training-words-list-on"
-              name="listOn"
-              checked={inputs.listOn}
-              onChange={handleChange}
-              className="training-settings-checkbox"
-            />
           </FormGroup>
           <div className="training-settings-row">
             <div className="training-settings-col">

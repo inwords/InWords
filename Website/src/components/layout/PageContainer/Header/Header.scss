@@ -21,13 +21,13 @@
     box-shadow: var(--depth-shadow-16);
   }
 
-  &__content {
+  &__toolbar {
     display: flex;
     align-items: center;
     padding: 0 24px;
   }
 
-  &__content-block {
+  &__toolbar-block {
     display: flex;
     align-items: center;
     height: 64px;

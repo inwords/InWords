@@ -4,7 +4,7 @@ import { setSnackbar } from './commonActions';
 
 export function syncWordPairs(wordPairs) {
   return apiAction({
-    endpoint: 'sync/pullWordPairs',
+    endpoint: '/sync/pullWordPairs',
     method: 'POST',
     data: JSON.stringify(wordPairs),
     contentType: 'application/json',
@@ -23,7 +23,7 @@ export function syncWordPairs(wordPairs) {
 
 export function deleteWordPairs(pairIds) {
   return apiAction({
-    endpoint: 'words/deletePair',
+    endpoint: '/words/deletePair',
     method: 'POST',
     data: JSON.stringify(pairIds),
     contentType: 'application/json',
@@ -42,7 +42,7 @@ export function deleteWordPairs(pairIds) {
 
 export function addWordPairs(wordPairs) {
   return apiAction({
-    endpoint: 'words/addPair',
+    endpoint: '/words/addPair',
     method: 'POST',
     data: JSON.stringify(wordPairs),
     contentType: 'application/json',
@@ -68,7 +68,7 @@ export function addWordPairs(wordPairs) {
 
 export function editWordPairs(wordPairsMap) {
   return apiAction({
-    endpoint: 'words/updatePair',
+    endpoint: '/words/updatePair',
     method: 'POST',
     data: JSON.stringify(wordPairsMap),
     contentType: 'application/json',

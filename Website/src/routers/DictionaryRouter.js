@@ -23,7 +23,7 @@ function DictionaryRouter() {
         </Container>
       </Route>
       <Route exact path={`${url}/training/-1`}>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Breadcrumbs>
             <BreadcrumbsLink to={url}>Мой словарь</BreadcrumbsLink>
             <BreadcrumbsLink to={`${url}/training/-1`}>

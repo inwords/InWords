@@ -29,11 +29,11 @@ const routes = [
     nestedRoutes: [
       {
         to: '/training/main/0',
-        text: 'Тренировки'
+        text: 'Тренировки по словарю'
       },
       {
         to: '/training/history',
-        text: 'История'
+        text: 'История тренировок'
       },
       {
         to: '/training/courses',

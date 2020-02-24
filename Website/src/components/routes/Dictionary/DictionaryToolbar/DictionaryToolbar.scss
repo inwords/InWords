@@ -1,26 +1,19 @@
 @import 'src/theme/mixins';
 
-.dictionary-toolbar {
-  display: flex;
-  align-items: center;
-  min-height: 64px;
-  padding: 0 24px;
+.dictionary-toolbar-title-block {
+  margin-right: auto;
+}
 
-  &__title-block {
-    margin-right: auto;
+.dictionary-toolbar-title-block-main {
+  @include theme-breakpoints-down(sm) {
+    display: none;
   }
+}
 
-  &__title-block-main {
-    @include theme-breakpoints-down(sm) {
-      display: none;
-    }
-  }
+.dictionary-toolbar-delete-button {
+  color: var(--palette-error);
+}
 
-  &__delete-button {
-    color: var(--palette-error);
-  }
-
-  &__done-all-button {
-    margin-right: 16px;
-  }
+.dictionary-toolbar-done-all-button {
+  margin-right: 16px;
 }
