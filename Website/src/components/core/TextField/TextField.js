@@ -27,29 +27,29 @@ const TextField = React.forwardRef(function TextField(
   },
   ref
 ) {
-  const [empty, setEmpty] = React.useState(!value);
+  const [filled, setFilled] = React.useState(Boolean(value));
   const [focused, setFocused] = React.useState(false);
 
   const inputRef = React.useRef();
   const combinedRef = useCombinedRefs(ref, inputRef);
 
   React.useEffect(() => {
-    setEmpty(!combinedRef.current);
+    setFilled(Boolean(combinedRef.current.value));
   }, [combinedRef]);
 
   React.useEffect(() => {
-    setEmpty(!value);
+    setFilled(Boolean(value));
   }, [value]);
 
-  const handleChange = event => {
-    setEmpty(!event.target.value);
+  const handleInputChange = event => {
+    setFilled(Boolean(event.target.value));
 
     if (onChange) {
       onChange(event);
     }
   };
 
-  const handleFocus = event => {
+  const handleInputFocus = event => {
     setFocused(true);
 
     if (onFocus) {
@@ -57,7 +57,7 @@ const TextField = React.forwardRef(function TextField(
     }
   };
 
-  const handleBlur = event => {
+  const handleInputBlur = event => {
     setFocused(false);
 
     if (onBlur) {
@@ -79,7 +79,7 @@ const TextField = React.forwardRef(function TextField(
       <label
         htmlFor={id}
         className={classNames('text-field__label', {
-          'text-field__label--compact': focused || !empty,
+          'text-field__label--compact': focused || filled,
           'text-field__label--active': focused,
           'text-field__label--required': required,
           'text-field__label--disabled': disabled
@@ -98,9 +98,9 @@ const TextField = React.forwardRef(function TextField(
         value={value}
         required={required}
         disabled={disabled}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
+        onChange={handleInputChange}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
         className="text-field__input"
         {...inputProps}
       />

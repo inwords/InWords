@@ -13,4 +13,60 @@
       }
     }
   }
+
+  &--direction--row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  &--direction--column {
+    flex-direction: column;
+  }
+
+  &--direction--column-reverse {
+    flex-direction: column-reverse;
+  }
+
+  &--align-items--center {
+    align-items: center;
+  }
+
+  &--align-items--flex-end {
+    align-items: flex-end;
+  }
+
+  &--align-items--stretch {
+    align-items: stretch;
+  }
+
+  &--align-items--baseline {
+    align-items: baseline;
+  }
+
+  &--justify--center {
+    justify-content: center;
+  }
+
+  &--justify--flex-end {
+    justify-content: flex-end;
+  }
+
+  &--justify--space-between {
+    justify-content: space-between;
+  }
+
+  &--justify--space-around {
+    justify-content: space-around;
+  }
+
+  &--justify--space-evenly {
+    justify-content: space-evenly;
+  }
+
+  &--wrap--nowrap {
+    flex-wrap: nowrap;
+  }
+
+  &--wrap--wrap-reverse {
+    flex-wrap: wrap-reverse;
+  }
 }

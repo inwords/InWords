@@ -4,7 +4,10 @@ import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
 import DialogActions from 'src/components/core/DialogActions';
+import Grid from 'src/components/core/Grid';
+import GridItem from 'src/components/core/GridItem';
 import FormGroup from 'src/components/core/FormGroup';
+import FormControlLabel from 'src/components/core/FormControlLabel';
 import Typography from 'src/components/core/Typography';
 import Slider from 'src/components/core/Slider';
 import Checkbox from 'src/components/core/Checkbox';
@@ -37,119 +40,109 @@ function TrainingSettingsDialog({
             handleClose();
           }}
         >
-          <FormGroup className="training-settings-col">
-            <Typography
-              component="label"
-              htmlFor="training-words-quantity"
-              variant="body2"
-            >
+          <FormGroup>
+            <Typography component="p" variant="body2" gutterBottom>
               Максимум слов в тренировке
             </Typography>
-            <div>
-              <Slider
-                id="training-words-quantity"
-                name="quantity"
-                min="2"
-                max="8"
-                value={inputs.quantity}
+            <Grid spacing={1} alignItems="center">
+              <GridItem>
+                <Slider
+                  name="quantity"
+                  min="2"
+                  max="8"
+                  value={inputs.quantity}
+                  onChange={handleChange}
+                />
+              </GridItem>
+              <GridItem>
+                <Typography variant="body1">{inputs.quantity}</Typography>
+              </GridItem>
+            </Grid>
+          </FormGroup>
+          <FormGroup>
+            <FormControlLabel>
+              <Checkbox
+                name="voiceOn"
+                checked={inputs.voiceOn}
                 onChange={handleChange}
-                className="training-settings-slider"
+                edge="start"
               />
-              <span>{inputs.quantity}</span>
-            </div>
+              <Typography variant="body2">
+                Озвучивать английские слова
+              </Typography>
+            </FormControlLabel>
           </FormGroup>
-          <FormGroup className="training-settings-row">
-            <Checkbox
-              id="training-words-voice"
-              name="voiceOn"
-              checked={inputs.voiceOn}
-              onChange={handleChange}
-              edge="start"
-              className="training-settings-checkbox"
-            />
-            <Typography
-              component="label"
-              htmlFor="training-words-voice"
-              variant="body2"
-            >
-              Озвучивать английские слова
-            </Typography>
+          <FormGroup>
+            <FormControlLabel>
+              <Checkbox
+                name="listOn"
+                checked={inputs.listOn}
+                onChange={handleChange}
+                edge="start"
+              />
+              <Typography variant="body2">
+                Показывать слова перед тренировкой
+              </Typography>
+            </FormControlLabel>
           </FormGroup>
-          <FormGroup className="training-settings-row">
-            <Checkbox
-              id="training-words-list-on"
-              name="listOn"
-              checked={inputs.listOn}
-              onChange={handleChange}
-              edge="start"
-              className="training-settings-checkbox"
-            />
-            <Typography
-              component="label"
-              htmlFor="training-words-list-on"
-              variant="body2"
-            >
-              Показывать слова перед тренировкой
-            </Typography>
-          </FormGroup>
-          <div className="training-settings-row">
-            <div className="training-settings-col">
-              <FormGroup className="training-settings-col">
-                <Typography
-                  component="label"
-                  htmlFor="training-card-dimension"
-                  variant="body2"
-                >
+          <Grid>
+            <GridItem>
+              <FormGroup>
+                <Typography component="p" variant="body2" gutterBottom>
                   Размер карточки
                 </Typography>
-                <div>
-                  <Slider
-                    id="training-card-dimension"
-                    name="cardDimension"
-                    min="80"
-                    max="140"
-                    step="5"
-                    value={inputs.cardDimension}
-                    onChange={handleChange}
-                    className="training-settings-slider"
-                  />
-                  <span>{inputs.cardDimension}px</span>
-                </div>
+                <Grid spacing={1} alignItems="center">
+                  <GridItem>
+                    <Slider
+                      name="cardDimension"
+                      min="80"
+                      max="140"
+                      step="5"
+                      value={inputs.cardDimension}
+                      onChange={handleChange}
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <Typography variant="body1">
+                      {inputs.cardDimension}px
+                    </Typography>
+                  </GridItem>
+                </Grid>
               </FormGroup>
-              <FormGroup className="training-settings-col">
-                <Typography
-                  component="label"
-                  htmlFor="training-card-text-size"
-                  variant="body2"
-                >
+              <FormGroup>
+                <Typography component="p" variant="body2" gutterBottom>
                   Размер текста на карточке
                 </Typography>
-                <div>
-                  <Slider
-                    id="training-card-text-size"
-                    name="cardTextSize"
-                    min="12"
-                    max="24"
-                    step="1"
-                    value={inputs.cardTextSize}
-                    onChange={handleChange}
-                    className="training-settings-slider"
-                  />
-                  <span>{inputs.cardTextSize}px</span>
-                </div>
+                <Grid spacing={1} alignItems="center">
+                  <GridItem>
+                    <Slider
+                      name="cardTextSize"
+                      min="12"
+                      max="24"
+                      step="1"
+                      value={inputs.cardTextSize}
+                      onChange={handleChange}
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <Typography variant="body1">
+                      {inputs.cardTextSize}px
+                    </Typography>
+                  </GridItem>
+                </Grid>
               </FormGroup>
-            </div>
-            <div className="training-settings-col">
-              <div className="training-settings-game-card-container">
+            </GridItem>
+            <GridItem>
+              <FormGroup className="training-settings-game-card-container">
                 <GameCard
                   dimension={+inputs.cardDimension}
                   textSize={+inputs.cardTextSize}
                 >
                   Word
                 </GameCard>
-              </div>
-            </div>
-          </div>
+              </FormGroup>
+            </GridItem>
+          </Grid>
         </form>
       </DialogContent>
       <DialogActions>

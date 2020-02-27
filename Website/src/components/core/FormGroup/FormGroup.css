@@ -2,5 +2,6 @@
   margin-top: 16px;
   margin-bottom: 8px;
   display: inline-flex;
+  flex-direction: column;
   width: 100%;
 }
