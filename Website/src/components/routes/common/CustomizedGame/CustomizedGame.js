@@ -8,7 +8,7 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import CardSettingsContext from 'src/components/routes/common/CardSettingsContext';
 import Game from './Game';
-import TrainingSettingsDialog from './TrainingSettingsDialog';
+import GameSettingsDialog from './GameSettingsDialog';
 import GamePairsDialog from './GamePairsDialog';
 
 import './CustomizedGame.css';
@@ -103,7 +103,7 @@ function CustomizedGame({
           </IconButton>
         </Toolbar>
       </Paper>
-      <TrainingSettingsDialog
+      <GameSettingsDialog
         open={openSettings}
         handleClose={handleCloseSettings}
       />

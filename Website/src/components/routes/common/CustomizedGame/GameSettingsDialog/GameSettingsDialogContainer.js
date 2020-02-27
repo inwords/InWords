@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { loadValue, saveValue } from 'src/localStorage';
 import useForm from 'src/hooks/useForm';
-import TrainingSettingsDialog from './TrainingSettingsDialog';
+import GameSettingsDialog from './GameSettingsDialog';
 
-function TrainingSettingsDialogContainer({ open, ...rest }) {
+function GameSettingsDialogContainer({ open, ...rest }) {
   const { inputs, setInputs, handleChange } = useForm({});
 
   React.useEffect(() => {
@@ -39,7 +39,7 @@ function TrainingSettingsDialogContainer({ open, ...rest }) {
   };
 
   return (
-    <TrainingSettingsDialog
+    <GameSettingsDialog
       open={open}
       inputs={inputs}
       handleChange={handleChange}
@@ -49,8 +49,8 @@ function TrainingSettingsDialogContainer({ open, ...rest }) {
   );
 }
 
-TrainingSettingsDialogContainer.propTypes = {
+GameSettingsDialogContainer.propTypes = {
   open: PropTypes.bool
 };
 
-export default TrainingSettingsDialogContainer;
+export default GameSettingsDialogContainer;

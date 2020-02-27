@@ -30,6 +30,12 @@ const Checkbox = React.forwardRef(function Checkbox(
     setChecked(combinedRef.current.checked);
   }, [combinedRef]);
 
+  React.useEffect(() => {
+    if (checkedProp !== undefined) {
+      setChecked(checkedProp);
+    }
+  }, [checkedProp]);
+
   const handleInputChange = event => {
     setChecked(event.target.checked);
 

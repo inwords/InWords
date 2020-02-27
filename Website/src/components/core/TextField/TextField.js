@@ -38,7 +38,9 @@ const TextField = React.forwardRef(function TextField(
   }, [combinedRef]);
 
   React.useEffect(() => {
-    setFilled(Boolean(value));
+    if (value !== undefined) {
+      setFilled(Boolean(value));
+    }
   }, [value]);
 
   const handleInputChange = event => {

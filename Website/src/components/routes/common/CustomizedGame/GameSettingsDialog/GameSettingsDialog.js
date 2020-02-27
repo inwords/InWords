@@ -14,9 +14,9 @@ import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
 import GameCard from 'src/components/routes/common/GameCard';
 
-import './TrainingSettingsDialog.css';
+import './GameSettingsDialog.css';
 
-function TrainingSettingsDialog({
+function GameSettingsDialog({
   open,
   handleClose,
   inputs,
@@ -133,7 +133,7 @@ function TrainingSettingsDialog({
               </FormGroup>
             </GridItem>
             <GridItem>
-              <FormGroup className="training-settings-game-card-container">
+              <FormGroup className="game-settings-card-container">
                 <GameCard
                   dimension={+inputs.cardDimension}
                   textSize={+inputs.cardTextSize}
@@ -162,7 +162,7 @@ function TrainingSettingsDialog({
   );
 }
 
-TrainingSettingsDialog.propTypes = {
+GameSettingsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   inputs: PropTypes.shape({
@@ -176,4 +176,4 @@ TrainingSettingsDialog.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 };
 
-export default TrainingSettingsDialog;
+export default GameSettingsDialog;
