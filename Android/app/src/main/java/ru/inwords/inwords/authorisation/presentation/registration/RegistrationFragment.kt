@@ -1,9 +1,10 @@
 package ru.inwords.inwords.authorisation.presentation.registration
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
-import kotlinx.android.synthetic.main.fragment_sign_up.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
@@ -12,89 +13,94 @@ import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.utils.KeyboardUtils
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.core.validation.ValidationResult
+import ru.inwords.inwords.databinding.FragmentSignUpBinding
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 
-class RegistrationFragment : FragmentWithViewModelAndNav<RegistrationViewModel, AuthorisationViewModelFactory>() {
+class RegistrationFragment : FragmentWithViewModelAndNav<RegistrationViewModel, AuthorisationViewModelFactory, FragmentSignUpBinding>() {
     override val layout = R.layout.fragment_sign_up
     override val classType = RegistrationViewModel::class.java
+
+    override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentSignUpBinding {
+        return FragmentSignUpBinding.inflate(inflater, container, attachToRoot)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupWithNavController(toolbar)
+        setupWithNavController(binding.toolbar)
 
         setupValidation()
 
-        sign_up_button.setOnClickListener {
+        binding.signUpButton.setOnClickListener {
             viewModel.onSignClicked(
                 UserCredentials(
-                    email = email_edit_text.text?.toString().orEmpty(),
-                    password = password_edit_text.text?.toString().orEmpty()
+                    email = binding.emailEditText.text?.toString().orEmpty(),
+                    password = binding.passwordEditText.text?.toString().orEmpty()
                 ),
-                confirm_password_edit_text.text?.toString().orEmpty()
+                binding.confirmPasswordEditText.text?.toString().orEmpty()
             )
         }
-        sign_in_text_view.setOnClickListener { viewModel.onNavigateClicked() } //TODO clicks
+        binding.signInTextView.setOnClickListener { viewModel.onNavigateClicked() } //TODO clicks
 
         observe(viewModel.authorisationState) {
             processViewState(it)
         }
 
-        email_edit_text.addTextChangedListener(AfterTextChangedWatcher { email_layout.error = null })
-        password_edit_text.addTextChangedListener(AfterTextChangedWatcher { password_layout.error = null })
+        binding.emailEditText.addTextChangedListener(AfterTextChangedWatcher { binding.emailLayout.error = null })
+        binding.passwordEditText.addTextChangedListener(AfterTextChangedWatcher { binding.passwordLayout.error = null })
     }
 
     private fun setupValidation() {
-        email_edit_text.addTextChangedListener(AfterTextChangedWatcher { email_layout.error = null })
-        password_edit_text.addTextChangedListener(AfterTextChangedWatcher { password_layout.error = null })
-        confirm_password_edit_text.addTextChangedListener(AfterTextChangedWatcher { confirm_password_layout.error = null })
+        binding.emailEditText.addTextChangedListener(AfterTextChangedWatcher { binding.emailLayout.error = null })
+        binding.passwordEditText.addTextChangedListener(AfterTextChangedWatcher { binding.passwordLayout.error = null })
+        binding.confirmPasswordEditText.addTextChangedListener(AfterTextChangedWatcher { binding.confirmPasswordLayout.error = null })
 
         observe(viewModel.validationLiveData) {
             if (it.emailState is ValidationResult.Error) {
-                email_layout.error = it.emailState.message
+                binding.emailLayout.error = it.emailState.message
                 renderDefaultState()
             }
             if (it.passwordState is ValidationResult.Error) {
-                password_layout.error = it.passwordState.message
+                binding.passwordLayout.error = it.passwordState.message
                 renderDefaultState()
             }
             if (it.passwordConfirmationState is ValidationResult.Error) {
-                confirm_password_layout.error = it.passwordConfirmationState.message
+                binding.confirmPasswordLayout.error = it.passwordConfirmationState.message
                 renderDefaultState()
             }
         }
     }
 
     private fun renderDefaultState() {
-        sign_up_button.isEnabled = true
-        error_text_view.isVisible = false
+        binding.signUpButton.isEnabled = true
+        binding.errorTextView.isVisible = false
         hideProgress()
     }
 
     private fun renderLoadingState() {
-        sign_up_button.isEnabled = false
-        error_text_view.isVisible = false
+        binding.signUpButton.isEnabled = false
+        binding.errorTextView.isVisible = false
         showProgress()
     }
 
     private fun renderSuccessState() {
-        sign_up_button.isEnabled = false
+        binding.signUpButton.isEnabled = false
         //TODO какую-ниюудь галочку или что-то
-        error_text_view.isVisible = false
+        binding.errorTextView.isVisible = false
         hideProgress()
     }
 
     private fun renderErrorState(throwable: Throwable) {
-        sign_up_button.isEnabled = true
-        error_text_view.text = "Попробуйте ещё раз\nОшибка: ${throwable.localizedMessage}"
-        error_text_view.isVisible = true
+        binding.signUpButton.isEnabled = true
+        binding.errorTextView.text = "Попробуйте ещё раз\nОшибка: ${throwable.localizedMessage}"
+        binding.errorTextView.isVisible = true
         hideProgress()
     }
 
     private fun processViewState(viewStateEvent: Event<AuthorisationViewState>) {
-        email_edit_text.error = null
-        password_edit_text.error = null
+        binding.emailEditText.error = null
+        binding.passwordEditText.error = null
 
         val authorisationViewState = viewStateEvent.peekContent()
 
@@ -120,13 +126,13 @@ class RegistrationFragment : FragmentWithViewModelAndNav<RegistrationViewModel, 
     }
 
     private fun showProgress() {
-        progress_view.isVisible = true
-        progress_view.progress = 50
+        binding.progressView.isVisible = true
+        binding.progressView.progress = 50
     }
 
     private fun hideProgress() {
-        progress_view.isVisible = false
-        progress_view.progress = 0
+        binding.progressView.isVisible = false
+        binding.progressView.progress = 0
     }
 
     private fun navigateOnSuccess() {

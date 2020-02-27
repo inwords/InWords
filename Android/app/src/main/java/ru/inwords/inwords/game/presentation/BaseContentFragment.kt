@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBinding
 import ru.inwords.inwords.R
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
@@ -11,8 +12,9 @@ import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 abstract class BaseContentFragment<
     T,
     ViewModelType : BasicViewModel,
-    ViewModelFactory : ViewModelProvider.Factory>
-    : FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory>() {
+    ViewModelFactory : ViewModelProvider.Factory,
+    Binding : ViewBinding>
+    : FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory, Binding>() {
 
     protected lateinit var gameContent: View
     protected lateinit var gameNoContent: View

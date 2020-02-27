@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
@@ -17,7 +18,7 @@ import io.reactivex.disposables.Disposable
 import ru.inwords.inwords.core.utils.observe
 import javax.inject.Inject
 
-abstract class FragmentWithViewModelAndNav<ViewModelType : BasicViewModel, ViewModelFactory : ViewModelProvider.Factory> : DaggerFragment() {
+abstract class FragmentWithViewModelAndNav<ViewModelType : BasicViewModel, ViewModelFactory : ViewModelProvider.Factory, Binding : ViewBinding> : DaggerFragment() {
     protected lateinit var viewModel: ViewModelType
     @Inject
     lateinit var modelFactory: ViewModelFactory
@@ -29,8 +30,15 @@ abstract class FragmentWithViewModelAndNav<ViewModelType : BasicViewModel, ViewM
 
     private val compositeDisposable = CompositeDisposable()
 
+    private var _binding: Binding? = null
+    protected val binding get() = _binding!!
+
+    abstract fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): Binding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(layout, container, false)
+        _binding = bindingInflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +53,7 @@ abstract class FragmentWithViewModelAndNav<ViewModelType : BasicViewModel, ViewM
 
     override fun onDestroyView() {
         compositeDisposable.clear()
-
+        _binding = null
         super.onDestroyView()
     }
 

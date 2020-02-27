@@ -14,9 +14,8 @@ import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import androidx.core.widget.TextViewCompat
-import kotlinx.android.synthetic.main.game_card_front.view.*
 import ru.inwords.flipview.FlipView
-import ru.inwords.inwords.R
+import ru.inwords.inwords.databinding.GameCardBinding
 import ru.inwords.inwords.game.domain.CardsData
 import ru.inwords.inwords.game.domain.model.WordModel
 import java.lang.ref.WeakReference
@@ -82,7 +81,8 @@ class GameScene(private val container: WeakReference<TableLayout>) {
                     break
                 }
 
-                val flipView = layoutInflater.inflate(R.layout.game_card, tableRow, false) as FlipView
+                val flipViewBinding = GameCardBinding.inflate(layoutInflater, tableRow, false)
+                val flipView = flipViewBinding.flipView
 
                 if (scaleGame) {
                     scaleGameCard(flipView, cardSizePx)
@@ -91,7 +91,7 @@ class GameScene(private val container: WeakReference<TableLayout>) {
                 with(flipView) {
                     flipViews.add(WeakReference(this))
 
-                    frontText.text = words[cardNum].word
+                    setFrontText(words[cardNum].word)
                     setOnClickListener(InternalClickListener(cardsData, flipViews.lastIndex))
                 }
 

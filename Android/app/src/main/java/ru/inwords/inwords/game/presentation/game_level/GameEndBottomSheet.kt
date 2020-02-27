@@ -14,12 +14,12 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.game_end.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.data.validId
+import ru.inwords.inwords.databinding.GameEndBinding
 import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.domain.model.LevelResultModel
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
@@ -37,6 +37,8 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
 
     private lateinit var navController: NavController
 
+    private lateinit var binding: GameEndBinding
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
@@ -49,7 +51,8 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val contextThemeWrapper = ContextThemeWrapper(activity, R.style.AppTheme) //needed to render this dialog with correct theme
-        return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.game_end, container, false)
+        binding = GameEndBinding.inflate(inflater.cloneInContext(contextThemeWrapper), container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,31 +91,31 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupView() {
-        button_home.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.HOME) }
-        button_back.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.BACK) }
-        button_next.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.NEXT) }
-        button_retry.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.REFRESH) }
+        binding.buttonHome.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.HOME) }
+        binding.buttonBack.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.BACK) }
+        binding.buttonNext.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.NEXT) }
+        binding.buttonRetry.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.REFRESH) }
     }
 
     private fun showSuccess(levelScore: LevelScore) {
         if (levelScore.levelId == levelResultModel.levelId || !validId(levelResultModel.levelId)) {
-            rating_bar.rating = levelScore.score.toFloat()
-            rating_bar.visibility = View.VISIBLE
-            rating_loading_progress.visibility = View.INVISIBLE
-            rating_not_loaded.visibility = View.INVISIBLE
+            binding.ratingBar.rating = levelScore.score.toFloat()
+            binding.ratingBar.visibility = View.VISIBLE
+            binding.ratingLoadingProgress.visibility = View.INVISIBLE
+            binding.ratingNotLoaded.visibility = View.INVISIBLE
         }
     }
 
     private fun showLoading() {
-        rating_bar.visibility = View.INVISIBLE
-        rating_loading_progress.visibility = View.VISIBLE
-        rating_not_loaded.visibility = View.INVISIBLE
+        binding.ratingBar.visibility = View.INVISIBLE
+        binding.ratingLoadingProgress.visibility = View.VISIBLE
+        binding.ratingNotLoaded.visibility = View.INVISIBLE
     }
 
     private fun showError() {
-        rating_bar.visibility = View.INVISIBLE
-        rating_loading_progress.visibility = View.INVISIBLE
-        rating_not_loaded.visibility = View.VISIBLE
+        binding.ratingBar.visibility = View.INVISIBLE
+        binding.ratingLoadingProgress.visibility = View.INVISIBLE
+        binding.ratingNotLoaded.visibility = View.VISIBLE
     }
 
     companion object {
