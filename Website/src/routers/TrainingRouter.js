@@ -65,7 +65,9 @@ function TrainingRouter() {
         render={({ match: { params } }) => (
           <Container maxWidth="lg">
             <Breadcrumbs>
-              <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/history`}>
+                Недавние тренировки
+              </BreadcrumbsLink>
               <BreadcrumbsLink
                 to={`${url}/history/${params.levelId}/${params.trainingId}`}
               >

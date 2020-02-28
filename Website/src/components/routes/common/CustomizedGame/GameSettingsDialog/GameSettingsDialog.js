@@ -133,7 +133,7 @@ function GameSettingsDialog({
               </FormGroup>
             </GridItem>
             <GridItem>
-              <FormGroup className="game-settings-card-container">
+              <FormGroup className="game-settings-dialog-card-container">
                 <GameCard
                   dimension={+inputs.cardDimension}
                   textSize={+inputs.cardTextSize}
