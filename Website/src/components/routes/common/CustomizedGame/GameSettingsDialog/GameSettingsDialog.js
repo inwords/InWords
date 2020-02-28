@@ -45,7 +45,7 @@ function GameSettingsDialog({
               Максимум слов в тренировке
             </Typography>
             <Grid spacing={1} alignItems="center">
-              <GridItem>
+              <GridItem xs={10} sm={6}>
                 <Slider
                   name="quantity"
                   min="2"
@@ -54,45 +54,19 @@ function GameSettingsDialog({
                   onChange={handleChange}
                 />
               </GridItem>
-              <GridItem>
+              <GridItem xs={2} sm={6}>
                 <Typography variant="body1">{inputs.quantity}</Typography>
               </GridItem>
             </Grid>
           </FormGroup>
-          <FormGroup>
-            <FormControlLabel>
-              <Checkbox
-                name="voiceOn"
-                checked={inputs.voiceOn}
-                onChange={handleChange}
-                edge="start"
-              />
-              <Typography variant="body2">
-                Озвучивать английские слова
-              </Typography>
-            </FormControlLabel>
-          </FormGroup>
-          <FormGroup>
-            <FormControlLabel>
-              <Checkbox
-                name="listOn"
-                checked={inputs.listOn}
-                onChange={handleChange}
-                edge="start"
-              />
-              <Typography variant="body2">
-                Показывать слова перед тренировкой
-              </Typography>
-            </FormControlLabel>
-          </FormGroup>
-          <Grid>
-            <GridItem>
+          <Grid spacing={1}>
+            <GridItem xs={12} sm={6}>
               <FormGroup>
                 <Typography component="p" variant="body2" gutterBottom>
                   Размер карточки
                 </Typography>
                 <Grid spacing={1} alignItems="center">
-                  <GridItem>
+                  <GridItem xs={10} sm={8}>
                     <Slider
                       name="cardDimension"
                       min="80"
@@ -102,7 +76,7 @@ function GameSettingsDialog({
                       onChange={handleChange}
                     />
                   </GridItem>
-                  <GridItem>
+                  <GridItem xs={2} sm={4}>
                     <Typography variant="body1">
                       {inputs.cardDimension}px
                     </Typography>
@@ -114,7 +88,7 @@ function GameSettingsDialog({
                   Размер текста на карточке
                 </Typography>
                 <Grid spacing={1} alignItems="center">
-                  <GridItem>
+                  <GridItem xs={10} sm={8}>
                     <Slider
                       name="cardTextSize"
                       min="12"
@@ -124,7 +98,7 @@ function GameSettingsDialog({
                       onChange={handleChange}
                     />
                   </GridItem>
-                  <GridItem>
+                  <GridItem xs={2} sm={4}>
                     <Typography variant="body1">
                       {inputs.cardTextSize}px
                     </Typography>
@@ -132,7 +106,7 @@ function GameSettingsDialog({
                 </Grid>
               </FormGroup>
             </GridItem>
-            <GridItem>
+            <GridItem xs={12} sm={6}>
               <FormGroup className="game-settings-dialog-card-container">
                 <GameCard
                   dimension={+inputs.cardDimension}
@@ -143,6 +117,32 @@ function GameSettingsDialog({
               </FormGroup>
             </GridItem>
           </Grid>
+          <div>
+            <FormControlLabel>
+              <Checkbox
+                name="voiceOn"
+                checked={inputs.voiceOn}
+                onChange={handleChange}
+                edge="start"
+              />
+              <Typography variant="body2">
+                Озвучивать английские слова
+              </Typography>
+            </FormControlLabel>
+          </div>
+          <div>
+            <FormControlLabel>
+              <Checkbox
+                name="listOn"
+                checked={inputs.listOn}
+                onChange={handleChange}
+                edge="start"
+              />
+              <Typography variant="body2">
+                Показывать слова перед тренировкой
+              </Typography>
+            </FormControlLabel>
+          </div>
         </form>
       </DialogContent>
       <DialogActions>

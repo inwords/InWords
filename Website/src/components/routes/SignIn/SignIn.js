@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
+import Form from 'src/components/core/Form';
 import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
 import Typography from 'src/components/core/Typography';
@@ -15,7 +16,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
       <Typography component="h1" variant="h5" gutterBottom>
         Вход
       </Typography>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FormGroup>
           <TextField
             id="email"
@@ -48,7 +49,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             Нет аккаунта? Зарегистрироваться
           </Link>
         </EntryLinksContainer>
-      </form>
+      </Form>
     </EntryFormPaper>
   );
 }
