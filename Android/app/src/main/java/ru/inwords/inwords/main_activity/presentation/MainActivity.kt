@@ -11,10 +11,10 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_main.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.managers.KeyboardManager
 import ru.inwords.inwords.core.managers.KeyboardStatus
+import ru.inwords.inwords.databinding.ActivityMainBinding
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
@@ -24,12 +24,15 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private lateinit var navController: NavController
 
+    private lateinit var binding: ActivityMainBinding
+
     private var keyboardStatusDisposable: Disposable? = null
     private var stoppedKeyboardListener = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         checkPlayServices()
 
@@ -73,7 +76,7 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun showNavigation(keyboardReferer: Boolean = false) {
-        navigation.visibility = View.VISIBLE
+        binding.navigation.visibility = View.VISIBLE
 
         if (!keyboardReferer) {
             stoppedKeyboardListener = false
@@ -81,7 +84,7 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun hideNavigation(keyboardReferer: Boolean = false) {
-        navigation.visibility = View.GONE
+        binding.navigation.visibility = View.GONE
 
         if (!keyboardReferer) {
             stoppedKeyboardListener = true
@@ -89,8 +92,8 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
-        NavigationUI.setupWithNavController(navigation, navController)
-        navigation.setOnNavigationItemReselectedListener {
+        NavigationUI.setupWithNavController(binding.navigation, navController)
+        binding.navigation.setOnNavigationItemReselectedListener {
             //чтобы нельзя было выбрать текущий фрагмент еще раз
         }
     }

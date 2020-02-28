@@ -2,21 +2,27 @@ package ru.inwords.inwords.translation.presentation.add_edit_word
 
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
-import kotlinx.android.synthetic.main.fragment_add_edit_word.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.AfterTextChangedWatcher
 import ru.inwords.inwords.core.utils.KeyboardUtils
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.core.validation.ValidationResult
+import ru.inwords.inwords.databinding.FragmentAddEditWordBinding
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.presentation.TranslationViewModelFactory
 
-class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, TranslationViewModelFactory>() {
+class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, TranslationViewModelFactory, FragmentAddEditWordBinding>() {
     override val layout = R.layout.fragment_add_edit_word
     override val classType = AddEditWordViewModel::class.java
+
+    override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentAddEditWordBinding {
+        return FragmentAddEditWordBinding.inflate(inflater, container, attachToRoot)
+    }
 
     private val args by navArgs<AddEditWordFragmentArgs>()
 
@@ -28,7 +34,7 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupWithNavController(toolbar)
+        setupWithNavController(binding.toolbar)
 
         val wordToEdit = args.wordTranslation
 
@@ -38,12 +44,12 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
 
         observe(viewModel.addEditDoneLiveData) {
             if (it.handle()) {
-                toolbar.requestFocus() //TODO другой метод скрытия клавиатуры?
+                binding.toolbar.requestFocus() //TODO другой метод скрытия клавиатуры?
                 KeyboardUtils.hideKeyboard(view)
             }
         }
 
-        buttonConfirm.setOnClickListener {
+        binding.buttonConfirm.setOnClickListener {
             val enteredWord = getEnteredWord()
 
             if (isEditing) {
@@ -55,38 +61,38 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
     }
 
     private fun setupValidation() {
-        native_word_edit_text.addTextChangedListener(AfterTextChangedWatcher { native_word_layout.error = null })
-        foreign_word_edit_text.addTextChangedListener(AfterTextChangedWatcher { foreign_word_layout.error = null })
+        binding.nativeWordEditText.addTextChangedListener(AfterTextChangedWatcher { binding.nativeWordLayout.error = null })
+        binding.foreignWordEditText.addTextChangedListener(AfterTextChangedWatcher { binding.foreignWordLayout.error = null })
 
         observe(viewModel.validationLiveData) {
             if (it.wordNativeState is ValidationResult.Error) {
-                native_word_layout.error = it.wordNativeState.message
+                binding.nativeWordLayout.error = it.wordNativeState.message
             }
             if (it.wordForeignState is ValidationResult.Error) {
-                foreign_word_layout.error = it.wordForeignState.message
+                binding.foreignWordLayout.error = it.wordForeignState.message
             }
         }
     }
 
     private fun getEnteredWord(): WordTranslation {
-        val wordForeign = foreign_word_edit_text.text.toString()
-        val wordNative = native_word_edit_text.text.toString()
+        val wordForeign = binding.foreignWordEditText.text.toString()
+        val wordNative = binding.nativeWordEditText.text.toString()
 
         return WordTranslation(wordForeign, wordNative)
     }
 
     private fun setupViewState(wordToEdit: WordTranslation) {
         if (wordToEdit.wordNative.isEmpty()) {
-            buttonConfirm.text = getString(R.string.button_add_text)
+            binding.buttonConfirm.text = getString(R.string.button_add_text)
         } else {
-            buttonConfirm.text = getString(R.string.button_edit_text)
+            binding.buttonConfirm.text = getString(R.string.button_edit_text)
         }
 
         renderEditingWords(wordToEdit)
     }
 
     private fun renderEditingWords(wordTranslation: WordTranslation) {
-        native_word_edit_text.setText(wordTranslation.wordNative)
-        foreign_word_edit_text.setText(wordTranslation.wordForeign)
+        binding.nativeWordEditText.setText(wordTranslation.wordNative)
+        binding.foreignWordEditText.setText(wordTranslation.wordForeign)
     }
 }

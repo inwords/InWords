@@ -1,31 +1,37 @@
 package ru.inwords.inwords.game.presentation.custom_game
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.card.MaterialCardView
 import ru.inwords.inwords.R
+import ru.inwords.inwords.databinding.FragmentCustomGameCreatorBinding
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 
-class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorViewModel, OctoGameViewModelFactory>() {
+class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorViewModel, OctoGameViewModelFactory, FragmentCustomGameCreatorBinding>() {
     override val layout = R.layout.fragment_custom_game_creator
     override val classType = CustomGameCreatorViewModel::class.java
+
+    override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentCustomGameCreatorBinding {
+        return FragmentCustomGameCreatorBinding.inflate(inflater, container, attachToRoot)
+    }
 
     private val args by navArgs<CustomGameCreatorFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupWithNavController(view.findViewById(R.id.toolbar))
+        setupWithNavController(binding.toolbar)
 
 //        adapter = GamesAdapter(viewModel.navigateToGame)
 
 //        gamesRecycler.layoutManager = GridLayoutManager(context, 2)
 //        gamesRecycler.adapter = adapter
 
-        view.findViewById<MaterialCardView>(R.id.play_cards_card_view).setOnClickListener {
+        binding.playCardsCardView.setOnClickListener {
             it.isClickable = false
             viewModel.onStartClicked(args.wordTranslations.toList())
         }

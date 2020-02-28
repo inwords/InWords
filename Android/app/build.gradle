@@ -52,8 +52,12 @@ android {
         jvmTarget = "1.8"
     }
 
+    viewBinding {
+        enabled = true
+    }
+
     androidExtensions {
-        experimental = true
+        features = ["parcelize"]
         //TODO its now no need to use this to Parcelize, but it shows warning otherwise
     }
 
