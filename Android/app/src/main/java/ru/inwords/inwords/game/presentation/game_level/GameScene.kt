@@ -71,8 +71,10 @@ class GameScene(private val container: WeakReference<TableLayout>) {
 
         for (i in 0 until rows) {
             val tableRow = TableRow(context)
-            tableRow.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+            tableRow.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
             tableRow.gravity = Gravity.CENTER
 
             for (j in 0 until cols) {
@@ -91,7 +93,7 @@ class GameScene(private val container: WeakReference<TableLayout>) {
                 with(flipView) {
                     flipViews.add(WeakReference(this))
 
-                    setFrontText(words[cardNum].word)
+                    (frontLayout as TextView).text = words[cardNum].word
                     setOnClickListener(InternalClickListener(cardsData, flipViews.lastIndex))
                 }
 

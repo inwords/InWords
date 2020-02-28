@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
@@ -37,8 +38,6 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         super.onCreate(savedInstanceState)
 
         gameLevelInfo = savedInstanceState?.getParcelable(GAME_LEVEL_INFO) ?: args.gameLevelInfo
-
-        viewModel.onGameLevelSelected(args.gameId, gameLevelInfo)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -60,7 +59,15 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
             }
         }
 
-        viewModel.onAttachGameScene(GameScene(WeakReference(binding.table)))
+        binding.table.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                binding.table.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                viewModel.onAttachGameScene(GameScene(WeakReference(binding.table)))
+
+                viewModel.onGameLevelSelected(args.gameId, gameLevelInfo)
+            }
+        })
 
         ttsMediaPlayerAdapter = TtsMediaPlayerAdapter { resource ->
             if (resource !is Resource.Success) {
