@@ -2,6 +2,7 @@
 using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Services.Users.Extentions;
 using ProfilePackage.V2;
 using System;
 using System.Collections.Generic;
@@ -37,8 +38,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             // this code executed only in valid state
             account.Email = codeValidation.Email;
 
-            DateTime outOfdate = DateTime.UtcNow.AddDays(-7);
-            var emails = Context.EmailVerifies.Where(e => e.UserId.Equals(userId) && e.Code.Equals(requestData.Code) && e.Email.Equals(requestData.Email));
+            var emails = Context.EmailVerifies.OutOfDated(requestData.Code, requestData.Email, userId);
             Context.EmailVerifies.RemoveRange(emails);
 
             await Context.SaveChangesAsync().ConfigureAwait(false);
@@ -76,13 +76,6 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             }
 
             return account;
-        }
-
-        private static bool IsInvalidVerifiesRecord(EmailVerifies e, EmailVerifies codeValidation, DateTime outOfDate)
-        {
-            return e.Email.Equals(codeValidation.Email, StringComparison.InvariantCultureIgnoreCase)
-            || e.SentTime < outOfDate
-            || e.UserId.Equals(codeValidation.UserId);
         }
     }
 }

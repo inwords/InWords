@@ -104,6 +104,7 @@ namespace InWords.WebApi.Controllers.v1
             return NotFound("Email not found");
         }
 
+        [Obsolete]
         [HttpGet]
         [Route("ConfirmUserById/{id}")]
         [Authorize(Roles = nameof(RoleType.Admin))]
