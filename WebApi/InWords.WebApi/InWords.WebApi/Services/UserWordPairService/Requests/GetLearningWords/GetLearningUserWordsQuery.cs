@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using InWords.Data.DTO;
+﻿using InWords.Data.DTO;
 using MediatR;
+using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords
 {

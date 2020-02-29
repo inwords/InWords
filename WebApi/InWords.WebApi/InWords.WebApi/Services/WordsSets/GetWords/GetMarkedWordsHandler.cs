@@ -1,10 +1,7 @@
-﻿using Dictionary.V2;
-using Google.Protobuf.Collections;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

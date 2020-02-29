@@ -20,6 +20,7 @@ namespace InWords.WebApi.Services.Users
             builder.RegisterType<UserToken>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<ChangeEmail>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<ConfirmEmail>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<ConfirmEmailLink>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }

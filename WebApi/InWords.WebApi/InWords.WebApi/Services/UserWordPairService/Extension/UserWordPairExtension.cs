@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.WebApi.Extensions.InWordsDataContext;
 using InWords.WebApi.Services.UserWordPairService.Models;
-using InWords.WebApi.Services.UserWordPairService.Requests;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
+using System;
+using System.Linq;
 
 namespace InWords.WebApi.Services.UserWordPairService.Extension
 {

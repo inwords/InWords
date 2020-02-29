@@ -9,6 +9,7 @@ service Profile {
 	rpc GetToken (TokenRequest) returns (TokenReply);
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
+	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
 }
 
 // The request message containing the user's credentials.
@@ -46,6 +47,10 @@ message EmailChangeReply{
 message ConfirmEmailRequest{
 	string email = 1;
 	int32 code = 2;
+}
+
+message ConfirmEmailLinkRequest{
+	string activationGuid = 1;
 }
 
 message ConfirmEmailReply{

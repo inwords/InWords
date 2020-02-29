@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using InWords.Data.Domains.EmailEntitys;
+﻿using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories;
+using System;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Email
 {

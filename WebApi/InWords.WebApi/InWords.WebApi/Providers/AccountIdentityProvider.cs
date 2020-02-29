@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.Domains;
-using InWords.Data.Enums;
+﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
 using InWords.WebApi.Services.Users;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Providers
 {
@@ -85,7 +84,7 @@ namespace InWords.WebApi.Providers
         public async Task<Account> CreateUserAccount(string email, string password, string nickName = "")
         {
             AccountRegistration accountRegistration = new AccountRegistration(email, password, nickName);
-            
+
             Account registredAccount = await accountRepository.CreateAsync(accountRegistration.Account);
 
             return registredAccount;

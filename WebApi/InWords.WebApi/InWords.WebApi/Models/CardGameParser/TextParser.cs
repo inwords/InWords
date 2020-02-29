@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using InWords.Data.DTO;
+﻿using InWords.Data.DTO;
 using InWords.Data.DTO.Creation;
 using InWords.Data.DTO.GameBox;
 using InWords.WebApi.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace InWords.WebApi.Models.CardGameParser
 {

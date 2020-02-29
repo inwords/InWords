@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO.GameBox;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.GameService.Requests.GetGameLevels
 {

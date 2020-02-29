@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Enums;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.GameService.Requests
 {

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using InWords.Service.Auth.Extensions;
+﻿using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProfilePackage.V2;
+using System;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
 {
@@ -125,6 +125,34 @@ namespace InWords.WebApi.Controllers.v2
                 return Ok(reply);
             }
             catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Confirm/{encryptLink}")]
+        [ProducesResponseType(typeof(ConfirmEmailReply),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ConfirmLink(string encryptLink)
+        {
+            ConfirmEmailLinkRequest request = new ConfirmEmailLinkRequest()
+            {
+                ActivationGuid = encryptLink
+            };
+            var reqestObject = new RequestObject<ConfirmEmailLinkRequest, ConfirmEmailReply>(request);
+            try
+            {
+                ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentNullException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (ArgumentException e)
             {
                 return BadRequest(e.Message);
             }

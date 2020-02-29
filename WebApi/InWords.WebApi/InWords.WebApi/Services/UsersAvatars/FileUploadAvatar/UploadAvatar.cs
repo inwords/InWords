@@ -1,11 +1,10 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.FtpLoader.Model;
 using InWords.WebApi.Services.UsersAvatars.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UsersAvatars.FileUploadAvatar
 {
@@ -37,7 +36,7 @@ namespace InWords.WebApi.Services.UsersAvatars.FileUploadAvatar
                     .UploadAsync(disposableWebP, ProjectDirectories.Avatars)
                     .ConfigureAwait(false);
             }
-            
+
             User user = Context.Users.Find(request.UserId);
 
             // delete old file
@@ -47,7 +46,7 @@ namespace InWords.WebApi.Services.UsersAvatars.FileUploadAvatar
                 .ConfigureAwait(false);
             await fileLoader.DeleteAsync(oldAvatar)
                 .ConfigureAwait(false);
-            
+
             return new UploadAvatarQueryResult() { AvatarPath = avatarUrl };
         }
 

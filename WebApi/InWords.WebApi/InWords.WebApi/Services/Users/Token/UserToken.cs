@@ -1,12 +1,9 @@
 ﻿using InWords.Data;
-using InWords.Data.Domains;
 using InWords.Service.Auth.Models;
-using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
 using InWords.WebApi.Services.Abstractions;
 using ProfilePackage.V2;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

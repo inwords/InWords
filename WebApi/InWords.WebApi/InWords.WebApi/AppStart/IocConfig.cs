@@ -1,11 +1,10 @@
-﻿using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace InWords.WebApi.AppStart
 {

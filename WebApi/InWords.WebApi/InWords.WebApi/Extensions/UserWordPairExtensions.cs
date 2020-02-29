@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.Data.DTO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace InWords.WebApi.Extensions
 {

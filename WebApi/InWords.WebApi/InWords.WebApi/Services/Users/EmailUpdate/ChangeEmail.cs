@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
-using InWords.WebApi.Services.Email.EmailSenders;
 using InWords.WebApi.Services.Email.Template;
 using ProfilePackage.V2;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Users.EmailUpdate
 {
@@ -27,7 +26,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply> request,
             CancellationToken cancellationToken = default)
         {
-            
+
             if (request == null)
                 throw new ArgumentNullException($"{request} is null");
 

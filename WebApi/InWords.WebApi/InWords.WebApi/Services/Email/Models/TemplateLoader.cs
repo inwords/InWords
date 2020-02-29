@@ -1,8 +1,8 @@
-﻿using System;
+﻿using InWords.WebApi.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using InWords.WebApi.Extensions;
 
 namespace InWords.WebApi.Services.Email.Models
 {

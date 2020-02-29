@@ -1,8 +1,8 @@
-﻿using System;
+﻿using InWords.Data.Domains;
+using InWords.Data.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using InWords.Data.Domains;
-using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services
 {

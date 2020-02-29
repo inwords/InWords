@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.DTO.GameBox;
+﻿using InWords.Data.DTO.GameBox;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
@@ -11,6 +7,10 @@ using InWords.WebApi.Services.GameService.Requests.GetGameLevels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1.CardsGame
 {

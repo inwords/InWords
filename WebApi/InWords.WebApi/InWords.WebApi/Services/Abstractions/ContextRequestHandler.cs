@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+﻿using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using InWords.Data;
-using MediatR;
 
 namespace InWords.WebApi.Services.Abstractions
 {

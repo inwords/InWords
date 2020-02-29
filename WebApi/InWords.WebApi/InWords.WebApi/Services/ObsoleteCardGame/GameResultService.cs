@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.DTO.Extensions;
+﻿using InWords.Data.DTO.Extensions;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
 using InWords.WebApi.Services.UserWordPairService;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.CardGame
 {

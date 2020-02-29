@@ -2,11 +2,10 @@
 using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Services.Users.Extentions;
 using ProfilePackage.V2;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,7 +28,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             var userId = request.UserId;
 
             // throw exception if not found
-            Account account = await FindAccount(userId).ConfigureAwait(false);
+            Account account = await Context.Accounts.FindAccount(userId).ConfigureAwait(false);
 
             // throw exception if invalid
             EmailVerifies codeValidation = GetValidCode(requestData, userId);
@@ -37,8 +36,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             // this code executed only in valid state
             account.Email = codeValidation.Email;
 
-            DateTime outOfdate = DateTime.UtcNow.AddDays(-7);
-            var emails = Context.EmailVerifies.Where(e => e.UserId.Equals(userId) && e.Code.Equals(requestData.Code) && e.Email.Equals(requestData.Email));
+            var emails = Context.EmailVerifies.OutOfDated(requestData.Code, requestData.Email, userId);
             Context.EmailVerifies.RemoveRange(emails);
 
             await Context.SaveChangesAsync().ConfigureAwait(false);
@@ -65,24 +63,6 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             }
 
             return codeValidation;
-        }
-
-        private async Task<Account> FindAccount(int userId)
-        {
-            Account account = await Context.Accounts.FindAsync(userId);
-            if (account == default)
-            {
-                throw new ArgumentNullException($"{nameof(account)} is not found");
-            }
-
-            return account;
-        }
-
-        private static bool IsInvalidVerifiesRecord(EmailVerifies e, EmailVerifies codeValidation, DateTime outOfDate)
-        {
-            return e.Email.Equals(codeValidation.Email, StringComparison.InvariantCultureIgnoreCase)
-            || e.SentTime < outOfDate
-            || e.UserId.Equals(codeValidation.UserId);
         }
     }
 }

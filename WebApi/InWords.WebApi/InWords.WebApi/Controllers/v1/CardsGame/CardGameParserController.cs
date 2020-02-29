@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using InWords.Data.DTO;
+﻿using InWords.Data.DTO;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.Enums;
 using InWords.WebApi.Models.CardGameParser;
 using InWords.WebApi.Services.GameService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1.CardsGame
 {

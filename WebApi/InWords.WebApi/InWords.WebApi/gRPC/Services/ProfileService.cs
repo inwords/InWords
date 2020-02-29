@@ -1,11 +1,10 @@
 ﻿using Grpc.Core;
-using System.Threading.Tasks;
-using ProfilePackage.V2;
-using MediatR;
-using InWords.WebApi.Services.Abstractions;
-using Microsoft.AspNetCore.Authorization;
 using InWords.Service.Auth.Extensions;
-using System;
+using InWords.WebApi.Services.Abstractions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using ProfilePackage.V2;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services
 {
@@ -58,8 +57,14 @@ namespace InWords.WebApi.gRPC.Services
             // TODO: how to return error in grpc
         }
 
-        // Update Email
-        // Confirm Email
+        public override async Task<ConfirmEmailReply> ConfirmEmailLink(ConfirmEmailLinkRequest request, ServerCallContext context)
+        {
+            var reqestObject = new RequestObject<ConfirmEmailLinkRequest, ConfirmEmailReply>(request);
+            ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return reply;
+            // TODO: how to return error in grpc
+        }
+
         // Reset Password
         // Update Password
         // Delete Profile

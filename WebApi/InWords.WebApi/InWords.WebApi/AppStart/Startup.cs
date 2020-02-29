@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
@@ -9,7 +6,6 @@ using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
-using InWords.WebApi.Services.FtpLoader.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +16,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace InWords.WebApi.AppStart
 {
@@ -29,7 +28,7 @@ namespace InWords.WebApi.AppStart
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        
+
         /// <summary>
         ///     Startup constructor
         /// </summary>

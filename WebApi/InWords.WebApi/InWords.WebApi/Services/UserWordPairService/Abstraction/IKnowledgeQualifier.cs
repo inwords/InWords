@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using InWords.WebApi.Services.UserWordPairService.Enum;
+﻿using InWords.WebApi.Services.UserWordPairService.Enum;
+using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {

@@ -1,14 +1,14 @@
-﻿using ProfilePackage.V2;
-using InWords.Data;
+﻿using InWords.Data;
+using InWords.Service.Auth.Models;
 using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Services.Email.Abstractions;
+using ProfilePackage.V2;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using System;
-using System.Globalization;
-using InWords.Service.Auth.Models;
-using InWords.WebApi.Services.Email.Abstractions;
-using System.Diagnostics.CodeAnalysis;
 
 namespace InWords.WebApi.Services.Users.Registration
 {
@@ -31,7 +31,7 @@ namespace InWords.WebApi.Services.Users.Registration
             RegistrationRequest requestData = request.Value;
 
             ThrowIfAlreadyExist(requestData.Email);
-            
+
             string nickname = NicknameGenerator.FromEmail(requestData.Email);
 
             AccountRegistration accountRegistration = new AccountRegistration(requestData.Email, requestData.Password, nickname);
@@ -58,7 +58,8 @@ namespace InWords.WebApi.Services.Users.Registration
             return registrationReply;
         }
 
-        [DoesNotReturn] public void ThrowIfAlreadyExist(string email) 
+        [DoesNotReturn]
+        public void ThrowIfAlreadyExist(string email)
         {
             bool alredyExist = Context.Accounts.Any(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
 

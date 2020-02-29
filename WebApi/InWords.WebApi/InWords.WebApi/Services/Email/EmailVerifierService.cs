@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
 using InWords.WebApi.Services.Email.Abstractions;
+using System;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Email
 {

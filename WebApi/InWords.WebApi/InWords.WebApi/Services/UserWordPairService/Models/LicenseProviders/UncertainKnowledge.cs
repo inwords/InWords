@@ -1,5 +1,5 @@
-﻿using System;
-using InWords.WebApi.Services.UserWordPairService.Abstraction;
+﻿using InWords.WebApi.Services.UserWordPairService.Abstraction;
+using System;
 
 namespace InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders
 {
