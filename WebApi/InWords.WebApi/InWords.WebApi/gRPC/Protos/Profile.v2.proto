@@ -2,14 +2,14 @@ syntax = "proto3";
 
 package ProfilePackage.v2;
 
-// The greeting service definition.
+// The Profile service definition.
 service Profile {
-	// Sends a greeting
 	rpc Register (RegistrationRequest) returns (RegistrationReply);
 	rpc GetToken (TokenRequest) returns (TokenReply);
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
 	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
+	rpc DeleteAccound (DeleteAccountRequest) returns (Empty);
 }
 
 // The request message containing the user's credentials.
@@ -55,4 +55,11 @@ message ConfirmEmailLinkRequest{
 
 message ConfirmEmailReply{
 	string email = 1;
+}
+
+message DeleteAccountRequest{
+	string text = 1; 
+}
+
+message Empty{
 }

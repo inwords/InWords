@@ -2,6 +2,8 @@
 using InWords.Service.Auth.Models;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
+using InWords.WebApi.Services.Users.Extentions;
+using InWords.WebApi.Services.Users.Models;
 using ProfilePackage.V2;
 using System;
 using System.Diagnostics.CodeAnalysis;

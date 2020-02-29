@@ -133,7 +133,7 @@ namespace InWords.WebApi.Controllers.v2
         [HttpGet]
         [AllowAnonymous]
         [Route("Confirm/{encryptLink}")]
-        [ProducesResponseType(typeof(ConfirmEmailReply),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ConfirmEmailReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ConfirmLink(string encryptLink)
@@ -157,5 +157,29 @@ namespace InWords.WebApi.Controllers.v2
                 return BadRequest(e.Message);
             }
         }
+
+        [Authorize]
+        [HttpDelete]
+        [Route("delete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete([FromBody] DeleteAccountRequest request)
+        {
+            int id = User.GetUserId();
+            try
+            {
+                var reqestObject = new AuthorizedRequestObject<DeleteAccountRequest, Empty>(request)
+                {
+                    UserId = User.GetUserId()
+                };
+                await mediator.Send(reqestObject).ConfigureAwait(false);
+                return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }

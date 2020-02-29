@@ -2,9 +2,10 @@
 using InWords.Data.Enums;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
+using InWords.WebApi.Services.Users.Extentions;
 using System;
 
-namespace InWords.WebApi.Services.Users
+namespace InWords.WebApi.Services.Users.Models
 {
     public class AccountRegistration
     {
