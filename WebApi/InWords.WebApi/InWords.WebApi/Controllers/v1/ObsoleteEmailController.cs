@@ -93,6 +93,7 @@ namespace InWords.WebApi.Controllers.v1
             }
         }
 
+        [Obsolete]
         [HttpGet]
         [AllowAnonymous]
         [Route("Confirm/{encryptLink}")]
