@@ -121,26 +121,6 @@
                             
              </remarks>
         </member>
-        <member name="T:InWords.WebApi.Controllers.v1.AuthController">
-            <inheritdoc />
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Token(InWords.Service.Auth.Models.BasicAuthClaims)">
-            <summary>
-                Request auth token
-            </summary>
-            <returns>A newly token</returns>
-            <response code="200">Success</response>
-            <response code="400">Access denied</response>
-            
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Registration(InWords.Service.Auth.Models.BasicAuthClaims)">
-            <summary>
-                Create new user
-            </summary>
-            <returns>A newly created token</returns>
-            <response code="200">returns new token</response>
-            <response code="400">User already exists</response>
-        </member>
         <member name="T:InWords.WebApi.Controllers.v1.CardsGame.GameController">
             <inheritdoc />
             <summary>
@@ -224,6 +204,26 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="T:InWords.WebApi.Controllers.v1.AuthController">
+            <inheritdoc />
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Token(InWords.Service.Auth.Models.BasicAuthClaims)">
+            <summary>
+                Request auth token
+            </summary>
+            <returns>A newly token</returns>
+            <response code="200">Success</response>
+            <response code="400">Access denied</response>
+            
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Registration(InWords.Service.Auth.Models.BasicAuthClaims)">
+            <summary>
+                Create new user
+            </summary>
+            <returns>A newly created token</returns>
+            <response code="200">returns new token</response>
+            <response code="400">User already exists</response>
         </member>
         <member name="T:InWords.WebApi.Controllers.v1.SyncController">
             <summary>
@@ -912,6 +912,9 @@
         </member>
         <member name="F:ProfilePackage.V2.ConfirmEmailRequest.CodeFieldNumber">
             <summary>Field number for the "code" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.ConfirmEmailLinkRequest.ActivationGuidFieldNumber">
+            <summary>Field number for the "activationGuid" field.</summary>
         </member>
         <member name="F:ProfilePackage.V2.ConfirmEmailReply.EmailFieldNumber">
             <summary>Field number for the "email" field.</summary>
