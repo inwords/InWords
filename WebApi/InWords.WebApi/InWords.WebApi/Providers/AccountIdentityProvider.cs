@@ -3,7 +3,7 @@ using InWords.Data.Repositories;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
-using InWords.WebApi.Services.Users;
+using InWords.WebApi.Services.Users.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InWords.WebApi.Services.Users
+namespace InWords.WebApi.Services.Users.Extentions
 {
     public static class NicknameGenerator
     {
