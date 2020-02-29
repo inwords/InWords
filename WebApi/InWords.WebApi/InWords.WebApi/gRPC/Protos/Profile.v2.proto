@@ -48,6 +48,10 @@ message ConfirmEmailRequest{
 	int32 code = 2;
 }
 
+message ConfirmEmailLinkRequest{
+	string activationGuid = 1;
+}
+
 message ConfirmEmailReply{
 	string email = 1;
 }

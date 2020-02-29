@@ -24,7 +24,7 @@ namespace InWords.Data.Domains.EmailEntitys
 
         public override bool Equals(object obj)
         {
-            return obj is EmailVerifies ? Equals((EmailVerifies) obj) : false;
+            return obj is EmailVerifies ? Equals((EmailVerifies)obj) : false;
         }
 
         public bool Equals(int userId, string email, int code)
@@ -35,6 +35,11 @@ namespace InWords.Data.Domains.EmailEntitys
         public override int GetHashCode()
         {
             return HashCode.Combine(UserId, Email, Code);
+        }
+
+        public static EmailVerifies Empty
+        {
+            get => new EmailVerifies();
         }
     }
 }

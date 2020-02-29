@@ -28,7 +28,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             var userId = request.UserId;
 
             // throw exception if not found
-            Account account = await FindAccount(userId).ConfigureAwait(false);
+            Account account = await Context.Accounts.FindAccount(userId).ConfigureAwait(false);
 
             // throw exception if invalid
             EmailVerifies codeValidation = GetValidCode(requestData, userId);
@@ -63,17 +63,6 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             }
 
             return codeValidation;
-        }
-
-        private async Task<Account> FindAccount(int userId)
-        {
-            Account account = await Context.Accounts.FindAsync(userId);
-            if (account == default)
-            {
-                throw new ArgumentNullException($"{nameof(account)} is not found");
-            }
-
-            return account;
         }
     }
 }
