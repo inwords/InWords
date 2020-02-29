@@ -9,6 +9,7 @@ service Profile {
 	rpc GetToken (TokenRequest) returns (TokenReply);
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
+	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
 }
 
 // The request message containing the user's credentials.

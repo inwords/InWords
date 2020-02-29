@@ -129,5 +129,33 @@ namespace InWords.WebApi.Controllers.v2
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Confirm/{encryptLink}")]
+        [ProducesResponseType(typeof(ConfirmEmailReply),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ConfirmLink(string encryptLink)
+        {
+            ConfirmEmailLinkRequest request = new ConfirmEmailLinkRequest()
+            {
+                ActivationGuid = encryptLink
+            };
+            var reqestObject = new RequestObject<ConfirmEmailLinkRequest, ConfirmEmailReply>(request);
+            try
+            {
+                ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+                return Ok(reply);
+            }
+            catch (ArgumentNullException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

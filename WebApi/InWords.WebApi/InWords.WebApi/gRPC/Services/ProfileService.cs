@@ -57,8 +57,14 @@ namespace InWords.WebApi.gRPC.Services
             // TODO: how to return error in grpc
         }
 
-        // Update Email
-        // Confirm Email
+        public override async Task<ConfirmEmailReply> ConfirmEmailLink(ConfirmEmailLinkRequest request, ServerCallContext context)
+        {
+            var reqestObject = new RequestObject<ConfirmEmailLinkRequest, ConfirmEmailReply>(request);
+            ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return reply;
+            // TODO: how to return error in grpc
+        }
+
         // Reset Password
         // Update Password
         // Delete Profile
