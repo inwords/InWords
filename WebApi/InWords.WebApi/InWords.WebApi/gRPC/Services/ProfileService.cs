@@ -67,6 +67,17 @@ namespace InWords.WebApi.gRPC.Services
 
         // Reset Password
         // Update Password
+
         // Delete Profile
+        public override async Task<Empty> DeleteAccound(DeleteAccountRequest request, ServerCallContext context)
+        {
+            var reqestObject = new AuthorizedRequestObject<DeleteAccountRequest, Empty>(request)
+            {
+                UserId = context.GetHttpContext().User.GetUserId()
+            };
+            Empty reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return reply;
+            // TODO: how to return error in grpc
+        }
     }
 }

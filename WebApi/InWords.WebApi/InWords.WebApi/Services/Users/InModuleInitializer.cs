@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using InWords.Service.Encryption;
 using InWords.WebApi.Module;
+using InWords.WebApi.Services.Users.AccountUpdate;
 using InWords.WebApi.Services.Users.EmailUpdate;
 using InWords.WebApi.Services.Users.Registration;
 using InWords.WebApi.Services.Users.Token;
@@ -21,6 +22,7 @@ namespace InWords.WebApi.Services.Users
             builder.RegisterType<ChangeEmail>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<ConfirmEmail>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<ConfirmEmailLink>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<DeleteAccount>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }

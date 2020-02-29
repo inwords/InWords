@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Services.Users.DeleteAccount
+namespace InWords.WebApi.Services.Users.AccountUpdate
 {
     public class DeleteAccount : AuthorizedRequestObjectHandler<DeleteAccountRequest, Empty, InWordsDataContext>
     {
