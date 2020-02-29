@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Enums;
@@ -12,7 +6,12 @@ using InWords.Data.DTO.Games.Levels;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory;
 using InWords.WebApi.Services.UserWordPairService.Models;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.Models.KnowledgeLicenseCalculator;
 
 namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric

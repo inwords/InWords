@@ -1,9 +1,8 @@
-﻿using System;
+﻿using InWords.WebApi.Extensions;
+using Microsoft.Extensions.Logging;
+using System;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using InWords.WebApi.Extensions;
-using Microsoft.Extensions.Logging;
 
 namespace InWords.WebApi.Providers.FIleLogger
 {

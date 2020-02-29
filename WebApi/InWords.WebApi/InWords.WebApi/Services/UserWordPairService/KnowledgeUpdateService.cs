@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Extension;
 using InWords.WebApi.Services.UserWordPairService.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserWordPairService
 {

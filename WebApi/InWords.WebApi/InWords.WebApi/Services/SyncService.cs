@@ -1,7 +1,7 @@
-﻿using System;
+﻿using InWords.Data.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using InWords.Data.DTO;
 
 namespace InWords.WebApi.Services
 {

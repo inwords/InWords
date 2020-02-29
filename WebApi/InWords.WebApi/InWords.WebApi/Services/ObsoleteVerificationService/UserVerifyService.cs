@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.Data.Enums;
 using InWords.Data.Repositories;
 using InWords.WebApi.Services.Abstractions;
+using System;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.VerificationService
 {

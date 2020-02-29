@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using InWords.Data.DTO.GameBox.LevelMetric;
+﻿using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
+using System;
+using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.CardGame
 {
     [Obsolete]
-    public sealed class  CardGameKnowledge : IKnowledgeQualifier
+    public sealed class CardGameKnowledge : IKnowledgeQualifier
     {
         private readonly LevelMetricQuery levelMetricQuery;
 

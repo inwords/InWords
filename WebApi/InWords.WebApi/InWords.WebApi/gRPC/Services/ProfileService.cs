@@ -1,11 +1,10 @@
 ﻿using Grpc.Core;
-using System.Threading.Tasks;
-using ProfilePackage.V2;
-using MediatR;
-using InWords.WebApi.Services.Abstractions;
-using Microsoft.AspNetCore.Authorization;
 using InWords.Service.Auth.Extensions;
-using System;
+using InWords.WebApi.Services.Abstractions;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using ProfilePackage.V2;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services
 {

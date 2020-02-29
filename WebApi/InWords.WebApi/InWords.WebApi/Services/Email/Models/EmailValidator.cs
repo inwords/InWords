@@ -1,6 +1,6 @@
-﻿using System;
-using InWords.Data.Repositories;
+﻿using InWords.Data.Repositories;
 using InWords.WebApi.Services.Abstractions;
+using System;
 
 namespace InWords.WebApi.Services.Email.Models
 {

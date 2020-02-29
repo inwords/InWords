@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace InWords.WebApi.Services.GameWordsToDictionary
 {

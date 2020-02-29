@@ -1,10 +1,10 @@
-﻿using System;
+﻿using InWords.Data.Creations;
+using InWords.Data.DTO.Creation;
+using InWords.Data.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Creations;
-using InWords.Data.DTO.Creation;
-using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services
 {
@@ -22,7 +22,7 @@ namespace InWords.WebApi.Services
 
             var creation = new Game
             {
-                CreatorId = (int) creationInfo.CreatorId
+                CreatorId = (int)creationInfo.CreatorId
             };
 
             creation = await CreationRepository.CreateAsync(creation).ConfigureAwait(false);

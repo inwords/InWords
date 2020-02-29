@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using InWords.Data.DTO.Enums;
+﻿using InWords.Data.DTO.Enums;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders;
+using System;
+using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.UserWordPairService.Models
 {

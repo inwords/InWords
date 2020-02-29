@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.UserWordPairService.Extension;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds
 {

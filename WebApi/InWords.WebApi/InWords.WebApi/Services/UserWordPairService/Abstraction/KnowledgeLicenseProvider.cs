@@ -1,5 +1,5 @@
-﻿using System;
-using InWords.WebApi.Services.UserWordPairService.Models;
+﻿using InWords.WebApi.Services.UserWordPairService.Models;
+using System;
 
 namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {

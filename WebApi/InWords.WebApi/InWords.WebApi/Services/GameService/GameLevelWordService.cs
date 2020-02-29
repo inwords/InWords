@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.Creations.GameBox;
+﻿using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.GameService
 {

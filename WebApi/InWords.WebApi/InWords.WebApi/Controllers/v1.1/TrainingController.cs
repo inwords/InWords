@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using InWords.Data.DTO.Games.Levels;
+﻿using InWords.Data.DTO.Games.Levels;
 using InWords.Service.Auth.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1._1
 {

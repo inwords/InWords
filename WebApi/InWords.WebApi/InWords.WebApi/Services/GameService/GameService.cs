@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.Creations;
+﻿using InWords.Data.Creations;
 using InWords.Data.DTO;
 using InWords.Data.DTO.Creation;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.Repositories;
 using InWords.WebApi.Extensions.Transfer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.GameService
 {
@@ -59,16 +59,16 @@ namespace InWords.WebApi.Services.GameService
         public IEnumerable<GameInfo> GetGames()
         {
             return from creation in creationRepository.GetWhere(g => g.CreatorId == Game.MainGames).ToList()
-                let creationInfo = creationService.GetCreationInfo(creation.GameId)
-                let russianDescription = creationInfo.Descriptions.GetRus()
-                select new GameInfo
-                {
-                    CreatorId = creationInfo.CreatorId ?? 0,
-                    GameId = creation.GameId,
-                    IsAvailable = true,
-                    Title = russianDescription.Title,
-                    Description = russianDescription.Description
-                };
+                   let creationInfo = creationService.GetCreationInfo(creation.GameId)
+                   let russianDescription = creationInfo.Descriptions.GetRus()
+                   select new GameInfo
+                   {
+                       CreatorId = creationInfo.CreatorId ?? 0,
+                       GameId = creation.GameId,
+                       IsAvailable = true,
+                       Title = russianDescription.Title,
+                       Description = russianDescription.Description
+                   };
         }
 
         public Task<Game> CreateGameBoxAsync(GamePack gamePack)

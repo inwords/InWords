@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using InWords.Data.DTO;
+﻿using InWords.Data.DTO;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
@@ -8,6 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1._1
 {

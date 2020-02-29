@@ -10,7 +10,7 @@ namespace InWords.WebApi.Services.Users
                 throw new ArgumentNullException($"{nameof(email)} is null");
 
             string nickname = email.Remove(email.IndexOf("@", StringComparison.Ordinal));
-            
+
             return nickname;
         }
     }

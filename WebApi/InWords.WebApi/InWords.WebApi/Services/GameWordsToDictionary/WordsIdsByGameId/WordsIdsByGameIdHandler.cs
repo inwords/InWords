@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using InWords.Data;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using InWords.Data;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId
 {

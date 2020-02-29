@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using InWords.Data.DTO;
-using MediatR;
+﻿using MediatR;
+using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds
 {

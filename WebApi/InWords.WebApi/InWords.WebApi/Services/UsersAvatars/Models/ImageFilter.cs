@@ -1,11 +1,11 @@
-﻿using System;
+﻿using InWords.WebApi.Extensions.BitmapExtensions;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using InWords.WebApi.Extensions.BitmapExtensions;
-using Microsoft.AspNetCore.Http;
 
 namespace InWords.WebApi.Services.UsersAvatars.Models
 {
@@ -76,7 +76,7 @@ namespace InWords.WebApi.Services.UsersAvatars.Models
             //    .Quality(80)
             //    .Save(webPFileStream);
             var encoder = ImageCodecInfo.GetImageEncoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
-            var encParams = new EncoderParameters() { Param = new[] { new EncoderParameter(Encoder.Quality,90L) } };
+            var encParams = new EncoderParameters() { Param = new[] { new EncoderParameter(Encoder.Quality, 90L) } };
             cropImage.Save(webPImagePath, ImageFormat.Jpeg);
             return webPImagePath;
         }

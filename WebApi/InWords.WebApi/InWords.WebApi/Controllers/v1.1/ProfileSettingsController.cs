@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using InWords.Service.Auth.Extensions;
+﻿using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.UsersAvatars.FileUploadAvatar;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1._1
 {
@@ -39,7 +39,7 @@ namespace InWords.WebApi.Controllers.v1._1
             if (IsNullOrZeroLength(file)) return StatusCode(417, "File is zero length");
 
             int authorizedId = User.GetUserId();
-            var query = new UploadAvatarQuery(authorizedId,file);
+            var query = new UploadAvatarQuery(authorizedId, file);
             UploadAvatarQueryResult result = await mediator.Send(query).ConfigureAwait(false);
             return Ok(result);
         }

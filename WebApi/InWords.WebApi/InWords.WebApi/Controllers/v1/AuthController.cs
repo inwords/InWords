@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Models;
 using InWords.WebApi.Providers;
 using InWords.WebApi.Services.Email;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1
 {
@@ -86,7 +86,7 @@ namespace InWords.WebApi.Controllers.v1
 
             return Ok(response);
         }
-        
+
         [Obsolete]
         private async Task<TokenResponse> CreateUserAccount(BasicAuthClaims basicAuthClaims)
         {

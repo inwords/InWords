@@ -3,9 +3,6 @@ using InWords.Data.Enums;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Users
 {
