@@ -13,7 +13,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
   return (
     <header className="header">
       <Toolbar>
-        <div className="header__toolbar-block">
+        <div className="header__toolbar-block header__brand">
           {handleOpenDrawer && (
             <IconButton
               aria-label="side-nav-menu"
@@ -33,7 +33,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
           </nav>
         )}
         {rightNodes && (
-          <div className="header__toolbar-block header__toolbar-block--right">
+          <div className="header__toolbar-block header__profile">
             {rightNodes}
           </div>
         )}
@@ -44,12 +44,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
 }
 
 Header.propTypes = {
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      to: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired
-    }).isRequired
-  ),
+  routes: PropTypes.array,
   rightNodes: PropTypes.arrayOf(PropTypes.node.isRequired),
   handleOpenDrawer: PropTypes.func
 };

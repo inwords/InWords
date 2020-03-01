@@ -50,8 +50,8 @@ function App() {
     <Router history={history}>
       <ScrollToTop />
       <PageContainer
-        routes={userId ? routes : undefined}
-        rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
+        routes={userId ? routes : null}
+        rightNodes={userId ? [<ProfileMenuButton key={0} />] : null}
       >
         <ErrorBoundary>
           <Suspense fallback={<PageProgress />}>

@@ -44,9 +44,15 @@ DrawerNavList.propTypes = {
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       to: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired
+      text: PropTypes.string.isRequired,
+      nestedRoutes: PropTypes.arrayOf(
+        PropTypes.shape({
+          to: PropTypes.string.isRequired,
+          text: PropTypes.string.isRequired
+        }).isRequired
+      )
     }).isRequired
-  ),
+  ).isRequired,
   handleClose: PropTypes.func.isRequired
 };
 

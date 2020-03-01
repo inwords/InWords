@@ -8,15 +8,15 @@ import './HeaderNavList.scss';
 function HeaderNavList({ routes }) {
   const [active, setActive] = React.useState();
 
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   React.useEffect(() => {
     setActive(
       routes.some(({ to }) => {
-        return location.pathname.startsWith(to);
+        return pathname.startsWith(to);
       })
     );
-  }, [routes, location]);
+  }, [routes, pathname]);
 
   return (
     <ul

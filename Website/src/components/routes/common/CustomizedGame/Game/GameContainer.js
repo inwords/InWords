@@ -9,7 +9,7 @@ import Game from './Game';
 function GameContainer({ trainingLevel, onResult, onNextLevel }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
-  const [newServerLevelId, setNewServerLevelId] = useState();
+  const [newServerLevelId, setNewServerLevelId] = useState(null);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
@@ -141,7 +141,7 @@ function GameContainer({ trainingLevel, onResult, onNextLevel }) {
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
-    setNewServerLevelId(undefined);
+    setNewServerLevelId(null);
   };
 
   const handleReplay = () => {

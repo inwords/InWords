@@ -5,7 +5,7 @@ import { uploadUserAvatar } from 'src/actions/userApiActions';
 import AvatarEditDialog from './AvatarEditDialog';
 
 const initialInputs = {
-  avatarFile: undefined
+  avatarFile: null
 };
 
 function AvatarEditDialogContainer({ open, ...rest }) {
@@ -17,7 +17,7 @@ function AvatarEditDialogContainer({ open, ...rest }) {
   React.useEffect(() => {
     if (open) {
       setInputs(initialInputs);
-      setAvatar(undefined);
+      setAvatar(null);
     }
   }, [open, setInputs]);
 
