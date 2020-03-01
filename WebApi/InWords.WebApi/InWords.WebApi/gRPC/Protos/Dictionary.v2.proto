@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.dictionary";
+option java_outer_classname = "DictionaryProto";
+
 package Dictionary.v2;
 
 // The greeting service definition.
