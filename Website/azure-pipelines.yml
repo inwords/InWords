@@ -6,29 +6,29 @@
 trigger:
   branches:
     include:
-    - master
+      - master
   paths:
     include:
-    - Website/*
+      - Website/*
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-  workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
+  - script: |
+      npm install
+      npm run build
+    displayName: 'npm install and build'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
 
-- task: PublishPipelineArtifact@1
-  displayName: 'Publish artifacts: _WebsiteBuild'
-  inputs:
-    path: $(System.DefaultWorkingDirectory)/Website/dist
-    artifact: _WebsiteBuild
-  condition: succeeded()
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish artifacts: _WebsiteBuild'
+    inputs:
+      path: $(System.DefaultWorkingDirectory)/Website/dist
+      artifact: _WebsiteBuild
+    condition: succeeded()
