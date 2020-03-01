@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
@@ -9,7 +6,6 @@ using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
-using InWords.WebApi.Services.FtpLoader.Model;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +16,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace InWords.WebApi.AppStart
 {
@@ -29,7 +28,7 @@ namespace InWords.WebApi.AppStart
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        
+
         /// <summary>
         ///     Startup constructor
         /// </summary>
@@ -64,13 +63,7 @@ namespace InWords.WebApi.AppStart
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // allow use api from different sites
-            services
-                .AddCors();
-
-            // configure auth
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions);
+            services.AddCors();
 
             // api version info
             services.AddApiVersioningInWords();
@@ -108,6 +101,7 @@ namespace InWords.WebApi.AppStart
             {
                 c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "InWords Web API V1");
                 c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "InWords Web API V1.1");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "InWords Web API V2 (grpc is allowed)");
                 c.RoutePrefix = string.Empty;
             });
 

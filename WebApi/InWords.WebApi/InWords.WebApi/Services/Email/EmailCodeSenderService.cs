@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Services.Email.EmailSenders;
 using InWords.WebApi.Services.Email.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Email
 {
+    [Obsolete]
     public class EmailCodeSenderService
     {
         public const int EMAIL_TIMEOUT = 2; // MINUTES;

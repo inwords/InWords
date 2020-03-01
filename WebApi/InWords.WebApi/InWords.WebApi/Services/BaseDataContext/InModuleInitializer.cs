@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using InWords.Data;
 using InWords.WebApi.Module;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
 namespace InWords.WebApi.Services.BaseDataContext
 {

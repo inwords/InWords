@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data.DTO.GameBox.LevelMetric;
+﻿using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Data.DTO.Games.Levels;
 using InWords.Service.Auth.Extensions;
-using InWords.WebApi.Services.CardGame;
-using InWords.WebApi.Services.UserGameService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1._1.CardsGame
 {

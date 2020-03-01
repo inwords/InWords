@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using InWords.Data.DTO.GameBox;
+﻿using InWords.Data.DTO.GameBox;
 using MediatR;
+using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.UserGameService.GetUsersGameHistory
 {

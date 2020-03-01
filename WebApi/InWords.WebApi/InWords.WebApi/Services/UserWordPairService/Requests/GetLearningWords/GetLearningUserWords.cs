@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.DTO;
 using InWords.WebApi.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.UserWordPairService.Extension;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords
 {
@@ -19,7 +18,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords
         {
         }
 
-        public override async Task<List<WordTranslation>> Handle(GetLearningUserWordsQuery request,
+        public override async Task<List<WordTranslation>> HandleRequest(GetLearningUserWordsQuery request,
             CancellationToken cancellationToken = default)
         {
             IQueryable<UserWordPair> pairsToLearn = Context.UserWordPairs.QueryPairsToLearn(request);

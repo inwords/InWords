@@ -1,0 +1,13 @@
+.training-type-card-pairs-info {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    margin-right: 12px;
+  }
+
+  &__text {
+    font-weight: 500;
+  }
+}

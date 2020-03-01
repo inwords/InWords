@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserGameService
 {
+    [Obsolete]
     public class LevelCreator
     {
         private readonly CreationRepository creationRepository;
@@ -36,7 +38,7 @@ namespace InWords.WebApi.Services.UserGameService
             Game game = creationRepository.GetWhere(c => c.CreatorId.Equals(userId)).SingleOrDefault();
             if (game == null)
             {
-                game = new Game {CreatorId = userId};
+                game = new Game { CreatorId = userId };
                 await creationRepository.CreateAsync(game).ConfigureAwait(false);
             }
 
@@ -50,7 +52,7 @@ namespace InWords.WebApi.Services.UserGameService
             gameLevel = await gameLevelRepository.CreateAsync(gameLevel).ConfigureAwait(false);
             // level add words
             IEnumerable<GameLevelWord> gameLevelWords = uwp.Select(u => new GameLevelWord
-                {GameLevelId = gameLevel.GameLevelId, WordPairId = u.WordPairId});
+            { GameLevelId = gameLevel.GameLevelId, WordPairId = u.WordPairId });
             await gameLevelWordRepository.Create(gameLevelWords.ToArray()).ConfigureAwait(false);
 
             // return levelId

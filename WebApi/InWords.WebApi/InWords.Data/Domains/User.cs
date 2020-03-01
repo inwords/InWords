@@ -6,7 +6,7 @@ namespace InWords.Data.Domains
 {
     public class User
     {
-        [ForeignKey("Account")] public int UserId { get; set; }
+        [ForeignKey(nameof(Account))] public int UserId { get; set; }
 
         [StringLength(32)] public string NickName { get; set; }
 

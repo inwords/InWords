@@ -34,7 +34,10 @@ function trainingCategory(
       return {
         ...state,
         levelsInfo: state.levelsInfo.map(levelInfo => {
-          if (levelInfo.levelId !== action.payload.levelId) {
+          if (
+            levelInfo.levelId !==
+            action.payload.classicCardLevelResult[0].levelId
+          ) {
             return levelInfo;
           }
 
@@ -87,7 +90,7 @@ function trainingHistory(
     case INITIALIZE_TRAINING_HISTORY:
       return {
         actual: true,
-        recentTrainings: (action.payload || []).slice(0, 30).reverse()
+        recentTrainings: (action.payload || []).slice(0, 30)
       };
     default:
       return state;

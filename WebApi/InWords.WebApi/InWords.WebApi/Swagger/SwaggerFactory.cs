@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace InWords.WebApi.Swagger
 {
@@ -18,8 +18,9 @@ namespace InWords.WebApi.Swagger
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1.0", new OpenApiInfo {Version = "v1.0", Title = "API V1.0"});
-                c.SwaggerDoc("v1.1", new OpenApiInfo {Version = "v1.1", Title = "API V1.1"});
+                c.SwaggerDoc("v1.0", new OpenApiInfo { Version = "v1.0", Title = "API V1.0" });
+                c.SwaggerDoc("v1.1", new OpenApiInfo { Version = "v1.1", Title = "API V1.1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Version = "v2", Title = "API V2 Allow Json & GRPC" });
                 //Enable export XML dev comments to swagger
                 ConfigureSwaggerComments(c);
                 //Provide custom strategy for selecting api 

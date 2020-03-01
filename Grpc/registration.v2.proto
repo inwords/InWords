@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package Registration.v2;
+
+// The greeting service definition.
+service Registrator {
+	// Sends a greeting
+	rpc Register (RegistrationRequest) returns (RegistrationReply);
+}
+
+// The request message containing the user's credentials.
+message RegistrationRequest {
+	string email = 1;
+	string password = 2;
+}
+
+// The response message containing the Token.
+message RegistrationReply {
+	int64 userid = 1;
+	string token = 2;
+}

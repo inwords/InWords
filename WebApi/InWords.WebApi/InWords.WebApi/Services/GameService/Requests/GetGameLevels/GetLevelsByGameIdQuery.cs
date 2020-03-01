@@ -8,7 +8,7 @@ namespace InWords.WebApi.Services.GameService.Requests.GetGameLevels
         public int GameId { get; set; }
         public int UserId { get; set; }
 
-        public GetLevelsByGameIdQuery(int gameId,int userId)
+        public GetLevelsByGameIdQuery(int gameId, int userId)
         {
             GameId = gameId;
             UserId = userId;

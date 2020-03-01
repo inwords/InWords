@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using InWords.Data.DTO.GameBox;
+﻿using InWords.Data.DTO.GameBox;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.UserGameService.GetUsersGameHistory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1._1.CardsGame
 {
@@ -42,7 +42,7 @@ namespace InWords.WebApi.Controllers.v1._1.CardsGame
             {
                 UserId = authorizedId
             };
-            List<LevelInfo> result= await mediator.Send(request).ConfigureAwait(false);
+            List<LevelInfo> result = await mediator.Send(request).ConfigureAwait(false);
             return Ok(result);
         }
     }

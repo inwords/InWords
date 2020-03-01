@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using InWords.Data.DTO;
+﻿using InWords.Data.DTO;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace InWords.WebApi.Controllers.v1
 {

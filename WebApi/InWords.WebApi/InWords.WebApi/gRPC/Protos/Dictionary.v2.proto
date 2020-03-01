@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package Dictionary.v2;
+
+// The greeting service definition.
+service DictionaryProvider {
+	// Sends a greeting
+	rpc GetWords (GetWordsRequest) returns (WordsReply);
+}
+
+// The request message containing the user's credentials.
+message GetWordsRequest {
+	repeated WordsReply Words = 1;
+}
+
+// The response message containing the Token.
+message WordsReply {
+	int32 UserWordPairs = 1;
+	string WordForeign = 2;
+	string WordNative = 3;
+}

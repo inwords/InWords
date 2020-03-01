@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FluentFTP;
+using Microsoft.Extensions.Options;
+using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using FluentFTP;
-using Microsoft.Extensions.Options;
 
 namespace InWords.WebApi.Services.FtpLoader.Model
 {
@@ -21,7 +21,7 @@ namespace InWords.WebApi.Services.FtpLoader.Model
             await using Stream stream = new FileStream(filePath, FileMode.Open);
 
             string fileFormat = filePath.Substring(filePath.LastIndexOf('.'));
-            
+
             string filename = $"{Guid.NewGuid()}".Replace("-", "").Substring(0, 16) + fileFormat.ToLower();
 
             using FtpClient client = GetConnectedClient();
@@ -29,7 +29,7 @@ namespace InWords.WebApi.Services.FtpLoader.Model
             string directoryPath = ProjectDirectory.Resolve(directory);
 
             client.CreateDirectory(directoryPath);
-            
+
             string path = Path.Combine(directoryPath, filename);
 
             await client.UploadAsync(stream, path).ConfigureAwait(false);

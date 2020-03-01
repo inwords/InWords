@@ -79,9 +79,6 @@ export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
     data: JSON.stringify({ metrics: [levelResult] }),
     contentType: 'application/json',
     actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(trainingActions.updateLevelResult(data));
-      },
       (_, data) => {
         actionOnSuccess(data);
       }

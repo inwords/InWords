@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using InWords.Data.Domains.EmailEntitys;
+using InWords.Data.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InWords.Data.Domains.EmailEntitys;
-using InWords.Data.Repositories;
 
 namespace InWords.WebApi.Services.Email
 {

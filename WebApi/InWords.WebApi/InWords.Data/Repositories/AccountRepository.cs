@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using InWords.Common;
 using InWords.Data.Domains;
 using InWords.Data.Enums;
 
 namespace InWords.Data.Repositories
 {
+    [Obsolete]
     public class AccountRepository : Repository<Account>
     {
         public AccountRepository(InWordsDataContext context) : base(context)

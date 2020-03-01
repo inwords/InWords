@@ -2,6 +2,7 @@
 
 namespace InWords.WebApi.Services.Email
 {
+    [Obsolete]
     public class ShortCodeGeneratorService
     {
         private readonly Random random;

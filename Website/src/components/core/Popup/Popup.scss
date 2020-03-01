@@ -1,0 +1,13 @@
+.popup {
+  position: absolute;
+  z-index: var(--z-index-popup);
+  white-space: nowrap;
+
+  &--side--left {
+    left: 0;
+  }
+
+  &--side--right {
+    right: 0;
+  }
+}

@@ -1,0 +1,16 @@
+.grid {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  @for $spacing from 1 through 10 {
+    &--spacing--#{$spacing} {
+      width: calc(100% + #{$spacing * 8}px);
+      margin: -#{$spacing * 4}px;
+
+      & > .grid-item {
+        padding: #{$spacing * 4}px;
+      }
+    }
+  }
+}

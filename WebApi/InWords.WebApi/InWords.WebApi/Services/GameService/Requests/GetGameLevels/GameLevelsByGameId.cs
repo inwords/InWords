@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.DTO.GameBox;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.GameService.Requests.GetGameLevels
 {
@@ -13,7 +13,7 @@ namespace InWords.WebApi.Services.GameService.Requests.GetGameLevels
     {
         public GameLevelsByGameId(InWordsDataContext context) : base(context) { }
 
-        public override async Task<GameObject> Handle(GetLevelsByGameIdQuery request, CancellationToken cancellationToken = default)
+        public override async Task<GameObject> HandleRequest(GetLevelsByGameIdQuery request, CancellationToken cancellationToken = default)
         {
             // select levels
             IQueryable<GameLevel> levelsOfGame = Context.GameLevels.Where(l => l.GameId.Equals(request.GameId));

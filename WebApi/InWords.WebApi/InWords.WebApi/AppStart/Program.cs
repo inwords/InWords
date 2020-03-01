@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using Autofac.Extensions.DependencyInjection;
+﻿using Autofac.Extensions.DependencyInjection;
 using InWords.WebApi.Module;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
+using System.Net;
 
 namespace InWords.WebApi.AppStart
 {

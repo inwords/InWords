@@ -1,0 +1,90 @@
+@import 'src/theme/mixins';
+
+.profile {
+  display: flex;
+
+  @include theme-breakpoints-down(md) {
+    flex-direction: column;
+  }
+}
+
+.profile-picture-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture {
+  margin-bottom: 8px;
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-personal-section {
+  width: 100%;
+  padding-top: 16px;
+  padding-left: 64px;
+
+  @include theme-breakpoints-down(sm) {
+    padding-left: 32px;
+  }
+
+  @include theme-breakpoints-down(md) {
+    padding-top: 24px;
+  }
+}
+
+.profile-personal-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.profile-nickname {
+  @include theme-breakpoints-down(md) {
+    @include theme-typography(h4);
+  }
+}
+
+.profile-personal-info-entry {
+  display: flex;
+  margin: 12px 0;
+}
+
+.profile-personal-info-entry-icon {
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-personal-info-entry-content {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.profile-personal-info-value {
+  width: 50%;
+
+  @include theme-breakpoints-down(sm) {
+    width: 100%;
+  }
+}
+
+.profile-personal-info-value-text {
+  width: 50%;
+
+  @include theme-breakpoints-down(md) {
+    @include theme-typography(body2);
+  }
+}
+
+.profile-personal-edit-links {
+  width: 40%;
+
+  @include theme-breakpoints-down(sm) {
+    width: 100%;
+  }
+}

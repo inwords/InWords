@@ -1,0 +1,91 @@
+@import 'src/theme/mixins';
+
+.button {
+  display: inline-block;
+  min-width: 80px;
+  height: 32px;
+  border-radius: 2px;
+  font-family: inherit;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease-in-out;
+
+  @include theme-typography(button);
+
+  &--contained-default {
+    padding: 0 16px;
+    color: var(--palette-default-contrast-text);
+    background-color: var(--palette-default-main);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-default-darken-less);
+    }
+
+    &:active {
+      background-color: var(--palette-default-darken-more);
+    }
+
+    &:disabled {
+      background-color: var(--palette-action-disabled-background);
+    }
+  }
+
+  &--contained-primary {
+    padding: 0 16px;
+    color: var(--palette-primary-contrast-text);
+    background-color: var(--palette-primary-main);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-primary-darken-less);
+    }
+
+    &:active {
+      background-color: var(--palette-primary-darken-more);
+    }
+
+    &:disabled {
+      background-color: var(--palette-action-disabled-background);
+    }
+  }
+
+  &--text-default {
+    padding: 0 8px;
+    background: none;
+    color: var(--palette-default);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-action-hover);
+    }
+
+    &:active {
+      background-color: var(--palette-action-selected);
+    }
+  }
+
+  &--text-primary {
+    padding: 0 8px;
+    background: none;
+    color: var(--palette-primary-main);
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-primary-transparentize-more);
+    }
+
+    &:active {
+      background-color: var(--palette-primary-transparentize-less);
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+    pointer-events: none;
+    color: var(--palette-action-disabled);
+  }
+
+  &--full-width {
+    width: 100%;
+  }
+}

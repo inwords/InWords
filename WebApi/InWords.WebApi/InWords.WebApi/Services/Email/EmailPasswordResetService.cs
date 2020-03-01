@@ -1,11 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using InWords.Data.Repositories;
+﻿using InWords.Data.Repositories;
 using InWords.WebApi.Services.Email.EmailSenders;
 using InWords.WebApi.Services.Email.Template;
+using System;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Email
 {
+    [Obsolete]
     public class EmailPasswordResetService
     {
         //IResetPasswordEmail resetPasswordEmail;

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using InWords.WebApi.Services.Email.Models;
+﻿using InWords.WebApi.Services.Email.Models;
+using System.Collections.Generic;
 
 namespace InWords.WebApi.Services.Email.Template
 {

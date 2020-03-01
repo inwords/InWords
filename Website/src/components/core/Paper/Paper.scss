@@ -1,0 +1,11 @@
+.paper {
+  background-color: var(--palette-background-paper);
+  border-radius: 2px;
+
+  $depths: 4, 8, 16, 64;
+  @each $depth in $depths {
+    &--depth-shadow--#{$depth} {
+      box-shadow: var(--depth-shadow-#{$depth});
+    }
+  }
+}

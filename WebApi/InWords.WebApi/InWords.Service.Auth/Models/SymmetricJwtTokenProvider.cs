@@ -52,14 +52,12 @@ namespace InWords.Service.Auth.Models
                 ValidateIssuer = true,
                 // a string that represents the publisher
                 ValidIssuer = Issuer,
-
                 // will validation consumer token
                 ValidateAudience = true,
                 // set consumer token
                 ValidAudience = Audience,
                 // will the lifetime be validated
                 ValidateLifetime = true,
-
                 // security key installation
                 IssuerSigningKey = securefileProvider.GetSymmetricSecurityKey(),
                 // validation of the security key

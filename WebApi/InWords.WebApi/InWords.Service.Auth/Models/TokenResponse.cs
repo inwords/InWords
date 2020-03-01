@@ -6,36 +6,21 @@ namespace InWords.Service.Auth.Models
 {
     public class TokenResponse
     {
-        public TokenResponse(ClaimsIdentity identity)
-        {
-            ClaimsIdentityInit(identity);
-        }
-
-        public TokenResponse(object userId, object role)
-        {
-            ClaimsIdentityInit(userId.ToString(), role.ToString());
-        }
-
+        public int UserId { get; private set; }
         public string Token { get; private set; }
 
-        public int UserId { get; private set; }
-
-        private void ClaimsIdentityInit(ClaimsIdentity identity)
-        {
-            Token = AuthOptions.TokenProvider.GenerateToken(identity);
-            UserId = identity.Claims.GetUserId();
-        }
-
-        private void ClaimsIdentityInit(string userId, string role)
+        public TokenResponse(int userId, object role)
         {
             IEnumerable<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, userId),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
+                new Claim(ClaimTypes.NameIdentifier, $"{userId}"),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, $"{role}")
             };
 
             var claimsIdentity = new ClaimsIdentity(claims);
-            ClaimsIdentityInit(claimsIdentity);
+
+            Token = AuthOptions.TokenProvider.GenerateToken(claimsIdentity);
+            UserId = claimsIdentity.Claims.GetUserId();
         }
     }
 }

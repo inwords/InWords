@@ -38,7 +38,16 @@
             </summary>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.CardGameScore)">
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.CustomLevelController.GetHistory">
+            <summary>
+                Use this to get last custom played games
+            </summary>
+            <deprecated>true</deprecated>
+            <returns>History of users custom levels</returns>
+            <response code="401">Unauthorized</response>
+            <response code="200">OK</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.GameController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
             <summary>
                 Use this to post score after game
             </summary>
@@ -48,7 +57,7 @@
             <response code="200">OK, scored</response>
             <response code="400">Null on request</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.ScoreController.UploadScore(InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQuery[])">
+        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.GameController.UploadScore(InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery[])">
             <summary>
                 Use to upload user results
             </summary>
@@ -79,24 +88,38 @@
             <response code="401">Unauthorized access</response>
             <response code="417">File is zero length</response>
         </member>
-        <member name="T:InWords.WebApi.Controllers.v1.AuthController">
-            <inheritdoc />
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Token(InWords.Service.Auth.Models.BasicAuthClaims)">
-            <summary>
-                Request auth token
-            </summary>
-            <returns>A newly token</returns>
-            <response code="200">Success</response>
-            <response code="400">Access denied</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Registration(InWords.Service.Auth.Models.BasicAuthClaims)">
-            <summary>
-                Create new user
-            </summary>
-            <returns>A newly created token</returns>
-            <response code="200">returns new token</response>
-            <response code="400">User already exists</response>
+        <member name="M:InWords.WebApi.Controllers.v1._1.TrainingController.Estimate(InWords.Data.DTO.Games.Levels.ClassicCardLevelMetricQuery)">
+             <summary>
+             Use this to upload user's level's metric
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /estimate
+                 
+               {
+                "metrics": [
+                {
+                    "gameLevelId": 12,
+                    "wordPairIdOpenCounts": {
+                        "1": 4,
+                        "2": 5,
+                        "5": 1
+                    }
+                },
+               "metrics": [
+                {
+                    "gameLevelId": 0, (NOTE: If gameLevelId is zero game will be created in history)
+                    "wordPairIdOpenCounts": {
+                        "3": 1,
+                        "2": 2,
+                        "1": 3
+                    }
+                }
+                ]
+               }
+                            
+             </remarks>
         </member>
         <member name="T:InWords.WebApi.Controllers.v1.CardsGame.GameController">
             <inheritdoc />
@@ -160,7 +183,7 @@
              <response code="200">Count of added words</response>
              <returns>Count of adding words</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
             <summary>
                 Use this to post score after game
             </summary>
@@ -168,11 +191,11 @@
             <param name="levelResult"></param>
             <returns>Quantity of stars</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult})">
+        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelResult})">
             <summary>
                 Use to upload user results
             </summary>
-            <param name="levelMetricQueryResults"></param>
+            <param name="levelScores"></param>
             <returns>Quantity of stars and level id</returns>
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.GetGame(System.Int32)">
@@ -181,6 +204,26 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="T:InWords.WebApi.Controllers.v1.AuthController">
+            <inheritdoc />
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Token(InWords.Service.Auth.Models.BasicAuthClaims)">
+            <summary>
+                Request auth token
+            </summary>
+            <returns>A newly token</returns>
+            <response code="200">Success</response>
+            <response code="400">Access denied</response>
+            
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Registration(InWords.Service.Auth.Models.BasicAuthClaims)">
+            <summary>
+                Create new user
+            </summary>
+            <returns>A newly created token</returns>
+            <response code="200">returns new token</response>
+            <response code="400">User already exists</response>
         </member>
         <member name="T:InWords.WebApi.Controllers.v1.SyncController">
             <summary>
@@ -326,6 +369,56 @@
             </summary>
             <param name="wordsService"></param>
         </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Register(ProfilePackage.V2.RegistrationRequest)">
+            <summary>
+            Use this to register user
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+            <remarks>
+            Token will be sent in response to the request.               
+             
+            During registration a activation message will be sent to the user's email. 
+             
+            400 means that the user was not found or the password was entered incorrectly
+            </remarks>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Token(ProfilePackage.V2.TokenRequest)">
+            <summary>
+                Use this to get token
+            </summary>
+            <returns>user's access token</returns>
+            <response code="200">Success</response>
+            <response code="400">Access denied</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.UpdateEmail(ProfilePackage.V2.EmailChangeRequest)">
+            <summary>
+              Use this to request update user's email
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.ConfirmEmail(ProfilePackage.V2.ConfirmEmailRequest)">
+            <summary>
+              Use this to confirm email code
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.Register(WordSet.V2.WordSetWordsRequest)">
+            <summary>
+            This is to get word's in word set
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+            <remarks>
+             
+            . 
+            Word's marked as hasAdded if user already has this word in the dictionary.               
+             
+            
+            </remarks>
+        </member>
         <member name="M:InWords.WebApi.Extensions.StringExtensions.StripHTML(System.String)">
             <summary>
                 This is to get raw text inside html/xml tags
@@ -337,7 +430,7 @@
             <summary>
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Extensions.Transfer.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Data.DTO.Game.DescriptionInfo})">
+        <member name="M:InWords.WebApi.Extensions.Transfer.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Data.DTO.Creation.DescriptionInfo})">
             <summary>
                 Test method returning Russian description
             </summary>
@@ -471,14 +564,14 @@
             <param name="game"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetSaveLevelMetricQueryResult(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetLevelScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
             <summary>
                 This is to update user score on game level
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult)">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult)">
             <summary>
                 This is to set level score to user level storage
             </summary>
@@ -487,27 +580,13 @@
             <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult})">
+        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult})">
             <summary>
                 This is to push all score from cache storage
             </summary>
             <param name="userId"></param>
-            <param name="levelMetricQueryResults"></param>
+            <param name="levelScores"></param>
             <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQuery)">
-            <summary>
-                This is to get score by level and update information of memorizing user word pairs
-            </summary>
-            <param name="userId"></param>
-            <param name="levelMetricQuery"></param>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Services.GameService">
-            <summary>
-                Service that contain CRUD for Games
-            </summary>
-            <see cref="T:InWords.Data.Games.Game" />
         </member>
         <member name="M:InWords.WebApi.Services.Email.EmailCodeVerificationService.HasCorrectCode(System.Int32,System.String,System.Int32)">
             <summary>
@@ -552,18 +631,18 @@
                 send it by <see cref="T:InWords.WebApi.Services.Email.EmailSenders.EmailTemplateSender" />
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetSaveLevelMetricQueryResult(InWords.Data.DTO.GameBox.SaveLevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetLevelScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
             <summary>
                 This is to local compute score
             </summary>
             <param name="levelResult"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Games.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.SaveLevelMetric.SaveLevelMetricQueryResult})">
+        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Creations.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult})">
             <summary>
             </summary>
             <param name="levelsToUpdate">All levels that exist in database</param>
-            <param name="levelMetricQueryResults">All score that user send</param>
+            <param name="levelScores">All score that user send</param>
             <returns></returns>
         </member>
         <member name="T:InWords.WebApi.Services.GameService.GameService">
@@ -572,12 +651,12 @@
             </summary>
             <see cref="T:InWords.Data.Models.InWords.Games.Game" />
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameService.#ctor(InWords.WebApi.Services.GameService,InWords.Data.Repositories.GameRepository,InWords.WebApi.Services.GameService.GameLevelService)">
+        <member name="M:InWords.WebApi.Services.GameService.GameService.#ctor(InWords.WebApi.Services.CreationService,InWords.Data.Repositories.CreationRepository,InWords.WebApi.Services.GameService.GameLevelService)">
             <summary>
                 Basic constructor
             </summary>
-            <param name="gameService"></param>
-            <param name="gameRepository"></param>
+            <param name="creationService"></param>
+            <param name="creationRepository"></param>
             <param name="gameLevelService"></param>
         </member>
         <member name="M:InWords.WebApi.Services.GameService.GameService.GetGameObjectAsync(System.Int32)">
@@ -591,6 +670,14 @@
             <summary>
                 Total words added excluding existing ones
             </summary>
+        </member>
+        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
+            <summary>
+                This is to get score by level and update information of memorizing user word pairs
+            </summary>
+            <param name="userId"></param>
+            <param name="levelMetricQuery"></param>
+            <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Services.UserWordPairService.Abstraction.KnowledgeLicenseProvider.Ebbinghaus(System.Int32,System.Double)">
             <summary>
@@ -608,7 +695,7 @@
             <param name="PairKnowledges">Int is <see cref="T:InWords.Data.Domains.UserWordPair" /> id</param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualities})">
+        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualitys})">
             <summary>
                 This method for updating <see cref="T:InWords.Data.Domains.UserWordPair" />'s learning period and time to learning
                 using PairKnowledges from IKnowledgeQualifier.
@@ -643,6 +730,223 @@
                 Warning! To use this enable xml comments output
             </summary>
             <param name="c"></param>
+        </member>
+        <member name="T:Dictionary.V2.DictionaryV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/Dictionary.v2.proto</summary>
+        </member>
+        <member name="P:Dictionary.V2.DictionaryV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/Dictionary.v2.proto</summary>
+        </member>
+        <member name="T:Dictionary.V2.GetWordsRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:Dictionary.V2.GetWordsRequest.WordsFieldNumber">
+            <summary>Field number for the "Words" field.</summary>
+        </member>
+        <member name="T:Dictionary.V2.WordsReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:Dictionary.V2.WordsReply.UserWordPairsFieldNumber">
+            <summary>Field number for the "UserWordPairs" field.</summary>
+        </member>
+        <member name="F:Dictionary.V2.WordsReply.WordForeignFieldNumber">
+            <summary>Field number for the "WordForeign" field.</summary>
+        </member>
+        <member name="F:Dictionary.V2.WordsReply.WordNativeFieldNumber">
+            <summary>Field number for the "WordNative" field.</summary>
+        </member>
+        <member name="T:Dictionary.V2.DictionaryProvider">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:Dictionary.V2.DictionaryProvider.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:Dictionary.V2.DictionaryProvider.DictionaryProviderBase">
+            <summary>Base class for server-side implementations of DictionaryProvider</summary>
+        </member>
+        <member name="M:Dictionary.V2.DictionaryProvider.DictionaryProviderBase.GetWords(Dictionary.V2.GetWordsRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:Dictionary.V2.DictionaryProvider.BindService(Dictionary.V2.DictionaryProvider.DictionaryProviderBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:Dictionary.V2.DictionaryProvider.BindService(Grpc.Core.ServiceBinderBase,Dictionary.V2.DictionaryProvider.DictionaryProviderBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="T:WordSet.V2.WordSetV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/WordSet.v2.proto</summary>
+        </member>
+        <member name="P:WordSet.V2.WordSetV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/WordSet.v2.proto</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetWordsRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWordsRequest.WordSetIdFieldNumber">
+            <summary>Field number for the "WordSetId" field.</summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWordsReply.WordsFieldNumber">
+            <summary>Field number for the "Words" field.</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetWord">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWord.WordPairIdFieldNumber">
+            <summary>Field number for the "WordPairId" field.</summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWord.HasAddedFieldNumber">
+            <summary>Field number for the "HasAdded" field.</summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWord.WordForeignFieldNumber">
+            <summary>Field number for the "WordForeign" field.</summary>
+        </member>
+        <member name="F:WordSet.V2.WordSetWord.WordNativeFieldNumber">
+            <summary>Field number for the "WordNative" field.</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetProvider">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:WordSet.V2.WordSetProvider.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:WordSet.V2.WordSetProvider.WordSetProviderBase">
+            <summary>Base class for server-side implementations of WordSetProvider</summary>
+        </member>
+        <member name="M:WordSet.V2.WordSetProvider.WordSetProviderBase.GetWordsList(WordSet.V2.WordSetWordsRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:WordSet.V2.WordSetProvider.BindService(WordSet.V2.WordSetProvider.WordSetProviderBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:WordSet.V2.WordSetProvider.BindService(Grpc.Core.ServiceBinderBase,WordSet.V2.WordSetProvider.WordSetProviderBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="T:ProfilePackage.V2.ProfileV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/Profile.v2.proto</summary>
+        </member>
+        <member name="P:ProfilePackage.V2.ProfileV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/Profile.v2.proto</summary>
+        </member>
+        <member name="T:ProfilePackage.V2.RegistrationRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:ProfilePackage.V2.RegistrationRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.RegistrationRequest.PasswordFieldNumber">
+            <summary>Field number for the "password" field.</summary>
+        </member>
+        <member name="T:ProfilePackage.V2.RegistrationReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:ProfilePackage.V2.RegistrationReply.UseridFieldNumber">
+            <summary>Field number for the "userid" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.RegistrationReply.TokenFieldNumber">
+            <summary>Field number for the "token" field.</summary>
+        </member>
+        <member name="T:ProfilePackage.V2.TokenRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:ProfilePackage.V2.TokenRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.TokenRequest.PasswordFieldNumber">
+            <summary>Field number for the "password" field.</summary>
+        </member>
+        <member name="T:ProfilePackage.V2.TokenReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:ProfilePackage.V2.TokenReply.UserIdFieldNumber">
+            <summary>Field number for the "userId" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.TokenReply.TokenFieldNumber">
+            <summary>Field number for the "token" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.EmailChangeRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.EmailChangeReply.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.ConfirmEmailRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.ConfirmEmailRequest.CodeFieldNumber">
+            <summary>Field number for the "code" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.ConfirmEmailLinkRequest.ActivationGuidFieldNumber">
+            <summary>Field number for the "activationGuid" field.</summary>
+        </member>
+        <member name="F:ProfilePackage.V2.ConfirmEmailReply.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="T:ProfilePackage.V2.Profile">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:ProfilePackage.V2.Profile.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:ProfilePackage.V2.Profile.ProfileBase">
+            <summary>Base class for server-side implementations of Profile</summary>
+        </member>
+        <member name="M:ProfilePackage.V2.Profile.ProfileBase.Register(ProfilePackage.V2.RegistrationRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:ProfilePackage.V2.Profile.BindService(ProfilePackage.V2.Profile.ProfileBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:ProfilePackage.V2.Profile.BindService(Grpc.Core.ServiceBinderBase,ProfilePackage.V2.Profile.ProfileBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
     </members>
 </doc>
