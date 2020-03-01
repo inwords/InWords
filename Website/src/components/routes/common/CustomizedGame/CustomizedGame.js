@@ -51,7 +51,7 @@ function CustomizedGame({
       ...trainingLevel,
       wordTranslations: shuffle([...trainingLevel.wordTranslations]).slice(
         0,
-        trainingSettings.quantity || 8
+        +trainingSettings.quantity || 8
       )
     });
 
