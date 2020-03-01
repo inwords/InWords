@@ -24,3 +24,11 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+  workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish artifacts: _WebsiteBuild'
+  inputs:
+    path: $(System.DefaultWorkingDirectory)/Website/dist
+    artifact: _WebsiteBuild
+  condition: succeeded()
