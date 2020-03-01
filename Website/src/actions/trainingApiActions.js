@@ -4,7 +4,7 @@ import { setSnackbar } from './commonActions';
 
 export function receiveTrainingCategories() {
   return apiAction({
-    endpoint: 'game/gameInfo',
+    endpoint: '/game/gameInfo',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(trainingActions.initializeTrainingCategories(data));
@@ -20,7 +20,7 @@ export function receiveTrainingCategories() {
 
 export function receiveTrainingCategory(categoryId) {
   return apiAction({
-    endpoint: `game/${categoryId}`,
+    endpoint: `/game/${categoryId}`,
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(trainingActions.initializeTrainingCategory(data));
@@ -36,7 +36,7 @@ export function receiveTrainingCategory(categoryId) {
 
 export function addCategoryWordsToDictionary(categoryId) {
   return apiAction({
-    endpoint: 'game/addWordsToUserDictionary',
+    endpoint: '/game/addWordsToUserDictionary',
     method: 'POST',
     data: JSON.stringify(categoryId),
     contentType: 'application/json',
@@ -57,7 +57,7 @@ export function addCategoryWordsToDictionary(categoryId) {
 
 export function receiveTrainingLevel(levelId) {
   return apiAction({
-    endpoint: `game/level/${levelId}`,
+    endpoint: `/game/level/${levelId}`,
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(trainingActions.initializeTrainingLevel(data));
@@ -73,8 +73,8 @@ export function receiveTrainingLevel(levelId) {
 
 export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
   return apiAction({
-    apiVersion: 'v1.1',
-    endpoint: 'training/estimate',
+    apiVersion: '1.1',
+    endpoint: '/training/estimate',
     method: 'POST',
     data: JSON.stringify({ metrics: [levelResult] }),
     contentType: 'application/json',
@@ -93,8 +93,8 @@ export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
 
 export function receiveTrainingHistory() {
   return apiAction({
-    apiVersion: 'v1.1',
-    endpoint: 'customLevel/history',
+    apiVersion: '1.1',
+    endpoint: '/customLevel/history',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(trainingActions.initializeTrainingHistory(data));
@@ -110,8 +110,8 @@ export function receiveTrainingHistory() {
 
 export function receiveTrainingWordPairs() {
   return apiAction({
-    apiVersion: 'v1.1',
-    endpoint: 'dictionary/training',
+    apiVersion: '1.1',
+    endpoint: '/dictionary/training',
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(

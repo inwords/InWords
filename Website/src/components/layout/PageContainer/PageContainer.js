@@ -14,17 +14,15 @@ import SideNavList from './SideNavList';
 
 import './PageContainer.scss';
 
-function getNestedRoutes(routes, pathname) {
-  const route = routes && routes.find(({ to }) => pathname.startsWith(to));
-  return route && route.nestedRoutes;
-}
-
 function PageContainer({ routes, rightNodes, children }) {
   const { open, handleOpen, handleClose } = useDrawer();
 
   const { pathname } = useLocation();
 
-  const nestedRoutes = getNestedRoutes(routes, pathname);
+  const nestedRoutes = React.useMemo(() => {
+    const route = routes && routes.find(({ to }) => pathname.startsWith(to));
+    return route && route.nestedRoutes;
+  }, [routes, pathname]);
 
   return (
     <div className="page-container">

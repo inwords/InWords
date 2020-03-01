@@ -36,7 +36,7 @@ function TrainingLevels({ trainingCategory }) {
               <CardActions>
                 <LinkButton
                   component={Link}
-                  to={`${match.url}/${levelId}`}
+                  to={`${match.url}/${levelId}/0`}
                   disabled={!isAvailable}
                   variant="text"
                   color="primary"

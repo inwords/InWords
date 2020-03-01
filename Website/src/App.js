@@ -21,17 +21,7 @@ const history = createBrowserHistory();
 const routes = [
   {
     to: '/dictionary',
-    text: 'Словарь',
-    nestedRoutes: [
-      {
-        to: '/dictionary/my',
-        text: 'Мой словарь'
-      },
-      {
-        to: '/dictionary/sets',
-        text: 'Наборы слов'
-      }
-    ]
+    text: 'Словарь'
   },
   {
     to: '/training',
@@ -43,7 +33,11 @@ const routes = [
       },
       {
         to: '/training/history',
-        text: 'История'
+        text: 'Недавние тренировки'
+      },
+      {
+        to: '/training/courses',
+        text: 'Курсы'
       }
     ]
   }
@@ -56,8 +50,8 @@ function App() {
     <Router history={history}>
       <ScrollToTop />
       <PageContainer
-        routes={userId ? routes : undefined}
-        rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
+        routes={userId ? routes : null}
+        rightNodes={userId ? [<ProfileMenuButton key={0} />] : null}
       >
         <ErrorBoundary>
           <Suspense fallback={<PageProgress />}>

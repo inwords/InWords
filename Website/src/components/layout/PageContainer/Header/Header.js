@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Toolbar from 'src/components/core/Toolbar';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
 import BrandLink from '../BrandLink';
@@ -11,8 +12,8 @@ import './Header.scss';
 function Header({ routes, rightNodes, handleOpenDrawer }) {
   return (
     <header className="header">
-      <div className="header__content">
-        <div className="header__content-block">
+      <Toolbar>
+        <div className="header__toolbar-block header__brand">
           {handleOpenDrawer && (
             <IconButton
               aria-label="side-nav-menu"
@@ -32,23 +33,18 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
           </nav>
         )}
         {rightNodes && (
-          <div className="header__content-block header__content-block--right">
+          <div className="header__toolbar-block header__profile">
             {rightNodes}
           </div>
         )}
-      </div>
+      </Toolbar>
       <APIProgress />
     </header>
   );
 }
 
 Header.propTypes = {
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      to: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired
-    }).isRequired
-  ),
+  routes: PropTypes.array,
   rightNodes: PropTypes.arrayOf(PropTypes.node.isRequired),
   handleOpenDrawer: PropTypes.func
 };

@@ -8,7 +8,7 @@ import TrainingResult from 'src/components/routes/TrainingResult';
 function SelectTranslateTrainingContainer({ wordTranslations }) {
   const [wordSets, setWordSets] = useState([]);
   const [currentWordSets, setCurrentWordSets] = useState([]);
-  const [currentWordSet, setCurrentWordSet] = useState(undefined);
+  const [currentWordSet, setCurrentWordSet] = useState();
   const [requiredWordIdsInfo, setRequiredWordIdsInfo] = useState({});
   const [selectedWordId, setSelectedWordId] = useState(-1);
   const [isClickDone, setIsClickDone] = useState(false);

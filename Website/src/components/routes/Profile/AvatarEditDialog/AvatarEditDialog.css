@@ -1,0 +1,10 @@
+.avatar-edit-dialog-input {
+  display: none;
+}
+
+.avatar-edit-dialog-img {
+  width: 48px;
+  height: 48px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}

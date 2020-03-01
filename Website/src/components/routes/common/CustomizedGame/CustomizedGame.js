@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'src/utils/shuffle';
-import Game from './Game';
+import useDialog from 'src/hooks/useDialog';
+import Paper from 'src/components/core/Paper';
+import Toolbar from 'src/components/core/Toolbar';
+import IconButton from 'src/components/core/IconButton';
+import Icon from 'src/components/core/Icon';
 import CardSettingsContext from 'src/components/routes/common/CardSettingsContext';
+import Game from './Game';
+import GameSettingsDialog from './GameSettingsDialog';
+import GamePairsDialog from './GamePairsDialog';
+
+import './CustomizedGame.css';
 
 const synth = window.speechSynthesis;
 const lang = 'en-US';
 
-function CustomizedGame({ trainingSettings, trainingLevel, ...rest }) {
+function CustomizedGame({
+  trainingSettings,
+  trainingLevel,
+  onNextLevel,
+  ...rest
+}) {
   const [cardSettings, setCardSettings] = React.useState({
     cardDimension: 120,
     cardTextSize: 16
@@ -15,7 +29,13 @@ function CustomizedGame({ trainingSettings, trainingLevel, ...rest }) {
 
   const [processedTrainingLevel, setProcessedTrainingLevel] = React.useState();
 
-  const [listOn, setListOn] = React.useState(true);
+  const [listOn, setListOn] = React.useState();
+
+  const {
+    open: openWordPairs,
+    setOpen: setOpenWordPairs,
+    handleClose: handleCloseWordPairs
+  } = useDialog();
 
   React.useEffect(() => {
     setCardSettings({
@@ -23,9 +43,9 @@ function CustomizedGame({ trainingSettings, trainingLevel, ...rest }) {
       cardTextSize: +trainingSettings.cardTextSize || 16
     });
 
-    if (trainingSettings.listOn !== undefined) {
-      setListOn(trainingSettings.listOn);
-    }
+    setListOn(
+      trainingSettings.listOn !== undefined ? trainingSettings.listOn : true
+    );
 
     setProcessedTrainingLevel({
       ...trainingLevel,
@@ -62,16 +82,54 @@ function CustomizedGame({ trainingSettings, trainingLevel, ...rest }) {
     }
   }, [trainingSettings, trainingLevel]);
 
+  React.useEffect(() => {
+    if (listOn) {
+      setOpenWordPairs(true);
+    }
+  }, [listOn, setOpenWordPairs]);
+
+  const {
+    open: openSettings,
+    handleOpen: handleOpenSettings,
+    handleClose: handleCloseSettings
+  } = useDialog();
+
   return (
-    Boolean(processedTrainingLevel) && (
-      <CardSettingsContext.Provider value={cardSettings}>
-        <Game
-          trainingLevel={processedTrainingLevel}
-          listOn={listOn}
-          {...rest}
-        />
-      </CardSettingsContext.Provider>
-    )
+    <Fragment>
+      <Paper>
+        <Toolbar variant="dense" className="game-settings-toolbar">
+          <IconButton onClick={handleOpenSettings} edge="start">
+            <Icon>settings</Icon>
+          </IconButton>
+        </Toolbar>
+      </Paper>
+      <GameSettingsDialog
+        open={openSettings}
+        handleClose={handleCloseSettings}
+      />
+      {Boolean(processedTrainingLevel) && (
+        <Fragment>
+          <CardSettingsContext.Provider value={cardSettings}>
+            <Game
+              trainingLevel={processedTrainingLevel}
+              onNextLevel={() => {
+                onNextLevel();
+
+                if (listOn) {
+                  setOpenWordPairs(true);
+                }
+              }}
+              {...rest}
+            />
+          </CardSettingsContext.Provider>
+          <GamePairsDialog
+            open={openWordPairs}
+            handleClose={handleCloseWordPairs}
+            wordPairs={processedTrainingLevel.wordTranslations}
+          />
+        </Fragment>
+      )}
+    </Fragment>
   );
 }
 
@@ -92,7 +150,8 @@ CustomizedGame.propTypes = {
         onSpeech: PropTypes.func
       }).isRequired
     ).isRequired
-  }).isRequired
+  }).isRequired,
+  onNextLevel: PropTypes.func.isRequired
 };
 
 export default CustomizedGame;

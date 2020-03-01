@@ -30,7 +30,9 @@ function ClickAwayListener({
         onClick: handleClick,
         ...rest
       })}
-      {active && <div onClick={handleClickAway} className="overlay" />}
+      {active && (
+        <div aria-hidden="true" onClick={handleClickAway} className="overlay" />
+      )}
     </Fragment>
   );
 }

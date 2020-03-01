@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addCategoryWordsToDictionary } from 'src/actions/trainingApiActions';
 import usePopup from 'src/hooks/usePopup';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
@@ -9,10 +10,14 @@ import Popup from 'src/components/core/Popup';
 import Menu from 'src/components/core/Menu';
 import MenuItem from 'src/components/core/MenuItem';
 
-function WordSetsMenuButton({ gameId }) {
+function CoursesMenuButton({ gameId }) {
   const { show, handleOpen, handleClose } = usePopup();
 
-  const match = useRouteMatch();
+  const dispatch = useDispatch();
+
+  const handleAddingInDictionary = () => {
+    dispatch(addCategoryWordsToDictionary(gameId));
+  };
 
   return (
     <PopupContainer>
@@ -28,11 +33,12 @@ function WordSetsMenuButton({ gameId }) {
         <Menu id="word-sets-menu">
           <li>
             <MenuItem
-              component={Link}
-              to={`${match.url}/training/${gameId}`}
-              onClick={handleClose}
+              onClick={() => {
+                handleAddingInDictionary();
+                handleClose();
+              }}
             >
-              Демо-обучение
+              Добавить в словарь
             </MenuItem>
           </li>
         </Menu>
@@ -41,8 +47,8 @@ function WordSetsMenuButton({ gameId }) {
   );
 }
 
-WordSetsMenuButton.propTypes = {
+CoursesMenuButton.propTypes = {
   gameId: PropTypes.number.isRequired
 };
 
-export default WordSetsMenuButton;
+export default CoursesMenuButton;

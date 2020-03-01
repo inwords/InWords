@@ -18,7 +18,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
   }
 
   const {
-    apiVersion = 'v1.0',
+    apiVersion = '1.0',
     endpoint = '',
     method = 'GET',
     authorizationRequired = true,
@@ -47,7 +47,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
   dispatch(beginLoading());
 
-  fetch(`${API_ROOT}/${apiVersion}/${endpoint}`, {
+  fetch(`${API_ROOT}/v${apiVersion}${endpoint}`, {
     method,
     headers,
     body: data

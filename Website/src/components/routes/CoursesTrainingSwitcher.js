@@ -5,7 +5,7 @@ import { updateLevelResult } from 'src/actions/trainingActions';
 import useServerTrainingLevel from 'src/components/routes/common-hooks/useServerTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
-function WordSetsTrainingSwitcher({ ...rest }) {
+function CoursesTrainingSwitcher({ ...rest }) {
   const trainingLevel = useServerTrainingLevel();
 
   const dispatch = useDispatch();
@@ -32,13 +32,13 @@ function WordSetsTrainingSwitcher({ ...rest }) {
 
       if (nextLevel) {
         history.push(
-          `/dictionary/sets/training/${params.categoryId}/${nextLevel.levelId}/${params.trainingId}`
+          `/training/courses/${params.categoryId}/${nextLevel.levelId}/${params.trainingId}`
         );
         return;
       }
     }
 
-    history.push('/dictionary/sets');
+    history.push('/training/courses');
   };
 
   return (
@@ -51,4 +51,4 @@ function WordSetsTrainingSwitcher({ ...rest }) {
   );
 }
 
-export default WordSetsTrainingSwitcher;
+export default CoursesTrainingSwitcher;

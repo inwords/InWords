@@ -1,0 +1,14 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  padding-right: 24px;
+
+  &--variant--regular {
+    min-height: 64px;
+  }
+
+  &--variant--dense {
+    min-height: 48px;
+  }
+}

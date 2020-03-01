@@ -1,17 +1,15 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
-import useDialog from 'src/hooks/useDialog';
-import GamePairsDialog from './GamePairsDialog';
-import Game from './Game';
 import TrainingResult from 'src/components/routes/common/TrainingResult';
+import Game from './Game';
 
-function GameContainer({ trainingLevel, listOn, onResult, onNextLevel }) {
+function GameContainer({ trainingLevel, onResult, onNextLevel }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
-  const [newServerLevelId, setNewServerLevelId] = useState();
+  const [newServerLevelId, setNewServerLevelId] = useState(null);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
@@ -137,21 +135,13 @@ function GameContainer({ trainingLevel, listOn, onResult, onNextLevel }) {
     }
   };
 
-  const { open, handleOpen, handleClose } = useDialog(listOn);
-
   const handleNextLevel = () => {
-    if (onNextLevel) {
-      onNextLevel();
-    }
+    onNextLevel();
 
     setIsGameCompleted(false);
     setIsResultReady(false);
     setScore(null);
-    setNewServerLevelId(undefined);
-
-    if (listOn) {
-      handleOpen();
-    }
+    setNewServerLevelId(null);
   };
 
   const handleReplay = () => {
@@ -162,21 +152,14 @@ function GameContainer({ trainingLevel, listOn, onResult, onNextLevel }) {
   };
 
   return !isResultReady ? (
-    <Fragment>
-      <Game
-        wordPairs={wordPairs}
-        selectedWordPairs={selectedWordPairs}
-        completedPairIdsMap={completedPairIdsMap}
-        selectedCompletedPairId={selectedCompletedPairId}
-        isGameCompleted={isGameCompleted}
-        handleClick={handleClick}
-      />
-      <GamePairsDialog
-        open={open}
-        handleClose={handleClose}
-        wordPairs={trainingLevel.wordTranslations}
-      />
-    </Fragment>
+    <Game
+      wordPairs={wordPairs}
+      selectedWordPairs={selectedWordPairs}
+      completedPairIdsMap={completedPairIdsMap}
+      selectedCompletedPairId={selectedCompletedPairId}
+      isGameCompleted={isGameCompleted}
+      handleClick={handleClick}
+    />
   ) : (
     <TrainingResult
       wordPairs={wordPairs}
@@ -199,9 +182,8 @@ GameContainer.propTypes = {
       }).isRequired
     ).isRequired
   }).isRequired,
-  listOn: PropTypes.bool.isRequired,
   onResult: PropTypes.func,
-  onNextLevel: PropTypes.func
+  onNextLevel: PropTypes.func.isRequired
 };
 
 export default GameContainer;
