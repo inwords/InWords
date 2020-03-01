@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import Paper from 'src/components/core/Paper';
 import Toolbar from 'src/components/core/Toolbar';
-import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';

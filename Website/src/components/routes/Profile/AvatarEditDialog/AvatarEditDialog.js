@@ -53,7 +53,7 @@ function AvatarEditDialog({
               </label>
             </GridItem>
             <GridItem>
-              <img src={avatar} className="avatar-edit-dialog-img" />
+              <img src={avatar} alt="" className="avatar-edit-dialog-img" />
             </GridItem>
           </Grid>
         </form>

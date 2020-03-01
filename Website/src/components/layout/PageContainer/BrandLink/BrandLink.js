@@ -1,12 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './BrandLink.css';
 
-function BrandLink({ className, ...rest }) {
+function BrandLink({ children, className, ...rest }) {
   return (
-    <a className={classNames('iw-brand-link', className)} href="/" {...rest} />
+    <a className={classNames('iw-brand-link', className)} href="/" {...rest}>
+      {children}
+    </a>
   );
 }
+
+BrandLink.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 export default BrandLink;
