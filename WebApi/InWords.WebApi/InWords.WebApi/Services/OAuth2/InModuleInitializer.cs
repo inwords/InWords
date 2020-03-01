@@ -1,10 +1,8 @@
-﻿using Autofac;
-using InWords.Service.Encryption;
-using InWords.WebApi.Module;
-using InWords.WebApi.Services.Users.EmailUpdate;
-using InWords.WebApi.Services.Users.Registration;
-using InWords.WebApi.Services.Users.Token;
+﻿using InWords.WebApi.Module;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using InWords.Service.Auth;
 
 namespace InWords.WebApi.Services.OAuth2
 {
@@ -12,8 +10,16 @@ namespace InWords.WebApi.Services.OAuth2
     {
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthorization();
-            services.AddGoogle()
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions)
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        Configuration.GetSection("AuthenticationGoogle");
+
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
         }
     }
 }

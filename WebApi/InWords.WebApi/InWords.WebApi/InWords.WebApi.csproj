@@ -47,20 +47,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.0.0" />
+    <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="FluentFTP" Version="30.2.0" />
+    <PackageReference Include="FluentFTP" Version="31.3.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
-    <PackageReference Include="MailKit" Version="2.5.0" />
-    <PackageReference Include="MediatR" Version="8.0.0" />
+    <PackageReference Include="MailKit" Version="2.5.1" />
+    <PackageReference Include="MediatR" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

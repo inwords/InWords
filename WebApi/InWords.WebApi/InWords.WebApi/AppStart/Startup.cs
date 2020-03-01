@@ -63,13 +63,7 @@ namespace InWords.WebApi.AppStart
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // allow use api from different sites
-            services
-                .AddCors();
-
-            // configure auth
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions);
+            services.AddCors();
 
             // api version info
             services.AddApiVersioningInWords();
