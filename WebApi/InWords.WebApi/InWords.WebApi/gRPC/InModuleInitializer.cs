@@ -28,6 +28,7 @@ namespace InWords.WebApi.gRPC
                 // To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909
                 endpoints.MapGrpcService<GreeterService>();
                 endpoints.MapGrpcService<ProfileService>();
+                endpoints.MapGrpcService<WordsSetService>();
 
                 endpoints.MapGet("/",
                     context => context.Response.WriteAsync(
