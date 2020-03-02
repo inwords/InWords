@@ -35,7 +35,7 @@ namespace InWords.WebApi.Services.Users.Token
                     throw new ArgumentNullException($"{nameof(requestedAccount)} is null");
 
                 if (!passwordSalter.EqualsSequence(tokenRequest.Password, requestedAccount.Hash))
-                    throw new ArgumentException($"{tokenRequest.Password} is not match");
+                    throw new ArgumentException($"{nameof(tokenRequest.Password)} is not match");
 
                 TokenResponse tokenResponce = new TokenResponse(requestedAccount.AccountId, requestedAccount.Role);
 

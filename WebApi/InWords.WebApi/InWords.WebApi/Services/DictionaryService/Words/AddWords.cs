@@ -1,4 +1,5 @@
 ﻿using InWords.Data;
+using InWords.Data.Domains;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using System.Threading;
@@ -16,6 +17,19 @@ namespace InWords.WebApi.Services.DictionaryService.Words
             AuthorizedRequestObject<AddWordsRequest, AddWordsReply> request,
             CancellationToken cancellationToken = default)
         {
+            var userId = request.UserId;
+            var requestData = request.Value;
+
+            foreach (var requestWord in requestData.Words)
+            {
+                Word wordForeign = new Word(requestWord.WordForeign);
+                Word wordNative = new Word(requestWord.WordNative);
+                WordPair wordPair = new WordPair()
+                {
+                    WordNative = wordNative,
+                    WordForeign = wordForeign
+                };
+            }
 
             return base.HandleRequest(request, cancellationToken);
         }
