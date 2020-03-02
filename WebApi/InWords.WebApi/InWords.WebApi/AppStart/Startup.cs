@@ -63,8 +63,13 @@ namespace InWords.WebApi.AppStart
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // allow use api from different sites
-            services.AddCors();
-
+            services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .WithExposedHeaders("Grpc-Status", "Grpc-Message");
+            }));
             // api version info
             services.AddApiVersioningInWords();
 
@@ -83,6 +88,7 @@ namespace InWords.WebApi.AppStart
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseRouting();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -114,10 +120,8 @@ namespace InWords.WebApi.AppStart
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
             app.UseAuthentication();
-            app.UseCors(builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
             app.UseMvc();
+            app.UseCors();
 
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureApp(app));
