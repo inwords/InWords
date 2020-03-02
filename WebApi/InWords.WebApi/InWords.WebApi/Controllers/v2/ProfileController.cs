@@ -1,10 +1,10 @@
 ﻿using InWords.Service.Auth.Extensions;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProfilePackage.V2;
 using System;
 using System.Threading.Tasks;
 

@@ -1,8 +1,8 @@
 ﻿using InWords.Data;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption.Interfaces;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
-using ProfilePackage.V2;
 using System;
 using System.Linq;
 using System.Threading;

@@ -1,5 +1,4 @@
 ﻿syntax = "proto3";
-
 option csharp_namespace = "InWords.WebApi.gRPC.Services";
 
 package Greet;

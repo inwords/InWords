@@ -1,13 +1,13 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.Enums;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Email.Template;
 using InWords.WebApi.Services.Users.EmailUpdate;
 using InWords.WebApiTests.Controllers.v1._0;
 using Moq;
-using ProfilePackage.V2;
 using System;
 using System.Collections.Generic;
 using System.Linq;

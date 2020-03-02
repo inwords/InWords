@@ -7,10 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using InWords.WebApi.Services.Abstractions;
-using ProfilePackage.V2;
 using Xunit;
 using System.Linq;
 using InWords.Data.Domains;
+using InWords.WebApi.gRPC.Services;
 
 namespace InWords.WebApiTests.Services.Users.Registration
 {

@@ -2,6 +2,7 @@
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.WordsSets.GetWords;
 using InWords.WebApiTests.Controllers.v1._0;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WordSet.V2;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.WordsSets.GetWords
