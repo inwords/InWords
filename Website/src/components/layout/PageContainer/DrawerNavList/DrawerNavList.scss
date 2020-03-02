@@ -1,7 +1,7 @@
 @import 'src/theme/mixins';
 
 .drawer-nav-list {
-  padding-top: 12px;
+  padding-top: 16px;
 
   &__link {
     position: relative;
@@ -15,25 +15,58 @@
     color: var(--palette-text-primary);
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 
-    &:hover,
-    &.active {
-      color: var(--palette-primary-main);
+    &:hover {
+      background-color: var(--palette-action-hover);
+    }
+
+    &:active {
+      background-color: var(--palette-action-selected);
     }
   }
 
   &__general-link {
-    padding: 10px 24px;
+    min-height: 40px;
+    padding: 0 24px;
     @include theme-typography(body1);
-    font-weight: 500;
+
+    &.active {
+      font-weight: 500;
+    }
   }
 
   &__nested {
+    position: relative;
     width: 100%;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      left: 32px;
+      width: 2px;
+      background-color: var(--palette-divider);
+    }
   }
 
   &__nested-link {
-    padding: 4px 24px 4px 40px;
+    position: relative;
+    min-height: 40px;
+    padding: 0 24px 0 48px;
     @include theme-typography(body2);
-    font-weight: 500;
+
+    &.active {
+      font-weight: 500;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 12px;
+        bottom: 12px;
+        left: 32px;
+        width: 2px;
+        background-color: var(--palette-text-primary);
+      }
+    }
   }
 }

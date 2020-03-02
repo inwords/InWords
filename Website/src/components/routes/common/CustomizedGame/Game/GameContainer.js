@@ -6,7 +6,7 @@ import shuffle from 'src/utils/shuffle';
 import TrainingResult from 'src/components/routes/common/TrainingResult';
 import Game from './Game';
 
-function GameContainer({ trainingLevel, onResult, onNextLevel, cardSettings }) {
+function GameContainer({ trainingLevel, onResult, onNextLevel }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
   const [newServerLevelId, setNewServerLevelId] = useState(null);

@@ -32,7 +32,6 @@ function ProfileMenuButton({ handleLogout }) {
               Профиль
             </MenuItem>
           </li>
-          <Divider />
           <li>
             <MenuItem
               component={Link}

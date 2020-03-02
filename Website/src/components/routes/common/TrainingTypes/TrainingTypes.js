@@ -34,7 +34,7 @@ function TrainingTypes({ trainingLevel }) {
             <Icon color="action" className="training-types-study-icon">
               school
             </Icon>
-            <Typography variant="body1" className="training-types-study-text">
+            <Typography variant="body1">
               Слов на изучение: {trainingLevel.wordTranslations.length}
             </Typography>
           </Toolbar>
