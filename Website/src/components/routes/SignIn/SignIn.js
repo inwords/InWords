@@ -45,7 +45,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
         </FormGroup>
         <EntrySubmitButton>Войти</EntrySubmitButton>
         <EntryLinksContainer>
-          <Link component={RouterLink} to="/signUp">
+          <Link component={RouterLink} to="/sign-up">
             Нет аккаунта? Зарегистрироваться
           </Link>
         </EntryLinksContainer>

@@ -27,6 +27,8 @@ function GameSettingsDialogContainer({
   }, [trainingSettings, open, setInputs]);
 
   const handleSubmit = event => {
+    event.preventDefault();
+
     saveValue('trainingsSettings', {
       [0]: {
         ...inputs
@@ -34,8 +36,6 @@ function GameSettingsDialogContainer({
     });
 
     setTrainingSettings(inputs);
-
-    event.preventDefault();
   };
 
   return (

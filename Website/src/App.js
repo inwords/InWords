@@ -58,17 +58,17 @@ function App() {
             <Switch>
               <Route exact path="/">
                 {!userId ? (
-                  <Redirect to="/signIn" />
+                  <Redirect to="/sign-in" />
                 ) : (
                   <Redirect to="/training" />
                 )}
               </Route>
-              <Route path="/signIn">
+              <Route path="/sign-in">
                 <Container maxWidth="xs">
                   <SignIn />
                 </Container>
               </Route>
-              <Route path="/signUp">
+              <Route path="/sign-up">
                 <Container maxWidth="xs">
                   <SignUp />
                 </Container>

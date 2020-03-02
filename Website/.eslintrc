@@ -22,6 +22,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   },
+  "ignorePatterns": ["**/*_pb.js"],
   "settings": {
     "react": {
       "version": "detect"

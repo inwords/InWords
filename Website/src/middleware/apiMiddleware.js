@@ -34,7 +34,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     const token = getState().access.token;
 
     if (!token) {
-      history.push('/signIn');
+      history.push('/sign-in');
       return;
     }
 
@@ -79,7 +79,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
         if (statusCode === 401) {
           dispatch(denyAccess());
-          history.push('/signIn');
+          history.push('/sign-in');
         } else {
           actionsOnFailure.forEach(action => {
             action(dispatch, statusCode);

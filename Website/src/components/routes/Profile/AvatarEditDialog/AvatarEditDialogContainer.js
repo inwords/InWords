@@ -44,11 +44,11 @@ function AvatarEditDialogContainer({ open, ...rest }) {
   };
 
   const handleSubmit = event => {
+    event.preventDefault();
+
     const formData = new FormData();
     formData.set('file', inputs.avatarFile);
     dispatch(uploadUserAvatar(formData));
-
-    event.preventDefault();
   };
 
   return (
