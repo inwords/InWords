@@ -1,8 +1,8 @@
-﻿using InWords.WebApi.Module;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+﻿using InWords.Service.Auth;
+using InWords.WebApi.Module;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using InWords.Service.Auth;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace InWords.WebApi.Services.OAuth2
 {

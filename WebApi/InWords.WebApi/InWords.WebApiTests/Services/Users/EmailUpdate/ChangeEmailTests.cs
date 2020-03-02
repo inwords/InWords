@@ -8,10 +8,7 @@ using InWords.WebApi.Services.Email.Template;
 using InWords.WebApi.Services.Users.EmailUpdate;
 using InWords.WebApiTests.Controllers.v1._0;
 using Moq;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.Users.EmailUpdate
@@ -51,7 +48,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
                         Email = testEmail,
                     }))
                     .ConfigureAwait(false);
-            
+
             // assert 
             Assert.Equal(1, context.EmailVerifies.Count());
             mock.Verify(a => a.SendMailAsync(testEmail, It.IsAny<EmailTemplateBase>()), Times.Once());

@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Enums;
-using InWords.WebApi.Services.GameWordsToDictionary.WordsIdsByGameId;
 using InWords.WebApi.Services.UserGameService.GetUsersGameHistory;
 using InWords.WebApiTests.Controllers.v1._0;
 using Xunit;

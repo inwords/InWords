@@ -2,12 +2,10 @@
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
-using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;

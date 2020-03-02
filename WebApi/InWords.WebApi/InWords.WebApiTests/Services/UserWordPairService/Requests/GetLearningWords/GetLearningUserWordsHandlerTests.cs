@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
 using InWords.WebApiTests.Controllers.v1._0;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.UserWordPairService.Requests.GetLearningWords

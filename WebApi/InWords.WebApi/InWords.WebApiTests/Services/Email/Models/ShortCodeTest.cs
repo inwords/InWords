@@ -1,7 +1,4 @@
 ﻿using InWords.WebApi.Services.Email.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.Email.Models

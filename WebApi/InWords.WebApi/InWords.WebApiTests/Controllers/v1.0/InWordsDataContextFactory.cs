@@ -1,6 +1,6 @@
-﻿using System;
-using InWords.Data;
+﻿using InWords.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace InWords.WebApiTests.Controllers.v1._0
 {
