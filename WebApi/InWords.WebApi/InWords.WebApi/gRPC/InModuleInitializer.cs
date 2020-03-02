@@ -21,7 +21,7 @@ namespace InWords.WebApi.gRPC
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseRouting();
-
+            app.UseGrpcWeb();
             app.UseEndpoints(endpoints =>
             {
                 // Communication with gRPC endpoints must be made through a gRPC client.
