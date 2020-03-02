@@ -6,7 +6,6 @@ import Paper from 'src/components/core/Paper';
 import Toolbar from 'src/components/core/Toolbar';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
-import CardSettingsContext from 'src/components/routes/common/CardSettingsContext';
 import Game from './Game';
 import GameSettingsDialog from './GameSettingsDialog';
 import GamePairsDialog from './GamePairsDialog';
@@ -18,15 +17,11 @@ const lang = 'en-US';
 
 function CustomizedGame({
   trainingSettings,
+  setTrainingSettings,
   trainingLevel,
   onNextLevel,
   ...rest
 }) {
-  const [cardSettings, setCardSettings] = React.useState({
-    cardDimension: 120,
-    cardTextSize: 16
-  });
-
   const [processedTrainingLevel, setProcessedTrainingLevel] = React.useState();
 
   const [listOn, setListOn] = React.useState();
@@ -38,24 +33,28 @@ function CustomizedGame({
   } = useDialog();
 
   React.useEffect(() => {
-    setCardSettings({
-      cardDimension: +trainingSettings.cardDimension || 120,
-      cardTextSize: +trainingSettings.cardTextSize || 16
-    });
+    const {
+      listOn = true,
+      cardDimension = 120,
+      cardTextSize = 16,
+      voiceOn = false
+    } = trainingSettings;
 
-    setListOn(
-      trainingSettings.listOn !== undefined ? trainingSettings.listOn : true
-    );
+    setListOn(listOn);
 
     setProcessedTrainingLevel({
       ...trainingLevel,
       wordTranslations: shuffle([...trainingLevel.wordTranslations]).slice(
         0,
         +trainingSettings.quantity || 8
-      )
+      ),
+      cardSettings: {
+        cardDimension: +cardDimension,
+        cardTextSize: +cardTextSize
+      }
     });
 
-    if (trainingSettings.voiceOn) {
+    if (voiceOn) {
       setProcessedTrainingLevel(processedTrainingLevel => ({
         ...processedTrainingLevel,
         wordTranslations: processedTrainingLevel.wordTranslations.map(
@@ -106,22 +105,22 @@ function CustomizedGame({
       <GameSettingsDialog
         open={openSettings}
         handleClose={handleCloseSettings}
+        trainingSettings={trainingSettings}
+        setTrainingSettings={setTrainingSettings}
       />
       {Boolean(processedTrainingLevel) && (
         <Fragment>
-          <CardSettingsContext.Provider value={cardSettings}>
-            <Game
-              trainingLevel={processedTrainingLevel}
-              onNextLevel={() => {
-                onNextLevel();
+          <Game
+            trainingLevel={processedTrainingLevel}
+            onNextLevel={() => {
+              onNextLevel();
 
-                if (listOn) {
-                  setOpenWordPairs(true);
-                }
-              }}
-              {...rest}
-            />
-          </CardSettingsContext.Provider>
+              if (listOn) {
+                setOpenWordPairs(true);
+              }
+            }}
+            {...rest}
+          />
           <GamePairsDialog
             open={openWordPairs}
             handleClose={handleCloseWordPairs}
@@ -140,6 +139,7 @@ CustomizedGame.propTypes = {
     cardDimension: PropTypes.string,
     cardTextSize: PropTypes.string
   }).isRequired,
+  setTrainingSettings: PropTypes.func.isRequired,
   trainingLevel: PropTypes.shape({
     levelId: PropTypes.number.isRequired,
     wordTranslations: PropTypes.arrayOf(

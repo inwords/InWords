@@ -9,11 +9,10 @@ function TrainingSwitcher({ trainingId, ...rest }) {
   React.useEffect(() => {
     const trainingsSettingsLocalData = loadValue('trainingsSettings');
 
-    const trainingSettings =
+    setTrainingSettings(
       (trainingsSettingsLocalData && trainingsSettingsLocalData[trainingId]) ||
-      {};
-
-    setTrainingSettings(trainingSettings);
+        {}
+    );
   }, [trainingId]);
 
   if (!trainingSettings) {
@@ -22,7 +21,13 @@ function TrainingSwitcher({ trainingId, ...rest }) {
 
   switch (trainingId) {
     case 0:
-      return <CustomizedGame trainingSettings={trainingSettings} {...rest} />;
+      return (
+        <CustomizedGame
+          trainingSettings={trainingSettings}
+          setTrainingSettings={setTrainingSettings}
+          {...rest}
+        />
+      );
     default:
       return null;
   }

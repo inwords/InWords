@@ -8,6 +8,7 @@ import GameCard from 'src/components/routes/common/GameCard';
 import './Game.scss';
 
 function Game({
+  cardSettings,
   wordPairs,
   selectedWordPairs,
   completedPairIdsMap,
@@ -26,13 +27,11 @@ function Game({
     return colsNum;
   }, [wordPairs.length]);
 
-  const gameCardSettings = React.useContext(CardSettingsContext);
-
   return (
     <div
       className="game-field"
       style={{
-        maxWidth: gameCardSettings.cardDimension * cols + 8 * cols
+        maxWidth: cardSettings.cardDimension * cols + 8 * cols
       }}
     >
       {wordPairs.map(({ id, pairId, word, onSpeech }) => (
@@ -48,8 +47,8 @@ function Game({
                     )
                   )
                 }
-                dimension={gameCardSettings.cardDimension}
-                textSize={gameCardSettings.cardTextSize}
+                dimension={cardSettings.cardDimension}
+                textSize={cardSettings.cardTextSize}
                 onClick={handleClick(pairId, id, onSpeech)}
                 depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
               >
@@ -64,6 +63,10 @@ function Game({
 }
 
 Game.propTypes = {
+  cardSettings: PropTypes.exact({
+    cardDimension: PropTypes.number.isRequired,
+    cardTextSize: PropTypes.number.isRequired
+  }).isRequired,
   wordPairs: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.string.isRequired,

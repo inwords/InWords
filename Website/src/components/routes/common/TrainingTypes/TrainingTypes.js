@@ -48,11 +48,6 @@ function TrainingTypes({ trainingLevel }) {
                 <CardHeader title={title} />
                 <CardContent>
                   <Typography component="p">{description}</Typography>
-                  {/* {trainingLevel.wordTranslations && (
-                    <div className="training-type-card-pairs-info">
-                      
-                    </div>
-                  )} */}
                 </CardContent>
                 <CardActions>
                   <LinkButton
@@ -61,7 +56,7 @@ function TrainingTypes({ trainingLevel }) {
                     variant="text"
                     color="primary"
                   >
-                    Поплыли
+                    Выбрать
                   </LinkButton>
                 </CardActions>
               </Card>

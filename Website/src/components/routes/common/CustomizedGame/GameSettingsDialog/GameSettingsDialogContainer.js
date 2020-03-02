@@ -1,36 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { loadValue, saveValue } from 'src/localStorage';
+import { saveValue } from 'src/localStorage';
 import useForm from 'src/hooks/useForm';
-import { useDispatch } from 'react-redux';
-import { setSnackbar } from 'src/actions/commonActions';
 import GameSettingsDialog from './GameSettingsDialog';
 
-function GameSettingsDialogContainer({ open, ...rest }) {
+function GameSettingsDialogContainer({
+  trainingSettings,
+  setTrainingSettings,
+  open,
+  ...rest
+}) {
   const { inputs, setInputs, handleChange } = useForm({});
 
   React.useEffect(() => {
     if (open) {
-      const trainingsSettingsLocalData = loadValue('trainingsSettings');
-
-      const trainingSettings =
-        (trainingsSettingsLocalData && trainingsSettingsLocalData[0]) || {};
-
-      const quantity = trainingSettings.quantity || '8';
-      const voiceOn =
-        trainingSettings.voiceOn !== undefined
-          ? trainingSettings.voiceOn
-          : false;
-      const listOn =
-        trainingSettings.listOn !== undefined ? trainingSettings.listOn : true;
-      const cardDimension = trainingSettings.cardDimension || '120';
-      const cardTextSize = trainingSettings.cardTextSize || '16';
+      const {
+        quantity = '8',
+        voiceOn = false,
+        listOn = true,
+        cardDimension = '120',
+        cardTextSize = '16'
+      } = trainingSettings;
 
       setInputs({ quantity, voiceOn, listOn, cardDimension, cardTextSize });
     }
-  }, [open, setInputs]);
-
-  const dispatch = useDispatch();
+  }, [trainingSettings, open, setInputs]);
 
   const handleSubmit = event => {
     saveValue('trainingsSettings', {
@@ -39,11 +33,7 @@ function GameSettingsDialogContainer({ open, ...rest }) {
       }
     });
 
-    dispatch(
-      setSnackbar({
-        text: 'Новые настройки будут применены в следующей игре'
-      })
-    );
+    setTrainingSettings(inputs);
 
     event.preventDefault();
   };
@@ -60,7 +50,15 @@ function GameSettingsDialogContainer({ open, ...rest }) {
 }
 
 GameSettingsDialogContainer.propTypes = {
-  open: PropTypes.bool
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  trainingSettings: PropTypes.shape({
+    quantity: PropTypes.string,
+    listOn: PropTypes.bool,
+    cardDimension: PropTypes.string,
+    cardTextSize: PropTypes.string
+  }).isRequired,
+  setTrainingSettings: PropTypes.func.isRequired
 };
 
 export default GameSettingsDialogContainer;

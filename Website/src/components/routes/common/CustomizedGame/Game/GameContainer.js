@@ -6,7 +6,7 @@ import shuffle from 'src/utils/shuffle';
 import TrainingResult from 'src/components/routes/common/TrainingResult';
 import Game from './Game';
 
-function GameContainer({ trainingLevel, onResult, onNextLevel }) {
+function GameContainer({ trainingLevel, onResult, onNextLevel, cardSettings }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
   const [newServerLevelId, setNewServerLevelId] = useState(null);
@@ -153,6 +153,7 @@ function GameContainer({ trainingLevel, onResult, onNextLevel }) {
 
   return !isResultReady ? (
     <Game
+      cardSettings={trainingLevel.cardSettings}
       wordPairs={wordPairs}
       selectedWordPairs={selectedWordPairs}
       completedPairIdsMap={completedPairIdsMap}
@@ -180,7 +181,8 @@ GameContainer.propTypes = {
         wordNative: PropTypes.string.isRequired,
         onSpeech: PropTypes.func
       }).isRequired
-    ).isRequired
+    ).isRequired,
+    cardSettings: PropTypes.object.isRequired
   }).isRequired,
   onResult: PropTypes.func,
   onNextLevel: PropTypes.func.isRequired

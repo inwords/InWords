@@ -33,7 +33,7 @@ function TrainingHistory({ recentTrainings }) {
                 variant="text"
                 color="primary"
               >
-                Поплыли
+                Выбрать
               </LinkButton>
             </CardActions>
           </Card>
