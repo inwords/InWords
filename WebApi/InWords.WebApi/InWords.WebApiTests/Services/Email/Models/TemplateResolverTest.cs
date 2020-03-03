@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using InWords.WebApi.Services.Email.Models;
+﻿using InWords.WebApi.Services.Email.Models;
+using System.Collections.Generic;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.Email.Models

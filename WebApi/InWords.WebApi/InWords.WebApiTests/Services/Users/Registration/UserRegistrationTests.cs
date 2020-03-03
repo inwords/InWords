@@ -1,16 +1,14 @@
 ﻿using InWords.Data;
+using InWords.Data.Domains;
+using InWords.WebApi.gRPC.Services;
+using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Users.Registration;
 using InWords.WebApiTests.Controllers.v1._0;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using InWords.WebApi.Services.Abstractions;
-using ProfilePackage.V2;
-using Xunit;
 using System.Linq;
-using InWords.Data.Domains;
+using Xunit;
 
 namespace InWords.WebApiTests.Services.Users.Registration
 {

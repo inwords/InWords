@@ -1,12 +1,10 @@
-﻿using System;
+﻿using InWords.Data;
+using InWords.Data.Domains;
+using InWords.WebApi.Extensions;
+using InWords.WebApiTests.Controllers.v1._0;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using InWords.Data;
-using InWords.WebApi.Extensions;
-using InWords.Data.Domains;
-using InWords.WebApiTests.Controllers.v1._0;
 using Xunit;
 
 namespace InWords.WebApiTests.Extensions
@@ -30,10 +28,10 @@ namespace InWords.WebApiTests.Extensions
 
             // act
 
-            var actualList = context.UserWordPairs.WhereAny(userWordPairsList).Select(d=>d.WordPairId).ToList();
+            var actualList = context.UserWordPairs.WhereAny(userWordPairsList).Select(d => d.WordPairId).ToList();
 
             // assert
-            Assert.Equal(expectedWordPairsList,actualList);
+            Assert.Equal(expectedWordPairsList, actualList);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using InWords.Data;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption.Interfaces;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
-using ProfilePackage.V2;
 using System;
 using System.Linq;
 using System.Threading;
@@ -35,7 +35,7 @@ namespace InWords.WebApi.Services.Users.Token
                     throw new ArgumentNullException($"{nameof(requestedAccount)} is null");
 
                 if (!passwordSalter.EqualsSequence(tokenRequest.Password, requestedAccount.Hash))
-                    throw new ArgumentException($"{tokenRequest.Password} is not match");
+                    throw new ArgumentException($"{nameof(tokenRequest.Password)} is not match");
 
                 TokenResponse tokenResponce = new TokenResponse(requestedAccount.AccountId, requestedAccount.Role);
 

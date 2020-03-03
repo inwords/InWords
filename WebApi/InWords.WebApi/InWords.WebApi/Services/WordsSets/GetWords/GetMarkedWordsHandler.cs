@@ -1,11 +1,11 @@
 ﻿using InWords.Data;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WordSet.V2;
 
 namespace InWords.WebApi.Services.WordsSets.GetWords
 {

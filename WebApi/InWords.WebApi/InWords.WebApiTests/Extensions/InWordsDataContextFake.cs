@@ -3,8 +3,6 @@ using InWords.Data.Domains;
 using InWords.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace InWords.WebApiTests.Extensions

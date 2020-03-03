@@ -1,13 +1,10 @@
 ﻿using InWords.Data;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.AccountUpdate;
 using InWords.WebApiTests.Controllers.v1._0;
 using InWords.WebApiTests.Extensions;
-using ProfilePackage.V2;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.Users.AccountUpdate

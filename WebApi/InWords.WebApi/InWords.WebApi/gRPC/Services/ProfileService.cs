@@ -3,7 +3,6 @@ using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using ProfilePackage.V2;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services
