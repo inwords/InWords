@@ -68,7 +68,7 @@ namespace InWords.WebApi.gRPC.Services
         // Update Password
 
         // Delete Profile
-        public override async Task<Empty> DeleteAccound(DeleteAccountRequest request, ServerCallContext context)
+        public override async Task<Empty> DeleteAccount(DeleteAccountRequest request, ServerCallContext context)
         {
             var reqestObject = new AuthorizedRequestObject<DeleteAccountRequest, Empty>(request)
             {

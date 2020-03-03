@@ -10,7 +10,7 @@ service Profile {
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
 	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
-	rpc DeleteAccound (DeleteAccountRequest) returns (Empty);
+	rpc DeleteAccount (DeleteAccountRequest) returns (Empty);
 }
 
 // The request message containing the user's credentials.
