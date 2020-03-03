@@ -28,6 +28,7 @@ namespace InWords.WebApi.gRPC
                 // To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909
                 endpoints.MapGrpcService<GreeterService>().EnableGrpcWeb().RequireCors("AllowAll");
                 endpoints.MapGrpcService<ProfileService>().EnableGrpcWeb().RequireCors("AllowAll");
+                endpoints.MapGrpcService<WordsSetService>().EnableGrpcWeb().RequireCors("AllowAll");
 
                 endpoints.MapGet("/",
                     context => context.Response.WriteAsync(
