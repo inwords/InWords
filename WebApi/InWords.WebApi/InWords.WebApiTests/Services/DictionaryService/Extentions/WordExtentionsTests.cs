@@ -30,5 +30,22 @@ namespace InWords.WebApiTests.Services.DictionaryService.Extentions
             Assert.Equal(2, wordsToAdd.Where(d => d.WordId > 0).Count());
             Assert.Equal(2, context.Words.Count());
         }
+
+        [Fact]
+        public void CheckALlInLowercase()
+        {
+            var context = InWordsDataContextFactory.Create();
+            IEnumerable<Word> actual = new List<Word>()
+            {
+                new Word("A"),
+                new Word("B")
+            };
+
+            string[] expected = { "a", "b" };
+
+            context.Words.AddWords(actual);
+            // assert
+            Assert.Equal(expected, actual.Select(e => e.Content));
+        }
     }
 }

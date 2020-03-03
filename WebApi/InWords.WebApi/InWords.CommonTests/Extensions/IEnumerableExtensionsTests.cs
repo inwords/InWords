@@ -9,7 +9,6 @@ namespace InWords.CommonTests.Extensions
 {
     public class IEnumerableExtensionsTests
     {
-
         [Fact]
         public void SelectUnionNumbersSingleField()
         {
