@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
-import androidx.navigation.Navigation
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
@@ -58,9 +57,9 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
         setupWithNavController(binding.collapsingToolbar, binding.toolbar)
 
-        binding.toLoginButton.setOnClickListener(toLoginClickListener())
+        binding.toLoginButton.setOnClickListener { viewModel.onNavigateToLoginClicked() }
 
-        binding.settingsButton.setOnClickListener(toSettingsClickListener())
+        binding.settingsButton.setOnClickListener { viewModel.onNavigateToSettingsClicked() }
 
         binding.nameEditEditButton.setOnClickListener(nameEditClickListener())
         binding.nameEditApplyButton.setOnClickListener(nameApplyClickListener())
@@ -179,9 +178,4 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
         binding.nameEditText.setSelection(binding.nameEditText.text?.length ?: 0)
     }
 
-    private fun toLoginClickListener() = Navigation
-        .createNavigateOnClickListener(R.id.action_profileFragment_to_loginFragment, null)
-
-    private fun toSettingsClickListener() = Navigation
-        .createNavigateOnClickListener(R.id.action_profileFragment_to_settingsFragment, null)
 }

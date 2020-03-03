@@ -26,8 +26,8 @@ class RegistrationViewModel(
     private val validationMutableLiveData = MutableLiveData<UserCredentialsWithConfirmationValidationState>()
     val validationLiveData: LiveData<UserCredentialsWithConfirmationValidationState> get() = validationMutableLiveData
 
-    fun onNavigateClicked() {
-        navigateToLogin()
+    fun onNavigateToLoginClicked(onTopOfLogin: Boolean) {
+        navigateToLogin(onTopOfLogin)
     }
 
     fun onSignClicked(userCredentials: UserCredentials, passwordConfirmation: String) {
@@ -60,11 +60,15 @@ class RegistrationViewModel(
         }
     }
 
-    private fun navigateToLogin() {
-        navigateTo(RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragmentPop())
+    private fun navigateToLogin(onTopOfLogin: Boolean) {
+        if (onTopOfLogin) {
+            navigateTo(RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragmentPop())
+        } else {
+            navigateTo(RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment(true))
+        }
     }
 
     fun popOutOfAuth() {
-        navigateTo(RegistrationFragmentDirections.actionPopOutOfAuth())
+        navigateTo(RegistrationFragmentDirections.actionGlobalPopToMainFragment())
     }
 }

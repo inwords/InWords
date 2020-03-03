@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.navArgs
 import ru.inwords.inwords.R
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
@@ -20,6 +21,8 @@ import ru.inwords.inwords.profile.data.bean.UserCredentials
 class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationViewModelFactory, FragmentSignInBinding>() {
     override val layout = R.layout.fragment_sign_in
     override val classType = LoginViewModel::class.java
+
+    private val args by navArgs<LoginFragmentArgs>()
 
     override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentSignInBinding {
         return FragmentSignInBinding.inflate(inflater, container, attachToRoot)
@@ -40,7 +43,7 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
                 )
             )
         }
-        binding.textViewSignUp.setOnClickListener { viewModel.onNavigateClicked() } //TODO clicks
+        binding.textViewSignUp.setOnClickListener { viewModel.onNavigateToRegistrationClicked(args.onTopOfRegistration) } //TODO clicks
 
         observe(viewModel.authorisationState) {
             processViewState(it)
