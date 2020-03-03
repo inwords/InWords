@@ -54,20 +54,30 @@ namespace InWords.WebApi.AppStart
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // allow use api from different sites should be before addmvc
+            services.AddCors(o =>
+            {
+                o.AddPolicy("AllowAll", builder =>
+               {
+                   builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .WithExposedHeaders("Grpc-Status", "Grpc-Message");
+               });
+                o.AddPolicy("AllowRest", builder =>
+                 {
+                     builder.AllowAnyOrigin()
+                     .AllowAnyMethod()
+                     .AllowAnyHeader();
+                 });
+            });
+
             // Mvc and controllers mapping
             services
                 .AddMvc(o => o.EnableEndpointRouting = false)
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            // allow use api from different sites
-            services.AddCors(o => o.AddPolicy("AllowAll", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .WithExposedHeaders("Grpc-Status", "Grpc-Message");
-            }));
             // api version info
             services.AddApiVersioningInWords();
 
@@ -118,8 +128,8 @@ namespace InWords.WebApi.AppStart
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
             app.UseAuthentication();
+            app.UseCors("AllowRest"); // should be before UseMvc
             app.UseMvc();
-            app.UseCors();
 
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureApp(app));
