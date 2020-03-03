@@ -32,6 +32,31 @@ namespace InWords.WebApiTests.Services.DictionaryService.Extentions
         }
 
         [Fact]
+        public void AddingTheSameWords()
+        {
+            // arrange
+            var context = InWordsDataContextFactory.Create();
+            context.Add(new Word("a"));
+            context.SaveChanges();
+            // act
+            IEnumerable<Word> wordsToAdd = new List<Word>()
+            {
+                new Word("a"),
+                new Word("A"),
+                new Word("b"),
+                new Word("B"),
+                new Word("b"),
+                new Word("b "),
+                new Word("      b ")
+            };
+            context.Words.AddWords(wordsToAdd);
+            context.SaveChanges();
+            // assert
+            Assert.Equal(2, wordsToAdd.Where(d => d.WordId > 0).Count());
+            Assert.Equal(2, context.Words.Count());
+        }
+
+        [Fact]
         public void CheckALlInLowercase()
         {
             var context = InWordsDataContextFactory.Create();

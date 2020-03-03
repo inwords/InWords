@@ -15,7 +15,7 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
             if (words == null)
                 throw new ArgumentNullException($"{nameof(words)} is null");
 
-            resource.ForEach(r => r.Content = r.Content.ToLower());
+            resource.ForEach(r => r.Content = r.Content.Trim().ToLower());
 
             // this is to cast content in array to use in SQL request
             var contentDictionary = (from word in resource
@@ -29,8 +29,6 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
             {
                 contentDictionary[word.Content].WordId = word.WordId;
             });
-
-
 
             var wordsToAdd = contentDictionary.Where(d => existedWords.All(w => w.Content != d.Key)).Select(d => d.Value);
 
