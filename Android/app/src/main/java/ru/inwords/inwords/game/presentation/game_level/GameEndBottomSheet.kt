@@ -75,7 +75,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
 
         observe(viewModel.navigationFromGameEnd) {
             when (it) {
-                FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionGlobalMainFragment())
+                FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionGlobalPopToMainFragment())
                 FromGameEndEventsEnum.BACK -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
                 FromGameEndEventsEnum.GAMES_FRAGMENT -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGamesFragment())
                 else -> navController.navigate(GameEndBottomSheetDirections.actionPop())

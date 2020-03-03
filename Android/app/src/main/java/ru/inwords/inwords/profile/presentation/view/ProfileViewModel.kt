@@ -36,4 +36,12 @@ class ProfileViewModel internal constructor(
             })
             .autoDispose()
     }
+
+    fun onNavigateToLoginClicked() {
+        navigateTo(ProfileFragmentDirections.actionProfileFragmentToLoginFragment(false))
+    }
+
+    fun onNavigateToSettingsClicked() {
+        navigateTo(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
+    }
 }

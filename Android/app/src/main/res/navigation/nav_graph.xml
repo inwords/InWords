@@ -6,10 +6,8 @@
     app:startDestination="@id/mainFragment">
 
     <action
-        android:id="@+id/action_global_mainFragment"
-        app:destination="@id/mainFragment"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_right" />
+        android:id="@+id/action_global_pop_to_mainFragment"
+        app:popUpTo="@id/mainFragment" />
     <action
         android:id="@+id/action_global_dictionary"
         app:destination="@id/graph_dictionary"
@@ -29,8 +27,8 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_mainFragment_to_loginFragment"
-            app:destination="@id/graph_auth"
+            android:id="@+id/action_mainFragment_to_register"
+            app:destination="@id/registrationFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -194,7 +192,7 @@
             tools:layout="@layout/fragment_profile">
             <action
                 android:id="@+id/action_profileFragment_to_loginFragment"
-                app:destination="@id/graph_auth"
+                app:destination="@id/loginFragment"
                 app:enterAnim="@anim/slide_in_right"
                 app:exitAnim="@anim/slide_out_left"
                 app:popEnterAnim="@anim/slide_in_left"
@@ -213,35 +211,44 @@
             android:name="ru.inwords.inwords.presentation.view_scenario.SettingsFragment" />
     </navigation>
 
-    <navigation
-        android:id="@+id/graph_auth"
-        app:startDestination="@id/loginFragment">
-        <fragment
-            android:id="@+id/loginFragment"
-            android:name="ru.inwords.inwords.authorisation.presentation.login.LoginFragment"
-            tools:layout="@layout/fragment_sign_in">
-            <action
-                android:id="@+id/action_loginFragment_to_registrationFragment"
-                app:destination="@id/registrationFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"
-                app:popUpToInclusive="false" />
-        </fragment>
-        <fragment
-            android:id="@+id/registrationFragment"
-            android:name="ru.inwords.inwords.authorisation.presentation.registration.RegistrationFragment"
-            tools:layout="@layout/fragment_sign_up">
-            <action
-                android:id="@+id/action_registrationFragment_to_loginFragment_pop"
-                app:popUpTo="@id/loginFragment" />
-        </fragment>
-
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ru.inwords.inwords.authorisation.presentation.login.LoginFragment"
+        tools:layout="@layout/fragment_sign_in">
         <action
-            android:id="@+id/action_pop_out_of_auth"
-            app:popUpTo="@id/graph_auth"
-            app:popUpToInclusive="true" />
-    </navigation>
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment_pop"
+            app:popUpTo="@id/registrationFragment" />
+        <argument
+            android:name="onTopOfRegistration"
+            app:argType="boolean" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="ru.inwords.inwords.authorisation.presentation.registration.RegistrationFragment"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment_pop"
+            app:popUpTo="@id/loginFragment" />
+        <argument
+            android:name="onTopOfLogin"
+            app:argType="boolean" />
+    </fragment>
 
 </navigation>

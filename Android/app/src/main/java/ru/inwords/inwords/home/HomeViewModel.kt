@@ -89,7 +89,7 @@ class HomeViewModel internal constructor(
 
     fun handleNavigation(cardWrapper: CardWrapper) {
         when (cardWrapper) {
-            is CardWrapper.CreateAccountMarker -> navigateTo(HomeFragmentDirections.actionMainFragmentToLoginFragment())
+            is CardWrapper.CreateAccountMarker -> navigateTo(HomeFragmentDirections.actionMainFragmentToRegister(false))
             is CardWrapper.ProfileLoadingMarker -> Unit
             is CardWrapper.ProfileModel -> navigateTo(HomeFragmentDirections.actionMainFragmentToProfileFragment())
             is CardWrapper.DictionaryModel -> navigateTo(HomeFragmentDirections.actionMainFragmentToDictionary())
