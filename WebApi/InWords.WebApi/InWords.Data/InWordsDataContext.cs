@@ -43,9 +43,10 @@ namespace InWords.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Word>()
-                .HasIndex(u => u.Content)
-                .IsUnique();
+            modelBuilder.Entity<Word>(entity =>
+            {
+                entity.HasIndex(e => e.Content).IsUnique();
+            });
         }
 
         private void RecreateDb()

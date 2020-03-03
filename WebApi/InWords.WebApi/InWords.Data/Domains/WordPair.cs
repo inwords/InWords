@@ -11,12 +11,23 @@ namespace InWords.Data.Domains
 
         public int WordForeignId { get; set; }
 
-        [ForeignKey("WordForeignId")] public virtual Word WordForeign { get; set; }
+        [ForeignKey(nameof(WordForeignId))] public virtual Word WordForeign { get; set; }
 
         public int WordNativeId { get; set; }
 
-        [ForeignKey("WordNativeId")] public virtual Word WordNative { get; set; }
+        [ForeignKey(nameof(WordNativeId))] public virtual Word WordNative { get; set; }
 
         public int Rating { get; set; }
+
+        public WordPair()
+        {
+
+        }
+
+        public WordPair(string wordForeign, string wordNative)
+        {
+            WordForeign = new Word(wordForeign);
+            WordNative = new Word(wordNative);
+        }
     }
 }
