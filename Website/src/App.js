@@ -33,7 +33,7 @@ const routes = [
       },
       {
         to: '/training/history',
-        text: 'Недавние тренировки'
+        text: 'Последние тренировки'
       },
       {
         to: '/training/courses',

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { loadValue, saveValue } from 'src/localStorage';
 import useForm from 'src/hooks/useForm';
+import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
 import GameSettingsDialog from './GameSettingsDialog';
 
 function GameSettingsDialogContainer({ open, ...rest }) {
@@ -21,12 +23,14 @@ function GameSettingsDialogContainer({ open, ...rest }) {
           : false;
       const listOn =
         trainingSettings.listOn !== undefined ? trainingSettings.listOn : true;
-      const cardDimension = trainingSettings.cardDimension || 120;
-      const cardTextSize = trainingSettings.cardTextSize || 16;
+      const cardDimension = trainingSettings.cardDimension || '120';
+      const cardTextSize = trainingSettings.cardTextSize || '16';
 
       setInputs({ quantity, voiceOn, listOn, cardDimension, cardTextSize });
     }
   }, [open, setInputs]);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = event => {
     saveValue('trainingsSettings', {
@@ -34,6 +38,12 @@ function GameSettingsDialogContainer({ open, ...rest }) {
         ...inputs
       }
     });
+
+    dispatch(
+      setSnackbar({
+        text: 'Новые настройки будут применены в следующей игре'
+      })
+    );
 
     event.preventDefault();
   };
