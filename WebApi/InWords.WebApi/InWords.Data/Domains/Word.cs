@@ -12,5 +12,15 @@ namespace InWords.Data.Domains
 
         //TODO [Required] Language
         public virtual Language Language { get; set; }
+
+        public Word()
+        {
+
+        }
+
+        public Word(string content) 
+        {
+            Content = content;
+        }
     }
 }

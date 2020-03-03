@@ -2,12 +2,10 @@
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
-using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -56,14 +54,29 @@ namespace InWords.WebApi.AppStart
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Should be before AddMvc method. Allow use api from different sites 
+            services.AddCors(o =>
+            {
+                o.AddPolicy("AllowAll", builder =>
+               {
+                   builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .WithExposedHeaders("Grpc-Status", "Grpc-Message");
+               });
+                o.AddPolicy("AllowRest", builder =>
+                 {
+                     builder.AllowAnyOrigin()
+                     .AllowAnyMethod()
+                     .AllowAnyHeader();
+                 });
+            });
+
             // Mvc and controllers mapping
             services
                 .AddMvc(o => o.EnableEndpointRouting = false)
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
-            // allow use api from different sites
-            services.AddCors();
 
             // api version info
             services.AddApiVersioningInWords();
@@ -83,6 +96,7 @@ namespace InWords.WebApi.AppStart
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseRouting();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -114,9 +128,7 @@ namespace InWords.WebApi.AppStart
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
             app.UseAuthentication();
-            app.UseCors(builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors("AllowRest"); // should be before UseMvc
             app.UseMvc();
 
             // to register types of modules

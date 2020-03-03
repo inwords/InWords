@@ -1,6 +1,6 @@
+using InWords.Data.DTO;
 using System.Collections.Generic;
 using System.Text.Json;
-using InWords.Data.DTO;
 using Xunit;
 
 namespace InWords.Data.DTOTests
@@ -28,7 +28,7 @@ namespace InWords.Data.DTOTests
                 {
                     new WordTranslation("test", "тест"), new WordTranslation("test1", "тест1", 1)
                 },
-                RemovedServerIds = new List<int> {3, 4}
+                RemovedServerIds = new List<int> { 3, 4 }
             };
         }
 

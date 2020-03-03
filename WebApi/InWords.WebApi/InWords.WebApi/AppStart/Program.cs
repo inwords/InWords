@@ -36,7 +36,7 @@ namespace InWords.WebApi.AppStart
                                 listenOptions =>
                                 {
                                     listenOptions.UseHttps();
-                                    listenOptions.Protocols = HttpProtocols.Http1;
+                                    listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                                 });
 
                             options.Listen(IPAddress.Loopback, 5102, o =>

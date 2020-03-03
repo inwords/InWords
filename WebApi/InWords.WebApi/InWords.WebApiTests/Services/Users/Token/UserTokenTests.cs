@@ -2,14 +2,12 @@
 using InWords.Data.Domains;
 using InWords.Data.Enums;
 using InWords.Service.Encryption.Interfaces;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.Token;
 using InWords.WebApiTests.Controllers.v1._0;
 using Moq;
-using ProfilePackage.V2;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

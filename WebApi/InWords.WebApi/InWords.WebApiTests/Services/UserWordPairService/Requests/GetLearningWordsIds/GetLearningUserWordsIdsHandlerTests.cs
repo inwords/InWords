@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Domains;
-using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
 using InWords.WebApiTests.Controllers.v1._0;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.UserWordPairService.Requests.GetLearningWordsIds
@@ -18,13 +17,13 @@ namespace InWords.WebApiTests.Services.UserWordPairService.Requests.GetLearningW
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
 
             var pair = new WordPair() { WordForeign = new Word(), WordNative = new Word() };
-            context.UserWordPairs.Add(new UserWordPair() { UserId = userId+1, TimeGap = DateTime.UtcNow.AddDays(-5), WordPair = pair });
+            context.UserWordPairs.Add(new UserWordPair() { UserId = userId + 1, TimeGap = DateTime.UtcNow.AddDays(-5), WordPair = pair });
             context.UserWordPairs.Add(new UserWordPair() { UserId = userId, TimeGap = DateTime.UtcNow.AddDays(-5), WordPair = pair });
             context.UserWordPairs.Add(new UserWordPair() { UserId = userId, TimeGap = DateTime.UtcNow.AddDays(-1), WordPair = pair });
             context.UserWordPairs.Add(new UserWordPair() { UserId = userId, TimeGap = DateTime.UtcNow.AddDays(1), WordPair = pair });
             context.UserWordPairs.Add(new UserWordPair() { UserId = userId, TimeGap = DateTime.UtcNow.AddDays(2), WordPair = pair });
             context.UserWordPairs.Add(new UserWordPair() { UserId = userId, TimeGap = DateTime.UtcNow.AddDays(3), WordPair = pair });
-            context.UserWordPairs.Add(new UserWordPair() { UserId = userId+1, TimeGap = DateTime.UtcNow.AddDays(3), WordPair = pair });
+            context.UserWordPairs.Add(new UserWordPair() { UserId = userId + 1, TimeGap = DateTime.UtcNow.AddDays(3), WordPair = pair });
 
             context.SaveChanges();
 

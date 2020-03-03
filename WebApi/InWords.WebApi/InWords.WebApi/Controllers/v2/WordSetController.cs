@@ -1,11 +1,11 @@
 ﻿using InWords.Service.Auth.Extensions;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WordSet.V2;
 
 namespace InWords.WebApi.Controllers.v2
 {

@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Games.Levels;
 using InWords.Data.Enums;
 using InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory;
-using InWords.WebApi.Services.GameService.Requests.SendLevelsMetric;
 using InWords.WebApiTests.Controllers.v1._0;
+using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.GameService.Requests.AddCustomLevelHistory

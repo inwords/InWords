@@ -1,5 +1,5 @@
-﻿using System;
-using InWords.Service.Encryption;
+﻿using InWords.Service.Encryption;
+using System;
 using Xunit;
 
 namespace InWords.Service.EncryptionTests

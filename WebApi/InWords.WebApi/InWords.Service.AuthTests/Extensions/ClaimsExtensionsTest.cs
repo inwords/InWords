@@ -1,7 +1,7 @@
-﻿using System;
+﻿using InWords.Service.Auth.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using InWords.Service.Auth.Extensions;
 using Xunit;
 
 namespace InWords.Service.AuthTests.Extensions
