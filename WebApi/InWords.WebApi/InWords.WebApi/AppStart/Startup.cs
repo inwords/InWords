@@ -54,7 +54,7 @@ namespace InWords.WebApi.AppStart
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // allow use api from different sites should be before addmvc
+            // Should be before AddMvc method. Allow use api from different sites 
             services.AddCors(o =>
             {
                 o.AddPolicy("AllowAll", builder =>
