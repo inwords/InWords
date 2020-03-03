@@ -24,10 +24,10 @@ namespace InWords.Data.Domains
 
         }
 
-        public WordPair(string wordForeign, string wordNative)
+        public WordPair(int WordNativeId, int WordForeignId)
         {
-            WordForeign = new Word(wordForeign);
-            WordNative = new Word(wordNative);
+            this.WordNativeId = WordNativeId;
+            this.WordForeignId = WordForeignId;
         }
     }
 }

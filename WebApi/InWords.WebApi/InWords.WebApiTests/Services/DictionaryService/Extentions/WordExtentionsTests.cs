@@ -72,5 +72,19 @@ namespace InWords.WebApiTests.Services.DictionaryService.Extentions
             // assert
             Assert.Equal(expected, actual.Select(e => e.Content));
         }
+
+        [Fact]
+        public void AddContentAsWords()
+        {
+            // arrange
+            var context = InWordsDataContextFactory.Create();
+            string[] content = { "a", "b", "c" };
+            // act
+            var actual = context.Words.AddWords(content);
+            context.SaveChanges();
+            // assert
+            Assert.Equal(content.Count(), context.Words.Count());
+            Assert.Equal(content.Count(), actual.Where(d => d.WordId > 0).Count());
+        }
     }
 }
