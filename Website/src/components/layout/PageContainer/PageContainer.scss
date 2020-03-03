@@ -38,7 +38,7 @@
     padding-top: 88px;
     flex-grow: 1;
 
-    &--with-nav {
+    &--has-nav {
       @include theme-breakpoints-up(lg) {
         padding-left: 240px;
       }

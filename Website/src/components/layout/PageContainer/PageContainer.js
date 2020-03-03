@@ -61,7 +61,7 @@ function PageContainer({ routes, rightNodes, children }) {
       )}
       <main
         className={classNames('page-container__main', {
-          'page-container__main--with-nav': nestedRoutes
+          'page-container__main--has-nav': nestedRoutes
         })}
       >
         {children}

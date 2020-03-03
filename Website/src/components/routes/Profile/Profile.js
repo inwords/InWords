@@ -62,7 +62,7 @@ function Profile({ avatarPath, nickname, email }) {
                   {email}
                 </Typography>
               </div>
-              <div className="profile-personal-info-edit-links">
+              <div className="profile-personal-info-edit-button-container">
                 <Button
                   onClick={handleOpenEmail}
                   variant="text"

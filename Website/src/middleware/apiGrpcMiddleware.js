@@ -66,9 +66,6 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
           action(dispatch, error);
         });
       }
-      actionsOnFailure.forEach(error => {
-        action(dispatch, error);
-      });
     } else {
       actionsOnSuccess.forEach(action => {
         action(dispatch, response);

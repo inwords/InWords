@@ -21,6 +21,11 @@ function GameContainer({ trainingLevel, onResult, onNextLevel }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setSelectedWordPairs([]);
+    setCompletedPairIdsMap({});
+    setSelectedCompletedPairId(-1);
+    setWordPairIdOpenCountsMap({});
+
     const wordPairs = Array.prototype.concat.apply(
       [],
       trainingLevel.wordTranslations.map(wordPair => [
