@@ -41,23 +41,29 @@ $track-h: 8px;
 
     &::-webkit-slider-thumb {
       @include thumb;
+
       margin-top: 0.5 * ($track-h - $thumb-d);
       -webkit-appearance: none;
     }
+
     &::-moz-range-thumb {
       @include thumb;
     }
+
     &::-ms-thumb {
       margin-top: 0;
+
       @include thumb;
     }
 
     &::-webkit-slider-runnable-track {
       @include track;
     }
+
     &::-moz-range-track {
       @include track;
     }
+
     &::-ms-track {
       @include track;
     }

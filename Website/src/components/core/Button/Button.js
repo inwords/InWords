@@ -30,7 +30,8 @@ function Button({
 Button.propTypes = {
   variant: PropTypes.string,
   color: PropTypes.string,
-  fullWidth: PropTypes.bool
+  fullWidth: PropTypes.bool,
+  className: PropTypes.string
 };
 
 export default Button;

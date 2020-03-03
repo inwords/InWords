@@ -6,14 +6,14 @@ html {
   box-sizing: border-box;
 }
 
-html * {
-  font-family: 'Roboto', sans-serif;
-}
-
 *,
 *::before,
 *::after {
   box-sizing: inherit;
+}
+
+html * {
+  font-family: 'Roboto', sans-serif;
 }
 
 body {

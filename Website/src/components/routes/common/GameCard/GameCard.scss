@@ -6,8 +6,9 @@
   align-items: center;
   cursor: pointer;
   background-color: var(--palette-primary-main);
-  @include theme-typography(body1);
   transition: box-shadow 200ms ease-in-out;
+
+  @include theme-typography(body1);
 }
 
 .game-card-content {

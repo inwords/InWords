@@ -33,7 +33,8 @@ function Dialog({ open, onClose, className, ...rest }) {
 Dialog.propTypes = {
   open: PropTypes.bool,
   onClick: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  className: PropTypes.string
 };
 
 export default Dialog;

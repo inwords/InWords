@@ -25,7 +25,7 @@ function DictionaryToolbar({
       {!editingModeEnabled ? (
         <Fragment>
           <div className="dictionary-toolbar-title-block dictionary-toolbar-title-block-main">
-            <Typography as="h1" variant="h6">
+            <Typography component="h1" variant="h6">
               Мой словарь
             </Typography>
           </div>
@@ -50,7 +50,7 @@ function DictionaryToolbar({
             <Icon>done_all</Icon>
           </IconButton>
           <div className="dictionary-toolbar-title-block">
-            <Typography as="h2" variant="h6">
+            <Typography component="h2" variant="h6">
               Выбрано: {numberOfChecked}
             </Typography>
           </div>

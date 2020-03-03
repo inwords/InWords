@@ -22,7 +22,8 @@ function CardHeader({ title, action, className, ...rest }) {
 
 CardHeader.propTypes = {
   title: PropTypes.string,
-  action: PropTypes.node
+  action: PropTypes.node,
+  className: PropTypes.string
 };
 
 export default CardHeader;

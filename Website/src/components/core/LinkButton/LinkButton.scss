@@ -5,10 +5,6 @@
   justify-content: center;
   text-decoration: none;
 
-  &:hover > &__text::after {
-    transform: scaleX(1);
-  }
-
   &--disabled {
     cursor: default;
     pointer-events: none;
@@ -34,5 +30,9 @@
       background-color: currentColor;
       transition: transform 0.2s ease-in-out;
     }
+  }
+
+  &:hover > &__text::after {
+    transform: scaleX(1);
   }
 }

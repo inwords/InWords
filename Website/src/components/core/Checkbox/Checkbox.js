@@ -17,6 +17,7 @@ const Checkbox = React.forwardRef(function Checkbox(
     disabled,
     onChange,
     inputProps,
+    className,
     ...rest
   },
   ref
@@ -45,7 +46,12 @@ const Checkbox = React.forwardRef(function Checkbox(
   };
 
   return (
-    <IconButton component="span" color="primary" {...rest}>
+    <IconButton
+      className={className}
+      component="span"
+      color="primary"
+      {...rest}
+    >
       <span className="checkbox">
         {checked ? (
           <Icon>check_box</Icon>
@@ -80,7 +86,8 @@ Checkbox.propTypes = {
   required: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  inputProps: PropTypes.object
+  inputProps: PropTypes.object,
+  className: PropTypes.string
 };
 
 export default Checkbox;

@@ -13,7 +13,9 @@
     cursor: pointer;
     user-select: none;
     text-decoration: none;
+
     @include theme-typography(body2);
+
     color: var(--palette-text-primary);
     transition: background-color 0.2s ease-in-out;
 

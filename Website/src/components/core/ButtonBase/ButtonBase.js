@@ -13,7 +13,8 @@ function ButtonBase({ component = 'button', className, ...rest }) {
 }
 
 ButtonBase.propTypes = {
-  component: PropTypes.elementType
+  component: PropTypes.elementType,
+  className: PropTypes.string
 };
 
 export default ButtonBase;

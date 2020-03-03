@@ -14,7 +14,8 @@ function Container({ maxWidth = 'md', className, ...rest }) {
 }
 
 Container.propTypes = {
-  maxWidth: PropTypes.string
+  maxWidth: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default Container;

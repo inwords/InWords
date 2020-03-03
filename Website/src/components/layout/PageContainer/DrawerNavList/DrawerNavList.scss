@@ -27,6 +27,7 @@
   &__general-link {
     min-height: 44px;
     padding: 0 24px;
+
     @include theme-typography(body1);
 
     &.active {
@@ -53,6 +54,7 @@
     position: relative;
     min-height: 40px;
     padding: 0 24px 0 48px;
+
     @include theme-typography(body2);
 
     &.active {

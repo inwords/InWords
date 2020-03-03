@@ -2,6 +2,7 @@
 
 .grid-item {
   $sizes: xs, sm, md, lg, xl;
+
   @each $size in $sizes {
     @for $col from 1 through 12 {
       &--#{$size}--#{$col} {

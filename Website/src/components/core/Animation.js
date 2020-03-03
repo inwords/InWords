@@ -23,16 +23,12 @@ function Animation({
   const animationStyles = {
     animationName,
     animationDuration: `${animationDuration}ms`,
-    animationTimingFunction
+    animationTimingFunction,
+    ...style
   };
 
   return React.cloneElement(children, {
-    style: !fired
-      ? {
-          ...animationStyles,
-          ...style
-        }
-      : style,
+    style: !fired ? animationStyles : style,
     onAnimationEnd: handleAnimationEnd,
     ...rest
   });
