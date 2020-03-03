@@ -36,7 +36,8 @@ Grid.propTypes = {
   direction: PropTypes.string,
   alignItems: PropTypes.string,
   justify: PropTypes.string,
-  wrap: PropTypes.string
+  wrap: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default Grid;

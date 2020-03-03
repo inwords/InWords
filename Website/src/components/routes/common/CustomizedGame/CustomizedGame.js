@@ -135,6 +135,7 @@ function CustomizedGame({
 CustomizedGame.propTypes = {
   trainingSettings: PropTypes.shape({
     quantity: PropTypes.string,
+    voiceOn: PropTypes.bool,
     listOn: PropTypes.bool,
     cardDimension: PropTypes.string,
     cardTextSize: PropTypes.string

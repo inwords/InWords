@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './Slider.scss';
@@ -10,5 +11,9 @@ function Slider({ className, ...rest }) {
     </span>
   );
 }
+
+Slider.propTypes = {
+  className: PropTypes.string
+};
 
 export default Slider;

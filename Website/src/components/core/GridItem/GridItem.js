@@ -36,7 +36,8 @@ GridItem.propTypes = {
   sm: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
   md: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
   lg: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
-  xl: PropTypes.oneOfType([PropTypes.number, PropTypes.bool])
+  xl: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+  className: PropTypes.string
 };
 
 export default GridItem;

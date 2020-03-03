@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CardSettingsContext from 'src/components/routes/common/CardSettingsContext';
 import FadeAnimation from 'src/components/core/FadeAnimation';
 import Fade from 'src/components/core/Fade';
 import GameCard from 'src/components/routes/common/GameCard';

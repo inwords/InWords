@@ -56,7 +56,8 @@ function Modal({ open, keepMounted = false, children, className, ...rest }) {
 Modal.propTypes = {
   open: PropTypes.bool,
   keepMounted: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  className: PropTypes.string
 };
 
 export default Modal;

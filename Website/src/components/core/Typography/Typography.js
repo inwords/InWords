@@ -45,7 +45,8 @@ Typography.propTypes = {
   component: PropTypes.elementType,
   variant: PropTypes.string,
   color: PropTypes.string,
-  gutterBottom: PropTypes.bool
+  gutterBottom: PropTypes.bool,
+  className: PropTypes.string
 };
 
 export default Typography;

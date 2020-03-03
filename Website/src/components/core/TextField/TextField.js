@@ -21,8 +21,8 @@ const TextField = React.forwardRef(function TextField(
     onFocus,
     onBlur,
     fullWidth = false,
-    className,
     inputProps,
+    className,
     ...rest
   },
   ref
@@ -124,6 +124,7 @@ TextField.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   fullWidth: PropTypes.bool,
+  inputProps: PropTypes.object,
   className: PropTypes.string
 };
 

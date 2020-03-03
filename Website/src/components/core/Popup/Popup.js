@@ -33,7 +33,9 @@ function Popup({
 Popup.propTypes = {
   show: PropTypes.bool,
   side: PropTypes.elementType,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  children: PropTypes.node,
+  className: PropTypes.string
 };
 
 export default Popup;

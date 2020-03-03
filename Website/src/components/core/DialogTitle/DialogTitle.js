@@ -16,6 +16,7 @@ function DialogTitle({ children, className, ...rest }) {
 }
 
 DialogTitle.propTypes = {
+  children: PropTypes.node,
   className: PropTypes.string
 };
 

@@ -13,7 +13,8 @@ function FormControlLabel({ children, className, ...rest }) {
 }
 
 FormControlLabel.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string
 };
 
 export default FormControlLabel;

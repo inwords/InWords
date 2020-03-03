@@ -5,7 +5,7 @@
 
   @for $spacing from 1 through 10 {
     &--spacing--#{$spacing} {
-      width: calc(100% + #{$spacing * 8}px);
+      width: calc(100% + #{$spacing} * 8px);
       margin: -#{$spacing * 4}px;
 
       & > .grid-item {

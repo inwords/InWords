@@ -18,7 +18,8 @@ function Toolbar({ variant = 'regular', className, ...rest }) {
 }
 
 Toolbar.propTypes = {
-  variant: PropTypes.string
+  variant: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default Toolbar;

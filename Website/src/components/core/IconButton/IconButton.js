@@ -23,7 +23,8 @@ function IconButton({ color = 'default', edge, className, ...rest }) {
 
 IconButton.propTypes = {
   color: PropTypes.string,
-  edge: PropTypes.string
+  edge: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default IconButton;

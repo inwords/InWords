@@ -8,8 +8,8 @@ import './LinkButton.scss';
 function LinkButton({
   component = 'a',
   disabled = false,
-  className,
   children,
+  className,
   ...rest
 }) {
   return (
@@ -31,7 +31,9 @@ function LinkButton({
 
 LinkButton.propTypes = {
   component: PropTypes.elementType,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  children: PropTypes.node,
+  className: PropTypes.string
 };
 
 export default LinkButton;

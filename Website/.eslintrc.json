@@ -17,7 +17,7 @@
   },
   "plugins": ["react", "react-hooks", "jsx-a11y"],
   "rules": {
-    "react/prop-types": 0,
+    "react/prop-types": "warn",
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"

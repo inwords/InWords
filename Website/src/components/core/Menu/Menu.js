@@ -11,7 +11,8 @@ function Menu({ component = 'ul', className, ...rest }) {
 }
 
 Menu.propTypes = {
-  component: PropTypes.elementType
+  component: PropTypes.elementType,
+  className: PropTypes.string
 };
 
 export default Menu;

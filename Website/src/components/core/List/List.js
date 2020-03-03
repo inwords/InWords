@@ -11,7 +11,8 @@ function List({ component = 'ul', className, ...rest }) {
 }
 
 List.propTypes = {
-  component: PropTypes.elementType
+  component: PropTypes.elementType,
+  className: PropTypes.string
 };
 
 export default List;

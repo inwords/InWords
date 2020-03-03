@@ -61,7 +61,8 @@ Snackbar.propTypes = {
   autoHideDuration: PropTypes.number,
   message: PropTypes.node,
   action: PropTypes.node,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  className: PropTypes.string
 };
 
 export default Snackbar;

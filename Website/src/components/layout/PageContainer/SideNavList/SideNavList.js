@@ -30,7 +30,8 @@ SideNavList.propTypes = {
       to: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired
     }).isRequired
-  ).isRequired
+  ).isRequired,
+  handleClose: PropTypes.func
 };
 
 export default SideNavList;

@@ -13,7 +13,8 @@ function BrandLink({ children, className, ...rest }) {
 }
 
 BrandLink.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string
 };
 
 export default BrandLink;
