@@ -1,7 +1,10 @@
 syntax = "proto3";
 
-package WordSet.v2;
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.word_set";
+option java_outer_classname = "WordSetProto";
 
+package WordSet.v2;
 
 import "gRPC/Protos/Dictionary.v2.proto";
 
