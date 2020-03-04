@@ -24,6 +24,14 @@ namespace InWords.WebApi.Services.Users.Registration
             this.emailVerifierService = emailVerifierService;
         }
 
+        /// <summary>
+        /// Use this is to register new yousers
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <exception cref="ArgumentNullException">If request is null</exception>
+        /// <exception cref="ArgumentException">If email not exist</exception>
+        /// <returns></returns>
         public async override Task<RegistrationReply> HandleRequest(RequestObject<RegistrationRequest, RegistrationReply> request,
             CancellationToken cancellationToken = default)
         {
@@ -33,6 +41,8 @@ namespace InWords.WebApi.Services.Users.Registration
             RegistrationRequest requestData = request.Value;
 
             ThrowIfAlreadyExist(requestData.Email);
+            
+            // this code work in only in valid satate
 
             string nickname = NicknameGenerator.FromEmail(requestData.Email);
 
@@ -60,6 +70,11 @@ namespace InWords.WebApi.Services.Users.Registration
             return registrationReply;
         }
 
+        /// <summary>
+        /// This method check if email exist
+        /// </summary>
+        /// <exception cref="ArgumentException">Email already exist</exception>
+        /// <param name="email"></param>
         [DoesNotReturn]
         public void ThrowIfAlreadyExist(string email)
         {

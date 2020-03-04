@@ -18,6 +18,14 @@ namespace InWords.WebApi.Services.Users.Token
             this.passwordSalter = passwordSalter;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <exception cref="ArgumentNullException">Account not found</exception>
+        /// <exception cref="ArgumentException">Password not match</exception>
+        /// <returns></returns>
         public override Task<TokenReply> HandleRequest(RequestObject<TokenRequest, TokenReply> request,
             CancellationToken cancellationToken = default)
         {
