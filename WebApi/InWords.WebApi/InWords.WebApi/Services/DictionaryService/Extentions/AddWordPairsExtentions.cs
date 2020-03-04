@@ -12,7 +12,13 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
 {
     public static class AddWordPairsExtentions
     {
-        public static Dictionary<int, bool> AddWordPairs(this DbSet<WordPair> wordPairs, IEnumerable<WordPair> request)
+        /// <summary>
+        /// Return map of inverted keyPair
+        /// </summary>
+        /// <param name="wordPairs"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static HashSet<int> AddWordPairs(this DbSet<WordPair> wordPairs, IEnumerable<WordPair> request)
         {
             if (wordPairs == null)
                 throw new ArgumentNullException($"{wordPairs} is null");
@@ -21,7 +27,7 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
 
             // TODO: batch by instert temp table in database
             // continue here  
-            var inversionMap = new Dictionary<int, bool>(requestDictionary.Count);
+            var inversionMap = new HashSet<int>(requestDictionary.Count);
             var pairsToAdd = new List<WordPair>(requestDictionary.Count);
             foreach (var requestPair in requestDictionary.Values)
             {
@@ -35,7 +41,10 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
                 else
                 {
                     requestPair.WordPairId = existedPair.WordPairId;
-                    inversionMap.Add(requestPair.WordPairId, requestPair.WordForeignId != existedPair.WordForeignId);
+                    if (requestPair.WordForeignId != existedPair.WordForeignId)
+                    {
+                        inversionMap.Add(requestPair.WordPairId);
+                    }
                 }
             }
             wordPairs.AddRange(pairsToAdd);

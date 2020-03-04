@@ -29,5 +29,28 @@ namespace InWords.Common.Extensions
             }
             return result;
         }
+
+        public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<TValue> values,
+            Func<TValue, TKey> key,
+            Func<IDictionary<TKey, TValue>, TValue, bool> predicate = null)
+        {
+            var dictionary = new Dictionary<TKey, TValue>();
+            values.ForEach(value =>
+            {
+                TKey valueKey = key(value);
+                if (!dictionary.ContainsKey(valueKey))
+                {
+                    if (predicate == null)
+                    {
+                        dictionary.Add(valueKey, value);
+                    }
+                    else if (predicate(dictionary, value))
+                    {
+                        dictionary.Add(valueKey, value);
+                    }
+                }
+            });
+            return dictionary;
+        }
     }
 }

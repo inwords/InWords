@@ -23,31 +23,44 @@ namespace InWords.WebApi.Services.DictionaryService.Words
             CancellationToken cancellationToken = default)
         {
             if (request == null)
-                throw new ArgumentNullException($"{nameof(request)} is null");
+                throw new ArgumentNullException($"{nameof(request)}");
 
             var userId = request.UserId;
             var requestData = request.Value;
 
-            // Add words transation
+            // Add words transation (savechanges)
             List<Word> dataBaseWords = await AddWordsAsync(requestData).ConfigureAwait(false);
 
-            // Add wordPairs transaction
+            // Add wordPairs transaction 
+            List<WordPair> wordPairsToAdd = SelectWordPairs(requestData, dataBaseWords);
+            var map = Context.WordPairs.AddWordPairs(wordPairsToAdd);
+            await Context.SaveChangesAsync().ConfigureAwait(false);
+
+            // Add user's word pair transation
+            List<UserWordPair> userWords = wordPairsToAdd.Select(pair => new UserWordPair
+            {
+                UserId = userId,
+                WordPairId = pair.WordPairId,
+                IsInvertPair = map.Contains(pair.WordPairId)
+            }).ToList();
+
+            // return result;
+            throw new NotImplementedException();
+        }
+
+        private static List<WordPair> SelectWordPairs(AddWordsRequest requestData, List<Word> dataBaseWords)
+        {
             var dictionary = dataBaseWords.ToContentDictionary();
-            var wordPairs = new List<WordPair>();
+            var wordPairsToAdd = new List<WordPair>();
             requestData.Words.ForEach(wp =>
             {
-                wordPairs.Add(new WordPair()
+                wordPairsToAdd.Add(new WordPair()
                 {
                     WordForeignId = dictionary[wp.WordForeign.ToNormalizedWord()].WordId,
                     WordNativeId = dictionary[wp.WordNative.ToNormalizedWord()].WordId
                 });
             });
-            //Context.WordPairs.add
-            await Context.SaveChangesAsync().ConfigureAwait(false);
-            // Add user's word pair transation
-
-            // return result;
-            throw new NotImplementedException();
+            return wordPairsToAdd;
         }
 
         private async Task<List<Word>> AddWordsAsync(AddWordsRequest requestData)
