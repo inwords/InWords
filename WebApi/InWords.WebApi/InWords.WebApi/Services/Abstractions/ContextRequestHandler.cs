@@ -11,13 +11,15 @@ namespace InWords.WebApi.Services.Abstractions
     public class ContextRequestHandler<TQuery, TResult, TContext> : IRequestHandler<TQuery, TResult> where TQuery : IRequest<TResult>
     {
         [Inject]
-        private ILogger logger { get; set; }
+        private ILogger? logger { get; set; }
+
         private readonly TContext context;
         private Stopwatch stopwatch;
 
         public ContextRequestHandler(TContext context)
         {
             this.context = context;
+            stopwatch = new Stopwatch();
         }
 
         protected TContext Context => context;
@@ -25,16 +27,28 @@ namespace InWords.WebApi.Services.Abstractions
         public async Task<TResult> Handle(TQuery request, CancellationToken cancellationToken = default)
         {
             // TODO: Logging
-
             stopwatch.Start();
             var result = await HandleRequest(request, cancellationToken).ConfigureAwait(false);
             stopwatch.Stop();
+            LogLongRunningRequest(request);
+            return result;
+        }
+
+        private void LogLongRunningRequest(TQuery request)
+        {
             if (stopwatch.ElapsedMilliseconds > 500)
             {
                 var name = typeof(TQuery).Name;
-                logger.LogWarning($"InWords Long Running Request: {name} ({stopwatch.ElapsedMilliseconds} milliseconds) {request}");
+                string message = $"InWords Long Running Request: {name} ({stopwatch.ElapsedMilliseconds} milliseconds) {request}";
+                if (logger == null)
+                {
+                    Debug.WriteLine(message);
+                }
+                else
+                {
+                    logger.LogWarning(message);
+                }
             }
-            return result;
         }
 
         public virtual Task<TResult> HandleRequest(TQuery request, CancellationToken cancellationToken = default)
