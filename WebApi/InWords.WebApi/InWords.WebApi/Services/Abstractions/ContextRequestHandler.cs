@@ -13,16 +13,15 @@ namespace InWords.WebApi.Services.Abstractions
         [Inject]
         private ILogger? logger { get; set; }
 
-        private readonly TContext context;
         private Stopwatch stopwatch;
+        private readonly TContext context;
+        protected TContext Context => context;
 
         public ContextRequestHandler(TContext context)
         {
             this.context = context;
             stopwatch = new Stopwatch();
         }
-
-        protected TContext Context => context;
 
         public async Task<TResult> Handle(TQuery request, CancellationToken cancellationToken = default)
         {
@@ -34,6 +33,10 @@ namespace InWords.WebApi.Services.Abstractions
             return result;
         }
 
+        public virtual Task<TResult> HandleRequest(TQuery request, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
         private void LogLongRunningRequest(TQuery request)
         {
             if (stopwatch.ElapsedMilliseconds > 500)
@@ -49,11 +52,6 @@ namespace InWords.WebApi.Services.Abstractions
                     logger.LogWarning(message);
                 }
             }
-        }
-
-        public virtual Task<TResult> HandleRequest(TQuery request, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
         }
     }
 }

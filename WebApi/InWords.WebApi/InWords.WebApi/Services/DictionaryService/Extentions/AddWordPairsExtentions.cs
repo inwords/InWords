@@ -12,30 +12,35 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
 {
     public static class AddWordPairsExtentions
     {
-        public static void AddWordPairs(this DbSet<WordPair> wordPairs, IEnumerable<WordPair> content)
+        public static Dictionary<int, bool> AddWordPairs(this DbSet<WordPair> wordPairs, IEnumerable<WordPair> request)
         {
             if (wordPairs == null)
                 throw new ArgumentNullException($"{wordPairs} is null");
 
-            var contentDictionary = content.SelfDistinct();
+            var requestDictionary = request.SelfDistinct();
 
-            var existedPairs = wordPairs.WhereMatches(contentDictionary.Values).ToList();
-
-            var pairsToAdd = new List<WordPair>();
-            existedPairs.ForEach(e =>
+            // TODO: batch by instert temp table in database
+            // continue here  
+            var inversionMap = new Dictionary<int, bool>(requestDictionary.Count);
+            var pairsToAdd = new List<WordPair>(requestDictionary.Count);
+            foreach (var requestPair in requestDictionary.Values)
             {
-                if (contentDictionary.IsSamePair(e))
+                var existedPair = wordPairs.Where(
+                    w => w.WordForeignId == requestPair.WordForeignId && w.WordNativeId == requestPair.WordNativeId
+                    || w.WordForeignId == requestPair.WordNativeId && w.WordNativeId == requestPair.WordForeignId).FirstOrDefault();
+                if (existedPair == null)
                 {
-                    var wordPair = contentDictionary.Get(e);
-                    wordPair.WordPairId = e.WordPairId;
+                    pairsToAdd.Add(requestPair);
                 }
                 else
                 {
-                    pairsToAdd.Add(e);
+                    requestPair.WordPairId = existedPair.WordPairId;
+                    inversionMap.Add(requestPair.WordPairId, requestPair.WordForeignId != existedPair.WordForeignId);
                 }
-            });
-
+            }
             wordPairs.AddRange(pairsToAdd);
+            return inversionMap;
+
         }
         private static Dictionary<(int, int), WordPair> SelfDistinct(this IEnumerable<WordPair> words)
         {
@@ -50,18 +55,9 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
             return dictionary;
         }
 
-        private static IEnumerable<WordPair> WhereMatches(this IQueryable<WordPair> words, IEnumerable<WordPair> content)
-        {
-            // todo continue here
-            return words.Where(c => content.Any(
-                d => c.WordForeignId.Equals(d.WordForeignId) && c.WordNativeId.Equals(d.WordNativeId)
-                || c.WordForeignId.Equals(d.WordNativeId) && c.WordNativeId.Equals(d.WordForeignId)));
-
-        }
-
         private static void Add(this Dictionary<(int, int), WordPair> dictionary, WordPair word)
         {
-            dictionary.Add((word.WordNativeId, word.WordForeignId), new WordPair(word.WordNativeId, word.WordForeignId));
+            dictionary.Add((word.WordNativeId, word.WordForeignId), word);
         }
         private static bool IsSamePair(this Dictionary<(int, int), WordPair> dictionary, WordPair word)
         {
