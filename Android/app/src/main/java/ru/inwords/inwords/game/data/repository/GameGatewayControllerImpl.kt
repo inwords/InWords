@@ -11,6 +11,8 @@ import ru.inwords.inwords.core.resource.Source
 import ru.inwords.inwords.core.resource.wrapResource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.game.data.converter.GameConverter
+import ru.inwords.inwords.game.data.converter.GameInfoConverter
 import ru.inwords.inwords.game.data.converter.LevelResultConverter
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderHolder
 import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
@@ -18,10 +20,10 @@ import ru.inwords.inwords.game.data.repository.custom_game.withUpdatedLevelScore
 import ru.inwords.inwords.game.data.source.GameDao
 import ru.inwords.inwords.game.data.source.GameInfoDao
 import ru.inwords.inwords.game.data.source.GameLevelDao
-import ru.inwords.inwords.game.domain.converter.GameDomainConverter
 import ru.inwords.inwords.game.domain.converter.GamesInfoDomainConverter
-import ru.inwords.inwords.game.domain.model.GameModel
-import ru.inwords.inwords.game.domain.model.GamesInfoModel
+import ru.inwords.inwords.game.domain.model.Game
+import ru.inwords.inwords.game.domain.model.GameInfo
+import ru.inwords.inwords.game.domain.model.GamesInfo
 import ru.inwords.inwords.game.domain.model.LevelResultModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,48 +38,48 @@ class GameGatewayControllerImpl @Inject constructor(
     private val levelScoreDeferredUploaderHolder: LevelScoreDeferredUploaderHolder
 ) : GameGatewayController, CustomGameGatewayController {
 
-    private val gameInfoDatabaseRepository by lazy { GameDatabaseRepository<GameInfo>(gameInfoDao) }
-    private val gameDatabaseRepository by lazy { GameDatabaseRepository<Game>(gameDao) }
+    private val gameInfoDatabaseRepository by lazy { GameDatabaseRepository<GameInfoResponse>(gameInfoDao) }
+    private val gameDatabaseRepository by lazy { GameDatabaseRepository<GameResponse>(gameDao) }
     private val gameLevelDatabaseRepository by lazy { GameDatabaseRepository<GameLevel>(gameLevelDao) }
 
     private val gamesInfoCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGamesInfoCachingProvider() } }
     private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameCachingProvider(it) } }
     private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) } }
 
-    private val gameDomainConverter = GameDomainConverter()
-    private val gamesInfoDomainConverter = GamesInfoDomainConverter(resourceManager)
+    private val gameConverter = GameConverter()
+    private val gameInfoConverter = GameInfoConverter(resourceManager)
+    private val gamesInfoDomainConverter = GamesInfoDomainConverter()
     private val wordOpenCountsConverter = LevelResultConverter()
 
-    override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<GamesInfoModel>> {
+    override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<GamesInfo>> {
         val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
 
         return cachingProvider.observe(forceUpdate)
-            .map { gamesInfoDomainConverter.convert(it) }
+            .map { gamesInfoDomainConverter.convert(gameInfoConverter.convertResourceList(it)) }
     }
 
     override fun storeGameInfo(gameInfo: GameInfo): Completable {
         val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
 
-        return gameInfoDatabaseRepository.insertAll(listOf(gameInfo))
+        return gameInfoDatabaseRepository.insertAll(listOf(gameInfoConverter.reverse(gameInfo)))
             .doOnSuccess { cachingProvider.askForContentUpdate() }
             .ignoreElement() //TODO think of ignore
     }
 
-    override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<GameModel>> {
+    override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
         return if (gameId == CUSTOM_GAME_ID) {
             getGameLocal(gameId).toObservable()
         } else {
-            gameCachingProviderLocator.get(gameId).observe(forceUpdate)
+            gameCachingProviderLocator.get(gameId).observe(forceUpdate).map { gameConverter.convert(it) }
         }
-            .map { gameDomainConverter.convert(it) }
     }
 
     private fun getGameLocal(gameId: Int): Single<Resource<Game>> {
-        return gameDatabaseRepository.getById(gameId).wrapResource(Source.CACHE)
+        return gameDatabaseRepository.getById(gameId).map { gameConverter.convert(it) }.wrapResource(Source.CACHE)
     }
 
     override fun storeGame(game: Game): Completable {
-        return gameDatabaseRepository.insertAll(listOf(game)).ignoreElement() //TODO think of ignore
+        return gameDatabaseRepository.insertAll(listOf(gameConverter.reverse(game))).ignoreElement() //TODO think of ignore
     }
 
     override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
@@ -100,9 +102,13 @@ class GameGatewayControllerImpl @Inject constructor(
         val levelScoreRequest = wordOpenCountsConverter.convert(levelResultModel)
 
         return levelScoreDeferredUploaderHolder.request(levelScoreRequest) { res ->
-            gameCachingProviderLocator.get(game.gameId)
-                .postOnLoopback(game.withUpdatedLevelScore(levelId = res.data.levelId, newScore = res.data.score))
-        }
+                gameCachingProviderLocator.get(game.gameId)
+                    .postOnLoopback(
+                        gameConverter.reverse(
+                            game.withUpdatedLevelScore(levelId = res.data.levelId, newScore = res.data.score)
+                        )
+                    )
+            }
             .subscribeOn(SchedulersFacade.io())
     }
 
@@ -110,13 +116,15 @@ class GameGatewayControllerImpl @Inject constructor(
         return levelScoreDeferredUploaderHolder.tryUploadDataToRemote()
     }
 
+    override fun addWordsToUserDictionary(gameId: Int) = gameRemoteRepository.addWordsToUserDictionary(gameId)
+
     override fun clearCache() {
         gamesInfoCachingProviderLocator.clear()
         gameCachingProviderLocator.clear()
         gameLevelCachingProviderLocator.clear()
     }
 
-    private fun createGamesInfoCachingProvider(): ResourceCachingProvider<List<GameInfo>> {
+    private fun createGamesInfoCachingProvider(): ResourceCachingProvider<List<GameInfoResponse>> {
         return ResourceCachingProvider(
             { data -> gameInfoDatabaseRepository.insertAll(data).map { data } },
             { gameInfoDatabaseRepository.getAll().map { gameInfos -> gameInfos.filter { it.gameId != CUSTOM_GAME_ID } } }, //TODO remove this filter
@@ -125,7 +133,7 @@ class GameGatewayControllerImpl @Inject constructor(
         )
     }
 
-    private fun createGameCachingProvider(gameId: Int): ResourceCachingProvider<Game> {
+    private fun createGameCachingProvider(gameId: Int): ResourceCachingProvider<GameResponse> {
         return ResourceCachingProvider(
             { data -> gameDatabaseRepository.insertAll(listOf(data)).map { data } },
             { gameDatabaseRepository.getById(gameId) },

@@ -12,6 +12,9 @@
 
         <item name="android:windowBackground">@color/white</item>
 
+        <!-- AletDialog -->
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+
         <!-- ActionMode -->
         <item name="actionModeStyle">@style/ActionModeStyle</item>
         <item name="actionModeCloseButtonStyle">@style/ActionModeCloseButtonStyle</item>

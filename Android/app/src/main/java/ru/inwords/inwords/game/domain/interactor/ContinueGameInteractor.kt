@@ -1,10 +1,10 @@
 package ru.inwords.inwords.game.domain.interactor
 
 import ru.inwords.inwords.core.resource.Resource
-import ru.inwords.inwords.game.data.bean.Game
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.data.repository.GameGatewayController
 import ru.inwords.inwords.game.domain.model.ContinueGameQueryResult
+import ru.inwords.inwords.game.domain.model.Game
 import javax.inject.Inject
 import javax.inject.Singleton
 

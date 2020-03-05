@@ -1,6 +1,5 @@
 package ru.inwords.inwords.game.domain.model
 
-import ru.inwords.inwords.game.data.bean.Game
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 
 sealed class ContinueGameQueryResult {
@@ -11,7 +10,7 @@ sealed class ContinueGameQueryResult {
     ) : ContinueGameQueryResult()
 
     data class NextGameInfo(
-        val nextGameInfo: GameInfoModel
+        val nextGameInfo: GameInfo
     ) : ContinueGameQueryResult()
 
     object NoMoreGames : ContinueGameQueryResult()

@@ -5,28 +5,28 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import ru.inwords.inwords.core.recycler.RxDiffUtil
 import ru.inwords.inwords.core.recycler.SimpleDiffUtilCallback
-import ru.inwords.inwords.game.domain.model.GameInfoModel
+import ru.inwords.inwords.game.domain.model.GameInfo
 
-class GameInfoModelsDiffUtilCallback internal constructor(oldGameLevels: List<GameInfoModel>,
-                                                          newGameLevels: List<GameInfoModel>) :
-        SimpleDiffUtilCallback<GameInfoModel>(oldGameLevels, newGameLevels) {
+class GameInfoModelsDiffUtilCallback internal constructor(oldGameLevels: List<GameInfo>,
+                                                          newGameLevels: List<GameInfo>) :
+        SimpleDiffUtilCallback<GameInfo>(oldGameLevels, newGameLevels) {
 
-    override fun areItemsTheSame(oldItem: GameInfoModel, newItem: GameInfoModel): Boolean {
-        return oldItem == newItem
+    override fun areItemsTheSame(oldItem: GameInfo, newItem: GameInfo): Boolean {
+        return oldItem.gameId == newItem.gameId
     }
 
-    override fun areContentsTheSame(oldItem: GameInfoModel, newItem: GameInfoModel): Boolean {
+    override fun areContentsTheSame(oldItem: GameInfo, newItem: GameInfo): Boolean {
         return oldItem == newItem
     }
 
     companion object {
-        fun create(oldGameInfoModels: List<GameInfoModel>, newGameInfoModels: List<GameInfoModel>): GameInfoModelsDiffUtilCallback {
-            return GameInfoModelsDiffUtilCallback(oldGameInfoModels, newGameInfoModels)
+        fun create(oldGameInfos: List<GameInfo>, newGameInfos: List<GameInfo>): GameInfoModelsDiffUtilCallback {
+            return GameInfoModelsDiffUtilCallback(oldGameInfos, newGameInfos)
         }
     }
 }
 
-fun Observable<List<GameInfoModel>>.applyDiffUtil(): Observable<Pair<List<GameInfoModel>, DiffUtil.DiffResult>> {
+fun Observable<List<GameInfo>>.applyDiffUtil(): Observable<Pair<List<GameInfo>, DiffUtil.DiffResult>> {
     return observeOn(Schedulers.computation())
             .compose(RxDiffUtil.calculate { old, new -> GameInfoModelsDiffUtilCallback(old, new) })
 }

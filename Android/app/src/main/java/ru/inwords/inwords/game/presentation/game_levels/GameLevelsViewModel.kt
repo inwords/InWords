@@ -4,11 +4,11 @@ import io.reactivex.Observable
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
-import ru.inwords.inwords.game.domain.model.GameModel
+import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 
 class GameLevelsViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
-    fun screenInfoStream(gameId: Int): Observable<Resource<GameModel>> = gameInteractor.getGame(gameId)
+    fun screenInfoStream(gameId: Int): Observable<Resource<Game>> = gameInteractor.getGame(gameId)
 
     fun navigateToGameLevel(gameLevelInfo: GameLevelInfo, gameId: Int) {
         navigateTo(GameLevelsFragmentDirections.actionGameLevelsFragmentToGameLevelFragment(gameLevelInfo, gameId))

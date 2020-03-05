@@ -16,9 +16,11 @@ import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 import javax.inject.Inject
 
 class WebRequestsManagerAuthorisedImpl @Inject
-internal constructor(private val apiServiceAuthorised: ApiServiceAuthorised,
-                     private val sessionHelper: SessionHelper,
-                     private val authInfo: AuthInfo) : WebRequestsManagerAuthorised {
+internal constructor(
+    private val apiServiceAuthorised: ApiServiceAuthorised,
+    private val sessionHelper: SessionHelper,
+    private val authInfo: AuthInfo
+) : WebRequestsManagerAuthorised {
 
     private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
 
@@ -84,14 +86,14 @@ internal constructor(private val apiServiceAuthorised: ApiServiceAuthorised,
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getGameInfos(): Single<List<GameInfo>> {
+    override fun getGameInfos(): Single<List<GameInfoResponse>> {
         return valve()
             .flatMap { apiServiceAuthorised.getGameInfos() }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getGame(gameId: Int): Single<Game> {
+    override fun getGame(gameId: Int): Single<GameResponse> {
         return valve()
             .flatMap { apiServiceAuthorised.getGame(gameId) }
             .interceptError()
@@ -109,6 +111,13 @@ internal constructor(private val apiServiceAuthorised: ApiServiceAuthorised,
         return valve()
             .flatMap { apiServiceAuthorised.getLevelScore(trainingEstimateRequest) }
             .map { it.classicCardLevelResult }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
+    }
+
+    override fun addWordsToUserDictionary(gameId: Int): Completable {
+        return valve()
+            .flatMapCompletable { apiServiceAuthorised.addWordsToUserDictionary(gameId) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

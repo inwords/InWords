@@ -1,32 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/default_card_height"
-    android:layout_margin="@dimen/space_xsmall"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/elevation_medium">
 
-    <View
-        android:id="@+id/game_menu"
-        android:layout_width="@dimen/icon_size_small"
-        android:layout_height="@dimen/icon_size_small"
-        android:layout_marginTop="@dimen/space_tiny"
-        android:background="@drawable/ic_more_vert_24dp"
-        android:backgroundTint="@color/colorPrimaryInverse"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/title"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/space_xsmall"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
-        tools:text="У кого ярче?" />
+        android:layout_height="wrap_content">
 
-</androidx.cardview.widget.CardView>
+        <View
+            android:id="@+id/game_menu"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_marginTop="@dimen/space_tiny"
+            android:background="@drawable/ic_more_vert_24dp"
+            android:backgroundTint="@color/colorPrimaryInverse"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/primary_text"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_xmedium_large"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Хобби" />
+
+        <ImageView
+            android:id="@+id/media_image"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="@dimen/constraint_match_parent"
+            android:importantForAccessibility="no"
+            app:layout_constraintDimensionRatio="H,21:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/primary_text"
+            app:srcCompat="@drawable/octopus_school" />
+
+        <TextView
+            android:id="@+id/sub_text"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/media_image"
+            tools:text="Кто-то из бросминожек украл мои чернила, помоги узнать кто это сделал" />
+
+        <Button
+            android:id="@+id/action_button_1"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_xsmall"
+            android:minWidth="@dimen/zero"
+            android:paddingStart="@dimen/space_xsmall"
+            android:paddingEnd="@dimen/space_xsmall"
+            android:text="@string/start_game_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sub_text" />
+
+        <ImageButton
+            android:id="@+id/save_to_dictionary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/add_words_from_game_to_dictionary"
+            android:src="@drawable/ic_playlist_add_24dp"
+            android:tint="@color/icon_color_selector_primary"
+            app:layout_constraintBottom_toBottomOf="@id/action_button_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/action_button_1" />
+
+        <ProgressBar
+            android:id="@+id/save_to_dictionary_loading"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/action_button_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/action_button_1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

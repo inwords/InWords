@@ -9,7 +9,7 @@
     <color name="colorSecondaryDark">#FF6f79a8</color>
     <color name="colorSecondaryLight">#FFd1d9ff</color>
 
-    <color name="colorAccent">@color/colorSecondary</color>
+    <color name="colorAccent">#ffab00</color>
 
     <color name="colorPrimaryTransparent">#885c6bc0</color>
 
@@ -24,7 +24,7 @@
     <color name="holo_blue_bright">@color/colorPrimaryDark</color>
     <color name="holo_green_light">#FF99cc00</color>
     <color name="holo_orange_light">#FFFFBB33</color>
-    <color name="holo_red_light">@color/colorAccent</color>
+    <color name="holo_red_light">@color/colorSecondary</color>
 
     <color name="white">#FFFFFFFF</color>
     <color name="white_two_40">#61ffffff</color>
