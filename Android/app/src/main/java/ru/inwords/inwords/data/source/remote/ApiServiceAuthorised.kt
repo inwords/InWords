@@ -12,16 +12,20 @@ import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 interface ApiServiceAuthorised {
     //GAME
     @GET("/v1.0/Game/GameInfo")
-    fun getGameInfos(): Single<List<GameInfo>>
+    fun getGameInfos(): Single<List<GameInfoResponse>>
 
     @GET("v1.0/Game/{gameId}")
-    fun getGame(@Path("gameId") gameId: Int): Single<Game>
+    fun getGame(@Path("gameId") gameId: Int): Single<GameResponse>
 
     @GET("v1.0/Game/level/{levelId}")
     fun getLevel(@Path("levelId") levelId: Int): Single<GameLevel>
 
     @POST("/v1.1/training/estimate")
     fun getLevelScore(@Body levelScoreRequest: TrainingEstimateRequest): Single<TrainingEstimateResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("/v1.0/Game/AddWordsToUserDictionary")
+    fun addWordsToUserDictionary(@Body gameId: Int): Completable
 
     //Words
     @POST("/v1.0/words/DeletePair")

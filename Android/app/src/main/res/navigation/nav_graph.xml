@@ -179,7 +179,7 @@
                 app:popExitAnim="@anim/slide_out_right" />
             <argument
                 android:name="gameInfo"
-                app:argType="ru.inwords.inwords.game.domain.model.GameInfoModel" />
+                app:argType="ru.inwords.inwords.game.domain.model.GameInfo" />
         </fragment>
     </navigation>
 

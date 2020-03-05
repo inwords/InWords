@@ -4,9 +4,9 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import ru.inwords.inwords.game.data.bean.Game;
-import ru.inwords.inwords.game.data.bean.GameInfo;
+import ru.inwords.inwords.game.data.bean.GameInfoResponse;
 import ru.inwords.inwords.game.data.bean.GameLevel;
+import ru.inwords.inwords.game.data.bean.GameResponse;
 import ru.inwords.inwords.game.data.bean.LevelScoreRequest;
 import ru.inwords.inwords.game.data.source.GameDao;
 import ru.inwords.inwords.game.data.source.GameInfoDao;
@@ -26,9 +26,9 @@ import ru.inwords.inwords.translation.data.source.WordTranslationDao;
 @Database(entities = {
         WordTranslation.class,
         User.class,
-        Game.class,
+        GameResponse.class,
         GameLevel.class,
-        GameInfo.class,
+        GameInfoResponse.class,
         LevelScoreRequest.class,
         WordTranslationDeferredEntry.class
 }, version = 4)

@@ -6,12 +6,12 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
-import ru.inwords.inwords.game.domain.model.GamesInfoModel
+import ru.inwords.inwords.game.domain.model.GamesInfo
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 
 class CustomGameCreatorViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
-    fun screenInfoStream(): Observable<Resource<GamesInfoModel>> = gameInteractor.getGamesInfo()
+    fun screenInfoStream(): Observable<Resource<GamesInfo>> = gameInteractor.getGamesInfo()
 
     fun onStartClicked(wordTranslations: List<WordTranslation>) {
         createCustomLevel(wordTranslations)

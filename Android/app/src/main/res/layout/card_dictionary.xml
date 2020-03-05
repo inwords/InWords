@@ -11,25 +11,16 @@
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/elevation_medium">
 
-    <ImageView
-        android:id="@+id/dict"
-        android:layout_width="@dimen/default_card_height"
-        android:layout_height="@dimen/default_card_height"
-        android:contentDescription="@string/avatar"
-        android:elevation="@dimen/elevation_medium"
-        android:src="@drawable/ic_dictionary_layered" />
-
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_giantx"
+        android:layout_marginStart="@dimen/space_medium"
         android:layout_marginTop="@dimen/space_xsmall"
+        android:layout_marginEnd="@dimen/space_giantxx"
         android:elevation="@dimen/elevation_medium"
         android:ellipsize="end"
         android:lines="1"
-        android:paddingStart="@dimen/space_xsmall"
-        android:paddingEnd="@dimen/space_xsmall"
         android:text="@string/dictionary_title"
         android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default" />
 
@@ -38,14 +29,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginStart="@dimen/space_giantx"
+        android:layout_marginStart="@dimen/space_medium"
+        android:layout_marginEnd="@dimen/space_giantxx"
         android:layout_marginBottom="@dimen/space_xsmall"
         android:elevation="@dimen/elevation_medium"
         android:ellipsize="end"
         android:lines="1"
-        android:paddingStart="@dimen/space_xsmall"
-        android:paddingEnd="@dimen/space_xsmall"
         android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary"
         tools:text="Слов в словаре" />
+
+    <ImageView
+        android:id="@+id/dict"
+        android:layout_width="@dimen/default_card_height"
+        android:layout_height="@dimen/default_card_height"
+        android:layout_gravity="end"
+        android:contentDescription="@string/avatar"
+        android:elevation="@dimen/elevation_medium"
+        android:src="@drawable/ic_dictionary_layered" />
 
 </androidx.cardview.widget.CardView>

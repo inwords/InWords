@@ -59,8 +59,8 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
         viewModel.screenInfoStream(args.gameInfo.gameId)
             .map {
                 if (it is Resource.Success) {
-                    gameId = it.data.game.gameId
-                    it.data.game.gameLevelInfos
+                    gameId = it.data.gameId
+                    it.data.gameLevelInfos
                 } else {
                     showNoContent()
                     emptyList() //TODO show error LUL

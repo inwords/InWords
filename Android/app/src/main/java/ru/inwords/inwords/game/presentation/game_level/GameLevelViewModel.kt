@@ -12,14 +12,13 @@ import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.repository.SettingsRepository
-import ru.inwords.inwords.game.data.bean.Game
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.domain.CardsData
 import ru.inwords.inwords.game.domain.interactor.ContinueGameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.ContinueGameQueryResult
-import ru.inwords.inwords.game.domain.model.GameModel
+import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.LevelResultModel
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.game_level.FromGameEndEventsEnum.*
@@ -82,9 +81,9 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
             .autoDispose()
     }
 
-    private fun storeGame(gameResource: Resource<GameModel>) {
+    private fun storeGame(gameResource: Resource<Game>) {
         when (gameResource) {
-            is Resource.Success -> game = gameResource.data.game.copy(gameLevelInfos = gameResource.data.game.gameLevelInfos.sortedBy { g -> g.level })
+            is Resource.Success -> game = gameResource.data.copy(gameLevelInfos = gameResource.data.gameLevelInfos.sortedBy { g -> g.level })
             is Resource.Error -> Log.e("GameLevelViewModel", gameResource.message.orEmpty())  //TODO
         }
     }
