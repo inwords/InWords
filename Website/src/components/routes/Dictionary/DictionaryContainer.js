@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { syncWordPairs } from 'src/actions/dictionaryApiActions';
+import useCheckboxList from 'src/hooks/useCheckboxList';
 import Divider from 'src/components/core/Divider';
 import Paper from 'src/components/core/Paper';
 import DictionaryToolbar from './DictionaryToolbar';
@@ -44,25 +45,7 @@ function DictionaryContainer() {
     );
   }, [wordPairs]);
 
-  const [checkedValues, setCheckedValues] = React.useState([]);
-
-  const handleToggle = React.useCallback(
-    value => () => {
-      setCheckedValues(checkedValues => {
-        const currentIndex = checkedValues.indexOf(value);
-        const newChecked = [...checkedValues];
-
-        if (currentIndex === -1) {
-          newChecked.push(value);
-        } else {
-          newChecked.splice(currentIndex, 1);
-        }
-
-        return newChecked;
-      });
-    },
-    []
-  );
+  const { checkedValues, setCheckedValues, handleToggle } = useCheckboxList();
 
   const [editingModeEnabled, setEditingModeEnabled] = React.useState(false);
 

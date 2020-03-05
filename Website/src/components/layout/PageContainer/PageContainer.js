@@ -7,6 +7,7 @@ import Drawer from 'src/components/core/Drawer';
 import Divider from 'src/components/core/Divider';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
+import Space from 'src/components/core/Space';
 import BrandLink from './BrandLink';
 import Header from './Header';
 import DrawerNavList from './DrawerNavList';
@@ -44,10 +45,10 @@ function PageContainer({ routes, rightNodes, children }) {
               onClick={handleClose}
               edge="start"
               color="inherit"
-              className="page-container__drawer-header-menu-button"
             >
               <Icon>menu</Icon>
             </IconButton>
+            <Space value={2} />
             <BrandLink>InWords</BrandLink>
           </div>
           <Divider />

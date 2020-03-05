@@ -1,10 +1,6 @@
 @import 'src/theme/mixins';
 
 .dictionary-toolbar-title-block {
-  margin-right: auto;
-}
-
-.dictionary-toolbar-title-block-main {
   @include theme-breakpoints-down(sm) {
     display: none;
   }
@@ -12,8 +8,4 @@
 
 .dictionary-toolbar-delete-button {
   color: var(--palette-error);
-}
-
-.dictionary-toolbar-done-all-button {
-  margin-right: 16px;
 }
