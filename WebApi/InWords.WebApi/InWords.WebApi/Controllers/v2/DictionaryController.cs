@@ -28,25 +28,18 @@ namespace InWords.WebApi.Controllers.v2
         /// <param name="request"></param>
         /// <returns></returns>
         [Authorize]
-        [ProducesResponseType(typeof(EmailChangeRequest), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AddWordsRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("updateEmail")]
+        [Route("addwords")]
         [HttpPost]
-        public async Task<IActionResult> UpdateEmail([FromBody] EmailChangeRequest request)
+        public async Task<IActionResult> AddWords([FromBody] AddWordsRequest request)
         {
-            try
+            var reqestObject = new AuthorizedRequestObject<AddWordsRequest, AddWordsReply>(request)
             {
-                var reqestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(request)
-                {
-                    UserId = User.GetUserId()
-                };
-                EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok(reply);
-            }
-            catch (ArgumentNullException e)
-            {
-                return BadRequest(e.Message);
-            }
+                UserId = User.GetUserId()
+            };
+            AddWordsReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return Ok(reply);
         }
     }
 }
