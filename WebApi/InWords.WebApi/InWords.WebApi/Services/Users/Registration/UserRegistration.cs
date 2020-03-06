@@ -1,4 +1,5 @@
 ﻿using InWords.Data;
+using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
@@ -17,10 +18,12 @@ namespace InWords.WebApi.Services.Users.Registration
     public class UserRegistration : StructRequestHandler<RegistrationRequest, RegistrationReply, InWordsDataContext>
     {
         private readonly IEmailVerifierService emailVerifierService;
-
+        private readonly IJwtProvider jwtProvider;
         public UserRegistration(InWordsDataContext context,
+            IJwtProvider jwtProvider,
             IEmailVerifierService emailVerifierService) : base(context)
         {
+            this.jwtProvider = jwtProvider;
             this.emailVerifierService = emailVerifierService;
         }
 
@@ -41,7 +44,7 @@ namespace InWords.WebApi.Services.Users.Registration
             RegistrationRequest requestData = request.Value;
 
             ThrowIfAlreadyExist(requestData.Email);
-            
+
             // this code work in only in valid satate
 
             string nickname = NicknameGenerator.FromEmail(requestData.Email);
@@ -60,7 +63,7 @@ namespace InWords.WebApi.Services.Users.Registration
                 .ConfigureAwait(false);
 
             // generate tocken
-            TokenResponse tokenResponse = new TokenResponse(accountRegistration.Account.AccountId, accountRegistration.Account.Role);
+            TokenResponse tokenResponse = new TokenResponse(accountRegistration.Account.AccountId, accountRegistration.Account.Role, jwtProvider);
             RegistrationReply registrationReply = new RegistrationReply
             {
                 Userid = tokenResponse.UserId,

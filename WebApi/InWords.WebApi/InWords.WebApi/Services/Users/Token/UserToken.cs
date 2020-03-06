@@ -1,4 +1,5 @@
 ﻿using InWords.Data;
+using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption.Interfaces;
 using InWords.WebApi.gRPC.Services;
@@ -13,8 +14,10 @@ namespace InWords.WebApi.Services.Users.Token
     public class UserToken : StructRequestHandler<TokenRequest, TokenReply, InWordsDataContext>
     {
         private readonly IPasswordSalter passwordSalter;
-        public UserToken(InWordsDataContext context, IPasswordSalter passwordSalter) : base(context)
+        private readonly IJwtProvider jwtProvider;
+        public UserToken(InWordsDataContext context, IJwtProvider jwtProvider, IPasswordSalter passwordSalter) : base(context)
         {
+            this.jwtProvider = jwtProvider;
             this.passwordSalter = passwordSalter;
         }
 
@@ -45,7 +48,7 @@ namespace InWords.WebApi.Services.Users.Token
                 if (!passwordSalter.EqualsSequence(tokenRequest.Password, requestedAccount.Hash))
                     throw new ArgumentException($"{nameof(tokenRequest.Password)} is not match");
 
-                TokenResponse tokenResponce = new TokenResponse(requestedAccount.AccountId, requestedAccount.Role);
+                TokenResponse tokenResponce = new TokenResponse(requestedAccount.AccountId, requestedAccount.Role, jwtProvider);
 
                 TokenReply tokenReply = new TokenReply()
                 {

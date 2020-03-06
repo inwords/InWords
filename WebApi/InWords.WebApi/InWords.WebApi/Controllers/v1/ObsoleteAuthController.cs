@@ -1,5 +1,6 @@
 ﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
+using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
 using InWords.WebApi.Providers;
 using InWords.WebApi.Services.Email;
@@ -12,7 +13,7 @@ namespace InWords.WebApi.Controllers.v1
 {
     // ReSharper disable once HollowTypeName
     /// <inheritdoc />
-    [Obsolete]
+    //[Obsolete]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -21,18 +22,20 @@ namespace InWords.WebApi.Controllers.v1
     {
         private readonly AccountIdentityProvider accountIdentityProvider;
         private readonly AccountRepository accountRepository;
-
+        private readonly IJwtProvider jwtProvider;
         private readonly EmailVerifierService emailVerifierService;
 
 
         public AuthController(AccountRepository accountRepository,
             UserRepository userRepository,
+            IJwtProvider jwtProvider,
             EmailVerifierService emailVerifierService)
         {
+            this.jwtProvider = jwtProvider;
             this.accountRepository = accountRepository;
             this.emailVerifierService = emailVerifierService;
             // todo inject
-            accountIdentityProvider = new AccountIdentityProvider(accountRepository, userRepository);
+            accountIdentityProvider = new AccountIdentityProvider(jwtProvider, accountRepository, userRepository);
         }
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace InWords.WebApi.Controllers.v1
         /// <response code="200">Success</response>
         /// <response code="400">Access denied</response>
         /// 
-        [Obsolete]
+        //[Obsolete]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("token")]

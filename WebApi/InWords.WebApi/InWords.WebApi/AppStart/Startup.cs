@@ -169,7 +169,7 @@ namespace InWords.WebApi.AppStart
         public void LoggerConfiguration(ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                $"log/#log-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.txt"));
+                $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt"));
             ILogger logger = loggerFactory.CreateLogger("FileLogger");
             logger.LogInformation("Processing request {0}", 0);
         }
