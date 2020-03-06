@@ -19,7 +19,7 @@ namespace InWords.Service.Auth.Models
 
         private readonly SecurityFileProvider securefileProvider;
 
-        public SymmetricJwtTokenProvider(string issuer = "issuerServer", string audience = "http://audienc.e",
+        public SymmetricJwtTokenProvider(string issuer = "api.inwords.ru", string audience = "api.inwords.ru",
             int minutesLifetime = 9)
         {
             Issuer = issuer;
@@ -33,8 +33,8 @@ namespace InWords.Service.Auth.Models
             DateTime now = DateTime.UtcNow;
             // create a JWT token
             var jwt = new JwtSecurityToken(
-                Issuer,
-                Audience,
+                //Issuer,
+                //Audience,
                 notBefore: now,
                 claims: identity.Claims,
                 expires: now.Add(TimeSpan.FromMinutes(MinutesLifetime)),

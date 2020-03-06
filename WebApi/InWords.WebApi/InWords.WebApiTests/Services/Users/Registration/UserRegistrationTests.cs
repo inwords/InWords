@@ -1,5 +1,6 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
+using InWords.Service.Auth.Interfaces;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
@@ -8,6 +9,7 @@ using InWords.WebApiTests.TestUtils;
 using Moq;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.Users.Registration
@@ -21,8 +23,11 @@ namespace InWords.WebApiTests.Services.Users.Registration
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
             var mock = new Mock<IEmailVerifierService>();
             mock.Setup(a => a.InstatiateVerifierMessage(It.IsAny<User>(), It.IsAny<string>()));
+
+            var jwtMock = new Mock<IJwtProvider>();
+            jwtMock.Setup(a => a.GenerateToken(It.IsAny<ClaimsIdentity>())).Returns("token");
             // act 
-            var registration = new UserRegistration(context, mock.Object);
+            var registration = new UserRegistration(context, jwtMock.Object, mock.Object);
             var test = await registration.HandleRequest(
                 new RequestObject<RegistrationRequest, RegistrationReply>(
                     new RegistrationRequest()
@@ -35,6 +40,7 @@ namespace InWords.WebApiTests.Services.Users.Registration
             Assert.Equal(1, context.Accounts.Count());
 
             mock.Verify(a => a.InstatiateVerifierMessage(It.IsAny<User>(), It.IsAny<string>()), Times.Once());
+            jwtMock.Verify(a => a.GenerateToken(It.IsAny<ClaimsIdentity>()), Times.Once());
         }
 
         [Fact]
@@ -55,8 +61,10 @@ namespace InWords.WebApiTests.Services.Users.Registration
 
             var mock = new Mock<IEmailVerifierService>();
             mock.Setup(a => a.InstatiateVerifierMessage(It.IsAny<User>(), It.IsAny<string>()));
+            var jwtMock = new Mock<IJwtProvider>();
+            jwtMock.Setup(a => a.GenerateToken(It.IsAny<ClaimsIdentity>())).Returns("token");
             // act 
-            var registration = new UserRegistration(context, mock.Object);
+            var registration = new UserRegistration(context, jwtMock.Object, mock.Object);
             // assert 
             await Assert.ThrowsAsync<ArgumentException>(() => registration.HandleRequest(
                 new RequestObject<RegistrationRequest, RegistrationReply>(
