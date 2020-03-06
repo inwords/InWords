@@ -5,7 +5,7 @@ using InWords.Service.Encryption.Interfaces;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.Token;
-using InWords.WebApiTests.Controllers.v1._0;
+using InWords.WebApiTests.TestUtils;
 using Moq;
 using System;
 using System.Threading.Tasks;

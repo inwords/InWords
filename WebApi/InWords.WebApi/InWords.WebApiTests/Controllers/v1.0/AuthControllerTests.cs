@@ -1,6 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Data.Repositories;
 using InWords.WebApi.Controllers.v1;
+using InWords.WebApiTests.TestUtils;
 
 namespace InWords.WebApiTests.Controllers.v1._0
 {

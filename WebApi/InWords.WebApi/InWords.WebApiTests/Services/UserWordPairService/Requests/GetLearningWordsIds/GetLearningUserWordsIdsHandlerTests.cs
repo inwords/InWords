@@ -1,7 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
-using InWords.WebApiTests.Controllers.v1._0;
+using InWords.WebApiTests.TestUtils;
 using System;
 using System.Linq;
 using Xunit;

@@ -15,13 +15,16 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
                 throw new ArgumentNullException($"{nameof(userWordPairs)}");
 
             request = request.ToList();
-            int userId = request.First().UserId;
             var groups = request.GroupBy(d => d.UserId).ToDictionary(d => d.Key, s => s.ToList());
-            if (groups.Keys.Count > 1)
-            {
-                throw new NotImplementedException();
-            }
 
+            foreach (var userId in groups.Keys)
+            {
+                AddWordsToUser(userWordPairs, groups[userId], userId);
+            }
+        }
+
+        private static void AddWordsToUser(DbSet<UserWordPair> userWordPairs, IEnumerable<UserWordPair> request, int userId)
+        {
             var ids = request.Select(d => d.WordPairId).ToArray();
             var existedWords = userWordPairs.Where(u => u.UserId == userId && ids.Any(i => i == u.WordPairId))
                 .ToDictionary(d => (d.WordPairId, d.IsInvertPair));

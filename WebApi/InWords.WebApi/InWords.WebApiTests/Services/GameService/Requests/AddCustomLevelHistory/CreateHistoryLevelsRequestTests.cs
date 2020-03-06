@@ -5,7 +5,7 @@ using InWords.Data.Domains;
 using InWords.Data.DTO.Games.Levels;
 using InWords.Data.Enums;
 using InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory;
-using InWords.WebApiTests.Controllers.v1._0;
+using InWords.WebApiTests.TestUtils;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;

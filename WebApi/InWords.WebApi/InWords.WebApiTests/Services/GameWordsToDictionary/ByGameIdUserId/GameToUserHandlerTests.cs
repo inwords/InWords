@@ -4,7 +4,7 @@ using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.Enums;
 using InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId;
-using InWords.WebApiTests.Controllers.v1._0;
+using InWords.WebApiTests.TestUtils;
 using System;
 using Xunit;
 

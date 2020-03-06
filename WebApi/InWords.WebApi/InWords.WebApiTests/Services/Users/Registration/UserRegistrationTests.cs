@@ -4,7 +4,7 @@ using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Users.Registration;
-using InWords.WebApiTests.Controllers.v1._0;
+using InWords.WebApiTests.TestUtils;
 using Moq;
 using System;
 using System.Linq;
