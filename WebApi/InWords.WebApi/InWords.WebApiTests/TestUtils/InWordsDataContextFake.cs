@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
-namespace InWords.WebApiTests.Extensions
+namespace InWords.WebApiTests.TestUtils
 {
     public static class InWordsDataContextFake
     {

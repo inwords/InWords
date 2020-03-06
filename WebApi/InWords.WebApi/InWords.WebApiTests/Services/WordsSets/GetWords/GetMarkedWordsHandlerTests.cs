@@ -6,7 +6,7 @@ using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.WordsSets.GetWords;
 using InWords.WebApiTests.Controllers.v1._0;
-using InWords.WebApiTests.Extensions;
+using InWords.WebApiTests.TestUtils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

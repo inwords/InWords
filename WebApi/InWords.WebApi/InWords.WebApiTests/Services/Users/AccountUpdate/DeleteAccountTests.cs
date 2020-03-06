@@ -3,7 +3,7 @@ using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.AccountUpdate;
 using InWords.WebApiTests.Controllers.v1._0;
-using InWords.WebApiTests.Extensions;
+using InWords.WebApiTests.TestUtils;
 using System.Linq;
 using Xunit;
 
