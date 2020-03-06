@@ -13,7 +13,7 @@ namespace InWords.WebApi.Controllers.v1
 {
     // ReSharper disable once HollowTypeName
     /// <inheritdoc />
-    //[Obsolete]
+    [Obsolete]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -45,7 +45,7 @@ namespace InWords.WebApi.Controllers.v1
         /// <response code="200">Success</response>
         /// <response code="400">Access denied</response>
         /// 
-        //[Obsolete]
+        [Obsolete]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("token")]
