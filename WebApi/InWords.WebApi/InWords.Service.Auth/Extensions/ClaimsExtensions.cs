@@ -7,6 +7,12 @@ namespace InWords.Service.Auth.Extensions
 {
     public static class ClaimsExtensions
     {
+        /// <summary>
+        /// Get user id credentials
+        /// </summary>
+        /// <param name="claims"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">User id claim is not dound</exception>
         public static int GetUserId(this IEnumerable<Claim> claims)
         {
             Claim nameIdentifier = claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
@@ -16,6 +22,12 @@ namespace InWords.Service.Auth.Extensions
             throw new ArgumentNullException();
         }
 
+        /// <summary>
+        /// Get user id credentials
+        /// </summary>
+        /// <param name="claims"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">User id claim is not dound</exception>
         public static int GetUserId(this ClaimsPrincipal user)
         {
             return user.Claims.GetUserId();

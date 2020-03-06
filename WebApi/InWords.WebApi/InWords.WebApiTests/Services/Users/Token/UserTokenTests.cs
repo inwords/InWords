@@ -1,13 +1,15 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.Enums;
+using InWords.Service.Auth.Interfaces;
 using InWords.Service.Encryption.Interfaces;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.Token;
-using InWords.WebApiTests.Controllers.v1._0;
+using InWords.WebApiTests.TestUtils;
 using Moq;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -28,9 +30,11 @@ namespace InWords.WebApiTests.Services.Users.Token
 
             var mock = new Mock<IPasswordSalter>();
             mock.Setup(a => a.EqualsSequence(It.IsAny<string>(), It.IsAny<byte[]>())).Returns(true);
-
+            
+            var jwtMock = new Mock<IJwtProvider>();
+            jwtMock.Setup(a => a.GenerateToken(It.IsAny<ClaimsIdentity>())).Returns("token");
             // act 
-            var token = new UserToken(context, mock.Object);
+            var token = new UserToken(context, jwtMock.Object, mock.Object);
             var test = await HandleRequest(token).ConfigureAwait(false);
 
             // assert
@@ -46,8 +50,11 @@ namespace InWords.WebApiTests.Services.Users.Token
 
             var mock = new Mock<IPasswordSalter>();
             mock.Setup(a => a.EqualsSequence(It.IsAny<string>(), It.IsAny<byte[]>())).Returns(false);
+            var jwtMock = new Mock<IJwtProvider>();
+            jwtMock.Setup(a => a.GenerateToken(It.IsAny<ClaimsIdentity>())).Returns("token");
+
             // act 
-            var token = new UserToken(context, mock.Object);
+            var token = new UserToken(context, jwtMock.Object, mock.Object);
 
             // assert
             await Assert.ThrowsAsync<ArgumentException>(() => HandleRequest(token));

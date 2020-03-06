@@ -6,7 +6,7 @@ using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Email.Template;
 using InWords.WebApi.Services.Users.EmailUpdate;
-using InWords.WebApiTests.Controllers.v1._0;
+using InWords.WebApiTests.TestUtils;
 using Moq;
 using System.Linq;
 using Xunit;

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
+using InWords.WebApi.Services.DictionaryService.Words;
 
 namespace InWords.WebApi.Services.DictionaryService
 {
@@ -7,7 +8,7 @@ namespace InWords.WebApi.Services.DictionaryService
     {
         public override void ConfigureIoc(ContainerBuilder builder)
         {
-            //builder.RegisterType<DeleteAccount>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<AddWords>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }

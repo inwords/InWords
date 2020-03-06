@@ -50,11 +50,11 @@ namespace InWords.WebApi.Providers.FIleLogger
         private void LogException(Exception exception)
         {
             var errorStringBuilder = new StringBuilder();
-            errorStringBuilder.AppendLineIfExist(exception.Message, "Message");
-            errorStringBuilder.AppendLineIfExist(exception.HelpLink, "HelpLink");
-            errorStringBuilder.AppendLineIfExist(exception.Source, "Source");
-            errorStringBuilder.AppendLineIfExist(exception.StackTrace, "StackTrace");
-            errorStringBuilder.AppendLineIfExist(exception.Data?.ToString(), "Data");
+            errorStringBuilder.AppendLineIfExist(exception?.Message, "Message");
+            errorStringBuilder.AppendLineIfExist(exception?.HelpLink, "HelpLink");
+            errorStringBuilder.AppendLineIfExist(exception?.Source, "Source");
+            errorStringBuilder.AppendLineIfExist(exception?.StackTrace, "StackTrace");
+            errorStringBuilder.AppendLineIfExist(exception?.Data?.ToString(), "Data");
             LogFile(errorStringBuilder.ToString());
         }
     }

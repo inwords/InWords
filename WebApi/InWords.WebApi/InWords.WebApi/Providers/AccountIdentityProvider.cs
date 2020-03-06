@@ -1,5 +1,6 @@
 ﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
+using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption;
 using InWords.Service.Encryption.Interfaces;
@@ -16,13 +17,17 @@ namespace InWords.WebApi.Providers
         private readonly AccountRepository accountRepository;
         private readonly IPasswordSalter passwordSalter;
         private readonly UserRepository userRepository;
-
+        private readonly IJwtProvider jwtProvider;
         /// <summary>
         ///     Create provider via repository
         /// </summary>
         /// <param name="repository"></param>
-        public AccountIdentityProvider(AccountRepository repository, UserRepository userRepository)
+        public AccountIdentityProvider(
+            IJwtProvider jwtProvider,
+            AccountRepository repository,
+            UserRepository userRepository)
         {
+            this.jwtProvider = jwtProvider;
             this.userRepository = userRepository;
             accountRepository = repository;
             passwordSalter = new SaltGenerator();
@@ -76,7 +81,7 @@ namespace InWords.WebApi.Providers
             await userRepository.Update(account.User)
                 .ConfigureAwait(false);
 
-            var response = new TokenResponse(account.AccountId, account.Role);
+            var response = new TokenResponse(account.AccountId, account.Role, jwtProvider);
 
             return response;
         }

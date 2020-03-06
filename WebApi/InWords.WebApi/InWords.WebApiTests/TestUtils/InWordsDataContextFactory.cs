@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace InWords.WebApiTests.Controllers.v1._0
+namespace InWords.WebApiTests.TestUtils
 {
     public static class InWordsDataContextFactory
     {
