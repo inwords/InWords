@@ -12,23 +12,25 @@ import javax.inject.Singleton
 
 @Singleton
 class IntegrationInteractorImpl @Inject
-internal constructor(private val translationWordsInteractor: TranslationWordsInteractor,
-                     private val profileInteractor: ProfileInteractor,
-                     private val gameInteractor: GameInteractor,
-                     private val integrationDatabaseRepository: IntegrationDatabaseRepository) : IntegrationInteractor {
-    override fun getOnAuthCallback(): Completable = Completable.mergeDelayError(listOf(
-        translationWordsInteractor.trySyncAllReposWithCache()
-            .subscribeOn(SchedulersFacade.io()),
-        gameInteractor.uploadScoresToServer()
-            .ignoreElement()
-            .subscribeOn(SchedulersFacade.io())
-    ))
+internal constructor(
+    private val translationWordsInteractor: TranslationWordsInteractor,
+    private val profileInteractor: ProfileInteractor,
+    private val gameInteractor: GameInteractor,
+    private val integrationDatabaseRepository: IntegrationDatabaseRepository
+) : IntegrationInteractor {
+    override fun getOnAuthCallback(): Completable = Completable.mergeDelayError(
+            listOf(
+                translationWordsInteractor.tryUploadUpdatesToRemote()
+                    .subscribeOn(SchedulersFacade.io()),
+                gameInteractor.uploadScoresToServer()
+                    .ignoreElement()
+                    .subscribeOn(SchedulersFacade.io())
+            )
+        )
         .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
         .onErrorComplete()
 
-    override fun getOnUnauthorisedCallback(): Completable = Completable.mergeDelayError(listOf(
-        translationWordsInteractor.presyncOnStart()
-    ))
+    override fun getOnUnauthorisedCallback(): Completable = Completable.complete()
         .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
         .onErrorComplete()
 

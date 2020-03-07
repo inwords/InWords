@@ -64,6 +64,7 @@ class ResourceCachingProviderPullDeferredAdapter<V, T>(
         remoteDataProvider = {
             deferredEntryManager.retrieveAll()
                 .flatMap { values -> remoteEntriesListBasicDao.retrieveAll(values.map { it.remoteId }) }
-        }
+        },
+        prefetchFinalValue = true
     )
 }

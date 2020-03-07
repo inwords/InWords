@@ -18,7 +18,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
     private val databaseInserter: (T) -> Completable, //should be interface getAll insertAll only
     private val finalValueProvider: () -> Single<V>,
-    private val remoteDataProvider: () -> Single<T>
+    private val remoteDataProvider: () -> Single<T>,
+    private val prefetchFinalValue: Boolean = false
 ) {
     private val askForContentStream = PublishSubject.create<Unit>()
 
@@ -33,6 +34,16 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
         askForContentStream //TODO loading state emit somewhere
             .observeOn(SchedulersFacade.io())
             .doOnNext { inProgress.set(true) }
+            .flatMap {
+                if (prefetchFinalValue) {
+                    askForFinalValue.flatMapSingle {
+                        finalValueProvider().wrapResource(Source.PREFETCH)
+                            .doOnSuccess { resourceStream.onNext(it) }
+                    }
+                } else {
+                    Observable.just(Resource.Loading<V>())
+                }
+            }
             .switchMapMaybe {
                 remoteDataProvider()
                     .subscribeOn(SchedulersFacade.io())
@@ -48,11 +59,25 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
                     is Resource.Error -> Single.just(res)
                 }
             }
+            .flatMap { res ->
+                val finalValue = finalValueProvider().wrapResource(
+                    when (res) {
+                        is Resource.Success -> res.source
+                        is Resource.Loading -> res.source
+                        is Resource.Error -> Source.CACHE
+                    }
+                )
+
+                if (prefetchFinalValue) {
+                    finalValue.toObservable()
+                } else {
+                    askForFinalValue.flatMapSingle { finalValue }
+                }
+            }
             .doOnNext {
                 shouldAskForUpdate.set(it is Resource.Error)
                 inProgress.set(false)
             }
-            .flatMap { askForFinalValue.flatMapSingle { finalValueProvider().wrapResource(Source.NOT_SET) } }
             .subscribe(resourceStream)
 
         askForContentUpdate()

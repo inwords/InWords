@@ -119,7 +119,7 @@ class GameScene(private val container: WeakReference<TableLayout>) {
         TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
             flipView.frontLayout as TextView,
             12, //TODO remove hardcode
-            24,
+            32,
             1,
             TypedValue.COMPLEX_UNIT_SP
         )

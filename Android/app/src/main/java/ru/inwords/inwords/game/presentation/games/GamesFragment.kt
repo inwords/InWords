@@ -44,7 +44,7 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewMo
                 AlertDialog.Builder(requireContext())
                     .setNegativeButton("Отмена") { _, _ -> }
                     .setPositiveButton("Добавить") { _, _ -> viewModel.onSaveToDictionaryClicked(it) }
-                    .setMessage("Добавить все слова из игры в словарь?")
+                    .setMessage("Добавить все слова из темы в словарь?")
                     .show()
             }
         )
@@ -70,7 +70,6 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewMo
         }
 
         viewModel.screenInfoStream()
-            .observeOn(SchedulersFacade.ui())
             .observeOn(SchedulersFacade.computation())
             .applyDiffUtil()
             .observeOn(SchedulersFacade.ui())

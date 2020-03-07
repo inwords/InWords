@@ -49,7 +49,6 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
         .subscribe({ translationWordsInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
         .autoDispose()
 
-
     fun onItemsDismissUndo(wordTranslations: List<WordTranslation>) = translationWordsInteractor.addReplaceAll(wordTranslations)
         .subscribe({ translationWordsInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
         .autoDispose()
