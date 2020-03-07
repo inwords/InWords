@@ -86,8 +86,10 @@ class GameScene(private val container: WeakReference<TableLayout>) {
                 val flipViewBinding = GameCardBinding.inflate(layoutInflater, tableRow, false)
                 val flipView = flipViewBinding.flipView
 
+                scaleGameCard(flipView, cardSizePx)
+
                 if (scaleGame) {
-                    scaleGameCard(flipView, cardSizePx)
+                    scaleText(flipView)
                 }
 
                 with(flipView) {
@@ -115,10 +117,12 @@ class GameScene(private val container: WeakReference<TableLayout>) {
             height = cardSizePx - (flipView.marginTop + flipView.marginBottom)
             width = cardSizePx - (flipView.marginStart + flipView.marginEnd)
         }
+    }
 
+    private fun scaleText(flipView: FlipView){
         TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
             flipView.frontLayout as TextView,
-            12, //TODO remove hardcode
+            14, //TODO remove hardcode
             32,
             1,
             TypedValue.COMPLEX_UNIT_SP
