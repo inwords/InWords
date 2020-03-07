@@ -28,7 +28,7 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
 
     private val isEditing: Boolean
         get() {
-            return args.wordTranslation.wordNative.isEmpty()
+            return args.wordTranslation.wordNative.isNotEmpty()
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
