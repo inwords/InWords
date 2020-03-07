@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'src/utils/shuffle';
+import createSpeech from 'src/utils/createSpeech';
 import useDialog from 'src/hooks/useDialog';
 import Paper from 'src/components/core/Paper';
 import Toolbar from 'src/components/core/Toolbar';
@@ -12,9 +13,6 @@ import GamePairsDialog from './GamePairsDialog';
 
 import './CustomizedGame.css';
 
-const synth = window.speechSynthesis;
-const lang = 'en-US';
-
 function CustomizedGame({
   trainingSettings,
   setTrainingSettings,
@@ -24,68 +22,49 @@ function CustomizedGame({
 }) {
   const [processedTrainingLevel, setProcessedTrainingLevel] = React.useState();
 
-  const [listOn, setListOn] = React.useState();
+  React.useEffect(() => {
+    setProcessedTrainingLevel(processedTrainingLevel => ({
+      ...trainingLevel,
+      ...processedTrainingLevel,
+      wordTranslations: shuffle([...trainingLevel.wordTranslations])
+        .slice(0, +trainingSettings.quantity || 8)
+        .map(wordTranslation => {
+          return {
+            ...wordTranslation,
+            onSpeech: createSpeech(wordTranslation.wordForeign)
+          };
+        })
+    }));
+  }, [trainingSettings.quantity, trainingLevel]);
+
+  React.useEffect(() => {
+    setProcessedTrainingLevel(processedTrainingLevel => ({
+      ...processedTrainingLevel,
+      cardSettings: {
+        cardDimension: +trainingSettings.cardDimension,
+        cardTextSize: +trainingSettings.cardTextSize
+      }
+    }));
+  }, [trainingSettings.cardDimension, trainingSettings.cardTextSize]);
+
+  React.useEffect(() => {
+    setProcessedTrainingLevel(processedTrainingLevel => ({
+      ...processedTrainingLevel,
+      voiceOn: trainingSettings.voiceOn
+    }));
+  }, [trainingSettings.voiceOn]);
 
   const {
     open: openWordPairs,
-    setOpen: setOpenWordPairs,
+    handleOpen: handleOpenWordPairs,
     handleClose: handleCloseWordPairs
-  } = useDialog();
+  } = useDialog(trainingSettings.listOn);
+
+  const [listOn, setListOn] = React.useState(trainingSettings.listOn);
 
   React.useEffect(() => {
-    const {
-      listOn = true,
-      cardDimension = 120,
-      cardTextSize = 16,
-      voiceOn = false
-    } = trainingSettings;
-
-    setListOn(listOn);
-
-    setProcessedTrainingLevel({
-      ...trainingLevel,
-      wordTranslations: shuffle([...trainingLevel.wordTranslations]).slice(
-        0,
-        +trainingSettings.quantity || 8
-      ),
-      cardSettings: {
-        cardDimension: +cardDimension,
-        cardTextSize: +cardTextSize
-      }
-    });
-
-    if (voiceOn) {
-      setProcessedTrainingLevel(processedTrainingLevel => ({
-        ...processedTrainingLevel,
-        wordTranslations: processedTrainingLevel.wordTranslations.map(
-          wordTranslation => {
-            const onSpeech = () => {
-              if (synth.speaking) {
-                synth.cancel();
-              }
-
-              const speech = new SpeechSynthesisUtterance(
-                wordTranslation.wordForeign
-              );
-              speech.lang = lang;
-              synth.speak(speech);
-            };
-
-            return {
-              ...wordTranslation,
-              onSpeech
-            };
-          }
-        )
-      }));
-    }
-  }, [trainingSettings, trainingLevel]);
-
-  React.useEffect(() => {
-    if (listOn) {
-      setOpenWordPairs(true);
-    }
-  }, [listOn, setOpenWordPairs]);
+    setListOn(trainingSettings.listOn);
+  }, [trainingSettings.listOn]);
 
   const {
     open: openSettings,
@@ -93,12 +72,34 @@ function CustomizedGame({
     handleClose: handleCloseSettings
   } = useDialog();
 
+  const handleShuffle = () => {
+    setProcessedTrainingLevel(processedTrainingLevel => ({
+      ...trainingLevel,
+      ...processedTrainingLevel,
+      wordTranslations: shuffle([...trainingLevel.wordTranslations])
+        .slice(0, +trainingSettings.quantity || 8)
+        .map(wordTranslation => {
+          return {
+            ...wordTranslation,
+            onSpeech: createSpeech(wordTranslation.wordForeign)
+          };
+        })
+    }));
+
+    if (listOn) {
+      handleOpenWordPairs();
+    }
+  };
+
   return (
     <Fragment>
       <Paper>
         <Toolbar variant="dense" className="game-settings-toolbar">
           <IconButton onClick={handleOpenSettings} edge="start">
             <Icon>settings</Icon>
+          </IconButton>
+          <IconButton onClick={handleShuffle}>
+            <Icon>shuffle</Icon>
           </IconButton>
         </Toolbar>
       </Paper>
@@ -116,7 +117,12 @@ function CustomizedGame({
               onNextLevel();
 
               if (listOn) {
-                setOpenWordPairs(true);
+                handleOpenWordPairs();
+              }
+            }}
+            onReplay={() => {
+              if (listOn) {
+                handleOpenWordPairs();
               }
             }}
             {...rest}

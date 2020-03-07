@@ -15,24 +15,20 @@ function Game({
   isGameCompleted,
   handleClick
 }) {
-  const cols = React.useMemo(() => {
-    const colsNum = Math.ceil(Math.sqrt(wordPairs.length));
+  const maxWidth = React.useMemo(() => {
+    let colsNum = Math.ceil(Math.sqrt(wordPairs.length));
 
     if (colsNum <= 2) {
-      return 2;
+      colsNum = 2;
     } else if (colsNum === 3) {
-      return 3;
+      colsNum = 3;
     }
-    return colsNum;
-  }, [wordPairs.length]);
+
+    return cardSettings.cardDimension * colsNum + 8 * colsNum;
+  }, [wordPairs.length, cardSettings.cardDimension]);
 
   return (
-    <div
-      className="game-field"
-      style={{
-        maxWidth: cardSettings.cardDimension * cols + 8 * cols
-      }}
-    >
+    <div className="game-field" style={{ maxWidth }}>
       {wordPairs.map(({ id, pairId, word, onSpeech }) => (
         <FadeAnimation key={id}>
           <Fade in={!isGameCompleted}>

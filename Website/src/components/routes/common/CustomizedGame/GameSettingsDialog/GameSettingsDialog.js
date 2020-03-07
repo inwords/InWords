@@ -59,64 +59,48 @@ function GameSettingsDialog({
               </GridItem>
             </Grid>
           </FormGroup>
-          <Grid spacing={1}>
-            <GridItem xs={12} sm={6}>
-              <FormGroup>
-                <Typography component="p" variant="body2" gutterBottom>
-                  Размер карточки
+          <FormGroup>
+            <Typography component="p" variant="body2" gutterBottom>
+              Размер карточки
+            </Typography>
+            <Grid spacing={1} alignItems="center">
+              <GridItem xs={10} sm={6}>
+                <Slider
+                  name="cardDimension"
+                  min="80"
+                  max="140"
+                  step="5"
+                  value={inputs.cardDimension}
+                  onChange={handleChange}
+                />
+              </GridItem>
+              <GridItem xs={2} sm={6}>
+                <Typography variant="body1">
+                  {inputs.cardDimension}px
                 </Typography>
-                <Grid spacing={1} alignItems="center">
-                  <GridItem xs={10} sm={8}>
-                    <Slider
-                      name="cardDimension"
-                      min="80"
-                      max="140"
-                      step="5"
-                      value={inputs.cardDimension}
-                      onChange={handleChange}
-                    />
-                  </GridItem>
-                  <GridItem xs={2} sm={4}>
-                    <Typography variant="body1">
-                      {inputs.cardDimension}px
-                    </Typography>
-                  </GridItem>
-                </Grid>
-              </FormGroup>
-              <FormGroup>
-                <Typography component="p" variant="body2" gutterBottom>
-                  Размер текста на карточке
-                </Typography>
-                <Grid spacing={1} alignItems="center">
-                  <GridItem xs={10} sm={8}>
-                    <Slider
-                      name="cardTextSize"
-                      min="12"
-                      max="24"
-                      step="1"
-                      value={inputs.cardTextSize}
-                      onChange={handleChange}
-                    />
-                  </GridItem>
-                  <GridItem xs={2} sm={4}>
-                    <Typography variant="body1">
-                      {inputs.cardTextSize}px
-                    </Typography>
-                  </GridItem>
-                </Grid>
-              </FormGroup>
-            </GridItem>
-            <GridItem xs={12} sm={6}>
-              <FormGroup className="game-settings-dialog-card-container">
-                <GameCard
-                  dimension={+inputs.cardDimension}
-                  textSize={+inputs.cardTextSize}
-                >
-                  Word
-                </GameCard>
-              </FormGroup>
-            </GridItem>
-          </Grid>
+              </GridItem>
+            </Grid>
+          </FormGroup>
+          <FormGroup>
+            <Typography component="p" variant="body2" gutterBottom>
+              Размер текста на карточке
+            </Typography>
+            <Grid spacing={1} alignItems="center">
+              <GridItem xs={10} sm={6}>
+                <Slider
+                  name="cardTextSize"
+                  min="12"
+                  max="24"
+                  step="1"
+                  value={inputs.cardTextSize}
+                  onChange={handleChange}
+                />
+              </GridItem>
+              <GridItem xs={2} sm={6}>
+                <Typography variant="body1">{inputs.cardTextSize}px</Typography>
+              </GridItem>
+            </Grid>
+          </FormGroup>
           <div>
             <FormControlLabel>
               <Checkbox

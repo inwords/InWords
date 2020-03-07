@@ -23,8 +23,7 @@
       background-color: var(--palette-action-hover);
     }
 
-    &:active,
-    &.active {
+    &:active {
       background-color: var(--palette-action-selected);
     }
 
