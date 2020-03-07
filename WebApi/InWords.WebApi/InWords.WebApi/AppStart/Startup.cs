@@ -127,7 +127,8 @@ namespace InWords.WebApi.AppStart
             else
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
-            app.UseAuthentication();
+            app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
+            app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
             app.UseCors("AllowRest"); // should be before UseMvc
             app.UseMvc();
 
