@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
     private val databaseInserter: (T) -> Completable, //should be interface getAll insertAll only
     private val finalValueProvider: () -> Single<V>,
-    private val remoteDataProvider: () -> Single<T>,
+    private val remoteDataProvider: (V?) -> Single<T>,
     private val prefetchFinalValue: Boolean = false
 ) {
     private val askForContentStream = PublishSubject.create<Unit>()
@@ -34,18 +34,19 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
         askForContentStream //TODO loading state emit somewhere
             .observeOn(SchedulersFacade.io())
             .doOnNext { inProgress.set(true) }
-            .flatMap {
+            .flatMapSingle {
                 if (prefetchFinalValue) {
-                    askForFinalValue.flatMapSingle {
-                        finalValueProvider().wrapResource(Source.PREFETCH)
-                            .doOnSuccess { resourceStream.onNext(it) }
-                    }
+                    finalValueProvider()
+                        .doOnSuccess { resourceStream.onNext(Resource.Success(it, Source.PREFETCH)) }
+                        .wrapResource(Source.PREFETCH)
                 } else {
-                    Observable.just(Resource.Loading<V>())
+                    Single.just(Resource.Loading<V>())
                 }
             }
             .switchMapMaybe {
-                remoteDataProvider()
+                val finalValue = if (it is Resource.Success) it.data else null
+
+                remoteDataProvider(finalValue)
                     .subscribeOn(SchedulersFacade.io())
                     .wrapNetworkResource()
             }
@@ -68,11 +69,7 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
                     }
                 )
 
-                if (prefetchFinalValue) {
-                    finalValue.toObservable()
-                } else {
-                    askForFinalValue.flatMapSingle { finalValue }
-                }
+                askForFinalValue.flatMapSingle { finalValue }
             }
             .doOnNext {
                 shouldAskForUpdate.set(it is Resource.Error)

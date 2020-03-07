@@ -2,6 +2,7 @@ package ru.inwords.inwords.core.deferred_entry_manager.adapter
 
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import ru.inwords.inwords.core.deferred_entry_manager.DeferredEntryManager
 import ru.inwords.inwords.core.deferred_entry_manager.model.CopyableWithId
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntry
@@ -34,7 +35,7 @@ class ResourceCachingProviderPullDeferredAdapter<V, T>(
 
     override fun tryUploadUpdatesToRemote(): Completable {
         return deferredEntryManager.tryUploadUpdatesToRemote()
-            .doOnComplete { resourceCachingProviderLocator.getDefault().askForFinalValue() }
+            .doOnComplete { resourceCachingProviderLocator.getDefault().askForContentUpdate() }
     }
 
     override fun clearCache() {
@@ -61,8 +62,12 @@ class ResourceCachingProviderPullDeferredAdapter<V, T>(
             Completable.concat(completables)
         },
         finalValueProvider = { deferredEntryManager.retrieveAll() },
-        remoteDataProvider = {
-            deferredEntryManager.retrieveAll()
+        remoteDataProvider = { prefetch ->
+            if (prefetch == null) {
+                deferredEntryManager.retrieveAll()
+            } else {
+                Single.just(prefetch)
+            }
                 .flatMap { values -> remoteEntriesListBasicDao.retrieveAll(values.map { it.remoteId }) }
         },
         prefetchFinalValue = true
