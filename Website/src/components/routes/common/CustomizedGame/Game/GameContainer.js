@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
+import uuidv4 from 'src/utils/uuidv4';
 import TrainingResult from 'src/components/routes/common/TrainingResult';
 import Game from './Game';
 
@@ -49,13 +50,13 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
       [],
       trainingLevel.wordTranslations.map(wordPair => [
         {
-          id: `foreign-${wordPair.serverId}`,
+          id: uuidv4(),
           pairId: wordPair.serverId,
           word: wordPair.wordForeign,
           onSpeech: wordPair.onSpeech
         },
         {
-          id: `native-${wordPair.serverId}`,
+          id: uuidv4(),
           pairId: wordPair.serverId,
           word: wordPair.wordNative
         }

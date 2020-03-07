@@ -42,7 +42,7 @@ function Profile({ avatarPath, nickname, email }) {
         </Button>
       </div>
       <div className="profile-personal-section">
-        <Typography component="h2" variant="h3" className="profile-nickname">
+        <Typography component="h1" variant="h3" className="profile-nickname">
           {nickname}
         </Typography>
         <Button onClick={handleOpenNickname} variant="text" color="primary">

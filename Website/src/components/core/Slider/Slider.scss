@@ -48,6 +48,8 @@ $track-h: 8px;
 
     &::-moz-range-thumb {
       @include thumb;
+
+      border: none;
     }
 
     &::-ms-thumb {

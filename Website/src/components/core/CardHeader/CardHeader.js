@@ -10,7 +10,7 @@ function CardHeader({ title, action, className, ...rest }) {
     <div className={classNames('card-header', className)} {...rest}>
       {title && (
         <div className="card-header__content">
-          <Typography component="span" variant="h6">
+          <Typography component="h2" variant="h6">
             {title}
           </Typography>
         </div>
