@@ -1,6 +1,8 @@
 package ru.inwords.inwords.authorisation.presentation.login
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +13,24 @@ import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFacto
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
 import ru.inwords.inwords.core.AfterTextChangedWatcher
 import ru.inwords.inwords.core.Event
+import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.KeyboardUtils
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.core.validation.ValidationResult
 import ru.inwords.inwords.databinding.FragmentSignInBinding
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.profile.data.bean.UserCredentials
+import javax.inject.Inject
+
 
 class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationViewModelFactory, FragmentSignInBinding>() {
     override val layout = R.layout.fragment_sign_in
     override val classType = LoginViewModel::class.java
 
     private val args by navArgs<LoginFragmentArgs>()
+
+    @Inject
+    lateinit var signInWithGoogle: SignInWithGoogle
 
     override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentSignInBinding {
         return FragmentSignInBinding.inflate(inflater, container, attachToRoot)
@@ -34,6 +42,17 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
         setupWithNavController(binding.toolbar)
 
         setupValidation()
+
+        signInWithGoogle.silentSignIn()
+            .subscribeOn(SchedulersFacade.io())
+            .subscribe({
+                it.idToken
+            }, {
+                Log.e(javaClass.simpleName, it.message.orEmpty())
+            })
+            .disposeOnViewDestroyed()
+
+        binding.signInWithGoogleButton.setOnClickListener { signIn(signInWithGoogle) }
 
         binding.buttonEnterSignIn.setOnClickListener {
             viewModel.onSignInClicked(
@@ -48,6 +67,22 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
         observe(viewModel.authorisationState) {
             processViewState(it)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN && data != null) {
+            signInWithGoogle.handleSignInResult(
+                intent = data,
+                onSuccess = { it.id },
+                onError = { }
+            )
+        }
+    }
+
+    private fun signIn(signInWithGoogle: SignInWithGoogle) {
+        startActivityForResult(signInWithGoogle.getSignInIntent(), RC_SIGN_IN)
     }
 
     private fun setupValidation() {
@@ -132,5 +167,9 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
     private fun navigateOnSuccess() {
         KeyboardUtils.hideKeyboard(view)
         viewModel.popOutOfAuth()
+    }
+
+    companion object {
+        const val RC_SIGN_IN = 1
     }
 }

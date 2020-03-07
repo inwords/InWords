@@ -14,8 +14,8 @@ android {
         applicationId "ru.inwords.inwords"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
-        versionCode 13
-        versionName "1.8"
+        versionCode 14
+        versionName "1.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
@@ -129,6 +129,7 @@ dependencies {
     implementation project(path: ':designcorelib')
 
     implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
