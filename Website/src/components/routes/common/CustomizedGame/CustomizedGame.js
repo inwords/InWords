@@ -41,8 +41,8 @@ function CustomizedGame({
     setProcessedTrainingLevel(processedTrainingLevel => ({
       ...processedTrainingLevel,
       cardSettings: {
-        cardDimension: +trainingSettings.cardDimension,
-        cardTextSize: +trainingSettings.cardTextSize
+        cardDimension: +trainingSettings.cardDimension || 120,
+        cardTextSize: +trainingSettings.cardTextSize || 16
       }
     }));
   }, [trainingSettings.cardDimension, trainingSettings.cardTextSize]);
