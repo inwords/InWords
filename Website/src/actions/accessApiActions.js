@@ -4,10 +4,13 @@ import { setSnackbar } from './commonActions';
 import { grantAccess } from './accessActions';
 import { history } from 'src/App';
 import { ProfileClient } from './protobuf-generated/Profile.v2_grpc_web_pb';
-import { RegistrationRequest } from './protobuf-generated/Profile.v2_pb';
+import {
+  TokenRequest,
+  RegistrationRequest
+} from './protobuf-generated/Profile.v2_pb';
 
 export function signIn(userdata) {
-  const request = new RegistrationRequest();
+  const request = new TokenRequest();
   request.setEmail(userdata.email);
   request.setPassword(userdata.password);
 
@@ -38,15 +41,23 @@ export function signIn(userdata) {
 }
 
 export function signUp(userdata) {
-  return apiAction({
-    endpoint: '/auth/registration',
-    method: 'POST',
+  const request = new RegistrationRequest();
+  request.setEmail(userdata.email);
+  request.setPassword(userdata.password);
+
+  return apiGrpcAction({
+    Client: ProfileClient,
+    request,
+    method: 'register',
     authorizationRequired: false,
-    data: JSON.stringify(userdata),
-    contentType: 'application/json',
     actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(grantAccess(data));
+      (dispatch, response) => {
+        dispatch(
+          grantAccess({
+            token: response.getToken(),
+            userId: response.getUserid()
+          })
+        );
       },
       dispatch => {
         dispatch(
@@ -67,11 +78,12 @@ export function signUp(userdata) {
   });
 }
 
-export function sendActivationCode(email) {
+export function updateEmail(email) {
   return apiAction({
-    endpoint: '/email/sendActivationCode',
+    apiVersion: '2',
+    endpoint: '/profile/updateEmail',
     method: 'POST',
-    data: JSON.stringify(email),
+    data: JSON.stringify({ email }),
     contentType: 'application/json',
     actionsOnSuccess: [
       dispatch => {

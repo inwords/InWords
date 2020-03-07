@@ -83,12 +83,12 @@ function TrainingRouter() {
       </Route>
       <Route
         exact
-        path={`${url}/courses/:categoryId`}
+        path={`${url}/courses/:courseId`}
         render={({ match: { params } }) => (
           <Container maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/courses/${params.categoryId}`}>
+              <BreadcrumbsLink to={`${url}/courses/${params.courseId}`}>
                 Уровни
               </BreadcrumbsLink>
             </Breadcrumbs>
@@ -98,16 +98,16 @@ function TrainingRouter() {
       />
       <Route
         exact
-        path={`${url}/courses/:categoryId/:levelId/:trainingId`}
+        path={`${url}/courses/:courseId/:levelId/:trainingId`}
         render={({ match: { params } }) => (
           <Container maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/courses/${params.categoryId}`}>
+              <BreadcrumbsLink to={`${url}/courses/${params.courseId}`}>
                 Уровни
               </BreadcrumbsLink>
               <BreadcrumbsLink
-                to={`${url}/courses/${params.categoryId}/${params.levelId}/${params.trainingId}`}
+                to={`${url}/courses/${params.courseId}/${params.levelId}/${params.trainingId}`}
               >
                 Тренировка
               </BreadcrumbsLink>

@@ -2,12 +2,12 @@ import apiAction from './apiAction';
 import * as trainingActions from './trainingActions';
 import { setSnackbar } from './commonActions';
 
-export function receiveTrainingCategories() {
+export function receiveCourses() {
   return apiAction({
     endpoint: '/game/gameInfo',
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingCategories(data));
+        dispatch(trainingActions.initializeCourses(data));
       }
     ],
     actionsOnFailure: [
@@ -18,12 +18,12 @@ export function receiveTrainingCategories() {
   });
 }
 
-export function receiveTrainingCategory(categoryId) {
+export function receiveCourse(courseId) {
   return apiAction({
-    endpoint: `/game/${categoryId}`,
+    endpoint: `/game/${courseId}`,
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingCategory(data));
+        dispatch(trainingActions.initializeCourse(data));
       }
     ],
     actionsOnFailure: [
@@ -34,11 +34,11 @@ export function receiveTrainingCategory(categoryId) {
   });
 }
 
-export function addCategoryWordsToDictionary(categoryId) {
+export function addCourseWordPairsToDictionary(courseId) {
   return apiAction({
     endpoint: '/game/addWordsToUserDictionary',
     method: 'POST',
-    data: JSON.stringify(categoryId),
+    data: JSON.stringify(courseId),
     contentType: 'application/json',
     actionsOnSuccess: [
       (dispatch, data) => {
@@ -55,12 +55,12 @@ export function addCategoryWordsToDictionary(categoryId) {
   });
 }
 
-export function receiveTrainingLevel(levelId) {
+export function receiveLevel(levelId) {
   return apiAction({
     endpoint: `/game/level/${levelId}`,
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingLevel(data));
+        dispatch(trainingActions.initializeLevel(data));
       }
     ],
     actionsOnFailure: [
@@ -71,7 +71,7 @@ export function receiveTrainingLevel(levelId) {
   });
 }
 
-export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
+export function saveLevelResult(levelResult, actionOnSuccess) {
   return apiAction({
     apiVersion: '1.1',
     endpoint: '/training/estimate',
@@ -91,13 +91,13 @@ export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
   });
 }
 
-export function receiveTrainingHistory() {
+export function receiveHistory() {
   return apiAction({
     apiVersion: '1.1',
     endpoint: '/customLevel/history',
     actionsOnSuccess: [
       (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingHistory(data));
+        dispatch(trainingActions.initializeHistory(data));
       }
     ],
     actionsOnFailure: [
@@ -115,7 +115,7 @@ export function receiveTrainingWordPairs() {
     actionsOnSuccess: [
       (dispatch, data) => {
         dispatch(
-          trainingActions.initializeTrainingLevel({
+          trainingActions.initializeLevel({
             levelId: 0,
             wordTranslations: data
           })

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { saveTrainingLevelResult } from 'src/actions/trainingApiActions';
+import { saveLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
 import uuidv4 from 'src/utils/uuidv4';
 import TrainingResult from 'src/components/routes/common/TrainingResult';
@@ -128,7 +128,7 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
 
       const serverLevelId = levelId < 0 ? 0 : levelId;
       dispatch(
-        saveTrainingLevelResult(
+        saveLevelResult(
           {
             gameLevelId: newServerLevelId || serverLevelId,
             wordPairIdOpenCounts: wordPairIdOpenCountsMap

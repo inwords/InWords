@@ -14,25 +14,23 @@ function CoursesTrainingSwitcher({ ...rest }) {
     dispatch(updateLevelResult(levelResult));
   };
 
-  const trainingCategory = useSelector(
-    store => store.training.trainingCategory
-  );
+  const course = useSelector(store => store.training.course);
 
   const history = useHistory();
   const params = useParams();
 
   const onNextLevel = () => {
-    const currentLevelIndex = trainingCategory.levelsInfo.findIndex(
+    const currentLevelIndex = course.levelsInfo.findIndex(
       ({ levelId }) => levelId === +params.levelId
     );
 
     if (currentLevelIndex !== -1) {
       const nextLevelIndex = currentLevelIndex + 1;
-      const nextLevel = trainingCategory.levelsInfo[nextLevelIndex];
+      const nextLevel = course.levelsInfo[nextLevelIndex];
 
       if (nextLevel) {
         history.push(
-          `/training/courses/${params.categoryId}/${nextLevel.levelId}/${params.trainingId}`
+          `/training/courses/${params.courseId}/${nextLevel.levelId}/${params.trainingId}`
         );
         return;
       }

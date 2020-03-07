@@ -1,12 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveTrainingLevel } from 'src/actions/trainingApiActions';
+import { receiveLevel } from 'src/actions/trainingApiActions';
 
 export default function useServerTrainingLevel() {
-  const trainingLevelsMap = useSelector(
-    store => store.training.trainingLevelsMap
-  );
+  const levelsMap = useSelector(store => store.training.levelsMap);
 
   const dispatch = useDispatch();
 
@@ -15,13 +13,13 @@ export default function useServerTrainingLevel() {
   const paramLevelId = +params.levelId;
 
   React.useEffect(() => {
-    if (!trainingLevelsMap[paramLevelId]) {
-      dispatch(receiveTrainingLevel(paramLevelId));
+    if (!levelsMap[paramLevelId]) {
+      dispatch(receiveLevel(paramLevelId));
     }
-  }, [trainingLevelsMap, dispatch, paramLevelId]);
+  }, [levelsMap, dispatch, paramLevelId]);
 
   return (
-    trainingLevelsMap[paramLevelId] || {
+    levelsMap[paramLevelId] || {
       levelId: paramLevelId,
       wordTranslations: []
     }

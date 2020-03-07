@@ -12,7 +12,6 @@ import Typography from 'src/components/core/Typography';
 import Slider from 'src/components/core/Slider';
 import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
-import GameCard from 'src/components/routes/common/GameCard';
 
 import './GameSettingsDialog.css';
 
