@@ -44,14 +44,19 @@ internal class ResourceCachingProvider<T : Any>(
             .observeOn(SchedulersFacade.io())
             .doOnNext { inProgress.set(true) }
             .switchMap {
-                fakeRemoteStream.mergeWith(remoteObservable
-                    .subscribeOn(SchedulersFacade.io()))
+                fakeRemoteStream.mergeWith(remoteObservable.subscribeOn(SchedulersFacade.io()))
             }
             .flatMapSingle { res ->
                 when (res) {
-                    is Resource.Success -> databaseInserter(res.data)
-                        .doOnError { Log.e(TAG, it.message.orEmpty()) }
-                        .wrapDatabaseInserterResource(res, res.source)
+                    is Resource.Success -> {
+                        if (res.source == Source.PREFETCH) {
+                            Single.just(res)
+                        } else {
+                            databaseInserter(res.data)
+                                .doOnError { Log.e(TAG, it.message.orEmpty()) }
+                                .wrapDatabaseInserterResource(res, res.source)
+                        }
+                    }
                     is Resource.Loading -> Single.just(res)
                     is Resource.Error -> {
                         Log.e(TAG, res.message.orEmpty())

@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import io.grpc.ManagedChannel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,8 +16,10 @@ import ru.inwords.inwords.BuildConfig
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.dagger.annotations.AuthorisedZone
 import ru.inwords.inwords.dagger.annotations.Common
+import ru.inwords.inwords.dagger.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.dagger.annotations.UnauthorisedZone
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
+import ru.inwords.inwords.data.source.grpc.buildManagedChannel
 import ru.inwords.inwords.data.source.remote.ApiServiceAuthorised
 import ru.inwords.inwords.data.source.remote.ApiServiceUnauthorised
 import ru.inwords.inwords.data.source.remote.BasicAuthenticator
@@ -71,9 +74,11 @@ class DataSourcesModule {
     @Provides
     @Singleton
     @AuthorisedZone
-    fun provideOkHttpClient(@UnauthorisedZone okHttpClient: OkHttpClient,
-                            authenticator: BasicAuthenticator,
-                            tokenInterceptor: TokenInterceptor): OkHttpClient {
+    fun provideOkHttpClient(
+        @UnauthorisedZone okHttpClient: OkHttpClient,
+        authenticator: BasicAuthenticator,
+        tokenInterceptor: TokenInterceptor
+    ): OkHttpClient {
         return okHttpClient.newBuilder() //so that it shares cache etc
             .addInterceptor(tokenInterceptor)
             .authenticator(authenticator)
@@ -92,6 +97,13 @@ class DataSourcesModule {
             .readTimeout(40, TimeUnit.SECONDS)
             .writeTimeout(40, TimeUnit.SECONDS)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    @GrpcDefaultChannel
+    fun provideManagedChannel(context: Context): ManagedChannel {
+        return buildManagedChannel(context)
     }
 
     @Provides

@@ -8,7 +8,8 @@ import java.io.File
 
 class TtsCachingRepository(
     private val databaseRepository: TtsDatabaseRepository,
-    private val remoteRepository: TtsRemoteRepository) : TtsRepository {
+    private val remoteRepository: TtsRemoteRepository,
+    private val settingsRepository: SettingsRepository) : TtsRepository {
 
     override fun synthesize(textToSpeak: String): Single<File> {
         return Single.fromCallable { databaseRepository.getFile(textToSpeak, getExtension()) }
@@ -33,7 +34,7 @@ class TtsCachingRepository(
     }
 
     private fun getAudioConfig(): AudioConfig {
-        val config = if (SettingsRepository.useOpus) {
+        val config = if (settingsRepository.useOpus) {
             "OGG_OPUS"
         } else {
             "MP3"
@@ -42,7 +43,7 @@ class TtsCachingRepository(
     }
 
     private fun getExtension(): String {
-        return if (SettingsRepository.useOpus) {
+        return if (settingsRepository.useOpus) {
             ".ogg"
         } else {
             ".mp3"

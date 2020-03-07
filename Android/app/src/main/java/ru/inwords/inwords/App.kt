@@ -19,7 +19,6 @@ import okhttp3.OkHttpClient
 import ru.inwords.inwords.dagger.AppComponent
 import ru.inwords.inwords.dagger.DaggerAppComponent
 import ru.inwords.inwords.dagger.annotations.UnauthorisedZone
-import ru.inwords.inwords.data.repository.SettingsRepository
 import javax.inject.Inject
 
 
@@ -47,8 +46,6 @@ class App : Application(), HasAndroidInjector, Configuration.Provider {
                 .newBuilder(this, okHttpClient)
                 .build()
         Fresco.initialize(this, config) //violates strictmode policy
-
-        SettingsRepository.initialize(this)
 
         addStrictModeIfDebug()
 

@@ -19,7 +19,7 @@ interface TranslationWordsInteractor {
 
     fun presyncOnStart(forceUpdate: Boolean = false): Completable
 
-    fun trySyncAllReposWithCache(): Completable
+    fun tryUploadUpdatesToRemote(): Completable
 
     fun notifyDataChanged()
 

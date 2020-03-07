@@ -35,7 +35,7 @@ internal class ResourceCachingProviderTest {
                 Single.fromCallable {
                     Thread.sleep(200)
                     println("db got + ${localRepo[id]}")
-                    localRepo[id]
+                    localRepo[id]!!
                 }
             }, //by id local
             {
@@ -113,7 +113,7 @@ internal class ResourceCachingProviderTest {
 
         val provider = ResourceCachingProvider<String>(
             { data -> Single.fromCallable { localRepo.put(id, data) }.map { data } },
-            { Single.just(localRepo[id]) }, //by id local
+            { Single.just(localRepo[id]!!) }, //by id local
             { Single.just(str) }) //by id remote
 
         provider.observe()
@@ -139,7 +139,7 @@ internal class ResourceCachingProviderTest {
 
         val provider = ResourceCachingProvider<String>(
             { Single.error(Throwable("local error")) },
-            { Single.just(localRepo[id]) }, //by id local
+            { Single.just(localRepo[id]!!) }, //by id local
             { Single.just(str) }) //by id remote
 
         provider.observe()
@@ -161,7 +161,7 @@ internal class ResourceCachingProviderTest {
 
         val provider = ResourceCachingProvider<String>(
             { data -> Single.fromCallable { localRepo.put(id, data) }.map { data } },
-            { Single.fromCallable { localRepo[id] } }, //by id local
+            { Single.fromCallable { localRepo[id]!! } }, //by id local
             { Single.fromCallable { str.toString() } }) //by id remote
 
         val subscriber = TestSubscriber<Resource<String>>()
@@ -199,7 +199,7 @@ internal class ResourceCachingProviderTest {
 
         val provider = ResourceCachingProvider<String>(
             { data -> Single.fromCallable { localRepo.put(id, data) }.map { data } },
-            { Single.just(localRepo[id]) }, //by id local
+            { Single.just(localRepo[id]!!) }, //by id local
             { Single.error(Throwable("remote error")) }) //by id remote
 
         localRepo[id] = str

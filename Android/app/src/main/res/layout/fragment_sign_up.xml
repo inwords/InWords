@@ -4,19 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity">
+    tools:context=".main_activity.presentation.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         style="@style/ToolbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/appbar_height">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/appbar_height"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:title="@string/registration" />
+
+        <ru.inwords.designcorelib.custom_views.ProgressView
+            android:id="@+id/progress_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_progress_height"
+            android:visibility="gone" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -35,11 +41,12 @@
             android:paddingBottom="@dimen/space_xmedium_large">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextEmail"
+                    android:id="@+id/email_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/sign_up_email"
@@ -49,13 +56,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_medium"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPassword"
+                    android:id="@+id/password_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/sign_up_password"
@@ -65,13 +73,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/confirm_password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_medium"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextConfirmPassword"
+                    android:id="@+id/confirm_password_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/sign_up_confirm_password"
@@ -80,13 +89,21 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ru.inwords.designcorelib.custom_views.button.ActionProcessButton
-                android:id="@+id/buttonEnterSignUp"
-                style="@style/AuthorisationButton"
+            <TextView
+                android:id="@+id/error_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary"
+                tools:text="Ошибка: ываываываыва" />
+
+            <Button
+                android:id="@+id/sign_up_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_large"
                 android:text="@string/sign_up_enter"
-                android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
-                app:pb_textError="Повторить"
-                app:pb_textProgress="@string/sign_up_in_process" />
+                android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -104,7 +121,7 @@
                     android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
 
                 <TextView
-                    android:id="@+id/textViewSignIn"
+                    android:id="@+id/sign_in_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackground"

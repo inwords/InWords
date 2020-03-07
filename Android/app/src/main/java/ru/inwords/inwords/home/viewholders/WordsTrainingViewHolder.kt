@@ -3,12 +3,11 @@ package ru.inwords.inwords.home.viewholders
 import android.view.View
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.subjects.Subject
 import ru.inwords.inwords.R
 import ru.inwords.inwords.home.recycler.CardWrapper
 import ru.inwords.inwords.home.recycler.SimpleState.*
 
-class WordsTrainingViewHolder(itemView: View, private val onItemClickListener: Subject<CardWrapper>) :
+class WordsTrainingViewHolder(itemView: View, private val onItemClickListener: (CardWrapper) -> Unit) :
     RecyclerView.ViewHolder(itemView) {
     private val actionButton = itemView.findViewById<Button>(R.id.action_button_1)
 
@@ -28,6 +27,6 @@ class WordsTrainingViewHolder(itemView: View, private val onItemClickListener: S
             }
         }
 
-        actionButton.setOnClickListener { onItemClickListener.onNext(item) }
+        actionButton.setOnClickListener { onItemClickListener.invoke(item) }
     }
 }

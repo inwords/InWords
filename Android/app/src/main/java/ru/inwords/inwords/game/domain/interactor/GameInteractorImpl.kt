@@ -1,27 +1,34 @@
 package ru.inwords.inwords.game.domain.interactor
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.game.data.bean.GameLevel
+import ru.inwords.inwords.game.data.bean.GameLevelInfo
+import ru.inwords.inwords.game.data.bean.LevelScore
+import ru.inwords.inwords.game.data.bean.LevelScoreRequest
 import ru.inwords.inwords.game.data.repository.GameGatewayController
 import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
-import ru.inwords.inwords.game.domain.model.GameModel
-import ru.inwords.inwords.game.domain.model.GamesInfoModel
+import ru.inwords.inwords.game.domain.model.Game
+import ru.inwords.inwords.game.domain.model.GamesInfo
 import ru.inwords.inwords.game.domain.model.LevelResultModel
 import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 import javax.inject.Inject
 
 class GameInteractorImpl @Inject constructor(
     private val gameGatewayController: GameGatewayController,
-    private val gameCreator: GameCreator) : GameInteractor {
+    private val translationWordsInteractor: TranslationWordsInteractor,
+    private val gameCreator: GameCreator
+) : GameInteractor {
 
-    override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<GamesInfoModel>> {
+    override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<GamesInfo>> {
         return gameGatewayController.getGamesInfo(forceUpdate)
     }
 
-    override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<GameModel>> {
+    override fun getGame(gameId: Int, forceUpdate: Boolean): Observable<Resource<Game>> {
         return gameGatewayController.getGame(gameId, forceUpdate)
     }
 
@@ -41,6 +48,11 @@ class GameInteractorImpl @Inject constructor(
         return gameGatewayController.uploadScoresToServer()
             .subscribeOn(SchedulersFacade.io())
     }
+
+    override fun addWordsToUserDictionary(gameId: Int): Completable = gameGatewayController.addWordsToUserDictionary(gameId)
+        .doOnComplete {
+            translationWordsInteractor.clearCache()
+        }
 
     override fun clearCache() {
         gameGatewayController.clearCache()

@@ -6,7 +6,7 @@ import androidx.work.RxWorker
 import androidx.work.WorkerParameters
 import io.reactivex.Single
 import ru.inwords.inwords.App
-import ru.inwords.inwords.domain.interactor.authorisation.AuthorisationWebInteractor
+import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationWebInteractor
 import javax.inject.Inject
 
 class LevelScoreUploadWorker(context: Context, workerParams: WorkerParameters) : RxWorker(context, workerParams) {

@@ -1,86 +1,98 @@
 package ru.inwords.inwords.translation.presentation.add_edit_word
 
 
-import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
-import kotlinx.android.synthetic.main.fragment_add_edit_word.*
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.AfterTextChangedWatcher
 import ru.inwords.inwords.core.utils.KeyboardUtils
+import ru.inwords.inwords.core.utils.observe
+import ru.inwords.inwords.core.validation.ValidationResult
+import ru.inwords.inwords.databinding.FragmentAddEditWordBinding
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.presentation.TranslationViewModelFactory
 
-class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, TranslationViewModelFactory>() {
+class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, TranslationViewModelFactory, FragmentAddEditWordBinding>() {
     override val layout = R.layout.fragment_add_edit_word
     override val classType = AddEditWordViewModel::class.java
 
+    override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentAddEditWordBinding {
+        return FragmentAddEditWordBinding.inflate(inflater, container, attachToRoot)
+    }
+
     private val args by navArgs<AddEditWordFragmentArgs>()
 
-    private var isEditing: Boolean = false
-
-    private lateinit var wordToEdit: WordTranslation
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        wordToEdit = args.wordTranslation
-    }
+    private val isEditing: Boolean
+        get() {
+            return args.wordTranslation.wordNative.isNotEmpty()
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
+        setupWithNavController(binding.toolbar)
 
-        setUpViewState()
+        val wordToEdit = args.wordTranslation
 
-        viewModel.addEditDoneLiveData.observe(this::getLifecycle) {
+        setupViewState(wordToEdit)
+
+        setupValidation()
+
+        observe(viewModel.addEditDoneLiveData) {
             if (it.handle()) {
-                popBackToTranslationMain()
+                binding.toolbar.requestFocus() //TODO другой метод скрытия клавиатуры?
+                KeyboardUtils.hideKeyboard(view)
             }
         }
 
-        buttonConfirm.setOnClickListener {
+        binding.buttonConfirm.setOnClickListener {
             val enteredWord = getEnteredWord()
 
             if (isEditing) {
-                viewModel.onEditWordDoneHandler(enteredWord, wordToEdit)
+                viewModel.onEditWordDone(enteredWord, wordToEdit)
             } else {
-                viewModel.onAddWordDoneHandler(enteredWord)
+                viewModel.onAddWordDone(enteredWord)
             }
         }
     }
 
-    private fun getEnteredWord(): WordTranslation { //TODO: validate input
-        val wordForeign = editTextForeignWord.text.toString()
-        val wordNative = editTextNativeWord.text.toString()
+    private fun setupValidation() {
+        binding.nativeWordEditText.addTextChangedListener(AfterTextChangedWatcher { binding.nativeWordLayout.error = null })
+        binding.foreignWordEditText.addTextChangedListener(AfterTextChangedWatcher { binding.foreignWordLayout.error = null })
+
+        observe(viewModel.validationLiveData) {
+            if (it.wordNativeState is ValidationResult.Error) {
+                binding.nativeWordLayout.error = it.wordNativeState.message
+            }
+            if (it.wordForeignState is ValidationResult.Error) {
+                binding.foreignWordLayout.error = it.wordForeignState.message
+            }
+        }
+    }
+
+    private fun getEnteredWord(): WordTranslation {
+        val wordForeign = binding.foreignWordEditText.text.toString()
+        val wordNative = binding.nativeWordEditText.text.toString()
 
         return WordTranslation(wordForeign, wordNative)
     }
 
-    private fun setUpViewState() {
+    private fun setupViewState(wordToEdit: WordTranslation) {
         if (wordToEdit.wordNative.isEmpty()) {
-            isEditing = false
-
-            buttonConfirm.text = getString(R.string.button_add_text)
+            binding.buttonConfirm.text = getString(R.string.button_add_text)
         } else {
-            isEditing = true
-
-            buttonConfirm.text = getString(R.string.button_edit_text)
+            binding.buttonConfirm.text = getString(R.string.button_edit_text)
         }
 
         renderEditingWords(wordToEdit)
     }
 
     private fun renderEditingWords(wordTranslation: WordTranslation) {
-        editTextNativeWord.setText(wordTranslation.wordNative)
-        editTextForeignWord.setText(wordTranslation.wordForeign)
-    }
-
-    private fun popBackToTranslationMain() {
-        toolbar.requestFocus() //TODO другой метод скрытия клавиатуры?
-        KeyboardUtils.hideKeyboard(view)
-        navController.navigate(AddEditWordFragmentDirections.actionAddEditWordFragmentPop())
+        binding.nativeWordEditText.setText(wordTranslation.wordNative)
+        binding.foreignWordEditText.setText(wordTranslation.wordForeign)
     }
 }

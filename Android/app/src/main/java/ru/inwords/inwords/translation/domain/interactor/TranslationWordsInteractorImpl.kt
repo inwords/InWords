@@ -55,7 +55,7 @@ internal constructor(private val adapterHolder: WordTranslationDeferredAdapterHo
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun trySyncAllReposWithCache(): Completable {
+    override fun tryUploadUpdatesToRemote(): Completable {
         return adapterHolder.tryUploadUpdatesToRemote()
     }
 

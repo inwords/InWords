@@ -11,30 +11,30 @@ import io.reactivex.subjects.PublishSubject
 import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.Game
+import ru.inwords.inwords.data.repository.SettingsRepository
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.domain.CardsData
 import ru.inwords.inwords.game.domain.interactor.ContinueGameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.ContinueGameQueryResult
-import ru.inwords.inwords.game.domain.model.GameModel
+import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.LevelResultModel
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.game_level.FromGameEndEventsEnum.*
+import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 
 class GameLevelViewModel(private val gameInteractor: GameInteractor,
                          private val continueGameInteractor: ContinueGameInteractor,
-                         private val ttsRepository: TtsRepository) : BasicViewModel() {
-    private val _navigationFromGameEnd = MutableLiveData<Event<FromGameEndEventsEnum>>()
-    private val _levelResult = MutableLiveData<Event<LevelResultModel>>()
+                         private val ttsRepository: TtsRepository,
+                         private val settingsRepository: SettingsRepository) : BasicViewModel() {
+    private val _navigationFromGameEnd = SingleLiveEvent<FromGameEndEventsEnum>()
     private val ttsSubject = PublishSubject.create<Resource<String>>()
     private val showProgressMutableLiveData = MutableLiveData<Event<Boolean>>()
 
-    val levelResult: LiveData<Event<LevelResultModel>> = _levelResult
-    val navigationFromGameEnd: LiveData<Event<FromGameEndEventsEnum>> = _navigationFromGameEnd
+    val navigationFromGameEnd: LiveData<FromGameEndEventsEnum> = _navigationFromGameEnd
     val ttsStream: Observable<Resource<String>> = ttsSubject
     val showProgress: LiveData<Event<Boolean>> = showProgressMutableLiveData
 
@@ -42,13 +42,14 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
 
     private val gameLevelOrchestrator = GameLevelOrchestrator(onCardFlipped = { ttsWordModel(it) })
         .apply {
-            setGameEndListener { _levelResult.postValue(Event(it)) }
+            setGameEndListener { showGameEndDialog(it) }
         }
 
     private lateinit var game: Game
     private var currentLevelIndex = 0
 
     fun onAttachGameScene(gameScene: GameScene) {
+        gameScene.scaleGame = settingsRepository.scaleGame
         gameLevelOrchestrator.attachGameScene(gameScene)
     }
 
@@ -80,9 +81,9 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
             .autoDispose()
     }
 
-    private fun storeGame(gameResource: Resource<GameModel>) {
+    private fun storeGame(gameResource: Resource<Game>) {
         when (gameResource) {
-            is Resource.Success -> game = gameResource.data.game.copy(gameLevelInfos = gameResource.data.game.gameLevelInfos.sortedBy { g -> g.level })
+            is Resource.Success -> game = gameResource.data.copy(gameLevelInfos = gameResource.data.gameLevelInfos.sortedBy { g -> g.level })
             is Resource.Error -> Log.e("GameLevelViewModel", gameResource.message.orEmpty())  //TODO
         }
     }
@@ -94,13 +95,13 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
                     when (val queryResult = queryResultResource.data) {
                         is ContinueGameQueryResult.NextLevelInfo -> {
                             onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
-                            _navigationFromGameEnd.postValue(Event(NEXT))
+                            _navigationFromGameEnd.postValue(NEXT)
                         }
                         is ContinueGameQueryResult.NextGameInfo -> {
-                            _navigationFromGameEnd.postValue(Event(GAMES_FRAGMENT)) //TODO show congrats screen with action "go to next"
+                            _navigationFromGameEnd.postValue(GAMES_FRAGMENT) //TODO show congrats screen with action "go to next"
                         }
                         ContinueGameQueryResult.NoMoreGames -> {
-                            _navigationFromGameEnd.postValue(Event(GAMES_FRAGMENT)) //TODO show congrats screen
+                            _navigationFromGameEnd.postValue(GAMES_FRAGMENT) //TODO show congrats screen
                         }
                     }
                 }
@@ -122,10 +123,10 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
                     .autoDispose()
             }
             REFRESH -> {
-                _navigationFromGameEnd.postValue(Event(path))
+                _navigationFromGameEnd.postValue(path)
                 onGameLevelSelected(game.gameId, currentLevelInfo, true)
             }
-            else -> _navigationFromGameEnd.postValue(Event(path))
+            else -> _navigationFromGameEnd.postValue(path)
         }
     }
 
@@ -150,5 +151,15 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
                 })
                 .autoDispose()
         }
+    }
+
+    private fun showGameEndDialog(levelResultModel: LevelResultModel) {
+        val levelId = getCurrentLevelInfo()?.levelId ?: return
+
+        navigateTo(
+            GameLevelFragmentDirections.actionGameLevelFragmentToGameEndBottomSheet(
+                levelResultModel.copy(levelId = levelId)
+            )
+        )
     }
 }

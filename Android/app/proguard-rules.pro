@@ -32,9 +32,11 @@
 #-keep class com.google.gson.stream.** { *; }
 
 # Application classes that will be serialized/deserialized over Gson
--keep class **.dto.** { <fields>; }
--keep class **.bean.** { <fields>; }
--keep class **.model.** { <fields>; }
+-keep class ru.inwords.inwords.**.dto.** { <fields>; }
+-keep class ru.inwords.inwords.**.bean.** { <fields>; }
+-keep class ru.inwords.inwords.**.model.** { <fields>; }
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite { *; }
+-keepclassmembers class org.chromium.net.impl.** { *; }
 
 # Prevent proguard from stripping interface information from TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
@@ -57,3 +59,9 @@
 -keepclassmembers class * {
   @com.facebook.soloader.DoNotOptimize *;
 }
+
+-dontwarn com.google.common.**
+# Ignores: can't find referenced class javax.lang.model.element.Modifier
+-dontwarn com.google.errorprone.annotations.**
+-dontwarn javax.naming.**
+-dontwarn okio.**

@@ -1,0 +1,91 @@
+subprojects {
+    apply plugin: 'jacoco'
+    jacoco {
+        toolVersion = '0.8.5'
+        def reportsDirPath = "${project.rootDir}/app/build/reports/jacoco/${project.name}"
+        reportsDir = file(reportsDirPath)
+    }
+}
+
+def configureJacoco = { project ->
+    def variantName = project.name
+    project.tasks.create(name: "getJacocoReports", type: JacocoReport) {
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports for the $variantName build."
+        reports {
+            html.enabled = true
+            xml.enabled = true
+        }
+        def excludes = [
+                '**/R.class',
+                '**/R$*.class',
+                '**/BuildConfig.*',
+                '**/Manifest*.*',
+                '**/AndroidManifest.xml',
+                '**/*Test*.*',
+                'android/**/*.*',
+                'androidx/**/*.*',
+                '**/*Fragment.*',
+                '**/*Activity.*',
+                '**/*Api.*',
+                '**/ui/**/*.class',
+        ]
+
+        excludes += ['**/di/**',
+                     '**/dagger/**',
+                     '**/model/**']
+
+        // not testable Android classes
+        excludes += ['**/*Activity.class',
+                     '**/*Dialog.class',
+                     '**/*DialogFragment.class',
+                     '**/*Fragment.class',
+                     '**/*Service.class',
+                     '**/*Receiver.class',
+                     '**/*View.class']
+
+        // not testable classes for Recycler View
+        excludes += [
+                '**/*Adapter.class',
+                '**/*ViewHolder.class',
+                '**/*ViewHolderBinder.class',
+                '**/*ViewHolderFactory.class']
+
+        // not testable classes Dagger 2
+        excludes += ['**/*Injector.class',
+                     '**/*_Factory.class',
+                     '**/*_Impl*.class',
+                     '**/*$$State.class',
+                     '**/*$$State*Command.class',
+                     '**/*$$PresentersBinder.class',
+                     '**/*$$PresentersBinder*Binder.class']
+
+        def javaClasses = fileTree(dir: "${project.buildDir}/intermediates/javac", excludes: excludes)
+        def kotlinClasses = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes", excludes: excludes)
+        classDirectories.setFrom(files([javaClasses, kotlinClasses]))
+
+        sourceDirectories.setFrom(files([
+                "${project.projectDir}/src/main/java",
+                "${project.projectDir}/src/main/kotlin",
+        ]))
+
+        executionData.setFrom(files(fileTree(include: ['*.exec'], dir: "${project.buildDir}/jacoco").files))
+    }
+}
+
+allprojects { project ->
+    configureJacoco(project)
+    project.tasks.withType(Test) {
+        enabled = true
+        jacoco.includeNoLocationClasses = true
+    }
+}
+
+task jacocoAggregateReports() {
+    group = "Reporting"
+    subprojects.forEach { subproject ->
+        subproject.tasks.withType(JacocoReport).forEach { task ->
+            dependsOn task
+        }
+    }
+}

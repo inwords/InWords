@@ -10,30 +10,28 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.domain.interactor.integration.IntegrationInteractor
 import ru.inwords.inwords.home.recycler.CardWrapper
 import ru.inwords.inwords.home.recycler.SimpleState
 import ru.inwords.inwords.home.recycler.applyDiffUtil
+import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
 import ru.inwords.inwords.training.domain.TrainingInteractor
-import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 
 class HomeViewModel internal constructor(
     private val translationWordsInteractor: TranslationWordsInteractor,
     private val profileInteractor: ProfileInteractor,
-    private val integrationInteractor: IntegrationInteractor,
+    private val policyInteractor: PolicyInteractor,
     private val trainingInteractor: TrainingInteractor,
-    private val resourceManager: ResourceManager) : BasicViewModel() {
+    private val resourceManager: ResourceManager
+) : BasicViewModel() {
 
     private val errorLiveData = SingleLiveEvent<String>()
-    private val navigateToCustomGameCreatorLiveData = SingleLiveEvent<List<WordTranslation>>()
     private val profileLiveData = MutableLiveData<User>()
 
-    val navigateToCustomGameCreator: LiveData<List<WordTranslation>> = navigateToCustomGameCreatorLiveData
     val profile: LiveData<User> = profileLiveData
     val error: LiveData<String> = errorLiveData
 
@@ -72,14 +70,14 @@ class HomeViewModel internal constructor(
         )
             .applyDiffUtil()
 
-    fun getPolicyAgreementState() = integrationInteractor.getPolicyAgreementState()
+    fun getPolicyAgreementState() = policyInteractor.getPolicyAgreementState()
 
-    fun onWordsTrainingClicked() {
+    private fun onWordsTrainingClicked() {
         Observable.fromCallable { trainingInteractor.getActualWordsForTraining() }
             .subscribeOn(SchedulersFacade.io())
             .doOnSubscribe { training.onNext(CardWrapper.WordsTrainingModel(SimpleState.LOADING)) }
             .subscribe({
-                navigateToCustomGameCreatorLiveData.postValue(it)
+                navigateTo(HomeFragmentDirections.toCustomGameCreatorFragment(it.toTypedArray()))
                 training.onNext(CardWrapper.WordsTrainingModel(SimpleState.READY))
             }, {
                 training.onNext(CardWrapper.WordsTrainingModel(SimpleState.ERROR))
@@ -87,5 +85,23 @@ class HomeViewModel internal constructor(
                 Log.e(javaClass.simpleName, it.message.orEmpty())
             })
             .autoDispose()
+    }
+
+    fun handleNavigation(cardWrapper: CardWrapper) {
+        when (cardWrapper) {
+            is CardWrapper.CreateAccountMarker -> navigateTo(HomeFragmentDirections.actionMainFragmentToRegister(false))
+            is CardWrapper.ProfileLoadingMarker -> Unit
+            is CardWrapper.ProfileModel -> navigateTo(HomeFragmentDirections.actionMainFragmentToProfileFragment())
+            is CardWrapper.DictionaryModel -> navigateTo(HomeFragmentDirections.actionMainFragmentToDictionary())
+            is CardWrapper.WordsTrainingModel -> onWordsTrainingClicked()
+        }
+    }
+
+    fun navigateToPolicy() {
+        navigateTo(HomeFragmentDirections.actionMainFragmentToPolicyFragment())
+    }
+
+    fun navigateToProfile() {
+        navigateTo(HomeFragmentDirections.actionMainFragmentToProfileFragment())
     }
 }

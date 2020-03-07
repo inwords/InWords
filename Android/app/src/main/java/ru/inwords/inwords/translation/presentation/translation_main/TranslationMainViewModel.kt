@@ -1,14 +1,11 @@
 package ru.inwords.inwords.translation.presentation.translation_main
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
@@ -20,12 +17,9 @@ import java.util.concurrent.TimeUnit
 
 class TranslationMainViewModel(private val translationWordsInteractor: TranslationWordsInteractor,
                                private val ttsRepository: TtsRepository) : BasicViewModel() {
-    private var onEditClickedDisposable: Disposable? = null
     private var onSpeakerClickedDisposable: Disposable? = null
 
-    private val addEditWordMutableLiveData = MutableLiveData<Event<WordTranslation>>()
     private val ttsSubject = PublishSubject.create<Resource<String>>()
-    private val navigateToPlayMutableLiveData = MutableLiveData<Event<List<WordTranslation>>>()
 
     private val filterSubject = BehaviorSubject.createDefault("")
 
@@ -37,9 +31,7 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
             BiFunction { t1: List<WordTranslation>, t2: String -> filter(t1, t2) })
             .observeOn(SchedulersFacade.computation())
 
-    val addEditWordLiveData: LiveData<Event<WordTranslation>> = addEditWordMutableLiveData
     val ttsStream: Observable<Resource<String>> = ttsSubject
-    val navigateToPlayLiveData: LiveData<Event<List<WordTranslation>>> = navigateToPlayMutableLiveData
 
     fun onSearchQueryChange(query: String) {
         filterSubject.onNext(query)
@@ -57,7 +49,6 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
         .subscribe({ translationWordsInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
         .autoDispose()
 
-
     fun onItemsDismissUndo(wordTranslations: List<WordTranslation>) = translationWordsInteractor.addReplaceAll(wordTranslations)
         .subscribe({ translationWordsInteractor.notifyDataChanged() }, { Log.e(javaClass.simpleName, it.message.orEmpty()) })
         .autoDispose()
@@ -74,16 +65,15 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
     }
 
     fun onAddClicked() { //fab clicked
-        addEditWordMutableLiveData.postValue(Event(WordTranslation("", "")))
+        navigateTo(
+            TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(WordTranslation("", ""))
+        )
     }
 
-    fun onEditClickedHandler(clicksObservable: Observable<WordTranslation>) { //clickListener on item
-        onEditClickedDisposable?.dispose()
-
-        onEditClickedDisposable = clicksObservable
-            .debounce(200, TimeUnit.MILLISECONDS)
-            .subscribe { addEditWordMutableLiveData.postValue(Event(it)) }
-            .autoDispose()
+    fun onEditClicked(wordTranslation: WordTranslation) {
+        navigateTo(
+            TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(wordTranslation)
+        )
     }
 
     fun onSpeakerClickedHandler(speakerObservable: Observable<WordTranslation>) {
@@ -116,6 +106,6 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
     }
 
     fun onPlayClicked(wordTranslations: List<WordTranslation>) {
-        navigateToPlayMutableLiveData.postValue(Event(wordTranslations))
+        TranslationMainFragmentDirections.actionTranslationMainFragmentToCustomGameCreatorFragment(wordTranslations.toTypedArray())
     }
 }

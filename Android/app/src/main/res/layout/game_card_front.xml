@@ -4,8 +4,9 @@
     android:id="@+id/frontText"
     android:layout_width="@dimen/game_card_size"
     android:layout_height="@dimen/game_card_size"
-    android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Inverse"
     android:background="@drawable/rounded_rect"
     android:backgroundTint="@color/colorPrimary"
     android:gravity="center"
-    tools:text="Front" />
+    android:padding="@dimen/space_xxxsmall"
+    android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Inverse"
+    tools:text="Front 1 1 1 1 1 1" />
