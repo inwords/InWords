@@ -30,7 +30,7 @@ namespace InWords.WebApiTests.Services.Users.Token
 
             var mock = new Mock<IPasswordSalter>();
             mock.Setup(a => a.EqualsSequence(It.IsAny<string>(), It.IsAny<byte[]>())).Returns(true);
-            
+
             var jwtMock = new Mock<IJwtProvider>();
             jwtMock.Setup(a => a.GenerateToken(It.IsAny<ClaimsIdentity>())).Returns("token");
             // act 
@@ -55,9 +55,9 @@ namespace InWords.WebApiTests.Services.Users.Token
 
             // act 
             var token = new UserToken(context, jwtMock.Object, mock.Object);
-
+            var response = await HandleRequest(token);
             // assert
-            await Assert.ThrowsAsync<ArgumentException>(() => HandleRequest(token));
+            Assert.True(string.IsNullOrWhiteSpace(response.Token));
         }
 
         private async void AddFakeUser(InWordsDataContext context)
