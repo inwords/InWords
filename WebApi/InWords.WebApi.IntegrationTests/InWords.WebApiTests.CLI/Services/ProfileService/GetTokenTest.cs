@@ -11,6 +11,7 @@ namespace InWords.WebApiTests.CLI.Services.ProfileService
     {
         private readonly string username = "1@1";
         private readonly string validPassword = "1";
+        private readonly string InvalidUserName = "2";
         private readonly string invalidPassword = "2";
 
         [Fact]
@@ -28,12 +29,33 @@ namespace InWords.WebApiTests.CLI.Services.ProfileService
         }
 
         [Fact]
-        public async void GetInValidToken()
+        public async void InvalidPasswordTest()
         {
             using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
             var client = clientFabric.Client;
 
             TokenRequest tokenRequest = new TokenRequest { Email = username, Password = invalidPassword };
+
+            // act
+            // assert
+            try
+            {
+                var x = await client.GetTokenAsync(tokenRequest);
+            }
+            catch (RpcException e)
+            {
+                Assert.Equal(expected: StatusCode.NotFound, e.StatusCode);
+                Assert.False(string.IsNullOrEmpty(e.Message));
+            }
+        }
+
+        [Fact]
+        public async void InvalidAccountTest()
+        {
+            using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
+            var client = clientFabric.Client;
+
+            TokenRequest tokenRequest = new TokenRequest { Email = InvalidUserName, Password = invalidPassword };
 
             // act
             // assert
