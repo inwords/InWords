@@ -1,29 +1,41 @@
 ﻿using Grpc.Net.Client;
 using InWords.WebApiTest.gRPC.Services;
+using InWords.WebApiTests.CLI.TestUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using static InWords.WebApiTest.gRPC.Services.Profile;
 
 namespace InWords.WebApiTests.CLI.Services.ProfileService
 {
     public class GetTokenTest
     {
+        private readonly string username = "1@1";
+        private readonly string validPassword = "1";
+        private readonly string invalidPassword = "2";
+
         [Fact]
         public async void GetValidToken()
         {
-            using LaunchSettingsFixture fixture = new LaunchSettingsFixture();
-            var url = TestEnvironment.GetEnvironmentVariable(Variables.URL);
             // arrange
-            using var channel = GrpcChannel.ForAddress(url);
-            var client = new Profile.ProfileClient(channel);
+            using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
+            var client = clientFabric.Client;
+            TokenRequest tokenRequest = new TokenRequest { Email = username, Password = validPassword };
+            // act
+            var reply = await client.GetTokenAsync(tokenRequest);
 
+            // assert
+            Assert.False(string.IsNullOrEmpty(reply.Token));
+        }
 
-            TokenRequest tokenRequest = new TokenRequest
-            {
-                Email = "1@1",
-                Password = "1"
-            };
+        [Fact]
+        public async void GetInValidToken()
+        {
+            using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
+            var client = clientFabric.Client;
+
+            TokenRequest tokenRequest = new TokenRequest { Email = username, Password = invalidPassword };
 
             // act
             var reply = await client.GetTokenAsync(tokenRequest);

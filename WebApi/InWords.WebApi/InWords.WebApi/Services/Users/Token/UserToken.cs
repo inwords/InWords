@@ -1,4 +1,5 @@
-﻿using InWords.Data;
+﻿using Grpc.Core;
+using InWords.Data;
 using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption.Interfaces;
@@ -43,10 +44,16 @@ namespace InWords.WebApi.Services.Users.Token
                     .SingleOrDefault();
 
                 if (requestedAccount == null)
-                    throw new ArgumentNullException($"{nameof(requestedAccount)} is null");
+                {
+                    request.StatusCode = StatusCode.AlreadyExists;
+                    request.ErrorMessage = $"{nameof(requestedAccount)} is null";
+                }
 
                 if (!passwordSalter.EqualsSequence(tokenRequest.Password, requestedAccount.Hash))
-                    throw new ArgumentException($"{nameof(tokenRequest.Password)} is not match");
+                {
+                    request.StatusCode = StatusCode.NotFound;
+                    request.ErrorMessage = $"{nameof(tokenRequest.Password)} is not match";
+                }
 
                 TokenResponse tokenResponce = new TokenResponse(requestedAccount.AccountId, requestedAccount.Role, jwtProvider);
 
