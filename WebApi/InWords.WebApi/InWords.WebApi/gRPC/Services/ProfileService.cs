@@ -34,21 +34,19 @@ namespace InWords.WebApi.gRPC.Services
             return new RegistrationReply();
         }
 
+
         // Token
+        [SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
         public override async Task<TokenReply> GetToken(TokenRequest request, ServerCallContext context)
         {
             var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
-            try
+            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+
+            if (requestObject.StatusCode != StatusCode.OK)
             {
-                TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-                return reply;
+                context.Status = new Status(requestObject.StatusCode, requestObject.Detail);
             }
-            catch (ArgumentException e)
-            {
-                CheckIfArgumentIsNull(ref context);
-                context.Status = new Status(StatusCode.InvalidArgument, e.Message);
-            }
-            return new TokenReply();
+            return reply;
         }
 
         [Authorize]
