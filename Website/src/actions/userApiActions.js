@@ -1,15 +1,15 @@
+import { push } from 'connected-react-router';
 import apiAction from './apiAction';
 import { setSnackbar } from './commonActions';
 import * as userActions from './userActions';
-import { history } from 'src/App';
 
 export function receiveUserInfoById(userId) {
   return apiAction({
     endpoint: `/users/${userId}`,
-    onSuccess: (dispatch, data) => {
+    onSuccess: ({ dispatch, data }) => {
       dispatch(userActions.initializeUserInfo(data));
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
     }
   });
@@ -18,10 +18,10 @@ export function receiveUserInfoById(userId) {
 export function receiveUserInfo() {
   return apiAction({
     endpoint: '/users',
-    onSuccess: (dispatch, data) => {
+    onSuccess: ({ dispatch, data }) => {
       dispatch(userActions.initializeUserInfo(data));
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
     }
   });
@@ -33,12 +33,11 @@ export function updateUserInfo(userInfo) {
     method: 'PUT',
     data: JSON.stringify(userInfo),
     contentType: 'application/json',
-    onSuccess: dispatch => {
+    onSuccess: ({ dispatch }) => {
       dispatch(userActions.updateUserInfo(userInfo));
-
-      history.push('/profile');
+      dispatch(push('/profile'));
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
     }
   });
@@ -50,10 +49,10 @@ export function uploadUserAvatar(formData) {
     endpoint: '/profileSettings/uploadAvatar',
     method: 'PUT',
     data: formData,
-    onSuccess: (dispatch, data) => {
+    onSuccess: ({ dispatch, data }) => {
       dispatch(userActions.updateUserInfo(data));
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
     }
   });

@@ -1,7 +1,7 @@
+import { push } from 'connected-react-router';
 import apiGrpcAction from './apiGrpcAction';
 import { setSnackbar } from './commonActions';
 import { grantAccess } from './accessActions';
-import { history } from 'src/App';
 import { ProfileClient } from './protobuf-generated/Profile.v2_grpc_web_pb';
 import {
   TokenRequest,
@@ -19,7 +19,7 @@ export function signIn(userdata) {
     request,
     method: 'getToken',
     authorizationRequired: false,
-    onSuccess: (dispatch, response) => {
+    onSuccess: ({ dispatch, response }) => {
       dispatch(
         grantAccess({
           token: response.getToken(),
@@ -27,9 +27,9 @@ export function signIn(userdata) {
         })
       );
 
-      history.push('/training');
+      dispatch(push('/training'));
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось авторизоваться' }));
     }
   });
@@ -45,7 +45,7 @@ export function signUp(userdata) {
     request,
     method: 'register',
     authorizationRequired: false,
-    onSuccess: (dispatch, response) => {
+    onSuccess: ({ dispatch, response }) => {
       dispatch(
         grantAccess({
           token: response.getToken(),
@@ -59,9 +59,9 @@ export function signUp(userdata) {
         })
       );
 
-      history.push('/profile');
+      dispatch(push('/profile'));
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось зарегистрироваться' }));
     }
   });
@@ -75,14 +75,14 @@ export function updateEmail(email) {
     Client: ProfileClient,
     request,
     method: 'requestEmailUpdate',
-    onSuccess: dispatch => {
+    onSuccess: ({ dispatch }) => {
       dispatch(
         setSnackbar({
           text: 'На новый email было отправленое письмо с подтверждением'
         })
       );
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось изменить email' }));
     }
   });

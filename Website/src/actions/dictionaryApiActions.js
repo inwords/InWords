@@ -8,10 +8,10 @@ export function syncWordPairs(wordPairs) {
     method: 'POST',
     data: JSON.stringify(wordPairs),
     contentType: 'application/json',
-    onSuccess: (dispatch, data) => {
+    onSuccess: ({ dispatch, data }) => {
       dispatch(wordPairsActions.syncWordPairs(data));
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
     }
   });
@@ -23,10 +23,10 @@ export function deleteWordPairs(pairIds) {
     method: 'POST',
     data: JSON.stringify(pairIds),
     contentType: 'application/json',
-    onSuccess: dispatch => {
+    onSuccess: ({ dispatch }) => {
       dispatch(wordPairsActions.deleteWordPairs(pairIds));
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось удалить слова' }));
     }
   });
@@ -38,7 +38,7 @@ export function addWordPairs(wordPairs) {
     method: 'POST',
     data: JSON.stringify(wordPairs),
     contentType: 'application/json',
-    onSuccess: (dispatch, data) => {
+    onSuccess: ({ dispatch, data }) => {
       dispatch(
         wordPairsActions.addWordPairs(
           wordPairs.map((wordPair, index) => ({
@@ -48,7 +48,7 @@ export function addWordPairs(wordPairs) {
         )
       );
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
     }
   });
@@ -60,7 +60,7 @@ export function editWordPairs(wordPairsMap) {
     method: 'POST',
     data: JSON.stringify(wordPairsMap),
     contentType: 'application/json',
-    onSuccess: (dispatch, data) => {
+    onSuccess: ({ dispatch, data }) => {
       dispatch(
         wordPairsActions.editWordPairs(
           Object.entries(wordPairsMap).map((wordPairEntry, index) => ({
@@ -71,7 +71,7 @@ export function editWordPairs(wordPairsMap) {
         )
       );
     },
-    onFailure: dispatch => {
+    onFailure: ({ dispatch }) => {
       dispatch(
         setSnackbar({
           text: 'Не удалось изменить слово'

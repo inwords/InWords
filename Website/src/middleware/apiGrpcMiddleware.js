@@ -1,10 +1,10 @@
+import { push } from 'connected-react-router';
 import {
   beginLoading,
   endLoading,
   setSnackbar
 } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/accessActions';
-import { history } from 'src/App';
 import apiAction from 'src/actions/apiAction';
 
 const CALL_API_GRPC = 'CALL_API_GRPC';
@@ -31,7 +31,7 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
     const token = getState().access.token;
 
     if (!token) {
-      history.push('/sign-in');
+      dispatch(push('/sign-in'));
       return;
     }
 
@@ -61,15 +61,15 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
           );
         } else if (error.code === 401) {
           dispatch(denyAccess());
-          history.push('/sign-in');
+          dispatch(push('/sign-in'));
         } else {
           if (onFailure) {
-            onFailure(dispatch, error);
+            onFailure({ dispatch, error });
           }
         }
       } else {
         if (onSuccess) {
-          onSuccess(dispatch, response);
+          onSuccess({ dispatch, response });
         }
       }
     });
@@ -80,4 +80,5 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
 };
 
 export { CALL_API_GRPC };
+
 export default apiGrpcMiddleware;

@@ -1,10 +1,10 @@
+import { push } from 'connected-react-router';
 import {
   beginLoading,
   endLoading,
   setSnackbar
 } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/accessActions';
-import { history } from 'src/App';
 import apiAction from 'src/actions/apiAction';
 
 const CALL_API = 'CALL_API';
@@ -34,7 +34,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     const token = getState().access.token;
 
     if (!token) {
-      history.push('/sign-in');
+      dispatch(push('/sign-in'));
       return;
     }
 
@@ -68,7 +68,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     })
     .then(data => {
       if (onSuccess) {
-        onSuccess(dispatch, data);
+        onSuccess({ dispatch, data });
       }
     })
     .catch(error => {
@@ -79,10 +79,10 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
         if (statusCode === 401) {
           dispatch(denyAccess());
-          history.push('/sign-in');
+          dispatch(push('/sign-in'));
         } else {
           if (onFailure) {
-            onFailure(dispatch, statusCode);
+            onFailure({ dispatch, statusCode });
           }
         }
       } else if (error instanceof TypeError) {
@@ -116,4 +116,5 @@ class HttpError extends Error {
 }
 
 export { CALL_API };
+
 export default apiMiddleware;
