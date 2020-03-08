@@ -22,8 +22,8 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
     request,
     method,
     authorizationRequired = true,
-    actionsOnSuccess = [],
-    actionsOnFailure = []
+    onSuccess,
+    onFailure
   } = action.payload;
 
   const metadata = {};
@@ -42,36 +42,41 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
 
   dispatch(beginLoading());
 
-  client[method](request, metadata, (error, response) => {
-    dispatch(endLoading());
+  try {
+    client[method](request, metadata, (error, response) => {
+      dispatch(endLoading());
 
-    if (error) {
-      if (!error.metadata) {
-        dispatch(
-          setSnackbar({
-            text: 'Не удалось соединиться с сервером',
-            actionText: 'Повторить',
-            actionHandler: () => {
-              window.setTimeout(() => {
-                dispatch(apiAction(action.payload));
-              }, 100);
-            }
-          })
-        );
-      } else if (error.code === 401) {
-        dispatch(denyAccess());
-        history.push('/sign-in');
+      if (error) {
+        if (!error.metadata) {
+          dispatch(
+            setSnackbar({
+              text: 'Не удалось соединиться с сервером',
+              actionText: 'Повторить',
+              actionHandler: () => {
+                window.setTimeout(() => {
+                  dispatch(apiAction(action.payload));
+                }, 100);
+              }
+            })
+          );
+        } else if (error.code === 401) {
+          dispatch(denyAccess());
+          history.push('/sign-in');
+        } else {
+          if (onFailure) {
+            onFailure(dispatch, error);
+          }
+        }
       } else {
-        actionsOnFailure.forEach(action => {
-          action(dispatch, error);
-        });
+        if (onSuccess) {
+          onSuccess(dispatch, response);
+        }
       }
-    } else {
-      actionsOnSuccess.forEach(action => {
-        action(dispatch, response);
-      });
-    }
-  });
+    });
+  } catch (error) {
+    dispatch(endLoading());
+    dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
+  }
 };
 
 export { CALL_API_GRPC };

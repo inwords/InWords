@@ -16,7 +16,7 @@ function DictionaryContainer() {
 
   React.useEffect(() => {
     if (!actual) {
-      dispatch(syncWordPairs(wordPairs));
+      dispatch(syncWordPairs(wordPairs.map(({ serverId }) => serverId)));
     }
   }, [actual, wordPairs, dispatch]);
 

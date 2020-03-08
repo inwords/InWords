@@ -24,8 +24,8 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     authorizationRequired = true,
     data = null,
     contentType = null,
-    actionsOnSuccess = [],
-    actionsOnFailure = []
+    onSuccess,
+    onFailure
   } = action.payload;
 
   const headers = new Headers();
@@ -67,9 +67,9 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
       }
     })
     .then(data => {
-      actionsOnSuccess.forEach(action => {
-        action(dispatch, data);
-      });
+      if (onSuccess) {
+        onSuccess(dispatch, data);
+      }
     })
     .catch(error => {
       dispatch(endLoading());
@@ -81,9 +81,9 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
           dispatch(denyAccess());
           history.push('/sign-in');
         } else {
-          actionsOnFailure.forEach(action => {
-            action(dispatch, statusCode);
-          });
+          if (onFailure) {
+            onFailure(dispatch, statusCode);
+          }
         }
       } else if (error instanceof TypeError) {
         dispatch(
