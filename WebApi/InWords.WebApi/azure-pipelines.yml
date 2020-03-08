@@ -39,7 +39,7 @@ steps:
   displayName: 'Run tests'
   inputs:
     command: test
-    projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.cspro'
+    projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
     arguments: '$(testConfiguration)'
     publishTestResults: true
     
