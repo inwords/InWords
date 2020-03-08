@@ -2,10 +2,14 @@
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
+using InWords.Service.Auth.Models;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
+using InWords.WebApi.Services.OAuth2.JwtProviders;
+using InWords.WebApi.Services.OAuth2.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -64,12 +68,6 @@ namespace InWords.WebApi.AppStart
                           .AllowAnyHeader()
                           .WithExposedHeaders("Grpc-Status", "Grpc-Message");
                });
-                o.AddPolicy("AllowRest", builder =>
-                 {
-                     builder.AllowAnyOrigin()
-                     .AllowAnyMethod()
-                     .AllowAnyHeader();
-                 });
             });
 
             // Mvc and controllers mapping
@@ -78,6 +76,20 @@ namespace InWords.WebApi.AppStart
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            JwtSettings jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions);
+            //.AddGoogle(options =>
+            //{
+            //    IConfigurationSection googleAuthNSection =
+            //    Configuration.GetSection("AuthenticationGoogle");
+            //    options.ClientId = googleAuthNSection["ClientId"];
+            //    options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //});
+            services.AddAuthorization();
             // api version info
             services.AddApiVersioningInWords();
 
@@ -129,7 +141,7 @@ namespace InWords.WebApi.AppStart
 
             app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
             app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
-            app.UseCors("AllowRest"); // should be before UseMvc
+            app.UseCors("AllowAll"); // should be before UseMvc
             app.UseMvc();
 
             // to register types of modules
@@ -150,10 +162,7 @@ namespace InWords.WebApi.AppStart
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
 
             // mediator itself
-            builder
-                .RegisterType<Mediator>()
-                .As<IMediator>()
-                .InstancePerLifetimeScope();
+            builder.RegisterType<Mediator>().As<IMediator>().InstancePerLifetimeScope();
 
             // request & notification handlers
             builder.Register<ServiceFactory>(context =>

@@ -11,21 +11,6 @@ namespace InWords.WebApi.Services.OAuth2
 {
     public class InModuleInitializer : InModule
     {
-        public override void ConfigureServices(IServiceCollection services)
-        {
-            JwtSettings jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions)
-                .AddGoogle(options =>
-                {
-                    IConfigurationSection googleAuthNSection =
-                        Configuration.GetSection("AuthenticationGoogle");
-
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
-                });
-        }
-
         public override void ConfigureIoc(ContainerBuilder builder)
         {
             JwtSettings jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
