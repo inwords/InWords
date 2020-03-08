@@ -1,4 +1,5 @@
-﻿using InWords.Data;
+﻿using Grpc.Core;
+using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Service.Auth.Interfaces;
 using InWords.WebApi.gRPC.Services;
@@ -66,14 +67,16 @@ namespace InWords.WebApiTests.Services.Users.Registration
             // act 
             var registration = new UserRegistration(context, jwtMock.Object, mock.Object);
             // assert 
-            await Assert.ThrowsAsync<ArgumentException>(() => registration.HandleRequest(
-                new RequestObject<RegistrationRequest, RegistrationReply>(
+            var request = new RequestObject<RegistrationRequest, RegistrationReply>(
                 new RegistrationRequest()
                 {
                     Email = email,
                     Password = "testPassword"
-                })));
+                });
+            var reply = registration.HandleRequest(request);
 
+
+            Assert.Equal(StatusCode.AlreadyExists, request.StatusCode);
             Assert.Equal(1, context.Accounts.Count());
             mock.Verify(a => a.InstatiateVerifierMessage(It.IsAny<User>(), It.IsAny<string>()), Times.Never());
         }

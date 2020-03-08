@@ -1,4 +1,5 @@
-﻿using InWords.Data;
+﻿using Grpc.Core;
+using InWords.Data;
 using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
 using InWords.WebApi.gRPC.Services;
@@ -38,12 +39,22 @@ namespace InWords.WebApi.Services.Users.Registration
         public async override Task<RegistrationReply> HandleRequest(RequestObject<RegistrationRequest, RegistrationReply> request,
             CancellationToken cancellationToken = default)
         {
+
             if (request == null)
-                throw new ArgumentNullException($"{nameof(request)} is null ");
+            {
+                request.StatusCode = StatusCode.NotFound;
+                request.Detail = $"{nameof(request)} is null";
+                return new RegistrationReply();
+            }
 
             RegistrationRequest requestData = request.Value;
 
-            ThrowIfAlreadyExist(requestData.Email);
+            if (IsAccountExist(requestData.Email))
+            {
+                request.StatusCode = StatusCode.AlreadyExists;
+                request.Detail = "Email already exist";
+                return new RegistrationReply();
+            }
 
             // this code work in only in valid satate
 
@@ -53,14 +64,15 @@ namespace InWords.WebApi.Services.Users.Registration
 
             Context.Accounts.Add(accountRegistration.Account);
 
-            await Context
-                .SaveChangesAsync()
-                .ConfigureAwait(false);
+            await Context.SaveChangesAsync().ConfigureAwait(false);
 
-            // send verifier email
-            await emailVerifierService
-                .InstatiateVerifierMessage(accountRegistration.Account.User, accountRegistration.Account.Email)
-                .ConfigureAwait(false);
+            if (!requestData.IsAnonymous)
+            {
+                // send verifier email
+                await emailVerifierService
+                    .InstatiateVerifierMessage(accountRegistration.Account.User, accountRegistration.Account.Email)
+                    .ConfigureAwait(false);
+            }
 
             // generate tocken
             TokenResponse tokenResponse = new TokenResponse(accountRegistration.Account.AccountId, accountRegistration.Account.Role, jwtProvider);
@@ -79,16 +91,9 @@ namespace InWords.WebApi.Services.Users.Registration
         /// <exception cref="ArgumentException">Email already exist</exception>
         /// <param name="email"></param>
         [DoesNotReturn]
-        public void ThrowIfAlreadyExist(string email)
+        public bool IsAccountExist(string email)
         {
-            bool alredyExist = Context.Accounts.Any(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
-
-            // if already exist throw custom exception
-            if (alredyExist)
-            {
-                string? errorString = Strings.ResourceManager.GetString("Email already exist", CultureInfo.CurrentCulture);
-                throw new ArgumentException(errorString);
-            }
+            return Context.Accounts.Any(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
+using InWords.WebApi.Tests.TestUtils;
 using InWords.WebApiTest.gRPC.Services;
 using InWords.WebApiTests.CLI.TestUtils;
 using Xunit;
@@ -18,12 +19,9 @@ namespace InWords.WebApiTests.CLI.Services.ProfileService
         public async void GetValidToken()
         {
             // arrange
-            using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
-            var client = clientFabric.Client;
             TokenRequest tokenRequest = new TokenRequest { Email = username, Password = validPassword };
             // act
-            var reply = await client.GetTokenAsync(tokenRequest);
-
+            var reply = ProfileUtils.GetToken(tokenRequest);
             // assert
             Assert.False(string.IsNullOrEmpty(reply.Token));
         }

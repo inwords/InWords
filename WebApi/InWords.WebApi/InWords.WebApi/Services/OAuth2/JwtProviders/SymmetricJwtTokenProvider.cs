@@ -14,6 +14,8 @@ namespace InWords.WebApi.Services.OAuth2.JwtProviders
 {
     public class SymmetricJwtTokenProvider : IJwtProvider
     {
+        private static SigningCredentials credentials;
+        private static SymmetricSecurityKey key;
         private readonly JwtSettings jwtSettings;
         public SymmetricJwtTokenProvider(JwtSettings jwtSettings)
         {
@@ -23,8 +25,8 @@ namespace InWords.WebApi.Services.OAuth2.JwtProviders
         {
             DateTime now = DateTime.UtcNow;
             var jwt = new JwtSecurityToken(
-                //Issuer,
-                //Audience,
+                jwtSettings.Issuer,
+                jwtSettings.Audience,
                 claims: identity.Claims,
                 notBefore: now,
                 expires: now.Add(TimeSpan.FromMinutes(jwtSettings.MinutesLifetime)),
@@ -52,11 +54,13 @@ namespace InWords.WebApi.Services.OAuth2.JwtProviders
         }
         private SymmetricSecurityKey GetIssuerSigningKey()
         {
-            return new SymmetricSecurityKey(GetSecret());
+            key = new SymmetricSecurityKey(GetSecret());
+            return key;
         }
         private SigningCredentials GetSigningCredentials()
         {
-            return new SigningCredentials(GetIssuerSigningKey(), SecurityAlgorithms.HmacSha256Signature);
+            credentials = new SigningCredentials(GetIssuerSigningKey(), SecurityAlgorithms.HmacSha256Signature);
+            return credentials;
         }
     }
 }
