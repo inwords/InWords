@@ -34,12 +34,12 @@ steps:
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '$(buildConfiguration)'
 
-# Test stage
+# Unit testing
 - task: DotNetCoreCLI@2
   displayName: 'Run tests'
   inputs:
     command: test
-    projects: '**/*Tests/*.csproj'
+    projects: '**/InWords.WebApi/*Tests/*.csproj'
     arguments: '$(testConfiguration)'
     publishTestResults: true
     
