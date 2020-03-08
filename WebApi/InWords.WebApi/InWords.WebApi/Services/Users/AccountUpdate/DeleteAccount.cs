@@ -1,4 +1,5 @@
-﻿using InWords.Data;
+﻿using Grpc.Core;
+using InWords.Data;
 using InWords.Data.Domains;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
@@ -27,9 +28,16 @@ namespace InWords.WebApi.Services.Users.AccountUpdate
             CancellationToken cancellationToken = default)
         {
             var accountId = request.UserId;
-            Account account = await Context.Accounts.FindAccount(accountId).ConfigureAwait(false);
-            Context.Remove(account);
-            await Context.SaveChangesAsync().ConfigureAwait(false);
+            Account account = await Context.Accounts.FindAsync(accountId).ConfigureAwait(false);
+            if (account == default)
+            {
+                request.StatusCode = StatusCode.NotFound;
+            }
+            else
+            {
+                Context.Remove(account);
+                await Context.SaveChangesAsync().ConfigureAwait(false);
+            }
             return new Empty();
         }
     }

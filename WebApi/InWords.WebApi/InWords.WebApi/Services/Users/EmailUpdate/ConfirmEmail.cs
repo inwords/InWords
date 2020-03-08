@@ -28,7 +28,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             var userId = request.UserId;
 
             // throw exception if not found
-            Account account = await Context.Accounts.FindAccount(userId).ConfigureAwait(false);
+            Account account = await Context.Accounts.FindAsync(userId).ConfigureAwait(false);
 
             // throw exception if invalid
             EmailVerifies codeValidation = GetValidCode(requestData, userId);

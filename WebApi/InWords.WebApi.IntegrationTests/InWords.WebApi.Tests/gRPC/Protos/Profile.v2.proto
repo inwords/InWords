@@ -21,6 +21,7 @@ service Profile {
 message RegistrationRequest {
 	string email = 1;
 	string password = 2;
+	bool IsAnonymous = 3;
 }
 
 // The response message containing the Token.

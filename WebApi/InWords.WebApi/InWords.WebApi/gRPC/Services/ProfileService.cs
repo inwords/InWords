@@ -17,21 +17,20 @@ namespace InWords.WebApi.gRPC.Services
             this.mediator = mediator;
         }
 
+
         // Registration
+        [SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
         public override async Task<RegistrationReply> Register(RegistrationRequest request, ServerCallContext context)
         {
             var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
-            try
+
+            RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+
+            if (requestObject.StatusCode != StatusCode.OK)
             {
-                RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-                return reply;
+                context.Status = new Status(requestObject.StatusCode, requestObject.Detail);
             }
-            catch (ArgumentException e)
-            {
-                CheckIfArgumentIsNull(ref context);
-                context.Status = new Status(StatusCode.InvalidArgument, e.Message);
-            }
-            return new RegistrationReply();
+            return reply;
         }
 
 
@@ -101,8 +100,11 @@ namespace InWords.WebApi.gRPC.Services
                 UserId = context.GetHttpContext().User.GetUserId()
             };
             Empty reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            if (reqestObject.StatusCode != StatusCode.OK)
+            {
+                context.Status = new Status(reqestObject.StatusCode, reqestObject.Detail);
+            }
             return reply;
-            // TODO: how to return error in grpc
         }
 
         private void CheckIfArgumentIsNull<T>(ref T resource)

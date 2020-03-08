@@ -9,30 +9,26 @@ using static InWords.WebApiTest.gRPC.Services.Profile;
 
 namespace InWords.WebApi.Tests.Services.ProfileService
 {
-    public class DeleteProfileTest
+    public class RegisterProfileTest
     {
         [Fact]
-        public async void DeleteExistedProfileTest()
+        public async void RegisterAccount()
         {
             string username = "1@1";
             string validPassword = "1";
             using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
             var client = clientFabric.Client;
-            TokenRequest tokenRequest = new TokenRequest { Email = username, Password = validPassword };
-            var reply = await client.GetTokenAsync(tokenRequest);
-            var headers = new Metadata
-            {
-                { "Authorization", $"Bearer {reply.Token}" }
-            };
-            
+
+            var request = new RegistrationRequest() { Email = username, Password = validPassword, IsAnonymous = true };
+
             try
             {
-                var empty = client.DeleteAccount(new DeleteAccountRequest() { Text = "" }, headers);
-                Assert.True(empty != null);
+                RegistrationReply answer = client.Register(request);
+                Assert.True(answer.Userid > 0);
             }
             catch (RpcException e)
             {
-                Assert.Equal(expected: StatusCode.NotFound, e.StatusCode);
+                Assert.Equal(expected: StatusCode.AlreadyExists, e.StatusCode);
                 Assert.False(string.IsNullOrEmpty(e.Message));
             }
         }

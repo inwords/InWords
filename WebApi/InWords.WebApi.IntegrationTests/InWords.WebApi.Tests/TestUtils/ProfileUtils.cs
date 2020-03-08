@@ -1,4 +1,5 @@
-﻿using InWords.WebApiTest.gRPC.Services;
+﻿using Grpc.Core;
+using InWords.WebApiTest.gRPC.Services;
 using InWords.WebApiTests.CLI.TestUtils;
 using System;
 using System.Collections.Generic;
