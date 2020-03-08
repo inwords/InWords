@@ -2,6 +2,7 @@
 using InWords.WebApiTest.gRPC.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace InWords.WebApiTests.CLI.TestUtils
@@ -17,6 +18,8 @@ namespace InWords.WebApiTests.CLI.TestUtils
             var url = TestEnvironment.GetEnvironmentVariable(Variables.URL);
             channel = GrpcChannel.ForAddress(url);
             Client = create(channel);
+            Debug.WriteLine(url);
+            Console.WriteLine(url);
         }
 
         public void Dispose()

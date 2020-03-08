@@ -16,7 +16,6 @@ namespace InWords.WebApiTests.CLI
             {
                 var reader = new JsonTextReader(file);
                 var jObject = JObject.Load(reader);
-
                 var variables = jObject
                     .GetValue("profiles")
                     .SelectMany(profiles => profiles.Children())
