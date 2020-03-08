@@ -9,9 +9,10 @@ namespace InWords.WebApi.Services.Abstractions
         public RequestObject(TRequest value)
         {
             this.Value = value;
-            ErrorMessage = string.Empty;
+            Detail = string.Empty;
+            StatusCode = StatusCode.OK;
         }
         public StatusCode StatusCode { get; set; }
-        public string ErrorMessage { get; set; }
+        public string Detail { get; set; }
     }
 }

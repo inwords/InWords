@@ -1,9 +1,11 @@
-﻿using Grpc.Net.Client;
+﻿using Grpc.Core;
+using Grpc.Net.Client;
 using InWords.WebApiTest.gRPC.Services;
 using InWords.WebApiTests.CLI.TestUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 using static InWords.WebApiTest.gRPC.Services.Profile;
 
@@ -38,10 +40,16 @@ namespace InWords.WebApiTests.CLI.Services.ProfileService
             TokenRequest tokenRequest = new TokenRequest { Email = username, Password = invalidPassword };
 
             // act
-            var reply = await client.GetTokenAsync(tokenRequest);
-
             // assert
-            Assert.False(string.IsNullOrEmpty(reply.Token));
+            try
+            {
+                var x = await client.GetTokenAsync(tokenRequest);
+            }
+            catch (RpcException e)
+            {
+                Assert.Equal(expected: StatusCode.NotFound, e.StatusCode);
+                Assert.False(string.IsNullOrEmpty(e.Message));
+            }
         }
     }
 }

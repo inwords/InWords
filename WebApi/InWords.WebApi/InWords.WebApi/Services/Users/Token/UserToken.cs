@@ -43,16 +43,11 @@ namespace InWords.WebApi.Services.Users.Token
                     .Select(c => new { c.AccountId, c.Role, c.Hash })
                     .SingleOrDefault();
 
-                if (requestedAccount == null)
-                {
-                    request.StatusCode = StatusCode.AlreadyExists;
-                    request.ErrorMessage = $"{nameof(requestedAccount)} is null";
-                }
-
-                if (!passwordSalter.EqualsSequence(tokenRequest.Password, requestedAccount.Hash))
+                if (requestedAccount == null || !passwordSalter.EqualsSequence(tokenRequest.Password, requestedAccount.Hash))
                 {
                     request.StatusCode = StatusCode.NotFound;
-                    request.ErrorMessage = $"{nameof(tokenRequest.Password)} is not match";
+                    request.Detail = $"{nameof(tokenRequest.Password)} is not match";
+                    return new TokenReply();
                 }
 
                 TokenResponse tokenResponce = new TokenResponse(requestedAccount.AccountId, requestedAccount.Role, jwtProvider);
