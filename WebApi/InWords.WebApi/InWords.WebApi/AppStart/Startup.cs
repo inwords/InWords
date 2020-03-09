@@ -4,7 +4,6 @@ using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
-using InWords.WebApi.Providers.FIleLogger;
 using InWords.WebApi.Services.OAuth2.JwtProviders;
 using InWords.WebApi.Services.OAuth2.Models;
 using MediatR;
@@ -17,8 +16,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
-using System.IO;
+using Serilog.Extensions.Logging;
 using System.Reflection;
 
 namespace InWords.WebApi.AppStart
@@ -139,7 +139,7 @@ namespace InWords.WebApi.AppStart
 
 
             // Enable middleware to generated logs as a text file.
-            LoggerConfiguration(loggerFactory);
+            //loggerFactory;
 
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
@@ -172,18 +172,6 @@ namespace InWords.WebApi.AppStart
                 var c = context.Resolve<IComponentContext>();
                 return t => c.Resolve(t);
             });
-        }
-
-        /// <summary>
-        ///     Configure the logger data format and file location
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        public void LoggerConfiguration(ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt"));
-            ILogger logger = loggerFactory.CreateLogger("FileLogger");
-            logger.LogInformation("Processing request {0}", 0);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace InWords.WebApi.Tests.Services.DictionaryService
     public class AddWordsTest
     {
         [Fact]
-        public async void JustSayHello()
+        public void AddOneWord()
         {
 
             // arrange

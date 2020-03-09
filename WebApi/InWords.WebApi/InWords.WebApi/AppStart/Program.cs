@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Net;
+using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
 
 namespace InWords.WebApi.AppStart
 {
@@ -25,6 +28,10 @@ namespace InWords.WebApi.AppStart
                 .ConfigureWebHostDefaults(webHostBuilder =>
                 {
                     webHostBuilder
+                    .ConfigureLogging((hostingContext, builder) =>
+                    {
+                        builder.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt"));
+                    })
                         .UseStartup<Startup>()
                         .UseKestrel((hostingContext, options) =>
                         {

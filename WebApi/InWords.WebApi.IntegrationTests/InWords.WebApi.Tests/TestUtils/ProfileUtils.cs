@@ -25,6 +25,7 @@ namespace InWords.WebApi.Tests.TestUtils
             try
             {
                 var response = GetToken(request);
+                return response.Token;
             }
             catch (RpcException e)
             {
