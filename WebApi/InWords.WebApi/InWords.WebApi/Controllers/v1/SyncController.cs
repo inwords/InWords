@@ -4,6 +4,7 @@ using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace InWords.WebApi.Controllers.v1
@@ -15,6 +16,7 @@ namespace InWords.WebApi.Controllers.v1
     [ApiVersion("1.0")]
     [Produces("application/json")]
     [Route("v{version:apiVersion}/[controller]")]
+    [Obsolete]
     public class SyncController : ControllerBase
     {
         ///// <summary>
@@ -62,6 +64,7 @@ namespace InWords.WebApi.Controllers.v1
         [HttpPost]
         [ProducesResponseType(typeof(PullWordsAnswer), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Obsolete]
         public IActionResult PullWordPairs([FromBody] List<int> serverIds)
         {
             int authorizedId = User.GetUserId();

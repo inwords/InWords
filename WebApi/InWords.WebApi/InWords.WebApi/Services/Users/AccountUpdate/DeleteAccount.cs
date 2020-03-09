@@ -3,7 +3,6 @@ using InWords.Data;
 using InWords.Data.Domains;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Services.Users.Extentions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

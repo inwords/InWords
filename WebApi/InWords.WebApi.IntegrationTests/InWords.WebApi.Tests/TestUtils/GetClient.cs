@@ -9,13 +9,12 @@ namespace InWords.WebApiTests.CLI.TestUtils
 {
     public class GetClient<T> : IDisposable
     {
-        private LaunchSettingsFixture fixture;
+        private VariablesType fixture;
         private GrpcChannel channel;
         public readonly T Client;
         public GetClient(Func<GrpcChannel, T> create)
         {
-            fixture = new LaunchSettingsFixture(); // should be in start
-            var url = TestEnvironment.GetEnvironmentVariable(Variables.URL);
+            var url = Variables.GetEnvironmentVariable(VariablesType.URL);
             channel = GrpcChannel.ForAddress(url);
             Client = create(channel);
             Debug.WriteLine(url);
@@ -24,7 +23,6 @@ namespace InWords.WebApiTests.CLI.TestUtils
 
         public void Dispose()
         {
-            fixture.Dispose();
             channel.Dispose();
         }
     }

@@ -8,9 +8,13 @@ using System.Text;
 
 namespace InWords.WebApiTests.CLI
 {
-    public class LaunchSettingsFixture : IDisposable
+    public enum VariablesType
     {
-        public LaunchSettingsFixture()
+        URL
+    }
+    public static class Variables
+    {
+        static Variables()
         {
             using (var file = File.OpenText("Properties\\launchSettings.json"))
             {
@@ -31,9 +35,9 @@ namespace InWords.WebApiTests.CLI
             }
         }
 
-        public void Dispose()
+        public static string GetEnvironmentVariable(VariablesType variables)
         {
-            // ... clean up
+            return Environment.GetEnvironmentVariable(variables.ToString());
         }
     }
 }

@@ -3,7 +3,6 @@ using InWords.WebApi.Extensions.InWordsDataContext;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -12,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.DictionaryService.Words
 {
-    public class GetWords : AuthorizedRequestObjectHandler<GetWordsRequest, WordsReply, InWordsDataContext>
+    public class GetUserWords : AuthorizedRequestObjectHandler<GetWordsRequest, WordsReply, InWordsDataContext>
     {
-        public GetWords(InWordsDataContext context) : base(context)
+        public GetUserWords(InWordsDataContext context) : base(context)
         {
         }
 
@@ -49,7 +48,8 @@ namespace InWords.WebApi.Services.DictionaryService.Words
                         u.WordPair.WordNative,
                         u.IsInvertPair,
                         u.LearningPeriod
-                    });
+                    }).AsNoTracking();
+
                 var wordReply = wordReplies.Select(w => new WordReply()
                 {
                     UserWordPair = w.UserWordPairId,

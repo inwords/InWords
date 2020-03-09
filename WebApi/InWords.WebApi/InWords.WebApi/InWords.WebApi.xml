@@ -371,7 +371,15 @@
         </member>
         <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.AddWords(InWords.WebApi.gRPC.Services.AddWordsRequest)">
             <summary>
-              Use this to request update user's email
+              Used to add words to the user's dictionary.
+              The (localId) value should be zero (0) if you don't need to track words.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.GetWords(InWords.WebApi.gRPC.Services.GetWordsRequest)">
+            <summary>
+              Use this to get words and delete words that not exists
             </summary>
             <param name="request"></param>
             <returns></returns>
@@ -469,22 +477,34 @@
             The request message containing the user's credentials.
             </summary>
         </member>
-        <member name="F:InWords.WebApi.gRPC.Services.GetWordsRequest.WordsFieldNumber">
-            <summary>Field number for the "Words" field.</summary>
+        <member name="F:InWords.WebApi.gRPC.Services.GetWordsRequest.UserWordpairIdsFieldNumber">
+            <summary>Field number for the "UserWordpairIds" field.</summary>
         </member>
         <member name="T:InWords.WebApi.gRPC.Services.WordsReply">
             <summary>
             The response message containing the Token.
             </summary>
         </member>
-        <member name="F:InWords.WebApi.gRPC.Services.WordsReply.UserWordPairsFieldNumber">
-            <summary>Field number for the "UserWordPairs" field.</summary>
+        <member name="F:InWords.WebApi.gRPC.Services.WordsReply.ToAddFieldNumber">
+            <summary>Field number for the "ToAdd" field.</summary>
         </member>
-        <member name="F:InWords.WebApi.gRPC.Services.WordsReply.WordForeignFieldNumber">
+        <member name="F:InWords.WebApi.gRPC.Services.WordsReply.ToDeleteFieldNumber">
+            <summary>Field number for the "ToDelete" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordReply.UserWordPairFieldNumber">
+            <summary>Field number for the "UserWordPair" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordReply.WordForeignFieldNumber">
             <summary>Field number for the "WordForeign" field.</summary>
         </member>
-        <member name="F:InWords.WebApi.gRPC.Services.WordsReply.WordNativeFieldNumber">
+        <member name="F:InWords.WebApi.gRPC.Services.WordReply.WordNativeFieldNumber">
             <summary>Field number for the "WordNative" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordReply.PeriodFieldNumber">
+            <summary>Field number for the "Period" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordsRequest.WordsFieldNumber">
+            <summary>Field number for the "Words" field.</summary>
         </member>
         <member name="F:InWords.WebApi.gRPC.Services.AddWordRequest.LocalIdFieldNumber">
             <summary>Field number for the "LocalId" field.</summary>
@@ -495,17 +515,14 @@
         <member name="F:InWords.WebApi.gRPC.Services.AddWordRequest.WordNativeFieldNumber">
             <summary>Field number for the "WordNative" field.</summary>
         </member>
-        <member name="F:InWords.WebApi.gRPC.Services.AddWordsRequest.WordsFieldNumber">
-            <summary>Field number for the "Words" field.</summary>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordsReply.WordIdsFieldNumber">
+            <summary>Field number for the "WordIds" field.</summary>
         </member>
         <member name="F:InWords.WebApi.gRPC.Services.AddWordReply.LocalIdFieldNumber">
             <summary>Field number for the "LocalId" field.</summary>
         </member>
         <member name="F:InWords.WebApi.gRPC.Services.AddWordReply.ServerIdFieldNumber">
             <summary>Field number for the "ServerId" field.</summary>
-        </member>
-        <member name="F:InWords.WebApi.gRPC.Services.AddWordsReply.WordIdsFieldNumber">
-            <summary>Field number for the "WordIds" field.</summary>
         </member>
         <member name="T:InWords.WebApi.gRPC.Services.DictionaryProvider">
             <summary>

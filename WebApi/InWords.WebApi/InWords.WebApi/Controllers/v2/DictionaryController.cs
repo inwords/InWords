@@ -5,11 +5,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
 {
+    [Authorize]
     [ApiVersion("2")]
     [Route("v{version:apiVersion}/dictionary")]
     [ApiController]
@@ -23,11 +23,11 @@ namespace InWords.WebApi.Controllers.v2
             this.mediator = mediator;
         }
         /// <summary>
-        ///   Use this to request update user's email
+        ///   Used to add words to the user's dictionary.
+        ///   The (localId) value should be zero (0) if you don't need to track words.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [ProducesResponseType(typeof(AddWordsRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("addwords")]
@@ -47,7 +47,6 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [ProducesResponseType(typeof(WordsReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("getwords")]

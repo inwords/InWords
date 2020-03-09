@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using InWords.WebApi.Tests.TestUtils;
 using InWords.WebApiTest.gRPC.Services;
 using InWords.WebApiTests.CLI.TestUtils;
 using System;
@@ -14,13 +15,11 @@ namespace InWords.WebApi.Tests.Services.ProfileService
         [Fact]
         public async void DeleteExistedProfileTest()
         {
-            string username = "1@1";
-            string validPassword = "1";
             using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
-            var client = clientFabric.Client;
+            ProfileClient client = clientFabric.Client;
             try
             {
-                TokenRequest tokenRequest = new TokenRequest { Email = username, Password = validPassword };
+                TokenRequest tokenRequest = new TokenRequest { Email = ProfileUtils.LoginPass, Password = ProfileUtils.LoginPass };
                 var reply = await client.GetTokenAsync(tokenRequest);
                 var headers = new Metadata
                 {

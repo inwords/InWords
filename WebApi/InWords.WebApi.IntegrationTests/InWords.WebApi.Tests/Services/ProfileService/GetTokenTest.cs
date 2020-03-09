@@ -1,5 +1,4 @@
 ﻿using Grpc.Core;
-using Grpc.Net.Client;
 using InWords.WebApi.Tests.TestUtils;
 using InWords.WebApiTest.gRPC.Services;
 using InWords.WebApiTests.CLI.TestUtils;
@@ -10,16 +9,12 @@ namespace InWords.WebApiTests.CLI.Services.ProfileService
 {
     public class GetTokenTest
     {
-        private readonly string username = "1@1";
-        private readonly string validPassword = "1";
-        private readonly string InvalidUserName = "2";
-        private readonly string invalidPassword = "2";
-
         [Fact]
         public async void GetValidToken()
         {
+            string token = ProfileUtils.GetTokenForce();
             // arrange
-            TokenRequest tokenRequest = new TokenRequest { Email = username, Password = validPassword };
+            TokenRequest tokenRequest = new TokenRequest { Email = ProfileUtils.LoginPass, Password = ProfileUtils.LoginPass };
             // act
             var reply = ProfileUtils.GetToken(tokenRequest);
             // assert
@@ -29,10 +24,11 @@ namespace InWords.WebApiTests.CLI.Services.ProfileService
         [Fact]
         public async void InvalidPasswordTest()
         {
+            string token = ProfileUtils.GetTokenForce();
             using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
             var client = clientFabric.Client;
 
-            TokenRequest tokenRequest = new TokenRequest { Email = username, Password = invalidPassword };
+            TokenRequest tokenRequest = new TokenRequest { Email = ProfileUtils.LoginPass, Password = ProfileUtils.LoginPass + "1" };
 
             // act
             // assert
@@ -53,7 +49,7 @@ namespace InWords.WebApiTests.CLI.Services.ProfileService
             using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
             var client = clientFabric.Client;
 
-            TokenRequest tokenRequest = new TokenRequest { Email = InvalidUserName, Password = invalidPassword };
+            TokenRequest tokenRequest = new TokenRequest { Email = ProfileUtils.LoginPass + "1", Password = ProfileUtils.LoginPass + "1" };
 
             // act
             // assert
