@@ -473,8 +473,8 @@ proto.ProfilePackage.v2.ProfilePromiseClient.prototype.confirmEmailLink =
  *   !proto.ProfilePackage.v2.DeleteAccountRequest,
  *   !proto.ProfilePackage.v2.Empty>}
  */
-const methodDescriptor_Profile_DeleteAccound = new grpc.web.MethodDescriptor(
-  '/ProfilePackage.v2.Profile/DeleteAccound',
+const methodDescriptor_Profile_DeleteAccount = new grpc.web.MethodDescriptor(
+  '/ProfilePackage.v2.Profile/DeleteAccount',
   grpc.web.MethodType.UNARY,
   proto.ProfilePackage.v2.DeleteAccountRequest,
   proto.ProfilePackage.v2.Empty,
@@ -495,7 +495,7 @@ const methodDescriptor_Profile_DeleteAccound = new grpc.web.MethodDescriptor(
  *   !proto.ProfilePackage.v2.DeleteAccountRequest,
  *   !proto.ProfilePackage.v2.Empty>}
  */
-const methodInfo_Profile_DeleteAccound = new grpc.web.AbstractClientBase.MethodInfo(
+const methodInfo_Profile_DeleteAccount = new grpc.web.AbstractClientBase.MethodInfo(
   proto.ProfilePackage.v2.Empty,
   /**
    * @param {!proto.ProfilePackage.v2.DeleteAccountRequest} request
@@ -518,13 +518,13 @@ const methodInfo_Profile_DeleteAccound = new grpc.web.AbstractClientBase.MethodI
  * @return {!grpc.web.ClientReadableStream<!proto.ProfilePackage.v2.Empty>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ProfilePackage.v2.ProfileClient.prototype.deleteAccound =
+proto.ProfilePackage.v2.ProfileClient.prototype.deleteAccount =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/ProfilePackage.v2.Profile/DeleteAccound',
+      '/ProfilePackage.v2.Profile/DeleteAccount',
       request,
       metadata || {},
-      methodDescriptor_Profile_DeleteAccound,
+      methodDescriptor_Profile_DeleteAccount,
       callback);
 };
 
@@ -537,13 +537,13 @@ proto.ProfilePackage.v2.ProfileClient.prototype.deleteAccound =
  * @return {!Promise<!proto.ProfilePackage.v2.Empty>}
  *     A native promise that resolves to the response
  */
-proto.ProfilePackage.v2.ProfilePromiseClient.prototype.deleteAccound =
+proto.ProfilePackage.v2.ProfilePromiseClient.prototype.deleteAccount =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/ProfilePackage.v2.Profile/DeleteAccound',
+      '/ProfilePackage.v2.Profile/DeleteAccount',
       request,
       metadata || {},
-      methodDescriptor_Profile_DeleteAccound);
+      methodDescriptor_Profile_DeleteAccount);
 };
 
 

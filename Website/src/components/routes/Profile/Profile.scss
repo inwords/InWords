@@ -8,18 +8,16 @@
   }
 }
 
-.profile-picture-section {
+.profile-avatar-section {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.profile-picture {
-  margin-bottom: 8px;
+.profile-avatar {
   width: 180px;
   height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
+  font-size: 3.75rem;
 }
 
 .profile-personal-section {
@@ -81,7 +79,7 @@
   }
 }
 
-.profile-personal-edit-links {
+.profile-personal-info-edit-button-container {
   width: 40%;
 
   @include theme-breakpoints-down(sm) {

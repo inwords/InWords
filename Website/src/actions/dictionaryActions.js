@@ -21,3 +21,8 @@ export const editWordPairs = wordPairs => ({
   type: EDIT_WORD_PAIRS,
   payload: wordPairs
 });
+
+export const RESET_WORD_PAIRS_ACTUALITY = 'RESET_WORD_PAIRS_ACTUALITY';
+export const resetWordPairsActuality = () => ({
+  type: RESET_WORD_PAIRS_ACTUALITY
+});

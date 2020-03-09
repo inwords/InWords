@@ -63,10 +63,11 @@ namespace InWords.WebApi.AppStart
             {
                 o.AddPolicy("AllowAll", builder =>
                {
-                   builder.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader()
-                          .WithExposedHeaders("Grpc-Status", "Grpc-Message");
+                   builder
+                   .AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .WithExposedHeaders("Grpc-Status", "Grpc-Message");
                });
             });
 
@@ -109,6 +110,11 @@ namespace InWords.WebApi.AppStart
         public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseRouting();
+            app.UseCors("AllowAll"); // should be before UseMvc but after UserRouting and before Authorization and UseAuthorization
+            app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
+            app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
+            app.UseMvc();
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -138,11 +144,6 @@ namespace InWords.WebApi.AppStart
                 app.UseDeveloperExceptionPage();
             else
                 app.UseMiddleware<SecureConnectionMiddleware>();
-
-            app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
-            app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
-            app.UseCors("AllowAll"); // should be before UseMvc
-            app.UseMvc();
 
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureApp(app));

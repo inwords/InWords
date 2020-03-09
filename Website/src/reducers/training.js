@@ -1,23 +1,23 @@
 import { combineReducers } from 'redux';
 import {
-  INITIALIZE_TRAINING_CATEGORIES,
-  INITIALIZE_TRAINING_CATEGORY,
+  INITIALIZE_COURSES,
+  INITIALIZE_COURSE,
   UPDATE_LEVEL_RESULT,
-  INITIALIZE_TRAINING_LEVEL,
-  REMOVE_TRAINING_LEVEL_WORD_PAIRS,
-  INITIALIZE_TRAINING_HISTORY
+  INITIALIZE_LEVEL,
+  REMOVE_LEVEL_WORD_PAIRS,
+  INITIALIZE_HISTORY
 } from 'src/actions/trainingActions';
 
-function trainingCategories(state = [], action) {
+function courses(state = [], action) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_CATEGORIES:
+    case INITIALIZE_COURSES:
       return action.payload || [];
     default:
       return state;
   }
 }
 
-function trainingCategory(
+function course(
   state = {
     trainingId: null,
     levelsInfo: []
@@ -25,7 +25,7 @@ function trainingCategory(
   action
 ) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_CATEGORY:
+    case INITIALIZE_COURSE:
       return {
         trainingId: action.payload.gameId,
         levelsInfo: action.payload.levelInfos || []
@@ -55,14 +55,14 @@ function trainingCategory(
   }
 }
 
-function trainingLevelsMap(state = {}, action) {
+function levelsMap(state = {}, action) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_LEVEL:
+    case INITIALIZE_LEVEL:
       return {
         ...state,
         [action.payload.levelId]: action.payload
       };
-    case REMOVE_TRAINING_LEVEL_WORD_PAIRS:
+    case REMOVE_LEVEL_WORD_PAIRS:
       return {
         ...state,
         [action.payload.levelId]: {
@@ -79,7 +79,7 @@ function trainingLevelsMap(state = {}, action) {
   }
 }
 
-function trainingHistory(
+function history(
   state = {
     actual: false,
     recentTrainings: []
@@ -87,10 +87,10 @@ function trainingHistory(
   action
 ) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_HISTORY:
+    case INITIALIZE_HISTORY:
       return {
         actual: true,
-        recentTrainings: (action.payload || []).slice(0, 30)
+        recentTrainings: (action.payload || []).slice(0, 30).reverse()
       };
     default:
       return state;
@@ -98,8 +98,8 @@ function trainingHistory(
 }
 
 export default combineReducers({
-  trainingCategories,
-  trainingCategory,
-  trainingLevelsMap,
-  trainingHistory
+  courses,
+  course,
+  levelsMap,
+  history
 });

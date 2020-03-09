@@ -2,7 +2,8 @@ import {
   SYNC_WORD_PAIRS,
   DELETE_WORD_PAIRS,
   ADD_WORD_PAIRS,
-  EDIT_WORD_PAIRS
+  EDIT_WORD_PAIRS,
+  RESET_WORD_PAIRS_ACTUALITY
 } from 'src/actions/dictionaryActions';
 
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
@@ -62,6 +63,12 @@ export default function dictionary(
       return {
         ...state,
         wordPairs: Object.values(wordPairsMap).sort(lexicographicalComparison)
+      };
+    }
+    case RESET_WORD_PAIRS_ACTUALITY: {
+      return {
+        ...state,
+        actual: false
       };
     }
     default:

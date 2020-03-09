@@ -6,6 +6,8 @@ import uuidv4 from 'src/utils/uuidv4';
 import useForm from 'src/hooks/useForm';
 import WordPairAddDialog from './WordPairAddDialog';
 
+const API_URL = 'https://dictionary.yandex.net/api/v1/dicservice.json/lookup';
+
 const key =
   'dict.1.1.20190912T153649Z.db980bf4b29b2d4f.c08d4426f0c0f8d0ac2753aff4f23b9201e99f12';
 const lang = 'en-ru';
@@ -48,9 +50,7 @@ function WordPairAddDialogContainer({ open, ...rest }) {
     }
 
     const translate = word => {
-      const url = new URL(
-        'https://dictionary.yandex.net/api/v1/dicservice.json/lookup'
-      );
+      const url = new URL(API_URL);
       const params = { key, lang, text: word };
       Object.keys(params).forEach(key =>
         url.searchParams.append(key, params[key])

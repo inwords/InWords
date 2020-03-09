@@ -10,10 +10,6 @@ import SpeechButton from './SpeechButton';
 
 import './WordlistItem.css';
 
-const handleCheckboxClick = event => {
-  event.stopPropagation();
-};
-
 function WordlistItem({
   data: {
     wordPairs,
@@ -45,7 +41,9 @@ function WordlistItem({
             tabIndex={-1}
             checked={checkedValues.includes(serverId)}
             onChange={handleToggle(serverId)}
-            onClick={handleCheckboxClick}
+            onClick={event => {
+              event.stopPropagation();
+            }}
             edge="start"
           />
         </ListItemIcon>

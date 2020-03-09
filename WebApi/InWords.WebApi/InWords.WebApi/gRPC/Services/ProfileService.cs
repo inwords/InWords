@@ -3,6 +3,7 @@ using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -62,14 +63,9 @@ namespace InWords.WebApi.gRPC.Services
         [Authorize]
         public override async Task<ConfirmEmailReply> ConfirmEmail(ConfirmEmailRequest request, ServerCallContext context)
         {
-            if (!TryParseUserId(ref context, out int userId))
-            {
-                return new ConfirmEmailReply();
-            }
-
             var reqestObject = new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(request)
             {
-                UserId = userId
+                UserId = context.GetHttpContext().User.GetUserId()
             };
             ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
             return reply;
@@ -111,25 +107,6 @@ namespace InWords.WebApi.gRPC.Services
         {
             if (resource == null)
                 throw new ArgumentNullException($"{nameof(resource)} is null");
-        }
-
-        private bool TryParseUserId(ref ServerCallContext context, out int userId)
-        {
-            if (context == null)
-            {
-                userId = 0;
-                return false;
-            }
-            try
-            {
-                userId = context.GetHttpContext().User.GetUserId();
-                return true;
-            }
-            catch (ArgumentNullException)
-            {
-                userId = 0;
-                return false;
-            }
         }
     }
 }

@@ -1,31 +1,24 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveTrainingCategory } from 'src/actions/trainingApiActions';
+import { receiveCourse } from 'src/actions/trainingApiActions';
 import TrainingLevels from './TrainingLevels';
 
 function TrainingLevelsContainer() {
-  const trainingCategory = useSelector(
-    store => store.training.trainingCategory
-  );
+  const course = useSelector(store => store.training.course);
 
   const params = useParams();
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (
-      !trainingCategory.trainingId ||
-      trainingCategory.trainingId !== +params.categoryId
-    ) {
-      dispatch(receiveTrainingCategory(params.categoryId));
+    if (!course.trainingId || course.trainingId !== +params.courseId) {
+      dispatch(receiveCourse(params.courseId));
     }
-  }, [trainingCategory, dispatch, params.categoryId]);
+  }, [course, dispatch, params.courseId]);
 
   return (
-    trainingCategory.trainingId === +params.categoryId && (
-      <TrainingLevels trainingCategory={trainingCategory} />
-    )
+    course.trainingId === +params.courseId && <TrainingLevels course={course} />
   );
 }
 

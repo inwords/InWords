@@ -1,10 +1,12 @@
-﻿using InWords.Data;
+﻿using Grpc.Core;
+using InWords.Data;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Email.Template;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,26 +20,41 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             this.emailTemplateSender = emailTemplateSender;
         }
 
+
         // input code 
         // userid 
         // email 
         // output ok
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Ожидание>")]
         public override async Task<EmailChangeReply> HandleRequest(
             AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply> request,
             CancellationToken cancellationToken = default)
         {
-
-            if (request == null)
-                throw new ArgumentNullException($"{request} is null");
-
-            // TODO: add time to change delay
-
+            // TODO: add time change email timelock
             EmailChangeRequest requestValue = request.Value;
             string email = requestValue.Email;
-            // Create email
+
+            // check if email aldeary linked
+            var linkedEmail = Context.Accounts.Where(a => a.Email == email).Select(d => d.Email).SingleOrDefault();
+            if (linkedEmail == default)
+            {
+                request.StatusCode = StatusCode.AlreadyExists;
+                request.Detail = $"Email address '{ email }' is already linked to another account";
+                return new EmailChangeReply();
+            }
+
             ApproveEmailTemplate approveEmailTemplate = new ApproveEmailTemplate();
-            // send email
-            await emailTemplateSender.SendMailAsync(email, approveEmailTemplate).ConfigureAwait(false);
+            try
+            {
+                await emailTemplateSender.SendMailAsync(email, approveEmailTemplate).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                request.StatusCode = StatusCode.InvalidArgument;
+                request.Detail = $"The mail server could not send the email {email} to the address and threw an error {e.Message}";
+                return new EmailChangeReply();
+            }
 
             // add code
             EmailVerifies emailVerifies = new EmailVerifies()

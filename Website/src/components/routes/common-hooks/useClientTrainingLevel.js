@@ -3,9 +3,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 export default function useClientTrainingLevel(redirectionURL) {
-  const trainingLevelsMap = useSelector(
-    store => store.training.trainingLevelsMap
-  );
+  const levelsMap = useSelector(store => store.training.levelsMap);
 
   const history = useHistory();
   const params = useParams();
@@ -13,13 +11,13 @@ export default function useClientTrainingLevel(redirectionURL) {
   const paramLevelId = +params.levelId;
 
   React.useEffect(() => {
-    if (!trainingLevelsMap[paramLevelId]) {
+    if (!levelsMap[paramLevelId]) {
       history.push(redirectionURL);
     }
-  }, [trainingLevelsMap, paramLevelId, history, redirectionURL]);
+  }, [levelsMap, paramLevelId, history, redirectionURL]);
 
   return (
-    trainingLevelsMap[paramLevelId] || {
+    levelsMap[paramLevelId] || {
       levelId: paramLevelId,
       wordTranslations: []
     }

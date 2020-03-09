@@ -1,14 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { syncWordPairs } from 'src/actions/dictionaryApiActions';
+import useCheckboxList from 'src/hooks/useCheckboxList';
+import createSpeech from 'src/utils/createSpeech';
 import Divider from 'src/components/core/Divider';
 import Paper from 'src/components/core/Paper';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
 import WordPairAddButton from './WordPairAddButton';
-
-const synth = window.speechSynthesis;
-const lang = 'en-US';
 
 function DictionaryContainer() {
   const { actual, wordPairs } = useSelector(store => store.dictionary);
@@ -17,7 +16,7 @@ function DictionaryContainer() {
 
   React.useEffect(() => {
     if (!actual) {
-      dispatch(syncWordPairs(wordPairs));
+      dispatch(syncWordPairs(wordPairs.map(({ serverId }) => serverId)));
     }
   }, [actual, wordPairs, dispatch]);
 
@@ -26,43 +25,15 @@ function DictionaryContainer() {
   React.useEffect(() => {
     setExtendedWordPairs(
       wordPairs.map(wordPair => {
-        const onSpeech = () => {
-          if (synth.speaking) {
-            synth.cancel();
-          }
-
-          const speech = new SpeechSynthesisUtterance(wordPair.wordForeign);
-          speech.lang = lang;
-          synth.speak(speech);
-        };
-
         return {
           ...wordPair,
-          onSpeech
+          onSpeech: createSpeech(wordPair.wordForeign)
         };
       })
     );
   }, [wordPairs]);
 
-  const [checkedValues, setCheckedValues] = React.useState([]);
-
-  const handleToggle = React.useCallback(
-    value => () => {
-      setCheckedValues(checkedValues => {
-        const currentIndex = checkedValues.indexOf(value);
-        const newChecked = [...checkedValues];
-
-        if (currentIndex === -1) {
-          newChecked.push(value);
-        } else {
-          newChecked.splice(currentIndex, 1);
-        }
-
-        return newChecked;
-      });
-    },
-    []
-  );
+  const { checkedValues, setCheckedValues, handleToggle } = useCheckboxList();
 
   const [editingModeEnabled, setEditingModeEnabled] = React.useState(false);
 

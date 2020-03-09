@@ -4,6 +4,7 @@ $track-h: 8px;
 @mixin thumb {
   width: $thumb-d;
   height: $thumb-d;
+  border: none;
   border-radius: 50%;
   background-color: var(--palette-default-contrast-text);
   cursor: pointer;

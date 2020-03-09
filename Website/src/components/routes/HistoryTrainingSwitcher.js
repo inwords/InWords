@@ -7,7 +7,7 @@ import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 function HistoryTrainingSwitcher({ ...rest }) {
   const trainingLevel = useServerTrainingLevel();
 
-  const trainingHistory = useSelector(store => store.training.trainingHistory);
+  const trainingHistory = useSelector(store => store.training.history);
 
   const history = useHistory();
   const params = useParams();

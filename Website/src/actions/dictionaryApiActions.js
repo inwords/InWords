@@ -8,16 +8,12 @@ export function syncWordPairs(wordPairs) {
     method: 'POST',
     data: JSON.stringify(wordPairs),
     contentType: 'application/json',
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(wordPairsActions.syncWordPairs(data));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
-      }
-    ]
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(wordPairsActions.syncWordPairs(data));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
+    }
   });
 }
 
@@ -27,16 +23,12 @@ export function deleteWordPairs(pairIds) {
     method: 'POST',
     data: JSON.stringify(pairIds),
     contentType: 'application/json',
-    actionsOnSuccess: [
-      dispatch => {
-        dispatch(wordPairsActions.deleteWordPairs(pairIds));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось удалить слова' }));
-      }
-    ]
+    onSuccess: ({ dispatch }) => {
+      dispatch(wordPairsActions.deleteWordPairs(pairIds));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось удалить слова' }));
+    }
   });
 }
 
@@ -46,23 +38,19 @@ export function addWordPairs(wordPairs) {
     method: 'POST',
     data: JSON.stringify(wordPairs),
     contentType: 'application/json',
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(
-          wordPairsActions.addWordPairs(
-            wordPairs.map((wordPair, index) => ({
-              ...wordPair,
-              serverId: data[index].serverId
-            }))
-          )
-        );
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
-      }
-    ]
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(
+        wordPairsActions.addWordPairs(
+          wordPairs.map((wordPair, index) => ({
+            ...wordPair,
+            serverId: data[index].serverId
+          }))
+        )
+      );
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
+    }
   });
 }
 
@@ -72,27 +60,23 @@ export function editWordPairs(wordPairsMap) {
     method: 'POST',
     data: JSON.stringify(wordPairsMap),
     contentType: 'application/json',
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(
-          wordPairsActions.editWordPairs(
-            Object.entries(wordPairsMap).map((wordPairEntry, index) => ({
-              ...wordPairEntry[1],
-              oldServerId: +wordPairEntry[0],
-              serverId: data[index].serverId
-            }))
-          )
-        );
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(
-          setSnackbar({
-            text: 'Не удалось изменить слово'
-          })
-        );
-      }
-    ]
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(
+        wordPairsActions.editWordPairs(
+          Object.entries(wordPairsMap).map((wordPairEntry, index) => ({
+            ...wordPairEntry[1],
+            oldServerId: +wordPairEntry[0],
+            serverId: data[index].serverId
+          }))
+        )
+      );
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(
+        setSnackbar({
+          text: 'Не удалось изменить слово'
+        })
+      );
+    }
   });
 }

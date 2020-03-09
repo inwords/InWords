@@ -9,8 +9,9 @@ import GridItem from 'src/components/core/GridItem';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Button from 'src/components/core/Button';
+import Avatar from 'src/components/core/Avatar';
 
-import './AvatarEditDialog.css';
+import './AvatarEditDialog.scss';
 
 function AvatarEditDialog({
   open,
@@ -53,7 +54,7 @@ function AvatarEditDialog({
               </label>
             </GridItem>
             <GridItem>
-              <img src={avatar} alt="" className="avatar-edit-dialog-img" />
+              <Avatar src={avatar} alt="Аватар" />
             </GridItem>
           </Grid>
         </form>

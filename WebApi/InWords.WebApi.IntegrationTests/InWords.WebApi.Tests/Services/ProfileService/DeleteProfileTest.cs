@@ -18,15 +18,14 @@ namespace InWords.WebApi.Tests.Services.ProfileService
             string validPassword = "1";
             using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
             var client = clientFabric.Client;
-            TokenRequest tokenRequest = new TokenRequest { Email = username, Password = validPassword };
-            var reply = await client.GetTokenAsync(tokenRequest);
-            var headers = new Metadata
-            {
-                { "Authorization", $"Bearer {reply.Token}" }
-            };
-            
             try
             {
+                TokenRequest tokenRequest = new TokenRequest { Email = username, Password = validPassword };
+                var reply = await client.GetTokenAsync(tokenRequest);
+                var headers = new Metadata
+                {
+                    { "Authorization", $"Bearer {reply.Token}" }
+                };
                 var empty = client.DeleteAccount(new DeleteAccountRequest() { Text = "" }, headers);
                 Assert.True(empty != null);
             }

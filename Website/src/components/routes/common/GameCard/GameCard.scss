@@ -4,6 +4,7 @@
   margin: 4px;
   display: flex;
   align-items: center;
+  border-radius: 0;
   cursor: pointer;
   background-color: var(--palette-primary-main);
   transition: box-shadow 200ms ease-in-out;
@@ -15,7 +16,6 @@
   display: flex;
   align-items: center;
   width: 100%;
-  border-radius: 2px;
   background-color: var(--palette-background-paper);
 }
 

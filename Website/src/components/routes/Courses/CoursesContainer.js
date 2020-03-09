@@ -1,22 +1,20 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { receiveTrainingCategories } from 'src/actions/trainingApiActions';
+import { receiveCourses } from 'src/actions/trainingApiActions';
 import Courses from './Courses';
 
 function CoursesContainer() {
-  const trainingCategories = useSelector(
-    store => store.training.trainingCategories
-  );
+  const courses = useSelector(store => store.training.courses);
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (!trainingCategories.length) {
-      dispatch(receiveTrainingCategories());
+    if (!courses.length) {
+      dispatch(receiveCourses());
     }
-  }, [trainingCategories.length, dispatch]);
+  }, [courses.length, dispatch]);
 
-  return <Courses trainingCategories={trainingCategories} />;
+  return <Courses courses={courses} />;
 }
 
 export default CoursesContainer;
