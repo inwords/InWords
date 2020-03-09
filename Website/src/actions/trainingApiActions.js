@@ -1,5 +1,10 @@
 import apiAction from './apiAction';
-import * as trainingActions from './trainingActions';
+import {
+  initializeCourses,
+  initializeCourse,
+  initializeLevel,
+  initializeHistory
+} from './trainingActions';
 import { resetWordPairsActuality } from './dictionaryActions';
 import { setSnackbar } from './commonActions';
 
@@ -7,7 +12,7 @@ export function receiveCourses() {
   return apiAction({
     endpoint: '/game/gameInfo',
     onSuccess: ({ dispatch, data }) => {
-      dispatch(trainingActions.initializeCourses(data));
+      dispatch(initializeCourses(data));
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить темы' }));
@@ -19,7 +24,7 @@ export function receiveCourse(courseId) {
   return apiAction({
     endpoint: `/game/${courseId}`,
     onSuccess: ({ dispatch, data }) => {
-      dispatch(trainingActions.initializeCourse(data));
+      dispatch(initializeCourse(data));
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
@@ -50,7 +55,7 @@ export function receiveLevel(levelId) {
   return apiAction({
     endpoint: `/game/level/${levelId}`,
     onSuccess: ({ dispatch, data }) => {
-      dispatch(trainingActions.initializeLevel(data));
+      dispatch(initializeLevel(data));
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить уровень' }));
@@ -79,7 +84,7 @@ export function receiveHistory() {
     apiVersion: '1.1',
     endpoint: '/customLevel/history',
     onSuccess: ({ dispatch, data }) => {
-      dispatch(trainingActions.initializeHistory(data));
+      dispatch(initializeHistory(data));
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
@@ -93,7 +98,7 @@ export function receiveTrainingWordPairs() {
     endpoint: '/dictionary/training',
     onSuccess: ({ dispatch, data }) => {
       dispatch(
-        trainingActions.initializeLevel({
+        initializeLevel({
           levelId: 0,
           wordTranslations: data
         })

@@ -38,16 +38,6 @@
   &__nested {
     position: relative;
     width: 100%;
-
-    &::after {
-      content: '';
-      position: absolute;
-      top: 12px;
-      bottom: 12px;
-      left: 32px;
-      width: 2px;
-      background-color: var(--palette-divider);
-    }
   }
 
   &__nested-link {
@@ -59,16 +49,6 @@
 
     &.active {
       font-weight: 500;
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 12px;
-        bottom: 12px;
-        left: 32px;
-        width: 2px;
-        background-color: var(--palette-text-primary);
-      }
     }
   }
 }

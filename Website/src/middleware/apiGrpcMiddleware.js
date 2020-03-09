@@ -5,7 +5,6 @@ import {
   setSnackbar
 } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/accessActions';
-import apiAction from 'src/actions/apiAction';
 
 const CALL_API_GRPC = 'CALL_API_GRPC';
 
@@ -69,21 +68,18 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
       dispatch(endLoading());
 
       if (error) {
-        if (!error.metadata) {
-          dispatch(
-            setSnackbar({
-              text: 'Не удалось соединиться с сервером',
-              actionText: 'Повторить',
-              actionHandler: () => {
-                window.setTimeout(() => {
-                  dispatch(apiAction(action.payload));
-                }, 100);
-              }
-            })
-          );
-        } else if (error.code) {
-          dispatch(denyAccess());
-          dispatch(push('/sign-in'));
+        switch (error.code) {
+          case statusCodes.UNKNOWN:
+            dispatch(setSnackbar({ text: 'Неизвестная ошибка сервера' }));
+            break;
+          case statusCodes.INTERNAL:
+            dispatch(setSnackbar({ text: 'Внутренняя ошибка сервера' }));
+            break;
+          case statusCodes.UNAUTHENTICATED:
+            dispatch(push('/sign-in'));
+            dispatch(denyAccess());
+            break;
+          default:
         }
       } else {
         recievedResponse = response;
@@ -93,13 +89,13 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
     call.on('status', status => {
       if (status.code === statusCodes.OK && onSuccess) {
         onSuccess({ dispatch, response: recievedResponse });
-      } else {
+      } else if (onFailure) {
         onFailure({ dispatch, status, statusCodes });
       }
     });
-  } catch (error) {
+  } catch (_) {
     dispatch(endLoading());
-    dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
+    dispatch(setSnackbar({ text: 'Внутренняя ошибка приложения' }));
   }
 };
 
