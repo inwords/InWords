@@ -2,10 +2,12 @@
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
-using InWords.Service.Auth;
+using InWords.Service.Auth.Models;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
 using InWords.WebApi.Providers.FIleLogger;
+using InWords.WebApi.Services.OAuth2.JwtProviders;
+using InWords.WebApi.Services.OAuth2.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -56,15 +58,38 @@ namespace InWords.WebApi.AppStart
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Should be before AddMvc method. Allow use api from different sites 
+            services.AddCors(o =>
+            {
+                o.AddPolicy("AllowAll", builder =>
+               {
+                   builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .WithExposedHeaders("Grpc-Status", "Grpc-Message");
+               });
+            });
+
             // Mvc and controllers mapping
             services
                 .AddMvc(o => o.EnableEndpointRouting = false)
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            // allow use api from different sites
-            services.AddCors();
-
+            JwtSettings jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions);
+            //.AddGoogle(options =>
+            //{
+            //    IConfigurationSection googleAuthNSection =
+            //    Configuration.GetSection("AuthenticationGoogle");
+            //    options.ClientId = googleAuthNSection["ClientId"];
+            //    options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //});
+            services.AddAuthorization();
             // api version info
             services.AddApiVersioningInWords();
 
@@ -83,6 +108,7 @@ namespace InWords.WebApi.AppStart
         /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseRouting();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -113,10 +139,9 @@ namespace InWords.WebApi.AppStart
             else
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
-            app.UseAuthentication();
-            app.UseCors(builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
+            app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
+            app.UseCors("AllowAll"); // should be before UseMvc
             app.UseMvc();
 
             // to register types of modules
@@ -137,10 +162,7 @@ namespace InWords.WebApi.AppStart
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
 
             // mediator itself
-            builder
-                .RegisterType<Mediator>()
-                .As<IMediator>()
-                .InstancePerLifetimeScope();
+            builder.RegisterType<Mediator>().As<IMediator>().InstancePerLifetimeScope();
 
             // request & notification handlers
             builder.Register<ServiceFactory>(context =>
@@ -157,7 +179,7 @@ namespace InWords.WebApi.AppStart
         public void LoggerConfiguration(ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                $"log/#log-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.txt"));
+                $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt"));
             ILogger logger = loggerFactory.CreateLogger("FileLogger");
             logger.LogInformation("Processing request {0}", 0);
         }

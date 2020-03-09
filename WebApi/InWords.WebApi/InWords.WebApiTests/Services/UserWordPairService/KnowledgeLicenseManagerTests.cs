@@ -1,6 +1,6 @@
-﻿using System;
-using InWords.WebApi.Services.UserWordPairService.Enum;
+﻿using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Models;
+using System;
 using Xunit;
 using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.KnowledgeLicenseCalculator;
 

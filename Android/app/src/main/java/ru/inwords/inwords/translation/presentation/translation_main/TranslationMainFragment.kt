@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,13 +18,12 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlinx.android.synthetic.main.fragment_translation_main.*
-import kotlinx.android.synthetic.main.fragment_translation_main.view.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.recycler.SelectionDetailsLookup
 import ru.inwords.inwords.core.recycler.SelectionKeyProvider
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.databinding.FragmentTranslationMainBinding
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.texttospeech.TtsMediaPlayerAdapter
 import ru.inwords.inwords.translation.data.bean.WordTranslation
@@ -34,11 +32,15 @@ import ru.inwords.inwords.translation.presentation.recycler.ItemTouchHelperEvent
 import ru.inwords.inwords.translation.presentation.recycler.WordTranslationsAdapter
 import ru.inwords.inwords.translation.presentation.recycler.applyDiffUtil
 
-class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationViewModelFactory>(), ItemTouchHelperEvents {
+class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewModel, TranslationViewModelFactory, FragmentTranslationMainBinding>(), ItemTouchHelperEvents {
     override val layout = R.layout.fragment_translation_main
     override val classType = TranslationMainViewModel::class.java
 
-    private lateinit var adapter: WordTranslationsAdapter
+    override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentTranslationMainBinding {
+        return FragmentTranslationMainBinding.inflate(inflater, container, attachToRoot)
+    }
+
+    private lateinit var recyclerAdapter: WordTranslationsAdapter
 
     private lateinit var tracker: SelectionTracker<WordTranslation>
 
@@ -48,43 +50,29 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return super.onCreateView(inflater, container, savedInstanceState).also { view ->
-            setupToolbar(view)
+            setupToolbar()
 
-            val onItemClickedListener = PublishSubject.create<WordTranslation>()
             val onSpeakerClickedListener = PublishSubject.create<WordTranslation>()
-            setupRecyclerView(view, onItemClickedListener, onSpeakerClickedListener)
+            setupRecyclerView(onSpeakerClickedListener)
 
             if (savedInstanceState != null) {
                 tracker.onRestoreInstanceState(savedInstanceState)
                 onTrackerSelectionChanged()
             }
 
-            viewModel.onEditClickedHandler(onItemClickedListener)
-            viewModel.onSpeakerClickedHandler(onSpeakerClickedListener.doOnNext { view.progress_view.progress = 50 })
+            viewModel.onSpeakerClickedHandler(onSpeakerClickedListener.doOnNext { binding.progressView.progress = 50 })
 
-            view.fab.setOnClickListener { viewModel.onAddClicked() } //TODO clicks
+            binding.fab.setOnClickListener { viewModel.onAddClicked() } //TODO clicks
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
-
-        viewModel.addEditWordLiveData.observe(this::getLifecycle) { event ->
-            event.contentIfNotHandled?.also {
-                navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToAddEditWordFragment(it))
-            }
-        }
-
-        viewModel.navigateToPlayLiveData.observe(this::getLifecycle) { event ->
-            event.contentIfNotHandled?.also {
-                navController.navigate(TranslationMainFragmentDirections.actionTranslationMainFragmentToCustomGameCreatorFragment(it.toTypedArray()))
-            }
-        }
+        setupWithNavController(binding.toolbar)
 
         ttsMediaPlayerAdapter = TtsMediaPlayerAdapter { resource ->
-            progress_view.post { progress_view.progress = 0 }
+            binding.progressView.post { binding.progressView.progress = 0 }
 
             if (resource !is Resource.Success) {
                 Toast.makeText(context, getString(R.string.unable_to_load_voice), Toast.LENGTH_SHORT).show()
@@ -98,14 +86,14 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         viewModel.translationWordsStream
             .applyDiffUtil()
             .observeOn(SchedulersFacade.ui())
-            .subscribe(adapter)
+            .subscribe(recyclerAdapter)
             .disposeOnViewDestroyed()
     }
 
     override fun onDestroyView() {
         ttsMediaPlayerAdapter.destroy()
 
-        adapter.tracker = null
+        recyclerAdapter.tracker = null
 
         actionMode?.finish()
 
@@ -123,8 +111,8 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         actionMode?.title = "Выбрано: $selected"
     }
 
-    private fun setupToolbar(view: View) = with(view) {
-        val search = toolbar.menu.findItem(R.id.action_search)
+    private fun setupToolbar() {
+        val search = binding.toolbar.menu.findItem(R.id.action_search)
         val searchView = search.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -140,40 +128,40 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         })
     }
 
-    private fun setupRecyclerView(view: View,
-                                  onItemClickedListener: Subject<WordTranslation>,
-                                  onSpeakerClickedListener: Subject<WordTranslation>) = with(view) {
-        val context = view.context
+    private fun setupRecyclerView(onSpeakerClickedListener: Subject<WordTranslation>) {
+        val context = requireContext()
 
-        adapter = WordTranslationsAdapter(onItemClickedListener, onSpeakerClickedListener)
+        recyclerAdapter = WordTranslationsAdapter({ viewModel.onEditClicked(it) }, onSpeakerClickedListener)
 
-        val layoutManager = LinearLayoutManager(context)
-        val dividerItemDecoration = DividerItemDecoration(context, layoutManager.orientation)
+        val linearLayoutManager = LinearLayoutManager(context)
+        val dividerItemDecoration = DividerItemDecoration(context, linearLayoutManager.orientation)
 
-        recycler_view.layoutManager = layoutManager
-        recycler_view.adapter = adapter
-        recycler_view.addItemDecoration(dividerItemDecoration)
+        with(binding.recyclerView) {
+            layoutManager = linearLayoutManager
+            adapter = recyclerAdapter
+            addItemDecoration(dividerItemDecoration)
+        }
 
 //        val callback = ItemTouchHelperAdapter(this@TranslationMainFragment) //TODO
 //        val touchHelper = ItemTouchHelper(callback)
 //        touchHelper.attachToRecyclerView(recycler_view)
 
-        setupTracker(view)
+        setupTracker()
 
-        adapter.tracker = tracker
+        recyclerAdapter.tracker = tracker
     }
 
-    private fun setupTracker(view: View) = with(view) {
-        fun getItems() = adapter.items
+    private fun setupTracker() {
+        fun getItems() = recyclerAdapter.items
 
         tracker = SelectionTracker
             .Builder(
                 // идентифицируем трекер в контексте
                 "wordTranslationTracker",
-                recycler_view,
+                binding.recyclerView,
                 // для Long ItemKeyProvider реализован в виде StableIdKeyProvider
                 SelectionKeyProvider({ getItems().getOrNull(it) }, { getItems().indexOf(it) }),
-                SelectionDetailsLookup(recycler_view),
+                SelectionDetailsLookup(binding.recyclerView),
                 // существуют аналогичные реализации для Long и String
                 StorageStrategy.createParcelableStorage(WordTranslation::class.java)
             ).build()
@@ -188,10 +176,10 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     }
 
     override fun onItemDismiss(position: Int) {
-        val item = adapter.items[position]
+        val item = recyclerAdapter.items[position]
         viewModel.onItemDismiss(item)
 
-        Snackbar.make(root_coordinator, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
+        Snackbar.make(binding.rootCoordinator, getString(R.string.translation_deleted), Snackbar.LENGTH_LONG)
             .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemDismissUndo(item) }
             .addCallback(SnackBarCallback(item))
             .show()
@@ -200,7 +188,7 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
     private fun onItemsDismiss(items: List<WordTranslation>) {
         viewModel.onItemsDismiss(items)
 
-        Snackbar.make(root_coordinator, getString(R.string.translation_multiple_deleted, items.size), Snackbar.LENGTH_LONG)
+        Snackbar.make(binding.rootCoordinator, getString(R.string.translation_multiple_deleted, items.size), Snackbar.LENGTH_LONG)
             .setAction(getString(R.string.undo_translation_deletion)) { viewModel.onItemsDismissUndo(items) }
             .addCallback(SnackBarCallback2(items))
             .show()

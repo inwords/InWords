@@ -1,7 +1,7 @@
-﻿using System;
+﻿using InWords.Data.DTO.GameBox.LevelMetric;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using InWords.Data.DTO.GameBox.LevelMetric;
 using Xunit;
 
 namespace InWords.Data.DTOTests.GameBox.LevelMetric
@@ -14,7 +14,7 @@ namespace InWords.Data.DTOTests.GameBox.LevelMetric
             var expected = new LevelMetricQuery
             {
                 GameLevelId = 1,
-                WordPairIdOpenCounts = new Dictionary<int, int> {{2, 3}}
+                WordPairIdOpenCounts = new Dictionary<int, int> { { 2, 3 } }
             };
 
             Assert.Throws<NotSupportedException>(() => JsonSerializer.Serialize(expected));

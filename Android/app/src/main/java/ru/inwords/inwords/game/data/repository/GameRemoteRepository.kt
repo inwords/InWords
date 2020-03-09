@@ -1,5 +1,6 @@
 package ru.inwords.inwords.game.data.repository
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.game.data.bean.*
@@ -8,11 +9,11 @@ import javax.inject.Singleton
 
 @Singleton
 class GameRemoteRepository @Inject constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised) {
-    fun getGameInfos(): Single<List<GameInfo>> {
+    fun getGameInfos(): Single<List<GameInfoResponse>> {
         return webRequestsManagerAuthorised.getGameInfos()
     }
 
-    fun getGame(gameId: Int): Single<Game> {
+    fun getGame(gameId: Int): Single<GameResponse> {
         return webRequestsManagerAuthorised.getGame(gameId)
     }
 
@@ -28,5 +29,9 @@ class GameRemoteRepository @Inject constructor(private val webRequestsManagerAut
     fun uploadScore(levelScoreRequests: List<LevelScoreRequest>): Single<Boolean> {
         return webRequestsManagerAuthorised.getScore(TrainingEstimateRequest(levelScoreRequests))
             .map { true }
+    }
+
+    fun addWordsToUserDictionary(gameId: Int): Completable {
+        return webRequestsManagerAuthorised.addWordsToUserDictionary(gameId)
     }
 }

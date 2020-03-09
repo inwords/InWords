@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using InWords.Data.Domains;
+﻿using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Services.Email;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.Email

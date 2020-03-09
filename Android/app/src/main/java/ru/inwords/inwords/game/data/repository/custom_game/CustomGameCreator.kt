@@ -3,11 +3,11 @@ package ru.inwords.inwords.game.data.repository.custom_game
 import io.reactivex.Completable
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.Game
-import ru.inwords.inwords.game.data.bean.GameInfo
 import ru.inwords.inwords.game.data.bean.GameLevel
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.data.repository.CustomGameGatewayController
+import ru.inwords.inwords.game.domain.model.Game
+import ru.inwords.inwords.game.domain.model.GameInfo
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class CustomGameCreator @Inject constructor(private val customGameGatewayControl
         val defaultGame = Game(CUSTOM_GAME_ID, "CUSTOM_GAME", "CUSTOM_GAME", listOf())
 
         val game = when (val gameResource = customGameGatewayController.getGame(CUSTOM_GAME_ID, false).blockingFirst()) {
-            is Resource.Success -> gameResource.data.game
+            is Resource.Success -> gameResource.data
             else -> defaultGame
         }
 

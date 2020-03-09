@@ -13,6 +13,15 @@ sealed class Resource<out T : Any> {
     ) : Resource<T>()
 }
 
+val <T : Any> Resource<T>.source: Source
+    get() {
+        return when (this) {
+            is Resource.Success -> source
+            is Resource.Loading -> source
+            is Resource.Error -> source
+        }
+    }
+
 enum class Source {
     NETWORK, CACHE, PREFETCH, NOT_SET
 }

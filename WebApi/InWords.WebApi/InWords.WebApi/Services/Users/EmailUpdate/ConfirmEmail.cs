@@ -1,9 +1,9 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.Extentions;
-using ProfilePackage.V2;
 using System;
 using System.Linq;
 using System.Threading;
@@ -28,7 +28,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             var userId = request.UserId;
 
             // throw exception if not found
-            Account account = await Context.Accounts.FindAccount(userId).ConfigureAwait(false);
+            Account account = await Context.Accounts.FindAsync(userId).ConfigureAwait(false);
 
             // throw exception if invalid
             EmailVerifies codeValidation = GetValidCode(requestData, userId);

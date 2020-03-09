@@ -1,4 +1,9 @@
 syntax = "proto3";
+option csharp_namespace = "InWords.WebApi.gRPC.Services";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.profile";
+option java_outer_classname = "ProfileProto";
 
 package ProfilePackage.v2;
 
@@ -9,13 +14,14 @@ service Profile {
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
 	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
-	rpc DeleteAccound (DeleteAccountRequest) returns (Empty);
+	rpc DeleteAccount (DeleteAccountRequest) returns (Empty);
 }
 
 // The request message containing the user's credentials.
 message RegistrationRequest {
 	string email = 1;
 	string password = 2;
+	bool IsAnonymous = 3;
 }
 
 // The response message containing the Token.

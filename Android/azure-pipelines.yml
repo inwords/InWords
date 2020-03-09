@@ -29,6 +29,13 @@ steps:
   inputs:
     workingDirectory: 'Android/'
     gradleWrapperFile: 'Android/gradlew'
+    gradleOptions: '-Xmx3072m'
+    tasks: 'bundleRelease'
+
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Android/'
+    gradleWrapperFile: 'Android/gradlew'
     tasks: 'test'
     publishJUnitResults: true
     testResultsFiles: '**/testReleaseUnitTest/TEST-*.xml'
@@ -36,10 +43,22 @@ steps:
     javaHomeOption: 'JDKVersion'
     gradleOptions: '-Xmx3072m'
     sonarQubeRunAnalysis: false
-    
+
 - task: Gradle@2
   inputs:
     workingDirectory: 'Android/'
     gradleWrapperFile: 'Android/gradlew'
     gradleOptions: '-Xmx3072m'
-    tasks: 'assembleDebug'
+    tasks: 'testReleaseUnitTest'
+
+- task: Gradle@2
+  inputs:
+    workingDirectory: 'Android/'
+    gradleWrapperFile: 'Android/gradlew'
+    gradleOptions: '-Xmx3072m'
+    tasks: 'jacocoAggregateReports'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/app/getJacocoReports/getJacocoReports.xml'

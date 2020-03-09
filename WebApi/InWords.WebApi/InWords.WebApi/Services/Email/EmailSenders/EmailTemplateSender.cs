@@ -1,11 +1,12 @@
-﻿using InWords.WebApi.Services.Email.Models;
+﻿using InWords.WebApi.Services.Email.Abstractions;
+using InWords.WebApi.Services.Email.Models;
 using InWords.WebApi.Services.Email.Template;
 using System;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Email.EmailSenders
 {
-    public class EmailTemplateSender : EmailSender
+    public class EmailTemplateSender : EmailSender, IEmailTemplateSender
     {
         public EmailTemplateSender(EmailIdentity emailIdentity) : base(emailIdentity)
         {

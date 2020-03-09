@@ -9,7 +9,8 @@ import ru.inwords.inwords.profile.data.bean.User
 
 class UserCachingRepository(
     private val databaseRepository: UserDatabaseRepository,
-    private val remoteRepository: UserRemoteRepository) : UserRepository {
+    private val remoteRepository: UserRemoteRepository
+) : UserRepository {
 
     private val authorisedUserCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createAuthorisedUserCachingProvider() } }
 
@@ -31,7 +32,7 @@ class UserCachingRepository(
         authorisedUserCachingProviderLocator.clear()
     }
 
-    override fun postOnLoopback(newUser: User){
+    override fun postOnLoopback(newUser: User) {
         val cachingProvider = authorisedUserCachingProviderLocator.getDefault()
 
         cachingProvider.postOnLoopback(newUser)
@@ -41,6 +42,8 @@ class UserCachingRepository(
         return ResourceCachingProvider(
             { data -> databaseRepository.insert(data).map { data } },
             { databaseRepository.getAuthorisedUser() },
-            { remoteRepository.getAuthorisedUser() })
+            { remoteRepository.getAuthorisedUser() },
+            prefetchFromDatabase = true
+        )
     }
 }

@@ -10,24 +10,29 @@
     <com.google.android.material.appbar.AppBarLayout
         style="@style/ToolbarStyle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/appbar_height">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/appbar_height"
             app:title="Найдите все пары слов" />
+
+        <ru.inwords.designcorelib.custom_views.ProgressView
+            android:id="@+id/progress_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_progress_height"
+            android:visibility="gone" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <TableLayout
         android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/space_medium"
+        android:layout_marginTop="@dimen/space_giant"
+        android:layout_marginEnd="@dimen/space_medium"
+        android:layout_marginBottom="@dimen/space_medium"
         android:gravity="center" />
-
-    <ru.inwords.designcorelib.custom_views.ProgressView
-        android:id="@+id/progress_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/top_progress_height" />
 
 </FrameLayout>

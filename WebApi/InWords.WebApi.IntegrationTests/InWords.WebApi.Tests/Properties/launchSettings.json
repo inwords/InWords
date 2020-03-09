@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "InWords.WebApiTests.CLI": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "URL": "https://localhost:5102"
+      }
+    }
+  }
+}

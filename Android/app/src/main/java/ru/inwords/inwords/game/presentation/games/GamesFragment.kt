@@ -2,70 +2,113 @@ package ru.inwords.inwords.game.presentation.games
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
-import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.android.synthetic.main.fragment_games.*
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.recycler.VerticalSpaceItemDecoration
 import ru.inwords.inwords.core.recycler.fixOverscrollBehaviour
-import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.domain.model.GameInfoModel
-import ru.inwords.inwords.game.presentation.BaseContentFragment
+import ru.inwords.inwords.core.utils.observe
+import ru.inwords.inwords.databinding.FragmentGamesBinding
+import ru.inwords.inwords.game.domain.model.GameInfo
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
 import ru.inwords.inwords.game.presentation.games.recycler.GamesAdapter
 import ru.inwords.inwords.game.presentation.games.recycler.applyDiffUtil
+import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 
-class GamesFragment : BaseContentFragment<GameInfoModel, GamesViewModel, OctoGameViewModelFactory>() {
+class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewModelFactory, FragmentGamesBinding>() {
     override val layout = R.layout.fragment_games
     override val classType = GamesViewModel::class.java
 
-    override val noContentViewId = R.id.games_recycler
+    override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentGamesBinding {
+        return FragmentGamesBinding.inflate(inflater, container, attachToRoot)
+    }
 
-    private lateinit var adapter: GamesAdapter
+    private lateinit var recyclerAdapter: GamesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
+        setupWithNavController(binding.toolbar)
 
-        adapter = GamesAdapter(viewModel.navigateToGame)
+        recyclerAdapter = GamesAdapter(
+            onItemClickedListener = { viewModel.navigateToGame(it) },
+            onSaveToDictionaryClickedListener = {
+                AlertDialog.Builder(requireContext())
+                    .setNegativeButton("Отмена") { _, _ -> }
+                    .setPositiveButton("Добавить") { _, _ -> viewModel.onSaveToDictionaryClicked(it) }
+                    .setMessage("Добавить все слова из темы в словарь?")
+                    .show()
+            }
+        )
 
-        games_recycler.layoutManager = GridLayoutManager(context, 2)
-        games_recycler.adapter = adapter
+        val dividerItemDecoration = VerticalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.space_medium))
 
-        viewModel.navigateToGame.subscribe(::navigateToGame).disposeOnViewDestroyed()
+        with(binding.gamesRecycler) {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(dividerItemDecoration)
+            adapter = recyclerAdapter
+        }
+
+        observe(viewModel.toast) {
+            Toast.makeText(
+                requireContext(),
+                if (it) {
+                    "Слова сохранены в словарь"
+                } else {
+                    "Сохранить слова в словарь не удалось"
+                },
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
         viewModel.screenInfoStream()
-            .observeOn(SchedulersFacade.ui())
-            .map {
-                if (it is Resource.Success) {
-                    it.data.gameInfos
-                } else {
-                    showNoContent()
-                    emptyList()
-                }
-            }
             .observeOn(SchedulersFacade.computation())
             .applyDiffUtil()
             .observeOn(SchedulersFacade.ui())
-            .doOnSubscribe { games_recycler.showShimmerAdapter() }
-            .doOnEach { games_recycler.hideShimmerAdapter() }
+            .doOnSubscribe { showLoading() }
             .subscribe({
-                showScreenState(it.first)
-                adapter.accept(it)
+                if (it.first.isNotEmpty()) {
+                    showContent()
+                } else {
+                    showNoContent()
+                }
+                recyclerAdapter.accept(it)
 
-                fixOverscrollBehaviour(games_recycler)
+                fixOverscrollBehaviour(binding.gamesRecycler)
             }) {
                 Log.e(javaClass.simpleName, it.message.orEmpty())
                 showNoContent()
             }.disposeOnViewDestroyed()
     }
 
-    private fun navigateToGame(gameInfo: GameInfoModel) {
-        navController.navigate(GamesFragmentDirections.actionGamesFragmentToGameLevelsFragment(gameInfo))
+    private fun showContent() {
+        binding.gamesRecycler.isVisible = true
+        binding.gameNoContent.root.isVisible = false
+        binding.progress.isVisible = false
+        /*
+            game_menu.setOnClickListener { showPopupMenu(it) }
+            game_menu.tag = gameInfo
+         */
+    }
+
+    private fun showNoContent() {
+        binding.gamesRecycler.isVisible = false
+        binding.gameNoContent.root.isVisible = true
+        binding.progress.isVisible = false
+    }
+
+    private fun showLoading() {
+        binding.gamesRecycler.isVisible = false
+        binding.gameNoContent.root.isVisible = false
+        binding.progress.isVisible = true
     }
 
     private fun showPopupMenu(v: View) { //TODO
@@ -76,7 +119,7 @@ class GamesFragment : BaseContentFragment<GameInfoModel, GamesViewModel, OctoGam
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.game_remove -> {
-                            viewModel.onGameRemoved(v.tag as GameInfoModel)
+                            viewModel.onGameRemoved(v.tag as GameInfo)
                             true
                         }
                         else -> false

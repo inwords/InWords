@@ -3,13 +3,13 @@ package ru.inwords.inwords.dagger
 import dagger.Component
 import dagger.android.AndroidInjector
 import ru.inwords.inwords.App
+import ru.inwords.inwords.authorisation.di.AuthorisationDaggerModule
 import ru.inwords.inwords.data.source.database.RoomTypeConverter
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreUploadWorker
 import ru.inwords.inwords.game.di.OctoGameDaggerModule
 import ru.inwords.inwords.home.HomeFragmentDaggerModule
-import ru.inwords.inwords.presentation.view_scenario.authorisation.AuthorisationDaggerModule
-import ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivityDaggerModule
-import ru.inwords.inwords.presentation.view_scenario.policy.PolicyFragmentDaggerModule
+import ru.inwords.inwords.main_activity.di.MainActivityDaggerModule
+import ru.inwords.inwords.policy.di.PolicyFragmentDaggerModule
 import ru.inwords.inwords.profile.di.ProfileFragmentDaggerModule
 import ru.inwords.inwords.translation.di.TranslationDaggerModule
 import javax.inject.Singleton

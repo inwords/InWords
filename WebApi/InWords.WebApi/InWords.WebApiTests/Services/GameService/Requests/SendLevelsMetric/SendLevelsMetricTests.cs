@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Games.Levels;
 using InWords.WebApi.Services.GameService.Requests.SendLevelsMetric;
-using InWords.WebApiTests.Controllers.v1._0;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using InWords.WebApiTests.TestUtils;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.GameService.Requests.SendLevelsMetric

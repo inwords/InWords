@@ -15,7 +15,7 @@ interface WebRequestsManagerAuthorised {
 
     fun getAuthorisedUser(): Single<User>
 
-    fun getGameInfos(): Single<List<GameInfo>>
+    fun getGameInfos(): Single<List<GameInfoResponse>>
 
     fun getUserEmail(): Single<String>
 
@@ -29,11 +29,13 @@ interface WebRequestsManagerAuthorised {
 
     fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer>
 
-    fun getGame(gameId: Int): Single<Game>
+    fun getGame(gameId: Int): Single<GameResponse>
 
     fun getLevel(levelId: Int): Single<GameLevel>
 
     fun getScore(trainingEstimateRequest: TrainingEstimateRequest): Single<List<LevelScore>>
+
+    fun addWordsToUserDictionary(gameId: Int): Completable
 
     fun getWordsForTraining(): Single<List<WordTranslation>>
 

@@ -5,12 +5,12 @@ import io.mockk.mockk
 import io.reactivex.Observable
 import org.junit.jupiter.api.Test
 import ru.inwords.inwords.core.resource.Resource
-import ru.inwords.inwords.game.data.bean.Game
 import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.data.repository.GameGatewayController
 import ru.inwords.inwords.game.domain.model.ContinueGameQueryResult
-import ru.inwords.inwords.game.domain.model.GameInfoModel
-import ru.inwords.inwords.game.domain.model.GamesInfoModel
+import ru.inwords.inwords.game.domain.model.Game
+import ru.inwords.inwords.game.domain.model.GameInfo
+import ru.inwords.inwords.game.domain.model.GamesInfo
 
 internal class ContinueGameInteractorTest {
 
@@ -19,14 +19,14 @@ internal class ContinueGameInteractorTest {
     private val continueGameInteractor = ContinueGameInteractor(gameGatewayController)
 
     private val gameInfos = listOf(
-        GameInfoModel(1, 0, "", "", available = true, isCustom = false),
-        GameInfoModel(2, 0, "", "", available = true, isCustom = false),
-        GameInfoModel(3, 0, "", "", available = true, isCustom = false),
-        GameInfoModel(4, 0, "", "", available = true, isCustom = false),
-        GameInfoModel(5, 0, "", "", available = true, isCustom = false)
+        GameInfo(1, 0, "", "", available = true, isCustom = false),
+        GameInfo(2, 0, "", "", available = true, isCustom = false),
+        GameInfo(3, 0, "", "", available = true, isCustom = false),
+        GameInfo(4, 0, "", "", available = true, isCustom = false),
+        GameInfo(5, 0, "", "", available = true, isCustom = false)
     )
 
-    private val gamesInfoModel = GamesInfoModel(true, gameInfos)
+    private val gamesInfoModel = GamesInfo(true, gameInfos)
 
     private val gameLevelInfos = listOf(
         GameLevelInfo(1, 1, 0, true),

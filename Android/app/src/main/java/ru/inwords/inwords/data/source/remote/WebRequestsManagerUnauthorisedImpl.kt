@@ -7,6 +7,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.data.source.grpc.ProfileGrpcService
 import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
@@ -15,10 +16,12 @@ import ru.inwords.inwords.profile.data.bean.UserCredentials
 import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest
 import javax.inject.Inject
 
-class WebRequestsManagerUnauthorisedImpl @Inject
-internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
-                     private val sessionHelper: SessionHelper,
-                     private val authInfo: AuthInfo) : WebRequestsManagerUnauthorised {
+class WebRequestsManagerUnauthorisedImpl @Inject internal constructor(
+    private val apiServiceUnauthorised: ApiServiceUnauthorised,
+    private val sessionHelper: SessionHelper,
+    private val profileGrpcService: ProfileGrpcService,
+    private val authInfo: AuthInfo
+) : WebRequestsManagerUnauthorised {
 
     private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
 
@@ -38,7 +41,7 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
     }
 
     private fun Single<UserCredentials>.updateToken(): Single<TokenResponse> {
-        return flatMap { apiServiceUnauthorised.getToken(it) }
+        return flatMap { profileGrpcService.getToken(it) }
             .flatMap { setAuthToken(it) }
             .applyAuthSessionHelper()
             .subscribeOn(SchedulersFacade.io())
@@ -53,7 +56,7 @@ internal constructor(private val apiServiceUnauthorised: ApiServiceUnauthorised,
     }
 
     override fun registerUser(userCredentials: UserCredentials): Single<TokenResponse> {
-        return apiServiceUnauthorised.registerUser(userCredentials)
+        return profileGrpcService.register(userCredentials)
             .applyAuthSessionHelper()
             .zipWith(authInfo.setCredentials(userCredentials),
                 BiFunction<TokenResponse, UserCredentials, TokenResponse> { tokenResponse, u -> tokenResponse })

@@ -7,28 +7,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.KeyboardUtils
+import ru.inwords.inwords.core.utils.observe
+import ru.inwords.inwords.databinding.FragmentProfileBinding
+import ru.inwords.inwords.policy.presentation.renderPolicyText
 import ru.inwords.inwords.presentation.createAppBarNavIconOnScrimColorAnimatorListener
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
-import ru.inwords.inwords.presentation.view_scenario.renderPolicyText
 import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.presentation.ProfileViewModelFactory
 
 
-class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileViewModelFactory>() {
+class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileViewModelFactory, FragmentProfileBinding>() {
     override val layout = R.layout.fragment_profile
     override val classType = ProfileViewModel::class.java
+
+    override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentProfileBinding {
+        return FragmentProfileBinding.inflate(inflater, container, attachToRoot)
+    }
 
     lateinit var user: User
 
@@ -37,7 +39,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
-        view.header_background.hierarchy.setActualImageFocusPoint(PointF(0.5f, 0.75f))
+        binding.headerBackground.hierarchy.setActualImageFocusPoint(PointF(0.5f, 0.75f))
 
         return view
     }
@@ -48,29 +50,29 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
         val colorCollapsed = ResourcesCompat.getColor(resources, R.color.colorPrimary, context?.theme)
         val colorExpanded = ResourcesCompat.getColor(resources, R.color.white, context?.theme)
 
-        navIconAnimationListener = createAppBarNavIconOnScrimColorAnimatorListener(toolbar, collapsing_toolbar, colorExpanded, colorCollapsed)
+        navIconAnimationListener = createAppBarNavIconOnScrimColorAnimatorListener(binding.toolbar, binding.collapsingToolbar, colorExpanded, colorCollapsed)
             .apply {
-                appbar_layout.addOnOffsetChangedListener(this)
+                binding.appbarLayout.addOnOffsetChangedListener(this)
             }
 
-        NavigationUI.setupWithNavController(collapsing_toolbar, toolbar, navController)
+        setupWithNavController(binding.collapsingToolbar, binding.toolbar)
 
-        to_login_button.setOnClickListener(toLoginClickListener())
+        binding.toLoginButton.setOnClickListener { viewModel.onNavigateToLoginClicked() }
 
-        settings_button.setOnClickListener(toSettingsClickListener())
+        binding.settingsButton.setOnClickListener { viewModel.onNavigateToSettingsClicked() }
 
-        name_edit_edit_button.setOnClickListener(nameEditClickListener())
-        name_edit_apply_button.setOnClickListener(nameApplyClickListener())
+        binding.nameEditEditButton.setOnClickListener(nameEditClickListener())
+        binding.nameEditApplyButton.setOnClickListener(nameApplyClickListener())
 
         subscribeUser().disposeOnViewDestroyed()
 
         subscribeNicknameUpdateResult()
 
-        renderPolicyText(policy_text_view)
+        renderPolicyText(binding.policyTextView)
     }
 
     override fun onDestroyView() {
-        navIconAnimationListener?.let { appbar_layout.removeOnOffsetChangedListener(it) }
+        navIconAnimationListener?.let { binding.appbarLayout.removeOnOffsetChangedListener(it) }
         super.onDestroyView()
     }
 
@@ -85,20 +87,20 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
                         .setLocalThumbnailPreviewsEnabled(true)
                         .build()
 
-                    avatar_image.setImageRequest(request)
+                    binding.avatarImage.setImageRequest(request)
                 } else {
-                    avatar_image.setActualImageResource(R.drawable.ic_octopus1)
+                    binding.avatarImage.setActualImageResource(R.drawable.ic_octopus1)
                 }
 
-                name_edit_text.setText(user.userName)
+                binding.nameEditText.setText(user.userName)
 
                 renderDefaultViewState()
-                name_edit_edit_button.isEnabled = true
+                binding.nameEditEditButton.isEnabled = true
             } else {
-                avatar_image.setActualImageResource(R.drawable.ic_octopus1)
+                binding.avatarImage.setActualImageResource(R.drawable.ic_octopus1)
 
                 renderDefaultViewState()
-                name_edit_edit_button.isEnabled = false
+                binding.nameEditEditButton.isEnabled = false
             }
         }
 
@@ -108,7 +110,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     }
 
     private fun subscribeNicknameUpdateResult() {
-        viewModel.changeNickname.observe(this::getLifecycle) {
+        observe(viewModel.changeNickname) {
             when (it.contentIfNotHandled) {
                 is Resource.Success -> {
                     renderDefaultViewState()
@@ -119,7 +121,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
                 is Resource.Error -> { //TODO error handling
                     renderErrorViewState()
 
-                    Snackbar.make(profile_root, "Не удалось изменить ник. Попробуйте ещё раз", Snackbar.LENGTH_LONG)
+                    Snackbar.make(binding.profileRoot, "Не удалось изменить ник. Попробуйте ещё раз", Snackbar.LENGTH_LONG)
                         .show()
                 }
             }
@@ -127,36 +129,36 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     }
 
     private fun renderDefaultViewState() {
-        name_edit_progress.visibility = View.INVISIBLE
-        name_edit_edit_button.visibility = View.VISIBLE
-        name_edit_apply_button.visibility = View.INVISIBLE
-        name_edit_text.isEnabled = false
+        binding.nameEditProgress.visibility = View.INVISIBLE
+        binding.nameEditEditButton.visibility = View.VISIBLE
+        binding.nameEditApplyButton.visibility = View.INVISIBLE
+        binding.nameEditText.isEnabled = false
     }
 
     private fun renderEditViewState() {
-        name_edit_progress.visibility = View.INVISIBLE
-        name_edit_edit_button.visibility = View.INVISIBLE
-        name_edit_apply_button.visibility = View.VISIBLE
-        name_edit_text.isEnabled = true
+        binding.nameEditProgress.visibility = View.INVISIBLE
+        binding.nameEditEditButton.visibility = View.INVISIBLE
+        binding.nameEditApplyButton.visibility = View.VISIBLE
+        binding.nameEditText.isEnabled = true
     }
 
     private fun renderLoadingViewState() {
-        name_edit_progress.visibility = View.VISIBLE
-        name_edit_edit_button.visibility = View.INVISIBLE
-        name_edit_apply_button.visibility = View.INVISIBLE
-        name_edit_text.isEnabled = false
+        binding.nameEditProgress.visibility = View.VISIBLE
+        binding.nameEditEditButton.visibility = View.INVISIBLE
+        binding.nameEditApplyButton.visibility = View.INVISIBLE
+        binding.nameEditText.isEnabled = false
     }
 
     private fun renderErrorViewState() {
-        name_edit_progress.visibility = View.INVISIBLE
-        name_edit_edit_button.visibility = View.INVISIBLE
-        name_edit_apply_button.visibility = View.VISIBLE
-        name_edit_text.isEnabled = true
+        binding.nameEditProgress.visibility = View.INVISIBLE
+        binding.nameEditEditButton.visibility = View.INVISIBLE
+        binding.nameEditApplyButton.visibility = View.VISIBLE
+        binding.nameEditText.isEnabled = true
     }
 
     private fun nameApplyClickListener() = View.OnClickListener {
         if (::user.isInitialized) {
-            val newUsername = name_edit_text.text.toString()
+            val newUsername = binding.nameEditText.text.toString()
 
             if (newUsername != user.userName) { //TODO validate also
                 val newUser = user.copy(userName = newUsername, account = null)
@@ -172,13 +174,8 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
     private fun nameEditClickListener() = View.OnClickListener {
         renderEditViewState()
-        KeyboardUtils.showKeyboard(name_edit_text)
-        name_edit_text.setSelection(name_edit_text.text?.length ?: 0)
+        KeyboardUtils.showKeyboard(binding.nameEditText)
+        binding.nameEditText.setSelection(binding.nameEditText.text?.length ?: 0)
     }
 
-    private fun toLoginClickListener() = Navigation
-        .createNavigateOnClickListener(R.id.action_profileFragment_to_loginFragment, null)
-
-    private fun toSettingsClickListener() = Navigation
-        .createNavigateOnClickListener(R.id.action_profileFragment_to_settingsFragment, null)
 }

@@ -1,4 +1,9 @@
 syntax = "proto3";
+option csharp_namespace = "InWords.WebApi.gRPC.Services";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.dictionary";
+option java_outer_classname = "DictionaryProto";
 
 package Dictionary.v2;
 
@@ -6,6 +11,7 @@ package Dictionary.v2;
 service DictionaryProvider {
 	// Sends a greeting
 	rpc GetWords (GetWordsRequest) returns (WordsReply);
+	rpc AddWords (AddWordsRequest) returns (AddWordsReply);
 }
 
 // The request message containing the user's credentials.
@@ -18,4 +24,23 @@ message WordsReply {
 	int32 UserWordPairs = 1;
 	string WordForeign = 2;
 	string WordNative = 3;
+}
+
+message AddWordRequest {
+	int32 LocalId = 1;
+	string WordForeign = 2;
+	string WordNative = 3;
+}
+
+message AddWordsRequest{
+	repeated AddWordRequest Words = 1;
+}
+
+message AddWordReply {
+	int32 LocalId = 1;
+	int32 ServerId = 2;
+}
+
+message AddWordsReply{
+	repeated AddWordReply WordIds = 1;
 }

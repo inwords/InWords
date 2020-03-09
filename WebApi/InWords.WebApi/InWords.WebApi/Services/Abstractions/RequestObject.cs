@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Grpc.Core;
+using MediatR;
 
 namespace InWords.WebApi.Services.Abstractions
 {
@@ -8,6 +9,10 @@ namespace InWords.WebApi.Services.Abstractions
         public RequestObject(TRequest value)
         {
             this.Value = value;
+            Detail = string.Empty;
+            StatusCode = StatusCode.OK;
         }
+        public StatusCode StatusCode { get; set; }
+        public string Detail { get; set; }
     }
 }

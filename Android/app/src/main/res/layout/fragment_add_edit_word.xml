@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.inwords.inwords.presentation.view_scenario.main_activity.MainActivity">
+    tools:context=".main_activity.presentation.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         style="@style/ToolbarStyle"
@@ -42,12 +42,13 @@
                 android:src="@drawable/ic_new_word" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/native_word_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_large">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextNativeWord"
+                    android:id="@+id/native_word_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/word_addition_word"
@@ -59,12 +60,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/foreign_word_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_medium">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextForeignWord"
+                    android:id="@+id/foreign_word_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/word_addition_translation"

@@ -1,40 +1,37 @@
 package ru.inwords.inwords.game.presentation.custom_game
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.widget.Toolbar
+import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
-import com.google.android.material.card.MaterialCardView
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
-import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
+import ru.inwords.inwords.databinding.FragmentCustomGameCreatorBinding
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 
-class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorViewModel, OctoGameViewModelFactory>() {
+class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorViewModel, OctoGameViewModelFactory, FragmentCustomGameCreatorBinding>() {
     override val layout = R.layout.fragment_custom_game_creator
     override val classType = CustomGameCreatorViewModel::class.java
+
+    override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentCustomGameCreatorBinding {
+        return FragmentCustomGameCreatorBinding.inflate(inflater, container, attachToRoot)
+    }
 
     private val args by navArgs<CustomGameCreatorFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        NavigationUI.setupWithNavController(view.findViewById<Toolbar>(R.id.toolbar), navController)
+        setupWithNavController(binding.toolbar)
 
 //        adapter = GamesAdapter(viewModel.navigateToGame)
 
 //        gamesRecycler.layoutManager = GridLayoutManager(context, 2)
 //        gamesRecycler.adapter = adapter
 
-        viewModel.navigateToGameLevel
-            .observeOn(SchedulersFacade.ui())
-            .subscribe(::navigateToGameLevel).disposeOnViewDestroyed()
-
-        view.findViewById<MaterialCardView>(R.id.play_cards_card_view).setOnClickListener {
+        binding.playCardsCardView.setOnClickListener {
             it.isClickable = false
             viewModel.onStartClicked(args.wordTranslations.toList())
         }
@@ -61,9 +58,5 @@ class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorV
 //                    Log.e(javaClass.simpleName, it.message.orEmpty())
 //                    showNoContent()
 //                }.disposeOnViewDestroyed()
-    }
-
-    private fun navigateToGameLevel(gameLevelInfo: GameLevelInfo) {
-        navController.navigate(CustomGameCreatorFragmentDirections.actionCustomGameCreatorFragmentToGameLevelFragment(gameLevelInfo, CUSTOM_GAME_ID))
     }
 }

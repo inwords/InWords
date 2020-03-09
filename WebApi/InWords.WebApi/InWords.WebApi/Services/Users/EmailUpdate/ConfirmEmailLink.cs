@@ -1,9 +1,9 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.Extentions;
-using ProfilePackage.V2;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +32,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
                 throw new ArgumentNullException($"{nameof(linkedEmail)} not found");
 
             // set new email to account
-            Account account = await Context.Accounts.FindAccount(linkedEmail.UserId).ConfigureAwait(false);
+            Account account = await Context.Accounts.FindAsync(linkedEmail.UserId).ConfigureAwait(false);
             account.Email = linkedEmail.Email;
 
             // delete out of dated

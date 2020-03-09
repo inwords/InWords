@@ -1,7 +1,11 @@
 syntax = "proto3";
+option csharp_namespace = "InWords.WebApi.gRPC.Services";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.word_set";
+option java_outer_classname = "WordSetProto";
 
 package WordSet.v2;
-
 
 import "gRPC/Protos/Dictionary.v2.proto";
 
