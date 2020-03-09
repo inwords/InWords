@@ -110,9 +110,9 @@ namespace InWords.WebApi.AppStart
         public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseRouting();
+            app.UseCors("AllowAll"); // should be before UseMvc but after UserRouting and before Authorization and UseAuthorization
             app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
             app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
-            app.UseCors("AllowAll"); // should be before UseMvc but after UserRouting
             app.UseMvc();
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
