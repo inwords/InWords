@@ -48,7 +48,8 @@ namespace InWords.WebApi.Services.DictionaryService.Words
                         u.WordPair.WordNative,
                         u.IsInvertPair,
                         u.LearningPeriod
-                    });
+                    }).AsNoTracking();
+
                 var wordReply = wordReplies.Select(w => new WordReply()
                 {
                     UserWordPair = w.UserWordPairId,
