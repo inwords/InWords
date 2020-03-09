@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.DictionaryService.Words
 {
-    public class GetWords : AuthorizedRequestObjectHandler<GetWordsRequest, WordsReply, InWordsDataContext>
+    public class GetUserWords : AuthorizedRequestObjectHandler<GetWordsRequest, WordsReply, InWordsDataContext>
     {
-        public GetWords(InWordsDataContext context) : base(context)
+        public GetUserWords(InWordsDataContext context) : base(context)
         {
         }
 
