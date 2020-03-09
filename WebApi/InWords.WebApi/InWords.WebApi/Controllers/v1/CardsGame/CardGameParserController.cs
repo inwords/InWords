@@ -29,7 +29,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             string source = System.IO.File.ReadAllText("AppData/CardsGames.txt");
             var parser = new TextParser(source);
             GamePack gamePack = parser.GetGameObject(gameId);
-            SyncBase answer = await gameService.AddGamePackAsync(122,gamePack); 
+            SyncBase answer = await gameService.AddGamePackAsync(122, gamePack);
             return Ok(gamePack);
         }
     }

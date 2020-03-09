@@ -1,9 +1,9 @@
-﻿using MediatR;
-using Grpc.Core;
+﻿using Grpc.Core;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
-using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services
 {

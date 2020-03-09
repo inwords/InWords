@@ -9,7 +9,6 @@ using InWords.WebApi.Services.Users.Extentions;
 using InWords.WebApi.Services.Users.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
