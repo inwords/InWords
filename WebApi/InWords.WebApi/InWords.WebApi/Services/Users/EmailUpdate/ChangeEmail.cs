@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using InWords.Data;
 using InWords.Data.Domains.EmailEntitys;
+using InWords.Data.Enums;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
@@ -36,8 +37,8 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             string email = requestValue.Email;
 
             // check if email aldeary linked
-            var linkedEmail = Context.Accounts.Where(a => a.Email == email).Select(d => d.Email).SingleOrDefault();
-            if (linkedEmail == default)
+            var linkedEmail = Context.Accounts.Any(a => a.Email == email && a.Role > RoleType.Unverified);
+            if (linkedEmail)
             {
                 request.StatusCode = StatusCode.AlreadyExists;
                 request.Detail = $"Email address '{ email }' is already linked to another account";

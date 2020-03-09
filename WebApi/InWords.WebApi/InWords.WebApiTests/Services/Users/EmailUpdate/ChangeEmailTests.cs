@@ -16,7 +16,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
     public class ChangeEmailTests
     {
         [Fact]
-        public async void RegisterUser()
+        public async void ResendEmailIfUnverfed()
         {
             string testEmail = "test@mail.ru";
             // arrange
