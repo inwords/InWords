@@ -7,6 +7,7 @@
   border-radius: 2px;
   font-family: inherit;
   text-transform: uppercase;
+  white-space: nowrap;
   transition: background-color 0.2s ease-in-out;
 
   @include theme-typography(button);

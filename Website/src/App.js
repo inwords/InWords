@@ -1,6 +1,5 @@
-import React, { Suspense, lazy } from 'react';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import React, { Fragment, Suspense, lazy } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Container from 'src/components/core/Container';
 import ScrollToTop from 'src/components/core/ScrollToTop';
@@ -15,8 +14,6 @@ import DictionaryRouter from 'src/routers/DictionaryRouter';
 const SignIn = lazy(() => import('src/components/routes/SignIn'));
 const SignUp = lazy(() => import('src/components/routes/SignUp'));
 const Profile = lazy(() => import('src/components/routes/Profile'));
-
-const history = createBrowserHistory();
 
 const routes = [
   {
@@ -47,7 +44,7 @@ function App() {
   const userId = useSelector(store => store.access.userId);
 
   return (
-    <Router history={history}>
+    <Fragment>
       <ScrollToTop />
       <PageContainer
         routes={userId ? routes : null}
@@ -89,9 +86,8 @@ function App() {
         </ErrorBoundary>
       </PageContainer>
       <SmartSnackbar />
-    </Router>
+    </Fragment>
   );
 }
 
-export { history };
 export default App;

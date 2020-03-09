@@ -1,24 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-const colorPairs = [
-  ['#F44336', '#FFCDD2'],
-  ['#E91E63', '#F8BBD0'],
-  ['#9C27B0', '#E1BEE7'],
-  ['#673AB7', '#D1C4E9'],
-  ['#3F51B5', '#C5CAE9'],
-  ['#2196F3', '#BBDEFB'],
-  ['#03A9F4', '#B3E5FC'],
-  ['#00BCD4', '#B2EBF2'],
-  ['#009688', '#B2DFDB'],
-  ['#4CAF50', '#C8E6C9'],
-  ['#8BC34A', '#DCEDC8'],
-  ['#CDDC39', '#F0F4C3'],
-  ['#FFC107', '#FFECB3'],
-  ['#FF9800', '#FFE0B2'],
-  ['#FF5722', '#FFCCBC']
-];
-
 const emoticons = {
   3: (
     <Fragment>
@@ -86,16 +68,13 @@ const emoticons = {
   )
 };
 
-function Smiley({ score }) {
-  const randomColorPair =
-    colorPairs[Math.floor(Math.random() * colorPairs.length)];
-
+function Smiley({ score, colorPair }) {
   return (
     <svg viewBox="0 0 300 300" width="150" height="150">
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor={randomColorPair[0]} />
-          <stop offset="100%" stopColor={randomColorPair[1]} />
+          <stop offset="0%" stopColor={colorPair[0]} />
+          <stop offset="100%" stopColor={colorPair[1]} />
         </linearGradient>
       </defs>
       <circle r="120" cx="50%" cy="50%" fill="url(#gradient)" />
@@ -105,7 +84,8 @@ function Smiley({ score }) {
 }
 
 Smiley.propTypes = {
-  score: PropTypes.number.isRequired
+  score: PropTypes.number.isRequired,
+  colorPair: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };
 
 export default Smiley;

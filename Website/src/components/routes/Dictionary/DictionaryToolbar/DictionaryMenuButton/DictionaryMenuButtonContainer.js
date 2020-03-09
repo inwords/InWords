@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { initializeTrainingLevel } from 'src/actions/trainingActions';
+import { initializeLevel } from 'src/actions/trainingActions';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
 function DictionaryMenuButtonContainer({ checkedValues }) {
@@ -10,7 +10,7 @@ function DictionaryMenuButtonContainer({ checkedValues }) {
   const dispatch = useDispatch();
   const handleLearning = () => {
     dispatch(
-      initializeTrainingLevel({
+      initializeLevel({
         levelId: -1,
         wordTranslations: wordPairs.filter(({ serverId }) =>
           checkedValues.includes(serverId)

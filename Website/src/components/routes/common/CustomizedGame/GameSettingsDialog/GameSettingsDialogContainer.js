@@ -17,7 +17,7 @@ function GameSettingsDialogContainer({
       const {
         quantity = '8',
         voiceOn = false,
-        listOn = true,
+        listOn = false,
         cardDimension = '120',
         cardTextSize = '16'
       } = trainingSettings;

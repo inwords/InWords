@@ -4,6 +4,7 @@ import Toolbar from 'src/components/core/Toolbar';
 import Icon from 'src/components/core/Icon';
 import Typography from 'src/components/core/Typography';
 import IconButton from 'src/components/core/IconButton';
+import Space from 'src/components/core/Space';
 import DictionarySearch from './DictionarySearch';
 import DictionaryMenuButton from './DictionaryMenuButton';
 
@@ -24,11 +25,12 @@ function DictionaryToolbar({
     <Toolbar>
       {!editingModeEnabled ? (
         <Fragment>
-          <div className="dictionary-toolbar-title-block dictionary-toolbar-title-block-main">
+          <div className="dictionary-toolbar-title-block">
             <Typography component="h1" variant="h6">
               Мой словарь
             </Typography>
           </div>
+          <Space />
           <DictionarySearch value={inputs.pattern} onChange={handleChange} />
         </Fragment>
       ) : (
@@ -45,15 +47,16 @@ function DictionaryToolbar({
             aria-label="check all"
             onClick={handleCheckAll}
             color="inherit"
-            className="dictionary-toolbar-done-all-button"
           >
             <Icon>done_all</Icon>
           </IconButton>
-          <div className="dictionary-toolbar-title-block">
+          <Space value={1} />
+          <div>
             <Typography component="h2" variant="h6">
               Выбрано: {numberOfChecked}
             </Typography>
           </div>
+          <Space />
           <IconButton
             aria-label="delete"
             onClick={() => {

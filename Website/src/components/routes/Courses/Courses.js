@@ -9,20 +9,18 @@ import CardContent from 'src/components/core/CardContent';
 import CardActions from 'src/components/core/CardActions';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
-import CoursesMenuButton from './CoursesMenuButton';
+import Space from 'src/components/core/Space';
+import TrainingCategoryWordPairsAddButton from './CourseWordPairsAddButton';
 
-function Courses({ trainingCategories }) {
+function Courses({ courses }) {
   const match = useRouteMatch();
 
   return (
     <Grid spacing={3}>
-      {trainingCategories.map(({ gameId, title, description }) => (
+      {courses.map(({ gameId, title, description }) => (
         <GridItem key={gameId} xs={12} sm={6} md={4} lg={3}>
           <Card>
-            <CardHeader
-              title={title}
-              action={<CoursesMenuButton gameId={gameId} />}
-            />
+            <CardHeader title={title} />
             <CardContent>
               <Typography>{description}</Typography>
             </CardContent>
@@ -35,6 +33,8 @@ function Courses({ trainingCategories }) {
               >
                 Пройти
               </LinkButton>
+              <Space />
+              <TrainingCategoryWordPairsAddButton gameId={gameId} />
             </CardActions>
           </Card>
         </GridItem>
@@ -44,7 +44,7 @@ function Courses({ trainingCategories }) {
 }
 
 Courses.propTypes = {
-  trainingCategories: PropTypes.arrayOf(
+  courses: PropTypes.arrayOf(
     PropTypes.shape({
       gameId: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,

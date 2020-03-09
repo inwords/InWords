@@ -1,10 +1,10 @@
+import { push } from 'connected-react-router';
 import {
   beginLoading,
   endLoading,
   setSnackbar
 } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/accessActions';
-import { history } from 'src/App';
 import apiAction from 'src/actions/apiAction';
 
 const CALL_API = 'CALL_API';
@@ -24,8 +24,8 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     authorizationRequired = true,
     data = null,
     contentType = null,
-    actionsOnSuccess = [],
-    actionsOnFailure = []
+    onSuccess,
+    onFailure
   } = action.payload;
 
   const headers = new Headers();
@@ -34,7 +34,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
     const token = getState().access.token;
 
     if (!token) {
-      history.push('/sign-in');
+      dispatch(push('/sign-in'));
       return;
     }
 
@@ -67,9 +67,9 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
       }
     })
     .then(data => {
-      actionsOnSuccess.forEach(action => {
-        action(dispatch, data);
-      });
+      if (onSuccess) {
+        onSuccess({ dispatch, data });
+      }
     })
     .catch(error => {
       dispatch(endLoading());
@@ -79,11 +79,11 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
 
         if (statusCode === 401) {
           dispatch(denyAccess());
-          history.push('/sign-in');
+          dispatch(push('/sign-in'));
         } else {
-          actionsOnFailure.forEach(action => {
-            action(dispatch, statusCode);
-          });
+          if (onFailure) {
+            onFailure({ dispatch, statusCode });
+          }
         }
       } else if (error instanceof TypeError) {
         dispatch(
@@ -116,4 +116,5 @@ class HttpError extends Error {
 }
 
 export { CALL_API };
+
 export default apiMiddleware;

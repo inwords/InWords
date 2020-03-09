@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
 
-  @for $spacing from 1 through 10 {
+  @for $spacing from 1 through 8 {
     &--spacing--#{$spacing} {
       width: calc(100% + #{$spacing} * 8px);
       margin: -#{$spacing * 4}px;

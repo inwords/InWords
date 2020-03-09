@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Toolbar from 'src/components/core/Toolbar';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
+import Space from 'src/components/core/Space';
 import BrandLink from '../BrandLink';
 import HeaderNavList from './HeaderNavList';
 import APIProgress from './APIProgress';
@@ -13,7 +14,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
   return (
     <header className="header">
       <Toolbar>
-        <div className="header__toolbar-block header__brand">
+        <div className="header__toolbar-block">
           {handleOpenDrawer && (
             <IconButton
               aria-label="side-nav-menu"
@@ -27,6 +28,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
           )}
           <BrandLink>InWords</BrandLink>
         </div>
+        <Space />
         {routes && (
           <nav role="navigation" className="header__nav">
             <HeaderNavList routes={routes} />

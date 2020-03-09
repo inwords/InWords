@@ -8,14 +8,14 @@ import Smiley from './Smiley';
 
 import './TrainingResult.css';
 
-function TrainingResult({ score, handleNextLevel, handleReplay }) {
+function TrainingResult({ score, colorPair, handleNextLevel, handleReplay }) {
   return (
     <FadeAnimation>
       <Paper className="training-result-paper">
         {score !== null && (
           <Fragment>
             <div className="training-result-smiley">
-              <Smiley score={score} />
+              <Smiley score={score} colorPair={colorPair} />
             </div>
             <div className="training-result-stars">
               <Icon color={score > 0 ? 'gold' : 'disabled'} fontSize="large">
@@ -47,6 +47,7 @@ function TrainingResult({ score, handleNextLevel, handleReplay }) {
 
 TrainingResult.propTypes = {
   score: PropTypes.number,
+  colorPair: PropTypes.array,
   handleNextLevel: PropTypes.func,
   handleReplay: PropTypes.func.isRequired
 };

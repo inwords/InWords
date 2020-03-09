@@ -8,18 +8,14 @@ function MainTrainingTypes() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (!trainingLevelsMap[0]) {
+    if (!levelsMap[0]) {
       dispatch(receiveTrainingWordPairs());
     }
-  }, [trainingLevelsMap, dispatch]);
+  }, [levelsMap, dispatch]);
 
-  const trainingLevelsMap = useSelector(
-    store => store.training.trainingLevelsMap
-  );
+  const levelsMap = useSelector(store => store.training.levelsMap);
 
-  return (
-    <TrainingTypes trainingLevel={trainingLevelsMap[0] || { levelId: 0 }} />
-  );
+  return <TrainingTypes trainingLevel={levelsMap[0] || { levelId: 0 }} />;
 }
 
 MainTrainingTypes.propTypes = {
