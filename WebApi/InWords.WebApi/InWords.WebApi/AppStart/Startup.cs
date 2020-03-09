@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.IO;
 using System.Reflection;
@@ -81,14 +82,14 @@ namespace InWords.WebApi.AppStart
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions);
-            //.AddGoogle(options =>
-            //{
-            //    IConfigurationSection googleAuthNSection =
-            //    Configuration.GetSection("AuthenticationGoogle");
-            //    options.ClientId = googleAuthNSection["ClientId"];
-            //    options.ClientSecret = googleAuthNSection["ClientSecret"];
-            //});
+            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions)
+            .AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                Configuration.GetSection("AuthenticationGoogle");
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
             services.AddAuthorization();
             // api version info
             services.AddApiVersioningInWords();
@@ -135,6 +136,8 @@ namespace InWords.WebApi.AppStart
                 c.SwaggerEndpoint("/swagger/v2/swagger.json", "InWords Web API V2 (grpc is allowed)");
                 c.RoutePrefix = string.Empty;
             });
+
+
 
             // Enable middleware to generated logs as a text file.
             LoggerConfiguration(loggerFactory);
