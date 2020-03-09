@@ -11,6 +11,26 @@ const CALL_API_GRPC = 'CALL_API_GRPC';
 
 const API_ROOT = 'https://grpc.inwords.ru';
 
+const statusCodes = {
+  OK: 0,
+  CANCELLED: 1,
+  UNKNOWN: 2,
+  INVALID_ARGUMENT: 3,
+  DEADLINE_EXCEEDED: 4,
+  NOT_FOUND: 5,
+  ALREADY_EXISTS: 6,
+  PERMISSION_DENIED: 7,
+  RESOURCE_EXHAUSTED: 8,
+  FAILED_PRECONDITION: 9,
+  ABORTED: 10,
+  OUT_OF_RANGE: 11,
+  UNIMPLEMENTED: 12,
+  INTERNAL: 13,
+  UNAVAILABLE: 14,
+  DATA_LOSS: 15,
+  UNAUTHENTICATED: 16
+};
+
 const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
   if (action.type !== CALL_API_GRPC) {
     next(action);
@@ -43,7 +63,9 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
   dispatch(beginLoading());
 
   try {
-    client[method](request, metadata, (error, response) => {
+    let recievedResponse = null;
+
+    const call = client[method](request, metadata, (error, response) => {
       dispatch(endLoading());
 
       if (error) {
@@ -59,18 +81,20 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
               }
             })
           );
-        } else if (error.code === 401) {
+        } else if (error.code) {
           dispatch(denyAccess());
           dispatch(push('/sign-in'));
-        } else {
-          if (onFailure) {
-            onFailure({ dispatch, error });
-          }
         }
       } else {
-        if (onSuccess) {
-          onSuccess({ dispatch, response });
-        }
+        recievedResponse = response;
+      }
+    });
+
+    call.on('status', status => {
+      if (status.code === statusCodes.OK && onSuccess) {
+        onSuccess({ dispatch, response: recievedResponse });
+      } else {
+        onFailure({ dispatch, status, statusCodes });
       }
     });
   } catch (error) {

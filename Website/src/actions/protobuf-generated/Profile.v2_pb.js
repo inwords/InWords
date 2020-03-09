@@ -287,7 +287,8 @@ proto.ProfilePackage.v2.RegistrationRequest.prototype.toObject = function(opt_in
 proto.ProfilePackage.v2.RegistrationRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     email: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    password: jspb.Message.getFieldWithDefault(msg, 2, "")
+    password: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    isanonymous: jspb.Message.getBooleanFieldWithDefault(msg, 3, false)
   };
 
   if (includeInstance) {
@@ -332,6 +333,10 @@ proto.ProfilePackage.v2.RegistrationRequest.deserializeBinaryFromReader = functi
       var value = /** @type {string} */ (reader.readString());
       msg.setPassword(value);
       break;
+    case 3:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsanonymous(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -375,6 +380,13 @@ proto.ProfilePackage.v2.RegistrationRequest.serializeBinaryToWriter = function(m
       f
     );
   }
+  f = message.getIsanonymous();
+  if (f) {
+    writer.writeBool(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -411,6 +423,24 @@ proto.ProfilePackage.v2.RegistrationRequest.prototype.getPassword = function() {
  */
 proto.ProfilePackage.v2.RegistrationRequest.prototype.setPassword = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional bool IsAnonymous = 3;
+ * @return {boolean}
+ */
+proto.ProfilePackage.v2.RegistrationRequest.prototype.getIsanonymous = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 3, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.ProfilePackage.v2.RegistrationRequest} returns this
+ */
+proto.ProfilePackage.v2.RegistrationRequest.prototype.setIsanonymous = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 3, value);
 };
 
 
