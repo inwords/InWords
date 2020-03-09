@@ -3,6 +3,7 @@ using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;

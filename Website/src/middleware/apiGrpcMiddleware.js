@@ -9,7 +9,7 @@ import apiAction from 'src/actions/apiAction';
 
 const CALL_API_GRPC = 'CALL_API_GRPC';
 
-const API_ROOT = 'https://grpc.inwords.ru';
+const API_ROOT = 'https://localhost:5101';
 
 const statusCodes = {
   OK: 0,
