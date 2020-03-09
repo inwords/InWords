@@ -20,7 +20,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     /// </summary>
     [Authorize]
     [ApiVersion("1.0")]
-    [Route("v{version:apiVersion}/[controller]")]
+    [Route("v{version:apiVersion}/Game")]
     [ApiController]
     [Produces("application/json")]
     public class GameController : ControllerBase

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace InWords.WebApi.Services.UserWordPairService.Extension
 {
-    public static class UserWordPairExtension
+    public static class UserWordPairTraining
     {
         public static KnowledgeLicense GetLicense(this UserWordPair userWordPair)
         {
@@ -35,7 +35,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Extension
         public static IQueryable<UserWordPair> QueryPairsToLearn(this IQueryable<UserWordPair> userWordPairs, GetLearningUserWordsIdQuery request)
         {
             var currentPeriod = DateTime.UtcNow.AddDays(request.DaysForward);
-            var wp = userWordPairs.SelectUsersWordPairs(request.UserId);
+            var wp = userWordPairs.WhereUser(request.UserId);
             var pairsToLearn = wp.SelectPairsToLearn(currentPeriod);
             return pairsToLearn;
         }
@@ -43,7 +43,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Extension
         public static IQueryable<UserWordPair> QueryPairsToLearn(this IQueryable<UserWordPair> userWordPairs, GetLearningUserWordsQuery request)
         {
             var currentPeriod = DateTime.UtcNow.AddDays(request.DaysForward);
-            var wp = userWordPairs.SelectUsersWordPairs(request.UserId);
+            var wp = userWordPairs.WhereUser(request.UserId);
             var pairsToLearn = wp.SelectPairsToLearn(currentPeriod);
             return pairsToLearn;
         }

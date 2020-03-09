@@ -16,14 +16,24 @@ service DictionaryProvider {
 
 // The request message containing the user's credentials.
 message GetWordsRequest {
-	repeated WordsReply Words = 1;
+	repeated int32 UserWordpairIds = 1;
 }
 
 // The response message containing the Token.
-message WordsReply {
-	int32 UserWordPairs = 1;
+message WordsReply{
+	repeated WordReply ToAdd = 1;
+	repeated int32 ToDelete = 2;
+}
+
+message WordReply {
+	int32 UserWordPair = 1;
 	string WordForeign = 2;
 	string WordNative = 3;
+	int32 Period = 4;
+}
+
+message AddWordsRequest{
+	repeated AddWordRequest Words = 1;
 }
 
 message AddWordRequest {
@@ -32,15 +42,11 @@ message AddWordRequest {
 	string WordNative = 3;
 }
 
-message AddWordsRequest{
-	repeated AddWordRequest Words = 1;
+message AddWordsReply{
+	repeated AddWordReply WordIds = 1;
 }
 
 message AddWordReply {
 	int32 LocalId = 1;
 	int32 ServerId = 2;
-}
-
-message AddWordsReply{
-	repeated AddWordReply WordIds = 1;
 }

@@ -41,5 +41,25 @@ namespace InWords.WebApi.Controllers.v2
             AddWordsReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
             return Ok(reply);
         }
+
+        /// <summary>
+        ///   Use this to get words and delete words that not exists
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Authorize]
+        [ProducesResponseType(typeof(WordsReply), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("getwords")]
+        [HttpPost]
+        public async Task<IActionResult> GetWords([FromBody] GetWordsRequest request)
+        {
+            var reqestObject = new AuthorizedRequestObject<GetWordsRequest, WordsReply>(request)
+            {
+                UserId = User.GetUserId()
+            };
+            WordsReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return Ok(reply);
+        }
     }
 }

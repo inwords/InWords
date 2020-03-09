@@ -4,6 +4,7 @@ using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -33,6 +34,7 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Route("addPair")]
         [HttpPost]
+        [Obsolete]
         public async Task<IActionResult> AddPair([FromBody] List<WordTranslation> wordTranslations)
         {
             if (!ModelState.IsValid) return BadRequest();

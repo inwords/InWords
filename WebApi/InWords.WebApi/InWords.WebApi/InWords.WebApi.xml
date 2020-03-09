@@ -667,6 +667,9 @@
         <member name="F:InWords.WebApi.gRPC.Services.RegistrationRequest.PasswordFieldNumber">
             <summary>Field number for the "password" field.</summary>
         </member>
+        <member name="F:InWords.WebApi.gRPC.Services.RegistrationRequest.IsAnonymousFieldNumber">
+            <summary>Field number for the "IsAnonymous" field.</summary>
+        </member>
         <member name="T:InWords.WebApi.gRPC.Services.RegistrationReply">
             <summary>
             The response message containing the Token.
@@ -936,15 +939,6 @@
             <exception cref="T:System.ArgumentNullException">Account not found</exception>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Users.Extentions.AccountsExtentions.FindAccount(Microsoft.EntityFrameworkCore.DbSet{InWords.Data.Domains.Account},System.Object)">
-            <summary>
-            Return account if exists, else throw exception 
-            </summary>
-            <param name="accounts"></param>
-            <param name="userId"></param>
-            <exception cref="T:System.ArgumentNullException">Account is not found</exception>
-            <returns></returns>
-        </member>
         <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.WebApi.gRPC.Services.RegistrationRequest,InWords.WebApi.gRPC.Services.RegistrationReply},System.Threading.CancellationToken)">
             <summary>
             Use this is to register new yousers
@@ -955,7 +949,7 @@
             <exception cref="T:System.ArgumentException">If email not exist</exception>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.ThrowIfAlreadyExist(System.String)">
+        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.IsAccountExist(System.String)">
             <summary>
             This method check if email exist
             </summary>

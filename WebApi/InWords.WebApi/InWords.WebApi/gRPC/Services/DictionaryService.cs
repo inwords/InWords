@@ -1,10 +1,9 @@
-﻿using Grpc.Core;
+﻿using MediatR;
+using Grpc.Core;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InWords.WebApi.gRPC.Services
 {
@@ -26,9 +25,14 @@ namespace InWords.WebApi.gRPC.Services
             return reply;
         }
 
-        public override Task<WordsReply> GetWords(GetWordsRequest request, ServerCallContext context)
+        public override async Task<WordsReply> GetWords(GetWordsRequest request, ServerCallContext context)
         {
-            throw new NotImplementedException();
+            var reqestObject = new AuthorizedRequestObject<GetWordsRequest, WordsReply>(request)
+            {
+                UserId = context.GetHttpContext().User.GetUserId()
+            };
+            WordsReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return reply;
         }
     }
 }
