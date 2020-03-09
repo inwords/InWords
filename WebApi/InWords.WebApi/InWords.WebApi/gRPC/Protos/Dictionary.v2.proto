@@ -21,13 +21,15 @@ message GetWordsRequest {
 
 // The response message containing the Token.
 message WordsReply{
-	repeated WordReply Words = 1;
+	repeated WordReply ToAdd = 1;
+	repeated int32 ToDelete = 2;
 }
 
 message WordReply {
 	int32 UserWordPair = 1;
 	string WordForeign = 2;
 	string WordNative = 3;
+	int32 Period = 4;
 }
 
 message AddWordsRequest{
