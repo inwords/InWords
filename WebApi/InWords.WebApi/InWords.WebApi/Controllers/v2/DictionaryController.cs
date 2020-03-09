@@ -23,7 +23,8 @@ namespace InWords.WebApi.Controllers.v2
             this.mediator = mediator;
         }
         /// <summary>
-        ///   Use this to request update user's email
+        ///   Used to add words to the user's dictionary.
+        ///   The (localId) value should be zero (0) if you don't need to track words.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

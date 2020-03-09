@@ -10,8 +10,7 @@ namespace InWords.WebApiTests.CLI
         [Fact]
         public async void JustSayHello()
         {
-            using LaunchSettingsFixture fixture = new LaunchSettingsFixture();
-            var url = TestEnvironment.GetEnvironmentVariable(Variables.URL);
+            var url = Variables.GetEnvironmentVariable(VariablesType.URL);
             using var channel = GrpcChannel.ForAddress(url);
             string request = "Test";
             var client = new Greeter.GreeterClient(channel);
