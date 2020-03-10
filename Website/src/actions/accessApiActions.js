@@ -55,7 +55,7 @@ export function signUp(userdata) {
 
       dispatch(
         setSnackbar({
-          text: 'На указанный email было отправленое письмо с подтверждением'
+          text: 'На указанный email было отправлено письмо с подтверждением'
         })
       );
 
