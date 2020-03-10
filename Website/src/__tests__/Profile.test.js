@@ -1,10 +1,5 @@
 import React, { Fragment } from 'react';
-import {
-  fireEvent,
-  screen,
-  waitForElement,
-  waitForElementToBeRemoved
-} from '@testing-library/react';
+import { fireEvent, screen, waitForElement } from '@testing-library/react';
 import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
