@@ -9,11 +9,11 @@ export default function renderWithEnvironment(
   ui,
   {
     route = '/',
-    history = createMemoryHistory({ initialEntries: [route] })
+    history = createMemoryHistory({ initialEntries: [route] }),
+    initialState,
+    store = configureStore({ preloadedState: initialState, history })
   } = {}
 ) {
-  const store = configureStore({ history });
-
   return {
     ...render(
       <Provider store={store}>

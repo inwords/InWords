@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
-import SignIn from 'src/components/routes/SignIn';
+import SignUp from 'src/components/routes/SignUp';
 
 jest.mock('src/actions/protobuf-generated/Profile.v2_grpc_web_pb');
 
@@ -16,7 +16,7 @@ const fakeAccessResponse = {
   userId: 1
 };
 
-test('allows the user to login successfully', async () => {
+test('allows the user to register successfully', async () => {
   const response = {
     getToken: () => fakeAccessResponse.token,
     getUserid: () => fakeAccessResponse.userId
@@ -24,16 +24,16 @@ test('allows the user to login successfully', async () => {
   const on = jest.fn((_, cb) => {
     cb({ code: 0 });
   });
-  const getToken = jest.fn((_, __, cb) => {
+  const register = jest.fn((_, __, cb) => {
     cb(null, response);
     return { on };
   });
   ProfileClient.mockImplementation(function() {
-    this.getToken = getToken;
+    this.register = register;
   });
 
-  const { history } = renderWithEnvironment(<SignIn />, {
-    route: '/sign-in'
+  const { history } = renderWithEnvironment(<SignUp />, {
+    route: '/sign-up'
   });
 
   fireEvent.change(screen.getByLabelText('Email'), {
@@ -43,12 +43,12 @@ test('allows the user to login successfully', async () => {
     target: { value: fakeUserData.password }
   });
 
-  fireEvent.click(screen.getByText(/Войти/i));
+  fireEvent.click(screen.getByText(/Зарегистрироваться/i));
 
   await (() => {
-    expect(getToken).toHaveBeenCalled();
+    expect(register).toHaveBeenCalled();
     expect(on).toHaveBeenCalled();
   });
 
-  expect(history.location.pathname).toEqual('/training');
+  expect(history.location.pathname).toEqual('/profile');
 });

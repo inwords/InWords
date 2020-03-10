@@ -78,7 +78,7 @@ export function updateEmail(email) {
     onSuccess: ({ dispatch }) => {
       dispatch(
         setSnackbar({
-          text: 'На новый email было отправленое письмо с подтверждением'
+          text: 'На новый email было отправлено письмо с подтверждением'
         })
       );
     },
