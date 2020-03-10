@@ -20,6 +20,7 @@ using Serilog;
 using System;
 using Serilog.Extensions.Logging;
 using System.Reflection;
+using System.IO;
 
 namespace InWords.WebApi.AppStart
 {
@@ -96,6 +97,13 @@ namespace InWords.WebApi.AppStart
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
 
+            services.AddLogging(logger =>
+            {
+                logger.AddSerilog();
+                logger.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:MM-dd-HH-mm}.txt"));
+                logger.AddConfiguration(Configuration.GetSection("Serilog"));
+            });
+
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureServices(services));
         }
@@ -125,7 +133,6 @@ namespace InWords.WebApi.AppStart
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
