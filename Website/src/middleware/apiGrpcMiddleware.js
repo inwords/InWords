@@ -5,11 +5,30 @@ import {
   setSnackbar
 } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/accessActions';
-import apiAction from 'src/actions/apiAction';
 
 const CALL_API_GRPC = 'CALL_API_GRPC';
 
 const API_ROOT = 'https://localhost:5101';
+
+const statusCodes = {
+  OK: 0,
+  CANCELLED: 1,
+  UNKNOWN: 2,
+  INVALID_ARGUMENT: 3,
+  DEADLINE_EXCEEDED: 4,
+  NOT_FOUND: 5,
+  ALREADY_EXISTS: 6,
+  PERMISSION_DENIED: 7,
+  RESOURCE_EXHAUSTED: 8,
+  FAILED_PRECONDITION: 9,
+  ABORTED: 10,
+  OUT_OF_RANGE: 11,
+  UNIMPLEMENTED: 12,
+  INTERNAL: 13,
+  UNAVAILABLE: 14,
+  DATA_LOSS: 15,
+  UNAUTHENTICATED: 16
+};
 
 const statusCodes = {
   OK: 0,
@@ -69,21 +88,18 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
       dispatch(endLoading());
 
       if (error) {
-        if (!error.metadata) {
-          dispatch(
-            setSnackbar({
-              text: 'Не удалось соединиться с сервером',
-              actionText: 'Повторить',
-              actionHandler: () => {
-                window.setTimeout(() => {
-                  dispatch(apiAction(action.payload));
-                }, 100);
-              }
-            })
-          );
-        } else if (error.code) {
-          dispatch(denyAccess());
-          dispatch(push('/sign-in'));
+        switch (error.code) {
+          case statusCodes.UNKNOWN:
+            dispatch(setSnackbar({ text: 'Неизвестная ошибка сервера' }));
+            break;
+          case statusCodes.INTERNAL:
+            dispatch(setSnackbar({ text: 'Внутренняя ошибка сервера' }));
+            break;
+          case statusCodes.UNAUTHENTICATED:
+            dispatch(push('/sign-in'));
+            dispatch(denyAccess());
+            break;
+          default:
         }
       } else {
         recievedResponse = response;
@@ -93,13 +109,13 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
     call.on('status', status => {
       if (status.code === statusCodes.OK && onSuccess) {
         onSuccess({ dispatch, response: recievedResponse });
-      } else {
+      } else if (onFailure) {
         onFailure({ dispatch, status, statusCodes });
       }
     });
-  } catch (error) {
+  } catch (_) {
     dispatch(endLoading());
-    dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
+    dispatch(setSnackbar({ text: 'Внутренняя ошибка приложения' }));
   }
 };
 
