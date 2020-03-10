@@ -28,30 +28,26 @@ namespace InWords.WebApi.AppStart
                 .ConfigureWebHostDefaults(webHostBuilder =>
                 {
                     webHostBuilder
-                    .ConfigureLogging((hostingContext, builder) =>
+                    .UseStartup<Startup>()
+                    .UseKestrel((hostingContext, options) =>
                     {
-                        builder.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt"));
-                    })
-                        .UseStartup<Startup>()
-                        .UseKestrel((hostingContext, options) =>
-                        {
-                            options.Listen(IPAddress.Loopback, 5100,
-                                listenOptions => listenOptions.Protocols = HttpProtocols.Http1
-                                );
+                        options.Listen(IPAddress.Loopback, 5100,
+                            listenOptions => listenOptions.Protocols = HttpProtocols.Http1
+                            );
 
-                            options.Listen(IPAddress.Loopback, 5101,
-                                listenOptions =>
-                                {
-                                    listenOptions.UseHttps();
-                                    listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                                });
-
-                            options.Listen(IPAddress.Loopback, 5102, o =>
+                        options.Listen(IPAddress.Loopback, 5101,
+                            listenOptions =>
                             {
-                                o.UseHttps();
-                                o.Protocols = HttpProtocols.Http2;
+                                listenOptions.UseHttps();
+                                listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                             });
+
+                        options.Listen(IPAddress.Loopback, 5102, o =>
+                        {
+                            o.UseHttps();
+                            o.Protocols = HttpProtocols.Http2;
                         });
+                    });
                 });
         }
     }

@@ -32,12 +32,6 @@
             <param name="env"></param>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.AppStart.Startup.LoggerConfiguration(Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-                Configure the logger data format and file location
-            </summary>
-            <param name="loggerFactory"></param>
-        </member>
         <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.CustomLevelController.GetHistory">
             <summary>
                 Use this to get last custom played games
