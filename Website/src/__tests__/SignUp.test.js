@@ -32,9 +32,7 @@ test('allows the user to register successfully', async () => {
     this.register = register;
   });
 
-  const { history } = renderWithEnvironment(<SignUp />, {
-    route: '/sign-up'
-  });
+  const { history } = renderWithEnvironment(<SignUp />);
 
   fireEvent.change(screen.getByLabelText('Email'), {
     target: { value: fakeUserData.email }

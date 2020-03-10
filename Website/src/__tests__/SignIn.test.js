@@ -32,9 +32,7 @@ test('allows the user to login successfully', async () => {
     this.getToken = getToken;
   });
 
-  const { history } = renderWithEnvironment(<SignIn />, {
-    route: '/sign-in'
-  });
+  const { history } = renderWithEnvironment(<SignIn />);
 
   fireEvent.change(screen.getByLabelText('Email'), {
     target: { value: fakeUserData.email }

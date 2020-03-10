@@ -1,5 +1,10 @@
 import React, { Fragment } from 'react';
-import { fireEvent, screen, waitForElement } from '@testing-library/react';
+import {
+  fireEvent,
+  screen,
+  waitForElement,
+  waitForElementToBeRemoved
+} from '@testing-library/react';
 import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
@@ -20,52 +25,51 @@ const fakeUserInfoResponse = {
   account: { accountId: 1, email: '1@1' }
 };
 
-const fakeNewUserInfo = {
+const newUserInfo = {
   nickName: 'promet1um',
   email: '2@1'
 };
 
 describe('interaction with the profile', () => {
-  beforeEach(async () => {
+  it('allows the user to see profile info', async () => {
     global.fetch = mockFetchOnce(fakeUserInfoResponse);
+
+    renderWithEnvironment(<Profile />, {
+      initialState: { access: { token: fakeAccessData.token } }
+    });
+
+    await waitForElement(() => [
+      screen.getByText(fakeUserInfoResponse.nickName),
+      screen.getByText(fakeUserInfoResponse.account.email)
+    ]);
   });
 
-  it('allows the user to see and change nickname', async () => {
-    renderWithEnvironment(<Profile />, {
-      initialState: { access: { token: fakeAccessData.token } },
-      route: '/profile'
-    });
-    await waitForElement(() => screen.getByText(fakeUserInfoResponse.nickName));
-
+  it('allows the user to edit nickname', async () => {
     global.fetch = mockFetchOnce();
+
+    renderWithEnvironment(<Profile />, {
+      initialState: {
+        access: { token: fakeAccessData.token },
+        userInfo: {
+          ...fakeUserInfoResponse,
+          nickname: fakeUserInfoResponse.nickName
+        }
+      }
+    });
 
     fireEvent.click(screen.getByText(/Изменить никнейм/i));
 
     fireEvent.change(screen.getByLabelText('Новый никнейм'), {
-      target: { value: fakeNewUserInfo.nickName }
+      target: { value: newUserInfo.nickName }
     });
 
     fireEvent.click(screen.getByText(/Сохранить/i));
 
-    await waitForElement(() => screen.getByText(fakeNewUserInfo.nickName));
+    await waitForElement(() => screen.getByText(newUserInfo.nickName));
+    expect(screen.queryByText(fakeUserInfoResponse.nickName)).toBeNull();
   });
 
-  it('allows the user to see and change email', async () => {
-    renderWithEnvironment(
-      <Fragment>
-        <Profile />
-        <SmartSnackbar />
-      </Fragment>,
-      {
-        initialState: { access: { token: fakeAccessData.token } },
-        route: '/profile'
-      }
-    );
-
-    await waitForElement(() =>
-      screen.getByText(fakeUserInfoResponse.account.email)
-    );
-
+  it('allows the user to edit email', async () => {
     const response = {};
     const on = (_, cb) => {
       cb({ code: 0 });
@@ -78,10 +82,26 @@ describe('interaction with the profile', () => {
       this.requestEmailUpdate = requestEmailUpdate;
     });
 
+    renderWithEnvironment(
+      <Fragment>
+        <Profile />
+        <SmartSnackbar />
+      </Fragment>,
+      {
+        initialState: {
+          access: { token: fakeAccessData.token },
+          userInfo: {
+            ...fakeUserInfoResponse,
+            nickname: fakeUserInfoResponse.nickName
+          }
+        }
+      }
+    );
+
     fireEvent.click(screen.getByText(/Изменить электронный адрес/i));
 
     fireEvent.change(screen.getByLabelText('Новый email'), {
-      target: { value: fakeNewUserInfo.email }
+      target: { value: newUserInfo.email }
     });
 
     fireEvent.click(screen.getByText(/Сохранить/i));

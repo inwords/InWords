@@ -37,7 +37,10 @@ function WordlistItem({
       >
         <ListItemIcon>
           <Checkbox
-            inputProps={{ 'aria-labelledby': `pair-${serverId}` }}
+            inputProps={{
+              'aria-labelledby': `pair-${serverId}`,
+              'data-testid': `pair-${serverId}-checkbox`
+            }}
             tabIndex={-1}
             checked={checkedValues.includes(serverId)}
             onChange={handleToggle(serverId)}
