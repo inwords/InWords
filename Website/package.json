@@ -8,7 +8,8 @@
     "format": "prettier --write src/**/*.{js,css,scss}",
     "lint": "eslint src/**/*.js",
     "stylelint": "stylelint src/**/*.{css,scss}",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test jest",
+    "coverage": "cross-env NODE_ENV=test jest --coverage --coverageReporters=cobertura"
   },
   "author": "Prometium",
   "license": "ISC",

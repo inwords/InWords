@@ -23,8 +23,14 @@ steps:
   - script: |
       npm install
       npm run build
+      npm run coverage
     displayName: 'npm install and build'
     workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
   - task: PublishPipelineArtifact@1
     displayName: 'Publish artifacts: _WebsiteBuild'
     inputs:
