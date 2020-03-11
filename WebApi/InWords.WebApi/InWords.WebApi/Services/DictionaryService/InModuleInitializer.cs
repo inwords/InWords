@@ -9,6 +9,7 @@ namespace InWords.WebApi.Services.DictionaryService
         public override void ConfigureIoc(ContainerBuilder builder)
         {
             builder.RegisterType<AddWords>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GetUserWords>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }
