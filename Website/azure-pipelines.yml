@@ -12,7 +12,7 @@ trigger:
       - Website/*
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 steps:
   - task: NodeTool@0
@@ -20,11 +20,15 @@ steps:
       versionSpec: '12.x'
     displayName: 'Install Node.js'
 
-  - script: |
-      npm install
-      npm run build
-    displayName: 'npm install and build'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
+  - task: Npm@1
+    inputs:
+      command: 'install'
+      workingDir: '$(System.DefaultWorkingDirectory)/Website/'
+
+  - task: CmdLine@2
+    inputs:
+      script: 'npm run build'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish artifacts: _WebsiteBuild'
