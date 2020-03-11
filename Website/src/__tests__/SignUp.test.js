@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
+import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import SignUp from 'src/components/routes/SignUp';
@@ -21,16 +22,9 @@ test('allows the user to register successfully', async () => {
     getToken: () => fakeAccessResponse.token,
     getUserid: () => fakeAccessResponse.userId
   };
-  const on = jest.fn((_, cb) => {
-    cb({ code: 0 });
-  });
-  const register = jest.fn((_, __, cb) => {
-    cb(null, response);
-    return { on };
-  });
-  ProfileClient.mockImplementation(function() {
-    this.register = register;
-  });
+  ProfileClient.mockImplementation(
+    mockGrpcImplementation('register', response)
+  );
 
   const { history } = renderWithEnvironment(<SignUp />);
 
@@ -42,11 +36,6 @@ test('allows the user to register successfully', async () => {
   });
 
   fireEvent.click(screen.getByText(/Зарегистрироваться/i));
-
-  await (() => {
-    expect(register).toHaveBeenCalled();
-    expect(on).toHaveBeenCalled();
-  });
 
   expect(history.location.pathname).toEqual('/profile');
 });

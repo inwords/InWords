@@ -7,7 +7,9 @@ import {
   waitForElementToBeRemoved
 } from '@testing-library/react';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
+import { DictionaryProviderClient } from 'src/actions/protobuf-generated/Dictionary.v2_grpc_web_pb';
 import Dictionary from 'src/components/routes/Dictionary';
 
 jest.mock('src/actions/protobuf-generated/Dictionary.v2_grpc_web_pb');
@@ -42,7 +44,26 @@ const fakeWordPairsAddResponse = [{ id: 0, serverId: 3 }];
 
 describe('interaction with the dictionary', () => {
   it('allows the user to see wordlist', async () => {
-    global.fetch = mockFetchOnce(fakeWordPairsResponse);
+    const response = {
+      getToaddList: () => [
+        {
+          getUserwordpair: () => fakeWordPairsResponse.addedWords[0].serverId,
+          getWordforeign: () => fakeWordPairsResponse.addedWords[0].wordForeign,
+          getWordnative: () => fakeWordPairsResponse.addedWords[0].wordNative,
+          getPeriod: () => 0
+        },
+        {
+          getUserwordpair: () => fakeWordPairsResponse.addedWords[1].serverId,
+          getWordforeign: () => fakeWordPairsResponse.addedWords[1].wordForeign,
+          getWordnative: () => fakeWordPairsResponse.addedWords[1].wordNative,
+          getPeriod: () => 0
+        }
+      ],
+      getTodeleteList: () => []
+    };
+    DictionaryProviderClient.mockImplementation(
+      mockGrpcImplementation('getWords', response)
+    );
 
     renderWithEnvironment(<Dictionary />, {
       initialState: { access: { token: fakeAccessData.token } }
@@ -96,7 +117,16 @@ describe('interaction with the dictionary', () => {
   });
 
   it('allows the user to add new word pair', async () => {
-    global.fetch = mockFetchOnce(fakeWordPairsAddResponse);
+    const response = {
+      getWordidsList: () => [
+        {
+          getServerid: () => fakeWordPairsAddResponse[0].serverId
+        }
+      ]
+    };
+    DictionaryProviderClient.mockImplementation(
+      mockGrpcImplementation('addWords', response)
+    );
 
     renderWithEnvironment(<Dictionary />, {
       initialState: {

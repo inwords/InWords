@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
+import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import SignIn from 'src/components/routes/SignIn';
@@ -21,16 +22,9 @@ test('allows the user to login successfully', async () => {
     getToken: () => fakeAccessResponse.token,
     getUserid: () => fakeAccessResponse.userId
   };
-  const on = jest.fn((_, cb) => {
-    cb({ code: 0 });
-  });
-  const getToken = jest.fn((_, __, cb) => {
-    cb(null, response);
-    return { on };
-  });
-  ProfileClient.mockImplementation(function() {
-    this.getToken = getToken;
-  });
+  ProfileClient.mockImplementation(
+    mockGrpcImplementation('getToken', response)
+  );
 
   const { history } = renderWithEnvironment(<SignIn />);
 
@@ -42,11 +36,6 @@ test('allows the user to login successfully', async () => {
   });
 
   fireEvent.click(screen.getByText(/Войти/i));
-
-  await (() => {
-    expect(getToken).toHaveBeenCalled();
-    expect(on).toHaveBeenCalled();
-  });
 
   expect(history.location.pathname).toEqual('/training');
 });
