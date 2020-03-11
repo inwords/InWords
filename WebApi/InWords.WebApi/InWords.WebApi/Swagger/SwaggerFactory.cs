@@ -33,8 +33,10 @@ namespace InWords.WebApi.Swagger
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
                 });
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
             });
         }
 
