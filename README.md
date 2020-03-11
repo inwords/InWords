@@ -14,4 +14,6 @@ Website Build Pipeline [![Build Status](https://dev.azure.com/InWords/InWordsWeb
 
 Website Deploy [![Deploy Status](https://vsrm.dev.azure.com/InWords/_apis/public/Release/badge/b9d41df8-0e90-4c7e-8f1f-0827ff4dd837/2/2)](https://dev.azure.com/InWords/InWordsWebApi/_release?_a=releases&view=mine&definitionId=2)
 
+Website Test Coverage ![Coverage](https://img.shields.io/azure-devops/coverage/InWords/InWordsWebApi/10)
+
 CodeFactor [![CodeFactor](https://www.codefactor.io/repository/github/inwords/inwords/badge/master)](https://www.codefactor.io/repository/github/inwords/inwords/overview/master)
