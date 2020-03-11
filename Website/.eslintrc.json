@@ -1,6 +1,8 @@
 {
   "extends": [
     "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended"
   ],
@@ -18,15 +20,20 @@
   },
   "plugins": ["react", "react-hooks", "jsx-a11y"],
   "rules": {
-    "react/prop-types": "warn",
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "react/prop-types": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   },
-  "ignorePatterns": ["**/*_pb.js"],
   "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "./"]
+      }
+    },
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "ignorePatterns": ["**/*_pb.js"]
 }

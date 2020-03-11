@@ -6,7 +6,7 @@ import IconButton from 'src/components/core/IconButton';
 import Space from 'src/components/core/Space';
 import BrandLink from '../BrandLink';
 import HeaderNavList from './HeaderNavList';
-import APIProgress from './APIProgress';
+import ApiProgress from './ApiProgress';
 
 import './Header.scss';
 
@@ -40,7 +40,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
           </div>
         )}
       </Toolbar>
-      <APIProgress />
+      <ApiProgress />
     </header>
   );
 }

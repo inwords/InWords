@@ -2,12 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import LinearProgress from 'src/components/core/LinearProgress';
 
-import './APIProgress.css';
+import './ApiProgress.css';
 
-function APIProgress() {
+function ApiProgress() {
   const loading = useSelector(store => store.common.loading);
 
   return loading && <LinearProgress className="api-progress" />;
 }
 
-export default APIProgress;
+export default ApiProgress;
