@@ -82,14 +82,9 @@ namespace InWords.WebApi.AppStart
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions)
-            .AddGoogle(options =>
-            {
-                IConfigurationSection googleAuthNSection =
-                Configuration.GetSection("AuthenticationGoogle");
-                options.ClientId = googleAuthNSection["ClientId"];
-                options.ClientSecret = googleAuthNSection["ClientSecret"];
-            });
+            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions);
+
+
             services.AddAuthorization();
             // api version info
             services.AddApiVersioningInWords();

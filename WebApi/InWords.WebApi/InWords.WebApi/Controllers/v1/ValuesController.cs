@@ -93,6 +93,12 @@ namespace InWords.WebApi.Controllers.v1
             int x = CardGame.Score(words, open);
             return Ok(x);
         }
+        [HttpGet]
+        [Route("google")]
+        public IActionResult AuthorizeGoogle()
+        {
+            return Ok();
+        }
 
         #region ctor
 
