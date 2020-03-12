@@ -70,10 +70,11 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
       if (error) {
         switch (error.code) {
           case statusCodes.UNKNOWN:
-            dispatch(setSnackbar({ text: 'Неизвестная ошибка сервера' }));
-            break;
-          case statusCodes.INTERNAL:
-            dispatch(setSnackbar({ text: 'Внутренняя ошибка сервера' }));
+            dispatch(
+              setSnackbar({
+                text: 'Не удалось соединиться с сервером'
+              })
+            );
             break;
           case statusCodes.UNAUTHENTICATED:
             dispatch(push('/sign-in'));

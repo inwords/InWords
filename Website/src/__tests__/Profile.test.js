@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { fireEvent, screen, waitForElement } from '@testing-library/react';
-import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
+import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import Profile from 'src/components/routes/Profile';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 
@@ -52,30 +53,22 @@ describe('interaction with the profile', () => {
       }
     });
 
-    fireEvent.click(screen.getByText(/Изменить никнейм/i));
+    fireEvent.click(screen.getByText('Изменить никнейм'));
 
     fireEvent.change(screen.getByLabelText('Новый никнейм'), {
       target: { value: newUserInfo.nickName }
     });
 
-    fireEvent.click(screen.getByText(/Сохранить/i));
+    fireEvent.click(screen.getByText('Сохранить'));
 
     await waitForElement(() => screen.getByText(newUserInfo.nickName));
     expect(screen.queryByText(fakeUserInfoResponse.nickName)).toBeNull();
   });
 
   it('allows the user to edit email', async () => {
-    const response = {};
-    const on = (_, cb) => {
-      cb({ code: 0 });
-    };
-    const requestEmailUpdate = (_, __, cb) => {
-      cb(null, response);
-      return { on };
-    };
-    ProfileClient.mockImplementation(function() {
-      this.requestEmailUpdate = requestEmailUpdate;
-    });
+    ProfileClient.mockImplementation(
+      mockGrpcImplementation('requestEmailUpdate')
+    );
 
     renderWithEnvironment(
       <Fragment>
@@ -93,13 +86,13 @@ describe('interaction with the profile', () => {
       }
     );
 
-    fireEvent.click(screen.getByText(/Изменить электронный адрес/i));
+    fireEvent.click(screen.getByText('Изменить электронный адрес'));
 
     fireEvent.change(screen.getByLabelText('Новый email'), {
       target: { value: newUserInfo.email }
     });
 
-    fireEvent.click(screen.getByText(/Сохранить/i));
+    fireEvent.click(screen.getByText('Сохранить'));
 
     await waitForElement(() =>
       screen.getByText('На новый email было отправлено письмо с подтверждением')

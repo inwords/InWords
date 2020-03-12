@@ -8,9 +8,14 @@ import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
 import EntryFormPaper from 'src/components/routes/common/EntryFormPaper';
 import EntryLinksContainer from 'src/components/routes/common/EntryLinksContainer';
-import EntrySubmitButton from 'src/components/routes/common/EntrySubmitButton';
+import EntryButton from 'src/components/routes/common/EntryButton';
 
-function SignUp({ inputs, handleChange, handleSubmit }) {
+function SignUp({
+  inputs,
+  handleChange,
+  handleSubmit,
+  handleSubmitAnonymously
+}) {
   return (
     <EntryFormPaper>
       <Typography component="h1" variant="h5" gutterBottom>
@@ -43,7 +48,14 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             fullWidth
           />
         </FormGroup>
-        <EntrySubmitButton>Зарегистрироваться</EntrySubmitButton>
+        <EntryButton type="submit">Зарегистрироваться</EntryButton>
+        <EntryButton
+          type="button"
+          color="default"
+          onClick={handleSubmitAnonymously}
+        >
+          Войти гостем
+        </EntryButton>
         <EntryLinksContainer>
           <Link component={RouterLink} to="/sign-in">
             Уже есть аккаунт? Войти
@@ -60,7 +72,8 @@ SignUp.propTypes = {
     password: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  handleSubmitAnonymously: PropTypes.func.isRequired
 };
 
 export default SignUp;

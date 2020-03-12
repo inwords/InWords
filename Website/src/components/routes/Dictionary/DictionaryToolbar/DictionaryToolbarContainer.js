@@ -1,30 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { setSnackbar } from 'src/actions/commonActions';
-import { deleteWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
 import DictionaryToolbar from './DictionaryToolbar';
 
-function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
-  const dispatch = useDispatch();
-
-  const handleDelete = () => {
-    dispatch(
-      setSnackbar({
-        text: 'Слова будут удалены через 5 секунд',
-        actionText: 'Отменить',
-        actionHandler: () => {
-          window.clearTimeout(timerId);
-        }
-      })
-    );
-
-    let timerId = window.setTimeout(() => {
-      dispatch(deleteWordPairs(checkedValues));
-    }, 5100);
-  };
-
+function DictionaryToolbarContainer({ setPattern, ...rest }) {
   const { inputs, handleChange } = useForm({ pattern: '' });
 
   React.useEffect(() => {
@@ -38,19 +17,13 @@ function DictionaryToolbarContainer({ checkedValues, setPattern, ...rest }) {
   }, [inputs.pattern, setPattern]);
 
   return (
-    <DictionaryToolbar
-      checkedValues={checkedValues}
-      handleDelete={handleDelete}
-      inputs={inputs}
-      handleChange={handleChange}
-      {...rest}
-    />
+    <DictionaryToolbar inputs={inputs} handleChange={handleChange} {...rest} />
   );
 }
 
 DictionaryToolbarContainer.propTypes = {
-  checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   setPattern: PropTypes.func.isRequired,
+  checkedValues: PropTypes.array,
   handleReset: PropTypes.func,
   editingModeEnabled: PropTypes.bool
 };

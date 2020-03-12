@@ -1,4 +1,5 @@
 import { push } from 'connected-react-router';
+import uuidv4 from 'src/utils/uuidv4';
 import apiGrpcAction from './apiGrpcAction';
 import { setSnackbar } from './commonActions';
 import { grantAccess } from './accessActions';
@@ -35,10 +36,13 @@ export function signIn(userdata) {
   });
 }
 
-export function signUp(userdata) {
+export function signUp(userdata, isAnonymous = false) {
   const request = new RegistrationRequest();
-  request.setEmail(userdata.email);
+  request.setEmail(
+    !isAnonymous ? userdata.email : `${uuidv4().slice(0, 7)}@inwords`
+  );
   request.setPassword(userdata.password);
+  request.setIsanonymous(isAnonymous);
 
   return apiGrpcAction({
     Client: ProfileClient,
@@ -53,11 +57,13 @@ export function signUp(userdata) {
         })
       );
 
-      dispatch(
-        setSnackbar({
-          text: 'На указанный email было отправлено письмо с подтверждением'
-        })
-      );
+      if (!isAnonymous) {
+        dispatch(
+          setSnackbar({
+            text: 'На указанный email было отправлено письмо с подтверждением'
+          })
+        );
+      }
 
       dispatch(push('/profile'));
     },

@@ -28,6 +28,7 @@ function TrainingLevels({ course }) {
             </CardContent>
             <CardActions>
               <LinkButton
+                data-testid={`to-level-${levelId}`}
                 component={Link}
                 to={`${match.url}/${levelId}/0`}
                 disabled={!isAvailable}

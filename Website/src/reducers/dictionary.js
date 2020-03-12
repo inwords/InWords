@@ -21,11 +21,8 @@ export default function dictionary(
       return {
         actual: true,
         wordPairs: state.wordPairs
-          .filter(
-            ({ serverId }) =>
-              !action.payload.removedServerIds.includes(serverId)
-          )
-          .concat(action.payload.addedWords.sort(lexicographicalComparison))
+          .filter(({ serverId }) => !action.payload.toDelete.includes(serverId))
+          .concat(action.payload.toAdd.sort(lexicographicalComparison))
       };
     case DELETE_WORD_PAIRS:
       return {
