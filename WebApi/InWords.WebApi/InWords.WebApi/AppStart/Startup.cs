@@ -21,6 +21,8 @@ using System;
 using Serilog.Extensions.Logging;
 using System.Reflection;
 using System.IO;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace InWords.WebApi.AppStart
 {
@@ -84,7 +86,7 @@ namespace InWords.WebApi.AppStart
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions);
 
-
+            //services.AddScoped<IAuthService, AuthService>();
             services.AddAuthorization();
             // api version info
             services.AddApiVersioningInWords();

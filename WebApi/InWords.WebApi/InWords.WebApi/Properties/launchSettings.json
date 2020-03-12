@@ -14,6 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "v1.0/values",
       "environmentVariables": {
+        "PUBLIC-PORTS": "123",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5101"
