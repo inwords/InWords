@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using Serilog;
+using System.Linq;
+using System.Globalization;
 
 namespace InWords.WebApi.AppStart
 {
@@ -28,33 +30,34 @@ namespace InWords.WebApi.AppStart
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webHostBuilder =>
                 {
+                    int[] ports = Environment.GetEnvironmentVariable("PUBLIC-PORTS").Split(",").Select(d => int.Parse(d, NumberFormatInfo.InvariantInfo)).ToArray();
                     webHostBuilder
                     .UseStartup<Startup>()
                     .UseKestrel((hostingContext, options) =>
                     {
-                        options.Listen(IPAddress.Loopback, 5100,
+                        options.Listen(IPAddress.Loopback, ports[0],
                             listenOptions => listenOptions.Protocols = HttpProtocols.Http1
                             );
 
-                        options.Listen(IPAddress.Loopback, 5101,
-                            listenOptions =>
-                            {
-                                listenOptions.UseHttps();
-                                listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                            });
-
-                        options.Listen(IPAddress.Loopback, 5102, o =>
+                    options.Listen(IPAddress.Loopback, ports[1],
+                        listenOptions =>
                         {
-                            o.UseHttps();
-                            o.Protocols = HttpProtocols.Http2;
+                            listenOptions.UseHttps();
+                            listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                         });
-                    })
+
+                    options.Listen(IPAddress.Loopback, ports[2], o =>
+                    {
+                        o.UseHttps();
+                        o.Protocols = HttpProtocols.Http2;
+                    });
+                })
                     .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                     .ReadFrom.Configuration(hostingContext.Configuration)
                     .Enrich.FromLogContext()
                     .WriteTo.Console()
                     .WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt")));
-                });
+        });
         }
-    }
+}
 }
