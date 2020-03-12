@@ -91,7 +91,6 @@ describe('interaction with the profile', () => {
     fireEvent.change(screen.getByLabelText('Новый email'), {
       target: { value: newUserInfo.email }
     });
-
     fireEvent.click(screen.getByText('Сохранить'));
 
     await waitForElement(() =>
