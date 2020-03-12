@@ -1,10 +1,12 @@
-﻿using InWords.Data;
+﻿using Google.Apis.Auth;
+using InWords.Data;
 using InWords.Data.DTO.Services;
 using InWords.Data.Repositories;
 using InWords.WebApi.Services.FtpLoader.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1
 {
@@ -92,6 +94,14 @@ namespace InWords.WebApi.Controllers.v1
         {
             int x = CardGame.Score(words, open);
             return Ok(x);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("google")]
+        public async Task<IActionResult> Google([FromBody]string tokenId)
+        {
+            var payload = GoogleJsonWebSignature.ValidateAsync(tokenId, new GoogleJsonWebSignature.ValidationSettings()).Result;
+            return Ok(payload);
         }
 
         #region ctor
