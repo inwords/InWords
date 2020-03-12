@@ -26,6 +26,7 @@ function Courses({ courses }) {
             </CardContent>
             <CardActions>
               <LinkButton
+                data-testid={`to-course-${gameId}`}
                 component={Link}
                 to={`${match.url}/${gameId}`}
                 variant="text"

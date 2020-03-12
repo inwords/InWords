@@ -53,8 +53,6 @@ describe('interaction with training levels', () => {
   });
 
   it('allows the user to select training level', async () => {
-    global.fetch = mockFetchOnce(fakeTraininglevelsResponse);
-
     const { history } = renderWithEnvironment(
       <Route path="/training/courses/:courseId">
         <TrainingLevels />

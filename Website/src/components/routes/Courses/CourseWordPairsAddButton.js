@@ -23,7 +23,10 @@ function CourseWordPairsAddButton({ gameId }) {
 
   return (
     <Fragment>
-      <IconButton onClick={handleOpen}>
+      <IconButton
+        data-testid={`add-to-dictionary-${gameId}`}
+        onClick={handleOpen}
+      >
         <Icon>playlist_add</Icon>
       </IconButton>
       <Dialog
