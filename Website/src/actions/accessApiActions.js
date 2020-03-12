@@ -2,12 +2,13 @@ import { push } from 'connected-react-router';
 import uuidv4 from 'src/utils/uuidv4';
 import apiGrpcAction from './apiGrpcAction';
 import { setSnackbar } from './commonActions';
-import { grantAccess } from './accessActions';
+import { grantAccess, denyAccess } from './accessActions';
 import { ProfileClient } from './protobuf-generated/Profile.v2_grpc_web_pb';
 import {
   TokenRequest,
   RegistrationRequest,
-  EmailChangeRequest
+  EmailChangeRequest,
+  DeleteAccountRequest
 } from './protobuf-generated/Profile.v2_pb';
 
 export function signIn(userdata) {
@@ -90,6 +91,30 @@ export function updateEmail(email) {
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось изменить email' }));
+    }
+  });
+}
+
+export function deleteAccount(reason) {
+  const request = new DeleteAccountRequest();
+  request.setText(reason);
+
+  return apiGrpcAction({
+    Client: ProfileClient,
+    request,
+    method: 'deleteAccount',
+    onSuccess: ({ dispatch }) => {
+      dispatch(denyAccess());
+      dispatch(push('/sign-in'));
+
+      dispatch(
+        setSnackbar({
+          text: 'Аккаунт был успешно удален'
+        })
+      );
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось удалить аккаунт' }));
     }
   });
 }

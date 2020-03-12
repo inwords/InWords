@@ -1,6 +1,6 @@
 @import 'src/theme/mixins';
 
-.profile {
+.profile-main {
   display: flex;
 
   @include theme-breakpoints-down(md) {
@@ -86,4 +86,16 @@
   @include theme-breakpoints-down(sm) {
     width: 100%;
   }
+}
+
+.profile-footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+}
+
+.profile-delete-button {
+  color: var(--palette-error);
 }
