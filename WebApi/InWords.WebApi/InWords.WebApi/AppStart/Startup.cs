@@ -99,8 +99,9 @@ namespace InWords.WebApi.AppStart
 
             services.AddLogging(logger =>
             {
+
                 logger.AddSerilog();
-                logger.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:MM-dd-HH-mm}.txt"));
+                logger.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:yyyy-DD-MM-dd-HH-mm}.txt"));
                 logger.AddConfiguration(Configuration.GetSection("Serilog"));
             });
 
