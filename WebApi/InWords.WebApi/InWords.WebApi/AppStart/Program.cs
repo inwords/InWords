@@ -8,6 +8,7 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using Serilog;
 
 namespace InWords.WebApi.AppStart
 {
@@ -47,7 +48,12 @@ namespace InWords.WebApi.AppStart
                             o.UseHttps();
                             o.Protocols = HttpProtocols.Http2;
                         });
-                    });
+                    })
+                    .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+                    .ReadFrom.Configuration(hostingContext.Configuration)
+                    .Enrich.FromLogContext()
+                    .WriteTo.Console()
+                    .WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt")));
                 });
         }
     }

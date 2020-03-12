@@ -46,6 +46,7 @@ namespace InWords.WebApi.AppStart
                 .AddJsonFile($"appsettings{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
             InModule.Configuration = Configuration;
             InModule.Environment = env;
         }
@@ -93,14 +94,6 @@ namespace InWords.WebApi.AppStart
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
-
-            services.AddLogging(logger =>
-            {
-
-                logger.AddSerilog();
-                logger.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:yyyy-DD-MM-dd-HH-mm}.txt"));
-                logger.AddConfiguration(Configuration.GetSection("Serilog"));
-            });
 
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureServices(services));
