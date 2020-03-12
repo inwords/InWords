@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import useDialog from 'src/hooks/useDialog';
 import Toolbar from 'src/components/core/Toolbar';
 import Icon from 'src/components/core/Icon';
 import Typography from 'src/components/core/Typography';
@@ -7,19 +8,21 @@ import IconButton from 'src/components/core/IconButton';
 import Space from 'src/components/core/Space';
 import DictionarySearch from './DictionarySearch';
 import DictionaryMenuButton from './DictionaryMenuButton';
+import WordPairsDeleteConfirmationDialog from './WordPairsDeleteConfirmationDialog';
 
 import './DictionaryToolbar.scss';
 
 function DictionaryToolbar({
   editingModeEnabled,
   checkedValues,
-  handleDelete,
   handleReset,
   handleCheckAll,
   inputs,
   handleChange
 }) {
   const numberOfChecked = checkedValues.length;
+
+  const { open, handleOpen, handleClose } = useDialog();
 
   return (
     <Toolbar>
@@ -59,10 +62,7 @@ function DictionaryToolbar({
           <Space />
           <IconButton
             aria-label="delete"
-            onClick={() => {
-              handleDelete();
-              handleReset();
-            }}
+            onClick={handleOpen}
             className="dictionary-toolbar-delete-button"
           >
             <Icon>delete</Icon>
@@ -70,6 +70,12 @@ function DictionaryToolbar({
           <DictionaryMenuButton checkedValues={checkedValues} />
         </Fragment>
       )}
+      <WordPairsDeleteConfirmationDialog
+        open={open}
+        handleClose={handleClose}
+        checkedValues={checkedValues}
+        handleReset={handleReset}
+      />
     </Toolbar>
   );
 }
@@ -77,7 +83,6 @@ function DictionaryToolbar({
 DictionaryToolbar.propTypes = {
   editingModeEnabled: PropTypes.bool.isRequired,
   checkedValues: PropTypes.array.isRequired,
-  handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleCheckAll: PropTypes.func.isRequired,
   inputs: PropTypes.exact({

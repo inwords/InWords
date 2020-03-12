@@ -35,7 +35,7 @@ test('allows the user to register successfully', async () => {
     target: { value: fakeUserData.password }
   });
 
-  fireEvent.click(screen.getByText(/Зарегистрироваться/i));
+  fireEvent.click(screen.getByText('Зарегистрироваться'));
 
   expect(history.location.pathname).toEqual('/profile');
 });

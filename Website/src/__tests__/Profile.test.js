@@ -53,13 +53,13 @@ describe('interaction with the profile', () => {
       }
     });
 
-    fireEvent.click(screen.getByText(/Изменить никнейм/i));
+    fireEvent.click(screen.getByText('Изменить никнейм'));
 
     fireEvent.change(screen.getByLabelText('Новый никнейм'), {
       target: { value: newUserInfo.nickName }
     });
 
-    fireEvent.click(screen.getByText(/Сохранить/i));
+    fireEvent.click(screen.getByText('Сохранить'));
 
     await waitForElement(() => screen.getByText(newUserInfo.nickName));
     expect(screen.queryByText(fakeUserInfoResponse.nickName)).toBeNull();
@@ -86,13 +86,13 @@ describe('interaction with the profile', () => {
       }
     );
 
-    fireEvent.click(screen.getByText(/Изменить электронный адрес/i));
+    fireEvent.click(screen.getByText('Изменить электронный адрес'));
 
     fireEvent.change(screen.getByLabelText('Новый email'), {
       target: { value: newUserInfo.email }
     });
 
-    fireEvent.click(screen.getByText(/Сохранить/i));
+    fireEvent.click(screen.getByText('Сохранить'));
 
     await waitForElement(() =>
       screen.getByText('На новый email было отправлено письмо с подтверждением')

@@ -71,7 +71,9 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
         switch (error.code) {
           case statusCodes.UNKNOWN:
             dispatch(
-              setSnackbar({ text: 'Не удалось соединиться с сервером' })
+              setSnackbar({
+                text: 'Не удалось соединиться с сервером'
+              })
             );
             break;
           case statusCodes.UNAUTHENTICATED:

@@ -5,7 +5,6 @@ import {
   setSnackbar
 } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/accessActions';
-import apiAction from 'src/actions/apiAction';
 
 const CALL_API = 'CALL_API';
 
@@ -88,17 +87,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => action => {
       } else if (error instanceof TypeError) {
         dispatch(
           setSnackbar({
-            text: 'Не удалось соединиться с сервером',
-            actionText: 'Повторить',
-            actionHandler: () => {
-              window.setTimeout(() => {
-                dispatch(
-                  apiAction({
-                    ...action.payload
-                  })
-                );
-              }, 100);
-            }
+            text: 'Не удалось соединиться с сервером'
           })
         );
       } else {

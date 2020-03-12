@@ -35,7 +35,7 @@ test('allows the user to login successfully', async () => {
     target: { value: fakeUserData.password }
   });
 
-  fireEvent.click(screen.getByText(/Войти/i));
+  fireEvent.click(screen.getByText('Войти'));
 
   expect(history.location.pathname).toEqual('/training');
 });

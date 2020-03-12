@@ -9,7 +9,7 @@ import './Snackbar.scss';
 
 function Snackbar({
   open = false,
-  autoHideDuration,
+  autoHideDuration = 5000,
   message,
   action,
   onClose,
@@ -38,21 +38,23 @@ function Snackbar({
   const actuallyOpen = open && !hidden;
 
   return (
-    <ClickAwayListener
-      active={actuallyOpen}
-      onClickAway={actuallyOpen ? onClose : undefined}
-    >
-      <Fade in={actuallyOpen}>
-        <Paper
-          depthShadow={16}
-          className={classNames('snackbar', className)}
-          {...rest}
-        >
-          {message && <div className="snackbar__message">{message}</div>}
-          {action && <div className="snackbar__action">{action}</div>}
-        </Paper>
-      </Fade>
-    </ClickAwayListener>
+    <div className="snackbar-container">
+      <ClickAwayListener
+        active={actuallyOpen}
+        onClickAway={actuallyOpen ? onClose : undefined}
+      >
+        <Fade in={actuallyOpen}>
+          <Paper
+            depthShadow={16}
+            className={classNames('snackbar', className)}
+            {...rest}
+          >
+            {message && <div className="snackbar__message">{message}</div>}
+            {action && <div className="snackbar__action">{action}</div>}
+          </Paper>
+        </Fade>
+      </ClickAwayListener>
+    </div>
   );
 }
 

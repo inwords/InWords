@@ -27,11 +27,11 @@ function CourseWordPairsAddButton({ gameId }) {
         <Icon>playlist_add</Icon>
       </IconButton>
       <Dialog
-        aria-labelledby="theme-word-pairs-add-dialog"
+        aria-labelledby="course-word-pairs-add-confirmation-dialog"
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle id="theme-word-pairs-add-dialog">
+        <DialogTitle id="course-word-pairs-add-confirmation-dialog">
           Добавление слов
         </DialogTitle>
         <DialogContent>

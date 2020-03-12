@@ -8,7 +8,7 @@ import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
 import EntryFormPaper from 'src/components/routes/common/EntryFormPaper';
 import EntryLinksContainer from 'src/components/routes/common/EntryLinksContainer';
-import EntrySubmitButton from 'src/components/routes/common/EntrySubmitButton';
+import EntryButton from 'src/components/routes/common/EntryButton';
 
 function SignIn({ inputs, handleChange, handleSubmit }) {
   return (
@@ -43,7 +43,7 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             fullWidth
           />
         </FormGroup>
-        <EntrySubmitButton>Войти</EntrySubmitButton>
+        <EntryButton type="submit">Войти</EntryButton>
         <EntryLinksContainer>
           <Link component={RouterLink} to="/sign-up">
             Нет аккаунта? Зарегистрироваться

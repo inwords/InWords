@@ -101,7 +101,7 @@ describe('interaction with the dictionary', () => {
       target: { value: editedWordPair.wordNative }
     });
 
-    fireEvent.click(screen.getByText(/Готово/i));
+    fireEvent.click(screen.getByText('Готово'));
 
     await waitForElement(() => [
       screen.getByText(editedWordPair.wordForeign),
@@ -147,7 +147,7 @@ describe('interaction with the dictionary', () => {
       target: { value: newWordPair.wordNative }
     });
 
-    fireEvent.click(screen.getByText(/Добавить/i));
+    fireEvent.click(screen.getByText('Добавить'));
 
     await waitForElement(() => [
       screen.getByText(newWordPair.wordForeign),
@@ -174,11 +174,9 @@ describe('interaction with the dictionary', () => {
       )
     );
 
-    jest.useFakeTimers();
-
     fireEvent.click(screen.getByText('delete'));
 
-    jest.runOnlyPendingTimers();
+    fireEvent.click(screen.getByText('Удалить'));
 
     await waitForElementToBeRemoved(() =>
       screen.queryByText(fakeWordPairsResponse.addedWords[0].wordForeign)
@@ -198,19 +196,19 @@ describe('interaction with the dictionary', () => {
 
     jest.useFakeTimers();
 
-    act(() => {
-      fireEvent.change(screen.getByPlaceholderText('Поиск слова'), {
-        target: { value: fakeWordPairsResponse.addedWords[0].wordForeign }
-      });
+    fireEvent.change(screen.getByPlaceholderText('Поиск слова'), {
+      target: { value: fakeWordPairsResponse.addedWords[0].wordForeign }
+    });
 
-      jest.runAllTimers();
+    act(() => {
+      jest.runOnlyPendingTimers();
     });
 
     expect(
-      screen.queryByText(fakeWordPairsResponse.addedWords[1].wordForeign)
-    ).toBeNull();
-    expect(
       screen.queryByText(fakeWordPairsResponse.addedWords[0].wordForeign)
     ).toBeTruthy();
+    expect(
+      screen.queryByText(fakeWordPairsResponse.addedWords[1].wordForeign)
+    ).toBeNull();
   });
 });
