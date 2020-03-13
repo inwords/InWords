@@ -20,7 +20,7 @@ function Snackbar({
 
   React.useEffect(() => {
     if (open && autoHideDuration) {
-      let timer = setTimeout(() => {
+      let timerId = setTimeout(() => {
         setHidden(true);
 
         if (onClose) {
@@ -30,7 +30,7 @@ function Snackbar({
       }, autoHideDuration);
 
       return () => {
-        clearTimeout(timer);
+        clearTimeout(timerId);
       };
     }
   }, [open, autoHideDuration, onClose]);

@@ -113,7 +113,7 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
 
         setSelectedCompletedPairId(pairId);
       } else {
-        window.setTimeout(() => {
+        setTimeout(() => {
           setSelectedWordPairs([]);
         }, 700);
       }

@@ -7,12 +7,12 @@ function DictionaryToolbarContainer({ setPattern, ...rest }) {
   const { inputs, handleChange } = useForm({ pattern: '' });
 
   React.useEffect(() => {
-    let timerId = window.setTimeout(() => {
+    let timerId = setTimeout(() => {
       setPattern(inputs.pattern);
     }, 200);
 
     return () => {
-      window.clearTimeout(timerId);
+      clearTimeout(timerId);
     };
   }, [inputs.pattern, setPattern]);
 

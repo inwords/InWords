@@ -33,6 +33,7 @@ function TrainingHistory({ recentTrainings }) {
             </CardContent>
             <CardActions>
               <LinkButton
+                data-testid={`to-training-${levelId}-0`}
                 component={RouterLink}
                 to={`${match.url}/${levelId}/0`}
                 variant="text"

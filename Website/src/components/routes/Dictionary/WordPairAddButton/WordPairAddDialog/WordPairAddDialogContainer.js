@@ -39,12 +39,9 @@ function WordPairAddDialogContainer({ open, ...rest }) {
 
   const [translationsInfo, setTranslationsInfo] = React.useState([]);
 
-  const translationTimeoutRef = React.useRef();
-
   React.useEffect(() => {
-    const word = inputs.wordForeign.slice().trim();
+    const word = inputs.wordForeign.trim();
     if (!word.match(/^[a-z0-9 ]+$/i)) {
-      window.clearTimeout(translationTimeoutRef.current);
       setTranslationsInfo([]);
       return;
     }
@@ -56,18 +53,21 @@ function WordPairAddDialogContainer({ open, ...rest }) {
         url.searchParams.append(key, params[key])
       );
 
-      fetch(url, {
-        method: 'POST',
-        headers
-      })
-        .then(response => {
+      (async () => {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers
+          });
+
+          let responseData = null;
+
           if (response.ok) {
-            return response.json();
+            responseData = await response.json();
           }
-        })
-        .then(data => {
+
           const newTranslationsInfo = [];
-          data.def.forEach(meaning => {
+          responseData.def.forEach(meaning => {
             newTranslationsInfo.push(
               ...meaning.tr.map(({ text }) => ({
                 id: uuidv4(),
@@ -77,16 +77,19 @@ function WordPairAddDialogContainer({ open, ...rest }) {
           });
 
           setTranslationsInfo(newTranslationsInfo);
-        })
-        .catch(_ => {
+        } catch (_) {
           setTranslationsInfo([]);
-        });
+        }
+      })();
     };
 
-    window.clearTimeout(translationTimeoutRef.current);
-    translationTimeoutRef.current = window.setTimeout(() => {
+    let timerId = setTimeout(() => {
       translate(word);
     }, 700);
+
+    return () => {
+      clearTimeout(timerId);
+    };
   }, [inputs.wordForeign]);
 
   const handleTranslationSelection = id => () => {

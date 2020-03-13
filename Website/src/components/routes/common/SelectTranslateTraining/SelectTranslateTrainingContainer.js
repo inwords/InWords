@@ -60,7 +60,7 @@
 
 //   useEffect(() => {
 //     if (isGameCompleted) {
-//       window.setTimeout(() => {
+//       setTimeout(() => {
 //         setIsResultReady(true);
 //       }, 500);
 //     }

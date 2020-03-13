@@ -18,12 +18,12 @@ function Modal({ open, keepMounted = false, children, className, ...rest }) {
     if (open) {
       setExited(false);
     } else {
-      let timer = setTimeout(() => {
+      let timerId = setTimeout(() => {
         setExited(true);
       }, transitionDurations.exit);
 
       return () => {
-        clearTimeout(timer);
+        clearTimeout(timerId);
       };
     }
   }, [open]);

@@ -97,4 +97,33 @@ describe('interaction with the profile', () => {
       screen.getByText('На новый email было отправлено письмо с подтверждением')
     );
   });
+
+  it('allows the user to delete account', async () => {
+    ProfileClient.mockImplementation(mockGrpcImplementation('deleteAccount'));
+
+    renderWithEnvironment(
+      <Fragment>
+        <Profile />
+        <SmartSnackbar />
+      </Fragment>,
+      {
+        initialState: {
+          access: { token: fakeAccessData.token },
+          userInfo: {
+            ...fakeUserInfoResponse,
+            nickname: fakeUserInfoResponse.nickName
+          }
+        }
+      }
+    );
+
+    fireEvent.click(screen.getByText('Удалить аккаунт'));
+
+    fireEvent.change(screen.getByLabelText('Никнейм'), {
+      target: { value: fakeUserInfoResponse.nickName }
+    });
+    fireEvent.click(screen.getByText('Удалить'));
+
+    await waitForElement(() => screen.getByText('Аккаунт был успешно удален'));
+  });
 });

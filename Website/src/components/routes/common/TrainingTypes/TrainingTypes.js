@@ -51,6 +51,7 @@ function TrainingTypes({ trainingLevel }) {
                 </CardContent>
                 <CardActions>
                   <LinkButton
+                    data-testid={`to-training-${typeId}`}
                     component={RouterLink}
                     to={`${match.url}/${typeId}`}
                     variant="text"
