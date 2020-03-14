@@ -26,7 +26,7 @@ proto.ProfilePackage.v2 = require('./Profile.v2_pb.js');
 proto.ProfilePackage.v2.ProfileClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
-  options['format'] = 'text';
+  options['format'] = 'binary';
 
   /**
    * @private @const {!grpc.web.GrpcWebClientBase} The client
@@ -52,7 +52,7 @@ proto.ProfilePackage.v2.ProfileClient =
 proto.ProfilePackage.v2.ProfilePromiseClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
-  options['format'] = 'text';
+  options['format'] = 'binary';
 
   /**
    * @private @const {!grpc.web.GrpcWebClientBase} The client
