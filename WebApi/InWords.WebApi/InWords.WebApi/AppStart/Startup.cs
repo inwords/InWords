@@ -21,6 +21,8 @@ using System;
 using Serilog.Extensions.Logging;
 using System.Reflection;
 using System.IO;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace InWords.WebApi.AppStart
 {
@@ -44,6 +46,7 @@ namespace InWords.WebApi.AppStart
                 .AddJsonFile($"appsettings{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
             InModule.Configuration = Configuration;
             InModule.Environment = env;
         }
@@ -82,27 +85,15 @@ namespace InWords.WebApi.AppStart
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions)
-            .AddGoogle(options =>
-            {
-                IConfigurationSection googleAuthNSection =
-                Configuration.GetSection("AuthenticationGoogle");
-                options.ClientId = googleAuthNSection["ClientId"];
-                options.ClientSecret = googleAuthNSection["ClientSecret"];
-            });
+            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions);
+
+            //services.AddScoped<IAuthService, AuthService>();
             services.AddAuthorization();
             // api version info
             services.AddApiVersioningInWords();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
-
-            services.AddLogging(logger =>
-            {
-                logger.AddSerilog();
-                logger.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:MM-dd-HH-mm}.txt"));
-                logger.AddConfiguration(Configuration.GetSection("Serilog"));
-            });
 
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureServices(services));
