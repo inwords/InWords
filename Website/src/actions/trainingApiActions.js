@@ -1,12 +1,16 @@
 import apiAction from './apiAction';
+import apiGrpcAction from './apiGrpcAction';
 import {
   initializeCourses,
+  initializeWordSet,
   initializeCourse,
   initializeLevel,
   initializeHistory
 } from './trainingActions';
 import { resetWordPairsActuality } from './dictionaryActions';
 import { setSnackbar } from './commonActions';
+import { WordSetProviderClient } from './protobuf-generated/WordSet.v2_grpc_web_pb';
+import { WordSetWordsRequest } from './protobuf-generated/WordSet.v2_pb';
 
 export function receiveCourses() {
   return apiAction({
@@ -28,6 +32,33 @@ export function receiveCourse(courseId) {
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
+    }
+  });
+}
+
+export function receiveWordSet(courseId) {
+  const request = new WordSetWordsRequest();
+  request.setWordsetid(courseId);
+
+  return apiGrpcAction({
+    Client: WordSetProviderClient,
+    request,
+    method: 'getWordsList',
+    onSuccess: ({ dispatch, response }) => {
+      dispatch(
+        initializeWordSet(
+          courseId,
+          response.getWordsList().map(wordPair => ({
+            serverId: wordPair.getWordpairid(),
+            hasAdded: wordPair.getHasadded(),
+            wordForeign: wordPair.getWordforeign(),
+            wordNative: wordPair.getWordnative()
+          }))
+        )
+      );
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
     }
   });
 }
@@ -63,15 +94,17 @@ export function receiveLevel(levelId) {
   });
 }
 
-export function saveLevelResult(levelResult, actionOnSuccess) {
+export function saveLevelResult(levelResult, { onSuccess } = {}) {
   return apiAction({
     apiVersion: '1.1',
     endpoint: '/training/estimate',
     method: 'POST',
     data: JSON.stringify({ metrics: [levelResult] }),
     contentType: 'application/json',
-    onSuccess: ({ data }) => {
-      actionOnSuccess(data);
+    onSuccess: ({ dispatch, data }) => {
+      if (onSuccess) {
+        onSuccess({ dispatch, data });
+      }
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));

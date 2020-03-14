@@ -17,6 +17,7 @@ const HistoryTrainingSwitcher = lazy(() =>
   import('src/components/routes/HistoryTrainingSwitcher')
 );
 const Courses = lazy(() => import('src/components/routes/Courses'));
+const WordSet = lazy(() => import('src/components/routes/WordSet'));
 const TrainingLevels = lazy(() =>
   import('src/components/routes/TrainingLevels')
 );
@@ -81,6 +82,23 @@ function TrainingRouter() {
           <Courses />
         </Container>
       </Route>
+      <Route
+        exact
+        path={`${url}/courses/:courseId/word-set`}
+        render={({ match: { params } }) => (
+          <Container maxWidth="lg">
+            <Breadcrumbs>
+              <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
+              <BreadcrumbsLink
+                to={`${url}/courses/${params.courseId}/word-set`}
+              >
+                Набор слов
+              </BreadcrumbsLink>
+            </Breadcrumbs>
+            <WordSet />
+          </Container>
+        )}
+      />
       <Route
         exact
         path={`${url}/courses/:courseId`}

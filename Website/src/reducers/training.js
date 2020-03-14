@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   INITIALIZE_COURSES,
+  INITIALIZE_WORD_SET,
   INITIALIZE_COURSE,
   UPDATE_LEVEL_RESULT,
   INITIALIZE_LEVEL,
@@ -17,7 +18,19 @@ function courses(state = [], action) {
   }
 }
 
-function course(
+function wordSetsMap(state = {}, action) {
+  switch (action.type) {
+    case INITIALIZE_WORD_SET:
+      return {
+        ...state,
+        [action.payload.courseId]: action.payload.wordSet
+      };
+    default:
+      return state;
+  }
+}
+
+function coursesMap(
   state = {
     trainingId: null,
     levelsInfo: []
@@ -27,29 +40,37 @@ function course(
   switch (action.type) {
     case INITIALIZE_COURSE:
       return {
-        trainingId: action.payload.gameId,
-        levelsInfo: action.payload.levelInfos || []
+        ...state,
+        [action.payload.gameId]: {
+          trainingId: action.payload.gameId,
+          levelsInfo: action.payload.levelInfos || []
+        }
       };
     case UPDATE_LEVEL_RESULT:
-      return {
-        ...state,
-        levelsInfo: state.levelsInfo.map(levelInfo => {
-          if (
-            levelInfo.levelId !==
-            action.payload.classicCardLevelResult[0].levelId
-          ) {
-            return levelInfo;
-          }
+      if (state[action.payload.courseId]) {
+        const course = state[action.payload.courseId];
 
-          return {
-            ...levelInfo,
-            playerStars: Math.max(
-              levelInfo.playerStars,
-              action.payload.classicCardLevelResult[0].score
-            )
-          };
-        })
-      };
+        return {
+          ...state,
+          [action.payload.courseId]: {
+            levelsInfo: course.levelsInfo.map(levelInfo => {
+              const levelResult =
+                action.payload.levelResult.classicCardLevelResult[0];
+
+              if (levelInfo.levelId !== levelResult.levelId) {
+                return levelInfo;
+              }
+
+              return {
+                ...levelInfo,
+                playerStars: Math.max(levelInfo.playerStars, levelResult.score)
+              };
+            })
+          }
+        };
+      }
+
+      return state;
     default:
       return state;
   }
@@ -99,7 +120,8 @@ function history(
 
 export default combineReducers({
   courses,
-  course,
+  wordSetsMap,
+  coursesMap,
   levelsMap,
   history
 });

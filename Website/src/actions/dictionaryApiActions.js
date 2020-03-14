@@ -56,7 +56,7 @@ export function deleteWordPairs(pairIds) {
   });
 }
 
-export function addWordPairs(wordPairs) {
+export function addWordPairs(wordPairs, { onSuccess } = {}) {
   const request = new AddWordsRequest();
   request.setWordsList(
     wordPairs.map(({ wordForeign, wordNative, index }) => {
@@ -84,9 +84,13 @@ export function addWordPairs(wordPairs) {
           }))
         )
       );
+
+      if (onSuccess) {
+        onSuccess({ dispatch, response });
+      }
     },
     onFailure: ({ dispatch }) => {
-      dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
+      dispatch(setSnackbar({ text: 'Не удалось добавить слова' }));
     }
   });
 }
@@ -111,7 +115,7 @@ export function editWordPairs(wordPairsMap) {
     onFailure: ({ dispatch }) => {
       dispatch(
         setSnackbar({
-          text: 'Не удалось изменить слово'
+          text: 'Не удалось изменить слова'
         })
       );
     }

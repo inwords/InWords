@@ -20,7 +20,7 @@ export function signIn(userdata) {
     Client: ProfileClient,
     request,
     method: 'getToken',
-    authorizationRequired: false,
+    withCredentials: false,
     onSuccess: ({ dispatch, response }) => {
       dispatch(
         grantAccess({
@@ -49,7 +49,7 @@ export function signUp(userdata, isAnonymous = false) {
     Client: ProfileClient,
     request,
     method: 'register',
-    authorizationRequired: false,
+    withCredentials: false,
     onSuccess: ({ dispatch, response }) => {
       dispatch(
         grantAccess({

@@ -25,6 +25,9 @@ const colorPairs = [
   ['#FF5722', '#FFCCBC']
 ];
 
+const GAME_COMPLETED_TIUMEOUT = 1000;
+const RESULT_READY_TIMEOUT = 1500;
+
 function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
@@ -133,10 +136,10 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
             gameLevelId: newServerLevelId || serverLevelId,
             wordPairIdOpenCounts: wordPairIdOpenCountsMap
           },
-          data => {
+          ({ data }) => {
             setTimeout(() => {
               setIsGameCompleted(true);
-            }, 1000);
+            }, GAME_COMPLETED_TIUMEOUT);
 
             setTimeout(() => {
               setSelectedWordPairs([]);
@@ -157,7 +160,7 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
               setColorPair(
                 colorPairs[Math.floor(Math.random() * colorPairs.length)]
               );
-            }, 1500);
+            }, RESULT_READY_TIMEOUT);
           }
         )
       );

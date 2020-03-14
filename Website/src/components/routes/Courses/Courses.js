@@ -9,6 +9,8 @@ import CardContent from 'src/components/core/CardContent';
 import CardActions from 'src/components/core/CardActions';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
+import IconButton from 'src/components/core/IconButton';
+import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
 import TrainingCategoryWordPairsAddButton from './CourseWordPairsAddButton';
 
@@ -35,6 +37,12 @@ function Courses({ courses }) {
                 Пройти
               </LinkButton>
               <Space />
+              <IconButton
+                component={Link}
+                to={`${match.url}/${gameId}/word-set`}
+              >
+                <Icon>list</Icon>
+              </IconButton>
               <TrainingCategoryWordPairsAddButton gameId={gameId} />
             </CardActions>
           </Card>

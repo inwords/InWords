@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import useCombinedRefs from 'src/hooks/useCombinedRefs';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
@@ -50,9 +51,14 @@ const Checkbox = React.forwardRef(function Checkbox(
       className={className}
       component="span"
       color="primary"
+      disabled={disabled}
       {...rest}
     >
-      <span className="checkbox">
+      <span
+        className={classNames('checkbox', {
+          'checkbox--disabled': disabled
+        })}
+      >
         {checked ? (
           <Icon>check_box</Icon>
         ) : (

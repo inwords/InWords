@@ -10,29 +10,34 @@ function CoursesTrainingSwitcher({ ...rest }) {
 
   const dispatch = useDispatch();
 
-  const onResult = ({ levelResult }) => {
-    dispatch(updateLevelResult(levelResult));
-  };
-
-  const course = useSelector(store => store.training.course);
+  const coursesMap = useSelector(store => store.training.coursesMap);
 
   const history = useHistory();
   const params = useParams();
 
+  const onResult = ({ levelResult }) => {
+    dispatch(updateLevelResult(params.courseId, levelResult));
+  };
+
   const onNextLevel = () => {
-    const currentLevelIndex = course.levelsInfo.findIndex(
-      ({ levelId }) => levelId === +params.levelId
-    );
+    const course = coursesMap[params.courseId];
 
-    if (currentLevelIndex !== -1) {
-      const nextLevelIndex = currentLevelIndex + 1;
-      const nextLevel = course.levelsInfo[nextLevelIndex];
+    if (course) {
+      const currentLevelIndex = course.levelsInfo.findIndex(
+        ({ levelId }) => levelId === +params.levelId
+      );
 
-      if (nextLevel) {
-        history.push(
-          `/training/courses/${params.courseId}/${nextLevel.levelId}/${params.trainingId}`
-        );
-        return;
+      if (currentLevelIndex !== -1) {
+        const nextLevelIndex = currentLevelIndex + 1;
+        const nextLevel = course.levelsInfo[nextLevelIndex];
+
+        if (nextLevel) {
+          history.push(
+            `/training/courses/${params.courseId}/${nextLevel.levelId}/${params.trainingId}`
+          );
+
+          return;
+        }
       }
     }
 

@@ -20,7 +20,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     apiVersion = '1.0',
     endpoint = '',
     method = 'GET',
-    authorizationRequired = true,
+    withCredentials = true,
     data = null,
     contentType = null,
     onSuccess,
@@ -29,7 +29,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
 
   const headers = new Headers();
 
-  if (authorizationRequired) {
+  if (withCredentials) {
     const token = getState().access.token;
 
     if (!token) {

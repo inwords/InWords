@@ -40,13 +40,13 @@ const apiGrpcMiddleware = ({ dispatch, getState }) => next => action => {
     Client,
     request,
     method,
-    authorizationRequired = true,
+    withCredentials = true,
     onSuccess,
     onFailure
   } = action.payload;
 
   const metadata = {};
-  if (authorizationRequired) {
+  if (withCredentials) {
     const token = getState().access.token;
 
     if (!token) {

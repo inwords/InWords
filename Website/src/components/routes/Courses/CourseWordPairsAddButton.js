@@ -17,7 +17,7 @@ function CourseWordPairsAddButton({ gameId }) {
 
   const dispatch = useDispatch();
 
-  const handleAddingInDictionary = () => {
+  const handleAdding = () => {
     dispatch(addCourseWordPairsToDictionary(gameId));
   };
 
@@ -50,7 +50,7 @@ function CourseWordPairsAddButton({ gameId }) {
             variant="text"
             color="primary"
             onClick={() => {
-              handleAddingInDictionary();
+              handleAdding();
               handleClose();
             }}
           >

@@ -61,9 +61,11 @@ describe('interaction with training levels', () => {
         initialState: {
           access: { token: fakeAccessData.token },
           training: {
-            course: {
-              trainingId: 1,
-              levelsInfo: fakeTraininglevelsResponse.levelInfos
+            coursesMap: {
+              1: {
+                trainingId: 1,
+                levelsInfo: fakeTraininglevelsResponse.levelInfos
+              }
             }
           }
         },

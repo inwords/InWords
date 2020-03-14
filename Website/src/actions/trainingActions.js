@@ -10,6 +10,15 @@ export const initializeCourse = course => ({
   payload: course
 });
 
+export const INITIALIZE_WORD_SET = 'INITIALIZE_WORD_SET';
+export const initializeWordSet = (courseId, wordSet) => ({
+  type: INITIALIZE_WORD_SET,
+  payload: {
+    courseId,
+    wordSet
+  }
+});
+
 export const INITIALIZE_LEVEL = 'INITIALIZE_LEVEL';
 export const initializeLevel = level => ({
   type: INITIALIZE_LEVEL,
@@ -26,9 +35,12 @@ export const removeLevelWordPairs = (levelId, pairIds) => ({
 });
 
 export const UPDATE_LEVEL_RESULT = 'UPDATE_LEVEL_RESULT';
-export const updateLevelResult = levelResult => ({
+export const updateLevelResult = (courseId, levelResult) => ({
   type: UPDATE_LEVEL_RESULT,
-  payload: levelResult
+  payload: {
+    courseId,
+    levelResult
+  }
 });
 
 export const INITIALIZE_HISTORY = 'INITIALIZE_HISTORY';

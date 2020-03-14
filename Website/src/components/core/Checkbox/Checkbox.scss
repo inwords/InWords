@@ -15,4 +15,8 @@
     height: 100%;
     cursor: inherit;
   }
+
+  &--disabled {
+    color: var(--palette-text-disabled);
+  }
 }
