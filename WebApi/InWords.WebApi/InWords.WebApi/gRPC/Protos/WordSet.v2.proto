@@ -7,8 +7,6 @@ option java_outer_classname = "WordSetProto";
 
 package WordSet.v2;
 
-import "gRPC/Protos/Dictionary.v2.proto";
-
 // The greeting service definition.
 service WordSetProvider {
 	// Sends a greeting
