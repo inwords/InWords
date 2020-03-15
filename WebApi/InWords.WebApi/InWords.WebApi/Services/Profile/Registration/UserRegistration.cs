@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using InWords.Data;
+using InWords.Protobuf;
 using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
 using InWords.WebApi.gRPC.Services;

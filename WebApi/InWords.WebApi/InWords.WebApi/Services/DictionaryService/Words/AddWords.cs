@@ -1,7 +1,7 @@
 ﻿using InWords.Common.Extensions;
 using InWords.Data;
 using InWords.Data.Domains;
-using InWords.WebApi.gRPC.Services;
+using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.DictionaryService.Extentions;
 using System;

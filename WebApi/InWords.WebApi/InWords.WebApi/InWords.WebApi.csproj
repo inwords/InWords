@@ -37,9 +37,6 @@
 
   <ItemGroup>
     <None Remove="AppData\EmailTemplates\ConfirmEmail.html" />
-    <None Remove="gRPC\Protos\Auth.v2.proto" />
-    <None Remove="gRPC\Protos\Dictionary.v2.proto" />
-    <None Remove="gRPC\Protos\WordSet.v2.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,13 +51,7 @@
     <PackageReference Include="FluentFTP" Version="31.3.1" />
     <PackageReference Include="Google.Apis.Auth" Version="1.44.1" />
     <PackageReference Include="Google.Protobuf" Version="3.11.4" />
-    <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
     <PackageReference Include="Grpc.AspNetCore.Web" Version="2.27.0-pre1" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.27.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.27.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="MailKit" Version="2.5.1" />
     <PackageReference Include="MediatR" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.2" />
@@ -86,6 +77,7 @@
     <ProjectReference Include="..\InWords.Common\InWords.Common.csproj" />
     <ProjectReference Include="..\InWords.Data.DTO\InWords.Data.DTO.csproj" />
     <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
+    <ProjectReference Include="..\InWords.Protobuf\InWords.Protobuf.csproj" />
     <ProjectReference Include="..\InWords.Service.Auth\InWords.Service.Auth.csproj" />
     <ProjectReference Include="..\InWords.Service.Encryption\InWords.Service.Encryption.csproj" />
   </ItemGroup>
