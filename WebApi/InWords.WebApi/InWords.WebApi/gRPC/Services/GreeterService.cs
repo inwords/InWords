@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using InWords.Protobuf;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 

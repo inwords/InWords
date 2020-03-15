@@ -1,7 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.Enums;
-using InWords.WebApi.gRPC.Services;
+using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Email.Template;
@@ -33,10 +33,10 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
             var registration = new ChangeEmail(context, mock.Object);
 
             var requestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(
-                    new EmailChangeRequest()
-                    {
-                        Email = testEmail,
-                    })
+                new EmailChangeRequest()
+                {
+                    Email = testEmail,
+                })
             {
                 UserId = account.AccountId
             };

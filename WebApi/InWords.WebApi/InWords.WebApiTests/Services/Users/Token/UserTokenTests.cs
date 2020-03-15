@@ -1,6 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.Enums;
+using InWords.Protobuf;
 using InWords.Service.Auth.Interfaces;
 using InWords.Service.Encryption.Interfaces;
 using InWords.WebApi.gRPC.Services;

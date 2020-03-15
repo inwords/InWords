@@ -30,6 +30,7 @@ namespace InWords.WebApi.gRPC
                 endpoints.MapGrpcService<ProfileService>();
                 endpoints.MapGrpcService<WordsSetService>();
                 endpoints.MapGrpcService<DictionaryService>();
+                endpoints.MapGrpcService<AuthService>();
 
                 endpoints.MapGet("/",
                     context => context.Response.WriteAsync(

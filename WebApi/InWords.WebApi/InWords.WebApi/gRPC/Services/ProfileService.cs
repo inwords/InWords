@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using InWords.Protobuf;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
@@ -17,7 +18,7 @@ namespace InWords.WebApi.gRPC.Services
             this.mediator = mediator;
         }
 
-
+        [Obsolete]
         // Registration
         [SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
         public override async Task<RegistrationReply> Register(RegistrationRequest request, ServerCallContext context)
@@ -33,7 +34,7 @@ namespace InWords.WebApi.gRPC.Services
             return reply;
         }
 
-
+        [Obsolete]
         // Token
         [SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
         public override async Task<TokenReply> GetToken(TokenRequest request, ServerCallContext context)
