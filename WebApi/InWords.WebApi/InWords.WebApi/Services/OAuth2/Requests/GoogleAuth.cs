@@ -77,6 +77,12 @@ namespace InWords.WebApi.Services.OAuth2.Requests
                 }
                 else
                 {
+                    oAuth.Email = payload.Email;
+                    oAuth.Locale = payload.Locale;
+                    oAuth.EmailVerified = payload.EmailVerified;
+                    oAuth.OpenId = payload.Subject;
+                    oAuth.Picture = payload.Picture;
+                    oAuth.Name = payload.Name;
                     return new TokenReply()
                     {
                         UserId = oAuth.AccountId,
