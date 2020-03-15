@@ -45,6 +45,11 @@ namespace InWords.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<OAuth>(e =>
+            {
+                e.HasIndex(e => e.OpenId).IsUnique();
+                e.HasNoKey();
+            });
             modelBuilder.Entity<Word>(entity =>
             {
                 entity.HasIndex(e => e.Content).IsUnique();
