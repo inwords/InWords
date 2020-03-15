@@ -26,9 +26,21 @@ namespace InWords.WebApi.gRPC.Services
             return base.EmailPassword(request, context);
         }
 
-        public override Task<TokenReply> Register(RegistrationRequest request, ServerCallContext context)
+        public override async Task<TokenReply> Register(RegistrationRequest request, ServerCallContext context)
         {
-            return base.Register(request, context);
+            var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
+
+            RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+
+            if (requestObject.StatusCode != StatusCode.OK)
+            {
+                context.Status = new Status(requestObject.StatusCode, requestObject.Detail);
+            }
+            return new TokenReply()
+            {
+                Token = reply.Token,
+                UserId = reply.Userid
+            };
         }
     }
 }

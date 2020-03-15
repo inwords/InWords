@@ -6,13 +6,13 @@ option java_package = "ru.inwords.inwords.proto.profile";
 option java_outer_classname = "ProfileProto";
 
 
-import "gRPC/Protos/Auth.v2.proto";
 package ProfilePackage.v2;
+import "gRPC/Protos/Auth.v2.proto";
 
 // The Profile service definition.
 service Profile {
-	rpc Register (RegistrationRequest) returns (RegistrationReply);
-	rpc GetToken (TokenRequest) returns (TokenReply);
+	rpc Register (Auth.v2.RegistrationRequest) returns (RegistrationReply);
+	rpc GetToken (Auth.v2.TokenRequest) returns (Auth.v2.TokenReply);
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
 	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
