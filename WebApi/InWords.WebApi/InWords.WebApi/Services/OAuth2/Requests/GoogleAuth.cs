@@ -1,9 +1,15 @@
 ﻿using Google.Apis.Auth;
 using Grpc.Core;
 using InWords.Data;
+using InWords.Data.Domains;
+using InWords.Data.Enums;
 using InWords.Protobuf;
+using InWords.Service.Auth.Interfaces;
+using InWords.Service.Auth.Models;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +20,14 @@ namespace InWords.WebApi.Services.OAuth2.Requests
 {
     public class GoogleAuth : StructRequestHandler<OAuthTokenRequest, TokenReply, InWordsDataContext>
     {
-        public GoogleAuth(InWordsDataContext context) : base(context)
+        IRequestHandler<RequestObject<RegistrationRequest, RegistrationReply>, RegistrationReply> registration;
+        IJwtProvider jwtProvider;
+        public GoogleAuth(InWordsDataContext context,
+            IRequestHandler<RequestObject<RegistrationRequest, RegistrationReply>, RegistrationReply> registration
+            IJwtProvider jwtProvider) : base(context)
         {
+            this.jwtProvider = jwtProvider;
+            this.registration = registration;
         }
 
         public override async Task<TokenReply> HandleRequest(RequestObject<OAuthTokenRequest, TokenReply> request,
@@ -26,12 +38,56 @@ namespace InWords.WebApi.Services.OAuth2.Requests
             if (requestData.ServiceName.Equals("google", StringComparison.InvariantCultureIgnoreCase))
             {
                 var payload = GoogleJsonWebSignature.ValidateAsync(requestData.Token, new GoogleJsonWebSignature.ValidationSettings()).Result;
+
+                OAuth oAuth = Context.OAuths
+                    .Where(o => o.OpenId == payload.Subject)
+                    .Include(d => d.Account)
+                    .SingleOrDefault(o => o.OpenId == payload.Subject);
+                if (oAuth == null)
+                {
+
+                    RegistrationRequest registrationRequest = new RegistrationRequest
+                    {
+                        Email = payload.Email,
+                        Password = Guid.NewGuid().ToString()
+                    };
+                    var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(registrationRequest);
+                    var registrationResult = await registration.Handle(requestObject, cancellationToken).ConfigureAwait(false);
+
+                    oAuth = new OAuth()
+                    {
+                        AccountId = (int)registrationResult.Userid,
+                        Email = payload.Email,
+                        Locale = payload.Locale,
+                        EmailVerified = payload.EmailVerified,
+                        OpenId = payload.Subject,
+                        Picture = payload.Picture,
+                        Name = payload.Name,
+                        Provider = OAuth2Providers.Google
+                    };
+                    Context.Add(oAuth);
+
+                    await Context.SaveChangesAsync().ConfigureAwait(false);
+
+                    return new TokenReply()
+                    {
+                        Token = registrationResult.Token,
+                        UserId = registrationResult.Userid
+                    };
+                }
+                else
+                {
+                    return new TokenReply()
+                    {
+                        UserId = oAuth.AccountId,
+                        Token = new TokenResponse(oAuth.AccountId, oAuth.Account.Role, jwtProvider).Token
+                    };
+                }
             }
-            else
-            {
-                request.StatusCode = StatusCode.OutOfRange;
-                request.Detail = "Authorization provider is not supported";
-            }
+
+            request.StatusCode = StatusCode.OutOfRange;
+            request.Detail = "Authorization provider is not supported";
+
             return new TokenReply();
         }
     }
