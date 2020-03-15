@@ -23,7 +23,7 @@ namespace InWords.WebApi.Services.OAuth2.Requests
         IRequestHandler<RequestObject<RegistrationRequest, RegistrationReply>, RegistrationReply> registration;
         IJwtProvider jwtProvider;
         public GoogleAuth(InWordsDataContext context,
-            IRequestHandler<RequestObject<RegistrationRequest, RegistrationReply>, RegistrationReply> registration
+            IRequestHandler<RequestObject<RegistrationRequest, RegistrationReply>, RegistrationReply> registration,
             IJwtProvider jwtProvider) : base(context)
         {
             this.jwtProvider = jwtProvider;
