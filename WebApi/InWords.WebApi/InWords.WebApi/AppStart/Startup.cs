@@ -15,15 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using System;
-using Serilog.Extensions.Logging;
 using System.Reflection;
-using System.IO;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-
 namespace InWords.WebApi.AppStart
 {
     /// <summary>
@@ -105,7 +97,7 @@ namespace InWords.WebApi.AppStart
         /// <param name="app"></param>
         /// <param name="env"></param>
         /// <param name="loggerFactory"></param>
-        public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             app.UseRouting();
             app.UseCors("AllowAll"); // should be before UseMvc but after UserRouting and before Authorization and UseAuthorization
