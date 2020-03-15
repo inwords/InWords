@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Protobuf Include="gRPC\Protos\Dictionary.v2.proto" GrpcServices="Server" />
+    <Protobuf Include="gRPC\Protos\Auth.v2.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\greet.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\WordSet.v2.proto" GrpcServices="Server" />
     <Protobuf Include="gRPC\Protos\Profile.v2.proto" GrpcServices="Server" />
@@ -36,6 +37,7 @@
 
   <ItemGroup>
     <None Remove="AppData\EmailTemplates\ConfirmEmail.html" />
+    <None Remove="gRPC\Protos\Auth.v2.proto" />
     <None Remove="gRPC\Protos\Dictionary.v2.proto" />
     <None Remove="gRPC\Protos\WordSet.v2.proto" />
   </ItemGroup>
