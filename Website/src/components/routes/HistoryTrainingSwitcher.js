@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import useServerTrainingLevel from 'src/components/routes/common-hooks/useServerTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
-function HistoryTrainingSwitcher({ ...rest }) {
+function HistoryTrainingSwitcher(props) {
   const trainingLevel = useServerTrainingLevel();
 
   const trainingHistory = useSelector(store => store.training.history);
@@ -37,7 +37,7 @@ function HistoryTrainingSwitcher({ ...rest }) {
       onResult={null}
       onNextLevel={onNextLevel}
       trainingLevel={trainingLevel}
-      {...rest}
+      {...props}
     />
   );
 }

@@ -5,7 +5,7 @@ import { updateLevelResult } from 'src/actions/trainingActions';
 import useServerTrainingLevel from 'src/components/routes/common-hooks/useServerTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
-function CoursesTrainingSwitcher({ ...rest }) {
+function CoursesTrainingSwitcher(props) {
   const trainingLevel = useServerTrainingLevel();
 
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ function CoursesTrainingSwitcher({ ...rest }) {
       onResult={onResult}
       onNextLevel={onNextLevel}
       trainingLevel={trainingLevel}
-      {...rest}
+      {...props}
     />
   );
 }

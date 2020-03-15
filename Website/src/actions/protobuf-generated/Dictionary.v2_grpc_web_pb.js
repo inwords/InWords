@@ -26,7 +26,7 @@ proto.Dictionary.v2 = require('./Dictionary.v2_pb.js');
 proto.Dictionary.v2.DictionaryProviderClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
-  options['format'] = 'text';
+  options['format'] = 'binary';
 
   /**
    * @private @const {!grpc.web.GrpcWebClientBase} The client
@@ -52,7 +52,7 @@ proto.Dictionary.v2.DictionaryProviderClient =
 proto.Dictionary.v2.DictionaryProviderPromiseClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
-  options['format'] = 'text';
+  options['format'] = 'binary';
 
   /**
    * @private @const {!grpc.web.GrpcWebClientBase} The client

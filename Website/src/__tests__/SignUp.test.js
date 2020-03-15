@@ -17,25 +17,53 @@ const fakeAccessResponse = {
   userId: 1
 };
 
-test('allows the user to register successfully', async () => {
-  const response = {
-    getToken: () => fakeAccessResponse.token,
-    getUserid: () => fakeAccessResponse.userId
-  };
-  ProfileClient.mockImplementation(
-    mockGrpcImplementation('register', response)
-  );
+describe('interaction with sign up', () => {
+  it('allows the user to sign up successfully', async () => {
+    const response = {
+      getToken: () => fakeAccessResponse.token,
+      getUserid: () => fakeAccessResponse.userId
+    };
+    ProfileClient.mockImplementation(
+      mockGrpcImplementation('register', response)
+    );
 
-  const { history } = renderWithEnvironment(<SignUp />);
+    renderWithEnvironment(<SignUp />);
 
-  fireEvent.change(screen.getByLabelText('Email'), {
-    target: { value: fakeUserData.email }
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: fakeUserData.email }
+    });
+    fireEvent.change(screen.getByLabelText('Пароль'), {
+      target: { value: fakeUserData.password }
+    });
+
+    fireEvent.click(screen.getByText('Зарегистрироваться'));
+
+    expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
+      access: {
+        token: fakeAccessResponse.token,
+        userId: fakeAccessResponse.userId
+      }
+    });
   });
-  fireEvent.change(screen.getByLabelText('Пароль'), {
-    target: { value: fakeUserData.password }
+
+  it('allows the user to sign up as guest successfully', async () => {
+    const response = {
+      getToken: () => fakeAccessResponse.token,
+      getUserid: () => fakeAccessResponse.userId
+    };
+    ProfileClient.mockImplementation(
+      mockGrpcImplementation('register', response)
+    );
+
+    renderWithEnvironment(<SignUp />);
+
+    fireEvent.click(screen.getByText('Войти гостем'));
+
+    expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
+      access: {
+        token: fakeAccessResponse.token,
+        userId: fakeAccessResponse.userId
+      }
+    });
   });
-
-  fireEvent.click(screen.getByText('Зарегистрироваться'));
-
-  expect(history.location.pathname).toEqual('/profile');
 });

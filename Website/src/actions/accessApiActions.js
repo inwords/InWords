@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import uuidv4 from 'src/utils/uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import apiGrpcAction from './apiGrpcAction';
 import { setSnackbar } from './commonActions';
 import { grantAccess, denyAccess } from './accessActions';

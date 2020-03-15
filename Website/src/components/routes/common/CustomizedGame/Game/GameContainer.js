@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import { saveLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
-import uuidv4 from 'src/utils/uuidv4';
 import TrainingResult from 'src/components/routes/common/TrainingResult';
 import Game from './Game';
 
@@ -25,8 +25,8 @@ const colorPairs = [
   ['#FF5722', '#FFCCBC']
 ];
 
-const GAME_COMPLETED_TIUMEOUT = 1000;
-const RESULT_READY_TIMEOUT = 1500;
+const GAME_COMPLETED_TIMEOUT = 1000;
+const RESULT_READY_TIMEOUT = 500;
 
 function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
   const [wordPairs, setWordPairs] = useState([]);
@@ -136,31 +136,33 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
             gameLevelId: newServerLevelId || serverLevelId,
             wordPairIdOpenCounts: wordPairIdOpenCountsMap
           },
-          ({ data }) => {
-            setTimeout(() => {
-              setIsGameCompleted(true);
-            }, GAME_COMPLETED_TIUMEOUT);
+          {
+            onSuccess: ({ data }) => {
+              setTimeout(() => {
+                setIsGameCompleted(true);
 
-            setTimeout(() => {
-              setSelectedWordPairs([]);
-              setCompletedPairIdsMap({});
-              setSelectedCompletedPairId(-1);
-              setWordPairIdOpenCountsMap({});
-              setRecentWordPairs(wordPairs);
+                setTimeout(() => {
+                  setSelectedWordPairs([]);
+                  setCompletedPairIdsMap({});
+                  setSelectedCompletedPairId(-1);
+                  setWordPairIdOpenCountsMap({});
+                  setRecentWordPairs(wordPairs);
 
-              if (onResult) {
-                onResult({ levelId, wordPairs, levelResult: data });
-              }
+                  if (onResult) {
+                    onResult({ levelId, wordPairs, levelResult: data });
+                  }
 
-              setScore(data.classicCardLevelResult[0].score);
-              setNewServerLevelId(data.classicCardLevelResult[0].levelId);
+                  setScore(data.classicCardLevelResult[0].score);
+                  setNewServerLevelId(data.classicCardLevelResult[0].levelId);
 
-              setIsResultReady(true);
+                  setIsResultReady(true);
 
-              setColorPair(
-                colorPairs[Math.floor(Math.random() * colorPairs.length)]
-              );
-            }, RESULT_READY_TIMEOUT);
+                  setColorPair(
+                    colorPairs[Math.floor(Math.random() * colorPairs.length)]
+                  );
+                }, RESULT_READY_TIMEOUT);
+              }, GAME_COMPLETED_TIMEOUT);
+            }
           }
         )
       );

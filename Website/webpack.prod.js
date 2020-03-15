@@ -17,12 +17,15 @@ module.exports = merge(common, {
           test: /\.(css|scss)$/,
           enforce: true
         },
-        vendor: {
-          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-          name: 'vendor',
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: false,
           chunks: 'all'
         }
       }
+    },
+    runtimeChunk: {
+      name: entrypoint => `runtime-${entrypoint.name}`
     }
   },
   module: {

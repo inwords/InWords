@@ -17,7 +17,7 @@ const fakeAccessResponse = {
   userId: 1
 };
 
-test('allows the user to login successfully', async () => {
+test('allows the user to sign in successfully', async () => {
   const response = {
     getToken: () => fakeAccessResponse.token,
     getUserid: () => fakeAccessResponse.userId
@@ -26,7 +26,7 @@ test('allows the user to login successfully', async () => {
     mockGrpcImplementation('getToken', response)
   );
 
-  const { history } = renderWithEnvironment(<SignIn />);
+  renderWithEnvironment(<SignIn />);
 
   fireEvent.change(screen.getByLabelText('Email'), {
     target: { value: fakeUserData.email }
@@ -37,5 +37,10 @@ test('allows the user to login successfully', async () => {
 
   fireEvent.click(screen.getByText('Войти'));
 
-  expect(history.location.pathname).toEqual('/training');
+  expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
+    access: {
+      token: fakeAccessResponse.token,
+      userId: fakeAccessResponse.userId
+    }
+  });
 });

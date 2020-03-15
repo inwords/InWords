@@ -49,7 +49,7 @@ function DictionaryRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <DictionaryTrainingSwitcher trainingId={+params.trainingId} />
+            <DictionaryTrainingSwitcher />
           </Container>
         )}
       />

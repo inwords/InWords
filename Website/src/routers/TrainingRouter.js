@@ -51,7 +51,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <MainTrainingSwitcher trainingId={+params.trainingId} />
+            <MainTrainingSwitcher />
           </Container>
         )}
       />
@@ -73,7 +73,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <HistoryTrainingSwitcher trainingId={+params.trainingId} />
+            <HistoryTrainingSwitcher />
           </Container>
         )}
       />
@@ -130,7 +130,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <CoursesTrainingSwitcher trainingId={+params.trainingId} />
+            <CoursesTrainingSwitcher />
           </Container>
         )}
       />

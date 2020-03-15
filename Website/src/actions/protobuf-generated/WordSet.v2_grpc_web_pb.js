@@ -28,7 +28,7 @@ proto.WordSet.v2 = require('./WordSet.v2_pb.js');
 proto.WordSet.v2.WordSetProviderClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
-  options['format'] = 'text';
+  options['format'] = 'binary';
 
   /**
    * @private @const {!grpc.web.GrpcWebClientBase} The client
@@ -54,7 +54,7 @@ proto.WordSet.v2.WordSetProviderClient =
 proto.WordSet.v2.WordSetProviderPromiseClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
-  options['format'] = 'text';
+  options['format'] = 'binary';
 
   /**
    * @private @const {!grpc.web.GrpcWebClientBase} The client

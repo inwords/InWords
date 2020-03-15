@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitForElement } from '@testing-library/react';
+import { screen, wait } from '@testing-library/react';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import MainTrainingTypes from 'src/components/routes/MainTrainingTypes';
@@ -29,7 +29,7 @@ test('allows the user to see number of words to train', async () => {
     initialState: { access: { token: fakeAccessData.token } }
   });
 
-  await waitForElement(() => [
+  await wait(() => [
     screen.getByText(`Слов на изучение: ${fakeWordPairsToTrainResponse.length}`)
   ]);
 });
