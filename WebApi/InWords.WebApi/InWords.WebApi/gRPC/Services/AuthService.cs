@@ -5,6 +5,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using InWords.Protobuf;
+using InWords.WebApi.Extensions;
+
 namespace InWords.WebApi.gRPC.Services
 {
     [Authorize]
@@ -16,26 +18,27 @@ namespace InWords.WebApi.gRPC.Services
             this.mediator = mediator;
         }
 
-        public override Task<TokenReply> OAuth2(OAuthTokenRequest request, ServerCallContext context)
+        public override async Task<TokenReply> OAuth2(OAuthTokenRequest request, ServerCallContext context)
         {
-            return base.OAuth2(request, context);
+            var requestObject = new RequestObject<OAuthTokenRequest, TokenReply>(request);
+            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+            context.UpdateStatus(requestObject);
+            return reply;
         }
 
-        public override Task<TokenReply> EmailPassword(TokenRequest request, ServerCallContext context)
+        public override async Task<TokenReply> Basic(TokenRequest request, ServerCallContext context)
         {
-            return base.EmailPassword(request, context);
+            var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
+            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+            context.UpdateStatus(requestObject);
+            return reply;
         }
 
         public override async Task<TokenReply> Register(RegistrationRequest request, ServerCallContext context)
         {
             var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
-
             RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-
-            if (requestObject.StatusCode != StatusCode.OK)
-            {
-                context.Status = new Status(requestObject.StatusCode, requestObject.Detail);
-            }
+            context.UpdateStatus(requestObject);
             return new TokenReply()
             {
                 Token = reply.Token,
