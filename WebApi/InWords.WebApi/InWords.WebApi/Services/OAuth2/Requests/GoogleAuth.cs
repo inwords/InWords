@@ -1,4 +1,6 @@
-﻿using InWords.Data;
+﻿using Google.Apis.Auth;
+using Grpc.Core;
+using InWords.Data;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using System;
@@ -15,11 +17,21 @@ namespace InWords.WebApi.Services.OAuth2.Requests
         {
         }
 
-        public override Task<TokenReply> HandleRequest(RequestObject<OAuthTokenRequest, TokenReply> request, 
+        public override async Task<TokenReply> HandleRequest(RequestObject<OAuthTokenRequest, TokenReply> request,
             CancellationToken cancellationToken = default)
         {
-
-            return base.HandleRequest(request, cancellationToken);
+            var requestData = request.Value;
+            // TODO: hashSet
+            if (requestData.ServiceName.Equals("google", StringComparison.InvariantCultureIgnoreCase))
+            {
+                var payload = GoogleJsonWebSignature.ValidateAsync(requestData.Token, new GoogleJsonWebSignature.ValidationSettings()).Result;
+            }
+            else
+            {
+                request.StatusCode = StatusCode.OutOfRange;
+                request.Detail = "Authorization provider is not supported";
+            }
+            return new TokenReply();
         }
     }
 }
