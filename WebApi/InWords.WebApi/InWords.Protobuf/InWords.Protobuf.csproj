@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+    <Protobuf Include="greet.proto" GrpcServices="Server" />
+    <Protobuf Include="Auth.v2.proto" GrpcServices="Server" />
+    <Protobuf Include="Dictionary.v2.proto" GrpcServices="Server" />
+    <Protobuf Include="Profile.v2.proto" GrpcServices="Server" />
+    <Protobuf Include="WordSet.v2.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+</Project>

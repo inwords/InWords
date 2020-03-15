@@ -4,7 +4,7 @@ using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
-
+using InWords.Protobuf;
 namespace InWords.WebApi.gRPC.Services
 {
     [Authorize]

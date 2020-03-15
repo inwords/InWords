@@ -1,6 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
+using InWords.Protobuf;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Users.Extentions;

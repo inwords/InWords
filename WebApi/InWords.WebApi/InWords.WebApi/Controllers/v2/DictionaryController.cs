@@ -1,4 +1,5 @@
-﻿using InWords.Service.Auth.Extensions;
+﻿using InWords.Protobuf;
+using InWords.Service.Auth.Extensions;
 using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
