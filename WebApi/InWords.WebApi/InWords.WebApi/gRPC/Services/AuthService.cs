@@ -18,7 +18,8 @@ namespace InWords.WebApi.gRPC.Services
             this.mediator = mediator;
         }
 
-        public override async Task<TokenReply> OAuth2(OAuthTokenRequest request, ServerCallContext context)
+
+        public override async Task<TokenReply> OAuth(OAuthTokenRequest request, ServerCallContext context)
         {
             var requestObject = new RequestObject<OAuthTokenRequest, TokenReply>(request);
             TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);

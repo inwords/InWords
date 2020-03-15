@@ -9,7 +9,7 @@ package Auth.v2;
 
 // The greeting service definition.
 service Authenticator {
-	rpc OAuth2 (OAuthTokenRequest) returns (TokenReply);
+	rpc OAuth (OAuthTokenRequest) returns (TokenReply);
 	rpc Basic (TokenRequest) returns (TokenReply);
 	rpc Register (RegistrationRequest) returns (TokenReply);
 

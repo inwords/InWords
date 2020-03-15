@@ -62,7 +62,13 @@ namespace InWords.WebApi.Controllers.v2
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
         {
-            var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
+            TokenRequest tokenRequest = new TokenRequest()
+            {
+                Email = request.Email,
+                Password = request.Password
+            };
+
+            var requestObject = new RequestObject<TokenRequest, TokenReply>(tokenRequest);
             TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
 
             if (requestObject.StatusCode != Grpc.Core.StatusCode.OK)
