@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen, waitForElement } from '@testing-library/react';
+import { fireEvent, screen, wait } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
@@ -42,7 +42,7 @@ describe('interaction with training levels', () => {
       }
     );
 
-    await waitForElement(() => [
+    await wait(() => [
       screen.getByText(
         `Уровень ${fakeTraininglevelsResponse.levelInfos[0].level}`
       ),

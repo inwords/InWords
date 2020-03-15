@@ -5,7 +5,7 @@ import { removeLevelWordPairs } from 'src/actions/trainingActions';
 import useClientTrainingLevel from 'src/components/routes/common-hooks/useClientTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
-function DictionaryTrainingSwitcher({ ...rest }) {
+function DictionaryTrainingSwitcher(props) {
   const trainingLevel = useClientTrainingLevel('/dictionary');
 
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function DictionaryTrainingSwitcher({ ...rest }) {
       onResult={onResult}
       onNextLevel={onNextLevel}
       trainingLevel={trainingLevel}
-      {...rest}
+      {...props}
     />
   );
 }

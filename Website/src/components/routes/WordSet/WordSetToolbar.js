@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Toolbar from 'src/components/core/Toolbar';
 import Typography from 'src/components/core/Typography';
-import Button from 'src/components/core/Button';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
@@ -18,10 +17,10 @@ function WordSetToolbar({
   return (
     <Toolbar>
       <IconButton
-        edge="start"
         aria-label="clear selection"
         onClick={handleReset}
         color="inherit"
+        edge="start"
       >
         <Icon>close</Icon>
       </IconButton>
@@ -39,17 +38,17 @@ function WordSetToolbar({
         </Typography>
       </div>
       <Space />
-      <Button
+      <IconButton
         disabled={numberOfChecked === 0}
         onClick={() => {
           handleAdding();
           handleReset();
         }}
-        variant="text"
         color="primary"
+        edge="end"
       >
-        Добавить в словарь
-      </Button>
+        <Icon>add</Icon>
+      </IconButton>
     </Toolbar>
   );
 }

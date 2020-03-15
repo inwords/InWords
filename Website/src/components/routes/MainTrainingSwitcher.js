@@ -4,7 +4,7 @@ import { removeLevelWordPairs } from 'src/actions/trainingActions';
 import useClientTrainingLevel from 'src/components/routes/common-hooks/useClientTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
-function MainTrainingSwitcher({ ...rest }) {
+function MainTrainingSwitcher(props) {
   const trainingLevel = useClientTrainingLevel('/training');
 
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ function MainTrainingSwitcher({ ...rest }) {
       onResult={onResult}
       onNextLevel={onNextLevel}
       trainingLevel={trainingLevel}
-      {...rest}
+      {...props}
     />
   );
 }

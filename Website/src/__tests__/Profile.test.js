@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { fireEvent, screen, waitForElement } from '@testing-library/react';
+import { fireEvent, screen, wait } from '@testing-library/react';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
@@ -34,7 +34,7 @@ describe('interaction with the profile', () => {
       initialState: { access: { token: fakeAccessData.token } }
     });
 
-    await waitForElement(() => [
+    await wait(() => [
       screen.getByText(fakeUserInfoResponse.nickName),
       screen.getByText(fakeUserInfoResponse.account.email)
     ]);
@@ -61,7 +61,7 @@ describe('interaction with the profile', () => {
 
     fireEvent.click(screen.getByText('Сохранить'));
 
-    await waitForElement(() => screen.getByText(newUserInfo.nickName));
+    await wait(() => screen.getByText(newUserInfo.nickName));
     expect(screen.queryByText(fakeUserInfoResponse.nickName)).toBeNull();
   });
 
@@ -93,7 +93,7 @@ describe('interaction with the profile', () => {
     });
     fireEvent.click(screen.getByText('Сохранить'));
 
-    await waitForElement(() =>
+    await wait(() =>
       screen.getByText('На новый email было отправлено письмо с подтверждением')
     );
   });
@@ -124,6 +124,6 @@ describe('interaction with the profile', () => {
     });
     fireEvent.click(screen.getByText('Удалить'));
 
-    await waitForElement(() => screen.getByText('Аккаунт был успешно удален'));
+    await wait(() => screen.getByText('Аккаунт был успешно удален'));
   });
 });

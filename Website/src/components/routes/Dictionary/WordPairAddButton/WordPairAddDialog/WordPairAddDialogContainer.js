@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
-import uuidv4 from 'src/utils/uuidv4';
 import useForm from 'src/hooks/useForm';
 import WordPairAddDialog from './WordPairAddDialog';
 

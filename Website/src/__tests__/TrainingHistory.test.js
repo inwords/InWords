@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen, waitForElement } from '@testing-library/react';
+import { fireEvent, screen, wait } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
@@ -33,7 +33,7 @@ describe('interaction with training history', () => {
       initialState: { access: { token: fakeAccessData.token } }
     });
 
-    await waitForElement(() => [
+    await wait(() => [
       screen.getByText(`#${fakeTrainingHistoryResponse[0].levelId}`),
       screen.getByText(`#${fakeTrainingHistoryResponse[1].levelId}`)
     ]);

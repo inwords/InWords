@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { fireEvent, screen, waitForElement } from '@testing-library/react';
+import { fireEvent, screen, wait } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
@@ -38,7 +38,7 @@ describe('interaction with courses', () => {
       initialState: { access: { token: fakeAccessData.token } }
     });
 
-    await waitForElement(() => [
+    await wait(() => [
       screen.getByText(fakeCoursesResponse[0].title),
       screen.getByText(fakeCoursesResponse[0].description),
       screen.getByText(fakeCoursesResponse[1].title),
@@ -97,7 +97,7 @@ describe('interaction with courses', () => {
     );
     fireEvent.click(screen.getByText('Добавить'));
 
-    await waitForElement(() =>
+    await wait(() =>
       screen.getByText(
         `Добавлено новых слов: ${fakeCourseWordPairsAddingResponse.wordsAdded}`
       )

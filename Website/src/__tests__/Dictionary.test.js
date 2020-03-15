@@ -3,7 +3,7 @@ import {
   act,
   fireEvent,
   screen,
-  waitForElement,
+  wait,
   waitForElementToBeRemoved
 } from '@testing-library/react';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
@@ -69,7 +69,7 @@ describe('interaction with the dictionary', () => {
       initialState: { access: { token: fakeAccessData.token } }
     });
 
-    await waitForElement(() => [
+    await wait(() => [
       screen.getByText(fakeWordPairsResponse.addedWords[0].wordForeign),
       screen.getByText(fakeWordPairsResponse.addedWords[0].wordNative),
       screen.getByText(fakeWordPairsResponse.addedWords[1].wordForeign),
@@ -103,7 +103,7 @@ describe('interaction with the dictionary', () => {
 
     fireEvent.click(screen.getByText('Готово'));
 
-    await waitForElement(() => [
+    await wait(() => [
       screen.getByText(editedWordPair.wordForeign),
       screen.getByText(editedWordPair.wordNative)
     ]);
@@ -149,7 +149,7 @@ describe('interaction with the dictionary', () => {
 
     fireEvent.click(screen.getByText('Добавить'));
 
-    await waitForElement(() => [
+    await wait(() => [
       screen.getByText(newWordPair.wordForeign),
       screen.getByText(newWordPair.wordNative)
     ]);

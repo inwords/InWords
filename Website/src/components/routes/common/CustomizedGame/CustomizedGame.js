@@ -50,7 +50,7 @@ function CustomizedGame({
   React.useEffect(() => {
     setProcessedTrainingLevel(processedTrainingLevel => ({
       ...processedTrainingLevel,
-      voiceOn: trainingSettings.voiceOn
+      voiceOn: trainingSettings.voiceOn || false
     }));
   }, [trainingSettings.voiceOn]);
 
