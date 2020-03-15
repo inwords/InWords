@@ -36,6 +36,7 @@ namespace InWords.WebApi.Controllers.v2
         /// 400 means that the user was not found or the password was entered incorrectly
         /// </remarks>
         [Route("register")]
+        [Obsolete]
         [HttpPost]
         [ProducesResponseType(typeof(RegistrationReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,6 +63,7 @@ namespace InWords.WebApi.Controllers.v2
         [ProducesResponseType(typeof(TokenReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("token")]
+        [Obsolete]
         [HttpPost]
         public async Task<IActionResult> Token([FromBody] TokenRequest request)
         {

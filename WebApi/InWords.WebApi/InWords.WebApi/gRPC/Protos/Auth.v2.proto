@@ -1,0 +1,39 @@
+﻿syntax = "proto3";
+option csharp_namespace = "InWords.WebApi.gRPC.Services";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.auth";
+option java_outer_classname = "AuthProto";
+
+package Auth.v2;
+
+// The greeting service definition.
+service Authenticator {
+	rpc OAuth2 (OAuthTokenRequest) returns (TokenReply);
+	rpc EmailPassword (TokenRequest) returns (TokenReply);
+	rpc Register (RegistrationRequest) returns (TokenReply);
+
+}
+// The request message containing the user's credentials.
+message RegistrationRequest {
+	string email = 1;
+	string password = 2;
+	bool IsAnonymous = 3;
+}
+
+message OAuthTokenRequest{
+	string ServiceName = 1; // Example: google
+	string Token = 2;
+}
+
+// The request message containing the user's name.
+message TokenRequest {
+	string email = 1;
+	string password = 2;
+}
+
+// The response message containing the Token.
+message TokenReply {
+	int64 userId = 1;
+	string token = 2;
+}

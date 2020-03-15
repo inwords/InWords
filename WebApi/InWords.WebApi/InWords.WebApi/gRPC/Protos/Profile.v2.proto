@@ -5,6 +5,8 @@ option java_multiple_files = true;
 option java_package = "ru.inwords.inwords.proto.profile";
 option java_outer_classname = "ProfileProto";
 
+
+import "gRPC/Protos/Auth.v2.proto";
 package ProfilePackage.v2;
 
 // The Profile service definition.
@@ -17,31 +19,11 @@ service Profile {
 	rpc DeleteAccount (DeleteAccountRequest) returns (Empty);
 }
 
-// The request message containing the user's credentials.
-message RegistrationRequest {
-	string email = 1;
-	string password = 2;
-	bool IsAnonymous = 3;
-}
-
 // The response message containing the Token.
 message RegistrationReply {
 	int64 userid = 1;
 	string token = 2;
 }
-
-// The request message containing the user's credentials.
-message TokenRequest {
-	string email = 1;
-	string password = 2;
-}
-
-// The response message containing the Token.
-message TokenReply {
-	int64 userId = 1;
-	string token = 2;
-}
-
 message EmailChangeRequest{
 	string email = 1;
 }
