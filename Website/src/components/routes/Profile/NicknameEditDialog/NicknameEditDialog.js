@@ -34,8 +34,6 @@ function NicknameEditDialog({
             <TextField
               id="nickname"
               placeholder="Новый никнейм"
-              type="nickname"
-              autoComplete="nickname"
               name="nickname"
               value={inputs.nickname}
               onChange={handleChange}

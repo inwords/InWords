@@ -35,7 +35,8 @@ function Drawer({ open, onClose, className, ...rest }) {
 
 Drawer.propTypes = {
   open: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  className: PropTypes.string
 };
 
 export default Drawer;

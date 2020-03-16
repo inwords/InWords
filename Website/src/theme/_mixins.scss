@@ -42,6 +42,7 @@
   $variant-values: map-get($theme-typography-values, $variant);
 
   $properties: font-weight, font-size, line-height, letter-spacing;
+
   @each $property in $properties {
     #{$property}: map-get($variant-values, $property);
   }

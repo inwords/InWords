@@ -21,7 +21,8 @@ function Chip({ component = 'div', className, ...rest }) {
 }
 
 Chip.propTypes = {
-  component: PropTypes.elementType
+  component: PropTypes.elementType,
+  className: PropTypes.string
 };
 
 export default Chip;

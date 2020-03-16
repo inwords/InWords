@@ -22,7 +22,8 @@ function Icon({ color, fontSize, className, ...rest }) {
 
 Icon.propTypes = {
   color: PropTypes.string,
-  fontSize: PropTypes.string
+  fontSize: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default Icon;

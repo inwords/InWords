@@ -1,0 +1,31 @@
+syntax = "proto3";
+option csharp_namespace = "InWords.Protobuf";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.word_set";
+option java_outer_classname = "WordSetProto";
+
+package WordSet.v2;
+
+// The greeting service definition.
+service WordSetProvider {
+	// Sends a greeting
+	rpc GetWordsList (WordSetWordsRequest) returns (WordSetWordsReply);
+}
+
+// The request message containing the user's credentials.
+message WordSetWordsRequest {
+	int32 WordSetId = 1;
+}
+
+message WordSetWordsReply {
+	repeated WordSetWord Words = 1;
+}
+
+// The response message containing the Token.
+message WordSetWord {
+	int32 WordPairId = 1;
+	bool HasAdded = 2;
+	string WordForeign = 3;
+	string WordNative = 4;
+}

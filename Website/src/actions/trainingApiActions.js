@@ -1,135 +1,148 @@
 import apiAction from './apiAction';
-import * as trainingActions from './trainingActions';
+import apiGrpcAction from './apiGrpcAction';
+import {
+  initializeCourses,
+  initializeWordSet,
+  initializeCourse,
+  initializeLevel,
+  initializeHistory
+} from './trainingActions';
+import { resetWordPairsActuality } from './dictionaryActions';
 import { setSnackbar } from './commonActions';
+import { WordSetProviderClient } from './protobuf-generated/WordSet.v2_grpc_web_pb';
+import { WordSetWordsRequest } from './protobuf-generated/WordSet.v2_pb';
 
-export function receiveTrainingCategories() {
+export function receiveCourses() {
   return apiAction({
-    endpoint: 'game/gameInfo',
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingCategories(data));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить темы' }));
-      }
-    ]
+    endpoint: '/game/gameInfo',
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(initializeCourses(data));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить темы' }));
+    }
   });
 }
 
-export function receiveTrainingCategory(categoryId) {
+export function receiveCourse(courseId) {
   return apiAction({
-    endpoint: `game/${categoryId}`,
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingCategory(data));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
-      }
-    ]
+    endpoint: `/game/${courseId}`,
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(initializeCourse(data));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
+    }
   });
 }
 
-export function addCategoryWordsToDictionary(categoryId) {
+export function receiveWordSet(courseId) {
+  const request = new WordSetWordsRequest();
+  request.setWordsetid(courseId);
+
+  return apiGrpcAction({
+    Client: WordSetProviderClient,
+    request,
+    method: 'getWordsList',
+    onSuccess: ({ dispatch, response }) => {
+      dispatch(
+        initializeWordSet(
+          courseId,
+          response.getWordsList().map(wordPair => ({
+            serverId: wordPair.getWordpairid(),
+            hasAdded: wordPair.getHasadded(),
+            wordForeign: wordPair.getWordforeign(),
+            wordNative: wordPair.getWordnative()
+          }))
+        )
+      );
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
+    }
+  });
+}
+
+export function addCourseWordPairsToDictionary(courseId) {
   return apiAction({
-    endpoint: 'game/addWordsToUserDictionary',
+    endpoint: '/game/addWordsToUserDictionary',
     method: 'POST',
-    data: JSON.stringify(categoryId),
+    data: JSON.stringify(courseId),
     contentType: 'application/json',
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(
-          setSnackbar({ text: `Добавлено новых слов: ${data.wordsAdded}` })
-        );
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось добавить слова' }));
-      }
-    ]
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(
+        setSnackbar({ text: `Добавлено новых слов: ${data.wordsAdded}` })
+      );
+
+      dispatch(resetWordPairsActuality());
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось добавить слова' }));
+    }
   });
 }
 
-export function receiveTrainingLevel(levelId) {
+export function receiveLevel(levelId) {
   return apiAction({
-    endpoint: `game/level/${levelId}`,
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingLevel(data));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить уровень' }));
-      }
-    ]
+    endpoint: `/game/level/${levelId}`,
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(initializeLevel(data));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить уровень' }));
+    }
   });
 }
 
-export function saveTrainingLevelResult(levelResult, actionOnSuccess) {
+export function saveLevelResult(levelResult, { onSuccess } = {}) {
   return apiAction({
-    apiVersion: 'v1.1',
-    endpoint: 'training/estimate',
+    apiVersion: '1.1',
+    endpoint: '/training/estimate',
     method: 'POST',
     data: JSON.stringify({ metrics: [levelResult] }),
     contentType: 'application/json',
-    actionsOnSuccess: [
-      (_, data) => {
-        actionOnSuccess(data);
+    onSuccess: ({ dispatch, data }) => {
+      if (onSuccess) {
+        onSuccess({ dispatch, data });
       }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));
-      }
-    ]
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));
+    }
   });
 }
 
-export function receiveTrainingHistory() {
+export function receiveHistory() {
   return apiAction({
-    apiVersion: 'v1.1',
-    endpoint: 'customLevel/history',
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(trainingActions.initializeTrainingHistory(data));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
-      }
-    ]
+    apiVersion: '1.1',
+    endpoint: '/customLevel/history',
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(initializeHistory(data));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
+    }
   });
 }
 
 export function receiveTrainingWordPairs() {
   return apiAction({
-    apiVersion: 'v1.1',
-    endpoint: 'dictionary/training',
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(
-          trainingActions.initializeTrainingLevel({
-            levelId: 0,
-            wordTranslations: data
-          })
-        );
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(
-          setSnackbar({
-            text: 'Не удалось загрузить слова для повторения'
-          })
-        );
-      }
-    ]
+    apiVersion: '1.1',
+    endpoint: '/dictionary/training',
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(
+        initializeLevel({
+          levelId: 0,
+          wordTranslations: data
+        })
+      );
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(
+        setSnackbar({
+          text: 'Не удалось загрузить слова для повторения'
+        })
+      );
+    }
   });
 }

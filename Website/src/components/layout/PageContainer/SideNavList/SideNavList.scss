@@ -8,12 +8,14 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 10px 24px;
+    min-height: 40px;
+    padding: 0 24px 0;
     cursor: pointer;
     user-select: none;
     text-decoration: none;
+
     @include theme-typography(body2);
-    font-weight: 500;
+
     color: var(--palette-text-primary);
     transition: background-color 0.2s ease-in-out;
 
@@ -21,9 +23,12 @@
       background-color: var(--palette-action-hover);
     }
 
-    &:active,
-    &.active {
+    &:active {
       background-color: var(--palette-action-selected);
+    }
+
+    &.active {
+      font-weight: 500;
     }
   }
 }

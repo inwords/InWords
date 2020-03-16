@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Icon from 'src/components/core/Icon';
 
 import './Breadcrumbs.scss';
 
 function Breadcrumbs({ children, className, ...rest }) {
-  if (!children) return;
-
   const separators = Array(React.Children.count(children) - 1).fill(
     <li aria-hidden="true" className="breadcrumbs__list-item-separator">
       <Icon>navigate_next</Icon>
@@ -28,5 +27,10 @@ function Breadcrumbs({ children, className, ...rest }) {
     </div>
   );
 }
+
+Breadcrumbs.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string
+};
 
 export default Breadcrumbs;

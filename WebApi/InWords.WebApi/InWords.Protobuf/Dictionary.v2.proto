@@ -1,0 +1,52 @@
+syntax = "proto3";
+option csharp_namespace = "InWords.Protobuf";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.dictionary";
+option java_outer_classname = "DictionaryProto";
+
+package Dictionary.v2;
+
+// The greeting service definition.
+service DictionaryProvider {
+	// Sends a greeting
+	rpc GetWords (GetWordsRequest) returns (WordsReply);
+	rpc AddWords (AddWordsRequest) returns (AddWordsReply);
+}
+
+// The request message containing the user's credentials.
+message GetWordsRequest {
+	repeated int32 UserWordpairIds = 1;
+}
+
+// The response message containing the Token.
+message WordsReply{
+	repeated WordReply ToAdd = 1;
+	repeated int32 ToDelete = 2;
+}
+
+message WordReply {
+	int32 UserWordPair = 1;
+	string WordForeign = 2;
+	string WordNative = 3;
+	int32 Period = 4;
+}
+
+message AddWordsRequest{
+	repeated AddWordRequest Words = 1;
+}
+
+message AddWordRequest {
+	int32 LocalId = 1;
+	string WordForeign = 2;
+	string WordNative = 3;
+}
+
+message AddWordsReply{
+	repeated AddWordReply WordIds = 1;
+}
+
+message AddWordReply {
+	int32 LocalId = 1;
+	int32 ServerId = 2;
+}

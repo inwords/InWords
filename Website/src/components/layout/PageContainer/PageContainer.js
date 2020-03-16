@@ -7,6 +7,7 @@ import Drawer from 'src/components/core/Drawer';
 import Divider from 'src/components/core/Divider';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
+import Space from 'src/components/core/Space';
 import BrandLink from './BrandLink';
 import Header from './Header';
 import DrawerNavList from './DrawerNavList';
@@ -14,17 +15,15 @@ import SideNavList from './SideNavList';
 
 import './PageContainer.scss';
 
-function getNestedRoutes(routes, pathname) {
-  const route = routes && routes.find(({ to }) => pathname.startsWith(to));
-  return route && route.nestedRoutes;
-}
-
 function PageContainer({ routes, rightNodes, children }) {
   const { open, handleOpen, handleClose } = useDrawer();
 
   const { pathname } = useLocation();
 
-  const nestedRoutes = getNestedRoutes(routes, pathname);
+  const nestedRoutes = React.useMemo(() => {
+    const route = routes && routes.find(({ to }) => pathname.startsWith(to));
+    return route && route.nestedRoutes;
+  }, [routes, pathname]);
 
   return (
     <div className="page-container">
@@ -46,10 +45,10 @@ function PageContainer({ routes, rightNodes, children }) {
               onClick={handleClose}
               edge="start"
               color="inherit"
-              className="page-container__drawer-header-menu-button"
             >
               <Icon>menu</Icon>
             </IconButton>
+            <Space value={2} />
             <BrandLink>InWords</BrandLink>
           </div>
           <Divider />
@@ -63,7 +62,7 @@ function PageContainer({ routes, rightNodes, children }) {
       )}
       <main
         className={classNames('page-container__main', {
-          'page-container__main--with-nav': nestedRoutes
+          'page-container__main--has-nav': nestedRoutes
         })}
       >
         {children}

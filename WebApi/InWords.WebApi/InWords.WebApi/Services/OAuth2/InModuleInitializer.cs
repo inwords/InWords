@@ -1,25 +1,17 @@
-﻿using InWords.WebApi.Module;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Autofac;
+using InWords.WebApi.Module;
+using InWords.WebApi.Services.OAuth2.JwtProviders;
+using InWords.WebApi.Services.OAuth2.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using InWords.Service.Auth;
 
 namespace InWords.WebApi.Services.OAuth2
 {
     public class InModuleInitializer : InModule
     {
-        public override void ConfigureServices(IServiceCollection services)
+        public override void ConfigureIoc(ContainerBuilder builder)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(AuthOptions.TokenProvider.ValidateOptions)
-                .AddGoogle(options =>
-                {
-                    IConfigurationSection googleAuthNSection =
-                        Configuration.GetSection("AuthenticationGoogle");
-
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
-                });
+            JwtSettings jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            builder.RegisterInstance(new SymmetricJwtTokenProvider(jwtSettings)).AsImplementedInterfaces();
         }
     }
 }

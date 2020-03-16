@@ -1,10 +1,11 @@
-﻿using InWords.Service.Auth.Extensions;
+﻿using InWords.Protobuf;
+using InWords.Service.Auth.Extensions;
+using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProfilePackage.V2;
 using System;
 using System.Threading.Tasks;
 
@@ -36,6 +37,7 @@ namespace InWords.WebApi.Controllers.v2
         /// 400 means that the user was not found or the password was entered incorrectly
         /// </remarks>
         [Route("register")]
+        [Obsolete]
         [HttpPost]
         [ProducesResponseType(typeof(RegistrationReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,6 +64,7 @@ namespace InWords.WebApi.Controllers.v2
         [ProducesResponseType(typeof(TokenReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("token")]
+        [Obsolete]
         [HttpPost]
         public async Task<IActionResult> Token([FromBody] TokenRequest request)
         {

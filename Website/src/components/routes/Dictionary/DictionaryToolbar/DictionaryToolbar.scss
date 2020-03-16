@@ -1,26 +1,11 @@
 @import 'src/theme/mixins';
 
-.dictionary-toolbar {
-  display: flex;
-  align-items: center;
-  min-height: 64px;
-  padding: 0 24px;
-
-  &__title-block {
-    margin-right: auto;
+.dictionary-toolbar-title-block {
+  @include theme-breakpoints-down(sm) {
+    display: none;
   }
+}
 
-  &__title-block-main {
-    @include theme-breakpoints-down(sm) {
-      display: none;
-    }
-  }
-
-  &__delete-button {
-    color: var(--palette-error);
-  }
-
-  &__done-all-button {
-    margin-right: 16px;
-  }
+.dictionary-toolbar-delete-button {
+  color: var(--palette-error);
 }

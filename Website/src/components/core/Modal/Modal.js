@@ -18,12 +18,12 @@ function Modal({ open, keepMounted = false, children, className, ...rest }) {
     if (open) {
       setExited(false);
     } else {
-      let timer = setTimeout(() => {
+      let timerId = setTimeout(() => {
         setExited(true);
       }, transitionDurations.exit);
 
       return () => {
-        clearTimeout(timer);
+        clearTimeout(timerId);
       };
     }
   }, [open]);
@@ -56,7 +56,8 @@ function Modal({ open, keepMounted = false, children, className, ...rest }) {
 Modal.propTypes = {
   open: PropTypes.bool,
   keepMounted: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  className: PropTypes.string
 };
 
 export default Modal;

@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
-import uuidv4 from 'src/utils/uuidv4';
 import useForm from 'src/hooks/useForm';
 import WordPairAddDialog from './WordPairAddDialog';
+
+const API_URL = 'https://dictionary.yandex.net/api/v1/dicservice.json/lookup';
 
 const key =
   'dict.1.1.20190912T153649Z.db980bf4b29b2d4f.c08d4426f0c0f8d0ac2753aff4f23b9201e99f12';
@@ -37,37 +39,35 @@ function WordPairAddDialogContainer({ open, ...rest }) {
 
   const [translationsInfo, setTranslationsInfo] = React.useState([]);
 
-  const translationTimeoutRef = React.useRef();
-
   React.useEffect(() => {
-    const word = inputs.wordForeign.slice().trim();
+    const word = inputs.wordForeign.trim();
     if (!word.match(/^[a-z0-9 ]+$/i)) {
-      window.clearTimeout(translationTimeoutRef.current);
       setTranslationsInfo([]);
       return;
     }
 
     const translate = word => {
-      const url = new URL(
-        'https://dictionary.yandex.net/api/v1/dicservice.json/lookup'
-      );
+      const url = new URL(API_URL);
       const params = { key, lang, text: word };
       Object.keys(params).forEach(key =>
         url.searchParams.append(key, params[key])
       );
 
-      fetch(url, {
-        method: 'POST',
-        headers
-      })
-        .then(response => {
+      (async () => {
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers
+          });
+
+          let responseData = null;
+
           if (response.ok) {
-            return response.json();
+            responseData = await response.json();
           }
-        })
-        .then(data => {
+
           const newTranslationsInfo = [];
-          data.def.forEach(meaning => {
+          responseData.def.forEach(meaning => {
             newTranslationsInfo.push(
               ...meaning.tr.map(({ text }) => ({
                 id: uuidv4(),
@@ -77,16 +77,19 @@ function WordPairAddDialogContainer({ open, ...rest }) {
           });
 
           setTranslationsInfo(newTranslationsInfo);
-        })
-        .catch(_ => {
+        } catch (_) {
           setTranslationsInfo([]);
-        });
+        }
+      })();
     };
 
-    window.clearTimeout(translationTimeoutRef.current);
-    translationTimeoutRef.current = window.setTimeout(() => {
+    let timerId = setTimeout(() => {
       translate(word);
     }, 700);
+
+    return () => {
+      clearTimeout(timerId);
+    };
   }, [inputs.wordForeign]);
 
   const handleTranslationSelection = id => () => {

@@ -10,16 +10,7 @@ namespace InWords.Data
 
         private readonly string connectionString;
 
-        public InWordsDataContext(string connectionString)
-        {
-            this.connectionString = connectionString;
-            RecreateDb();
-        }
-
-        public InWordsDataContext(DbContextOptions<InWordsDataContext> options)
-            : base(options)
-        {
-        }
+        public DbSet<OAuth> OAuths { get; set; }
 
         public DbSet<User> Users { get; set; }
 
@@ -36,10 +27,33 @@ namespace InWords.Data
         public DbSet<Game> Games { get; set; }
 
         public DbSet<CreationDescription> CreationDescriptions { get; set; }
+        public InWordsDataContext(string connectionString)
+        {
+            this.connectionString = connectionString;
+            RecreateDb();
+        }
+
+        public InWordsDataContext(DbContextOptions<InWordsDataContext> options)
+            : base(options)
+        {
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured) optionsBuilder.UseMySql(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OAuth>(e =>
+            {
+                e.HasIndex(e => e.OpenId).IsUnique();
+                e.HasNoKey();
+            });
+            modelBuilder.Entity<Word>(entity =>
+            {
+                entity.HasIndex(e => e.Content).IsUnique();
+            });
         }
 
         private void RecreateDb()
@@ -49,8 +63,8 @@ namespace InWords.Data
                 _created = true;
                 if (Database.EnsureCreated())
                 {
-                    Languages.Add(new Language {Title = "English"});
-                    Languages.Add(new Language {Title = "Russian"});
+                    Languages.Add(new Language { Title = "English" });
+                    Languages.Add(new Language { Title = "Russian" });
                     SaveChanges();
                 }
             }

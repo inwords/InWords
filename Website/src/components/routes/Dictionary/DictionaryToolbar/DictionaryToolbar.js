@@ -1,17 +1,20 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import useDialog from 'src/hooks/useDialog';
+import Toolbar from 'src/components/core/Toolbar';
 import Icon from 'src/components/core/Icon';
 import Typography from 'src/components/core/Typography';
 import IconButton from 'src/components/core/IconButton';
+import Space from 'src/components/core/Space';
 import DictionarySearch from './DictionarySearch';
 import DictionaryMenuButton from './DictionaryMenuButton';
+import WordPairsDeleteConfirmationDialog from './WordPairsDeleteConfirmationDialog';
 
 import './DictionaryToolbar.scss';
 
 function DictionaryToolbar({
   editingModeEnabled,
   checkedValues,
-  handleDelete,
   handleReset,
   handleCheckAll,
   inputs,
@@ -19,15 +22,18 @@ function DictionaryToolbar({
 }) {
   const numberOfChecked = checkedValues.length;
 
+  const { open, handleOpen, handleClose } = useDialog();
+
   return (
-    <div className="dictionary-toolbar">
+    <Toolbar>
       {!editingModeEnabled ? (
         <Fragment>
-          <div className="dictionary-toolbar__title-block dictionary-toolbar__title-block-main">
-            <Typography as="h1" variant="h6">
+          <div className="dictionary-toolbar-title-block">
+            <Typography component="h1" variant="h6">
               Мой словарь
             </Typography>
           </div>
+          <Space />
           <DictionarySearch value={inputs.pattern} onChange={handleChange} />
         </Fragment>
       ) : (
@@ -44,36 +50,39 @@ function DictionaryToolbar({
             aria-label="check all"
             onClick={handleCheckAll}
             color="inherit"
-            className="dictionary-toolbar__done-all-button"
           >
             <Icon>done_all</Icon>
           </IconButton>
-          <div className="dictionary-toolbar__title-block">
-            <Typography as="h2" variant="h6">
+          <Space value={1} />
+          <div>
+            <Typography component="h2" variant="h6">
               Выбрано: {numberOfChecked}
             </Typography>
           </div>
+          <Space />
           <IconButton
             aria-label="delete"
-            onClick={() => {
-              handleDelete();
-              handleReset();
-            }}
-            className="dictionary-toolbar__delete-button"
+            onClick={handleOpen}
+            className="dictionary-toolbar-delete-button"
           >
             <Icon>delete</Icon>
           </IconButton>
           <DictionaryMenuButton checkedValues={checkedValues} />
         </Fragment>
       )}
-    </div>
+      <WordPairsDeleteConfirmationDialog
+        open={open}
+        handleClose={handleClose}
+        checkedValues={checkedValues}
+        handleReset={handleReset}
+      />
+    </Toolbar>
   );
 }
 
 DictionaryToolbar.propTypes = {
   editingModeEnabled: PropTypes.bool.isRequired,
   checkedValues: PropTypes.array.isRequired,
-  handleDelete: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleCheckAll: PropTypes.func.isRequired,
   inputs: PropTypes.exact({

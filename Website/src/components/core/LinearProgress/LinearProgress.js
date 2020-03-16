@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './LinearProgress.scss';
@@ -12,5 +13,9 @@ function LinearProgress({ className, ...rest }) {
     />
   );
 }
+
+LinearProgress.propTypes = {
+  className: PropTypes.string
+};
 
 export default LinearProgress;

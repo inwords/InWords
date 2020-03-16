@@ -39,7 +39,8 @@ function GameCard({
 GameCard.propTypes = {
   open: PropTypes.bool,
   dimension: PropTypes.number,
-  textSize: PropTypes.number
+  textSize: PropTypes.number,
+  children: PropTypes.node.isRequired
 };
 
 export default GameCard;

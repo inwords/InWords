@@ -10,50 +10,43 @@ import CardActions from 'src/components/core/CardActions';
 import Icon from 'src/components/core/Icon';
 import LinkButton from 'src/components/core/LinkButton';
 
-function TrainingLevels({ trainingCategory }) {
+function TrainingLevels({ course }) {
   const match = useRouteMatch();
 
   return (
     <Grid spacing={3}>
-      {trainingCategory.levelsInfo.map(
-        ({ levelId, playerStars, isAvailable, level }) => (
-          <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
-            <Card>
-              <CardHeader title={`Уровень ${level}`} />
-              <CardContent>
-                <div>
-                  <Icon color={playerStars > 0 ? 'gold' : 'disabled'}>
-                    star
-                  </Icon>
-                  <Icon color={playerStars > 1 ? 'gold' : 'disabled'}>
-                    star
-                  </Icon>
-                  <Icon color={playerStars > 2 ? 'gold' : 'disabled'}>
-                    star
-                  </Icon>
-                </div>
-              </CardContent>
-              <CardActions>
-                <LinkButton
-                  component={Link}
-                  to={`${match.url}/${levelId}`}
-                  disabled={!isAvailable}
-                  variant="text"
-                  color="primary"
-                >
-                  Выбрать
-                </LinkButton>
-              </CardActions>
-            </Card>
-          </GridItem>
-        )
-      )}
+      {course.levelsInfo.map(({ levelId, playerStars, isAvailable, level }) => (
+        <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
+          <Card>
+            <CardHeader title={`Уровень ${level}`} />
+            <CardContent>
+              <div>
+                <Icon color={playerStars > 0 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={playerStars > 1 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={playerStars > 2 ? 'gold' : 'disabled'}>star</Icon>
+              </div>
+            </CardContent>
+            <CardActions>
+              <LinkButton
+                data-testid={`to-level-${levelId}`}
+                component={Link}
+                to={`${match.url}/${levelId}/0`}
+                disabled={!isAvailable}
+                variant="text"
+                color="primary"
+              >
+                Выбрать
+              </LinkButton>
+            </CardActions>
+          </Card>
+        </GridItem>
+      ))}
     </Grid>
   );
 }
 
 TrainingLevels.propTypes = {
-  trainingCategory: PropTypes.shape({
+  course: PropTypes.shape({
     levelsInfo: PropTypes.arrayOf(
       PropTypes.shape({
         levelId: PropTypes.number.isRequired,

@@ -1,35 +1,39 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { loadValue } from 'src/localStorage';
 import CustomizedGame from './CustomizedGame';
 
-function TrainingSwitcher({ trainingId, ...rest }) {
+function TrainingSwitcher(props) {
   const [trainingSettings, setTrainingSettings] = React.useState();
+
+  const params = useParams();
 
   React.useEffect(() => {
     const trainingsSettingsLocalData = loadValue('trainingsSettings');
 
-    const trainingSettings =
-      (trainingsSettingsLocalData && trainingsSettingsLocalData[trainingId]) ||
-      {};
-
-    setTrainingSettings(trainingSettings);
-  }, [trainingId]);
+    setTrainingSettings(
+      (trainingsSettingsLocalData &&
+        trainingsSettingsLocalData[params.trainingId]) ||
+        {}
+    );
+  }, [params.trainingId]);
 
   if (!trainingSettings) {
     return null;
   }
 
-  switch (trainingId) {
+  switch (+params.trainingId) {
     case 0:
-      return <CustomizedGame trainingSettings={trainingSettings} {...rest} />;
+      return (
+        <CustomizedGame
+          trainingSettings={trainingSettings}
+          setTrainingSettings={setTrainingSettings}
+          {...props}
+        />
+      );
     default:
       return null;
   }
 }
-
-TrainingSwitcher.propTypes = {
-  trainingId: PropTypes.number.isRequired
-};
 
 export default TrainingSwitcher;

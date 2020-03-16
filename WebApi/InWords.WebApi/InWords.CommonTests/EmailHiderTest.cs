@@ -1,7 +1,7 @@
 ﻿using InWords.Common;
 using Xunit;
 
-namespace InWords.BLTests.Service.Email.Models
+namespace InWords.CommonTests
 {
     public class EmailHiderTest
     {

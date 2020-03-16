@@ -1,77 +1,62 @@
+import { push } from 'connected-react-router';
 import apiAction from './apiAction';
 import { setSnackbar } from './commonActions';
-import * as userActions from './userActions';
-import { history } from 'src/App';
+import {
+  initializeUserInfo,
+  updateUserInfo as updateUserInfoAction
+} from './userActions';
 
 export function receiveUserInfoById(userId) {
   return apiAction({
-    endpoint: `users/${userId}`,
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(userActions.initializeUserInfo(data));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
-      }
-    ]
+    endpoint: `/users/${userId}`,
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(initializeUserInfo(data));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
+    }
   });
 }
 
 export function receiveUserInfo() {
   return apiAction({
-    endpoint: 'users',
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(userActions.initializeUserInfo(data));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
-      }
-    ]
+    endpoint: '/users',
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(initializeUserInfo(data));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
+    }
   });
 }
 
 export function updateUserInfo(userInfo) {
   return apiAction({
-    endpoint: 'users',
+    endpoint: '/users',
     method: 'PUT',
     data: JSON.stringify(userInfo),
     contentType: 'application/json',
-    actionsOnSuccess: [
-      dispatch => {
-        dispatch(userActions.updateUserInfo(userInfo));
-      },
-      () => {
-        history.push('/profile');
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
-      }
-    ]
+    onSuccess: ({ dispatch }) => {
+      dispatch(updateUserInfoAction(userInfo));
+      dispatch(push('/profile'));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
+    }
   });
 }
 
 export function uploadUserAvatar(formData) {
   return apiAction({
-    apiVersion: 'v1.1',
-    endpoint: 'profileSettings/uploadAvatar',
+    apiVersion: '1.1',
+    endpoint: '/profileSettings/uploadAvatar',
     method: 'PUT',
     data: formData,
-    actionsOnSuccess: [
-      (dispatch, data) => {
-        dispatch(userActions.updateUserInfo(data));
-      }
-    ],
-    actionsOnFailure: [
-      dispatch => {
-        dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
-      }
-    ]
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(updateUserInfoAction(data));
+    },
+    onFailure: ({ dispatch }) => {
+      dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
+    }
   });
 }

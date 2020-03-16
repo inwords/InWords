@@ -53,13 +53,11 @@ namespace InWords.WebApi.Services.Email.EmailSenders
 
         protected virtual async Task SendEmailAsync()
         {
-            using (var client = new SmtpClient())
-            {
-                await client.ConnectAsync(emailIdentity.Host, emailIdentity.Port, emailIdentity.UseSsl);
-                await client.AuthenticateAsync(emailIdentity.Username, emailIdentity.Password);
-                await client.SendAsync(emailMessage);
-                await client.DisconnectAsync(true);
-            }
+            using var client = new SmtpClient();
+            await client.ConnectAsync(emailIdentity.Host, emailIdentity.Port, emailIdentity.UseSsl).ConfigureAwait(false);
+            await client.AuthenticateAsync(emailIdentity.Username, emailIdentity.Password).ConfigureAwait(false);
+            await client.SendAsync(emailMessage).ConfigureAwait(false);
+            await client.DisconnectAsync(true).ConfigureAwait(false);
         }
     }
 }

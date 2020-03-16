@@ -1,6 +1,7 @@
 .text-field {
   position: relative;
   display: inline-flex;
+  padding-top: 6px;
 
   &--full-width {
     width: 100%;
@@ -9,7 +10,7 @@
   &__label {
     position: absolute;
     left: 10px;
-    top: 13px;
+    top: 19px;
     max-width: calc(100% - 12px);
     padding: 0 4px;
     white-space: nowrap;
@@ -47,13 +48,16 @@
     &::-webkit-input-placeholder {
       color: transparent;
     }
+
     &::-moz-placeholder {
       color: transparent;
     }
-    &:-ms-input-placeholder {
+
+    &::-ms-input-placeholder {
       color: transparent;
     }
-    &::-ms-input-placeholder {
+
+    &:-ms-input-placeholder {
       color: transparent;
     }
   }

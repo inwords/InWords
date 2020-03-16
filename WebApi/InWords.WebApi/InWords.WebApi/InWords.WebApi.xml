@@ -32,12 +32,6 @@
             <param name="env"></param>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.AppStart.Startup.LoggerConfiguration(Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-                Configure the logger data format and file location
-            </summary>
-            <param name="loggerFactory"></param>
-        </member>
         <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.CustomLevelController.GetHistory">
             <summary>
                 Use this to get last custom played games
@@ -369,7 +363,22 @@
             </summary>
             <param name="wordsService"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Register(ProfilePackage.V2.RegistrationRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.AddWords(InWords.WebApi.gRPC.Services.AddWordsRequest)">
+            <summary>
+              Used to add words to the user's dictionary.
+              The (localId) value should be zero (0) if you don't need to track words.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.GetWords(InWords.WebApi.gRPC.Services.GetWordsRequest)">
+            <summary>
+              Use this to get words and delete words that not exists
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Register(InWords.WebApi.gRPC.Services.RegistrationRequest)">
             <summary>
             Use this to register user
             </summary>
@@ -383,7 +392,7 @@
             400 means that the user was not found or the password was entered incorrectly
             </remarks>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Token(ProfilePackage.V2.TokenRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Token(InWords.WebApi.gRPC.Services.TokenRequest)">
             <summary>
                 Use this to get token
             </summary>
@@ -391,21 +400,21 @@
             <response code="200">Success</response>
             <response code="400">Access denied</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.UpdateEmail(ProfilePackage.V2.EmailChangeRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.UpdateEmail(InWords.WebApi.gRPC.Services.EmailChangeRequest)">
             <summary>
               Use this to request update user's email
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.ConfirmEmail(ProfilePackage.V2.ConfirmEmailRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.ConfirmEmail(InWords.WebApi.gRPC.Services.ConfirmEmailRequest)">
             <summary>
               Use this to confirm email code
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.Register(WordSet.V2.WordSetWordsRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.Register(InWords.WebApi.gRPC.Services.WordSetWordsRequest)">
             <summary>
             This is to get word's in word set
             </summary>
@@ -450,6 +459,93 @@
             </summary>
             <param name="uwp"></param>
             <returns></returns>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.DictionaryV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/Dictionary.v2.proto</summary>
+        </member>
+        <member name="P:InWords.WebApi.gRPC.Services.DictionaryV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/Dictionary.v2.proto</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.GetWordsRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.GetWordsRequest.UserWordpairIdsFieldNumber">
+            <summary>Field number for the "UserWordpairIds" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.WordsReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordsReply.ToAddFieldNumber">
+            <summary>Field number for the "ToAdd" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordsReply.ToDeleteFieldNumber">
+            <summary>Field number for the "ToDelete" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordReply.UserWordPairFieldNumber">
+            <summary>Field number for the "UserWordPair" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordReply.WordForeignFieldNumber">
+            <summary>Field number for the "WordForeign" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordReply.WordNativeFieldNumber">
+            <summary>Field number for the "WordNative" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordReply.PeriodFieldNumber">
+            <summary>Field number for the "Period" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordsRequest.WordsFieldNumber">
+            <summary>Field number for the "Words" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordRequest.LocalIdFieldNumber">
+            <summary>Field number for the "LocalId" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordRequest.WordForeignFieldNumber">
+            <summary>Field number for the "WordForeign" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordRequest.WordNativeFieldNumber">
+            <summary>Field number for the "WordNative" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordsReply.WordIdsFieldNumber">
+            <summary>Field number for the "WordIds" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordReply.LocalIdFieldNumber">
+            <summary>Field number for the "LocalId" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.AddWordReply.ServerIdFieldNumber">
+            <summary>Field number for the "ServerId" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.DictionaryProvider">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:InWords.WebApi.gRPC.Services.DictionaryProvider.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.DictionaryProvider.DictionaryProviderBase">
+            <summary>Base class for server-side implementations of DictionaryProvider</summary>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.DictionaryProvider.DictionaryProviderBase.GetWords(InWords.WebApi.gRPC.Services.GetWordsRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.DictionaryProvider.BindService(InWords.WebApi.gRPC.Services.DictionaryProvider.DictionaryProviderBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.DictionaryProvider.BindService(Grpc.Core.ServiceBinderBase,InWords.WebApi.gRPC.Services.DictionaryProvider.DictionaryProviderBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
         <member name="T:InWords.WebApi.gRPC.Services.GreetReflection">
             <summary>Holder for reflection information generated from gRPC/Protos/greet.proto</summary>
@@ -502,6 +598,164 @@
             <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
             <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
+        <member name="T:InWords.WebApi.gRPC.Services.WordSetV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/WordSet.v2.proto</summary>
+        </member>
+        <member name="P:InWords.WebApi.gRPC.Services.WordSetV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/WordSet.v2.proto</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.WordSetWordsRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordSetWordsRequest.WordSetIdFieldNumber">
+            <summary>Field number for the "WordSetId" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordSetWordsReply.WordsFieldNumber">
+            <summary>Field number for the "Words" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.WordSetWord">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordSetWord.WordPairIdFieldNumber">
+            <summary>Field number for the "WordPairId" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordSetWord.HasAddedFieldNumber">
+            <summary>Field number for the "HasAdded" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordSetWord.WordForeignFieldNumber">
+            <summary>Field number for the "WordForeign" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.WordSetWord.WordNativeFieldNumber">
+            <summary>Field number for the "WordNative" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.WordSetProvider">
+            <summary>
+            The greeting service definition.
+            </summary>
+        </member>
+        <member name="P:InWords.WebApi.gRPC.Services.WordSetProvider.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.WordSetProvider.WordSetProviderBase">
+            <summary>Base class for server-side implementations of WordSetProvider</summary>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.WordSetProvider.WordSetProviderBase.GetWordsList(InWords.WebApi.gRPC.Services.WordSetWordsRequest,Grpc.Core.ServerCallContext)">
+            <summary>
+            Sends a greeting
+            </summary>
+            <param name="request">The request received from the client.</param>
+            <param name="context">The context of the server-side call handler being invoked.</param>
+            <returns>The response to send back to the client (wrapped by a task).</returns>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.WordSetProvider.BindService(InWords.WebApi.gRPC.Services.WordSetProvider.WordSetProviderBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.WordSetProvider.BindService(Grpc.Core.ServiceBinderBase,InWords.WebApi.gRPC.Services.WordSetProvider.WordSetProviderBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.ProfileV2Reflection">
+            <summary>Holder for reflection information generated from gRPC/Protos/Profile.v2.proto</summary>
+        </member>
+        <member name="P:InWords.WebApi.gRPC.Services.ProfileV2Reflection.Descriptor">
+            <summary>File descriptor for gRPC/Protos/Profile.v2.proto</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.RegistrationRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.RegistrationRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.RegistrationRequest.PasswordFieldNumber">
+            <summary>Field number for the "password" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.RegistrationRequest.IsAnonymousFieldNumber">
+            <summary>Field number for the "IsAnonymous" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.RegistrationReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.RegistrationReply.UseridFieldNumber">
+            <summary>Field number for the "userid" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.RegistrationReply.TokenFieldNumber">
+            <summary>Field number for the "token" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.TokenRequest">
+            <summary>
+            The request message containing the user's credentials.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.TokenRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.TokenRequest.PasswordFieldNumber">
+            <summary>Field number for the "password" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.TokenReply">
+            <summary>
+            The response message containing the Token.
+            </summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.TokenReply.UserIdFieldNumber">
+            <summary>Field number for the "userId" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.TokenReply.TokenFieldNumber">
+            <summary>Field number for the "token" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.EmailChangeRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.EmailChangeReply.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.ConfirmEmailRequest.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.ConfirmEmailRequest.CodeFieldNumber">
+            <summary>Field number for the "code" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.ConfirmEmailLinkRequest.ActivationGuidFieldNumber">
+            <summary>Field number for the "activationGuid" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.ConfirmEmailReply.EmailFieldNumber">
+            <summary>Field number for the "email" field.</summary>
+        </member>
+        <member name="F:InWords.WebApi.gRPC.Services.DeleteAccountRequest.TextFieldNumber">
+            <summary>Field number for the "text" field.</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.Profile">
+            <summary>
+            The Profile service definition.
+            </summary>
+        </member>
+        <member name="P:InWords.WebApi.gRPC.Services.Profile.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:InWords.WebApi.gRPC.Services.Profile.ProfileBase">
+            <summary>Base class for server-side implementations of Profile</summary>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.Profile.BindService(InWords.WebApi.gRPC.Services.Profile.ProfileBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:InWords.WebApi.gRPC.Services.Profile.BindService(Grpc.Core.ServiceBinderBase,InWords.WebApi.gRPC.Services.Profile.ProfileBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
         <member name="T:InWords.WebApi.Module.InModule">
             <summary>
                 This is to improve project infrastructure using reflection
@@ -526,7 +780,7 @@
             </summary>
             <param name="app"></param>
         </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.#ctor(InWords.Data.Repositories.AccountRepository,InWords.Data.Repositories.UserRepository)">
+        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.#ctor(InWords.Service.Auth.Interfaces.IJwtProvider,InWords.Data.Repositories.AccountRepository,InWords.Data.Repositories.UserRepository)">
             <summary>
                 Create provider via repository
             </summary>
@@ -586,6 +840,14 @@
             </summary>
             <param name="userId"></param>
             <param name="levelScores"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Services.DictionaryService.Extentions.AddWordPairsExtentions.AddWordPairs(Microsoft.EntityFrameworkCore.DbSet{InWords.Data.Domains.WordPair},System.Collections.Generic.IEnumerable{InWords.Data.Domains.WordPair})">
+            <summary>
+            Return map of inverted keyPair
+            </summary>
+            <param name="wordPairs"></param>
+            <param name="request"></param>
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Services.Email.EmailCodeVerificationService.HasCorrectCode(System.Int32,System.String,System.Int32)">
@@ -679,6 +941,42 @@
             <param name="levelMetricQuery"></param>
             <returns></returns>
         </member>
+        <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthorizedRequestObject{InWords.WebApi.gRPC.Services.DeleteAccountRequest,InWords.WebApi.gRPC.Services.Empty},System.Threading.CancellationToken)">
+            <summary>
+            Delete account by id if exist
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ArgumentNullException">Account not found</exception>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.WebApi.gRPC.Services.RegistrationRequest,InWords.WebApi.gRPC.Services.RegistrationReply},System.Threading.CancellationToken)">
+            <summary>
+            Use this is to register new yousers
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ArgumentNullException">If request is null</exception>
+            <exception cref="T:System.ArgumentException">If email not exist</exception>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.IsAccountExist(System.String)">
+            <summary>
+            This method check if email exist
+            </summary>
+            <exception cref="T:System.ArgumentException">Email already exist</exception>
+            <param name="email"></param>
+        </member>
+        <member name="M:InWords.WebApi.Services.Users.Token.UserToken.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.WebApi.gRPC.Services.TokenRequest,InWords.WebApi.gRPC.Services.TokenReply},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ArgumentNullException">Account not found</exception>
+            <exception cref="T:System.ArgumentException">Password not match</exception>
+            <returns></returns>
+        </member>
         <member name="M:InWords.WebApi.Services.UserWordPairService.Abstraction.KnowledgeLicenseProvider.Ebbinghaus(System.Int32,System.Double)">
             <summary>
                 Implementation of
@@ -730,223 +1028,6 @@
                 Warning! To use this enable xml comments output
             </summary>
             <param name="c"></param>
-        </member>
-        <member name="T:Dictionary.V2.DictionaryV2Reflection">
-            <summary>Holder for reflection information generated from gRPC/Protos/Dictionary.v2.proto</summary>
-        </member>
-        <member name="P:Dictionary.V2.DictionaryV2Reflection.Descriptor">
-            <summary>File descriptor for gRPC/Protos/Dictionary.v2.proto</summary>
-        </member>
-        <member name="T:Dictionary.V2.GetWordsRequest">
-            <summary>
-            The request message containing the user's credentials.
-            </summary>
-        </member>
-        <member name="F:Dictionary.V2.GetWordsRequest.WordsFieldNumber">
-            <summary>Field number for the "Words" field.</summary>
-        </member>
-        <member name="T:Dictionary.V2.WordsReply">
-            <summary>
-            The response message containing the Token.
-            </summary>
-        </member>
-        <member name="F:Dictionary.V2.WordsReply.UserWordPairsFieldNumber">
-            <summary>Field number for the "UserWordPairs" field.</summary>
-        </member>
-        <member name="F:Dictionary.V2.WordsReply.WordForeignFieldNumber">
-            <summary>Field number for the "WordForeign" field.</summary>
-        </member>
-        <member name="F:Dictionary.V2.WordsReply.WordNativeFieldNumber">
-            <summary>Field number for the "WordNative" field.</summary>
-        </member>
-        <member name="T:Dictionary.V2.DictionaryProvider">
-            <summary>
-            The greeting service definition.
-            </summary>
-        </member>
-        <member name="P:Dictionary.V2.DictionaryProvider.Descriptor">
-            <summary>Service descriptor</summary>
-        </member>
-        <member name="T:Dictionary.V2.DictionaryProvider.DictionaryProviderBase">
-            <summary>Base class for server-side implementations of DictionaryProvider</summary>
-        </member>
-        <member name="M:Dictionary.V2.DictionaryProvider.DictionaryProviderBase.GetWords(Dictionary.V2.GetWordsRequest,Grpc.Core.ServerCallContext)">
-            <summary>
-            Sends a greeting
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:Dictionary.V2.DictionaryProvider.BindService(Dictionary.V2.DictionaryProvider.DictionaryProviderBase)">
-            <summary>Creates service definition that can be registered with a server</summary>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
-        </member>
-        <member name="M:Dictionary.V2.DictionaryProvider.BindService(Grpc.Core.ServiceBinderBase,Dictionary.V2.DictionaryProvider.DictionaryProviderBase)">
-            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
-            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
-            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
-        </member>
-        <member name="T:WordSet.V2.WordSetV2Reflection">
-            <summary>Holder for reflection information generated from gRPC/Protos/WordSet.v2.proto</summary>
-        </member>
-        <member name="P:WordSet.V2.WordSetV2Reflection.Descriptor">
-            <summary>File descriptor for gRPC/Protos/WordSet.v2.proto</summary>
-        </member>
-        <member name="T:WordSet.V2.WordSetWordsRequest">
-            <summary>
-            The request message containing the user's credentials.
-            </summary>
-        </member>
-        <member name="F:WordSet.V2.WordSetWordsRequest.WordSetIdFieldNumber">
-            <summary>Field number for the "WordSetId" field.</summary>
-        </member>
-        <member name="F:WordSet.V2.WordSetWordsReply.WordsFieldNumber">
-            <summary>Field number for the "Words" field.</summary>
-        </member>
-        <member name="T:WordSet.V2.WordSetWord">
-            <summary>
-            The response message containing the Token.
-            </summary>
-        </member>
-        <member name="F:WordSet.V2.WordSetWord.WordPairIdFieldNumber">
-            <summary>Field number for the "WordPairId" field.</summary>
-        </member>
-        <member name="F:WordSet.V2.WordSetWord.HasAddedFieldNumber">
-            <summary>Field number for the "HasAdded" field.</summary>
-        </member>
-        <member name="F:WordSet.V2.WordSetWord.WordForeignFieldNumber">
-            <summary>Field number for the "WordForeign" field.</summary>
-        </member>
-        <member name="F:WordSet.V2.WordSetWord.WordNativeFieldNumber">
-            <summary>Field number for the "WordNative" field.</summary>
-        </member>
-        <member name="T:WordSet.V2.WordSetProvider">
-            <summary>
-            The greeting service definition.
-            </summary>
-        </member>
-        <member name="P:WordSet.V2.WordSetProvider.Descriptor">
-            <summary>Service descriptor</summary>
-        </member>
-        <member name="T:WordSet.V2.WordSetProvider.WordSetProviderBase">
-            <summary>Base class for server-side implementations of WordSetProvider</summary>
-        </member>
-        <member name="M:WordSet.V2.WordSetProvider.WordSetProviderBase.GetWordsList(WordSet.V2.WordSetWordsRequest,Grpc.Core.ServerCallContext)">
-            <summary>
-            Sends a greeting
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:WordSet.V2.WordSetProvider.BindService(WordSet.V2.WordSetProvider.WordSetProviderBase)">
-            <summary>Creates service definition that can be registered with a server</summary>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
-        </member>
-        <member name="M:WordSet.V2.WordSetProvider.BindService(Grpc.Core.ServiceBinderBase,WordSet.V2.WordSetProvider.WordSetProviderBase)">
-            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
-            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
-            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
-        </member>
-        <member name="T:ProfilePackage.V2.ProfileV2Reflection">
-            <summary>Holder for reflection information generated from gRPC/Protos/Profile.v2.proto</summary>
-        </member>
-        <member name="P:ProfilePackage.V2.ProfileV2Reflection.Descriptor">
-            <summary>File descriptor for gRPC/Protos/Profile.v2.proto</summary>
-        </member>
-        <member name="T:ProfilePackage.V2.RegistrationRequest">
-            <summary>
-            The request message containing the user's credentials.
-            </summary>
-        </member>
-        <member name="F:ProfilePackage.V2.RegistrationRequest.EmailFieldNumber">
-            <summary>Field number for the "email" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.RegistrationRequest.PasswordFieldNumber">
-            <summary>Field number for the "password" field.</summary>
-        </member>
-        <member name="T:ProfilePackage.V2.RegistrationReply">
-            <summary>
-            The response message containing the Token.
-            </summary>
-        </member>
-        <member name="F:ProfilePackage.V2.RegistrationReply.UseridFieldNumber">
-            <summary>Field number for the "userid" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.RegistrationReply.TokenFieldNumber">
-            <summary>Field number for the "token" field.</summary>
-        </member>
-        <member name="T:ProfilePackage.V2.TokenRequest">
-            <summary>
-            The request message containing the user's credentials.
-            </summary>
-        </member>
-        <member name="F:ProfilePackage.V2.TokenRequest.EmailFieldNumber">
-            <summary>Field number for the "email" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.TokenRequest.PasswordFieldNumber">
-            <summary>Field number for the "password" field.</summary>
-        </member>
-        <member name="T:ProfilePackage.V2.TokenReply">
-            <summary>
-            The response message containing the Token.
-            </summary>
-        </member>
-        <member name="F:ProfilePackage.V2.TokenReply.UserIdFieldNumber">
-            <summary>Field number for the "userId" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.TokenReply.TokenFieldNumber">
-            <summary>Field number for the "token" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.EmailChangeRequest.EmailFieldNumber">
-            <summary>Field number for the "email" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.EmailChangeReply.EmailFieldNumber">
-            <summary>Field number for the "email" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.ConfirmEmailRequest.EmailFieldNumber">
-            <summary>Field number for the "email" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.ConfirmEmailRequest.CodeFieldNumber">
-            <summary>Field number for the "code" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.ConfirmEmailLinkRequest.ActivationGuidFieldNumber">
-            <summary>Field number for the "activationGuid" field.</summary>
-        </member>
-        <member name="F:ProfilePackage.V2.ConfirmEmailReply.EmailFieldNumber">
-            <summary>Field number for the "email" field.</summary>
-        </member>
-        <member name="T:ProfilePackage.V2.Profile">
-            <summary>
-            The greeting service definition.
-            </summary>
-        </member>
-        <member name="P:ProfilePackage.V2.Profile.Descriptor">
-            <summary>Service descriptor</summary>
-        </member>
-        <member name="T:ProfilePackage.V2.Profile.ProfileBase">
-            <summary>Base class for server-side implementations of Profile</summary>
-        </member>
-        <member name="M:ProfilePackage.V2.Profile.ProfileBase.Register(ProfilePackage.V2.RegistrationRequest,Grpc.Core.ServerCallContext)">
-            <summary>
-            Sends a greeting
-            </summary>
-            <param name="request">The request received from the client.</param>
-            <param name="context">The context of the server-side call handler being invoked.</param>
-            <returns>The response to send back to the client (wrapped by a task).</returns>
-        </member>
-        <member name="M:ProfilePackage.V2.Profile.BindService(ProfilePackage.V2.Profile.ProfileBase)">
-            <summary>Creates service definition that can be registered with a server</summary>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
-        </member>
-        <member name="M:ProfilePackage.V2.Profile.BindService(Grpc.Core.ServiceBinderBase,ProfilePackage.V2.Profile.ProfileBase)">
-            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
-            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
-            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
     </members>
 </doc>

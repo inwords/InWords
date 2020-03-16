@@ -1,6 +1,6 @@
 @import 'src/theme/mixins';
 
-.profile {
+.profile-main {
   display: flex;
 
   @include theme-breakpoints-down(md) {
@@ -8,18 +8,17 @@
   }
 }
 
-.profile-picture-section {
+.profile-avatar-section {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.profile-picture {
+.profile-avatar {
   margin-bottom: 8px;
   width: 180px;
   height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
+  font-size: 3.75rem;
 }
 
 .profile-personal-section {
@@ -81,10 +80,22 @@
   }
 }
 
-.profile-personal-edit-links {
+.profile-personal-info-edit-button-container {
   width: 40%;
 
   @include theme-breakpoints-down(sm) {
     width: 100%;
   }
+}
+
+.profile-footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+}
+
+.profile-delete-button {
+  color: var(--palette-error);
 }

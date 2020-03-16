@@ -1,0 +1,9 @@
+.space-auto {
+  margin-right: auto;
+}
+
+@for $value from 1 through 8 {
+  .space-#{$value} {
+    margin-right: #{$value * 8}px;
+  }
+}

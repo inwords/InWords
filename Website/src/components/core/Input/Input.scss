@@ -5,8 +5,25 @@
   border: 1px solid var(--palette-default-main);
   border-radius: 2px;
   font-size: 1rem;
+  outline-offset: -2px;
   color: var(--palette-text-primary);
   -webkit-appearance: none;
+
+  &::-webkit-input-placeholder {
+    color: var(--palette-text-hint);
+  }
+
+  &::-moz-placeholder {
+    color: var(--palette-text-hint);
+  }
+
+  &::-ms-input-placeholder {
+    color: var(--palette-text-hint);
+  }
+
+  &:-ms-input-placeholder {
+    color: var(--palette-text-hint);
+  }
 
   &:hover {
     border-color: var(--palette-text-primary);
@@ -22,18 +39,5 @@
     color: var(--palette-text-disabled);
     border-color: var(--palette-action-disabled);
     background-color: var(--palette-action-disabled-background);
-  }
-
-  &::-webkit-input-placeholder {
-    color: var(--palette-text-hint);
-  }
-  &::-moz-placeholder {
-    color: var(--palette-text-hint);
-  }
-  &:-ms-input-placeholder {
-    color: var(--palette-text-hint);
-  }
-  &::-ms-input-placeholder {
-    color: var(--palette-text-hint);
   }
 }

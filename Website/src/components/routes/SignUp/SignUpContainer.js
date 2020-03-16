@@ -17,11 +17,16 @@ function SignUpContainer() {
     }
   );
 
+  const handleSubmitAnonymously = () => {
+    dispatch(signUp(inputs, true));
+  };
+
   return (
     <SignUp
       inputs={inputs}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
+      handleSubmitAnonymously={handleSubmitAnonymously}
     />
   );
 }

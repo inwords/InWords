@@ -28,7 +28,8 @@ function ResponsiveMenu({ anchorEl, responsive = true, style = {}, ...rest }) {
 
 ResponsiveMenu.propTypes = {
   anchorEl: PropTypes.object,
-  responsive: PropTypes.bool
+  responsive: PropTypes.bool,
+  style: PropTypes.object
 };
 
 export default ResponsiveMenu;

@@ -1,21 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
+import Form from 'src/components/core/Form';
 import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
 import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
 import EntryFormPaper from 'src/components/routes/common/EntryFormPaper';
 import EntryLinksContainer from 'src/components/routes/common/EntryLinksContainer';
-import EntrySubmitButton from 'src/components/routes/common/EntrySubmitButton';
+import EntryButton from 'src/components/routes/common/EntryButton';
 
-function SignUp({ inputs, handleChange, handleSubmit }) {
+function SignUp({
+  inputs,
+  handleChange,
+  handleSubmit,
+  handleSubmitAnonymously
+}) {
   return (
     <EntryFormPaper>
-      <Typography as="h1" variant="h5" gutterBottom>
+      <Typography component="h1" variant="h5" gutterBottom>
         Регистрация
       </Typography>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FormGroup>
           <TextField
             id="email"
@@ -42,13 +48,20 @@ function SignUp({ inputs, handleChange, handleSubmit }) {
             fullWidth
           />
         </FormGroup>
-        <EntrySubmitButton>Зарегистрироваться</EntrySubmitButton>
+        <EntryButton type="submit">Зарегистрироваться</EntryButton>
+        <EntryButton
+          type="button"
+          color="default"
+          onClick={handleSubmitAnonymously}
+        >
+          Войти гостем
+        </EntryButton>
         <EntryLinksContainer>
-          <Link component={RouterLink} to="/signIn">
+          <Link component={RouterLink} to="/sign-in">
             Уже есть аккаунт? Войти
           </Link>
         </EntryLinksContainer>
-      </form>
+      </Form>
     </EntryFormPaper>
   );
 }
@@ -59,7 +72,8 @@ SignUp.propTypes = {
     password: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  handleSubmitAnonymously: PropTypes.func.isRequired
 };
 
 export default SignUp;

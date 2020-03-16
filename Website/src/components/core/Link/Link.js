@@ -18,7 +18,8 @@ function Link({ component = 'a', color = 'primary', className, ...rest }) {
 
 Link.propTypes = {
   component: PropTypes.elementType,
-  color: PropTypes.string
+  color: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default Link;

@@ -2,7 +2,8 @@ import {
   SYNC_WORD_PAIRS,
   DELETE_WORD_PAIRS,
   ADD_WORD_PAIRS,
-  EDIT_WORD_PAIRS
+  EDIT_WORD_PAIRS,
+  RESET_WORD_PAIRS_ACTUALITY
 } from 'src/actions/dictionaryActions';
 
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
@@ -20,11 +21,8 @@ export default function dictionary(
       return {
         actual: true,
         wordPairs: state.wordPairs
-          .filter(
-            ({ serverId }) =>
-              !action.payload.removedServerIds.includes(serverId)
-          )
-          .concat(action.payload.addedWords.sort(lexicographicalComparison))
+          .filter(({ serverId }) => !action.payload.toDelete.includes(serverId))
+          .concat(action.payload.toAdd.sort(lexicographicalComparison))
       };
     case DELETE_WORD_PAIRS:
       return {
@@ -62,6 +60,12 @@ export default function dictionary(
       return {
         ...state,
         wordPairs: Object.values(wordPairsMap).sort(lexicographicalComparison)
+      };
+    }
+    case RESET_WORD_PAIRS_ACTUALITY: {
+      return {
+        ...state,
+        actual: false
       };
     }
     default:

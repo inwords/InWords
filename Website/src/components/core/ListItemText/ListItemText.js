@@ -23,7 +23,8 @@ function ListItemText({ primary, secondary, className, ...rest }) {
 
 ListItemText.propTypes = {
   primary: PropTypes.string.isRequired,
-  secondary: PropTypes.string
+  secondary: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default ListItemText;

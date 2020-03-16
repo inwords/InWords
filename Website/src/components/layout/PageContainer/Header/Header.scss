@@ -21,28 +21,23 @@
     box-shadow: var(--depth-shadow-16);
   }
 
-  &__content {
+  &__toolbar {
     display: flex;
     align-items: center;
     padding: 0 24px;
   }
 
-  &__content-block {
+  &__toolbar-block {
     display: flex;
     align-items: center;
     height: 64px;
+  }
 
-    &--right {
-      margin-left: 24px;
-
-      @include theme-breakpoints-down(lg) {
-        margin-left: auto;
-      }
-    }
+  &__profile {
+    margin-left: 32px;
   }
 
   &__nav {
-    margin-left: auto;
     display: flex;
     overflow: hidden;
     height: 64px;

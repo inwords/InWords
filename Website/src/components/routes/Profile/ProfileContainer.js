@@ -17,11 +17,13 @@ function ProfileContainer() {
   }, [account.accountId, dispatch]);
 
   return (
-    <Profile
-      avatarPath={avatarPath}
-      nickname={nickname}
-      email={account.email}
-    />
+    account.accountId && (
+      <Profile
+        avatarPath={avatarPath}
+        nickname={nickname}
+        email={account.email}
+      />
+    )
   );
 }
 

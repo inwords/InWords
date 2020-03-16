@@ -37,7 +37,8 @@ function ListItem({
 ListItem.propTypes = {
   component: PropTypes.elementType,
   button: PropTypes.bool,
-  hasSecondaryAction: PropTypes.bool
+  hasSecondaryAction: PropTypes.bool,
+  className: PropTypes.string
 };
 
 export default ListItem;

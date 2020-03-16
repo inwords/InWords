@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Toolbar from 'src/components/core/Toolbar';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
+import Space from 'src/components/core/Space';
 import BrandLink from '../BrandLink';
 import HeaderNavList from './HeaderNavList';
-import APIProgress from './APIProgress';
+import ApiProgress from './ApiProgress';
 
 import './Header.scss';
 
 function Header({ routes, rightNodes, handleOpenDrawer }) {
   return (
     <header className="header">
-      <div className="header__content">
-        <div className="header__content-block">
+      <Toolbar>
+        <div className="header__toolbar-block">
           {handleOpenDrawer && (
             <IconButton
               aria-label="side-nav-menu"
@@ -26,29 +28,25 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
           )}
           <BrandLink>InWords</BrandLink>
         </div>
+        <Space />
         {routes && (
           <nav role="navigation" className="header__nav">
             <HeaderNavList routes={routes} />
           </nav>
         )}
         {rightNodes && (
-          <div className="header__content-block header__content-block--right">
+          <div className="header__toolbar-block header__profile">
             {rightNodes}
           </div>
         )}
-      </div>
-      <APIProgress />
+      </Toolbar>
+      <ApiProgress />
     </header>
   );
 }
 
 Header.propTypes = {
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      to: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired
-    }).isRequired
-  ),
+  routes: PropTypes.array,
   rightNodes: PropTypes.arrayOf(PropTypes.node.isRequired),
   handleOpenDrawer: PropTypes.func
 };

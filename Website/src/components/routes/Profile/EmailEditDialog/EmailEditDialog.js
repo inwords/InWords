@@ -25,7 +25,7 @@ function EmailEditDialog({
       <DialogTitle id="email-edit-dialog">Изменение email</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          На новый email придет письмо с подтверждением.
+          На новый email будет отправлено письмо с подтверждением.
         </DialogContentText>
         <form
           id="email-edit-form"

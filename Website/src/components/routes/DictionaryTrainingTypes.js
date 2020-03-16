@@ -4,24 +4,17 @@ import { useSelector } from 'react-redux';
 import TrainingTypes from 'src/components/routes/common/TrainingTypes';
 
 function DictionaryTrainingTypes() {
-  const trainingLevelsMap = useSelector(
-    store => store.training.trainingLevelsMap
-  );
+  const levelsMap = useSelector(store => store.training.levelsMap);
 
   const history = useHistory();
 
   React.useEffect(() => {
-    if (
-      !trainingLevelsMap[-1] ||
-      !trainingLevelsMap[-1].wordTranslations.length
-    ) {
+    if (!levelsMap[-1] || !levelsMap[-1].wordTranslations.length) {
       history.push('/dictionary');
     }
-  }, [trainingLevelsMap, history]);
+  }, [levelsMap, history]);
 
-  return (
-    <TrainingTypes trainingLevel={trainingLevelsMap[-1] || { levelId: -1 }} />
-  );
+  return <TrainingTypes trainingLevel={levelsMap[-1] || { levelId: -1 }} />;
 }
 
 export default DictionaryTrainingTypes;

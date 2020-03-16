@@ -23,7 +23,8 @@ function Paper({ component = 'div', depthShadow = 4, className, ...rest }) {
 
 Paper.propTypes = {
   component: PropTypes.elementType,
-  depthShadow: PropTypes.number
+  depthShadow: PropTypes.number,
+  className: PropTypes.string
 };
 
 export default Paper;

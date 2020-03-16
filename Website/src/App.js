@@ -1,6 +1,5 @@
-import React, { Suspense, lazy } from 'react';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import React, { Fragment, Suspense, lazy } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Container from 'src/components/core/Container';
 import ScrollToTop from 'src/components/core/ScrollToTop';
@@ -16,22 +15,10 @@ const SignIn = lazy(() => import('src/components/routes/SignIn'));
 const SignUp = lazy(() => import('src/components/routes/SignUp'));
 const Profile = lazy(() => import('src/components/routes/Profile'));
 
-const history = createBrowserHistory();
-
 const routes = [
   {
     to: '/dictionary',
-    text: 'Словарь',
-    nestedRoutes: [
-      {
-        to: '/dictionary/my',
-        text: 'Мой словарь'
-      },
-      {
-        to: '/dictionary/sets',
-        text: 'Наборы слов'
-      }
-    ]
+    text: 'Словарь'
   },
   {
     to: '/training',
@@ -44,6 +31,10 @@ const routes = [
       {
         to: '/training/history',
         text: 'История'
+      },
+      {
+        to: '/training/courses',
+        text: 'Курсы'
       }
     ]
   }
@@ -53,28 +44,28 @@ function App() {
   const userId = useSelector(store => store.access.userId);
 
   return (
-    <Router history={history}>
+    <Fragment>
       <ScrollToTop />
       <PageContainer
-        routes={userId ? routes : undefined}
-        rightNodes={userId ? [<ProfileMenuButton key={0} />] : undefined}
+        routes={userId ? routes : null}
+        rightNodes={userId ? [<ProfileMenuButton key={0} />] : null}
       >
         <ErrorBoundary>
           <Suspense fallback={<PageProgress />}>
             <Switch>
               <Route exact path="/">
                 {!userId ? (
-                  <Redirect to="/signIn" />
+                  <Redirect to="/sign-in" />
                 ) : (
                   <Redirect to="/training" />
                 )}
               </Route>
-              <Route path="/signIn">
+              <Route path="/sign-in">
                 <Container maxWidth="xs">
                   <SignIn />
                 </Container>
               </Route>
-              <Route path="/signUp">
+              <Route path="/sign-up">
                 <Container maxWidth="xs">
                   <SignUp />
                 </Container>
@@ -95,9 +86,8 @@ function App() {
         </ErrorBoundary>
       </PageContainer>
       <SmartSnackbar />
-    </Router>
+    </Fragment>
   );
 }
 
-export { history };
 export default App;

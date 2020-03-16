@@ -2,10 +2,10 @@
 using InWords.Common.Extensions;
 using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
-using InWords.Service.Auth;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
-using InWords.WebApi.Providers.FIleLogger;
+using InWords.WebApi.Services.OAuth2.JwtProviders;
+using InWords.WebApi.Services.OAuth2.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,11 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 using System.Reflection;
-
 namespace InWords.WebApi.AppStart
 {
     /// <summary>
@@ -42,6 +38,7 @@ namespace InWords.WebApi.AppStart
                 .AddJsonFile($"appsettings{env.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
             InModule.Configuration = Configuration;
             InModule.Environment = env;
         }
@@ -56,15 +53,34 @@ namespace InWords.WebApi.AppStart
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Should be before AddMvc method. Allow use api from different sites 
+            services.AddCors(o =>
+            {
+                o.AddPolicy("AllowAll", builder =>
+               {
+                   builder
+                   .AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .WithExposedHeaders("Grpc-Status", "Grpc-Message");
+               });
+            });
+
             // Mvc and controllers mapping
             services
                 .AddMvc(o => o.EnableEndpointRouting = false)
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            // allow use api from different sites
-            services.AddCors();
+            JwtSettings jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(new SymmetricJwtTokenProvider(jwtSettings).ValidateOptions);
 
+            //services.AddScoped<IAuthService, AuthService>();
+            services.AddAuthorization();
             // api version info
             services.AddApiVersioningInWords();
 
@@ -81,8 +97,14 @@ namespace InWords.WebApi.AppStart
         /// <param name="app"></param>
         /// <param name="env"></param>
         /// <param name="loggerFactory"></param>
-        public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
+            app.UseRouting();
+            app.UseCors("AllowAll"); // should be before UseMvc but after UserRouting and before Authorization and UseAuthorization
+            app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
+            app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
+            app.UseMvc();
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -94,7 +116,6 @@ namespace InWords.WebApi.AppStart
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
@@ -105,19 +126,15 @@ namespace InWords.WebApi.AppStart
                 c.RoutePrefix = string.Empty;
             });
 
+
+
             // Enable middleware to generated logs as a text file.
-            LoggerConfiguration(loggerFactory);
+            //loggerFactory;
 
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
                 app.UseMiddleware<SecureConnectionMiddleware>();
-
-            app.UseAuthentication();
-            app.UseCors(builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-            app.UseMvc();
 
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureApp(app));
@@ -137,10 +154,7 @@ namespace InWords.WebApi.AppStart
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
 
             // mediator itself
-            builder
-                .RegisterType<Mediator>()
-                .As<IMediator>()
-                .InstancePerLifetimeScope();
+            builder.RegisterType<Mediator>().As<IMediator>().InstancePerLifetimeScope();
 
             // request & notification handlers
             builder.Register<ServiceFactory>(context =>
@@ -148,18 +162,6 @@ namespace InWords.WebApi.AppStart
                 var c = context.Resolve<IComponentContext>();
                 return t => c.Resolve(t);
             });
-        }
-
-        /// <summary>
-        ///     Configure the logger data format and file location
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        public void LoggerConfiguration(ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                $"log/#log-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.txt"));
-            ILogger logger = loggerFactory.CreateLogger("FileLogger");
-            logger.LogInformation("Processing request {0}", 0);
         }
     }
 }

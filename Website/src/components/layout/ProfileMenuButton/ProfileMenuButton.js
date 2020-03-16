@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import usePopup from 'src/hooks/usePopup';
 import Icon from 'src/components/core/Icon';
-import Divider from 'src/components/core/Divider';
 import IconButton from 'src/components/core/IconButton';
 import PopupContainer from 'src/components/core/PopupContainer';
 import Popup from 'src/components/core/Popup';
@@ -32,11 +31,10 @@ function ProfileMenuButton({ handleLogout }) {
               Профиль
             </MenuItem>
           </li>
-          <Divider />
           <li>
             <MenuItem
               component={Link}
-              to="/signIn"
+              to="/sign-in"
               onClick={() => {
                 handleLogout();
                 handleClose();

@@ -1,18 +1,18 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { removeTrainingLevelWordPairs } from 'src/actions/trainingActions';
+import { removeLevelWordPairs } from 'src/actions/trainingActions';
 import useClientTrainingLevel from 'src/components/routes/common-hooks/useClientTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
-function DictionaryTrainingSwitcher({ ...rest }) {
+function DictionaryTrainingSwitcher(props) {
   const trainingLevel = useClientTrainingLevel('/dictionary');
 
   const dispatch = useDispatch();
 
   const onResult = ({ levelId, wordPairs }) => {
     dispatch(
-      removeTrainingLevelWordPairs(
+      removeLevelWordPairs(
         levelId,
         wordPairs.map(wordPair => wordPair.pairId)
       )
@@ -32,7 +32,7 @@ function DictionaryTrainingSwitcher({ ...rest }) {
       onResult={onResult}
       onNextLevel={onNextLevel}
       trainingLevel={trainingLevel}
-      {...rest}
+      {...props}
     />
   );
 }

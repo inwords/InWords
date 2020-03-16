@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+option csharp_namespace = "InWords.Protobuf";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.greet";
+option java_outer_classname = "GreetProto";
+
+package Greet;
+
+// The greeting service definition.
+service Greeter {
+	// Sends a greeting
+	rpc SayHello (HelloRequest) returns (HelloReply);
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+	string name = 1;
+}
+
+// The response message containing the greetings.
+message HelloReply {
+	string message = 1;
+}

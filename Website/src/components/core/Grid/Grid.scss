@@ -3,14 +3,70 @@
   display: flex;
   flex-wrap: wrap;
 
-  @for $spacing from 1 through 10 {
+  @for $spacing from 1 through 8 {
     &--spacing--#{$spacing} {
-      width: calc(100% + #{$spacing * 8}px);
+      width: calc(100% + #{$spacing} * 8px);
       margin: -#{$spacing * 4}px;
 
       & > .grid-item {
         padding: #{$spacing * 4}px;
       }
     }
+  }
+
+  &--direction--row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  &--direction--column {
+    flex-direction: column;
+  }
+
+  &--direction--column-reverse {
+    flex-direction: column-reverse;
+  }
+
+  &--align-items--center {
+    align-items: center;
+  }
+
+  &--align-items--flex-end {
+    align-items: flex-end;
+  }
+
+  &--align-items--stretch {
+    align-items: stretch;
+  }
+
+  &--align-items--baseline {
+    align-items: baseline;
+  }
+
+  &--justify--center {
+    justify-content: center;
+  }
+
+  &--justify--flex-end {
+    justify-content: flex-end;
+  }
+
+  &--justify--space-between {
+    justify-content: space-between;
+  }
+
+  &--justify--space-around {
+    justify-content: space-around;
+  }
+
+  &--justify--space-evenly {
+    justify-content: space-evenly;
+  }
+
+  &--wrap--nowrap {
+    flex-wrap: nowrap;
+  }
+
+  &--wrap--wrap-reverse {
+    flex-wrap: wrap-reverse;
   }
 }

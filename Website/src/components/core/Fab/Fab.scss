@@ -11,6 +11,7 @@
   &:hover,
   &:focus {
     background-color: var(--palette-primary-darken-less);
+
     @media (hover: none) {
       background-color: transparent;
     }

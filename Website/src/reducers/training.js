@@ -1,23 +1,36 @@
 import { combineReducers } from 'redux';
 import {
-  INITIALIZE_TRAINING_CATEGORIES,
-  INITIALIZE_TRAINING_CATEGORY,
+  INITIALIZE_COURSES,
+  INITIALIZE_WORD_SET,
+  INITIALIZE_COURSE,
   UPDATE_LEVEL_RESULT,
-  INITIALIZE_TRAINING_LEVEL,
-  REMOVE_TRAINING_LEVEL_WORD_PAIRS,
-  INITIALIZE_TRAINING_HISTORY
+  INITIALIZE_LEVEL,
+  REMOVE_LEVEL_WORD_PAIRS,
+  INITIALIZE_HISTORY
 } from 'src/actions/trainingActions';
 
-function trainingCategories(state = [], action) {
+function courses(state = [], action) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_CATEGORIES:
+    case INITIALIZE_COURSES:
       return action.payload || [];
     default:
       return state;
   }
 }
 
-function trainingCategory(
+function wordSetsMap(state = {}, action) {
+  switch (action.type) {
+    case INITIALIZE_WORD_SET:
+      return {
+        ...state,
+        [action.payload.courseId]: action.payload.wordSet
+      };
+    default:
+      return state;
+  }
+}
+
+function coursesMap(
   state = {
     trainingId: null,
     levelsInfo: []
@@ -25,44 +38,52 @@ function trainingCategory(
   action
 ) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_CATEGORY:
-      return {
-        trainingId: action.payload.gameId,
-        levelsInfo: action.payload.levelInfos || []
-      };
-    case UPDATE_LEVEL_RESULT:
+    case INITIALIZE_COURSE:
       return {
         ...state,
-        levelsInfo: state.levelsInfo.map(levelInfo => {
-          if (
-            levelInfo.levelId !==
-            action.payload.classicCardLevelResult[0].levelId
-          ) {
-            return levelInfo;
-          }
-
-          return {
-            ...levelInfo,
-            playerStars: Math.max(
-              levelInfo.playerStars,
-              action.payload.classicCardLevelResult[0].score
-            )
-          };
-        })
+        [action.payload.gameId]: {
+          trainingId: action.payload.gameId,
+          levelsInfo: action.payload.levelInfos || []
+        }
       };
+    case UPDATE_LEVEL_RESULT:
+      if (state[action.payload.courseId]) {
+        const course = state[action.payload.courseId];
+
+        return {
+          ...state,
+          [action.payload.courseId]: {
+            levelsInfo: course.levelsInfo.map(levelInfo => {
+              const levelResult =
+                action.payload.levelResult.classicCardLevelResult[0];
+
+              if (levelInfo.levelId !== levelResult.levelId) {
+                return levelInfo;
+              }
+
+              return {
+                ...levelInfo,
+                playerStars: Math.max(levelInfo.playerStars, levelResult.score)
+              };
+            })
+          }
+        };
+      }
+
+      return state;
     default:
       return state;
   }
 }
 
-function trainingLevelsMap(state = {}, action) {
+function levelsMap(state = {}, action) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_LEVEL:
+    case INITIALIZE_LEVEL:
       return {
         ...state,
         [action.payload.levelId]: action.payload
       };
-    case REMOVE_TRAINING_LEVEL_WORD_PAIRS:
+    case REMOVE_LEVEL_WORD_PAIRS:
       return {
         ...state,
         [action.payload.levelId]: {
@@ -79,7 +100,7 @@ function trainingLevelsMap(state = {}, action) {
   }
 }
 
-function trainingHistory(
+function history(
   state = {
     actual: false,
     recentTrainings: []
@@ -87,10 +108,10 @@ function trainingHistory(
   action
 ) {
   switch (action.type) {
-    case INITIALIZE_TRAINING_HISTORY:
+    case INITIALIZE_HISTORY:
       return {
         actual: true,
-        recentTrainings: (action.payload || []).slice(0, 30)
+        recentTrainings: (action.payload || []).slice(0, 30).reverse()
       };
     default:
       return state;
@@ -98,8 +119,9 @@ function trainingHistory(
 }
 
 export default combineReducers({
-  trainingCategories,
-  trainingCategory,
-  trainingLevelsMap,
-  trainingHistory
+  courses,
+  wordSetsMap,
+  coursesMap,
+  levelsMap,
+  history
 });

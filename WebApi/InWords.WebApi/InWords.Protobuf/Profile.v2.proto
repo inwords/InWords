@@ -1,0 +1,53 @@
+syntax = "proto3";
+option csharp_namespace = "InWords.Protobuf";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.profile";
+option java_outer_classname = "ProfileProto";
+
+
+package ProfilePackage.v2;
+import "Auth.v2.proto";
+
+// The Profile service definition.
+service Profile {
+	rpc Register (Auth.v2.RegistrationRequest) returns (RegistrationReply);
+	rpc GetToken (Auth.v2.TokenRequest) returns (Auth.v2.TokenReply);
+	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
+	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
+	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
+	rpc DeleteAccount (DeleteAccountRequest) returns (Empty);
+}
+
+// The response message containing the Token.
+message RegistrationReply {
+	int64 userid = 1;
+	string token = 2;
+}
+message EmailChangeRequest{
+	string email = 1;
+}
+
+message EmailChangeReply{
+	string email = 1;
+}
+
+message ConfirmEmailRequest{
+	string email = 1;
+	int32 code = 2;
+}
+
+message ConfirmEmailLinkRequest{
+	string activationGuid = 1;
+}
+
+message ConfirmEmailReply{
+	string email = 1;
+}
+
+message DeleteAccountRequest{
+	string text = 1; 
+}
+
+message Empty{
+}

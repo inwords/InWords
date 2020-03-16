@@ -15,11 +15,11 @@ export default function useForm(initialInputs, action) {
   };
 
   const handleSubmit = event => {
+    event.preventDefault();
+
     if (typeof action === 'function') {
       action();
     }
-
-    event.preventDefault();
   };
 
   return {

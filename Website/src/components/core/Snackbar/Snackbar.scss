@@ -1,8 +1,12 @@
 @import 'src/theme/mixins';
 
+.snackbar-container {
+  position: relative;
+  z-index: var(--z-index-snackbar);
+}
+
 .snackbar {
   position: fixed;
-  z-index: var(--z-index-snackbar);
   right: 8px;
   bottom: 8px;
   left: 8px;

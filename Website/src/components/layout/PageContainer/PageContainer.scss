@@ -15,10 +15,6 @@
     padding-left: 24px;
   }
 
-  &__drawer-header-menu-button {
-    margin-right: 16px;
-  }
-
   &__side-nav {
     position: fixed;
     top: 0;
@@ -38,7 +34,7 @@
     padding-top: 88px;
     flex-grow: 1;
 
-    &--with-nav {
+    &--has-nav {
       @include theme-breakpoints-up(lg) {
         padding-left: 240px;
       }

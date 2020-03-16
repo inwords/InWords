@@ -21,5 +21,16 @@ namespace InWords.Data.Domains
         public short LearningPeriod { get; set; }
 
         public DateTime TimeGap { get; set; }
+
+        public UserWordPair()
+        {
+
+        }
+
+        public UserWordPair(int wordPairId, int userId)
+        {
+            WordPairId = wordPairId;
+            UserId = userId;
+        }
     }
 }

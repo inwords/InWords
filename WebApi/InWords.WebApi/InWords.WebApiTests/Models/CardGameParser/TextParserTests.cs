@@ -1,6 +1,6 @@
-﻿using System.IO;
-using InWords.Data.DTO.GameBox;
+﻿using InWords.Data.DTO.GameBox;
 using InWords.WebApi.Models.CardGameParser;
+using System.IO;
 using Xunit;
 
 namespace InWords.WebApiTests.Models.CardGameParser
