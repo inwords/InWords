@@ -1,16 +1,16 @@
 import React from 'react';
-import { fireEvent, screen, wait } from '@testing-library/react';
+import { act, fireEvent, screen, wait } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import CoursesTrainingSwitcher from 'src/components/routes/CoursesTrainingSwitcher';
 
-const fakeAccessData = {
+const mockingAccessData = {
   token: 'xyz',
   userId: 1
 };
 
-const fakeTrainingLevelResponse = {
+const mockingTrainingLevelResponse = {
   levelId: 1,
   wordTranslations: [
     { wordForeign: 'cat', wordNative: 'кошка', serverId: 1 },
@@ -18,25 +18,25 @@ const fakeTrainingLevelResponse = {
   ]
 };
 
-const fakeLevelResultResponse = {
+const mockingLevelResultResponse = {
   classicCardLevelResult: [{ levelId: 1, score: 3 }]
 };
 
-describe('interaction with courses game', () => {
-  it('allows the user to see courses game cards', async () => {
-    global.fetch = mockFetchOnce(fakeTrainingLevelResponse);
+describe('courses game', () => {
+  it('receive courses game lavel', async () => {
+    global.fetch = mockFetchOnce(mockingTrainingLevelResponse);
 
     renderWithEnvironment(
       <Route path="/training/courses/:courseId/:levelId/:trainingId">
         <CoursesTrainingSwitcher />
       </Route>,
       {
-        initialState: { access: { token: fakeAccessData.token } },
-        route: `/training/courses/1/${fakeTrainingLevelResponse.levelId}/0`
+        initialState: { access: { token: mockingAccessData.token } },
+        route: `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`
       }
     );
 
-    const wordTranslations = fakeTrainingLevelResponse.wordTranslations;
+    const wordTranslations = mockingTrainingLevelResponse.wordTranslations;
     await wait(() => [
       screen.getByText(wordTranslations[0].wordForeign),
       screen.getByText(wordTranslations[0].wordNative),
@@ -45,38 +45,43 @@ describe('interaction with courses game', () => {
     ]);
   });
 
-  it('allows the user to complete courses game', async () => {
+  it('complete courses game', async () => {
+    jest.useFakeTimers();
+
     renderWithEnvironment(
       <Route path="/training/courses/:courseId/:levelId/:trainingId">
         <CoursesTrainingSwitcher />
       </Route>,
       {
         initialState: {
-          access: { token: fakeAccessData.token },
+          access: { token: mockingAccessData.token },
           training: {
             levelsMap: {
-              [fakeTrainingLevelResponse.levelId]: fakeTrainingLevelResponse
+              [mockingTrainingLevelResponse.levelId]: mockingTrainingLevelResponse
             }
           }
         },
-        route: `/training/courses/1/${fakeTrainingLevelResponse.levelId}/0`
+        route: `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`
       }
     );
 
-    const wordTranslations = fakeTrainingLevelResponse.wordTranslations;
+    const wordTranslations = mockingTrainingLevelResponse.wordTranslations;
     await wait(() => [screen.getByText(wordTranslations[0].wordForeign)]);
 
-    jest.useFakeTimers();
-
-    global.fetch = mockFetchOnce(fakeLevelResultResponse);
+    global.fetch = mockFetchOnce(mockingLevelResultResponse);
 
     fireEvent.click(screen.getByText(wordTranslations[0].wordForeign));
     fireEvent.click(screen.getByText(wordTranslations[0].wordNative));
     fireEvent.click(screen.getByText(wordTranslations[1].wordForeign));
     fireEvent.click(screen.getByText(wordTranslations[1].wordNative));
 
-    jest.runAllTimers();
+    await Promise.resolve();
+    await Promise.resolve();
 
-    wait(() => screen.getByText('star'));
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    await wait(() => screen.getAllByText('star'));
   });
 });

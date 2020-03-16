@@ -1,5 +1,4 @@
 import apiAction from './apiAction';
-import apiGrpcAction from './apiGrpcAction';
 import {
   syncWordPairs as syncWordPairsAction,
   deleteWordPairs as deleteWordPairsAction,
@@ -7,33 +6,15 @@ import {
   editWordPairs as editWordPairsAction
 } from './dictionaryActions';
 import { setSnackbar } from './commonActions';
-import { DictionaryProviderClient } from './protobuf-generated/Dictionary.v2_grpc_web_pb';
-import {
-  GetWordsRequest,
-  AddWordRequest,
-  AddWordsRequest
-} from './protobuf-generated/Dictionary.v2_pb';
 
 export function syncWordPairs(wordPairIds) {
-  const request = new GetWordsRequest();
-  request.setUserwordpairidsList(wordPairIds);
-
-  return apiGrpcAction({
-    Client: DictionaryProviderClient,
-    request,
-    method: 'getWords',
-    onSuccess: ({ dispatch, response }) => {
-      dispatch(
-        syncWordPairsAction({
-          toAdd: response.getToaddList().map(wrappedWordPair => ({
-            serverId: wrappedWordPair.getUserwordpair(),
-            wordForeign: wrappedWordPair.getWordforeign(),
-            wordNative: wrappedWordPair.getWordnative(),
-            period: wrappedWordPair.getPeriod()
-          })),
-          toDelete: response.getTodeleteList()
-        })
-      );
+  return apiAction({
+    apiVersion: '2',
+    endpoint: '/dictionary/getWords',
+    method: 'POST',
+    data: JSON.stringify({ UserWordpairIds: wordPairIds }),
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(syncWordPairsAction(data));
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
@@ -46,7 +27,6 @@ export function deleteWordPairs(pairIds) {
     endpoint: '/words/deletePair',
     method: 'POST',
     data: JSON.stringify(pairIds),
-    contentType: 'application/json',
     onSuccess: ({ dispatch }) => {
       dispatch(deleteWordPairsAction(pairIds));
     },
@@ -57,36 +37,29 @@ export function deleteWordPairs(pairIds) {
 }
 
 export function addWordPairs(wordPairs, { onSuccess } = {}) {
-  const request = new AddWordsRequest();
-  request.setWordsList(
-    wordPairs.map(({ wordForeign, wordNative, index }) => {
-      const wordRequest = new AddWordRequest();
-      wordRequest.setLocalid(index);
-      wordRequest.setWordforeign(wordForeign);
-      wordRequest.setWordnative(wordNative);
-
-      return wordRequest;
-    })
-  );
-
-  return apiGrpcAction({
-    Client: DictionaryProviderClient,
-    request,
-    method: 'addWords',
-    onSuccess: ({ dispatch, response }) => {
-      const wordIdsList = response.getWordidsList();
-
+  return apiAction({
+    apiVersion: '2',
+    endpoint: '/words/addWords',
+    method: 'POST',
+    data: JSON.stringify({
+      Words: wordPairs.map(({ wordNative, wordForeign }, index) => ({
+        WordNative: wordNative,
+        WordForeign: wordForeign,
+        LocalId: index
+      }))
+    }),
+    onSuccess: ({ dispatch, data }) => {
       dispatch(
         addWordPairsAction(
           wordPairs.map((wordPair, index) => ({
             ...wordPair,
-            serverId: wordIdsList[index].getServerid()
+            serverId: data[index].serverId
           }))
         )
       );
 
       if (onSuccess) {
-        onSuccess({ dispatch, response });
+        onSuccess({ dispatch, data });
       }
     },
     onFailure: ({ dispatch }) => {
@@ -100,7 +73,6 @@ export function editWordPairs(wordPairsMap) {
     endpoint: '/words/updatePair',
     method: 'POST',
     data: JSON.stringify(wordPairsMap),
-    contentType: 'application/json',
     onSuccess: ({ dispatch, data }) => {
       dispatch(
         editWordPairsAction(

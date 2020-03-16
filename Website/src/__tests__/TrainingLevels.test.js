@@ -10,7 +10,7 @@ const fakeAccessData = {
   userId: 1
 };
 
-const fakeTraininglevelsResponse = {
+const mockingTraininglevelsResponse = {
   gameId: 1,
   levelInfos: [
     {
@@ -28,9 +28,9 @@ const fakeTraininglevelsResponse = {
   ]
 };
 
-describe('interaction with training levels', () => {
-  it('allows the user to see training levels', async () => {
-    global.fetch = mockFetchOnce(fakeTraininglevelsResponse);
+describe('training levels', () => {
+  it('receive training levels', async () => {
+    global.fetch = mockFetchOnce(mockingTraininglevelsResponse);
 
     renderWithEnvironment(
       <Route path="/training/courses/:courseId">
@@ -44,15 +44,15 @@ describe('interaction with training levels', () => {
 
     await wait(() => [
       screen.getByText(
-        `Уровень ${fakeTraininglevelsResponse.levelInfos[0].level}`
+        `Уровень ${mockingTraininglevelsResponse.levelInfos[0].level}`
       ),
       screen.getByText(
-        `Уровень ${fakeTraininglevelsResponse.levelInfos[1].level}`
+        `Уровень ${mockingTraininglevelsResponse.levelInfos[1].level}`
       )
     ]);
   });
 
-  it('allows the user to select training level', async () => {
+  it('select training level', async () => {
     const { history } = renderWithEnvironment(
       <Route path="/training/courses/:courseId">
         <TrainingLevels />
@@ -64,7 +64,7 @@ describe('interaction with training levels', () => {
             coursesMap: {
               1: {
                 trainingId: 1,
-                levelsInfo: fakeTraininglevelsResponse.levelInfos
+                levelsInfo: mockingTraininglevelsResponse.levelInfos
               }
             }
           }
@@ -73,7 +73,7 @@ describe('interaction with training levels', () => {
       }
     );
 
-    const levelInfo = fakeTraininglevelsResponse.levelInfos[0];
+    const levelInfo = mockingTraininglevelsResponse.levelInfos[0];
     fireEvent.click(screen.getByTestId(`to-level-${levelInfo.levelId}`));
 
     expect(history.location.pathname).toEqual(

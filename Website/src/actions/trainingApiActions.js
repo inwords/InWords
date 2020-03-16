@@ -1,5 +1,4 @@
 import apiAction from './apiAction';
-import apiGrpcAction from './apiGrpcAction';
 import {
   initializeCourses,
   initializeWordSet,
@@ -9,8 +8,6 @@ import {
 } from './trainingActions';
 import { resetWordPairsActuality } from './dictionaryActions';
 import { setSnackbar } from './commonActions';
-import { WordSetProviderClient } from './protobuf-generated/WordSet.v2_grpc_web_pb';
-import { WordSetWordsRequest } from './protobuf-generated/WordSet.v2_pb';
 
 export function receiveCourses() {
   return apiAction({
@@ -37,25 +34,13 @@ export function receiveCourse(courseId) {
 }
 
 export function receiveWordSet(courseId) {
-  const request = new WordSetWordsRequest();
-  request.setWordsetid(courseId);
-
-  return apiGrpcAction({
-    Client: WordSetProviderClient,
-    request,
-    method: 'getWordsList',
-    onSuccess: ({ dispatch, response }) => {
-      dispatch(
-        initializeWordSet(
-          courseId,
-          response.getWordsList().map(wordPair => ({
-            serverId: wordPair.getWordpairid(),
-            hasAdded: wordPair.getHasadded(),
-            wordForeign: wordPair.getWordforeign(),
-            wordNative: wordPair.getWordnative()
-          }))
-        )
-      );
+  return apiAction({
+    apiVersion: '2',
+    endpoint: '/wordSet/getWordsList',
+    method: 'POST',
+    data: JSON.stringify({ WordSetId: courseId }),
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(initializeWordSet(courseId, data));
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
@@ -68,7 +53,6 @@ export function addCourseWordPairsToDictionary(courseId) {
     endpoint: '/game/addWordsToUserDictionary',
     method: 'POST',
     data: JSON.stringify(courseId),
-    contentType: 'application/json',
     onSuccess: ({ dispatch, data }) => {
       dispatch(
         setSnackbar({ text: `Добавлено новых слов: ${data.wordsAdded}` })
@@ -100,7 +84,6 @@ export function saveLevelResult(levelResult, { onSuccess } = {}) {
     endpoint: '/training/estimate',
     method: 'POST',
     data: JSON.stringify({ metrics: [levelResult] }),
-    contentType: 'application/json',
     onSuccess: ({ dispatch, data }) => {
       if (onSuccess) {
         onSuccess({ dispatch, data });

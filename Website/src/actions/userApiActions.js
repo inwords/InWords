@@ -35,7 +35,6 @@ export function updateUserInfo(userInfo) {
     endpoint: '/users',
     method: 'PUT',
     data: JSON.stringify(userInfo),
-    contentType: 'application/json',
     onSuccess: ({ dispatch }) => {
       dispatch(updateUserInfoAction(userInfo));
       dispatch(push('/profile'));

@@ -4,7 +4,7 @@ $track-h: 8px;
 @mixin thumb {
   width: $thumb-d;
   height: $thumb-d;
-  border: none;
+  border: 0;
   border-radius: 50%;
   background-color: var(--palette-default-contrast-text);
   cursor: pointer;
@@ -37,7 +37,7 @@ $track-h: 8px;
     }
 
     &:focus {
-      outline: none;
+      outline: 0;
     }
 
     &::-webkit-slider-thumb {

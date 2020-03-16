@@ -6,12 +6,12 @@ import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Courses from 'src/components/routes/Courses';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 
-const fakeAccessData = {
+const mockingAccessData = {
   token: 'xyz',
   userId: 1
 };
 
-const fakeCoursesResponse = [
+const mockingCoursesResponse = [
   {
     gameId: 1,
     description: 'Описание 1',
@@ -26,23 +26,23 @@ const fakeCoursesResponse = [
   }
 ];
 
-const fakeCourseWordPairsAddingResponse = {
+const mockingCourseWordPairsAddingResponse = {
   wordsAdded: 10
 };
 
-describe('interaction with courses', () => {
-  it('allows the user to see courses', async () => {
-    global.fetch = mockFetchOnce(fakeCoursesResponse);
+describe('courses', () => {
+  it('receive courses', async () => {
+    global.fetch = mockFetchOnce(mockingCoursesResponse);
 
     renderWithEnvironment(<Courses />, {
-      initialState: { access: { token: fakeAccessData.token } }
+      initialState: { access: { token: mockingAccessData.token } }
     });
 
     await wait(() => [
-      screen.getByText(fakeCoursesResponse[0].title),
-      screen.getByText(fakeCoursesResponse[0].description),
-      screen.getByText(fakeCoursesResponse[1].title),
-      screen.getByText(fakeCoursesResponse[1].description)
+      screen.getByText(mockingCoursesResponse[0].title),
+      screen.getByText(mockingCoursesResponse[0].description),
+      screen.getByText(mockingCoursesResponse[1].title),
+      screen.getByText(mockingCoursesResponse[1].description)
     ]);
   });
 
@@ -53,16 +53,16 @@ describe('interaction with courses', () => {
       </Route>,
       {
         initialState: {
-          access: { token: fakeAccessData.token },
+          access: { token: mockingAccessData.token },
           training: {
-            courses: fakeCoursesResponse
+            courses: mockingCoursesResponse
           }
         },
         route: '/training/courses/1'
       }
     );
 
-    const courseInfo = fakeCoursesResponse[0];
+    const courseInfo = mockingCoursesResponse[0];
 
     fireEvent.click(screen.getByTestId(`to-course-${courseInfo.gameId}`));
 
@@ -72,7 +72,7 @@ describe('interaction with courses', () => {
   });
 
   it('allows the user to add course word pairs to dictionary', async () => {
-    global.fetch = mockFetchOnce(fakeCourseWordPairsAddingResponse);
+    global.fetch = mockFetchOnce(mockingCourseWordPairsAddingResponse);
 
     renderWithEnvironment(
       <Fragment>
@@ -81,16 +81,16 @@ describe('interaction with courses', () => {
       </Fragment>,
       {
         initialState: {
-          access: { token: fakeAccessData.token },
+          access: { token: mockingAccessData.token },
           training: {
-            courses: fakeCoursesResponse
+            courses: mockingCoursesResponse
           }
         },
         route: '/training/courses/1'
       }
     );
 
-    const courseInfo = fakeCoursesResponse[0];
+    const courseInfo = mockingCoursesResponse[0];
 
     fireEvent.click(
       screen.getByTestId(`add-to-dictionary-${courseInfo.gameId}`)
@@ -99,7 +99,7 @@ describe('interaction with courses', () => {
 
     await wait(() =>
       screen.getByText(
-        `Добавлено новых слов: ${fakeCourseWordPairsAddingResponse.wordsAdded}`
+        `Добавлено новых слов: ${mockingCourseWordPairsAddingResponse.wordsAdded}`
       )
     );
   });

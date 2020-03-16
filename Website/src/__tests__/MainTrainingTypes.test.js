@@ -9,7 +9,7 @@ const fakeAccessData = {
   userId: 1
 };
 
-const fakeWordPairsToTrainResponse = [
+const mockingWordPairsToTrainResponse = [
   {
     serverId: 1,
     wordForeign: 'dog',
@@ -22,14 +22,16 @@ const fakeWordPairsToTrainResponse = [
   }
 ];
 
-test('allows the user to see number of words to train', async () => {
-  global.fetch = mockFetchOnce(fakeWordPairsToTrainResponse);
+test('receive words to train', async () => {
+  global.fetch = mockFetchOnce(mockingWordPairsToTrainResponse);
 
   renderWithEnvironment(<MainTrainingTypes />, {
     initialState: { access: { token: fakeAccessData.token } }
   });
 
   await wait(() => [
-    screen.getByText(`Слов на изучение: ${fakeWordPairsToTrainResponse.length}`)
+    screen.getByText(
+      `Слов на изучение: ${mockingWordPairsToTrainResponse.length}`
+    )
   ]);
 });

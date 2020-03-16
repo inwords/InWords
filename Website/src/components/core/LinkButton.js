@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Button from 'src/components/core/Button';
 
-import './LinkButton.scss';
-
 function LinkButton({
   component = 'a',
   disabled = false,
@@ -15,16 +13,10 @@ function LinkButton({
   return (
     <Button
       component={component}
-      className={classNames(
-        'link-button',
-        {
-          'link-button--disabled': disabled
-        },
-        className
-      )}
+      className={classNames({ disabled }, className)}
       {...rest}
     >
-      <span className="link-button__text">{children}</span>
+      {children}
     </Button>
   );
 }
