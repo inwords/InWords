@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
 {
-    [Authorize]
     [ApiVersion("2")]
     [Route("v{version:apiVersion}/auth")]
     [ApiController]

@@ -40,9 +40,8 @@ namespace InWords.WebApi.Controllers.v2
         [HttpPost]
         [ProducesResponseType(typeof(WordSetWordsReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register(string requestString)
+        public async Task<IActionResult> Register(WordSetWordsRequest request)
         {
-            WordSetWordsRequest request = WordSetWordsRequest.Parser.ParseJson(requestString);
             var requestObject = new AuthorizedRequestObject<WordSetWordsRequest, WordSetWordsReply>(request)
             {
                 UserId = User.GetUserId()

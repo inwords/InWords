@@ -33,9 +33,8 @@ namespace InWords.WebApi.Controllers.v2
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("addwords")]
         [HttpPost]
-        public async Task<IActionResult> AddWords([FromBody] string requestString)
+        public async Task<IActionResult> AddWords([FromBody] AddWordsRequest request)
         {
-            AddWordsRequest request = AddWordsRequest.Parser.ParseJson(requestString);
             var reqestObject = new AuthorizedRequestObject<AddWordsRequest, AddWordsReply>(request)
             {
                 UserId = User.GetUserId()
@@ -49,13 +48,15 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        /// <remarks>
+        /// {"UserWordpairIds": [1,2,3]}
+        /// </remarks>
         [ProducesResponseType(typeof(WordsReply), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("getwords")]
         [HttpPost]
-        public async Task<IActionResult> GetWords([FromBody] string requestString)
+        public async Task<IActionResult> GetWords([FromBody] GetWordsRequest request)
         {
-            GetWordsRequest request = GetWordsRequest.Parser.ParseJson(requestString);
             var reqestObject = new AuthorizedRequestObject<GetWordsRequest, WordsReply>(request)
             {
                 UserId = User.GetUserId()
