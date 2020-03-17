@@ -19,16 +19,23 @@ namespace InWords.WebApi.Prometheus
         public async Task Invoke(HttpContext httpContext, MetricReporter reporter)
         {
             var path = httpContext.Request.Path.Value;
+
             if (path == "/metrics")
             {
-                await _request.Invoke(httpContext);
+                await _request.Invoke(httpContext).ConfigureAwait(false);
                 return;
             }
+            string ignore = "email/confirm";
+            if (path.Contains(ignore, StringComparison.InvariantCultureIgnoreCase))
+            {
+                path = path.Remove(path.IndexOf(ignore, StringComparison.InvariantCultureIgnoreCase) + ignore.Length);
+            }
+
             var sw = Stopwatch.StartNew();
 
             try
             {
-                await _request.Invoke(httpContext);
+                await _request.Invoke(httpContext).ConfigureAwait(false);
             }
             finally
             {
