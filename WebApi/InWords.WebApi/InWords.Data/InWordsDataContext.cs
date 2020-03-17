@@ -48,7 +48,6 @@ namespace InWords.Data
             modelBuilder.Entity<OAuth>(e =>
             {
                 e.HasIndex(e => e.OpenId).IsUnique();
-                e.HasNoKey();
             });
             modelBuilder.Entity<Word>(entity =>
             {

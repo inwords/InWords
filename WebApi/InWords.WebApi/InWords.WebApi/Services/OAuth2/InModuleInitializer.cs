@@ -2,6 +2,7 @@
 using InWords.WebApi.Module;
 using InWords.WebApi.Services.OAuth2.JwtProviders;
 using InWords.WebApi.Services.OAuth2.Models;
+using InWords.WebApi.Services.OAuth2.Requests;
 using Microsoft.Extensions.Configuration;
 
 namespace InWords.WebApi.Services.OAuth2
@@ -12,6 +13,7 @@ namespace InWords.WebApi.Services.OAuth2
         {
             JwtSettings jwtSettings = Configuration.GetSection("JwtSettings").Get<JwtSettings>();
             builder.RegisterInstance(new SymmetricJwtTokenProvider(jwtSettings)).AsImplementedInterfaces();
+            builder.RegisterType<GoogleAuth>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }
