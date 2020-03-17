@@ -42,7 +42,7 @@ namespace InWords.WebApi.Services.DictionaryService.Extentions
 
             existedWords.ForEach(word =>
             {
-                contentDictionary[word.Content].WordId = word.WordId;
+                contentDictionary[word.Content.ToNormalizedWord()].WordId = word.WordId;
             });
 
             var wordsToAdd = contentDictionary.Where(d => existedWords.All(w => w.Content != d.Key)).Select(d => d.Value);

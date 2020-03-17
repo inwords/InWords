@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.DictionaryService.Words
 {
-    public class DeleteWords : AuthorizedRequestObjectHandler<AddWordsRequest, AddWordsReply, InWordsDataContext>
+    public class DeleteWords
     {
     }
 }
