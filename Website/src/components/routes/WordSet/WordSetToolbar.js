@@ -8,6 +8,7 @@ import Space from 'src/components/core/Space';
 
 function WordSetToolbar({
   checkedValues,
+  selectionAvailable,
   handleReset,
   handleCheckAll,
   handleAdding
@@ -18,6 +19,7 @@ function WordSetToolbar({
     <Toolbar>
       <IconButton
         aria-label="clear selection"
+        disabled={!selectionAvailable}
         onClick={handleReset}
         color="inherit"
         edge="start"
@@ -26,13 +28,14 @@ function WordSetToolbar({
       </IconButton>
       <IconButton
         aria-label="check all"
+        disabled={!selectionAvailable}
         onClick={handleCheckAll}
         color="inherit"
       >
         <Icon>done_all</Icon>
       </IconButton>
       <Space value={1} />
-      <div>
+      <div style={{ display: selectionAvailable ? 'block' : 'none' }}>
         <Typography component="h2" variant="h6">
           Выбрано: {numberOfChecked}
         </Typography>
@@ -55,6 +58,7 @@ function WordSetToolbar({
 
 WordSetToolbar.propTypes = {
   checkedValues: PropTypes.array.isRequired,
+  selectionAvailable: PropTypes.bool.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleCheckAll: PropTypes.func.isRequired,
   handleAdding: PropTypes.func.isRequired

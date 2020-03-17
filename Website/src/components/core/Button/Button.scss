@@ -1,7 +1,6 @@
 @import 'src/theme/mixins';
 
 .button {
-  display: inline-block;
   min-width: 80px;
   height: 32px;
   border-radius: 2px;
@@ -11,6 +10,13 @@
   transition: background-color 0.2s ease-in-out;
 
   @include theme-typography(button);
+
+  &__label {
+    width: 100%;
+    display: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+  }
 
   &--contained-default {
     padding: 0 16px;
@@ -26,6 +32,7 @@
       background-color: var(--palette-default-darken-more);
     }
 
+    &.disabled,
     &:disabled {
       background-color: var(--palette-action-disabled-background);
     }
@@ -45,6 +52,7 @@
       background-color: var(--palette-primary-darken-more);
     }
 
+    &.disabled,
     &:disabled {
       background-color: var(--palette-action-disabled-background);
     }
@@ -80,6 +88,7 @@
     }
   }
 
+  &.disabled,
   &:disabled {
     cursor: default;
     pointer-events: none;

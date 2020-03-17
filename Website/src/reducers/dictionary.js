@@ -9,20 +9,32 @@ import {
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
   firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign);
 
-export default function dictionary(
+const dictionary = (
   state = {
     actual: false,
     wordPairs: []
   },
   action
-) {
+) => {
   switch (action.type) {
     case SYNC_WORD_PAIRS:
       return {
         actual: true,
         wordPairs: state.wordPairs
           .filter(({ serverId }) => !action.payload.toDelete.includes(serverId))
-          .concat(action.payload.toAdd.sort(lexicographicalComparison))
+          .concat(
+            action.payload.toAdd
+              .map(wordPair => {
+                const convertedWordPair = {
+                  ...wordPair,
+                  serverId: wordPair.userWordPair
+                };
+                delete convertedWordPair.userWordPair;
+
+                return convertedWordPair;
+              })
+              .sort(lexicographicalComparison)
+          )
       };
     case DELETE_WORD_PAIRS:
       return {
@@ -71,4 +83,6 @@ export default function dictionary(
     default:
       return state;
   }
-}
+};
+
+export default dictionary;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function useCheckboxList(initialState = []) {
+const useCheckboxList = (initialState = []) => {
   const [checkedValues, setCheckedValues] = React.useState(initialState);
 
   const handleToggle = value => () => {
@@ -23,4 +23,6 @@ export default function useCheckboxList(initialState = []) {
     setCheckedValues,
     handleToggle
   };
-}
+};
+
+export default useCheckboxList;

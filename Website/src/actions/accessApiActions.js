@@ -1,62 +1,38 @@
 import { push } from 'connected-react-router';
 import { v4 as uuidv4 } from 'uuid';
-import apiGrpcAction from './apiGrpcAction';
+import apiAction from './apiAction';
 import { setSnackbar } from './commonActions';
 import { grantAccess, denyAccess } from './accessActions';
-import { ProfileClient } from './protobuf-generated/Profile.v2_grpc_web_pb';
-import {
-  TokenRequest,
-  RegistrationRequest,
-  EmailChangeRequest,
-  DeleteAccountRequest
-} from './protobuf-generated/Profile.v2_pb';
 
-export function signIn(userdata) {
-  const request = new TokenRequest();
-  request.setEmail(userdata.email);
-  request.setPassword(userdata.password);
-
-  return apiGrpcAction({
-    Client: ProfileClient,
-    request,
-    method: 'getToken',
+export const signIn = userData =>
+  apiAction({
+    apiVersion: '2',
+    endpoint: '/profile/token',
+    method: 'POST',
     withCredentials: false,
-    onSuccess: ({ dispatch, response }) => {
-      dispatch(
-        grantAccess({
-          token: response.getToken(),
-          userId: response.getUserid()
-        })
-      );
-
+    data: JSON.stringify(userData),
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(grantAccess(data));
       dispatch(push('/training'));
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось авторизоваться' }));
     }
   });
-}
 
-export function signUp(userdata, isAnonymous = false) {
-  const request = new RegistrationRequest();
-  request.setEmail(
-    !isAnonymous ? userdata.email : `${uuidv4().slice(0, 7)}@inwords`
-  );
-  request.setPassword(userdata.password);
-  request.setIsanonymous(isAnonymous);
-
-  return apiGrpcAction({
-    Client: ProfileClient,
-    request,
-    method: 'register',
+export const signUp = (userData, isAnonymous = false) =>
+  apiAction({
+    apiVersion: '2',
+    endpoint: '/profile/register',
+    method: 'POST',
     withCredentials: false,
-    onSuccess: ({ dispatch, response }) => {
-      dispatch(
-        grantAccess({
-          token: response.getToken(),
-          userId: response.getUserid()
-        })
-      );
+    data: JSON.stringify({
+      email: !isAnonymous ? userData.email : `${uuidv4().slice(0, 7)}@inwords`,
+      password: userData.password,
+      isAnonymous
+    }),
+    onSuccess: ({ dispatch, data }) => {
+      dispatch(grantAccess(data));
 
       if (!isAnonymous) {
         dispatch(
@@ -72,16 +48,13 @@ export function signUp(userdata, isAnonymous = false) {
       dispatch(setSnackbar({ text: 'Не удалось зарегистрироваться' }));
     }
   });
-}
 
-export function updateEmail(email) {
-  const request = new EmailChangeRequest();
-  request.setEmail(email);
-
-  return apiGrpcAction({
-    Client: ProfileClient,
-    request,
-    method: 'requestEmailUpdate',
+export const updateEmail = email =>
+  apiAction({
+    apiVersion: '2',
+    endpoint: '/profile/updateEmail',
+    method: 'POST',
+    data: JSON.stringify({ email }),
     onSuccess: ({ dispatch }) => {
       dispatch(
         setSnackbar({
@@ -93,20 +66,16 @@ export function updateEmail(email) {
       dispatch(setSnackbar({ text: 'Не удалось изменить email' }));
     }
   });
-}
 
-export function deleteAccount(reason) {
-  const request = new DeleteAccountRequest();
-  request.setText(reason);
-
-  return apiGrpcAction({
-    Client: ProfileClient,
-    request,
-    method: 'deleteAccount',
+export const deleteAccount = reason =>
+  apiAction({
+    apiVersion: '2',
+    endpoint: '/profile/delete',
+    method: 'DELETE',
+    data: JSON.stringify({ text: reason }),
     onSuccess: ({ dispatch }) => {
       dispatch(denyAccess());
       dispatch(push('/sign-in'));
-
       dispatch(
         setSnackbar({
           text: 'Аккаунт был успешно удален'
@@ -117,4 +86,3 @@ export function deleteAccount(reason) {
       dispatch(setSnackbar({ text: 'Не удалось удалить аккаунт' }));
     }
   });
-}

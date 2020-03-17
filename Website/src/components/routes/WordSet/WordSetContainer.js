@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeWordSet } from 'src/actions/trainingActions';
+import { updateWordSet } from 'src/actions/trainingActions';
 import { receiveWordSet } from 'src/actions/trainingApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
@@ -28,47 +28,36 @@ function WordSetContainer() {
     setCheckedValues([]);
   };
 
+  const wordSet = wordSetsMap[params.courseId] || [];
+
+  const [selectionAvailable, setSelectionAvailable] = React.useState(true);
+
+  React.useEffect(() => {
+    setSelectionAvailable(wordSet.some(({ hasAdded }) => !hasAdded));
+  }, [wordSet]);
+
   const handleCheckAll = () => {
     setCheckedValues(
-      (wordSetsMap[params.courseId] || [])
+      wordSet
         .filter(({ hasAdded }) => !hasAdded)
         .map(({ serverId }) => serverId)
     );
   };
 
   const handleAdding = () => {
-    const wordPairs = wordSetsMap[params.courseId] || [];
-    const newWordPairs = wordPairs.filter(
+    const newWordPairs = wordSet.filter(
       ({ serverId, hasAdded }) => !hasAdded && checkedValues.includes(serverId)
     );
 
     dispatch(
       addWordPairs(newWordPairs, {
         onSuccess: () => {
+          dispatch(updateWordSet(+params.courseId, newWordPairs));
+
           dispatch(
             setSnackbar({
               text: `Добавлено новых слов: ${newWordPairs.length}`
             })
-          );
-
-          dispatch(
-            initializeWordSet(
-              +params.courseId,
-              wordPairs.map(wordPair => {
-                if (
-                  newWordPairs.find(
-                    ({ serverId }) => serverId === wordPair.serverId
-                  )
-                ) {
-                  return {
-                    ...wordPair,
-                    hasAdded: true
-                  };
-                }
-
-                return wordPair;
-              })
-            )
           );
         }
       })
@@ -79,13 +68,14 @@ function WordSetContainer() {
     <Paper>
       <WordSetToolbar
         checkedValues={checkedValues}
+        selectionAvailable={selectionAvailable}
         handleCheckAll={handleCheckAll}
         handleReset={handleReset}
         handleAdding={handleAdding}
       />
       <Divider />
       <WordSet
-        wordPairs={wordSetsMap[params.courseId] || []}
+        wordPairs={wordSet}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />

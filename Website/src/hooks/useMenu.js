@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function useMenu() {
+const useMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
@@ -16,4 +16,6 @@ export default function useMenu() {
     handleClick,
     handleClose
   };
-}
+};
+
+export default useMenu;

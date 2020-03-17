@@ -1,46 +1,41 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
-import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
+import { fireEvent, screen, wait } from '@testing-library/react';
+import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import SignIn from 'src/components/routes/SignIn';
 
-jest.mock('src/actions/protobuf-generated/Profile.v2_grpc_web_pb');
+const mockingAccessResponse = {
+  token: 'xyz',
+  userid: 1
+};
 
-const fakeUserData = {
+const userData = {
   email: '1@1',
   password: '1'
 };
 
-const fakeAccessResponse = {
-  token: 'xyz',
-  userId: 1
-};
+describe('sign in', () => {
+  it('sign in successfully', async () => {
+    global.fetch = mockFetchOnce(mockingAccessResponse);
 
-test('allows the user to sign in successfully', async () => {
-  const response = {
-    getToken: () => fakeAccessResponse.token,
-    getUserid: () => fakeAccessResponse.userId
-  };
-  ProfileClient.mockImplementation(
-    mockGrpcImplementation('getToken', response)
-  );
+    renderWithEnvironment(<SignIn />);
 
-  renderWithEnvironment(<SignIn />);
+    fireEvent.change(screen.getByLabelText('Email'), {
+      target: { value: userData.email }
+    });
+    fireEvent.change(screen.getByLabelText('Пароль'), {
+      target: { value: userData.password }
+    });
 
-  fireEvent.change(screen.getByLabelText('Email'), {
-    target: { value: fakeUserData.email }
-  });
-  fireEvent.change(screen.getByLabelText('Пароль'), {
-    target: { value: fakeUserData.password }
-  });
+    fireEvent.click(screen.getByText('Войти'));
 
-  fireEvent.click(screen.getByText('Войти'));
-
-  expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-    access: {
-      token: fakeAccessResponse.token,
-      userId: fakeAccessResponse.userId
-    }
+    await wait(() => {
+      expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
+        access: {
+          token: mockingAccessResponse.token,
+          userId: mockingAccessResponse.userid
+        }
+      });
+    });
   });
 });

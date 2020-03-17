@@ -1,20 +1,16 @@
 import React, { Fragment } from 'react';
 import { fireEvent, screen, wait } from '@testing-library/react';
 import mockFetchOnce from 'src/test-utils/mockFetchOnce';
-import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import Profile from 'src/components/routes/Profile';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 
-jest.mock('src/actions/protobuf-generated/Profile.v2_grpc_web_pb');
-
-const fakeAccessData = {
+const accessData = {
   token: 'xyz',
   userId: 1
 };
 
-const fakeUserInfoResponse = {
+const mockingUserInfoResponse = {
   userId: 1,
   nickName: 'prometium',
   avatarPath: null,
@@ -26,29 +22,29 @@ const newUserInfo = {
   email: '2@1'
 };
 
-describe('interaction with the profile', () => {
-  it('allows the user to see profile info', async () => {
-    global.fetch = mockFetchOnce(fakeUserInfoResponse);
+describe('profile', () => {
+  it('receive profile info', async () => {
+    global.fetch = mockFetchOnce(mockingUserInfoResponse);
 
     renderWithEnvironment(<Profile />, {
-      initialState: { access: { token: fakeAccessData.token } }
+      initialState: { access: { token: accessData.token } }
     });
 
     await wait(() => [
-      screen.getByText(fakeUserInfoResponse.nickName),
-      screen.getByText(fakeUserInfoResponse.account.email)
+      screen.getByText(mockingUserInfoResponse.nickName),
+      screen.getByText(mockingUserInfoResponse.account.email)
     ]);
   });
 
-  it('allows the user to edit nickname', async () => {
+  it('edit nickname', async () => {
     global.fetch = mockFetchOnce();
 
     renderWithEnvironment(<Profile />, {
       initialState: {
-        access: { token: fakeAccessData.token },
+        access: { token: accessData.token },
         userInfo: {
-          ...fakeUserInfoResponse,
-          nickname: fakeUserInfoResponse.nickName
+          ...mockingUserInfoResponse,
+          nickname: mockingUserInfoResponse.nickName
         }
       }
     });
@@ -62,13 +58,11 @@ describe('interaction with the profile', () => {
     fireEvent.click(screen.getByText('Сохранить'));
 
     await wait(() => screen.getByText(newUserInfo.nickName));
-    expect(screen.queryByText(fakeUserInfoResponse.nickName)).toBeNull();
+    expect(screen.queryByText(mockingUserInfoResponse.nickName)).toBeNull();
   });
 
-  it('allows the user to edit email', async () => {
-    ProfileClient.mockImplementation(
-      mockGrpcImplementation('requestEmailUpdate')
-    );
+  it('edit email', async () => {
+    global.fetch = mockFetchOnce();
 
     renderWithEnvironment(
       <Fragment>
@@ -77,10 +71,10 @@ describe('interaction with the profile', () => {
       </Fragment>,
       {
         initialState: {
-          access: { token: fakeAccessData.token },
+          access: { token: accessData.token },
           userInfo: {
-            ...fakeUserInfoResponse,
-            nickname: fakeUserInfoResponse.nickName
+            ...mockingUserInfoResponse,
+            nickname: mockingUserInfoResponse.nickName
           }
         }
       }
@@ -98,8 +92,8 @@ describe('interaction with the profile', () => {
     );
   });
 
-  it('allows the user to delete account', async () => {
-    ProfileClient.mockImplementation(mockGrpcImplementation('deleteAccount'));
+  it('delete account', async () => {
+    global.fetch = mockFetchOnce();
 
     renderWithEnvironment(
       <Fragment>
@@ -108,10 +102,10 @@ describe('interaction with the profile', () => {
       </Fragment>,
       {
         initialState: {
-          access: { token: fakeAccessData.token },
+          access: { token: accessData.token },
           userInfo: {
-            ...fakeUserInfoResponse,
-            nickname: fakeUserInfoResponse.nickName
+            ...mockingUserInfoResponse,
+            nickname: mockingUserInfoResponse.nickName
           }
         }
       }
@@ -120,7 +114,7 @@ describe('interaction with the profile', () => {
     fireEvent.click(screen.getByText('Удалить аккаунт'));
 
     fireEvent.change(screen.getByLabelText('Никнейм'), {
-      target: { value: fakeUserInfoResponse.nickName }
+      target: { value: mockingUserInfoResponse.nickName }
     });
     fireEvent.click(screen.getByText('Удалить'));
 

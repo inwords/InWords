@@ -55,7 +55,7 @@ function App() {
             <Switch>
               <Route exact path="/">
                 {!userId ? (
-                  <Redirect to="/sign-in" />
+                  <Redirect to="/sign-up" />
                 ) : (
                   <Redirect to="/training" />
                 )}

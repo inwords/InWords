@@ -1,6 +1,6 @@
 .divider {
   margin: 0;
   height: 1px;
-  border: none;
+  border: 0;
   background-color: var(--palette-divider);
 }

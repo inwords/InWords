@@ -12,10 +12,12 @@
     cursor: pointer;
     user-select: none;
     text-decoration: none;
+    outline: 0;
     color: var(--palette-text-primary);
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: var(--palette-action-hover);
     }
 
