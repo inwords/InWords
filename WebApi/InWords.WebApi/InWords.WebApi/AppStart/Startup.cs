@@ -17,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using Prometheus;
+using InWords.WebApi.Prometheus;
+
 namespace InWords.WebApi.AppStart
 {
     /// <summary>
@@ -103,6 +105,7 @@ namespace InWords.WebApi.AppStart
             app.UseCors("AllowAll"); // should be before UseMvc but after UserRouting and before Authorization and UseAuthorization
             app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
             app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
+            app.UseMiddleware<ResponseMetricMiddleware>();
             app.UseMvc();
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -134,10 +137,10 @@ namespace InWords.WebApi.AppStart
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
+
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
-            //app.UseMetricServer();
-            app.UseHttpMetrics();
+            //app.UseHttpMetrics();
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureApp(app));
         }
