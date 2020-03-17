@@ -4,6 +4,7 @@ using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
+using InWords.WebApi.Prometheus;
 using InWords.WebApi.Services.OAuth2.JwtProviders;
 using InWords.WebApi.Services.OAuth2.Models;
 using MediatR;
@@ -16,8 +17,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
-using Prometheus;
-using InWords.WebApi.Prometheus;
 
 namespace InWords.WebApi.AppStart
 {
