@@ -35,7 +35,6 @@ export const updateUserInfo = userInfo =>
     data: JSON.stringify(userInfo),
     onSuccess: ({ dispatch }) => {
       dispatch(updateUserInfoAction(userInfo));
-      dispatch(push('/profile'));
     },
     onFailure: ({ dispatch }) => {
       dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));

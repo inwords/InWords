@@ -2,184 +2,146 @@ import React from 'react';
 import {
   act,
   fireEvent,
-  screen,
   wait,
   waitForElementToBeRemoved
 } from '@testing-library/react';
-import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Dictionary from 'src/components/routes/Dictionary';
 
-const accessData = {
-  token: 'xyz',
-  userId: 1
+const setup = () => {
+  const accessData = { token: 'xyz', userId: 1 };
+  const mockingWordPairsResponse = {
+    toDelete: [],
+    toAdd: [
+      { wordForeign: 'cat', wordNative: 'кошка', userWordPair: 1 },
+      { wordForeign: 'dog', wordNative: 'собака', userWordPair: 2 }
+    ]
+  };
+  const editedWordPair = {
+    wordForeign: 'hound',
+    wordNative: 'гончая',
+    serverId: 2
+  };
+  const mockingWordPairsEditResponse = [{ id: 0, serverId: 3 }];
+  const newWordPair = {
+    wordForeign: 'parrot',
+    wordNative: 'попугай'
+  };
+  const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
+  global.fetch = mockFetch(mockingWordPairsResponse);
+  const utils = renderWithEnvironment(<Dictionary />, {
+    initialState: { access: { token: accessData.token } }
+  });
+
+  const clickWordPairEdit = word => fireEvent.click(utils.getByText(word));
+  const clickWordPairAdd = () => fireEvent.click(utils.getByText('add'));
+  const changeWordForeignInput = value =>
+    fireEvent.change(utils.getByLabelText('Слово или фраза на английском'), {
+      target: { value }
+    });
+  const changeWordNativeInput = value =>
+    fireEvent.change(utils.getByLabelText('Перевод'), {
+      target: { value }
+    });
+  const clickWordPairEditConfirmation = () =>
+    fireEvent.click(utils.getByText('Готово'));
+  const clickWordPairAddConfirmation = () =>
+    fireEvent.click(utils.getByText('Добавить'));
+  const clickWordPairCheckbox = id =>
+    fireEvent.click(utils.getByTestId(`pair-${id}-checkbox`));
+  const clickDel = () => fireEvent.click(utils.getByText('delete'));
+  const clickDelСonfirmation = () =>
+    fireEvent.click(utils.getByText('Удалить'));
+  const changeSearchInput = value =>
+    fireEvent.change(utils.getByPlaceholderText('Поиск слова'), {
+      target: { value }
+    });
+
+  return {
+    ...utils,
+    mockingWordPairsResponse,
+    editedWordPair,
+    mockingWordPairsEditResponse,
+    newWordPair,
+    mockingWordPairsAddResponse,
+    clickWordPairEdit,
+    clickWordPairAdd,
+    changeWordForeignInput,
+    changeWordNativeInput,
+    clickWordPairEditConfirmation,
+    clickWordPairAddConfirmation,
+    clickWordPairCheckbox,
+    clickDel,
+    clickDelСonfirmation,
+    changeSearchInput
+  };
 };
 
-const mockingWordPairsResponse = {
-  toDelete: [],
-  toAdd: [
-    { wordForeign: 'cat', wordNative: 'кошка', userWordPair: 1 },
-    { wordForeign: 'dog', wordNative: 'собака', userWordPair: 2 }
-  ]
-};
+test('edit word pair', async () => {
+  const utils = setup();
+  const wordPair = utils.mockingWordPairsResponse.toAdd[1];
+  const editedWordPair = utils.editedWordPair;
+  await wait(() => utils.getByText(wordPair.wordForeign));
 
-const mockingWordPairsEditResponse = [{ id: 0, serverId: 3 }];
+  global.fetch = mockFetch(utils.mockingWordPairsEditResponse);
+  utils.clickWordPairEdit(wordPair.wordForeign);
+  utils.changeWordForeignInput(editedWordPair.wordForeign);
+  utils.changeWordNativeInput(editedWordPair.wordNative);
+  utils.clickWordPairEditConfirmation();
 
-const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
+  await wait(() => [
+    utils.getByText(editedWordPair.wordForeign),
+    utils.getByText(editedWordPair.wordNative)
+  ]);
+  expect(utils.queryByText(wordPair.wordForeign)).toBeNull();
+  expect(utils.queryByText(wordPair.wordNative)).toBeNull();
+});
 
-const wordPairs = [
-  { wordForeign: 'cat', wordNative: 'кошка', serverId: 1 },
-  { wordForeign: 'dog', wordNative: 'собака', serverId: 2 }
-];
+test('add word pair', async () => {
+  const utils = setup();
+  const wordPair = utils.mockingWordPairsResponse.toAdd[1];
+  const newWordPair = utils.newWordPair;
+  await wait(() => utils.getByText(wordPair.wordForeign));
 
-const editedWordPair = {
-  wordForeign: 'hound',
-  wordNative: 'гончая',
-  serverId: 2
-};
+  global.fetch = mockFetch(utils.mockingWordPairsAddResponse);
+  utils.clickWordPairAdd();
+  utils.changeWordForeignInput(newWordPair.wordForeign);
+  utils.changeWordNativeInput(newWordPair.wordNative);
+  utils.clickWordPairAddConfirmation();
 
-const newWordPair = {
-  wordForeign: 'parrot',
-  wordNative: 'попугай'
-};
+  await wait(() => [
+    utils.getByText(newWordPair.wordForeign),
+    utils.getByText(newWordPair.wordNative)
+  ]);
+});
 
-describe('dictionary', () => {
-  it('receive word pairs', async () => {
-    global.fetch = mockFetchOnce(mockingWordPairsResponse);
+test('delete word pair', async () => {
+  const utils = setup();
+  const wordPair = utils.mockingWordPairsResponse.toAdd[0];
+  await wait(() => utils.getByText(wordPair.wordForeign));
 
-    renderWithEnvironment(<Dictionary />, {
-      initialState: { access: { token: accessData.token } }
-    });
+  global.fetch = mockFetch();
+  utils.clickWordPairCheckbox(wordPair.userWordPair);
+  utils.clickDel();
+  utils.clickDelСonfirmation();
 
-    await wait(() => [
-      screen.getByText(mockingWordPairsResponse.toAdd[0].wordForeign),
-      screen.getByText(mockingWordPairsResponse.toAdd[0].wordNative),
-      screen.getByText(mockingWordPairsResponse.toAdd[1].wordForeign),
-      screen.getByText(mockingWordPairsResponse.toAdd[1].wordNative)
-    ]);
+  await waitForElementToBeRemoved(() =>
+    utils.queryByText(wordPair.wordForeign)
+  );
+});
+
+test('find word pair', async () => {
+  const utils = setup();
+  const rightWordPair = utils.mockingWordPairsResponse.toAdd[0];
+  const anotherWordPair = utils.mockingWordPairsResponse.toAdd[1];
+  await wait(() => utils.getByText(rightWordPair.wordForeign));
+
+  jest.useFakeTimers();
+  utils.changeSearchInput(rightWordPair.wordForeign);
+  act(() => {
+    jest.runOnlyPendingTimers();
   });
-
-  it('edit word pair', async () => {
-    global.fetch = mockFetchOnce(mockingWordPairsEditResponse);
-
-    renderWithEnvironment(<Dictionary />, {
-      initialState: {
-        access: { token: accessData.token },
-        dictionary: {
-          actual: true,
-          wordPairs
-        }
-      }
-    });
-
-    fireEvent.click(
-      screen.getByText(mockingWordPairsResponse.toAdd[1].wordForeign)
-    );
-
-    fireEvent.change(screen.getByLabelText('Слово или фраза на английском'), {
-      target: { value: editedWordPair.wordForeign }
-    });
-    fireEvent.change(screen.getByLabelText('Перевод'), {
-      target: { value: editedWordPair.wordNative }
-    });
-
-    fireEvent.click(screen.getByText('Готово'));
-
-    await wait(() => [
-      screen.getByText(editedWordPair.wordForeign),
-      screen.getByText(editedWordPair.wordNative)
-    ]);
-
-    expect(
-      screen.queryByText(mockingWordPairsResponse.toAdd[1].wordForeign)
-    ).toBeNull();
-    expect(
-      screen.queryByText(mockingWordPairsResponse.toAdd[1].wordNative)
-    ).toBeNull();
-  });
-
-  it('add new word pair', async () => {
-    global.fetch = mockFetchOnce(mockingWordPairsAddResponse);
-
-    renderWithEnvironment(<Dictionary />, {
-      initialState: {
-        access: { token: accessData.token },
-        dictionary: {
-          actual: true,
-          wordPairs
-        }
-      }
-    });
-
-    fireEvent.click(screen.getByText('add'));
-
-    fireEvent.change(screen.getByLabelText('Слово или фраза на английском'), {
-      target: { value: newWordPair.wordForeign }
-    });
-    fireEvent.change(screen.getByLabelText('Перевод'), {
-      target: { value: newWordPair.wordNative }
-    });
-
-    fireEvent.click(screen.getByText('Добавить'));
-
-    await wait(() => [
-      screen.getByText(newWordPair.wordForeign),
-      screen.getByText(newWordPair.wordNative)
-    ]);
-  });
-
-  it('delete word pairs', async () => {
-    global.fetch = mockFetchOnce();
-
-    renderWithEnvironment(<Dictionary />, {
-      initialState: {
-        access: { token: accessData.token },
-        dictionary: {
-          actual: true,
-          wordPairs
-        }
-      }
-    });
-
-    fireEvent.click(
-      screen.getByTestId(`pair-${wordPairs[0].serverId}-checkbox`)
-    );
-
-    fireEvent.click(screen.getByText('delete'));
-
-    fireEvent.click(screen.getByText('Удалить'));
-
-    await waitForElementToBeRemoved(() =>
-      screen.queryByText(mockingWordPairsResponse.toAdd[0].wordForeign)
-    );
-  });
-
-  it('find word pairs', async () => {
-    jest.useFakeTimers();
-
-    renderWithEnvironment(<Dictionary />, {
-      initialState: {
-        access: { token: accessData.token },
-        dictionary: {
-          actual: true,
-          wordPairs
-        }
-      }
-    });
-
-    fireEvent.change(screen.getByPlaceholderText('Поиск слова'), {
-      target: { value: mockingWordPairsResponse.toAdd[0].wordForeign }
-    });
-
-    act(() => {
-      jest.runOnlyPendingTimers();
-    });
-
-    expect(
-      screen.queryByText(mockingWordPairsResponse.toAdd[0].wordForeign)
-    ).toBeTruthy();
-    expect(
-      screen.queryByText(mockingWordPairsResponse.toAdd[1].wordForeign)
-    ).toBeNull();
-  });
+  expect(utils.queryByText(rightWordPair.wordForeign)).toBeTruthy();
+  expect(utils.queryByText(anotherWordPair.wordForeign)).toBeNull();
 });

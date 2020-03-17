@@ -1,58 +1,54 @@
 import React from 'react';
-import { fireEvent, screen, wait } from '@testing-library/react';
-import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import { fireEvent, wait } from '@testing-library/react';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import SignUp from 'src/components/routes/SignUp';
 
-const mockingAccessResponse = {
-  token: 'xyz',
-  userid: 1
+const setup = () => {
+  const mockingAccessResponse = { token: 'xyz', userId: 1 };
+  const userData = { email: '1@1', password: '1' };
+  global.fetch = mockFetch(mockingAccessResponse);
+  const utils = renderWithEnvironment(<SignUp />);
+  const changeEmailInput = value =>
+    fireEvent.change(utils.getByLabelText('Email'), { target: { value } });
+  const changePasswordInput = value =>
+    fireEvent.change(utils.getByLabelText('Пароль'), { target: { value } });
+  const clickSubmit = () =>
+    fireEvent.click(utils.getByText('Зарегистрироваться'));
+  const clickSubmitAsGuest = () =>
+    fireEvent.click(utils.getByText('Войти гостем'));
+
+  return {
+    ...utils,
+    userData,
+    mockingAccessResponse,
+    changeEmailInput,
+    changePasswordInput,
+    clickSubmit,
+    clickSubmitAsGuest
+  };
 };
 
-const userData = {
-  email: '1@1',
-  password: '1'
-};
+test('sign up successfully', async () => {
+  const utils = setup();
+  utils.changeEmailInput(utils.userData.email);
+  utils.changePasswordInput(utils.userData.password);
+  utils.clickSubmit();
 
-describe('sign up', () => {
-  it('sign up successfully', async () => {
-    global.fetch = mockFetchOnce(mockingAccessResponse);
-
-    renderWithEnvironment(<SignUp />);
-
-    fireEvent.change(screen.getByLabelText('Email'), {
-      target: { value: userData.email }
-    });
-    fireEvent.change(screen.getByLabelText('Пароль'), {
-      target: { value: userData.password }
-    });
-
-    fireEvent.click(screen.getByText('Зарегистрироваться'));
-
-    await wait(() => {
-      expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-        access: {
-          token: mockingAccessResponse.token,
-          userId: mockingAccessResponse.userid
-        }
-      });
+  await wait(() => {
+    expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
+      access: utils.mockingAccessResponse
     });
   });
+});
 
-  it('sign up as guest successfully', async () => {
-    global.fetch = mockFetchOnce(mockingAccessResponse);
+test('sign up as guest successfully', async () => {
+  const utils = setup();
+  utils.clickSubmitAsGuest();
 
-    renderWithEnvironment(<SignUp />);
-
-    fireEvent.click(screen.getByText('Войти гостем'));
-
-    await wait(() => {
-      expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-        access: {
-          token: mockingAccessResponse.token,
-          userId: mockingAccessResponse.userid
-        }
-      });
+  await wait(() => {
+    expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
+      access: utils.mockingAccessResponse
     });
   });
 });

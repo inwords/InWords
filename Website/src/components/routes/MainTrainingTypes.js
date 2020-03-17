@@ -8,10 +8,8 @@ function MainTrainingTypes() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (!levelsMap[0]) {
-      dispatch(receiveTrainingWordPairs());
-    }
-  }, [levelsMap, dispatch]);
+    dispatch(receiveTrainingWordPairs());
+  }, [dispatch]);
 
   const levelsMap = useSelector(store => store.training.levelsMap);
 

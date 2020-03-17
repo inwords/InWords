@@ -9,7 +9,7 @@ const access = (state = initialState, action) => {
   if (action.type === GRANT_ACCESS) {
     return {
       token: action.payload.token,
-      userId: action.payload.userId || action.payload.userid
+      userId: action.payload.userId
     };
   }
 

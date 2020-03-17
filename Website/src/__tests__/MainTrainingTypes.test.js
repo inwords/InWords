@@ -1,10 +1,10 @@
 import React from 'react';
 import { screen, wait } from '@testing-library/react';
-import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import MainTrainingTypes from 'src/components/routes/MainTrainingTypes';
 
-const fakeAccessData = {
+const accessData = {
   token: 'xyz',
   userId: 1
 };
@@ -23,10 +23,10 @@ const mockingWordPairsToTrainResponse = [
 ];
 
 test('receive words to train', async () => {
-  global.fetch = mockFetchOnce(mockingWordPairsToTrainResponse);
+  global.fetch = mockFetch(mockingWordPairsToTrainResponse);
 
   renderWithEnvironment(<MainTrainingTypes />, {
-    initialState: { access: { token: fakeAccessData.token } }
+    initialState: { access: { token: accessData.token } }
   });
 
   await wait(() => [

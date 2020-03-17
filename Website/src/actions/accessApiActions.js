@@ -7,7 +7,7 @@ import { grantAccess, denyAccess } from './accessActions';
 export const signIn = userData =>
   apiAction({
     apiVersion: '2',
-    endpoint: '/profile/token',
+    endpoint: '/auth/basic',
     method: 'POST',
     withCredentials: false,
     data: JSON.stringify(userData),
@@ -23,7 +23,7 @@ export const signIn = userData =>
 export const signUp = (userData, isAnonymous = false) =>
   apiAction({
     apiVersion: '2',
-    endpoint: '/profile/register',
+    endpoint: '/auth/register',
     method: 'POST',
     withCredentials: false,
     data: JSON.stringify({
