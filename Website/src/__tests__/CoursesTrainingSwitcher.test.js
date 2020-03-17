@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, fireEvent, screen, wait } from '@testing-library/react';
 import { Route } from 'react-router-dom';
-import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import CoursesTrainingSwitcher from 'src/components/routes/CoursesTrainingSwitcher';
 
@@ -24,7 +24,7 @@ const mockingLevelResultResponse = {
 
 describe('courses game', () => {
   it('receive courses game lavel', async () => {
-    global.fetch = mockFetchOnce(mockingTrainingLevelResponse);
+    global.fetch = mockFetch(mockingTrainingLevelResponse);
 
     renderWithEnvironment(
       <Route path="/training/courses/:courseId/:levelId/:trainingId">
@@ -46,8 +46,6 @@ describe('courses game', () => {
   });
 
   it('complete courses game', async () => {
-    jest.useFakeTimers();
-
     renderWithEnvironment(
       <Route path="/training/courses/:courseId/:levelId/:trainingId">
         <CoursesTrainingSwitcher />
@@ -68,12 +66,14 @@ describe('courses game', () => {
     const wordTranslations = mockingTrainingLevelResponse.wordTranslations;
     await wait(() => [screen.getByText(wordTranslations[0].wordForeign)]);
 
-    global.fetch = mockFetchOnce(mockingLevelResultResponse);
+    global.fetch = mockFetch(mockingLevelResultResponse);
 
     fireEvent.click(screen.getByText(wordTranslations[0].wordForeign));
     fireEvent.click(screen.getByText(wordTranslations[0].wordNative));
     fireEvent.click(screen.getByText(wordTranslations[1].wordForeign));
     fireEvent.click(screen.getByText(wordTranslations[1].wordNative));
+
+    jest.useFakeTimers();
 
     await Promise.resolve();
     await Promise.resolve();

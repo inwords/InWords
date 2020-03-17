@@ -1,5 +1,5 @@
-const mockFetchOnce = data =>
-  jest.fn().mockImplementationOnce(() =>
+const mockFetch = data =>
+  jest.fn().mockImplementation(() =>
     Promise.resolve({
       headers: new Headers({ 'content-type': 'application/json' }),
       ok: true,
@@ -7,4 +7,4 @@ const mockFetchOnce = data =>
     })
   );
 
-export default mockFetchOnce;
+export default mockFetch;

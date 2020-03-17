@@ -1,123 +1,112 @@
 import React, { Fragment } from 'react';
-import { fireEvent, screen, wait } from '@testing-library/react';
-import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import { fireEvent, wait } from '@testing-library/react';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Profile from 'src/components/routes/Profile';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 
-const accessData = {
-  token: 'xyz',
-  userId: 1
-};
-
-const mockingUserInfoResponse = {
-  userId: 1,
-  nickName: 'prometium',
-  avatarPath: null,
-  account: { accountId: 1, email: '1@1' }
-};
-
-const newUserInfo = {
-  nickName: 'promet1um',
-  email: '2@1'
-};
-
-describe('profile', () => {
-  it('receive profile info', async () => {
-    global.fetch = mockFetchOnce(mockingUserInfoResponse);
-
-    renderWithEnvironment(<Profile />, {
+const setup = () => {
+  const accessData = { token: 'xyz', userId: 1 };
+  const mockingUserInfoResponse = {
+    userId: 1,
+    nickName: 'prometium',
+    avatarPath: null,
+    account: { accountId: 1, email: '1@1' }
+  };
+  const newUserInfo = {
+    nickName: 'promet1um',
+    email: '2@1'
+  };
+  global.fetch = mockFetch(mockingUserInfoResponse);
+  const utils = renderWithEnvironment(
+    <Fragment>
+      <Profile />
+      <SmartSnackbar />
+    </Fragment>,
+    {
       initialState: { access: { token: accessData.token } }
+    }
+  );
+
+  const clickNickNameEdit = () =>
+    fireEvent.click(utils.getByText('Изменить никнейм'));
+  const changeNickNameInput = value =>
+    fireEvent.change(utils.getByLabelText('Новый никнейм'), {
+      target: { value }
     });
+  const clickNickNameSubmit = () =>
+    fireEvent.click(utils.getByText('Сохранить'));
 
-    await wait(() => [
-      screen.getByText(mockingUserInfoResponse.nickName),
-      screen.getByText(mockingUserInfoResponse.account.email)
-    ]);
-  });
-
-  it('edit nickname', async () => {
-    global.fetch = mockFetchOnce();
-
-    renderWithEnvironment(<Profile />, {
-      initialState: {
-        access: { token: accessData.token },
-        userInfo: {
-          ...mockingUserInfoResponse,
-          nickname: mockingUserInfoResponse.nickName
-        }
-      }
+  const clickEmailEdit = () =>
+    fireEvent.click(utils.getByText('Изменить электронный адрес'));
+  const changeEmailInput = value =>
+    fireEvent.change(utils.getByLabelText('Новый email'), {
+      target: { value }
     });
+  const clickEmailSubmit = () => fireEvent.click(utils.getByText('Сохранить'));
 
-    fireEvent.click(screen.getByText('Изменить никнейм'));
-
-    fireEvent.change(screen.getByLabelText('Новый никнейм'), {
-      target: { value: newUserInfo.nickName }
+  const clickDel = () => fireEvent.click(utils.getByText('Удалить аккаунт'));
+  const changeDelNickNameInput = value =>
+    fireEvent.change(utils.getByLabelText('Никнейм'), {
+      target: { value }
     });
+  const clickDelSubmit = () => fireEvent.click(utils.getByText('Удалить'));
 
-    fireEvent.click(screen.getByText('Сохранить'));
+  return {
+    ...utils,
+    mockingUserInfoResponse,
+    newUserInfo,
+    clickNickNameEdit,
+    changeNickNameInput,
+    clickNickNameSubmit,
+    clickEmailEdit,
+    changeEmailInput,
+    clickEmailSubmit,
+    clickDel,
+    changeDelNickNameInput,
+    clickDelSubmit
+  };
+};
 
-    await wait(() => screen.getByText(newUserInfo.nickName));
-    expect(screen.queryByText(mockingUserInfoResponse.nickName)).toBeNull();
-  });
+test('edit nickname', async () => {
+  const utils = setup();
+  const nickName = utils.mockingUserInfoResponse.nickName;
+  const newNickName = utils.mockingUserInfoResponse.nickName;
+  await wait(() => utils.getByText(nickName));
 
-  it('edit email', async () => {
-    global.fetch = mockFetchOnce();
+  global.fetch = mockFetch();
+  utils.clickNickNameEdit();
+  utils.changeNickNameInput(newNickName);
+  utils.clickNickNameSubmit();
 
-    renderWithEnvironment(
-      <Fragment>
-        <Profile />
-        <SmartSnackbar />
-      </Fragment>,
-      {
-        initialState: {
-          access: { token: accessData.token },
-          userInfo: {
-            ...mockingUserInfoResponse,
-            nickname: mockingUserInfoResponse.nickName
-          }
-        }
-      }
-    );
+  await wait(() => utils.getByText(newNickName));
+});
 
-    fireEvent.click(screen.getByText('Изменить электронный адрес'));
+test('edit email', async () => {
+  const utils = setup();
+  const email = utils.mockingUserInfoResponse.account.email;
+  const newEmail = utils.newUserInfo.email;
+  await wait(() => utils.getByText(email));
 
-    fireEvent.change(screen.getByLabelText('Новый email'), {
-      target: { value: newUserInfo.email }
-    });
-    fireEvent.click(screen.getByText('Сохранить'));
+  global.fetch = mockFetch();
+  utils.clickEmailEdit();
+  utils.changeEmailInput(newEmail);
+  utils.clickEmailSubmit();
 
-    await wait(() =>
-      screen.getByText('На новый email было отправлено письмо с подтверждением')
-    );
-  });
+  await wait(() =>
+    utils.getByText('На новый email было отправлено письмо с подтверждением')
+  );
+});
 
-  it('delete account', async () => {
-    global.fetch = mockFetchOnce();
+test('delete account', async () => {
+  const utils = setup();
+  const nickName = utils.mockingUserInfoResponse.nickName;
+  await wait(() => utils.getByText(nickName));
 
-    renderWithEnvironment(
-      <Fragment>
-        <Profile />
-        <SmartSnackbar />
-      </Fragment>,
-      {
-        initialState: {
-          access: { token: accessData.token },
-          userInfo: {
-            ...mockingUserInfoResponse,
-            nickname: mockingUserInfoResponse.nickName
-          }
-        }
-      }
-    );
+  global.fetch = mockFetch();
+  utils.clickDel();
+  utils.changeDelNickNameInput(nickName);
+  utils.clickDelSubmit();
 
-    fireEvent.click(screen.getByText('Удалить аккаунт'));
-
-    fireEvent.change(screen.getByLabelText('Никнейм'), {
-      target: { value: mockingUserInfoResponse.nickName }
-    });
-    fireEvent.click(screen.getByText('Удалить'));
-
-    await wait(() => screen.getByText('Аккаунт был успешно удален'));
-  });
+  await wait(() => utils.getByText('Аккаунт был успешно удален'));
 });
