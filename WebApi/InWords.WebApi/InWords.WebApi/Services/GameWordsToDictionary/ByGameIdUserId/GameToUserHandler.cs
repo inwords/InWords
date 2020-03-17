@@ -55,6 +55,7 @@ namespace InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId
                 new UserWordPair
                 {
                     WordPairId = w,
+                    // TODO: Configure isinverted word pair
                     UserId = request.UserId
                 });
         }

@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using Prometheus;
 namespace InWords.WebApi.AppStart
 {
     /// <summary>
@@ -86,7 +87,6 @@ namespace InWords.WebApi.AppStart
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
-
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureServices(services));
         }
@@ -136,6 +136,8 @@ namespace InWords.WebApi.AppStart
             else
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
+            //app.UseMetricServer();
+            app.UseHttpMetrics();
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureApp(app));
         }
