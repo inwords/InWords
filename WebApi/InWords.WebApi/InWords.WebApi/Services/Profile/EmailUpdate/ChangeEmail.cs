@@ -3,7 +3,6 @@ using InWords.Data;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Enums;
 using InWords.Protobuf;
-using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Email.Template;

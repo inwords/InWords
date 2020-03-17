@@ -3,14 +3,12 @@ using InWords.WebApi.Module;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
-using System.Net;
-using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 using Serilog;
-using System.Linq;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Net;
 
 namespace InWords.WebApi.AppStart
 {
