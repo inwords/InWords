@@ -3,7 +3,6 @@ using InWords.Data;
 using InWords.Protobuf;
 using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
-using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Users.Extentions;

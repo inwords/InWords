@@ -1,7 +1,6 @@
 ﻿using InWords.Data;
 using InWords.Protobuf;
 using InWords.WebApi.Extensions.InWordsDataContext;
-using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
