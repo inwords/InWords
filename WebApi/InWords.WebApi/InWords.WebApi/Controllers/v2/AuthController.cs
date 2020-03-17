@@ -1,11 +1,9 @@
 ﻿using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Swagger.Examples;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.Filters;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
@@ -28,7 +26,7 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [SwaggerResponse(StatusCodes.Status200OK,"Returns Token",typeof(TokenReply))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Token", typeof(TokenReply))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Route("oauth2")]
         [HttpPost]

@@ -1,8 +1,4 @@
-﻿using InWords.Data.Enums;
-using InWords.Protobuf;
-using InWords.Service.Auth.Interfaces;
-using InWords.Service.Auth.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using InWords.Protobuf;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace InWords.WebApi.Swagger.Examples

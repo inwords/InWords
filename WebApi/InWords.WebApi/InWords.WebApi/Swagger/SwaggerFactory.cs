@@ -1,5 +1,4 @@
 ﻿using InWords.Common.Extensions;
-using InWords.WebApi.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +47,7 @@ namespace InWords.WebApi.Swagger
 
             var types = AppDomain.CurrentDomain
                 .GetAssemblies()
-                .SelectMany(a=>a.GetTypes())
+                .SelectMany(a => a.GetTypes())
                 .Where(t => String.Equals(t.Namespace, "InWords.WebApi.Swagger.Examples", StringComparison.Ordinal))
                 .ToArray();
 
