@@ -4,7 +4,6 @@ using InWords.Protobuf;
 using InWords.Service.Auth.Interfaces;
 using InWords.Service.Auth.Models;
 using InWords.Service.Encryption.Interfaces;
-using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Services.Abstractions;
 using System;
 using System.Linq;

@@ -1,14 +1,12 @@
 ﻿using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
 {
-    [Authorize]
     [ApiVersion("2")]
     [Route("v{version:apiVersion}/auth")]
     [ApiController]
