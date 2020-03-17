@@ -1,15 +1,12 @@
 ﻿using Grpc.Core;
-using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using InWords.Protobuf;
 using InWords.WebApi.Extensions;
 
 namespace InWords.WebApi.gRPC.Services
 {
-    [Authorize]
     public class AuthService : Authenticator.AuthenticatorBase
     {
         IMediator mediator;

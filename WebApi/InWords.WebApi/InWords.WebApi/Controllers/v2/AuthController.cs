@@ -1,7 +1,6 @@
 ﻿using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
