@@ -81,6 +81,7 @@ namespace InWords.WebApi.Services.OAuth2.Requests
                     oAuth.OpenId = payload.Subject;
                     oAuth.Picture = payload.Picture;
                     oAuth.Name = payload.Name;
+                    await Context.SaveChangesAsync().ConfigureAwait(false);
                     return new TokenReply()
                     {
                         UserId = oAuth.AccountId,
