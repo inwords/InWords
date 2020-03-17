@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function useDialog(initialState = false) {
+const useDialog = (initialState = false) => {
   const [open, setOpen] = React.useState(initialState);
 
   const handleOpen = () => {
@@ -17,4 +17,6 @@ export default function useDialog(initialState = false) {
     handleOpen,
     handleClose
   };
-}
+};
+
+export default useDialog;

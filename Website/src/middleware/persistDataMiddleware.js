@@ -7,7 +7,7 @@ const persistDataMiddleware = () => next => action => {
       saveState({
         access: {
           token: action.payload.token,
-          userId: action.payload.userId
+          userId: action.payload.userId || action.payload.userid
         }
       });
       break;

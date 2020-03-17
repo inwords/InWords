@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'development') {
   middleware.unshift(logger);
 }
 
-export default function configureStore({ history, preloadedState }) {
+const configureStore = ({ history, preloadedState }) => {
   middleware.push(routerMiddleware(history));
 
   const store = createStore(
@@ -21,4 +21,6 @@ export default function configureStore({ history, preloadedState }) {
   );
 
   return store;
-}
+};
+
+export default configureStore;

@@ -6,7 +6,7 @@ import SignUp from 'src/components/routes/SignUp';
 
 const mockingAccessResponse = {
   token: 'xyz',
-  userId: 1
+  userid: 1
 };
 
 const userData = {
@@ -33,7 +33,7 @@ describe('sign up', () => {
       expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
         access: {
           token: mockingAccessResponse.token,
-          userId: mockingAccessResponse.userId
+          userId: mockingAccessResponse.userid
         }
       });
     });
@@ -50,7 +50,7 @@ describe('sign up', () => {
       expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
         access: {
           token: mockingAccessResponse.token,
-          userId: mockingAccessResponse.userId
+          userId: mockingAccessResponse.userid
         }
       });
     });

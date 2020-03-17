@@ -7,8 +7,8 @@ import {
 } from './dictionaryActions';
 import { setSnackbar } from './commonActions';
 
-export function syncWordPairs(wordPairIds) {
-  return apiAction({
+export const syncWordPairs = wordPairIds =>
+  apiAction({
     apiVersion: '2',
     endpoint: '/dictionary/getWords',
     method: 'POST',
@@ -20,10 +20,9 @@ export function syncWordPairs(wordPairIds) {
       dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
     }
   });
-}
 
-export function deleteWordPairs(pairIds) {
-  return apiAction({
+export const deleteWordPairs = pairIds =>
+  apiAction({
     endpoint: '/words/deletePair',
     method: 'POST',
     data: JSON.stringify(pairIds),
@@ -34,18 +33,17 @@ export function deleteWordPairs(pairIds) {
       dispatch(setSnackbar({ text: 'Не удалось удалить слова' }));
     }
   });
-}
 
-export function addWordPairs(wordPairs, { onSuccess } = {}) {
-  return apiAction({
+export const addWordPairs = (wordPairs, { onSuccess } = {}) =>
+  apiAction({
     apiVersion: '2',
-    endpoint: '/words/addWords',
+    endpoint: '/dictionary/addWords',
     method: 'POST',
     data: JSON.stringify({
       Words: wordPairs.map(({ wordNative, wordForeign }, index) => ({
-        WordNative: wordNative,
+        LocalId: index,
         WordForeign: wordForeign,
-        LocalId: index
+        WordNative: wordNative
       }))
     }),
     onSuccess: ({ dispatch, data }) => {
@@ -53,7 +51,7 @@ export function addWordPairs(wordPairs, { onSuccess } = {}) {
         addWordPairsAction(
           wordPairs.map((wordPair, index) => ({
             ...wordPair,
-            serverId: data[index].serverId
+            serverId: data.wordIds[index].serverId
           }))
         )
       );
@@ -66,10 +64,9 @@ export function addWordPairs(wordPairs, { onSuccess } = {}) {
       dispatch(setSnackbar({ text: 'Не удалось добавить слова' }));
     }
   });
-}
 
-export function editWordPairs(wordPairsMap) {
-  return apiAction({
+export const editWordPairs = wordPairsMap =>
+  apiAction({
     endpoint: '/words/updatePair',
     method: 'POST',
     data: JSON.stringify(wordPairsMap),
@@ -92,4 +89,3 @@ export function editWordPairs(wordPairsMap) {
       );
     }
   });
-}

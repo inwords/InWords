@@ -4,8 +4,8 @@ import apiAction from './apiAction';
 import { setSnackbar } from './commonActions';
 import { grantAccess, denyAccess } from './accessActions';
 
-export function signIn(userData) {
-  return apiAction({
+export const signIn = userData =>
+  apiAction({
     apiVersion: '2',
     endpoint: '/profile/token',
     method: 'POST',
@@ -19,10 +19,9 @@ export function signIn(userData) {
       dispatch(setSnackbar({ text: 'Не удалось авторизоваться' }));
     }
   });
-}
 
-export function signUp(userData, isAnonymous = false) {
-  return apiAction({
+export const signUp = (userData, isAnonymous = false) =>
+  apiAction({
     apiVersion: '2',
     endpoint: '/profile/register',
     method: 'POST',
@@ -49,10 +48,9 @@ export function signUp(userData, isAnonymous = false) {
       dispatch(setSnackbar({ text: 'Не удалось зарегистрироваться' }));
     }
   });
-}
 
-export function updateEmail(email) {
-  return apiAction({
+export const updateEmail = email =>
+  apiAction({
     apiVersion: '2',
     endpoint: '/profile/updateEmail',
     method: 'POST',
@@ -68,10 +66,9 @@ export function updateEmail(email) {
       dispatch(setSnackbar({ text: 'Не удалось изменить email' }));
     }
   });
-}
 
-export function deleteAccount(reason) {
-  return apiAction({
+export const deleteAccount = reason =>
+  apiAction({
     apiVersion: '2',
     endpoint: '/profile/delete',
     method: 'DELETE',
@@ -89,4 +86,3 @@ export function deleteAccount(reason) {
       dispatch(setSnackbar({ text: 'Не удалось удалить аккаунт' }));
     }
   });
-}

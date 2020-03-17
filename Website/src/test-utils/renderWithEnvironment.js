@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import configureStore from 'src/configureStore';
 
-export default function renderWithEnvironment(
+const renderWithEnvironment = (
   ui,
   {
     route = '/',
@@ -13,14 +13,14 @@ export default function renderWithEnvironment(
     initialState,
     store = configureStore({ preloadedState: initialState, history })
   } = {}
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <ConnectedRouter history={history}>{ui}</ConnectedRouter>
-      </Provider>
-    ),
-    store,
-    history
-  };
-}
+) => ({
+  ...render(
+    <Provider store={store}>
+      <ConnectedRouter history={history}>{ui}</ConnectedRouter>
+    </Provider>
+  ),
+  store,
+  history
+});
+
+export default renderWithEnvironment;

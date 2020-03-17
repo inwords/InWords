@@ -5,7 +5,7 @@ import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import CoursesTrainingSwitcher from 'src/components/routes/CoursesTrainingSwitcher';
 
-const mockingAccessData = {
+const accessData = {
   token: 'xyz',
   userId: 1
 };
@@ -31,7 +31,7 @@ describe('courses game', () => {
         <CoursesTrainingSwitcher />
       </Route>,
       {
-        initialState: { access: { token: mockingAccessData.token } },
+        initialState: { access: { token: accessData.token } },
         route: `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`
       }
     );
@@ -54,7 +54,7 @@ describe('courses game', () => {
       </Route>,
       {
         initialState: {
-          access: { token: mockingAccessData.token },
+          access: { token: accessData.token },
           training: {
             levelsMap: {
               [mockingTrainingLevelResponse.levelId]: mockingTrainingLevelResponse

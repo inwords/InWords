@@ -10,7 +10,7 @@ import mockFetchOnce from 'src/test-utils/mockFetchOnce';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Dictionary from 'src/components/routes/Dictionary';
 
-const mockingAccessData = {
+const accessData = {
   token: 'xyz',
   userId: 1
 };
@@ -18,10 +18,19 @@ const mockingAccessData = {
 const mockingWordPairsResponse = {
   toDelete: [],
   toAdd: [
-    { wordForeign: 'cat', wordNative: 'кошка', serverId: 1 },
-    { wordForeign: 'dog', wordNative: 'собака', serverId: 2 }
+    { wordForeign: 'cat', wordNative: 'кошка', userWordPair: 1 },
+    { wordForeign: 'dog', wordNative: 'собака', userWordPair: 2 }
   ]
 };
+
+const mockingWordPairsEditResponse = [{ id: 0, serverId: 3 }];
+
+const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
+
+const wordPairs = [
+  { wordForeign: 'cat', wordNative: 'кошка', serverId: 1 },
+  { wordForeign: 'dog', wordNative: 'собака', serverId: 2 }
+];
 
 const editedWordPair = {
   wordForeign: 'hound',
@@ -29,21 +38,17 @@ const editedWordPair = {
   serverId: 2
 };
 
-const mockingWordPairsEditResponse = [{ id: 0, serverId: 3 }];
-
 const newWordPair = {
   wordForeign: 'parrot',
   wordNative: 'попугай'
 };
-
-const mockingWordPairsAddResponse = [{ id: 0, serverId: 3 }];
 
 describe('dictionary', () => {
   it('receive word pairs', async () => {
     global.fetch = mockFetchOnce(mockingWordPairsResponse);
 
     renderWithEnvironment(<Dictionary />, {
-      initialState: { access: { token: mockingAccessData.token } }
+      initialState: { access: { token: accessData.token } }
     });
 
     await wait(() => [
@@ -59,10 +64,10 @@ describe('dictionary', () => {
 
     renderWithEnvironment(<Dictionary />, {
       initialState: {
-        access: { token: mockingAccessData.token },
+        access: { token: accessData.token },
         dictionary: {
           actual: true,
-          wordPairs: mockingWordPairsResponse.toAdd
+          wordPairs
         }
       }
     });
@@ -98,10 +103,10 @@ describe('dictionary', () => {
 
     renderWithEnvironment(<Dictionary />, {
       initialState: {
-        access: { token: mockingAccessData.token },
+        access: { token: accessData.token },
         dictionary: {
           actual: true,
-          wordPairs: mockingWordPairsResponse.toAdd
+          wordPairs
         }
       }
     });
@@ -128,18 +133,16 @@ describe('dictionary', () => {
 
     renderWithEnvironment(<Dictionary />, {
       initialState: {
-        access: { token: mockingAccessData.token },
+        access: { token: accessData.token },
         dictionary: {
           actual: true,
-          wordPairs: mockingWordPairsResponse.toAdd
+          wordPairs
         }
       }
     });
 
     fireEvent.click(
-      screen.getByTestId(
-        `pair-${mockingWordPairsResponse.toAdd[0].serverId}-checkbox`
-      )
+      screen.getByTestId(`pair-${wordPairs[0].serverId}-checkbox`)
     );
 
     fireEvent.click(screen.getByText('delete'));
@@ -156,10 +159,10 @@ describe('dictionary', () => {
 
     renderWithEnvironment(<Dictionary />, {
       initialState: {
-        access: { token: mockingAccessData.token },
+        access: { token: accessData.token },
         dictionary: {
           actual: true,
-          wordPairs: mockingWordPairsResponse.toAdd
+          wordPairs
         }
       }
     });

@@ -6,7 +6,7 @@ import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Courses from 'src/components/routes/Courses';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 
-const mockingAccessData = {
+const accessData = {
   token: 'xyz',
   userId: 1
 };
@@ -35,7 +35,7 @@ describe('courses', () => {
     global.fetch = mockFetchOnce(mockingCoursesResponse);
 
     renderWithEnvironment(<Courses />, {
-      initialState: { access: { token: mockingAccessData.token } }
+      initialState: { access: { token: accessData.token } }
     });
 
     await wait(() => [
@@ -53,7 +53,7 @@ describe('courses', () => {
       </Route>,
       {
         initialState: {
-          access: { token: mockingAccessData.token },
+          access: { token: accessData.token },
           training: {
             courses: mockingCoursesResponse
           }
@@ -81,7 +81,7 @@ describe('courses', () => {
       </Fragment>,
       {
         initialState: {
-          access: { token: mockingAccessData.token },
+          access: { token: accessData.token },
           training: {
             courses: mockingCoursesResponse
           }
