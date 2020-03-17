@@ -28,17 +28,24 @@ function WordSetContainer() {
     setCheckedValues([]);
   };
 
+  const wordSet = wordSetsMap[params.courseId] || [];
+
+  const [selectionAvailable, setSelectionAvailable] = React.useState(true);
+
+  React.useEffect(() => {
+    setSelectionAvailable(wordSet.some(({ hasAdded }) => !hasAdded));
+  }, [wordSet]);
+
   const handleCheckAll = () => {
     setCheckedValues(
-      (wordSetsMap[params.courseId] || [])
+      wordSet
         .filter(({ hasAdded }) => !hasAdded)
         .map(({ serverId }) => serverId)
     );
   };
 
   const handleAdding = () => {
-    const wordPairs = wordSetsMap[params.courseId] || [];
-    const newWordPairs = wordPairs.filter(
+    const newWordPairs = wordSet.filter(
       ({ serverId, hasAdded }) => !hasAdded && checkedValues.includes(serverId)
     );
 
@@ -61,13 +68,14 @@ function WordSetContainer() {
     <Paper>
       <WordSetToolbar
         checkedValues={checkedValues}
+        selectionAvailable={selectionAvailable}
         handleCheckAll={handleCheckAll}
         handleReset={handleReset}
         handleAdding={handleAdding}
       />
       <Divider />
       <WordSet
-        wordPairs={wordSetsMap[params.courseId] || []}
+        wordPairs={wordSet}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />
