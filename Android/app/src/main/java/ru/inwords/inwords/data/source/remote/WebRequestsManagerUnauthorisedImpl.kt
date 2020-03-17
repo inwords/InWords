@@ -7,7 +7,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.source.grpc.ProfileGrpcService
+import ru.inwords.inwords.data.source.grpc.AuthenticatorGrpcService
 import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class WebRequestsManagerUnauthorisedImpl @Inject internal constructor(
     private val apiServiceUnauthorised: ApiServiceUnauthorised,
     private val sessionHelper: SessionHelper,
-    private val profileGrpcService: ProfileGrpcService,
+    private val profileGrpcService: AuthenticatorGrpcService,
     private val authInfo: AuthInfo
 ) : WebRequestsManagerUnauthorised {
 

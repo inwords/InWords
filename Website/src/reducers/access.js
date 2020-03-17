@@ -5,13 +5,15 @@ const initialState = {
   userId: null
 };
 
-export default function access(state = initialState, action) {
+const access = (state = initialState, action) => {
   if (action.type === GRANT_ACCESS) {
     return {
       token: action.payload.token,
-      userId: action.payload.userId
+      userId: action.payload.userId || action.payload.userid
     };
   }
 
   return state;
-}
+};
+
+export default access;

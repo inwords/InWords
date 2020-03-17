@@ -1,4 +1,4 @@
-export default function shuffle(array) {
+const shuffle = array => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     let temp = array[i];
@@ -7,4 +7,6 @@ export default function shuffle(array) {
   }
 
   return array;
-}
+};
+
+export default shuffle;

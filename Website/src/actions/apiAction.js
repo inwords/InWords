@@ -1,8 +1,8 @@
 import { CALL_API } from 'src/middleware/apiMiddleware';
 
-export default function apiAction(payload) {
-  return {
-    type: CALL_API,
-    payload
-  };
-}
+const apiAction = payload => ({
+  type: CALL_API,
+  payload
+});
+
+export default apiAction;

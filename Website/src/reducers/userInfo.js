@@ -14,7 +14,7 @@ const initialState = {
   }
 };
 
-export default function userInfo(state = initialState, action) {
+const userInfo = (state = initialState, action) => {
   switch (action.type) {
     case INITIALIZE_USER_INFO:
       return {
@@ -37,4 +37,6 @@ export default function userInfo(state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default userInfo;

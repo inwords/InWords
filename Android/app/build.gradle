@@ -67,7 +67,7 @@ android {
         main {
             proto {
                 // In addition to the default 'src/main/proto'
-                srcDir '..\\..\\WebApi\\InWords.WebApi\\InWords.WebApi\\'
+                srcDir '..\\..\\WebApi\\InWords.WebApi\\InWords.Protobuf\\'
             }
         }
     }

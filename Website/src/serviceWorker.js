@@ -1,4 +1,4 @@
-export function register() {
+export const register = () => {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker
@@ -11,4 +11,4 @@ export function register() {
         });
     });
   }
-}
+};

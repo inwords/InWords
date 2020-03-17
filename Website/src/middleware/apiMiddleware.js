@@ -22,7 +22,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     method = 'GET',
     withCredentials = true,
     data = null,
-    contentType = null,
+    contentType = 'application/json',
     onSuccess,
     onFailure
   } = action.payload;

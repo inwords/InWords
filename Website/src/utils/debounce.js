@@ -1,4 +1,4 @@
-export default function debounce(f, ms) {
+const debounce = (f, ms) => {
   let isReady = true;
 
   return function() {
@@ -12,4 +12,6 @@ export default function debounce(f, ms) {
       isReady = true;
     }, ms);
   };
-}
+};
+
+export default debounce;

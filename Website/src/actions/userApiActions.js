@@ -6,8 +6,8 @@ import {
   updateUserInfo as updateUserInfoAction
 } from './userActions';
 
-export function receiveUserInfoById(userId) {
-  return apiAction({
+export const receiveUserInfoById = userId =>
+  apiAction({
     endpoint: `/users/${userId}`,
     onSuccess: ({ dispatch, data }) => {
       dispatch(initializeUserInfo(data));
@@ -16,10 +16,9 @@ export function receiveUserInfoById(userId) {
       dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
     }
   });
-}
 
-export function receiveUserInfo() {
-  return apiAction({
+export const receiveUserInfo = () =>
+  apiAction({
     endpoint: '/users',
     onSuccess: ({ dispatch, data }) => {
       dispatch(initializeUserInfo(data));
@@ -28,14 +27,12 @@ export function receiveUserInfo() {
       dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
     }
   });
-}
 
-export function updateUserInfo(userInfo) {
-  return apiAction({
+export const updateUserInfo = userInfo =>
+  apiAction({
     endpoint: '/users',
     method: 'PUT',
     data: JSON.stringify(userInfo),
-    contentType: 'application/json',
     onSuccess: ({ dispatch }) => {
       dispatch(updateUserInfoAction(userInfo));
       dispatch(push('/profile'));
@@ -44,10 +41,9 @@ export function updateUserInfo(userInfo) {
       dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
     }
   });
-}
 
-export function uploadUserAvatar(formData) {
-  return apiAction({
+export const uploadUserAvatar = formData =>
+  apiAction({
     apiVersion: '1.1',
     endpoint: '/profileSettings/uploadAvatar',
     method: 'PUT',
@@ -59,4 +55,3 @@ export function uploadUserAvatar(formData) {
       dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
     }
   });
-}

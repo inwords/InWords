@@ -19,6 +19,15 @@ export const initializeWordSet = (courseId, wordSet) => ({
   }
 });
 
+export const UPDATE_WORD_SET = 'UPDATE_WORD_SET';
+export const updateWordSet = (courseId, wordPairs) => ({
+  type: UPDATE_WORD_SET,
+  payload: {
+    courseId,
+    wordPairs
+  }
+});
+
 export const INITIALIZE_LEVEL = 'INITIALIZE_LEVEL';
 export const initializeLevel = level => ({
   type: INITIALIZE_LEVEL,
