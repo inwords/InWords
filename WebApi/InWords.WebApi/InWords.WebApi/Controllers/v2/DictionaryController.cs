@@ -72,6 +72,7 @@ namespace InWords.WebApi.Controllers.v2
         /// <returns></returns>
         [SwaggerResponse(StatusCodes.Status200OK, "Returns Updated words", typeof(AddWordsReply))]
         [Route("updatewords")]
+        [HttpPost]
         public async Task<IActionResult> UpdateWords([FromBody]UpdateWordsRequest request)
         {
             var reqestObject = new AuthorizedRequestObject<UpdateWordsRequest, AddWordsReply>(request)
@@ -89,6 +90,7 @@ namespace InWords.WebApi.Controllers.v2
         /// <returns></returns>
         [SwaggerResponse(StatusCodes.Status200OK, "Returns nothing", typeof(Empty))]
         [Route("deletewords")]
+        [HttpPost]
         public async Task<IActionResult> DeleteWords([FromBody]DeleteWordsRequest request)
         {
             var reqestObject = new AuthorizedRequestObject<DeleteWordsRequest, Empty>(request)
