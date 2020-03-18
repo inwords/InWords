@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { fireEvent, wait } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Profile from 'src/components/routes/Profile';
@@ -72,28 +72,28 @@ test('edit nickname', async () => {
   const utils = setup();
   const nickName = utils.mockingUserInfoResponse.nickName;
   const newNickName = utils.mockingUserInfoResponse.nickName;
-  await wait(() => utils.getByText(nickName));
+  await waitFor(() => utils.getByText(nickName));
 
   global.fetch = mockFetch();
   utils.clickNickNameEdit();
   utils.changeNickNameInput(newNickName);
   utils.clickNickNameSubmit();
 
-  await wait(() => utils.getByText(newNickName));
+  await waitFor(() => utils.getByText(newNickName));
 });
 
 test('edit email', async () => {
   const utils = setup();
   const email = utils.mockingUserInfoResponse.account.email;
   const newEmail = utils.newUserInfo.email;
-  await wait(() => utils.getByText(email));
+  await waitFor(() => utils.getByText(email));
 
   global.fetch = mockFetch();
   utils.clickEmailEdit();
   utils.changeEmailInput(newEmail);
   utils.clickEmailSubmit();
 
-  await wait(() =>
+  await waitFor(() =>
     utils.getByText('На новый email было отправлено письмо с подтверждением')
   );
 });
@@ -101,12 +101,12 @@ test('edit email', async () => {
 test('delete account', async () => {
   const utils = setup();
   const nickName = utils.mockingUserInfoResponse.nickName;
-  await wait(() => utils.getByText(nickName));
+  await waitFor(() => utils.getByText(nickName));
 
   global.fetch = mockFetch();
   utils.clickDel();
   utils.changeDelNickNameInput(nickName);
   utils.clickDelSubmit();
 
-  await wait(() => utils.getByText('Аккаунт был успешно удален'));
+  await waitFor(() => utils.getByText('Аккаунт был успешно удален'));
 });

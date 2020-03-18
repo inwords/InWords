@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen, wait } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
@@ -46,7 +46,7 @@ const setup = () => {
 test('select training level', async () => {
   const utils = setup();
   const levelInfo = utils.mockingTrainingLevelsResponse.levelInfos[0];
-  await wait(() => [screen.getByText(`Уровень ${levelInfo.level}`)]);
+  await waitFor(() => [screen.getByText(`Уровень ${levelInfo.level}`)]);
 
   utils.clickLevel(levelInfo.levelId);
 
