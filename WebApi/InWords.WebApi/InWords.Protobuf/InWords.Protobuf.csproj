@@ -11,6 +11,7 @@
     <Protobuf Include="Dictionary.v2.proto" GrpcServices="Server" />
     <Protobuf Include="Profile.v2.proto" GrpcServices="Server" />
     <Protobuf Include="WordSet.v2.proto" GrpcServices="Server" />
+    <Protobuf Include="Common.v2.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>
