@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
@@ -61,6 +62,40 @@ namespace InWords.WebApi.Controllers.v2
                 UserId = User.GetUserId()
             };
             WordsReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return Ok(reply);
+        }
+
+        /// <summary>
+        /// Experimental use only! ZERO TESTS
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Updated words", typeof(AddWordsReply))]
+        [Route("updatewords")]
+        public async Task<IActionResult> UpdateWords([FromBody]UpdateWordsRequest request)
+        {
+            var reqestObject = new AuthorizedRequestObject<UpdateWordsRequest, AddWordsReply>(request)
+            {
+                UserId = User.GetUserId()
+            };
+            AddWordsReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            return Ok(reply);
+        }
+
+        /// <summary>
+        /// Experimental use only! ZERO TESTS
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns nothing", typeof(Empty))]
+        [Route("deletewords")]
+        public async Task<IActionResult> DeleteWords([FromBody]DeleteWordsRequest request)
+        {
+            var reqestObject = new AuthorizedRequestObject<DeleteWordsRequest, Empty>(request)
+            {
+                UserId = User.GetUserId()
+            };
+            Empty reply = await mediator.Send(reqestObject).ConfigureAwait(false);
             return Ok(reply);
         }
     }

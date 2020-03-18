@@ -10,6 +10,8 @@ namespace InWords.WebApi.Services.DictionaryService
         {
             builder.RegisterType<AddWords>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<GetUserWords>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<UpdateWords>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<DeleteWords>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }
