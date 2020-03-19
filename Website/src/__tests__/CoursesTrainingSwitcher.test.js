@@ -5,6 +5,10 @@ import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import CoursesTrainingSwitcher from 'src/components/routes/CoursesTrainingSwitcher';
 
+afterEach(() => {
+  jest.useRealTimers();
+});
+
 const setup = () => {
   const accessData = {
     token: 'xyz',
@@ -41,10 +45,6 @@ const setup = () => {
     clickWordEl
   };
 };
-
-beforeEach(() => {
-  jest.useRealTimers();
-});
 
 test('complete courses game', async () => {
   const utils = setup();

@@ -27,7 +27,14 @@ function WordPairAddDialogContainer({ open, ...rest }) {
   const { inputs, setInputs, handleChange, handleSubmit } = useForm(
     initialInputs,
     () => {
-      dispatch(addWordPairs([inputs]));
+      const preparedPair = {
+        wordForeign: inputs.wordForeign.trim(),
+        wordNative: inputs.wordNative.trim()
+      };
+
+      if (preparedPair.wordForeign && preparedPair.wordNative) {
+        dispatch(addWordPairs([preparedPair]));
+      }
     }
   );
 
