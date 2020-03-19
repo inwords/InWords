@@ -1,12 +1,16 @@
-﻿using InWords.Common.Extensions;
+﻿using Autofac;
+using InWords.Common.Extensions;
 using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.DictionaryService.Extentions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +20,7 @@ namespace InWords.WebApi.Services.DictionaryService.Words
     {
         public AddWords(InWordsDataContext context) : base(context)
         {
+
         }
 
         public override async Task<AddWordsReply> HandleRequest(
@@ -24,6 +29,48 @@ namespace InWords.WebApi.Services.DictionaryService.Words
         {
             if (request == null)
                 throw new ArgumentNullException($"{nameof(request)}");
+            AddWordsReply reply = await CompabilityV1(request, Context).ConfigureAwait(false);
+            await CompabilityV2(Context).ConfigureAwait(false);
+            return reply;
+        }
+        [Obsolete]
+        private static IEnumerable<(int, UserWordPair)> ConvertToUserWordPairs(int userId, IEnumerable<(int, WordPair)> wordPairsToAdd, HashSet<int> inverted)
+        {
+            return wordPairsToAdd.Select(pair => (pair.Item1, new UserWordPair
+            {
+                UserId = userId,
+                WordPairId = pair.Item2.WordPairId,
+                IsInvertPair = inverted.Contains(pair.Item2.WordPairId)
+            }));
+        }
+        [Obsolete]
+        private static List<(int, WordPair)> SelectWordPairs(AddWordsRequest requestData, List<Word> dataBaseWords)
+        {
+            var dictionary = dataBaseWords.ToContentDictionary();
+            var wordPairsToAdd = new List<(int, WordPair)>();
+            requestData.Words.ForEach(wp =>
+            {
+                wordPairsToAdd.Add((wp.LocalId, new WordPair()
+                {
+                    WordForeignId = dictionary[wp.WordForeign.ToNormalizedWord()].WordId,
+                    WordNativeId = dictionary[wp.WordNative.ToNormalizedWord()].WordId
+                }));
+            });
+            return wordPairsToAdd;
+        }
+
+        [Obsolete]
+        private async Task<List<Word>> AddWordsAsync(AddWordsRequest requestData)
+        {
+            var words = requestData.Words.SelectUnion(w1 => w1.WordForeign, w2 => w2.WordNative);
+            var dataBaseWords = Context.Words.AddWords(words);
+            await Context.SaveChangesAsync().ConfigureAwait(false);
+            return dataBaseWords;
+        }
+
+        public async Task<AddWordsReply> CompabilityV1(AuthorizedRequestObject<AddWordsRequest, AddWordsReply> request, InWordsDataContext job)
+        {
+            AddWordsReply addWordsReply = new AddWordsReply();
 
             int userId = request.UserId;
             var requestData = request.Value;
@@ -43,7 +90,6 @@ namespace InWords.WebApi.Services.DictionaryService.Words
 
 
             // form reply
-            AddWordsReply addWordsReply = new AddWordsReply();
             foreach (var word in userWords)
             {
                 AddWordReply addWordReply = new AddWordReply
@@ -57,37 +103,35 @@ namespace InWords.WebApi.Services.DictionaryService.Words
             return addWordsReply;
         }
 
-        private static IEnumerable<(int, UserWordPair)> ConvertToUserWordPairs(int userId, IEnumerable<(int, WordPair)> wordPairsToAdd, HashSet<int> inverted)
+        public async static Task CompabilityV2(InWordsDataContext context, Func<UserWordPair, bool> predicate = null)
         {
-            return wordPairsToAdd.Select(pair => (pair.Item1, new UserWordPair
+            var uwps = context.UserWordPairs.Where(d => string.IsNullOrWhiteSpace(d.ForeignWord) || string.IsNullOrWhiteSpace(d.NativeWord));
+            if (predicate != null)
             {
-                UserId = userId,
-                WordPairId = pair.Item2.WordPairId,
-                IsInvertPair = inverted.Contains(pair.Item2.WordPairId)
-            }));
-        }
+                uwps = uwps.Where(w => predicate.Invoke(w));
+            }
+            List<UserWordPair> uwp = await uwps.Include(d => d.WordPair)
+                .ThenInclude(d => d.WordNative)
+                .Include(d => d.WordPair.WordForeign)
+                .ToListAsync()
+                .ConfigureAwait(false);
 
-        private static List<(int, WordPair)> SelectWordPairs(AddWordsRequest requestData, List<Word> dataBaseWords)
-        {
-            var dictionary = dataBaseWords.ToContentDictionary();
-            var wordPairsToAdd = new List<(int, WordPair)>();
-            requestData.Words.ForEach(wp =>
+            Regex regex = new Regex("[a-z]");
+
+            foreach (var pair in uwp)
             {
-                wordPairsToAdd.Add((wp.LocalId, new WordPair()
+                if (regex.IsMatch(pair.WordPair.WordForeign.Content))
                 {
-                    WordForeignId = dictionary[wp.WordForeign.ToNormalizedWord()].WordId,
-                    WordNativeId = dictionary[wp.WordNative.ToNormalizedWord()].WordId
-                }));
-            });
-            return wordPairsToAdd;
-        }
-
-        private async Task<List<Word>> AddWordsAsync(AddWordsRequest requestData)
-        {
-            var words = requestData.Words.SelectUnion(w1 => w1.WordForeign, w2 => w2.WordNative);
-            var dataBaseWords = Context.Words.AddWords(words);
-            await Context.SaveChangesAsync().ConfigureAwait(false);
-            return dataBaseWords;
+                    pair.ForeignWord = pair.WordPair.WordForeign.Content;
+                    pair.NativeWord = pair.WordPair.WordNative.Content;
+                }
+                else
+                {
+                    pair.NativeWord = pair.WordPair.WordForeign.Content;
+                    pair.ForeignWord = pair.WordPair.WordNative.Content;
+                }
+            }
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

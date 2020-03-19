@@ -18,6 +18,9 @@ namespace InWords.WebApi.Services.BaseDataContext
             builder.Register(_ => new InWordsDataContext(Configuration.GetConnectionString(connection)))
                 .InstancePerLifetimeScope();
 
+            builder.Register(_ => new InWordsDataContextJob(Configuration.GetConnectionString(connection)));
+
+
             // register repositories
             Assembly repositoryAssembly = Assembly.GetAssembly(typeof(InWordsDataContext));
             builder.RegisterAssemblyTypes(repositoryAssembly)

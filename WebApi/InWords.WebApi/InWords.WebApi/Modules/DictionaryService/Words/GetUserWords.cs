@@ -18,49 +18,35 @@ namespace InWords.WebApi.Services.DictionaryService.Words
         }
 
         [SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
-        public override Task<WordsReply> HandleRequest(AuthorizedRequestObject<GetWordsRequest, WordsReply> request,
+        public override async Task<WordsReply> HandleRequest(AuthorizedRequestObject<GetWordsRequest, WordsReply> request,
             CancellationToken cancellationToken = default)
         {
-            return Task.Run(() =>
-            {
-                int userId = request.UserId;
-                GetWordsRequest value = request.Value;
-                WordsReply reply = new WordsReply();
 
-                HashSet<int> clientIds = value.UserWordpairIds.ToHashSet();
-                var serverIds = Context.UserWordPairs.WhereUser(userId).Select(d => d.UserWordPairId).ToHashSet();
+            int userId = request.UserId;
+            GetWordsRequest value = request.Value;
+            WordsReply reply = new WordsReply();
 
-                IEnumerable<int> wordsToAdd = serverIds.Except(clientIds);
+            HashSet<int> clientIds = value.UserWordpairIds.ToHashSet();
+            var serverIds = Context.UserWordPairs.WhereUser(userId).Select(d => d.UserWordPairId).ToHashSet();
 
-                IEnumerable<int> wordsToDelete = clientIds.Except(serverIds);
-                reply.ToDelete.Add(wordsToDelete);
+            IEnumerable<int> wordsToAdd = serverIds.Except(clientIds);
 
+            IEnumerable<int> wordsToDelete = clientIds.Except(serverIds);
+            reply.ToDelete.Add(wordsToDelete);
 
-                var wordReplies = Context.UserWordPairs
-                    .Where(u => wordsToAdd.Any(w => w == u.UserWordPairId))
-                    .Include(d => d.WordPair)
-                    .ThenInclude(w => w.WordForeign)
-                    .Include(d => d.WordPair.WordNative)
-                    .Select(u => new
-                    {
-                        u.UserWordPairId,
-                        u.WordPair.WordForeign,
-                        u.WordPair.WordNative,
-                        u.IsInvertPair,
-                        u.LearningPeriod
-                    }).AsNoTracking();
+            await AddWords.CompabilityV2(Context).ConfigureAwait(false);
 
-                var wordReply = wordReplies.Select(w => new WordReply()
+            var wordReplies = Context.UserWordPairs
+                .Where(u => wordsToAdd.Any(w => w == u.UserWordPairId)).Select(w => new WordReply()
                 {
-                    UserWordPair = w.UserWordPairId,
-                    WordNative = w.IsInvertPair ? w.WordNative.Content : w.WordForeign.Content,
-                    WordForeign = w.IsInvertPair ? w.WordForeign.Content : w.WordNative.Content,
-                    Period = w.LearningPeriod
-                });
-                reply.ToAdd.Add(wordReply);
+                    Period = w.LearningPeriod,
+                    WordForeign = w.ForeignWord,
+                    WordNative = w.NativeWord,
+                    UserWordPair = w.UserWordPairId
+                }).ToList();
 
-                return reply;
-            });
+            reply.ToAdd.AddRange(wordReplies);
+            return reply;
         }
     }
 }
