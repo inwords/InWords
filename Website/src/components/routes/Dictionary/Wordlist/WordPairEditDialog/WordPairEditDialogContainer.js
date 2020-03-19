@@ -23,7 +23,14 @@ function WordPairEditDialogContainer({
       wordNative: wordPair.wordNative
     },
     () => {
-      dispatch(editWordPairs({ [wordPair.serverId]: inputs }));
+      const preparedPair = {
+        wordForeign: inputs.wordForeign.trim(),
+        wordNative: inputs.wordNative.trim()
+      };
+
+      if (preparedPair.wordForeign && preparedPair.wordNative) {
+        dispatch(editWordPairs({ [wordPair.serverId]: preparedPair }));
+      }
     }
   );
 

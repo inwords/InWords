@@ -67,7 +67,7 @@ const wordSetsMap = (state = {}, action) => {
 
 const coursesMap = (
   state = {
-    trainingId: null,
+    courseId: null,
     levelsInfo: []
   },
   action
@@ -77,7 +77,7 @@ const coursesMap = (
       return {
         ...state,
         [action.payload.gameId]: {
-          trainingId: action.payload.gameId,
+          courseId: action.payload.gameId,
           levelsInfo: action.payload.levelInfos || []
         }
       };

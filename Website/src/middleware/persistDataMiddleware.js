@@ -1,4 +1,4 @@
-import { saveState } from 'src/localStorage';
+import { saveState, removeState } from 'src/localStorage';
 import { GRANT_ACCESS, DENY_ACCESS } from 'src/actions/accessActions';
 
 const persistDataMiddleware = () => next => action => {
@@ -12,12 +12,7 @@ const persistDataMiddleware = () => next => action => {
       });
       break;
     case DENY_ACCESS:
-      saveState({
-        access: {
-          token: null,
-          userId: null
-        }
-      });
+      removeState();
       break;
     default:
   }
