@@ -84,7 +84,7 @@ namespace InWords.WebApi.Controllers.v2
         }
 
         /// <summary>
-        /// Experimental use only! ZERO TESTS
+        /// Use this do delete user's words
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

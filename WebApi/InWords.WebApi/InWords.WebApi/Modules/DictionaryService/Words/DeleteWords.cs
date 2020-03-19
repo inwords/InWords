@@ -1,8 +1,6 @@
 ﻿using InWords.Data;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
-using MediatR;
-using Org.BouncyCastle.Ocsp;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

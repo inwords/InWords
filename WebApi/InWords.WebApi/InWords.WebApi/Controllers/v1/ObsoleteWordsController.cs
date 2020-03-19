@@ -15,6 +15,7 @@ namespace InWords.WebApi.Controllers.v1
     ///     This is to CRUD words
     /// </summary>
     [Authorize]
+    [Obsolete]
     [Produces("application/json")]
     [ApiController]
     [ApiVersion("1.0")]
@@ -50,6 +51,8 @@ namespace InWords.WebApi.Controllers.v1
         [Route("updatePair")]
         [ProducesResponseType(typeof(List<SyncBase>), StatusCodes.Status200OK)]
         [HttpPost]
+        [Obsolete]
+
         public async Task<IActionResult> UpdatePair([FromBody] Dictionary<int, WordTranslation> wordTranslations)
         {
             int authorizedId = User.GetUserId();
@@ -73,6 +76,8 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Route("deletePair")]
         [HttpPost]
+        [Obsolete]
+
         // ReSharper disable once InconsistentNaming
         public async Task<IActionResult> DeletePair([FromBody] IEnumerable<int> serverIds)
         {
@@ -84,7 +89,6 @@ namespace InWords.WebApi.Controllers.v1
         }
 
         #region Ctor
-
         private readonly WordsService wordsService;
 
         /// <summary>

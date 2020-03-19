@@ -2,7 +2,6 @@
 using InWords.Protobuf;
 using InWords.WebApi.Extensions.InWordsDataContext;
 using InWords.WebApi.Services.Abstractions;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
