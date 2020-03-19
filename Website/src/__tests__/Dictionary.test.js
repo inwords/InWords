@@ -2,7 +2,7 @@ import React from 'react';
 import {
   act,
   fireEvent,
-  wait,
+  waitFor,
   waitForElementToBeRemoved
 } from '@testing-library/react';
 import mockFetch from 'src/test-utils/mockFetch';
@@ -14,14 +14,14 @@ const setup = () => {
   const mockingWordPairsResponse = {
     toDelete: [],
     toAdd: [
-      { wordForeign: 'cat', wordNative: 'кошка', userWordPair: 1 },
-      { wordForeign: 'dog', wordNative: 'собака', userWordPair: 2 }
+      { userWordPair: 1, wordForeign: 'cat', wordNative: 'кошка' },
+      { userWordPair: 2, wordForeign: 'dog', wordNative: 'собака' }
     ]
   };
   const editedWordPair = {
+    serverId: 2,
     wordForeign: 'hound',
-    wordNative: 'гончая',
-    serverId: 2
+    wordNative: 'гончая'
   };
   const mockingWordPairsEditResponse = [{ id: 0, serverId: 3 }];
   const newWordPair = {
@@ -29,6 +29,9 @@ const setup = () => {
     wordNative: 'попугай'
   };
   const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
+  const mockingWordTranslationResponse = {
+    def: [{ tr: [{ text: newWordPair.wordNative }] }]
+  };
   global.fetch = mockFetch(mockingWordPairsResponse);
   const utils = renderWithEnvironment(<Dictionary />, {
     initialState: { access: { token: accessData.token } }
@@ -65,6 +68,7 @@ const setup = () => {
     mockingWordPairsEditResponse,
     newWordPair,
     mockingWordPairsAddResponse,
+    mockingWordTranslationResponse,
     clickWordPairEdit,
     clickWordPairAdd,
     changeWordForeignInput,
@@ -82,7 +86,7 @@ test('edit word pair', async () => {
   const utils = setup();
   const wordPair = utils.mockingWordPairsResponse.toAdd[1];
   const editedWordPair = utils.editedWordPair;
-  await wait(() => utils.getByText(wordPair.wordForeign));
+  await waitFor(() => utils.getByText(wordPair.wordForeign));
 
   global.fetch = mockFetch(utils.mockingWordPairsEditResponse);
   utils.clickWordPairEdit(wordPair.wordForeign);
@@ -90,7 +94,7 @@ test('edit word pair', async () => {
   utils.changeWordNativeInput(editedWordPair.wordNative);
   utils.clickWordPairEditConfirmation();
 
-  await wait(() => [
+  await waitFor(() => [
     utils.getByText(editedWordPair.wordForeign),
     utils.getByText(editedWordPair.wordNative)
   ]);
@@ -102,7 +106,7 @@ test('add word pair', async () => {
   const utils = setup();
   const wordPair = utils.mockingWordPairsResponse.toAdd[1];
   const newWordPair = utils.newWordPair;
-  await wait(() => utils.getByText(wordPair.wordForeign));
+  await waitFor(() => utils.getByText(wordPair.wordForeign));
 
   global.fetch = mockFetch(utils.mockingWordPairsAddResponse);
   utils.clickWordPairAdd();
@@ -110,7 +114,33 @@ test('add word pair', async () => {
   utils.changeWordNativeInput(newWordPair.wordNative);
   utils.clickWordPairAddConfirmation();
 
-  await wait(() => [
+  await waitFor(() => [
+    utils.getByText(newWordPair.wordForeign),
+    utils.getByText(newWordPair.wordNative)
+  ]);
+});
+
+test('add word with automatic translation', async () => {
+  const utils = setup();
+  const wordPair = utils.mockingWordPairsResponse.toAdd[1];
+  const newWordPair = utils.newWordPair;
+  await waitFor(() => utils.getByText(wordPair.wordForeign));
+
+  global.fetch = mockFetch(utils.mockingWordTranslationResponse);
+  jest.useFakeTimers();
+  utils.clickWordPairAdd();
+  utils.changeWordForeignInput(newWordPair.wordForeign);
+  jest.runAllTimers();
+  jest.useRealTimers();
+
+  global.fetch = mockFetch(utils.mockingWordPairsAddResponse);
+  const translationEl = await waitFor(() =>
+    utils.getByText(newWordPair.wordNative)
+  );
+  fireEvent.click(translationEl);
+  utils.clickWordPairAddConfirmation();
+
+  await waitFor(() => [
     utils.getByText(newWordPair.wordForeign),
     utils.getByText(newWordPair.wordNative)
   ]);
@@ -119,7 +149,7 @@ test('add word pair', async () => {
 test('delete word pair', async () => {
   const utils = setup();
   const wordPair = utils.mockingWordPairsResponse.toAdd[0];
-  await wait(() => utils.getByText(wordPair.wordForeign));
+  await waitFor(() => utils.getByText(wordPair.wordForeign));
 
   global.fetch = mockFetch();
   utils.clickWordPairCheckbox(wordPair.userWordPair);
@@ -135,13 +165,14 @@ test('find word pair', async () => {
   const utils = setup();
   const rightWordPair = utils.mockingWordPairsResponse.toAdd[0];
   const anotherWordPair = utils.mockingWordPairsResponse.toAdd[1];
-  await wait(() => utils.getByText(rightWordPair.wordForeign));
+  await waitFor(() => utils.getByText(rightWordPair.wordForeign));
 
   jest.useFakeTimers();
   utils.changeSearchInput(rightWordPair.wordForeign);
   act(() => {
     jest.runOnlyPendingTimers();
   });
+
   expect(utils.queryByText(rightWordPair.wordForeign)).toBeTruthy();
   expect(utils.queryByText(anotherWordPair.wordForeign)).toBeNull();
 });

@@ -27,7 +27,14 @@ function WordPairAddDialogContainer({ open, ...rest }) {
   const { inputs, setInputs, handleChange, handleSubmit } = useForm(
     initialInputs,
     () => {
-      dispatch(addWordPairs([inputs]));
+      const preparedPair = {
+        wordForeign: inputs.wordForeign.trim(),
+        wordNative: inputs.wordNative.trim()
+      };
+
+      if (preparedPair.wordForeign && preparedPair.wordNative) {
+        dispatch(addWordPairs([preparedPair]));
+      }
     }
   );
 
@@ -46,6 +53,8 @@ function WordPairAddDialogContainer({ open, ...rest }) {
       return;
     }
 
+    let isCancelled = false;
+
     const translate = word => {
       const url = new URL(API_URL);
       const params = { key, lang, text: word };
@@ -59,6 +68,8 @@ function WordPairAddDialogContainer({ open, ...rest }) {
             method: 'POST',
             headers
           });
+
+          if (isCancelled) return;
 
           let responseData = null;
 
@@ -77,8 +88,8 @@ function WordPairAddDialogContainer({ open, ...rest }) {
           });
 
           setTranslationsInfo(newTranslationsInfo);
-        } catch (_) {
-          setTranslationsInfo([]);
+        } catch (error) {
+          // die
         }
       })();
     };
@@ -89,6 +100,7 @@ function WordPairAddDialogContainer({ open, ...rest }) {
 
     return () => {
       clearTimeout(timerId);
+      isCancelled = true;
     };
   }, [inputs.wordForeign]);
 

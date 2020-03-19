@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen, wait } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
@@ -59,7 +59,7 @@ const setup = () => {
 test('select course', async () => {
   const utils = setup();
   const courseInfo = utils.mockingCoursesResponse[0];
-  await wait(() => screen.getByText(courseInfo.title));
+  await waitFor(() => screen.getByText(courseInfo.title));
 
   utils.clickCourse(courseInfo.gameId);
 
@@ -71,7 +71,7 @@ test('select course', async () => {
 test('select course word set', async () => {
   const utils = setup();
   const courseInfo = utils.mockingCoursesResponse[0];
-  await wait(() => screen.getByText(courseInfo.title));
+  await waitFor(() => screen.getByText(courseInfo.title));
 
   utils.clickCourseWordSet(courseInfo.gameId);
 
@@ -84,11 +84,11 @@ test('add course word pairs to dictionary', async () => {
   const utils = setup();
   const courseInfo = utils.mockingCoursesResponse[0];
   const wordsAdded = utils.mockingCourseWordPairsAddingResponse.wordsAdded;
-  await wait(() => screen.getByText(courseInfo.title));
+  await waitFor(() => screen.getByText(courseInfo.title));
 
   global.fetch = mockFetch(utils.mockingCourseWordPairsAddingResponse);
   utils.clickAdd(courseInfo.gameId);
   utils.clickAddConfirmation();
 
-  await wait(() => screen.getByText(`Добавлено новых слов: ${wordsAdded}`));
+  await waitFor(() => screen.getByText(`Добавлено новых слов: ${wordsAdded}`));
 });

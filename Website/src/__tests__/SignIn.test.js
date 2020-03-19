@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, wait } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import SignIn from 'src/components/routes/SignIn';
@@ -31,7 +31,7 @@ test('sign in successfully', async () => {
   utils.changePasswordInput(utils.userData.password);
   utils.clickSubmit();
 
-  await wait(() => {
+  await waitFor(() => {
     expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
       access: utils.mockingAccessResponse
     });

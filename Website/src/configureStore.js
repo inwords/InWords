@@ -14,13 +14,11 @@ if (process.env.NODE_ENV === 'development') {
 const configureStore = ({ history, preloadedState }) => {
   middleware.push(routerMiddleware(history));
 
-  const store = createStore(
+  return createStore(
     createRootReducer(history),
     preloadedState,
     applyMiddleware(...middleware)
   );
-
-  return store;
 };
 
 export default configureStore;

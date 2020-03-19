@@ -22,7 +22,8 @@ function WordSet({ wordPairs, checkedValues, handleToggle }) {
             <ListItemIcon>
               <Checkbox
                 inputProps={{
-                  'aria-labelledby': `pair-${serverId}`
+                  'aria-labelledby': `pair-${serverId}`,
+                  'data-testid': `pair-${serverId}-checkbox`
                 }}
                 tabIndex={-1}
                 checked={hasAdded || checkedValues.includes(serverId)}

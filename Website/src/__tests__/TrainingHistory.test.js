@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen, wait } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
@@ -44,7 +44,7 @@ const setup = () => {
 test('select recent training', async () => {
   const utils = setup();
   const recentTrainingInfo = utils.mockingTrainingHistoryResponse[0];
-  await wait(() => screen.getByText(`#${recentTrainingInfo.levelId}`));
+  await waitFor(() => screen.getByText(`#${recentTrainingInfo.levelId}`));
 
   utils.clickHistoryTraining(recentTrainingInfo.levelId);
 
