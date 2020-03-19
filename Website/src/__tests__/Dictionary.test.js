@@ -29,6 +29,9 @@ const setup = () => {
     wordNative: 'попугай'
   };
   const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
+  const mockingWordTranslationResponse = {
+    def: [{ tr: [{ text: newWordPair.wordNative }] }]
+  };
   global.fetch = mockFetch(mockingWordPairsResponse);
   const utils = renderWithEnvironment(<Dictionary />, {
     initialState: { access: { token: accessData.token } }
@@ -65,6 +68,7 @@ const setup = () => {
     mockingWordPairsEditResponse,
     newWordPair,
     mockingWordPairsAddResponse,
+    mockingWordTranslationResponse,
     clickWordPairEdit,
     clickWordPairAdd,
     changeWordForeignInput,
@@ -108,6 +112,32 @@ test('add word pair', async () => {
   utils.clickWordPairAdd();
   utils.changeWordForeignInput(newWordPair.wordForeign);
   utils.changeWordNativeInput(newWordPair.wordNative);
+  utils.clickWordPairAddConfirmation();
+
+  await waitFor(() => [
+    utils.getByText(newWordPair.wordForeign),
+    utils.getByText(newWordPair.wordNative)
+  ]);
+});
+
+test('add word with automatic translation', async () => {
+  const utils = setup();
+  const wordPair = utils.mockingWordPairsResponse.toAdd[1];
+  const newWordPair = utils.newWordPair;
+  await waitFor(() => utils.getByText(wordPair.wordForeign));
+
+  global.fetch = mockFetch(utils.mockingWordTranslationResponse);
+  jest.useFakeTimers();
+  utils.clickWordPairAdd();
+  utils.changeWordForeignInput(newWordPair.wordForeign);
+  jest.runAllTimers();
+  jest.useRealTimers();
+
+  global.fetch = mockFetch(utils.mockingWordPairsAddResponse);
+  const translationEl = await waitFor(() =>
+    utils.getByText(newWordPair.wordNative)
+  );
+  fireEvent.click(translationEl);
   utils.clickWordPairAddConfirmation();
 
   await waitFor(() => [

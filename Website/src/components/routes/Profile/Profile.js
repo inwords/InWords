@@ -42,7 +42,7 @@ function Profile({ avatarPath, nickname, email }) {
     <Fragment>
       <div className="profile-main">
         <div className="profile-avatar-section">
-          <Avatar alt="Аватар" src={avatarPath} className="profile-avatar" />
+          <Avatar alt="Avatar" src={avatarPath} className="profile-avatar" />
           <Button onClick={handleOpenAvatar} variant="text" color="primary">
             Изменить аватар
           </Button>

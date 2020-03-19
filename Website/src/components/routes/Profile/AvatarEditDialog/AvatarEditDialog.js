@@ -40,22 +40,25 @@ function AvatarEditDialog({
           <Grid spacing={1}>
             <GridItem>
               <input
-                id="avatar-upload-button"
+                data-testid="avatar-upload"
+                id="avatar-upload"
                 type="file"
                 accept="image/*"
                 name="avatarFile"
                 onChange={handleChange}
                 className="avatar-edit-dialog-input"
               />
-              <label htmlFor="avatar-upload-button">
+              <label htmlFor="avatar-upload">
                 <IconButton component="span">
                   <Icon>photo_camera</Icon>
                 </IconButton>
               </label>
             </GridItem>
-            <GridItem>
-              <Avatar src={avatar} alt="Аватар" />
-            </GridItem>
+            {avatar && (
+              <GridItem>
+                <Avatar src={avatar} alt="Avatar-preview" />
+              </GridItem>
+            )}
           </Grid>
         </form>
       </DialogContent>
