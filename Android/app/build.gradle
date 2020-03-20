@@ -37,7 +37,7 @@ android {
             debuggable false
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             manifestPlaceholders = [crashlytics: "true"]
         }
@@ -129,6 +129,7 @@ dependencies {
     implementation project(path: ':designcorelib')
 
     implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 

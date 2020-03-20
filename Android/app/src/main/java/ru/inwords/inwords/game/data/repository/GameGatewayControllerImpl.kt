@@ -38,13 +38,13 @@ class GameGatewayControllerImpl @Inject constructor(
     private val levelScoreDeferredUploaderHolder: LevelScoreDeferredUploaderHolder
 ) : GameGatewayController, CustomGameGatewayController {
 
-    private val gameInfoDatabaseRepository by lazy { GameDatabaseRepository<GameInfoResponse>(gameInfoDao) }
-    private val gameDatabaseRepository by lazy { GameDatabaseRepository<GameResponse>(gameDao) }
-    private val gameLevelDatabaseRepository by lazy { GameDatabaseRepository<GameLevel>(gameLevelDao) }
+    private val gameInfoDatabaseRepository = GameDatabaseRepository<GameInfoResponse>(gameInfoDao)
+    private val gameDatabaseRepository = GameDatabaseRepository<GameResponse>(gameDao)
+    private val gameLevelDatabaseRepository = GameDatabaseRepository<GameLevel>(gameLevelDao)
 
-    private val gamesInfoCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGamesInfoCachingProvider() } }
-    private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameCachingProvider(it) } }
-    private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) } }
+    private val gamesInfoCachingProviderLocator = ResourceCachingProvider.Locator { createGamesInfoCachingProvider() }
+    private val gameCachingProviderLocator = ResourceCachingProvider.Locator { createGameCachingProvider(it) }
+    private val gameLevelCachingProviderLocator = ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) }
 
     private val gameConverter = GameConverter()
     private val gameInfoConverter = GameInfoConverter(resourceManager)

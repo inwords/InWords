@@ -43,7 +43,10 @@ class HomeViewModel internal constructor(
                 when (it) {
                     is Resource.Success -> CardWrapper.ProfileModel(it.data).also { model -> profileLiveData.postValue(model.user) }
                     is Resource.Loading -> CardWrapper.ProfileLoadingMarker
-                    is Resource.Error -> CardWrapper.CreateAccountMarker
+                    is Resource.Error -> {
+                        profileLiveData.postValue(User(-1, "InWords", null, 0, null))
+                        CardWrapper.CreateAccountMarker
+                    }
                 }
             }
             .startWith(CardWrapper.ProfileLoadingMarker)
@@ -57,17 +60,17 @@ class HomeViewModel internal constructor(
 
     val cardWrappers
         get() = Observable.combineLatest(
-            profileData,
-            wordsCount,
-            training,
-            Function3 { profile: CardWrapper, dictionary: CardWrapper.DictionaryModel, training: CardWrapper.WordsTrainingModel ->
-                if (profile is CardWrapper.ProfileModel || profile is CardWrapper.ProfileLoadingMarker) {
-                    listOf(dictionary, training)
-                } else {
-                    listOf(profile, dictionary) //create account here
+                profileData,
+                wordsCount,
+                training,
+                Function3 { profile: CardWrapper, dictionary: CardWrapper.DictionaryModel, training: CardWrapper.WordsTrainingModel ->
+                    if (profile is CardWrapper.ProfileModel || profile is CardWrapper.ProfileLoadingMarker) {
+                        listOf(dictionary, training)
+                    } else {
+                        listOf(profile, dictionary) //create account here
+                    }
                 }
-            }
-        )
+            )
             .applyDiffUtil()
 
     fun getPolicyAgreementState() = policyInteractor.getPolicyAgreementState()

@@ -4,7 +4,7 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import ru.inwords.inwords.data.source.remote.session.AuthInfo
+import ru.inwords.inwords.data.source.remote.session.NativeTokenHolder
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,11 +13,11 @@ class BasicAuthenticator @Inject internal constructor(private val authenticatorT
     override fun authenticate(route: Route?, response: Response): Request? {
         val header = response.request.header("Authorization")
 
-        if (header == AuthInfo.unauthorisedToken.bearer) {
+        if (header == NativeTokenHolder.unauthorisedToken.bearer) {
             return null
         }
 
-        val tokenResponse = authenticatorTokenProvider.getToken().blockingGet()
+        val tokenResponse = authenticatorTokenProvider.getTokenSilently().blockingGet()
 
         return response.request.newBuilder()
                 .header("Authorization", tokenResponse.bearer)

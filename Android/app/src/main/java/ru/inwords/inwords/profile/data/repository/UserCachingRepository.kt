@@ -12,7 +12,7 @@ class UserCachingRepository(
     private val remoteRepository: UserRemoteRepository
 ) : UserRepository {
 
-    private val authorisedUserCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createAuthorisedUserCachingProvider() } }
+    private val authorisedUserCachingProviderLocator = ResourceCachingProvider.Locator { createAuthorisedUserCachingProvider() }
 
     override fun getAuthorisedUser(forceUpdate: Boolean): Observable<Resource<User>> {
         val cachingProvider = authorisedUserCachingProviderLocator.getDefault()
@@ -26,6 +26,7 @@ class UserCachingRepository(
 
     override fun updateUser(newUser: User): Completable {
         return remoteRepository.updateUser(newUser)
+            .doOnComplete { postOnLoopback(newUser) }
     }
 
     override fun clearCache() {

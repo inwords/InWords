@@ -9,10 +9,13 @@ namespace InWords.Data.Domains
 {
     public class OAuth
     {
-        [Required] [ForeignKey(nameof(Account))] public int AccountId { get; set; }
+        [Key]  [Required] 
+        [MaxLength(32)] public string OpenId { get; set; }
+        
+        public int AccountId { get; set; }
+        [ForeignKey(nameof(AccountId))]
         public Account Account { get; set; }
 
-        [Required] [MaxLength(32)] public string OpenId { get; set; }
 
         [MaxLength(128)] public string Email { get; set; }
         public bool EmailVerified { get; set; }

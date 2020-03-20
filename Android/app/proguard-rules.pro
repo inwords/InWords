@@ -38,6 +38,15 @@
 -keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite { *; }
 -keepclassmembers class org.chromium.net.impl.** { *; }
 
+# Remove logs
+-assumenosideeffects class android.util.Log {
+    public static *** v(...);
+    public static *** d(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+}
+
 # Prevent proguard from stripping interface information from TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
 -keep class * implements com.google.gson.TypeAdapterFactory

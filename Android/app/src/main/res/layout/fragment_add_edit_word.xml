@@ -30,9 +30,9 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingLeft="@dimen/space_xmedium_large"
-            android:paddingTop="@dimen/space_xxxxgiant"
+            android:paddingTop="@dimen/space_medium"
             android:paddingRight="@dimen/space_xmedium_large"
-            android:paddingBottom="@dimen/space_xxxxgiant">
+            android:paddingBottom="@dimen/space_xmedium_large">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -45,7 +45,7 @@
                 android:id="@+id/native_word_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_large">
+                android:layout_marginTop="@dimen/space_xmedium_large">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/native_word_edit_text"
@@ -82,7 +82,7 @@
                 android:id="@+id/buttonConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_large"
+                android:layout_marginTop="@dimen/space_medium"
                 android:backgroundTint="@color/colorPrimary"
                 android:text="@string/button_add_text"
                 android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />

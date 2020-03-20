@@ -6,4 +6,5 @@ interface IntegrationInteractor {
     fun getOnAuthCallback(): Completable
     fun getOnUnauthorisedCallback(): Completable
     fun getOnNewUserCallback(): Completable
+    fun logout(): Completable
 }

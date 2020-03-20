@@ -10,9 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthInfo @Inject constructor(@Common private val sharedPreferences: SharedPreferences) {
-    var tokenResponse: TokenResponse = noToken
-
+class NativeAuthInfo @Inject constructor(@Common private val sharedPreferences: SharedPreferences) {
     private var credentialsInternal: UserCredentials = UserCredentials()
         get() {
             if (!field.validCredentials()) {
@@ -33,36 +31,21 @@ class AuthInfo @Inject constructor(@Common private val sharedPreferences: Shared
         return Single.fromCallable { credentialsInternal.requireCredentials() }
     }
 
-    fun setCredentials(userCredentials: UserCredentials): Single<UserCredentials> {
-        return Single.fromCallable {
-            credentialsInternal = userCredentials
-            credentialsInternal
-        }
+    fun setCredentials(userCredentials: UserCredentials) {
+        credentialsInternal = userCredentials
     }
-
-    fun getAuthToken(): Single<TokenResponse> {
-        return getCredentials()
-            .map { tokenResponse }
-    }
-
-    val isNoToken: Boolean get() = tokenResponse == noToken
-    val isUnauthorised: Boolean get() = tokenResponse == unauthorisedToken
 
     companion object {
-        val noToken = TokenResponse()
-        val unauthorisedToken = TokenResponse("invalid_token")
+        private const val PREFS_EMAIL = "em"
+        private const val PREFS_PASSWORD = "pa"
     }
 }
-
-const val PREFS_EMAIL = "em"
-const val PREFS_PASSWORD = "pa"
 
 fun UserCredentials.validCredentials() = email.isNotBlank() && password.isNotBlank()
 
 fun UserCredentials.requireCredentials(): UserCredentials {
     if (!validCredentials()) {
-        throw AuthenticationException("invalid credentials (no credentials)",
-            AuthExceptionType.NO_CREDENTIALS)
+        throw AuthenticationException("invalid credentials (no credentials)", AuthExceptionType.NO_CREDENTIALS)
     }
 
     return this

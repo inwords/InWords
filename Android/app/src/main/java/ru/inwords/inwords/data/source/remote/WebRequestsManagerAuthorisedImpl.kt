@@ -6,7 +6,6 @@ import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.source.remote.session.AuthInfo
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.profile.data.bean.User
@@ -14,12 +13,12 @@ import ru.inwords.inwords.translation.data.bean.EntityIdentificator
 import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class WebRequestsManagerAuthorisedImpl @Inject
-internal constructor(
+@Singleton
+class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
     private val apiServiceAuthorised: ApiServiceAuthorised,
-    private val sessionHelper: SessionHelper,
-    private val authInfo: AuthInfo
+    private val sessionHelper: SessionHelper
 ) : WebRequestsManagerAuthorised {
 
     private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
@@ -29,10 +28,6 @@ internal constructor(
             sessionHelper.resetThreshold()
         }
         authenticatedNotifierSubject.onNext(authorised)
-    }
-
-    override fun getUserEmail(): Single<String> {
-        return authInfo.getCredentials().map { it.email } //TODO move outside
     }
 
     override fun getLogin(): Single<String> {
