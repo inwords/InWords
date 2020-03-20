@@ -6,12 +6,14 @@ import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteracto
 import ru.inwords.inwords.authorisation.presentation.login.LoginViewModel
 import ru.inwords.inwords.authorisation.presentation.registration.RegistrationViewModel
 import ru.inwords.inwords.core.managers.ResourceManager
+import ru.inwords.inwords.data.source.remote.session.LastAuthInfoProvider
 import javax.inject.Inject
 
 class AuthorisationViewModelFactory @Inject
 internal constructor(
     private val authorisationInteractor: AuthorisationInteractor,
-    private val resourceManager: ResourceManager
+    private val resourceManager: ResourceManager,
+    private val lastAuthInfoProvider: LastAuthInfoProvider
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

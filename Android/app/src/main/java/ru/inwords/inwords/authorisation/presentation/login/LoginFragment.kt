@@ -2,7 +2,6 @@ package ru.inwords.inwords.authorisation.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,6 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
 import ru.inwords.inwords.core.AfterTextChangedWatcher
-import ru.inwords.inwords.core.Event
-import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.KeyboardUtils
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.core.validation.ValidationResult
@@ -30,7 +27,7 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
     private val args by navArgs<LoginFragmentArgs>()
 
     @Inject
-    lateinit var signInWithGoogle: SignInWithGoogle
+    internal lateinit var signInWithGoogle: SignInWithGoogle
 
     override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentSignInBinding {
         return FragmentSignInBinding.inflate(inflater, container, attachToRoot)
@@ -42,15 +39,6 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
         setupWithNavController(binding.toolbar)
 
         setupValidation()
-
-        signInWithGoogle.silentSignIn()
-            .subscribeOn(SchedulersFacade.io())
-            .subscribe({
-                it.idToken
-            }, {
-                Log.e(javaClass.simpleName, it.message.orEmpty())
-            })
-            .disposeOnViewDestroyed()
 
         binding.signInWithGoogleButton.setOnClickListener { signIn(signInWithGoogle) }
 
@@ -75,14 +63,35 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
         if (requestCode == RC_SIGN_IN && data != null) {
             signInWithGoogle.handleSignInResult(
                 intent = data,
-                onSuccess = { it.id },
-                onError = { }
+                onSuccess = { viewModel.onSignInClicked(it) },
+                onError = { viewModel.onException(it) }
             )
         }
     }
 
     private fun signIn(signInWithGoogle: SignInWithGoogle) {
-        startActivityForResult(signInWithGoogle.getSignInIntent(), RC_SIGN_IN)
+        signInWithGoogle.silentSignIn()
+            .doOnSubscribe { renderLoadingState() }
+            .subscribe({
+                showSignOutAndSignInDialog(
+                    onNegative = { renderDefaultState() },
+                    onConfirm = { signOutAndSignIn(signInWithGoogle) },
+                    onDismissWithoutAction = { renderDefaultState() }
+                )
+            }, {
+                startActivityForResult(signInWithGoogle.getSignInIntent(), RC_SIGN_IN)
+            })
+            .disposeOnViewDestroyed()
+    }
+
+    private fun signOutAndSignIn(signInWithGoogle: SignInWithGoogle) {
+        signInWithGoogle.signOut()
+            .subscribe({
+                startActivityForResult(signInWithGoogle.getSignInIntent(), RC_SIGN_IN)
+            }, {
+                viewModel.onException(it)
+            })
+            .disposeOnViewDestroyed()
     }
 
     private fun setupValidation() {
@@ -103,18 +112,21 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
 
     private fun renderDefaultState() {
         binding.buttonEnterSignIn.isEnabled = true
+        binding.signInWithGoogleButton.isEnabled = true
         binding.errorTextView.isVisible = false
         hideProgress()
     }
 
     private fun renderLoadingState() {
         binding.buttonEnterSignIn.isEnabled = false
+        binding.signInWithGoogleButton.isEnabled = false
         binding.errorTextView.isVisible = false
         showProgress()
     }
 
     private fun renderSuccessState() {
         binding.buttonEnterSignIn.isEnabled = false
+        binding.signInWithGoogleButton.isEnabled = false
         //TODO какую-ниюудь галочку или что-то
         binding.errorTextView.isVisible = false
         hideProgress()
@@ -122,16 +134,15 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
 
     private fun renderErrorState(throwable: Throwable) {
         binding.buttonEnterSignIn.isEnabled = true
+        binding.signInWithGoogleButton.isEnabled = true
         binding.errorTextView.text = "Попробуйте ещё раз\nОшибка: ${throwable.localizedMessage}"
         binding.errorTextView.isVisible = true
         hideProgress()
     }
 
-    private fun processViewState(viewStateEvent: Event<AuthorisationViewState>) {
+    private fun processViewState(authorisationViewState: AuthorisationViewState) {
         binding.emailEditText.error = null
         binding.passwordEditText.error = null
-
-        val authorisationViewState = viewStateEvent.peekContent()
 
         @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
         when (authorisationViewState.status) {
@@ -141,13 +152,13 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
 
             AuthorisationViewState.Status.SUCCESS -> {
                 renderSuccessState()
-                if (viewStateEvent.handle()) {
-                    navigateOnSuccess()
-                }
+                KeyboardUtils.hideKeyboard(view)
+
+                navigateOnSuccess()
             }
 
             AuthorisationViewState.Status.ERROR -> {
-                viewStateEvent.peekContent().throwable?.also {
+                authorisationViewState.throwable?.let {
                     renderErrorState(it)
                 }
             }
@@ -155,17 +166,16 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
     }
 
     private fun showProgress() {
-        binding.progressView.isVisible = true
-        binding.progressView.progress = 50
+        binding.progress.isVisible = true
+        binding.progress.progress = 50
     }
 
     private fun hideProgress() {
-        binding.progressView.isVisible = false
-        binding.progressView.progress = 0
+        binding.progress.isVisible = false
+        binding.progress.progress = 0
     }
 
     private fun navigateOnSuccess() {
-        KeyboardUtils.hideKeyboard(view)
         viewModel.popOutOfAuth()
     }
 

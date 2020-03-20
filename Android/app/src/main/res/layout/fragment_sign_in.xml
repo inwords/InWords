@@ -19,7 +19,7 @@
             app:title="@string/sign_in" />
 
         <ru.inwords.designcorelib.custom_views.ProgressView
-            android:id="@+id/progress_view"
+            android:id="@+id/progress"
             android:layout_width="match_parent"
             android:layout_height="@dimen/top_progress_height"
             android:visibility="gone" />
@@ -36,7 +36,7 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingLeft="@dimen/space_xmedium_large"
-            android:paddingTop="@dimen/space_xmedium_large"
+            android:paddingTop="@dimen/space_medium"
             android:paddingRight="@dimen/space_xmedium_large"
             android:paddingBottom="@dimen/space_xmedium_large">
 
@@ -51,7 +51,7 @@
                 android:id="@+id/email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_xmedium_large">
+                android:layout_marginTop="@dimen/space_medium">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_edit_text"
@@ -86,7 +86,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_medium"
                 android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary"
-                tools:text="Ошибка: ываываываыва" />
+                android:visibility="gone"
+                tools:text="Ошибка: ываываываыва"
+                tools:visibility="visible" />
 
             <Button
                 android:id="@+id/buttonEnterSignIn"
@@ -97,10 +99,10 @@
                 android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
 
             <com.google.android.gms.common.SignInButton
-                android:layout_marginTop="@dimen/space_medium"
                 android:id="@+id/sign_in_with_google_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
                 app:buttonSize="wide" />
 
             <LinearLayout
@@ -137,7 +139,8 @@
                 android:layout_marginTop="@dimen/space_medium"
                 android:background="?selectableItemBackground"
                 android:text="@string/sign_in_restore_password"
-                android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default" />
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Default"
+                android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

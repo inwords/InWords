@@ -1,65 +1,48 @@
 package ru.inwords.inwords.data.source.remote
 
 import android.util.Log
-import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.source.grpc.AuthenticatorGrpcService
-import ru.inwords.inwords.data.source.remote.session.AuthInfo
+import ru.inwords.inwords.data.source.remote.session.NativeTokenHolder
+import ru.inwords.inwords.data.source.remote.session.NativeTokenHolder.Companion.noToken
 import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.data.source.remote.session.TokenResponse
-import ru.inwords.inwords.data.source.remote.session.requireCredentials
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class WebRequestsManagerUnauthorisedImpl @Inject internal constructor(
     private val apiServiceUnauthorised: ApiServiceUnauthorised,
     private val sessionHelper: SessionHelper,
-    private val profileGrpcService: AuthenticatorGrpcService,
-    private val authInfo: AuthInfo
+    private val authenticatorGrpcService: AuthenticatorGrpcService,
+    private val nativeTokenHolder: NativeTokenHolder
 ) : WebRequestsManagerUnauthorised {
 
-    private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
+    override fun isUnauthorised() = nativeTokenHolder.isUnauthorised
 
-    override val authenticatedNotifier: Observable<Boolean> get() = authenticatedNotifierSubject
-
-    override fun getToken(): Single<TokenResponse> {
-        return authInfo.getCredentials().updateToken()
-    }
+    override fun invalidateToken() = nativeTokenHolder.setAuthToken(noToken)
 
     override fun getToken(userCredentials: UserCredentials): Single<TokenResponse> {
-        return Single.fromCallable { userCredentials.requireCredentials() }
-            .updateToken()
-            .flatMap { tokenResponse ->
-                authInfo.setCredentials(userCredentials)
-                    .map { tokenResponse }
-            }
-    }
-
-    private fun Single<UserCredentials>.updateToken(): Single<TokenResponse> {
-        return flatMap { profileGrpcService.getToken(it) }
+        return authenticatorGrpcService.getToken(userCredentials)
             .flatMap { setAuthToken(it) }
             .applyAuthSessionHelper()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    private fun setAuthToken(tokenResponse: TokenResponse): Single<TokenResponse> {
-        return Single.fromCallable {
-            this.authInfo.tokenResponse = tokenResponse
-
-            tokenResponse
-        }
+    override fun getTokenGoogle(tokenId: String): Single<TokenResponse> {
+        return authenticatorGrpcService.getTokenOauth(tokenId, "google")
+            .flatMap { setAuthToken(it) }
+            .applyAuthSessionHelper()
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun registerUser(userCredentials: UserCredentials): Single<TokenResponse> {
-        return profileGrpcService.register(userCredentials)
+        return authenticatorGrpcService.register(userCredentials)
             .applyAuthSessionHelper()
-            .zipWith(authInfo.setCredentials(userCredentials),
-                BiFunction<TokenResponse, UserCredentials, TokenResponse> { tokenResponse, u -> tokenResponse })
             .subscribeOn(Schedulers.io())
     }
 
@@ -68,19 +51,30 @@ class WebRequestsManagerUnauthorisedImpl @Inject internal constructor(
             .map { it.audioContent }
     }
 
+    private fun setAuthToken(tokenResponse: TokenResponse): Single<TokenResponse> {
+        return Single.fromCallable {
+            nativeTokenHolder.setAuthToken(tokenResponse)
+
+            tokenResponse
+        }
+    }
+
     private fun Single<TokenResponse>.applyAuthSessionHelper(): Single<TokenResponse> {
         return doOnSuccess { sessionHelper.resetThreshold() }
             .onErrorResumeNext { throwable ->
-                Log.e(javaClass.simpleName, throwable.message.orEmpty())
+                Log.e(TAG, throwable.message.orEmpty())
 
                 if (sessionHelper.interceptAuthError(throwable)) {
-                    setAuthToken(AuthInfo.unauthorisedToken) //TODO this has no sense in real
+                    setAuthToken(NativeTokenHolder.unauthorisedToken) //TODO this has no sense in real
                         .flatMap { Single.error<TokenResponse>(throwable) }
                 } else {
                     Single.error<TokenResponse>(throwable)
                 }
             }
             .flatMap { setAuthToken(it) }
-            .doFinally { authenticatedNotifierSubject.onNext(!authInfo.isUnauthorised) }
+    }
+
+    companion object {
+        const val TAG = "WebRequestsMgrUnauth"
     }
 }

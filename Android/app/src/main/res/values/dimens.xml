@@ -9,7 +9,7 @@
     <dimen name="text_16sp_box">20dp</dimen>
 
     <dimen name="default_card_height">80dp</dimen>
-    <dimen name="large_logo_height">80dp</dimen>
+    <dimen name="large_logo_height">60dp</dimen>
 
     <dimen name="top_progress_height">3dp</dimen>
 

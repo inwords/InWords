@@ -25,8 +25,8 @@ class IntegrationDatabaseRepositoryImpl @Inject internal constructor(private val
         }
     }
 
-    override fun clearAllTables(): Completable {
-        return Completable.fromAction { database.clearAllTables() }
+    override fun clearAllTables() {
+        return database.clearAllTables()
     }
 }
 

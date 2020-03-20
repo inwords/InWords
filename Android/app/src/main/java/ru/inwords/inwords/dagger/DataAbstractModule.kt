@@ -17,8 +17,6 @@ import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractorImpl
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractorImpl
-import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
-import ru.inwords.inwords.profile.domain.interactor.ProfileInteractorImpl
 import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 import ru.inwords.inwords.translation.data.repository.TranslationWordsWebApiRepository
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
@@ -47,11 +45,6 @@ interface DataAbstractModule {
     @Binds
     @Singleton
     fun gameInteractor(interactor: GameInteractorImpl): GameInteractor
-
-    @Binds
-    @Singleton
-    fun profileInteractor(interactor: ProfileInteractorImpl): ProfileInteractor
-
 
     @Binds
     @Singleton

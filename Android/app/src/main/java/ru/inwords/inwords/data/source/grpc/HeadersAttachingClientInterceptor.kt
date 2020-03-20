@@ -2,14 +2,19 @@ package ru.inwords.inwords.data.source.grpc
 
 import io.grpc.*
 import io.grpc.ForwardingClientCall.SimpleForwardingClientCall
-import ru.inwords.inwords.data.source.remote.session.AuthInfo
+import ru.inwords.inwords.data.source.remote.session.NativeTokenHolder
 import javax.inject.Inject
 
-private class HeaderAttachingClientInterceptor @Inject internal constructor(private val authInfo: AuthInfo) : ClientInterceptor {
+private class HeaderAttachingClientInterceptor @Inject internal constructor(
+    private val nativeTokenHolder: NativeTokenHolder
+) : ClientInterceptor {
     private val key: Metadata.Key<String> = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
 
     override fun <ReqT, RespT> interceptCall(
-        method: MethodDescriptor<ReqT, RespT>, callOptions: CallOptions, next: Channel): ClientCall<ReqT, RespT> {
+        method: MethodDescriptor<ReqT, RespT>,
+        callOptions: CallOptions,
+        next: Channel
+    ): ClientCall<ReqT, RespT> {
         return HeaderAttachingClientCall(next.newCall(method, callOptions))
     }
 
@@ -18,11 +23,11 @@ private class HeaderAttachingClientInterceptor @Inject internal constructor(priv
     internal constructor(call: ClientCall<ReqT, RespT>?) : SimpleForwardingClientCall<ReqT, RespT>(call) {
         override fun start(responseListener: Listener<RespT>, headers: Metadata) {
 
-            if (headers.get(key) == AuthInfo.unauthorisedToken.bearer) {
+            if (headers.get(key) == NativeTokenHolder.unauthorisedToken.bearer) {
                 return super.start(responseListener, headers)
             }
 
-            val token = authInfo.getAuthToken().blockingGet()
+            val token = nativeTokenHolder.getAuthToken()
 
             val extraHeaders = Metadata().apply {
                 put(key, token.bearer)

@@ -31,7 +31,8 @@ internal class ResourceCachingProviderLocatorTest {
 
         return ResourceCachingProvider<String>(
             { data -> Single.fromCallable { localRepo.put(id, data) }.map { data } },
-            { Single.just(localRepo[id]) }, //by id local
-            { Single.just(str + id) }) //by id remote
+            { Single.just(localRepo[id]!!) }, //by id local
+            { Single.just(str + id) }
+        ) //by id remote
     }
 }

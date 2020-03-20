@@ -128,6 +128,9 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
 
         fun clear() {
             synchronized(cachingProvidersMap) {
+                cachingProvidersMap.values.forEach {
+                    it.invalidateContent()
+                }
                 cachingProvidersMap.clear()
             }
         }

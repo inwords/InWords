@@ -15,6 +15,8 @@
     <string name="sign_in_no_account">Нет аккаунта?</string>
     <string name="sign_in_sign_up">Создать аккаунт</string>
     <string name="sign_in_restore_password">Забыли e-mail или пароль?</string>
+    <string name="session_will_be_terminated">Ваша текущая сессия будет завершена</string>
+    <string name="you_can_choose_the_account_to_login">Вы сможете заново использовать тот же аккаунт или выбрать другой</string>
     <!-- sign in end -->
 
     <!-- sign up start -->
@@ -103,6 +105,9 @@
     <string name="policy_privacy_agreement">Используя приложение, вы соглашаетесь с  \nполитикой конфиденциальности</string>
     <string name="button_apply_text">Подтвердить</string>
     <string name="nick_text">Псевдоним</string>
+    <string name="unable_to_change_nickname">Не удалось изменить ник. Попробуйте ещё раз</string>
+    <string name="unable_to_logout">Не удалось выйти из аккаунта. Попробуйте ещё раз</string>
+    <string name="logout_warning_message">Данные, сохранённые на устройстве, будут стёрты. Позже, вы сможете снова войти в аккаунт или зарегистрироваться</string>
     <!-- profile end -->
 
     <!-- policy start -->
@@ -115,9 +120,6 @@
 
     <!-- unsorted start -->
     <string name="settings">Настройки</string>
-    <string name="search">Поиск</string>
-    <string name="cancel">Отменить</string>
-    <string name="try_again">Попробовать еще раз</string>
     <string name="incorrect_input_word">Вы ввели некорректное слово</string>
     <string name="incorrect_input_email">Вы ввели некорректный email</string>
     <string name="incorrect_input_password">Вы ввели некорректный пароль</string>

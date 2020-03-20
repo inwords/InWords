@@ -17,8 +17,6 @@ interface WebRequestsManagerAuthorised {
 
     fun getGameInfos(): Single<List<GameInfoResponse>>
 
-    fun getUserEmail(): Single<String>
-
     fun getUserById(id: Int): Single<User>
 
     fun updateUser(newUser: User): Completable
