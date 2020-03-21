@@ -130,7 +130,9 @@ test('add word with automatic translation', async () => {
   jest.useFakeTimers();
   utils.clickWordPairAdd();
   utils.changeWordForeignInput(newWordPair.wordForeign);
-  jest.runAllTimers();
+  act(() => {
+    jest.runAllTimers();
+  });
   jest.useRealTimers();
 
   global.fetch = mockFetch(utils.mockingWordPairsAddResponse);
@@ -170,7 +172,7 @@ test('find word pair', async () => {
   jest.useFakeTimers();
   utils.changeSearchInput(rightWordPair.wordForeign);
   act(() => {
-    jest.runOnlyPendingTimers();
+    jest.runAllTimers();
   });
 
   expect(utils.queryByText(rightWordPair.wordForeign)).toBeTruthy();

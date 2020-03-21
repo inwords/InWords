@@ -86,7 +86,7 @@ function TrainingRouter() {
         exact
         path={`${url}/courses/:courseId/word-set`}
         render={({ match: { params } }) => (
-          <Container maxWidth="lg">
+          <Container maxWidth="md">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
               <BreadcrumbsLink
