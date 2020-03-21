@@ -6,7 +6,6 @@ using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.DictionaryService.Extentions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -33,8 +33,8 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
                 UserId = userId
             };
 
-            var registration = new AddWords(context);
-            AddWordsReply response = await registration.HandleRequest(requestObject).ConfigureAwait(false);
+            var addWords = new AddWords(context);
+            AddWordsReply response = await addWords.HandleRequest(requestObject).ConfigureAwait(false);
 
             // assert 
             Assert.Equal(4, context.Words.Count());
