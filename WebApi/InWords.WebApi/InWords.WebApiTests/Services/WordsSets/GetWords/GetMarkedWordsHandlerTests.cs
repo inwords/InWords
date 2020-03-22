@@ -28,8 +28,8 @@ namespace InWords.WebApiTests.Services.WordsSets.GetWords
 
             HashSet<GameLevelWord> gameLevelWords = new HashSet<GameLevelWord>
             {
-                new GameLevelWord() { WordPairId = word1 },
-                new GameLevelWord() { WordPairId = word2 }
+                new GameLevelWord() { NativeWord = "тест4", ForeignWord = "test4" },
+                new GameLevelWord() { NativeWord = "тест5", ForeignWord ="test5"}
             };
 
             HashSet<GameLevel> gameLevels = new HashSet<GameLevel>
@@ -90,8 +90,9 @@ namespace InWords.WebApiTests.Services.WordsSets.GetWords
             context.UserWordPairs.Add(new UserWordPair()
             {
                 UserId = context.Users.First().UserId,
-                WordPairId = context.Games.First().GameLevels.First().GameLevelWords.First().WordPairId
-            }); ;
+                ForeignWord = "test4",
+                NativeWord = "тест4"
+            });
             context.SaveChanges();
             // act
             var reply = await new GetMarkedWordsHandler(context).Handle(request);

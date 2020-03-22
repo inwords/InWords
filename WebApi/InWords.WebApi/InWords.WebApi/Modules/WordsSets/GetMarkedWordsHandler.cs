@@ -33,21 +33,18 @@ namespace InWords.WebApi.Modules.WordsSets
                 var usersWords = Context.UserWordPairs.Where(u => u.UserId.Equals(userId));
                 // levels in game
                 var levelsInSet = Context.GameLevels.Where(g => g.GameId.Equals(requestData.WordSetId));
-                var wordsIdInLevels = Context.GameLevelWords.Where(n => levelsInSet.Any(d => d.GameLevelId.Equals(n.GameLevelId)));
-                var wordsByWordIds = Context.WordPairs.Where(w => wordsIdInLevels.Any(d => d.WordPairId.Equals(w.WordPairId)));
-                var loadedWords = wordsByWordIds
-                    .Include(d => d.WordForeign)
-                    .Include(w => w.WordNative)
-                    .Select(wp => new WordSetWord()
-                    {
-                        WordPairId = wp.WordPairId,
-                        WordForeign = wp.WordForeign.Content,
-                        WordNative = wp.WordNative.Content,
-                        HasAdded = usersWords.Any(d => d.WordPairId.Equals(wp.WordPairId))
-                    });
+                var wordsIdInLevels = Context.GameLevelWords
+                .Where(n => levelsInSet.Any(d => d.GameLevelId.Equals(n.GameLevelId)))
+                .Select(w => new WordSetWord()
+                {
+                    WordForeign = w.ForeignWord,
+                    WordNative = w.NativeWord,
+                    WordPairId = w.GameLevelWordId,
+                    HasAdded = Context.UserWordPairs.Where(u => u.UserId == userId).Any(c => c.ForeignWord == w.ForeignWord && c.NativeWord == w.NativeWord)
+                });
 
                 WordSetWordsReply wordSetWordsReply = new WordSetWordsReply();
-                wordSetWordsReply.Words.AddRange(loadedWords);
+                wordSetWordsReply.Words.AddRange(wordsIdInLevels);
 
                 return wordSetWordsReply;
             });
