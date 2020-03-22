@@ -29,20 +29,18 @@ function WordPairAddDialogContainer({ open, ...rest }) {
         wordNative: inputs.wordNative.trim()
       };
 
-      if (preparedPair.wordForeign && preparedPair.wordNative) {
-        try {
-          const data = await dispatch(addWordPairs([preparedPair]));
-          dispatch(
-            addWordPairsLocal([
-              {
-                ...preparedPair,
-                serverId: data.wordIds[0].serverId
-              }
-            ])
-          );
-        } catch (error) {
-          dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
-        }
+      try {
+        const data = await dispatch(addWordPairs([preparedPair]));
+        dispatch(
+          addWordPairsLocal([
+            {
+              ...preparedPair,
+              serverId: data.wordIds[0].serverId
+            }
+          ])
+        );
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
       }
     }
   );

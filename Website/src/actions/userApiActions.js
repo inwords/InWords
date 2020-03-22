@@ -32,6 +32,7 @@ export const uploadUserAvatar = formData => dispatch =>
         endpoint: '/profileSettings/uploadAvatar',
         method: 'PUT',
         data: formData,
+        contentType: null,
         onSuccess: resolve,
         onFailure: reject
       })
