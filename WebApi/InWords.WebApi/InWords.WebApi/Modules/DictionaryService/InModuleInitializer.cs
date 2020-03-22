@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
-using InWords.WebApi.Services.DictionaryService.Words;
+using InWords.WebApi.Modules.DictionaryService.Words;
 
-namespace InWords.WebApi.Services.DictionaryService
+namespace InWords.WebApi.Modules.DictionaryService
 {
     public class InModuleInitializer : InModule
     {

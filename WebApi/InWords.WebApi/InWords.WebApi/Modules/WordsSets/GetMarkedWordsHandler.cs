@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Services.WordsSets.GetWords
+namespace InWords.WebApi.Modules.WordsSets
 {
     public class GetMarkedWordsHandler
         : AuthorizedRequestObjectHandler<WordSetWordsRequest, WordSetWordsReply, InWordsDataContext>

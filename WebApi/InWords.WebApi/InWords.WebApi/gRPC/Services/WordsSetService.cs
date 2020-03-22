@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services
 {
+    [Authorize]
     public class WordsSetService : WordSetProvider.WordSetProviderBase
     {
         private readonly IMediator mediator;
@@ -17,7 +18,6 @@ namespace InWords.WebApi.gRPC.Services
             this.mediator = mediator;
         }
 
-        [Authorize]
         public override async Task<WordSetWordsReply> GetWordsList(WordSetWordsRequest request, ServerCallContext context)
         {
             var requestObject = new AuthorizedRequestObject<WordSetWordsRequest, WordSetWordsReply>(request)
@@ -28,6 +28,17 @@ namespace InWords.WebApi.gRPC.Services
             };
             WordSetWordsReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
             return reply;
+        }
+
+        public override async Task<Empty> ToDictionary(WordSetWordsRequest request, ServerCallContext context)
+        {
+            var requestObject = new AuthorizedRequestObject<WordSetWordsRequest, Empty>(request)
+            {
+                UserId = context
+                .GetHttpContext()
+                .User.GetUserId()
+            };
+            return await mediator.Send(requestObject).ConfigureAwait(false);
         }
     }
 }

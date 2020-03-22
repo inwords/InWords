@@ -48,5 +48,16 @@ namespace InWords.WebApi.Controllers.v2
             WordSetWordsReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
             return Ok(reply);
         }
+
+        [Route("to-dictionary")]
+        [HttpPost]
+        public async Task<IActionResult> ToDictionary(WordSetWordsRequest request)
+        {
+            var requestObject = new AuthorizedRequestObject<WordSetWordsRequest, Empty>(request)
+            {
+                UserId = User.GetUserId()
+            };
+            return Ok(await mediator.Send(requestObject).ConfigureAwait(false));
+        }
     }
 }

@@ -3,8 +3,8 @@ using InWords.Common.Extensions;
 using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Protobuf;
+using InWords.WebApi.Modules.DictionaryService.Extentions;
 using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Services.DictionaryService.Extentions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Services.DictionaryService.Words
+namespace InWords.WebApi.Modules.DictionaryService.Words
 {
     public class AddWords : AuthorizedRequestObjectHandler<AddWordsRequest, AddWordsReply, InWordsDataContext>
     {
@@ -102,13 +102,12 @@ namespace InWords.WebApi.Services.DictionaryService.Words
             return addWordsReply;
         }
 
-        public async static Task CompabilityV2(InWordsDataContext context, Func<UserWordPair, bool> predicate = null)
+        public async static Task CompabilityV2(InWordsDataContext context)
         {
-            var uwps = context.UserWordPairs.Where(d => string.IsNullOrWhiteSpace(d.ForeignWord) || string.IsNullOrWhiteSpace(d.NativeWord));
-            if (predicate != null)
-            {
-                uwps = uwps.Where(w => predicate.Invoke(w));
-            }
+            var uwps = context.UserWordPairs
+                .Where(d => string.IsNullOrWhiteSpace(d.ForeignWord) || string.IsNullOrWhiteSpace(d.NativeWord))
+                .Where(d => d.WordPairId != 0);
+
             List<UserWordPair> uwp = await uwps.Include(d => d.WordPair)
                 .ThenInclude(d => d.WordNative)
                 .Include(d => d.WordPair.WordForeign)

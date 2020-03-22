@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using InWords.Data.Domains;
 
@@ -12,8 +13,14 @@ namespace InWords.Data.Creations.GameBox
 
         [ForeignKey(nameof(GameLevelId))] public virtual GameLevel GameLevel { get; set; }
 
-        public int WordPairId { get; set; }
+        [MaxLength(128)] public string ForeignWord { get; set; }
+        [MaxLength(128)] public string NativeWord { get; set; }
+     
+        #region obsolete
+        [Obsolete] public int WordPairId { get; set; }
 
-        [ForeignKey(nameof(WordPairId))] public virtual WordPair WordPair { get; set; }
+       [Obsolete] [ForeignKey(nameof(WordPairId))] public virtual WordPair WordPair { get; set; }
+
+        #endregion
     }
 }

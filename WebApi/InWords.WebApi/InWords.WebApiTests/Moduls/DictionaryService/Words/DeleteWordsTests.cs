@@ -1,8 +1,8 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Protobuf;
+using InWords.WebApi.Modules.DictionaryService.Words;
 using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Services.DictionaryService.Words;
 using InWords.WebApiTests.TestUtils;
 using System.Linq;
 using Xunit;
