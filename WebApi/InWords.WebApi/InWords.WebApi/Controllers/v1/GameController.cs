@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,22 +41,6 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             this.gameService = gameService;
         }
 
-        /// <summary>
-        ///     This is to add game pack from body use Game pack object
-        /// </summary>
-        /// <see cref="GamePack" />
-        /// <param name="gamePack">describe game</param>
-        /// <returns></returns>
-        [Route("addGamePack")]
-        [HttpPost]
-        public async Task<IActionResult> AddGamePack([FromBody] GamePack gamePack)
-        {
-            int authorizedId = User.GetUserId();
-
-            SyncBase answer = await gameService.AddGamePackAsync(authorizedId, gamePack);
-
-            return Ok(answer);
-        }
 
         /// <summary>
         ///     Returns short information about all games in database
@@ -139,6 +124,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         /// <response code="200">Count of added words</response>
         /// <returns>Count of adding words</returns>
         [HttpPost]
+        [Obsolete]
         [Route("AddWordsToUserDictionary")]
         [ProducesResponseType(typeof(GameToUserQueryResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddWordsToUserDictionary([FromBody] int gameId)
