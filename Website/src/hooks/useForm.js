@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function useForm(initialInputs, action) {
+const useForm = (initialInputs, action) => {
   const [inputs, setInputs] = React.useState(initialInputs);
 
   const handleChange = event => {
@@ -28,4 +28,6 @@ export default function useForm(initialInputs, action) {
     handleChange,
     handleSubmit
   };
-}
+};
+
+export default useForm;

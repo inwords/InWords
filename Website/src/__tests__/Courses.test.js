@@ -1,106 +1,94 @@
-import React, { Fragment } from 'react';
-import { fireEvent, screen, wait } from '@testing-library/react';
+import React from 'react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
-import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Courses from 'src/components/routes/Courses';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 
-const fakeAccessData = {
-  token: 'xyz',
-  userId: 1
+const setup = () => {
+  const accessData = {
+    token: 'xyz',
+    userId: 1
+  };
+  const mockingCoursesResponse = [
+    {
+      gameId: 1,
+      description: 'Описание 1',
+      title: 'Тема 1',
+      isAvailable: true
+    }
+  ];
+  const mockingCourseWordPairsAddingResponse = {
+    wordsAdded: 10
+  };
+  global.fetch = mockFetch(mockingCoursesResponse);
+  const route = '/training/courses';
+  const utils = renderWithEnvironment(
+    <Route path="/training/courses">
+      <Courses />
+      <SmartSnackbar />
+    </Route>,
+    {
+      initialState: { access: { token: accessData.token } },
+      route
+    }
+  );
+
+  const clickCourse = id =>
+    fireEvent.click(utils.getByTestId(`to-course-${id}`));
+  const clickCourseWordSet = id =>
+    fireEvent.click(utils.getByTestId(`to-course-${id}-word-set`));
+  const clickAdd = id =>
+    fireEvent.click(utils.getByTestId(`add-to-dictionary-${id}`));
+  const clickAddConfirmation = () =>
+    fireEvent.click(utils.getByText('Добавить'));
+
+  return {
+    ...utils,
+    mockingCoursesResponse,
+    mockingCourseWordPairsAddingResponse,
+    route,
+    clickCourse,
+    clickCourseWordSet,
+    clickAdd,
+    clickAddConfirmation
+  };
 };
 
-const fakeCoursesResponse = [
-  {
-    gameId: 1,
-    description: 'Описание 1',
-    title: 'Тема 1',
-    isAvailable: true
-  },
-  {
-    gameId: 2,
-    description: 'Описание 2',
-    title: 'Тема 2',
-    isAvailable: true
-  }
-];
+test('select course', async () => {
+  const utils = setup();
+  const courseInfo = utils.mockingCoursesResponse[0];
+  await waitFor(() => screen.getByText(courseInfo.title));
 
-const fakeCourseWordPairsAddingResponse = {
-  wordsAdded: 10
-};
+  utils.clickCourse(courseInfo.gameId);
 
-describe('interaction with courses', () => {
-  it('allows the user to see courses', async () => {
-    global.fetch = mockFetchOnce(fakeCoursesResponse);
+  expect(utils.history.location.pathname).toEqual(
+    `${utils.route}/${courseInfo.gameId}`
+  );
+});
 
-    renderWithEnvironment(<Courses />, {
-      initialState: { access: { token: fakeAccessData.token } }
-    });
+test('select course word set', async () => {
+  const utils = setup();
+  const courseInfo = utils.mockingCoursesResponse[0];
+  await waitFor(() => screen.getByText(courseInfo.title));
 
-    await wait(() => [
-      screen.getByText(fakeCoursesResponse[0].title),
-      screen.getByText(fakeCoursesResponse[0].description),
-      screen.getByText(fakeCoursesResponse[1].title),
-      screen.getByText(fakeCoursesResponse[1].description)
-    ]);
-  });
+  utils.clickCourseWordSet(courseInfo.gameId);
 
-  it('allows the user to select training level', async () => {
-    const { history } = renderWithEnvironment(
-      <Route path="/training/courses">
-        <Courses />
-      </Route>,
-      {
-        initialState: {
-          access: { token: fakeAccessData.token },
-          training: {
-            courses: fakeCoursesResponse
-          }
-        },
-        route: '/training/courses/1'
-      }
-    );
+  expect(utils.history.location.pathname).toEqual(
+    `${utils.route}/${courseInfo.gameId}/word-set`
+  );
+});
 
-    const courseInfo = fakeCoursesResponse[0];
+test('add course word pairs to dictionary', async () => {
+  const utils = setup();
+  const courseInfo = utils.mockingCoursesResponse[0];
+  const wordsAdded = utils.mockingCourseWordPairsAddingResponse.wordsAdded;
+  await waitFor(() => screen.getByText(courseInfo.title));
 
-    fireEvent.click(screen.getByTestId(`to-course-${courseInfo.gameId}`));
+  global.fetch = mockFetch(utils.mockingCourseWordPairsAddingResponse);
+  utils.clickAdd(courseInfo.gameId);
+  utils.clickAddConfirmation();
 
-    expect(history.location.pathname).toEqual(
-      `/training/courses/${courseInfo.gameId}`
-    );
-  });
-
-  it('allows the user to add course word pairs to dictionary', async () => {
-    global.fetch = mockFetchOnce(fakeCourseWordPairsAddingResponse);
-
-    renderWithEnvironment(
-      <Fragment>
-        <Courses />
-        <SmartSnackbar />
-      </Fragment>,
-      {
-        initialState: {
-          access: { token: fakeAccessData.token },
-          training: {
-            courses: fakeCoursesResponse
-          }
-        },
-        route: '/training/courses/1'
-      }
-    );
-
-    const courseInfo = fakeCoursesResponse[0];
-
-    fireEvent.click(
-      screen.getByTestId(`add-to-dictionary-${courseInfo.gameId}`)
-    );
-    fireEvent.click(screen.getByText('Добавить'));
-
-    await wait(() =>
-      screen.getByText(
-        `Добавлено новых слов: ${fakeCourseWordPairsAddingResponse.wordsAdded}`
-      )
-    );
-  });
+  await waitFor(() => screen.getByText(`Добавлено новых слов: ${wordsAdded}`));
 });

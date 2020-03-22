@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { editWordPairs as editWordPairsLocal } from 'src/actions/dictionaryActions';
 import { editWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
@@ -22,8 +24,32 @@ function WordPairEditDialogContainer({
       wordForeign: wordPair.wordForeign,
       wordNative: wordPair.wordNative
     },
-    () => {
-      dispatch(editWordPairs({ [wordPair.serverId]: inputs }));
+    async () => {
+      const preparedPair = {
+        wordForeign: inputs.wordForeign.trim(),
+        wordNative: inputs.wordNative.trim()
+      };
+
+      try {
+        const data = await dispatch(
+          editWordPairs({ [wordPair.serverId]: preparedPair })
+        );
+        dispatch(
+          editWordPairsLocal([
+            {
+              ...preparedPair,
+              oldServerId: wordPair.serverId,
+              serverId: data[0].serverId
+            }
+          ])
+        );
+      } catch (error) {
+        dispatch(
+          setSnackbar({
+            text: 'Не удалось изменить слова'
+          })
+        );
+      }
     }
   );
 

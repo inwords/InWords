@@ -1,62 +1,40 @@
-import { push } from 'connected-react-router';
 import apiAction from './apiAction';
-import { setSnackbar } from './commonActions';
-import {
-  initializeUserInfo,
-  updateUserInfo as updateUserInfoAction
-} from './userActions';
 
-export function receiveUserInfoById(userId) {
-  return apiAction({
-    endpoint: `/users/${userId}`,
-    onSuccess: ({ dispatch, data }) => {
-      dispatch(initializeUserInfo(data));
-    },
-    onFailure: ({ dispatch }) => {
-      dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
-    }
-  });
-}
+export const receiveUserInfo = () => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        endpoint: '/users',
+        onSuccess: resolve,
+        onFailure: reject
+      })
+    )
+  );
 
-export function receiveUserInfo() {
-  return apiAction({
-    endpoint: '/users',
-    onSuccess: ({ dispatch, data }) => {
-      dispatch(initializeUserInfo(data));
-    },
-    onFailure: ({ dispatch }) => {
-      dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
-    }
-  });
-}
+export const updateUserInfo = userInfo => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        endpoint: '/users',
+        method: 'PUT',
+        data: JSON.stringify(userInfo),
+        onSuccess: resolve,
+        onFailure: reject
+      })
+    )
+  );
 
-export function updateUserInfo(userInfo) {
-  return apiAction({
-    endpoint: '/users',
-    method: 'PUT',
-    data: JSON.stringify(userInfo),
-    contentType: 'application/json',
-    onSuccess: ({ dispatch }) => {
-      dispatch(updateUserInfoAction(userInfo));
-      dispatch(push('/profile'));
-    },
-    onFailure: ({ dispatch }) => {
-      dispatch(setSnackbar({ text: 'Не удалось сохранить профиль' }));
-    }
-  });
-}
-
-export function uploadUserAvatar(formData) {
-  return apiAction({
-    apiVersion: '1.1',
-    endpoint: '/profileSettings/uploadAvatar',
-    method: 'PUT',
-    data: formData,
-    onSuccess: ({ dispatch, data }) => {
-      dispatch(updateUserInfoAction(data));
-    },
-    onFailure: ({ dispatch }) => {
-      dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
-    }
-  });
-}
+export const uploadUserAvatar = formData => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        apiVersion: '1.1',
+        endpoint: '/profileSettings/uploadAvatar',
+        method: 'PUT',
+        data: formData,
+        contentType: null,
+        onSuccess: resolve,
+        onFailure: reject
+      })
+    )
+  );

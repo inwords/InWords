@@ -1,70 +1,54 @@
 import React from 'react';
-import { fireEvent, screen, wait } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
-import mockFetchOnce from 'src/test-utils/mockFetchOnce';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import TrainingHistory from 'src/components/routes/TrainingHistory';
 
-const fakeAccessData = {
-  token: 'xyz',
-  userId: 1
+const setup = () => {
+  const accessData = {
+    token: 'xyz',
+    userId: 1
+  };
+  const mockingTrainingHistoryResponse = [
+    {
+      levelId: 1,
+      playerStars: 3,
+      isAvailable: true,
+      level: 1
+    }
+  ];
+  global.fetch = mockFetch(mockingTrainingHistoryResponse);
+  const route = '/training/history';
+  const utils = renderWithEnvironment(
+    <Route path="/training/history">
+      <TrainingHistory />
+    </Route>,
+    {
+      initialState: { access: { token: accessData.token } },
+      route
+    }
+  );
+
+  const clickHistoryTraining = id =>
+    fireEvent.click(utils.getByTestId(`to-training-${id}-0`));
+
+  return {
+    ...utils,
+    mockingTrainingHistoryResponse,
+    route,
+    clickHistoryTraining
+  };
 };
 
-const fakeTrainingHistoryResponse = [
-  {
-    levelId: 1,
-    playerStars: 3,
-    isAvailable: true,
-    level: 1
-  },
-  {
-    levelId: 2,
-    playerStars: 2,
-    isAvailable: true,
-    level: 2
-  }
-];
+test('select recent training', async () => {
+  const utils = setup();
+  const recentTrainingInfo = utils.mockingTrainingHistoryResponse[0];
+  await waitFor(() => screen.getByText(`#${recentTrainingInfo.levelId}`));
 
-describe('interaction with training history', () => {
-  it('allows the user to see training history', async () => {
-    global.fetch = mockFetchOnce(fakeTrainingHistoryResponse);
+  utils.clickHistoryTraining(recentTrainingInfo.levelId);
 
-    renderWithEnvironment(<TrainingHistory />, {
-      initialState: { access: { token: fakeAccessData.token } }
-    });
-
-    await wait(() => [
-      screen.getByText(`#${fakeTrainingHistoryResponse[0].levelId}`),
-      screen.getByText(`#${fakeTrainingHistoryResponse[1].levelId}`)
-    ]);
-  });
-
-  it('allows the user to select recent training', async () => {
-    const { history } = renderWithEnvironment(
-      <Route path="/training/history">
-        <TrainingHistory />
-      </Route>,
-      {
-        initialState: {
-          access: { token: fakeAccessData.token },
-          training: {
-            history: {
-              actual: true,
-              recentTrainings: fakeTrainingHistoryResponse
-            }
-          }
-        },
-        route: '/training/history'
-      }
-    );
-
-    const recentTrainingInfo = fakeTrainingHistoryResponse[0];
-    fireEvent.click(
-      screen.getByTestId(`to-training-${recentTrainingInfo.levelId}-0`)
-    );
-
-    expect(history.location.pathname).toEqual(
-      `/training/history/${recentTrainingInfo.levelId}/0`
-    );
-  });
+  expect(utils.history.location.pathname).toEqual(
+    `${utils.route}/${recentTrainingInfo.levelId}/0`
+  );
 });

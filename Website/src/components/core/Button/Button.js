@@ -6,6 +6,7 @@ import ButtonBase from 'src/components/core/ButtonBase';
 import './Button.scss';
 
 function Button({
+  children,
   variant = 'contained',
   color = 'default',
   fullWidth = false,
@@ -23,11 +24,14 @@ function Button({
         className
       )}
       {...rest}
-    />
+    >
+      <span className="button__label">{children}</span>
+    </ButtonBase>
   );
 }
 
 Button.propTypes = {
+  children: PropTypes.node,
   variant: PropTypes.string,
   color: PropTypes.string,
   fullWidth: PropTypes.bool,

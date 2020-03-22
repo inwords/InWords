@@ -1,5 +1,5 @@
 ﻿using InWords.Data.Domains;
-using InWords.WebApi.Services.DictionaryService.Extentions;
+using InWords.WebApi.Modules.DictionaryService.Extentions;
 using InWords.WebApiTests.TestUtils;
 using System;
 using System.Linq;

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   INITIALIZE_COURSES,
   INITIALIZE_WORD_SET,
+  UPDATE_WORD_SET,
   INITIALIZE_COURSE,
   UPDATE_LEVEL_RESULT,
   INITIALIZE_LEVEL,
@@ -9,40 +10,74 @@ import {
   INITIALIZE_HISTORY
 } from 'src/actions/trainingActions';
 
-function courses(state = [], action) {
+const courses = (state = [], action) => {
   switch (action.type) {
     case INITIALIZE_COURSES:
       return action.payload || [];
     default:
       return state;
   }
-}
+};
 
-function wordSetsMap(state = {}, action) {
+const wordSetsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET:
       return {
         ...state,
-        [action.payload.courseId]: action.payload.wordSet
+        [action.payload.courseId]: action.payload.wordSet.words.map(
+          wordPair => {
+            const convertedWordPair = {
+              ...wordPair,
+              serverId: wordPair.wordPairId
+            };
+            delete convertedWordPair.wordPairId;
+
+            return convertedWordPair;
+          }
+        )
       };
+    case UPDATE_WORD_SET:
+      if (state[action.payload.courseId]) {
+        const wordSet = state[action.payload.courseId];
+
+        return {
+          ...state,
+          [action.payload.courseId]: wordSet.map(wordPair => {
+            if (
+              action.payload.wordPairs.find(
+                ({ serverId }) => serverId === wordPair.serverId
+              )
+            ) {
+              return {
+                ...wordPair,
+                hasAdded: true
+              };
+            }
+
+            return wordPair;
+          })
+        };
+      }
+
+      return state;
     default:
       return state;
   }
-}
+};
 
-function coursesMap(
+const coursesMap = (
   state = {
-    trainingId: null,
+    courseId: null,
     levelsInfo: []
   },
   action
-) {
+) => {
   switch (action.type) {
     case INITIALIZE_COURSE:
       return {
         ...state,
         [action.payload.gameId]: {
-          trainingId: action.payload.gameId,
+          courseId: action.payload.gameId,
           levelsInfo: action.payload.levelInfos || []
         }
       };
@@ -74,9 +109,9 @@ function coursesMap(
     default:
       return state;
   }
-}
+};
 
-function levelsMap(state = {}, action) {
+const levelsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_LEVEL:
       return {
@@ -98,15 +133,15 @@ function levelsMap(state = {}, action) {
     default:
       return state;
   }
-}
+};
 
-function history(
+const history = (
   state = {
     actual: false,
     recentTrainings: []
   },
   action
-) {
+) => {
   switch (action.type) {
     case INITIALIZE_HISTORY:
       return {
@@ -116,7 +151,7 @@ function history(
     default:
       return state;
   }
-}
+};
 
 export default combineReducers({
   courses,

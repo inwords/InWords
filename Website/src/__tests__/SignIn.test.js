@@ -1,46 +1,39 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
-import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
+import { fireEvent, waitFor } from '@testing-library/react';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import SignIn from 'src/components/routes/SignIn';
 
-jest.mock('src/actions/protobuf-generated/Profile.v2_grpc_web_pb');
+const setup = () => {
+  const mockingAccessResponse = { token: 'xyz', userId: 1 };
+  const userData = { email: '1@1', password: '1' };
+  global.fetch = mockFetch(mockingAccessResponse);
+  const utils = renderWithEnvironment(<SignIn />);
+  const changeEmailInput = value =>
+    fireEvent.change(utils.getByLabelText('Email'), { target: { value } });
+  const changePasswordInput = value =>
+    fireEvent.change(utils.getByLabelText('Пароль'), { target: { value } });
+  const clickSubmit = () => fireEvent.click(utils.getByText('Войти'));
 
-const fakeUserData = {
-  email: '1@1',
-  password: '1'
-};
-
-const fakeAccessResponse = {
-  token: 'xyz',
-  userId: 1
-};
-
-test('allows the user to sign in successfully', async () => {
-  const response = {
-    getToken: () => fakeAccessResponse.token,
-    getUserid: () => fakeAccessResponse.userId
+  return {
+    ...utils,
+    userData,
+    mockingAccessResponse,
+    changeEmailInput,
+    changePasswordInput,
+    clickSubmit
   };
-  ProfileClient.mockImplementation(
-    mockGrpcImplementation('getToken', response)
-  );
+};
 
-  renderWithEnvironment(<SignIn />);
+test('sign in successfully', async () => {
+  const utils = setup();
+  utils.changeEmailInput(utils.userData.email);
+  utils.changePasswordInput(utils.userData.password);
+  utils.clickSubmit();
 
-  fireEvent.change(screen.getByLabelText('Email'), {
-    target: { value: fakeUserData.email }
-  });
-  fireEvent.change(screen.getByLabelText('Пароль'), {
-    target: { value: fakeUserData.password }
-  });
-
-  fireEvent.click(screen.getByText('Войти'));
-
-  expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-    access: {
-      token: fakeAccessResponse.token,
-      userId: fakeAccessResponse.userId
-    }
+  await waitFor(() => {
+    expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
+      access: utils.mockingAccessResponse
+    });
   });
 });

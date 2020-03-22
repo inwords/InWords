@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function useDrawer() {
+const useDrawer = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -16,4 +16,6 @@ export default function useDrawer() {
     handleOpen,
     handleClose
   };
-}
+};
+
+export default useDrawer;

@@ -6,13 +6,29 @@ option java_package = "ru.inwords.inwords.proto.dictionary";
 option java_outer_classname = "DictionaryProto";
 
 package Dictionary.v2;
-
+import "Common.v2.proto";
 // The greeting service definition.
 service DictionaryProvider {
 	// Sends a greeting
 	rpc GetWords (GetWordsRequest) returns (WordsReply);
 	rpc AddWords (AddWordsRequest) returns (AddWordsReply);
+	rpc DeleteWords (DeleteWordsRequest) returns (Common.v2.Empty);
+	rpc UpdateWords (UpdateWordsRequest) returns (AddWordsReply);
 }
+message DeleteWordsRequest {
+	repeated int32 Delete = 1;
+}
+
+message UpdateWordsRequest {
+	message UpdateWordRequest{
+		int32 LocalId = 1;
+		int32 Delete = 2;
+		string WordForeign = 3;
+		string WordNative = 4;
+	}
+	repeated UpdateWordRequest Update = 1;	
+}
+
 
 // The request message containing the user's credentials.
 message GetWordsRequest {

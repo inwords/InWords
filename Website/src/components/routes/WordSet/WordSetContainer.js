@@ -2,7 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeWordSet } from 'src/actions/trainingActions';
+import { initializeWordSet, updateWordSet } from 'src/actions/trainingActions';
+import { addWordPairs as addWordPairsLocal } from 'src/actions/dictionaryActions';
 import { receiveWordSet } from 'src/actions/trainingApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
@@ -21,71 +22,74 @@ function WordSetContainer() {
   const { checkedValues, setCheckedValues, handleToggle } = useCheckboxList();
 
   React.useEffect(() => {
-    dispatch(receiveWordSet(params.courseId));
+    (async () => {
+      try {
+        const data = await dispatch(receiveWordSet(params.courseId));
+        dispatch(initializeWordSet(params.courseId, data));
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
+      }
+    })();
   }, [dispatch, params.courseId]);
 
   const handleReset = () => {
     setCheckedValues([]);
   };
 
+  const wordSet = wordSetsMap[params.courseId] || [];
+
+  const [selectionAvailable, setSelectionAvailable] = React.useState(true);
+
+  React.useEffect(() => {
+    setSelectionAvailable(wordSet.some(({ hasAdded }) => !hasAdded));
+  }, [wordSet]);
+
   const handleCheckAll = () => {
     setCheckedValues(
-      (wordSetsMap[params.courseId] || [])
+      wordSet
         .filter(({ hasAdded }) => !hasAdded)
         .map(({ serverId }) => serverId)
     );
   };
 
-  const handleAdding = () => {
-    const wordPairs = wordSetsMap[params.courseId] || [];
-    const newWordPairs = wordPairs.filter(
+  const handleAdding = async () => {
+    const newWordPairs = wordSet.filter(
       ({ serverId, hasAdded }) => !hasAdded && checkedValues.includes(serverId)
     );
 
-    dispatch(
-      addWordPairs(newWordPairs, {
-        onSuccess: () => {
-          dispatch(
-            setSnackbar({
-              text: `Добавлено новых слов: ${newWordPairs.length}`
-            })
-          );
-
-          dispatch(
-            initializeWordSet(
-              +params.courseId,
-              wordPairs.map(wordPair => {
-                if (
-                  newWordPairs.find(
-                    ({ serverId }) => serverId === wordPair.serverId
-                  )
-                ) {
-                  return {
-                    ...wordPair,
-                    hasAdded: true
-                  };
-                }
-
-                return wordPair;
-              })
-            )
-          );
-        }
-      })
-    );
+    try {
+      const data = await dispatch(addWordPairs(newWordPairs));
+      dispatch(
+        addWordPairsLocal(
+          newWordPairs.map((wordPair, index) => ({
+            ...wordPair,
+            serverId: data.wordIds[index].serverId
+          }))
+        )
+      );
+      dispatch(updateWordSet(params.courseId, newWordPairs));
+      dispatch(
+        setSnackbar({
+          text: `Добавлено новых слов: ${newWordPairs.length}`
+        })
+      );
+    } catch (error) {
+      dispatch(setSnackbar({ text: 'Не удалось добавить слова' }));
+    }
   };
 
   return (
     <Paper>
       <WordSetToolbar
         checkedValues={checkedValues}
+        selectionAvailable={selectionAvailable}
         handleCheckAll={handleCheckAll}
         handleReset={handleReset}
         handleAdding={handleAdding}
       />
       <Divider />
       <WordSet
-        wordPairs={wordSetsMap[params.courseId] || []}
+        wordPairs={wordSet}
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />

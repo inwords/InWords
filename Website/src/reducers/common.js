@@ -6,7 +6,7 @@ import {
   RESET_SNACKBAR
 } from 'src/actions/commonActions';
 
-function loading(state = false, action) {
+const loading = (state = false, action) => {
   switch (action.type) {
     case BEGIN_LOADING:
       return true;
@@ -15,7 +15,7 @@ function loading(state = false, action) {
     default:
       return state;
   }
-}
+};
 
 const initialSnackbarState = {
   open: false,
@@ -24,7 +24,7 @@ const initialSnackbarState = {
   actionHandler: null
 };
 
-function snackbar(state = initialSnackbarState, action) {
+const snackbar = (state = initialSnackbarState, action) => {
   switch (action.type) {
     case SET_SNACKBAR:
       return {
@@ -37,7 +37,7 @@ function snackbar(state = initialSnackbarState, action) {
     default:
       return state;
   }
-}
+};
 
 export default combineReducers({
   loading,

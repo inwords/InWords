@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import history from 'src/history';
 import {
   beginLoading,
   endLoading,
@@ -22,7 +22,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     method = 'GET',
     withCredentials = true,
     data = null,
-    contentType = null,
+    contentType = 'application/json',
     onSuccess,
     onFailure
   } = action.payload;
@@ -33,7 +33,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     const token = getState().access.token;
 
     if (!token) {
-      dispatch(push('/sign-in'));
+      history.push('/sign-in');
       return;
     }
 
@@ -67,7 +67,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     }
 
     if (onSuccess) {
-      onSuccess({ dispatch, data: responseData });
+      onSuccess(responseData);
     }
   } catch (error) {
     dispatch(endLoading());
@@ -76,11 +76,11 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
       const statusCode = error.statusCode;
 
       if (statusCode === 401) {
+        history.push('/sign-in');
         dispatch(denyAccess());
-        dispatch(push('/sign-in'));
       } else {
         if (onFailure) {
-          onFailure({ dispatch, statusCode });
+          onFailure(statusCode);
         }
       }
     } else if (error instanceof TypeError) {

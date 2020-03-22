@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
 import { updateEmail } from 'src/actions/accessApiActions';
 import useForm from 'src/hooks/useForm';
 import EmailEditDialog from './EmailEditDialog';
@@ -12,8 +13,17 @@ function EmailEditDialogContainer({ open, ...rest }) {
 
   const { inputs, setInputs, handleChange, handleSubmit } = useForm(
     initialInputs,
-    () => {
-      dispatch(updateEmail(inputs.email));
+    async () => {
+      try {
+        await dispatch(updateEmail(inputs.email));
+        dispatch(
+          setSnackbar({
+            text: 'На новый email было отправлено письмо с подтверждением'
+          })
+        );
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось изменить email' }));
+      }
     }
   );
 

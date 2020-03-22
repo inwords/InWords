@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { deleteWordPairs as deleteWordPairsLocal } from 'src/actions/dictionaryActions';
 import { deleteWordPairs } from 'src/actions/dictionaryApiActions';
 import Button from 'src/components/core/Button';
 import Dialog from 'src/components/core/Dialog';
@@ -18,7 +20,14 @@ function WordPairsDeleteConfirmationDialog({
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteWordPairs(checkedValues));
+    (async () => {
+      try {
+        await dispatch(deleteWordPairs(checkedValues));
+        dispatch(deleteWordPairsLocal(checkedValues));
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось удалить слова' }));
+      }
+    })();
   };
 
   return (

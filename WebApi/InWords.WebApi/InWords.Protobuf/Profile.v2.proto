@@ -8,7 +8,7 @@ option java_outer_classname = "ProfileProto";
 
 package ProfilePackage.v2;
 import "Auth.v2.proto";
-
+import "Common.v2.proto";
 // The Profile service definition.
 service Profile {
 	rpc Register (Auth.v2.RegistrationRequest) returns (RegistrationReply);
@@ -16,7 +16,7 @@ service Profile {
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
 	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
-	rpc DeleteAccount (DeleteAccountRequest) returns (Empty);
+	rpc DeleteAccount (DeleteAccountRequest) returns (Common.v2.Empty);
 }
 
 // The response message containing the Token.
@@ -47,7 +47,4 @@ message ConfirmEmailReply{
 
 message DeleteAccountRequest{
 	string text = 1; 
-}
-
-message Empty{
 }

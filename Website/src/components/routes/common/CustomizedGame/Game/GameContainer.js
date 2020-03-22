@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { saveLevelResult } from 'src/actions/trainingApiActions';
 import shuffle from 'src/utils/shuffle';
+import { setSnackbar } from 'src/actions/commonActions';
+import { saveLevelResult } from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes/common/TrainingResult';
 import Game from './Game';
 
@@ -69,7 +70,7 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
     setWordPairs(shuffle(wordPairs));
   }, [trainingLevel.wordTranslations]);
 
-  const handleClick = (pairId, id, onSpeech) => () => {
+  const handleClick = (pairId, id, onSpeech) => async () => {
     if (trainingLevel.voiceOn && onSpeech) {
       onSpeech();
     }
@@ -113,7 +114,6 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
         };
 
         setCompletedPairIdsMap(newCompletedPairIdsMap);
-
         setSelectedCompletedPairId(pairId);
       } else {
         setTimeout(() => {
@@ -130,42 +130,41 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
       const levelId = trainingLevel.levelId;
 
       const serverLevelId = levelId < 0 ? 0 : levelId;
-      dispatch(
-        saveLevelResult(
-          {
+
+      try {
+        const data = await dispatch(
+          saveLevelResult({
             gameLevelId: newServerLevelId || serverLevelId,
             wordPairIdOpenCounts: wordPairIdOpenCountsMap
-          },
-          {
-            onSuccess: ({ data }) => {
-              setTimeout(() => {
-                setIsGameCompleted(true);
+          })
+        );
 
-                setTimeout(() => {
-                  setSelectedWordPairs([]);
-                  setCompletedPairIdsMap({});
-                  setSelectedCompletedPairId(-1);
-                  setWordPairIdOpenCountsMap({});
-                  setRecentWordPairs(wordPairs);
+        setTimeout(() => {
+          setIsGameCompleted(true);
 
-                  if (onResult) {
-                    onResult({ levelId, wordPairs, levelResult: data });
-                  }
+          setTimeout(() => {
+            setSelectedWordPairs([]);
+            setCompletedPairIdsMap({});
+            setSelectedCompletedPairId(-1);
+            setWordPairIdOpenCountsMap({});
+            setRecentWordPairs(wordPairs);
 
-                  setScore(data.classicCardLevelResult[0].score);
-                  setNewServerLevelId(data.classicCardLevelResult[0].levelId);
-
-                  setIsResultReady(true);
-
-                  setColorPair(
-                    colorPairs[Math.floor(Math.random() * colorPairs.length)]
-                  );
-                }, RESULT_READY_TIMEOUT);
-              }, GAME_COMPLETED_TIMEOUT);
+            if (onResult) {
+              onResult({ levelId, wordPairs, levelResult: data });
             }
-          }
-        )
-      );
+
+            setScore(data.classicCardLevelResult[0].score);
+            setNewServerLevelId(data.classicCardLevelResult[0].levelId);
+
+            setIsResultReady(true);
+            setColorPair(
+              colorPairs[Math.floor(Math.random() * colorPairs.length)]
+            );
+          }, RESULT_READY_TIMEOUT);
+        }, GAME_COMPLETED_TIMEOUT);
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));
+      }
     }
   };
 

@@ -38,6 +38,7 @@ function Courses({ courses }) {
               </LinkButton>
               <Space />
               <IconButton
+                data-testid={`to-course-${gameId}-word-set`}
                 component={Link}
                 to={`${match.url}/${gameId}/word-set`}
               >

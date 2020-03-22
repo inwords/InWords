@@ -3,6 +3,7 @@ using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
@@ -25,7 +26,8 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Token", typeof(TokenReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Route("oauth2")]
         [HttpPost]
         public async Task<IActionResult> OAuth2([FromBody] OAuthTokenRequest request)
@@ -39,14 +41,15 @@ namespace InWords.WebApi.Controllers.v2
             return Ok(reply);
         }
 
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Token", typeof(TokenReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Route("basic")]
         [HttpPost]
-        public async Task<IActionResult> Basic([FromBody] RegistrationRequest request)
+        public async Task<IActionResult> Basic([FromBody] TokenRequest request)
         {
-            var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
+            var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
 
-            RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
 
             if (requestObject.StatusCode != Grpc.Core.StatusCode.OK)
             {
@@ -55,25 +58,24 @@ namespace InWords.WebApi.Controllers.v2
             return Ok(reply);
         }
 
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Token", typeof(TokenReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Route("register")]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
         {
-            TokenRequest tokenRequest = new TokenRequest()
-            {
-                Email = request.Email,
-                Password = request.Password
-            };
-
-            var requestObject = new RequestObject<TokenRequest, TokenReply>(tokenRequest);
-            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+            var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
+            RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
 
             if (requestObject.StatusCode != Grpc.Core.StatusCode.OK)
             {
                 BadRequest(requestObject.Detail);
             }
-            return Ok(reply);
+            return Ok(new TokenReply()
+            {
+                Token = reply.Token,
+                UserId = reply.Userid
+            });
         }
     }
 }

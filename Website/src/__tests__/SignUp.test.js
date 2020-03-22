@@ -1,69 +1,54 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
-import mockGrpcImplementation from 'src/test-utils/mockGrpcImplementation';
+import { fireEvent, waitFor } from '@testing-library/react';
+import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import { ProfileClient } from 'src/actions/protobuf-generated/Profile.v2_grpc_web_pb';
 import SignUp from 'src/components/routes/SignUp';
 
-jest.mock('src/actions/protobuf-generated/Profile.v2_grpc_web_pb');
+const setup = () => {
+  const mockingAccessResponse = { token: 'xyz', userId: 1 };
+  const userData = { email: '1@1', password: '1' };
+  global.fetch = mockFetch(mockingAccessResponse);
+  const utils = renderWithEnvironment(<SignUp />);
+  const changeEmailInput = value =>
+    fireEvent.change(utils.getByLabelText('Email'), { target: { value } });
+  const changePasswordInput = value =>
+    fireEvent.change(utils.getByLabelText('Пароль'), { target: { value } });
+  const clickSubmit = () =>
+    fireEvent.click(utils.getByText('Зарегистрироваться'));
+  const clickSubmitAsGuest = () =>
+    fireEvent.click(utils.getByText('Войти гостем'));
 
-const fakeUserData = {
-  email: '1@1',
-  password: '1'
+  return {
+    ...utils,
+    userData,
+    mockingAccessResponse,
+    changeEmailInput,
+    changePasswordInput,
+    clickSubmit,
+    clickSubmitAsGuest
+  };
 };
 
-const fakeAccessResponse = {
-  token: 'xyz',
-  userId: 1
-};
+test('sign up successfully', async () => {
+  const utils = setup();
+  utils.changeEmailInput(utils.userData.email);
+  utils.changePasswordInput(utils.userData.password);
+  utils.clickSubmit();
 
-describe('interaction with sign up', () => {
-  it('allows the user to sign up successfully', async () => {
-    const response = {
-      getToken: () => fakeAccessResponse.token,
-      getUserid: () => fakeAccessResponse.userId
-    };
-    ProfileClient.mockImplementation(
-      mockGrpcImplementation('register', response)
-    );
-
-    renderWithEnvironment(<SignUp />);
-
-    fireEvent.change(screen.getByLabelText('Email'), {
-      target: { value: fakeUserData.email }
-    });
-    fireEvent.change(screen.getByLabelText('Пароль'), {
-      target: { value: fakeUserData.password }
-    });
-
-    fireEvent.click(screen.getByText('Зарегистрироваться'));
-
+  await waitFor(() => {
     expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-      access: {
-        token: fakeAccessResponse.token,
-        userId: fakeAccessResponse.userId
-      }
+      access: utils.mockingAccessResponse
     });
   });
+});
 
-  it('allows the user to sign up as guest successfully', async () => {
-    const response = {
-      getToken: () => fakeAccessResponse.token,
-      getUserid: () => fakeAccessResponse.userId
-    };
-    ProfileClient.mockImplementation(
-      mockGrpcImplementation('register', response)
-    );
+test('sign up as guest successfully', async () => {
+  const utils = setup();
+  utils.clickSubmitAsGuest();
 
-    renderWithEnvironment(<SignUp />);
-
-    fireEvent.click(screen.getByText('Войти гостем'));
-
+  await waitFor(() => {
     expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-      access: {
-        token: fakeAccessResponse.token,
-        userId: fakeAccessResponse.userId
-      }
+      access: utils.mockingAccessResponse
     });
   });
 });

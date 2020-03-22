@@ -15,7 +15,6 @@ namespace InWords.WebApi.AppStart
     public class Program
     {
         public static IList<InModule> InModules;
-
         public static void Main(string[] args)
         {
             InModules = InModule.FindModules();

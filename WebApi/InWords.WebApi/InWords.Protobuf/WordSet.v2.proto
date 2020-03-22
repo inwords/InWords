@@ -6,11 +6,13 @@ option java_package = "ru.inwords.inwords.proto.word_set";
 option java_outer_classname = "WordSetProto";
 
 package WordSet.v2;
+import "Common.v2.proto";
 
 // The greeting service definition.
 service WordSetProvider {
 	// Sends a greeting
 	rpc GetWordsList (WordSetWordsRequest) returns (WordSetWordsReply);
+	rpc ToDictionary (WordSetWordsRequest) returns (Common.v2.Empty);
 }
 
 // The request message containing the user's credentials.

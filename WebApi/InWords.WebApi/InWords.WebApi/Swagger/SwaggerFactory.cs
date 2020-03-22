@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InWords.Common.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
@@ -38,7 +40,20 @@ namespace InWords.WebApi.Swagger
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
+                c.ExampleFilters();
                 c.OperationFilter<AuthorizeCheckOperationFilter>();
+            });
+
+
+            var types = AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Where(t => String.Equals(t.Namespace, "InWords.WebApi.Swagger.Examples", StringComparison.Ordinal))
+                .ToArray();
+
+            types.ForEach((t) =>
+            {
+                services.AddSwaggerExamplesFromAssemblyOf(t);
             });
         }
 

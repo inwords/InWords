@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function usePopup() {
+const usePopup = () => {
   const [show, setShow] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -20,4 +20,6 @@ export default function usePopup() {
     handleClose,
     anchorEl
   };
-}
+};
+
+export default usePopup;

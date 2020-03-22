@@ -16,8 +16,8 @@ service Authenticator {
 }
 // The request message containing the user's credentials.
 message RegistrationRequest {
-	string email = 1;
-	string password = 2;
+	string Email = 1;
+	string Password = 2;
 	bool IsAnonymous = 3;
 }
 
@@ -28,12 +28,12 @@ message OAuthTokenRequest{
 
 // The request message containing the user's name.
 message TokenRequest {
-	string email = 1;
-	string password = 2;
+	string Email = 1;
+	string Password = 2;
 }
 
 // The response message containing the Token.
 message TokenReply {
-	int64 userId = 1;
-	string token = 2;
+	int64 UserId = 1;
+	string Token = 2;
 }

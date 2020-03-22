@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
+import { denyAccess } from 'src/actions/accessActions';
 import { deleteAccount } from 'src/actions/accessApiActions';
 import useForm from 'src/hooks/useForm';
 import AccountDeleteDialog from './AccountDeleteDialog';
@@ -9,11 +11,12 @@ import AccountDeleteDialog from './AccountDeleteDialog';
 const initialInputs = { nickname: '', reason: '' };
 
 function AccountDeleteDialogContainer({ nickname, open, ...rest }) {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const { inputs, setInputs, handleChange, handleSubmit } = useForm(
     initialInputs,
-    () => {
+    async () => {
       if (
         inputs.nickname.trim().toLowerCase() !== nickname.trim().toLowerCase()
       ) {
@@ -23,7 +26,18 @@ function AccountDeleteDialogContainer({ nickname, open, ...rest }) {
           })
         );
       } else {
-        dispatch(deleteAccount(inputs));
+        try {
+          await dispatch(deleteAccount(inputs.reason));
+          history.push('/sign-in');
+          dispatch(denyAccess());
+          dispatch(
+            setSnackbar({
+              text: 'Аккаунт был успешно удален'
+            })
+          );
+        } catch (error) {
+          dispatch(setSnackbar({ text: 'Не удалось удалить аккаунт' }));
+        }
       }
     }
   );

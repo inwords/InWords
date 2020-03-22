@@ -4,6 +4,7 @@ using InWords.Data.Repositories;
 using InWords.Data.Repositories.Interfaces;
 using InWords.WebApi.Extensions.ServiceCollection;
 using InWords.WebApi.Module;
+using InWords.WebApi.Prometheus;
 using InWords.WebApi.Services.OAuth2.JwtProviders;
 using InWords.WebApi.Services.OAuth2.Models;
 using MediatR;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+
 namespace InWords.WebApi.AppStart
 {
     /// <summary>
@@ -86,7 +88,6 @@ namespace InWords.WebApi.AppStart
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
-
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureServices(services));
         }
@@ -103,6 +104,7 @@ namespace InWords.WebApi.AppStart
             app.UseCors("AllowAll"); // should be before UseMvc but after UserRouting and before Authorization and UseAuthorization
             app.UseAuthentication(); // should be before UseEndpoints but after UseRouting
             app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
+            app.UseMiddleware<ResponseMetricMiddleware>();
             app.UseMvc();
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -134,8 +136,10 @@ namespace InWords.WebApi.AppStart
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
+
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
+            //app.UseHttpMetrics();
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureApp(app));
         }

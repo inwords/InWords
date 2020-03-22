@@ -14,6 +14,7 @@ function ButtonBase({ component = 'button', className, ...rest }) {
 
 ButtonBase.propTypes = {
   component: PropTypes.elementType,
+  onKeyDown: PropTypes.func,
   className: PropTypes.string
 };
 

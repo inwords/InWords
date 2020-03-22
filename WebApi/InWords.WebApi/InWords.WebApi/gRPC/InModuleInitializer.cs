@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
 
 namespace InWords.WebApi.gRPC
 {
@@ -24,6 +25,7 @@ namespace InWords.WebApi.gRPC
             app.UseGrpcWeb();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapMetrics();
                 // Communication with gRPC endpoints must be made through a gRPC client.
                 // To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909
                 endpoints.MapGrpcService<GreeterService>();
