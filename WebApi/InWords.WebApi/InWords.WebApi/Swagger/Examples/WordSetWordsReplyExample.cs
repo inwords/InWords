@@ -11,7 +11,7 @@ namespace InWords.WebApi.Swagger.Examples
             var words = new WordSetWord[]
             {
                 new WordSetWord() { HasAdded = true, WordForeign = "foreign", WordNative = "native", WordPairId = 123 },
-                new WordSetWord() { HasAdded = true, WordForeign = "test", WordNative = "тест", WordPairId = 417 },
+                new WordSetWord() { HasAdded = false, WordForeign = "test", WordNative = "тест", WordPairId = 417 },
             };
             reply.Words.AddRange(words);
             return reply;
