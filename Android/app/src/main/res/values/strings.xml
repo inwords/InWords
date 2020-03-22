@@ -55,6 +55,8 @@
     <string name="sign_up_in_process">Создание аккаунта</string>
     <string name="inwords_logotype">InWords логотип</string>
     <string name="voice_translation">Озвучить перевод</string>
+    <string name="yandex_dictionary">Реализовано с помощью сервиса «Яндекс.Словарь</string>
+    <string name="yandex_dictionary_url">https://tech.yandex.ru/dictionary</string>
 
     <string name="undo_translation_deletion">ОТМЕНИТЬ</string>
     <string name="translation_deleted">Слово удалено</string>

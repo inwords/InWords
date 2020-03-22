@@ -36,6 +36,8 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
 
         setupWithNavController(binding.toolbar)
 
+        renderYandexDictionaryText(binding.yandexDictionary)
+
         val wordToEdit = args.wordTranslation
 
         setupViewState(wordToEdit)

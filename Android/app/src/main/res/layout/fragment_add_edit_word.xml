@@ -87,6 +87,17 @@
                 android:text="@string/button_add_text"
                 android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
 
+            <TextView
+                android:id="@+id/yandex_dictionary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/space_medium"
+                android:gravity="center"
+                android:text="@string/yandex_dictionary"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
