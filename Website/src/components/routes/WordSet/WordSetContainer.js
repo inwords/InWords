@@ -2,7 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { updateWordSet } from 'src/actions/trainingActions';
+import { initializeWordSet, updateWordSet } from 'src/actions/trainingActions';
+import { addWordPairs as addWordPairsLocal } from 'src/actions/dictionaryActions';
 import { receiveWordSet } from 'src/actions/trainingApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
@@ -21,7 +22,14 @@ function WordSetContainer() {
   const { checkedValues, setCheckedValues, handleToggle } = useCheckboxList();
 
   React.useEffect(() => {
-    dispatch(receiveWordSet(params.courseId));
+    (async () => {
+      try {
+        const data = await dispatch(receiveWordSet(params.courseId));
+        dispatch(initializeWordSet(params.courseId, data));
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
+      }
+    })();
   }, [dispatch, params.courseId]);
 
   const handleReset = () => {
@@ -44,24 +52,30 @@ function WordSetContainer() {
     );
   };
 
-  const handleAdding = () => {
+  const handleAdding = async () => {
     const newWordPairs = wordSet.filter(
       ({ serverId, hasAdded }) => !hasAdded && checkedValues.includes(serverId)
     );
 
-    dispatch(
-      addWordPairs(newWordPairs, {
-        onSuccess: () => {
-          dispatch(updateWordSet(+params.courseId, newWordPairs));
-
-          dispatch(
-            setSnackbar({
-              text: `Добавлено новых слов: ${newWordPairs.length}`
-            })
-          );
-        }
-      })
-    );
+    try {
+      const data = await dispatch(addWordPairs(newWordPairs));
+      dispatch(
+        addWordPairsLocal(
+          newWordPairs.map((wordPair, index) => ({
+            ...wordPair,
+            serverId: data.wordIds[index].serverId
+          }))
+        )
+      );
+      dispatch(updateWordSet(params.courseId, newWordPairs));
+      dispatch(
+        setSnackbar({
+          text: `Добавлено новых слов: ${newWordPairs.length}`
+        })
+      );
+    } catch (error) {
+      dispatch(setSnackbar({ text: 'Не удалось добавить слова' }));
+    }
   };
 
   return (

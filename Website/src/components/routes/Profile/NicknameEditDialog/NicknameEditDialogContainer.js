@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { updateUserInfo as updateUserInfoLocal } from 'src/actions/userActions';
 import { updateUserInfo } from 'src/actions/userApiActions';
 import useForm from 'src/hooks/useForm';
 import NicknameEditDialog from './NicknameEditDialog';
@@ -10,8 +12,13 @@ function NicknameEditDialogContainer({ nickname, open, ...rest }) {
 
   const { inputs, setInputs, handleChange, handleSubmit } = useForm(
     { nickname },
-    () => {
-      dispatch(updateUserInfo(inputs));
+    async () => {
+      try {
+        await dispatch(updateUserInfo(inputs));
+        dispatch(updateUserInfoLocal(inputs));
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось сохранить никнейм' }));
+      }
     }
   );
 

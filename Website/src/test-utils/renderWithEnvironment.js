@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMemoryHistory } from 'history';
-import { ConnectedRouter } from 'connected-react-router';
+import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import configureStore from 'src/configureStore';
@@ -11,12 +11,12 @@ const renderWithEnvironment = (
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] }),
     initialState,
-    store = configureStore({ preloadedState: initialState, history })
+    store = configureStore(initialState)
   } = {}
 ) => ({
   ...render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>{ui}</ConnectedRouter>
+      <Router history={history}>{ui}</Router>
     </Provider>
   ),
   store,

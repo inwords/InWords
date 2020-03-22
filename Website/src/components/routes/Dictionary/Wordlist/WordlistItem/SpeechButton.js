@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
 
-const synth = window.speechSynthesis;
-
 function SpeechButton({ onSpeech, ...rest }) {
   return (
-    Boolean(synth) && (
-      <IconButton aria-label="speak" onClick={onSpeech} {...rest}>
-        <Icon>volume_up</Icon>
-      </IconButton>
-    )
+    <IconButton aria-label="speak" onClick={onSpeech} {...rest}>
+      <Icon>volume_up</Icon>
+    </IconButton>
   );
 }
 

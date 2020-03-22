@@ -13,25 +13,28 @@ function WordlistContainer({ wordPairs, ...rest }) {
   );
 
   React.useEffect(() => {
-    const handleResize = debounce(() => {
+    const addEventListener = window.addEventListener;
+    const removeEventListener = window.removeEventListener;
+
+    const onResize = debounce(() => {
       setListHeight(window.innerHeight - heightOffset);
     }, 200);
 
     const onOrientationChange = () => {
       const afterOrientationChange = () => {
         setListHeight(window.innerHeight - heightOffset);
-        window.removeEventListener('resize', afterOrientationChange);
+        removeEventListener('resize', afterOrientationChange);
       };
 
-      window.addEventListener('resize', afterOrientationChange);
+      addEventListener('resize', afterOrientationChange);
     };
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', onOrientationChange);
+    addEventListener('resize', onResize);
+    addEventListener('orientationchange', onOrientationChange);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', onOrientationChange);
+      removeEventListener('resize', onResize);
+      removeEventListener('orientationchange', onOrientationChange);
     };
   }, [listHeight]);
 

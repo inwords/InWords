@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { updateUserInfo } from 'src/actions/userActions';
 import { uploadUserAvatar } from 'src/actions/userApiActions';
 import AvatarEditDialog from './AvatarEditDialog';
 
@@ -43,12 +45,18 @@ function AvatarEditDialogContainer({ open, ...rest }) {
     }
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
     const formData = new FormData();
     formData.set('file', inputs.avatarFile);
-    dispatch(uploadUserAvatar(formData));
+
+    try {
+      const data = await dispatch(uploadUserAvatar(formData));
+      dispatch(updateUserInfo(data));
+    } catch (error) {
+      dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
+    }
   };
 
   return (

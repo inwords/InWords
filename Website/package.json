@@ -18,21 +18,21 @@
   ],
   "dependencies": {
     "classnames": "^2.2.6",
-    "connected-react-router": "^6.8.0",
     "history": "^4.10.1",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "uuid": "^7.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.7",
+    "@babel/core": "^7.9.0",
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-react": "^7.8.3",
@@ -48,6 +48,7 @@
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",
     "eslint": "^6.8.0",
+    "eslint-import-resolver-webpack": "^0.12.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
@@ -68,6 +69,6 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2",
-    "workbox-webpack-plugin": "^5.0.0"
+    "workbox-webpack-plugin": "^5.1.1"
   }
 }

@@ -57,10 +57,11 @@ test('complete courses game', async () => {
   ]);
 
   global.fetch = mockFetch(utils.mockingLevelResultResponse);
+  jest.useFakeTimers();
   wordEls.forEach(wordEl => {
     utils.clickWordEl(wordEl);
   });
-  jest.useFakeTimers();
+  await Promise.resolve();
   await Promise.resolve();
   await Promise.resolve();
   act(() => {
@@ -92,7 +93,7 @@ test('complete courses game with one mistake', async () => {
   });
   await Promise.resolve();
   await Promise.resolve();
-
+  await Promise.resolve();
   act(() => {
     jest.runAllTimers();
   });

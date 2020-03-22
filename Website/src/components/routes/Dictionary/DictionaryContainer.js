@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { syncWordPairs as syncWordPairsLocal } from 'src/actions/dictionaryActions';
 import { syncWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
 import createSpeech from 'src/utils/createSpeech';
@@ -16,7 +18,16 @@ function DictionaryContainer() {
 
   React.useEffect(() => {
     if (!actual) {
-      dispatch(syncWordPairs(wordPairs.map(({ serverId }) => serverId)));
+      (async () => {
+        try {
+          const data = await dispatch(
+            syncWordPairs(wordPairs.map(({ serverId }) => serverId))
+          );
+          dispatch(syncWordPairsLocal(data));
+        } catch (error) {
+          dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
+        }
+      })();
     }
   }, [actual, wordPairs, dispatch]);
 

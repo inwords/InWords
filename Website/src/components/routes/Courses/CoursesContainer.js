@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { initializeCourses } from 'src/actions/trainingActions';
 import { receiveCourses } from 'src/actions/trainingApiActions';
 import Courses from './Courses';
 
@@ -10,7 +12,14 @@ function CoursesContainer() {
 
   React.useEffect(() => {
     if (!courses.length) {
-      dispatch(receiveCourses());
+      (async () => {
+        try {
+          const data = await dispatch(receiveCourses());
+          dispatch(initializeCourses(data));
+        } catch (error) {
+          dispatch(setSnackbar({ text: 'Не удалось загрузить курсы' }));
+        }
+      })();
     }
   }, [courses.length, dispatch]);
 
