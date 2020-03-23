@@ -32,7 +32,7 @@
     height: 100%;
     text-decoration: none;
     color: inherit;
-    transition: color 0.1s var(--transition-ease-in-out);
+    transition: color 0.1s var(--transition-easing-ease-in-out);
 
     &.active {
       color: var(--palette-primary-contrast-text);
@@ -55,7 +55,8 @@
       height: 4px;
       background-color: var(--palette-primary-contrast-text);
       transform: scaleY(0);
-      transition: transform 235ms var(--transition-ease-in-out);
+      transition: transform var(--transition-duration-shorter)
+        var(--transition-easing-ease-in-out);
     }
   }
 }

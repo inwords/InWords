@@ -6,7 +6,8 @@
   padding: 12px;
   background-color: var(--palette-primary);
   color: var(--palette-primary-contrast-text);
-  transition: background-color 0.2s var(--transition-ease-in-out);
+  transition: background-color var(--transition-duration-shortest)
+    var(--transition-easing-ease-in-out);
 
   &:hover,
   &:focus {

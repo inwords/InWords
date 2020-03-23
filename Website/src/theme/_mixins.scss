@@ -18,8 +18,10 @@
       --z-index-#{$style}: #{$value};
     }
 
-    @each $style, $value in $theme-transitions-values {
-      --transition-#{$style}: #{$value};
+    @each $style-type, $values in $theme-transitions-values {
+      @each $style, $value in $values {
+        --transition-#{$style-type}-#{$style}: #{$value};
+      }
     }
   }
 }

@@ -30,7 +30,7 @@ $track-h: 8px;
     -webkit-appearance: none;
     background: transparent;
     opacity: 0.8;
-    transition: opacity 0.2s;
+    transition: opacity var(--transition-duration-shortest);
 
     &:hover,
     &:focus {

@@ -33,7 +33,8 @@
     position: absolute;
     height: 100%;
     background-color: var(--palette-primary-contrast-text);
-    animation: indeterminate-first 1.5s infinite var(--transition-ease-out);
+    animation: indeterminate-first 1.5s infinite
+      var(--transition-easing-ease-out);
   }
 
   &::after {
@@ -41,6 +42,7 @@
     position: absolute;
     height: 100%;
     background-color: var(--palette-primary-contrast-text);
-    animation: indeterminate-second 1.5s infinite var(--transition-ease-in);
+    animation: indeterminate-second 1.5s infinite
+      var(--transition-easing-ease-in);
   }
 }

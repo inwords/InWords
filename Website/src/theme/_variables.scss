@@ -57,9 +57,19 @@ $theme-z-index-values: (
 );
 
 $theme-transitions-values: (
-  ease-in-out: cubic-bezier(0.4, 0, 0.2, 1),
-  ease-out: cubic-bezier(0, 0, 0.2, 1),
-  ease-in: cubic-bezier(0.4, 0, 1, 1)
+  easing: (
+    ease-in-out: cubic-bezier(0.4, 0, 0.2, 1),
+    ease-out: cubic-bezier(0, 0, 0.2, 1),
+    ease-in: cubic-bezier(0.4, 0, 1, 1)
+  ),
+  duration: (
+    shortest: 150ms,
+    shorter: 200ms,
+    short: 250ms,
+    standart: 300ms,
+    entering-screen: 225ms,
+    leaving-screen: 195ms
+  )
 );
 
 $theme-typography-values: (

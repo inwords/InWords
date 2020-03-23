@@ -7,7 +7,8 @@
   font-family: inherit;
   text-transform: uppercase;
   white-space: nowrap;
-  transition: background-color 0.2s var(--transition-ease-in-out);
+  transition: background-color var(--transition-duration-shortest)
+    var(--transition-easing-ease-in-out);
 
   @include theme-typography(button);
 

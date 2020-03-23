@@ -49,18 +49,18 @@ function WordPairAddDialogContainer({ open, ...rest }) {
     }
   );
 
+  const [translationsInfo, setTranslationsInfo] = React.useState([]);
+
   React.useEffect(() => {
     if (open) {
       setInputs(initialInputs);
+      setTranslationsInfo([]);
     }
   }, [open, setInputs]);
-
-  const [translationsInfo, setTranslationsInfo] = React.useState([]);
 
   React.useEffect(() => {
     const word = inputs.wordForeign.trim();
     if (!word.match(/^[a-z0-9 ]+$/i)) {
-      setTranslationsInfo([]);
       return;
     }
 
@@ -121,14 +121,16 @@ function WordPairAddDialogContainer({ open, ...rest }) {
       ({ id: translationId }) => translationId === id
     ).translation;
 
-    if (!currentWordNative.includes(selectedTranslation)) {
-      setInputs({
-        ...inputs,
-        wordNative: currentWordNative
-          ? `${currentWordNative}; ${selectedTranslation}`
-          : selectedTranslation
-      });
-    }
+    setInputs({
+      ...inputs,
+      wordNative: currentWordNative
+        ? `${currentWordNative}; ${selectedTranslation}`
+        : selectedTranslation
+    });
+
+    setTranslationsInfo(translationsInfo =>
+      translationsInfo.filter(translationInfo => translationInfo.id !== id)
+    );
   };
 
   return (

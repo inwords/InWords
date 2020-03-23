@@ -16,7 +16,8 @@
     cursor: pointer;
     user-select: none;
     text-decoration: none;
-    transition: background-color 0.2s var(--transition-ease-in-out);
+    transition: background-color var(--transition-duration-shortest)
+      var(--transition-easing-ease-in-out);
 
     &:hover,
     &:focus {
