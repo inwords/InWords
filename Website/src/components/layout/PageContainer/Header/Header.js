@@ -34,7 +34,7 @@ function Header({ routes, rightNodes, handleOpenDrawer }) {
             <HeaderNavList routes={routes} />
           </nav>
         )}
-        <Space value={8} />
+        <Space value={6} />
         {rightNodes && (
           <div className="header__toolbar-block">{rightNodes}</div>
         )}

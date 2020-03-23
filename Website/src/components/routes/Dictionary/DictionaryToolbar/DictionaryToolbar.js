@@ -8,7 +8,7 @@ import IconButton from 'src/components/core/IconButton';
 import Space from 'src/components/core/Space';
 import DictionarySearch from './DictionarySearch';
 import DictionaryMenuButton from './DictionaryMenuButton';
-import WordPairsDeleteConfirmationDialog from './WordPairsDeleteConfirmationDialog';
+import WordPairsDeleteDialog from './WordPairsDeleteDialog';
 
 import './DictionaryToolbar.scss';
 
@@ -70,7 +70,7 @@ function DictionaryToolbar({
           <DictionaryMenuButton checkedValues={checkedValues} />
         </Fragment>
       )}
-      <WordPairsDeleteConfirmationDialog
+      <WordPairsDeleteDialog
         open={open}
         handleClose={handleClose}
         checkedValues={checkedValues}

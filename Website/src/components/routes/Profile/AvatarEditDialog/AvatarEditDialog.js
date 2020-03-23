@@ -49,7 +49,7 @@ function AvatarEditDialog({
                 className="avatar-edit-dialog-input"
               />
               <label htmlFor="avatar-upload">
-                <IconButton component="span">
+                <IconButton component="span" role="button" tabindex="0">
                   <Icon>photo_camera</Icon>
                 </IconButton>
               </label>

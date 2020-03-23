@@ -1,4 +1,4 @@
-@keyframes indeterminateFirst {
+@keyframes indeterminate-first {
   0% {
     left: -100%;
     width: 100%;
@@ -10,7 +10,7 @@
   }
 }
 
-@keyframes indeterminateSecond {
+@keyframes indeterminate-second {
   0% {
     left: -150%;
     width: 100%;
@@ -33,7 +33,7 @@
     position: absolute;
     height: 100%;
     background-color: var(--palette-primary-contrast-text);
-    animation: indeterminateFirst 1.5s infinite ease-out;
+    animation: indeterminate-first 1.5s infinite ease-out;
   }
 
   &::after {
@@ -41,6 +41,6 @@
     position: absolute;
     height: 100%;
     background-color: var(--palette-primary-contrast-text);
-    animation: indeterminateSecond 1.5s infinite ease-in;
+    animation: indeterminate-second 1.5s infinite ease-in;
   }
 }

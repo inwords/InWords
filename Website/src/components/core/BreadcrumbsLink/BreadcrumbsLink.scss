@@ -1,14 +1,16 @@
+@import 'src/theme/mixins';
+
 .breadcrumbs-link {
   display: flex;
-  padding: 0 8px;
+  align-items: center;
+  padding: 6px 8px;
   border-radius: 2px;
-  line-height: 36px;
-  font-size: 1rem;
-  font-weight: 400;
   color: var(--palette-text-primary);
   text-decoration: none;
   outline: 0;
   transition: background-color 0.2s ease-in-out;
+
+  @include theme-typography(body1);
 
   &:hover,
   &:focus {
