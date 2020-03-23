@@ -41,9 +41,8 @@
 @mixin theme-typography($variant) {
   $variant-values: map-get($theme-typography-values, $variant);
 
-  $properties: font-weight, font-size, line-height, letter-spacing;
-
-  @each $property in $properties {
-    #{$property}: map-get($variant-values, $property);
-  }
+  font-weight: map-get($variant-values, font-weight);
+  font-size: map-get($variant-values, font-size);
+  line-height: map-get($variant-values, line-height);
+  letter-spacing: map-get($variant-values, letter-spacing);
 }
