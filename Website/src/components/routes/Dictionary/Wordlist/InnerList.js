@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import List from 'src/components/core/List';
 
-const PADDING_SIZE = 64;
+const PADDING_SIZE = 80;
 
 const InnerList = React.forwardRef(function InnerList({ style, ...rest }, ref) {
   return (
