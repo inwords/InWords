@@ -9,12 +9,40 @@ package Dictionary.v2;
 import "Common.v2.proto";
 // The greeting service definition.
 service DictionaryProvider {
-	// Sends a greeting
 	rpc GetWords (GetWordsRequest) returns (WordsReply);
 	rpc AddWords (AddWordsRequest) returns (AddWordsReply);
 	rpc DeleteWords (DeleteWordsRequest) returns (Common.v2.Empty);
 	rpc UpdateWords (UpdateWordsRequest) returns (AddWordsReply);
+	rpc Lookup (LookupRequest) returns (LookupReply); // https://yandex.ru/dev/dictionary/doc/dg/reference/lookup-docpage/ 
 }
+
+message LookupRequest{
+	string text = 1;
+	string lang = 2;
+}
+
+message LookupReply{
+	message Ex{
+		string text = 1;
+		repeated string Tr = 2;
+	}
+	message Tr{
+		string text = 1;
+		string num = 2;
+		string pos = 3;
+		string gen = 4;
+		repeated string syn = 5;
+		repeated string mean = 6;
+		repeated Ex Ex = 7;
+	}
+	message Def{
+		string text = 1;
+		string pos = 2;
+		repeated Tr tr = 3;
+	}
+	repeated Def Definition = 1;
+}
+
 message DeleteWordsRequest {
 	repeated int32 Delete = 1;
 }

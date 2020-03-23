@@ -55,5 +55,10 @@ namespace InWords.WebApi.gRPC.Services
             Empty reply = await mediator.Send(reqestObject).ConfigureAwait(false);
             return reply;
         }
+
+        public override Task<LookupReply> Lookup(LookupRequest request, ServerCallContext context)
+        {
+            return base.Lookup(request, context);
+        }
     }
 }
