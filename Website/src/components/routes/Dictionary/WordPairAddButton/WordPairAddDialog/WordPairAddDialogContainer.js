@@ -13,6 +13,10 @@ const API_URL = 'https://dictionary.yandex.net/api/v1/dicservice.json/lookup';
 const key =
   'dict.1.1.20190912T153649Z.db980bf4b29b2d4f.c08d4426f0c0f8d0ac2753aff4f23b9201e99f12';
 
+const headers = new Headers({
+  'Content-Type': 'application/x-www-form-urlencoded'
+});
+
 const initialInputs = {
   wordForeign: '',
   wordNative: ''
@@ -73,9 +77,7 @@ function WordPairAddDialogContainer({ open, ...rest }) {
         try {
           const response = await fetch(url, {
             method: 'POST',
-            headers: new Headers({
-              'Content-Type': 'application/x-www-form-urlencoded'
-            })
+            headers
           });
 
           if (isCancelled) return;

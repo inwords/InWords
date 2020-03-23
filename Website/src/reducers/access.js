@@ -7,9 +7,11 @@ const initialState = {
 
 const access = (state = initialState, action) => {
   if (action.type === GRANT_ACCESS) {
+    const payload = action.payload;
+
     return {
-      token: action.payload.token,
-      userId: action.payload.userId
+      token: payload.token,
+      userId: payload.userId
     };
   }
 

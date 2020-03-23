@@ -9,26 +9,27 @@ import TrainingLevels from './TrainingLevels';
 function TrainingLevelsContainer() {
   const coursesMap = useSelector(store => store.training.coursesMap);
 
-  const params = useParams();
-
   const dispatch = useDispatch();
 
+  const params = useParams();
+  const courseId = params.courseId;
+
   React.useEffect(() => {
-    if (!coursesMap[params.courseId]) {
+    if (!coursesMap[courseId]) {
       (async () => {
         try {
-          const data = await dispatch(receiveCourse(params.courseId));
+          const data = await dispatch(receiveCourse(courseId));
           dispatch(initializeCourse(data));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
         }
       })();
     }
-  }, [coursesMap, dispatch, params.courseId]);
+  }, [coursesMap, dispatch, courseId]);
 
   return (
-    Boolean(coursesMap[params.courseId]) && (
-      <TrainingLevels course={coursesMap[params.courseId]} />
+    Boolean(coursesMap[courseId]) && (
+      <TrainingLevels course={coursesMap[courseId]} />
     )
   );
 }

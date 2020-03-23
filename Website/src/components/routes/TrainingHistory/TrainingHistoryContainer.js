@@ -5,7 +5,7 @@ import { initializeHistory } from 'src/actions/trainingActions';
 import { receiveHistory } from 'src/actions/trainingApiActions';
 import TrainingHistory from './TrainingHistory';
 
-function TrainingHistoryContainer({ ...rest }) {
+function TrainingHistoryContainer() {
   const { actual, recentTrainings } = useSelector(
     store => store.training.history
   );
@@ -25,7 +25,7 @@ function TrainingHistoryContainer({ ...rest }) {
     }
   }, [actual, dispatch]);
 
-  return <TrainingHistory recentTrainings={recentTrainings} {...rest} />;
+  return <TrainingHistory recentTrainings={recentTrainings} />;
 }
 
 export default TrainingHistoryContainer;

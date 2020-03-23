@@ -21,42 +21,47 @@ const courses = (state = [], action) => {
 
 const wordSetsMap = (state = {}, action) => {
   switch (action.type) {
-    case INITIALIZE_WORD_SET:
+    case INITIALIZE_WORD_SET: {
+      const payload = action.payload;
+
       return {
         ...state,
-        [action.payload.courseId]: action.payload.wordSet.words.map(
-          wordPair => {
-            const convertedWordPair = {
-              ...wordPair,
-              serverId: wordPair.wordPairId
-            };
-            delete convertedWordPair.wordPairId;
+        [payload.courseId]: payload.wordSet.words.map(wordPair => {
+          const convertedWordPair = {
+            ...wordPair,
+            serverId: wordPair.wordPairId
+          };
+          delete convertedWordPair.wordPairId;
 
-            return convertedWordPair;
-          }
-        )
+          return convertedWordPair;
+        })
       };
+    }
     case UPDATE_WORD_SET:
-      if (state[action.payload.courseId]) {
-        const wordSet = state[action.payload.courseId];
+      {
+        const payload = action.payload;
 
-        return {
-          ...state,
-          [action.payload.courseId]: wordSet.map(wordPair => {
-            if (
-              action.payload.wordPairs.find(
-                ({ serverId }) => serverId === wordPair.serverId
-              )
-            ) {
-              return {
-                ...wordPair,
-                hasAdded: true
-              };
-            }
+        if (state[payload.courseId]) {
+          const wordSet = state[payload.courseId];
 
-            return wordPair;
-          })
-        };
+          return {
+            ...state,
+            [payload.courseId]: wordSet.map(wordPair => {
+              if (
+                payload.wordPairs.find(
+                  ({ serverId }) => serverId === wordPair.serverId
+                )
+              ) {
+                return {
+                  ...wordPair,
+                  hasAdded: true
+                };
+              }
+
+              return wordPair;
+            })
+          };
+        }
       }
 
       return state;
@@ -73,36 +78,46 @@ const coursesMap = (
   action
 ) => {
   switch (action.type) {
-    case INITIALIZE_COURSE:
+    case INITIALIZE_COURSE: {
+      const payload = action.payload;
+
       return {
         ...state,
-        [action.payload.gameId]: {
-          courseId: action.payload.gameId,
-          levelsInfo: action.payload.levelInfos || []
+        [payload.gameId]: {
+          courseId: payload.gameId,
+          levelsInfo: payload.levelInfos || []
         }
       };
+    }
     case UPDATE_LEVEL_RESULT:
-      if (state[action.payload.courseId]) {
-        const course = state[action.payload.courseId];
+      {
+        const payload = action.payload;
 
-        return {
-          ...state,
-          [action.payload.courseId]: {
-            levelsInfo: course.levelsInfo.map(levelInfo => {
-              const levelResult =
-                action.payload.levelResult.classicCardLevelResult[0];
+        if (state[payload.courseId]) {
+          const course = state[payload.courseId];
 
-              if (levelInfo.levelId !== levelResult.levelId) {
-                return levelInfo;
-              }
+          return {
+            ...state,
+            [payload.courseId]: {
+              levelsInfo: course.levelsInfo.map(levelInfo => {
+                const levelResult =
+                  payload.levelResult.classicCardLevelResult[0];
 
-              return {
-                ...levelInfo,
-                playerStars: Math.max(levelInfo.playerStars, levelResult.score)
-              };
-            })
-          }
-        };
+                if (levelInfo.levelId !== levelResult.levelId) {
+                  return levelInfo;
+                }
+
+                return {
+                  ...levelInfo,
+                  playerStars: Math.max(
+                    levelInfo.playerStars,
+                    levelResult.score
+                  )
+                };
+              })
+            }
+          };
+        }
       }
 
       return state;
@@ -113,23 +128,27 @@ const coursesMap = (
 
 const levelsMap = (state = {}, action) => {
   switch (action.type) {
-    case INITIALIZE_LEVEL:
+    case INITIALIZE_LEVEL: {
+      const payload = action.payload;
+
       return {
         ...state,
-        [action.payload.levelId]: action.payload
+        [payload.levelId]: payload
       };
-    case REMOVE_LEVEL_WORD_PAIRS:
+    }
+    case REMOVE_LEVEL_WORD_PAIRS: {
+      const payload = action.payload;
+
       return {
         ...state,
-        [action.payload.levelId]: {
-          ...state[action.payload.levelId],
-          wordTranslations: state[
-            action.payload.levelId
-          ].wordTranslations.filter(
-            ({ serverId }) => !action.payload.pairIds.includes(serverId)
+        [payload.levelId]: {
+          ...state[payload.levelId],
+          wordTranslations: state[payload.levelId].wordTranslations.filter(
+            ({ serverId }) => !payload.pairIds.includes(serverId)
           )
         }
       };
+    }
     default:
       return state;
   }

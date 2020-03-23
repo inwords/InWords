@@ -53,8 +53,6 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
       body: data
     });
 
-    dispatch(endLoading());
-
     if (!response.ok) {
       throw new HttpError(response.statusText, response.status);
     }
@@ -70,14 +68,12 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
       onSuccess(responseData);
     }
   } catch (error) {
-    dispatch(endLoading());
-
     if (error instanceof HttpError) {
       const statusCode = error.statusCode;
 
       if (statusCode === 401) {
-        history.push('/sign-in');
         dispatch(denyAccess());
+        history.push('/sign-in');
       } else {
         if (onFailure) {
           onFailure(statusCode);
@@ -92,6 +88,8 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     } else {
       dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
     }
+  } finally {
+    dispatch(endLoading());
   }
 };
 
