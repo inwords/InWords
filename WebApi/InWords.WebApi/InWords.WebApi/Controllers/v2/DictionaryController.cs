@@ -100,5 +100,22 @@ namespace InWords.WebApi.Controllers.v2
             Empty reply = await mediator.Send(reqestObject).ConfigureAwait(false);
             return Ok(reply);
         }
+
+        [SwaggerResponse(StatusCodes.Status200OK, "", typeof(LookupReply))]
+        [Route("lookup")]
+        [HttpPost]
+        public async Task<IActionResult> Lookup(LookupRequest request)
+        {
+            var reqestObject = new RequestObject<LookupRequest, LookupReply>(request);
+            var response = await mediator.Send(reqestObject).ConfigureAwait(false);
+            if (reqestObject.StatusCode == Grpc.Core.StatusCode.OK)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }

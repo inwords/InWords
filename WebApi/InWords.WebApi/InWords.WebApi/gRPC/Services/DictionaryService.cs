@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using InWords.Protobuf;
 using InWords.Service.Auth.Extensions;
+using InWords.WebApi.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -56,9 +57,12 @@ namespace InWords.WebApi.gRPC.Services
             return reply;
         }
 
-        public override Task<LookupReply> Lookup(LookupRequest request, ServerCallContext context)
+        public override async Task<LookupReply> Lookup(LookupRequest request, ServerCallContext context)
         {
-            return base.Lookup(request, context);
+            var reqestObject = new RequestObject<LookupRequest, LookupReply>(request);
+            var response = await mediator.Send(reqestObject).ConfigureAwait(false);
+            context.UpdateStatus(reqestObject);
+            return response;
         }
     }
 }
