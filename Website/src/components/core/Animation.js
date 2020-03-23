@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 function Animation({
   children,
   animationName,
-  animationDuration = 225,
-  animationTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)',
+  animationDuration = 200,
+  animationTimingFunction = 'var(--transition-ease-in-out)',
   style = {},
   onAnimationEnd,
   ...rest

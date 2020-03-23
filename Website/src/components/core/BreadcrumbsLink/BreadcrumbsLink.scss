@@ -8,7 +8,7 @@
   color: var(--palette-text-primary);
   text-decoration: none;
   outline: 0;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s var(--transition-ease-in-out);
 
   @include theme-typography(body1);
 

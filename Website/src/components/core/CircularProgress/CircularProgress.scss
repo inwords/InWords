@@ -22,10 +22,10 @@
   animation: circular-rotate 1.4s linear infinite;
 
   &__svg {
-    animation: circular-dash 1.4s ease-in-out infinite;
+    animation: circular-dash 1.4s var(--transition-ease-in-out) infinite;
   }
 
   &__circle {
-    stroke: var(--palette-primary-main);
+    stroke: var(--palette-primary);
   }
 }

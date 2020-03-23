@@ -2,13 +2,13 @@ $theme-palette-default: #bdbdbd;
 $theme-palette-primary: #6200ea;
 
 $theme-palette-values: (
-  default-main: $theme-palette-default,
+  default: $theme-palette-default,
   default-darken-less: darken($theme-palette-default, 8),
   default-darken-more: darken($theme-palette-default, 14),
   default-contrast-text: #000,
   primary-transparentize-less: fade-out($theme-palette-primary, 0.86),
   primary-transparentize-more: fade-out($theme-palette-primary, 0.92),
-  primary-main: $theme-palette-primary,
+  primary: $theme-palette-primary,
   primary-darken-less: darken($theme-palette-primary, 8),
   primary-darken-more: darken($theme-palette-primary, 14),
   primary-contrast-text: #fff,
@@ -54,6 +54,12 @@ $theme-z-index-values: (
   popup: 1300,
   modal: 1400,
   snackbar: 1500
+);
+
+$theme-transitions-values: (
+  ease-in-out: cubic-bezier(0.4, 0, 0.2, 1),
+  ease-out: cubic-bezier(0, 0, 0.2, 1),
+  ease-in: cubic-bezier(0.4, 0, 1, 1)
 );
 
 $theme-typography-values: (

@@ -26,14 +26,14 @@
   position: relative;
   width: 100%;
   height: 4px;
-  background-color: var(--palette-primary-main);
+  background-color: var(--palette-primary);
 
   &::before {
     content: '';
     position: absolute;
     height: 100%;
     background-color: var(--palette-primary-contrast-text);
-    animation: indeterminate-first 1.5s infinite ease-out;
+    animation: indeterminate-first 1.5s infinite var(--transition-ease-out);
   }
 
   &::after {
@@ -41,6 +41,6 @@
     position: absolute;
     height: 100%;
     background-color: var(--palette-primary-contrast-text);
-    animation: indeterminate-second 1.5s infinite ease-in;
+    animation: indeterminate-second 1.5s infinite var(--transition-ease-in);
   }
 }

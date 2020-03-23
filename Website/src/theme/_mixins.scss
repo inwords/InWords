@@ -2,20 +2,24 @@
 
 @mixin core-styles {
   :root {
-    @each $style in map-keys($theme-palette-values) {
-      --palette-#{$style}: #{map-get($theme-palette-values, $style)};
+    @each $style, $value in $theme-palette-values {
+      --palette-#{$style}: #{$value};
     }
 
-    @each $style in map-keys($theme-breakpoints-values) {
-      --breakpoints-#{$style}: #{map-get($theme-breakpoints-values, $style)};
+    @each $style, $value in $theme-breakpoints-values {
+      --breakpoints-#{$style}: #{$value};
     }
 
-    @each $style in map-keys($theme-depth-shadow-values) {
-      --depth-shadow-#{$style}: #{map-get($theme-depth-shadow-values, $style)};
+    @each $style, $value in $theme-depth-shadow-values {
+      --depth-shadow-#{$style}: #{$value};
     }
 
-    @each $style in map-keys($theme-z-index-values) {
-      --z-index-#{$style}: #{map-get($theme-z-index-values, $style)};
+    @each $style, $value in $theme-z-index-values {
+      --z-index-#{$style}: #{$value};
+    }
+
+    @each $style, $value in $theme-transitions-values {
+      --transition-#{$style}: #{$value};
     }
   }
 }
@@ -40,9 +44,9 @@
 
 @mixin theme-typography($variant) {
   $variant-values: map-get($theme-typography-values, $variant);
+  $properties: font-weight, font-size, line-height, letter-spacing;
 
-  font-weight: map-get($variant-values, font-weight);
-  font-size: map-get($variant-values, font-size);
-  line-height: map-get($variant-values, line-height);
-  letter-spacing: map-get($variant-values, letter-spacing);
+  @each $property in $properties {
+    #{$property}: map-get($variant-values, $property);
+  }
 }

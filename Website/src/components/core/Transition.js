@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const initialTransitionDurations = {
-  enter: 225,
+  enter: 200,
   exit: 150
 };
 
@@ -11,7 +11,7 @@ function Transition({
   in: inProp,
   transitionDurations = initialTransitionDurations,
   transitionProperty,
-  transitionTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)',
+  transitionTimingFunction = 'var(--transition-ease-in-out)',
   style = {},
   onTransitionEnd,
   ...rest

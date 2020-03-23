@@ -6,8 +6,8 @@
   align-items: center;
   border-radius: 0;
   cursor: pointer;
-  background-color: var(--palette-primary-main);
-  transition: box-shadow 200ms ease-in-out;
+  background-color: var(--palette-primary);
+  transition: box-shadow 200ms var(--transition-ease-in-out);
 
   @include theme-typography(body1);
 }

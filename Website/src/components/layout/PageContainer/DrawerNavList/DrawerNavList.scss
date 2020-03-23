@@ -14,7 +14,8 @@
     text-decoration: none;
     outline: 0;
     color: var(--palette-text-primary);
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition: background-color 0.2s var(--transition-ease-in-out),
+      color 0.2s var(--transition-ease-in-out);
 
     &:hover,
     &:focus {

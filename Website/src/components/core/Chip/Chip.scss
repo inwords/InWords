@@ -11,7 +11,7 @@
   color: var(--palette-default-contrast-text);
   background-color: transparent;
   font-size: 0.8125rem;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s var(--transition-ease-in-out);
 
   &:hover,
   &:focus {

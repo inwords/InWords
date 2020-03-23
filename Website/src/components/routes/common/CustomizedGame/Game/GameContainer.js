@@ -26,11 +26,8 @@ const colorPairs = [
   ['#FF5722', '#FFCCBC']
 ];
 
-const colorPairGenerator = (function* generateColorPair() {
-  while (true) {
-    yield colorPairs[Math.floor(Math.random() * colorPairs.length)];
-  }
-})();
+const getRandomColorPair = () =>
+  colorPairs[Math.floor(Math.random() * colorPairs.length)];
 
 const GAME_COMPLETED_TIMEOUT = 1000;
 const RESULT_READY_TIMEOUT = 500;
@@ -163,7 +160,7 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
             setNewServerLevelId(data.classicCardLevelResult[0].levelId);
 
             setIsResultReady(true);
-            setColorPair(colorPairGenerator.next().value);
+            setColorPair(getRandomColorPair());
           }, RESULT_READY_TIMEOUT);
         }, GAME_COMPLETED_TIMEOUT);
       } catch (error) {

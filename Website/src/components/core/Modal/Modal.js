@@ -7,7 +7,7 @@ import Fade from 'src/components/core/Fade';
 import './Modal.scss';
 
 const transitionDurations = {
-  enter: 225,
+  enter: 200,
   exit: 150
 };
 
