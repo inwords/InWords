@@ -41,13 +41,10 @@ function WordlistContainer({ wordPairs, ...rest }) {
   const { open, setOpen, handleClose } = useDialog();
   const [currentWordPair, setCurrentWordPair] = React.useState();
 
-  const handleOpen = React.useCallback(
-    wordPair => () => {
-      setCurrentWordPair(wordPair);
-      setOpen(true);
-    },
-    [setOpen]
-  );
+  const handleOpen = wordPair => () => {
+    setCurrentWordPair(wordPair);
+    setOpen(true);
+  };
 
   return (
     <Fragment>

@@ -4,11 +4,16 @@ import classNames from 'classnames';
 
 import './List.css';
 
-function List({ component = 'ul', className, ...rest }) {
+const List = React.forwardRef(function List(
+  { component = 'ul', className, ...rest },
+  ref
+) {
   const Component = component;
 
-  return <Component className={classNames('list', className)} {...rest} />;
-}
+  return (
+    <Component ref={ref} className={classNames('list', className)} {...rest} />
+  );
+});
 
 List.propTypes = {
   component: PropTypes.elementType,
