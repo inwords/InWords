@@ -40,7 +40,7 @@ message LookupReply{
 		string pos = 2;
 		repeated Tr tr = 3;
 	}
-	repeated Def Definition = 1;
+	repeated Def def = 1;
 }
 
 message DeleteWordsRequest {
