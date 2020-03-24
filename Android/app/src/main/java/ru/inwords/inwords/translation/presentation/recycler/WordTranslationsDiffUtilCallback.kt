@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import ru.inwords.inwords.core.recycler.RxDiffUtil
 import ru.inwords.inwords.core.recycler.SimpleDiffUtilCallback
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 class WordTranslationsDiffUtilCallback internal constructor(oldWordTranslations: List<WordTranslation>,
                                                             newWordTranslations: List<WordTranslation>) :

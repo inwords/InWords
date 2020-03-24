@@ -14,8 +14,8 @@ import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
 import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.GamesInfo
 import ru.inwords.inwords.game.domain.model.LevelResultModel
-import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 
 class GameInteractorImpl @Inject constructor(

@@ -13,17 +13,17 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.inwords.inwords.BuildConfig
+import ru.inwords.inwords.authorisation.data.ApiServiceUnauthorised
+import ru.inwords.inwords.authorisation.data.BasicAuthenticator
+import ru.inwords.inwords.authorisation.data.TokenInterceptor
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.dagger.annotations.AuthorisedZone
 import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.dagger.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.dagger.annotations.UnauthorisedZone
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
-import ru.inwords.inwords.data.source.grpc.buildManagedChannel
 import ru.inwords.inwords.data.source.remote.ApiServiceAuthorised
-import ru.inwords.inwords.data.source.remote.ApiServiceUnauthorised
-import ru.inwords.inwords.data.source.remote.BasicAuthenticator
-import ru.inwords.inwords.data.source.remote.TokenInterceptor
+import ru.inwords.inwords.data.source.remote.buildManagedChannel
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 

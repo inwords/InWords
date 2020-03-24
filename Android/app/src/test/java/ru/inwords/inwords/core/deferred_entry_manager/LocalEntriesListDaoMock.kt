@@ -6,7 +6,7 @@ import ru.inwords.inwords.core.deferred_entry_manager.LocalEntriesListDaoMock.Un
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntry
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
+import ru.inwords.inwords.translation.domain.model.EntityIdentificator
 
 class LocalEntriesListDaoMock : LocalEntriesListDao<EntityIdentificator, UnitDeferredEntry> {
     private val internalList = mutableListOf<UnitDeferredEntry>()

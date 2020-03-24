@@ -1,7 +1,7 @@
 package ru.inwords.inwords.training.data
 
 import io.reactivex.Single
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 interface TrainingRepository {
 

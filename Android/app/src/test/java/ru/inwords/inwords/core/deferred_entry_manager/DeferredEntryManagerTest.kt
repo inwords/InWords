@@ -10,7 +10,7 @@ import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalDeferredEn
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteDeferredEntryWriteRepository
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteEntriesListBasicDao
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
+import ru.inwords.inwords.translation.domain.model.EntityIdentificator
 
 internal class DeferredEntryManagerTest {
     private lateinit var localDao: LocalEntriesListDao<EntityIdentificator, UnitDeferredEntry>

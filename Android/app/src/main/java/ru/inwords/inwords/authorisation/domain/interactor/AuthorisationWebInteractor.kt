@@ -4,16 +4,20 @@ import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.HttpException
+import ru.inwords.inwords.authorisation.data.AuthExceptionType
+import ru.inwords.inwords.authorisation.data.AuthenticationException
+import ru.inwords.inwords.authorisation.data.AuthenticatorTokenProvider
+import ru.inwords.inwords.authorisation.data.WebRequestsManagerUnauthorised
+import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
+import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.*
+import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
+import ru.inwords.inwords.authorisation.data.session.TokenResponse
+import ru.inwords.inwords.authorisation.data.session.requireCredentials
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle.GoogleSignedInData
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.getErrorMessage
-import ru.inwords.inwords.data.source.remote.*
-import ru.inwords.inwords.data.source.remote.session.LastAuthInfoProvider
-import ru.inwords.inwords.data.source.remote.session.LastAuthInfoProvider.AuthMethod.*
-import ru.inwords.inwords.data.source.remote.session.NativeAuthInfo
-import ru.inwords.inwords.data.source.remote.session.TokenResponse
-import ru.inwords.inwords.data.source.remote.session.requireCredentials
+import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import java.net.SocketTimeoutException
@@ -32,7 +36,6 @@ class AuthorisationWebInteractor @Inject internal constructor(
 
     override fun trySignInExistingAccount(): Completable {
         return authenticatorTokenProvider.getTokenSilently()
-            .doOnSuccess { nativeAuthInfo.setCredentials(UserCredentials()) }
             .interceptError()
             .checkAuthToken()
     }

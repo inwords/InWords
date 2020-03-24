@@ -5,9 +5,7 @@ import io.reactivex.Single
 import retrofit2.http.*
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.profile.data.bean.User
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
-import ru.inwords.inwords.translation.data.bean.WordTranslation
-import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 interface ApiServiceAuthorised {
     //GAME
@@ -22,20 +20,6 @@ interface ApiServiceAuthorised {
 
     @POST("/v1.1/training/estimate")
     fun getLevelScore(@Body levelScoreRequest: TrainingEstimateRequest): Single<TrainingEstimateResponse>
-
-    @Headers("Content-Type: application/json")
-    @POST("/v1.0/Game/AddWordsToUserDictionary")
-    fun addWordsToUserDictionary(@Body gameId: Int): Completable
-
-    //Words
-    @POST("/v1.0/words/DeletePair")
-    fun deletePairs(@Body serverIds: List<Int>): Single<Int>
-
-    @POST("/v1.0/words/addpair")
-    fun addPairs(@Body wordTranslations: List<@JvmSuppressWildcards WordTranslation>): Single<List<EntityIdentificator>>
-
-    @POST("/v1.0/sync/pullwordpairs")
-    fun pullWordsPairs(@Body serverIds: List<Int>): Single<PullWordsAnswer>
 
     //USERS
 

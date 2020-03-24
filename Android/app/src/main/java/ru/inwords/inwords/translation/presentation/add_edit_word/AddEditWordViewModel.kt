@@ -11,8 +11,8 @@ import ru.inwords.inwords.core.Event
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.validation.ValidationResult
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
-import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 class AddEditWordViewModel(
     private val translationWordsInteractor: TranslationWordsInteractor,

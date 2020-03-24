@@ -8,7 +8,7 @@ import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.GamesInfo
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 class CustomGameCreatorViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
     fun screenInfoStream(): Observable<Resource<GamesInfo>> = gameInteractor.getGamesInfo()

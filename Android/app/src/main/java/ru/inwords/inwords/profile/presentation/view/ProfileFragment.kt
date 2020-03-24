@@ -14,11 +14,11 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
 import ru.inwords.inwords.R
+import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.KeyboardUtils
 import ru.inwords.inwords.core.utils.observe
-import ru.inwords.inwords.data.source.remote.session.LastAuthInfoProvider
 import ru.inwords.inwords.databinding.FragmentProfileBinding
 import ru.inwords.inwords.policy.presentation.renderPolicyText
 import ru.inwords.inwords.presentation.createAppBarNavIconOnScrimColorAnimatorListener

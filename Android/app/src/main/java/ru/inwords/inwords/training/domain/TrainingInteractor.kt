@@ -2,8 +2,8 @@ package ru.inwords.inwords.training.domain
 
 import android.util.Log
 import ru.inwords.inwords.training.data.TrainingRepository
-import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 class TrainingInteractor(private val translationWordsInteractor: TranslationWordsInteractor,
                          private val trainingRepository: TrainingRepository) {

@@ -3,10 +3,9 @@ package ru.inwords.inwords.translation.data.repository
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
-import ru.inwords.inwords.translation.data.absList
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
-import ru.inwords.inwords.translation.data.bean.WordTranslation
-import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
+import ru.inwords.inwords.translation.domain.model.EntityIdentificator
+import ru.inwords.inwords.translation.domain.model.PullWordsAnswer
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 
 class TranslationWordsWebApiRepository @Inject
@@ -17,11 +16,12 @@ constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthoris
 
     override fun removeAllServerIds(serverIds: List<Int>): Completable {
         return Single.fromCallable { absList(serverIds) }
-                .flatMap { webRequestsManagerAuthorised.removeAllServerIds(it) }
-                .ignoreElement()
+            .flatMapCompletable { webRequestsManagerAuthorised.removeAllByServerId(it) }
     }
 
     override fun pullWords(wordTranslations: List<Int>): Single<PullWordsAnswer> {
         return webRequestsManagerAuthorised.pullWords(wordTranslations)
     }
+
+    private fun absList(integers: List<Int>): List<Int> = integers.map(Math::abs)
 }

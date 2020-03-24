@@ -15,7 +15,7 @@ import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesLis
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteDeferredEntryWriteRepository
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteEntriesListPullDao
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
-import ru.inwords.inwords.translation.data.deferred.converter.WordTranslationValueConverter
+import ru.inwords.inwords.translation.converter.WordTranslationValueConverter
 
 class WordTranslationDeferredAdapterFactory internal constructor(
     private val localEntriesListDao: LocalWordTranslationEntriesListDao,
@@ -48,7 +48,7 @@ class WordTranslationDeferredAdapterFactory internal constructor(
         }
 
         override fun deleteAll(serverIds: List<Int>): Completable {
-            return webRequestsManagerAuthorised.removeAllServerIds(serverIds).ignoreElement()
+            return webRequestsManagerAuthorised.removeAllByServerId(serverIds)
         }
 
         override fun retrieveAll(existingServedIdsProvider: List<Int>): Single<PullResponse<WordTranslationValue>> {

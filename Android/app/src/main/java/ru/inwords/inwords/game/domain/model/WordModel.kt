@@ -1,6 +1,6 @@
 package ru.inwords.inwords.game.domain.model
 
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import java.io.Serializable
 
 /**

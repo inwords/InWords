@@ -8,7 +8,7 @@ import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.data.repository.CustomGameGatewayController
 import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.GameInfo
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 
 class CustomGameCreator @Inject constructor(private val customGameGatewayController: CustomGameGatewayController,

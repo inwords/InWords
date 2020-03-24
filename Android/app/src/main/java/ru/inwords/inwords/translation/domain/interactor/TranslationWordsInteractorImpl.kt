@@ -6,10 +6,10 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.converter.WordTranslationValueConverter
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
-import ru.inwords.inwords.translation.data.deferred.converter.WordTranslationValueConverter
 import ru.inwords.inwords.translation.data.sync.TranslationSyncController
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 
 class TranslationWordsInteractorImpl @Inject

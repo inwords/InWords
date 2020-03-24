@@ -32,6 +32,6 @@ class GameRemoteRepository @Inject constructor(private val webRequestsManagerAut
     }
 
     fun addWordsToUserDictionary(gameId: Int): Completable {
-        return webRequestsManagerAuthorised.addWordsToUserDictionary(gameId)
+        return webRequestsManagerAuthorised.addWordSetToDictionary(gameId)
     }
 }
