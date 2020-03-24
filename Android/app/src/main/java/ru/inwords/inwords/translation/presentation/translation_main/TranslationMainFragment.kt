@@ -26,7 +26,7 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.databinding.FragmentTranslationMainBinding
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.texttospeech.TtsMediaPlayerAdapter
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import ru.inwords.inwords.translation.presentation.TranslationViewModelFactory
 import ru.inwords.inwords.translation.presentation.recycler.ItemTouchHelperEvents
 import ru.inwords.inwords.translation.presentation.recycler.WordTranslationsAdapter

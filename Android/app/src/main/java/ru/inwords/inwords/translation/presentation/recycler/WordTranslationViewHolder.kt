@@ -4,7 +4,7 @@ import android.view.View
 import io.reactivex.subjects.Subject
 import ru.inwords.inwords.core.recycler.SelectableViewHolder
 import ru.inwords.inwords.databinding.ListItemWordBinding
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 class WordTranslationViewHolder(
     itemView: View,

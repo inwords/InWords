@@ -4,9 +4,9 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.profile.data.bean.User
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
-import ru.inwords.inwords.translation.data.bean.WordTranslation
-import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
+import ru.inwords.inwords.translation.domain.model.EntityIdentificator
+import ru.inwords.inwords.translation.domain.model.PullWordsAnswer
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 interface WebRequestsManagerAuthorised {
     fun notifyAuthStateChanged(authorised: Boolean)
@@ -23,7 +23,7 @@ interface WebRequestsManagerAuthorised {
 
     fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>>
 
-    fun removeAllServerIds(serverIds: List<Int>): Single<Int>
+    fun removeAllByServerId(serverIds: List<Int>): Completable
 
     fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer>
 
@@ -33,7 +33,7 @@ interface WebRequestsManagerAuthorised {
 
     fun getScore(trainingEstimateRequest: TrainingEstimateRequest): Single<List<LevelScore>>
 
-    fun addWordsToUserDictionary(gameId: Int): Completable
+    fun addWordSetToDictionary(wordSetId: Int): Completable
 
     fun getWordsForTraining(): Single<List<WordTranslation>>
 

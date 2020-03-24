@@ -1,7 +1,7 @@
 package ru.inwords.inwords.game.domain
 
 import ru.inwords.inwords.game.domain.model.WordModel
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 data class CardsData(val rawWordTranslations: List<WordTranslation>) { //TODO no need for val
     private val _words: List<WordModel>

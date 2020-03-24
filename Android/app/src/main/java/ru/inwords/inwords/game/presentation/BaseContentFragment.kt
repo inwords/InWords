@@ -16,8 +16,8 @@ abstract class BaseContentFragment<
     Binding : ViewBinding>
     : FragmentWithViewModelAndNav<ViewModelType, ViewModelFactory, Binding>() {
 
-    protected lateinit var gameContent: View
-    protected lateinit var gameNoContent: View
+    private lateinit var gameContent: View
+    private lateinit var gameNoContent: View
 
     @get:IdRes
     abstract val noContentViewId: Int
@@ -37,7 +37,7 @@ abstract class BaseContentFragment<
         }
     }
 
-    protected fun showContent() {
+    private fun showContent() {
         gameNoContent.visibility = View.GONE
         gameContent.visibility = View.VISIBLE
         /*

@@ -22,17 +22,10 @@ import ru.inwords.inwords.texttospeech.data.repository.TtsCachingRepository
 import ru.inwords.inwords.texttospeech.data.repository.TtsDatabaseRepository
 import ru.inwords.inwords.texttospeech.data.repository.TtsRemoteRepository
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
-import ru.inwords.inwords.translation.data.source.WordTranslationDao
 import javax.inject.Singleton
 
 @Module
 internal class DataAccessModule {
-    @Provides
-    @Singleton
-    fun wordTranslationDao(database: AppRoomDatabase): WordTranslationDao {
-        return database.wordTranslationDao()
-    }
-
     @Provides
     fun resources(context: Context): Resources {
         return context.resources

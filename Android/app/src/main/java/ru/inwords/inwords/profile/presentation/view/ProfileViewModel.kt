@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
+import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
+import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.NONE
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.source.remote.session.LastAuthInfoProvider
-import ru.inwords.inwords.data.source.remote.session.LastAuthInfoProvider.AuthMethod.NONE
 import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.User

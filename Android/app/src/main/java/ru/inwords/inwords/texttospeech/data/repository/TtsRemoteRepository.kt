@@ -1,7 +1,7 @@
 package ru.inwords.inwords.texttospeech.data.repository
 
 import io.reactivex.Single
-import ru.inwords.inwords.data.source.remote.WebRequestsManagerUnauthorised
+import ru.inwords.inwords.authorisation.data.WebRequestsManagerUnauthorised
 import ru.inwords.inwords.texttospeech.data.bean.AudioConfig
 import ru.inwords.inwords.texttospeech.data.bean.Input
 import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest

@@ -2,7 +2,7 @@ package ru.inwords.inwords.translation.domain.interactor
 
 import io.reactivex.Completable
 import io.reactivex.Observable
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 interface TranslationWordsInteractor {
     fun getAllWords(): Observable<List<WordTranslation>>

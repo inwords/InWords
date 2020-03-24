@@ -13,7 +13,7 @@ import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.core.validation.ValidationResult
 import ru.inwords.inwords.databinding.FragmentAddEditWordBinding
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import ru.inwords.inwords.translation.presentation.TranslationViewModelFactory
 
 class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, TranslationViewModelFactory, FragmentAddEditWordBinding>() {

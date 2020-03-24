@@ -6,7 +6,7 @@ import androidx.recyclerview.selection.SelectionTracker
 import io.reactivex.subjects.Subject
 import ru.inwords.inwords.R
 import ru.inwords.inwords.game.presentation.BaseSingleTypeAdapter
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 class WordTranslationsAdapter(onItemClickedListener: (WordTranslation) -> Unit,
                               private val onSpeakerClickedListener: Subject<WordTranslation>) :

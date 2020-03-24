@@ -4,21 +4,25 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
+import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.source.remote.session.SessionHelper
 import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.profile.data.bean.User
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
-import ru.inwords.inwords.translation.data.bean.WordTranslation
-import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
+import ru.inwords.inwords.translation.data.grpc.TranslationGrpcService
+import ru.inwords.inwords.translation.domain.model.EntityIdentificator
+import ru.inwords.inwords.translation.domain.model.PullWordsAnswer
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
     private val apiServiceAuthorised: ApiServiceAuthorised,
-    private val sessionHelper: SessionHelper
+    private val sessionHelper: SessionHelper,
+    private val translationGrpcService: TranslationGrpcService,
+    private val wordSetGrpcService: WordSetGrpcService
 ) : WebRequestsManagerAuthorised {
 
     private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
@@ -41,7 +45,6 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
         return valve()
             .flatMap { apiServiceAuthorised.getAuthorisedUser() }
             .interceptError()
-            //.flatMap(Observable::fromIterable)
             .subscribeOn(SchedulersFacade.io())
     }
 
@@ -49,7 +52,6 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
         return valve()
             .flatMap { apiServiceAuthorised.getUserById(id) }
             .interceptError()
-            //.flatMap(Observable::fromIterable)
             .subscribeOn(SchedulersFacade.io())
     }
 
@@ -62,21 +64,21 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
 
     override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
         return valve()
-            .flatMap { apiServiceAuthorised.addPairs(wordTranslations) }
+            .flatMap { translationGrpcService.addWords(wordTranslations) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun removeAllServerIds(serverIds: List<Int>): Single<Int> {
+    override fun removeAllByServerId(serverIds: List<Int>): Completable {
         return valve()
-            .flatMap { apiServiceAuthorised.deletePairs(serverIds) }
+            .flatMapCompletable { translationGrpcService.deleteWords(serverIds) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
     override fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer> {
         return valve()
-            .flatMap { apiServiceAuthorised.pullWordsPairs(serverIds) }
+            .flatMap { translationGrpcService.pullWords(serverIds) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
@@ -110,9 +112,9 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun addWordsToUserDictionary(gameId: Int): Completable {
+    override fun addWordSetToDictionary(wordSetId: Int): Completable {
         return valve()
-            .flatMapCompletable { apiServiceAuthorised.addWordsToUserDictionary(gameId) }
+            .flatMapCompletable { wordSetGrpcService.addWordSetToDictionary(wordSetId) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
