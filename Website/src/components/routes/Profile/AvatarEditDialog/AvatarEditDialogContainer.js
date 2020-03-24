@@ -48,14 +48,13 @@ function AvatarEditDialogContainer({ open, ...rest }) {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const formData = new FormData();
-    formData.set('file', inputs.avatarFile);
-
     try {
+      const formData = new FormData();
+      formData.append('file', inputs.avatarFile);
       const data = await dispatch(uploadUserAvatar(formData));
       dispatch(updateUserInfo(data));
     } catch (error) {
-      dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
+      dispatch(setSnackbar({ text: 'Не удалось загрузить аватар' }));
     }
   };
 
