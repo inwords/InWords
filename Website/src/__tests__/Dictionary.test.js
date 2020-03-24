@@ -5,6 +5,7 @@ import {
   waitFor,
   waitForElementToBeRemoved
 } from '@testing-library/react';
+import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Dictionary from 'src/components/routes/Dictionary';
@@ -33,9 +34,16 @@ const setup = () => {
     def: [{ tr: [{ text: newWordPair.wordNative }] }]
   };
   global.fetch = mockFetch(mockingWordPairsResponse);
-  const utils = renderWithEnvironment(<Dictionary />, {
-    initialState: { access: { token: accessData.token } }
-  });
+  const route = '/dictionary';
+  const utils = renderWithEnvironment(
+    <Route path="/dictionary">
+      <Dictionary />
+    </Route>,
+    {
+      initialState: { access: { token: accessData.token } },
+      route
+    }
+  );
 
   const clickWordPairEdit = word => fireEvent.click(utils.getByText(word));
   const clickWordPairAdd = () => fireEvent.click(utils.getByText('add'));
@@ -56,6 +64,8 @@ const setup = () => {
   const clickDel = () => fireEvent.click(utils.getByText('delete'));
   const clickDelСonfirmation = () =>
     fireEvent.click(utils.getByText('Удалить'));
+  const clickMenu = () => fireEvent.click(utils.getByText('more_horiz'));
+  const clickStudy = () => fireEvent.click(utils.getByText('Изучать'));
   const changeSearchInput = value =>
     fireEvent.change(utils.getByPlaceholderText('Поиск слова'), {
       target: { value }
@@ -69,6 +79,7 @@ const setup = () => {
     newWordPair,
     mockingWordPairsAddResponse,
     mockingWordTranslationResponse,
+    route,
     clickWordPairEdit,
     clickWordPairAdd,
     changeWordForeignInput,
@@ -78,6 +89,8 @@ const setup = () => {
     clickWordPairCheckbox,
     clickDel,
     clickDelСonfirmation,
+    clickMenu,
+    clickStudy,
     changeSearchInput
   };
 };
@@ -161,6 +174,18 @@ test('delete word pair', async () => {
   await waitForElementToBeRemoved(() =>
     utils.queryByText(wordPair.wordForeign)
   );
+});
+
+test('select word pair to study', async () => {
+  const utils = setup();
+  const wordPair = utils.mockingWordPairsResponse.toAdd[0];
+  await waitFor(() => utils.getByText(wordPair.wordForeign));
+
+  utils.clickWordPairCheckbox(wordPair.userWordPair);
+  utils.clickMenu();
+  utils.clickStudy();
+
+  expect(utils.history.location.pathname).toEqual(`${utils.route}/training/-1`);
 });
 
 test('find word pair', async () => {

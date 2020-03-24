@@ -8,7 +8,6 @@ import { receiveWordSet } from 'src/actions/trainingApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
 import Paper from 'src/components/core/Paper';
-import Divider from 'src/components/core/Divider';
 import WordSetToolbar from './WordSetToolbar';
 import WordSet from './WordSet';
 
@@ -16,6 +15,7 @@ function WordSetContainer() {
   const wordSetsMap = useSelector(store => store.training.wordSetsMap);
 
   const params = useParams();
+  const courseId = params.courseId;
 
   const dispatch = useDispatch();
 
@@ -24,19 +24,19 @@ function WordSetContainer() {
   React.useEffect(() => {
     (async () => {
       try {
-        const data = await dispatch(receiveWordSet(params.courseId));
-        dispatch(initializeWordSet(params.courseId, data));
+        const data = await dispatch(receiveWordSet(courseId));
+        dispatch(initializeWordSet(courseId, data));
       } catch (error) {
         dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
       }
     })();
-  }, [dispatch, params.courseId]);
+  }, [dispatch, courseId]);
 
   const handleReset = () => {
     setCheckedValues([]);
   };
 
-  const wordSet = wordSetsMap[params.courseId] || [];
+  const wordSet = wordSetsMap[courseId] || [];
 
   const [selectionAvailable, setSelectionAvailable] = React.useState(true);
 
@@ -52,7 +52,7 @@ function WordSetContainer() {
     );
   };
 
-  const handleAdding = async () => {
+  const handleAdd = async () => {
     const newWordPairs = wordSet.filter(
       ({ serverId, hasAdded }) => !hasAdded && checkedValues.includes(serverId)
     );
@@ -67,7 +67,7 @@ function WordSetContainer() {
           }))
         )
       );
-      dispatch(updateWordSet(params.courseId, newWordPairs));
+      dispatch(updateWordSet(courseId, newWordPairs));
       dispatch(
         setSnackbar({
           text: `Добавлено новых слов: ${newWordPairs.length}`
@@ -85,9 +85,8 @@ function WordSetContainer() {
         selectionAvailable={selectionAvailable}
         handleCheckAll={handleCheckAll}
         handleReset={handleReset}
-        handleAdding={handleAdding}
+        handleAdd={handleAdd}
       />
-      <Divider />
       <WordSet
         wordPairs={wordSet}
         checkedValues={checkedValues}

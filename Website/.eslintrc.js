@@ -17,7 +17,7 @@ module.exports = {
   },
   parser: 'babel-eslint',
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module'
   },
   plugins: ['react', 'react-hooks', 'jsx-a11y'],
@@ -36,6 +36,5 @@ module.exports = {
     react: {
       version: 'detect'
     }
-  },
-  ignorePatterns: ['**/*_pb.js']
+  }
 };

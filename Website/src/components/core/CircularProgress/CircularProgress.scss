@@ -1,0 +1,31 @@
+@keyframes circular-dash {
+  0% {
+    stroke-dasharray: 1 200;
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dasharray: 100 200;
+    stroke-dashoffset: -125;
+  }
+}
+
+@keyframes circular-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.circular-progress {
+  width: 40px;
+  height: 40px;
+  animation: circular-rotate 1.4s linear infinite;
+
+  &__svg {
+    animation: circular-dash 1.4s var(--transition-easing-ease-in-out) infinite;
+  }
+
+  &__circle {
+    stroke: var(--palette-primary);
+  }
+}

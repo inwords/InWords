@@ -4,11 +4,10 @@
   padding: 8px 16px;
 
   &__content {
-    flex: 1 1 auto;
+    flex: 1;
   }
 
   &__action {
-    flex: 0 0 auto;
     align-self: flex-start;
     margin-right: -8px;
   }

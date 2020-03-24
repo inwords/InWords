@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
-import List from 'src/components/core/List';
+import InnerList from './InnerList';
 import WordlistItem from './WordlistItem';
 
 function Wordlist({ wordPairs, checkedValues, listHeight, ...rest }) {
   return (
     <FixedSizeList
-      innerElementType={List}
+      innerElementType={InnerList}
       height={listHeight}
       itemCount={wordPairs.length}
       itemSize={56}

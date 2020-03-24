@@ -13,8 +13,8 @@ const initialInputs = {
 function AvatarEditDialogContainer({ open, ...rest }) {
   const dispatch = useDispatch();
 
-  const [inputs, setInputs] = React.useState();
-  const [avatar, setAvatar] = React.useState();
+  const [inputs, setInputs] = React.useState(initialInputs);
+  const [avatar, setAvatar] = React.useState(null);
 
   React.useEffect(() => {
     if (open) {

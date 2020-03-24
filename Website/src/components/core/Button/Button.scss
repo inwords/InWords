@@ -7,7 +7,8 @@
   font-family: inherit;
   text-transform: uppercase;
   white-space: nowrap;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color var(--transition-duration-shortest)
+    var(--transition-easing-ease-in-out);
 
   @include theme-typography(button);
 
@@ -21,7 +22,7 @@
   &--contained-default {
     padding: 0 16px;
     color: var(--palette-default-contrast-text);
-    background-color: var(--palette-default-main);
+    background-color: var(--palette-default);
 
     &:hover,
     &:focus {
@@ -41,7 +42,7 @@
   &--contained-primary {
     padding: 0 16px;
     color: var(--palette-primary-contrast-text);
-    background-color: var(--palette-primary-main);
+    background-color: var(--palette-primary);
 
     &:hover,
     &:focus {
@@ -61,7 +62,7 @@
   &--text-default {
     padding: 0 8px;
     background: none;
-    color: var(--palette-default);
+    color: var(--palette-default-contrast-text);
 
     &:hover,
     &:focus {
@@ -76,7 +77,7 @@
   &--text-primary {
     padding: 0 8px;
     background: none;
-    color: var(--palette-primary-main);
+    color: var(--palette-primary);
 
     &:hover,
     &:focus {

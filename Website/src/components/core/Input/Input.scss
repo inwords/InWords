@@ -2,12 +2,16 @@
   display: block;
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--palette-default-main);
+  border: 1px solid var(--palette-default);
   border-radius: 2px;
   font-size: 1rem;
   outline-offset: -2px;
   color: var(--palette-text-primary);
   -webkit-appearance: none;
+
+  &--multiline {
+    resize: none;
+  }
 
   &::-webkit-input-placeholder {
     color: var(--palette-text-hint);
@@ -30,8 +34,8 @@
   }
 
   &:focus {
-    outline: 1px solid var(--palette-primary-main);
-    border-color: var(--palette-primary-main);
+    outline: 1px solid var(--palette-primary);
+    border-color: var(--palette-primary);
   }
 
   &:disabled {

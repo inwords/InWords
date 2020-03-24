@@ -16,19 +16,20 @@ const initialState = {
 
 const userInfo = (state = initialState, action) => {
   switch (action.type) {
-    case INITIALIZE_USER_INFO:
+    case INITIALIZE_USER_INFO: {
+      const payload = action.payload;
+
       return {
-        userId: action.payload.userId,
-        nickname: action.payload.nickName,
-        avatarPath: action.payload.avatarPath,
-        experience: action.payload.experience,
-        account: action.payload.account
-          ? {
-              accountId: action.payload.account.accountId,
-              email: action.payload.account.email
-            }
-          : initialState.account
+        userId: payload.userId,
+        nickname: payload.nickName,
+        avatarPath: payload.avatarPath,
+        experience: payload.experience,
+        account: {
+          accountId: payload.account.accountId,
+          email: payload.account.email
+        }
       };
+    }
     case UPDATE_USER_INFO:
       return {
         ...state,

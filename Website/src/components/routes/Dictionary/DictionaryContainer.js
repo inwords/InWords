@@ -6,7 +6,6 @@ import { syncWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
 import createSpeech from 'src/utils/createSpeech';
 import Paper from 'src/components/core/Paper';
-import Divider from 'src/components/core/Divider';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
 import WordPairAddButton from './WordPairAddButton';
@@ -92,7 +91,6 @@ function DictionaryContainer() {
         handleCheckAll={handleCheckAll}
         setPattern={setPattern}
       />
-      <Divider />
       <Wordlist
         editingModeEnabled={editingModeEnabled}
         wordPairs={filteredWordPairs}

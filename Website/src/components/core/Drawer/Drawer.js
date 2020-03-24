@@ -8,8 +8,8 @@ import ClickAwayListener from 'src/components/core/ClickAwayListener';
 import './Drawer.css';
 
 const transitionDuration = {
-  enter: 225,
-  exit: 150
+  enter: 'var(--transition-duration-entering-screen)',
+  exit: 'var(--transition-duration-leaving-screen)'
 };
 
 function Drawer({ open, onClose, className, ...rest }) {
@@ -24,7 +24,7 @@ function Drawer({ open, onClose, className, ...rest }) {
             transform: open ? 'translateX(0)' : 'translateX(-100%)',
             transition: `transform ${
               transitionDuration[open ? 'enter' : 'exit']
-            }ms cubic-bezier(0.4, 0, 0.2, 1)`
+            } var(--transition-easing-ease-in-out)`
           }}
           {...rest}
         />

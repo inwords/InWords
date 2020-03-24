@@ -20,6 +20,7 @@ const TextField = React.forwardRef(function TextField(
     onChange,
     onFocus,
     onBlur,
+    multiline = false,
     fullWidth = false,
     inputProps,
     className,
@@ -103,6 +104,7 @@ const TextField = React.forwardRef(function TextField(
         onChange={handleInputChange}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
+        multiline={multiline}
         className="text-field__input"
         {...inputProps}
       />
@@ -123,6 +125,7 @@ TextField.propTypes = {
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
+  multiline: PropTypes.bool,
   fullWidth: PropTypes.bool,
   inputProps: PropTypes.object,
   className: PropTypes.string

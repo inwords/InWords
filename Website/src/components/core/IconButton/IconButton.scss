@@ -6,7 +6,8 @@
   border-radius: 50%;
   padding: 12px;
   background-color: transparent;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color var(--transition-duration-shortest)
+    var(--transition-easing-ease-in-out);
 
   &:hover,
   &:focus {
@@ -29,7 +30,7 @@
   }
 
   &--color--primary {
-    color: var(--palette-primary-main);
+    color: var(--palette-primary);
 
     &:hover,
     &:focus {
