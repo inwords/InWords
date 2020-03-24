@@ -1,9 +1,10 @@
 @import 'src/theme/mixins';
 
-.profile-main {
+.profile-root {
   display: flex;
+  flex-wrap: wrap;
 
-  @include theme-breakpoints-down(md) {
+  @include theme-breakpoints-down(sm) {
     flex-direction: column;
   }
 }
@@ -22,16 +23,13 @@
 }
 
 .profile-personal-section {
-  width: 100%;
+  flex: 1;
   padding-top: 16px;
   padding-left: 64px;
 
   @include theme-breakpoints-down(sm) {
-    padding-left: 32px;
-  }
-
-  @include theme-breakpoints-down(md) {
     padding-top: 24px;
+    padding-left: 0;
   }
 }
 
@@ -42,7 +40,7 @@
 }
 
 .profile-nickname {
-  @include theme-breakpoints-down(md) {
+  @include theme-breakpoints-down(sm) {
     @include theme-typography(h4);
   }
 }
@@ -61,30 +59,18 @@
 .profile-personal-info-entry-content {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  flex: 1;
 }
 
 .profile-personal-info-value {
-  width: 50%;
-
-  @include theme-breakpoints-down(sm) {
-    width: 100%;
-  }
+  display: flex;
+  align-items: center;
+  flex: 1;
 }
 
 .profile-personal-info-value-text {
-  width: 50%;
-
-  @include theme-breakpoints-down(md) {
-    @include theme-typography(body2);
-  }
-}
-
-.profile-personal-info-edit-button-container {
-  width: 40%;
-
   @include theme-breakpoints-down(sm) {
-    width: 100%;
+    @include theme-typography(body2);
   }
 }
 

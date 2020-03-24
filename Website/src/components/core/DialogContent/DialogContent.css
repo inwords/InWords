@@ -1,4 +1,5 @@
 .dialog-content {
   padding: 8px 24px;
   overflow-y: auto;
+  flex: 1;
 }

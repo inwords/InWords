@@ -44,7 +44,7 @@ function GameSettingsDialog({
               Максимум слов в тренировке
             </Typography>
             <Grid spacing={1} alignItems="center">
-              <GridItem xs={10} sm={6}>
+              <GridItem xs={10} sm={8}>
                 <Slider
                   name="quantity"
                   min="2"
@@ -53,7 +53,7 @@ function GameSettingsDialog({
                   onChange={handleChange}
                 />
               </GridItem>
-              <GridItem xs={2} sm={6}>
+              <GridItem xs={2} sm={4}>
                 <Typography variant="body1">{inputs.quantity}</Typography>
               </GridItem>
             </Grid>
@@ -63,7 +63,7 @@ function GameSettingsDialog({
               Размер карточки
             </Typography>
             <Grid spacing={1} alignItems="center">
-              <GridItem xs={10} sm={6}>
+              <GridItem xs={10} sm={8}>
                 <Slider
                   name="cardDimension"
                   min="80"
@@ -73,7 +73,7 @@ function GameSettingsDialog({
                   onChange={handleChange}
                 />
               </GridItem>
-              <GridItem xs={2} sm={6}>
+              <GridItem xs={2} sm={4}>
                 <Typography variant="body1">
                   {inputs.cardDimension}px
                 </Typography>
@@ -85,7 +85,7 @@ function GameSettingsDialog({
               Размер текста на карточке
             </Typography>
             <Grid spacing={1} alignItems="center">
-              <GridItem xs={10} sm={6}>
+              <GridItem xs={10} sm={8}>
                 <Slider
                   name="cardTextSize"
                   min="12"
@@ -95,7 +95,7 @@ function GameSettingsDialog({
                   onChange={handleChange}
                 />
               </GridItem>
-              <GridItem xs={2} sm={6}>
+              <GridItem xs={2} sm={4}>
                 <Typography variant="body1">{inputs.cardTextSize}px</Typography>
               </GridItem>
             </Grid>
