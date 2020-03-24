@@ -1,5 +1,9 @@
 @import 'src/theme/mixins';
 
+.dictionary-toolbar {
+  border-bottom: 1px solid var(--palette-divider);
+}
+
 .dictionary-toolbar-title-block {
   @include theme-breakpoints-down(sm) {
     display: none;

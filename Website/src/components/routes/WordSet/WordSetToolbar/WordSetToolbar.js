@@ -6,6 +6,8 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
 
+import './WordSetToolbar.css';
+
 function WordSetToolbar({
   checkedValues,
   selectionAvailable,
@@ -16,7 +18,7 @@ function WordSetToolbar({
   const numberOfChecked = checkedValues.length;
 
   return (
-    <Toolbar>
+    <Toolbar className="word-set-toolbar">
       <IconButton
         aria-label="clear selection"
         disabled={!selectionAvailable}

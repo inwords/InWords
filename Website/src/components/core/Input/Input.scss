@@ -9,6 +9,10 @@
   color: var(--palette-text-primary);
   -webkit-appearance: none;
 
+  &--multiline {
+    resize: none;
+  }
+
   &::-webkit-input-placeholder {
     color: var(--palette-text-hint);
   }

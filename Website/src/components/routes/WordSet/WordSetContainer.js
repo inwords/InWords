@@ -8,7 +8,6 @@ import { receiveWordSet } from 'src/actions/trainingApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
 import Paper from 'src/components/core/Paper';
-import Divider from 'src/components/core/Divider';
 import WordSetToolbar from './WordSetToolbar';
 import WordSet from './WordSet';
 
@@ -88,7 +87,6 @@ function WordSetContainer() {
         handleReset={handleReset}
         handleAdd={handleAdd}
       />
-      <Divider />
       <WordSet
         wordPairs={wordSet}
         checkedValues={checkedValues}

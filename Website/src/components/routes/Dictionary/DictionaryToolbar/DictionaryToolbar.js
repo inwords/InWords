@@ -25,7 +25,7 @@ function DictionaryToolbar({
   const { open, handleOpen, handleClose } = useDialog();
 
   return (
-    <Toolbar>
+    <Toolbar className="dictionary-toolbar">
       {!editingModeEnabled ? (
         <Fragment>
           <div className="dictionary-toolbar-title-block">

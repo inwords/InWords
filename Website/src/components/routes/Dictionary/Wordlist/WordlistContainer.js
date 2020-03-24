@@ -5,7 +5,7 @@ import useDialog from 'src/hooks/useDialog';
 import Wordlist from './Wordlist';
 import WordPairEditDialog from './WordPairEditDialog';
 
-const heightOffset = 153;
+const heightOffset = 152;
 
 function WordlistContainer({ wordPairs, ...rest }) {
   const [listHeight, setListHeight] = React.useState(

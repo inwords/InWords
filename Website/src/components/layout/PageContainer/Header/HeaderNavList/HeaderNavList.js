@@ -1,29 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, useLocation } from 'react-router-dom';
-import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
 
 import './HeaderNavList.scss';
 
 function HeaderNavList({ routes }) {
-  const [active, setActive] = React.useState();
-
-  const { pathname } = useLocation();
-
-  React.useEffect(() => {
-    setActive(
-      routes.some(({ to }) => {
-        return pathname.startsWith(to);
-      })
-    );
-  }, [routes, pathname]);
-
   return (
-    <ul
-      className={classNames('header-nav-list', {
-        'header-nav-list--active': active
-      })}
-    >
+    <ul className="header-nav-list">
       {routes.map(({ to, text }) => (
         <li key={to} className="header-nav-list__item">
           <NavLink

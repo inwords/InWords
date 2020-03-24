@@ -4,13 +4,29 @@ import classNames from 'classnames';
 
 import './Input.scss';
 
-const Input = React.forwardRef(function Input({ className, ...rest }, ref) {
+const Input = React.forwardRef(function Input(
+  { multiline = false, className, ...rest },
+  ref
+) {
+  const Component = !multiline ? 'input' : 'textarea';
+
   return (
-    <input ref={ref} className={classNames('input', className)} {...rest} />
+    <Component
+      ref={ref}
+      className={classNames(
+        'input',
+        {
+          'input--multiline': multiline
+        },
+        className
+      )}
+      {...rest}
+    />
   );
 });
 
 Input.propTypes = {
+  multiline: PropTypes.bool,
   className: PropTypes.string
 };
 
