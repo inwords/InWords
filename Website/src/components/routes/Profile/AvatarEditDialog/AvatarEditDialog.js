@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
 import DialogActions from 'src/components/core/DialogActions';
-import Grid from 'src/components/core/Grid';
-import GridItem from 'src/components/core/GridItem';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Button from 'src/components/core/Button';
@@ -36,30 +34,35 @@ function AvatarEditDialog({
             handleSubmit(event);
             handleClose();
           }}
+          className="avatar-edit-dialog-form"
         >
-          <Grid spacing={1}>
-            <GridItem>
-              <input
-                data-testid="avatar-upload"
-                id="avatar-upload"
-                type="file"
-                accept="image/*"
-                name="avatarFile"
-                onChange={handleChange}
-                className="avatar-edit-dialog-input"
-              />
-              <label htmlFor="avatar-upload">
-                <IconButton component="span" role="button" tabIndex="0">
-                  <Icon>photo_camera</Icon>
-                </IconButton>
-              </label>
-            </GridItem>
-            {avatar && (
-              <GridItem>
-                <Avatar src={avatar} alt="Avatar-preview" />
-              </GridItem>
-            )}
-          </Grid>
+          <div>
+            <input
+              data-testid="avatar-upload"
+              id="avatar-upload"
+              type="file"
+              accept="image/*"
+              name="avatarFile"
+              onChange={handleChange}
+              className="avatar-edit-dialog-input"
+            />
+            <label htmlFor="avatar-upload">
+              <IconButton component="span" role="button" tabIndex="0">
+                <Icon>photo_camera</Icon>
+              </IconButton>
+            </label>
+          </div>
+          {avatar && (
+            <div>
+              <Avatar
+                src={avatar}
+                alt="Avatar-preview"
+                className="avatar-edit-dialog-preview"
+              >
+                A
+              </Avatar>
+            </div>
+          )}
         </form>
       </DialogContent>
       <DialogActions>

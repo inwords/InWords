@@ -1,0 +1,13 @@
+.valuable-slider {
+  display: flex;
+  align-items: center;
+
+  &__slider {
+    margin-right: 8px;
+    flex: 3;
+  }
+
+  &__value {
+    flex: 1;
+  }
+}

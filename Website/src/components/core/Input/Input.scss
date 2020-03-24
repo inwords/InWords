@@ -44,4 +44,8 @@
     border-color: var(--palette-action-disabled);
     background-color: var(--palette-action-disabled-background);
   }
+
+  &:required {
+    box-shadow: none;
+  }
 }

@@ -6,6 +6,8 @@ import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
 import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
+import Avatar from 'src/components/core/Avatar';
+import Icon from 'src/components/core/Icon';
 import EntryFormPaper from 'src/components/routes/common/EntryFormPaper';
 import EntryLinksContainer from 'src/components/routes/common/EntryLinksContainer';
 import EntryButton from 'src/components/routes/common/EntryButton';
@@ -13,6 +15,9 @@ import EntryButton from 'src/components/routes/common/EntryButton';
 function SignIn({ inputs, handleChange, handleSubmit }) {
   return (
     <EntryFormPaper>
+      <Avatar>
+        <Icon>lock</Icon>
+      </Avatar>
       <Typography component="h1" variant="h5" gutterBottom>
         Вход
       </Typography>
