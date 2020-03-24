@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { string } from 'prop-types';
+import PropTypes from 'prop-types';
 import Typography from 'src/components/core/Typography';
 import Slider from 'src/components/core/Slider';
 

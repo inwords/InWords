@@ -23,7 +23,7 @@
 }
 
 .profile-personal-section {
-  flex: 1;
+  flex: 1 1 auto;
   padding-top: 16px;
   padding-left: 64px;
 
@@ -59,14 +59,14 @@
 .profile-personal-info-entry-content {
   display: flex;
   flex-wrap: wrap;
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .profile-personal-info-value {
   margin-right: 8px;
   display: flex;
   align-items: center;
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .profile-personal-info-value-text {
