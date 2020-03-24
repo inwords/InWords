@@ -9,7 +9,7 @@ import FormControlLabel from 'src/components/core/FormControlLabel';
 import Typography from 'src/components/core/Typography';
 import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
-import ValuableSlider from 'src/components/routes/common/ValuableSlider';
+import Slider from 'src/components/core/Slider';
 
 import './GameSettingsDialog.css';
 
@@ -39,9 +39,9 @@ function GameSettingsDialog({
         >
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Максимум слов в тренировке
+              Максимум слов в тренировке: {inputs.quantity}
             </Typography>
-            <ValuableSlider
+            <Slider
               name="quantity"
               min="2"
               max="8"
@@ -51,30 +51,28 @@ function GameSettingsDialog({
           </FormGroup>
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Размер карточки
+              Размер карточки: {inputs.cardDimension}px
             </Typography>
-            <ValuableSlider
+            <Slider
               name="cardDimension"
               min="80"
               max="140"
               step="5"
               value={inputs.cardDimension}
               onChange={handleChange}
-              postfix="px"
             />
           </FormGroup>
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Размер текста на карточке
+              Размер текста на карточке: {inputs.cardTextSize}px
             </Typography>
-            <ValuableSlider
+            <Slider
               name="cardTextSize"
               min="12"
               max="24"
               step="1"
               value={inputs.cardTextSize}
               onChange={handleChange}
-              postfix="px"
             />
           </FormGroup>
           <div>
