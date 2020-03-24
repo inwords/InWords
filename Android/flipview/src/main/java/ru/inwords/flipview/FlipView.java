@@ -1088,7 +1088,6 @@ public class FlipView extends ViewFlipper implements SVGPictureDrawable, View.On
 	//************************
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	@SuppressWarnings("deprecation")
 	public void setChildBackgroundDrawable(int whichChild, @DrawableRes int drawableResId) {
 		try {
 			setChildBackgroundDrawable(whichChild,
