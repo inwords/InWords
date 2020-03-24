@@ -151,6 +151,10 @@ dependencies {
     //android core ktx
     implementation "androidx.core:core-ktx:$versions.CORE_KTX"
 
+    // Fragment
+    implementation "androidx.fragment:fragment:$versions.FRAGMENT"
+
+
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.NAVIGATION"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.NAVIGATION"

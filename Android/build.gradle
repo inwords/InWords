@@ -7,7 +7,7 @@ buildscript {
         targetSdk = 29
         buildTools = "29.0.6"
 
-        kotlin_version = '1.3.70'
+        kotlin_version = '1.3.71'
 
         versions = [
                 ANDROID_X        : '1.1.0',
@@ -26,6 +26,7 @@ buildscript {
                 DAGGER           : '2.27',
                 SHIMMER          : '0.4.0',
                 RECYCLER         : '1.1.0',
+                FRAGMENT         : '1.2.3',
                 PROTOC           : '3.11.4',
                 GRPC             : '1.28.0',
         ]
