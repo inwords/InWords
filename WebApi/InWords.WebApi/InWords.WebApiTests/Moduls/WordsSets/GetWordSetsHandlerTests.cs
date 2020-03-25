@@ -20,7 +20,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             string description = "testdes";
             string title = "testtitle";
 
-            Language language = new Language() { LanguageId = 1, Title = "ru" };
+            Language language = new Language() { LanguageId = 2, Title = "ru" };
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
             Game game = new Game()
             {
