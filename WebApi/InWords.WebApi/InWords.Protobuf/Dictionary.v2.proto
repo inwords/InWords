@@ -22,25 +22,37 @@ message LookupRequest{
 }
 
 message LookupReply{
+	message Head{
+	}
+	message Syn {
+		string text = 1;
+		string pos = 2;
+		string gen = 3;
+		string asp = 4;
+	}
 	message Ex{
 		string text = 1;
-		repeated string Tr = 2;
+		repeated Syn tr = 2;
 	}
 	message Tr{
 		string text = 1;
 		string num = 2;
 		string pos = 3;
 		string gen = 4;
-		repeated string syn = 5;
-		repeated string mean = 6;
-		repeated Ex Ex = 7;
+		repeated Syn syn = 5;
+		repeated Syn mean = 6;
+		repeated Ex ex = 7;
+		string asp = 8;
 	}
 	message Def{
 		string text = 1;
 		string pos = 2;
-		repeated Tr tr = 3;
+		string ts = 3;
+		repeated Tr tr = 4;
+		string fl = 5;
 	}
-	repeated Def def = 1;
+	Head head = 1;
+	repeated Def def = 2;
 }
 
 message DeleteWordsRequest {

@@ -33,8 +33,6 @@ namespace InWords.WebApi.Modules.DictionaryService.Words
             IEnumerable<int> wordsToDelete = clientIds.Except(serverIds);
             reply.ToDelete.Add(wordsToDelete);
 
-            await AddWords.CompabilityV2(Context).ConfigureAwait(false);
-
             var wordReplies = Context.UserWordPairs
                 .Where(u => wordsToAdd.Any(w => w == u.UserWordPairId)).Select(w => new WordReply()
                 {

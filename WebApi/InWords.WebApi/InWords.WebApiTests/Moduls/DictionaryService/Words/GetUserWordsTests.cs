@@ -76,11 +76,8 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
             {
                 UserWordPairId = id,
                 UserId = userId,
-                WordPair = new WordPair()
-                {
-                    WordForeign = new Word(wordForeign),
-                    WordNative = new Word(wordNative)
-                },
+                ForeignWord = wordForeign,
+                NativeWord = wordNative
             };
         }
     }
