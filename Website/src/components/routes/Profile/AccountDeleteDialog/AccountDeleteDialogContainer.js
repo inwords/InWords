@@ -28,8 +28,8 @@ function AccountDeleteDialogContainer({ nickname, open, ...rest }) {
       } else {
         try {
           await dispatch(deleteAccount(inputs.reason));
-          history.push('/sign-in');
           dispatch(denyAccess());
+          history.push('/sign-in');
           dispatch(
             setSnackbar({
               text: 'Аккаунт был успешно удален'

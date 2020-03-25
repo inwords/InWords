@@ -13,8 +13,8 @@ const initialInputs = {
 function AvatarEditDialogContainer({ open, ...rest }) {
   const dispatch = useDispatch();
 
-  const [inputs, setInputs] = React.useState();
-  const [avatar, setAvatar] = React.useState();
+  const [inputs, setInputs] = React.useState(initialInputs);
+  const [avatar, setAvatar] = React.useState(null);
 
   React.useEffect(() => {
     if (open) {
@@ -48,14 +48,13 @@ function AvatarEditDialogContainer({ open, ...rest }) {
   const handleSubmit = async event => {
     event.preventDefault();
 
-    const formData = new FormData();
-    formData.set('file', inputs.avatarFile);
-
     try {
+      const formData = new FormData();
+      formData.append('file', inputs.avatarFile);
       const data = await dispatch(uploadUserAvatar(formData));
       dispatch(updateUserInfo(data));
     } catch (error) {
-      dispatch(setSnackbar({ text: 'Не загрузить аватар' }));
+      dispatch(setSnackbar({ text: 'Не удалось загрузить аватар' }));
     }
   };
 

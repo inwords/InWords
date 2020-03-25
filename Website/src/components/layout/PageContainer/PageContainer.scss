@@ -13,6 +13,10 @@
     display: flex;
     align-items: center;
     padding-left: 24px;
+
+    @include theme-breakpoints-down(sm) {
+      padding-left: 16px;
+    }
   }
 
   &__side-nav {

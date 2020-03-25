@@ -40,9 +40,11 @@ function Profile({ avatarPath, nickname, email }) {
 
   return (
     <Fragment>
-      <div className="profile-main">
+      <div className="profile-root">
         <div className="profile-avatar-section">
-          <Avatar alt="Avatar" src={avatarPath} className="profile-avatar" />
+          <Avatar alt="Avatar" src={avatarPath} className="profile-avatar">
+            A
+          </Avatar>
           <Button onClick={handleOpenAvatar} variant="text" color="primary">
             Изменить аватар
           </Button>
@@ -68,15 +70,13 @@ function Profile({ avatarPath, nickname, email }) {
                     {email}
                   </Typography>
                 </div>
-                <div className="profile-personal-info-edit-button-container">
-                  <Button
-                    onClick={handleOpenEmail}
-                    variant="text"
-                    color="primary"
-                  >
-                    Изменить электронный адрес
-                  </Button>
-                </div>
+                <Button
+                  onClick={handleOpenEmail}
+                  variant="text"
+                  color="primary"
+                >
+                  Изменить электронный адрес
+                </Button>
               </div>
             </div>
           </div>

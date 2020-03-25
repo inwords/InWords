@@ -17,13 +17,15 @@ const dictionary = (
   action
 ) => {
   switch (action.type) {
-    case SYNC_WORD_PAIRS:
+    case SYNC_WORD_PAIRS: {
+      const payload = action.payload;
+
       return {
         actual: true,
         wordPairs: state.wordPairs
-          .filter(({ serverId }) => !action.payload.toDelete.includes(serverId))
+          .filter(({ serverId }) => !payload.toDelete.includes(serverId))
           .concat(
-            action.payload.toAdd
+            payload.toAdd
               .map(wordPair => {
                 const convertedWordPair = {
                   ...wordPair,
@@ -36,6 +38,7 @@ const dictionary = (
               .sort(lexicographicalComparison)
           )
       };
+    }
     case DELETE_WORD_PAIRS:
       return {
         ...state,

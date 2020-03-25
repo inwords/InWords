@@ -1,6 +1,5 @@
 body {
   font-family: 'Helvetica', 'Arial', sans-serif;
-  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -13,19 +12,15 @@ ul {
 }
 
 h1 {
-  font-size: 2em;
+  font-size: 2.125rem;
 }
 
 h2 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 
 h3 {
-  font-size: 1.17em;
-}
-
-ul {
-  padding-left: 2em;
+  font-size: 1.25rem;
 }
 
 li {
@@ -33,6 +28,6 @@ li {
 }
 
 .content {
-  max-width: 960px;
-  margin: auto;
+  max-width: 1280px;
+  margin: 0 auto;
 }

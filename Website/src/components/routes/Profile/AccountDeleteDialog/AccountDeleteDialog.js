@@ -52,6 +52,8 @@ function AccountDeleteDialog({
               name="reason"
               value={inputs.reason}
               onChange={handleChange}
+              multiline
+              inputProps={{ rows: 3 }}
               fullWidth
             />
           </FormGroup>

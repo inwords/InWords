@@ -6,8 +6,9 @@
   align-items: center;
   border-radius: 0;
   cursor: pointer;
-  background-color: var(--palette-primary-main);
-  transition: box-shadow 200ms ease-in-out;
+  background-color: var(--palette-primary);
+  transition: box-shadow var(--transition-duration-short)
+    var(--transition-easing-ease-in-out);
 
   @include theme-typography(body1);
 }
@@ -23,7 +24,6 @@
   width: 100%;
   padding: 8px;
   text-align: center;
-  line-height: 1.3;
   word-wrap: break-word;
   font-weight: 500;
 }

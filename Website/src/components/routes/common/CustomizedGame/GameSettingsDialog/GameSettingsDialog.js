@@ -4,14 +4,12 @@ import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
 import DialogActions from 'src/components/core/DialogActions';
-import Grid from 'src/components/core/Grid';
-import GridItem from 'src/components/core/GridItem';
 import FormGroup from 'src/components/core/FormGroup';
 import FormControlLabel from 'src/components/core/FormControlLabel';
 import Typography from 'src/components/core/Typography';
-import Slider from 'src/components/core/Slider';
 import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
+import Slider from 'src/components/core/Slider';
 
 import './GameSettingsDialog.css';
 
@@ -41,64 +39,41 @@ function GameSettingsDialog({
         >
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Максимум слов в тренировке
+              Максимум слов в тренировке: {inputs.quantity}
             </Typography>
-            <Grid spacing={1} alignItems="center">
-              <GridItem xs={10} sm={6}>
-                <Slider
-                  name="quantity"
-                  min="2"
-                  max="8"
-                  value={inputs.quantity}
-                  onChange={handleChange}
-                />
-              </GridItem>
-              <GridItem xs={2} sm={6}>
-                <Typography variant="body1">{inputs.quantity}</Typography>
-              </GridItem>
-            </Grid>
+            <Slider
+              name="quantity"
+              min="2"
+              max="8"
+              value={inputs.quantity}
+              onChange={handleChange}
+            />
           </FormGroup>
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Размер карточки
+              Размер карточки: {inputs.cardDimension}px
             </Typography>
-            <Grid spacing={1} alignItems="center">
-              <GridItem xs={10} sm={6}>
-                <Slider
-                  name="cardDimension"
-                  min="80"
-                  max="140"
-                  step="5"
-                  value={inputs.cardDimension}
-                  onChange={handleChange}
-                />
-              </GridItem>
-              <GridItem xs={2} sm={6}>
-                <Typography variant="body1">
-                  {inputs.cardDimension}px
-                </Typography>
-              </GridItem>
-            </Grid>
+            <Slider
+              name="cardDimension"
+              min="80"
+              max="140"
+              step="5"
+              value={inputs.cardDimension}
+              onChange={handleChange}
+            />
           </FormGroup>
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Размер текста на карточке
+              Размер текста на карточке: {inputs.cardTextSize}px
             </Typography>
-            <Grid spacing={1} alignItems="center">
-              <GridItem xs={10} sm={6}>
-                <Slider
-                  name="cardTextSize"
-                  min="12"
-                  max="24"
-                  step="1"
-                  value={inputs.cardTextSize}
-                  onChange={handleChange}
-                />
-              </GridItem>
-              <GridItem xs={2} sm={6}>
-                <Typography variant="body1">{inputs.cardTextSize}px</Typography>
-              </GridItem>
-            </Grid>
+            <Slider
+              name="cardTextSize"
+              min="12"
+              max="24"
+              step="1"
+              value={inputs.cardTextSize}
+              onChange={handleChange}
+            />
           </FormGroup>
           <div>
             <FormControlLabel>

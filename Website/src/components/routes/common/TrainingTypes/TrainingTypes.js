@@ -26,16 +26,18 @@ const trainingTypesInfo = [
 function TrainingTypes({ trainingLevel }) {
   const match = useRouteMatch();
 
+  const wordTranslations = trainingLevel.wordTranslations;
+
   return (
     <Fragment>
       <Paper>
-        {trainingLevel.wordTranslations && (
+        {wordTranslations && (
           <Toolbar variant="dense" className="training-types-toolbar">
             <Icon color="action" className="training-types-study-icon">
               school
             </Icon>
             <Typography variant="body1">
-              Слов на изучение: {trainingLevel.wordTranslations.length}
+              Слов на изучение: {wordTranslations.length}
             </Typography>
           </Toolbar>
         )}
@@ -56,6 +58,7 @@ function TrainingTypes({ trainingLevel }) {
                     to={`${match.url}/${typeId}`}
                     variant="text"
                     color="primary"
+                    disabled={!wordTranslations || !wordTranslations.length}
                   >
                     Выбрать
                   </LinkButton>
