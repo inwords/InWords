@@ -11,8 +11,18 @@ import "Common.v2.proto";
 // The greeting service definition.
 service WordSetProvider {
 	// Sends a greeting
+	rpc GetSets (Common.v2.Empty) returns (WordSetReply);
 	rpc GetWordsList (WordSetWordsRequest) returns (WordSetWordsReply);
 	rpc ToDictionary (WordSetWordsRequest) returns (Common.v2.Empty);
+}
+message WordSetReply{
+	message WordSetInfo{
+		int32 id = 1;
+		string title = 2;
+		string description = 3;
+		string picture = 4;
+	}
+	repeated WordSetInfo wordSets = 1;
 }
 
 // The request message containing the user's credentials.
