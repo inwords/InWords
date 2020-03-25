@@ -32,7 +32,7 @@ namespace InWords.WebApi.Modules.WordsSets
 
             var wordsSets = include.Select(g =>
             {
-                var description = g.CreationDescriptions.Single(d => d.LanguageId == 0);
+                var description = g.CreationDescriptions.Single(d => d.LanguageId == 1);
                 return new WordSetInfo()
                 {
                     Id = g.GameId,

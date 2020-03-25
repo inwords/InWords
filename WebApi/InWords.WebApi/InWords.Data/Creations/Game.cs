@@ -23,7 +23,7 @@ namespace InWords.Data.Creations
         [MaxLength(128)] public string Picture { get; set; }
         [ForeignKey(nameof(GameId))] public HashSet<GameLevel> GameLevels { get; set; }
         [ForeignKey(nameof(CreatorId))] public virtual User Creator { get; set; }
-        [ForeignKey(nameof(GameId))] public List<CreationDescription> CreationDescriptions { get; set; }
+        public List<CreationDescription> CreationDescriptions { get; set; }
 
     }
 }
