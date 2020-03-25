@@ -3,7 +3,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import TrainingLevels from 'src/components/routes/TrainingLevels';
+import Course from 'src/components/routes/Course';
 
 const setup = () => {
   const accessData = {
@@ -24,11 +24,11 @@ const setup = () => {
   global.fetch = mockFetch(mockingTrainingLevelsResponse);
   const route = '/training/courses/1';
   const utils = renderWithEnvironment(
-    <Route path="/training/courses/:courseId">
-      <TrainingLevels />
+    <Route path="/training/courses/:wordSetId">
+      <Course />
     </Route>,
     {
-      initialState: { access: { token: accessData.token } },
+      initialState: { auth: { token: accessData.token } },
       route
     }
   );

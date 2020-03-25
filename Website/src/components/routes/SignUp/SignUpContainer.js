@@ -2,8 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { grantAccess } from 'src/actions/accessActions';
-import { signUp } from 'src/actions/accessApiActions';
+import { grantAccess } from 'src/actions/authActions';
+import { signUp } from 'src/actions/authApiActions';
 import useForm from 'src/hooks/useForm';
 import SignUp from './SignUp';
 

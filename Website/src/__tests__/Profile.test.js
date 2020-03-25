@@ -33,7 +33,7 @@ const setup = () => {
       <SmartSnackbar />
     </Fragment>,
     {
-      initialState: { access: { token: accessData.token } }
+      initialState: { auth: { token: accessData.token } }
     }
   );
 

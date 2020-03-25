@@ -10,7 +10,7 @@ import DialogContent from 'src/components/core/DialogContent';
 import DialogContentText from 'src/components/core/DialogContentText';
 import DialogActions from 'src/components/core/DialogActions';
 
-function CourseWordPairsAddButton({ gameId, handleAdd }) {
+function WordSetPairsAddButton({ gameId, handleAdd }) {
   const { open, handleOpen, handleClose } = useDialog();
 
   return (
@@ -54,9 +54,9 @@ function CourseWordPairsAddButton({ gameId, handleAdd }) {
   );
 }
 
-CourseWordPairsAddButton.propTypes = {
+WordSetPairsAddButton.propTypes = {
   gameId: PropTypes.number.isRequired,
   handleAdd: PropTypes.func.isRequired
 };
 
-export default CourseWordPairsAddButton;
+export default WordSetPairsAddButton;

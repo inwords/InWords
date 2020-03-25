@@ -42,7 +42,7 @@ const routes = [
 ];
 
 function App() {
-  const userId = useSelector(store => store.access.userId);
+  const userId = useSelector(store => store.auth.userId);
 
   return (
     <Router history={history}>

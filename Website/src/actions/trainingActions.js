@@ -1,31 +1,7 @@
-export const INITIALIZE_COURSES = 'INITIALIZE_COURSES';
-export const initializeCourses = courses => ({
-  type: INITIALIZE_COURSES,
-  payload: courses
-});
-
 export const INITIALIZE_COURSE = 'INITIALIZE_COURSE';
 export const initializeCourse = course => ({
   type: INITIALIZE_COURSE,
   payload: course
-});
-
-export const INITIALIZE_WORD_SET = 'INITIALIZE_WORD_SET';
-export const initializeWordSet = (courseId, wordSet) => ({
-  type: INITIALIZE_WORD_SET,
-  payload: {
-    courseId,
-    wordSet
-  }
-});
-
-export const UPDATE_WORD_SET = 'UPDATE_WORD_SET';
-export const updateWordSet = (courseId, wordPairs) => ({
-  type: UPDATE_WORD_SET,
-  payload: {
-    courseId,
-    wordPairs
-  }
 });
 
 export const INITIALIZE_LEVEL = 'INITIALIZE_LEVEL';
@@ -44,10 +20,10 @@ export const removeLevelWordPairs = (levelId, pairIds) => ({
 });
 
 export const UPDATE_LEVEL_RESULT = 'UPDATE_LEVEL_RESULT';
-export const updateLevelResult = (courseId, levelResult) => ({
+export const updateLevelResult = (wordSetId, levelResult) => ({
   type: UPDATE_LEVEL_RESULT,
   payload: {
-    courseId,
+    wordSetId,
     levelResult
   }
 });

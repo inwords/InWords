@@ -1,14 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeUserInfo } from 'src/actions/userActions';
-import { receiveUserInfo } from 'src/actions/userApiActions';
+import { initializeUserInfo } from 'src/actions/profileActions';
+import { receiveUserInfo } from 'src/actions/profileApiActions';
 import Profile from './Profile';
 
 function ProfileContainer() {
-  const { nickname, avatarPath, account } = useSelector(
-    store => store.userInfo
-  );
+  const { nickname, avatarPath, account } = useSelector(store => store.profile);
 
   const dispatch = useDispatch();
 

@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useRouteMatch } from 'react-router-dom';
-import Grid from './node_modules/src/components/core/Grid';
-import GridItem from './node_modules/src/components/core/GridItem';
-import Card from './node_modules/src/components/core/Card';
-import CardHeader from './node_modules/src/components/core/CardHeader';
-import CardContent from './node_modules/src/components/core/CardContent';
-import CardActions from './node_modules/src/components/core/CardActions';
-import Icon from './node_modules/src/components/core/Icon';
-import LinkButton from './node_modules/src/components/core/LinkButton';
+import Grid from 'src/components/core/Grid';
+import GridItem from 'src/components/core/GridItem';
+import Card from 'src/components/core/Card';
+import CardHeader from 'src/components/core/CardHeader';
+import CardContent from 'src/components/core/CardContent';
+import CardActions from 'src/components/core/CardActions';
+import Icon from 'src/components/core/Icon';
+import LinkButton from 'src/components/core/LinkButton';
 
 function Course({ course }) {
   const match = useRouteMatch();

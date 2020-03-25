@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { editWordPairs as editWordPairsLocal } from 'src/actions/dictionaryActions';
-import { editWordPairs } from 'src/actions/dictionaryApiActions';
+import { updateWordPairs as updateWordPairsLocal } from 'src/actions/dictionaryActions';
+import { updateWordPairs } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
 import WordPairEditDialog from './WordPairEditDialog';
 
@@ -32,10 +32,10 @@ function WordPairEditDialogContainer({
 
       try {
         const data = await dispatch(
-          editWordPairs({ [wordPair.serverId]: preparedPair })
+          updateWordPairs({ [wordPair.serverId]: preparedPair })
         );
         dispatch(
-          editWordPairsLocal([
+          updateWordPairsLocal([
             {
               ...preparedPair,
               oldServerId: wordPair.serverId,
