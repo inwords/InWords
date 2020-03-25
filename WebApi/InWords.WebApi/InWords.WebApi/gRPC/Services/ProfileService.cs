@@ -18,37 +18,6 @@ namespace InWords.WebApi.gRPC.Services
             this.mediator = mediator;
         }
 
-        [Obsolete]
-        // Registration
-        [SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
-        public override async Task<RegistrationReply> Register(RegistrationRequest request, ServerCallContext context)
-        {
-            var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
-
-            RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-
-            if (requestObject.StatusCode != StatusCode.OK)
-            {
-                context.Status = new Status(requestObject.StatusCode, requestObject.Detail);
-            }
-            return reply;
-        }
-
-        [Obsolete]
-        // Token
-        [SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
-        public override async Task<TokenReply> GetToken(TokenRequest request, ServerCallContext context)
-        {
-            var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
-            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-
-            if (requestObject.StatusCode != StatusCode.OK)
-            {
-                context.Status = new Status(requestObject.StatusCode, requestObject.Detail);
-            }
-            return reply;
-        }
-
         [Authorize]
         public override async Task<EmailChangeReply> RequestEmailUpdate(EmailChangeRequest request, ServerCallContext context)
         {
