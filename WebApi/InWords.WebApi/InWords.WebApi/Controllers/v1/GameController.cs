@@ -46,6 +46,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         ///     Returns short information about all games in database
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         [Route("GameInfo")]
         [HttpGet]
         public IActionResult GetGameInfo()

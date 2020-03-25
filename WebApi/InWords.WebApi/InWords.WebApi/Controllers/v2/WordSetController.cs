@@ -61,5 +61,18 @@ namespace InWords.WebApi.Controllers.v2
             };
             return Ok(await mediator.Send(requestObject).ConfigureAwait(false));
         }
+        [Route("sets")]
+        [HttpGet]
+        [SwaggerResponse(StatusCodes.Status200OK, "Words added", typeof(WordSetReply))]
+        public async Task<IActionResult> GetSets()
+        {
+            Empty request = new Empty();
+            var requestObject = new AuthorizedRequestObject<Empty, WordSetReply>(request)
+            {
+                UserId = User.GetUserId()
+            };
+            WordSetReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+            return Ok(reply);
+        }
     }
 }
