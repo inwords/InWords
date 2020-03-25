@@ -33,7 +33,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             {
                 CreationId = game.GameId,
                 Description = description,
-                LanguageId = 1,
+                LanguageId = 2,
                 Title = title,
             };
             context.Add(creationDescription);
