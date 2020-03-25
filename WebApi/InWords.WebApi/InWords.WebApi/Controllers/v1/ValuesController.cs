@@ -4,8 +4,6 @@ using InWords.WebApi.Services.FtpLoader.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 
 namespace InWords.WebApi.Controllers.v1
 {

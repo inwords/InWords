@@ -40,5 +40,17 @@ namespace InWords.WebApi.gRPC.Services
             };
             return await mediator.Send(requestObject).ConfigureAwait(false);
         }
+
+        public override async Task<WordSetReply> GetSets(Empty request, ServerCallContext context)
+        {
+            var requestObject = new AuthorizedRequestObject<Empty, WordSetReply>(request)
+            {
+                UserId = context
+                .GetHttpContext()
+                .User.GetUserId()
+            };
+            WordSetReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+            return reply;
+        }
     }
 }
