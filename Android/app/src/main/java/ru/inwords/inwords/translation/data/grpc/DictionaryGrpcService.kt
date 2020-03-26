@@ -17,7 +17,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class TranslationGrpcService @Inject constructor(
+internal class DictionaryGrpcService @Inject constructor(
     @GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>,
     nativeTokenHolder: NativeTokenHolder
 ) {

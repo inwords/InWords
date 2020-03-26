@@ -10,7 +10,7 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.profile.data.bean.User
-import ru.inwords.inwords.translation.data.grpc.TranslationGrpcService
+import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
 import ru.inwords.inwords.translation.domain.model.EntityIdentificator
 import ru.inwords.inwords.translation.domain.model.PullWordsAnswer
 import ru.inwords.inwords.translation.domain.model.WordTranslation
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
     private val apiServiceAuthorised: ApiServiceAuthorised,
     private val sessionHelper: SessionHelper,
-    private val translationGrpcService: TranslationGrpcService,
+    private val dictionaryGrpcService: DictionaryGrpcService,
     private val wordSetGrpcService: WordSetGrpcService
 ) : WebRequestsManagerAuthorised {
 
@@ -64,21 +64,21 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
 
     override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
         return valve()
-            .flatMap { translationGrpcService.addWords(wordTranslations) }
+            .flatMap { dictionaryGrpcService.addWords(wordTranslations) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
     override fun removeAllByServerId(serverIds: List<Int>): Completable {
         return valve()
-            .flatMapCompletable { translationGrpcService.deleteWords(serverIds) }
+            .flatMapCompletable { dictionaryGrpcService.deleteWords(serverIds) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
     override fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer> {
         return valve()
-            .flatMap { translationGrpcService.pullWords(serverIds) }
+            .flatMap { dictionaryGrpcService.pullWords(serverIds) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
