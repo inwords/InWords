@@ -3,7 +3,6 @@ using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Protobuf;
-using InWords.WebApi.gRPC.Services;
 using InWords.WebApi.Modules.WordsSets;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApiTests.TestUtils;
@@ -12,7 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace InWords.WebApiTests.Services.WordsSets.GetWords
+namespace InWords.WebApiTests.Moduls.WordsSets
 {
     public class GetMarkedWordsHandlerTests
     {

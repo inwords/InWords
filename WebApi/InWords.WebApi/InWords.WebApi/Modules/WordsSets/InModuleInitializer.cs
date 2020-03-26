@@ -7,12 +7,10 @@ namespace InWords.WebApi.Modules.WordsSets
     {
         public override void ConfigureIoc(ContainerBuilder builder)
         {
-            // register password salter service
-            // TODO: move in encryption module folder
-
             // register mediator
             builder.RegisterType<GetMarkedWordsHandler>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<ToDictionaryHandler>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GetWordSetsHandler>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using InWords.Data.Domains;
 using InWords.WebApi.Modules.DictionaryService.Extentions;
 using InWords.WebApiTests.TestUtils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace InWords.WebApiTests.Services.DictionaryService.Extentions
