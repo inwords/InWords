@@ -10,10 +10,10 @@ import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle.GoogleSignedInData
 import ru.inwords.inwords.authorisation.validators.UserCredentialsValidationState
 import ru.inwords.inwords.authorisation.validators.validateUserCredentials
+import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.validation.ValidationResult
-import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 

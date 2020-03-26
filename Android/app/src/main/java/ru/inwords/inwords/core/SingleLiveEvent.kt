@@ -1,4 +1,4 @@
-package ru.inwords.inwords.presentation
+package ru.inwords.inwords.core
 
 import android.util.Log
 
