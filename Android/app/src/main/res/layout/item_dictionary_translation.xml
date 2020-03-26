@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chip"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/chip_height"
+    android:padding="@dimen/space_xsmall"
+    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+    app:chipIcon="@drawable/ic_outline_add_24dp"
+    app:chipIconTint="@color/icon_color_selector_primary"
+    app:iconStartPadding="@dimen/space_xxsmall"
+    tools:text="Это перевод" />

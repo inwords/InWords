@@ -8,15 +8,20 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.translation.converter.WordTranslationValueConverter
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
+import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 import ru.inwords.inwords.translation.data.sync.TranslationSyncController
+import ru.inwords.inwords.translation.domain.model.Definition
+import ru.inwords.inwords.translation.domain.model.LookupDirection
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 
 class TranslationWordsInteractorImpl @Inject
-internal constructor(private val adapterHolder: WordTranslationDeferredAdapterHolder,
-                     private val syncController: TranslationSyncController) : TranslationWordsInteractor {
+internal constructor(
+    private val translationWordsRemoteRepository: TranslationWordsRemoteRepository,
+    private val adapterHolder: WordTranslationDeferredAdapterHolder,
+    private val syncController: TranslationSyncController
+) : TranslationWordsInteractor {
     private val wordTranslationValueConverter = WordTranslationValueConverter()
-
 
     override fun addReplace(wordTranslation: WordTranslation): Completable {
         return addReplaceAll(listOf(wordTranslation))
@@ -47,6 +52,10 @@ internal constructor(private val adapterHolder: WordTranslationDeferredAdapterHo
             wordTranslationValueConverter.reverseList((it as? Resource.Success)?.data ?: emptyList())
         }
             .subscribeOn(SchedulersFacade.io())
+    }
+
+    override fun lookup(text: String, lookupDirection: LookupDirection): Single<List<Definition>> {
+        return translationWordsRemoteRepository.lookup(text, lookupDirection)
     }
 
     override fun presyncOnStart(forceUpdate: Boolean): Completable {

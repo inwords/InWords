@@ -10,9 +10,10 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.bean.*
 import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.profile.data.bean.User
+import ru.inwords.inwords.proto.dictionary.AddWordsReply
+import ru.inwords.inwords.proto.dictionary.LookupReply
+import ru.inwords.inwords.proto.dictionary.WordsReply
 import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
-import ru.inwords.inwords.translation.domain.model.EntityIdentificator
-import ru.inwords.inwords.translation.domain.model.PullWordsAnswer
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -62,7 +63,7 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
+    override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<AddWordsReply> {
         return valve()
             .flatMap { dictionaryGrpcService.addWords(wordTranslations) }
             .interceptError()
@@ -76,9 +77,16 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer> {
+    override fun pullWords(serverIds: List<Int>): Single<WordsReply> {
         return valve()
             .flatMap { dictionaryGrpcService.pullWords(serverIds) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
+    }
+
+    override fun lookup(text: String, lang: String): Single<LookupReply> {
+        return valve()
+            .flatMap { dictionaryGrpcService.lookup(text, lang) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

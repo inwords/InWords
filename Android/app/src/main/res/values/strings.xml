@@ -47,7 +47,7 @@
     <!-- password recovery part3 end -->
 
     <!-- word addition start -->
-    <string name="word_addition_word">Слово или фраза на родном языке</string>
+    <string name="word_addition_word">Слово или фраза на английском языке</string>
     <string name="word_addition_translation">Перевод</string>
     <string name="button_add_text">Добавить</string>
     <string name="button_edit_text">Изменить</string>
