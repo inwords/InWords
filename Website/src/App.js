@@ -8,6 +8,7 @@ import PageProgress from 'src/components/layout/PageProgress';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 import PageContainer from 'src/components/layout/PageContainer';
 import ProfileMenuButton from 'src/components/layout/ProfileMenuButton';
+import NotFound from 'src/components/routes/NotFound';
 import ErrorBoundary from 'src/components/layout/ErrorBoundary';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
@@ -81,6 +82,9 @@ function App() {
               </Route>
               <Route path="/training">
                 <TrainingRouter />
+              </Route>
+              <Route path="*">
+                <NotFound />
               </Route>
             </Switch>
           </Suspense>

@@ -18,7 +18,10 @@ class ErrorBoundary extends Component {
       return (
         <Container component="div" maxWidth="sm">
           <Typography component="h1" variant="h4" gutterBottom>
-            Что-то пошло не так ☹
+            Что-то пошло не так{' '}
+            <span role="img" aria-label="worried-face">
+              &#128543;
+            </span>
           </Typography>
           <Typography variant="body1">
             К сожалению, не удалось загрузить страницу. Проверьте соединение с
