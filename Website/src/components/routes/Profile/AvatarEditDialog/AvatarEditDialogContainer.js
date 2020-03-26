@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { updateUserInfo } from 'src/actions/userActions';
-import { uploadUserAvatar } from 'src/actions/userApiActions';
+import { updateUserInfo } from 'src/actions/profileActions';
+import { uploadUserAvatar } from 'src/actions/profileApiActions';
 import AvatarEditDialog from './AvatarEditDialog';
 
 const initialInputs = {

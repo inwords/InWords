@@ -10,7 +10,7 @@ import CardActions from 'src/components/core/CardActions';
 import Icon from 'src/components/core/Icon';
 import LinkButton from 'src/components/core/LinkButton';
 
-function TrainingLevels({ course }) {
+function Course({ course }) {
   const match = useRouteMatch();
 
   return (
@@ -45,7 +45,7 @@ function TrainingLevels({ course }) {
   );
 }
 
-TrainingLevels.propTypes = {
+Course.propTypes = {
   course: PropTypes.shape({
     levelsInfo: PropTypes.arrayOf(
       PropTypes.shape({
@@ -58,4 +58,4 @@ TrainingLevels.propTypes = {
   }).isRequired
 };
 
-export default TrainingLevels;
+export default Course;

@@ -4,34 +4,32 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializeCourse } from 'src/actions/trainingActions';
 import { receiveCourse } from 'src/actions/trainingApiActions';
-import TrainingLevels from './TrainingLevels';
+import Course from './Course';
 
-function TrainingLevelsContainer() {
+function CourseContainer() {
   const coursesMap = useSelector(store => store.training.coursesMap);
 
   const dispatch = useDispatch();
 
   const params = useParams();
-  const courseId = params.courseId;
+  const wordSetId = params.wordSetId;
 
   React.useEffect(() => {
-    if (!coursesMap[courseId]) {
+    if (!coursesMap[wordSetId]) {
       (async () => {
         try {
-          const data = await dispatch(receiveCourse(courseId));
+          const data = await dispatch(receiveCourse(wordSetId));
           dispatch(initializeCourse(data));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
         }
       })();
     }
-  }, [coursesMap, dispatch, courseId]);
+  }, [coursesMap, dispatch, wordSetId]);
 
   return (
-    Boolean(coursesMap[courseId]) && (
-      <TrainingLevels course={coursesMap[courseId]} />
-    )
+    Boolean(coursesMap[wordSetId]) && <Course course={coursesMap[wordSetId]} />
   );
 }
 
-export default TrainingLevelsContainer;
+export default CourseContainer;

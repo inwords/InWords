@@ -23,7 +23,7 @@ const setup = () => {
   ];
   global.fetch = mockFetch(mockingWordPairsToTrainResponse);
   const utils = renderWithEnvironment(<MainTrainingTypes />, {
-    initialState: { access: { token: accessData.token } }
+    initialState: { auth: { token: accessData.token } }
   });
 
   return {

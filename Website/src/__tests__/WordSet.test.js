@@ -28,13 +28,13 @@ const setup = () => {
   };
   const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
   global.fetch = mockFetch(mockingWordSetResponse);
-  const route = '/training/courses/1/word-set';
+  const route = '/training/courses/1/word-pairs';
   const utils = renderWithEnvironment(
-    <Route path="/training/courses/:courseId/word-set">
+    <Route path="/training/courses/:wordSetId/word-pairs">
       <WordSet />
     </Route>,
     {
-      initialState: { access: { token: accessData.token } },
+      initialState: { auth: { token: accessData.token } },
       route
     }
   );

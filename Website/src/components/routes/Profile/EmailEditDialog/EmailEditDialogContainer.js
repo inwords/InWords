@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { updateEmail } from 'src/actions/accessApiActions';
+import { updateEmail } from 'src/actions/authApiActions';
 import useForm from 'src/hooks/useForm';
 import EmailEditDialog from './EmailEditDialog';
 

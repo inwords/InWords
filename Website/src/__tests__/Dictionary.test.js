@@ -40,7 +40,7 @@ const setup = () => {
       <Dictionary />
     </Route>,
     {
-      initialState: { access: { token: accessData.token } },
+      initialState: { auth: { token: accessData.token } },
       route
     }
   );

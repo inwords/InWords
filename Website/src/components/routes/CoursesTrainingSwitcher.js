@@ -15,12 +15,12 @@ function CoursesTrainingSwitcher(props) {
   const history = useHistory();
   const params = useParams();
 
-  const onResult = ({ levelResult }) => {
-    dispatch(updateLevelResult(params.courseId, levelResult));
+  const handleResultSuccess = ({ levelResult }) => {
+    dispatch(updateLevelResult(params.wordSetId, levelResult));
   };
 
-  const onNextLevel = () => {
-    const course = coursesMap[params.courseId];
+  const handleNextLevel = () => {
+    const course = coursesMap[params.wordSetId];
 
     if (course) {
       const currentLevelIndex = course.levelsInfo.findIndex(
@@ -33,7 +33,7 @@ function CoursesTrainingSwitcher(props) {
 
         if (nextLevel) {
           history.push(
-            `/training/courses/${params.courseId}/${nextLevel.levelId}/${params.trainingId}`
+            `/training/courses/${params.wordSetId}/${nextLevel.levelId}/${params.trainingId}`
           );
 
           return;
@@ -46,8 +46,8 @@ function CoursesTrainingSwitcher(props) {
 
   return (
     <TrainingSwitcher
-      onResult={onResult}
-      onNextLevel={onNextLevel}
+      handleResultSuccess={handleResultSuccess}
+      handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}
       {...props}
     />

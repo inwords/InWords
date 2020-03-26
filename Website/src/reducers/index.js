@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import { DENY_ACCESS } from 'src/actions/accessActions';
+import { DENY_ACCESS } from 'src/actions/authActions';
 import common from './common';
-import access from './access';
-import userInfo from './userInfo';
+import auth from './auth';
+import profile from './profile';
 import dictionary from './dictionary';
 import training from './training';
+import wordSet from './wordSet';
 
 const rootReducer = (state, action) => {
   if (action.type === DENY_ACCESS) {
@@ -13,10 +14,11 @@ const rootReducer = (state, action) => {
 
   const appReducer = combineReducers({
     common,
-    access,
-    userInfo,
+    auth,
+    profile,
     dictionary,
-    training
+    training,
+    wordSet
   });
 
   return appReducer(state, action);

@@ -4,7 +4,7 @@ import {
   endLoading,
   setSnackbar
 } from 'src/actions/commonActions';
-import { denyAccess } from 'src/actions/accessActions';
+import { denyAccess } from 'src/actions/authActions';
 
 const CALL_API = 'CALL_API';
 
@@ -30,7 +30,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
   const headers = new Headers();
 
   if (withCredentials) {
-    const token = getState().access.token;
+    const token = getState().auth.token;
 
     if (!token) {
       history.push('/sign-in');
@@ -79,12 +79,6 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
           onFailure(statusCode);
         }
       }
-    } else if (error instanceof TypeError) {
-      dispatch(
-        setSnackbar({
-          text: 'Не удалось соединиться с сервером'
-        })
-      );
     } else {
       dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
     }

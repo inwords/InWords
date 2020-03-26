@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { updateUserInfo as updateUserInfoLocal } from 'src/actions/userActions';
-import { updateUserInfo } from 'src/actions/userApiActions';
+import { updateUserInfo as updateUserInfoLocal } from 'src/actions/profileActions';
+import { updateUserInfo } from 'src/actions/profileApiActions';
 import useForm from 'src/hooks/useForm';
 import NicknameEditDialog from './NicknameEditDialog';
 
