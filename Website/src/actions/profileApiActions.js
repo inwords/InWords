@@ -5,8 +5,8 @@ export const receiveUserInfo = () => dispatch =>
     dispatch(
       apiAction({
         endpoint: '/users',
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -18,8 +18,8 @@ export const updateUserInfo = userInfo => dispatch =>
         endpoint: '/users',
         method: 'PUT',
         data: JSON.stringify(userInfo),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -33,8 +33,8 @@ export const uploadUserAvatar = formData => dispatch =>
         method: 'PUT',
         data: formData,
         contentType: null,
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );

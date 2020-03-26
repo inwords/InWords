@@ -10,8 +10,8 @@ export const signIn = userData => dispatch =>
         method: 'POST',
         withCredentials: false,
         data: JSON.stringify(userData),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -31,8 +31,8 @@ export const signUp = (userData, isAnonymous = false) => dispatch =>
           password: userData.password,
           isAnonymous
         }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -46,8 +46,8 @@ export const signInOAuth2 = token => dispatch =>
         method: 'POST',
         withCredentials: false,
         data: JSON.stringify({ serviceName: 'google', token }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -60,8 +60,8 @@ export const updateEmail = email => dispatch =>
         endpoint: '/profile/updateEmail',
         method: 'POST',
         data: JSON.stringify({ email }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -74,8 +74,8 @@ export const deleteAccount = reason => dispatch =>
         endpoint: '/profile/delete',
         method: 'DELETE',
         data: JSON.stringify({ text: reason }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );

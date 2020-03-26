@@ -6,8 +6,8 @@ export const receiveWordSets = () => dispatch =>
       apiAction({
         apiVersion: '2',
         endpoint: '/wordSet/sets',
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -20,8 +20,8 @@ export const receiveWordSet = id => dispatch =>
         endpoint: '/wordSet/getWordsList',
         method: 'POST',
         data: JSON.stringify({ wordSetId: id }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -34,8 +34,8 @@ export const addWordSetToDictionary = id => dispatch =>
         endpoint: '/wordSet/to-dictionary',
         method: 'POST',
         data: JSON.stringify({ wordSetId: id }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );

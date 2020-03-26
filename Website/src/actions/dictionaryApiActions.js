@@ -8,8 +8,8 @@ export const syncWordPairs = wordPairIds => dispatch =>
         endpoint: '/dictionary/getWords',
         method: 'POST',
         data: JSON.stringify({ userWordpairIds: wordPairIds }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -22,8 +22,8 @@ export const deleteWordPairs = pairIds => dispatch =>
         endpoint: '/dictionary/deleteWords',
         method: 'POST',
         data: JSON.stringify({ delete: pairIds }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -41,8 +41,8 @@ export const addWordPairs = wordPairs => dispatch =>
             ...wordPair
           }))
         }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -54,8 +54,8 @@ export const updateWordPairs = wordPairsMap => dispatch =>
         endpoint: '/words/updatePair',
         method: 'POST',
         data: JSON.stringify(wordPairsMap),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -72,8 +72,8 @@ export const updateWordPairs = wordPairsMap => dispatch =>
 //           ...wordPair
 //         }))
 //       }),
-//       onSuccess: resolve,
-//       onFailure: reject
+//       resolve,
+//       reject
 //     })
 //   )
 // );
@@ -86,8 +86,8 @@ export const receiveWordTranslations = word => dispatch =>
         endpoint: '/dictionary/lookup',
         method: 'POST',
         data: JSON.stringify({ text: word, lang: 'en-ru' }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );

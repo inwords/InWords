@@ -5,8 +5,8 @@ export const receiveCourse = id => dispatch =>
     dispatch(
       apiAction({
         endpoint: `/game/${id}`,
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -16,8 +16,8 @@ export const receiveLevel = id => dispatch =>
     dispatch(
       apiAction({
         endpoint: `/game/level/${id}`,
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -30,8 +30,8 @@ export const saveLevelResult = levelResult => dispatch =>
         endpoint: '/training/estimate',
         method: 'POST',
         data: JSON.stringify({ metrics: [levelResult] }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -42,8 +42,8 @@ export const receiveHistory = () => dispatch =>
       apiAction({
         apiVersion: '1.1',
         endpoint: '/customLevel/history',
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -54,8 +54,8 @@ export const receiveTrainingWordPairs = () => dispatch =>
       apiAction({
         apiVersion: '1.1',
         endpoint: '/dictionary/training',
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
