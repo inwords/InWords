@@ -10,6 +10,7 @@ function Button({
   variant = 'contained',
   color = 'default',
   fullWidth = false,
+  large = false,
   className,
   ...rest
 }) {
@@ -19,7 +20,8 @@ function Button({
         'button',
         `button--${variant}-${color}`,
         {
-          'button--full-width': fullWidth
+          'button--full-width': fullWidth,
+          'button--large': large
         },
         className
       )}
@@ -35,6 +37,7 @@ Button.propTypes = {
   variant: PropTypes.string,
   color: PropTypes.string,
   fullWidth: PropTypes.bool,
+  large: PropTypes.bool,
   className: PropTypes.string
 };
 

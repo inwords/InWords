@@ -8,11 +8,13 @@ import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
 import Avatar from 'src/components/core/Avatar';
 import Icon from 'src/components/core/Icon';
+import Button from 'src/components/core/Button';
 import EntryFormPaper from 'src/components/routes/common/EntryFormPaper';
 import EntryLinksContainer from 'src/components/routes/common/EntryLinksContainer';
-import EntryButton from 'src/components/routes/common/EntryButton';
+import EntryButtonContainer from 'src/components/routes/common/EntryButtonContainer';
+import GSignInButton from 'src/components/routes/common/GSignInButton';
 
-function SignIn({ inputs, handleChange, handleSubmit }) {
+function SignIn({ inputs, handleChange, handleSubmit, handleSignInOAuth2 }) {
   return (
     <EntryFormPaper>
       <Avatar>
@@ -48,7 +50,14 @@ function SignIn({ inputs, handleChange, handleSubmit }) {
             fullWidth
           />
         </FormGroup>
-        <EntryButton type="submit">Войти</EntryButton>
+        <EntryButtonContainer>
+          <Button type="submit" color="primary" fullWidth large>
+            Войти
+          </Button>
+        </EntryButtonContainer>
+        <EntryButtonContainer>
+          <GSignInButton handleSuccess={handleSignInOAuth2} />
+        </EntryButtonContainer>
         <EntryLinksContainer>
           <Link component={RouterLink} to="/sign-up">
             Нет аккаунта? Зарегистрироваться
@@ -65,7 +74,8 @@ SignIn.propTypes = {
     password: PropTypes.string.isRequired
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  handleSignInOAuth2: PropTypes.func.isRequired
 };
 
 export default SignIn;

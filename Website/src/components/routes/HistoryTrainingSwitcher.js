@@ -12,7 +12,7 @@ function HistoryTrainingSwitcher(props) {
   const history = useHistory();
   const params = useParams();
 
-  const onNextLevel = () => {
+  const handleNextLevel = () => {
     const currentLevelIndex = trainingHistory.recentTrainings.findIndex(
       ({ levelId }) => levelId === +params.levelId
     );
@@ -34,8 +34,8 @@ function HistoryTrainingSwitcher(props) {
 
   return (
     <TrainingSwitcher
-      onResult={null}
-      onNextLevel={onNextLevel}
+      handleResultSuccess={null}
+      handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}
       {...props}
     />

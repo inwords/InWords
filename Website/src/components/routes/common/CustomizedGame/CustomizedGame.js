@@ -17,7 +17,7 @@ function CustomizedGame({
   trainingSettings,
   setTrainingSettings,
   trainingLevel,
-  onNextLevel,
+  handleNextLevel,
   ...rest
 }) {
   const [processedTrainingLevel, setProcessedTrainingLevel] = React.useState();
@@ -113,14 +113,14 @@ function CustomizedGame({
         <Fragment>
           <Game
             trainingLevel={processedTrainingLevel}
-            onNextLevel={() => {
-              onNextLevel();
+            handleNextLevel={() => {
+              handleNextLevel();
 
               if (listOn) {
                 handleOpenWordPairs();
               }
             }}
-            onReplay={() => {
+            handleReplay={() => {
               if (listOn) {
                 handleOpenWordPairs();
               }
@@ -158,7 +158,7 @@ CustomizedGame.propTypes = {
       }).isRequired
     ).isRequired
   }).isRequired,
-  onNextLevel: PropTypes.func.isRequired
+  handleNextLevel: PropTypes.func.isRequired
 };
 
 export default CustomizedGame;

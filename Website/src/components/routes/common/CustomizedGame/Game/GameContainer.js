@@ -32,7 +32,12 @@ const getRandomColorPair = () =>
 const GAME_COMPLETED_TIMEOUT = 1000;
 const RESULT_READY_TIMEOUT = 500;
 
-function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
+function GameContainer({
+  trainingLevel,
+  handleResultSuccess,
+  handleNextLevel,
+  handleReplay
+}) {
   const [wordPairs, setWordPairs] = useState([]);
   const [recentWordPairs, setRecentWordPairs] = useState([]);
   const [newServerLevelId, setNewServerLevelId] = useState(null);
@@ -152,8 +157,8 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
             setWordPairIdOpenCountsMap({});
             setRecentWordPairs(wordPairs);
 
-            if (onResult) {
-              onResult({ levelId, wordPairs, levelResult: data });
+            if (handleResultSuccess) {
+              handleResultSuccess({ levelId, wordPairs, levelResult: data });
             }
 
             setScore(data.classicCardLevelResult[0].score);
@@ -169,8 +174,8 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
     }
   };
 
-  const handleNextLevel = () => {
-    onNextLevel();
+  const handleNextLevelExtended = () => {
+    handleNextLevel();
 
     setIsGameCompleted(false);
     setIsResultReady(false);
@@ -178,8 +183,8 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
     setNewServerLevelId(null);
   };
 
-  const handleReplay = () => {
-    onReplay();
+  const handleReplayExtended = () => {
+    handleReplay();
 
     setIsGameCompleted(false);
     setIsResultReady(false);
@@ -202,8 +207,8 @@ function GameContainer({ trainingLevel, onResult, onNextLevel, onReplay }) {
       wordPairs={wordPairs}
       score={score}
       colorPair={colorPair}
-      handleNextLevel={handleNextLevel}
-      handleReplay={handleReplay}
+      handleNextLevel={handleNextLevelExtended}
+      handleReplay={handleReplayExtended}
     />
   );
 }
@@ -222,9 +227,9 @@ GameContainer.propTypes = {
     voiceOn: PropTypes.bool.isRequired,
     cardSettings: PropTypes.object.isRequired
   }).isRequired,
-  onResult: PropTypes.func,
-  onNextLevel: PropTypes.func.isRequired,
-  onReplay: PropTypes.func.isRequired
+  handleResultSuccess: PropTypes.func,
+  handleNextLevel: PropTypes.func.isRequired,
+  handleReplay: PropTypes.func.isRequired
 };
 
 export default GameContainer;
