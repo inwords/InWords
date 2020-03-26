@@ -14,12 +14,12 @@ import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalDeferredEn
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteDeferredEntryWriteRepository
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteEntriesListPullDao
-import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.translation.converter.WordTranslationValueConverter
+import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 
 class WordTranslationDeferredAdapterFactory internal constructor(
     private val localEntriesListDao: LocalWordTranslationEntriesListDao,
-    private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised
+    private val translationWordsRemoteRepository: TranslationWordsRemoteRepository
 ) {
     private val wordTranslationValueConverter = WordTranslationValueConverter()
 
@@ -44,15 +44,15 @@ class WordTranslationDeferredAdapterFactory internal constructor(
     private val remoteEntriesListPullDao = object : RemoteEntriesListPullDao<WordTranslationValue> {
         override fun createAll(values: List<WordTranslationValue>): Single<List<HasLocalAndServerId>> { //TODO incorrect
             values.forEach { if (it.localId == 0L) Log.wtf("WordTranslationDeferredAdapterFactory", "localId == 0 $it") } //TODO verifier
-            return webRequestsManagerAuthorised.insertAllWords(wordTranslationValueConverter.reverseList(values)).map { it }
+            return translationWordsRemoteRepository.insertAllWords(wordTranslationValueConverter.reverseList(values)).map { it }
         }
 
         override fun deleteAll(serverIds: List<Int>): Completable {
-            return webRequestsManagerAuthorised.removeAllByServerId(serverIds)
+            return translationWordsRemoteRepository.removeAllByServerId(serverIds)
         }
 
         override fun retrieveAll(existingServedIdsProvider: List<Int>): Single<PullResponse<WordTranslationValue>> {
-            return webRequestsManagerAuthorised.pullWords(existingServedIdsProvider).map {
+            return translationWordsRemoteRepository.pullWords(existingServedIdsProvider).map {
                 BasicPullResponse(wordTranslationValueConverter.convertList(it.addedWords), it.removedServerIds)
             }
         }

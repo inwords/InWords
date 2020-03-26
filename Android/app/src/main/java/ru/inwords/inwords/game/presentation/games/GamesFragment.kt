@@ -11,7 +11,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.recycler.VerticalSpaceItemDecoration
+import ru.inwords.inwords.core.recycler.EmptySpaceItemDecoration
 import ru.inwords.inwords.core.recycler.fixOverscrollBehaviour
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
@@ -49,7 +49,7 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewMo
             }
         )
 
-        val dividerItemDecoration = VerticalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.space_medium))
+        val dividerItemDecoration = EmptySpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.space_medium))
 
         with(binding.gamesRecycler) {
             layoutManager = LinearLayoutManager(context)

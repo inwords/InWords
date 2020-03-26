@@ -9,9 +9,6 @@ import ru.inwords.inwords.core.grpc.HeaderAttachingClientInterceptor
 import ru.inwords.inwords.core.utils.unsafeLazy
 import ru.inwords.inwords.dagger.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.proto.dictionary.*
-import ru.inwords.inwords.translation.converter.WordTranslationReplyConverter
-import ru.inwords.inwords.translation.domain.model.EntityIdentificator
-import ru.inwords.inwords.translation.domain.model.PullWordsAnswer
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,8 +23,6 @@ internal class DictionaryGrpcService @Inject constructor(
             .withInterceptors(HeaderAttachingClientInterceptor(nativeTokenHolder))
     }
 
-    private val wordTranslationReplyConverter = WordTranslationReplyConverter()
-
     fun deleteWords(serverIds: List<Int>): Completable {
         val request = DeleteWordsRequest.newBuilder()
             .addAllDelete(serverIds)
@@ -36,7 +31,7 @@ internal class DictionaryGrpcService @Inject constructor(
         return Completable.fromCallable { authenticatorStub.deleteWords(request) }
     }
 
-    fun addWords(words: List<WordTranslation>): Single<List<EntityIdentificator>> {
+    fun addWords(words: List<WordTranslation>): Single<AddWordsReply> {
         val addWordRequestList = words.map {
             AddWordRequest.newBuilder()
                 .setLocalId(it.id.toInt()) //TODO type mismatch
@@ -50,15 +45,22 @@ internal class DictionaryGrpcService @Inject constructor(
             .build()
 
         return Single.fromCallable { authenticatorStub.addWords(request) }
-            .map { list -> list.wordIdsList.map { EntityIdentificator(it.localId.toLong(), it.serverId) } }
     }
 
-    fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer> {
+    fun pullWords(serverIds: List<Int>): Single<WordsReply> {
         val request = GetWordsRequest.newBuilder()
             .addAllUserWordpairIds(serverIds)
             .build()
 
         return Single.fromCallable { authenticatorStub.getWords(request) }
-            .map { PullWordsAnswer(it.toDeleteList, wordTranslationReplyConverter.convertList(it.toAddList)) }
+    }
+
+    fun lookup(text: String, lang: String): Single<LookupReply> {
+        val request = LookupRequest.newBuilder()
+            .setLang(lang)
+            .setText(text)
+            .build()
+
+        return Single.fromCallable { authenticatorStub.lookup(request) }
     }
 }
