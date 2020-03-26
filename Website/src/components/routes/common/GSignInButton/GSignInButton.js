@@ -6,25 +6,6 @@ import './GSignInButton.css';
 
 function GSignInButton({ handleSuccess, handleFailure }) {
   useScript(
-    'https://apis.google.com/js/api.js',
-    React.useCallback(() => {
-      const params = {
-        client_id: process.env.WEB_CLIENT_ID
-      };
-
-      window.gapi.load('auth2', async () => {
-        if (!window.gapi.auth2.getAuthInstance()) {
-          try {
-            await window.gapi.auth2.init(params);
-          } catch (error) {
-            // die
-          }
-        }
-      });
-    }, [])
-  );
-
-  useScript(
     'https://apis.google.com/js/platform.js?onload=renderButton',
     () => {
       window.gapi.signin2.render('g-signin2', {
