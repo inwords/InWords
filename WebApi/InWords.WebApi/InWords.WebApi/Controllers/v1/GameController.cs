@@ -4,7 +4,6 @@ using InWords.Data.Enums;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.GameService;
-using InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
