@@ -23,8 +23,8 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     withCredentials = true,
     data = null,
     contentType = 'application/json',
-    onSuccess,
-    onFailure
+    resolve,
+    reject
   } = action.payload;
 
   const headers = new Headers();
@@ -58,26 +58,21 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     }
 
     let responseData = null;
-
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json')) {
       responseData = await response.json();
     }
-
-    if (onSuccess) {
-      onSuccess(responseData);
+    if (resolve) {
+      resolve(responseData);
     }
   } catch (error) {
     if (error instanceof HttpError) {
       const statusCode = error.statusCode;
-
       if (statusCode === 401) {
         dispatch(denyAccess());
         history.push('/sign-in');
-      } else {
-        if (onFailure) {
-          onFailure(statusCode);
-        }
+      } else if (reject) {
+        reject(statusCode);
       }
     } else {
       dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
@@ -96,5 +91,4 @@ class HttpError extends Error {
 }
 
 export { CALL_API };
-
 export default apiMiddleware;
