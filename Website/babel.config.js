@@ -1,11 +1,13 @@
 module.exports = {
-  presets: ['@babel/preset-env', '@babel/preset-react'],
-  plugins: [
+  presets: [
     [
-      '@babel/plugin-transform-runtime',
+      '@babel/preset-env',
       {
-        regenerator: true
+        targets: {
+          node: 'current'
+        }
       }
-    ]
+    ],
+    '@babel/preset-react'
   ]
 };
