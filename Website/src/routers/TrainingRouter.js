@@ -16,11 +16,9 @@ const MainTrainingSwitcher = lazy(() =>
 const HistoryTrainingSwitcher = lazy(() =>
   import('src/components/routes/HistoryTrainingSwitcher')
 );
-const Courses = lazy(() => import('src/components/routes/Courses'));
+const WordSets = lazy(() => import('src/components/routes/WordSets'));
 const WordSet = lazy(() => import('src/components/routes/WordSet'));
-const TrainingLevels = lazy(() =>
-  import('src/components/routes/TrainingLevels')
-);
+const Course = lazy(() => import('src/components/routes/Course'));
 const CoursesTrainingSwitcher = lazy(() =>
   import('src/components/routes/CoursesTrainingSwitcher')
 );
@@ -79,18 +77,18 @@ function TrainingRouter() {
       />
       <Route exact path={`${url}/courses`}>
         <Container maxWidth="lg">
-          <Courses />
+          <WordSets />
         </Container>
       </Route>
       <Route
         exact
-        path={`${url}/courses/:courseId/word-set`}
+        path={`${url}/courses/:wordSetId/word-pairs`}
         render={({ match: { params } }) => (
           <Container maxWidth="md">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
               <BreadcrumbsLink
-                to={`${url}/courses/${params.courseId}/word-set`}
+                to={`${url}/courses/${params.wordSetId}/word-pairs`}
               >
                 Набор слов
               </BreadcrumbsLink>
@@ -101,31 +99,31 @@ function TrainingRouter() {
       />
       <Route
         exact
-        path={`${url}/courses/:courseId`}
+        path={`${url}/courses/:wordSetId`}
         render={({ match: { params } }) => (
           <Container maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/courses/${params.courseId}`}>
+              <BreadcrumbsLink to={`${url}/courses/${params.wordSetId}`}>
                 Уровни
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <TrainingLevels />
+            <Course />
           </Container>
         )}
       />
       <Route
         exact
-        path={`${url}/courses/:courseId/:levelId/:trainingId`}
+        path={`${url}/courses/:wordSetId/:levelId/:trainingId`}
         render={({ match: { params } }) => (
           <Container maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/courses/${params.courseId}`}>
+              <BreadcrumbsLink to={`${url}/courses/${params.wordSetId}`}>
                 Уровни
               </BreadcrumbsLink>
               <BreadcrumbsLink
-                to={`${url}/courses/${params.courseId}/${params.levelId}/${params.trainingId}`}
+                to={`${url}/courses/${params.wordSetId}/${params.levelId}/${params.trainingId}`}
               >
                 Тренировка
               </BreadcrumbsLink>

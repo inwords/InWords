@@ -7,7 +7,6 @@ import configureStore from './configureStore';
 import App from './App';
 
 import 'normalize.css';
-
 import 'src/fonts/index.css';
 import 'src/theme/theme.scss';
 

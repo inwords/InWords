@@ -9,7 +9,7 @@ function MainTrainingSwitcher(props) {
 
   const dispatch = useDispatch();
 
-  const onResult = ({ levelId, wordPairs }) => {
+  const handleResultSuccess = ({ levelId, wordPairs }) => {
     dispatch(
       removeLevelWordPairs(
         levelId,
@@ -18,7 +18,7 @@ function MainTrainingSwitcher(props) {
     );
   };
 
-  const onNextLevel = () => {
+  const handleNextLevel = () => {
     if (!trainingLevel || !trainingLevel.wordTranslations.length) {
       history.push('/training/main/0');
     }
@@ -26,8 +26,8 @@ function MainTrainingSwitcher(props) {
 
   return (
     <TrainingSwitcher
-      onResult={onResult}
-      onNextLevel={onNextLevel}
+      handleResultSuccess={handleResultSuccess}
+      handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}
       {...props}
     />

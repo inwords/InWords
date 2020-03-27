@@ -7,9 +7,9 @@ export const syncWordPairs = wordPairIds => dispatch =>
         apiVersion: '2',
         endpoint: '/dictionary/getWords',
         method: 'POST',
-        data: JSON.stringify({ UserWordpairIds: wordPairIds }),
-        onSuccess: resolve,
-        onFailure: reject
+        data: JSON.stringify({ userWordpairIds: wordPairIds }),
+        resolve,
+        reject
       })
     )
   );
@@ -18,11 +18,12 @@ export const deleteWordPairs = pairIds => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        endpoint: '/words/deletePair',
+        apiVersion: '2',
+        endpoint: '/dictionary/deleteWords',
         method: 'POST',
-        data: JSON.stringify(pairIds),
-        onSuccess: resolve,
-        onFailure: reject
+        data: JSON.stringify({ delete: pairIds }),
+        resolve,
+        reject
       })
     )
   );
@@ -35,27 +36,58 @@ export const addWordPairs = wordPairs => dispatch =>
         endpoint: '/dictionary/addWords',
         method: 'POST',
         data: JSON.stringify({
-          Words: wordPairs.map(({ wordNative, wordForeign }, index) => ({
-            LocalId: index,
-            WordForeign: wordForeign,
-            WordNative: wordNative
+          words: wordPairs.map((wordPair, index) => ({
+            localId: index,
+            ...wordPair
           }))
         }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
 
-export const editWordPairs = wordPairsMap => dispatch =>
+export const updateWordPairs = wordPairsMap => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
         endpoint: '/words/updatePair',
         method: 'POST',
         data: JSON.stringify(wordPairsMap),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
+      })
+    )
+  );
+// new Promise((resolve, reject) =>
+//   dispatch(
+//     apiAction({
+//       apiVersion: '2',
+//       endpoint: '/dictionary/updateWords',
+//       method: 'POST',
+//       data: JSON.stringify({
+//         words: wordPairs.map((wordPair, index) => ({
+//           localId: index,
+//           deleteId: wordPair.serverId,
+//           ...wordPair
+//         }))
+//       }),
+//       resolve,
+//       reject
+//     })
+//   )
+// );
+
+export const receiveWordTranslations = word => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        apiVersion: '2',
+        endpoint: '/dictionary/lookup',
+        method: 'POST',
+        data: JSON.stringify({ text: word, lang: 'en-ru' }),
+        resolve,
+        reject
       })
     )
   );

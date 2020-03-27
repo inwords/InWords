@@ -40,7 +40,7 @@ const setup = () => {
       <Dictionary />
     </Route>,
     {
-      initialState: { access: { token: accessData.token } },
+      initialState: { auth: { token: accessData.token } },
       route
     }
   );
@@ -200,7 +200,8 @@ test('find word pair', async () => {
     jest.runAllTimers();
   });
   jest.useRealTimers();
+  await Promise.resolve();
 
-  expect(utils.queryByText(rightWordPair.wordForeign)).toBeTruthy();
+  expect(utils.getByText(rightWordPair.wordForeign)).toBeTruthy();
   expect(utils.queryByText(anotherWordPair.wordForeign)).toBeNull();
 });

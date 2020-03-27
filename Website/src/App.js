@@ -8,9 +8,11 @@ import PageProgress from 'src/components/layout/PageProgress';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 import PageContainer from 'src/components/layout/PageContainer';
 import ProfileMenuButton from 'src/components/layout/ProfileMenuButton';
+import NotFound from 'src/components/routes/NotFound';
 import ErrorBoundary from 'src/components/layout/ErrorBoundary';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
+import useOAuth2 from 'src/hooks/useOAuth2';
 
 const SignIn = lazy(() => import('src/components/routes/SignIn'));
 const SignUp = lazy(() => import('src/components/routes/SignUp'));
@@ -42,7 +44,9 @@ const routes = [
 ];
 
 function App() {
-  const userId = useSelector(store => store.access.userId);
+  const userId = useSelector(store => store.auth.userId);
+
+  useOAuth2();
 
   return (
     <Router history={history}>
@@ -81,6 +85,9 @@ function App() {
               </Route>
               <Route path="/training">
                 <TrainingRouter />
+              </Route>
+              <Route path="*">
+                <NotFound />
               </Route>
             </Switch>
           </Suspense>

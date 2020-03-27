@@ -27,11 +27,11 @@ const setup = () => {
   global.fetch = mockFetch(mockingTrainingLevelResponse);
   const route = `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`;
   const utils = renderWithEnvironment(
-    <Route path="/training/courses/:courseId/:levelId/:trainingId">
+    <Route path="/training/courses/:wordSetId/:levelId/:trainingId">
       <CoursesTrainingSwitcher />
     </Route>,
     {
-      initialState: { access: { token: accessData.token } },
+      initialState: { auth: { token: accessData.token } },
       route
     }
   );

@@ -25,7 +25,7 @@ const setup = () => {
       <TrainingHistory />
     </Route>,
     {
-      initialState: { access: { token: accessData.token } },
+      initialState: { auth: { token: accessData.token } },
       route
     }
   );

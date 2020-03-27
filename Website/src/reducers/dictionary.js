@@ -2,7 +2,7 @@ import {
   SYNC_WORD_PAIRS,
   DELETE_WORD_PAIRS,
   ADD_WORD_PAIRS,
-  EDIT_WORD_PAIRS,
+  UPDATE_WORD_PAIRS,
   RESET_WORD_PAIRS_ACTUALITY
 } from 'src/actions/dictionaryActions';
 
@@ -59,7 +59,7 @@ const dictionary = (
         wordPairs: Object.values(wordPairsMap).sort(lexicographicalComparison)
       };
     }
-    case EDIT_WORD_PAIRS: {
+    case UPDATE_WORD_PAIRS: {
       const wordPairs = state.wordPairs.map(wordPair => {
         const foundEditedWordPair = action.payload.find(
           ({ oldServerId }) => oldServerId === wordPair.serverId

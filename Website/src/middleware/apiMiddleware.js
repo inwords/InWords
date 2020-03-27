@@ -4,7 +4,7 @@ import {
   endLoading,
   setSnackbar
 } from 'src/actions/commonActions';
-import { denyAccess } from 'src/actions/accessActions';
+import { denyAccess } from 'src/actions/authActions';
 
 const CALL_API = 'CALL_API';
 
@@ -23,14 +23,14 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     withCredentials = true,
     data = null,
     contentType = 'application/json',
-    onSuccess,
-    onFailure
+    resolve,
+    reject
   } = action.payload;
 
   const headers = new Headers();
 
   if (withCredentials) {
-    const token = getState().access.token;
+    const token = getState().auth.token;
 
     if (!token) {
       history.push('/sign-in');
@@ -58,33 +58,22 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     }
 
     let responseData = null;
-
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json')) {
       responseData = await response.json();
     }
-
-    if (onSuccess) {
-      onSuccess(responseData);
+    if (resolve) {
+      resolve(responseData);
     }
   } catch (error) {
     if (error instanceof HttpError) {
       const statusCode = error.statusCode;
-
       if (statusCode === 401) {
         dispatch(denyAccess());
         history.push('/sign-in');
-      } else {
-        if (onFailure) {
-          onFailure(statusCode);
-        }
+      } else if (reject) {
+        reject(statusCode);
       }
-    } else if (error instanceof TypeError) {
-      dispatch(
-        setSnackbar({
-          text: 'Не удалось соединиться с сервером'
-        })
-      );
     } else {
       dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
     }
@@ -102,5 +91,4 @@ class HttpError extends Error {
 }
 
 export { CALL_API };
-
 export default apiMiddleware;

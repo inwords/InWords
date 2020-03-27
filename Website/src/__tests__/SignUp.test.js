@@ -37,7 +37,7 @@ test('sign up successfully', async () => {
 
   await waitFor(() => {
     expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-      access: utils.mockingAccessResponse
+      auth: utils.mockingAccessResponse
     });
   });
 });
@@ -48,7 +48,7 @@ test('sign up as guest successfully', async () => {
 
   await waitFor(() => {
     expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-      access: utils.mockingAccessResponse
+      auth: utils.mockingAccessResponse
     });
   });
 });

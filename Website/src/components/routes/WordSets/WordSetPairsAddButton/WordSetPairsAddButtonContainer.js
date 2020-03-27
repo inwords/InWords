@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { resetWordPairsActuality } from 'src/actions/dictionaryActions';
-import { addCourseWordPairsToDictionary } from 'src/actions/trainingApiActions';
-import CourseWordPairsAddButton from './CourseWordPairsAddButton';
+import { addWordSetToDictionary } from 'src/actions/wordSetApiActions';
+import WordSetPairsAddButton from './WordSetPairsAddButton';
 
-function CourseWordPairsAddButtonContainer({ gameId }) {
+function WordSetPairsAddButtonContainer({ gameId }) {
   const dispatch = useDispatch();
 
   const handleAdd = async () => {
     try {
-      const data = await dispatch(addCourseWordPairsToDictionary(gameId));
+      const data = await dispatch(addWordSetToDictionary(gameId));
       dispatch(
         setSnackbar({ text: `Добавлено новых слов: ${data.wordsAdded}` })
       );
@@ -21,11 +21,11 @@ function CourseWordPairsAddButtonContainer({ gameId }) {
     }
   };
 
-  return <CourseWordPairsAddButton gameId={gameId} handleAdd={handleAdd} />;
+  return <WordSetPairsAddButton gameId={gameId} handleAdd={handleAdd} />;
 }
 
-CourseWordPairsAddButtonContainer.propTypes = {
+WordSetPairsAddButtonContainer.propTypes = {
   gameId: PropTypes.number.isRequired
 };
 
-export default CourseWordPairsAddButtonContainer;
+export default WordSetPairsAddButtonContainer;

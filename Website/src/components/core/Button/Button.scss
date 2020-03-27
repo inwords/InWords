@@ -99,4 +99,9 @@
   &--full-width {
     width: 100%;
   }
+
+  &--large {
+    height: 40px;
+    min-width: 120px;
+  }
 }

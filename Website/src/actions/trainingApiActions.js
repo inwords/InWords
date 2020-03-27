@@ -1,61 +1,23 @@
 import apiAction from './apiAction';
 
-export const receiveCourses = () => dispatch =>
+export const receiveCourse = id => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        endpoint: '/game/gameInfo',
-        onSuccess: resolve,
-        onFailure: reject
+        endpoint: `/game/${id}`,
+        resolve,
+        reject
       })
     )
   );
 
-export const receiveCourse = courseId => dispatch =>
+export const receiveLevel = id => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        endpoint: `/game/${courseId}`,
-        onSuccess: resolve,
-        onFailure: reject
-      })
-    )
-  );
-
-export const receiveWordSet = courseId => dispatch =>
-  new Promise((resolve, reject) =>
-    dispatch(
-      apiAction({
-        apiVersion: '2',
-        endpoint: '/wordSet/getWordsList',
-        method: 'POST',
-        data: JSON.stringify({ WordSetId: courseId }),
-        onSuccess: resolve,
-        onFailure: reject
-      })
-    )
-  );
-
-export const addCourseWordPairsToDictionary = courseId => dispatch =>
-  new Promise((resolve, reject) =>
-    dispatch(
-      apiAction({
-        endpoint: '/game/addWordsToUserDictionary',
-        method: 'POST',
-        data: JSON.stringify(courseId),
-        onSuccess: resolve,
-        onFailure: reject
-      })
-    )
-  );
-
-export const receiveLevel = levelId => dispatch =>
-  new Promise((resolve, reject) =>
-    dispatch(
-      apiAction({
-        endpoint: `/game/level/${levelId}`,
-        onSuccess: resolve,
-        onFailure: reject
+        endpoint: `/game/level/${id}`,
+        resolve,
+        reject
       })
     )
   );
@@ -68,8 +30,8 @@ export const saveLevelResult = levelResult => dispatch =>
         endpoint: '/training/estimate',
         method: 'POST',
         data: JSON.stringify({ metrics: [levelResult] }),
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -80,8 +42,8 @@ export const receiveHistory = () => dispatch =>
       apiAction({
         apiVersion: '1.1',
         endpoint: '/customLevel/history',
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );
@@ -92,8 +54,8 @@ export const receiveTrainingWordPairs = () => dispatch =>
       apiAction({
         apiVersion: '1.1',
         endpoint: '/dictionary/training',
-        onSuccess: resolve,
-        onFailure: reject
+        resolve,
+        reject
       })
     )
   );

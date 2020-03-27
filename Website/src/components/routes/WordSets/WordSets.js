@@ -12,15 +12,15 @@ import LinkButton from 'src/components/core/LinkButton';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
-import TrainingCategoryWordPairsAddButton from './CourseWordPairsAddButton';
+import WordSetPairsAddButton from './WordSetPairsAddButton';
 
-function Courses({ courses }) {
+function WordSets({ wordSets }) {
   const match = useRouteMatch();
 
   return (
     <Grid spacing={3}>
-      {courses.map(({ gameId, title, description }) => (
-        <GridItem key={gameId} xs={12} sm={6} md={4} lg={3}>
+      {wordSets.map(({ id, title, description }) => (
+        <GridItem key={id} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardHeader title={title} />
             <CardContent>
@@ -28,9 +28,9 @@ function Courses({ courses }) {
             </CardContent>
             <CardActions>
               <LinkButton
-                data-testid={`to-course-${gameId}`}
+                data-testid={`to-course-${id}`}
                 component={Link}
-                to={`${match.url}/${gameId}`}
+                to={`${match.url}/${id}`}
                 variant="text"
                 color="primary"
               >
@@ -38,13 +38,13 @@ function Courses({ courses }) {
               </LinkButton>
               <Space />
               <IconButton
-                data-testid={`to-course-${gameId}-word-set`}
+                data-testid={`to-word-set-${id}`}
                 component={Link}
-                to={`${match.url}/${gameId}/word-set`}
+                to={`${match.url}/${id}/word-pairs`}
               >
                 <Icon>list</Icon>
               </IconButton>
-              <TrainingCategoryWordPairsAddButton gameId={gameId} />
+              <WordSetPairsAddButton gameId={id} />
             </CardActions>
           </Card>
         </GridItem>
@@ -53,15 +53,14 @@ function Courses({ courses }) {
   );
 }
 
-Courses.propTypes = {
-  courses: PropTypes.arrayOf(
+WordSets.propTypes = {
+  wordSets: PropTypes.arrayOf(
     PropTypes.shape({
-      gameId: PropTypes.number.isRequired,
+      id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      isAvailable: PropTypes.bool.isRequired
+      description: PropTypes.string.isRequired
     }).isRequired
   ).isRequired
 };
 
-export default Courses;
+export default WordSets;

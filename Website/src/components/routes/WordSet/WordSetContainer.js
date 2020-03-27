@@ -2,9 +2,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeWordSet, updateWordSet } from 'src/actions/trainingActions';
+import { initializeWordSet, updateWordSet } from 'src/actions/wordSetActions';
 import { addWordPairs as addWordPairsLocal } from 'src/actions/dictionaryActions';
-import { receiveWordSet } from 'src/actions/trainingApiActions';
+import { receiveWordSet } from 'src/actions/wordSetApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
 import Paper from 'src/components/core/Paper';
@@ -12,10 +12,10 @@ import WordSetToolbar from './WordSetToolbar';
 import WordSet from './WordSet';
 
 function WordSetContainer() {
-  const wordSetsMap = useSelector(store => store.training.wordSetsMap);
+  const wordPairsMap = useSelector(store => store.wordSet.wordPairsMap);
 
   const params = useParams();
-  const courseId = params.courseId;
+  const wordSetId = params.wordSetId;
 
   const dispatch = useDispatch();
 
@@ -24,19 +24,19 @@ function WordSetContainer() {
   React.useEffect(() => {
     (async () => {
       try {
-        const data = await dispatch(receiveWordSet(courseId));
-        dispatch(initializeWordSet(courseId, data));
+        const data = await dispatch(receiveWordSet(wordSetId));
+        dispatch(initializeWordSet(wordSetId, data));
       } catch (error) {
         dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
       }
     })();
-  }, [dispatch, courseId]);
+  }, [dispatch, wordSetId]);
 
   const handleReset = () => {
     setCheckedValues([]);
   };
 
-  const wordSet = wordSetsMap[courseId] || [];
+  const wordSet = wordPairsMap[wordSetId] || [];
 
   const [selectionAvailable, setSelectionAvailable] = React.useState(true);
 
@@ -67,7 +67,7 @@ function WordSetContainer() {
           }))
         )
       );
-      dispatch(updateWordSet(courseId, newWordPairs));
+      dispatch(updateWordSet(wordSetId, newWordPairs));
       dispatch(
         setSnackbar({
           text: `Добавлено новых слов: ${newWordPairs.length}`

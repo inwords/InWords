@@ -8,15 +8,18 @@ import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
 import Avatar from 'src/components/core/Avatar';
 import Icon from 'src/components/core/Icon';
+import Button from 'src/components/core/Button';
 import EntryFormPaper from 'src/components/routes/common/EntryFormPaper';
 import EntryLinksContainer from 'src/components/routes/common/EntryLinksContainer';
-import EntryButton from 'src/components/routes/common/EntryButton';
+import EntryButtonContainer from 'src/components/routes/common/EntryButtonContainer';
+import GSignInButton from 'src/components/routes/common/GSignInButton';
 
 function SignUp({
   inputs,
   handleChange,
   handleSubmit,
-  handleSubmitAnonymously
+  handleSubmitAnonymously,
+  handleSignInOAuth2
 }) {
   return (
     <EntryFormPaper>
@@ -53,14 +56,25 @@ function SignUp({
             fullWidth
           />
         </FormGroup>
-        <EntryButton type="submit">Зарегистрироваться</EntryButton>
-        <EntryButton
-          type="button"
-          color="default"
-          onClick={handleSubmitAnonymously}
-        >
-          Войти гостем
-        </EntryButton>
+        <EntryButtonContainer>
+          <Button type="submit" color="primary" fullWidth large>
+            Зарегистрироваться
+          </Button>
+        </EntryButtonContainer>
+        <EntryButtonContainer>
+          <Button
+            type="button"
+            color="default"
+            onClick={handleSubmitAnonymously}
+            fullWidth
+            large
+          >
+            Войти гостем
+          </Button>
+        </EntryButtonContainer>
+        <EntryButtonContainer>
+          <GSignInButton handleSuccess={handleSignInOAuth2} />
+        </EntryButtonContainer>
         <EntryLinksContainer>
           <Link component={RouterLink} to="/sign-in">
             Уже есть аккаунт? Войти
@@ -78,7 +92,8 @@ SignUp.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  handleSubmitAnonymously: PropTypes.func.isRequired
+  handleSubmitAnonymously: PropTypes.func.isRequired,
+  handleSignInOAuth2: PropTypes.func.isRequired
 };
 
 export default SignUp;

@@ -1,11 +1,11 @@
-import { GRANT_ACCESS } from 'src/actions/accessActions';
+import { GRANT_ACCESS } from 'src/actions/authActions';
 
 const initialState = {
   token: null,
   userId: null
 };
 
-const access = (state = initialState, action) => {
+const auth = (state = initialState, action) => {
   if (action.type === GRANT_ACCESS) {
     const payload = action.payload;
 
@@ -18,4 +18,4 @@ const access = (state = initialState, action) => {
   return state;
 };
 
-export default access;
+export default auth;

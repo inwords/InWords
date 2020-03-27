@@ -1,7 +1,7 @@
 import {
   INITIALIZE_USER_INFO,
   UPDATE_USER_INFO
-} from 'src/actions/userActions';
+} from 'src/actions/profileActions';
 
 const initialState = {
   userId: null,
@@ -14,7 +14,7 @@ const initialState = {
   }
 };
 
-const userInfo = (state = initialState, action) => {
+const profile = (state = initialState, action) => {
   switch (action.type) {
     case INITIALIZE_USER_INFO: {
       const payload = action.payload;
@@ -40,4 +40,4 @@ const userInfo = (state = initialState, action) => {
   }
 };
 
-export default userInfo;
+export default profile;
