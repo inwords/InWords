@@ -7,12 +7,16 @@ import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.game.data.bean.GameLevel
+import ru.inwords.inwords.game.data.bean.GameResponse
+import ru.inwords.inwords.game.data.bean.LevelScore
+import ru.inwords.inwords.game.data.bean.TrainingEstimateRequest
 import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.proto.dictionary.AddWordsReply
 import ru.inwords.inwords.proto.dictionary.LookupReply
 import ru.inwords.inwords.proto.dictionary.WordsReply
+import ru.inwords.inwords.proto.word_set.WordSetReply
 import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
@@ -91,9 +95,9 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getGameInfos(): Single<List<GameInfoResponse>> {
+    override fun getGameInfos(): Single<WordSetReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getGameInfos() }
+            .flatMap { wordSetGrpcService.getWordSets() }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

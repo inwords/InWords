@@ -4,7 +4,7 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import ru.inwords.inwords.game.data.bean.GameInfoResponse;
+import ru.inwords.inwords.game.data.bean.GameInfoEntity;
 import ru.inwords.inwords.game.data.bean.GameLevel;
 import ru.inwords.inwords.game.data.bean.GameResponse;
 import ru.inwords.inwords.game.data.bean.LevelScoreRequest;
@@ -25,7 +25,7 @@ import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredEntry
         User.class,
         GameResponse.class,
         GameLevel.class,
-        GameInfoResponse.class,
+        GameInfoEntity.class,
         LevelScoreRequest.class,
         WordTranslationDeferredEntry.class
 }, version = 5)

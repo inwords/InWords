@@ -9,8 +9,9 @@ import javax.inject.Singleton
 
 @Singleton
 class GameRemoteRepository @Inject constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised) {
-    fun getGameInfos(): Single<List<GameInfoResponse>> {
+    fun getGameInfos(): Single<List<GameInfoEntity>> {
         return webRequestsManagerAuthorised.getGameInfos()
+            .map { wordSetReply -> wordSetReply.wordSetsList.map { GameInfoEntity(it.id, -1, it.description, it.title, true) } }
     }
 
     fun getGame(gameId: Int): Single<GameResponse> {
