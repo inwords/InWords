@@ -4,7 +4,6 @@ using InWords.Data.Enums;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Services.GameService;
-using InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,21 +38,6 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
             this.creationRepository = creationRepository;
             this.gameLevelWordService = gameLevelWordService;
             this.gameService = gameService;
-        }
-
-
-        /// <summary>
-        ///     Returns short information about all games in database
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete]
-        [Route("GameInfo")]
-        [HttpGet]
-        public IActionResult GetGameInfo()
-        {
-            IEnumerable<GameInfo> answer = gameService.GetGames();
-
-            return Ok(answer);
         }
 
         /// <summary>
@@ -109,46 +93,5 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
 
             return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
         }
-
-        /// <summary>
-        /// Adds words to the user dictionary by GameId avoiding existing ones
-        /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     POST /AddWordsToUserDictionary
-        ///     
-        ///     42 // id of the game
-        ///                
-        /// </remarks>
-        /// <param name="gameId">Game Id from which to take the words</param>
-        /// <response code="200">Count of added words</response>
-        /// <returns>Count of adding words</returns>
-        [HttpPost]
-        [Obsolete]
-        [Route("AddWordsToUserDictionary")]
-        [ProducesResponseType(typeof(GameToUserQueryResult), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddWordsToUserDictionary([FromBody] int gameId)
-        {
-            int userId = User.GetUserId();
-            var query = new GameToUserQuery(userId, gameId);
-            GameToUserQueryResult result = await mediator.Send(query).ConfigureAwait(false);
-            return Ok(result);
-        }
     }
 }
-
-///// <summary>
-///// Creates a TodoItem.
-///// </summary>
-///// <remarks>
-///// Sample request:
-/////
-/////     POST /Todo
-/////     {
-/////        "id": 1,
-/////        "name": "Item1",
-/////        "isComplete": true
-/////     }
-/////
-///// </remarks>
