@@ -20,21 +20,10 @@ function WordlistContainer({ wordPairs, ...rest }) {
       setListHeight(window.innerHeight - heightOffset);
     }, 200);
 
-    const onOrientationChange = () => {
-      const afterOrientationChange = () => {
-        setListHeight(window.innerHeight - heightOffset);
-        removeEventListener('resize', afterOrientationChange);
-      };
-
-      addEventListener('resize', afterOrientationChange);
-    };
-
     addEventListener('resize', onResize);
-    addEventListener('orientationchange', onOrientationChange);
 
     return () => {
       removeEventListener('resize', onResize);
-      removeEventListener('orientationchange', onOrientationChange);
     };
   }, [listHeight]);
 

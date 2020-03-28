@@ -6,6 +6,8 @@ import Input from 'src/components/core/Input';
 
 import './TextField.scss';
 
+const isFilled = obj => Boolean(obj && obj.value != null && obj.value !== '');
+
 const TextField = React.forwardRef(function TextField(
   {
     id,
@@ -28,24 +30,26 @@ const TextField = React.forwardRef(function TextField(
   },
   ref
 ) {
-  const [filled, setFilled] = React.useState(Boolean(value));
+  const { current: isControlled } = React.useRef(value != null);
+
+  const [filled, setFilled] = React.useState(false);
   const [focused, setFocused] = React.useState(false);
 
   const inputRef = React.useRef();
   const combinedRef = useCombinedRefs(ref, inputRef);
 
   React.useEffect(() => {
-    setFilled(Boolean(combinedRef.current.value));
-  }, [combinedRef]);
+    setFilled(isFilled(inputRef.current));
+  }, [inputRef]);
 
   React.useEffect(() => {
-    if (value !== undefined) {
-      setFilled(Boolean(value));
+    if (isControlled) {
+      setFilled(isFilled({ value }));
     }
-  }, [value]);
+  }, [isControlled, value]);
 
   const handleInputChange = event => {
-    setFilled(Boolean(event.target.value));
+    setFilled(isFilled(event.target));
 
     if (onChange) {
       onChange(event);
@@ -66,6 +70,16 @@ const TextField = React.forwardRef(function TextField(
     if (onBlur) {
       onBlur(event);
     }
+  };
+
+  const handleAutoFill = event => {
+    setFilled(
+      isFilled(
+        event.animationName === 'onAutoFillCancel'
+          ? inputRef.current
+          : { value: '_' }
+      )
+    );
   };
 
   return (
@@ -104,6 +118,7 @@ const TextField = React.forwardRef(function TextField(
         onChange={handleInputChange}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
+        onAnimationStart={handleAutoFill}
         multiline={multiline}
         className="text-field__input"
         {...inputProps}
