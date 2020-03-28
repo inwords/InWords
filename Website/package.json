@@ -9,7 +9,7 @@
     "lint": "eslint src/**/*.js",
     "stylelint": "stylelint src/**/*.{css,scss}",
     "test": "jest",
-    "coverage": "jest --collectCoverage --coverageReporters=cobertura"
+    "coverage": "jest --coverage --coverageReporters=cobertura"
   },
   "author": "Prometium",
   "license": "ISC",

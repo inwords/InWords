@@ -1,15 +1,12 @@
 import React, { Fragment } from 'react';
 import { fireEvent, waitFor } from '@testing-library/react';
-import {
-  toHaveAttribute,
-  toBeInTheDocument
-} from '@testing-library/jest-dom/matchers';
+import { toHaveAttribute } from '@testing-library/jest-dom/matchers';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Profile from 'src/components/routes/Profile';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 
-expect.extend({ toHaveAttribute, toBeInTheDocument });
+expect.extend({ toHaveAttribute });
 
 const setup = () => {
   const accessData = { token: 'xyz', userId: 1 };

@@ -10,6 +10,10 @@ import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Dictionary from 'src/components/routes/Dictionary';
 
+afterEach(() => {
+  jest.useRealTimers();
+});
+
 const setup = () => {
   const accessData = { token: 'xyz', userId: 1 };
   const mockingWordPairsResponse = {
@@ -146,7 +150,6 @@ test('add word with automatic translation', async () => {
   act(() => {
     jest.runAllTimers();
   });
-  jest.useRealTimers();
 
   global.fetch = mockFetch(utils.mockingWordPairsAddResponse);
   const translationEl = await waitFor(() =>
@@ -199,9 +202,7 @@ test('find word pair', async () => {
   act(() => {
     jest.runAllTimers();
   });
-  jest.useRealTimers();
-  await Promise.resolve();
 
-  expect(utils.getByText(rightWordPair.wordForeign)).toBeTruthy();
+  await expect(utils.getByText(rightWordPair.wordForeign)).toBeTruthy();
   expect(utils.queryByText(anotherWordPair.wordForeign)).toBeNull();
 });
