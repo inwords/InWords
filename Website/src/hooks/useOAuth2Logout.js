@@ -3,8 +3,12 @@ const useOAuth2Logout = () => {
     if (window.gapi) {
       const auth2 = window.gapi.auth2.getAuthInstance();
       if (auth2 != null) {
-        await auth2.signOut();
-        auth2.disconnect();
+        try {
+          await auth2.signOut();
+          auth2.disconnect();
+        } catch (error) {
+          // die
+        }
       }
     }
   };

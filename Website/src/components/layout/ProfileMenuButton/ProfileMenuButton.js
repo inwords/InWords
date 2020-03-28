@@ -33,8 +33,6 @@ function ProfileMenuButton({ handleLogout }) {
           </li>
           <li>
             <MenuItem
-              component={Link}
-              to="/sign-in"
               onClick={() => {
                 handleLogout();
                 handleClose();

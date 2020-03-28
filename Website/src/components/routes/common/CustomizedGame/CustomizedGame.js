@@ -8,8 +8,8 @@ import Toolbar from 'src/components/core/Toolbar';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Game from './Game';
-import GameSettingsDialog from './GameSettingsDialog';
 import GamePairsDialog from './GamePairsDialog';
+import GameSettingsDialog from './GameSettingsDialog';
 
 import './CustomizedGame.css';
 
