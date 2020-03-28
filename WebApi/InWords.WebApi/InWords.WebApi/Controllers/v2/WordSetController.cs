@@ -74,5 +74,20 @@ namespace InWords.WebApi.Controllers.v2
             WordSetReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
             return Ok(reply);
         }
+
+        [HttpGet("{id}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Words added", typeof(GetLevelsReply))]
+        public async Task<IActionResult> GetLevels([FromRoute]int id)
+        {
+            var request = new GetLevelsRequest()
+            {
+                WordSetId = id
+            };
+            var requestObject = new AuthorizedRequestObject<GetLevelsRequest, GetLevelsReply>(request)
+            {
+                UserId = User.GetUserId()
+            };
+            return Ok(await mediator.Send(requestObject).ConfigureAwait(false));
+        }
     }
 }
