@@ -11,6 +11,7 @@ namespace InWords.WebApi.Modules.WordsSets
             builder.RegisterType<GetMarkedWordsHandler>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<ToDictionaryHandler>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<GetWordSetsHandler>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GetWordSetLevels>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }

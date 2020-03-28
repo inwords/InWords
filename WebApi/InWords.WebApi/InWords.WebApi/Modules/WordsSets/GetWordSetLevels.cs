@@ -23,7 +23,7 @@ namespace InWords.WebApi.Modules.WordsSets
         {
             var requestData = request.Value;
             int userId = request.UserId;
-
+            GetLevelsReply getLevelsReply = new GetLevelsReply();
             // select levels
             var levelsOfGame = Context.GameLevels.Where(l => l.GameId.Equals(requestData.WordSetId));
 
@@ -31,15 +31,16 @@ namespace InWords.WebApi.Modules.WordsSets
             var starredLevels = from level in levelsOfGame
                                 join userLevel in Context.UserGameLevels.Where(u => u.UserId.Equals(request.UserId)) on level.GameLevelId equals userLevel.GameLevelId into st
                                 from userLevel in st.DefaultIfEmpty()
-                                select new LevelInfo() // continue here
+                                select new LevelReply()
                                 {
                                     LevelId = level.GameLevelId,
                                     Level = level.Level,
                                     IsAvailable = true,
-                                    PlayerStars = userLevel.UserStars
+                                    Stars = userLevel.UserStars
                                 };
 
-            return base.HandleRequest(request, cancellationToken);
+            getLevelsReply.Levels.AddRange(starredLevels);
+            return Task.Run(() => { return getLevelsReply; });
         }
     }
 }
