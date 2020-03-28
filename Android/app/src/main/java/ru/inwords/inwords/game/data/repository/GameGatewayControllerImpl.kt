@@ -38,7 +38,7 @@ class GameGatewayControllerImpl @Inject constructor(
     private val levelScoreDeferredUploaderHolder: LevelScoreDeferredUploaderHolder
 ) : GameGatewayController, CustomGameGatewayController {
 
-    private val gameInfoDatabaseRepository = GameDatabaseRepository<GameInfoResponse>(gameInfoDao)
+    private val gameInfoDatabaseRepository = GameDatabaseRepository<GameInfoEntity>(gameInfoDao)
     private val gameDatabaseRepository = GameDatabaseRepository<GameResponse>(gameDao)
     private val gameLevelDatabaseRepository = GameDatabaseRepository<GameLevel>(gameLevelDao)
 
@@ -124,7 +124,7 @@ class GameGatewayControllerImpl @Inject constructor(
         gameLevelCachingProviderLocator.clear()
     }
 
-    private fun createGamesInfoCachingProvider(): ResourceCachingProvider<List<GameInfoResponse>> {
+    private fun createGamesInfoCachingProvider(): ResourceCachingProvider<List<GameInfoEntity>> {
         return ResourceCachingProvider(
             { data -> gameInfoDatabaseRepository.insertAll(data).map { data } },
             { gameInfoDatabaseRepository.getAll().map { gameInfos -> gameInfos.filter { it.gameId != CUSTOM_GAME_ID } } }, //TODO remove this filter

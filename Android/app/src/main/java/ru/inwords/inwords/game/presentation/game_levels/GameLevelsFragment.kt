@@ -57,6 +57,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
         setupWithNavController(binding.toolbar)
 
         viewModel.screenInfoStream(args.gameInfo.gameId)
+            .observeOn(SchedulersFacade.ui())
             .map {
                 if (it is Resource.Success) {
                     gameId = it.data.gameId
@@ -66,6 +67,7 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
                     emptyList() //TODO show error LUL
                 }
             }
+            .observeOn(SchedulersFacade.io())
             .applyDiffUtil()
             .observeOn(SchedulersFacade.ui())
             .doOnSubscribe { binding.levelsRecycler.showShimmerAdapter() }
