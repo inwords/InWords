@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { updateUserInfo } from 'src/actions/profileActions';
+import { uploadUserAvatar } from 'src/actions/profileApiActions';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
@@ -11,13 +15,58 @@ import Avatar from 'src/components/core/Avatar';
 
 import './AvatarEditDialog.scss';
 
-function AvatarEditDialog({
-  open,
-  handleClose,
-  avatar,
-  handleChange,
-  handleSubmit
-}) {
+const initialInputs = {
+  avatarFile: null
+};
+
+function AvatarEditDialog({ open, handleClose }) {
+  const dispatch = useDispatch();
+
+  const [inputs, setInputs] = React.useState(initialInputs);
+  const [avatar, setAvatar] = React.useState(null);
+
+  React.useEffect(() => {
+    if (open) {
+      setInputs(initialInputs);
+      setAvatar(null);
+    }
+  }, [open, setInputs]);
+
+  const handleChange = event => {
+    const target = event.target;
+    const name = target.name;
+
+    const file = target.files && target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = event => {
+        setAvatar(event.target.result);
+      };
+
+      reader.readAsDataURL(file);
+
+      setInputs({
+        ...inputs,
+        [name]: file
+      });
+    }
+  };
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+
+    try {
+      const formData = new FormData();
+      formData.append('file', inputs.avatarFile);
+      const data = await dispatch(uploadUserAvatar(formData));
+      dispatch(updateUserInfo(data));
+    } catch (error) {
+      dispatch(setSnackbar({ text: 'Не удалось загрузить аватар' }));
+    }
+  };
+
   return (
     <Dialog
       aria-labelledby="avatar-edit-dialog"
@@ -84,10 +133,7 @@ function AvatarEditDialog({
 
 AvatarEditDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  avatar: PropTypes.string,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired
 };
 
 export default AvatarEditDialog;

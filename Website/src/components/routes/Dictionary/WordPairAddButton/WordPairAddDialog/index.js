@@ -1,1 +1,1 @@
-export { default } from './WordPairAddDialogContainer';
+export { default } from './WordPairAddDialog';

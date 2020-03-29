@@ -1,6 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { grantAccess } from 'src/actions/authActions';
+import { signIn, signInOAuth2 } from 'src/actions/authApiActions';
+import { saveState } from 'src/localStorage';
+import useForm from 'src/hooks/useForm';
 import Form from 'src/components/core/Form';
 import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
@@ -14,20 +19,52 @@ import EntryLinksContainer from 'src/components/routes/common/EntryLinksContaine
 import EntryButtonContainer from 'src/components/routes/common/EntryButtonContainer';
 import GSignInButton from 'src/components/routes/common/GSignInButton';
 
-function SignUp({
-  inputs,
-  handleChange,
-  handleSubmit,
-  handleSubmitAnonymously,
-  handleSignInOAuth2
-}) {
+const handleSignInSuccess = (data, dispatch, history) => {
+  dispatch(grantAccess(data));
+  saveState({
+    auth: {
+      token: data.token,
+      userId: data.userId
+    }
+  });
+  history.push('/training');
+};
+
+function SignIn() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const { inputs, handleChange, handleSubmit } = useForm(
+    {
+      email: '',
+      password: ''
+    },
+    async () => {
+      try {
+        const data = await dispatch(signIn(inputs));
+        handleSignInSuccess(data, dispatch, history);
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось авторизоваться' }));
+      }
+    }
+  );
+
+  const handleSignInOAuth2 = React.useCallback(
+    async response => {
+      const data = await dispatch(signInOAuth2(response.uc.id_token));
+      dispatch(grantAccess(data));
+      handleSignInSuccess(data, dispatch, history);
+    },
+    [dispatch, history]
+  );
+
   return (
     <EntryFormPaper>
       <Avatar>
         <Icon>lock</Icon>
       </Avatar>
       <Typography component="h1" variant="h5" gutterBottom>
-        Регистрация
+        Вход
       </Typography>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
@@ -58,26 +95,15 @@ function SignUp({
         </FormGroup>
         <EntryButtonContainer>
           <Button type="submit" color="primary" fullWidth large>
-            Зарегистрироваться
-          </Button>
-        </EntryButtonContainer>
-        <EntryButtonContainer>
-          <Button
-            type="button"
-            color="default"
-            onClick={handleSubmitAnonymously}
-            fullWidth
-            large
-          >
-            Войти гостем
+            Войти
           </Button>
         </EntryButtonContainer>
         <EntryButtonContainer>
           <GSignInButton handleSuccess={handleSignInOAuth2} />
         </EntryButtonContainer>
         <EntryLinksContainer>
-          <Link component={RouterLink} to="/sign-in">
-            Уже есть аккаунт? Войти
+          <Link component={RouterLink} to="/sign-up">
+            Нет аккаунта? Зарегистрироваться
           </Link>
         </EntryLinksContainer>
       </Form>
@@ -85,15 +111,4 @@ function SignUp({
   );
 }
 
-SignUp.propTypes = {
-  inputs: PropTypes.exact({
-    email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired
-  }).isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  handleSubmitAnonymously: PropTypes.func.isRequired,
-  handleSignInOAuth2: PropTypes.func.isRequired
-};
-
-export default SignUp;
+export default SignIn;

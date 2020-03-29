@@ -1,13 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
+import { resetSnackbar } from 'src/actions/commonActions';
+import usePrevious from 'src/hooks/usePrevious';
 import Snackbar from 'src/components/core/Snackbar';
 import Button from 'src/components/core/Button';
-import usePrevious from 'src/hooks/usePrevious';
 
-import './SmartSnackbar.scss';
+function SmartSnackbar() {
+  const { open, text, actionText, actionHandler } = useSelector(
+    store => store.common.snackbar
+  );
 
-function SmartSnackbar({ open, text, actionText, handleAction, handleClose }) {
+  const dispatch = useDispatch();
+
+  const handleClose = () => {
+    dispatch(resetSnackbar());
+  };
+
+  const handleAction = () => {
+    if (typeof actionHandler === 'function') {
+      actionHandler();
+    }
+  };
+
   const prevText = usePrevious(text);
   const prevActionText = usePrevious(actionText);
 
@@ -43,13 +58,5 @@ function SmartSnackbar({ open, text, actionText, handleAction, handleClose }) {
     />
   );
 }
-
-SmartSnackbar.propTypes = {
-  open: PropTypes.bool.isRequired,
-  text: PropTypes.string.isRequired,
-  actionText: PropTypes.string.isRequired,
-  handleAction: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired
-};
 
 export default SmartSnackbar;

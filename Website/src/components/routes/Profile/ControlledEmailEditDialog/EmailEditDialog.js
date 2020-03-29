@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { updateEmail } from 'src/actions/authApiActions';
+import useForm from 'src/hooks/useForm';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
@@ -9,13 +13,33 @@ import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
 import Button from 'src/components/core/Button';
 
-function EmailEditDialog({
-  open,
-  handleClose,
-  inputs,
-  handleChange,
-  handleSubmit
-}) {
+const initialInputs = { email: '' };
+
+function EmailEditDialog({ open, handleClose }) {
+  const dispatch = useDispatch();
+
+  const { inputs, setInputs, handleChange, handleSubmit } = useForm(
+    initialInputs,
+    async () => {
+      try {
+        await dispatch(updateEmail(inputs.email));
+        dispatch(
+          setSnackbar({
+            text: 'На новый email было отправлено письмо с подтверждением'
+          })
+        );
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось изменить email' }));
+      }
+    }
+  );
+
+  React.useEffect(() => {
+    if (open) {
+      setInputs(initialInputs);
+    }
+  }, [open, setInputs]);
+
   return (
     <Dialog
       aria-labelledby="email-edit-dialog"
@@ -68,12 +92,7 @@ function EmailEditDialog({
 
 EmailEditDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  inputs: PropTypes.shape({
-    email: PropTypes.string.isRequired
-  }).isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired
 };
 
 export default EmailEditDialog;

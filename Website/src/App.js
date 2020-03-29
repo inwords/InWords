@@ -8,7 +8,7 @@ import ScrollToTop from 'src/components/core/ScrollToTop';
 import PageProgress from 'src/components/layout/PageProgress';
 import SmartSnackbar from 'src/components/layout/SmartSnackbar';
 import PageContainer from 'src/components/layout/PageContainer';
-import ProfileMenuButton from 'src/components/layout/ProfileMenuButton';
+import ControlledProfileMenu from 'src/components/layout/ControlledProfileMenu';
 import NotFound from 'src/components/routes/NotFound';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
@@ -53,7 +53,7 @@ function App() {
       <ScrollToTop />
       <PageContainer
         routes={userId ? routes : null}
-        rightNodes={userId ? [<ProfileMenuButton key={0} />] : null}
+        rightNodes={userId ? [<ControlledProfileMenu key={0} />] : null}
       >
         <ErrorBoundary>
           <Suspense fallback={<PageProgress />}>

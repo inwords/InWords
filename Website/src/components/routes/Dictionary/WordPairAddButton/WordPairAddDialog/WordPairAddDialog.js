@@ -1,5 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { setSnackbar } from 'src/actions/commonActions';
+import { addWordPairs as addWordPairsLocal } from 'src/actions/dictionaryActions';
+import {
+  addWordPairs,
+  receiveWordTranslations
+} from 'src/actions/dictionaryApiActions';
+import useForm from 'src/hooks/useForm';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
@@ -11,17 +20,100 @@ import TextField from 'src/components/core/TextField';
 import Button from 'src/components/core/Button';
 import Chip from 'src/components/core/Chip';
 
-import './WordPairAddDialog.css';
+const initialInputs = {
+  wordForeign: '',
+  wordNative: ''
+};
 
-function WordPairAddDialog({
-  open,
-  handleClose,
-  inputs,
-  handleChange,
-  handleSubmit,
-  translationsInfo,
-  handleTranslationSelection
-}) {
+function WordPairAddDialog({ open, handleClose }) {
+  const dispatch = useDispatch();
+
+  const { inputs, setInputs, handleChange, handleSubmit } = useForm(
+    initialInputs,
+    async () => {
+      const preparedPair = {
+        wordForeign: inputs.wordForeign.trim(),
+        wordNative: inputs.wordNative.trim()
+      };
+
+      try {
+        const data = await dispatch(addWordPairs([preparedPair]));
+        dispatch(
+          addWordPairsLocal([
+            {
+              ...preparedPair,
+              serverId: data.wordIds[0].serverId
+            }
+          ])
+        );
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
+      }
+    }
+  );
+
+  const [translationsInfo, setTranslationsInfo] = React.useState([]);
+
+  React.useEffect(() => {
+    if (open) {
+      setInputs(initialInputs);
+      setTranslationsInfo([]);
+    }
+  }, [open, setInputs]);
+
+  React.useEffect(() => {
+    const word = inputs.wordForeign.trim();
+    if (!word.match(/^[a-z0-9 ]+$/i)) {
+      return;
+    }
+
+    const translate = async word => {
+      try {
+        const data = await dispatch(receiveWordTranslations(word));
+
+        const newTranslationsInfo = [];
+        data.def.forEach(meaning => {
+          newTranslationsInfo.push(
+            ...meaning.tr.map(({ text }) => ({
+              id: uuidv4(),
+              translation: text
+            }))
+          );
+        });
+
+        setTranslationsInfo(newTranslationsInfo);
+      } catch (error) {
+        // die
+      }
+    };
+
+    let timerId = setTimeout(() => {
+      translate(word);
+    }, 700);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [inputs.wordForeign, dispatch]);
+
+  const handleTranslationSelection = id => () => {
+    const currentWordNative = inputs.wordNative.slice().trim();
+    const selectedTranslation = translationsInfo.find(
+      ({ id: translationId }) => translationId === id
+    ).translation;
+
+    setInputs({
+      ...inputs,
+      wordNative: currentWordNative
+        ? `${currentWordNative}; ${selectedTranslation}`
+        : selectedTranslation
+    });
+
+    setTranslationsInfo(translationsInfo =>
+      translationsInfo.filter(translationInfo => translationInfo.id !== id)
+    );
+  };
+
   return (
     <Dialog
       aria-labelledby="word-pair-add-dialog"
@@ -93,20 +185,7 @@ function WordPairAddDialog({
 
 WordPairAddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  inputs: PropTypes.exact({
-    wordForeign: PropTypes.string.isRequired,
-    wordNative: PropTypes.string.isRequired
-  }).isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  translationsInfo: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      translation: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
-  handleTranslationSelection: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired
 };
 
 export default WordPairAddDialog;

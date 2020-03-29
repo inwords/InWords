@@ -130,9 +130,9 @@ test('upload avatar', async () => {
   utils.changeAvatarInput(
     new File(['(⌐□_□)'], 'avatar.png', { type: 'image/png' })
   );
+  await waitFor(() => utils.getByAltText('Avatar-preview'));
   utils.clickAvatarSubmit();
 
-  await waitFor(() => utils.getByAltText('Avatar-preview'));
   await waitFor(() =>
     expect(utils.getByAltText('Avatar')).toHaveAttribute('src', newAvatarPath)
   );

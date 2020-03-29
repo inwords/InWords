@@ -1,42 +1,36 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import useDialog from 'src/hooks/useDialog';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { initializeUserInfo } from 'src/actions/profileActions';
+import { receiveUserInfo } from 'src/actions/profileApiActions';
 import Icon from 'src/components/core/Icon';
 import Typography from 'src/components/core/Typography';
-import Button from 'src/components/core/Button';
 import Avatar from 'src/components/core/Avatar';
 import Paper from 'src/components/core/Paper';
-import AvatarEditDialog from './AvatarEditDialog';
-import NicknameEditDialog from './NicknameEditDialog';
-import EmailEditDialog from './EmailEditDialog';
-import AccountDeleteDialog from './AccountDeleteDialog';
+import ControlledAvatarEditDialog from './ControlledAvatarEditDialog';
+import ControlledNicknameEditDialog from './ControlledNicknameEditDialog';
+import ControlledEmailEditDialog from './ControlledEmailEditDialog';
+import ControlledAccountDeleteDialog from './ControlledAccountDeleteDialog';
 
 import './Profile.scss';
 
-function Profile({ avatarPath, nickname, email }) {
-  const {
-    open: openAvatar,
-    handleOpen: handleOpenAvatar,
-    handleClose: handleCloseAvatar
-  } = useDialog();
+function Profile() {
+  const { nickname, avatarPath, account } = useSelector(store => store.profile);
 
-  const {
-    open: openNickname,
-    handleOpen: handleOpenNickname,
-    handleClose: handleCloseNickname
-  } = useDialog();
+  const dispatch = useDispatch();
 
-  const {
-    open: openEmail,
-    handleOpen: handleOpenEmail,
-    handleClose: handleCloseEmail
-  } = useDialog();
-
-  const {
-    open: openDeletion,
-    handleOpen: handleOpenDeletion,
-    handleClose: handleCloseDeletion
-  } = useDialog();
+  React.useEffect(() => {
+    if (!account.accountId) {
+      (async () => {
+        try {
+          const data = await dispatch(receiveUserInfo());
+          dispatch(initializeUserInfo(data));
+        } catch (error) {
+          dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
+        }
+      })();
+    }
+  }, [account.accountId, dispatch]);
 
   return (
     <Fragment>
@@ -45,17 +39,13 @@ function Profile({ avatarPath, nickname, email }) {
           <Avatar alt="Avatar" src={avatarPath} className="profile-avatar">
             A
           </Avatar>
-          <Button onClick={handleOpenAvatar} variant="text" color="primary">
-            Изменить аватар
-          </Button>
+          <ControlledAvatarEditDialog />
         </div>
         <div className="profile-personal-section">
           <Typography component="h1" variant="h3" className="profile-nickname">
             {nickname}
           </Typography>
-          <Button onClick={handleOpenNickname} variant="text" color="primary">
-            Изменить никнейм
-          </Button>
+          <ControlledNicknameEditDialog nickname={nickname} />
           <div className="profile-personal-info">
             <div className="profile-personal-info-entry">
               <div className="profile-personal-info-entry-icon">
@@ -67,50 +57,20 @@ function Profile({ avatarPath, nickname, email }) {
                     variant="body1"
                     className="profile-personal-info-value-text"
                   >
-                    {email}
+                    {account.email}
                   </Typography>
                 </div>
-                <Button
-                  onClick={handleOpenEmail}
-                  variant="text"
-                  color="primary"
-                >
-                  Изменить электронный адрес
-                </Button>
+                <ControlledEmailEditDialog />
               </div>
             </div>
           </div>
         </div>
-        <AvatarEditDialog open={openAvatar} handleClose={handleCloseAvatar} />
-        <EmailEditDialog open={openEmail} handleClose={handleCloseEmail} />
-        <NicknameEditDialog
-          open={openNickname}
-          handleClose={handleCloseNickname}
-          nickname={nickname}
-        />
       </div>
       <Paper className="profile-footer">
-        <Button
-          onClick={handleOpenDeletion}
-          variant="text"
-          className="profile-delete-button"
-        >
-          Удалить аккаунт
-        </Button>
-        <AccountDeleteDialog
-          open={openDeletion}
-          handleClose={handleCloseDeletion}
-          nickname={nickname}
-        />
+        <ControlledAccountDeleteDialog nickname={nickname} />
       </Paper>
     </Fragment>
   );
 }
-
-Profile.propTypes = {
-  nickname: PropTypes.string,
-  avatarPath: PropTypes.string,
-  email: PropTypes.string
-};
 
 export default Profile;
