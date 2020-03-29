@@ -33,7 +33,9 @@ def configureJacoco = { project ->
 
         excludes += ['**/di/**',
                      '**/dagger/**',
-                     '**/model/**']
+                     '**/proto/**',
+                     '**/model/**',
+                     '**/bean/**']
 
         // not testable Android classes
         excludes += ['**/*Activity.class',
@@ -42,7 +44,8 @@ def configureJacoco = { project ->
                      '**/*Fragment.class',
                      '**/*Service.class',
                      '**/*Receiver.class',
-                     '**/*View.class']
+                     '**/*View.class',
+                     '**/*Binding.class']
 
         // not testable classes for Recycler View
         excludes += [

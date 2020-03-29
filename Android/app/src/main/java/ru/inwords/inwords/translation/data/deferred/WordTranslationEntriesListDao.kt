@@ -8,7 +8,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
-interface LocalWordTranslationEntriesListDao {
+interface WordTranslationEntriesListDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addReplaceAll(entries: List<WordTranslationDeferredEntry>): Single<List<Long>>
 

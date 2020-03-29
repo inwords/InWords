@@ -18,7 +18,7 @@ import ru.inwords.inwords.translation.converter.WordTranslationValueConverter
 import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 
 class WordTranslationDeferredAdapterFactory internal constructor(
-    private val localEntriesListDao: LocalWordTranslationEntriesListDao,
+    localEntriesListDao: LocalEntriesListDao<WordTranslationValue, WordTranslationDeferredEntry>,
     private val translationWordsRemoteRepository: TranslationWordsRemoteRepository
 ) {
     private val wordTranslationValueConverter = WordTranslationValueConverter()
@@ -27,18 +27,6 @@ class WordTranslationDeferredAdapterFactory internal constructor(
         override fun create(status: Status, value: WordTranslationValue): WordTranslationDeferredEntry {
             return WordTranslationDeferredEntry(status, value, value.localId)
         }
-    }
-
-    private val databaseEntriesListDao = object : LocalEntriesListDao<WordTranslationValue, WordTranslationDeferredEntry> {
-        override fun addReplaceAll(entries: List<WordTranslationDeferredEntry>): Single<List<Long>> {
-            return localEntriesListDao.addReplaceAll(entries)
-        }
-
-        override fun retrieveAll() = localEntriesListDao.retrieveAll().doOnSuccess { Log.d("retrieveAll", it.toString()) }
-        override fun retrieveAllByLocalId(localIds: List<Long>) = localEntriesListDao.retrieveAllByLocalId(localIds).doOnSuccess { Log.d("retrieveAllByLocalId", it.toString()) }
-        override fun deleteAllLocalIds(localIds: List<Long>) = localEntriesListDao.deleteAllLocalIds(localIds)
-        override fun deleteAllServerIds() = localEntriesListDao.deleteAllServerIds()
-        override fun deleteAllServerIds(serverIds: List<Int>) = localEntriesListDao.deleteAllServerIds(serverIds)
     }
 
     private val remoteEntriesListPullDao = object : RemoteEntriesListPullDao<WordTranslationValue> {
@@ -57,7 +45,7 @@ class WordTranslationDeferredAdapterFactory internal constructor(
             }
         }
     }
-    private val localDeferredEntryRepository = LocalDeferredEntryRepository(databaseEntriesListDao, deferredEntryFactory)
+    private val localDeferredEntryRepository = LocalDeferredEntryRepository(localEntriesListDao, deferredEntryFactory)
 
     private val remoteDeferredEntryRepository = RemoteDeferredEntryWriteRepository(remoteEntriesListPullDao)
 

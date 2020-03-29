@@ -10,6 +10,7 @@ import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploa
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderHolder
 import ru.inwords.inwords.game.data.repository.GameRemoteRepository
 import ru.inwords.inwords.game.data.source.LevelScoreRequestDao
+import ru.inwords.inwords.translation.data.deferred.LocalWordTranslationsListDao
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterFactory
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
 import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
@@ -24,7 +25,10 @@ class DeferredEntriesModule {
         database: AppRoomDatabase,
         translationWordsRemoteRepository: TranslationWordsRemoteRepository
     ): WordTranslationDeferredAdapterHolder {
-        val factory = WordTranslationDeferredAdapterFactory(database.localWordTranslationEntriesListDao(), translationWordsRemoteRepository)
+        val factory = WordTranslationDeferredAdapterFactory(
+            LocalWordTranslationsListDao(database.localWordTranslationEntriesListDao()),
+            translationWordsRemoteRepository
+        )
 
         return WordTranslationDeferredAdapterHolder(factory)
     }

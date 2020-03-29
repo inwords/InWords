@@ -14,8 +14,8 @@ import ru.inwords.inwords.game.data.source.GameLevelDao;
 import ru.inwords.inwords.game.data.source.LevelScoreRequestDao;
 import ru.inwords.inwords.profile.data.bean.User;
 import ru.inwords.inwords.profile.data.source.UserDao;
-import ru.inwords.inwords.translation.data.deferred.LocalWordTranslationEntriesListDao;
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredEntry;
+import ru.inwords.inwords.translation.data.deferred.WordTranslationEntriesListDao;
 
 @TypeConverters(value = {
         RoomTypeConverter.class,
@@ -41,6 +41,6 @@ public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract LevelScoreRequestDao levelScoreRequestDao();
 
-    public abstract LocalWordTranslationEntriesListDao localWordTranslationEntriesListDao();
+    public abstract WordTranslationEntriesListDao localWordTranslationEntriesListDao();
 
 }
