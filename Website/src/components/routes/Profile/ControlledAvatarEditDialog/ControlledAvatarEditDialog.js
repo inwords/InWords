@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import useDialog from 'src/hooks/useDialog';
+import useDialog from 'src/components/core/useDialog';
 import Button from 'src/components/core/Button';
 import AvatarEditDialog from './AvatarEditDialog';
 

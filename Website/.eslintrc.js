@@ -10,14 +10,13 @@ module.exports = {
   ],
   env: {
     browser: true,
-    commonjs: true,
     node: true,
     es6: true,
     jest: true
   },
   parser: 'babel-eslint',
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 11,
     sourceType: 'module'
   },
   plugins: ['react', 'react-hooks', 'jsx-a11y'],

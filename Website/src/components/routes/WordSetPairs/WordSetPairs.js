@@ -9,7 +9,7 @@ import {
 import { addWordPairs as addWordPairsLocal } from 'src/actions/dictionaryActions';
 import { getWordSetList } from 'src/actions/wordSetApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
-import useCheckboxList from 'src/hooks/useCheckboxList';
+import useCheckboxList from 'src/components/core/useCheckboxList';
 import Paper from 'src/components/core/Paper';
 import List from 'src/components/core/List';
 import ListItemContainer from 'src/components/core/ListItemContainer';

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'src/utils/shuffle';
 import createSpeech from 'src/utils/createSpeech';
-import useDialog from 'src/hooks/useDialog';
+import useDialog from 'src/components/core/useDialog';
 import Paper from 'src/components/core/Paper';
 import Toolbar from 'src/components/core/Toolbar';
 import IconButton from 'src/components/core/IconButton';

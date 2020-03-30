@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import usePopup from 'src/hooks/usePopup';
+import usePopup from 'src/components/core/usePopup';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
 import PopupContainer from 'src/components/core/PopupContainer';

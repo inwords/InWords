@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import useDrawer from 'src/hooks/useDrawer';
+import useDrawer from 'src/components/core/useDrawer';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
 import NavDrawer from './NavDrawer';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import useServerTrainingLevel from 'src/components/routes/common-hooks/useServerTrainingLevel';
-import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
+import useServerTrainingLevel from 'src/components/routes-common/useServerTrainingLevel';
+import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
 
 function HistoryTrainingSwitcher(props) {
   const trainingLevel = useServerTrainingLevel();

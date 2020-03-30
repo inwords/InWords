@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import debounce from 'src/utils/debounce';
-import useDialog from 'src/hooks/useDialog';
+import useDialog from 'src/components/core/useDialog';
 import InnerList from './InnerList';
 import WordlistItem from './WordlistItem';
 import WordPairEditDialog from './WordPairEditDialog';

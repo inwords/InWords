@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Toolbar from 'src/components/core/Toolbar';
 import Space from 'src/components/core/Space';
-import BrandLink from 'src/components/layout/BrandLink';
+import BrandLink from 'src/components/app-common/BrandLink';
 import ControlledNavDrawer from './ControlledNavDrawer';
 import HeaderNavList from './HeaderNavList';
 import ApiProgress from './ApiProgress';

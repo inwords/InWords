@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { removeWordSetLevelPairs } from 'src/actions/wordSetActions';
-import useClientTrainingLevel from 'src/components/routes/common-hooks/useClientTrainingLevel';
-import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
+import useClientTrainingLevel from 'src/components/routes-common/useClientTrainingLevel';
+import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
 
 function MainTrainingSwitcher(props) {
   const trainingLevel = useClientTrainingLevel('/training');

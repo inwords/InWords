@@ -1,5 +1,5 @@
 import React from 'react';
-import FormPaper from 'src/components/routes/common/FormPaper';
+import FormPaper from 'src/components/routes-common/FormPaper';
 
 import './EntryFormPaper.css';
 

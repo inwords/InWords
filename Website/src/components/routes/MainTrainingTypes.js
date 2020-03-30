@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializeWordSetLevel } from 'src/actions/wordSetActions';
 import { getWordPairsToStudy } from 'src/actions/dictionaryApiActions';
-import TrainingTypes from 'src/components/routes/common/TrainingTypes';
+import TrainingTypes from 'src/components/routes-common/TrainingTypes';
 
 function MainTrainingTypes() {
   const dispatch = useDispatch();

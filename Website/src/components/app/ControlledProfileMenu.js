@@ -3,12 +3,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { denyAccess } from 'src/actions/authActions';
 import { removeState } from 'src/localStorage';
-import useOAuth2Logout from 'src/hooks/useOAuth2Logout';
+import useOAuth2Logout from 'src/components/app-common/useOAuth2Logout';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
 import ResponsiveMenu from 'src/components/core/ResponsiveMenu';
 import MenuItem from 'src/components/core/MenuItem';
-import usePopup from 'src/hooks/usePopup';
+import usePopup from 'src/components/core/usePopup';
 import PopupContainer from 'src/components/core/PopupContainer';
 import Popup from 'src/components/core/Popup';
 

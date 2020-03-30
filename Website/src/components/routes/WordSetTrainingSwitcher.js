@@ -2,8 +2,8 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateWordSetLevelResult } from 'src/actions/wordSetActions';
-import useServerTrainingLevel from 'src/components/routes/common-hooks/useServerTrainingLevel';
-import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
+import useServerTrainingLevel from 'src/components/routes-common/useServerTrainingLevel';
+import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
 
 function WordSetTrainingSwitcher(props) {
   const trainingLevel = useServerTrainingLevel();

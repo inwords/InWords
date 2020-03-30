@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import useDialog from 'src/hooks/useDialog';
+import useDialog from 'src/components/core/useDialog';
 import Button from 'src/components/core/Button';
 import NicknameEditDialog from './NicknameEditDialog';
 

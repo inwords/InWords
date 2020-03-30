@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import useDialog from 'src/hooks/useDialog';
+import useDialog from 'src/components/core/useDialog';
 import Icon from 'src/components/core/Icon';
 import Zoom from 'src/components/core/Zoom';
 import Fab from 'src/components/core/Fab';

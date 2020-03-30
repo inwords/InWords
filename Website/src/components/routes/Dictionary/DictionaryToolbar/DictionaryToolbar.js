@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import useForm from 'src/hooks/useForm';
+import useForm from 'src/components/core/useForm';
 import Toolbar from 'src/components/core/Toolbar';
 import Icon from 'src/components/core/Icon';
 import Typography from 'src/components/core/Typography';

@@ -5,7 +5,7 @@ import { setSnackbar } from 'src/actions/commonActions';
 import { grantAccess } from 'src/actions/authActions';
 import { signUp, signInOAuth2 } from 'src/actions/authApiActions';
 import { saveState } from 'src/localStorage';
-import useForm from 'src/hooks/useForm';
+import useForm from 'src/components/core/useForm';
 import Form from 'src/components/core/Form';
 import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
@@ -14,10 +14,10 @@ import Link from 'src/components/core/Link';
 import Avatar from 'src/components/core/Avatar';
 import Icon from 'src/components/core/Icon';
 import Button from 'src/components/core/Button';
-import EntryFormPaper from 'src/components/routes/common/EntryFormPaper';
-import EntryLinksContainer from 'src/components/routes/common/EntryLinksContainer';
-import EntryButtonContainer from 'src/components/routes/common/EntryButtonContainer';
-import GSignInButton from 'src/components/routes/common/GSignInButton';
+import EntryFormPaper from 'src/components/routes-common/EntryFormPaper';
+import EntryLinksContainer from 'src/components/routes-common/EntryLinksContainer';
+import EntryButtonContainer from 'src/components/routes-common/EntryButtonContainer';
+import GSignInButton from 'src/components/routes-common/GSignInButton';
 
 const handleSignUpSuccess = (data, dispatch, history) => {
   dispatch(grantAccess(data));

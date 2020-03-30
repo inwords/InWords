@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { initializeWordSetLevel } from 'src/actions/wordSetActions';
-import usePopup from 'src/hooks/usePopup';
+import usePopup from 'src/components/core/usePopup';
 import PopupContainer from 'src/components/core/PopupContainer';
 import Popup from 'src/components/core/Popup';
 import ResponsiveMenu from 'src/components/core/ResponsiveMenu';

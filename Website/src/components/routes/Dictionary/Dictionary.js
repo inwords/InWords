@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { syncWordPairs as syncWordPairsLocal } from 'src/actions/dictionaryActions';
 import { syncWordPairs } from 'src/actions/dictionaryApiActions';
-import useCheckboxList from 'src/hooks/useCheckboxList';
+import useCheckboxList from 'src/components/core/useCheckboxList';
 import createSpeech from 'src/utils/createSpeech';
 import Paper from 'src/components/core/Paper';
 import DictionaryToolbar from './DictionaryToolbar';

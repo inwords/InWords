@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import shuffle from 'src/utils/shuffle';
 import { setSnackbar } from 'src/actions/commonActions';
 import { saveLevelResult } from 'src/actions/trainingApiActions';
-import TrainingResult from 'src/components/routes/common/TrainingResult';
+import TrainingResult from 'src/components/routes-common/TrainingResult';
 import GameField from './GameField';
 
 const GAME_COMPLETED_TIMEOUT = 1000;

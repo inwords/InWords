@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useScript from 'src/hooks/useScript';
+import useScript from 'src/components/core/useScript';
 
 import './GSignInButton.css';
 

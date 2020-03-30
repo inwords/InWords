@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { updateWordPairs as updateWordPairsLocal } from 'src/actions/dictionaryActions';
 import { updateWordPairs } from 'src/actions/dictionaryApiActions';
-import useForm from 'src/hooks/useForm';
+import useForm from 'src/components/core/useForm';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';

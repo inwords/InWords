@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/authActions';
 import { deleteAccount } from 'src/actions/authApiActions';
-import useForm from 'src/hooks/useForm';
+import useForm from 'src/components/core/useForm';
 import Button from 'src/components/core/Button';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';

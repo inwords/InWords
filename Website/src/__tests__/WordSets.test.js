@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import WordSets from 'src/components/routes/WordSets';
-import SmartSnackbar from 'src/components/layout/SmartSnackbar';
+import SmartSnackbar from 'src/components/app/SmartSnackbar';
 
 const setup = () => {
   const accessData = {

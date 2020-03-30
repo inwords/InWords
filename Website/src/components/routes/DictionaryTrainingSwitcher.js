@@ -2,8 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { removeWordSetLevelPairs } from 'src/actions/wordSetActions';
-import useClientTrainingLevel from 'src/components/routes/common-hooks/useClientTrainingLevel';
-import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
+import useClientTrainingLevel from 'src/components/routes-common/useClientTrainingLevel';
+import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
 
 function DictionaryTrainingSwitcher(props) {
   const trainingLevel = useClientTrainingLevel('/dictionary');

@@ -1,5 +1,5 @@
 import React from 'react';
-import useScript from 'src/hooks/useScript';
+import useScript from 'src/components/core/useScript';
 
 const useOAuth2 = () => {
   useScript(

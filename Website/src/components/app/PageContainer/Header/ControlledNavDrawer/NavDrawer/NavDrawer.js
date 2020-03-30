@@ -5,7 +5,7 @@ import Divider from 'src/components/core/Divider';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
-import BrandLink from 'src/components/layout/BrandLink';
+import BrandLink from 'src/components/app-common/BrandLink';
 import DrawerNavList from './DrawerNavList';
 
 import './NavDrawer.scss';

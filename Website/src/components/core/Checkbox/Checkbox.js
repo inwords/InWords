@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import useCombinedRefs from 'src/hooks/useCombinedRefs';
+import useCombinedRefs from 'src/components/core/useCombinedRefs';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import TrainingTypes from 'src/components/routes/common/TrainingTypes';
+import TrainingTypes from 'src/components/routes-common/TrainingTypes';
 
 function DictionaryTrainingTypes() {
   const levelsMap = useSelector(store => store.wordSet.levelsMap);

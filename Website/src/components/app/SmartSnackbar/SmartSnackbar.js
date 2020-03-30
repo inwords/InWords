@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { resetSnackbar } from 'src/actions/commonActions';
-import usePrevious from 'src/hooks/usePrevious';
+import usePrevious from 'src/components/core/usePrevious';
 import Snackbar from 'src/components/core/Snackbar';
 import Button from 'src/components/core/Button';
 
