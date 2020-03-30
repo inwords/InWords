@@ -33,7 +33,8 @@ namespace InWords.WebApi.Modules.DictionaryService.Words
             {
                 ForeignWord = d.WordForeign,
                 NativeWord = d.WordNative,
-                UserId = userId
+                UserId = userId,
+                Backgound = false,
             }).ToList());
 
             dictionaryPairs.ForEach((k) =>

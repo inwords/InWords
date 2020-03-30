@@ -22,10 +22,14 @@ message GetLevelWordsRequest{
 	int32 levelId = 1;
 }
 
-message GetLevelWordsReply{
+message LevelWord{
 	int32 userWordPairId = 1;
 	string ForeignWord = 2;
 	string NativeWord = 3;
+}
+
+message GetLevelWordsReply{
+	repeated LevelWord words = 1;
 }
 
 message GetLevelsRequest{

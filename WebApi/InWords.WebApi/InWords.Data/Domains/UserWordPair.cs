@@ -7,14 +7,13 @@ namespace InWords.Data.Domains
     public class UserWordPair
     {
         [Key] public int UserWordPairId { get; set; }
-
+        public int UserId { get; set; }
+        [MaxLength(128)] public string ForeignWord { get; set; }
+        [MaxLength(128)] public string NativeWord { get; set; }
+        public bool Backgound { get; set; }
         [Obsolete] public int WordPairId { get; set; }
         [Obsolete] public bool IsInvertPair { get; set; }
 
-        [MaxLength(128)] public string ForeignWord { get; set; }
-        [MaxLength(128)] public string NativeWord { get; set; }
-
-        public int UserId { get; set; }
 
         [ForeignKey(nameof(UserId))] public virtual User User { get; set; }
 
