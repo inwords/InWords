@@ -1,1 +1,1 @@
-export { default } from './WordSetContainer';
+export { default } from './WordSet';

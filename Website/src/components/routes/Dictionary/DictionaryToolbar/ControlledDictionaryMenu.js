@@ -1,15 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Icon from 'src/components/core/Icon';
+import { useSelector, useDispatch } from 'react-redux';
+import { initializeLevel } from 'src/actions/trainingActions';
 import usePopup from 'src/hooks/usePopup';
 import PopupContainer from 'src/components/core/PopupContainer';
 import Popup from 'src/components/core/Popup';
 import ResponsiveMenu from 'src/components/core/ResponsiveMenu';
 import MenuItem from 'src/components/core/MenuItem';
 import IconButton from 'src/components/core/IconButton';
+import Icon from 'src/components/core/Icon';
 
-function DictionaryMenuButton({ handleLearning }) {
+function ControlledDictionaryMenu({ checkedValues }) {
+  const { wordPairs } = useSelector(store => store.dictionary);
+
+  const dispatch = useDispatch();
+  const handleLearning = () => {
+    dispatch(
+      initializeLevel({
+        levelId: -1,
+        wordTranslations: wordPairs.filter(({ serverId }) =>
+          checkedValues.includes(serverId)
+        )
+      })
+    );
+  };
+
   const { show, handleOpen, handleClose, anchorEl } = usePopup();
 
   return (
@@ -46,8 +62,8 @@ function DictionaryMenuButton({ handleLearning }) {
   );
 }
 
-DictionaryMenuButton.propTypes = {
-  handleLearning: PropTypes.func.isRequired
+ControlledDictionaryMenu.propTypes = {
+  checkedValues: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
 };
 
-export default DictionaryMenuButton;
+export default ControlledDictionaryMenu;

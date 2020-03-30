@@ -8,9 +8,9 @@ import createSpeech from 'src/utils/createSpeech';
 import Paper from 'src/components/core/Paper';
 import DictionaryToolbar from './DictionaryToolbar';
 import Wordlist from './Wordlist';
-import WordPairAddButton from './WordPairAddButton';
+import ControlledWordPairAddDialog from './ControlledWordPairAddDialog';
 
-function DictionaryContainer() {
+function Dictionary() {
   const { actual, wordPairs } = useSelector(store => store.dictionary);
 
   const dispatch = useDispatch();
@@ -30,16 +30,14 @@ function DictionaryContainer() {
     }
   }, [actual, wordPairs, dispatch]);
 
-  const [extendedWordPairs, setExtendedWordPairs] = React.useState([]);
+  const [enhancedWordPairs, setEnhancedWordPairs] = React.useState([]);
 
   React.useEffect(() => {
-    setExtendedWordPairs(
-      wordPairs.map(wordPair => {
-        return {
-          ...wordPair,
-          onSpeech: createSpeech(wordPair.wordForeign)
-        };
-      })
+    setEnhancedWordPairs(
+      wordPairs.map(wordPair => ({
+        ...wordPair,
+        onSpeech: createSpeech(wordPair.wordForeign)
+      }))
     );
   }, [wordPairs]);
 
@@ -48,16 +46,8 @@ function DictionaryContainer() {
   const [editingModeEnabled, setEditingModeEnabled] = React.useState(false);
 
   React.useEffect(() => {
-    if (checkedValues.length > 0) {
-      if (!editingModeEnabled) {
-        setEditingModeEnabled(true);
-      }
-    } else if (checkedValues.length === 0) {
-      if (editingModeEnabled) {
-        setEditingModeEnabled(false);
-      }
-    }
-  }, [checkedValues, editingModeEnabled]);
+    setEditingModeEnabled(checkedValues.length !== 0);
+  }, [checkedValues]);
 
   const handleReset = () => {
     setCheckedValues([]);
@@ -65,18 +55,18 @@ function DictionaryContainer() {
 
   const [pattern, setPattern] = React.useState('');
 
-  const filteredWordPairs = React.useMemo(
-    () =>
-      extendedWordPairs.filter(({ wordForeign, wordNative }) => {
-        const upperCaseSearchWord = pattern.toUpperCase();
+  const filteredWordPairs = React.useMemo(() => {
+    if (pattern === '') return enhancedWordPairs;
 
-        return (
-          wordForeign.toUpperCase().includes(upperCaseSearchWord) ||
-          wordNative.toUpperCase().includes(upperCaseSearchWord)
-        );
-      }),
-    [pattern, extendedWordPairs]
-  );
+    return enhancedWordPairs.filter(({ wordForeign, wordNative }) => {
+      const upperCaseSearchWord = pattern.toUpperCase();
+
+      return (
+        wordForeign.toUpperCase().includes(upperCaseSearchWord) ||
+        wordNative.toUpperCase().includes(upperCaseSearchWord)
+      );
+    });
+  }, [pattern, enhancedWordPairs]);
 
   const handleCheckAll = () => {
     setCheckedValues(filteredWordPairs.map(({ serverId }) => serverId));
@@ -97,9 +87,9 @@ function DictionaryContainer() {
         checkedValues={checkedValues}
         handleToggle={handleToggle}
       />
-      <WordPairAddButton visible={!editingModeEnabled} />
+      <ControlledWordPairAddDialog visible={!editingModeEnabled} />
     </Paper>
   );
 }
 
-export default DictionaryContainer;
+export default Dictionary;

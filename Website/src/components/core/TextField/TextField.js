@@ -39,14 +39,14 @@ const TextField = React.forwardRef(function TextField(
   const combinedRef = useCombinedRefs(ref, inputRef);
 
   React.useEffect(() => {
-    setFilled(isFilled(inputRef.current));
-  }, [inputRef]);
-
-  React.useEffect(() => {
     if (isControlled) {
       setFilled(isFilled({ value }));
     }
   }, [isControlled, value]);
+
+  React.useEffect(() => {
+    setFilled(isFilled(inputRef.current));
+  }, []);
 
   const handleInputChange = event => {
     setFilled(isFilled(event.target));

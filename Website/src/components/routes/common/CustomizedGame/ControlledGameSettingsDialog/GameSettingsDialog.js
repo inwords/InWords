@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { saveValue } from 'src/localStorage';
+import useForm from 'src/hooks/useForm';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
@@ -11,15 +13,40 @@ import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
 import Slider from 'src/components/core/Slider';
 
-import './GameSettingsDialog.css';
-
-function GameSettingsDialog({
+function GameSettingsDialogContainer({
   open,
   handleClose,
-  inputs,
-  handleChange,
-  handleSubmit
+  trainingSettings,
+  setTrainingSettings
 }) {
+  const { inputs, setInputs, handleChange } = useForm({});
+
+  React.useEffect(() => {
+    if (open) {
+      const {
+        quantity = '8',
+        voiceOn = false,
+        listOn = false,
+        cardDimension = '120',
+        cardTextSize = '16'
+      } = trainingSettings;
+
+      setInputs({ quantity, voiceOn, listOn, cardDimension, cardTextSize });
+    }
+  }, [trainingSettings, open, setInputs]);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    saveValue('trainingsSettings', {
+      [0]: {
+        ...inputs
+      }
+    });
+
+    setTrainingSettings(inputs);
+  };
+
   return (
     <Dialog
       aria-labelledby="training-settings-dialog"
@@ -120,18 +147,17 @@ function GameSettingsDialog({
   );
 }
 
-GameSettingsDialog.propTypes = {
+GameSettingsDialogContainer.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  inputs: PropTypes.shape({
+  trainingSettings: PropTypes.shape({
     quantity: PropTypes.string,
     voiceOn: PropTypes.bool,
     listOn: PropTypes.bool,
     cardDimension: PropTypes.string,
     cardTextSize: PropTypes.string
   }).isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  setTrainingSettings: PropTypes.func.isRequired
 };
 
-export default GameSettingsDialog;
+export default GameSettingsDialogContainer;

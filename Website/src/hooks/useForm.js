@@ -14,7 +14,7 @@ const useForm = (initialInputs, handleSubmit) => {
     });
   };
 
-  const handleSubmitExtended = event => {
+  const handleEnhancedSubmit = event => {
     event.preventDefault();
 
     if (typeof handleSubmit === 'function') {
@@ -26,7 +26,7 @@ const useForm = (initialInputs, handleSubmit) => {
     inputs,
     setInputs,
     handleChange,
-    handleSubmit: handleSubmitExtended
+    handleSubmit: handleEnhancedSubmit
   };
 };
 

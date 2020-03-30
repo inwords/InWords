@@ -1,6 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { initializeHistory } from 'src/actions/trainingActions';
+import { receiveHistory } from 'src/actions/trainingApiActions';
 import Icon from 'src/components/core/Icon';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
@@ -10,7 +13,26 @@ import CardActions from 'src/components/core/CardActions';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
 
-function TrainingHistory({ recentTrainings }) {
+function TrainingHistory() {
+  const { actual, recentTrainings } = useSelector(
+    store => store.training.history
+  );
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (!actual) {
+      (async () => {
+        try {
+          const data = await dispatch(receiveHistory());
+          dispatch(initializeHistory(data));
+        } catch (error) {
+          dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
+        }
+      })();
+    }
+  }, [actual, dispatch]);
+
   const match = useRouteMatch();
 
   return (
@@ -48,16 +70,5 @@ function TrainingHistory({ recentTrainings }) {
     </Grid>
   );
 }
-
-TrainingHistory.propTypes = {
-  recentTrainings: PropTypes.arrayOf(
-    PropTypes.shape({
-      levelId: PropTypes.number.isRequired,
-      playerStars: PropTypes.number.isRequired,
-      isAvailable: PropTypes.bool.isRequired,
-      level: PropTypes.number.isRequired
-    }).isRequired
-  ).isRequired
-};
 
 export default TrainingHistory;

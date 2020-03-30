@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { initializWordSets } from 'src/actions/wordSetActions';
+import { receiveWordSets } from 'src/actions/wordSetApiActions';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
 import Card from 'src/components/core/Card';
@@ -12,9 +15,26 @@ import LinkButton from 'src/components/core/LinkButton';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
-import WordSetPairsAddButton from './WordSetPairsAddButton';
+import ControlledWordSetPairsAddDialog from './ControlledWordSetPairsAddDialog';
 
-function WordSets({ wordSets }) {
+function WordSets() {
+  const wordSets = useSelector(store => store.wordSet.sets);
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (!wordSets.length) {
+      (async () => {
+        try {
+          const data = await dispatch(receiveWordSets());
+          dispatch(initializWordSets(data));
+        } catch (error) {
+          dispatch(setSnackbar({ text: 'Не удалось загрузить курсы' }));
+        }
+      })();
+    }
+  }, [wordSets.length, dispatch]);
+
   const match = useRouteMatch();
 
   return (
@@ -44,7 +64,7 @@ function WordSets({ wordSets }) {
               >
                 <Icon>list</Icon>
               </IconButton>
-              <WordSetPairsAddButton gameId={id} />
+              <ControlledWordSetPairsAddDialog gameId={id} />
             </CardActions>
           </Card>
         </GridItem>
@@ -52,15 +72,5 @@ function WordSets({ wordSets }) {
     </Grid>
   );
 }
-
-WordSets.propTypes = {
-  wordSets: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired
-};
 
 export default WordSets;

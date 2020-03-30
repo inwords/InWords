@@ -1,5 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { updateWordPairs as updateWordPairsLocal } from 'src/actions/dictionaryActions';
+import { updateWordPairs } from 'src/actions/dictionaryApiActions';
+import useForm from 'src/hooks/useForm';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
@@ -8,13 +13,61 @@ import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
 import Button from 'src/components/core/Button';
 
-function WordPairEditDialog({
+const fakeWordPair = {
+  wordForeign: '',
+  wordNative: ''
+};
+
+function WordPairEditDialogContainer({
   open,
   handleClose,
-  inputs,
-  handleChange,
-  handleSubmit
+  wordPair = fakeWordPair
 }) {
+  const dispatch = useDispatch();
+
+  const { inputs, setInputs, handleChange, handleSubmit } = useForm(
+    {
+      wordForeign: wordPair.wordForeign,
+      wordNative: wordPair.wordNative
+    },
+    async () => {
+      const preparedPair = {
+        wordForeign: inputs.wordForeign.trim(),
+        wordNative: inputs.wordNative.trim()
+      };
+
+      try {
+        const data = await dispatch(
+          updateWordPairs({ [wordPair.serverId]: preparedPair })
+        );
+        dispatch(
+          updateWordPairsLocal([
+            {
+              ...preparedPair,
+              oldServerId: wordPair.serverId,
+              serverId: data[0].serverId
+            }
+          ])
+        );
+      } catch (error) {
+        dispatch(
+          setSnackbar({
+            text: 'Не удалось изменить слова'
+          })
+        );
+      }
+    }
+  );
+
+  React.useEffect(() => {
+    if (open) {
+      setInputs({
+        wordForeign: wordPair.wordForeign,
+        wordNative: wordPair.wordNative
+      });
+    }
+  }, [open, setInputs, wordPair]);
+
   return (
     <Dialog
       aria-labelledby="word-pair-edit-dialog"
@@ -69,15 +122,14 @@ function WordPairEditDialog({
   );
 }
 
-WordPairEditDialog.propTypes = {
+WordPairEditDialogContainer.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  inputs: PropTypes.exact({
+  wordPair: PropTypes.shape({
+    serverId: PropTypes.number.isRequired,
     wordForeign: PropTypes.string.isRequired,
     wordNative: PropTypes.string.isRequired
-  }).isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  })
 };
 
-export default WordPairEditDialog;
+export default WordPairEditDialogContainer;

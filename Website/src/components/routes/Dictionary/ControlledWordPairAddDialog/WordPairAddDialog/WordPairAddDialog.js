@@ -20,6 +20,8 @@ import TextField from 'src/components/core/TextField';
 import Button from 'src/components/core/Button';
 import Chip from 'src/components/core/Chip';
 
+import './WordPairAddDialog.css';
+
 const initialInputs = {
   wordForeign: '',
   wordNative: ''
@@ -94,7 +96,7 @@ function WordPairAddDialog({ open, handleClose }) {
     return () => {
       clearTimeout(timerId);
     };
-  }, [inputs.wordForeign, dispatch]);
+  }, [inputs.wordForeign, dispatch, open]);
 
   const handleTranslationSelection = id => () => {
     const currentWordNative = inputs.wordNative.slice().trim();

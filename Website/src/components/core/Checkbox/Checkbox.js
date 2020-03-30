@@ -23,21 +23,21 @@ const Checkbox = React.forwardRef(function Checkbox(
   },
   ref
 ) {
-  const { current: isControlled } = React.useRef(Boolean(checkedProp));
+  const { current: isControlled } = React.useRef(checkedProp != null);
   const [checked, setChecked] = React.useState(false);
 
   const inputRef = React.useRef();
   const combinedRef = useCombinedRefs(ref, inputRef);
 
   React.useEffect(() => {
-    setChecked(inputRef.current.checked);
-  }, [inputRef]);
-
-  React.useEffect(() => {
     if (isControlled) {
       setChecked(checkedProp);
     }
   }, [isControlled, checkedProp]);
+
+  React.useEffect(() => {
+    setChecked(inputRef.current.checked);
+  }, []);
 
   const handleInputChange = event => {
     setChecked(event.target.checked);

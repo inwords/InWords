@@ -9,7 +9,7 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Game from './Game';
 import GamePairsDialog from './GamePairsDialog';
-import GameSettingsDialog from './GameSettingsDialog';
+import ControlledGameSettingsDialog from './ControlledGameSettingsDialog';
 
 import './CustomizedGame.css';
 
@@ -18,7 +18,7 @@ function CustomizedGame({
   setTrainingSettings,
   trainingLevel,
   handleNextLevel,
-  ...rest
+  handleResultSuccess
 }) {
   const [processedTrainingLevel, setProcessedTrainingLevel] = React.useState();
 
@@ -28,12 +28,10 @@ function CustomizedGame({
       ...processedTrainingLevel,
       wordTranslations: shuffle([...trainingLevel.wordTranslations])
         .slice(0, +trainingSettings.quantity || 8)
-        .map(wordTranslation => {
-          return {
-            ...wordTranslation,
-            onSpeech: createSpeech(wordTranslation.wordForeign)
-          };
-        })
+        .map(wordTranslation => ({
+          ...wordTranslation,
+          onSpeech: createSpeech(wordTranslation.wordForeign)
+        }))
     }));
   }, [trainingSettings.quantity, trainingLevel]);
 
@@ -66,26 +64,32 @@ function CustomizedGame({
     setListOn(trainingSettings.listOn);
   }, [trainingSettings.listOn]);
 
-  const {
-    open: openSettings,
-    handleOpen: handleOpenSettings,
-    handleClose: handleCloseSettings
-  } = useDialog();
-
   const handleShuffle = () => {
     setProcessedTrainingLevel(processedTrainingLevel => ({
       ...trainingLevel,
       ...processedTrainingLevel,
       wordTranslations: shuffle([...trainingLevel.wordTranslations])
         .slice(0, +trainingSettings.quantity || 8)
-        .map(wordTranslation => {
-          return {
-            ...wordTranslation,
-            onSpeech: createSpeech(wordTranslation.wordForeign)
-          };
-        })
+        .map(wordTranslation => ({
+          ...wordTranslation,
+          onSpeech: createSpeech(wordTranslation.wordForeign)
+        }))
     }));
 
+    if (listOn) {
+      handleOpenWordPairs();
+    }
+  };
+
+  const handleEnhancedNextLevel = () => {
+    handleNextLevel();
+
+    if (listOn) {
+      handleOpenWordPairs();
+    }
+  };
+
+  const handleReplay = () => {
     if (listOn) {
       handleOpenWordPairs();
     }
@@ -95,37 +99,22 @@ function CustomizedGame({
     <Fragment>
       <Paper>
         <Toolbar variant="dense" className="game-settings-toolbar">
-          <IconButton onClick={handleOpenSettings} edge="start">
-            <Icon>settings</Icon>
-          </IconButton>
+          <ControlledGameSettingsDialog
+            trainingSettings={trainingSettings}
+            setTrainingSettings={setTrainingSettings}
+          />
           <IconButton onClick={handleShuffle}>
             <Icon>shuffle</Icon>
           </IconButton>
         </Toolbar>
       </Paper>
-      <GameSettingsDialog
-        open={openSettings}
-        handleClose={handleCloseSettings}
-        trainingSettings={trainingSettings}
-        setTrainingSettings={setTrainingSettings}
-      />
       {Boolean(processedTrainingLevel) && (
         <Fragment>
           <Game
             trainingLevel={processedTrainingLevel}
-            handleNextLevel={() => {
-              handleNextLevel();
-
-              if (listOn) {
-                handleOpenWordPairs();
-              }
-            }}
-            handleReplay={() => {
-              if (listOn) {
-                handleOpenWordPairs();
-              }
-            }}
-            {...rest}
+            handleNextLevel={handleEnhancedNextLevel}
+            handleReplay={handleReplay}
+            handleResultSuccess={handleResultSuccess}
           />
           <GamePairsDialog
             open={openWordPairs}
@@ -158,7 +147,8 @@ CustomizedGame.propTypes = {
       }).isRequired
     ).isRequired
   }).isRequired,
-  handleNextLevel: PropTypes.func.isRequired
+  handleNextLevel: PropTypes.func.isRequired,
+  handleResultSuccess: PropTypes.func
 };
 
 export default CustomizedGame;

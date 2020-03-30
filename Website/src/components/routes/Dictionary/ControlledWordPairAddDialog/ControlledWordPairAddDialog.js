@@ -6,9 +6,9 @@ import Zoom from 'src/components/core/Zoom';
 import Fab from 'src/components/core/Fab';
 import WordPairAddDialog from './WordPairAddDialog';
 
-import './WordPairAddButton.css';
+import './ControlledWordPairAddDialog.css';
 
-function WordPairAddButton({ visible }) {
+function ControlledWordPairAddDialog({ visible }) {
   const { open, handleOpen, handleClose } = useDialog();
 
   return (
@@ -25,8 +25,8 @@ function WordPairAddButton({ visible }) {
   );
 }
 
-WordPairAddButton.propTypes = {
+ControlledWordPairAddDialog.propTypes = {
   visible: PropTypes.bool.isRequired
 };
 
-export default WordPairAddButton;
+export default ControlledWordPairAddDialog;
