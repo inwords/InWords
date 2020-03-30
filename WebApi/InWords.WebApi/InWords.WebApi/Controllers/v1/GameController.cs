@@ -49,6 +49,7 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
         /// <returns></returns>
         [Route("level/{id}")]
         [HttpGet]
+        [Obsolete]
         public async Task<IActionResult> GetLevel(int id)
         {
             Level answer = await gameLevelWordService.GetLevelWordsAsync(id)
