@@ -9,7 +9,6 @@ namespace InWords.Data.Domains
         [Key] public int UserWordPairId { get; set; }
 
         [Obsolete] public int WordPairId { get; set; }
-        [Obsolete] [ForeignKey(nameof(WordPairId))] public virtual WordPair WordPair { get; set; }
         [Obsolete] public bool IsInvertPair { get; set; }
 
         [MaxLength(128)] public string ForeignWord { get; set; }
