@@ -1,6 +1,6 @@
 import apiAction from './apiAction';
 
-export const receiveWordSets = () => dispatch =>
+export const getWordSets = () => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
@@ -12,7 +12,30 @@ export const receiveWordSets = () => dispatch =>
     )
   );
 
-export const receiveWordSet = id => dispatch =>
+export const getWordSetLevels = id => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        apiVersion: '2',
+        endpoint: `/wordSet/${id}`,
+        resolve,
+        reject
+      })
+    )
+  );
+
+export const getWordSetLevel = id => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        endpoint: `/game/level/${id}`,
+        resolve,
+        reject
+      })
+    )
+  );
+
+export const getWordSetList = id => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({

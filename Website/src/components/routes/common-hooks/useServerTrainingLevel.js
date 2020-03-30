@@ -2,11 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeLevel } from 'src/actions/trainingActions';
-import { receiveLevel } from 'src/actions/trainingApiActions';
+import { initializeWordSetLevel } from 'src/actions/wordSetActions';
+import { getWordSetLevel } from 'src/actions/wordSetApiActions';
 
 export default function useServerTrainingLevel() {
-  const levelsMap = useSelector(store => store.training.levelsMap);
+  const levelsMap = useSelector(store => store.wordSet.setLevelsMap);
 
   const dispatch = useDispatch();
 
@@ -18,8 +18,8 @@ export default function useServerTrainingLevel() {
     if (!levelsMap[paramLevelId]) {
       (async () => {
         try {
-          const data = await dispatch(receiveLevel(paramLevelId));
-          dispatch(initializeLevel(data));
+          const data = await dispatch(getWordSetLevel(paramLevelId));
+          dispatch(initializeWordSetLevel(data));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить уровень' }));
         }

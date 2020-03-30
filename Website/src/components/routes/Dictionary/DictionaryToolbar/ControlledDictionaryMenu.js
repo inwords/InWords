@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { initializeLevel } from 'src/actions/trainingActions';
+import { initializeWordSetLevel } from 'src/actions/wordSetActions';
 import usePopup from 'src/hooks/usePopup';
 import PopupContainer from 'src/components/core/PopupContainer';
 import Popup from 'src/components/core/Popup';
@@ -17,7 +17,7 @@ function ControlledDictionaryMenu({ checkedValues }) {
   const dispatch = useDispatch();
   const handleLearning = () => {
     dispatch(
-      initializeLevel({
+      initializeWordSetLevel({
         levelId: -1,
         wordTranslations: wordPairs.filter(({ serverId }) =>
           checkedValues.includes(serverId)

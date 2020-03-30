@@ -2,8 +2,8 @@ import React from 'react';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeHistory } from 'src/actions/trainingActions';
-import { receiveHistory } from 'src/actions/trainingApiActions';
+import { initializeTrainingHistory } from 'src/actions/trainingActions';
+import { getTrainingHistory } from 'src/actions/trainingApiActions';
 import Icon from 'src/components/core/Icon';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
@@ -15,7 +15,7 @@ import LinkButton from 'src/components/core/LinkButton';
 
 function TrainingHistory() {
   const { actual, recentTrainings } = useSelector(
-    store => store.training.history
+    store => store.trainingHistory
   );
 
   const dispatch = useDispatch();
@@ -24,8 +24,8 @@ function TrainingHistory() {
     if (!actual) {
       (async () => {
         try {
-          const data = await dispatch(receiveHistory());
-          dispatch(initializeHistory(data));
+          const data = await dispatch(getTrainingHistory());
+          dispatch(initializeTrainingHistory(data));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
         }
@@ -37,7 +37,7 @@ function TrainingHistory() {
 
   return (
     <Grid spacing={3}>
-      {recentTrainings.map(({ levelId, playerStars }) => (
+      {recentTrainings.map(({ levelId, stars }) => (
         <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardContent>
@@ -48,9 +48,9 @@ function TrainingHistory() {
                 #{levelId}
               </Typography>
               <div>
-                <Icon color={playerStars > 0 ? 'gold' : 'disabled'}>star</Icon>
-                <Icon color={playerStars > 1 ? 'gold' : 'disabled'}>star</Icon>
-                <Icon color={playerStars > 2 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={stars > 0 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={stars > 1 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={stars > 2 ? 'gold' : 'disabled'}>star</Icon>
               </div>
             </CardContent>
             <CardActions>
