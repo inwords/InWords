@@ -17,11 +17,5 @@ namespace InWords.Data.Repositories
                 uwp.UserId == pair.UserId
                 && uwp.WordPairId == pair.WordPairId && uwp.IsInvertPair == pair.IsInvertPair);
         }
-
-        public IQueryable<UserWordPair> IncludeWordPairs()
-        {
-            return GetWithInclude(wf => wf.WordPair.WordForeign,
-                wn => wn.WordPair.WordNative).AsQueryable();
-        }
     }
 }

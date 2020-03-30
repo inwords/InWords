@@ -3,7 +3,6 @@ using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
