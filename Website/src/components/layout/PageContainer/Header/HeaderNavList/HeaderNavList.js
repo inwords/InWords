@@ -28,7 +28,7 @@ HeaderNavList.propTypes = {
       to: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired
     }).isRequired
-  )
+  ).isRequired
 };
 
 export default HeaderNavList;

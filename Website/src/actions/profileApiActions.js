@@ -1,6 +1,6 @@
 import apiAction from './apiAction';
 
-export const receiveUserInfo = () => dispatch =>
+export const getUserInfo = () => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({

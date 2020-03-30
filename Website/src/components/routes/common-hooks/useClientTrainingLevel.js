@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 export default function useClientTrainingLevel(redirectionURL) {
-  const levelsMap = useSelector(store => store.training.levelsMap);
+  const levelsMap = useSelector(store => store.wordSet.setLevelsMap);
 
   const history = useHistory();
   const params = useParams();

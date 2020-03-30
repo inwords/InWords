@@ -2,9 +2,12 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeWordSet, updateWordSet } from 'src/actions/wordSetActions';
+import {
+  initializeWordSetPairs,
+  updateWordSetPairs
+} from 'src/actions/wordSetActions';
 import { addWordPairs as addWordPairsLocal } from 'src/actions/dictionaryActions';
-import { receiveWordSet } from 'src/actions/wordSetApiActions';
+import { getWordSetList } from 'src/actions/wordSetApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
 import useCheckboxList from 'src/hooks/useCheckboxList';
 import Paper from 'src/components/core/Paper';
@@ -14,10 +17,10 @@ import ListItem from 'src/components/core/ListItem';
 import ListItemText from 'src/components/core/ListItemText';
 import ListItemIcon from 'src/components/core/ListItemIcon';
 import Checkbox from 'src/components/core/Checkbox';
-import WordSetToolbar from './WordSetToolbar';
+import WordSetListToolbar from './WordSetListToolbar';
 
-function WordSet() {
-  const wordPairsMap = useSelector(store => store.wordSet.wordPairsMap);
+function WordSetList() {
+  const setPairsMap = useSelector(store => store.wordSet.setPairsMap);
 
   const params = useParams();
   const wordSetId = params.wordSetId;
@@ -29,8 +32,8 @@ function WordSet() {
   React.useEffect(() => {
     (async () => {
       try {
-        const data = await dispatch(receiveWordSet(wordSetId));
-        dispatch(initializeWordSet(wordSetId, data));
+        const data = await dispatch(getWordSetList(wordSetId));
+        dispatch(initializeWordSetPairs(wordSetId, data.words));
       } catch (error) {
         dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
       }
@@ -41,24 +44,24 @@ function WordSet() {
     setCheckedValues([]);
   };
 
-  const wordSet = wordPairsMap[wordSetId] || [];
+  const wordPairs = setPairsMap[wordSetId] || [];
 
   const [selectionAvailable, setSelectionAvailable] = React.useState(true);
 
   React.useEffect(() => {
-    setSelectionAvailable(wordSet.some(({ hasAdded }) => !hasAdded));
-  }, [wordSet]);
+    setSelectionAvailable(wordPairs.some(({ hasAdded }) => !hasAdded));
+  }, [wordPairs]);
 
   const handleCheckAll = () => {
     setCheckedValues(
-      wordSet
+      wordPairs
         .filter(({ hasAdded }) => !hasAdded)
         .map(({ serverId }) => serverId)
     );
   };
 
   const handleAdd = async () => {
-    const newWordPairs = wordSet.filter(
+    const newWordPairs = wordPairs.filter(
       ({ serverId, hasAdded }) => !hasAdded && checkedValues.includes(serverId)
     );
 
@@ -72,7 +75,7 @@ function WordSet() {
           }))
         )
       );
-      dispatch(updateWordSet(wordSetId, newWordPairs));
+      dispatch(updateWordSetPairs(wordSetId, newWordPairs));
       dispatch(
         setSnackbar({
           text: `Добавлено новых слов: ${newWordPairs.length}`
@@ -85,7 +88,7 @@ function WordSet() {
 
   return (
     <Paper>
-      <WordSetToolbar
+      <WordSetListToolbar
         checkedValues={checkedValues}
         selectionAvailable={selectionAvailable}
         handleCheckAll={handleCheckAll}
@@ -93,7 +96,7 @@ function WordSet() {
         handleAdd={handleAdd}
       />
       <List>
-        {wordSet.map(({ serverId, hasAdded, wordForeign, wordNative }) => (
+        {wordPairs.map(({ serverId, hasAdded, wordForeign, wordNative }) => (
           <ListItemContainer key={serverId}>
             <ListItem
               component="div"
@@ -131,4 +134,4 @@ function WordSet() {
   );
 }
 
-export default WordSet;
+export default WordSetList;

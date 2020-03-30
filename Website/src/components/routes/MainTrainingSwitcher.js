@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { removeLevelWordPairs } from 'src/actions/trainingActions';
+import { removeWordSetLevelPairs } from 'src/actions/wordSetActions';
 import useClientTrainingLevel from 'src/components/routes/common-hooks/useClientTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
@@ -11,7 +11,7 @@ function MainTrainingSwitcher(props) {
 
   const handleResultSuccess = ({ levelId, wordPairs }) => {
     dispatch(
-      removeLevelWordPairs(
+      removeWordSetLevelPairs(
         levelId,
         wordPairs.map(wordPair => wordPair.pairId)
       )

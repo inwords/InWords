@@ -3,7 +3,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import Course from 'src/components/routes/Course';
+import WordSetLevels from 'src/components/routes/WordSetLevels';
 
 const setup = () => {
   const accessData = {
@@ -11,11 +11,10 @@ const setup = () => {
     userId: 1
   };
   const mockingTrainingLevelsResponse = {
-    gameId: 1,
-    levelInfos: [
+    levels: [
       {
         levelId: 1,
-        playerStars: 3,
+        stars: 3,
         isAvailable: true,
         level: 1
       }
@@ -25,7 +24,7 @@ const setup = () => {
   const route = '/training/courses/1';
   const utils = renderWithEnvironment(
     <Route path="/training/courses/:wordSetId">
-      <Course />
+      <WordSetLevels />
     </Route>,
     {
       initialState: { auth: { token: accessData.token } },
@@ -43,14 +42,14 @@ const setup = () => {
   };
 };
 
-test('select training level', async () => {
+test('select word set level', async () => {
   const utils = setup();
-  const levelInfo = utils.mockingTrainingLevelsResponse.levelInfos[0];
-  await waitFor(() => [screen.getByText(`Уровень ${levelInfo.level}`)]);
+  const setLevel = utils.mockingTrainingLevelsResponse.levels[0];
+  await waitFor(() => [screen.getByText(`Уровень ${setLevel.level}`)]);
 
-  utils.clickLevel(levelInfo.levelId);
+  utils.clickLevel(setLevel.levelId);
 
   expect(utils.history.location.pathname).toEqual(
-    `${utils.route}/${levelInfo.levelId}/0`
+    `${utils.route}/${setLevel.levelId}/0`
   );
 });

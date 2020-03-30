@@ -17,8 +17,8 @@ const HistoryTrainingSwitcher = lazy(() =>
   import('src/components/routes/HistoryTrainingSwitcher')
 );
 const WordSets = lazy(() => import('src/components/routes/WordSets'));
-const WordSet = lazy(() => import('src/components/routes/WordSet'));
-const Course = lazy(() => import('src/components/routes/Course'));
+const WordSetList = lazy(() => import('src/components/routes/WordSetList'));
+const WordSetLevels = lazy(() => import('src/components/routes/WordSetLevels'));
 const CoursesTrainingSwitcher = lazy(() =>
   import('src/components/routes/CoursesTrainingSwitcher')
 );
@@ -93,7 +93,7 @@ function TrainingRouter() {
                 Набор слов
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <WordSet />
+            <WordSetList />
           </Container>
         )}
       />
@@ -108,7 +108,7 @@ function TrainingRouter() {
                 Уровни
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <Course />
+            <WordSetLevels />
           </Container>
         )}
       />

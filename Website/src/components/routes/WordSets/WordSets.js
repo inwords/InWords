@@ -3,7 +3,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializWordSets } from 'src/actions/wordSetActions';
-import { receiveWordSets } from 'src/actions/wordSetApiActions';
+import { getWordSets } from 'src/actions/wordSetApiActions';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
 import Card from 'src/components/core/Card';
@@ -26,7 +26,7 @@ function WordSets() {
     if (!wordSets.length) {
       (async () => {
         try {
-          const data = await dispatch(receiveWordSets());
+          const data = await dispatch(getWordSets());
           dispatch(initializWordSets(data));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить курсы' }));

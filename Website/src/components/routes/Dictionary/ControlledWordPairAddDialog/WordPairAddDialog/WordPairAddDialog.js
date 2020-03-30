@@ -6,7 +6,7 @@ import { setSnackbar } from 'src/actions/commonActions';
 import { addWordPairs as addWordPairsLocal } from 'src/actions/dictionaryActions';
 import {
   addWordPairs,
-  receiveWordTranslations
+  getWordTranslations
 } from 'src/actions/dictionaryApiActions';
 import useForm from 'src/hooks/useForm';
 import Dialog from 'src/components/core/Dialog';
@@ -71,7 +71,7 @@ function WordPairAddDialog({ open, handleClose }) {
 
     const translate = async word => {
       try {
-        const data = await dispatch(receiveWordTranslations(word));
+        const data = await dispatch(getWordTranslations(word));
 
         const newTranslationsInfo = [];
         data.def.forEach(meaning => {

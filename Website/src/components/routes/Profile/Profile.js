@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializeUserInfo } from 'src/actions/profileActions';
-import { receiveUserInfo } from 'src/actions/profileApiActions';
+import { getUserInfo } from 'src/actions/profileApiActions';
 import Icon from 'src/components/core/Icon';
 import Typography from 'src/components/core/Typography';
 import Avatar from 'src/components/core/Avatar';
@@ -23,7 +23,7 @@ function Profile() {
     if (!account.accountId) {
       (async () => {
         try {
-          const data = await dispatch(receiveUserInfo());
+          const data = await dispatch(getUserInfo());
           dispatch(initializeUserInfo(data));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));

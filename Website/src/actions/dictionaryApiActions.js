@@ -78,7 +78,7 @@ export const updateWordPairs = wordPairsMap => dispatch =>
 //   )
 // );
 
-export const receiveWordTranslations = word => dispatch =>
+export const getWordTranslations = word => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
@@ -86,6 +86,18 @@ export const receiveWordTranslations = word => dispatch =>
         endpoint: '/dictionary/lookup',
         method: 'POST',
         data: JSON.stringify({ text: word, lang: 'en-ru' }),
+        resolve,
+        reject
+      })
+    )
+  );
+
+export const getWordPairsToStudy = () => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        apiVersion: '1.1',
+        endpoint: '/dictionary/training',
         resolve,
         reject
       })

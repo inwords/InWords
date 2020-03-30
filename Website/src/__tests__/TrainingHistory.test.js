@@ -13,7 +13,7 @@ const setup = () => {
   const mockingTrainingHistoryResponse = [
     {
       levelId: 1,
-      playerStars: 3,
+      stars: 3,
       isAvailable: true,
       level: 1
     }

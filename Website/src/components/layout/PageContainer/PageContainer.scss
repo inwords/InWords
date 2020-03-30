@@ -3,22 +3,6 @@
 .page-container {
   display: flex;
 
-  &__drawer {
-    @include theme-breakpoints-up(lg) {
-      display: none;
-    }
-  }
-
-  &__drawer-header {
-    display: flex;
-    align-items: center;
-    padding-left: 24px;
-
-    @include theme-breakpoints-down(sm) {
-      padding-left: 16px;
-    }
-  }
-
   &__side-nav {
     position: fixed;
     top: 0;

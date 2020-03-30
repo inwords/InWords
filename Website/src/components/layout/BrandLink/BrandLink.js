@@ -4,9 +4,9 @@ import classNames from 'classnames';
 
 import './BrandLink.css';
 
-function BrandLink({ children, className, ...rest }) {
+function BrandLink({ children, className }) {
   return (
-    <a className={classNames('iw-brand-link', className)} href="/" {...rest}>
+    <a className={classNames('iw-brand-link', className)} href="/">
       {children}
     </a>
   );

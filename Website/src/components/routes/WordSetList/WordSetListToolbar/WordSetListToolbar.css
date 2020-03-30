@@ -1,4 +1,4 @@
-.word-set-toolbar {
+.word-set-list-toolbar {
   position: sticky;
   top: 64px;
   background-color: var(--palette-background-paper);
