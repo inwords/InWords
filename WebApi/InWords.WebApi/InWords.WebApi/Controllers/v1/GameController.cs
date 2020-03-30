@@ -56,42 +56,5 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
 
             return Ok(answer);
         }
-
-        /// <summary>
-        ///     This is api to delete game box
-        ///     Deletion allow only if it is your game
-        ///     of if your are admin
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete]
-        [Route("Delete/{id}")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        public Task<IActionResult> Delete(int id)
-        {
-            return DeleteRange(id);
-        }
-
-        /// <summary>
-        ///     This is to delete more then one game at request
-        /// </summary>
-        /// <param name="ids">array of game to be deleted</param>
-        /// <response code="200">Count of deleted words</response>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("DeleteRange")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteRange(params int[] ids)
-        {
-            int userId = User.GetUserId();
-
-            string role = User.GetUserRole();
-
-            int count = role == RoleType.Admin.ToString()
-                ? await creationRepository.DeleteGames(ids).ConfigureAwait(false)
-                : await creationRepository.DeleteOwnGames(userId, ids).ConfigureAwait(false);
-
-            return count == 0 ? (IActionResult)NotFound("Zero object can be deleted") : Ok(count);
-        }
     }
 }

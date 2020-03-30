@@ -15,6 +15,17 @@ service WordSetProvider {
 	rpc GetWordsList (WordSetWordsRequest) returns (WordSetWordsReply);
 	rpc ToDictionary (WordSetWordsRequest) returns (Common.v2.Empty);
 	rpc GetLevels (GetLevelsRequest) returns (GetLevelsReply);
+	rpc GetLevelWords (GetLevelWordsRequest) returns (GetLevelWordsReply);
+}
+
+message GetLevelWordsRequest{
+	int32 levelId = 1;
+}
+
+message GetLevelWordsReply{
+	int32 userWordPairId = 1;
+	string ForeignWord = 2;
+	string NativeWord = 3;
 }
 
 message GetLevelsRequest{
