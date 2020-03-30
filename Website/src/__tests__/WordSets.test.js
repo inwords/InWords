@@ -37,9 +37,9 @@ const setup = () => {
   );
 
   const clickCourse = id =>
-    fireEvent.click(utils.getByTestId(`to-course-${id}`));
-  const clickCourseWordSet = id =>
     fireEvent.click(utils.getByTestId(`to-word-set-${id}`));
+  const clickCourseWordSet = id =>
+    fireEvent.click(utils.getByTestId(`to-word-set-${id}-pairs`));
   const clickAdd = id =>
     fireEvent.click(utils.getByTestId(`add-to-dictionary-${id}`));
   const clickAddConfirmation = () =>
@@ -57,7 +57,7 @@ const setup = () => {
   };
 };
 
-test('select course', async () => {
+test('select word set', async () => {
   const utils = setup();
   const courseInfo = utils.mockingCoursesResponse.wordSets[0];
   await waitFor(() => screen.getByText(courseInfo.title));
@@ -69,7 +69,7 @@ test('select course', async () => {
   );
 });
 
-test('select course word set', async () => {
+test('select word set pairs to see', async () => {
   const utils = setup();
   const courseInfo = utils.mockingCoursesResponse.wordSets[0];
   await waitFor(() => screen.getByText(courseInfo.title));
@@ -81,7 +81,7 @@ test('select course word set', async () => {
   );
 });
 
-test('add course word pairs to dictionary', async () => {
+test('add word set pairs to dictionary', async () => {
   const utils = setup();
   const courseInfo = utils.mockingCoursesResponse.wordSets[0];
   const wordsAdded = utils.mockingCourseWordPairsAddingResponse.wordsAdded;

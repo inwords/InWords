@@ -4,7 +4,7 @@ import { toBeDisabled } from '@testing-library/jest-dom/matchers';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import WordSetList from 'src/components/routes/WordSetList';
+import WordSetPairs from 'src/components/routes/WordSetPairs';
 
 expect.extend({ toBeDisabled });
 
@@ -31,7 +31,7 @@ const setup = () => {
   const route = '/training/courses/1/word-pairs';
   const utils = renderWithEnvironment(
     <Route path="/training/courses/:wordSetId/word-pairs">
-      <WordSetList />
+      <WordSetPairs />
     </Route>,
     {
       initialState: { auth: { token: accessData.token } },

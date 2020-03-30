@@ -1,13 +1,12 @@
 export const INITIALIZE_WORD_SETS = 'INITIALIZE_WORD_SETS';
-export const initializWordSets = courses => ({
+export const initializeWordSets = courses => ({
   type: INITIALIZE_WORD_SETS,
   payload: courses
 });
 
-export const INITIALIZE_WORD_SET_LEVELS_LIST =
-  'INITIALIZE_WORD_SET_LEVELS_LIST';
-export const initializeWordSetLevelsList = (wordSetId, levels) => ({
-  type: INITIALIZE_WORD_SET_LEVELS_LIST,
+export const INITIALIZE_WORD_SET_LEVELS = 'INITIALIZE_WORD_SET_LEVELS';
+export const initializeWordSetLevels = (wordSetId, levels) => ({
+  type: INITIALIZE_WORD_SET_LEVELS,
   payload: {
     wordSetId,
     levels

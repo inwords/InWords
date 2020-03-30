@@ -5,14 +5,12 @@ import { updateWordSetLevelResult } from 'src/actions/wordSetActions';
 import useServerTrainingLevel from 'src/components/routes/common-hooks/useServerTrainingLevel';
 import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
 
-function CoursesTrainingSwitcher(props) {
+function WordSetTrainingSwitcher(props) {
   const trainingLevel = useServerTrainingLevel();
 
   const dispatch = useDispatch();
 
-  const setLevelsListsMap = useSelector(
-    store => store.wordSet.setLevelsListsMap
-  );
+  const levelsListsMap = useSelector(store => store.wordSet.levelsListsMap);
 
   const history = useHistory();
   const params = useParams();
@@ -27,16 +25,16 @@ function CoursesTrainingSwitcher(props) {
       levelId: paramLevelId,
       trainingId: paramTrainingId
     } = params;
-    const setLevels = setLevelsListsMap[paramWordSetId];
+    const levels = levelsListsMap[paramWordSetId];
 
-    if (setLevels) {
-      const currentLevelIndex = setLevels.findIndex(
+    if (levels) {
+      const currentLevelIndex = levels.findIndex(
         ({ levelId }) => levelId === +paramLevelId
       );
 
       if (currentLevelIndex !== -1) {
         const nextLevelIndex = currentLevelIndex + 1;
-        const nextLevel = setLevels[nextLevelIndex];
+        const nextLevel = levels[nextLevelIndex];
 
         if (nextLevel) {
           history.push(
@@ -61,4 +59,4 @@ function CoursesTrainingSwitcher(props) {
   );
 }
 
-export default CoursesTrainingSwitcher;
+export default WordSetTrainingSwitcher;

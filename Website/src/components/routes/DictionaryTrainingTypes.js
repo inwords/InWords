@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import TrainingTypes from 'src/components/routes/common/TrainingTypes';
 
 function DictionaryTrainingTypes() {
-  const levelsMap = useSelector(store => store.wordSet.setLevelsMap);
+  const levelsMap = useSelector(store => store.wordSet.levelsMap);
 
   const history = useHistory();
 

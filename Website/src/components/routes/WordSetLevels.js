@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useRouteMatch, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeWordSetLevelsList } from 'src/actions/wordSetActions';
+import { initializeWordSetLevels } from 'src/actions/wordSetActions';
 import { getWordSetLevels } from 'src/actions/wordSetApiActions';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
@@ -14,36 +14,34 @@ import Icon from 'src/components/core/Icon';
 import LinkButton from 'src/components/core/LinkButton';
 
 function WordSetLevels() {
-  const setLevelsListsMap = useSelector(
-    store => store.wordSet.setLevelsListsMap
-  );
+  const levelsListsMap = useSelector(store => store.wordSet.levelsListsMap);
 
   const dispatch = useDispatch();
 
   const params = useParams();
   const wordSetId = params.wordSetId;
 
-  const setLevels = setLevelsListsMap[wordSetId];
+  const levels = levelsListsMap[wordSetId];
 
   React.useEffect(() => {
-    if (!setLevels) {
+    if (!levels) {
       (async () => {
         try {
           const data = await dispatch(getWordSetLevels(wordSetId));
-          dispatch(initializeWordSetLevelsList(wordSetId, data.levels));
+          dispatch(initializeWordSetLevels(wordSetId, data.levels));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
         }
       })();
     }
-  }, [setLevels, dispatch, wordSetId]);
+  }, [levels, dispatch, wordSetId]);
 
   const match = useRouteMatch();
 
   return (
     <Grid spacing={3}>
-      {Boolean(setLevels) &&
-        setLevels.map(({ levelId, stars, isAvailable, level }) => (
+      {Boolean(levels) &&
+        levels.map(({ levelId, stars, isAvailable, level }) => (
           <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
             <Card>
               <CardHeader title={`Уровень ${level}`} />

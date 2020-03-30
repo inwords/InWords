@@ -17,10 +17,10 @@ import ListItem from 'src/components/core/ListItem';
 import ListItemText from 'src/components/core/ListItemText';
 import ListItemIcon from 'src/components/core/ListItemIcon';
 import Checkbox from 'src/components/core/Checkbox';
-import WordSetListToolbar from './WordSetListToolbar';
+import WordSetPairsToolbar from './WordSetPairsToolbar';
 
-function WordSetList() {
-  const setPairsMap = useSelector(store => store.wordSet.setPairsMap);
+function WordSetPairs() {
+  const pairsListsMap = useSelector(store => store.wordSet.pairsListsMap);
 
   const params = useParams();
   const wordSetId = params.wordSetId;
@@ -44,24 +44,24 @@ function WordSetList() {
     setCheckedValues([]);
   };
 
-  const wordPairs = setPairsMap[wordSetId] || [];
+  const wordSetPairs = pairsListsMap[wordSetId] || [];
 
   const [selectionAvailable, setSelectionAvailable] = React.useState(true);
 
   React.useEffect(() => {
-    setSelectionAvailable(wordPairs.some(({ hasAdded }) => !hasAdded));
-  }, [wordPairs]);
+    setSelectionAvailable(wordSetPairs.some(({ hasAdded }) => !hasAdded));
+  }, [wordSetPairs]);
 
   const handleCheckAll = () => {
     setCheckedValues(
-      wordPairs
+      wordSetPairs
         .filter(({ hasAdded }) => !hasAdded)
         .map(({ serverId }) => serverId)
     );
   };
 
   const handleAdd = async () => {
-    const newWordPairs = wordPairs.filter(
+    const newWordPairs = wordSetPairs.filter(
       ({ serverId, hasAdded }) => !hasAdded && checkedValues.includes(serverId)
     );
 
@@ -88,7 +88,7 @@ function WordSetList() {
 
   return (
     <Paper>
-      <WordSetListToolbar
+      <WordSetPairsToolbar
         checkedValues={checkedValues}
         selectionAvailable={selectionAvailable}
         handleCheckAll={handleCheckAll}
@@ -96,7 +96,7 @@ function WordSetList() {
         handleAdd={handleAdd}
       />
       <List>
-        {wordPairs.map(({ serverId, hasAdded, wordForeign, wordNative }) => (
+        {wordSetPairs.map(({ serverId, hasAdded, wordForeign, wordNative }) => (
           <ListItemContainer key={serverId}>
             <ListItem
               component="div"
@@ -134,4 +134,4 @@ function WordSetList() {
   );
 }
 
-export default WordSetList;
+export default WordSetPairs;

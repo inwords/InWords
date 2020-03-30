@@ -6,9 +6,9 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
 
-import './WordSetListToolbar.css';
+import './WordSetPairsToolbar.css';
 
-function WordSetListToolbar({
+function WordSetPairsToolbar({
   checkedValues,
   selectionAvailable,
   handleReset,
@@ -18,7 +18,7 @@ function WordSetListToolbar({
   const numberOfChecked = checkedValues.length;
 
   return (
-    <Toolbar className="word-set-list-toolbar">
+    <Toolbar className="word-set-pairs-toolbar">
       <IconButton
         aria-label="clear selection"
         disabled={!selectionAvailable}
@@ -58,7 +58,7 @@ function WordSetListToolbar({
   );
 }
 
-WordSetListToolbar.propTypes = {
+WordSetPairsToolbar.propTypes = {
   checkedValues: PropTypes.array.isRequired,
   selectionAvailable: PropTypes.bool.isRequired,
   handleReset: PropTypes.func.isRequired,
@@ -66,4 +66,4 @@ WordSetListToolbar.propTypes = {
   handleAdd: PropTypes.func.isRequired
 };
 
-export default WordSetListToolbar;
+export default WordSetPairsToolbar;

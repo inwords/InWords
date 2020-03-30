@@ -44,12 +44,12 @@ const setup = () => {
 
 test('select word set level', async () => {
   const utils = setup();
-  const setLevel = utils.mockingTrainingLevelsResponse.levels[0];
-  await waitFor(() => [screen.getByText(`Уровень ${setLevel.level}`)]);
+  const level = utils.mockingTrainingLevelsResponse.levels[0];
+  await waitFor(() => [screen.getByText(`Уровень ${level.level}`)]);
 
-  utils.clickLevel(setLevel.levelId);
+  utils.clickLevel(level.levelId);
 
   expect(utils.history.location.pathname).toEqual(
-    `${utils.route}/${setLevel.levelId}/0`
+    `${utils.route}/${level.levelId}/0`
   );
 });

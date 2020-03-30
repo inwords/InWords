@@ -29,7 +29,7 @@ function MainTrainingTypes() {
     })();
   }, [dispatch]);
 
-  const levelsMap = useSelector(store => store.wordSet.setLevelsMap);
+  const levelsMap = useSelector(store => store.wordSet.levelsMap);
 
   return <TrainingTypes trainingLevel={levelsMap[0] || { levelId: 0 }} />;
 }

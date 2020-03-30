@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializWordSets } from 'src/actions/wordSetActions';
+import { initializeWordSets } from 'src/actions/wordSetActions';
 import { getWordSets } from 'src/actions/wordSetApiActions';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
@@ -18,7 +18,7 @@ import Space from 'src/components/core/Space';
 import ControlledWordSetPairsAddDialog from './ControlledWordSetPairsAddDialog';
 
 function WordSets() {
-  const wordSets = useSelector(store => store.wordSet.sets);
+  const wordSets = useSelector(store => store.wordSet.all);
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ function WordSets() {
       (async () => {
         try {
           const data = await dispatch(getWordSets());
-          dispatch(initializWordSets(data));
+          dispatch(initializeWordSets(data));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить курсы' }));
         }
@@ -48,7 +48,7 @@ function WordSets() {
             </CardContent>
             <CardActions>
               <LinkButton
-                data-testid={`to-course-${id}`}
+                data-testid={`to-word-set-${id}`}
                 component={Link}
                 to={`${match.url}/${id}`}
                 variant="text"
@@ -58,7 +58,7 @@ function WordSets() {
               </LinkButton>
               <Space />
               <IconButton
-                data-testid={`to-word-set-${id}`}
+                data-testid={`to-word-set-${id}-pairs`}
                 component={Link}
                 to={`${match.url}/${id}/word-pairs`}
               >

@@ -3,7 +3,7 @@ import { act, fireEvent, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import CoursesTrainingSwitcher from 'src/components/routes/CoursesTrainingSwitcher';
+import WordSetTrainingSwitcher from 'src/components/routes/WordSetTrainingSwitcher';
 
 afterEach(() => {
   jest.useRealTimers();
@@ -28,7 +28,7 @@ const setup = () => {
   const route = `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`;
   const utils = renderWithEnvironment(
     <Route path="/training/courses/:wordSetId/:levelId/:trainingId">
-      <CoursesTrainingSwitcher />
+      <WordSetTrainingSwitcher />
     </Route>,
     {
       initialState: { auth: { token: accessData.token } },
@@ -46,7 +46,7 @@ const setup = () => {
   };
 };
 
-test('complete courses game', async () => {
+test('complete word set game', async () => {
   const utils = setup();
   const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
   const wordEls = await waitFor(() => [
@@ -71,7 +71,7 @@ test('complete courses game', async () => {
   await waitFor(() => utils.getAllByText('star'));
 });
 
-test('complete courses game with one mistake', async () => {
+test('complete word set game with one mistake', async () => {
   const utils = setup();
   const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
   const wordEls = await waitFor(() => [

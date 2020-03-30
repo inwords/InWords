@@ -30,13 +30,11 @@ function WordSetPairsAddDialog({ open, handleClose, gameId }) {
 
   return (
     <Dialog
-      aria-labelledby="course-word-pairs-add-confirmation-dialog"
+      aria-labelledby="word-set-pairs-add-dialog"
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle id="course-word-pairs-add-confirmation-dialog">
-        Добавление слов
-      </DialogTitle>
+      <DialogTitle id="word-set-pairs-add-dialog">Добавление слов</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Добавить все слова из темы в словарь?

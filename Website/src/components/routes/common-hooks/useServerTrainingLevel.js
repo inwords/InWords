@@ -6,7 +6,7 @@ import { initializeWordSetLevel } from 'src/actions/wordSetActions';
 import { getWordSetLevel } from 'src/actions/wordSetApiActions';
 
 export default function useServerTrainingLevel() {
-  const levelsMap = useSelector(store => store.wordSet.setLevelsMap);
+  const levelsMap = useSelector(store => store.wordSet.levelsMap);
 
   const dispatch = useDispatch();
 

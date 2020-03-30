@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   INITIALIZE_WORD_SETS,
-  INITIALIZE_WORD_SET_LEVELS_LIST,
+  INITIALIZE_WORD_SET_LEVELS,
   UPDATE_WORD_SET_LEVEL_RESULT,
   INITIALIZE_WORD_SET_LEVEL,
   REMOVE_WORD_SET_LEVEL_PAIRS,
@@ -9,7 +9,7 @@ import {
   UPDATE_WORD_SET_PAIRS
 } from 'src/actions/wordSetActions';
 
-const sets = (state = [], action) => {
+const all = (state = [], action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SETS:
       return action.payload.wordSets || [];
@@ -18,9 +18,9 @@ const sets = (state = [], action) => {
   }
 };
 
-const setLevelsListsMap = (state = {}, action) => {
+const levelsListsMap = (state = {}, action) => {
   switch (action.type) {
-    case INITIALIZE_WORD_SET_LEVELS_LIST: {
+    case INITIALIZE_WORD_SET_LEVELS: {
       const payload = action.payload;
 
       return {
@@ -33,11 +33,11 @@ const setLevelsListsMap = (state = {}, action) => {
         const payload = action.payload;
 
         if (state[payload.wordSetId]) {
-          const setLevels = state[payload.wordSetId] || [];
+          const levels = state[payload.wordSetId] || [];
 
           return {
             ...state,
-            [payload.wordSetId]: setLevels.map(level => {
+            [payload.wordSetId]: levels.map(level => {
               const levelResult = payload.levelResult.classicCardLevelResult[0];
 
               if (level.levelId !== levelResult.levelId) {
@@ -59,7 +59,7 @@ const setLevelsListsMap = (state = {}, action) => {
   }
 };
 
-const setLevelsMap = (state = {}, action) => {
+const levelsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET_LEVEL: {
       const payload = action.payload;
@@ -87,7 +87,7 @@ const setLevelsMap = (state = {}, action) => {
   }
 };
 
-const setPairsMap = (state = {}, action) => {
+const pairsListsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET_PAIRS: {
       const payload = action.payload;
@@ -134,8 +134,8 @@ const setPairsMap = (state = {}, action) => {
 };
 
 export default combineReducers({
-  sets,
-  setLevelsListsMap,
-  setLevelsMap,
-  setPairsMap
+  all,
+  levelsListsMap,
+  levelsMap,
+  pairsListsMap
 });
