@@ -10,7 +10,7 @@ namespace InWords.Data.Domains
         public int UserId { get; set; }
         [MaxLength(128)] public string ForeignWord { get; set; }
         [MaxLength(128)] public string NativeWord { get; set; }
-        public bool Backgound { get; set; }
+        public bool Background { get; set; }
         [Obsolete] public int WordPairId { get; set; }
         [Obsolete] public bool IsInvertPair { get; set; }
 

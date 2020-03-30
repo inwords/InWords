@@ -34,7 +34,7 @@ namespace InWords.WebApi.Modules.DictionaryService.Words
             reply.ToDelete.Add(wordsToDelete);
 
             var wordReplies = Context.UserWordPairs
-                .Where(u => wordsToAdd.Any(w => w == u.UserWordPairId) && !u.Backgound)
+                .Where(u => wordsToAdd.Any(w => w == u.UserWordPairId) && !u.Background)
                 .Select(w => new WordReply()
                 {
                     Period = w.LearningPeriod,

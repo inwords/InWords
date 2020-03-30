@@ -57,7 +57,7 @@ namespace InWords.WebApi.Modules.WordsSets
             {
                 ForeignWord = u.ForeignWord,
                 NativeWord = u.NativeWord,
-                Backgound = true,
+                Background = true,
                 UserId = userId
             }).ToArray();
 
