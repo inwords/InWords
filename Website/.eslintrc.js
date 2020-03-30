@@ -11,14 +11,10 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    es6: true,
+    es2020: true,
     jest: true
   },
   parser: 'babel-eslint',
-  parserOptions: {
-    ecmaVersion: 11,
-    sourceType: 'module'
-  },
   plugins: ['react', 'react-hooks', 'jsx-a11y'],
   rules: {
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
