@@ -43,10 +43,11 @@ namespace InWords.WebApi.Modules.DictionaryService.Words
 
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
-            var userWords = Context.UserWordPairs.Where(u => u.UserId == userId);
+            var userWords1 = Context.UserWordPairs.Where(u => u.UserId == userId);
+            var userWords2 = Context.UserWordPairs.Where(u => u.UserId == userId);
 
-            var dubles = (from uwp1 in userWords
-                          from uwp2 in userWords
+            var dubles = (from uwp1 in userWords1
+                          from uwp2 in userWords2
                           where uwp1.ForeignWord == uwp2.ForeignWord &&
                           uwp1.NativeWord == uwp2.NativeWord &&
                           uwp1.UserWordPairId > uwp2.UserWordPairId
