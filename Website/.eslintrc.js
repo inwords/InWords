@@ -8,13 +8,15 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings'
   ],
+  parserOptions: {
+    sourceType: 'module'
+  },
   env: {
     browser: true,
     node: true,
     es2020: true,
     jest: true
   },
-  parser: 'babel-eslint',
   plugins: ['react', 'react-hooks', 'jsx-a11y'],
   rules: {
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
