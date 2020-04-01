@@ -14,9 +14,15 @@ import NotFound from 'src/components/routes/NotFound';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
 
-const SignIn = lazy(() => import('src/components/routes/SignIn'));
-const SignUp = lazy(() => import('src/components/routes/SignUp'));
-const Profile = lazy(() => import('src/components/routes/Profile'));
+const SignIn = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/SignIn')
+);
+const SignUp = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/SignUp')
+);
+const Profile = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/Profile')
+);
 
 const routes = [
   {

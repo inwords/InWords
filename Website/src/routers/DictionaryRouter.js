@@ -4,12 +4,18 @@ import Container from 'src/components/core/Container';
 import Breadcrumbs from 'src/components/core/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 
-const Dictionary = lazy(() => import('src/components/routes/Dictionary'));
+const Dictionary = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/Dictionary')
+);
 const DictionaryTrainingTypes = lazy(() =>
-  import('src/components/routes/DictionaryTrainingTypes')
+  import(
+    /* webpackPrefetch: true */ 'src/components/routes/DictionaryTrainingTypes'
+  )
 );
 const DictionaryTrainingSwitcher = lazy(() =>
-  import('src/components/routes/DictionaryTrainingSwitcher')
+  import(
+    /* webpackPrefetch: true */ 'src/components/routes/DictionaryTrainingSwitcher'
+  )
 );
 
 function DictionaryRouter() {
