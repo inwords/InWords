@@ -23,8 +23,8 @@ steps:
   - script: |
       npm install
       npm run build
-      npm run coverage
-    displayName: 'npm install and build'
+      npm run test:coverage:report
+    displayName: 'npm install, build and test'
     workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
 
   - task: PublishCodeCoverageResults@1

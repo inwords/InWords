@@ -6,5 +6,5 @@
 # production
 /dist
 
-# coverage
+# test
 /coverage

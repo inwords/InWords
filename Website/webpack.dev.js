@@ -7,7 +7,7 @@ module.exports = merge(common, {
   output: {
     filename: 'static/js/[name].chunk.js'
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
     historyApiFallback: true,

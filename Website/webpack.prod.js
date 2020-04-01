@@ -15,18 +15,17 @@ module.exports = merge(common, {
       cacheGroups: {
         styles: {
           test: /\.(css|scss)$/,
+          chunks: 'all',
           enforce: true
         },
-        vendors: {
+        commons: {
           test: /[\\/]node_modules[\\/]/,
-          name: false,
+          name: 'vendors',
           chunks: 'all'
         }
       }
     },
-    runtimeChunk: {
-      name: entrypoint => `runtime-${entrypoint.name}`
-    }
+    runtimeChunk: true
   },
   module: {
     rules: [
