@@ -57,6 +57,9 @@ function Game({
     setCompletedPairIdsMap({});
     setSelectedCompletedPairId(-1);
     setWordPairIdOpenCountsMap({});
+    setGameCompleted(false);
+    setResultReady(false);
+    setScore(null);
 
     const wordPairs = Array.prototype.concat.apply(
       [],

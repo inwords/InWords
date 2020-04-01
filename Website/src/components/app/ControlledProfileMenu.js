@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { denyAccess } from 'src/actions/authActions';
 import { removeState } from 'src/localStorage';
-import useOAuth2Logout from 'src/components/app-common/useOAuth2Logout';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
 import ResponsiveMenu from 'src/components/core/ResponsiveMenu';
@@ -12,10 +11,23 @@ import usePopup from 'src/components/core/usePopup';
 import PopupContainer from 'src/components/core/PopupContainer';
 import Popup from 'src/components/core/Popup';
 
+const handleOAuth2Logout = async () => {
+  if (window.gapi) {
+    const auth2 = window.gapi.auth2.getAuthInstance();
+    if (auth2 != null) {
+      try {
+        await auth2.signOut();
+        auth2.disconnect();
+      } catch (error) {
+        // die
+      }
+    }
+  }
+};
+
 function ControlledProfileMenu() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { handleOAuth2Logout } = useOAuth2Logout();
 
   const handleLogout = async () => {
     try {

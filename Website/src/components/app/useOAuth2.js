@@ -1,10 +1,9 @@
 import React from 'react';
-import useScript from 'src/components/core/useScript';
+import createScriptsLoader from 'src/utils/createScriptsLoader';
 
 const useOAuth2 = () => {
-  useScript(
-    'https://apis.google.com/js/api.js',
-    React.useCallback(() => {
+  React.useEffect(() => {
+    const handleLoad = () => {
       const params = {
         client_id: process.env.WEB_CLIENT_ID
       };
@@ -18,8 +17,25 @@ const useOAuth2 = () => {
           }
         }
       });
-    }, [])
-  );
+    };
+
+    const { load, cleanUp } = createScriptsLoader();
+    if (!window.gapi || !window.gapi.auth2) {
+      (async () => {
+        await load({
+          src: 'https://apis.google.com/js/api.js',
+          defer: true
+        });
+        handleLoad();
+      })();
+    } else {
+      handleLoad();
+    }
+
+    return () => {
+      cleanUp();
+    };
+  }, []);
 };
 
 export default useOAuth2;

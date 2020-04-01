@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useScript from 'src/components/core/useScript';
+import createScriptsLoader from 'src/utils/createScriptsLoader';
 
 import './GSignInButton.css';
 
 function GSignInButton({ handleSuccess, handleFailure }) {
-  useScript(
-    'https://apis.google.com/js/platform.js?onload=renderButton',
-    () => {
+  React.useEffect(() => {
+    const handleLoad = () => {
       window.gapi.signin2.render('g-signin2', {
         scope: 'profile email',
         width: '120%',
@@ -17,8 +16,25 @@ function GSignInButton({ handleSuccess, handleFailure }) {
         onsuccess: handleSuccess,
         onfailure: handleFailure
       });
+    };
+
+    const { load, cleanUp } = createScriptsLoader();
+    if (!window.gapi || !window.gapi.signin2) {
+      (async () => {
+        await load({
+          src: 'https://apis.google.com/js/platform.js',
+          defer: true
+        });
+        handleLoad();
+      })();
+    } else {
+      handleLoad();
     }
-  );
+
+    return () => {
+      cleanUp();
+    };
+  }, [handleSuccess, handleFailure]);
 
   return <div id="g-signin2" className="g-signin2"></div>;
 }
