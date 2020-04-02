@@ -2,7 +2,6 @@
 
 .profile-root {
   display: flex;
-  flex-wrap: wrap;
 
   @include theme-breakpoints-down(sm) {
     flex-direction: column;
