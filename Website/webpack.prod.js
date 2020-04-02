@@ -23,16 +23,12 @@ module.exports = merge(common, {
       })
     ],
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
         styles: {
           test: /\.(css|scss)$/,
           chunks: 'all',
           enforce: true
-        },
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
         }
       }
     },
