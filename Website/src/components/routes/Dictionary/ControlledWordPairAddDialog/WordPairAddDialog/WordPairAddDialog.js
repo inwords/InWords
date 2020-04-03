@@ -65,9 +65,7 @@ function WordPairAddDialog({ open, handleClose }) {
 
   useEffect(() => {
     const word = inputs.wordForeign.trim();
-    if (!word.match(/^[a-z0-9 ]+$/i)) {
-      return;
-    }
+    if (!word.match(/^[a-z0-9 ]+$/i)) return;
 
     const translate = async word => {
       try {
@@ -96,7 +94,7 @@ function WordPairAddDialog({ open, handleClose }) {
     return () => {
       clearTimeout(timerId);
     };
-  }, [inputs.wordForeign, dispatch, open]);
+  }, [inputs.wordForeign, dispatch]);
 
   const handleTranslationSelection = id => () => {
     const currentWordNative = inputs.wordNative.slice().trim();
