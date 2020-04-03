@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -28,7 +28,7 @@ function NicknameEditDialog({ open, handleClose, nickname }) {
     }
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setInputs({ nickname });
     }

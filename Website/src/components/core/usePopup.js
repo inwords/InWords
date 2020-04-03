@@ -1,8 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 
 const usePopup = () => {
-  const [show, setShow] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [show, setShow] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleOpen = event => {
     setShow(true);

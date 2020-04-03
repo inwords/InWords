@@ -1,7 +1,7 @@
-import React from 'react';
+import { useState } from 'react';
 
 const useForm = (initialInputs, handleSubmit) => {
-  const [inputs, setInputs] = React.useState(initialInputs);
+  const [inputs, setInputs] = useState(initialInputs);
 
   const handleChange = event => {
     const target = event.target;

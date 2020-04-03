@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -22,7 +22,7 @@ function WordSets() {
 
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!wordSets.length) {
       (async () => {
         try {

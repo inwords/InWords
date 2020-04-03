@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'src/utils/debounce';
 import Menu from 'src/components/core/Menu';
 
 function ResponsiveMenu({ anchorEl, responsive = true, style = {}, ...rest }) {
-  const [maxHeight, setMaxHeight] = React.useState(0);
+  const [maxHeight, setMaxHeight] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (anchorEl && responsive) {
       const rect = anchorEl.getBoundingClientRect();
       setMaxHeight(window.innerHeight - rect.top - rect.height);

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, memo } from 'react';
 import PropTypes from 'prop-types';
 import useDialog from 'src/components/core/useDialog';
 import Button from 'src/components/core/Button';
@@ -25,4 +25,4 @@ ControlledNicknameEditDialog.propTypes = {
   nickname: PropTypes.string
 };
 
-export default React.memo(ControlledNicknameEditDialog);
+export default memo(ControlledNicknameEditDialog);

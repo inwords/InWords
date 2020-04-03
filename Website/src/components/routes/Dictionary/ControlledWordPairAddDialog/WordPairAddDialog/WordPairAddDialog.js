@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -54,16 +54,16 @@ function WordPairAddDialog({ open, handleClose }) {
     }
   );
 
-  const [translationsInfo, setTranslationsInfo] = React.useState([]);
+  const [translationsInfo, setTranslationsInfo] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setInputs(initialInputs);
       setTranslationsInfo([]);
     }
   }, [open, setInputs]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const word = inputs.wordForeign.trim();
     if (!word.match(/^[a-z0-9 ]+$/i)) {
       return;

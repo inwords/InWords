@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -10,11 +10,9 @@ export default function useServerTrainingLevel() {
 
   const dispatch = useDispatch();
 
-  const params = useParams();
+  const { levelId: paramLevelId } = useParams();
 
-  const paramLevelId = +params.levelId;
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (!levelsMap[paramLevelId]) {
       (async () => {
         try {
@@ -29,7 +27,7 @@ export default function useServerTrainingLevel() {
 
   return (
     levelsMap[paramLevelId] || {
-      levelId: paramLevelId,
+      levelId: +paramLevelId,
       wordTranslations: []
     }
   );

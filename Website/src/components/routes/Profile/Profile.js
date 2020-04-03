@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializeUserInfo } from 'src/actions/profileActions';
@@ -15,12 +15,16 @@ import ControlledAccountDeleteDialog from './ControlledAccountDeleteDialog';
 import './Profile.scss';
 
 function Profile() {
-  const { nickname, avatarPath, account } = useSelector(store => store.profile);
+  const {
+    nickname,
+    avatarPath,
+    account: { accountId, email }
+  } = useSelector(store => store.profile);
 
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    if (!account.accountId) {
+  useEffect(() => {
+    if (!accountId) {
       (async () => {
         try {
           const data = await dispatch(getUserInfo());
@@ -30,46 +34,52 @@ function Profile() {
         }
       })();
     }
-  }, [account.accountId, dispatch]);
+  }, [accountId, dispatch]);
 
   return (
-    <Fragment>
-      <div className="profile-root">
-        <div className="profile-avatar-section">
-          <Avatar alt="Avatar" src={avatarPath} className="profile-avatar">
-            A
-          </Avatar>
-          <ControlledAvatarEditDialog />
-        </div>
-        <div className="profile-personal-section">
-          <Typography component="h1" variant="h3" className="profile-nickname">
-            {nickname}
-          </Typography>
-          <ControlledNicknameEditDialog nickname={nickname} />
-          <div className="profile-personal-info">
-            <div className="profile-personal-info-entry">
-              <div className="profile-personal-info-entry-icon">
-                <Icon color="action">email</Icon>
-              </div>
-              <div className="profile-personal-info-entry-content">
-                <div className="profile-personal-info-value">
-                  <Typography
-                    variant="body1"
-                    className="profile-personal-info-value-text"
-                  >
-                    {account.email}
-                  </Typography>
+    accountId && (
+      <Fragment>
+        <div className="profile-root">
+          <div className="profile-avatar-section">
+            <Avatar alt="Avatar" src={avatarPath} className="profile-avatar">
+              A
+            </Avatar>
+            <ControlledAvatarEditDialog />
+          </div>
+          <div className="profile-personal-section">
+            <Typography
+              component="h1"
+              variant="h3"
+              className="profile-nickname"
+            >
+              {nickname}
+            </Typography>
+            <ControlledNicknameEditDialog nickname={nickname} />
+            <div className="profile-personal-info">
+              <div className="profile-personal-info-entry">
+                <div className="profile-personal-info-entry-icon">
+                  <Icon color="action">email</Icon>
                 </div>
-                <ControlledEmailEditDialog />
+                <div className="profile-personal-info-entry-content">
+                  <div className="profile-personal-info-value">
+                    <Typography
+                      variant="body1"
+                      className="profile-personal-info-value-text"
+                    >
+                      {email}
+                    </Typography>
+                  </div>
+                  <ControlledEmailEditDialog />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <Paper className="profile-footer">
-        <ControlledAccountDeleteDialog nickname={nickname} />
-      </Paper>
-    </Fragment>
+        <Paper className="profile-footer">
+          <ControlledAccountDeleteDialog nickname={nickname} />
+        </Paper>
+      </Fragment>
+    )
   );
 }
 

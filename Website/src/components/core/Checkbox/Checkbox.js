@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import useCombinedRefs from 'src/components/core/useCombinedRefs';
@@ -7,7 +7,7 @@ import IconButton from 'src/components/core/IconButton';
 
 import './Checkbox.scss';
 
-const Checkbox = React.forwardRef(function Checkbox(
+const Checkbox = forwardRef(function Checkbox(
   {
     id,
     name,
@@ -23,19 +23,19 @@ const Checkbox = React.forwardRef(function Checkbox(
   },
   ref
 ) {
-  const { current: isControlled } = React.useRef(checkedProp != null);
-  const [checked, setChecked] = React.useState(false);
+  const { current: isControlled } = useRef(checkedProp != null);
+  const [checked, setChecked] = useState(false);
 
-  const inputRef = React.useRef();
+  const inputRef = useRef();
   const combinedRef = useCombinedRefs(ref, inputRef);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isControlled) {
       setChecked(checkedProp);
     }
   }, [isControlled, checkedProp]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setChecked(inputRef.current.checked);
   }, []);
 

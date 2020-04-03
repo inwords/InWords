@@ -51,31 +51,3 @@ export const signInOAuth2 = token => dispatch =>
       })
     )
   );
-
-export const updateEmail = email => dispatch =>
-  new Promise((resolve, reject) =>
-    dispatch(
-      apiAction({
-        apiVersion: '2',
-        endpoint: '/profile/updateEmail',
-        method: 'POST',
-        data: JSON.stringify({ email }),
-        resolve,
-        reject
-      })
-    )
-  );
-
-export const deleteAccount = reason => dispatch =>
-  new Promise((resolve, reject) =>
-    dispatch(
-      apiAction({
-        apiVersion: '2',
-        endpoint: '/profile/delete',
-        method: 'DELETE',
-        data: JSON.stringify({ text: reason }),
-        resolve,
-        reject
-      })
-    )
-  );

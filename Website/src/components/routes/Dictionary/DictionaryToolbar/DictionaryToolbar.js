@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useForm from 'src/components/core/useForm';
 import Toolbar from 'src/components/core/Toolbar';
@@ -21,7 +21,7 @@ function DictionaryToolbarContainer({
 }) {
   const { inputs, handleChange } = useForm({ pattern: '' });
 
-  React.useEffect(() => {
+  useEffect(() => {
     const pattern = inputs.pattern;
     let timerId = null;
     if (pattern !== '') {

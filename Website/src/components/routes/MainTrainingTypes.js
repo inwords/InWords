@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -9,7 +9,7 @@ import TrainingTypes from 'src/components/routes-common/TrainingTypes';
 function MainTrainingTypes() {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       try {
         const data = await dispatch(getWordPairsToStudy());

@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import flatMap from 'src/utils/flatMap';
 import shuffle from 'src/utils/shuffle';
 import { setSnackbar } from 'src/actions/commonActions';
 import { saveLevelResult } from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
 import GameField from './GameField';
 
-const GAME_COMPLETED_TIMEOUT = 1000;
-const RESULT_READY_TIMEOUT = 500;
+const CARD_CLOSING_DELAY = 700;
+const GAME_COMPLETION_DELAY = 1000;
+const RESULT_DELAY = 500;
 
 const colorPairs = [
   ['#F44336', '#FFCDD2'],
@@ -52,31 +54,37 @@ function Game({
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  const resetGameProgress = () => {
     setSelectedWordPairs([]);
     setCompletedPairIdsMap({});
     setSelectedCompletedPairId(-1);
     setWordPairIdOpenCountsMap({});
+  };
+
+  const resetGameResult = () => {
     setGameCompleted(false);
     setResultReady(false);
     setScore(null);
+  };
 
-    const wordPairs = Array.prototype.concat.apply(
-      [],
-      trainingLevel.wordTranslations.map(wordPair => [
-        {
-          id: uuidv4(),
-          pairId: wordPair.serverId,
-          word: wordPair.wordForeign,
-          onSpeech: wordPair.onSpeech
-        },
-        {
-          id: uuidv4(),
-          pairId: wordPair.serverId,
-          word: wordPair.wordNative
-        }
-      ])
-    );
+  useEffect(() => {
+    resetGameProgress();
+    resetGameResult();
+
+    const wordPairs = flatMap(trainingLevel.wordTranslations, wordPair => [
+      {
+        id: uuidv4(),
+        pairId: wordPair.serverId,
+        word: wordPair.wordForeign,
+        onSpeech: wordPair.onSpeech
+      },
+      {
+        id: uuidv4(),
+        pairId: wordPair.serverId,
+        word: wordPair.wordNative,
+        onSpeech: null
+      }
+    ]);
 
     setWordPairs(shuffle(wordPairs));
   }, [trainingLevel.wordTranslations]);
@@ -104,26 +112,28 @@ function Game({
 
       setTimeout(() => {
         setGameCompleted(true);
-
         setTimeout(() => {
-          setSelectedWordPairs([]);
-          setCompletedPairIdsMap({});
-          setSelectedCompletedPairId(-1);
-          setWordPairIdOpenCountsMap({});
+          resetGameProgress();
           setRecentWordPairs(wordPairs);
-
           if (handleResultSuccess) {
-            handleResultSuccess({ levelId, wordPairs, levelResult: data });
+            handleResultSuccess(data);
           }
-
           setScore(data.classicCardLevelResult[0].score);
           setNewServerLevelId(data.classicCardLevelResult[0].levelId);
-
           setResultReady(true);
           setColorPair(getRandomColorPair());
-        }, RESULT_READY_TIMEOUT);
-      }, GAME_COMPLETED_TIMEOUT);
+        }, RESULT_DELAY);
+      }, GAME_COMPLETION_DELAY);
     } catch (error) {
+      setTimeout(() => {
+        setGameCompleted(true);
+        setTimeout(() => {
+          resetGameProgress();
+          setRecentWordPairs(wordPairs);
+          setResultReady(true);
+          setColorPair(getRandomColorPair());
+        }, RESULT_DELAY);
+      }, GAME_COMPLETION_DELAY);
       dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));
     }
   };
@@ -173,33 +183,27 @@ function Game({
 
         setCompletedPairIdsMap(newCompletedPairIdsMap);
         setSelectedCompletedPairId(pairId);
+
+        if (isGameCompleted(newCompletedPairIdsMap)) {
+          await handleGameEnd();
+        }
       } else {
         setTimeout(() => {
           setSelectedWordPairs([]);
-        }, 700);
+        }, CARD_CLOSING_DELAY);
       }
-    }
-
-    if (isGameCompleted(newCompletedPairIdsMap)) {
-      await handleGameEnd();
     }
   };
 
   const handleEnhancedNextLevel = () => {
-    handleNextLevel();
-
-    setGameCompleted(false);
-    setResultReady(false);
-    setScore(null);
+    handleNextLevel(trainingLevel.levelId, wordPairs);
+    resetGameResult();
     setNewServerLevelId(null);
   };
 
   const handleEnhancedReplay = () => {
     handleReplay();
-
-    setGameCompleted(false);
-    setResultReady(false);
-    setScore(null);
+    resetGameResult();
     setWordPairs(shuffle([...recentWordPairs]));
   };
 

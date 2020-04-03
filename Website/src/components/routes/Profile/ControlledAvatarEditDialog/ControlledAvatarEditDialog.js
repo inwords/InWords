@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, memo } from 'react';
 import useDialog from 'src/components/core/useDialog';
 import Button from 'src/components/core/Button';
 import AvatarEditDialog from './AvatarEditDialog';
@@ -16,4 +16,4 @@ function ControlledAvatarEditDialog() {
   );
 }
 
-export default React.memo(ControlledAvatarEditDialog);
+export default memo(ControlledAvatarEditDialog);

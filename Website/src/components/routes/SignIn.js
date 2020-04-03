@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -44,12 +44,12 @@ function SignIn() {
         const data = await dispatch(signIn(inputs));
         handleSignInSuccess(data, dispatch, history);
       } catch (error) {
-        dispatch(setSnackbar({ text: 'Не удалось авторизоваться' }));
+        dispatch(setSnackbar({ text: 'Не удалось войти' }));
       }
     }
   );
 
-  const handleSignInOAuth2 = React.useCallback(
+  const handleSignInOAuth2 = useCallback(
     async response => {
       const data = await dispatch(signInOAuth2(response.uc.id_token));
       dispatch(grantAccess(data));

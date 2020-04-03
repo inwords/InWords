@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -59,7 +59,7 @@ function WordPairEditDialogContainer({
     }
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setInputs({
         wordForeign: wordPair.wordForeign,

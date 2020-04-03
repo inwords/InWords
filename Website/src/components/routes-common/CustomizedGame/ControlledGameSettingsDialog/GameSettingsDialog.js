@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { saveValue } from 'src/localStorage';
 import useForm from 'src/components/core/useForm';
@@ -21,7 +21,7 @@ function GameSettingsDialogContainer({
 }) {
   const { inputs, setInputs, handleChange } = useForm({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       const {
         quantity = '8',

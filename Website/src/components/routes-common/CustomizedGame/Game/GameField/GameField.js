@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import FadeAnimation from 'src/components/core/FadeAnimation';
 import Fade from 'src/components/core/Fade';
@@ -15,7 +15,7 @@ function GameField({
   gameCompleted,
   handleClick
 }) {
-  const maxWidth = React.useMemo(() => {
+  const maxWidth = useMemo(() => {
     let colsNum = Math.ceil(Math.sqrt(wordPairs.length));
 
     if (colsNum <= 2) {

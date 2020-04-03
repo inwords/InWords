@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useRouteMatch, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -18,23 +18,22 @@ function WordSetLevels() {
 
   const dispatch = useDispatch();
 
-  const params = useParams();
-  const wordSetId = params.wordSetId;
+  const { wordSetId: paramWordSetId } = useParams();
 
-  const levels = levelsListsMap[wordSetId];
+  const levels = levelsListsMap[paramWordSetId];
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!levels) {
       (async () => {
         try {
-          const data = await dispatch(getWordSetLevels(wordSetId));
-          dispatch(initializeWordSetLevels(wordSetId, data.levels));
+          const data = await dispatch(getWordSetLevels(paramWordSetId));
+          dispatch(initializeWordSetLevels(paramWordSetId, data.levels));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить уровни' }));
         }
       })();
     }
-  }, [levels, dispatch, wordSetId]);
+  }, [levels, dispatch, paramWordSetId]);
 
   const match = useRouteMatch();
 

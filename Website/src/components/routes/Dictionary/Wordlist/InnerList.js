@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import List from 'src/components/core/List';
 
 const PADDING_SIZE = 80;
 
-const InnerList = React.forwardRef(function InnerList({ style, ...rest }, ref) {
+const InnerList = forwardRef(function InnerList({ style, ...rest }, ref) {
   return (
     <List
       ref={ref}

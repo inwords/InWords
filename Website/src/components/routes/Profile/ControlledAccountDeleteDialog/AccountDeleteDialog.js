@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/authActions';
-import { deleteAccount } from 'src/actions/authApiActions';
+import { removeState } from 'src/localStorage';
+import { deleteAccount } from 'src/actions/profileApiActions';
 import useForm from 'src/components/core/useForm';
 import Button from 'src/components/core/Button';
 import Dialog from 'src/components/core/Dialog';
@@ -24,9 +25,7 @@ function AccountDeleteDialog({ open, handleClose, nickname }) {
   const { inputs, setInputs, handleChange, handleSubmit } = useForm(
     initialInputs,
     async () => {
-      if (
-        inputs.nickname.trim().toLowerCase() !== nickname.trim().toLowerCase()
-      ) {
+      if (inputs.nickname.trim() !== nickname.trim()) {
         dispatch(
           setSnackbar({
             text: 'Никнейм не совпал. Удаление аккаунта отменено.'
@@ -36,12 +35,13 @@ function AccountDeleteDialog({ open, handleClose, nickname }) {
         try {
           await dispatch(deleteAccount(inputs.reason));
           dispatch(denyAccess());
-          history.push('/sign-in');
+          removeState();
           dispatch(
             setSnackbar({
               text: 'Аккаунт был успешно удален'
             })
           );
+          history.push('/sign-in');
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось удалить аккаунт' }));
         }
@@ -49,7 +49,7 @@ function AccountDeleteDialog({ open, handleClose, nickname }) {
     }
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setInputs(initialInputs);
     }

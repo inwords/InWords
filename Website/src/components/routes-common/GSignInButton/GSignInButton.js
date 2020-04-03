@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import createScriptsLoader from 'src/utils/createScriptsLoader';
 
 import './GSignInButton.css';
 
 function GSignInButton({ handleSuccess, handleFailure }) {
-  React.useEffect(() => {
+  useEffect(() => {
     const handleLoad = () => {
       window.gapi.signin2.render('g-signin2', {
         scope: 'profile email',
@@ -44,4 +44,4 @@ GSignInButton.propTypes = {
   handleFailure: PropTypes.func
 };
 
-export default React.memo(GSignInButton);
+export default memo(GSignInButton);

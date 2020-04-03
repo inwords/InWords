@@ -61,7 +61,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <MainTrainingSwitcher />
+            <MainTrainingSwitcher redirectionUrl="/training/main/0" />
           </Container>
         )}
       />

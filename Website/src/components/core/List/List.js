@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './List.css';
 
-const List = React.forwardRef(function List(
+const List = forwardRef(function List(
   { component = 'ul', className, ...rest },
   ref
 ) {

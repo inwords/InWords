@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'src/utils/shuffle';
 import createSpeech from 'src/utils/createSpeech';
@@ -20,9 +20,9 @@ function CustomizedGame({
   handleNextLevel,
   handleResultSuccess
 }) {
-  const [processedTrainingLevel, setProcessedTrainingLevel] = React.useState();
+  const [processedTrainingLevel, setProcessedTrainingLevel] = useState();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setProcessedTrainingLevel(processedTrainingLevel => ({
       ...trainingLevel,
       ...processedTrainingLevel,
@@ -35,7 +35,7 @@ function CustomizedGame({
     }));
   }, [trainingSettings.quantity, trainingLevel]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setProcessedTrainingLevel(processedTrainingLevel => ({
       ...processedTrainingLevel,
       cardSettings: {
@@ -45,7 +45,7 @@ function CustomizedGame({
     }));
   }, [trainingSettings.cardDimension, trainingSettings.cardTextSize]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setProcessedTrainingLevel(processedTrainingLevel => ({
       ...processedTrainingLevel,
       voiceOn: trainingSettings.voiceOn || false
@@ -58,9 +58,9 @@ function CustomizedGame({
     handleClose: handleCloseWordPairs
   } = useDialog(trainingSettings.listOn);
 
-  const [listOn, setListOn] = React.useState(trainingSettings.listOn);
+  const [listOn, setListOn] = useState(trainingSettings.listOn);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setListOn(trainingSettings.listOn);
   }, [trainingSettings.listOn]);
 
@@ -81,8 +81,8 @@ function CustomizedGame({
     }
   };
 
-  const handleEnhancedNextLevel = () => {
-    handleNextLevel();
+  const handleEnhancedNextLevel = (...params) => {
+    handleNextLevel(...params);
 
     if (listOn) {
       handleOpenWordPairs();

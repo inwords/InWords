@@ -1,28 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { loadValue } from 'src/localStorage';
 import CustomizedGame from './CustomizedGame';
 
 function TrainingSwitcher(props) {
-  const [trainingSettings, setTrainingSettings] = React.useState();
+  const [trainingSettings, setTrainingSettings] = useState();
 
-  const params = useParams();
+  const { trainingId: paramTrainingId } = useParams();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const trainingsSettingsLocalData = loadValue('trainingsSettings');
 
     setTrainingSettings(
       (trainingsSettingsLocalData &&
-        trainingsSettingsLocalData[params.trainingId]) ||
+        trainingsSettingsLocalData[paramTrainingId]) ||
         {}
     );
-  }, [params.trainingId]);
+  }, [paramTrainingId]);
 
   if (!trainingSettings) {
     return null;
   }
 
-  switch (+params.trainingId) {
+  switch (+paramTrainingId) {
     case 0:
       return (
         <CustomizedGame

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './Input.scss';
 
-const Input = React.forwardRef(function Input(
+const Input = forwardRef(function Input(
   { multiline = false, className, ...rest },
   ref
 ) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { syncWordPairs as syncWordPairsLocal } from 'src/actions/dictionaryActions';
@@ -15,7 +15,7 @@ function Dictionary() {
 
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!actual) {
       (async () => {
         try {
@@ -30,9 +30,9 @@ function Dictionary() {
     }
   }, [actual, wordPairs, dispatch]);
 
-  const [enhancedWordPairs, setEnhancedWordPairs] = React.useState([]);
+  const [enhancedWordPairs, setEnhancedWordPairs] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setEnhancedWordPairs(
       wordPairs.map(wordPair => ({
         ...wordPair,
@@ -43,9 +43,9 @@ function Dictionary() {
 
   const { checkedValues, setCheckedValues, handleToggle } = useCheckboxList();
 
-  const [editingModeEnabled, setEditingModeEnabled] = React.useState(false);
+  const [editingModeEnabled, setEditingModeEnabled] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setEditingModeEnabled(checkedValues.length !== 0);
   }, [checkedValues]);
 
@@ -53,9 +53,9 @@ function Dictionary() {
     setCheckedValues([]);
   };
 
-  const [pattern, setPattern] = React.useState('');
+  const [pattern, setPattern] = useState('');
 
-  const filteredWordPairs = React.useMemo(() => {
+  const filteredWordPairs = useMemo(() => {
     if (pattern === '') return enhancedWordPairs;
 
     return enhancedWordPairs.filter(({ wordForeign, wordNative }) => {

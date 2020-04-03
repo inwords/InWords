@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { updateEmail } from 'src/actions/authApiActions';
+import { updateEmail } from 'src/actions/profileApiActions';
 import useForm from 'src/components/core/useForm';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
@@ -34,7 +34,7 @@ function EmailEditDialog({ open, handleClose }) {
     }
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setInputs(initialInputs);
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 const initialTransitionDurations = {
@@ -16,9 +16,9 @@ function Transition({
   onTransitionEnd,
   ...rest
 }) {
-  const [exited, setExited] = React.useState(true);
+  const [exited, setExited] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (inProp) {
       setExited(false);
     }
@@ -34,7 +34,7 @@ function Transition({
     }
   };
 
-  return React.cloneElement(children, {
+  return cloneElement(children, {
     style: {
       transitionProperty,
       transitionDuration: transitionDurations[inProp ? 'enter' : 'exit'],

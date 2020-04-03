@@ -1,7 +1,7 @@
-import React from 'react';
+import { useState } from 'react';
 
 const useDialog = (initialState = false) => {
-  const [open, setOpen] = React.useState(initialState);
+  const [open, setOpen] = useState(initialState);
 
   const handleOpen = () => {
     setOpen(true);

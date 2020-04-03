@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -22,33 +22,32 @@ import WordSetPairsToolbar from './WordSetPairsToolbar';
 function WordSetPairs() {
   const pairsListsMap = useSelector(store => store.wordSet.pairsListsMap);
 
-  const params = useParams();
-  const wordSetId = params.wordSetId;
+  const { wordSetId: paramWordSetId } = useParams();
 
   const dispatch = useDispatch();
 
   const { checkedValues, setCheckedValues, handleToggle } = useCheckboxList();
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       try {
-        const data = await dispatch(getWordSetList(wordSetId));
-        dispatch(initializeWordSetPairs(wordSetId, data.words));
+        const data = await dispatch(getWordSetList(paramWordSetId));
+        dispatch(initializeWordSetPairs(paramWordSetId, data.words));
       } catch (error) {
         dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
       }
     })();
-  }, [dispatch, wordSetId]);
+  }, [dispatch, paramWordSetId]);
 
   const handleReset = () => {
     setCheckedValues([]);
   };
 
-  const wordSetPairs = pairsListsMap[wordSetId] || [];
+  const wordSetPairs = pairsListsMap[paramWordSetId] || [];
 
-  const [selectionAvailable, setSelectionAvailable] = React.useState(true);
+  const [selectionAvailable, setSelectionAvailable] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectionAvailable(wordSetPairs.some(({ hasAdded }) => !hasAdded));
   }, [wordSetPairs]);
 
@@ -75,7 +74,7 @@ function WordSetPairs() {
           }))
         )
       );
-      dispatch(updateWordSetPairs(wordSetId, newWordPairs));
+      dispatch(updateWordSetPairs(paramWordSetId, newWordPairs));
       dispatch(
         setSnackbar({
           text: `Добавлено новых слов: ${newWordPairs.length}`

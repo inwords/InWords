@@ -1,24 +1,23 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-export default function useClientTrainingLevel(redirectionURL) {
+export default function useClientTrainingLevel(redirectionUrl) {
   const levelsMap = useSelector(store => store.wordSet.levelsMap);
 
   const history = useHistory();
-  const params = useParams();
+  const { levelId: paramLevelId } = useParams();
 
-  const paramLevelId = +params.levelId;
-
-  React.useEffect(() => {
-    if (!levelsMap[paramLevelId]) {
-      history.push(redirectionURL);
+  useEffect(() => {
+    const trainingLevel = levelsMap[paramLevelId];
+    if (!trainingLevel || !trainingLevel.wordTranslations.length) {
+      history.push(redirectionUrl);
     }
-  }, [levelsMap, paramLevelId, history, redirectionURL]);
+  }, [levelsMap, paramLevelId, history, redirectionUrl]);
 
   return (
     levelsMap[paramLevelId] || {
-      levelId: paramLevelId,
+      levelId: +paramLevelId,
       wordTranslations: []
     }
   );

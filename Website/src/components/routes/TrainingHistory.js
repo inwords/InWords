@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -20,7 +20,7 @@ function TrainingHistory() {
 
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!actual) {
       (async () => {
         try {

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 import './ClickAwayListener.css';
@@ -26,7 +26,7 @@ function ClickAwayListener({
 
   return (
     <Fragment>
-      {React.cloneElement(children, {
+      {cloneElement(children, {
         onClick: handleClick,
         ...rest
       })}

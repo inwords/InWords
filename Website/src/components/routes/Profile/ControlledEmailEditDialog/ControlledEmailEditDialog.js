@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, memo } from 'react';
 import useDialog from 'src/components/core/useDialog';
 import Button from 'src/components/core/Button';
 import EmailEditDialog from './EmailEditDialog';
@@ -16,4 +16,4 @@ function ControlledEmailEditDialog() {
   );
 }
 
-export default React.memo(ControlledEmailEditDialog);
+export default memo(ControlledEmailEditDialog);

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FixedSizeList } from 'react-window';
 import debounce from 'src/utils/debounce';
@@ -10,11 +10,11 @@ import WordPairEditDialog from './WordPairEditDialog';
 const heightOffset = 152;
 
 function Wordlist({ wordPairs, ...rest }) {
-  const [listHeight, setListHeight] = React.useState(
+  const [listHeight, setListHeight] = useState(
     () => window.innerHeight - heightOffset
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const addEventListener = window.addEventListener;
     const removeEventListener = window.removeEventListener;
 
@@ -30,7 +30,7 @@ function Wordlist({ wordPairs, ...rest }) {
   }, [listHeight]);
 
   const { open, setOpen, handleClose } = useDialog();
-  const [currentWordPair, setCurrentWordPair] = React.useState();
+  const [currentWordPair, setCurrentWordPair] = useState();
 
   const handleOpen = wordPair => () => {
     setCurrentWordPair(wordPair);

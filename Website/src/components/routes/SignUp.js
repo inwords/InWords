@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -63,7 +63,7 @@ function SignUp() {
     }
   };
 
-  const handleSignInOAuth2 = React.useCallback(
+  const handleSignInOAuth2 = useCallback(
     async response => {
       const data = await dispatch(signInOAuth2(response.uc.id_token));
       handleSignUpSuccess(data, dispatch, history);

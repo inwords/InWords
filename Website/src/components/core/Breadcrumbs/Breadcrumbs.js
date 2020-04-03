@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Icon from 'src/components/core/Icon';
@@ -17,9 +17,7 @@ function Breadcrumbs({ children, className, ...rest }) {
       <ol className="breadcrumbs__list">
         {React.Children.map(children, child => (
           <Fragment>
-            <li className="breadcrumbs__list-item">
-              {React.cloneElement(child)}
-            </li>
+            <li className="breadcrumbs__list-item">{cloneElement(child)}</li>
             {separators.pop()}
           </Fragment>
         ))}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import useCombinedRefs from 'src/components/core/useCombinedRefs';
@@ -8,7 +8,7 @@ import './TextField.scss';
 
 const isFilled = obj => Boolean(obj && obj.value != null && obj.value !== '');
 
-const TextField = React.forwardRef(function TextField(
+const TextField = forwardRef(function TextField(
   {
     id,
     placeholder,
@@ -30,21 +30,21 @@ const TextField = React.forwardRef(function TextField(
   },
   ref
 ) {
-  const { current: isControlled } = React.useRef(value != null);
+  const { current: isControlled } = useRef(value != null);
 
-  const [filled, setFilled] = React.useState(false);
-  const [focused, setFocused] = React.useState(false);
+  const [filled, setFilled] = useState(false);
+  const [focused, setFocused] = useState(false);
 
-  const inputRef = React.useRef();
+  const inputRef = useRef();
   const combinedRef = useCombinedRefs(ref, inputRef);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isControlled) {
       setFilled(isFilled({ value }));
     }
   }, [isControlled, value]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setFilled(isFilled(inputRef.current));
   }, []);
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
@@ -22,10 +22,10 @@ const initialInputs = {
 function AvatarEditDialog({ open, handleClose }) {
   const dispatch = useDispatch();
 
-  const [inputs, setInputs] = React.useState(initialInputs);
-  const [avatar, setAvatar] = React.useState(null);
+  const [inputs, setInputs] = useState(initialInputs);
+  const [avatar, setAvatar] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setInputs(initialInputs);
       setAvatar(null);
@@ -40,11 +40,9 @@ function AvatarEditDialog({ open, handleClose }) {
 
     if (file) {
       const reader = new FileReader();
-
       reader.onload = event => {
         setAvatar(event.target.result);
       };
-
       reader.readAsDataURL(file);
 
       setInputs({
