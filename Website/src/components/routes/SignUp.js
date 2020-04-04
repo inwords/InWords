@@ -98,7 +98,7 @@ function SignUp() {
             id="password"
             placeholder="Пароль"
             type="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             name="password"
             value={inputs.password}
             onChange={handleChange}

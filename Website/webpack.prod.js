@@ -4,7 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -61,7 +61,7 @@ module.exports = merge(common, {
       filename: 'static/css/[name].[contenthash:8].css',
       chunkFilename: 'static/css/[id].[contenthash:8].css'
     }),
-    new WorkboxPlugin.GenerateSW({
+    new GenerateSW({
       clientsClaim: true,
       skipWaiting: true
     })

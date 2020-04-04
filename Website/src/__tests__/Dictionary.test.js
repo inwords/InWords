@@ -10,7 +10,7 @@ import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import Dictionary from 'src/components/routes/Dictionary';
 
-const setup = () => {
+const setup = ({ ui = <Dictionary />, route = '' } = {}) => {
   const accessData = { token: 'xyz', userId: 1 };
   const mockingWordPairsResponse = {
     toDelete: [],
@@ -19,34 +19,11 @@ const setup = () => {
       { userWordPair: 2, wordForeign: 'dog', wordNative: 'собака' }
     ]
   };
-  const editedWordPair = {
-    serverId: 2,
-    wordForeign: 'hound',
-    wordNative: 'гончая'
-  };
-  const mockingWordPairsEditResponse = [{ id: 0, serverId: 3 }];
-  const newWordPair = {
-    wordForeign: 'parrot',
-    wordNative: 'попугай'
-  };
-  const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
-  const mockingWordTranslationResponse = {
-    def: [{ tr: [{ text: newWordPair.wordNative }] }]
-  };
   global.fetch = mockFetch(mockingWordPairsResponse);
-  const route = '/dictionary';
-  const utils = renderWithEnvironment(
-    <Route path="/dictionary">
-      <Dictionary />
-    </Route>,
-    {
-      initialState: { auth: { token: accessData.token } },
-      route
-    }
-  );
-
-  const clickWordPairEdit = word => fireEvent.click(utils.getByText(word));
-  const clickWordPairAdd = () => fireEvent.click(utils.getByText('add'));
+  const utils = renderWithEnvironment(ui, {
+    initialState: { auth: { token: accessData.token } },
+    route
+  });
   const changeWordForeignInput = value =>
     fireEvent.change(utils.getByLabelText('Слово или фраза на английском'), {
       target: { value }
@@ -55,17 +32,88 @@ const setup = () => {
     fireEvent.change(utils.getByLabelText('Перевод'), {
       target: { value }
     });
-  const clickWordPairEditConfirmation = () =>
-    fireEvent.click(utils.getByText('Готово'));
-  const clickWordPairAddConfirmation = () =>
-    fireEvent.click(utils.getByText('Добавить'));
   const clickWordPairCheckbox = id =>
     fireEvent.click(utils.getByTestId(`pair-${id}-checkbox`));
+
+  return {
+    ...utils,
+    mockingWordPairsResponse,
+    route,
+    changeWordForeignInput,
+    changeWordNativeInput,
+    clickWordPairCheckbox
+  };
+};
+
+const setupWordPairEdit = utils => {
+  const editedWordPair = {
+    serverId: 2,
+    wordForeign: 'hound',
+    wordNative: 'гончая'
+  };
+  const mockingWordPairsEditResponse = [{ id: 0, serverId: 3 }];
+
+  const clickWordPairEdit = word => fireEvent.click(utils.getByText(word));
+  const clickWordPairEditConfirmation = () =>
+    fireEvent.click(utils.getByText('Готово'));
+
+  return {
+    ...utils,
+    editedWordPair,
+    mockingWordPairsEditResponse,
+    clickWordPairEdit,
+    clickWordPairEditConfirmation
+  };
+};
+
+const setupWordPairAdding = utils => {
+  const newWordPair = {
+    wordForeign: 'parrot',
+    wordNative: 'попугай'
+  };
+  const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
+  const mockingWordTranslationResponse = {
+    def: [{ tr: [{ text: newWordPair.wordNative }] }]
+  };
+
+  const clickWordPairAdd = () => fireEvent.click(utils.getByText('add'));
+  const clickWordPairAddConfirmation = () =>
+    fireEvent.click(utils.getByText('Добавить'));
+
+  return {
+    ...utils,
+    newWordPair,
+    mockingWordPairsAddResponse,
+    mockingWordTranslationResponse,
+    clickWordPairAdd,
+    clickWordPairAddConfirmation
+  };
+};
+
+const setupWordPairDeletion = utils => {
   const clickDel = () => fireEvent.click(utils.getByText('delete'));
   const clickDelСonfirmation = () =>
     fireEvent.click(utils.getByText('Удалить'));
+
+  return {
+    ...utils,
+    clickDel,
+    clickDelСonfirmation
+  };
+};
+
+const setupWordPairStudy = utils => {
   const clickMenu = () => fireEvent.click(utils.getByText('more_horiz'));
   const clickStudy = () => fireEvent.click(utils.getByText('Изучать'));
+
+  return {
+    ...utils,
+    clickMenu,
+    clickStudy
+  };
+};
+
+const setupWordPairSearch = utils => {
   const changeSearchInput = value =>
     fireEvent.change(utils.getByPlaceholderText('Поиск слова'), {
       target: { value }
@@ -73,30 +121,13 @@ const setup = () => {
 
   return {
     ...utils,
-    mockingWordPairsResponse,
-    editedWordPair,
-    mockingWordPairsEditResponse,
-    newWordPair,
-    mockingWordPairsAddResponse,
-    mockingWordTranslationResponse,
-    route,
-    clickWordPairEdit,
-    clickWordPairAdd,
-    changeWordForeignInput,
-    changeWordNativeInput,
-    clickWordPairEditConfirmation,
-    clickWordPairAddConfirmation,
-    clickWordPairCheckbox,
-    clickDel,
-    clickDelСonfirmation,
-    clickMenu,
-    clickStudy,
     changeSearchInput
   };
 };
 
 test('edit word pair', async () => {
-  const utils = setup();
+  let utils = setup();
+  utils = setupWordPairEdit(utils);
   const wordPair = utils.mockingWordPairsResponse.toAdd[1];
   const editedWordPair = utils.editedWordPair;
   await waitFor(() => utils.getByText(wordPair.wordForeign));
@@ -116,7 +147,8 @@ test('edit word pair', async () => {
 });
 
 test('add word pair', async () => {
-  const utils = setup();
+  let utils = setup();
+  utils = setupWordPairAdding(utils);
   const wordPair = utils.mockingWordPairsResponse.toAdd[1];
   const newWordPair = utils.newWordPair;
   await waitFor(() => utils.getByText(wordPair.wordForeign));
@@ -134,7 +166,8 @@ test('add word pair', async () => {
 });
 
 test('add word with automatic translation', async () => {
-  const utils = setup();
+  let utils = setup();
+  utils = setupWordPairAdding(utils);
   const wordPair = utils.mockingWordPairsResponse.toAdd[1];
   const newWordPair = utils.newWordPair;
   await waitFor(() => utils.getByText(wordPair.wordForeign));
@@ -162,7 +195,8 @@ test('add word with automatic translation', async () => {
 });
 
 test('delete word pair', async () => {
-  const utils = setup();
+  let utils = setup();
+  utils = setupWordPairDeletion(utils);
   const wordPair = utils.mockingWordPairsResponse.toAdd[0];
   await waitFor(() => utils.getByText(wordPair.wordForeign));
 
@@ -177,7 +211,15 @@ test('delete word pair', async () => {
 });
 
 test('select word pair to study', async () => {
-  const utils = setup();
+  let utils = setup({
+    ui: (
+      <Route path="/dictionary">
+        <Dictionary />
+      </Route>
+    ),
+    route: '/dictionary'
+  });
+  utils = setupWordPairStudy(utils);
   const wordPair = utils.mockingWordPairsResponse.toAdd[0];
   await waitFor(() => utils.getByText(wordPair.wordForeign));
 
@@ -189,7 +231,8 @@ test('select word pair to study', async () => {
 });
 
 test('find word pair', async () => {
-  const utils = setup();
+  let utils = setup();
+  utils = setupWordPairSearch(utils);
   const rightWordPair = utils.mockingWordPairsResponse.toAdd[0];
   const anotherWordPair = utils.mockingWordPairsResponse.toAdd[1];
   await waitFor(() => utils.getByText(rightWordPair.wordForeign));

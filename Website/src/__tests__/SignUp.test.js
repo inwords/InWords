@@ -9,28 +9,43 @@ const setup = () => {
   const userData = { email: '1@1', password: '1' };
   global.fetch = mockFetch(mockingAccessResponse);
   const utils = renderWithEnvironment(<SignUp />);
+
+  return {
+    ...utils,
+    userData,
+    mockingAccessResponse
+  };
+};
+
+const setupGenerally = utils => {
   const changeEmailInput = value =>
     fireEvent.change(utils.getByLabelText('Email'), { target: { value } });
   const changePasswordInput = value =>
     fireEvent.change(utils.getByLabelText('Пароль'), { target: { value } });
   const clickSubmit = () =>
     fireEvent.click(utils.getByText('Зарегистрироваться'));
+
+  return {
+    ...utils,
+    changeEmailInput,
+    changePasswordInput,
+    clickSubmit
+  };
+};
+
+const setupAnonymously = utils => {
   const clickSubmitAsGuest = () =>
     fireEvent.click(utils.getByText('Войти гостем'));
 
   return {
     ...utils,
-    userData,
-    mockingAccessResponse,
-    changeEmailInput,
-    changePasswordInput,
-    clickSubmit,
     clickSubmitAsGuest
   };
 };
 
 test('sign up successfully', async () => {
-  const utils = setup();
+  let utils = setup();
+  utils = setupGenerally(utils);
   utils.changeEmailInput(utils.userData.email);
   utils.changePasswordInput(utils.userData.password);
   utils.clickSubmit();
@@ -43,7 +58,8 @@ test('sign up successfully', async () => {
 });
 
 test('sign up as guest successfully', async () => {
-  const utils = setup();
+  let utils = setup();
+  utils = setupAnonymously(utils);
   utils.clickSubmitAsGuest();
 
   await waitFor(() => {

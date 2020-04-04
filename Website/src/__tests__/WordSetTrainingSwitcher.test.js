@@ -9,7 +9,7 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
-const setup = () => {
+const setup = ({ initialState } = {}) => {
   const accessData = {
     token: 'xyz',
     userId: 1
@@ -25,14 +25,13 @@ const setup = () => {
     classicCardLevelResult: [{ levelId: 1, score: 3 }]
   };
   global.fetch = mockFetch(mockingTrainingLevelResponse);
-  const route = `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`;
   const utils = renderWithEnvironment(
     <Route path="/training/courses/:wordSetId/:levelId/:trainingId">
       <WordSetTrainingSwitcher />
     </Route>,
     {
-      initialState: { auth: { token: accessData.token } },
-      route
+      initialState: { auth: { token: accessData.token }, ...initialState },
+      route: `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`
     }
   );
 
@@ -46,8 +45,25 @@ const setup = () => {
   };
 };
 
-test('complete word set game', async () => {
-  const utils = setup();
+const setupReplay = utils => {
+  const clickReplay = () => fireEvent.click(utils.getByText('replay'));
+
+  return {
+    ...utils,
+    clickReplay
+  };
+};
+
+const setupNext = utils => {
+  const clickNext = () => fireEvent.click(utils.getByText('fast_forward'));
+
+  return {
+    ...utils,
+    clickNext
+  };
+};
+
+const finishGameQuickly = async utils => {
   const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
   const wordEls = await waitFor(() => [
     utils.getByText(wordTranslations[0].wordForeign),
@@ -67,36 +83,66 @@ test('complete word set game', async () => {
   act(() => {
     jest.runAllTimers();
   });
+  jest.useRealTimers();
 
   await waitFor(() => utils.getAllByText('star'));
+};
+
+test('finish game and replay', async () => {
+  let utils = setup();
+  utils = setupReplay(utils);
+  await finishGameQuickly(utils);
+  utils.clickReplay();
+  const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
+  await waitFor(() => [
+    utils.getByText(wordTranslations[0].wordForeign),
+    utils.getByText(wordTranslations[0].wordNative),
+    utils.getByText(wordTranslations[1].wordForeign),
+    utils.getByText(wordTranslations[1].wordNative)
+  ]);
 });
 
-test('complete word set game with one mistake', async () => {
-  const utils = setup();
-  const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
-  const wordEls = await waitFor(() => [
-    utils.getByText(wordTranslations[0].wordForeign),
-    utils.getByText(wordTranslations[0].wordNative),
-    utils.getByText(wordTranslations[1].wordForeign),
-    utils.getByText(wordTranslations[1].wordNative)
-  ]);
+test('finish game and play next (empty store)', async () => {
+  let utils = setup();
+  utils = setupNext(utils);
+  await finishGameQuickly(utils);
+  utils.clickNext();
+  expect(utils.history.location.pathname).toEqual('/training/courses');
+});
 
-  global.fetch = mockFetch(utils.mockingLevelResultResponse);
-  jest.useFakeTimers();
-  utils.clickWordEl(wordEls[0]);
-  utils.clickWordEl(wordEls[3]);
-  act(() => {
-    jest.runAllTimers();
+test('finish game and play next (store has levels info (not last level))', async () => {
+  jest.useRealTimers();
+  let utils = setup({
+    initialState: {
+      wordSet: {
+        levelsListsMap: {
+          1: [
+            { levelId: 1, stars: 3, isAvailable: true, level: 1 },
+            { levelId: 2, stars: 3, isAvailable: true, level: 2 }
+          ]
+        }
+      }
+    }
   });
-  wordEls.forEach(wordEl => {
-    utils.clickWordEl(wordEl);
-  });
-  await Promise.resolve();
-  await Promise.resolve();
-  await Promise.resolve();
-  act(() => {
-    jest.runAllTimers();
-  });
+  utils = setupNext(utils);
+  await finishGameQuickly(utils);
+  utils.clickNext();
+  expect(utils.history.location.pathname).toEqual('/training/courses/1/2/0');
+});
 
-  await waitFor(() => utils.getAllByText('star'));
+test('finish game and play next (store has levels info (last level))', async () => {
+  jest.useRealTimers();
+  let utils = setup({
+    initialState: {
+      wordSet: {
+        levelsListsMap: {
+          1: [{ levelId: 1, stars: 3, isAvailable: true, level: 1 }]
+        }
+      }
+    }
+  });
+  utils = setupNext(utils);
+  await finishGameQuickly(utils);
+  utils.clickNext();
+  expect(utils.history.location.pathname).toEqual('/training/courses');
 });
