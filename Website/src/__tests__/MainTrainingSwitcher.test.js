@@ -3,31 +3,37 @@ import { act, fireEvent, waitFor } from '@testing-library/react';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import WordSetTrainingSwitcher from 'src/components/routes/WordSetTrainingSwitcher';
+import MainTrainingSwitcher from 'src/components/routes/MainTrainingSwitcher';
 
-const setup = ({ initialState } = {}) => {
+const setup = () => {
   const accessData = {
     token: 'xyz',
     userId: 1
   };
-  const mockingTrainingLevelResponse = {
-    levelId: 1,
+  const trainingLevel = {
+    levelId: 0,
     wordTranslations: [
       { serverId: 1, wordForeign: 'cat', wordNative: 'кошка' },
       { serverId: 2, wordForeign: 'dog', wordNative: 'собака' }
     ]
   };
   const mockingLevelResultResponse = {
-    classicCardLevelResult: [{ levelId: 1, score: 3 }]
+    classicCardLevelResult: [{ levelId: 0, score: 3 }]
   };
-  global.fetch = mockFetch(mockingTrainingLevelResponse);
   const utils = renderWithEnvironment(
-    <Route path="/training/courses/:wordSetId/:levelId/:trainingId">
-      <WordSetTrainingSwitcher />
+    <Route path="/training/main/:levelId/:trainingId">
+      <MainTrainingSwitcher redirectionUrl="/training/main/0" />
     </Route>,
     {
-      initialState: { auth: { token: accessData.token }, ...initialState },
-      route: `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`
+      initialState: {
+        auth: { token: accessData.token },
+        wordSet: {
+          levelsMap: {
+            0: trainingLevel
+          }
+        }
+      },
+      route: `/training/main/0/0`
     }
   );
 
@@ -35,7 +41,7 @@ const setup = ({ initialState } = {}) => {
 
   return {
     ...utils,
-    mockingTrainingLevelResponse,
+    trainingLevel,
     mockingLevelResultResponse,
     clickWordEl
   };
@@ -60,7 +66,7 @@ const setupNext = utils => {
 };
 
 const finishGameQuickly = async utils => {
-  const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
+  const wordTranslations = utils.trainingLevel.wordTranslations;
   const wordEls = await waitFor(() => [
     utils.getByText(wordTranslations[0].wordForeign),
     utils.getByText(wordTranslations[0].wordNative),
@@ -89,7 +95,7 @@ test('finish game and replay', async () => {
   utils = setupReplay(utils);
   await finishGameQuickly(utils);
   utils.clickReplay();
-  const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
+  const wordTranslations = utils.trainingLevel.wordTranslations;
   await waitFor(() => [
     utils.getByText(wordTranslations[0].wordForeign),
     utils.getByText(wordTranslations[0].wordNative),
@@ -98,49 +104,10 @@ test('finish game and replay', async () => {
   ]);
 });
 
-describe('finish game and play next', () => {
-  test('empty store', async () => {
-    let utils = setup();
-    utils = setupNext(utils);
-    await finishGameQuickly(utils);
-    utils.clickNext();
-    expect(utils.history.location.pathname).toEqual('/training/courses');
-  });
-
-  test('store has levels info (not last level)', async () => {
-    jest.useRealTimers();
-    let utils = setup({
-      initialState: {
-        wordSet: {
-          levelsListsMap: {
-            1: [
-              { levelId: 1, stars: 3, isAvailable: true, level: 1 },
-              { levelId: 2, stars: 3, isAvailable: true, level: 2 }
-            ]
-          }
-        }
-      }
-    });
-    utils = setupNext(utils);
-    await finishGameQuickly(utils);
-    utils.clickNext();
-    expect(utils.history.location.pathname).toEqual('/training/courses/1/2/0');
-  });
-
-  test('store has levels info (last level)', async () => {
-    jest.useRealTimers();
-    let utils = setup({
-      initialState: {
-        wordSet: {
-          levelsListsMap: {
-            1: [{ levelId: 1, stars: 3, isAvailable: true, level: 1 }]
-          }
-        }
-      }
-    });
-    utils = setupNext(utils);
-    await finishGameQuickly(utils);
-    utils.clickNext();
-    expect(utils.history.location.pathname).toEqual('/training/courses');
-  });
+test('finish game and play next', async () => {
+  let utils = setup();
+  utils = setupNext(utils);
+  await finishGameQuickly(utils);
+  utils.clickNext();
+  expect(utils.history.location.pathname).toEqual('/training/main/0');
 });
