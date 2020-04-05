@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { forwardRef, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import useCombinedRefs from 'src/hooks/useCombinedRefs';
+import useCombinedRefs from 'src/components/core/useCombinedRefs';
 import Input from 'src/components/core/Input';
 
 import './TextField.scss';
 
-const TextField = React.forwardRef(function TextField(
+const isFilled = obj => Boolean(obj && obj.value != null && obj.value !== '');
+
+const TextField = forwardRef(function TextField(
   {
     id,
     placeholder,
@@ -28,24 +30,26 @@ const TextField = React.forwardRef(function TextField(
   },
   ref
 ) {
-  const [filled, setFilled] = React.useState(Boolean(value));
-  const [focused, setFocused] = React.useState(false);
+  const { current: isControlled } = useRef(value != null);
 
-  const inputRef = React.useRef();
+  const [filled, setFilled] = useState(false);
+  const [focused, setFocused] = useState(false);
+
+  const inputRef = useRef();
   const combinedRef = useCombinedRefs(ref, inputRef);
 
-  React.useEffect(() => {
-    setFilled(Boolean(combinedRef.current.value));
-  }, [combinedRef]);
-
-  React.useEffect(() => {
-    if (value !== undefined) {
-      setFilled(Boolean(value));
+  useEffect(() => {
+    if (isControlled) {
+      setFilled(isFilled({ value }));
     }
-  }, [value]);
+  }, [isControlled, value]);
+
+  useEffect(() => {
+    setFilled(isFilled(inputRef.current));
+  }, []);
 
   const handleInputChange = event => {
-    setFilled(Boolean(event.target.value));
+    setFilled(isFilled(event.target));
 
     if (onChange) {
       onChange(event);
@@ -66,6 +70,16 @@ const TextField = React.forwardRef(function TextField(
     if (onBlur) {
       onBlur(event);
     }
+  };
+
+  const handleAutoFill = event => {
+    setFilled(
+      isFilled(
+        event.animationName === 'onAutoFillCancel'
+          ? inputRef.current
+          : { value: '_' }
+      )
+    );
   };
 
   return (
@@ -104,6 +118,7 @@ const TextField = React.forwardRef(function TextField(
         onChange={handleInputChange}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
+        onAnimationStart={handleAutoFill}
         multiline={multiline}
         className="text-field__input"
         {...inputProps}

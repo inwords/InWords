@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeLevel } from 'src/actions/trainingActions';
-import { receiveTrainingWordPairs } from 'src/actions/trainingApiActions';
-import TrainingTypes from 'src/components/routes/common/TrainingTypes';
+import { initializeWordSetLevel } from 'src/actions/wordSetActions';
+import { getWordPairsToStudy } from 'src/actions/dictionaryApiActions';
+import TrainingTypes from 'src/components/routes-common/TrainingTypes';
 
 function MainTrainingTypes() {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       try {
-        const data = await dispatch(receiveTrainingWordPairs());
+        const data = await dispatch(getWordPairsToStudy());
         dispatch(
-          initializeLevel({
+          initializeWordSetLevel({
             levelId: 0,
             wordTranslations: data
           })
@@ -29,7 +29,7 @@ function MainTrainingTypes() {
     })();
   }, [dispatch]);
 
-  const levelsMap = useSelector(store => store.training.levelsMap);
+  const levelsMap = useSelector(store => store.wordSet.levelsMap);
 
   return <TrainingTypes trainingLevel={levelsMap[0] || { levelId: 0 }} />;
 }

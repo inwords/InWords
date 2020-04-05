@@ -2,7 +2,6 @@
 
 .profile-root {
   display: flex;
-  flex-wrap: wrap;
 
   @include theme-breakpoints-down(sm) {
     flex-direction: column;
@@ -81,8 +80,4 @@
   justify-content: center;
   align-items: center;
   min-height: 48px;
-}
-
-.profile-delete-button {
-  color: var(--palette-error);
 }

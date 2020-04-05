@@ -1,0 +1,17 @@
+@import 'src/theme/mixins';
+
+.nav-drawer {
+  @include theme-breakpoints-up(lg) {
+    display: none;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+
+    @include theme-breakpoints-down(sm) {
+      padding-left: 16px;
+    }
+  }
+}

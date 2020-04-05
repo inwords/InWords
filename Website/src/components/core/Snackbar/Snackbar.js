@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import ClickAwayListener from 'src/components/core/ClickAwayListener';
@@ -16,9 +16,9 @@ function Snackbar({
   className,
   ...rest
 }) {
-  const [hidden, setHidden] = React.useState(false);
+  const [hidden, setHidden] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open && autoHideDuration) {
       let timerId = setTimeout(() => {
         setHidden(true);

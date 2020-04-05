@@ -1,4 +1,4 @@
-import React from 'react';
+import { cloneElement, useState } from 'react';
 import PropTypes from 'prop-types';
 
 function Animation({
@@ -10,7 +10,7 @@ function Animation({
   onAnimationEnd,
   ...rest
 }) {
-  const [fired, setFired] = React.useState(false);
+  const [fired, setFired] = useState(false);
 
   const handleAnimationEnd = event => {
     setFired(true);
@@ -27,7 +27,7 @@ function Animation({
     ...style
   };
 
-  return React.cloneElement(children, {
+  return cloneElement(children, {
     style: !fired ? animationStyles : style,
     onAnimationEnd: handleAnimationEnd,
     ...rest

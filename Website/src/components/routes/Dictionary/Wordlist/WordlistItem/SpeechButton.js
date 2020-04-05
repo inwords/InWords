@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
@@ -15,4 +15,4 @@ SpeechButton.propTypes = {
   onSpeech: PropTypes.func.isRequired
 };
 
-export default React.memo(SpeechButton);
+export default memo(SpeechButton);

@@ -1,37 +1,34 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { removeLevelWordPairs } from 'src/actions/trainingActions';
-import useClientTrainingLevel from 'src/components/routes/common-hooks/useClientTrainingLevel';
-import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
+import { removeWordSetLevelPairs } from 'src/actions/wordSetActions';
+import useClientTrainingLevel from 'src/components/routes-common/useClientTrainingLevel';
+import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
 
-function MainTrainingSwitcher(props) {
-  const trainingLevel = useClientTrainingLevel('/training');
+function MainTrainingSwitcher({ redirectionUrl }) {
+  const trainingLevel = useClientTrainingLevel(redirectionUrl);
 
   const dispatch = useDispatch();
 
-  const handleResultSuccess = ({ levelId, wordPairs }) => {
+  const handleNextLevel = (levelId, wordPairs) => {
     dispatch(
-      removeLevelWordPairs(
+      removeWordSetLevelPairs(
         levelId,
         wordPairs.map(wordPair => wordPair.pairId)
       )
     );
   };
 
-  const handleNextLevel = () => {
-    if (!trainingLevel || !trainingLevel.wordTranslations.length) {
-      history.push('/training/main/0');
-    }
-  };
-
   return (
     <TrainingSwitcher
-      handleResultSuccess={handleResultSuccess}
       handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}
-      {...props}
     />
   );
 }
+
+MainTrainingSwitcher.propTypes = {
+  redirectionUrl: PropTypes.string.isRequired
+};
 
 export default MainTrainingSwitcher;

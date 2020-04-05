@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -19,10 +19,10 @@ function Modal({
   className,
   ...rest
 }) {
-  const [exited, setExited] = React.useState(true);
-  const [exitStarted, setExitStarted] = React.useState(false);
+  const [exited, setExited] = useState(true);
+  const [exitStarted, setExitStarted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setExited(false);
       setExitStarted(false);

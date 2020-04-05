@@ -1,9 +1,5 @@
 import history from 'src/history';
-import {
-  beginLoading,
-  endLoading,
-  setSnackbar
-} from 'src/actions/commonActions';
+import { beginLoading, endLoading } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/authActions';
 
 const CALL_API = 'CALL_API';
@@ -75,7 +71,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
         reject(statusCode);
       }
     } else {
-      dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
+      reject(null);
     }
   } finally {
     dispatch(endLoading());

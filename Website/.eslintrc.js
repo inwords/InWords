@@ -8,17 +8,14 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings'
   ],
+  parserOptions: {
+    sourceType: 'module'
+  },
   env: {
     browser: true,
-    commonjs: true,
     node: true,
-    es6: true,
+    es2020: true,
     jest: true
-  },
-  parser: 'babel-eslint',
-  parserOptions: {
-    ecmaVersion: 2020,
-    sourceType: 'module'
   },
   plugins: ['react', 'react-hooks', 'jsx-a11y'],
   rules: {

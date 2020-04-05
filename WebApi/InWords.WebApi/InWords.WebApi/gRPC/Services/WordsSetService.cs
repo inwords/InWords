@@ -52,5 +52,27 @@ namespace InWords.WebApi.gRPC.Services
             WordSetReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
             return reply;
         }
+
+        public override async Task<GetLevelsReply> GetLevels(GetLevelsRequest request, ServerCallContext context)
+        {
+            var requestObject = new AuthorizedRequestObject<GetLevelsRequest, GetLevelsReply>(request)
+            {
+                UserId = context
+                .GetHttpContext()
+                .User.GetUserId()
+            };
+            return await mediator.Send(requestObject).ConfigureAwait(false);
+        }
+
+        public override async Task<GetLevelWordsReply> GetLevelWords(GetLevelWordsRequest request, ServerCallContext context)
+        {
+            var requestObject = new AuthorizedRequestObject<GetLevelWordsRequest, GetLevelWordsReply>(request)
+            {
+                UserId = context
+                .GetHttpContext()
+                .User.GetUserId()
+            };
+            return await mediator.Send(requestObject).ConfigureAwait(false);
+        }
     }
 }

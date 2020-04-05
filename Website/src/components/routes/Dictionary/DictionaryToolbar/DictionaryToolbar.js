@@ -1,28 +1,43 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import useDialog from 'src/hooks/useDialog';
+import useForm from 'src/components/core/useForm';
 import Toolbar from 'src/components/core/Toolbar';
 import Icon from 'src/components/core/Icon';
 import Typography from 'src/components/core/Typography';
 import IconButton from 'src/components/core/IconButton';
 import Space from 'src/components/core/Space';
 import DictionarySearch from './DictionarySearch';
-import DictionaryMenuButton from './DictionaryMenuButton';
-import WordPairsDeleteDialog from './WordPairsDeleteDialog';
+import ControlledDictionaryMenu from './ControlledDictionaryMenu';
+import ControlledWordPairsDeleteDialog from './ControlledWordPairsDeleteDialog';
 
 import './DictionaryToolbar.scss';
 
-function DictionaryToolbar({
-  editingModeEnabled,
+function DictionaryToolbarContainer({
+  setPattern,
   checkedValues,
   handleReset,
   handleCheckAll,
-  inputs,
-  handleChange
+  editingModeEnabled
 }) {
-  const numberOfChecked = checkedValues.length;
+  const { inputs, handleChange } = useForm({ pattern: '' });
 
-  const { open, handleOpen, handleClose } = useDialog();
+  useEffect(() => {
+    const pattern = inputs.pattern;
+    let timerId = null;
+    if (pattern !== '') {
+      timerId = setTimeout(() => {
+        setPattern(pattern);
+      }, 200);
+    } else {
+      setPattern(pattern);
+    }
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [inputs.pattern, setPattern]);
+
+  const numberOfChecked = checkedValues.length;
 
   return (
     <Toolbar className="dictionary-toolbar">
@@ -60,35 +75,23 @@ function DictionaryToolbar({
             </Typography>
           </div>
           <Space />
-          <IconButton
-            aria-label="delete"
-            onClick={handleOpen}
-            className="dictionary-toolbar-delete-button"
-          >
-            <Icon>delete</Icon>
-          </IconButton>
-          <DictionaryMenuButton checkedValues={checkedValues} />
+          <ControlledWordPairsDeleteDialog
+            checkedValues={checkedValues}
+            handleReset={handleReset}
+          />
+          <ControlledDictionaryMenu checkedValues={checkedValues} />
         </Fragment>
       )}
-      <WordPairsDeleteDialog
-        open={open}
-        handleClose={handleClose}
-        checkedValues={checkedValues}
-        handleReset={handleReset}
-      />
     </Toolbar>
   );
 }
 
-DictionaryToolbar.propTypes = {
-  editingModeEnabled: PropTypes.bool.isRequired,
+DictionaryToolbarContainer.propTypes = {
+  setPattern: PropTypes.func.isRequired,
   checkedValues: PropTypes.array.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleCheckAll: PropTypes.func.isRequired,
-  inputs: PropTypes.exact({
-    pattern: PropTypes.string.isRequired
-  }).isRequired,
-  handleChange: PropTypes.func.isRequired
+  editingModeEnabled: PropTypes.bool.isRequired
 };
 
-export default DictionaryToolbar;
+export default DictionaryToolbarContainer;

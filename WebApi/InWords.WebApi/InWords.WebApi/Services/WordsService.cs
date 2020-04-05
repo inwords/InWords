@@ -56,15 +56,6 @@ namespace InWords.WebApi.Services
             return userWordPairRepository.GetWhere(uwp => uwp.UserId == userId).Select(uwp => uwp.UserWordPairId);
         }
 
-        public IEnumerable<WordTranslation> GetUserWordsById(IEnumerable<int> ids)
-        {
-            IEnumerable<UserWordPair> userWordPairs = userWordPairRepository
-                .IncludeWordPairs()
-                .Where(x => ids.Contains(x.UserWordPairId));
-
-            return userWordPairs.ToWordTranslations();
-        }
-
         public List<WordTranslation> GetWordsById(IEnumerable<int> ids)
         {
             return ids.Select(GetWordTranslationById).ToList();

@@ -1,1 +1,1 @@
-export { default } from './DictionaryContainer';
+export { default } from './Dictionary';

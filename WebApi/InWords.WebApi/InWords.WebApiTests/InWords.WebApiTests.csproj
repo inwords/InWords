@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\GameWordsToDictionary\**" />
+    <EmbeddedResource Remove="Services\GameWordsToDictionary\**" />
+    <None Remove="Services\GameWordsToDictionary\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="AppData\EmailTemplates\TestEmail.html" />
   </ItemGroup>
 

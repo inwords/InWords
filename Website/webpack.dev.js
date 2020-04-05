@@ -7,7 +7,7 @@ module.exports = merge(common, {
   output: {
     filename: 'static/js/[name].chunk.js'
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
     historyApiFallback: true,
@@ -18,11 +18,7 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader']
-      },
-      {
-        test: /\.scss$/,
+        test: /\.(css|scss)$/,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
       },
       {

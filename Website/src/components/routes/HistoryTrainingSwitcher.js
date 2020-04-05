@@ -1,20 +1,21 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import useServerTrainingLevel from 'src/components/routes/common-hooks/useServerTrainingLevel';
-import TrainingSwitcher from 'src/components/routes/common/TrainingSwitcher';
+import useServerTrainingLevel from 'src/components/routes-common/useServerTrainingLevel';
+import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
 
-function HistoryTrainingSwitcher(props) {
+function HistoryTrainingSwitcher() {
   const trainingLevel = useServerTrainingLevel();
 
   const trainingHistory = useSelector(store => store.training.history);
 
   const history = useHistory();
-  const params = useParams();
+
+  const { levelId: paramLevelId, trainingId: paramTrainingId } = useParams();
 
   const handleNextLevel = () => {
     const currentLevelIndex = trainingHistory.recentTrainings.findIndex(
-      ({ levelId }) => levelId === +params.levelId
+      ({ levelId }) => levelId === +paramLevelId
     );
 
     if (currentLevelIndex !== -1) {
@@ -23,7 +24,7 @@ function HistoryTrainingSwitcher(props) {
 
       if (nextLevel) {
         history.push(
-          `/training/history/${nextLevel.levelId}/${params.trainingId}`
+          `/training/history/${nextLevel.levelId}/${paramTrainingId}`
         );
         return;
       }
@@ -34,10 +35,8 @@ function HistoryTrainingSwitcher(props) {
 
   return (
     <TrainingSwitcher
-      handleResultSuccess={null}
       handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}
-      {...props}
     />
   );
 }

@@ -2,21 +2,27 @@ import React, { Suspense, lazy } from 'react';
 import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import history from 'src/history';
+import useOAuth2 from 'src/components/app/useOAuth2';
+import ErrorBoundary from 'src/components/app/ErrorBoundary';
 import Container from 'src/components/core/Container';
 import ScrollToTop from 'src/components/core/ScrollToTop';
-import PageProgress from 'src/components/layout/PageProgress';
-import SmartSnackbar from 'src/components/layout/SmartSnackbar';
-import PageContainer from 'src/components/layout/PageContainer';
-import ProfileMenuButton from 'src/components/layout/ProfileMenuButton';
+import PageProgress from 'src/components/app/PageProgress';
+import SmartSnackbar from 'src/components/app/SmartSnackbar';
+import PageContainer from 'src/components/app/PageContainer';
+import ControlledProfileMenu from 'src/components/app/ControlledProfileMenu';
 import NotFound from 'src/components/routes/NotFound';
-import ErrorBoundary from 'src/components/layout/ErrorBoundary';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
-import useOAuth2 from 'src/hooks/useOAuth2';
 
-const SignIn = lazy(() => import('src/components/routes/SignIn'));
-const SignUp = lazy(() => import('src/components/routes/SignUp'));
-const Profile = lazy(() => import('src/components/routes/Profile'));
+const SignIn = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/SignIn')
+);
+const SignUp = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/SignUp')
+);
+const Profile = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/Profile')
+);
 
 const routes = [
   {
@@ -53,16 +59,16 @@ function App() {
       <ScrollToTop />
       <PageContainer
         routes={userId ? routes : null}
-        rightNodes={userId ? [<ProfileMenuButton key={0} />] : null}
+        rightNodes={userId ? [<ControlledProfileMenu key={0} />] : null}
       >
         <ErrorBoundary>
           <Suspense fallback={<PageProgress />}>
             <Switch>
               <Route exact path="/">
-                {!userId ? (
-                  <Redirect to="/sign-up" />
-                ) : (
+                {userId ? (
                   <Redirect to="/training" />
+                ) : (
+                  <Redirect to="/sign-up" />
                 )}
               </Route>
               <Route path="/sign-in">

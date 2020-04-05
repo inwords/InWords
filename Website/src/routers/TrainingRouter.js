@@ -5,22 +5,34 @@ import Breadcrumbs from 'src/components/core/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 
 const MainTrainingTypes = lazy(() =>
-  import('src/components/routes/MainTrainingTypes')
+  import(/* webpackPrefetch: true */ 'src/components/routes/MainTrainingTypes')
 );
 const TrainingHistory = lazy(() =>
-  import('src/components/routes/TrainingHistory')
+  import(/* webpackPrefetch: true */ 'src/components/routes/TrainingHistory')
 );
 const MainTrainingSwitcher = lazy(() =>
-  import('src/components/routes/MainTrainingSwitcher')
+  import(
+    /* webpackPrefetch: true */ 'src/components/routes/MainTrainingSwitcher'
+  )
 );
 const HistoryTrainingSwitcher = lazy(() =>
-  import('src/components/routes/HistoryTrainingSwitcher')
+  import(
+    /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingSwitcher'
+  )
 );
-const WordSets = lazy(() => import('src/components/routes/WordSets'));
-const WordSet = lazy(() => import('src/components/routes/WordSet'));
-const Course = lazy(() => import('src/components/routes/Course'));
-const CoursesTrainingSwitcher = lazy(() =>
-  import('src/components/routes/CoursesTrainingSwitcher')
+const WordSets = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/WordSets')
+);
+const WordSetPairs = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/WordSetPairs')
+);
+const WordSetLevels = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/WordSetLevels')
+);
+const WordSetTrainingSwitcher = lazy(() =>
+  import(
+    /* webpackPrefetch: true */ 'src/components/routes/WordSetTrainingSwitcher'
+  )
 );
 
 function TrainingRouter() {
@@ -49,7 +61,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <MainTrainingSwitcher />
+            <MainTrainingSwitcher redirectionUrl="/training/main/0" />
           </Container>
         )}
       />
@@ -93,7 +105,7 @@ function TrainingRouter() {
                 Набор слов
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <WordSet />
+            <WordSetPairs />
           </Container>
         )}
       />
@@ -108,7 +120,7 @@ function TrainingRouter() {
                 Уровни
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <Course />
+            <WordSetLevels />
           </Container>
         )}
       />
@@ -128,7 +140,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <CoursesTrainingSwitcher />
+            <WordSetTrainingSwitcher />
           </Container>
         )}
       />

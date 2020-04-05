@@ -4,8 +4,8 @@ import common from './common';
 import auth from './auth';
 import profile from './profile';
 import dictionary from './dictionary';
-import training from './training';
 import wordSet from './wordSet';
+import trainingHistory from './trainingHistory';
 
 const rootReducer = (state, action) => {
   if (action.type === DENY_ACCESS) {
@@ -17,8 +17,8 @@ const rootReducer = (state, action) => {
     auth,
     profile,
     dictionary,
-    training,
-    wordSet
+    wordSet,
+    trainingHistory
   });
 
   return appReducer(state, action);

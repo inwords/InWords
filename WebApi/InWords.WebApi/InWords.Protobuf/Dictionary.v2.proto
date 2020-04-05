@@ -43,6 +43,7 @@ message LookupReply{
 		repeated Syn mean = 6;
 		repeated Ex ex = 7;
 		string asp = 8;
+		string anm = 9;
 	}
 	message Def{
 		string text = 1;

@@ -199,9 +199,7 @@ test('find word pair', async () => {
   act(() => {
     jest.runAllTimers();
   });
-  jest.useRealTimers();
-  await Promise.resolve();
 
-  expect(utils.getByText(rightWordPair.wordForeign)).toBeTruthy();
+  await expect(utils.getByText(rightWordPair.wordForeign)).toBeTruthy();
   expect(utils.queryByText(anotherWordPair.wordForeign)).toBeNull();
 });
