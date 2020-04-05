@@ -5,8 +5,8 @@ import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import SignIn from 'src/components/routes/SignIn';
 
 const setup = () => {
-  const mockingAccessResponse = { token: 'xyz', userId: 1 };
   const userData = { email: '1@1', password: '1' };
+  const mockingAccessResponse = { token: 'xyz', userId: 1 };
   global.fetch = mockFetch(mockingAccessResponse);
   const utils = renderWithEnvironment(<SignIn />);
   const changeEmailInput = value =>

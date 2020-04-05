@@ -38,7 +38,6 @@ const setup = () => {
       route
     }
   );
-
   const clickWordPairCheckbox = id =>
     fireEvent.click(utils.getByTestId(`pair-${id}-checkbox`));
   const clickAdd = () => fireEvent.click(utils.getByText('add'));

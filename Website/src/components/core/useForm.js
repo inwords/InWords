@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useForm = (initialInputs, handleSubmit) => {
+const useForm = (initialInputs, handleSubmit = () => {}) => {
   const [inputs, setInputs] = useState(initialInputs);
 
   const handleChange = event => {
@@ -16,10 +16,7 @@ const useForm = (initialInputs, handleSubmit) => {
 
   const handleEnhancedSubmit = event => {
     event.preventDefault();
-
-    if (typeof handleSubmit === 'function') {
-      handleSubmit();
-    }
+    handleSubmit(event);
   };
 
   return {

@@ -45,7 +45,8 @@ const setup = ({ ui = <Dictionary />, route = '' } = {}) => {
   };
 };
 
-const setupWordPairEdit = utils => {
+const setupForWordPairEdit = () => {
+  const utils = setup();
   const editedWordPair = {
     serverId: 2,
     wordForeign: 'hound',
@@ -66,7 +67,8 @@ const setupWordPairEdit = utils => {
   };
 };
 
-const setupWordPairAdding = utils => {
+const setupForWordPairAdding = () => {
+  const utils = setup();
   const newWordPair = {
     wordForeign: 'parrot',
     wordNative: 'попугай'
@@ -90,7 +92,8 @@ const setupWordPairAdding = utils => {
   };
 };
 
-const setupWordPairDeletion = utils => {
+const setupForWordPairDeletion = () => {
+  const utils = setup();
   const clickDel = () => fireEvent.click(utils.getByText('delete'));
   const clickDelСonfirmation = () =>
     fireEvent.click(utils.getByText('Удалить'));
@@ -102,7 +105,15 @@ const setupWordPairDeletion = utils => {
   };
 };
 
-const setupWordPairStudy = utils => {
+const setupForWordPairStudy = () => {
+  const utils = setup({
+    ui: (
+      <Route path="/dictionary">
+        <Dictionary />
+      </Route>
+    ),
+    route: '/dictionary'
+  });
   const clickMenu = () => fireEvent.click(utils.getByText('more_horiz'));
   const clickStudy = () => fireEvent.click(utils.getByText('Изучать'));
 
@@ -113,7 +124,8 @@ const setupWordPairStudy = utils => {
   };
 };
 
-const setupWordPairSearch = utils => {
+const setupForWordPairSearch = () => {
+  const utils = setup();
   const changeSearchInput = value =>
     fireEvent.change(utils.getByPlaceholderText('Поиск слова'), {
       target: { value }
@@ -126,8 +138,7 @@ const setupWordPairSearch = utils => {
 };
 
 test('edit word pair', async () => {
-  let utils = setup();
-  utils = setupWordPairEdit(utils);
+  const utils = setupForWordPairEdit();
   const wordPair = utils.mockingWordPairsResponse.toAdd[1];
   const editedWordPair = utils.editedWordPair;
   await waitFor(() => utils.getByText(wordPair.wordForeign));
@@ -147,8 +158,7 @@ test('edit word pair', async () => {
 });
 
 test('add word pair', async () => {
-  let utils = setup();
-  utils = setupWordPairAdding(utils);
+  const utils = setupForWordPairAdding();
   const wordPair = utils.mockingWordPairsResponse.toAdd[1];
   const newWordPair = utils.newWordPair;
   await waitFor(() => utils.getByText(wordPair.wordForeign));
@@ -166,8 +176,7 @@ test('add word pair', async () => {
 });
 
 test('add word with automatic translation', async () => {
-  let utils = setup();
-  utils = setupWordPairAdding(utils);
+  const utils = setupForWordPairAdding();
   const wordPair = utils.mockingWordPairsResponse.toAdd[1];
   const newWordPair = utils.newWordPair;
   await waitFor(() => utils.getByText(wordPair.wordForeign));
@@ -195,8 +204,7 @@ test('add word with automatic translation', async () => {
 });
 
 test('delete word pair', async () => {
-  let utils = setup();
-  utils = setupWordPairDeletion(utils);
+  const utils = setupForWordPairDeletion();
   const wordPair = utils.mockingWordPairsResponse.toAdd[0];
   await waitFor(() => utils.getByText(wordPair.wordForeign));
 
@@ -211,15 +219,7 @@ test('delete word pair', async () => {
 });
 
 test('select word pair to study', async () => {
-  let utils = setup({
-    ui: (
-      <Route path="/dictionary">
-        <Dictionary />
-      </Route>
-    ),
-    route: '/dictionary'
-  });
-  utils = setupWordPairStudy(utils);
+  const utils = setupForWordPairStudy();
   const wordPair = utils.mockingWordPairsResponse.toAdd[0];
   await waitFor(() => utils.getByText(wordPair.wordForeign));
 
@@ -231,8 +231,7 @@ test('select word pair to study', async () => {
 });
 
 test('find word pair', async () => {
-  let utils = setup();
-  utils = setupWordPairSearch(utils);
+  const utils = setupForWordPairSearch();
   const rightWordPair = utils.mockingWordPairsResponse.toAdd[0];
   const anotherWordPair = utils.mockingWordPairsResponse.toAdd[1];
   await waitFor(() => utils.getByText(rightWordPair.wordForeign));

@@ -30,7 +30,6 @@ const setup = ({ initialState } = {}) => {
       route: `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`
     }
   );
-
   const clickWordEl = el => fireEvent.click(el);
 
   return {
@@ -41,16 +40,8 @@ const setup = ({ initialState } = {}) => {
   };
 };
 
-const setupReplay = utils => {
-  const clickReplay = () => fireEvent.click(utils.getByText('replay'));
-
-  return {
-    ...utils,
-    clickReplay
-  };
-};
-
-const setupNext = utils => {
+const setupForNext = params => {
+  const utils = setup(params);
   const clickNext = () => fireEvent.click(utils.getByText('fast_forward'));
 
   return {
@@ -84,32 +75,16 @@ const finishGameQuickly = async utils => {
   await waitFor(() => utils.getAllByText('star'));
 };
 
-test('finish game and replay', async () => {
-  let utils = setup();
-  utils = setupReplay(utils);
-  await finishGameQuickly(utils);
-  utils.clickReplay();
-  const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
-  await waitFor(() => [
-    utils.getByText(wordTranslations[0].wordForeign),
-    utils.getByText(wordTranslations[0].wordNative),
-    utils.getByText(wordTranslations[1].wordForeign),
-    utils.getByText(wordTranslations[1].wordNative)
-  ]);
-});
-
 describe('finish game and play next', () => {
-  test('empty store', async () => {
-    let utils = setup();
-    utils = setupNext(utils);
+  it('empty store', async () => {
+    const utils = setupForNext();
     await finishGameQuickly(utils);
     utils.clickNext();
     expect(utils.history.location.pathname).toEqual('/training/courses');
   });
 
-  test('store has levels info (not last level)', async () => {
-    jest.useRealTimers();
-    let utils = setup({
+  it('store has levels info (not last level)', async () => {
+    const utils = setupForNext({
       initialState: {
         wordSet: {
           levelsListsMap: {
@@ -121,15 +96,13 @@ describe('finish game and play next', () => {
         }
       }
     });
-    utils = setupNext(utils);
     await finishGameQuickly(utils);
     utils.clickNext();
     expect(utils.history.location.pathname).toEqual('/training/courses/1/2/0');
   });
 
-  test('store has levels info (last level)', async () => {
-    jest.useRealTimers();
-    let utils = setup({
+  it('store has levels info (last level)', async () => {
+    const utils = setupForNext({
       initialState: {
         wordSet: {
           levelsListsMap: {
@@ -138,7 +111,6 @@ describe('finish game and play next', () => {
         }
       }
     });
-    utils = setupNext(utils);
     await finishGameQuickly(utils);
     utils.clickNext();
     expect(utils.history.location.pathname).toEqual('/training/courses');

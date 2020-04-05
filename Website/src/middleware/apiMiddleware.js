@@ -58,16 +58,14 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     if (contentType && contentType.includes('application/json')) {
       responseData = await response.json();
     }
-    if (resolve) {
-      resolve(responseData);
-    }
+    resolve(responseData);
   } catch (error) {
     if (error instanceof HttpError) {
       const statusCode = error.statusCode;
       if (statusCode === 401) {
         dispatch(denyAccess());
         history.push('/sign-in');
-      } else if (reject) {
+      } else {
         reject(statusCode);
       }
     } else {

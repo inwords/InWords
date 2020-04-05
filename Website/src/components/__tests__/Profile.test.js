@@ -27,9 +27,9 @@ const setup = ({ ui = <Profile /> } = {}) => {
   };
 };
 
-const setupNicknameEdit = utils => {
+const setupForNicknameEdit = () => {
+  const utils = setup();
   const newNickname = 'promet1um';
-
   const clickNickNameEdit = () =>
     fireEvent.click(utils.getByText('Изменить никнейм'));
   const changeNickNameInput = value =>
@@ -48,9 +48,16 @@ const setupNicknameEdit = utils => {
   };
 };
 
-const setupEmailEdit = utils => {
+const setupForEmailEdit = () => {
+  const utils = setup({
+    ui: (
+      <Fragment>
+        <Profile />
+        <SmartSnackbar />
+      </Fragment>
+    )
+  });
   const newEmail = '2@1';
-
   const clickEmailEdit = () =>
     fireEvent.click(utils.getByText('Изменить электронный адрес'));
   const changeEmailInput = value =>
@@ -68,11 +75,11 @@ const setupEmailEdit = utils => {
   };
 };
 
-const setupAvatarUpload = utils => {
+const setupForAvatarUpload = () => {
+  const utils = setup();
   const mockingAvatarResponse = {
     avatarPath: 'https://inwords.ru/xxx/avatar.png/'
   };
-
   const clickAvatarEdit = () =>
     fireEvent.click(utils.getByText('Изменить аватар'));
   const changeAvatarInput = file => {
@@ -93,7 +100,15 @@ const setupAvatarUpload = utils => {
   };
 };
 
-const setupAccountDeletion = utils => {
+const setupForAccountDeletion = () => {
+  const utils = setup({
+    ui: (
+      <Fragment>
+        <Profile />
+        <SmartSnackbar />
+      </Fragment>
+    )
+  });
   const clickDel = () => fireEvent.click(utils.getByText('Удалить аккаунт'));
   const changeDelNickNameInput = value =>
     fireEvent.change(utils.getByLabelText('Никнейм'), {
@@ -110,8 +125,7 @@ const setupAccountDeletion = utils => {
 };
 
 test('edit nickname', async () => {
-  let utils = setup();
-  utils = setupNicknameEdit(utils);
+  const utils = setupForNicknameEdit();
   const nickName = utils.mockingUserInfoResponse.nickName;
   const newNickName = utils.newNickname;
   await waitFor(() => utils.getByText(nickName));
@@ -125,15 +139,7 @@ test('edit nickname', async () => {
 });
 
 test('edit email', async () => {
-  let utils = setup({
-    ui: (
-      <Fragment>
-        <Profile />
-        <SmartSnackbar />
-      </Fragment>
-    )
-  });
-  utils = setupEmailEdit(utils);
+  const utils = setupForEmailEdit();
   const email = utils.mockingUserInfoResponse.account.email;
   const newEmail = utils.newEmail;
   await waitFor(() => utils.getByText(email));
@@ -149,8 +155,7 @@ test('edit email', async () => {
 });
 
 test('upload avatar', async () => {
-  let utils = setup();
-  utils = setupAvatarUpload(utils);
+  const utils = setupForAvatarUpload();
   const nickName = utils.mockingUserInfoResponse.nickName;
   const newAvatarPath = utils.mockingAvatarResponse.avatarPath;
   await waitFor(() => utils.getByText(nickName));
@@ -169,15 +174,7 @@ test('upload avatar', async () => {
 });
 
 test('delete account', async () => {
-  let utils = setup({
-    ui: (
-      <Fragment>
-        <Profile />
-        <SmartSnackbar />
-      </Fragment>
-    )
-  });
-  utils = setupAccountDeletion(utils);
+  const utils = setupForAccountDeletion();
   const nickName = utils.mockingUserInfoResponse.nickName;
   await waitFor(() => utils.getByText(nickName));
 

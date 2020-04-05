@@ -36,7 +36,6 @@ const setup = () => {
       route: `/training/main/0/0`
     }
   );
-
   const clickWordEl = el => fireEvent.click(el);
 
   return {
@@ -47,16 +46,8 @@ const setup = () => {
   };
 };
 
-const setupReplay = utils => {
-  const clickReplay = () => fireEvent.click(utils.getByText('replay'));
-
-  return {
-    ...utils,
-    clickReplay
-  };
-};
-
-const setupNext = utils => {
+const setupForNext = () => {
+  const utils = setup();
   const clickNext = () => fireEvent.click(utils.getByText('fast_forward'));
 
   return {
@@ -90,23 +81,8 @@ const finishGameQuickly = async utils => {
   await waitFor(() => utils.getAllByText('star'));
 };
 
-test('finish game and replay', async () => {
-  let utils = setup();
-  utils = setupReplay(utils);
-  await finishGameQuickly(utils);
-  utils.clickReplay();
-  const wordTranslations = utils.trainingLevel.wordTranslations;
-  await waitFor(() => [
-    utils.getByText(wordTranslations[0].wordForeign),
-    utils.getByText(wordTranslations[0].wordNative),
-    utils.getByText(wordTranslations[1].wordForeign),
-    utils.getByText(wordTranslations[1].wordNative)
-  ]);
-});
-
 test('finish game and play next', async () => {
-  let utils = setup();
-  utils = setupNext(utils);
+  const utils = setupForNext();
   await finishGameQuickly(utils);
   utils.clickNext();
   expect(utils.history.location.pathname).toEqual('/training/main/0');

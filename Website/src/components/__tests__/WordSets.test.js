@@ -20,34 +20,29 @@ const setup = ({ ui = <WordSets />, route = '' } = {}) => {
       }
     ]
   };
-  // const mockingCourseWordPairsAddingResponse = {
-  //   wordsAdded: 10
-  // };
   global.fetch = mockFetch(mockingCoursesResponse);
   const utils = renderWithEnvironment(ui, {
     initialState: { auth: { token: accessData.token } },
     route
   });
 
-  // const clickCourseWordSet = id =>
-  //   fireEvent.click(utils.getByTestId(`to-word-set-${id}-pairs`));
-  // const clickAdd = id =>
-  //   fireEvent.click(utils.getByTestId(`add-to-dictionary-${id}`));
-  // const clickAddConfirmation = () =>
-  //   fireEvent.click(utils.getByText('Добавить'));
-
   return {
     ...utils,
     mockingCoursesResponse,
-    //mockingCourseWordPairsAddingResponse,
     route
-    //clickCourseWordSet,
-    // clickAdd,
-    // clickAddConfirmation
   };
 };
 
-const setupWordSetSelection = utils => {
+const setupForWordSetChoice = () => {
+  const route = '/training/courses';
+  const utils = setup({
+    ui: (
+      <Route path="/training/courses">
+        <WordSets />
+      </Route>
+    ),
+    route
+  });
   const clickCourse = id =>
     fireEvent.click(utils.getByTestId(`to-word-set-${id}`));
 
@@ -57,7 +52,16 @@ const setupWordSetSelection = utils => {
   };
 };
 
-const setupWordSetPairsSelection = utils => {
+const setupForWordSetPairsChoice = () => {
+  const route = '/training/courses';
+  const utils = setup({
+    ui: (
+      <Route path="/training/courses">
+        <WordSets />
+      </Route>
+    ),
+    route
+  });
   const clickCourseWordSet = id =>
     fireEvent.click(utils.getByTestId(`to-word-set-${id}-pairs`));
 
@@ -67,7 +71,15 @@ const setupWordSetPairsSelection = utils => {
   };
 };
 
-const setupWordSetPairsAdding = utils => {
+const setupForWordSetPairsAdding = () => {
+  const utils = setup({
+    ui: (
+      <Fragment>
+        <WordSets />
+        <SmartSnackbar />
+      </Fragment>
+    )
+  });
   const mockingCourseWordPairsAddingResponse = {
     wordsAdded: 10
   };
@@ -85,35 +97,19 @@ const setupWordSetPairsAdding = utils => {
 };
 
 test('select word set', async () => {
-  const route = '/training/courses';
-  let utils = setup({
-    ui: (
-      <Route path="/training/courses">
-        <WordSets />
-      </Route>
-    ),
-    route
-  });
-  utils = setupWordSetSelection(utils);
+  const utils = setupForWordSetChoice();
   const courseInfo = utils.mockingCoursesResponse.wordSets[0];
   await waitFor(() => screen.getByText(courseInfo.title));
 
   utils.clickCourse(courseInfo.id);
 
-  expect(utils.history.location.pathname).toEqual(`${route}/${courseInfo.id}`);
+  expect(utils.history.location.pathname).toEqual(
+    `${utils.route}/${courseInfo.id}`
+  );
 });
 
 test('select word set pairs to see', async () => {
-  const route = '/training/courses';
-  let utils = setup({
-    ui: (
-      <Route path="/training/courses">
-        <WordSets />
-      </Route>
-    ),
-    route
-  });
-  utils = setupWordSetPairsSelection(utils);
+  const utils = setupForWordSetPairsChoice();
   const courseInfo = utils.mockingCoursesResponse.wordSets[0];
   await waitFor(() => screen.getByText(courseInfo.title));
 
@@ -125,15 +121,7 @@ test('select word set pairs to see', async () => {
 });
 
 test('add word set pairs to dictionary', async () => {
-  let utils = setup({
-    ui: (
-      <Fragment>
-        <WordSets />
-        <SmartSnackbar />
-      </Fragment>
-    )
-  });
-  utils = setupWordSetPairsAdding(utils);
+  const utils = setupForWordSetPairsAdding();
   const courseInfo = utils.mockingCoursesResponse.wordSets[0];
   const wordsAdded = utils.mockingCourseWordPairsAddingResponse.wordsAdded;
   await waitFor(() => screen.getByText(courseInfo.title));
