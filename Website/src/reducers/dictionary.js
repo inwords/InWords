@@ -25,18 +25,17 @@ const dictionary = (
         wordPairs: state.wordPairs
           .filter(({ serverId }) => !payload.toDelete.includes(serverId))
           .concat(
-            payload.toAdd
-              .map(wordPair => {
-                const convertedWordPair = {
-                  ...wordPair,
-                  serverId: wordPair.userWordPair
-                };
-                delete convertedWordPair.userWordPair;
+            payload.toAdd.map(wordPair => {
+              const convertedWordPair = {
+                ...wordPair,
+                serverId: wordPair.userWordPair
+              };
+              delete convertedWordPair.userWordPair;
 
-                return convertedWordPair;
-              })
-              .sort(lexicographicalComparison)
+              return convertedWordPair;
+            })
           )
+          .sort(lexicographicalComparison)
       };
     }
     case DELETE_WORD_PAIRS:
@@ -69,6 +68,7 @@ const dictionary = (
 
       const wordPairsMap = {};
       wordPairs.forEach(wordPair => {
+        delete wordPair.oldServerId;
         wordPairsMap[wordPair.serverId] = wordPair;
       });
 

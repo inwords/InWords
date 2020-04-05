@@ -9,7 +9,7 @@ import {
   UPDATE_WORD_SET_PAIRS
 } from 'src/actions/wordSetActions';
 
-const all = (state = [], action) => {
+export const all = (state = [], action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SETS:
       return action.payload.wordSets || [];
@@ -18,7 +18,7 @@ const all = (state = [], action) => {
   }
 };
 
-const levelsListsMap = (state = {}, action) => {
+export const levelsListsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET_LEVELS: {
       const payload = action.payload;
@@ -59,7 +59,7 @@ const levelsListsMap = (state = {}, action) => {
   }
 };
 
-const levelsMap = (state = {}, action) => {
+export const levelsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET_LEVEL: {
       const payload = action.payload;
@@ -87,7 +87,7 @@ const levelsMap = (state = {}, action) => {
   }
 };
 
-const pairsListsMap = (state = {}, action) => {
+export const pairsListsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET_PAIRS: {
       const payload = action.payload;

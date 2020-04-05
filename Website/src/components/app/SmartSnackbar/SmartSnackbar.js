@@ -7,7 +7,7 @@ import Snackbar from 'src/components/core/Snackbar';
 import Button from 'src/components/core/Button';
 
 function SmartSnackbar() {
-  const { open, text, actionText, actionHandler } = useSelector(
+  const { open, text, actionText, handleAction = () => {} } = useSelector(
     store => store.common.snackbar
   );
 
@@ -15,12 +15,6 @@ function SmartSnackbar() {
 
   const handleClose = () => {
     dispatch(resetSnackbar());
-  };
-
-  const handleAction = () => {
-    if (typeof actionHandler === 'function') {
-      actionHandler();
-    }
   };
 
   const prevText = usePrevious(text);
