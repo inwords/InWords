@@ -12,7 +12,7 @@ import {
 export const all = (state = [], action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SETS:
-      return action.payload.wordSets || [];
+      return action.payload || [];
     default:
       return state;
   }
@@ -94,10 +94,15 @@ export const pairsListsMap = (state = {}, action) => {
 
       return {
         ...state,
-        [payload.wordSetId]: payload.wordPairs.map(wordPair => ({
-          ...wordPair,
-          serverId: wordPair.wordPairId
-        }))
+        [payload.wordSetId]: payload.wordPairs.map(wordPair => {
+          const convertedWordPair = {
+            ...wordPair,
+            serverId: wordPair.wordPairId
+          };
+          delete convertedWordPair.wordPairId;
+
+          return convertedWordPair;
+        })
       };
     }
     case UPDATE_WORD_SET_PAIRS:
@@ -111,7 +116,7 @@ export const pairsListsMap = (state = {}, action) => {
             ...state,
             [payload.wordSetId]: wordSet.map(wordPair => {
               if (
-                payload.wordPairs.find(
+                payload.addedWordPairs.find(
                   ({ serverId }) => serverId === wordPair.serverId
                 )
               ) {
