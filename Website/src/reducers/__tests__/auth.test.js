@@ -2,13 +2,11 @@ import auth from 'src/reducers/auth';
 import { GRANT_ACCESS } from 'src/actions/authActions';
 
 describe('auth reducer', () => {
-  const initialState = {
-    token: null,
-    userId: null
-  };
-
   it('should return the initial state', () => {
-    expect(auth(undefined, {})).toEqual(initialState);
+    expect(auth(undefined, {})).toEqual({
+      token: null,
+      userId: null
+    });
   });
 
   it('should handle GRANT_ACCESS', () => {

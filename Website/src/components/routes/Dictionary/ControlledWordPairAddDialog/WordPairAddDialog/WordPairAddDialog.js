@@ -136,6 +136,7 @@ function WordPairAddDialog({ open, handleClose }) {
               name="wordForeign"
               value={inputs.wordForeign}
               onChange={handleChange}
+              required
               fullWidth
             />
           </FormGroup>
@@ -146,6 +147,7 @@ function WordPairAddDialog({ open, handleClose }) {
               name="wordNative"
               value={inputs.wordNative}
               onChange={handleChange}
+              required
               fullWidth
             />
           </FormGroup>

@@ -6,7 +6,7 @@ function Animation({
   animationName,
   animationDuration = 'var(--transition-duration-entering-screen)',
   animationTimingFunction = 'var(--transition-easing-ease-in-out)',
-  style = {},
+  style,
   onAnimationEnd,
   ...rest
 }) {

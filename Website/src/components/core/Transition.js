@@ -12,7 +12,7 @@ function Transition({
   transitionDurations = initialTransitionDurations,
   transitionProperty,
   transitionTimingFunction = 'var(--transition-easing-ease-in-out)',
-  style = {},
+  style,
   onTransitionEnd,
   ...rest
 }) {

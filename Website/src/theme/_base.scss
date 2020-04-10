@@ -15,3 +15,9 @@ html * {
 body {
   background-color: var(--palette-background-default);
 }
+
+@supports (-webkit-overflow-scrolling: touch) {
+  body {
+    cursor: pointer;
+  }
+}

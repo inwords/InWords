@@ -5,19 +5,17 @@ import {
 } from 'src/actions/profileActions';
 
 describe('profile reducer', () => {
-  const initialState = {
-    userId: null,
-    nickname: '',
-    avatarPath: '',
-    experience: 0,
-    account: {
-      accountId: null,
-      email: ''
-    }
-  };
-
   it('should return the initial state', () => {
-    expect(profile(undefined, {})).toEqual(initialState);
+    expect(profile(undefined, {})).toEqual({
+      userId: null,
+      nickname: '',
+      avatarPath: '',
+      experience: 0,
+      account: {
+        accountId: null,
+        email: ''
+      }
+    });
   });
 
   it('should handle INITIALIZE_USER_INFO', () => {
