@@ -1,6 +1,7 @@
 <resources>
     <string name="dictionary_search_hint">Найти слово…</string>
 
+    <string name="empty" />
     <string name="not_now">Не сейчас</string>
     <string name="continue_str">Продолжить</string>
     <string name="search">Поиск</string>

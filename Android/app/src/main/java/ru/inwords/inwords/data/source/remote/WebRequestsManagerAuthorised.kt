@@ -10,6 +10,9 @@ import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.proto.dictionary.AddWordsReply
 import ru.inwords.inwords.proto.dictionary.LookupReply
 import ru.inwords.inwords.proto.dictionary.WordsReply
+import ru.inwords.inwords.proto.profile.EmailChangeReply
+import ru.inwords.inwords.proto.word_set.GetLevelWordsReply
+import ru.inwords.inwords.proto.word_set.GetLevelsReply
 import ru.inwords.inwords.proto.word_set.WordSetReply
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 
@@ -25,6 +28,8 @@ interface WebRequestsManagerAuthorised {
     fun getUserById(id: Int): Single<User>
 
     fun updateUser(newUser: User): Completable
+
+    fun requestEmailUpdate(newEmail: String): Single<EmailChangeReply>
 
     fun insertAllWords(wordTranslations: List<WordTranslation>): Single<AddWordsReply>
 

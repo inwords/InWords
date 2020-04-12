@@ -35,7 +35,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
         return FragmentProfileBinding.inflate(inflater, container, attachToRoot)
     }
 
-    lateinit var user: User
+    private var user: User? = null
 
     private var navIconAnimationListener: AppBarLayout.OnOffsetChangedListener? = null
 
@@ -66,15 +66,21 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
         binding.settingsButton.setOnClickListener { viewModel.onNavigateToSettingsClicked() }
 
-        binding.nameEditEditButton.setOnClickListener(nameEditClickListener())
-        binding.nameEditApplyButton.setOnClickListener(nameApplyClickListener())
+        binding.nameEditableField.onEditClickListener = editableFieldClickListener(binding.nameEditableField)
+        binding.nameEditableField.onApplyClickListener = nameApplyClickListener()
+
+        binding.emailEditableField.onEditClickListener = editableFieldClickListener(binding.emailEditableField)
+        binding.emailEditableField.onApplyClickListener = emailApplyClickListener()
 
         binding.logoutButton.setOnClickListener { showLogoutDialog() }
 
         subscribeUser().disposeOnViewDestroyed()
 
-        subscribeNicknameUpdateResult()
+        subscribeFieldUpdateResult(binding.nameEditableField) { getString(R.string.unable_to_change_nickname) }
+        subscribeFieldUpdateResult(binding.emailEditableField) { it ?: getString(R.string.unable_to_change_email) }
         subscribeLogoutResult()
+
+        binding.emailEditableField.defaultValueProvider = { user?.account?.email.orEmpty() }
 
         observe(viewModel.lastAuthMethod) {
             if (it == LastAuthInfoProvider.AuthMethod.NONE) {
@@ -106,10 +112,11 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     private fun subscribeUser(): Disposable {
         fun renderUser(userResource: Resource<User>) {
             if (userResource is Resource.Success) {
-                user = userResource.data
+                val userData = userResource.data
+                user = userData
 
-                if (user.avatar != null) {
-                    val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(user.avatar))
+                if (userData.avatar != null) {
+                    val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(userData.avatar))
                         .setProgressiveRenderingEnabled(true)
                         .setLocalThumbnailPreviewsEnabled(true)
                         .build()
@@ -119,15 +126,21 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
                     binding.avatarImage.setActualImageResource(R.drawable.ic_octopus1)
                 }
 
-                binding.nameEditText.setText(user.userName)
+                binding.nameEditableField.text = userData.userName
+                binding.nameEditableField.setDefaultViewState()
+                binding.nameEditableField.editButtonEnabled = true
 
-                renderDefaultViewState()
-                binding.nameEditEditButton.isEnabled = true
+                binding.emailEditableField.text = userData.account?.email.orEmpty()
+                binding.emailEditableField.setDefaultViewState()
+                binding.emailEditableField.editButtonEnabled = true
             } else {
                 binding.avatarImage.setActualImageResource(R.drawable.ic_octopus1)
 
-                renderDefaultViewState()
-                binding.nameEditEditButton.isEnabled = false
+                binding.nameEditableField.setDefaultViewState()
+                binding.nameEditableField.editButtonEnabled = false
+
+                binding.emailEditableField.setDefaultViewState()
+                binding.emailEditableField.editButtonEnabled = false
             }
         }
 
@@ -136,19 +149,19 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
             .subscribe(::renderUser)
     }
 
-    private fun subscribeNicknameUpdateResult() {
+    private fun subscribeFieldUpdateResult(field: TextInputRemoteEditableField, errorTextProvider: (String?) -> String) {
         observe(viewModel.changeNicknameStatus) {
             when (it) {
                 is Resource.Success -> {
-                    renderDefaultViewState()
+                    field.setDefaultViewState()
                 }
                 is Resource.Loading -> {
-                    renderLoadingViewState()
+                    field.setLoadingViewState()
                 }
                 is Resource.Error -> { //TODO error handling
-                    renderErrorViewState()
+                    field.setErrorViewState()
 
-                    Snackbar.make(binding.root, getString(R.string.unable_to_change_nickname), Snackbar.LENGTH_LONG)
+                    Snackbar.make(binding.root, errorTextProvider.invoke(it.message), Snackbar.LENGTH_LONG)
                         .show()
                 }
             }
@@ -177,54 +190,39 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
         }
     }
 
-    private fun renderDefaultViewState() {
-        binding.nameEditProgress.visibility = View.INVISIBLE
-        binding.nameEditEditButton.visibility = View.VISIBLE
-        binding.nameEditApplyButton.visibility = View.INVISIBLE
-        binding.nameEditText.isEnabled = false
-    }
+    private fun nameApplyClickListener(): (View) -> Unit = fun(_) {
+        val user = user ?: return
 
-    private fun renderEditViewState() {
-        binding.nameEditProgress.visibility = View.INVISIBLE
-        binding.nameEditEditButton.visibility = View.INVISIBLE
-        binding.nameEditApplyButton.visibility = View.VISIBLE
-        binding.nameEditText.isEnabled = true
-    }
+        val newUsername = binding.nameEditableField.text
 
-    private fun renderLoadingViewState() {
-        binding.nameEditProgress.visibility = View.VISIBLE
-        binding.nameEditEditButton.visibility = View.INVISIBLE
-        binding.nameEditApplyButton.visibility = View.INVISIBLE
-        binding.nameEditText.isEnabled = false
-    }
+        if (newUsername != user.userName) { //TODO validate also
+            val newUser = user.copy(userName = newUsername)
 
-    private fun renderErrorViewState() {
-        binding.nameEditProgress.visibility = View.INVISIBLE
-        binding.nameEditEditButton.visibility = View.INVISIBLE
-        binding.nameEditApplyButton.visibility = View.VISIBLE
-        binding.nameEditText.isEnabled = true
-    }
+            viewModel.updateUser(newUser)
 
-    private fun nameApplyClickListener() = View.OnClickListener {
-        if (::user.isInitialized) {
-            val newUsername = binding.nameEditText.text.toString()
-
-            if (newUsername != user.userName) { //TODO validate also
-                val newUser = user.copy(userName = newUsername, account = null)
-
-                viewModel.updateUser(newUser)
-
-                renderLoadingViewState()
-            } else {
-                renderDefaultViewState()
-            }
+            binding.nameEditableField.setLoadingViewState()
+        } else {
+            binding.nameEditableField.setDefaultViewState()
         }
     }
 
-    private fun nameEditClickListener() = View.OnClickListener {
-        renderEditViewState()
-        KeyboardUtils.showKeyboard(binding.nameEditText)
-        binding.nameEditText.setSelection(binding.nameEditText.text?.length ?: 0)
+    private fun editableFieldClickListener(field: TextInputRemoteEditableField): (View) -> Unit = {
+        field.setEditingViewState()
+        KeyboardUtils.showKeyboard(field.rootView)
+        field.setSelection(field.text.length)
     }
 
+    private fun emailApplyClickListener(): (View) -> Unit = fun(_) {
+        val user = user ?: return
+
+        val newEmail = binding.emailEditableField.text
+
+        if (newEmail != user.account?.email && newEmail.isNotBlank()) { //TODO validate also
+            viewModel.updateEmail(newEmail) { getString(R.string.incorrect_input_email) }
+
+            binding.emailEditableField.setLoadingViewState()
+        } else {
+            binding.emailEditableField.setDefaultViewState()
+        }
+    }
 }

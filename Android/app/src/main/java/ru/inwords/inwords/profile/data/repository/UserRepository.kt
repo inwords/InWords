@@ -10,6 +10,7 @@ interface UserRepository {
     fun getAuthorisedUser(forceUpdate: Boolean = false): Observable<Resource<User>>
     fun getUserById(id: Int): Single<User>
     fun updateUser(newUser: User): Completable
+    fun requestEmailUpdate(newEmail: String): Completable
     fun clearCache()
     fun postOnLoopback(newUser: User)
 }

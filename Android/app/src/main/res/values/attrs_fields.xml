@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TextInputRemoteEditableField">
+        <attr name="icon_start" format="reference" />
+        <attr name="hint" format="string" />
+        <attr name="text" format="string" />
+        <attr name="editFromScratch" format="boolean" />
+    </declare-styleable>
+</resources>

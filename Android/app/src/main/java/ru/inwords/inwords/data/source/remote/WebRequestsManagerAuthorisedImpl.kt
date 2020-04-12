@@ -13,9 +13,13 @@ import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.data.bean.TrainingEstimateRequest
 import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.profile.data.bean.User
+import ru.inwords.inwords.profile.data.grpc.ProfileGrpcService
 import ru.inwords.inwords.proto.dictionary.AddWordsReply
 import ru.inwords.inwords.proto.dictionary.LookupReply
 import ru.inwords.inwords.proto.dictionary.WordsReply
+import ru.inwords.inwords.proto.profile.EmailChangeReply
+import ru.inwords.inwords.proto.word_set.GetLevelWordsReply
+import ru.inwords.inwords.proto.word_set.GetLevelsReply
 import ru.inwords.inwords.proto.word_set.WordSetReply
 import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
 import ru.inwords.inwords.translation.domain.model.WordTranslation
@@ -27,7 +31,8 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
     private val apiServiceAuthorised: ApiServiceAuthorised,
     private val sessionHelper: SessionHelper,
     private val dictionaryGrpcService: DictionaryGrpcService,
-    private val wordSetGrpcService: WordSetGrpcService
+    private val wordSetGrpcService: WordSetGrpcService,
+    private val profileGrpcService: ProfileGrpcService
 ) : WebRequestsManagerAuthorised {
 
     private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
@@ -63,6 +68,13 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
     override fun updateUser(newUser: User): Completable {
         return valve()
             .flatMapCompletable { apiServiceAuthorised.updateUser(newUser) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
+    }
+
+    override fun requestEmailUpdate(newEmail: String): Single<EmailChangeReply> {
+        return valve()
+            .flatMap { profileGrpcService.requestEmailUpdate(newEmail) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

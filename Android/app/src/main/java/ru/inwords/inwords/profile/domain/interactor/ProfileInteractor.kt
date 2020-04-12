@@ -21,6 +21,10 @@ class ProfileInteractor @Inject internal constructor(
         return userRepository.updateUser(newUser)
     }
 
+    fun requestEmailUpdate(newEmail: String):Completable {
+        return userRepository.requestEmailUpdate(newEmail)
+    }
+
     fun clearCache() {
         userRepository.clearCache()
     }
