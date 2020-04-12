@@ -6,6 +6,7 @@ import Button from 'src/components/core/Button';
 function LinkButton({
   component = 'a',
   disabled = false,
+  tabIndex,
   children,
   className,
   ...rest
@@ -14,6 +15,7 @@ function LinkButton({
     <Button
       component={component}
       className={classNames({ disabled }, className)}
+      tabIndex={disabled ? -1 : tabIndex}
       {...rest}
     >
       {children}
@@ -24,6 +26,7 @@ function LinkButton({
 LinkButton.propTypes = {
   component: PropTypes.elementType,
   disabled: PropTypes.bool,
+  tabIndex: PropTypes.number,
   children: PropTypes.node,
   className: PropTypes.string
 };
