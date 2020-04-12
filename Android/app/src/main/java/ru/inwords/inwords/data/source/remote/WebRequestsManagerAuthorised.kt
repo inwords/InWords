@@ -2,8 +2,6 @@ package ru.inwords.inwords.data.source.remote
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.game.data.bean.GameLevel
-import ru.inwords.inwords.game.data.bean.GameResponse
 import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.data.bean.TrainingEstimateRequest
 import ru.inwords.inwords.profile.data.bean.User
@@ -39,9 +37,9 @@ interface WebRequestsManagerAuthorised {
 
     fun lookup(text: String, lang: String): Single<LookupReply>
 
-    fun getGame(gameId: Int): Single<GameResponse>
+    fun getLevels(wordSetId: Int): Single<GetLevelsReply>
 
-    fun getLevel(levelId: Int): Single<GameLevel>
+    fun getLevelWords(levelId: Int): Single<GetLevelWordsReply>
 
     fun getScore(trainingEstimateRequest: TrainingEstimateRequest): Single<List<LevelScore>>
 

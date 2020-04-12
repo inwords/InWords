@@ -19,11 +19,11 @@ internal class ContinueGameInteractorTest {
     private val continueGameInteractor = ContinueGameInteractor(gameGatewayController)
 
     private val gameInfos = listOf(
-        GameInfo(1, 0, "", "", available = true, isCustom = false),
-        GameInfo(2, 0, "", "", available = true, isCustom = false),
-        GameInfo(3, 0, "", "", available = true, isCustom = false),
-        GameInfo(4, 0, "", "", available = true, isCustom = false),
-        GameInfo(5, 0, "", "", available = true, isCustom = false)
+        GameInfo(1, "", "", "", available = true, isCustom = false),
+        GameInfo(2, "", "", "", available = true, isCustom = false),
+        GameInfo(3, "", "", "", available = true, isCustom = false),
+        GameInfo(4, "", "", "", available = true, isCustom = false),
+        GameInfo(5, "", "", "", available = true, isCustom = false)
     )
 
     private val gamesInfoModel = GamesInfo(true, gameInfos)
@@ -34,7 +34,7 @@ internal class ContinueGameInteractorTest {
         GameLevelInfo(3, 3, 0, true)
     )
 
-    private val game = Game(1, "", "", gameLevelInfos)
+    private val game = Game(1, gameLevelInfos)
 
     @Test
     fun `queryContinueGame should return next level not last when has so`() {

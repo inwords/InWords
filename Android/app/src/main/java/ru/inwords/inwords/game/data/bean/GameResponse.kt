@@ -8,7 +8,5 @@ import com.google.gson.annotations.SerializedName
 data class GameResponse(
     @PrimaryKey
     @SerializedName("gameId") val gameId: Int,
-    @SerializedName("title") val title: String?,
-    @SerializedName("creator") val creator: String,
     @SerializedName("levelInfos") val gameLevelInfos: List<GameLevelInfo>
 )

@@ -7,8 +7,6 @@ import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.GameLevel
-import ru.inwords.inwords.game.data.bean.GameResponse
 import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.data.bean.TrainingEstimateRequest
 import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
@@ -114,16 +112,16 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getGame(gameId: Int): Single<GameResponse> {
+    override fun getLevels(wordSetId: Int): Single<GetLevelsReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getGame(gameId) }
+            .flatMap { wordSetGrpcService.getLevels(wordSetId) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getLevel(levelId: Int): Single<GameLevel> {
+    override fun getLevelWords(levelId: Int): Single<GetLevelWordsReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getLevel(levelId) }
+            .flatMap { wordSetGrpcService.getLevelWords(levelId) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

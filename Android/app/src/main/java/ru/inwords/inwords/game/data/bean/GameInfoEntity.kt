@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 data class GameInfoEntity(
     @PrimaryKey
     val gameId: Int,
-    val creatorId: Int,
-    val description: String?,
-    val title: String?,
+    val description: String,
+    val title: String,
+    val picture: String,
     val available: Boolean
 )

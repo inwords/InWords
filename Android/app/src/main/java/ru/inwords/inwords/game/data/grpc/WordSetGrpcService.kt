@@ -9,9 +9,7 @@ import ru.inwords.inwords.core.grpc.HeaderAttachingClientInterceptor
 import ru.inwords.inwords.core.utils.unsafeLazy
 import ru.inwords.inwords.dagger.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.proto.common.Empty
-import ru.inwords.inwords.proto.word_set.WordSetProviderGrpc
-import ru.inwords.inwords.proto.word_set.WordSetReply
-import ru.inwords.inwords.proto.word_set.WordSetWordsRequest
+import ru.inwords.inwords.proto.word_set.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,5 +33,21 @@ internal class WordSetGrpcService @Inject constructor(
 
     fun getWordSets(): Single<WordSetReply> {
         return Single.fromCallable { wordSetStub.getSets(Empty.getDefaultInstance()) }
+    }
+
+    fun getLevels(wordSetId: Int): Single<GetLevelsReply> {
+        val request = GetLevelsRequest.newBuilder()
+            .setWordSetId(wordSetId)
+            .build()
+
+        return Single.fromCallable { wordSetStub.getLevels(request) }
+    }
+
+    fun getLevelWords(levelId: Int): Single<GetLevelWordsReply> {
+        val request = GetLevelWordsRequest.newBuilder()
+            .setLevelId(levelId)
+            .build()
+
+        return Single.fromCallable { wordSetStub.getLevelWords(request) }
     }
 }
