@@ -7,9 +7,11 @@ import io.reactivex.Observable
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.NONE
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
+import ru.inwords.inwords.authorisation.validators.emailInputValidator
 import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.core.validation.ValidationResult
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
@@ -23,6 +25,9 @@ class ProfileViewModel internal constructor(
 
     private val changeNicknameMutableLiveData = SingleLiveEvent<Resource<Unit>>()
     val changeNicknameStatus: LiveData<Resource<Unit>> = changeNicknameMutableLiveData
+
+    private val changeEmailMutableLiveData = SingleLiveEvent<Resource<Unit>>()
+    val changeEmailStatus: LiveData<Resource<Unit>> = changeEmailMutableLiveData
 
     private val logoutStatusMutableLiveData = SingleLiveEvent<Resource<Unit>>()
     val logoutStatus: LiveData<Resource<Unit>> = logoutStatusMutableLiveData
@@ -53,6 +58,25 @@ class ProfileViewModel internal constructor(
                 changeNicknameMutableLiveData.postValue(Resource.Error(it.message, it))
             })
             .autoDispose()
+    }
+
+    fun updateEmail(newEmail: String, messageProvider: (String) -> String) {
+        val result = emailInputValidator.validate(newEmail, messageProvider)
+
+        if (result is ValidationResult.Error) {
+            changeEmailMutableLiveData.postValue(Resource.Error(result.message))
+        } else {
+            profileInteractor.requestEmailUpdate(newEmail)
+                .observeOn(SchedulersFacade.ui())
+                .doOnSubscribe { changeEmailMutableLiveData.postValue(Resource.Loading()) }
+                .subscribe({
+                    changeEmailMutableLiveData.postValue(Resource.Success(Unit))
+                }, {
+                    Log.w(TAG, it.message.orEmpty())
+                    changeEmailMutableLiveData.postValue(Resource.Error(it.message, it))
+                })
+                .autoDispose()
+        }
     }
 
     fun logout() {

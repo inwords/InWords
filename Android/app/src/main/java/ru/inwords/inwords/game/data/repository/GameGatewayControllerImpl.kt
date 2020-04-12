@@ -4,7 +4,6 @@ import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.resource.ResourceCachingProvider
 import ru.inwords.inwords.core.resource.Source
@@ -30,7 +29,6 @@ import javax.inject.Singleton
 
 @Singleton
 class GameGatewayControllerImpl @Inject constructor(
-    resourceManager: ResourceManager,
     private val gameRemoteRepository: GameRemoteRepository,
     gameInfoDao: GameInfoDao,
     gameDao: GameDao,
@@ -47,7 +45,7 @@ class GameGatewayControllerImpl @Inject constructor(
     private val gameLevelCachingProviderLocator = ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) }
 
     private val gameConverter = GameConverter()
-    private val gameInfoConverter = GameInfoConverter(resourceManager)
+    private val gameInfoConverter = GameInfoConverter()
     private val gamesInfoDomainConverter = GamesInfoDomainConverter()
     private val wordOpenCountsConverter = LevelResultConverter()
 

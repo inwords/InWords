@@ -29,6 +29,12 @@ class UserCachingRepository(
             .doOnComplete { postOnLoopback(newUser) }
     }
 
+    override fun requestEmailUpdate(newEmail: String): Completable {
+        return remoteRepository.requestEmailUpdate(newEmail)
+            .doOnSuccess { authorisedUserCachingProviderLocator.getDefault().askForContentUpdate() }
+            .ignoreElement()
+    }
+
     override fun clearCache() {
         authorisedUserCachingProviderLocator.clear()
     }

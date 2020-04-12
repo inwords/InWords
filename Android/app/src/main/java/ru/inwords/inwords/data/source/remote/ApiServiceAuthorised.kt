@@ -3,8 +3,6 @@ package ru.inwords.inwords.data.source.remote
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
-import ru.inwords.inwords.game.data.bean.GameLevel
-import ru.inwords.inwords.game.data.bean.GameResponse
 import ru.inwords.inwords.game.data.bean.TrainingEstimateRequest
 import ru.inwords.inwords.game.data.bean.TrainingEstimateResponse
 import ru.inwords.inwords.profile.data.bean.User
@@ -12,12 +10,6 @@ import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 interface ApiServiceAuthorised {
     //GAME
-    @GET("v1.0/Game/{gameId}")
-    fun getGame(@Path("gameId") gameId: Int): Single<GameResponse>
-
-    @GET("v1.0/Game/level/{levelId}")
-    fun getLevel(@Path("levelId") levelId: Int): Single<GameLevel>
-
     @POST("/v1.1/training/estimate")
     fun getLevelScore(@Body levelScoreRequest: TrainingEstimateRequest): Single<TrainingEstimateResponse>
 

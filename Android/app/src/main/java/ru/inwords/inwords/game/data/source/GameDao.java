@@ -10,7 +10,7 @@ import ru.inwords.inwords.game.data.bean.GameResponse;
 
 @Dao
 public abstract class GameDao implements GameEntityDao<GameResponse> {
-    @Query("SELECT * FROM game_table ORDER BY title ASC")
+    @Query("SELECT * FROM game_table")
     public abstract Single<List<GameResponse>> getAll();
 
     @Query("SELECT * FROM game_table WHERE gameId = :gameId LIMIT 1")

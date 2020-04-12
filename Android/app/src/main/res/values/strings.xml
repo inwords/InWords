@@ -108,6 +108,7 @@
     <string name="button_apply_text">Подтвердить</string>
     <string name="nick_text">Псевдоним</string>
     <string name="unable_to_change_nickname">Не удалось изменить ник. Попробуйте ещё раз</string>
+    <string name="unable_to_change_email">Не удалось изменить email. Попробуйте ещё раз</string>
     <string name="unable_to_logout">Не удалось выйти из аккаунта. Попробуйте ещё раз</string>
     <string name="logout_warning_message">Данные, сохранённые на устройстве, будут стёрты. Позже, вы сможете снова войти в аккаунт или зарегистрироваться</string>
     <!-- profile end -->

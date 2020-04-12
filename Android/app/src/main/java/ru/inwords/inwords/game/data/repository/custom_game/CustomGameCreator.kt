@@ -11,17 +11,19 @@ import ru.inwords.inwords.game.domain.model.GameInfo
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 
-class CustomGameCreator @Inject constructor(private val customGameGatewayController: CustomGameGatewayController,
-                                            private val levelInfoGenerator: LevelInfoGenerator) : GameCreator {
+class CustomGameCreator @Inject constructor(
+    private val customGameGatewayController: CustomGameGatewayController,
+    private val levelInfoGenerator: LevelInfoGenerator
+) : GameCreator {
     /**
      * Creates custom game (stores it in database)
      *
      * @return id of created game
      */
     override fun createLevel(wordTranslations: List<WordTranslation>): GameLevelInfo {
-        val gameInfo = GameInfo(CUSTOM_GAME_ID, CUSTOM_GAME_ID, "CUSTOM_GAME", "CUSTOM_GAME", true)
+        val gameInfo = GameInfo(CUSTOM_GAME_ID, "CUSTOM_GAME", "CUSTOM_GAME", "", true)
 
-        val defaultGame = Game(CUSTOM_GAME_ID, "CUSTOM_GAME", "CUSTOM_GAME", listOf())
+        val defaultGame = Game(CUSTOM_GAME_ID, listOf())
 
         val game = when (val gameResource = customGameGatewayController.getGame(CUSTOM_GAME_ID, false).blockingFirst()) {
             is Resource.Success -> gameResource.data
@@ -41,11 +43,13 @@ class CustomGameCreator @Inject constructor(private val customGameGatewayControl
 
         val newGame = game.copy(gameLevelInfos = game.gameLevelInfos.toMutableList().apply { add(newGameLevelInfo) })
 
-        Completable.mergeDelayError(listOf(
+        Completable.mergeDelayError(
+            listOf(
                 customGameGatewayController.storeGameInfo(gameInfo).subscribeOn(SchedulersFacade.io()),
                 customGameGatewayController.storeGame(newGame).subscribeOn(SchedulersFacade.io()),
                 customGameGatewayController.storeLevel(newGameLevel).subscribeOn(SchedulersFacade.io())
-        )).blockingAwait()
+            )
+        ).blockingAwait()
 
         return newGameLevelInfo
     }
