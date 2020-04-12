@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './Paper.scss';
 
-function Paper({ component = 'div', depthShadow = 4, className, ...rest }) {
+const Paper = forwardRef(function Paper(
+  { component = 'div', depthShadow = 4, className, ...rest },
+  ref
+) {
   const Component = component;
 
   return (
     <Component
+      ref={ref}
       className={classNames(
         'paper',
         {
@@ -19,7 +23,7 @@ function Paper({ component = 'div', depthShadow = 4, className, ...rest }) {
       {...rest}
     />
   );
-}
+});
 
 Paper.propTypes = {
   component: PropTypes.elementType,

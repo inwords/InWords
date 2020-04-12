@@ -15,17 +15,14 @@ function Wordlist({ wordPairs, ...rest }) {
   );
 
   useEffect(() => {
-    const addEventListener = window.addEventListener;
-    const removeEventListener = window.removeEventListener;
-
     const onResize = debounce(() => {
       setListHeight(window.innerHeight - heightOffset);
     }, 200);
 
-    addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize);
 
     return () => {
-      removeEventListener('resize', onResize);
+      window.removeEventListener('resize', onResize);
     };
   }, [listHeight]);
 

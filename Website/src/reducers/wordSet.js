@@ -9,16 +9,16 @@ import {
   UPDATE_WORD_SET_PAIRS
 } from 'src/actions/wordSetActions';
 
-const all = (state = [], action) => {
+export const all = (state = [], action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SETS:
-      return action.payload.wordSets || [];
+      return action.payload || [];
     default:
       return state;
   }
 };
 
-const levelsListsMap = (state = {}, action) => {
+export const levelsListsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET_LEVELS: {
       const payload = action.payload;
@@ -59,7 +59,7 @@ const levelsListsMap = (state = {}, action) => {
   }
 };
 
-const levelsMap = (state = {}, action) => {
+export const levelsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET_LEVEL: {
       const payload = action.payload;
@@ -87,17 +87,22 @@ const levelsMap = (state = {}, action) => {
   }
 };
 
-const pairsListsMap = (state = {}, action) => {
+export const pairsListsMap = (state = {}, action) => {
   switch (action.type) {
     case INITIALIZE_WORD_SET_PAIRS: {
       const payload = action.payload;
 
       return {
         ...state,
-        [payload.wordSetId]: payload.wordPairs.map(wordPair => ({
-          ...wordPair,
-          serverId: wordPair.wordPairId
-        }))
+        [payload.wordSetId]: payload.wordPairs.map(wordPair => {
+          const convertedWordPair = {
+            ...wordPair,
+            serverId: wordPair.wordPairId
+          };
+          delete convertedWordPair.wordPairId;
+
+          return convertedWordPair;
+        })
       };
     }
     case UPDATE_WORD_SET_PAIRS:
@@ -111,7 +116,7 @@ const pairsListsMap = (state = {}, action) => {
             ...state,
             [payload.wordSetId]: wordSet.map(wordPair => {
               if (
-                payload.wordPairs.find(
+                payload.addedWordPairs.find(
                   ({ serverId }) => serverId === wordPair.serverId
                 )
               ) {

@@ -90,6 +90,7 @@ function WordPairEditDialogContainer({
               name="wordForeign"
               value={inputs.wordForeign}
               onChange={handleChange}
+              required
               fullWidth
             />
           </FormGroup>
@@ -100,6 +101,7 @@ function WordPairEditDialogContainer({
               name="wordNative"
               value={inputs.wordNative}
               onChange={handleChange}
+              required
               fullWidth
             />
           </FormGroup>

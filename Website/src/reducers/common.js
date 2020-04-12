@@ -6,7 +6,7 @@ import {
   RESET_SNACKBAR
 } from 'src/actions/commonActions';
 
-const loading = (state = false, action) => {
+export const loading = (state = false, action) => {
   switch (action.type) {
     case BEGIN_LOADING:
       return true;
@@ -21,10 +21,10 @@ const initialSnackbarState = {
   open: false,
   text: '',
   actionText: '',
-  actionHandler: null
+  handleAction: null
 };
 
-const snackbar = (state = initialSnackbarState, action) => {
+export const snackbar = (state = initialSnackbarState, action) => {
   switch (action.type) {
     case SET_SNACKBAR:
       return {

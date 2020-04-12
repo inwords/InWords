@@ -17,8 +17,8 @@ function CustomizedGame({
   trainingSettings,
   setTrainingSettings,
   trainingLevel,
-  handleNextLevel,
-  handleResultSuccess
+  handleNextLevel = () => {},
+  handleResultSuccess = () => {}
 }) {
   const [processedTrainingLevel, setProcessedTrainingLevel] = useState();
 
@@ -147,7 +147,7 @@ CustomizedGame.propTypes = {
       }).isRequired
     ).isRequired
   }).isRequired,
-  handleNextLevel: PropTypes.func.isRequired,
+  handleNextLevel: PropTypes.func,
   handleResultSuccess: PropTypes.func
 };
 

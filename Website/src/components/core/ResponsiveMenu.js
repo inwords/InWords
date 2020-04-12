@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'src/utils/debounce';
 import Menu from 'src/components/core/Menu';
 
-function ResponsiveMenu({ anchorEl, responsive = true, style = {}, ...rest }) {
+function ResponsiveMenu({ anchorEl, responsive = true, style, ...rest }) {
   const [maxHeight, setMaxHeight] = useState(0);
 
   useEffect(() => {

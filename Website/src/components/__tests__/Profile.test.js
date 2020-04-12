@@ -8,7 +8,7 @@ import SmartSnackbar from 'src/components/app/SmartSnackbar';
 
 expect.extend({ toHaveAttribute });
 
-const setup = () => {
+const setup = ({ ui = <Profile /> } = {}) => {
   const accessData = { token: 'xyz', userId: 1 };
   const mockingUserInfoResponse = {
     userId: 1,
@@ -16,24 +16,20 @@ const setup = () => {
     avatarPath: null,
     account: { accountId: 1, email: '1@1' }
   };
-  const newUserInfo = {
-    nickName: 'promet1um',
-    email: '2@1'
-  };
-  const mockingAvatarResponse = {
-    avatarPath: 'https://inwords.ru/xxx/avatar.png/'
-  };
   global.fetch = mockFetch(mockingUserInfoResponse);
-  const utils = renderWithEnvironment(
-    <Fragment>
-      <Profile />
-      <SmartSnackbar />
-    </Fragment>,
-    {
-      initialState: { auth: { token: accessData.token } }
-    }
-  );
+  const utils = renderWithEnvironment(ui, {
+    initialState: { auth: { token: accessData.token } }
+  });
 
+  return {
+    ...utils,
+    mockingUserInfoResponse
+  };
+};
+
+const setupForNicknameEdit = () => {
+  const utils = setup();
+  const newNickname = 'promet1um';
   const clickNickNameEdit = () =>
     fireEvent.click(utils.getByText('Изменить никнейм'));
   const changeNickNameInput = value =>
@@ -43,6 +39,25 @@ const setup = () => {
   const clickNickNameSubmit = () =>
     fireEvent.click(utils.getByText('Сохранить'));
 
+  return {
+    ...utils,
+    newNickname,
+    clickNickNameEdit,
+    changeNickNameInput,
+    clickNickNameSubmit
+  };
+};
+
+const setupForEmailEdit = () => {
+  const utils = setup({
+    ui: (
+      <Fragment>
+        <Profile />
+        <SmartSnackbar />
+      </Fragment>
+    )
+  });
+  const newEmail = '2@1';
   const clickEmailEdit = () =>
     fireEvent.click(utils.getByText('Изменить электронный адрес'));
   const changeEmailInput = value =>
@@ -51,6 +66,20 @@ const setup = () => {
     });
   const clickEmailSubmit = () => fireEvent.click(utils.getByText('Сохранить'));
 
+  return {
+    ...utils,
+    newEmail,
+    clickEmailEdit,
+    changeEmailInput,
+    clickEmailSubmit
+  };
+};
+
+const setupForAvatarUpload = () => {
+  const utils = setup();
+  const mockingAvatarResponse = {
+    avatarPath: 'https://inwords.ru/xxx/avatar.png/'
+  };
   const clickAvatarEdit = () =>
     fireEvent.click(utils.getByText('Изменить аватар'));
   const changeAvatarInput = file => {
@@ -62,6 +91,24 @@ const setup = () => {
   };
   const clickAvatarSubmit = () => fireEvent.click(utils.getByText('Сохранить'));
 
+  return {
+    ...utils,
+    mockingAvatarResponse,
+    clickAvatarEdit,
+    changeAvatarInput,
+    clickAvatarSubmit
+  };
+};
+
+const setupForAccountDeletion = () => {
+  const utils = setup({
+    ui: (
+      <Fragment>
+        <Profile />
+        <SmartSnackbar />
+      </Fragment>
+    )
+  });
   const clickDel = () => fireEvent.click(utils.getByText('Удалить аккаунт'));
   const changeDelNickNameInput = value =>
     fireEvent.change(utils.getByLabelText('Никнейм'), {
@@ -71,18 +118,6 @@ const setup = () => {
 
   return {
     ...utils,
-    mockingUserInfoResponse,
-    newUserInfo,
-    mockingAvatarResponse,
-    clickNickNameEdit,
-    changeNickNameInput,
-    clickNickNameSubmit,
-    clickEmailEdit,
-    changeEmailInput,
-    clickEmailSubmit,
-    clickAvatarEdit,
-    changeAvatarInput,
-    clickAvatarSubmit,
     clickDel,
     changeDelNickNameInput,
     clickDelSubmit
@@ -90,9 +125,9 @@ const setup = () => {
 };
 
 test('edit nickname', async () => {
-  const utils = setup();
+  const utils = setupForNicknameEdit();
   const nickName = utils.mockingUserInfoResponse.nickName;
-  const newNickName = utils.mockingUserInfoResponse.nickName;
+  const newNickName = utils.newNickname;
   await waitFor(() => utils.getByText(nickName));
 
   global.fetch = mockFetch();
@@ -104,9 +139,9 @@ test('edit nickname', async () => {
 });
 
 test('edit email', async () => {
-  const utils = setup();
+  const utils = setupForEmailEdit();
   const email = utils.mockingUserInfoResponse.account.email;
-  const newEmail = utils.newUserInfo.email;
+  const newEmail = utils.newEmail;
   await waitFor(() => utils.getByText(email));
 
   global.fetch = mockFetch();
@@ -120,7 +155,7 @@ test('edit email', async () => {
 });
 
 test('upload avatar', async () => {
-  const utils = setup();
+  const utils = setupForAvatarUpload();
   const nickName = utils.mockingUserInfoResponse.nickName;
   const newAvatarPath = utils.mockingAvatarResponse.avatarPath;
   await waitFor(() => utils.getByText(nickName));
@@ -139,7 +174,7 @@ test('upload avatar', async () => {
 });
 
 test('delete account', async () => {
-  const utils = setup();
+  const utils = setupForAccountDeletion();
   const nickName = utils.mockingUserInfoResponse.nickName;
   await waitFor(() => utils.getByText(nickName));
 

@@ -5,32 +5,48 @@ import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import SignUp from 'src/components/routes/SignUp';
 
 const setup = () => {
-  const mockingAccessResponse = { token: 'xyz', userId: 1 };
   const userData = { email: '1@1', password: '1' };
+  const mockingAccessResponse = { token: 'xyz', userId: 1 };
   global.fetch = mockFetch(mockingAccessResponse);
   const utils = renderWithEnvironment(<SignUp />);
+
+  return {
+    ...utils,
+    userData,
+    mockingAccessResponse
+  };
+};
+
+const setupGenerally = () => {
+  const utils = setup();
   const changeEmailInput = value =>
     fireEvent.change(utils.getByLabelText('Email'), { target: { value } });
   const changePasswordInput = value =>
     fireEvent.change(utils.getByLabelText('Пароль'), { target: { value } });
   const clickSubmit = () =>
     fireEvent.click(utils.getByText('Зарегистрироваться'));
+
+  return {
+    ...utils,
+    changeEmailInput,
+    changePasswordInput,
+    clickSubmit
+  };
+};
+
+const setupAnonymously = () => {
+  const utils = setup();
   const clickSubmitAsGuest = () =>
     fireEvent.click(utils.getByText('Войти гостем'));
 
   return {
     ...utils,
-    userData,
-    mockingAccessResponse,
-    changeEmailInput,
-    changePasswordInput,
-    clickSubmit,
     clickSubmitAsGuest
   };
 };
 
 test('sign up successfully', async () => {
-  const utils = setup();
+  const utils = setupGenerally();
   utils.changeEmailInput(utils.userData.email);
   utils.changePasswordInput(utils.userData.password);
   utils.clickSubmit();
@@ -43,7 +59,7 @@ test('sign up successfully', async () => {
 });
 
 test('sign up as guest successfully', async () => {
-  const utils = setup();
+  const utils = setupAnonymously();
   utils.clickSubmitAsGuest();
 
   await waitFor(() => {

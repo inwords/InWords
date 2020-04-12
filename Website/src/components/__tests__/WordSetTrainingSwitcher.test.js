@@ -5,10 +5,6 @@ import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import WordSetTrainingSwitcher from 'src/components/routes/WordSetTrainingSwitcher';
 
-afterEach(() => {
-  jest.useRealTimers();
-});
-
 const setup = () => {
   const accessData = {
     token: 'xyz',
@@ -25,17 +21,15 @@ const setup = () => {
     classicCardLevelResult: [{ levelId: 1, score: 3 }]
   };
   global.fetch = mockFetch(mockingTrainingLevelResponse);
-  const route = `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`;
   const utils = renderWithEnvironment(
     <Route path="/training/courses/:wordSetId/:levelId/:trainingId">
       <WordSetTrainingSwitcher />
     </Route>,
     {
       initialState: { auth: { token: accessData.token } },
-      route
+      route: `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`
     }
   );
-
   const clickWordEl = el => fireEvent.click(el);
 
   return {
@@ -46,8 +40,18 @@ const setup = () => {
   };
 };
 
-test('complete word set game', async () => {
+const setupForNext = () => {
   const utils = setup();
+  const clickNext = () => fireEvent.click(utils.getByText('fast_forward'));
+
+  return {
+    ...utils,
+    clickNext
+  };
+};
+
+test('finish game and play next (empty store)', async () => {
+  const utils = setupForNext();
   const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
   const wordEls = await waitFor(() => [
     utils.getByText(wordTranslations[0].wordForeign),
@@ -67,36 +71,9 @@ test('complete word set game', async () => {
   act(() => {
     jest.runAllTimers();
   });
+  jest.useRealTimers();
 
   await waitFor(() => utils.getAllByText('star'));
-});
-
-test('complete word set game with one mistake', async () => {
-  const utils = setup();
-  const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
-  const wordEls = await waitFor(() => [
-    utils.getByText(wordTranslations[0].wordForeign),
-    utils.getByText(wordTranslations[0].wordNative),
-    utils.getByText(wordTranslations[1].wordForeign),
-    utils.getByText(wordTranslations[1].wordNative)
-  ]);
-
-  global.fetch = mockFetch(utils.mockingLevelResultResponse);
-  jest.useFakeTimers();
-  utils.clickWordEl(wordEls[0]);
-  utils.clickWordEl(wordEls[3]);
-  act(() => {
-    jest.runAllTimers();
-  });
-  wordEls.forEach(wordEl => {
-    utils.clickWordEl(wordEl);
-  });
-  await Promise.resolve();
-  await Promise.resolve();
-  await Promise.resolve();
-  act(() => {
-    jest.runAllTimers();
-  });
-
-  await waitFor(() => utils.getAllByText('star'));
+  utils.clickNext();
+  expect(utils.history.location.pathname).toEqual('/training/courses');
 });

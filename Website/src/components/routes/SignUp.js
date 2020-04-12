@@ -65,7 +65,9 @@ function SignUp() {
 
   const handleSignInOAuth2 = useCallback(
     async response => {
-      const data = await dispatch(signInOAuth2(response.uc.id_token));
+      const data = await dispatch(
+        signInOAuth2(response.getAuthResponse().id_token)
+      );
       handleSignUpSuccess(data, dispatch, history);
     },
     [dispatch, history]
@@ -98,7 +100,7 @@ function SignUp() {
             id="password"
             placeholder="Пароль"
             type="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             name="password"
             value={inputs.password}
             onChange={handleChange}

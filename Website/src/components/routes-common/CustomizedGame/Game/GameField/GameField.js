@@ -34,6 +34,7 @@ function GameField({
           <Fade in={!gameCompleted}>
             <div>
               <GameCard
+                data-testid={`card-${pairId}-${word}`}
                 open={
                   completedPairIdsMap[pairId] ||
                   Boolean(

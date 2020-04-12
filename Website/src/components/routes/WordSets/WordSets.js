@@ -27,7 +27,7 @@ function WordSets() {
       (async () => {
         try {
           const data = await dispatch(getWordSets());
-          dispatch(initializeWordSets(data));
+          dispatch(initializeWordSets(data.wordSets));
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить курсы' }));
         }

@@ -115,9 +115,7 @@ function Game({
         setTimeout(() => {
           resetGameProgress();
           setRecentWordPairs(wordPairs);
-          if (handleResultSuccess) {
-            handleResultSuccess(data);
-          }
+          handleResultSuccess(data);
           setScore(data.classicCardLevelResult[0].score);
           setNewServerLevelId(data.classicCardLevelResult[0].levelId);
           setResultReady(true);
@@ -242,7 +240,7 @@ Game.propTypes = {
     voiceOn: PropTypes.bool.isRequired,
     cardSettings: PropTypes.object.isRequired
   }).isRequired,
-  handleResultSuccess: PropTypes.func,
+  handleResultSuccess: PropTypes.func.isRequired,
   handleNextLevel: PropTypes.func.isRequired,
   handleReplay: PropTypes.func.isRequired
 };

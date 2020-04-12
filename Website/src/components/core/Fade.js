@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Transition from 'src/components/core/Transition';
 
-function Fade({ in: inProp, style = {}, ...rest }) {
+function Fade({ in: inProp, style, ...rest }) {
   return (
     <Transition
       transitionProperty="opacity"

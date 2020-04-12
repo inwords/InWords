@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ClickAwayListener from 'src/components/core/ClickAwayListener';
 import Fade from 'src/components/core/Fade';
 import Paper from 'src/components/core/Paper';
 
@@ -37,23 +36,37 @@ function Snackbar({
 
   const actuallyOpen = open && !hidden;
 
+  const elementRef = useRef();
+
+  useEffect(() => {
+    const outsideClickListener = event => {
+      if (!elementRef.current.contains(event.target) && actuallyOpen) {
+        onClose();
+      }
+    };
+
+    if (actuallyOpen) {
+      document.addEventListener('click', outsideClickListener);
+
+      return () => {
+        document.removeEventListener('click', outsideClickListener);
+      };
+    }
+  }, [actuallyOpen, onClose]);
+
   return (
     <div className="snackbar-container">
-      <ClickAwayListener
-        active={actuallyOpen}
-        onClickAway={actuallyOpen ? onClose : undefined}
-      >
-        <Fade in={actuallyOpen}>
-          <Paper
-            depthShadow={16}
-            className={classNames('snackbar', className)}
-            {...rest}
-          >
-            {message && <div className="snackbar__message">{message}</div>}
-            {action && <div className="snackbar__action">{action}</div>}
-          </Paper>
-        </Fade>
-      </ClickAwayListener>
+      <Fade in={actuallyOpen}>
+        <Paper
+          ref={elementRef}
+          depthShadow={16}
+          className={classNames('snackbar', className)}
+          {...rest}
+        >
+          {message && <div className="snackbar__message">{message}</div>}
+          {action && <div className="snackbar__action">{action}</div>}
+        </Paper>
+      </Fade>
     </div>
   );
 }
