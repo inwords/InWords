@@ -63,6 +63,9 @@
   }
 
   &__input {
+    background: none;
+    filter: none;
+
     &::-webkit-input-placeholder {
       color: transparent;
     }
