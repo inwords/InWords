@@ -6,13 +6,13 @@ import androidx.room.Query;
 import java.util.List;
 
 import io.reactivex.Single;
-import ru.inwords.inwords.game.data.bean.GameInfoResponse;
+import ru.inwords.inwords.game.data.bean.GameInfoEntity;
 
 @Dao
-public abstract class GameInfoDao implements GameEntityDao<GameInfoResponse> {
+public abstract class GameInfoDao implements GameEntityDao<GameInfoEntity> {
     @Query("SELECT * FROM game_info_table")
-    public abstract Single<List<GameInfoResponse>> getAll();
+    public abstract Single<List<GameInfoEntity>> getAll();
 
     @Query("SELECT * FROM game_info_table WHERE gameId = :gameId LIMIT 1")
-    public abstract Single<GameInfoResponse> getById(int gameId);
+    public abstract Single<GameInfoEntity> getById(int gameId);
 }

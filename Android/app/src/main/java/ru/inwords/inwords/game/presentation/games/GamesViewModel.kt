@@ -5,11 +5,11 @@ import androidx.lifecycle.LiveData
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
+import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.GameInfo
-import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 
 class GamesViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {

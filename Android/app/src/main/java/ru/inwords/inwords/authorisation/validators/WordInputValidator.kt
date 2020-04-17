@@ -2,7 +2,7 @@ package ru.inwords.inwords.authorisation.validators
 
 import ru.inwords.inwords.core.validation.SimpleValidator
 import ru.inwords.inwords.core.validation.ValidationResult
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 val wordInputValidator = SimpleValidator<String> { it.isNotBlank() }
 

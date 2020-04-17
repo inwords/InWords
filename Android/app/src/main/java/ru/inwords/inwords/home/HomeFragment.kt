@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.recycler.VerticalSpaceItemDecoration
+import ru.inwords.inwords.core.recycler.EmptySpaceItemDecoration
 import ru.inwords.inwords.core.recycler.fixOverscrollBehaviour
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
@@ -66,7 +66,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
     private fun setupRecycler() {
         recyclerAdapter = CardsRecyclerAdapter { viewModel.handleNavigation(it) }
 
-        val dividerItemDecoration = VerticalSpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.space_medium))
+        val dividerItemDecoration = EmptySpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.space_medium))
 
         with(binding.cardsRecycler) {
             layoutManager = LinearLayoutManager(context)

@@ -6,13 +6,14 @@ import dagger.Module
 import dagger.Provides
 import ru.inwords.inwords.data.WorkManagerWrapper
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
-import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderFactory
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderHolder
 import ru.inwords.inwords.game.data.repository.GameRemoteRepository
 import ru.inwords.inwords.game.data.source.LevelScoreRequestDao
+import ru.inwords.inwords.translation.data.deferred.LocalWordTranslationsListDao
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterFactory
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
+import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 import javax.inject.Singleton
 
 @Module
@@ -22,9 +23,12 @@ class DeferredEntriesModule {
     @Provides
     fun wordTranslationDeferredAdapterHolder(
         database: AppRoomDatabase,
-        webRequestsManagerAuthorised: WebRequestsManagerAuthorised
+        translationWordsRemoteRepository: TranslationWordsRemoteRepository
     ): WordTranslationDeferredAdapterHolder {
-        val factory = WordTranslationDeferredAdapterFactory(database.localWordTranslationEntriesListDao(), webRequestsManagerAuthorised)
+        val factory = WordTranslationDeferredAdapterFactory(
+            LocalWordTranslationsListDao(database.localWordTranslationEntriesListDao()),
+            translationWordsRemoteRepository
+        )
 
         return WordTranslationDeferredAdapterHolder(factory)
     }

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import ru.inwords.inwords.presentation.SingleLiveEvent
+import ru.inwords.inwords.core.SingleLiveEvent
 
 open class BasicViewModel protected constructor() : ViewModel() {
     protected var compositeDisposable: CompositeDisposable = CompositeDisposable()

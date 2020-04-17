@@ -10,7 +10,7 @@ import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntryF
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalDeferredEntryRepository
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
+import ru.inwords.inwords.translation.domain.model.EntityIdentificator
 
 internal class LocalDeferredEntryRepositoryTest {
 
@@ -79,7 +79,8 @@ internal class LocalDeferredEntryRepositoryTest {
 
     @Test
     fun deleteAllLocalIds_whenDeferred() {
-        val values = listOf(EntityIdentificator(0, 0),
+        val values = listOf(
+            EntityIdentificator(0, 0),
             EntityIdentificator(0, 0),
             EntityIdentificator(0, 0),
             EntityIdentificator(0, 0)
@@ -114,7 +115,8 @@ internal class LocalDeferredEntryRepositoryTest {
 
     @Test
     fun deleteAllLocalIds_whenNotDeferred() {
-        val values = listOf(EntityIdentificator(0, 0),
+        val values = listOf(
+            EntityIdentificator(0, 0),
             EntityIdentificator(0, 0),
             EntityIdentificator(0, 0),
             EntityIdentificator(0, 0)
@@ -138,7 +140,8 @@ internal class LocalDeferredEntryRepositoryTest {
 
     @Test
     fun deleteAllServerIdsWithoutParameters() {
-        val values = listOf(EntityIdentificator(0, 1),
+        val values = listOf(
+            EntityIdentificator(0, 1),
             EntityIdentificator(0, 2),
             EntityIdentificator(0, 3),
             EntityIdentificator(0, 4)
@@ -160,7 +163,8 @@ internal class LocalDeferredEntryRepositoryTest {
 
     @Test
     fun deleteAllServerIdsWithParameters() {
-        val values = listOf(EntityIdentificator(0, 1),
+        val values = listOf(
+            EntityIdentificator(0, 1),
             EntityIdentificator(0, 2),
             EntityIdentificator(0, 3),
             EntityIdentificator(0, 4)

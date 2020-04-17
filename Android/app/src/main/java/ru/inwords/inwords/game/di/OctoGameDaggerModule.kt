@@ -23,5 +23,5 @@ abstract class OctoGameDaggerModule {
     internal abstract fun gamesFragmentInjector(): GamesFragment
 
     @ContributesAndroidInjector
-    internal abstract fun CustomGameCreatorFragmentInjector(): CustomGameCreatorFragment
+    internal abstract fun customGameCreatorFragmentInjector(): CustomGameCreatorFragment
 }

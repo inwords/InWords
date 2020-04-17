@@ -4,23 +4,22 @@ import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.resource.ResourceCachingProvider
 import ru.inwords.inwords.core.resource.Source
 import ru.inwords.inwords.core.resource.wrapResource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.game.converter.GameConverter
+import ru.inwords.inwords.game.converter.GameInfoConverter
+import ru.inwords.inwords.game.converter.GamesInfoDomainConverter
+import ru.inwords.inwords.game.converter.LevelResultConverter
 import ru.inwords.inwords.game.data.bean.*
-import ru.inwords.inwords.game.data.converter.GameConverter
-import ru.inwords.inwords.game.data.converter.GameInfoConverter
-import ru.inwords.inwords.game.data.converter.LevelResultConverter
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderHolder
 import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
 import ru.inwords.inwords.game.data.repository.custom_game.withUpdatedLevelScore
 import ru.inwords.inwords.game.data.source.GameDao
 import ru.inwords.inwords.game.data.source.GameInfoDao
 import ru.inwords.inwords.game.data.source.GameLevelDao
-import ru.inwords.inwords.game.domain.converter.GamesInfoDomainConverter
 import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.GameInfo
 import ru.inwords.inwords.game.domain.model.GamesInfo
@@ -30,7 +29,6 @@ import javax.inject.Singleton
 
 @Singleton
 class GameGatewayControllerImpl @Inject constructor(
-    resourceManager: ResourceManager,
     private val gameRemoteRepository: GameRemoteRepository,
     gameInfoDao: GameInfoDao,
     gameDao: GameDao,
@@ -38,16 +36,16 @@ class GameGatewayControllerImpl @Inject constructor(
     private val levelScoreDeferredUploaderHolder: LevelScoreDeferredUploaderHolder
 ) : GameGatewayController, CustomGameGatewayController {
 
-    private val gameInfoDatabaseRepository by lazy { GameDatabaseRepository<GameInfoResponse>(gameInfoDao) }
-    private val gameDatabaseRepository by lazy { GameDatabaseRepository<GameResponse>(gameDao) }
-    private val gameLevelDatabaseRepository by lazy { GameDatabaseRepository<GameLevel>(gameLevelDao) }
+    private val gameInfoDatabaseRepository = GameDatabaseRepository<GameInfoEntity>(gameInfoDao)
+    private val gameDatabaseRepository = GameDatabaseRepository<GameResponse>(gameDao)
+    private val gameLevelDatabaseRepository = GameDatabaseRepository<GameLevel>(gameLevelDao)
 
-    private val gamesInfoCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGamesInfoCachingProvider() } }
-    private val gameCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameCachingProvider(it) } }
-    private val gameLevelCachingProviderLocator by lazy { ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) } }
+    private val gamesInfoCachingProviderLocator = ResourceCachingProvider.Locator { createGamesInfoCachingProvider() }
+    private val gameCachingProviderLocator = ResourceCachingProvider.Locator { createGameCachingProvider(it) }
+    private val gameLevelCachingProviderLocator = ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) }
 
     private val gameConverter = GameConverter()
-    private val gameInfoConverter = GameInfoConverter(resourceManager)
+    private val gameInfoConverter = GameInfoConverter()
     private val gamesInfoDomainConverter = GamesInfoDomainConverter()
     private val wordOpenCountsConverter = LevelResultConverter()
 
@@ -124,7 +122,7 @@ class GameGatewayControllerImpl @Inject constructor(
         gameLevelCachingProviderLocator.clear()
     }
 
-    private fun createGamesInfoCachingProvider(): ResourceCachingProvider<List<GameInfoResponse>> {
+    private fun createGamesInfoCachingProvider(): ResourceCachingProvider<List<GameInfoEntity>> {
         return ResourceCachingProvider(
             { data -> gameInfoDatabaseRepository.insertAll(data).map { data } },
             { gameInfoDatabaseRepository.getAll().map { gameInfos -> gameInfos.filter { it.gameId != CUSTOM_GAME_ID } } }, //TODO remove this filter

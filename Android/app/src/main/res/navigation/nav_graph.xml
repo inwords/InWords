@@ -111,7 +111,7 @@
                 app:popUpToInclusive="true" />
             <argument
                 android:name="wordTranslation"
-                app:argType="ru.inwords.inwords.translation.data.bean.WordTranslation" />
+                app:argType="ru.inwords.inwords.translation.domain.model.WordTranslation" />
         </fragment>
         <fragment
             android:id="@+id/translationMainFragment"
@@ -148,7 +148,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="wordTranslations"
-            app:argType="ru.inwords.inwords.translation.data.bean.WordTranslation[]" />
+            app:argType="ru.inwords.inwords.translation.domain.model.WordTranslation[]" />
     </fragment>
 
     <navigation

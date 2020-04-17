@@ -9,6 +9,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import ru.inwords.inwords.core.Event
+import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.repository.SettingsRepository
@@ -22,7 +23,6 @@ import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.LevelResultModel
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.game_level.FromGameEndEventsEnum.*
-import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 

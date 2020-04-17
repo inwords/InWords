@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.core.deferred_entry_manager.model.HasLocalAndServerId
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteEntriesListBasicDao
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
+import ru.inwords.inwords.translation.domain.model.EntityIdentificator
 
 class RemoteEntriesListDaoMock : RemoteEntriesListBasicDao<EntityIdentificator> {
     private val internalList = mutableListOf<EntityIdentificator>()

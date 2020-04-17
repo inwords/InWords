@@ -29,26 +29,28 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/space_xmedium_large"
-            android:paddingTop="@dimen/space_xxxxgiant"
-            android:paddingRight="@dimen/space_xmedium_large"
-            android:paddingBottom="@dimen/space_xxxxgiant">
+            android:paddingTop="@dimen/space_medium"
+            android:paddingBottom="@dimen/space_xmedium_large">
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/large_logo_height"
+                android:layout_marginStart="@dimen/space_xmedium_large"
+                android:layout_marginEnd="@dimen/space_xmedium_large"
                 android:contentDescription="@string/inwords_logotype"
                 android:src="@drawable/ic_new_word" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/native_word_layout"
+                android:id="@+id/foreign_word_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_large">
+                android:layout_marginStart="@dimen/space_xmedium_large"
+                android:layout_marginTop="@dimen/space_xmedium_large"
+                android:layout_marginEnd="@dimen/space_xmedium_large">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/native_word_edit_text"
+                    android:id="@+id/foreign_word_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/word_addition_word"
@@ -56,17 +58,18 @@
                     android:lines="1"
                     android:maxLength="64"
                     android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/foreign_word_layout"
+                android:id="@+id/native_word_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_medium">
+                android:layout_marginStart="@dimen/space_xmedium_large"
+                android:layout_marginTop="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/space_xmedium_large">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/foreign_word_edit_text"
+                    android:id="@+id/native_word_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/word_addition_translation"
@@ -75,17 +78,42 @@
                     android:maxLength="64"
                     android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
                     tools:text="Перевод" />
-
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/translations_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_medium"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/space_xmedium_large"
+                android:paddingEnd="@dimen/space_xmedium_large"
+                tools:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/item_dictionary_translation"
+                tools:orientation="horizontal" />
 
             <Button
                 android:id="@+id/buttonConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_large"
+                android:layout_marginStart="@dimen/space_xmedium_large"
+                android:layout_marginTop="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/space_xmedium_large"
                 android:backgroundTint="@color/colorPrimary"
                 android:text="@string/button_add_text"
                 android:textAppearance="@style/TextAppearance.Inwords.Button.Default" />
+
+            <TextView
+                android:id="@+id/yandex_dictionary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/space_xmedium_large"
+                android:layout_marginTop="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/space_xmedium_large"
+                android:gravity="center"
+                android:text="@string/yandex_dictionary"
+                android:textAppearance="@style/TextAppearance.Inwords.Body2.Default" />
 
         </LinearLayout>
 

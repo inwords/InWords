@@ -4,22 +4,33 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
+import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.source.remote.session.AuthInfo
-import ru.inwords.inwords.data.source.remote.session.SessionHelper
-import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.game.data.bean.LevelScore
+import ru.inwords.inwords.game.data.bean.TrainingEstimateRequest
+import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.profile.data.bean.User
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
-import ru.inwords.inwords.translation.data.bean.WordTranslation
-import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
+import ru.inwords.inwords.profile.data.grpc.ProfileGrpcService
+import ru.inwords.inwords.proto.dictionary.AddWordsReply
+import ru.inwords.inwords.proto.dictionary.LookupReply
+import ru.inwords.inwords.proto.dictionary.WordsReply
+import ru.inwords.inwords.proto.profile.EmailChangeReply
+import ru.inwords.inwords.proto.word_set.GetLevelWordsReply
+import ru.inwords.inwords.proto.word_set.GetLevelsReply
+import ru.inwords.inwords.proto.word_set.WordSetReply
+import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class WebRequestsManagerAuthorisedImpl @Inject
-internal constructor(
+@Singleton
+class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
     private val apiServiceAuthorised: ApiServiceAuthorised,
     private val sessionHelper: SessionHelper,
-    private val authInfo: AuthInfo
+    private val dictionaryGrpcService: DictionaryGrpcService,
+    private val wordSetGrpcService: WordSetGrpcService,
+    private val profileGrpcService: ProfileGrpcService
 ) : WebRequestsManagerAuthorised {
 
     private val authenticatedNotifierSubject = BehaviorSubject.create<Boolean>()
@@ -29,10 +40,6 @@ internal constructor(
             sessionHelper.resetThreshold()
         }
         authenticatedNotifierSubject.onNext(authorised)
-    }
-
-    override fun getUserEmail(): Single<String> {
-        return authInfo.getCredentials().map { it.email } //TODO move outside
     }
 
     override fun getLogin(): Single<String> {
@@ -46,7 +53,6 @@ internal constructor(
         return valve()
             .flatMap { apiServiceAuthorised.getAuthorisedUser() }
             .interceptError()
-            //.flatMap(Observable::fromIterable)
             .subscribeOn(SchedulersFacade.io())
     }
 
@@ -54,7 +60,6 @@ internal constructor(
         return valve()
             .flatMap { apiServiceAuthorised.getUserById(id) }
             .interceptError()
-            //.flatMap(Observable::fromIterable)
             .subscribeOn(SchedulersFacade.io())
     }
 
@@ -65,44 +70,58 @@ internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
+    override fun requestEmailUpdate(newEmail: String): Single<EmailChangeReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.addPairs(wordTranslations) }
+            .flatMap { profileGrpcService.requestEmailUpdate(newEmail) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun removeAllServerIds(serverIds: List<Int>): Single<Int> {
+    override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<AddWordsReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.deletePairs(serverIds) }
+            .flatMap { dictionaryGrpcService.addWords(wordTranslations) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun pullWords(serverIds: List<Int>): Single<PullWordsAnswer> {
+    override fun removeAllByServerId(serverIds: List<Int>): Completable {
         return valve()
-            .flatMap { apiServiceAuthorised.pullWordsPairs(serverIds) }
+            .flatMapCompletable { dictionaryGrpcService.deleteWords(serverIds) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getGameInfos(): Single<List<GameInfoResponse>> {
+    override fun pullWords(serverIds: List<Int>): Single<WordsReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getGameInfos() }
+            .flatMap { dictionaryGrpcService.pullWords(serverIds) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getGame(gameId: Int): Single<GameResponse> {
+    override fun lookup(text: String, lang: String): Single<LookupReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getGame(gameId) }
+            .flatMap { dictionaryGrpcService.lookup(text, lang) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getLevel(levelId: Int): Single<GameLevel> {
+    override fun getGameInfos(): Single<WordSetReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getLevel(levelId) }
+            .flatMap { wordSetGrpcService.getWordSets() }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
+    }
+
+    override fun getLevels(wordSetId: Int): Single<GetLevelsReply> {
+        return valve()
+            .flatMap { wordSetGrpcService.getLevels(wordSetId) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
+    }
+
+    override fun getLevelWords(levelId: Int): Single<GetLevelWordsReply> {
+        return valve()
+            .flatMap { wordSetGrpcService.getLevelWords(levelId) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
@@ -115,9 +134,9 @@ internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun addWordsToUserDictionary(gameId: Int): Completable {
+    override fun addWordSetToDictionary(wordSetId: Int): Completable {
         return valve()
-            .flatMapCompletable { apiServiceAuthorised.addWordsToUserDictionary(gameId) }
+            .flatMapCompletable { wordSetGrpcService.addWordSetToDictionary(wordSetId) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

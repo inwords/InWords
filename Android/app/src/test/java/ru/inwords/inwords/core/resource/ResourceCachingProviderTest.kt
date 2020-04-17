@@ -96,12 +96,10 @@ internal class ResourceCachingProviderTest {
             .subscribe { subject.onNext(it) }
 
         val strr = "Remote val" + 11
-
+        val value = Resource.Success(strr, Source.NETWORK)
         subscriber.awaitCount(4)
-            .assertNoErrors()
             .assertValueCount(4)
-            .assertValueSet(setOf(Resource.Success(strr, Source.NETWORK)))
-            .assertNotTerminated()
+            .assertValuesOnly(value, value, value, value)
 
         assert(i[0] == 2)
         assert(localRepo.size == 1)

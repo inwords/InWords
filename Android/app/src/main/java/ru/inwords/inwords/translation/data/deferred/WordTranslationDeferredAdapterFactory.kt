@@ -14,12 +14,12 @@ import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalDeferredEn
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteDeferredEntryWriteRepository
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteEntriesListPullDao
-import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
-import ru.inwords.inwords.translation.data.deferred.converter.WordTranslationValueConverter
+import ru.inwords.inwords.translation.converter.WordTranslationValueConverter
+import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 
 class WordTranslationDeferredAdapterFactory internal constructor(
-    private val localEntriesListDao: LocalWordTranslationEntriesListDao,
-    private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised
+    localEntriesListDao: LocalEntriesListDao<WordTranslationValue, WordTranslationDeferredEntry>,
+    private val translationWordsRemoteRepository: TranslationWordsRemoteRepository
 ) {
     private val wordTranslationValueConverter = WordTranslationValueConverter()
 
@@ -29,35 +29,23 @@ class WordTranslationDeferredAdapterFactory internal constructor(
         }
     }
 
-    private val databaseEntriesListDao = object : LocalEntriesListDao<WordTranslationValue, WordTranslationDeferredEntry> {
-        override fun addReplaceAll(entries: List<WordTranslationDeferredEntry>): Single<List<Long>> {
-            return localEntriesListDao.addReplaceAll(entries)
-        }
-
-        override fun retrieveAll() = localEntriesListDao.retrieveAll().doOnSuccess { Log.d("retrieveAll", it.toString()) }
-        override fun retrieveAllByLocalId(localIds: List<Long>) = localEntriesListDao.retrieveAllByLocalId(localIds).doOnSuccess { Log.d("retrieveAllByLocalId", it.toString()) }
-        override fun deleteAllLocalIds(localIds: List<Long>) = localEntriesListDao.deleteAllLocalIds(localIds)
-        override fun deleteAllServerIds() = localEntriesListDao.deleteAllServerIds()
-        override fun deleteAllServerIds(serverIds: List<Int>) = localEntriesListDao.deleteAllServerIds(serverIds)
-    }
-
     private val remoteEntriesListPullDao = object : RemoteEntriesListPullDao<WordTranslationValue> {
         override fun createAll(values: List<WordTranslationValue>): Single<List<HasLocalAndServerId>> { //TODO incorrect
             values.forEach { if (it.localId == 0L) Log.wtf("WordTranslationDeferredAdapterFactory", "localId == 0 $it") } //TODO verifier
-            return webRequestsManagerAuthorised.insertAllWords(wordTranslationValueConverter.reverseList(values)).map { it }
+            return translationWordsRemoteRepository.insertAllWords(wordTranslationValueConverter.reverseList(values)).map { it }
         }
 
         override fun deleteAll(serverIds: List<Int>): Completable {
-            return webRequestsManagerAuthorised.removeAllServerIds(serverIds).ignoreElement()
+            return translationWordsRemoteRepository.removeAllByServerId(serverIds)
         }
 
         override fun retrieveAll(existingServedIdsProvider: List<Int>): Single<PullResponse<WordTranslationValue>> {
-            return webRequestsManagerAuthorised.pullWords(existingServedIdsProvider).map {
+            return translationWordsRemoteRepository.pullWords(existingServedIdsProvider).map {
                 BasicPullResponse(wordTranslationValueConverter.convertList(it.addedWords), it.removedServerIds)
             }
         }
     }
-    private val localDeferredEntryRepository = LocalDeferredEntryRepository(databaseEntriesListDao, deferredEntryFactory)
+    private val localDeferredEntryRepository = LocalDeferredEntryRepository(localEntriesListDao, deferredEntryFactory)
 
     private val remoteDeferredEntryRepository = RemoteDeferredEntryWriteRepository(remoteEntriesListPullDao)
 

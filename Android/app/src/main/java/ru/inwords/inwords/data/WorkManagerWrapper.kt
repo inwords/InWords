@@ -14,7 +14,7 @@ class WorkManagerWrapper @Inject internal constructor(private val workManagerWra
         val request = OneTimeWorkRequest.Builder(worker)
             .setConstraints(
                 Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.METERED)
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
             )
             .build()

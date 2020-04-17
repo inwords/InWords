@@ -10,8 +10,8 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
-import ru.inwords.inwords.translation.data.bean.WordTranslation
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import java.util.Collections.singletonList
 import java.util.concurrent.TimeUnit
 

@@ -11,7 +11,7 @@ import ru.inwords.inwords.game.data.bean.LevelScoreRequest
 import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.GamesInfo
 import ru.inwords.inwords.game.domain.model.LevelResultModel
-import ru.inwords.inwords.translation.data.bean.WordTranslation
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 interface GameInteractor {
     fun getGamesInfo(forceUpdate: Boolean = false): Observable<Resource<GamesInfo>>

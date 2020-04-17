@@ -9,6 +9,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.annotation.Px
+import androidx.annotation.VisibleForTesting
 import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
@@ -29,6 +30,9 @@ class GameScene(private val container: WeakReference<TableLayout>) {
 
     var cardsData: CardsData? = null
         private set
+
+    @VisibleForTesting
+    fun getFlipViews() = flipViews.toList()
 
     fun setOnClickListener(listener: (ClickEvent) -> Unit) {
         cardClickConsumer = listener
@@ -119,7 +123,7 @@ class GameScene(private val container: WeakReference<TableLayout>) {
         }
     }
 
-    private fun scaleText(flipView: FlipView){
+    private fun scaleText(flipView: FlipView) {
         TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
             flipView.frontLayout as TextView,
             14, //TODO remove hardcode

@@ -7,6 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.functions.Function3
 import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
@@ -14,7 +15,6 @@ import ru.inwords.inwords.home.recycler.CardWrapper
 import ru.inwords.inwords.home.recycler.SimpleState
 import ru.inwords.inwords.home.recycler.applyDiffUtil
 import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
-import ru.inwords.inwords.presentation.SingleLiveEvent
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
@@ -43,7 +43,10 @@ class HomeViewModel internal constructor(
                 when (it) {
                     is Resource.Success -> CardWrapper.ProfileModel(it.data).also { model -> profileLiveData.postValue(model.user) }
                     is Resource.Loading -> CardWrapper.ProfileLoadingMarker
-                    is Resource.Error -> CardWrapper.CreateAccountMarker
+                    is Resource.Error -> {
+                        profileLiveData.postValue(User(-1, "InWords", null, 0, null))
+                        CardWrapper.CreateAccountMarker
+                    }
                 }
             }
             .startWith(CardWrapper.ProfileLoadingMarker)
@@ -57,17 +60,17 @@ class HomeViewModel internal constructor(
 
     val cardWrappers
         get() = Observable.combineLatest(
-            profileData,
-            wordsCount,
-            training,
-            Function3 { profile: CardWrapper, dictionary: CardWrapper.DictionaryModel, training: CardWrapper.WordsTrainingModel ->
-                if (profile is CardWrapper.ProfileModel || profile is CardWrapper.ProfileLoadingMarker) {
-                    listOf(dictionary, training)
-                } else {
-                    listOf(profile, dictionary) //create account here
+                profileData,
+                wordsCount,
+                training,
+                Function3 { profile: CardWrapper, dictionary: CardWrapper.DictionaryModel, training: CardWrapper.WordsTrainingModel ->
+                    if (profile is CardWrapper.ProfileModel || profile is CardWrapper.ProfileLoadingMarker) {
+                        listOf(dictionary, training)
+                    } else {
+                        listOf(profile, dictionary) //create account here
+                    }
                 }
-            }
-        )
+            )
             .applyDiffUtil()
 
     fun getPolicyAgreementState() = policyInteractor.getPolicyAgreementState()

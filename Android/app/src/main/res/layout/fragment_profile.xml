@@ -2,10 +2,10 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/profile_root"
+    android:id="@+id/root_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.HomeFragment">
+    tools:context=".main_activity.presentation.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"
@@ -63,6 +63,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -77,76 +78,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <FrameLayout
+            <ru.inwords.inwords.profile.presentation.view.TextInputRemoteEditableField
+                android:id="@+id/name_editable_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_small">
+                app:hint="@string/nick_text"
+                app:icon_start="@drawable/ic_insert_emoticon_24dp" />
 
-                <ImageButton
-                    android:id="@+id/name_edit_apply_button"
-                    android:layout_width="@dimen/icon_size_default"
-                    android:layout_height="@dimen/icon_size_default"
-                    android:layout_gravity="center_vertical|end"
-                    android:layout_margin="@dimen/space_medium"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/button_apply_text"
-                    android:enabled="false"
-                    android:src="@drawable/ic_check_24dp"
-                    android:tint="@color/icon_color_selector_primary"
-                    android:visibility="invisible">
-
-                    <requestFocus />
-                </ImageButton>
-
-                <ImageButton
-                    android:id="@+id/name_edit_edit_button"
-                    android:layout_width="@dimen/icon_size_default"
-                    android:layout_height="@dimen/icon_size_default"
-                    android:layout_gravity="center_vertical|end"
-                    android:layout_margin="@dimen/space_medium"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/button_edit_text"
-                    android:enabled="false"
-                    android:src="@drawable/ic_create_24dp"
-                    android:tint="@color/icon_color_selector_primary" />
-
-                <ProgressBar
-                    android:id="@+id/name_edit_progress"
-                    android:layout_width="@dimen/icon_size_default"
-                    android:layout_height="@dimen/icon_size_default"
-                    android:layout_gravity="center_vertical|end"
-                    android:layout_margin="@dimen/space_medium"
-                    android:visibility="invisible" />
-
-                <View
-                    android:layout_width="@dimen/icon_size_small"
-                    android:layout_height="@dimen/icon_size_small"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/space_medium"
-                    android:background="@drawable/ic_insert_emoticon_24dp"
-                    android:backgroundTint="@color/icon_color_selector_primary" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/space_xxxxgiant"
-                    android:layout_marginEnd="@dimen/space_xxxxgiant">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:hint="@string/nick_text"
-                        android:inputType="textCapSentences"
-                        android:maxLength="64"
-                        android:maxLines="1"
-                        android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
-                        tools:enabled="true"
-                        tools:text="Ник" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </FrameLayout>
+            <ru.inwords.inwords.profile.presentation.view.TextInputRemoteEditableField
+                android:id="@+id/email_editable_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:editFromScratch="true"
+                app:hint="@string/sign_in_email"
+                app:icon_start="@drawable/ic_email_24dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -154,6 +99,21 @@
                 android:layout_marginStart="@dimen/space_medium"
                 android:layout_marginEnd="@dimen/space_medium"
                 android:background="@color/divider_color" />
+
+            <TextView
+                android:id="@+id/settings_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:drawableStart="@drawable/ic_settings_24dp"
+                android:drawablePadding="@dimen/space_medium"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingTop="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:paddingBottom="@dimen/space_medium"
+                android:text="@string/settings"
+                android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
             <TextView
                 android:id="@+id/to_login_button"
@@ -166,23 +126,23 @@
                 android:paddingStart="@dimen/space_medium"
                 android:paddingTop="@dimen/space_medium"
                 android:paddingEnd="@dimen/space_medium"
-                android:paddingBottom="@dimen/space_xsmall"
+                android:paddingBottom="@dimen/space_medium"
                 android:text="@string/change_account"
                 android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
             <TextView
-                android:id="@+id/settings_button"
+                android:id="@+id/logout_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:drawableStart="@drawable/ic_settings_24dp"
+                android:drawableStart="@drawable/ic_exit_primary_24dp"
                 android:drawablePadding="@dimen/space_medium"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/space_medium"
-                android:paddingTop="@dimen/space_xsmall"
+                android:paddingTop="@dimen/space_medium"
                 android:paddingEnd="@dimen/space_medium"
-                android:paddingBottom="@dimen/space_xsmall"
-                android:text="@string/settings"
+                android:paddingBottom="@dimen/space_medium"
+                android:text="@string/logout"
                 android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Default" />
 
             <TextView
@@ -202,5 +162,9 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/progress"
+        layout="@layout/progress" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

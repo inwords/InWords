@@ -38,6 +38,7 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
                 if (prefetchFinalValue) {
                     finalValueProvider()
                         .doOnSuccess { resourceStream.onNext(Resource.Success(it, Source.PREFETCH)) }
+                        .doOnError { Log.e(TAG, it.message.orEmpty()) }
                         .wrapResource(Source.PREFETCH)
                 } else {
                     Single.just(Resource.Loading<V>())
@@ -128,6 +129,9 @@ internal class ResourceCachingProviderWithFinalValue<T : Any, V : Any>(
 
         fun clear() {
             synchronized(cachingProvidersMap) {
+                cachingProvidersMap.values.forEach {
+                    it.invalidateContent()
+                }
                 cachingProvidersMap.clear()
             }
         }

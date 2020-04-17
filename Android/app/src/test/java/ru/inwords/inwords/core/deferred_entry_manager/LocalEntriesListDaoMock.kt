@@ -2,49 +2,49 @@ package ru.inwords.inwords.core.deferred_entry_manager
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.core.deferred_entry_manager.LocalEntriesListDaoMock.UnitDeferredEntry
+import ru.inwords.inwords.core.deferred_entry_manager.model.CopyableWithId
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntry
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
+import ru.inwords.inwords.translation.domain.model.EntityIdentificator
 
-class LocalEntriesListDaoMock : LocalEntriesListDao<EntityIdentificator, UnitDeferredEntry> {
-    private val internalList = mutableListOf<UnitDeferredEntry>()
+class LocalEntriesListDaoMock<V, T>: LocalEntriesListDao<V, T>  where V : CopyableWithId<V>, T : DeferredEntry<V, T>{
+    private val internalList = mutableListOf<T>()
 
     private var lastId: Long = 1
 
-    override fun addReplaceAll(entries: List<UnitDeferredEntry>): Single<List<Long>> {
+    override fun addReplaceAll(entries: List<T>): Single<List<Long>> {
         return Single.fromCallable {
             val newEntries = entries.map {
-                if (it.id == 0L) {
+                if (it.localId == 0L) {
                     it.copyWithLocalId(lastId++)
                 } else {
                     it
                 }
             }.toMutableList()
             for (i in internalList.lastIndex downTo 0) {
-                if (internalList[i].id in newEntries.map { entry -> entry.id }) {
-                    internalList[i] = newEntries.find { it.id == internalList[i].id } ?: continue
+                if (internalList[i].localId in newEntries.map { entry -> entry.localId }) {
+                    internalList[i] = newEntries.find { it.localId == internalList[i].localId } ?: continue
                     newEntries.remove(internalList[i])
                 }
             }
             internalList.addAll(newEntries)
 
-            newEntries.map { it.id }
+            newEntries.map { it.localId }
         }
     }
 
-    override fun retrieveAll(): Single<List<UnitDeferredEntry>> {
+    override fun retrieveAll(): Single<List<T>> {
         return Single.fromCallable { internalList.toList() }
     }
 
-    override fun retrieveAllByLocalId(localIds: List<Long>): Single<List<UnitDeferredEntry>> {
-        return Single.fromCallable { internalList.filter { it.id in localIds } }
+    override fun retrieveAllByLocalId(localIds: List<Long>): Single<List<T>> {
+        return Single.fromCallable { internalList.filter { it.localId in localIds } }
     }
 
     override fun deleteAllLocalIds(localIds: List<Long>): Completable {
         return Completable.fromAction {
-            internalList.removeAll { it.id in localIds }
+            internalList.removeAll { it.localId in localIds }
         }
     }
 

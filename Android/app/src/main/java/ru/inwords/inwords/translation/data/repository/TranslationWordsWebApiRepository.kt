@@ -3,25 +3,50 @@ package ru.inwords.inwords.translation.data.repository
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
-import ru.inwords.inwords.translation.data.absList
-import ru.inwords.inwords.translation.data.bean.EntityIdentificator
-import ru.inwords.inwords.translation.data.bean.WordTranslation
-import ru.inwords.inwords.translation.data.sync.PullWordsAnswer
+import ru.inwords.inwords.translation.converter.LookupReplyConverter
+import ru.inwords.inwords.translation.converter.WordTranslationReplyConverter
+import ru.inwords.inwords.translation.domain.model.*
+import ru.inwords.inwords.translation.domain.model.LookupDirection.EN_RU
+import ru.inwords.inwords.translation.domain.model.LookupDirection.RU_EN
 import javax.inject.Inject
+import kotlin.math.abs
 
-class TranslationWordsWebApiRepository @Inject
-constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised) : TranslationWordsRemoteRepository {
-    override fun addAll(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
+class TranslationWordsWebApiRepository @Inject constructor(
+    private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised
+) : TranslationWordsRemoteRepository {
+
+    private val wordTranslationReplyConverter = WordTranslationReplyConverter()
+    private val lookupReplyConverter = LookupReplyConverter()
+
+    override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
         return webRequestsManagerAuthorised.insertAllWords(wordTranslations)
+            .map { list -> list.wordIdsList.map { EntityIdentificator(it.localId.toLong(), it.serverId) } }
     }
 
-    override fun removeAllServerIds(serverIds: List<Int>): Completable {
+    override fun removeAllByServerId(serverIds: List<Int>): Completable {
         return Single.fromCallable { absList(serverIds) }
-                .flatMap { webRequestsManagerAuthorised.removeAllServerIds(it) }
-                .ignoreElement()
+            .flatMapCompletable { webRequestsManagerAuthorised.removeAllByServerId(it) }
     }
 
     override fun pullWords(wordTranslations: List<Int>): Single<PullWordsAnswer> {
         return webRequestsManagerAuthorised.pullWords(wordTranslations)
+            .map { PullWordsAnswer(it.toDeleteList, wordTranslationReplyConverter.convertList(it.toAddList)) }
+    }
+
+    override fun lookup(text: String, lookupDirection: LookupDirection): Single<List<Definition>> {
+        val lang = when (lookupDirection) {
+            EN_RU -> "en-ru"
+            RU_EN -> "ru-en"
+        }
+
+        return webRequestsManagerAuthorised.lookup(text, lang)
+            .map { lookupReplyConverter.convert(it) }
+    }
+
+    private fun absList(integers: List<Int>): List<Int> = integers.map {
+        if (it < 0) {
+            Unit //TODO for debug
+        }
+        abs(it)
     }
 }
