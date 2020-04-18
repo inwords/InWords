@@ -3,10 +3,19 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+pr:
+  branches:
+    include:
+      - master
+      - develop
+  paths:
+    include:
+      - Website/*
 trigger:
   branches:
     include:
       - master
+      - develop
   paths:
     include:
       - Website/*
