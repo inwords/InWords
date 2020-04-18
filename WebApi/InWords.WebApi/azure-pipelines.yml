@@ -3,10 +3,19 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
+pr:
+  branches:
+    include:
+    - master
+    - develop
+  paths:
+    include:
+    - WebApi/*
 trigger:
   branches:
     include:
     - master
+    - develop
   paths:
     include:
     - WebApi/*
