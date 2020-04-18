@@ -6,11 +6,55 @@ option java_package = "ru.inwords.inwords.proto.word_set";
 option java_outer_classname = "WordSetProto";
 
 package WordSet.v2;
+import "Common.v2.proto";
 
 // The greeting service definition.
 service WordSetProvider {
 	// Sends a greeting
+	rpc GetSets (Common.v2.Empty) returns (WordSetReply);
 	rpc GetWordsList (WordSetWordsRequest) returns (WordSetWordsReply);
+	rpc ToDictionary (WordSetWordsRequest) returns (Common.v2.Empty);
+	rpc GetLevels (GetLevelsRequest) returns (GetLevelsReply);
+	rpc GetLevelWords (GetLevelWordsRequest) returns (GetLevelWordsReply);
+}
+
+message GetLevelWordsRequest{
+	int32 levelId = 1;
+}
+
+message LevelWord{
+	int32 userWordPairId = 1;
+	string ForeignWord = 2;
+	string NativeWord = 3;
+}
+
+message GetLevelWordsReply{
+	repeated LevelWord words = 1;
+}
+
+message GetLevelsRequest{
+	int32 wordSetId = 1;
+}
+
+message GetLevelsReply{
+	repeated LevelReply levels = 1;
+}
+
+message LevelReply {
+	int32 levelId = 1;
+	int32 stars = 2;
+	bool isAvailable = 3;
+	int32 level = 4;
+}
+
+message WordSetReply{
+	message WordSetInfo{
+		int32 id = 1;
+		string title = 2;
+		string description = 3;
+		string picture = 4;
+	}
+	repeated WordSetInfo wordSets = 1;
 }
 
 // The request message containing the user's credentials.

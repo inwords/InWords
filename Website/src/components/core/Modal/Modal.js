@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -7,26 +7,39 @@ import Fade from 'src/components/core/Fade';
 import './Modal.scss';
 
 const transitionDurations = {
-  enter: 225,
-  exit: 150
+  enter: 'var(--transition-duration-entering-screen)',
+  exit: 'var(--transition-duration-leaving-screen)'
 };
 
-function Modal({ open, keepMounted = false, children, className, ...rest }) {
-  const [exited, setExited] = React.useState(true);
+function Modal({
+  open,
+  keepMounted = false,
+  children,
+  onTransitionEnd,
+  className,
+  ...rest
+}) {
+  const [exited, setExited] = useState(true);
+  const [exitStarted, setExitStarted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setExited(false);
+      setExitStarted(false);
     } else {
-      let timerId = setTimeout(() => {
-        setExited(true);
-      }, transitionDurations.exit);
-
-      return () => {
-        clearTimeout(timerId);
-      };
+      setExitStarted(true);
     }
   }, [open]);
+
+  const handleTransitionEnd = event => {
+    if (exitStarted) {
+      setExited(true);
+    }
+
+    if (onTransitionEnd) {
+      onTransitionEnd(event);
+    }
+  };
 
   if (!keepMounted && exited) {
     return null;
@@ -44,6 +57,7 @@ function Modal({ open, keepMounted = false, children, className, ...rest }) {
         in={open}
         transitionDurations={transitionDurations}
         transitionTimingFunction="linear"
+        onTransitionEnd={handleTransitionEnd}
       >
         <div className="modal__backdrop" />
       </Fade>
@@ -57,6 +71,7 @@ Modal.propTypes = {
   open: PropTypes.bool,
   keepMounted: PropTypes.bool,
   children: PropTypes.node,
+  onTransitionEnd: PropTypes.func,
   className: PropTypes.string
 };
 

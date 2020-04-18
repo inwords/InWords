@@ -1,116 +1,86 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import useDialog from 'src/hooks/useDialog';
+import React, { Fragment, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from 'src/actions/commonActions';
+import { initializeUserInfo } from 'src/actions/profileActions';
+import { getUserInfo } from 'src/actions/profileApiActions';
 import Icon from 'src/components/core/Icon';
 import Typography from 'src/components/core/Typography';
-import Button from 'src/components/core/Button';
 import Avatar from 'src/components/core/Avatar';
 import Paper from 'src/components/core/Paper';
-import AvatarEditDialog from './AvatarEditDialog';
-import NicknameEditDialog from './NicknameEditDialog';
-import EmailEditDialog from './EmailEditDialog';
-import AccountDeleteDialog from './AccountDeleteDialog';
+import ControlledAvatarEditDialog from './ControlledAvatarEditDialog';
+import ControlledNicknameEditDialog from './ControlledNicknameEditDialog';
+import ControlledEmailEditDialog from './ControlledEmailEditDialog';
+import ControlledAccountDeleteDialog from './ControlledAccountDeleteDialog';
 
 import './Profile.scss';
 
-function Profile({ avatarPath, nickname, email }) {
+function Profile() {
   const {
-    open: openAvatar,
-    handleOpen: handleOpenAvatar,
-    handleClose: handleCloseAvatar
-  } = useDialog();
+    nickname,
+    avatarPath,
+    account: { accountId, email }
+  } = useSelector(store => store.profile);
 
-  const {
-    open: openNickname,
-    handleOpen: handleOpenNickname,
-    handleClose: handleCloseNickname
-  } = useDialog();
+  const dispatch = useDispatch();
 
-  const {
-    open: openEmail,
-    handleOpen: handleOpenEmail,
-    handleClose: handleCloseEmail
-  } = useDialog();
-
-  const {
-    open: openDeletion,
-    handleOpen: handleOpenDeletion,
-    handleClose: handleCloseDeletion
-  } = useDialog();
+  useEffect(() => {
+    if (!accountId) {
+      (async () => {
+        try {
+          const data = await dispatch(getUserInfo());
+          dispatch(initializeUserInfo(data));
+        } catch (error) {
+          dispatch(setSnackbar({ text: 'Не удалось загрузить профиль' }));
+        }
+      })();
+    }
+  }, [accountId, dispatch]);
 
   return (
-    <Fragment>
-      <div className="profile-main">
-        <div className="profile-avatar-section">
-          <Avatar alt="Аватар" src={avatarPath} className="profile-avatar" />
-          <Button onClick={handleOpenAvatar} variant="text" color="primary">
-            Изменить аватар
-          </Button>
-        </div>
-        <div className="profile-personal-section">
-          <Typography component="h1" variant="h3" className="profile-nickname">
-            {nickname}
-          </Typography>
-          <Button onClick={handleOpenNickname} variant="text" color="primary">
-            Изменить никнейм
-          </Button>
-          <div className="profile-personal-info">
-            <div className="profile-personal-info-entry">
-              <div className="profile-personal-info-entry-icon">
-                <Icon color="action">email</Icon>
-              </div>
-              <div className="profile-personal-info-entry-content">
-                <div className="profile-personal-info-value">
-                  <Typography
-                    variant="body1"
-                    className="profile-personal-info-value-text"
-                  >
-                    {email}
-                  </Typography>
+    accountId && (
+      <Fragment>
+        <div className="profile-root">
+          <div className="profile-avatar-section">
+            <Avatar alt="Avatar" src={avatarPath} className="profile-avatar">
+              A
+            </Avatar>
+            <ControlledAvatarEditDialog />
+          </div>
+          <div className="profile-personal-section">
+            <Typography
+              component="h1"
+              variant="h3"
+              className="profile-nickname"
+            >
+              {nickname}
+            </Typography>
+            <ControlledNicknameEditDialog nickname={nickname} />
+            <div className="profile-personal-info">
+              <div className="profile-personal-info-entry">
+                <div className="profile-personal-info-entry-icon">
+                  <Icon color="action">email</Icon>
                 </div>
-                <div className="profile-personal-info-edit-button-container">
-                  <Button
-                    onClick={handleOpenEmail}
-                    variant="text"
-                    color="primary"
-                  >
-                    Изменить электронный адрес
-                  </Button>
+                <div className="profile-personal-info-entry-content">
+                  <div className="profile-personal-info-value">
+                    <Typography
+                      variant="body1"
+                      className="profile-personal-info-value-text"
+                    >
+                      {email}
+                    </Typography>
+                  </div>
+                  <ControlledEmailEditDialog />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <AvatarEditDialog open={openAvatar} handleClose={handleCloseAvatar} />
-        <EmailEditDialog open={openEmail} handleClose={handleCloseEmail} />
-        <NicknameEditDialog
-          open={openNickname}
-          handleClose={handleCloseNickname}
-          nickname={nickname}
-        />
-      </div>
-      <Paper className="profile-footer">
-        <Button
-          onClick={handleOpenDeletion}
-          variant="text"
-          className="profile-delete-button"
-        >
-          Удалить аккаунт
-        </Button>
-        <AccountDeleteDialog
-          open={openDeletion}
-          handleClose={handleCloseDeletion}
-          nickname={nickname}
-        />
-      </Paper>
-    </Fragment>
+        <Paper className="profile-footer">
+          <ControlledAccountDeleteDialog nickname={nickname} />
+        </Paper>
+      </Fragment>
+    )
   );
 }
-
-Profile.propTypes = {
-  nickname: PropTypes.string,
-  avatarPath: PropTypes.string,
-  email: PropTypes.string
-};
 
 export default Profile;

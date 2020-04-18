@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ClickAwayListener from 'src/components/core/ClickAwayListener';
 import Fade from 'src/components/core/Fade';
 import Paper from 'src/components/core/Paper';
 
@@ -15,16 +14,33 @@ function Popup({
   className,
   ...rest
 }) {
+  const elementRef = useRef();
+
+  useEffect(() => {
+    const outsideClickListener = event => {
+      if (!elementRef.current.contains(event.target) && show) {
+        onClose();
+      }
+    };
+
+    if (show) {
+      document.addEventListener('click', outsideClickListener);
+
+      return () => {
+        document.removeEventListener('click', outsideClickListener);
+      };
+    }
+  }, [show, onClose]);
+
   return (
     <Fade in={show}>
       <Paper
+        ref={elementRef}
         depthShadow={8}
         className={classNames('popup', `popup--side--${side}`, className)}
         {...rest}
       >
-        <ClickAwayListener active={show} onClickAway={onClose}>
-          {children}
-        </ClickAwayListener>
+        {children}
       </Paper>
     </Fade>
   );

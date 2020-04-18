@@ -1,27 +1,27 @@
 import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
-import { DENY_ACCESS } from 'src/actions/accessActions';
+import { DENY_ACCESS } from 'src/actions/authActions';
 import common from './common';
-import access from './access';
-import userInfo from './userInfo';
+import auth from './auth';
+import profile from './profile';
 import dictionary from './dictionary';
-import training from './training';
+import wordSet from './wordSet';
+import trainingHistory from './trainingHistory';
 
-const createRootReducer = history => (state, action) => {
+const rootReducer = (state, action) => {
   if (action.type === DENY_ACCESS) {
     state = undefined;
   }
 
   const appReducer = combineReducers({
-    router: connectRouter(history),
     common,
-    access,
-    userInfo,
+    auth,
+    profile,
     dictionary,
-    training
+    wordSet,
+    trainingHistory
   });
 
   return appReducer(state, action);
 };
 
-export default createRootReducer;
+export default rootReducer;

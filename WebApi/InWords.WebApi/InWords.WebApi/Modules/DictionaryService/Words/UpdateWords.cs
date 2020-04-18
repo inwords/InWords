@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Services.DictionaryService.Words
+namespace InWords.WebApi.Modules.DictionaryService.Words
 {
     public class UpdateWords : AuthorizedRequestObjectHandler<UpdateWordsRequest, AddWordsReply, InWordsDataContext>
     {

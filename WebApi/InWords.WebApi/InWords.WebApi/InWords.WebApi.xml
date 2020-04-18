@@ -41,22 +41,6 @@
             <response code="401">Unauthorized</response>
             <response code="200">OK</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.GameController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
-            <summary>
-                Use this to post score after game
-            </summary>
-            <deprecated>true</deprecated>
-            <param name="levelMetricQuery"></param>
-            <returns>Quantity of stars</returns>
-            <response code="200">OK, scored</response>
-            <response code="400">Null on request</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.GameController.UploadScore(InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery[])">
-            <summary>
-                Use to upload user results
-            </summary>
-            <returns>Quantity of stars and level id</returns>
-        </member>
         <member name="M:InWords.WebApi.Controllers.v1._1.DictionaryController.GetTraining">
             <summary>
                 Get user dictionary words pairs to be repeated. Use when dictionary is not loaded or storage unavailable 
@@ -121,14 +105,6 @@
                 This game controller allow CRUD games
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.AddGamePack(InWords.Data.DTO.GameBox.GamePack)">
-            <summary>
-                This is to add game pack from body use Game pack object
-            </summary>
-            <see cref="T:InWords.Data.DTO.GameBox.GamePack" />
-            <param name="gamePack">describe game</param>
-            <returns></returns>
-        </member>
         <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.GetGameInfo">
             <summary>
                 Returns short information about all games in database
@@ -177,28 +153,6 @@
              <response code="200">Count of added words</response>
              <returns>Count of adding words</returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.PostScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
-            <summary>
-                Use this to post score after game
-            </summary>
-            <deprecated>true</deprecated>
-            <param name="levelResult"></param>
-            <returns>Quantity of stars</returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.UploadScore(System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelResult})">
-            <summary>
-                Use to upload user results
-            </summary>
-            <param name="levelScores"></param>
-            <returns>Quantity of stars and level id</returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.ScoreController.GetGame(System.Int32)">
-            <summary>
-                Use this to get game information by id
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
         <member name="T:InWords.WebApi.Controllers.v1.AuthController">
             <inheritdoc />
         </member>
@@ -231,6 +185,36 @@
             <returns>Words pairs to delete and to add</returns>
             <response code="200">OK</response>
             <response code="401">Unauthorized</response>
+        </member>
+        <member name="T:InWords.WebApi.Controllers.v1.WordsController">
+            <inheritdoc />
+            <summary>
+                This is to CRUD words
+            </summary>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1.WordsController.AddPair(System.Collections.Generic.List{InWords.Data.DTO.WordTranslation})">
+            <summary>
+                Add list of words in dictionary
+            </summary>
+            <returns>user with id</returns>
+            <response code="200">OK</response>
+            <response code="400">Model is not valid</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">User not found</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1.WordsController.DeletePair(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+                Delete pairs from user dictionary
+            </summary>
+            <returns>user with id</returns>
+            <response code="200">OK pair deleted count</response>
+            <response code="400">Model is not valid</response>
+            <response code="401">Unauthorized</response>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v1.WordsController.#ctor(InWords.WebApi.Services.WordsService)">
+            <summary>
+            </summary>
+            <param name="wordsService"></param>
         </member>
         <member name="T:InWords.WebApi.Controllers.v1.UsersController">
             <inheritdoc />
@@ -289,13 +273,6 @@
                 Controller for test purposes
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.ValuesController.GetVersion">
-            <summary>
-                Get request api version
-            </summary>
-            <returns>user with id</returns>
-            <response code="200">OK</response>
-        </member>
         <member name="M:InWords.WebApi.Controllers.v1.ValuesController.GetUsersCount">
             <summary>
                 Find out the number of registered users
@@ -320,48 +297,10 @@
             <response code="401">Unauthorized</response>
             <response code="403">Access denied</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1.ValuesController.GetScore(System.Int32,System.Int32)">
-            <summary>
-                Check c++ scorelibrary
-            </summary>
-            <returns>user with id</returns>
-            <response code="200">OK</response>
-            <response code="500">SDK errors</response>
-        </member>
         <member name="M:InWords.WebApi.Controllers.v1.ValuesController.#ctor(InWords.Data.InWordsDataContext,InWords.WebApi.Services.FtpLoader.Model.FileLoader)">
             <summary>
             </summary>
             <param name="context"></param>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.WordsController">
-            <inheritdoc />
-            <summary>
-                This is to CRUD words
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.AddPair(System.Collections.Generic.List{InWords.Data.DTO.WordTranslation})">
-            <summary>
-                Add list of words in dictionary
-            </summary>
-            <returns>user with id</returns>
-            <response code="200">OK</response>
-            <response code="400">Model is not valid</response>
-            <response code="401">Unauthorized</response>
-            <response code="404">User not found</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.DeletePair(System.Collections.Generic.IEnumerable{System.Int32})">
-            <summary>
-                Delete pairs from user dictionary
-            </summary>
-            <returns>user with id</returns>
-            <response code="200">OK pair deleted count</response>
-            <response code="400">Model is not valid</response>
-            <response code="401">Unauthorized</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.#ctor(InWords.WebApi.Services.WordsService)">
-            <summary>
-            </summary>
-            <param name="wordsService"></param>
         </member>
         <member name="M:InWords.WebApi.Controllers.v2.AuthController.OAuth2(InWords.Protobuf.OAuthTokenRequest)">
             <summary>
@@ -389,27 +328,19 @@
             {"UserWordpairIds": [1,2,3]}
             </remarks>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Register(InWords.Protobuf.RegistrationRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.UpdateWords(InWords.Protobuf.UpdateWordsRequest)">
             <summary>
-            Use this to register user
+            Experimental use only! ZERO TESTS
             </summary>
             <param name="request"></param>
             <returns></returns>
-            <remarks>
-            Token will be sent in response to the request.               
-             
-            During registration a activation message will be sent to the user's email. 
-             
-            400 means that the user was not found or the password was entered incorrectly
-            </remarks>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Token(InWords.Protobuf.TokenRequest)">
+        <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.DeleteWords(InWords.Protobuf.DeleteWordsRequest)">
             <summary>
-                Use this to get token
+            Use this do delete user's words
             </summary>
-            <returns>user's access token</returns>
-            <response code="200">Success</response>
-            <response code="400">Access denied</response>
+            <param name="request"></param>
+            <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Controllers.v2.ProfileController.UpdateEmail(InWords.Protobuf.EmailChangeRequest)">
             <summary>
@@ -425,7 +356,7 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.Register(System.String)">
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.Register(InWords.Protobuf.WordSetWordsRequest)">
             <summary>
             This is to get word's in word set
             </summary>
@@ -471,60 +402,6 @@
             <param name="uwp"></param>
             <returns></returns>
         </member>
-        <member name="T:InWords.WebApi.Module.InModule">
-            <summary>
-                This is to improve project infrastructure using reflection
-                and file segregation
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Module.InModule.ConfigureIoc(Autofac.ContainerBuilder)">
-            <summary>
-                This is to segregate Ioc configuration layer from startup class
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Module.InModule.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-                This is to provide service collection to configure
-            </summary>
-            <param name="services"></param>
-            <returns>Service collection</returns>
-        </member>
-        <member name="M:InWords.WebApi.Module.InModule.ConfigureApp(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-               This is to provide ApplicationBuilder to configure
-            </summary>
-            <param name="app"></param>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.#ctor(InWords.Service.Auth.Interfaces.IJwtProvider,InWords.Data.Repositories.AccountRepository,InWords.Data.Repositories.UserRepository)">
-            <summary>
-                Create provider via repository
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Service.Auth.Models.BasicAuthClaims)">
-            <summary>
-                This is to check user identity [FromBody]
-            </summary>
-            <param name="user"></param>
-            <exception cref="T:System.ArgumentException"></exception>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(System.String,System.String)">
-            <summary>
-                This is to check user identity
-            </summary>
-            <param name="email"></param>
-            <param name="password"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentException"></exception>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Data.Domains.Account)">
-            <summary>
-            </summary>
-            <param name="account"></param>
-            <exception cref="T:System.ArgumentException"></exception>
-            <returns></returns>
-        </member>
         <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetGameStarsAsync(System.Int32,InWords.Data.DTO.GameBox.GameObject)">
             <summary>
                 This is to read user score on game level
@@ -557,12 +434,40 @@
             <param name="levelScores"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.DictionaryService.Extentions.AddWordPairsExtentions.AddWordPairs(Microsoft.EntityFrameworkCore.DbSet{InWords.Data.Domains.WordPair},System.Collections.Generic.IEnumerable{InWords.Data.Domains.WordPair})">
+        <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthorizedRequestObject{InWords.Protobuf.DeleteAccountRequest,InWords.Protobuf.Empty},System.Threading.CancellationToken)">
             <summary>
-            Return map of inverted keyPair
+            Delete account by id if exist
             </summary>
-            <param name="wordPairs"></param>
             <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ArgumentNullException">Account not found</exception>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.Protobuf.RegistrationRequest,InWords.Protobuf.RegistrationReply},System.Threading.CancellationToken)">
+            <summary>
+            Use this is to register new yousers
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ArgumentNullException">If request is null</exception>
+            <exception cref="T:System.ArgumentException">If email not exist</exception>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.IsAccountExist(System.String)">
+            <summary>
+            This method check if email exist
+            </summary>
+            <exception cref="T:System.ArgumentException">Email already exist</exception>
+            <param name="email"></param>
+        </member>
+        <member name="M:InWords.WebApi.Services.Users.Token.UserToken.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.Protobuf.TokenRequest,InWords.Protobuf.TokenReply},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ArgumentNullException">Account not found</exception>
+            <exception cref="T:System.ArgumentException">Password not match</exception>
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Services.Email.EmailCodeVerificationService.HasCorrectCode(System.Int32,System.String,System.Int32)">
@@ -656,42 +561,6 @@
             <param name="levelMetricQuery"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthorizedRequestObject{InWords.Protobuf.DeleteAccountRequest,InWords.Protobuf.Empty},System.Threading.CancellationToken)">
-            <summary>
-            Delete account by id if exist
-            </summary>
-            <param name="request"></param>
-            <param name="cancellationToken"></param>
-            <exception cref="T:System.ArgumentNullException">Account not found</exception>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.Protobuf.RegistrationRequest,InWords.Protobuf.RegistrationReply},System.Threading.CancellationToken)">
-            <summary>
-            Use this is to register new yousers
-            </summary>
-            <param name="request"></param>
-            <param name="cancellationToken"></param>
-            <exception cref="T:System.ArgumentNullException">If request is null</exception>
-            <exception cref="T:System.ArgumentException">If email not exist</exception>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.IsAccountExist(System.String)">
-            <summary>
-            This method check if email exist
-            </summary>
-            <exception cref="T:System.ArgumentException">Email already exist</exception>
-            <param name="email"></param>
-        </member>
-        <member name="M:InWords.WebApi.Services.Users.Token.UserToken.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.Protobuf.TokenRequest,InWords.Protobuf.TokenReply},System.Threading.CancellationToken)">
-            <summary>
-            
-            </summary>
-            <param name="request"></param>
-            <param name="cancellationToken"></param>
-            <exception cref="T:System.ArgumentNullException">Account not found</exception>
-            <exception cref="T:System.ArgumentException">Password not match</exception>
-            <returns></returns>
-        </member>
         <member name="M:InWords.WebApi.Services.UserWordPairService.Abstraction.KnowledgeLicenseProvider.Ebbinghaus(System.Int32,System.Double)">
             <summary>
                 Implementation of
@@ -715,6 +584,68 @@
             </summary>
             <param name="userWordPairs"></param>
             <param name="PairKnowledges"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Modules.DictionaryService.Extentions.AddWordPairsExtentions.AddWordPairs(Microsoft.EntityFrameworkCore.DbSet{InWords.Data.Domains.WordPair},System.Collections.Generic.IEnumerable{InWords.Data.Domains.WordPair})">
+            <summary>
+            Return map of inverted keyPair
+            </summary>
+            <param name="wordPairs"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="T:InWords.WebApi.Module.InModule">
+            <summary>
+                This is to improve project infrastructure using reflection
+                and file segregation
+            </summary>
+        </member>
+        <member name="M:InWords.WebApi.Module.InModule.ConfigureIoc(Autofac.ContainerBuilder)">
+            <summary>
+                This is to segregate Ioc configuration layer from startup class
+            </summary>
+        </member>
+        <member name="M:InWords.WebApi.Module.InModule.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                This is to provide service collection to configure
+            </summary>
+            <param name="services"></param>
+            <returns>Service collection</returns>
+        </member>
+        <member name="M:InWords.WebApi.Module.InModule.ConfigureApp(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+               This is to provide ApplicationBuilder to configure
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.#ctor(InWords.Service.Auth.Interfaces.IJwtProvider,InWords.Data.Repositories.AccountRepository,InWords.Data.Repositories.UserRepository)">
+            <summary>
+                Create provider via repository
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Service.Auth.Models.BasicAuthClaims)">
+            <summary>
+                This is to check user identity [FromBody]
+            </summary>
+            <param name="user"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(System.String,System.String)">
+            <summary>
+                This is to check user identity
+            </summary>
+            <param name="email"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Data.Domains.Account)">
+            <summary>
+            </summary>
+            <param name="account"></param>
+            <exception cref="T:System.ArgumentException"></exception>
             <returns></returns>
         </member>
         <member name="T:InWords.WebApi.Swagger.RemoveVersionParameters">

@@ -1,3 +1,21 @@
+@keyframes onAutoFillStart {
+  from {
+    /* fake */
+  }
+  to {
+    /* fake */
+  }
+}
+
+@keyframes onAutoFillCancel {
+  from {
+    /* fake */
+  }
+  to {
+    /* fake */
+  }
+}
+
 .text-field {
   position: relative;
   display: inline-flex;
@@ -29,7 +47,7 @@
     }
 
     &--active {
-      color: var(--palette-primary-main);
+      color: var(--palette-primary);
     }
 
     &--required {
@@ -59,6 +77,15 @@
 
     &:-ms-input-placeholder {
       color: transparent;
+    }
+
+    &:-webkit-autofill {
+      animation-name: onAutoFillStart;
+      animation-duration: 10000s;
+    }
+
+    &:not(:-webkit-autofill) {
+      animation-name: onAutoFillCancel;
     }
   }
 }

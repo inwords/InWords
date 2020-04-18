@@ -1,10 +1,6 @@
-import { push } from 'connected-react-router';
-import {
-  beginLoading,
-  endLoading,
-  setSnackbar
-} from 'src/actions/commonActions';
-import { denyAccess } from 'src/actions/accessActions';
+import history from 'src/history';
+import { beginLoading, endLoading } from 'src/actions/commonActions';
+import { denyAccess } from 'src/actions/authActions';
 
 const CALL_API = 'CALL_API';
 
@@ -23,17 +19,17 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
     withCredentials = true,
     data = null,
     contentType = 'application/json',
-    onSuccess,
-    onFailure
+    resolve,
+    reject
   } = action.payload;
 
   const headers = new Headers();
 
   if (withCredentials) {
-    const token = getState().access.token;
+    const token = getState().auth.token;
 
     if (!token) {
-      dispatch(push('/sign-in'));
+      history.push('/sign-in');
       return;
     }
 
@@ -53,45 +49,30 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
       body: data
     });
 
-    dispatch(endLoading());
-
     if (!response.ok) {
       throw new HttpError(response.statusText, response.status);
     }
 
     let responseData = null;
-
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json')) {
       responseData = await response.json();
     }
-
-    if (onSuccess) {
-      onSuccess({ dispatch, data: responseData });
-    }
+    resolve(responseData);
   } catch (error) {
-    dispatch(endLoading());
-
     if (error instanceof HttpError) {
       const statusCode = error.statusCode;
-
       if (statusCode === 401) {
         dispatch(denyAccess());
-        dispatch(push('/sign-in'));
+        history.push('/sign-in');
       } else {
-        if (onFailure) {
-          onFailure({ dispatch, statusCode });
-        }
+        reject(statusCode);
       }
-    } else if (error instanceof TypeError) {
-      dispatch(
-        setSnackbar({
-          text: 'Не удалось соединиться с сервером'
-        })
-      );
     } else {
-      dispatch(setSnackbar({ text: 'Неизвестная ошибка' }));
+      reject(null);
     }
+  } finally {
+    dispatch(endLoading());
   }
 };
 
@@ -104,5 +85,4 @@ class HttpError extends Error {
 }
 
 export { CALL_API };
-
 export default apiMiddleware;

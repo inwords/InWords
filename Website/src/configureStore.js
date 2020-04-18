@@ -1,26 +1,18 @@
-import { createStore, applyMiddleware } from 'redux';
-import { routerMiddleware } from 'connected-react-router';
-import createRootReducer from 'src/reducers';
+import { createStore, compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from 'src/reducers';
 import apiMiddleware from 'src/middleware/apiMiddleware';
-import persistDataMiddleware from 'src/middleware/persistDataMiddleware';
 
-const middleware = [apiMiddleware, persistDataMiddleware];
+const composeEnhancers =
+  (typeof window !== 'undefined' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
 
-if (process.env.NODE_ENV === 'development') {
-  const { logger } = require('redux-logger');
-  middleware.unshift(logger);
-}
-
-const configureStore = ({ history, preloadedState }) => {
-  middleware.push(routerMiddleware(history));
-
-  const store = createStore(
-    createRootReducer(history),
+const configureStore = preloadedState =>
+  createStore(
+    rootReducer,
     preloadedState,
-    applyMiddleware(...middleware)
+    composeEnhancers(applyMiddleware(thunk, apiMiddleware))
   );
-
-  return store;
-};
 
 export default configureStore;

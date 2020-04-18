@@ -2,7 +2,7 @@ import {
   SYNC_WORD_PAIRS,
   DELETE_WORD_PAIRS,
   ADD_WORD_PAIRS,
-  EDIT_WORD_PAIRS,
+  UPDATE_WORD_PAIRS,
   RESET_WORD_PAIRS_ACTUALITY
 } from 'src/actions/dictionaryActions';
 
@@ -17,25 +17,27 @@ const dictionary = (
   action
 ) => {
   switch (action.type) {
-    case SYNC_WORD_PAIRS:
+    case SYNC_WORD_PAIRS: {
+      const payload = action.payload;
+
       return {
         actual: true,
         wordPairs: state.wordPairs
-          .filter(({ serverId }) => !action.payload.toDelete.includes(serverId))
+          .filter(({ serverId }) => !payload.toDelete.includes(serverId))
           .concat(
-            action.payload.toAdd
-              .map(wordPair => {
-                const convertedWordPair = {
-                  ...wordPair,
-                  serverId: wordPair.userWordPair
-                };
-                delete convertedWordPair.userWordPair;
+            payload.toAdd.map(wordPair => {
+              const convertedWordPair = {
+                ...wordPair,
+                serverId: wordPair.userWordPair
+              };
+              delete convertedWordPair.userWordPair;
 
-                return convertedWordPair;
-              })
-              .sort(lexicographicalComparison)
+              return convertedWordPair;
+            })
           )
+          .sort(lexicographicalComparison)
       };
+    }
     case DELETE_WORD_PAIRS:
       return {
         ...state,
@@ -56,7 +58,7 @@ const dictionary = (
         wordPairs: Object.values(wordPairsMap).sort(lexicographicalComparison)
       };
     }
-    case EDIT_WORD_PAIRS: {
+    case UPDATE_WORD_PAIRS: {
       const wordPairs = state.wordPairs.map(wordPair => {
         const foundEditedWordPair = action.payload.find(
           ({ oldServerId }) => oldServerId === wordPair.serverId
@@ -66,6 +68,7 @@ const dictionary = (
 
       const wordPairsMap = {};
       wordPairs.forEach(wordPair => {
+        delete wordPair.oldServerId;
         wordPairsMap[wordPair.serverId] = wordPair;
       });
 

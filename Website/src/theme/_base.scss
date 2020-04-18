@@ -1,0 +1,23 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html * {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: var(--palette-background-default);
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  body {
+    cursor: pointer;
+  }
+}

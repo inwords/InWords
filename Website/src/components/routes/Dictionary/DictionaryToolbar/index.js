@@ -1,1 +1,1 @@
-export { default } from './DictionaryToolbarContainer';
+export { default } from './DictionaryToolbar';

@@ -1,13 +1,11 @@
 ﻿using InWords.Data;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
-using MediatR;
-using Org.BouncyCastle.Ocsp;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Services.DictionaryService.Words
+namespace InWords.WebApi.Modules.DictionaryService.Words
 {
     public class DeleteWords : AuthorizedRequestObjectHandler<DeleteWordsRequest, Empty, InWordsDataContext>
     {

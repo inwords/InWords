@@ -1,9 +1,10 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
+const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -11,31 +12,32 @@ module.exports = merge(common, {
     filename: 'static/js/[name].[contenthash:8].js'
   },
   optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            comments: false
+          }
+        },
+        extractComments: false
+      })
+    ],
     splitChunks: {
+      chunks: 'all',
       cacheGroups: {
         styles: {
           test: /\.(css|scss)$/,
+          chunks: 'all',
           enforce: true
-        },
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          name: false,
-          chunks: 'all'
         }
       }
     },
-    runtimeChunk: {
-      name: entrypoint => `runtime-${entrypoint.name}`
-    }
+    runtimeChunk: true
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader']
-      },
-      {
-        test: /\.scss$/,
+        test: /\.(css|scss)$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
@@ -59,7 +61,7 @@ module.exports = merge(common, {
       filename: 'static/css/[name].[contenthash:8].css',
       chunkFilename: 'static/css/[id].[contenthash:8].css'
     }),
-    new WorkboxPlugin.GenerateSW({
+    new GenerateSW({
       clientsClaim: true,
       skipWaiting: true
     })

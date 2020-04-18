@@ -1,0 +1,6 @@
+.entry-form-paper {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

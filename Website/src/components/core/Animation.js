@@ -1,16 +1,16 @@
-import React from 'react';
+import { cloneElement, useState } from 'react';
 import PropTypes from 'prop-types';
 
 function Animation({
   children,
   animationName,
-  animationDuration = 225,
-  animationTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)',
-  style = {},
+  animationDuration = 'var(--transition-duration-entering-screen)',
+  animationTimingFunction = 'var(--transition-easing-ease-in-out)',
+  style,
   onAnimationEnd,
   ...rest
 }) {
-  const [fired, setFired] = React.useState(false);
+  const [fired, setFired] = useState(false);
 
   const handleAnimationEnd = event => {
     setFired(true);
@@ -22,12 +22,12 @@ function Animation({
 
   const animationStyles = {
     animationName,
-    animationDuration: `${animationDuration}ms`,
+    animationDuration: `${animationDuration}`,
     animationTimingFunction,
     ...style
   };
 
-  return React.cloneElement(children, {
+  return cloneElement(children, {
     style: !fired ? animationStyles : style,
     onAnimationEnd: handleAnimationEnd,
     ...rest

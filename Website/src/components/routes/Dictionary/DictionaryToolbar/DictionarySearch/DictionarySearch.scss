@@ -19,7 +19,8 @@
 
   &__input {
     padding-left: 56px;
-    transition: width 300ms ease-in-out;
+    transition: width var(--transition-duration-standart)
+      var(--transition-easing-ease-out);
 
     @include theme-breakpoints-up(sm) {
       width: 180px;

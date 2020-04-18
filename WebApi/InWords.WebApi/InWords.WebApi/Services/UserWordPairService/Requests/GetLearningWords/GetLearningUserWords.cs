@@ -24,9 +24,6 @@ namespace InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords
             IQueryable<UserWordPair> pairsToLearn = Context.UserWordPairs.QueryPairsToLearn(request);
 
             var userWordPairsLoaded = await pairsToLearn
-                .Include(u => u.WordPair)
-                .ThenInclude(wp => wp.WordForeign)
-                .Include(u => u.WordPair.WordNative)
                 .AsNoTracking()
                 .ToListAsync()
                 .ConfigureAwait(false);

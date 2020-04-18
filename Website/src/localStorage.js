@@ -1,5 +1,3 @@
-export const loadState = () => loadValue('state');
-
 export const loadValue = name => {
   try {
     const serializedValue = localStorage.getItem(name);
@@ -12,9 +10,7 @@ export const loadValue = name => {
   }
 };
 
-export const saveState = state => {
-  saveValue('state', state);
-};
+export const loadState = () => loadValue('state');
 
 export const saveValue = (name, value) => {
   try {
@@ -23,4 +19,20 @@ export const saveValue = (name, value) => {
   } catch (error) {
     // die
   }
+};
+
+export const saveState = state => {
+  saveValue('state', state);
+};
+
+export const removeValue = name => {
+  try {
+    localStorage.removeItem(name);
+  } catch (error) {
+    // die
+  }
+};
+
+export const removeState = () => {
+  removeValue('state');
 };

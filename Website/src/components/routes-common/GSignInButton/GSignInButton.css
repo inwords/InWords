@@ -1,0 +1,7 @@
+.g-signin2 {
+  width: 100%;
+}
+
+.g-signin2 > div {
+  width: 100% !important;
+}

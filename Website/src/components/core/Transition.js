@@ -1,9 +1,9 @@
-import React from 'react';
+import { useState, useEffect, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 const initialTransitionDurations = {
-  enter: 225,
-  exit: 150
+  enter: 'var(--transition-duration-entering-screen)',
+  exit: 'var(--transition-duration-leaving-screen)'
 };
 
 function Transition({
@@ -11,14 +11,14 @@ function Transition({
   in: inProp,
   transitionDurations = initialTransitionDurations,
   transitionProperty,
-  transitionTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)',
-  style = {},
+  transitionTimingFunction = 'var(--transition-easing-ease-in-out)',
+  style,
   onTransitionEnd,
   ...rest
 }) {
-  const [exited, setExited] = React.useState(true);
+  const [exited, setExited] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (inProp) {
       setExited(false);
     }
@@ -34,10 +34,10 @@ function Transition({
     }
   };
 
-  return React.cloneElement(children, {
+  return cloneElement(children, {
     style: {
       transitionProperty,
-      transitionDuration: `${transitionDurations[inProp ? 'enter' : 'exit']}ms`,
+      transitionDuration: transitionDurations[inProp ? 'enter' : 'exit'],
       transitionTimingFunction,
       visibility: exited ? 'hidden' : undefined,
       ...style
@@ -51,8 +51,8 @@ Transition.propTypes = {
   children: PropTypes.node.isRequired,
   in: PropTypes.bool,
   transitionDurations: PropTypes.exact({
-    enter: PropTypes.number.isRequired,
-    exit: PropTypes.number.isRequired
+    enter: PropTypes.string.isRequired,
+    exit: PropTypes.string.isRequired
   }),
   transitionProperty: PropTypes.string.isRequired,
   transitionTimingFunction: PropTypes.string,

@@ -1,7 +1,7 @@
 const debounce = (f, ms) => {
   let isReady = true;
 
-  return function() {
+  return function () {
     if (!isReady) return;
 
     f.apply(this, arguments);

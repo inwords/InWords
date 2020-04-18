@@ -1,1 +1,1 @@
-export { default } from './WordlistContainer';
+export { default } from './Wordlist';

@@ -1,5 +1,4 @@
 ﻿using InWords.Data.Creations;
-using InWords.Data.DTO;
 using InWords.Data.DTO.Creation;
 using InWords.Data.DTO.GameBox;
 using InWords.Data.Repositories;
@@ -35,25 +34,6 @@ namespace InWords.WebApi.Services.GameService
             this.creationService = creationService;
             this.creationRepository = creationRepository;
             this.gameLevelService = gameLevelService;
-        }
-
-        public async Task<SyncBase> AddGamePackAsync(int userId, GamePack gamePack)
-        {
-            // allow gamePack.CreatorId if admin
-            gamePack.CreationInfo.CreatorId = userId;
-
-            Game gameBox = await CreateGameBoxAsync(gamePack).ConfigureAwait(false);
-
-            // Loading behind the scenes, the level will be processed on the server
-            // Does not affect user experience
-
-            // Add levels
-            foreach (LevelPack levelPack in gamePack.LevelPacks)
-                await gameLevelService.AddLevelAsync(gameBox, levelPack).ConfigureAwait(false);
-
-            var answer = new SyncBase(gameBox.GameId);
-
-            return answer;
         }
 
         public IEnumerable<GameInfo> GetGames()

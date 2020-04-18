@@ -1,21 +1,21 @@
-﻿using InWords.Common.Extensions;
+﻿using Autofac;
+using InWords.Common.Extensions;
 using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Services.DictionaryService.Extentions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Services.DictionaryService.Words
+namespace InWords.WebApi.Modules.DictionaryService.Words
 {
     public class AddWords : AuthorizedRequestObjectHandler<AddWordsRequest, AddWordsReply, InWordsDataContext>
     {
         public AddWords(InWordsDataContext context) : base(context)
         {
+
         }
 
         public override async Task<AddWordsReply> HandleRequest(
@@ -24,70 +24,48 @@ namespace InWords.WebApi.Services.DictionaryService.Words
         {
             if (request == null)
                 throw new ArgumentNullException($"{nameof(request)}");
+            AddWordsReply reply = new AddWordsReply();
 
-            int userId = request.UserId;
-            var requestData = request.Value;
+            var userId = request.UserId;
+            var words = request.Value.Words;
 
-            // Add words transation (savechanges)
-            List<Word> dataBaseWords = await AddWordsAsync(requestData).ConfigureAwait(false);
-
-            // Add wordPairs transaction 
-            List<(int, WordPair)> pairsToAdd = SelectWordPairs(requestData, dataBaseWords);
-            HashSet<int> inverted = Context.WordPairs.AddWordPairs(pairsToAdd.Select(d => d.Item2));
-            await Context.SaveChangesAsync().ConfigureAwait(false);
-
-            // Add user's word pair transation
-            (int, UserWordPair)[] userWords = ConvertToUserWordPairs(userId, pairsToAdd, inverted).ToArray();
-            Context.UserWordPairs.AddUserWordPair(userWords.Select(d => d.Item2));
-            await Context.SaveChangesAsync().ConfigureAwait(false);
-
-
-            // form reply
-            AddWordsReply addWordsReply = new AddWordsReply();
-            foreach (var word in userWords)
+            var dictionaryPairs = words.GroupBy(d => d.LocalId).ToDictionary(d => d.Key, d => d.Select(d => new UserWordPair()
             {
-                AddWordReply addWordReply = new AddWordReply
-                {
-                    LocalId = word.Item1,
-                    ServerId = word.Item2.UserWordPairId
-                };
-                addWordsReply.WordIds.Add(addWordReply);
-            }
-
-            return addWordsReply;
-        }
-
-        private static IEnumerable<(int, UserWordPair)> ConvertToUserWordPairs(int userId, IEnumerable<(int, WordPair)> wordPairsToAdd, HashSet<int> inverted)
-        {
-            return wordPairsToAdd.Select(pair => (pair.Item1, new UserWordPair
-            {
+                ForeignWord = d.WordForeign,
+                NativeWord = d.WordNative,
                 UserId = userId,
-                WordPairId = pair.Item2.WordPairId,
-                IsInvertPair = inverted.Contains(pair.Item2.WordPairId)
-            }));
-        }
+                Background = false,
+            }).ToList());
 
-        private static List<(int, WordPair)> SelectWordPairs(AddWordsRequest requestData, List<Word> dataBaseWords)
-        {
-            var dictionary = dataBaseWords.ToContentDictionary();
-            var wordPairsToAdd = new List<(int, WordPair)>();
-            requestData.Words.ForEach(wp =>
+            dictionaryPairs.ForEach((k) =>
             {
-                wordPairsToAdd.Add((wp.LocalId, new WordPair()
-                {
-                    WordForeignId = dictionary[wp.WordForeign.ToNormalizedWord()].WordId,
-                    WordNativeId = dictionary[wp.WordNative.ToNormalizedWord()].WordId
-                }));
+                Context.AddRange(k.Value);
             });
-            return wordPairsToAdd;
-        }
 
-        private async Task<List<Word>> AddWordsAsync(AddWordsRequest requestData)
-        {
-            var words = requestData.Words.SelectUnion(w1 => w1.WordForeign, w2 => w2.WordNative);
-            var dataBaseWords = Context.Words.AddWords(words);
             await Context.SaveChangesAsync().ConfigureAwait(false);
-            return dataBaseWords;
+
+            var userWords1 = Context.UserWordPairs.Where(u => u.UserId == userId);
+            var userWords2 = Context.UserWordPairs.Where(u => u.UserId == userId);
+
+            var dubles = (from uwp1 in userWords1
+                          from uwp2 in userWords2
+                          where uwp1.ForeignWord == uwp2.ForeignWord &&
+                          uwp1.NativeWord == uwp2.NativeWord &&
+                          uwp1.UserWordPairId > uwp2.UserWordPairId
+                          select uwp1).ToArray();
+
+            Context.UserWordPairs.RemoveRange(dubles);
+            await Context.SaveChangesAsync().ConfigureAwait(false);
+
+            var replys = dictionaryPairs.Select(d => d.Value.Select(w => new AddWordReply()
+            {
+                LocalId = d.Key,
+                ServerId = w.UserWordPairId
+            })).SelectMany(d => d);
+
+            reply.WordIds.Add(replys);
+
+            return reply;
         }
     }
 }

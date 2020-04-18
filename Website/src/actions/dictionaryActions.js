@@ -16,9 +16,9 @@ export const addWordPairs = wordPairs => ({
   payload: wordPairs
 });
 
-export const EDIT_WORD_PAIRS = 'EDIT_WORD_PAIRS';
-export const editWordPairs = wordPairs => ({
-  type: EDIT_WORD_PAIRS,
+export const UPDATE_WORD_PAIRS = 'UPDATE_WORD_PAIRS';
+export const updateWordPairs = wordPairs => ({
+  type: UPDATE_WORD_PAIRS,
   payload: wordPairs
 });
 

@@ -88,6 +88,8 @@ namespace InWords.WebApi.AppStart
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddHttpClient();
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureServices(services));
         }

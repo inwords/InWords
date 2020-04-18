@@ -24,14 +24,10 @@ namespace InWords.WebApi.Extensions
         /// <returns></returns>
         public static WordTranslation ToWordTranslations(this UserWordPair uwp)
         {
-            Word foreign = uwp.WordPair.WordForeign;
-            Word native = uwp.WordPair.WordNative;
-
-            WordTranslation addedWord = uwp.IsInvertPair
-                ? new WordTranslation(native.Content, foreign.Content)
-                : new WordTranslation(foreign.Content, native.Content);
-
-            addedWord.ServerId = uwp.UserWordPairId;
+            WordTranslation addedWord = new WordTranslation(uwp.NativeWord, uwp.ForeignWord)
+            {
+                ServerId = uwp.UserWordPairId
+            };
             return addedWord;
         }
 

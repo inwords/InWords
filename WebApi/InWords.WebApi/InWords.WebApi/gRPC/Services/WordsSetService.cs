@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services
 {
+    [Authorize]
     public class WordsSetService : WordSetProvider.WordSetProviderBase
     {
         private readonly IMediator mediator;
@@ -17,7 +18,6 @@ namespace InWords.WebApi.gRPC.Services
             this.mediator = mediator;
         }
 
-        [Authorize]
         public override async Task<WordSetWordsReply> GetWordsList(WordSetWordsRequest request, ServerCallContext context)
         {
             var requestObject = new AuthorizedRequestObject<WordSetWordsRequest, WordSetWordsReply>(request)
@@ -28,6 +28,51 @@ namespace InWords.WebApi.gRPC.Services
             };
             WordSetWordsReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
             return reply;
+        }
+
+        public override async Task<Empty> ToDictionary(WordSetWordsRequest request, ServerCallContext context)
+        {
+            var requestObject = new AuthorizedRequestObject<WordSetWordsRequest, Empty>(request)
+            {
+                UserId = context
+                .GetHttpContext()
+                .User.GetUserId()
+            };
+            return await mediator.Send(requestObject).ConfigureAwait(false);
+        }
+
+        public override async Task<WordSetReply> GetSets(Empty request, ServerCallContext context)
+        {
+            var requestObject = new AuthorizedRequestObject<Empty, WordSetReply>(request)
+            {
+                UserId = context
+                .GetHttpContext()
+                .User.GetUserId()
+            };
+            WordSetReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+            return reply;
+        }
+
+        public override async Task<GetLevelsReply> GetLevels(GetLevelsRequest request, ServerCallContext context)
+        {
+            var requestObject = new AuthorizedRequestObject<GetLevelsRequest, GetLevelsReply>(request)
+            {
+                UserId = context
+                .GetHttpContext()
+                .User.GetUserId()
+            };
+            return await mediator.Send(requestObject).ConfigureAwait(false);
+        }
+
+        public override async Task<GetLevelWordsReply> GetLevelWords(GetLevelWordsRequest request, ServerCallContext context)
+        {
+            var requestObject = new AuthorizedRequestObject<GetLevelWordsRequest, GetLevelWordsReply>(request)
+            {
+                UserId = context
+                .GetHttpContext()
+                .User.GetUserId()
+            };
+            return await mediator.Send(requestObject).ConfigureAwait(false);
         }
     }
 }
