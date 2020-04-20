@@ -99,7 +99,6 @@ function Game({
 
   const handleGameEnd = async () => {
     const levelId = trainingLevel.levelId;
-
     const serverLevelId = levelId < 0 ? 0 : levelId;
 
     try {
