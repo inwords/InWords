@@ -24,8 +24,8 @@ function CustomizedGame({
 
   useEffect(() => {
     setProcessedTrainingLevel(processedTrainingLevel => ({
-      ...trainingLevel,
       ...processedTrainingLevel,
+      levelId: trainingLevel.levelId,
       wordTranslations: shuffle([...trainingLevel.wordTranslations])
         .slice(0, +trainingSettings.quantity || 8)
         .map(wordTranslation => ({
