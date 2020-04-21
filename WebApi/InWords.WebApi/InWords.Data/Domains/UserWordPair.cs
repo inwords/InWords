@@ -13,14 +13,9 @@ namespace InWords.Data.Domains
         public bool Background { get; set; }
         [Obsolete] public int WordPairId { get; set; }
         [Obsolete] public bool IsInvertPair { get; set; }
-
-
         [ForeignKey(nameof(UserId))] public virtual User User { get; set; }
-
         public short LearningPeriod { get; set; }
-
         public DateTime TimeGap { get; set; }
-
         public UserWordPair()
         {
 
