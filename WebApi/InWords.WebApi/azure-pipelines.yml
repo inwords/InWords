@@ -36,6 +36,13 @@ steps:
     version: '3.1.101'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/InWords.WebApi/InWords.WebApi.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'http://nuget.org/'
+
 - task: DotNetCoreCLI@2
   displayName: 'build Release'
   inputs:
