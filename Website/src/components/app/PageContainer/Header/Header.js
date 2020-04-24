@@ -12,7 +12,7 @@ import './Header.scss';
 function Header({ routes, rightNodes }) {
   return (
     <header className="header">
-      <Toolbar>
+      <Toolbar className="header__toolbar">
         <div className="header__toolbar-block">
           {routes && (
             <ControlledNavDrawer

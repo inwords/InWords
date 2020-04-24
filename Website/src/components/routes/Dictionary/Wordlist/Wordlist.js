@@ -17,32 +17,21 @@ function Wordlist({ wordPairs, ...rest }) {
   useEffect(() => {
     const listEl = listRef.current;
     const documentElement = document.documentElement;
-    const onResize = debounce(() => {
+
+    const resizeList = () => {
       setListHeight(
         documentElement.clientHeight - listEl.getBoundingClientRect().top
       );
-    }, RESIZE_DELAY);
+    };
+    resizeList();
 
+    const onResize = debounce(resizeList, RESIZE_DELAY);
     window.addEventListener('resize', onResize);
 
     return () => {
       window.removeEventListener('resize', onResize);
     };
   }, []);
-
-  useEffect(() => {
-    const listEl = listRef.current;
-    const documentElement = document.documentElement;
-    let timerId = setTimeout(() => {
-      setListHeight(
-        documentElement.clientHeight - listEl.getBoundingClientRect().top
-      );
-    }, RESIZE_DELAY);
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [listHeight]);
 
   const { open, setOpen, handleClose } = useDialog();
   const [currentWordPair, setCurrentWordPair] = useState();

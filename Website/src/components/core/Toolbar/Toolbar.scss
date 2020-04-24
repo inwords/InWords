@@ -13,6 +13,10 @@
 
   &--variant--regular {
     min-height: 64px;
+
+    @include theme-breakpoints-down(sm) {
+      min-height: 56px;
+    }
   }
 
   &--variant--dense {
