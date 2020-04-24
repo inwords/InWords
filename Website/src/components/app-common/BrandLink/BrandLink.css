@@ -1,9 +1,9 @@
 .iw-brand-link {
   display: flex;
   align-items: center;
-  min-height: 64px;
   font-size: 1rem;
   font-weight: 500;
+  line-height: 1.5;
   letter-spacing: 0.00938em;
   text-transform: uppercase;
   text-decoration: none;
