@@ -6,7 +6,7 @@
 pr:
   branches:
     include:
-      - master
+      - website-release
       - develop
   paths:
     include:
@@ -14,7 +14,7 @@ pr:
 trigger:
   branches:
     include:
-      - master
+      - website-release
       - develop
   paths:
     include:
