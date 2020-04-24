@@ -1,16 +1,15 @@
-const debounce = (f, ms) => {
-  let isReady = true;
+const debounce = (f, delay) => {
+  let timerId = null;
 
   return function () {
-    if (!isReady) return;
+    if (timerId) {
+      clearTimeout(timerId);
+    }
 
-    f.apply(this, arguments);
-
-    isReady = false;
-
-    setTimeout(() => {
-      isReady = true;
-    }, ms);
+    timerId = setTimeout(() => {
+      f.apply(this, arguments);
+      timerId = null;
+    }, delay);
   };
 };
 

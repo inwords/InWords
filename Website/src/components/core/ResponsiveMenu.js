@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import debounce from 'src/utils/debounce';
 import Menu from 'src/components/core/Menu';
 
+const RESIZE_DELAY = 200;
+
 function ResponsiveMenu({ anchorEl, responsive = true, style, ...rest }) {
   const [maxHeight, setMaxHeight] = useState(0);
 
@@ -13,7 +15,7 @@ function ResponsiveMenu({ anchorEl, responsive = true, style, ...rest }) {
 
       const handleResize = debounce(() => {
         setMaxHeight(window.innerHeight - rect.top - rect.height);
-      }, 200);
+      }, RESIZE_DELAY);
 
       window.addEventListener('resize', handleResize);
 
