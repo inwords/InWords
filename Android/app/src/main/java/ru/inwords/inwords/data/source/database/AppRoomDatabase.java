@@ -28,7 +28,7 @@ import ru.inwords.inwords.translation.data.deferred.WordTranslationEntriesListDa
         GameInfoEntity.class,
         LevelScoreRequest.class,
         WordTranslationDeferredEntry.class
-}, version = 5)
+}, version = 6)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
