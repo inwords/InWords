@@ -54,15 +54,6 @@ function SignUp() {
     }
   );
 
-  const handleSubmitAnonymously = async () => {
-    try {
-      const data = await dispatch(signUp(inputs, true));
-      handleSignUpSuccess(data, dispatch, history);
-    } catch (error) {
-      dispatch(setSnackbar({ text: 'Не удалось войти гостем' }));
-    }
-  };
-
   const handleSignInOAuth2 = useCallback(
     async response => {
       const data = await dispatch(
@@ -111,17 +102,6 @@ function SignUp() {
         <EntryButtonContainer>
           <Button type="submit" color="primary" fullWidth large>
             Зарегистрироваться
-          </Button>
-        </EntryButtonContainer>
-        <EntryButtonContainer>
-          <Button
-            type="button"
-            color="default"
-            onClick={handleSubmitAnonymously}
-            fullWidth
-            large
-          >
-            Войти гостем
           </Button>
         </EntryButtonContainer>
         <EntryButtonContainer>
