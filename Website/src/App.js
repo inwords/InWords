@@ -68,7 +68,7 @@ function App() {
                 {userId ? (
                   <Redirect to="/training" />
                 ) : (
-                  <Redirect to="/sign-up" />
+                  <Redirect to="/sign-in" />
                 )}
               </Route>
               <Route path="/sign-in">

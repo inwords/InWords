@@ -3,18 +3,16 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { grantAccess } from 'src/actions/authActions';
-import { signIn, signInOAuth2 } from 'src/actions/authApiActions';
+import { signIn, signUp, signInOAuth2 } from 'src/actions/authApiActions';
 import { saveState } from 'src/localStorage';
 import useForm from 'src/components/core/useForm';
 import Form from 'src/components/core/Form';
 import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
-import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
-import Avatar from 'src/components/core/Avatar';
-import Icon from 'src/components/core/Icon';
 import Button from 'src/components/core/Button';
 import EntryFormPaper from 'src/components/routes-common/EntryFormPaper';
+import EntryInWordsLogo from 'src/components/routes-common/EntryInWordsLogo';
 import EntryLinksContainer from 'src/components/routes-common/EntryLinksContainer';
 import EntryButtonContainer from 'src/components/routes-common/EntryButtonContainer';
 import GSignInButton from 'src/components/routes-common/GSignInButton';
@@ -49,6 +47,15 @@ function SignIn() {
     }
   );
 
+  const handleSubmitAnonymously = async () => {
+    try {
+      const data = await dispatch(signUp(inputs, true));
+      handleSignInSuccess(data, dispatch, history);
+    } catch (error) {
+      dispatch(setSnackbar({ text: 'Не удалось войти гостем' }));
+    }
+  };
+
   const handleSignInOAuth2 = useCallback(
     async response => {
       const data = await dispatch(
@@ -62,12 +69,7 @@ function SignIn() {
 
   return (
     <EntryFormPaper>
-      <Avatar>
-        <Icon>lock</Icon>
-      </Avatar>
-      <Typography component="h1" variant="h5" gutterBottom>
-        Вход
-      </Typography>
+      <EntryInWordsLogo />
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <TextField
@@ -98,6 +100,17 @@ function SignIn() {
         <EntryButtonContainer>
           <Button type="submit" color="primary" fullWidth large>
             Войти
+          </Button>
+        </EntryButtonContainer>
+        <EntryButtonContainer>
+          <Button
+            type="button"
+            color="default"
+            onClick={handleSubmitAnonymously}
+            fullWidth
+            large
+          >
+            Войти гостем
           </Button>
         </EntryButtonContainer>
         <EntryButtonContainer>

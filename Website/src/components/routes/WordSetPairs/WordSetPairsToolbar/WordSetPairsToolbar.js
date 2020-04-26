@@ -6,7 +6,7 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
 
-import './WordSetPairsToolbar.css';
+import './WordSetPairsToolbar.scss';
 
 function WordSetPairsToolbar({
   checkedValues,

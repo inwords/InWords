@@ -34,33 +34,11 @@ const setupGenerally = () => {
   };
 };
 
-const setupAnonymously = () => {
-  const utils = setup();
-  const clickSubmitAsGuest = () =>
-    fireEvent.click(utils.getByText('Войти гостем'));
-
-  return {
-    ...utils,
-    clickSubmitAsGuest
-  };
-};
-
 test('sign up successfully', async () => {
   const utils = setupGenerally();
   utils.changeEmailInput(utils.userData.email);
   utils.changePasswordInput(utils.userData.password);
   utils.clickSubmit();
-
-  await waitFor(() => {
-    expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
-      auth: utils.mockingAccessResponse
-    });
-  });
-});
-
-test('sign up as guest successfully', async () => {
-  const utils = setupAnonymously();
-  utils.clickSubmitAsGuest();
 
   await waitFor(() => {
     expect(JSON.parse(window.localStorage.getItem('state'))).toMatchObject({
