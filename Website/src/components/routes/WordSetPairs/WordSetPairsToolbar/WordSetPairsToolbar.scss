@@ -1,7 +1,13 @@
+@import 'src/theme/mixins';
+
 .word-set-pairs-toolbar {
   position: sticky;
   top: 64px;
   background-color: var(--palette-background-paper);
   z-index: 1;
   border-bottom: 1px solid var(--palette-divider);
+
+  @include theme-breakpoints-down(sm) {
+    top: 56px;
+  }
 }
