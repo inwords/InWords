@@ -23,5 +23,5 @@ message LevelPoints {
 		int32 sevelId = 1;
 		int32 score = 2;
 	}
-	repeated LevelPoints LevelPoints = 1;
+	repeated LevelPoint Points = 1;
 }

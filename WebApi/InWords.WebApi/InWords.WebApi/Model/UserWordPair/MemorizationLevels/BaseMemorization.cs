@@ -1,7 +1,6 @@
-﻿using InWords.WebApi.Model.UserWordPair;
-using System;
+﻿using System;
 
-namespace InWords.WebApi.Services.UserWordPairService.Abstraction
+namespace InWords.WebApi.Model.UserWordPair
 {
     public abstract class BaseMemorization
     {

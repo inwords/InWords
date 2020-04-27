@@ -4,8 +4,6 @@ using InWords.WebApi.Extensions.InWordsDataContext;
 using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Modules.ClassicCardGame.Service;
 using InWords.WebApi.Services.Abstractions;
-using Microsoft.CodeAnalysis.Operations;
-using Org.BouncyCastle.Ocsp;
 using System;
 using System.Linq;
 using System.Threading;
