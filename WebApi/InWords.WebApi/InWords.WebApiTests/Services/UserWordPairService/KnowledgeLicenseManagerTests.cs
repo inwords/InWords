@@ -1,5 +1,5 @@
-﻿using InWords.WebApi.Model.UserWordPair;
-using InWords.WebApi.Services.UserWordPairService.Enum;
+﻿using InWords.Data.DTO.Enums;
+using InWords.WebApi.Model.UserWordPair;
 using System;
 using Xunit;
 using MemorizationCalculator = InWords.WebApi.Services.UserWordPairService.MemorizationCalculator;
@@ -14,14 +14,13 @@ namespace InWords.WebApiTests.Services.UserWordPairService
             // prep
             var licenseManager = new MemorizationCalculator();
             var knowledgeLicense = new Memorization();
-            var knowledgeQuality = KnowledgeQualitys.EasyToRemember;
+            var knowledgeQuality = KnowledgeQualities.EasyToRemember;
             var expectedPeriod = 1;
             // act
             Memorization UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
             bool expectedTimeLarger = UpdatedKnowledgeLicense.RepeatTime > DateTime.UtcNow;
             // assert
-            Assert.Equal(UpdatedKnowledgeLicense.Period, knowledgeLicense.Period);
-            Assert.Equal(UpdatedKnowledgeLicense.RepeatTime, knowledgeLicense.RepeatTime);
+            Assert.NotEqual(UpdatedKnowledgeLicense.RepeatTime, knowledgeLicense.RepeatTime);
             Assert.Equal(expectedPeriod, UpdatedKnowledgeLicense.Period);
             Assert.True(expectedTimeLarger);
         }
@@ -36,7 +35,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService
                 Period = 0,
                 RepeatTime = DateTime.MaxValue
             };
-            var knowledgeQuality = KnowledgeQualitys.EasyToRemember;
+            var knowledgeQuality = KnowledgeQualities.EasyToRemember;
             var expectedPeriod = 0;
             // act
             Memorization UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
@@ -54,7 +53,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService
                 Period = 1,
                 RepeatTime = DateTime.Now
             };
-            var knowledgeQuality = KnowledgeQualitys.NoLongerRemember;
+            var knowledgeQuality = KnowledgeQualities.NoLongerRemember;
             var expectedPeriod = 0;
             // act
             Memorization UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
@@ -72,7 +71,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService
                 Period = 1,
                 RepeatTime = DateTime.Now
             };
-            var knowledgeQuality = KnowledgeQualitys.StillRemember;
+            var knowledgeQuality = KnowledgeQualities.StillRemember;
             var expectedPeriod = 1;
             // act
             Memorization UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
