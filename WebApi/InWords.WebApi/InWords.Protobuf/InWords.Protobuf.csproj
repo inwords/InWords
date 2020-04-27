@@ -5,11 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClassicCardGame.v2.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.28.0" />
     <Protobuf Include="greet.proto" GrpcServices="Server" />
     <Protobuf Include="Auth.v2.proto" GrpcServices="Server" />
     <Protobuf Include="Dictionary.v2.proto" GrpcServices="Server" />
     <Protobuf Include="Profile.v2.proto" GrpcServices="Server" />
+    <Protobuf Include="ClassicCardGame.v2.proto" GrpcServices="Server" />
     <Protobuf Include="WordSet.v2.proto" GrpcServices="Server" />
     <Protobuf Include="Common.v2.proto" GrpcServices="Server" />
   </ItemGroup>

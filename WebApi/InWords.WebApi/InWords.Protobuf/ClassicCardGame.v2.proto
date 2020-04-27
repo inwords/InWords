@@ -1,0 +1,27 @@
+syntax = "proto3";
+option csharp_namespace = "InWords.Protobuf";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.classic_card_game";
+option java_outer_classname = "ClassicCardGameProto";
+
+package ClassicCardGame.v2;
+
+// The greeting service definition.
+service ClassicCardGameProvider {
+	// Sends a greeting
+	rpc Estimate (CardGameMetrics) returns (LevelPoints);
+}
+
+message CardGameMetrics	{
+	int32 gameLevelId = 1;
+	map<string,int32> MyMap = 2;
+}
+
+message LevelPoints {
+	message LevelPoint{
+		int32 sevelId = 1;
+		int32 score = 2;
+	}
+	repeated LevelPoints LevelPoints = 1;
+}
