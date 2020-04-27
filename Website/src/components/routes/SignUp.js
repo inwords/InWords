@@ -64,7 +64,9 @@ function SignUp() {
 
   return (
     <EntryFormPaper>
-      <EntryInWordsLogo />
+      <a href="/">
+        <EntryInWordsLogo />
+      </a>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <TextField
