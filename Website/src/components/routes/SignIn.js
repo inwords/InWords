@@ -3,7 +3,7 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { grantAccess } from 'src/actions/authActions';
-import { signIn, signUp, signInOAuth2 } from 'src/actions/authApiActions';
+import { signIn, signInOAuth2 } from 'src/actions/authApiActions';
 import { saveState } from 'src/localStorage';
 import useForm from 'src/components/core/useForm';
 import Form from 'src/components/core/Form';

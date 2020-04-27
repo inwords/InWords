@@ -1,20 +1,17 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { grantAccess } from 'src/actions/authActions';
 import { signUp } from 'src/actions/authApiActions';
 import { saveState } from 'src/localStorage';
+import Container from 'src/components/core/Container';
 import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
 import Button from 'src/components/core/Button';
 import LinkButton from 'src/components/core/LinkButton';
+import Divider from 'src/components/core/Divider';
 import InWordsLogo from 'src/components/routes-common/InWordsLogo';
-import EntryFormPaper from 'src/components/routes-common/EntryFormPaper';
-import EntryInWordsLogo from 'src/components/routes-common/EntryInWordsLogo';
-import EntryLinksContainer from 'src/components/routes-common/EntryLinksContainer';
-import EntryButtonContainer from 'src/components/routes-common/EntryButtonContainer';
-import GSignInButton from 'src/components/routes-common/GSignInButton';
 
 import './Homepage.scss';
 
@@ -43,7 +40,7 @@ function Homepage() {
   };
 
   return (
-    <div className="homepage">
+    <Fragment>
       <section className="homepage-hero">
         <div className="homepage-hero-content">
           <a href="/">
@@ -52,11 +49,11 @@ function Homepage() {
           <Typography
             component="h1"
             variant="h4"
-            className="homepage-description"
+            className="homepage-hero-description"
           >
             Система изучения иностранной лексики для начинающих
           </Typography>
-          <div className="homepage-buttons-container">
+          <div className="homepage-hero-buttons-container">
             <Button color="primary" large onClick={handleSignInAnonymously}>
               Начать без регистрации
             </Button>
@@ -66,7 +63,32 @@ function Homepage() {
           </div>
         </div>
       </section>
-    </div>
+      <section>
+        <Container maxWidth="md" className="homepage-section-container">
+          <Typography component="h2" variant="h5">
+            Изучайте слова без интернета
+          </Typography>
+          <Typography variant="body1">
+            Загрузите наше приложение для Android
+          </Typography>
+          <a href="https://play.google.com/store/apps/details?id=ru.inwords.inwords&hl=ru&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
+            <img
+              alt="Доступно в Google Play"
+              src="https://play.google.com/intl/en_us/badges/static/images/badges/ru_badge_web_generic.png"
+              className="google-play-img"
+            />
+          </a>
+        </Container>
+      </section>
+      <Divider />
+      <section>
+        <Container maxWidth="md" className="homepage-section-container">
+          <Link href="/policy/website-privacy.html" variant="body1">
+            Политика конфиденциальности
+          </Link>
+        </Container>
+      </section>
+    </Fragment>
   );
 }
 
