@@ -23,19 +23,19 @@ namespace InWords.WebApi.Services.UserWordPairService
             };
         }
 
-        public KnowledgeLicense Update(KnowledgeLicense knowledgeLicense, KnowledgeQualitys knowledgeQuality)
+        public Memorization Update(Memorization knowledgeLicense, KnowledgeQualitys knowledgeQuality)
         {
             if (IsEasyButEarlyToRepeat(knowledgeLicense, knowledgeQuality))
                 knowledgeQuality = KnowledgeQualitys.StillRemember;
             return knowledgeGaranter[knowledgeQuality].Grant(knowledgeLicense);
         }
 
-        private bool IsEasyButEarlyToRepeat(KnowledgeLicense knowledgeLicense, KnowledgeQualitys knowledgeQuality)
+        private bool IsEasyButEarlyToRepeat(Memorization knowledgeLicense, KnowledgeQualitys knowledgeQuality)
         {
             return knowledgeQuality.Equals(KnowledgeQualitys.EasyToRemember) && IsNotGrantingTime(knowledgeLicense);
         }
 
-        private bool IsNotGrantingTime(KnowledgeLicense knowledgeLicense)
+        private bool IsNotGrantingTime(Memorization knowledgeLicense)
         {
             return knowledgeLicense.RepeatTime > DateTime.UtcNow.AddDays(DAYS_GRANTING_TIMESPAN);
         }

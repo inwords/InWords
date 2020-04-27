@@ -106,8 +106,8 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             IQueryable<UserWordPair> userWordPairs =
                 Context.UserWordPairs
                     .Where(d => knowledgeQualities.Keys.Any(x => x.Equals(d.WordPairId)));
-            Dictionary<UserWordPair, KnowledgeLicense> dictionary = userWordPairs
-                .ToDictionary(u => u, u => new KnowledgeLicense()
+            Dictionary<UserWordPair, Memorization> dictionary = userWordPairs
+                .ToDictionary(u => u, u => new Memorization()
                 {
                     Period = u.LearningPeriod,
                     RepeatTime = u.TimeGap

@@ -88,7 +88,7 @@ namespace InWords.WebApi.Services.UserWordPairService
                 KnowledgeQualitys quality = PairKnowledges[userWordPair.WordPairId];
 
                 // get wordpair license
-                KnowledgeLicense knowledgeLicense = userWordPair.GetLicense();
+                Memorization knowledgeLicense = userWordPair.GetLicense();
 
                 // update license by license and quality
                 knowledgeLicense = knowledgeLicenseCalculator.Update(knowledgeLicense, quality);

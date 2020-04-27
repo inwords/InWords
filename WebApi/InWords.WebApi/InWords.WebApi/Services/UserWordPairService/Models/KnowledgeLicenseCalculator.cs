@@ -18,19 +18,19 @@ namespace InWords.WebApi.Services.UserWordPairService.Models
             {KnowledgeQualities.NoLongerRemember, new UncertainKnowledge()}
         };
 
-        public static KnowledgeLicense Update(KnowledgeLicense knowledgeLicense, KnowledgeQualities knowledgeQuality)
+        public static Memorization Update(Memorization knowledgeLicense, KnowledgeQualities knowledgeQuality)
         {
             if (IsEasyButEarlyToRepeat(knowledgeLicense, knowledgeQuality))
                 knowledgeQuality = KnowledgeQualities.StillRemember;
             return KnowledgeLicenseProviders[knowledgeQuality].Grant(knowledgeLicense);
         }
 
-        private static bool IsEasyButEarlyToRepeat(KnowledgeLicense knowledgeLicense, KnowledgeQualities knowledgeQuality)
+        private static bool IsEasyButEarlyToRepeat(Memorization knowledgeLicense, KnowledgeQualities knowledgeQuality)
         {
             return knowledgeQuality.Equals(KnowledgeQualitys.EasyToRemember) && IsNotGrantingTime(knowledgeLicense);
         }
 
-        private static bool IsNotGrantingTime(KnowledgeLicense knowledgeLicense)
+        private static bool IsNotGrantingTime(Memorization knowledgeLicense)
         {
             return knowledgeLicense.RepeatTime > DateTime.UtcNow.AddDays(DAYS_GRANTING_TIMESPAN);
         }

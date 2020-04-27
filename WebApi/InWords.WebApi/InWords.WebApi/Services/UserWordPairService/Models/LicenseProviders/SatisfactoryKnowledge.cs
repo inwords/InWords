@@ -4,7 +4,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders
 {
     public class SatisfactoryKnowledge : KnowledgeLicenseProvider
     {
-        public override KnowledgeLicense Grant(KnowledgeLicense knowledgeLicense)
+        public override Memorization Grant(Memorization knowledgeLicense)
         {
             return base.Grant(knowledgeLicense);
         }

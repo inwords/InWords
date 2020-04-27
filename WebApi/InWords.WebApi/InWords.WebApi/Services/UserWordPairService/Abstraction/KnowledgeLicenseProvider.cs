@@ -5,7 +5,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {
     public abstract class KnowledgeLicenseProvider
     {
-        public virtual KnowledgeLicense Grant(KnowledgeLicense knowledgeLicense)
+        public virtual Memorization Grant(Memorization knowledgeLicense)
         {
             int days = Ebbinghaus(knowledgeLicense.Period);
             knowledgeLicense.RepeatTime = DateTime.UtcNow.AddDays(days);
