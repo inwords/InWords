@@ -15,7 +15,7 @@ service ClassicCardGameProvider {
 
 message CardGameMetrics	{
 	int32 gameLevelId = 1;
-	map<string,int32> MyMap = 2;
+	map<int32,int32> wordIdOpenCount = 2;
 }
 
 message LevelPoints {

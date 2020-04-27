@@ -1,5 +1,5 @@
 ﻿using InWords.Data.DTO.GameBox.LevelMetric;
-using InWords.WebApi.Services.UserWordPairService.Abstraction;
+using InWords.WebApi.Modules.Abstractions;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using System;
 using System.Collections.Generic;

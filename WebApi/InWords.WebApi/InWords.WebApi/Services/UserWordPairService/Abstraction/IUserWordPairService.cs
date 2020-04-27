@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using InWords.WebApi.Modules.Abstractions;
+using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {

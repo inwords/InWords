@@ -1,5 +1,6 @@
 ﻿using InWords.Data.Domains;
 using InWords.Data.Repositories;
+using InWords.WebApi.Modules.Abstractions;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Extension;
