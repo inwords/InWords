@@ -183,7 +183,7 @@ function Homepage() {
                 gutterBottom
                 className="homepage-feature-title"
               >
-                Свой собственней словарь
+                Свой собственный словарь
               </Typography>
               <Typography
                 component="h2"
