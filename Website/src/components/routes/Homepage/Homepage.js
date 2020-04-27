@@ -11,7 +11,14 @@ import Link from 'src/components/core/Link';
 import Button from 'src/components/core/Button';
 import LinkButton from 'src/components/core/LinkButton';
 import Divider from 'src/components/core/Divider';
+import Grid from 'src/components/core/Grid';
+import GridItem from 'src/components/core/GridItem';
 import InWordsLogo from 'src/components/routes-common/InWordsLogo';
+
+import coursesPicture from './courses.png';
+import levelsPicture from './levels.png';
+import gamePicture from './game.png';
+import dictionaryPicture from './dictionary.png';
 
 import './Homepage.scss';
 
@@ -63,6 +70,137 @@ function Homepage() {
           </div>
         </div>
       </section>
+      <section>
+        <Container maxWidth="lg" className="homepage-section-container">
+          <Grid spacing={3} className="homepage-feature">
+            <GridItem xs={12} md={6}>
+              <Typography
+                component="h2"
+                variant="h5"
+                gutterBottom
+                className="homepage-feature-title"
+              >
+                Множество готовых тем
+              </Typography>
+              <Typography
+                component="h2"
+                variant="body1"
+                className="homepage-feature-description"
+              >
+                Более 14 различных тем, включающих в себя самые используемые и
+                необходимые слова. Каждая тема состоит из нескольких уровней,
+                упрощающих изучение слов.
+              </Typography>
+            </GridItem>
+            <GridItem
+              xs={12}
+              md={6}
+              className="homepage-feature-img-container-r"
+            >
+              <img
+                src={coursesPicture}
+                alt="courses"
+                className="homepage-app-img"
+              />
+            </GridItem>
+          </Grid>
+          <Grid spacing={3} className="homepage-feature">
+            <GridItem
+              xs={12}
+              md={6}
+              className="homepage-feature-img-container-l"
+            >
+              <img
+                src={levelsPicture}
+                alt="levels"
+                className="homepage-app-img"
+              />
+            </GridItem>
+            <GridItem xs={12} md={6}>
+              <Typography
+                component="h2"
+                variant="h5"
+                gutterBottom
+                className="homepage-feature-title"
+              >
+                Уровни с возрастающей сложностью
+              </Typography>
+              <Typography
+                component="h2"
+                variant="body1"
+                className="homepage-feature-description"
+              >
+                С каждым новым уровнем увеличивается количество слов на игровом
+                поле, а также их сложность, что делает процесс обучения более
+                плавным и увлекательным.
+              </Typography>
+            </GridItem>
+          </Grid>
+          <Grid spacing={3} className="homepage-feature">
+            <GridItem xs={12} md={6}>
+              <Typography
+                component="h2"
+                variant="h5"
+                gutterBottom
+                className="homepage-feature-title"
+              >
+                Тренировка в виде игры
+              </Typography>
+              <Typography
+                component="h2"
+                variant="body1"
+                className="homepage-feature-description"
+              >
+                Благодаря простой игре можно не только запоминать слова, но и
+                тренировать память, запоминая размещение карточек на игровом
+                поле.
+              </Typography>
+            </GridItem>
+            <GridItem
+              xs={12}
+              md={6}
+              className="homepage-feature-img-container-r"
+            >
+              <img src={gamePicture} alt="game" className="homepage-app-img" />
+            </GridItem>
+          </Grid>
+          <Grid spacing={3} className="homepage-feature">
+            <GridItem
+              xs={12}
+              md={6}
+              className="homepage-feature-img-container-l"
+            >
+              <img
+                src={dictionaryPicture}
+                alt="dictionary"
+                className="homepage-app-img"
+              />
+            </GridItem>
+            <GridItem xs={12} md={6}>
+              <Typography
+                component="h2"
+                variant="h5"
+                gutterBottom
+                className="homepage-feature-title"
+              >
+                Свой собственней словарь
+              </Typography>
+              <Typography
+                component="h2"
+                variant="body1"
+                className="homepage-feature-description"
+              >
+                Слова из тем, а также любые другие слова можно добавлять в
+                личный словарь и составлять из них свои свои собственные
+                тренировки. Кроме того, тренировки по словам из словаря будут
+                создаваться автоматически через некоторые промежутки времени,
+                способствуя более качественному изучению слов.
+              </Typography>
+            </GridItem>
+          </Grid>
+        </Container>
+      </section>
+      <Divider />
       <section>
         <Container maxWidth="md" className="homepage-section-container">
           <Typography component="h2" variant="h5" gutterBottom>
