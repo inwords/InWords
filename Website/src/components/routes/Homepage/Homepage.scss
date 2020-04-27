@@ -20,24 +20,38 @@
   max-width: var(--breakpoints-md);
 }
 
-.homepage-hero-description {
-  margin-top: 32px;
+.homepage-hero-title {
+  margin-top: 24px;
   text-align: center;
 }
 
+.homepage-hero-description {
+  margin-top: 24px;
+  text-align: center;
+
+  @include theme-typography(body1);
+
+  font-size: 1.25rem;
+}
+
 .homepage-hero-buttons-container {
-  margin-top: 16px;
+  margin-top: 32px;
   margin-bottom: 16px;
   display: flex;
+  flex: 1;
   justify-content: center;
-  flex-wrap: wrap;
-
-  & > * {
-    margin-top: 16px;
-  }
 
   & > :first-child {
-    margin-right: 16px;
+    margin-right: 24px;
+  }
+
+  @include theme-breakpoints-down(sm) {
+    flex-direction: column;
+
+    & > :first-child {
+      margin-right: 0;
+      margin-bottom: 16px;
+    }
   }
 }
 

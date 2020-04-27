@@ -49,7 +49,7 @@ function Homepage() {
           <Typography
             component="h1"
             variant="h4"
-            className="homepage-hero-description"
+            className="homepage-hero-title"
           >
             Система изучения иностранной лексики для начинающих
           </Typography>
@@ -65,10 +65,10 @@ function Homepage() {
       </section>
       <section>
         <Container maxWidth="md" className="homepage-section-container">
-          <Typography component="h2" variant="h5">
+          <Typography component="h2" variant="h5" gutterBottom>
             Изучайте слова без интернета
           </Typography>
-          <Typography variant="body1">
+          <Typography variant="body1" gutterBottom>
             Загрузите наше приложение для Android
           </Typography>
           <a href="https://play.google.com/store/apps/details?id=ru.inwords.inwords&hl=ru&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
