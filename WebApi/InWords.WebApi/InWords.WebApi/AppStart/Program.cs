@@ -12,12 +12,11 @@ using System.Net;
 
 namespace InWords.WebApi.AppStart
 {
-    public class Program
+    public static class Program
     {
-        public static IList<InModule> InModules;
+        public static IList<InModule> InModules = InModule.FindModules();
         public static void Main(string[] args)
         {
-            InModules = InModule.FindModules();
             CreateWebHostBuilder(args).Build().Run();
         }
 
@@ -30,7 +29,7 @@ namespace InWords.WebApi.AppStart
                     string INWHTTP = Environment.GetEnvironmentVariable("INWHTTP");
                     string INWHTTPS = Environment.GetEnvironmentVariable("INWHTTPS");
                     string INWHTTPS2 = Environment.GetEnvironmentVariable("INWHTTPS2");
-                    Console.WriteLine($"Enviroment {INWHTTP} {INWHTTPS} {INWHTTPS2}");
+                    Console.WriteLine($"Environment {INWHTTP} {INWHTTPS} {INWHTTPS2}");
                     int http = int.Parse(INWHTTP, NumberFormatInfo.InvariantInfo);
                     int https = int.Parse(INWHTTPS, NumberFormatInfo.InvariantInfo);
                     int https2 = int.Parse(INWHTTPS2, NumberFormatInfo.InvariantInfo);
