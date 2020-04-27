@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using InWords.Data.DTO.Abstractions;
+using InWords.Data.DTO.Enums;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using InWords.Data.DTO.Abstractions;
-using InWords.Data.DTO.Enums;
 
 namespace InWords.Data.DTO.Games.Levels
 {

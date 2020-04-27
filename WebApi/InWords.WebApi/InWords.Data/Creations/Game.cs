@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using InWords.Data.Creations.GameBox;
+using InWords.Data.Domains;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using InWords.Data.Creations.GameBox;
-using InWords.Data.Domains;
 
 namespace InWords.Data.Creations
 {

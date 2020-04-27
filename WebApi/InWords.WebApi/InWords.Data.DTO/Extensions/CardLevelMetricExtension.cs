@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using InWords.Data.DTO.GameBox.LevelMetric;
+using System;
 using System.Linq;
-using InWords.Data.DTO.GameBox.LevelMetric;
 
 namespace InWords.Data.DTO.Extensions
 {
