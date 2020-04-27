@@ -19,11 +19,11 @@
   }
 
   &__main {
-    padding-top: 88px;
+    margin-top: 64px;
     flex-grow: 1;
 
     @include theme-breakpoints-down(sm) {
-      padding-top: 80px;
+      margin-top: 56px;
     }
 
     &--has-nav {

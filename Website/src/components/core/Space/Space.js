@@ -4,12 +4,22 @@ import classNames from 'classnames';
 
 import './Space.scss';
 
-function Space({ value = 'auto', className, ...rest }) {
-  return <span className={classNames(`space-${value}`, className)} {...rest} />;
+function Space({ x = 'auto', className, ...rest }) {
+  return (
+    <span
+      className={classNames(
+        {
+          [`space-${x}`]: x
+        },
+        className
+      )}
+      {...rest}
+    />
+  );
 }
 
 Space.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  x: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   className: PropTypes.string
 };
 

@@ -14,6 +14,9 @@ import NotFound from 'src/components/routes/NotFound';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
 
+const Homepage = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/Homepage')
+);
 const SignIn = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/SignIn')
 );
@@ -65,11 +68,10 @@ function App() {
           <Suspense fallback={<PageProgress />}>
             <Switch>
               <Route exact path="/">
-                {userId ? (
-                  <Redirect to="/training" />
-                ) : (
-                  <Redirect to="/sign-in" />
-                )}
+                {userId ? <Redirect to="/training" /> : <Redirect to="/home" />}
+              </Route>
+              <Route path="/home">
+                <Homepage />
               </Route>
               <Route path="/sign-in">
                 <Container maxWidth="xs">

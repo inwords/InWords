@@ -1,0 +1,45 @@
+@import 'src/theme/mixins';
+
+.homepage {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.homepage-hero {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include theme-breakpoints-down(sm) {
+    min-height: calc(100vh - 56px);
+  }
+}
+
+.homepage-hero-content {
+  margin: auto 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: var(--breakpoints-sm);
+}
+
+.homepage-description {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.homepage-buttons-container {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  & > * {
+    margin-top: 16px;
+  }
+
+  & > :first-child {
+    margin-right: 16px;
+  }
+}
