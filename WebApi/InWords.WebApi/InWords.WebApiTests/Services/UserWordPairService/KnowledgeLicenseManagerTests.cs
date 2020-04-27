@@ -1,8 +1,8 @@
-﻿using InWords.WebApi.Services.UserWordPairService.Enum;
-using InWords.WebApi.Services.UserWordPairService.Models;
+﻿using InWords.WebApi.Model.UserWordPair;
+using InWords.WebApi.Services.UserWordPairService.Enum;
 using System;
 using Xunit;
-using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.KnowledgeLicenseCalculator;
+using MemorizationCalculator = InWords.WebApi.Services.UserWordPairService.MemorizationCalculator;
 
 namespace InWords.WebApiTests.Services.UserWordPairService
 {
@@ -12,7 +12,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService
         public void EasyToRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseCalculator();
+            var licenseManager = new MemorizationCalculator();
             var knowledgeLicense = new Memorization();
             var knowledgeQuality = KnowledgeQualitys.EasyToRemember;
             var expectedPeriod = 1;
@@ -30,7 +30,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService
         public void EasyToRememberButEarlyRepeatGranting()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseCalculator();
+            var licenseManager = new MemorizationCalculator();
             var knowledgeLicense = new Memorization
             {
                 Period = 0,
@@ -48,7 +48,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService
         public void NoLongerRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseCalculator();
+            var licenseManager = new MemorizationCalculator();
             var knowledgeLicense = new Memorization
             {
                 Period = 1,
@@ -66,7 +66,7 @@ namespace InWords.WebApiTests.Services.UserWordPairService
         public void StillRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseCalculator();
+            var licenseManager = new MemorizationCalculator();
             var knowledgeLicense = new Memorization
             {
                 Period = 1,

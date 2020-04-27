@@ -1,15 +1,15 @@
-﻿using InWords.WebApi.Services.UserWordPairService.Models;
+﻿using InWords.WebApi.Model.UserWordPair;
 using System;
 
 namespace InWords.WebApi.Services.UserWordPairService.Abstraction
 {
-    public abstract class KnowledgeLicenseProvider
+    public abstract class BaseMemorization
     {
-        public virtual Memorization Grant(Memorization knowledgeLicense)
+        public virtual Memorization Grant(Memorization currentMemorization)
         {
-            int days = Ebbinghaus(knowledgeLicense.Period);
-            knowledgeLicense.RepeatTime = DateTime.UtcNow.AddDays(days);
-            return knowledgeLicense;
+            int days = Ebbinghaus(currentMemorization.Period);
+            currentMemorization.RepeatTime = DateTime.UtcNow.AddDays(days);
+            return currentMemorization;
         }
 
         /// <summary>

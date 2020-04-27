@@ -1,6 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Protobuf;
-using InWords.WebApi.Modules.Abstractions;
+using InWords.WebApi.Extensions.InWordsDataContext;
+using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Modules.ClassicCardGame.Service;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.CodeAnalysis.Operations;
@@ -20,7 +21,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
 
         }
 
-        public override Task<LevelPoints> HandleRequest(
+        public override async Task<LevelPoints> HandleRequest(
             AuthorizedRequestObject<CardGameMetrics, LevelPoints> request,
             CancellationToken cancellationToken = default)
         {
@@ -36,13 +37,16 @@ namespace InWords.WebApi.Modules.ClassicCardGame
             // find words knowlenge info in user's words pairs
             int[] metricsWordIds = value.WordIdOpenCount.Keys.ToArray();
             var existedWords = userWords.Where(d => metricsWordIds.Contains(d.UserWordPairId)).ToArray();
-            // update knowlenge
+            // calculate memorization
             IKnowledgeQualifier knowledgeQualifier = new CardGameQualifier(value.WordIdOpenCount.ToDictionary(t => t.Key, t => t.Value));
             var license = knowledgeQualifier.Qualify();
-            
-            // save changes return score
+            // update memorization
+            existedWords.UpdateMemorisation(license);
+            await Context.SaveChangesAsync().ConfigureAwait(false);
 
-            return base.HandleRequest(request, cancellationToken);
+            // calculate level points and save
+
+            throw new NotImplementedException();
         }
     }
 }

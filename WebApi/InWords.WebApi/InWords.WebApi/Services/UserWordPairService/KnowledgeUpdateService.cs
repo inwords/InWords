@@ -1,10 +1,9 @@
 ﻿using InWords.Data.Domains;
+using InWords.Data.DTO.Enums;
 using InWords.Data.Repositories;
-using InWords.WebApi.Modules.Abstractions;
+using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Services.UserWordPairService.Abstraction;
-using InWords.WebApi.Services.UserWordPairService.Enum;
 using InWords.WebApi.Services.UserWordPairService.Extension;
-using InWords.WebApi.Services.UserWordPairService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +14,13 @@ namespace InWords.WebApi.Services.UserWordPairService
     [Obsolete]
     public class KnowledgeUpdateService : IUserWordPairService
     {
-        private readonly KnowledgeLicenseCalculator knowledgeLicenseCalculator;
+        private readonly MemorizationCalculator knowledgeLicenseCalculator;
         private readonly UserWordPairRepository userWordPairRepository;
 
         public KnowledgeUpdateService(UserWordPairRepository userWordPairRepository)
         {
             this.userWordPairRepository = userWordPairRepository;
-            knowledgeLicenseCalculator = new KnowledgeLicenseCalculator();
+            knowledgeLicenseCalculator = new MemorizationCalculator();
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace InWords.WebApi.Services.UserWordPairService
 
         private IEnumerable<UserWordPair> CalculateKnowledgeUpdate(int userid, IKnowledgeQualifier knowledgeQualifier)
         {
-            Dictionary<int, KnowledgeQualitys> knowledgeQuality = knowledgeQualifier.Qualify();
+            Dictionary<int, KnowledgeQualities> knowledgeQuality = knowledgeQualifier.Qualify();
             // load all user words
             IEnumerable<UserWordPair> userWordPairs = userWordPairRepository.GetWhere(u =>
                 knowledgeQuality.ContainsKey(u.WordPairId) && u.UserId.Equals(userid));
@@ -79,13 +78,13 @@ namespace InWords.WebApi.Services.UserWordPairService
         /// <param name="PairKnowledges"></param>
         /// <returns></returns>
         private IEnumerable<UserWordPair> UpdateLicenseInformation(IEnumerable<UserWordPair> userWordPairs,
-            Dictionary<int, KnowledgeQualitys> PairKnowledges)
+            Dictionary<int, KnowledgeQualities> PairKnowledges)
         {
             // for every word pair in user dictionary 
             foreach (UserWordPair userWordPair in userWordPairs)
             {
                 // get quality from qualifier
-                KnowledgeQualitys quality = PairKnowledges[userWordPair.WordPairId];
+                KnowledgeQualities quality = PairKnowledges[userWordPair.WordPairId];
 
                 // get wordpair license
                 Memorization knowledgeLicense = userWordPair.GetLicense();

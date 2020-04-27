@@ -3,16 +3,15 @@ using InWords.Data.Creations.GameBox;
 using InWords.Data.Domains;
 using InWords.Data.DTO.Enums;
 using InWords.Data.DTO.Games.Levels;
+using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService.Requests.AddCustomLevelHistory;
-using InWords.WebApi.Services.UserWordPairService.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.Models.KnowledgeLicenseCalculator;
 
 namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
 {
@@ -117,7 +116,7 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             foreach (UserWordPair uwp in dictionary.Keys)
             {
                 var knowledgeLicense =
-                    KnowledgeLicenseCalculator.Update(dictionary[uwp], knowledgeQualities[uwp.WordPairId]);
+                    MemorizationCalculator.Update(dictionary[uwp], knowledgeQualities[uwp.WordPairId]);
                 uwp.LearningPeriod = knowledgeLicense.Period;
                 uwp.TimeGap = knowledgeLicense.RepeatTime;
             }

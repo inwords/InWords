@@ -1,6 +1,6 @@
 ﻿using InWords.Data.DTO.Extensions;
 using InWords.Data.DTO.GameBox.LevelMetric;
-using InWords.WebApi.Modules.Abstractions;
+using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.GameService;
 using InWords.WebApi.Services.UserWordPairService;

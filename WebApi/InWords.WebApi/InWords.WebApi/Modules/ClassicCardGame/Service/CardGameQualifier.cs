@@ -1,8 +1,8 @@
 ﻿using InWords.Common.Extensions;
+using InWords.Data.DTO.Enums;
 using InWords.Data.DTO.GameBox.LevelMetric;
 using InWords.Protobuf;
-using InWords.WebApi.Modules.Abstractions;
-using InWords.WebApi.Services.UserWordPairService.Enum;
+using InWords.WebApi.Model.UserWordPair;
 using System;
 using System.Collections.Generic;
 
@@ -16,9 +16,9 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Service
             this.levelMetricQuery = levelMetricQuery;
         }
 
-        Dictionary<int, KnowledgeQualitys> IKnowledgeQualifier.Qualify()
+        Dictionary<int, KnowledgeQualities> IKnowledgeQualifier.Qualify()
         {
-            var qualifyPairs = new Dictionary<int, KnowledgeQualitys>();
+            var qualifyPairs = new Dictionary<int, KnowledgeQualities>();
 
             levelMetricQuery.ForEach((metric) =>
             {
@@ -28,13 +28,13 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Service
             return qualifyPairs;
         }
 
-        private KnowledgeQualitys QualityOfPair(int openCounts)
+        private KnowledgeQualities QualityOfPair(int openCounts)
         {
             return openCounts switch
             {
-                var o when o <= 4 => KnowledgeQualitys.EasyToRemember,
-                5 => KnowledgeQualitys.StillRemember,
-                _ => KnowledgeQualitys.NoLongerRemember,
+                var o when o <= 4 => KnowledgeQualities.EasyToRemember,
+                5 => KnowledgeQualities.StillRemember,
+                _ => KnowledgeQualities.NoLongerRemember,
             };
         }
     }

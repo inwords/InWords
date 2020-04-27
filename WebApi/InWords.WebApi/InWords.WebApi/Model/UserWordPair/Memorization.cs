@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace InWords.WebApi.Services.UserWordPairService.Models
+namespace InWords.WebApi.Model.UserWordPair
 {
     public struct Memorization : IEquatable<Memorization>
     {
@@ -10,9 +10,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Models
 
         public override bool Equals(object? obj)
         {
-            return obj is Memorization license &&
-                   Period == license.Period &&
-                   RepeatTime == license.RepeatTime;
+            return obj is Memorization license && Equals(license);
         }
 
         public bool Equals([AllowNull] Memorization other)

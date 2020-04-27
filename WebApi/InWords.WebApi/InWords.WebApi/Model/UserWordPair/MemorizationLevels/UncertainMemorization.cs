@@ -1,9 +1,10 @@
-﻿using InWords.WebApi.Services.UserWordPairService.Abstraction;
+﻿using InWords.WebApi.Model.UserWordPair;
+using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using System;
 
-namespace InWords.WebApi.Services.UserWordPairService.Models.LicenseProviders
+namespace InWords.WebApi.Model.UserWordPair.MemorizationLevels
 {
-    public class UncertainKnowledge : KnowledgeLicenseProvider
+    public class UncertainMemorization : BaseMemorization
     {
         public override Memorization Grant(Memorization knowledgeLicense)
         {
