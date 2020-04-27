@@ -28,7 +28,7 @@ function NavDrawer({ open, handleClose, routes }) {
         >
           <Icon>menu</Icon>
         </IconButton>
-        <Space value={2} />
+        <Space x={2} />
         <BrandLink>InWords</BrandLink>
       </Toolbar>
       <Divider />

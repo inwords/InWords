@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import Container from 'src/components/core/Container';
+import RouteContainer from 'src/components/app-common/RouteContainer';
 import Breadcrumbs from 'src/components/core/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 
@@ -24,12 +24,12 @@ function DictionaryRouter() {
   return (
     <Switch>
       <Route exact path={url}>
-        <Container maxWidth="md">
+        <RouteContainer maxWidth="md">
           <Dictionary />
-        </Container>
+        </RouteContainer>
       </Route>
       <Route exact path={`${url}/training/-1`}>
-        <Container maxWidth="lg">
+        <RouteContainer maxWidth="lg">
           <Breadcrumbs>
             <BreadcrumbsLink to={url}>Мой словарь</BreadcrumbsLink>
             <BreadcrumbsLink to={`${url}/training/-1`}>
@@ -37,13 +37,13 @@ function DictionaryRouter() {
             </BreadcrumbsLink>
           </Breadcrumbs>
           <DictionaryTrainingTypes />
-        </Container>
+        </RouteContainer>
       </Route>
       <Route
         exact
         path={`${url}/training/:levelId/:trainingId`}
         render={({ match: { params } }) => (
-          <Container maxWidth="lg">
+          <RouteContainer maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={url}>Мой словарь</BreadcrumbsLink>
               <BreadcrumbsLink to={`${url}/training/-1`}>
@@ -56,7 +56,7 @@ function DictionaryRouter() {
               </BreadcrumbsLink>
             </Breadcrumbs>
             <MainTrainingSwitcher redirectionUrl="/dictionary" />
-          </Container>
+          </RouteContainer>
         )}
       />
     </Switch>

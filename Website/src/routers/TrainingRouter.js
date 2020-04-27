@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Route, Switch, Redirect, useRouteMatch } from 'react-router-dom';
-import Container from 'src/components/core/Container';
+import RouteContainer from 'src/components/app-common/RouteContainer';
 import Breadcrumbs from 'src/components/core/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 
@@ -44,15 +44,15 @@ function TrainingRouter() {
         <Redirect to={`${url}/main/0`} />
       </Route>
       <Route exact path={`${url}/main/0`}>
-        <Container maxWidth="lg">
+        <RouteContainer maxWidth="lg">
           <MainTrainingTypes />
-        </Container>
+        </RouteContainer>
       </Route>
       <Route
         exact
         path={`${url}/main/:levelId/:trainingId`}
         render={({ match: { params } }) => (
-          <Container maxWidth="lg">
+          <RouteContainer maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/main/0`}>Тренировки</BreadcrumbsLink>
               <BreadcrumbsLink
@@ -62,19 +62,19 @@ function TrainingRouter() {
               </BreadcrumbsLink>
             </Breadcrumbs>
             <MainTrainingSwitcher redirectionUrl="/training/main/0" />
-          </Container>
+          </RouteContainer>
         )}
       />
       <Route exact path={`${url}/history`}>
-        <Container maxWidth="lg">
+        <RouteContainer maxWidth="lg">
           <TrainingHistory />
-        </Container>
+        </RouteContainer>
       </Route>
       <Route
         exact
         path={`${url}/history/:levelId/:trainingId`}
         render={({ match: { params } }) => (
-          <Container maxWidth="lg">
+          <RouteContainer maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
               <BreadcrumbsLink
@@ -84,19 +84,19 @@ function TrainingRouter() {
               </BreadcrumbsLink>
             </Breadcrumbs>
             <HistoryTrainingSwitcher />
-          </Container>
+          </RouteContainer>
         )}
       />
       <Route exact path={`${url}/courses`}>
-        <Container maxWidth="lg">
+        <RouteContainer maxWidth="lg">
           <WordSets />
-        </Container>
+        </RouteContainer>
       </Route>
       <Route
         exact
         path={`${url}/courses/:wordSetId/word-pairs`}
         render={({ match: { params } }) => (
-          <Container maxWidth="md">
+          <RouteContainer maxWidth="md">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
               <BreadcrumbsLink
@@ -106,14 +106,14 @@ function TrainingRouter() {
               </BreadcrumbsLink>
             </Breadcrumbs>
             <WordSetPairs />
-          </Container>
+          </RouteContainer>
         )}
       />
       <Route
         exact
         path={`${url}/courses/:wordSetId`}
         render={({ match: { params } }) => (
-          <Container maxWidth="lg">
+          <RouteContainer maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
               <BreadcrumbsLink to={`${url}/courses/${params.wordSetId}`}>
@@ -121,14 +121,14 @@ function TrainingRouter() {
               </BreadcrumbsLink>
             </Breadcrumbs>
             <WordSetLevels />
-          </Container>
+          </RouteContainer>
         )}
       />
       <Route
         exact
         path={`${url}/courses/:wordSetId/:levelId/:trainingId`}
         render={({ match: { params } }) => (
-          <Container maxWidth="lg">
+          <RouteContainer maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/courses`}>Курсы</BreadcrumbsLink>
               <BreadcrumbsLink to={`${url}/courses/${params.wordSetId}`}>
@@ -141,7 +141,7 @@ function TrainingRouter() {
               </BreadcrumbsLink>
             </Breadcrumbs>
             <WordSetTrainingSwitcher />
-          </Container>
+          </RouteContainer>
         )}
       />
     </Switch>

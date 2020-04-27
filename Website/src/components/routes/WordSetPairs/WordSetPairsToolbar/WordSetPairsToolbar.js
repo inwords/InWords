@@ -36,7 +36,7 @@ function WordSetPairsToolbar({
       >
         <Icon>done_all</Icon>
       </IconButton>
-      <Space value={1} />
+      <Space x={1} />
       <div style={{ display: selectionAvailable ? 'block' : 'none' }}>
         <Typography component="h2" variant="h6">
           Выбрано: {numberOfChecked}

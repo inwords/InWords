@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import history from 'src/history';
 import useOAuth2 from 'src/components/app/useOAuth2';
 import ErrorBoundary from 'src/components/app/ErrorBoundary';
-import Container from 'src/components/core/Container';
+import RouteContainer from 'src/components/app-common/RouteContainer';
 import ScrollToTop from 'src/components/core/ScrollToTop';
 import PageProgress from 'src/components/app/PageProgress';
 import SmartSnackbar from 'src/components/app/SmartSnackbar';
@@ -14,6 +14,9 @@ import NotFound from 'src/components/routes/NotFound';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
 
+const Homepage = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/Homepage')
+);
 const SignIn = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/SignIn')
 );
@@ -24,7 +27,18 @@ const Profile = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/Profile')
 );
 
-const routes = [
+const commonRoutes = [
+  {
+    to: '/sign-in',
+    text: 'Вход'
+  },
+  {
+    to: '/sign-up',
+    text: 'Регистрация'
+  }
+];
+
+const privateRoutes = [
   {
     to: '/dictionary',
     text: 'Словарь'
@@ -58,33 +72,32 @@ function App() {
     <Router history={history}>
       <ScrollToTop />
       <PageContainer
-        routes={userId ? routes : null}
+        routes={userId ? privateRoutes : commonRoutes}
         rightNodes={userId ? [<ControlledProfileMenu key={0} />] : null}
       >
         <ErrorBoundary>
           <Suspense fallback={<PageProgress />}>
             <Switch>
               <Route exact path="/">
-                {userId ? (
-                  <Redirect to="/training" />
-                ) : (
-                  <Redirect to="/sign-in" />
-                )}
+                {userId ? <Redirect to="/training" /> : <Redirect to="/home" />}
+              </Route>
+              <Route path="/home">
+                <Homepage />
               </Route>
               <Route path="/sign-in">
-                <Container maxWidth="xs">
+                <RouteContainer maxWidth="xs">
                   <SignIn />
-                </Container>
+                </RouteContainer>
               </Route>
               <Route path="/sign-up">
-                <Container maxWidth="xs">
+                <RouteContainer maxWidth="xs">
                   <SignUp />
-                </Container>
+                </RouteContainer>
               </Route>
               <Route path="/profile">
-                <Container maxWidth="md">
+                <RouteContainer maxWidth="md">
                   <Profile />
-                </Container>
+                </RouteContainer>
               </Route>
               <Route path="/dictionary">
                 <DictionaryRouter />
@@ -93,7 +106,9 @@ function App() {
                 <TrainingRouter />
               </Route>
               <Route path="*">
-                <NotFound />
+                <RouteContainer maxWidth="md">
+                  <NotFound />
+                </RouteContainer>
               </Route>
             </Switch>
           </Suspense>
