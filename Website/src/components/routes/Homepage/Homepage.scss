@@ -22,16 +22,8 @@
 
 .homepage-hero-title {
   margin-top: 24px;
+  padding: 8px;
   text-align: center;
-}
-
-.homepage-hero-description {
-  margin-top: 24px;
-  text-align: center;
-
-  @include theme-typography(body1);
-
-  font-size: 1.25rem;
 }
 
 .homepage-hero-buttons-container {
@@ -75,22 +67,20 @@
   margin-bottom: 16px;
 }
 
-.homepage-feature-img-container-l {
-  display: flex;
-  justify-content: flex-start;
-
-  @include theme-breakpoints-down(md) {
-    justify-content: center;
-    order: 1;
-  }
-}
-
+.homepage-feature-img-container-l,
 .homepage-feature-img-container-r {
   display: flex;
+  align-items: flex-start;
   justify-content: flex-end;
 
   @include theme-breakpoints-down(md) {
     justify-content: center;
+  }
+}
+
+.homepage-feature-img-container-l {
+  @include theme-breakpoints-down(md) {
+    order: 1;
   }
 }
 
