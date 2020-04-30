@@ -44,7 +44,6 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             HandleNonexistentUserGameLevels(request, nonexistent, levelsScores);
             await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-            // TODO Try async after async
             UpdateUserWordPairKnowledgeInfo(metrics);
             await Context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             return new ClassicCardLevelMetricQueryResult(scores);

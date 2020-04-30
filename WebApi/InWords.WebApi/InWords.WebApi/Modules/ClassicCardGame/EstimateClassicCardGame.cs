@@ -1,7 +1,10 @@
-﻿using InWords.Data;
+﻿using InWords.Common.Extensions;
+using InWords.Data;
+using InWords.Data.Creations.GameBox;
 using InWords.Protobuf;
 using InWords.WebApi.Extensions.InWordsDataContext;
 using InWords.WebApi.Model.UserWordPair;
+using InWords.WebApi.Modules.ClassicCardGame.Extentions;
 using InWords.WebApi.Modules.ClassicCardGame.Service;
 using InWords.WebApi.Services.Abstractions;
 using System;
@@ -29,22 +32,61 @@ namespace InWords.WebApi.Modules.ClassicCardGame
             var userId = request.UserId;
             var value = request.Value;
 
-            // for safety objective
-            var userWords = Context.UserWordPairs.Where(u => u.UserId == userId);
+            foreach (var metric in value.Metrics)
+            {
+                // for safety objective
+                var userWords = Context.UserWordPairs.Where(u => u.UserId == userId);
 
-            // find words knowlenge info in user's words pairs
-            int[] metricsWordIds = value.WordIdOpenCount.Keys.ToArray();
-            var existedWords = userWords.Where(d => metricsWordIds.Contains(d.UserWordPairId)).ToArray();
-            // calculate memorization
-            IKnowledgeQualifier knowledgeQualifier = new CardGameQualifier(value.WordIdOpenCount.ToDictionary(t => t.Key, t => t.Value));
-            var license = knowledgeQualifier.Qualify();
-            // update memorization
-            existedWords.UpdateMemorisation(license);
+                // find words knowlenge info in user's words pairs
+                int[] metricsWordIds = metric.WordIdOpenCount.Keys.ToArray();
+                var existedWords = userWords.Where(d => metricsWordIds.Contains(d.UserWordPairId)).ToArray();
+                // calculate memorization
+                IKnowledgeQualifier knowledgeQualifier = new CardGameQualifier(metric.WordIdOpenCount.ToDictionary(t => t.Key, t => t.Value));
+                var license = knowledgeQualifier.Qualify();
+                // update memorization
+                existedWords.UpdateMemorisation(license);
+                await Context.SaveChangesAsync().ConfigureAwait(false);
+            }
+
+            return await CalculatePoints(userId, value).ConfigureAwait(false);
+        }
+
+        private async Task<LevelPoints> CalculatePoints(int userId, CardGameMetrics value)
+        {
+            var scoreInfo = value.LevelStars();
+            var levelIds = scoreInfo.Keys.ToArray();
+            var existedLevels = Context.UserGameLevels.Where(u => levelIds.Contains(u.GameLevelId));
+            var levelsToAdd = levelIds.Except(existedLevels.Select(d => d.GameLevelId));
+
+            LevelPoints levelPoints = new LevelPoints();
+
+            levelsToAdd.ForEach((levelToAdd) =>
+            {
+                Context.UserGameLevels.Add(new UserGameLevel()
+                {
+                    GameLevelId = levelToAdd,
+                    UserId = userId,
+                    UserStars = scoreInfo[levelToAdd]
+                });
+                levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
+                {
+                    Score = scoreInfo[levelToAdd],
+                    LevelId = levelToAdd
+                });
+            });
+
+            existedLevels.ForEach((level) =>
+            {
+                level.UserStars = scoreInfo[level.GameLevelId];
+                levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
+                {
+                    Score = scoreInfo[level.GameLevelId],
+                    LevelId = level.GameLevelId
+                });
+            });
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
-            // calculate level points and save
-
-            throw new NotImplementedException();
+            return levelPoints;
         }
     }
 }

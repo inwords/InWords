@@ -14,13 +14,16 @@ service ClassicCardGameProvider {
 }
 
 message CardGameMetrics	{
-	int32 gameLevelId = 1;
-	map<int32,int32> wordIdOpenCount = 2;
+	message CardGameMetric{
+		int32 gameLevelId = 1;
+		map<int32,int32> wordIdOpenCount = 2;
+	}
+	repeated CardGameMetric Metrics = 1;
 }
 
 message LevelPoints {
 	message LevelPoint{
-		int32 sevelId = 1;
+		int32 levelId = 1;
 		int32 score = 2;
 	}
 	repeated LevelPoint Points = 1;
