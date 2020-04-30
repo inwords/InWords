@@ -221,7 +221,7 @@ function Homepage() {
       <Divider />
       <section>
         <Container maxWidth="md" className="homepage-section-container">
-          <Link href="/policy/website-privacy.html" variant="body1">
+          <Link href="/policy/privacy.html" variant="body1">
             Политика конфиденциальности
           </Link>
         </Container>
