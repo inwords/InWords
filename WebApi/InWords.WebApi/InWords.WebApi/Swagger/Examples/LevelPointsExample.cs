@@ -12,17 +12,17 @@ namespace InWords.WebApi.Swagger.Examples
             levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
             {
                 Score = 3,
-                SevelId = 119
+                LevelId = 119
             });
             levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
             {
                 Score = 2,
-                SevelId = 110
+                LevelId = 110
             });
             levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
             {
                 Score = 1,
-                SevelId = 4
+                LevelId = 4
             });
             return levelPoints;
         }

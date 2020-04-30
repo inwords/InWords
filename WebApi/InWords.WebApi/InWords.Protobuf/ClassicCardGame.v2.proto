@@ -9,7 +9,7 @@ package ClassicCardGame.v2;
 
 // The greeting service definition.
 service ClassicCardGameProvider {
-	// Sends a greeting
+	// Returns the number of stars and updates information about remembering words
 	rpc Estimate (CardGameMetrics) returns (LevelPoints);
 }
 
