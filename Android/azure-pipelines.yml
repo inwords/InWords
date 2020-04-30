@@ -25,27 +25,34 @@ pool:
 
 steps:
 - task: DownloadSecureFile@1
+  displayName: 'Download google-services.json'
   inputs:
     secureFile: 'google-services.json'
+    
+- task: DownloadSecureFile@1
+  displayName: 'Download keystore release properties'
+  inputs:
+    secureFile: 'keystore-release.properties'
+
+- task: DownloadSecureFile@1
+  displayName: 'Download keystore'
+  inputs:
+    secureFile: 'inwords.jks'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
-    Contents: 'google-services.json'
+    Contents: |
+      google-services.json
+      keystore-release.properties
+      inwords.jks
     TargetFolder: 'Android/app/'
 
 - task: Gradle@2
   inputs:
     workingDirectory: 'Android/'
     gradleWrapperFile: 'Android/gradlew'
-    gradleOptions: '-Xmx3072m'
-    tasks: 'bundleRelease'
-
-- task: Gradle@2
-  inputs:
-    workingDirectory: 'Android/'
-    gradleWrapperFile: 'Android/gradlew'
-    tasks: 'test'
+    tasks: 'clean bundleRelease testReleaseUnitTest'
     publishJUnitResults: true
     testResultsFiles: '**/testReleaseUnitTest/TEST-*.xml'
     testRunTitle: 'Run JUnit5 tests'
@@ -57,17 +64,12 @@ steps:
   inputs:
     workingDirectory: 'Android/'
     gradleWrapperFile: 'Android/gradlew'
-    gradleOptions: '-Xmx3072m'
-    tasks: 'testReleaseUnitTest'
-
-- task: Gradle@2
-  inputs:
-    workingDirectory: 'Android/'
-    gradleWrapperFile: 'Android/gradlew'
-    gradleOptions: '-Xmx3072m'
     tasks: 'jacocoAggregateReports'
+    gradleOptions: '-Xmx3072m'
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/app/getJacocoReports/getJacocoReports.xml'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/app/jacocoReport/jacocoReport.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/app/jacocoReport/html'
+    failIfCoverageEmpty: true
