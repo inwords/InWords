@@ -11,8 +11,6 @@ import "Auth.v2.proto";
 import "Common.v2.proto";
 // The Profile service definition.
 service Profile {
-	rpc Register (Auth.v2.RegistrationRequest) returns (RegistrationReply);
-	rpc GetToken (Auth.v2.TokenRequest) returns (Auth.v2.TokenReply);
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
 	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
@@ -20,10 +18,6 @@ service Profile {
 }
 
 // The response message containing the Token.
-message RegistrationReply {
-	int64 userid = 1;
-	string token = 2;
-}
 message EmailChangeRequest{
 	string email = 1;
 }

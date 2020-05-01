@@ -1,17 +1,15 @@
 ﻿using InWords.Data.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace InWords.Data.Domains
 {
     public class OAuth
     {
-        [Key]  [Required] 
+        [Key]
+        [Required]
         [MaxLength(32)] public string OpenId { get; set; }
-        
+
         public int AccountId { get; set; }
         [ForeignKey(nameof(AccountId))]
         public Account Account { get; set; }

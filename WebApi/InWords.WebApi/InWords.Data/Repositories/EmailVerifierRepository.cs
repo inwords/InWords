@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using InWords.Common;
+﻿using InWords.Common;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Data.Repositories.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace InWords.Data.Repositories
 {

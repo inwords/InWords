@@ -90,8 +90,14 @@ namespace InWords.WebApi.Controllers.v2
             return Ok(await mediator.Send(requestObject).ConfigureAwait(false));
         }
 
+
+        /// <summary>
+        /// Use this to get word's in level
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("level/{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Level's words list", typeof(GetLevelsReply))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Level's words list", typeof(GetLevelWordsReply))]
         public async Task<IActionResult> GetLevelWords([FromRoute]int id)
         {
             var request = new GetLevelWordsRequest()

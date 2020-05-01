@@ -1,0 +1,30 @@
+syntax = "proto3";
+option csharp_namespace = "InWords.Protobuf";
+
+option java_multiple_files = true;
+option java_package = "ru.inwords.inwords.proto.classic_card_game";
+option java_outer_classname = "ClassicCardGameProto";
+
+package ClassicCardGame.v2;
+
+// The greeting service definition.
+service ClassicCardGameProvider {
+	// Returns the number of stars and updates information about remembering words
+	rpc Estimate (CardGameMetrics) returns (LevelPoints);
+}
+
+message CardGameMetrics	{
+	message CardGameMetric{
+		int32 gameLevelId = 1;
+		map<int32,int32> wordIdOpenCount = 2;
+	}
+	repeated CardGameMetric Metrics = 1;
+}
+
+message LevelPoints {
+	message LevelPoint{
+		int32 levelId = 1;
+		int32 score = 2;
+	}
+	repeated LevelPoint Points = 1;
+}

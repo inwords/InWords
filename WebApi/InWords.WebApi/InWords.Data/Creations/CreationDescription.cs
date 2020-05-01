@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using InWords.Data.Domains;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using InWords.Data.Domains;
 
 namespace InWords.Data.Creations
 {

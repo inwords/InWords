@@ -18,10 +18,10 @@ namespace InWords.WebApi.Services.OAuth2.Requests
 {
     public class GoogleAuth : StructRequestHandler<OAuthTokenRequest, TokenReply, InWordsDataContext>
     {
-        IRequestHandler<RequestObject<RegistrationRequest, RegistrationReply>, RegistrationReply> registration;
+        IRequestHandler<RequestObject<RegistrationRequest, TokenReply>, TokenReply> registration;
         IJwtProvider jwtProvider;
         public GoogleAuth(InWordsDataContext context,
-            IRequestHandler<RequestObject<RegistrationRequest, RegistrationReply>, RegistrationReply> registration,
+            IRequestHandler<RequestObject<RegistrationRequest, TokenReply>, TokenReply> registration,
             IJwtProvider jwtProvider) : base(context)
         {
             this.jwtProvider = jwtProvider;
@@ -49,12 +49,12 @@ namespace InWords.WebApi.Services.OAuth2.Requests
                         Email = payload.Email,
                         Password = Guid.NewGuid().ToString()
                     };
-                    var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(registrationRequest);
+                    var requestObject = new RequestObject<RegistrationRequest, TokenReply>(registrationRequest);
                     var registrationResult = await registration.Handle(requestObject, cancellationToken).ConfigureAwait(false);
 
                     oAuth = new OAuth()
                     {
-                        AccountId = (int)registrationResult.Userid,
+                        AccountId = (int)registrationResult.UserId,
                         Email = payload.Email,
                         Locale = payload.Locale,
                         EmailVerified = payload.EmailVerified,
@@ -70,7 +70,7 @@ namespace InWords.WebApi.Services.OAuth2.Requests
                     return new TokenReply()
                     {
                         Token = registrationResult.Token,
-                        UserId = registrationResult.Userid
+                        UserId = registrationResult.UserId
                     };
                 }
                 else

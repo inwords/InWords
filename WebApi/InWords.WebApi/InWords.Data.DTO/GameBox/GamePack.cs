@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using InWords.Data.DTO.Creation;
+﻿using InWords.Data.DTO.Creation;
+using System.Collections.Generic;
 
 namespace InWords.Data.DTO.GameBox
 {

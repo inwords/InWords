@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using InWords.Service.Auth.Extensions;
+﻿using InWords.Service.Auth.Extensions;
 using InWords.Service.Auth.Interfaces;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace InWords.Service.Auth.Models
 {

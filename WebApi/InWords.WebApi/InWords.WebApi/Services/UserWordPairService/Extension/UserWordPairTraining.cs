@@ -1,6 +1,6 @@
 ﻿using InWords.Data.Domains;
 using InWords.WebApi.Extensions.InWordsDataContext;
-using InWords.WebApi.Services.UserWordPairService.Models;
+using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
 using System;
@@ -10,9 +10,9 @@ namespace InWords.WebApi.Services.UserWordPairService.Extension
 {
     public static class UserWordPairTraining
     {
-        public static KnowledgeLicense GetLicense(this UserWordPair userWordPair)
+        public static Memorization GetLicense(this UserWordPair userWordPair)
         {
-            var knowledgeLicense = new KnowledgeLicense
+            var knowledgeLicense = new Memorization
             {
                 Period = userWordPair.LearningPeriod,
                 RepeatTime = userWordPair.TimeGap
@@ -20,7 +20,7 @@ namespace InWords.WebApi.Services.UserWordPairService.Extension
             return knowledgeLicense;
         }
 
-        public static UserWordPair SetLicense(this UserWordPair userWordPair, KnowledgeLicense knowledgeLicense)
+        public static UserWordPair SetLicense(this UserWordPair userWordPair, Memorization knowledgeLicense)
         {
             userWordPair.LearningPeriod = knowledgeLicense.Period;
             userWordPair.TimeGap = knowledgeLicense.RepeatTime;

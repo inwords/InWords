@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using InWords.Service.Encryption.Interfaces;
+using System.Linq;
 using System.Security.Cryptography;
-using InWords.Service.Encryption.Interfaces;
 
 namespace InWords.Service.Encryption
 {

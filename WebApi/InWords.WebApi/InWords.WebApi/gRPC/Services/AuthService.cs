@@ -34,13 +34,13 @@ namespace InWords.WebApi.gRPC.Services
 
         public override async Task<TokenReply> Register(RegistrationRequest request, ServerCallContext context)
         {
-            var requestObject = new RequestObject<RegistrationRequest, RegistrationReply>(request);
-            RegistrationReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
+            var requestObject = new RequestObject<RegistrationRequest, TokenReply>(request);
+            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
             context.UpdateStatus(requestObject);
             return new TokenReply()
             {
                 Token = reply.Token,
-                UserId = reply.Userid
+                UserId = reply.UserId
             };
         }
     }

@@ -5,7 +5,6 @@ using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services

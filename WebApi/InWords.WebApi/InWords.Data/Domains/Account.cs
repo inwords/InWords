@@ -1,6 +1,6 @@
-﻿using System;
+﻿using InWords.Data.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
-using InWords.Data.Enums;
 
 namespace InWords.Data.Domains
 {

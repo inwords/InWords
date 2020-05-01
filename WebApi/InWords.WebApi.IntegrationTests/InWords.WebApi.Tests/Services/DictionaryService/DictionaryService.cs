@@ -1,21 +1,20 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
+using InWords.Protobuf;
 using InWords.WebApi.Tests.TestUtils;
-using InWords.WebApiTest.gRPC.Services;
 using InWords.WebApiTests.CLI;
 using InWords.WebApiTests.CLI.TestUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using static InWords.WebApiTest.gRPC.Services.DictionaryProvider;
+using static InWords.Protobuf.DictionaryProvider;
 
 namespace InWords.WebApi.Tests.Services.DictionaryService
 {
-    public class AddWordsTest
+    public class DictionaryService
     {
-        [Fact]
-        public void AddOneWord()
+        public static void AddOneWordTest(string token)
         {
 
             // arrange
@@ -30,7 +29,6 @@ namespace InWords.WebApi.Tests.Services.DictionaryService
             };
             addwordsRequest.Words.Add(addWordRequest);
             // act 
-            string token = ProfileUtils.GetTokenForce();
             var headers = new Metadata
             {
                 { "Authorization", $"Bearer {token}" }
