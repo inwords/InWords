@@ -1,0 +1,85 @@
+private static def findAndroidPluginOrThrow(plugins) {
+    Plugin plugin = plugins.findPlugin('android') ?: plugins.findPlugin('android-library')
+    if (!plugin) {
+        throw new GradleException('You must apply the Android plugin or the Android library plugin before using the jacoco-android plugin')
+    }
+    plugin
+}
+
+private static def findOrCreateJacocoTestReportTask(tasks) {
+    Task jacocoTestReportTask = tasks.findByName("jacocoTestReport")
+    if (!jacocoTestReportTask) {
+        jacocoTestReportTask = tasks.create("jacocoTestReport")
+        jacocoTestReportTask.group = "Reporting"
+    }
+    jacocoTestReportTask
+}
+
+private static def getVariants(project, plugin) {
+    boolean isLibraryPlugin = plugin.class.name.endsWith('.LibraryPlugin')
+    project.android[isLibraryPlugin ? "libraryVariants" : "applicationVariants"]
+}
+
+private static def getSourceDirs(variant) {
+    variant.sourceSets.java.srcDirs.collect { it.path }.flatten()
+}
+
+private static def getJavaClassesDir(variant) {
+    if (variant.hasProperty('javaCompileProvider')) {
+        variant.javaCompileProvider.get().destinationDir
+    } else {
+        variant.javaCompile.destinationDir
+    }
+}
+
+private def getKotlinClassesDir(variant) {
+    "${project.buildDir}/tmp/kotlin-classes/${variant.name}"
+}
+
+private static def getTestTask(tasks, variant) {
+    tasks.getByName("test${variant.name.capitalize()}UnitTest")
+}
+
+private static def getExecutionDataFile(testTask) {
+    testTask.jacoco.destinationFile.path
+}
+
+private def createReportTask(project, variant) {
+    def sourceDirs = getSourceDirs(variant)
+    def javaClassesDir = getJavaClassesDir(variant)
+    def kotlinClassesDir = getKotlinClassesDir(variant)
+    def testTask = getTestTask(project.tasks, variant)
+    def executionData = getExecutionDataFile(testTask)
+
+    def javaTree = project.fileTree(dir: javaClassesDir, excludes: rootProject.ext.jacocoAndroidUnitTestReportExcludes)
+    def kotlinTree = project.fileTree(dir: kotlinClassesDir, excludes: rootProject.ext.jacocoAndroidUnitTestReportExcludes)
+
+    JacocoReport reportTask = project.tasks.create("jacoco${testTask.name.capitalize()}Report", JacocoReport)
+    reportTask.dependsOn testTask
+    reportTask.group = "Reporting"
+    reportTask.description = "Generates Jacoco coverage reports for the ${variant.name} variant."
+    reportTask.executionData.setFrom(project.files(executionData))
+    reportTask.sourceDirectories.setFrom(project.files(sourceDirs))
+    reportTask.classDirectories.setFrom(javaTree + kotlinTree)
+    reportTask.reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+
+    reportTask
+}
+
+def configureJacoco(project) {
+    def plugin = findAndroidPluginOrThrow(project.plugins)
+    def jacocoTestReportTask = findOrCreateJacocoTestReportTask(project.tasks)
+    def variants = getVariants(project, plugin)
+
+    variants.all { variant ->
+        def reportTask = createReportTask(project, variant)
+        jacocoTestReportTask.dependsOn reportTask
+    }
+}
+
+ext {
+    configureJacoco = this.&configureJacoco
+}

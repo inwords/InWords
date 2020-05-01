@@ -65,4 +65,15 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-apply from: 'jacoco.gradle'
+subprojects { subproject ->
+    subproject.plugins.whenPluginAdded { plugin ->
+        if (isAndroidLibraryOrAppPlugin(plugin)) {
+            subproject.apply from: "${project.rootDir.absolutePath}/android-subproject.gradle"
+        }
+    }
+}
+
+static boolean isAndroidLibraryOrAppPlugin(Plugin plugin) {
+    plugin.getClass().canonicalName in ["com.android.build.gradle.LibraryPlugin",
+                                        "com.android.build.gradle.AppPlugin"]
+}
