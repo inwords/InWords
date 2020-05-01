@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Controllers.v1._1.CardsGame
+namespace InWords.WebApi.Controllers.v1dot1.CardsGame
 {
     [Authorize]
     [ApiVersion("1.1")]

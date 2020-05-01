@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Controllers.v1._1
+namespace InWords.WebApi.Controllers.v1dot1
 {
     [Authorize]
     [ApiVersion("1.1")]

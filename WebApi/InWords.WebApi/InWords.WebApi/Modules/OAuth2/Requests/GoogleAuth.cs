@@ -31,6 +31,9 @@ namespace InWords.WebApi.Services.OAuth2.Requests
         public override async Task<TokenReply> HandleRequest(RequestObject<OAuthTokenRequest, TokenReply> request,
             CancellationToken cancellationToken = default)
         {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
             var requestData = request.Value;
             // TODO: hashSet
             if (requestData.ServiceName.Equals("google", StringComparison.InvariantCultureIgnoreCase))

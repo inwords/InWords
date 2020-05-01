@@ -3,6 +3,7 @@ using InWords.Data;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.Extensions.Configuration;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Net.Http;
 using System.Threading;
@@ -28,6 +29,9 @@ namespace InWords.WebApi.Modules.DictionaryService.Words
 
         public override async Task<LookupReply> HandleRequest(RequestObject<LookupRequest, LookupReply> request, CancellationToken cancellationToken = default)
         {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
             LookupReply lookupReply;
             LookupRequest requestData = request.Value;
             Uri requestUri = new Uri($"https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key={requestKey}&lang={requestData.Lang}&text={requestData.Text}");

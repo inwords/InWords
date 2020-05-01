@@ -7,7 +7,6 @@ option java_outer_classname = "ProfileProto";
 
 
 package ProfilePackage.v2;
-import "Auth.v2.proto";
 import "Common.v2.proto";
 // The Profile service definition.
 service Profile {
