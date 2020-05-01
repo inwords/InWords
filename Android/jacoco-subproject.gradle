@@ -1,0 +1,69 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.8.5'
+    def reportsDirPath = "${project.buildDir}/reports/jacoco/"
+    reportsDir = file(reportsDirPath)
+}
+
+android {
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+                destinationFile = file("$buildDir/jacoco/testResult.exec")
+            }
+        }
+    }
+}
+
+apply from: "${project.rootDir.absolutePath}/jacoco-configure.gradle"
+
+rootProject.ext.jacocoAndroidUnitTestReportExcludes = [
+        '**/R.class',
+        '**/R$*.class',
+        '**/BuildConfig.*',
+        '**/Manifest*.*',
+        '**/AndroidManifest.xml',
+        '**/*Test*.*',
+        'android/**/*.*',
+        'androidx/**/*.*',
+        '**/*Fragment.*',
+        '**/*Activity.*',
+        '**/*Api.*',
+        '**/ui/**/*.class',
+]
+
+rootProject.ext.jacocoAndroidUnitTestReportExcludes += ['**/di/**',
+             '**/dagger/**',
+             '**/proto/**',
+             '**/model/**',
+             '**/bean/**']
+
+// not testable Android classes
+rootProject.ext.jacocoAndroidUnitTestReportExcludes += ['**/*Activity.class',
+             '**/*Dialog.class',
+             '**/*DialogFragment.class',
+             '**/*Fragment.class',
+             '**/*Service.class',
+             '**/*Receiver.class',
+             '**/*View.class',
+             '**/*Binding.class']
+
+// not testable classes for Recycler View
+rootProject.ext.jacocoAndroidUnitTestReportExcludes += [
+        '**/*Adapter.class',
+        '**/*ViewHolder.class',
+        '**/*ViewHolderBinder.class',
+        '**/*ViewHolderFactory.class']
+
+// not testable classes Dagger 2
+rootProject.ext.jacocoAndroidUnitTestReportExcludes += ['**/*Injector.class',
+             '**/*_Factory.class',
+             '**/*_Impl*.class',
+             '**/*$$State.class',
+             '**/*$$State*Command.class',
+             '**/*$$PresentersBinder.class',
+             '**/*$$PresentersBinder*Binder.class']
+
+configureJacoco(project)
