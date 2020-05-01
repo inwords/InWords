@@ -81,6 +81,6 @@ steps:
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiTests'
   inputs:
-    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi.IntegrationTests
+    path: $(System.DefaultWorkingDirectory)/WebApi/
     artifact: _WebApiTests
   condition: succeeded()
