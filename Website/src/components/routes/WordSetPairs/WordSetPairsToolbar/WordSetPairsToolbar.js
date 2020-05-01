@@ -6,7 +6,7 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
 
-import './WordSetPairsToolbar.css';
+import './WordSetPairsToolbar.scss';
 
 function WordSetPairsToolbar({
   checkedValues,
@@ -36,7 +36,7 @@ function WordSetPairsToolbar({
       >
         <Icon>done_all</Icon>
       </IconButton>
-      <Space value={1} />
+      <Space x={1} />
       <div style={{ display: selectionAvailable ? 'block' : 'none' }}>
         <Typography component="h2" variant="h6">
           Выбрано: {numberOfChecked}

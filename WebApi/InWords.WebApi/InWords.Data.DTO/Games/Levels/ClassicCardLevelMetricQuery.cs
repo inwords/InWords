@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Immutable;
-using MediatR;
 
 namespace InWords.Data.DTO.Games.Levels
 {

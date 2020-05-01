@@ -33,6 +33,7 @@ namespace InWords.WebApi.gRPC
                 endpoints.MapGrpcService<WordsSetService>();
                 endpoints.MapGrpcService<DictionaryService>();
                 endpoints.MapGrpcService<AuthService>();
+                endpoints.MapGrpcService<ClassicCardGameService>();
 
                 endpoints.MapGet("/",
                     context => context.Response.WriteAsync(

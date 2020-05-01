@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Container from 'src/components/core/Container';
+import RouteContainer from 'src/components/app-common/RouteContainer';
 import Typography from 'src/components/core/Typography';
 
 class ErrorBoundary extends Component {
@@ -16,7 +16,7 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <Container component="div" maxWidth="sm">
+        <RouteContainer component="div" maxWidth="sm">
           <Typography component="h1" variant="h4" gutterBottom>
             Что-то пошло не так{' '}
             <span role="img" aria-label="worried-face">
@@ -27,7 +27,7 @@ class ErrorBoundary extends Component {
             К сожалению, не удалось загрузить страницу. Проверьте соединение с
             интернетом или повторите попытку позже.
           </Typography>
-        </Container>
+        </RouteContainer>
       );
     }
 

@@ -68,7 +68,7 @@ function DictionaryToolbarContainer({
           >
             <Icon>done_all</Icon>
           </IconButton>
-          <Space value={1} />
+          <Space x={1} />
           <div>
             <Typography component="h2" variant="h6">
               Выбрано: {numberOfChecked}

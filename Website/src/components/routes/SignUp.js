@@ -9,12 +9,10 @@ import useForm from 'src/components/core/useForm';
 import Form from 'src/components/core/Form';
 import FormGroup from 'src/components/core/FormGroup';
 import TextField from 'src/components/core/TextField';
-import Typography from 'src/components/core/Typography';
 import Link from 'src/components/core/Link';
-import Avatar from 'src/components/core/Avatar';
-import Icon from 'src/components/core/Icon';
 import Button from 'src/components/core/Button';
 import EntryFormPaper from 'src/components/routes-common/EntryFormPaper';
+import EntryInWordsLogo from 'src/components/routes-common/EntryInWordsLogo';
 import EntryLinksContainer from 'src/components/routes-common/EntryLinksContainer';
 import EntryButtonContainer from 'src/components/routes-common/EntryButtonContainer';
 import GSignInButton from 'src/components/routes-common/GSignInButton';
@@ -54,15 +52,6 @@ function SignUp() {
     }
   );
 
-  const handleSubmitAnonymously = async () => {
-    try {
-      const data = await dispatch(signUp(inputs, true));
-      handleSignUpSuccess(data, dispatch, history);
-    } catch (error) {
-      dispatch(setSnackbar({ text: 'Не удалось войти гостем' }));
-    }
-  };
-
   const handleSignInOAuth2 = useCallback(
     async response => {
       const data = await dispatch(
@@ -75,12 +64,9 @@ function SignUp() {
 
   return (
     <EntryFormPaper>
-      <Avatar>
-        <Icon>lock</Icon>
-      </Avatar>
-      <Typography component="h1" variant="h5" gutterBottom>
-        Регистрация
-      </Typography>
+      <a href="/">
+        <EntryInWordsLogo />
+      </a>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <TextField
@@ -111,17 +97,6 @@ function SignUp() {
         <EntryButtonContainer>
           <Button type="submit" color="primary" fullWidth large>
             Зарегистрироваться
-          </Button>
-        </EntryButtonContainer>
-        <EntryButtonContainer>
-          <Button
-            type="button"
-            color="default"
-            onClick={handleSubmitAnonymously}
-            fullWidth
-            large
-          >
-            Войти гостем
           </Button>
         </EntryButtonContainer>
         <EntryButtonContainer>

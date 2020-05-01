@@ -1,8 +1,8 @@
-﻿using InWords.WebApi.Services.UserWordPairService.Enum;
-using InWords.WebApi.Services.UserWordPairService.Models;
+﻿using InWords.Data.DTO.Enums;
+using InWords.WebApi.Model.UserWordPair;
 using System;
 using Xunit;
-using KnowledgeLicenseCalculator = InWords.WebApi.Services.UserWordPairService.KnowledgeLicenseCalculator;
+using MemorizationCalculator = InWords.WebApi.Services.UserWordPairService.MemorizationCalculator;
 
 namespace InWords.WebApiTests.Services.UserWordPairService
 {
@@ -12,16 +12,15 @@ namespace InWords.WebApiTests.Services.UserWordPairService
         public void EasyToRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseCalculator();
-            var knowledgeLicense = new KnowledgeLicense();
-            var knowledgeQuality = KnowledgeQualitys.EasyToRemember;
+            var licenseManager = new MemorizationCalculator();
+            var knowledgeLicense = new Memorization();
+            var knowledgeQuality = KnowledgeQualities.EasyToRemember;
             var expectedPeriod = 1;
             // act
-            KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
+            Memorization UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
             bool expectedTimeLarger = UpdatedKnowledgeLicense.RepeatTime > DateTime.UtcNow;
             // assert
-            Assert.Equal(UpdatedKnowledgeLicense.Period, knowledgeLicense.Period);
-            Assert.Equal(UpdatedKnowledgeLicense.RepeatTime, knowledgeLicense.RepeatTime);
+            Assert.NotEqual(UpdatedKnowledgeLicense.RepeatTime, knowledgeLicense.RepeatTime);
             Assert.Equal(expectedPeriod, UpdatedKnowledgeLicense.Period);
             Assert.True(expectedTimeLarger);
         }
@@ -30,16 +29,16 @@ namespace InWords.WebApiTests.Services.UserWordPairService
         public void EasyToRememberButEarlyRepeatGranting()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseCalculator();
-            var knowledgeLicense = new KnowledgeLicense
+            var licenseManager = new MemorizationCalculator();
+            var knowledgeLicense = new Memorization
             {
                 Period = 0,
                 RepeatTime = DateTime.MaxValue
             };
-            var knowledgeQuality = KnowledgeQualitys.EasyToRemember;
+            var knowledgeQuality = KnowledgeQualities.EasyToRemember;
             var expectedPeriod = 0;
             // act
-            KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
+            Memorization UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
             // assert
             Assert.Equal(expectedPeriod, UpdatedKnowledgeLicense.Period);
         }
@@ -48,16 +47,16 @@ namespace InWords.WebApiTests.Services.UserWordPairService
         public void NoLongerRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseCalculator();
-            var knowledgeLicense = new KnowledgeLicense
+            var licenseManager = new MemorizationCalculator();
+            var knowledgeLicense = new Memorization
             {
                 Period = 1,
                 RepeatTime = DateTime.Now
             };
-            var knowledgeQuality = KnowledgeQualitys.NoLongerRemember;
+            var knowledgeQuality = KnowledgeQualities.NoLongerRemember;
             var expectedPeriod = 0;
             // act
-            KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
+            Memorization UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
             // assert
             Assert.Equal(expectedPeriod, UpdatedKnowledgeLicense.Period);
         }
@@ -66,16 +65,16 @@ namespace InWords.WebApiTests.Services.UserWordPairService
         public void StillRememberBehavior()
         {
             // prep
-            var licenseManager = new KnowledgeLicenseCalculator();
-            var knowledgeLicense = new KnowledgeLicense
+            var licenseManager = new MemorizationCalculator();
+            var knowledgeLicense = new Memorization
             {
                 Period = 1,
                 RepeatTime = DateTime.Now
             };
-            var knowledgeQuality = KnowledgeQualitys.StillRemember;
+            var knowledgeQuality = KnowledgeQualities.StillRemember;
             var expectedPeriod = 1;
             // act
-            KnowledgeLicense UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
+            Memorization UpdatedKnowledgeLicense = licenseManager.Update(knowledgeLicense, knowledgeQuality);
             // assert
             Assert.Equal(expectedPeriod, UpdatedKnowledgeLicense.Period);
         }

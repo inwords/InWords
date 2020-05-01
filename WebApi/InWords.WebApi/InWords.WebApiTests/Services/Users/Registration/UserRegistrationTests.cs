@@ -29,7 +29,7 @@ namespace InWords.WebApiTests.Services.Users.Registration
             // act 
             var registration = new UserRegistration(context, jwtMock.Object, mock.Object);
             var test = await registration.HandleRequest(
-                new RequestObject<RegistrationRequest, RegistrationReply>(
+                new RequestObject<RegistrationRequest, TokenReply>(
                     new RegistrationRequest()
                     {
                         Email = "test@email.ru",
@@ -66,7 +66,7 @@ namespace InWords.WebApiTests.Services.Users.Registration
             // act 
             var registration = new UserRegistration(context, jwtMock.Object, mock.Object);
             // assert 
-            var request = new RequestObject<RegistrationRequest, RegistrationReply>(
+            var request = new RequestObject<RegistrationRequest, TokenReply>(
                 new RegistrationRequest()
                 {
                     Email = email,

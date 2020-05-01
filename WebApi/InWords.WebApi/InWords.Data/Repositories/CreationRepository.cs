@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using InWords.Common;
+﻿using InWords.Common;
 using InWords.Data.Creations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.Data.Repositories
 {
@@ -27,8 +27,8 @@ namespace InWords.Data.Repositories
         private IQueryable<Game> GetCreationsByGameID(params int[] gameId)
         {
             IQueryable<Game> creationsByGameID = from creation in DbSet
-                where gameId.Contains(creation.GameId)
-                select creation;
+                                                 where gameId.Contains(creation.GameId)
+                                                 select creation;
             return creationsByGameID;
         }
     }

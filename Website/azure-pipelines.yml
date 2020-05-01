@@ -6,7 +6,7 @@
 pr:
   branches:
     include:
-      - master
+      - website-release
       - develop
   paths:
     include:
@@ -14,7 +14,7 @@ pr:
 trigger:
   branches:
     include:
-      - master
+      - website-release
       - develop
   paths:
     include:
@@ -26,7 +26,7 @@ pool:
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '13.x'
+      versionSpec: '12.x'
     displayName: 'Install Node.js'
 
   - script: |

@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using InWords.Common;
+﻿using InWords.Common;
 using InWords.Data.Domains;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InWords.Data.Repositories
 {

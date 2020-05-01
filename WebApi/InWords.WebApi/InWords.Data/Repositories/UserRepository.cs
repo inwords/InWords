@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using InWords.Common;
+﻿using InWords.Common;
 using InWords.Data.Domains;
+using System.Linq;
 
 namespace InWords.Data.Repositories
 {
