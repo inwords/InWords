@@ -52,7 +52,7 @@ steps:
   inputs:
     workingDirectory: 'Android/'
     gradleWrapperFile: 'Android/gradlew'
-    tasks: 'clean bundleRelease testReleaseUnitTest'
+    tasks: 'clean bundleRelease jacocoTestReleaseUnitTestReport'
     publishJUnitResults: true
     testResultsFiles: '**/testReleaseUnitTest/TEST-*.xml'
     testRunTitle: 'Run JUnit5 tests'
@@ -60,16 +60,9 @@ steps:
     gradleOptions: '-Xmx3072m'
     sonarQubeRunAnalysis: false
 
-- task: Gradle@2
-  inputs:
-    workingDirectory: 'Android/'
-    gradleWrapperFile: 'Android/gradlew'
-    tasks: 'jacocoAggregateReports'
-    gradleOptions: '-Xmx3072m'
-
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/app/jacocoReport/jacocoReport.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/app/jacocoReport/html'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/jacocoTestReleaseUnitTestReport/jacocoTestReleaseUnitTestReport.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/jacocoTestReleaseUnitTestReport/html'
     failIfCoverageEmpty: true
