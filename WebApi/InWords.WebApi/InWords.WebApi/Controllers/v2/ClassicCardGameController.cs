@@ -1,17 +1,20 @@
-﻿using InWords.Protobuf;
+﻿using Grpc.Core;
+using InWords.Protobuf;
+using InWords.WebApi.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
 {
+    [Authorize]
     [ApiVersion("2")]
     [Route("v{version:apiVersion}/ClassicCardGame")]
     [ApiController]
     [Produces("application/json")]
-    public class ClassicCardGameController
+    public class ClassicCardGameController : Controller
     {
         private readonly IMediator mediator;
         public ClassicCardGameController(IMediator mediator)
@@ -22,25 +25,17 @@ namespace InWords.WebApi.Controllers.v2
         [HttpPost]
         [Route("estimate")]
         [ProducesResponseType(typeof(LevelPoints), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Status), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Estimate(CardGameMetrics request)
         {
-            throw new NotImplementedException();
-            //if (classicCardsMetrics is null)
-            //    return BadRequest("Argument is null");
+            var (reply, status) = await mediator
+                .AuthorizeHandler<CardGameMetrics, LevelPoints>(request, User)
+                .ConfigureAwait(false);
 
-            //classicCardsMetrics.UserId = User.GetUserId();
+            if (status.StatusCode == Grpc.Core.StatusCode.OK)
+                return Ok(reply);
 
-            //ClassicCardLevelMetricQueryResult result;
-            //try
-            //{
-            //    result = await mediator.Send(classicCardsMetrics)
-            //        .ConfigureAwait(false);
-            //}
-            //catch (ArgumentOutOfRangeException e)
-            //{
-            //    return BadRequest(e.Message);
-            //}
-            //return Ok(result);
+            return BadRequest(status);
         }
     }
 }
