@@ -1,40 +1,24 @@
 ﻿using Grpc.Core;
+using InWords.Protobuf;
 using InWords.WebApi.Tests.TestUtils;
-using InWords.WebApiTest.gRPC.Services;
 using InWords.WebApiTests.CLI.TestUtils;
 using Xunit;
-using static InWords.WebApiTest.gRPC.Services.Profile;
+using static InWords.Protobuf.Authenticator;
 
-namespace InWords.WebApiTests.CLI.Services.ProfileService
+namespace InWords.WebApi.Tests.Services.ProfileService
 {
-    public class GetTokenTest
+    public partial class ProfileRegistrator
     {
-        [Fact]
-        public async void GetValidToken()
+        public static async void InvalidPasswordTest(string login)
         {
-            string token = ProfileUtils.GetTokenForce();
-            // arrange
-            TokenRequest tokenRequest = new TokenRequest { Email = ProfileUtils.LoginPass, Password = ProfileUtils.LoginPass };
-            // act
-            var reply = ProfileUtils.GetToken(tokenRequest);
-            // assert
-            Assert.False(string.IsNullOrEmpty(reply.Token));
-        }
-
-        [Fact]
-        public async void InvalidPasswordTest()
-        {
-            string token = ProfileUtils.GetTokenForce();
-            using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
+            using var clientFabric = new GetClient<AuthenticatorClient>(d => new AuthenticatorClient(d));
             var client = clientFabric.Client;
 
-            TokenRequest tokenRequest = new TokenRequest { Email = ProfileUtils.LoginPass, Password = ProfileUtils.LoginPass + "1" };
+            TokenRequest tokenRequest = new TokenRequest { Email = login, Password = login + "1" };
 
-            // act
-            // assert
             try
             {
-                var x = await client.GetTokenAsync(tokenRequest);
+                var x = await client.BasicAsync(tokenRequest);
             }
             catch (RpcException e)
             {
@@ -43,19 +27,16 @@ namespace InWords.WebApiTests.CLI.Services.ProfileService
             }
         }
 
-        [Fact]
-        public async void InvalidAccountTest()
+        public async static void InvalidAccountTest(string login)
         {
-            using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
+            using var clientFabric = new GetClient<AuthenticatorClient>(d => new AuthenticatorClient(d));
             var client = clientFabric.Client;
 
-            TokenRequest tokenRequest = new TokenRequest { Email = ProfileUtils.LoginPass + "1", Password = ProfileUtils.LoginPass + "1" };
+            TokenRequest tokenRequest = new TokenRequest { Email = login + "1", Password = login + "1" };
 
-            // act
-            // assert
             try
             {
-                var x = await client.GetTokenAsync(tokenRequest);
+                var x = await client.BasicAsync(tokenRequest);
             }
             catch (RpcException e)
             {

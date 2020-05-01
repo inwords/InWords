@@ -1,6 +1,5 @@
 using Grpc.Net.Client;
-using InWords.WebApiTest.gRPC.Services;
-using System;
+using InWords.Protobuf;
 using Xunit;
 
 namespace InWords.WebApiTests.CLI

@@ -1,29 +1,26 @@
 ﻿using Grpc.Core;
+using InWords.Protobuf;
 using InWords.WebApi.Tests.TestUtils;
-using InWords.WebApiTest.gRPC.Services;
 using InWords.WebApiTests.CLI.TestUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using static InWords.WebApiTest.gRPC.Services.Profile;
+using static InWords.Protobuf.Profile;
 
 namespace InWords.WebApi.Tests.Services.ProfileService
 {
-    public class DeleteProfileTest
+    public partial class ProfileRegistrator
     {
-        [Fact]
-        public async void DeleteExistedProfileTest()
+        public static void DeleteExistedProfileTest(string token)
         {
             using var clientFabric = new GetClient<ProfileClient>(d => new ProfileClient(d));
             ProfileClient client = clientFabric.Client;
             try
             {
-                TokenRequest tokenRequest = new TokenRequest { Email = ProfileUtils.LoginPass, Password = ProfileUtils.LoginPass };
-                var reply = await client.GetTokenAsync(tokenRequest);
                 var headers = new Metadata
                 {
-                    { "Authorization", $"Bearer {reply.Token}" }
+                    { "Authorization", $"Bearer {token}" }
                 };
                 var empty = client.DeleteAccount(new DeleteAccountRequest() { Text = "" }, headers);
                 Assert.True(empty != null);

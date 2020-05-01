@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Users.Registration
 {
-    public class UserRegistration : StructRequestHandler<RegistrationRequest, RegistrationReply, InWordsDataContext>
+    public class UserRegistration : StructRequestHandler<RegistrationRequest, TokenReply, InWordsDataContext>
     {
         private readonly IEmailVerifierService emailVerifierService;
         private readonly IJwtProvider jwtProvider;
@@ -35,7 +35,7 @@ namespace InWords.WebApi.Services.Users.Registration
         /// <exception cref="ArgumentNullException">If request is null</exception>
         /// <exception cref="ArgumentException">If email not exist</exception>
         /// <returns></returns>
-        public async override Task<RegistrationReply> HandleRequest(RequestObject<RegistrationRequest, RegistrationReply> request,
+        public async override Task<TokenReply> HandleRequest(RequestObject<RegistrationRequest, TokenReply> request,
             CancellationToken cancellationToken = default)
         {
 
@@ -43,7 +43,7 @@ namespace InWords.WebApi.Services.Users.Registration
             {
                 request.StatusCode = StatusCode.NotFound;
                 request.Detail = $"{nameof(request)} is null";
-                return new RegistrationReply();
+                return new TokenReply();
             }
 
             RegistrationRequest requestData = request.Value;
@@ -52,7 +52,7 @@ namespace InWords.WebApi.Services.Users.Registration
             {
                 request.StatusCode = StatusCode.AlreadyExists;
                 request.Detail = "Email already exist";
-                return new RegistrationReply();
+                return new TokenReply();
             }
 
             // this code work in only in valid satate
@@ -75,9 +75,9 @@ namespace InWords.WebApi.Services.Users.Registration
 
             // generate tocken
             TokenResponse tokenResponse = new TokenResponse(accountRegistration.Account.AccountId, accountRegistration.Account.Role, jwtProvider);
-            RegistrationReply registrationReply = new RegistrationReply
+            TokenReply registrationReply = new TokenReply
             {
-                Userid = tokenResponse.UserId,
+                UserId = tokenResponse.UserId,
                 Token = tokenResponse.Token
             };
 
