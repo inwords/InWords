@@ -24,7 +24,7 @@ namespace InWords.WebApi.gRPC.Services
         public override async Task<AddWordsReply> UpdateWords(UpdateWordsRequest request, ServerCallContext context)
             => await mediator.AuthorizeHandler<UpdateWordsRequest, AddWordsReply>(request, context).ConfigureAwait(false);
 
-        public override async Task<Empty> DeleteWords(DeleteWordsRequest request,ServerCallContext context)
+        public override async Task<Empty> DeleteWords(DeleteWordsRequest request, ServerCallContext context)
             => await mediator.AuthorizeHandler<DeleteWordsRequest, Empty>(request, context).ConfigureAwait(false);
 
         public override async Task<LookupReply> Lookup(LookupRequest request, ServerCallContext context)
@@ -35,14 +35,10 @@ namespace InWords.WebApi.gRPC.Services
             return response;
         }
 
-        public override Task<TrainingReply> Training(Empty request, ServerCallContext context)
-        {
-            return base.Training(request, context);
-        }
+        public override async Task<TrainingReply> Training(Empty request, ServerCallContext context)
+            => await mediator.AuthorizeHandler<Empty, TrainingReply>(request, context).ConfigureAwait(false);
 
-        public override Task<TrainingIdsReply> TrainingIds(Empty request, ServerCallContext context)
-        {
-            return base.TrainingIds(request, context);
-        }
+        public override async Task<TrainingIdsReply> TrainingIds(Empty request, ServerCallContext context)
+            => await mediator.AuthorizeHandler<Empty, TrainingIdsReply>(request, context).ConfigureAwait(false);
     }
 }

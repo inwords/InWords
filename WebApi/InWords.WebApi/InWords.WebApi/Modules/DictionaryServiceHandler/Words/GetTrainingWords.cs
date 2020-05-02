@@ -35,7 +35,10 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
                 .ConfigureAwait(false);
 
             TrainingReply trainingIdsReply = new TrainingReply();
-            trainingIdsReply.Pairs.AddRange(inRangeWords);
+            
+            if(inRangeWords != null)
+                trainingIdsReply.Pairs.AddRange(inRangeWords);
+            
             return trainingIdsReply;
         }
     }
