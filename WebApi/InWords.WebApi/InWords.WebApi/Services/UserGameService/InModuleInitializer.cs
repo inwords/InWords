@@ -8,7 +8,6 @@ namespace InWords.WebApi.Services.UserGameService
     {
         public override void ConfigureIoc(ContainerBuilder builder)
         {
-            builder.RegisterType<LevelCreator>();
             builder.RegisterType<GetUserGameStoryHandler>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
