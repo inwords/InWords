@@ -4,7 +4,6 @@ using InWords.WebApi.Modules.DictionaryServiceHandler.Extentions;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
