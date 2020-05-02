@@ -4,8 +4,8 @@ export const saveLevelResult = levelResult => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        apiVersion: '1.1',
-        endpoint: '/training/estimate',
+        apiVersion: '2',
+        endpoint: '/classicCardGame/estimate',
         method: 'POST',
         data: JSON.stringify({ metrics: [levelResult] }),
         resolve,

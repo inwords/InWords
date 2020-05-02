@@ -38,12 +38,10 @@ export const levelsListsMap = (state = {}, action) => {
           return {
             ...state,
             [payload.wordSetId]: levels.map(level => {
-              const levelResult = payload.levelResult.classicCardLevelResult[0];
-
+              const levelResult = payload.levelResult;
               if (level.levelId !== levelResult.levelId) {
                 return level;
               }
-
               return {
                 ...level,
                 stars: Math.max(level.stars, levelResult.score)

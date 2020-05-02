@@ -59,9 +59,7 @@ describe('wordSet reducer', () => {
             type: UPDATE_WORD_SET_LEVEL_RESULT,
             payload: {
               wordSetId: 1,
-              levelResult: {
-                classicCardLevelResult: [{ levelId: 1, score: 3 }]
-              }
+              levelResult: { levelId: 1, score: 3 }
             }
           }
         )
