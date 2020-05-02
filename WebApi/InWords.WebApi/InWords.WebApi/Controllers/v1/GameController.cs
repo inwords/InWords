@@ -1,6 +1,5 @@
 ﻿using InWords.Data.DTO;
 using InWords.Data.DTO.GameBox;
-using InWords.Data.Repositories;
 using InWords.WebApi.Services.GameService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,18 +21,13 @@ namespace InWords.WebApi.Controllers.v1.CardsGame
     public class GameController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly CreationRepository creationRepository;
         private readonly GameLevelWordService gameLevelWordService;
-        private readonly GameService gameService;
 
-        public GameController(CreationRepository creationRepository,
-            GameLevelWordService gameLevelWordService,
-            GameService gameService, IMediator mediator)
+        public GameController(GameLevelWordService gameLevelWordService
+            , IMediator mediator)
         {
             this.mediator = mediator;
-            this.creationRepository = creationRepository;
             this.gameLevelWordService = gameLevelWordService;
-            this.gameService = gameService;
         }
 
         /// <summary>
