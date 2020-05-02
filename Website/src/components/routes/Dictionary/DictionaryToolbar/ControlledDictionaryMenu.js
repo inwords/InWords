@@ -17,12 +17,10 @@ function ControlledDictionaryMenu({ checkedValues }) {
   const dispatch = useDispatch();
   const handleLearning = () => {
     dispatch(
-      initializeWordSetLevel({
-        levelId: -1,
-        wordTranslations: wordPairs.filter(({ serverId }) =>
-          checkedValues.includes(serverId)
-        )
-      })
+      initializeWordSetLevel(
+        -1,
+        wordPairs.filter(({ serverId }) => checkedValues.includes(serverId))
+      )
     );
   };
 
