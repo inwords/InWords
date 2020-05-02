@@ -23,9 +23,12 @@ export const updateWordSetLevelResult = (wordSetId, levelResult) => ({
 });
 
 export const INITIALIZE_WORD_SET_LEVEL = 'INITIALIZE_WORD_SET_LEVEL';
-export const initializeWordSetLevel = level => ({
+export const initializeWordSetLevel = (levelId, wordTranslations) => ({
   type: INITIALIZE_WORD_SET_LEVEL,
-  payload: level
+  payload: {
+    levelId,
+    wordTranslations
+  }
 });
 
 export const REMOVE_WORD_SET_LEVEL_PAIRS = 'REMOVE_WORD_SET_LEVEL_PAIRS';

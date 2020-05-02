@@ -11,10 +11,9 @@ const setup = () => {
     userId: 1
   };
   const mockingTrainingLevelResponse = {
-    levelId: 1,
-    wordTranslations: [
-      { serverId: 1, wordForeign: 'cat', wordNative: 'кошка' },
-      { serverId: 2, wordForeign: 'dog', wordNative: 'собака' }
+    words: [
+      { userWordPairId: 1, foreignWord: 'cat', nativeWord: 'кошка' },
+      { userWordPairId: 2, foreignWord: 'dog', nativeWord: 'собака' }
     ]
   };
   const mockingLevelResultResponse = {
@@ -27,7 +26,7 @@ const setup = () => {
     </Route>,
     {
       initialState: { auth: { token: accessData.token } },
-      route: `/training/courses/1/${mockingTrainingLevelResponse.levelId}/0`
+      route: `/training/courses/1/1/0`
     }
   );
   const clickWordEl = el => fireEvent.click(el);
@@ -52,12 +51,12 @@ const setupForNext = () => {
 
 test('finish game and play next (empty store)', async () => {
   const utils = setupForNext();
-  const wordTranslations = utils.mockingTrainingLevelResponse.wordTranslations;
+  const wordTranslations = utils.mockingTrainingLevelResponse.words;
   const wordEls = await waitFor(() => [
-    utils.getByText(wordTranslations[0].wordForeign),
-    utils.getByText(wordTranslations[0].wordNative),
-    utils.getByText(wordTranslations[1].wordForeign),
-    utils.getByText(wordTranslations[1].wordNative)
+    utils.getByText(wordTranslations[0].foreignWord),
+    utils.getByText(wordTranslations[0].nativeWord),
+    utils.getByText(wordTranslations[1].foreignWord),
+    utils.getByText(wordTranslations[1].nativeWord)
   ]);
 
   global.fetch = mockFetch(utils.mockingLevelResultResponse);

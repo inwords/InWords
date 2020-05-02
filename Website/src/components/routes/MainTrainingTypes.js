@@ -13,12 +13,7 @@ function MainTrainingTypes() {
     (async () => {
       try {
         const data = await dispatch(getWordPairsToStudy());
-        dispatch(
-          initializeWordSetLevel({
-            levelId: 0,
-            wordTranslations: data
-          })
-        );
+        dispatch(initializeWordSetLevel(0, data));
       } catch (error) {
         dispatch(
           setSnackbar({

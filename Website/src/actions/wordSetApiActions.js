@@ -28,7 +28,8 @@ export const getWordSetLevel = id => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        endpoint: `/game/level/${id}`,
+        apiVersion: '2',
+        endpoint: `/wordset/level/${id}`,
         resolve,
         reject
       })

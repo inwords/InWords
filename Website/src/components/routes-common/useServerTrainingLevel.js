@@ -16,8 +16,24 @@ export default function useServerTrainingLevel() {
     if (!levelsMap[paramLevelId]) {
       (async () => {
         try {
-          const data = await dispatch(getWordSetLevel(paramLevelId));
-          dispatch(initializeWordSetLevel(data));
+          const { words } = await dispatch(getWordSetLevel(paramLevelId));
+          dispatch(
+            initializeWordSetLevel(
+              +paramLevelId,
+              words.map(wordPair => {
+                const convertedWordPair = {
+                  serverId: wordPair.userWordPairId,
+                  wordForeign: wordPair.foreignWord,
+                  wordNative: wordPair.nativeWord
+                };
+                delete convertedWordPair.userWordPairId;
+                delete convertedWordPair.foreignWord;
+                delete convertedWordPair.nativeWord;
+
+                return convertedWordPair;
+              })
+            )
+          );
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить уровень' }));
         }
