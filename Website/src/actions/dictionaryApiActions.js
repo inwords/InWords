@@ -84,7 +84,7 @@ export const getWordPairsToStudy = () => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        apiVersion: '1.1',
+        apiVersion: '2',
         endpoint: '/dictionary/training',
         resolve,
         reject

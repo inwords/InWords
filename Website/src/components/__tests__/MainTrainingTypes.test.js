@@ -9,18 +9,20 @@ const setup = () => {
     token: 'xyz',
     userId: 1
   };
-  const mockingWordPairsToTrainResponse = [
-    {
-      serverId: 1,
-      wordForeign: 'dog',
-      wordNative: 'собака'
-    },
-    {
-      levelId: 2,
-      wordForeign: 'cat',
-      wordNative: 'кошка'
-    }
-  ];
+  const mockingWordPairsToTrainResponse = {
+    pairs: [
+      {
+        serverId: 1,
+        wordForeign: 'dog',
+        wordNative: 'собака'
+      },
+      {
+        levelId: 2,
+        wordForeign: 'cat',
+        wordNative: 'кошка'
+      }
+    ]
+  };
   global.fetch = mockFetch(mockingWordPairsToTrainResponse);
   const utils = renderWithEnvironment(<MainTrainingTypes />, {
     initialState: { auth: { token: accessData.token } }
@@ -34,7 +36,7 @@ const setup = () => {
 
 test('see number of words to train', async () => {
   const utils = setup();
-  const numberOfWords = utils.mockingWordPairsToTrainResponse.length;
+  const numberOfWords = utils.mockingWordPairsToTrainResponse.pairs.length;
 
   await waitFor(() => utils.getByText(`Слов на изучение: ${numberOfWords}`));
 });
