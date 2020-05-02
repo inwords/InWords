@@ -17,7 +17,7 @@ const setup = () => {
     ]
   };
   const mockingLevelResultResponse = {
-    classicCardLevelResult: [{ levelId: 1, score: 3 }]
+    points: [{ levelId: 1, score: 3 }]
   };
   global.fetch = mockFetch(mockingTrainingLevelResponse);
   const utils = renderWithEnvironment(
