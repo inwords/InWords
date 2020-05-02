@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Modules.DictionaryService.Words
+namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
     public class Lookup : StructRequestHandler<LookupRequest, LookupReply, InWordsDataContext>
     {
