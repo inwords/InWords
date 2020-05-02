@@ -1,7 +1,4 @@
-﻿using InWords.WebApi.Model.UserWordPair;
-using InWords.WebApi.Services.UserWordPairService.Abstraction;
-
-namespace InWords.WebApi.Model.UserWordPair.MemorizationLevels
+﻿namespace InWords.WebApi.Model.UserWordPair.MemorizationLevels
 {
     public class SatisfactoryMemorization : BaseMemorization
     {

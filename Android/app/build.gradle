@@ -32,12 +32,31 @@ android {
             }
         }
     }
+
+    signingConfigs {
+        release {
+            def releaseKeystorePropertiesFile = rootProject.file("app/keystore-release.properties")
+            def dummyKeystorePropertiesFile = rootProject.file("app/keystore-dummy.properties")
+            def keystorePropertiesFile = releaseKeystorePropertiesFile.exists() ? releaseKeystorePropertiesFile : dummyKeystorePropertiesFile
+
+            def keystoreProperties = new Properties()
+            keystoreProperties.load(keystorePropertiesFile.newDataInputStream())
+
+            storeFile file(keystoreProperties['storeFile'])
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     buildTypes {
         release {
             debuggable false
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
 
             manifestPlaceholders = [crashlytics: "true"]
         }

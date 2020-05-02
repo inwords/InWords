@@ -21,7 +21,7 @@ namespace InWords.WebApi.Swagger.Examples
             metric2.WordIdOpenCount.Add(726, 6);
             metric3.WordIdOpenCount.Add(321, 3);
             metric3.WordIdOpenCount.Add(756, 4);
-            
+
             example.Metrics.Add(metric1);
             example.Metrics.Add(metric2);
             example.Metrics.Add(metric3);

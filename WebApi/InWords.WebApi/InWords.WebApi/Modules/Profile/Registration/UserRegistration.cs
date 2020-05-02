@@ -8,7 +8,6 @@ using InWords.WebApi.Services.Email.Abstractions;
 using InWords.WebApi.Services.Users.Extentions;
 using InWords.WebApi.Services.Users.Models;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,10 +37,15 @@ namespace InWords.WebApi.Services.Users.Registration
         public async override Task<TokenReply> HandleRequest(RequestObject<RegistrationRequest, TokenReply> request,
             CancellationToken cancellationToken = default)
         {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
 
             if (request == null)
             {
-                request.StatusCode = StatusCode.NotFound;
+                request = new RequestObject<RegistrationRequest, TokenReply>(new RegistrationRequest())
+                {
+                    StatusCode = StatusCode.NotFound
+                };
                 request.Detail = $"{nameof(request)} is null";
                 return new TokenReply();
             }
@@ -89,7 +93,6 @@ namespace InWords.WebApi.Services.Users.Registration
         /// </summary>
         /// <exception cref="ArgumentException">Email already exist</exception>
         /// <param name="email"></param>
-        [DoesNotReturn]
         public bool IsAccountExist(string email)
         {
             return Context.Accounts.Any(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));

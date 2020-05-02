@@ -1,10 +1,7 @@
 ﻿using InWords.Protobuf;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
 {

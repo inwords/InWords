@@ -1,9 +1,6 @@
 ﻿using Grpc.Core;
-using InWords.Data.DTO.GameBox;
 using InWords.Protobuf;
-using InWords.Service.Auth.Extensions;
 using InWords.WebApi.Extensions;
-using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;

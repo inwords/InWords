@@ -9,7 +9,7 @@ namespace InWords.WebApi.Tests.Scenarios
     public class AddAndDeleteWords
     {
         [Fact]
-        public async void AddAndDeleteWords_Ok()
+        public void AddAndDeleteWords_Ok()
         {
             string login = ProfileUtils.GetLogin();
             string token = ProfileRegistrator.RegisterAccount(login);
