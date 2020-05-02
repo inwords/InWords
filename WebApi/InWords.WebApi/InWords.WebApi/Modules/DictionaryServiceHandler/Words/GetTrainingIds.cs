@@ -1,5 +1,6 @@
 ﻿using InWords.Data;
 using InWords.Protobuf;
+using InWords.WebApi.Modules.DictionaryServiceHandler.Extentions;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Ocsp;
@@ -13,7 +14,6 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
     public class GetTrainingIds : AuthorizedRequestObjectHandler<Empty, TrainingIdsReply, InWordsDataContext>
     {
-        private readonly int trainingRange = 1;
         public GetTrainingIds(InWordsDataContext context) : base(context) { }
 
         public override async Task<TrainingIdsReply> HandleRequest(AuthorizedRequestObject<Empty, TrainingIdsReply> request,
@@ -24,9 +24,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 
             var userId = request.UserId;
             var value = request.Value;
-            var timeGap = DateTime.UtcNow.AddDays(trainingRange);
-            var userWords = Context.UserWordPairs.Where(u => u.UserId == userId);
-            var inRangeWords = await Context.UserWordPairs.Where(u => u.TimeGap < timeGap)
+            var inRangeWords = await Context.UserWordPairs.TrainingWords(userId)
                 .Select(d => d.UserWordPairId)
                 .ToArrayAsync()
                 .ConfigureAwait(false);
