@@ -1,7 +1,5 @@
 ﻿using InWords.Data.DTO.Enums;
-using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Model.UserWordPair.MemorizationLevels;
-using InWords.WebApi.Services.UserWordPairService.Abstraction;
 using System;
 using System.Collections.Generic;
 

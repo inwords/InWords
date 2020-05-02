@@ -16,7 +16,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
         public GetTrainingWords(InWordsDataContext context) : base(context) { }
 
         public override async Task<TrainingReply> HandleRequest(
-            AuthorizedRequestObject<Empty, TrainingReply> request, 
+            AuthorizedRequestObject<Empty, TrainingReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)
@@ -25,7 +25,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
             var userId = request.UserId;
             var value = request.Value;
             var inRangeWords = await Context.UserWordPairs.TrainingWords(userId)
-                .Select(d => new TrainingPair() 
+                .Select(d => new TrainingPair()
                 {
                     ForeignWord = d.ForeignWord,
                     NativeWord = d.NativeWord,
@@ -35,10 +35,10 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
                 .ConfigureAwait(false);
 
             TrainingReply trainingIdsReply = new TrainingReply();
-            
-            if(inRangeWords != null)
+
+            if (inRangeWords != null)
                 trainingIdsReply.Pairs.AddRange(inRangeWords);
-            
+
             return trainingIdsReply;
         }
     }
