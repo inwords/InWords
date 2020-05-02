@@ -32,14 +32,13 @@ function WordPairEditDialogContainer({
     },
     async () => {
       const preparedPair = {
+        delete: wordPair.serverId,
         wordForeign: inputs.wordForeign.trim(),
         wordNative: inputs.wordNative.trim()
       };
 
       try {
-        const data = await dispatch(
-          updateWordPairs({ [wordPair.serverId]: preparedPair })
-        );
+        const data = await dispatch(updateWordPairs([preparedPair]));
         dispatch(
           updateWordPairsLocal([
             {

@@ -47,36 +47,24 @@ export const addWordPairs = wordPairs => dispatch =>
     )
   );
 
-export const updateWordPairs = wordPairsMap => dispatch =>
+export const updateWordPairs = wordPairs => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        endpoint: '/words/updatePair',
+        apiVersion: '2',
+        endpoint: '/dictionary/updateWords',
         method: 'POST',
-        data: JSON.stringify(wordPairsMap),
+        data: JSON.stringify({
+          update: wordPairs.map((wordPair, index) => ({
+            localId: index,
+            ...wordPair
+          }))
+        }),
         resolve,
         reject
       })
     )
   );
-// new Promise((resolve, reject) =>
-//   dispatch(
-//     apiAction({
-//       apiVersion: '2',
-//       endpoint: '/dictionary/updateWords',
-//       method: 'POST',
-//       data: JSON.stringify({
-//         words: wordPairs.map((wordPair, index) => ({
-//           localId: index,
-//           deleteId: wordPair.serverId,
-//           ...wordPair
-//         }))
-//       }),
-//       resolve,
-//       reject
-//     })
-//   )
-// );
 
 export const getWordTranslations = word => dispatch =>
   new Promise((resolve, reject) =>
