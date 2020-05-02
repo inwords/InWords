@@ -12,8 +12,24 @@ function MainTrainingTypes() {
   useEffect(() => {
     (async () => {
       try {
-        const data = await dispatch(getWordPairsToStudy());
-        dispatch(initializeWordSetLevel(0, data));
+        const { pairs } = await dispatch(getWordPairsToStudy());
+        dispatch(
+          initializeWordSetLevel(
+            0,
+            pairs.map(wordPair => {
+              const convertedWordPair = {
+                serverId: wordPair.userWordPair,
+                wordForeign: wordPair.foreignWord,
+                wordNative: wordPair.nativeWord
+              };
+              delete convertedWordPair.userWordPairId;
+              delete convertedWordPair.foreignWord;
+              delete convertedWordPair.nativeWord;
+
+              return convertedWordPair;
+            })
+          )
+        );
       } catch (error) {
         dispatch(
           setSnackbar({

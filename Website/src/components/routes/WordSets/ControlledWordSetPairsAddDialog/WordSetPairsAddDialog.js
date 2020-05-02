@@ -16,10 +16,10 @@ function WordSetPairsAddDialog({ open, handleClose, gameId }) {
 
   const handleAdd = async () => {
     try {
-      const data = await dispatch(addWordSetToDictionary(gameId));
+      await dispatch(addWordSetToDictionary(gameId));
       dispatch(
         setSnackbar({
-          text: `Добавлено новых слов: ${data.wordsAdded || 'неизвестно'}`
+          text: 'Слова из набора добавлены в словарь'
         })
       );
       dispatch(resetWordPairsActuality());
