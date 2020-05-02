@@ -63,6 +63,18 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/jacocoTestReleaseUnitTestReport/jacocoTestReleaseUnitTestReport.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/jacocoTestReleaseUnitTestReport/html'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/Android/app/build/reports/jacoco/jacocoTestReleaseUnitTestReport/jacocoTestReleaseUnitTestReport.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/Android/app/build/reports/jacoco/jacocoTestReleaseUnitTestReport/html'
     failIfCoverageEmpty: true
+
+- task: CopyFiles@2
+  inputs:
+    contents: '$(System.DefaultWorkingDirectory)/Android/app/build/outputs/bundle/release/app-release.aab'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: 'app-release'
+
+
