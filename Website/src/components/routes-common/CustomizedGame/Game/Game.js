@@ -102,21 +102,22 @@ function Game({
     const serverLevelId = levelId < 0 ? 0 : levelId;
 
     try {
-      const data = await dispatch(
+      const { points } = await dispatch(
         saveLevelResult({
           gameLevelId: newServerLevelId || serverLevelId,
-          wordPairIdOpenCounts: wordPairIdOpenCountsMap
+          wordIdOpenCount: wordPairIdOpenCountsMap
         })
       );
+      const levelResult = points[0];
 
       setTimeout(() => {
         setGameCompleted(true);
         setTimeout(() => {
           resetGameProgress();
           setRecentWordPairs(wordPairs);
-          handleResultSuccess(data);
-          setScore(data.classicCardLevelResult[0].score);
-          setNewServerLevelId(data.classicCardLevelResult[0].levelId);
+          handleResultSuccess(levelResult);
+          setScore(levelResult.score);
+          setNewServerLevelId(levelResult.levelId);
           setResultReady(true);
           setColorPair(getRandomColorPair());
         }, RESULT_DELAY);

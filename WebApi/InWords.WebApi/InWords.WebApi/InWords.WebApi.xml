@@ -32,7 +32,7 @@
             <param name="env"></param>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.CardsGame.CustomLevelController.GetHistory">
+        <member name="M:InWords.WebApi.Controllers.v1dot1.CardsGame.CustomLevelController.GetHistory">
             <summary>
                 Use this to get last custom played games
             </summary>
@@ -41,7 +41,7 @@
             <response code="401">Unauthorized</response>
             <response code="200">OK</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.DictionaryController.GetTraining">
+        <member name="M:InWords.WebApi.Controllers.v1dot1.DictionaryController.GetTraining">
             <summary>
                 Get user dictionary words pairs to be repeated. Use when dictionary is not loaded or storage unavailable 
             </summary>
@@ -49,7 +49,7 @@
             <response code="200">Words to be repeated</response>
             <response code="401">Unauthorized access</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.DictionaryController.GetTrainingIds">
+        <member name="M:InWords.WebApi.Controllers.v1dot1.DictionaryController.GetTrainingIds">
             <summary>
                 Get user dictionary word pairs ids to be repeated. Use when dictionary is downloaded and resolve worlds on client
             </summary>
@@ -57,7 +57,7 @@
             <response code="200">Word pairs Ids to be repeated</response>
             <response code="401">Unauthorized access</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.ProfileSettings.UploadAvatar(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:InWords.WebApi.Controllers.v1dot1.ProfileSettings.UploadAvatar(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
                 Use this to update user avatar
             </summary>
@@ -66,7 +66,7 @@
             <response code="401">Unauthorized access</response>
             <response code="417">File is zero length</response>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1._1.TrainingController.Estimate(InWords.Data.DTO.Games.Levels.ClassicCardLevelMetricQuery)">
+        <member name="M:InWords.WebApi.Controllers.v1dot1.TrainingController.Estimate(InWords.Data.DTO.Games.Levels.ClassicCardLevelMetricQuery)">
              <summary>
              Use this to upload user's level's metric
              </summary>

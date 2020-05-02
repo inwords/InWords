@@ -1,0 +1,20 @@
+android {
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
+    testOptions {
+        unitTests.all {
+            // Always run tests, even when nothing changed.
+            dependsOn 'clean'
+
+            // Show test results.
+            testLogging {
+                events "passed", "skipped", "failed"
+            }
+        }
+    }
+}
+
+apply from: "${project.rootDir.absolutePath}/jacoco-subproject.gradle"

@@ -18,7 +18,7 @@ namespace InWords.Data.Domains
 
         }
 
-        public Word(string content) 
+        public Word(string content)
         {
             Content = content;
         }

@@ -21,9 +21,3 @@ dependencies {
     //See main build.gradle for values & versions
     compileOnly "androidx.appcompat:appcompat:$versions.ANDROID_X"
 }
-
-// Execute: gradlew clean install -P flipview
-if (project.hasProperty('all') || project.hasProperty('flipview')) {
-    apply from: '../install.gradle'
-    apply from: '../bintray.gradle'
-}

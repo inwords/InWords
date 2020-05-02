@@ -1,5 +1,5 @@
-﻿using System.Collections.Immutable;
-using InWords.Data.DTO.Enums;
+﻿using InWords.Data.DTO.Enums;
+using System.Collections.Immutable;
 
 namespace InWords.Data.DTO.Abstractions
 {

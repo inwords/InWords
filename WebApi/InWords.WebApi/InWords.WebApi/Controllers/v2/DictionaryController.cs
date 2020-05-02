@@ -1,5 +1,7 @@
-﻿using InWords.Protobuf;
+﻿using Grpc.Core;
+using InWords.Protobuf;
 using InWords.Service.Auth.Extensions;
+using InWords.WebApi.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -115,6 +117,53 @@ namespace InWords.WebApi.Controllers.v2
             else
             {
                 return BadRequest(response);
+            }
+        }
+
+        /// <summary>
+        /// Use this to request pairs to learn
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Training Pairs", typeof(TrainingReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Request status", typeof(Status))]
+        [Route("training")]
+        [HttpGet]
+        public async Task<IActionResult> Training()
+        {
+
+            var (reply, status) = await mediator.AuthorizeHandler<Empty, TrainingReply>(new Empty(), User).ConfigureAwait(false);
+            if (status.StatusCode == Grpc.Core.StatusCode.OK)
+            {
+                return Ok(reply);
+            }
+            else
+            {
+                return BadRequest(status);
+            }
+        }
+
+        /// <summary>
+        /// Use this to request pairs to learn
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Training Ids", typeof(TrainingReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Request status", typeof(Status))]
+        [Route("trainingIds")]
+        [HttpGet]
+        public async Task<IActionResult> TrainingIds()
+        {
+
+            var (reply, status) = await mediator.AuthorizeHandler<Empty, TrainingIdsReply>(new Empty(), User)
+                .ConfigureAwait(false);
+            if (status.StatusCode == Grpc.Core.StatusCode.OK)
+            {
+                return Ok(reply);
+            }
+            else
+            {
+                return BadRequest(status);
             }
         }
     }

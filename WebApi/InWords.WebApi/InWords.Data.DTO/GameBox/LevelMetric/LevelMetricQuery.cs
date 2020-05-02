@@ -1,5 +1,5 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 
 namespace InWords.Data.DTO.GameBox.LevelMetric
