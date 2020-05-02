@@ -34,5 +34,15 @@ namespace InWords.WebApi.gRPC.Services
             context.UpdateStatus(reqestObject);
             return response;
         }
+
+        public override Task<TrainingReply> Training(Empty request, ServerCallContext context)
+        {
+            return base.Training(request, context);
+        }
+
+        public override Task<TrainingIdsReply> TrainingIds(Empty request, ServerCallContext context)
+        {
+            return base.TrainingIds(request, context);
+        }
     }
 }

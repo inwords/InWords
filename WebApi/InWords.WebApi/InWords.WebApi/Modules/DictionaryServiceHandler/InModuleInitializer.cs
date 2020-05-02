@@ -13,6 +13,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler
             builder.RegisterType<UpdateWords>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<DeleteWords>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<Lookup>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GetTrainingWords>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }
