@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -26,11 +27,12 @@ namespace InWords.WebApi.Controllers.v1dot1
         }
 
         /// <summary>
-        ///     Get user dictionary words pairs to be repeated. Use when dictionary is not loaded or storage unavailable 
+        ///    Use v2 Dictionary.TrainingIds 
         /// </summary>
         /// <returns>Quantity of stars</returns>
         /// <response code="200">Words to be repeated</response>
         /// <response code="401">Unauthorized access</response>
+        [Obsolete("Use v2 Dictionary.Training")]
         [Route("training")]
         [HttpGet]
         [ProducesResponseType(typeof(List<WordTranslation>), StatusCodes.Status200OK)]
@@ -44,11 +46,12 @@ namespace InWords.WebApi.Controllers.v1dot1
         }
 
         /// <summary>
-        ///     Get user dictionary word pairs ids to be repeated. Use when dictionary is downloaded and resolve worlds on client
+        ///     Use v2 Dictionary.Training
         /// </summary>
         /// <returns>Quantity of stars</returns>
         /// <response code="200">Word pairs Ids to be repeated</response>
         /// <response code="401">Unauthorized access</response>
+        [Obsolete("Use v2 Dictionary.TrainingIds")]
         [Route("trainingIds")]
         [HttpGet]
         [ProducesResponseType(typeof(List<int>), StatusCodes.Status200OK)]

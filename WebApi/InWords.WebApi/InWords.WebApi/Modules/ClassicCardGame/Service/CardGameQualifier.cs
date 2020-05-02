@@ -1,9 +1,6 @@
 ﻿using InWords.Common.Extensions;
 using InWords.Data.DTO.Enums;
-using InWords.Data.DTO.GameBox.LevelMetric;
-using InWords.Protobuf;
 using InWords.WebApi.Model.UserWordPair;
-using System;
 using System.Collections.Generic;
 
 namespace InWords.WebApi.Modules.ClassicCardGame.Service
@@ -11,7 +8,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Service
     public sealed class CardGameQualifier : IKnowledgeQualifier
     {
         private readonly Dictionary<int, int> levelMetricQuery;
-        public CardGameQualifier(Dictionary<int,int> levelMetricQuery)
+        public CardGameQualifier(Dictionary<int, int> levelMetricQuery)
         {
             this.levelMetricQuery = levelMetricQuery;
         }

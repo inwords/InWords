@@ -13,7 +13,22 @@ service DictionaryProvider {
 	rpc AddWords (AddWordsRequest) returns (AddWordsReply);
 	rpc DeleteWords (DeleteWordsRequest) returns (Common.v2.Empty);
 	rpc UpdateWords (UpdateWordsRequest) returns (AddWordsReply);
+	rpc Training (Common.v2.Empty) returns (TrainingReply);
+	rpc TrainingIds (Common.v2.Empty) returns (TrainingIdsReply);
 	rpc Lookup (LookupRequest) returns (LookupReply); // https://yandex.ru/dev/dictionary/doc/dg/reference/lookup-docpage/ 
+}
+
+message TrainingReply {
+	message TrainingPair{
+		int32 UserWordPair = 1;
+		string ForeignWord = 2;
+		string NativeWord = 3;
+	}
+	repeated TrainingPair Pairs = 1;
+}
+
+message TrainingIdsReply {
+	repeated int32 UserWordPairs = 1;
 }
 
 message LookupRequest{

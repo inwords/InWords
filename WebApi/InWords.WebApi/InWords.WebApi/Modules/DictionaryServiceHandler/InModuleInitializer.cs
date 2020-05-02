@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
-using InWords.WebApi.Modules.DictionaryService.Words;
+using InWords.WebApi.Modules.DictionaryServiceHandler.Words;
 
-namespace InWords.WebApi.Modules.DictionaryService
+namespace InWords.WebApi.Modules.DictionaryServiceHandler
 {
     public class InModuleInitializer : InModule
     {
@@ -13,6 +13,8 @@ namespace InWords.WebApi.Modules.DictionaryService
             builder.RegisterType<UpdateWords>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<DeleteWords>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<Lookup>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GetTrainingWords>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GetTrainingIds>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using InWords.Protobuf;
 using Swashbuckle.AspNetCore.Filters;
-using System.Reflection.Metadata;
 
 namespace InWords.WebApi.Swagger.Examples
 {

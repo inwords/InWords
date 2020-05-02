@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace InWords.WebApi.Modules.DictionaryService.Extentions
+namespace InWords.WebApi.Modules.DictionaryServiceHandler.Extentions
 {
     public static class AddUserWordPairExtentions
     {

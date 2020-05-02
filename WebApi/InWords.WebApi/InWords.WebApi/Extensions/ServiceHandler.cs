@@ -10,6 +10,15 @@ namespace InWords.WebApi.Extensions
 {
     public static class ServiceHandler
     {
+        /// <summary>
+        /// Grpc Authorize handler
+        /// </summary>
+        /// <typeparam name="TRequest"></typeparam>
+        /// <typeparam name="TReply"></typeparam>
+        /// <param name="mediator"></param>
+        /// <param name="request"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static async Task<TReply> AuthorizeHandler<TRequest, TReply>(
             this IMediator mediator,
             TRequest request,
@@ -28,10 +37,20 @@ namespace InWords.WebApi.Extensions
             {
                 UserId = context.GetHttpContext().User.GetUserId()
             };
+            context.Status = new Status(reqestObject.StatusCode, reqestObject.Detail);
             TReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
             return reply;
         }
 
+        /// <summary>
+        /// Http authorize handler
+        /// </summary>
+        /// <typeparam name="TRequest"></typeparam>
+        /// <typeparam name="TReply"></typeparam>
+        /// <param name="mediator"></param>
+        /// <param name="request"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public static async Task<(TReply reply, Status status)> AuthorizeHandler<TRequest, TReply>(
             this IMediator mediator,
             TRequest request,
@@ -52,9 +71,7 @@ namespace InWords.WebApi.Extensions
             };
             TReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
 
-            return (reply, new Status(StatusCode.OK, string.Empty));
+            return (reply, new Status(reqestObject.StatusCode, reqestObject.Detail));
         }
-
-
     }
 }

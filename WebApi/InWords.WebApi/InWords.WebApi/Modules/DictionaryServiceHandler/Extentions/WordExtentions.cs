@@ -3,15 +3,16 @@ using InWords.Data.Domains;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
-namespace InWords.WebApi.Modules.DictionaryService.Extentions
+namespace InWords.WebApi.Modules.DictionaryServiceHandler.Extentions
 {
     public static class WordExtentions
     {
         public static string ToNormalizedWord(this string str)
         {
-            return str.Trim().ToLower();
+            return str.Trim().ToLower(CultureInfo.InvariantCulture);
         }
         public static Dictionary<string, Word> ToContentDictionary(this IEnumerable<Word> resource)
         {

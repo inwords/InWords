@@ -1,6 +1,4 @@
-﻿using InWords.WebApi.Model.UserWordPair;
-using InWords.WebApi.Services.UserWordPairService.Abstraction;
-using System;
+﻿using System;
 
 namespace InWords.WebApi.Model.UserWordPair.MemorizationLevels
 {

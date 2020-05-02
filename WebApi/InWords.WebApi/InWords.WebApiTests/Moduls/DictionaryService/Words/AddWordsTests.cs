@@ -1,6 +1,6 @@
 ﻿using InWords.Data;
 using InWords.Protobuf;
-using InWords.WebApi.Modules.DictionaryService.Words;
+using InWords.WebApi.Modules.DictionaryServiceHandler.Words;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApiTests.TestUtils;
 using System.Linq;

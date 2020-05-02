@@ -3,13 +3,12 @@ using InWords.Data;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using Microsoft.Extensions.Configuration;
-using Org.BouncyCastle.Ocsp;
 using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace InWords.WebApi.Modules.DictionaryService.Words
+namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
     public class Lookup : StructRequestHandler<LookupRequest, LookupReply, InWordsDataContext>
     {
