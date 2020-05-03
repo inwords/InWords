@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
+using InWords.WebApi.Modules.ClassicCardGame.Service;
 
 namespace InWords.WebApi.Modules.ClassicCardGame
 {
@@ -7,6 +8,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
     {
         public override void ConfigureIoc(ContainerBuilder builder)
         {
+            builder.RegisterType<SaveLevels>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<EstimateClassicCardGame>().AsImplementedInterfaces().InstancePerDependency();
         }
     }

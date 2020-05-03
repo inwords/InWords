@@ -58,6 +58,8 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
                     Tags = GameTags.CustomLevelsHistory,
                     UserId = userId
                 };
+
+                context.Add(historyGameTag);
                 await context.SaveChangesAsync().ConfigureAwait(false);
 
                 historyGameId = game.GameId;
