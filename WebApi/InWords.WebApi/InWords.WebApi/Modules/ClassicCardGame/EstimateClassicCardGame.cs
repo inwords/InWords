@@ -2,7 +2,7 @@
 using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using InWords.Protobuf;
-using InWords.WebApi.Extensions.InWordsDataContext;
+using InWords.WebApi.Extensions.InWordsDataContextExtentions;
 using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Modules.ClassicCardGame.Extentions;
 using InWords.WebApi.Modules.ClassicCardGame.Service;
