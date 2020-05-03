@@ -18,7 +18,7 @@ message CardGameInfos	{
 	message CardGameInfo{
 		map<int32,int32> wordIdOpenCount = 1;
 	}
-	repeated CardGameMetric Info = 1;
+	repeated CardGameInfo Info = 1;
 }
 
 message CardGameMetrics	{
