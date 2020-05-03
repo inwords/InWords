@@ -37,6 +37,7 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: NuGetCommand@2
+  displayName: 'NuGet restore packages'
   inputs:
     command: 'restore'
     restoreSolution: '**/InWords.WebApi/InWords.WebApi.sln'
@@ -44,7 +45,7 @@ steps:
     vstsFeed: 'http://nuget.org/'
 
 - task: DotNetCoreCLI@2
-  displayName: 'build Release'
+  displayName: 'build any OS Release'
   inputs:
     command: build
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
@@ -60,16 +61,6 @@ steps:
     publishTestResults: true
     
 # Publish artifacts stage
-- task: DownloadSecureFile@1
-  displayName: 'Download configuration file'
-  inputs:
-    secureFile: 'appsettings.security.json'
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: $(Agent.TempDirectory)
-    Contents: appsettings.security.json
-    TargetFolder: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.1/
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish artifacts: _WebApiBuild'
