@@ -24,6 +24,16 @@ pool:
   vmImage: 'macOS-latest'
 
 steps:
+- task: CopyFiles@2
+  inputs:
+    contents: '$(System.DefaultWorkingDirectory)/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: 'source code for android release'
+
 - task: DownloadSecureFile@1
   displayName: 'Download google-services.json'
   inputs:
@@ -66,15 +76,5 @@ steps:
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/Android/app/build/reports/jacoco/jacocoTestReleaseUnitTestReport/jacocoTestReleaseUnitTestReport.xml'
     reportDirectory: '$(System.DefaultWorkingDirectory)/Android/app/build/reports/jacoco/jacocoTestReleaseUnitTestReport/html'
     failIfCoverageEmpty: true
-
-- task: CopyFiles@2
-  inputs:
-    contents: '$(System.DefaultWorkingDirectory)/Android/app/build/outputs/bundle/release/app-release.aab'
-    targetFolder: $(Build.ArtifactStagingDirectory)
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: 'app-release'
 
 
