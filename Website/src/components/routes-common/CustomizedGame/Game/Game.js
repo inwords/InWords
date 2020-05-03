@@ -5,7 +5,10 @@ import { v4 as uuidv4 } from 'uuid';
 import flatMap from 'src/utils/flatMap';
 import shuffle from 'src/utils/shuffle';
 import { setSnackbar } from 'src/actions/commonActions';
-import { saveLevelResult } from 'src/actions/trainingApiActions';
+import {
+  saveLevelResult,
+  saveCustomLevelResult
+} from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
 import GameField from './GameField';
 
@@ -99,14 +102,15 @@ function Game({
 
   const handleGameEnd = async () => {
     const levelId = trainingLevel.levelId;
-    const serverLevelId = levelId < 0 ? 0 : levelId;
 
     try {
       const { points } = await dispatch(
-        saveLevelResult({
-          gameLevelId: newServerLevelId || serverLevelId,
-          wordIdOpenCount: wordPairIdOpenCountsMap
-        })
+        levelId > 0
+          ? saveLevelResult({
+              gameLevelId: newServerLevelId || levelId,
+              wordIdOpenCount: wordPairIdOpenCountsMap
+            })
+          : saveCustomLevelResult({ wordIdOpenCount: wordPairIdOpenCountsMap })
       );
       const levelResult = points[0];
 
