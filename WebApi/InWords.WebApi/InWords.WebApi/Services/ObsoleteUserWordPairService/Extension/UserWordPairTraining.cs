@@ -1,5 +1,5 @@
 ﻿using InWords.Data.Domains;
-using InWords.WebApi.Extensions.InWordsDataContext;
+using InWords.WebApi.Extensions.InWordsDataContextExtentions;
 using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
 using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;

@@ -21,7 +21,7 @@ const setup = ({ initialState } = {}) => {
     ]
   };
   const mockingLevelResultResponse = {
-    classicCardLevelResult: [{ levelId: 1, score: 3 }]
+    points: [{ levelId: 1, score: 3 }]
   };
   const utils = renderWithEnvironment(
     <Route path="/:levelId/:trainingId">

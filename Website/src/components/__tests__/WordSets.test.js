@@ -80,9 +80,7 @@ const setupForWordSetPairsAdding = () => {
       </Fragment>
     )
   });
-  const mockingCourseWordPairsAddingResponse = {
-    wordsAdded: 10
-  };
+  const mockingCourseWordPairsAddingResponse = {};
   const clickAdd = id =>
     fireEvent.click(utils.getByTestId(`add-to-dictionary-${id}`));
   const clickAddConfirmation = () =>
@@ -123,12 +121,11 @@ test('select word set pairs to see', async () => {
 test('add word set pairs to dictionary', async () => {
   const utils = setupForWordSetPairsAdding();
   const courseInfo = utils.mockingCoursesResponse.wordSets[0];
-  const wordsAdded = utils.mockingCourseWordPairsAddingResponse.wordsAdded;
   await waitFor(() => screen.getByText(courseInfo.title));
 
   global.fetch = mockFetch(utils.mockingCourseWordPairsAddingResponse);
   utils.clickAdd(courseInfo.id);
   utils.clickAddConfirmation();
 
-  await waitFor(() => screen.getByText(`Добавлено новых слов: ${wordsAdded}`));
+  await waitFor(() => screen.getByText('Слова из набора добавлены в словарь'));
 });

@@ -52,7 +52,7 @@ const setupForWordPairEdit = () => {
     wordForeign: 'hound',
     wordNative: 'гончая'
   };
-  const mockingWordPairsEditResponse = [{ id: 0, serverId: 3 }];
+  const mockingWordPairsEditResponse = [{ localId: 0, serverId: 3 }];
 
   const clickWordPairEdit = word => fireEvent.click(utils.getByText(word));
   const clickWordPairEditConfirmation = () =>
