@@ -3,10 +3,7 @@ import { INITIALIZE_TRAINING_HISTORY } from 'src/actions/trainingActions';
 
 describe('trainingHistory reducer', () => {
   it('should return the initial state', () => {
-    expect(trainingHistory(undefined, {})).toEqual({
-      actual: false,
-      recentTrainings: []
-    });
+    expect(trainingHistory(undefined, {})).toEqual([]);
   });
   const recentTrainings = [
     {
@@ -29,9 +26,6 @@ describe('trainingHistory reducer', () => {
         type: INITIALIZE_TRAINING_HISTORY,
         payload: recentTrainings
       })
-    ).toEqual({
-      actual: true,
-      recentTrainings: recentTrainings.slice().reverse()
-    });
+    ).toEqual(recentTrainings.slice().reverse());
   });
 });

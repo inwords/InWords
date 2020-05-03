@@ -7,20 +7,20 @@ import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
 function HistoryTrainingSwitcher() {
   const trainingLevel = useServerTrainingLevel();
 
-  const trainingHistory = useSelector(store => store.training.history);
+  const trainingHistory = useSelector(store => store.trainingHistory);
 
   const history = useHistory();
 
   const { levelId: paramLevelId, trainingId: paramTrainingId } = useParams();
 
   const handleNextLevel = () => {
-    const currentLevelIndex = trainingHistory.recentTrainings.findIndex(
+    const currentLevelIndex = trainingHistory.findIndex(
       ({ levelId }) => levelId === +paramLevelId
     );
 
     if (currentLevelIndex !== -1) {
       const nextLevelIndex = currentLevelIndex + 1;
-      const nextLevel = trainingHistory.recentTrainings[nextLevelIndex];
+      const nextLevel = trainingHistory[nextLevelIndex];
 
       if (nextLevel) {
         history.push(

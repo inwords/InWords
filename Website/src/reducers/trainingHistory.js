@@ -1,18 +1,9 @@
 import { INITIALIZE_TRAINING_HISTORY } from 'src/actions/trainingActions';
 
-const trainingHistory = (
-  state = {
-    actual: false,
-    recentTrainings: []
-  },
-  action
-) => {
+const trainingHistory = (state = [], action) => {
   switch (action.type) {
     case INITIALIZE_TRAINING_HISTORY:
-      return {
-        actual: true,
-        recentTrainings: (action.payload || []).slice(0, 30).reverse()
-      };
+      return (action.payload || []).slice(0, 30).reverse();
     default:
       return state;
   }
