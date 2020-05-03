@@ -11,6 +11,14 @@ package ClassicCardGame.v2;
 service ClassicCardGameProvider {
 	// Returns the number of stars and updates information about remembering words
 	rpc Estimate (CardGameMetrics) returns (LevelPoints);
+	rpc SaveGames (CardGameInfos) returns (LevelPoints);
+}
+
+message CardGameInfos	{
+	message CardGameInfo{
+		map<int32,int32> wordIdOpenCount = 1;
+	}
+	repeated CardGameInfo Info = 1;
 }
 
 message CardGameMetrics	{

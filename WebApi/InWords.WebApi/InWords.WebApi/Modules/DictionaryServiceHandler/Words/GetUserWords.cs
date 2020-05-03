@@ -1,6 +1,6 @@
 ﻿using InWords.Data;
 using InWords.Protobuf;
-using InWords.WebApi.Extensions.InWordsDataContext;
+using InWords.WebApi.Extensions.InWordsDataContextExtentions;
 using InWords.WebApi.Services.Abstractions;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

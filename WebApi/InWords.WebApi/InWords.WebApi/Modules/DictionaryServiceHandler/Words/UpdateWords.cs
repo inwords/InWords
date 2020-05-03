@@ -2,6 +2,8 @@
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,12 +49,10 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
                 UserId = userId
             };
 
-            var addTask = addWords.Handle(addWordsRequest, cancellationToken);
-            var deleteTask = deleteWords.Handle(deleteRequest, cancellationToken);
+            var addTask = await addWords.Handle(addWordsRequest, cancellationToken).ConfigureAwait(false);
+            var deleteTask = await deleteWords.Handle(deleteRequest, cancellationToken).ConfigureAwait(false);
 
-            await Task.WhenAll(addTask, deleteTask).ConfigureAwait(false);
-
-            return addTask.Result;
+            return addTask;
         }
     }
 }

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace InWords.WebApi.Extensions.InWordsDataContext
+namespace InWords.WebApi.Extensions.InWordsDataContextExtentions
 {
     public static class UserWordPairsExtensions
     {

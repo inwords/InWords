@@ -37,5 +37,21 @@ namespace InWords.WebApi.Controllers.v2
 
             return BadRequest(status);
         }
+
+        [HttpPost]
+        [Route("save")]
+        [ProducesResponseType(typeof(LevelPoints), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Status), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Save(CardGameInfos request)
+        {
+            var (reply, status) = await mediator
+                .AuthorizeHandler<CardGameInfos, LevelPoints>(request, User)
+                .ConfigureAwait(false);
+
+            if (status.StatusCode == Grpc.Core.StatusCode.OK)
+                return Ok(reply);
+
+            return BadRequest(status);
+        }
     }
 }

@@ -19,5 +19,9 @@ namespace InWords.WebApi.gRPC.Services
         public override async Task<LevelPoints> Estimate(CardGameMetrics request, ServerCallContext context)
             => await mediator.AuthorizeHandler<CardGameMetrics, LevelPoints>(request, context)
             .ConfigureAwait(false);
+
+        public override async Task<LevelPoints> SaveGames(CardGameInfos request, ServerCallContext context)
+        => await mediator.AuthorizeHandler<CardGameInfos, LevelPoints>(request, context)
+            .ConfigureAwait(false);
     }
 }

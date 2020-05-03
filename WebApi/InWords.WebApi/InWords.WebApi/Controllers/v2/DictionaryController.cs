@@ -148,7 +148,7 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [SwaggerResponse(StatusCodes.Status200OK, "Returns Training Ids", typeof(TrainingReply))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Training Ids", typeof(TrainingIdsReply))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Request status", typeof(Status))]
         [Route("trainingIds")]
         [HttpGet]
