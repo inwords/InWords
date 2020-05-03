@@ -1,4 +1,5 @@
-﻿using InWords.Common.Extensions;
+﻿using Google.Protobuf.Collections;
+using InWords.Common.Extensions;
 using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
@@ -9,6 +10,7 @@ using InWords.Protobuf;
 using InWords.WebApi.Extensions.InWordsDataContextExtention;
 using InWords.WebApi.Modules.ClassicCardGame.Extentions;
 using InWords.WebApi.Services.Abstractions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using MimeKit.Encodings;
 using Org.BouncyCastle.Ocsp;
@@ -17,12 +19,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static InWords.Protobuf.CardGameMetrics.Types;
 
 namespace InWords.WebApi.Modules.ClassicCardGame.Service
 {
     public class SaveLevels : AuthorizedRequestObjectHandler<CardGameInfos, LevelPoints, InWordsDataContext>
     {
-        public SaveLevels(InWordsDataContext context) : base(context) { }
+        private readonly IRequestHandler<AuthorizedRequestObject<CardGameMetrics, LevelPoints>, LevelPoints> estimateClassicCardGame;
+        public SaveLevels(InWordsDataContext context,
+            IRequestHandler<AuthorizedRequestObject<CardGameMetrics, LevelPoints>, LevelPoints> estimateClassicCardGame
+            ) : base(context)
+        {
+            this.estimateClassicCardGame = estimateClassicCardGame;
+        }
 
         public override async Task<LevelPoints> HandleRequest(
             AuthorizedRequestObject<CardGameInfos, LevelPoints> request,
@@ -36,15 +45,35 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Service
             var info = request.Value.Info;
 
             var historyGameId = await Context.AddOrGetUserHistoryGame(userId).ConfigureAwait(false);
-            
+
             // add level
             var list = info.Select(d => d.WordIdOpenCount.Select(d => d.Key).ToArray()).ToList();
-            var levels = CreateLevels(historyGameId, userId, list);
-            
-            // calculate metrics
+            var levels = await CreateLevels(historyGameId, userId, list).ConfigureAwait(false);
+            return await CalculateMetrics(userId, info, levels, cancellationToken).ConfigureAwait(false);
+        }
 
+        private Task<LevelPoints> CalculateMetrics(int userId,
+            RepeatedField<CardGameInfos.Types.CardGameInfo> info,
+            int[] levels,
+            CancellationToken cancellationToken)
+        {
+            CardGameMetrics cardGameMetrics = new CardGameMetrics();
+            for (int i = 0; i < levels.Length; i++)
+            {
+                var cardGameMetric = new CardGameMetric()
+                {
+                    GameLevelId = levels[i]
+                };
+                cardGameMetric.WordIdOpenCount.Add(info[i].WordIdOpenCount);
+                cardGameMetrics.Metrics.Add(cardGameMetric);
+            }
 
-            throw new NotImplementedException();
+            var estimateRequest = new AuthorizedRequestObject<CardGameMetrics, LevelPoints>(cardGameMetrics)
+            {
+                UserId = userId
+            };
+
+            return estimateClassicCardGame.Handle(estimateRequest, cancellationToken);
         }
 
         private async Task<int[]> CreateLevels(int gameId, int userId, IList<int[]> pairsInLevels)
