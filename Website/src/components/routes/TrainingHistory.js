@@ -14,30 +14,26 @@ import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
 
 function TrainingHistory() {
-  const { actual, recentTrainings } = useSelector(
-    store => store.trainingHistory
-  );
+  const trainingHistory = useSelector(store => store.trainingHistory);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!actual) {
-      (async () => {
-        try {
-          const data = await dispatch(getTrainingHistory());
-          dispatch(initializeTrainingHistory(data));
-        } catch (error) {
-          dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
-        }
-      })();
-    }
-  }, [actual, dispatch]);
+    (async () => {
+      try {
+        const data = await dispatch(getTrainingHistory());
+        dispatch(initializeTrainingHistory(data));
+      } catch (error) {
+        dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
+      }
+    })();
+  }, [dispatch]);
 
   const match = useRouteMatch();
 
   return (
     <Grid spacing={3}>
-      {recentTrainings.map(({ levelId, stars }) => (
+      {trainingHistory.map(({ levelId, playerStars }) => (
         <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardContent>
@@ -48,9 +44,9 @@ function TrainingHistory() {
                 #{levelId}
               </Typography>
               <div>
-                <Icon color={stars > 0 ? 'gold' : 'disabled'}>star</Icon>
-                <Icon color={stars > 1 ? 'gold' : 'disabled'}>star</Icon>
-                <Icon color={stars > 2 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={playerStars > 0 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={playerStars > 1 ? 'gold' : 'disabled'}>star</Icon>
+                <Icon color={playerStars > 2 ? 'gold' : 'disabled'}>star</Icon>
               </div>
             </CardContent>
             <CardActions>

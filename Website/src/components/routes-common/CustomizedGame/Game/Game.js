@@ -102,12 +102,13 @@ function Game({
 
   const handleGameEnd = async () => {
     const levelId = trainingLevel.levelId;
+    const actualLevelId = newServerLevelId || levelId;
 
     try {
       const { points } = await dispatch(
-        levelId > 0
+        actualLevelId > 0
           ? saveLevelResult({
-              gameLevelId: newServerLevelId || levelId,
+              gameLevelId: actualLevelId,
               wordIdOpenCount: wordPairIdOpenCountsMap
             })
           : saveCustomLevelResult({ wordIdOpenCount: wordPairIdOpenCountsMap })
