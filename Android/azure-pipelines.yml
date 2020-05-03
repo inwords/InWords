@@ -26,11 +26,11 @@ pool:
 steps:
 - task: CopyFiles@2
   inputs:
-    contents: $(System.DefaultWorkingDirectory)/Android
+    contents: $(System.DefaultWorkingDirectory)/Android/**
     targetFolder: $(Build.ArtifactStagingDirectory)/Android
 - task: CopyFiles@2
   inputs:
-    contents: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.Protobuf
+    contents: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.Protobuf/**
     targetFolder: $(Build.ArtifactStagingDirectory)/WebApi/InWords.WebApi/InWords.Protobuf
 
 - task: PublishBuildArtifacts@1
