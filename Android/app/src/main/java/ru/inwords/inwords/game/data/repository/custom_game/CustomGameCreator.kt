@@ -3,11 +3,11 @@ package ru.inwords.inwords.game.data.repository.custom_game
 import io.reactivex.Completable
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.GameLevel
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
+import ru.inwords.inwords.game.data.entity.GameLevelEntity
 import ru.inwords.inwords.game.data.repository.CustomGameGatewayController
 import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.GameInfo
+import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
 
@@ -39,7 +39,7 @@ class CustomGameCreator @Inject constructor(
             true
         )
 
-        val newGameLevel = GameLevel(newGameLevelInfo.levelId, wordTranslations)
+        val newGameLevel = GameLevelEntity(newGameLevelInfo.levelId, wordTranslations)
 
         val newGame = game.copy(gameLevelInfos = game.gameLevelInfos.toMutableList().apply { add(newGameLevelInfo) })
 

@@ -5,15 +5,10 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.GameLevel
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
-import ru.inwords.inwords.game.data.bean.LevelScore
-import ru.inwords.inwords.game.data.bean.LevelScoreRequest
+import ru.inwords.inwords.game.data.entity.GameLevelEntity
 import ru.inwords.inwords.game.data.repository.GameGatewayController
 import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
-import ru.inwords.inwords.game.domain.model.Game
-import ru.inwords.inwords.game.domain.model.GamesInfo
-import ru.inwords.inwords.game.domain.model.LevelResultModel
+import ru.inwords.inwords.game.domain.model.*
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
@@ -36,15 +31,15 @@ class GameInteractorImpl @Inject constructor(
         return Single.fromCallable { gameCreator.createLevel(wordTranslations) }
     }
 
-    override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
+    override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevelEntity>> {
         return gameGatewayController.getLevel(levelId, forceUpdate)
     }
 
-    override fun getScore(game: Game, levelResultModel: LevelResultModel): Single<Resource<LevelScore>> {
-        return gameGatewayController.getScore(game, levelResultModel)
+    override fun getScore(game: Game, levelMetric: LevelMetric): Single<Resource<LevelScore>> {
+        return gameGatewayController.getScore(game, levelMetric)
     }
 
-    override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> {
+    override fun uploadScoresToServer(): Single<List<LevelScore>> {
         return gameGatewayController.uploadScoresToServer()
             .subscribeOn(SchedulersFacade.io())
     }

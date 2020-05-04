@@ -3,7 +3,7 @@ package ru.inwords.inwords.game.presentation.game_levels.recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.inwords.inwords.R
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
+import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.game.presentation.BaseSingleTypeAdapter
 
 class GameLevelsAdapter(onItemClickedListener: (GameLevelInfo) -> Unit) :

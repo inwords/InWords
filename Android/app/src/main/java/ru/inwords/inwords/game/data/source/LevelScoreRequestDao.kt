@@ -2,22 +2,22 @@ package ru.inwords.inwords.game.data.source
 
 import androidx.room.*
 import io.reactivex.Single
-import ru.inwords.inwords.game.data.bean.LevelScoreRequest
+import ru.inwords.inwords.game.data.entity.LevelMetricEntity
 
 @Dao
 interface LevelScoreRequestDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(levelScoreRequest: LevelScoreRequest): Single<Long>
+    fun insert(levelMetricEntity: LevelMetricEntity): Single<Long>
 
     @Delete
-    fun deleteAll(levelScoreRequests: List<LevelScoreRequest>): Single<Int>
+    fun deleteAll(levelMetricEntities: List<LevelMetricEntity>): Single<Int>
 
-    @Query("DELETE FROM level_score_request_table")
+    @Query("DELETE FROM level_metric_table")
     fun deleteAll(): Single<Int>
 
-    @Query("DELETE FROM level_score_request_table WHERE levelId IN (:levelIds)")
+    @Query("DELETE FROM level_metric_table WHERE levelId IN (:levelIds)")
     fun deleteAllIds(levelIds: List<Int>): Single<Int>
 
-    @Query("SELECT * from level_score_request_table")
-    fun getAllScores(): Single<List<LevelScoreRequest>>
+    @Query("SELECT * from level_metric_table")
+    fun getAllScores(): Single<List<LevelMetricEntity>>
 }
