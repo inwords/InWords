@@ -1,7 +1,7 @@
 package ru.inwords.inwords.game.converter
 
 import ru.inwords.inwords.core.BaseResourceTwoWayConverter
-import ru.inwords.inwords.game.data.bean.GameInfoEntity
+import ru.inwords.inwords.game.data.entity.GameInfoEntity
 import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
 import ru.inwords.inwords.game.domain.model.GameInfo
 

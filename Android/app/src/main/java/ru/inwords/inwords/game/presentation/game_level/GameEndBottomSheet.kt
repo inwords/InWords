@@ -20,8 +20,8 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.data.validId
 import ru.inwords.inwords.databinding.GameEndBinding
-import ru.inwords.inwords.game.data.bean.LevelScore
-import ru.inwords.inwords.game.domain.model.LevelResultModel
+import ru.inwords.inwords.game.domain.model.LevelMetric
+import ru.inwords.inwords.game.domain.model.LevelScore
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     private val args by navArgs<GameEndBottomSheetArgs>()
 
     private val compositeDisposable = CompositeDisposable()
-    private lateinit var levelResultModel: LevelResultModel
+    private lateinit var levelMetric: LevelMetric
 
     @Inject
     internal lateinit var modelFactory: OctoGameViewModelFactory
@@ -43,7 +43,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
 
-        levelResultModel = args.levelResultModel
+        levelMetric = args.levelMetric
 
         val realParentFragment = requireNotNull(parentFragment?.childFragmentManager?.fragments?.findLast { it is GameLevelFragment })
         viewModel = ViewModelProvider(realParentFragment, modelFactory).get(GameLevelViewModel::class.java)
@@ -59,7 +59,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
 
-        compositeDisposable.add(viewModel.getScore(levelResultModel)
+        compositeDisposable.add(viewModel.getScore(levelMetric)
             .toObservable()
             .startWith(Resource.Loading())
             .observeOn(SchedulersFacade.ui())
@@ -98,7 +98,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun showSuccess(levelScore: LevelScore) {
-        if (levelScore.levelId == levelResultModel.levelId || !validId(levelResultModel.levelId)) {
+        if (levelScore.levelId == levelMetric.levelId || !validId(levelMetric.levelId)) {
             binding.ratingBar.rating = levelScore.score.toFloat()
             binding.ratingBar.visibility = View.VISIBLE
             binding.ratingLoadingProgress.visibility = View.INVISIBLE

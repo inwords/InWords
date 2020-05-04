@@ -1,7 +1,7 @@
 package ru.inwords.inwords.game.converter
 
 import ru.inwords.inwords.core.BaseResourceOneWayConverter
-import ru.inwords.inwords.game.data.bean.GameInfoEntity
+import ru.inwords.inwords.game.data.entity.GameInfoEntity
 import ru.inwords.inwords.proto.word_set.WordSetReply
 
 class WordSetInfoReplyConverter : BaseResourceOneWayConverter<WordSetReply.WordSetInfo, GameInfoEntity>() {

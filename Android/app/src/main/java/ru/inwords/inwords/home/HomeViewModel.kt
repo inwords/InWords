@@ -18,7 +18,7 @@ import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
-import ru.inwords.inwords.training.domain.TrainingInteractor
+import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 
 class HomeViewModel internal constructor(
