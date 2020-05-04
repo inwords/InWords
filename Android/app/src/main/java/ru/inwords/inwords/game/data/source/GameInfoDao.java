@@ -6,7 +6,7 @@ import androidx.room.Query;
 import java.util.List;
 
 import io.reactivex.Single;
-import ru.inwords.inwords.game.data.bean.GameInfoEntity;
+import ru.inwords.inwords.game.data.entity.GameInfoEntity;
 
 @Dao
 public abstract class GameInfoDao implements GameEntityDao<GameInfoEntity> {

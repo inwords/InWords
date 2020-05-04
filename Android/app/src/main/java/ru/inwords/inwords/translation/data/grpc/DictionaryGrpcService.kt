@@ -8,6 +8,7 @@ import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
 import ru.inwords.inwords.core.grpc.HeaderAttachingClientInterceptor
 import ru.inwords.inwords.core.utils.unsafeLazy
 import ru.inwords.inwords.dagger.annotations.GrpcDefaultChannel
+import ru.inwords.inwords.proto.common.Empty
 import ru.inwords.inwords.proto.dictionary.*
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
@@ -18,7 +19,7 @@ internal class DictionaryGrpcService @Inject constructor(
     @GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>,
     nativeTokenHolder: NativeTokenHolder
 ) {
-    private val authenticatorStub: DictionaryProviderGrpc.DictionaryProviderBlockingStub by unsafeLazy {
+    private val dictionaryStub: DictionaryProviderGrpc.DictionaryProviderBlockingStub by unsafeLazy {
         DictionaryProviderGrpc.newBlockingStub(managedChannel.get())
             .withInterceptors(HeaderAttachingClientInterceptor(nativeTokenHolder))
     }
@@ -28,7 +29,7 @@ internal class DictionaryGrpcService @Inject constructor(
             .addAllDelete(serverIds)
             .build()
 
-        return Completable.fromCallable { authenticatorStub.deleteWords(request) }
+        return Completable.fromCallable { dictionaryStub.deleteWords(request) }
     }
 
     fun addWords(words: List<WordTranslation>): Single<AddWordsReply> {
@@ -44,7 +45,7 @@ internal class DictionaryGrpcService @Inject constructor(
             .addAllWords(addWordRequestList)
             .build()
 
-        return Single.fromCallable { authenticatorStub.addWords(request) }
+        return Single.fromCallable { dictionaryStub.addWords(request) }
     }
 
     fun pullWords(serverIds: List<Int>): Single<WordsReply> {
@@ -52,7 +53,7 @@ internal class DictionaryGrpcService @Inject constructor(
             .addAllUserWordpairIds(serverIds)
             .build()
 
-        return Single.fromCallable { authenticatorStub.getWords(request) }
+        return Single.fromCallable { dictionaryStub.getWords(request) }
     }
 
     fun lookup(text: String, lang: String): Single<LookupReply> {
@@ -61,6 +62,14 @@ internal class DictionaryGrpcService @Inject constructor(
             .setText(text)
             .build()
 
-        return Single.fromCallable { authenticatorStub.lookup(request) }
+        return Single.fromCallable { dictionaryStub.lookup(request) }
+    }
+
+    fun trainingWords(): Single<TrainingReply> {
+        return Single.fromCallable { dictionaryStub.training(Empty.getDefaultInstance()) }
+    }
+
+    fun trainingIds(): Single<TrainingIdsReply> {
+        return Single.fromCallable { dictionaryStub.trainingIds(Empty.getDefaultInstance()) }
     }
 }

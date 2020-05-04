@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
-import ru.inwords.inwords.training.domain.TrainingInteractor
+import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 import javax.inject.Inject
 

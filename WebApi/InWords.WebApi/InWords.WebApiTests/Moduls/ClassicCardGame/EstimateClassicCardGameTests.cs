@@ -38,6 +38,7 @@ namespace InWords.WebApiTests.Moduls.ClassicCardGame
                 GameId = 1,
                 GameLevelId = 1,
             });
+            context.SaveChanges();
 
             CardGameMetrics cardGameMetrics = new CardGameMetrics();
 
@@ -61,6 +62,54 @@ namespace InWords.WebApiTests.Moduls.ClassicCardGame
             LevelPoints response = await handler.HandleRequest(requestObject).ConfigureAwait(false);
 
             // assert 
+            Assert.Single(response.Points);
+            Assert.Equal(3, response.Points.First().Score);
+            Assert.Equal(3, context.UserGameLevels.First().UserStars);
+        }
+
+        [Fact]
+        public async void GetLowerScoreButHigherExist_KeepHigherScore() 
+        {
+            int userId = 1;
+            await using InWordsDataContext context = InWordsDataContextFactory.Create();
+            await context.AddAccount(userId);
+            context.Games.Add(new Game()
+            {
+                GameId = 1,
+                CreatorId = 1,
+            });
+            context.SaveChanges();
+            context.GameLevels.Add(new GameLevel()
+            {
+                GameId = 1,
+                GameLevelId = 1,
+            });
+            context.UserGameLevels.Add(new UserGameLevel()
+            {
+                GameLevelId = 1,
+                UserId = userId,
+                UserStars = 3 // higher score
+            });
+
+
+            CardGameMetrics cardGameMetrics = new CardGameMetrics();
+
+            var game1Metric = new CardGameMetric()
+            {
+                GameLevelId = 1
+            };
+            game1Metric.WordIdOpenCount.Add(1, 100); // bad score
+            cardGameMetrics.Metrics.Add(game1Metric);
+
+            // act
+            var requestObject = new AuthorizedRequestObject<CardGameMetrics, LevelPoints>(cardGameMetrics)
+            {
+                UserId = userId
+            };
+
+            var handler = new EstimateClassicCardGame(context);
+            LevelPoints response = await handler.HandleRequest(requestObject).ConfigureAwait(false);
+
             Assert.Single(response.Points);
             Assert.Equal(3, response.Points.First().Score);
             Assert.Equal(3, context.UserGameLevels.First().UserStars);

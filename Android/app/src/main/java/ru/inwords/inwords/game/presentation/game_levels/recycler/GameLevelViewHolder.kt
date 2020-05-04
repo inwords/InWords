@@ -3,7 +3,7 @@ package ru.inwords.inwords.game.presentation.game_levels.recycler
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.inwords.inwords.databinding.GameLevelInfoBinding
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
+import ru.inwords.inwords.game.domain.model.GameLevelInfo
 
 class GameLevelViewHolder internal constructor(
     itemView: View, private val onItemClickedListener: ((GameLevelInfo) -> Unit)?

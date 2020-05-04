@@ -14,7 +14,7 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.INVALID_ID
 import ru.inwords.inwords.databinding.FragmentGameLevelsBinding
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
+import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.game.presentation.BaseContentFragment
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
 import ru.inwords.inwords.game.presentation.game_levels.recycler.GameLevelsAdapter

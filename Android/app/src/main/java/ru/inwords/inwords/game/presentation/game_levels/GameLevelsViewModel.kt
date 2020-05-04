@@ -2,9 +2,9 @@ package ru.inwords.inwords.game.presentation.game_levels
 
 import io.reactivex.Observable
 import ru.inwords.inwords.core.resource.Resource
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.Game
+import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 
 class GameLevelsViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {

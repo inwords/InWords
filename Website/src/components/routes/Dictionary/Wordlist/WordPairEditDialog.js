@@ -38,13 +38,13 @@ function WordPairEditDialogContainer({
       };
 
       try {
-        const data = await dispatch(updateWordPairs([preparedPair]));
+        const { wordIds } = await dispatch(updateWordPairs([preparedPair]));
         dispatch(
           updateWordPairsLocal([
             {
               ...preparedPair,
               oldServerId: wordPair.serverId,
-              serverId: data[0].serverId
+              serverId: wordIds[0].serverId
             }
           ])
         );

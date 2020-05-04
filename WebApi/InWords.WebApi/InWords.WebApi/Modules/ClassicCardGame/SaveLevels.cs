@@ -21,7 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static InWords.Protobuf.CardGameMetrics.Types;
 
-namespace InWords.WebApi.Modules.ClassicCardGame.Service
+namespace InWords.WebApi.Modules.ClassicCardGame
 {
     public class SaveLevels : AuthorizedRequestObjectHandler<CardGameInfos, LevelPoints, InWordsDataContext>
     {

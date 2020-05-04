@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.inwords.inwords.App
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
+import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import java.lang.reflect.Type
 import javax.inject.Inject

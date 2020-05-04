@@ -68,7 +68,7 @@ namespace InWords.WebApi.Controllers.v2
         }
 
         /// <summary>
-        /// Experimental use only! ZERO TESTS
+        /// Deletes the old word and adds a new one. Use during editing
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>

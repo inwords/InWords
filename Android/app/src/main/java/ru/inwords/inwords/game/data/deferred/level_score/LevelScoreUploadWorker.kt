@@ -25,6 +25,7 @@ class LevelScoreUploadWorker(context: Context, workerParams: WorkerParameters) :
             .doOnSubscribe { Log.d(javaClass.simpleName, "work started") }
             .doOnSuccess { Log.d(javaClass.simpleName, "work succeed") }
             .doOnError { Log.d(javaClass.simpleName, "work error") }
+            .toSingle(emptyList())
             .map { Result.success() }
             .onErrorReturnItem(Result.retry())
     }

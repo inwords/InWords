@@ -1,6 +1,7 @@
 package ru.inwords.inwords.core.deferred_uploader
 
 import android.util.Log
+import io.reactivex.Maybe
 import io.reactivex.Single
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.resource.Source
@@ -16,7 +17,7 @@ import java.util.*
 class DeferredUploader<T : Any, R : Any, U : Any>(
     private val deferredUploaderLocalDao: DeferredUploaderLocalDao<T>,
     private val deferredUploaderRemoteDao: DeferredUploaderRemoteDao<T, R, U>
-) : DeferredUploaderActions<T, R> {
+) : DeferredUploaderActions<T, R, U> {
     override fun request(request: T, onSuccessListener: (Resource.Success<R>) -> Unit): Single<Resource<R>> {
         return deferredUploaderRemoteDao.request(request).wrapResource(Source.NETWORK)
             .flatMap { res ->
@@ -40,19 +41,19 @@ class DeferredUploader<T : Any, R : Any, U : Any>(
             .onErrorReturn { resourceToReturn }
     }
 
-    override fun tryUploadDataToRemote(): Single<List<T>> {
+    override fun tryUploadDataToRemote(): Maybe<U> {
         return deferredUploaderLocalDao.retrieveAll()
             .filter { it.isNotEmpty() }
             .flatMapSingle { entries ->
                 deferredUploaderRemoteDao.uploadAll(entries)
-                    .flatMap { deferredUploaderLocalDao.deleteAll() }
-                    .map { entries }
+                    .flatMap { response -> deferredUploaderLocalDao.deleteAll().map { response } }
             }
-            .onErrorResumeNext { t ->
+            .toMaybe()
+            .onErrorResumeNext { t: Throwable ->
                 if (t is NoSuchElementException) { //skip error if it is because of filter
-                    Single.just(emptyList())
+                    Maybe.empty()
                 } else {
-                    Single.error(t)
+                    Maybe.error(t)
                 }
             }
     }

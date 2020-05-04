@@ -13,15 +13,10 @@ import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.data.repository.SettingsRepository
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
-import ru.inwords.inwords.game.data.bean.LevelScore
 import ru.inwords.inwords.game.domain.CardsData
 import ru.inwords.inwords.game.domain.interactor.ContinueGameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
-import ru.inwords.inwords.game.domain.model.ContinueGameQueryResult
-import ru.inwords.inwords.game.domain.model.Game
-import ru.inwords.inwords.game.domain.model.LevelResultModel
-import ru.inwords.inwords.game.domain.model.WordModel
+import ru.inwords.inwords.game.domain.model.*
 import ru.inwords.inwords.game.presentation.game_level.FromGameEndEventsEnum.*
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
@@ -130,8 +125,8 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
         }
     }
 
-    fun getScore(levelResultModel: LevelResultModel): Single<Resource<LevelScore>> {
-        return gameInteractor.getScore(game, levelResultModel)
+    fun getScore(levelMetric: LevelMetric): Single<Resource<LevelScore>> {
+        return gameInteractor.getScore(game, levelMetric)
     }
 
     private fun ttsWordModel(wordModel: WordModel) {
@@ -153,12 +148,12 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
         }
     }
 
-    private fun showGameEndDialog(levelResultModel: LevelResultModel) {
+    private fun showGameEndDialog(levelMetric: LevelMetric) {
         val levelId = getCurrentLevelInfo()?.levelId ?: return
 
         navigateTo(
             GameLevelFragmentDirections.actionGameLevelFragmentToGameEndBottomSheet(
-                levelResultModel.copy(levelId = levelId)
+                levelMetric.copy(levelId = levelId)
             )
         )
     }

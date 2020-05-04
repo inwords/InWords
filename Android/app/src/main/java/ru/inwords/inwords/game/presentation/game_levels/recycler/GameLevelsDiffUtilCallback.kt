@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import ru.inwords.inwords.core.recycler.RxDiffUtil
 import ru.inwords.inwords.core.recycler.SimpleDiffUtilCallback
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
+import ru.inwords.inwords.game.domain.model.GameLevelInfo
 
 class GameLevelsDiffUtilCallback internal constructor(oldGameLevels: List<GameLevelInfo>,
                                                       newGameLevels: List<GameLevelInfo>) :

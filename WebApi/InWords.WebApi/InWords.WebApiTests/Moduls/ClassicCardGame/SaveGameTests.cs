@@ -5,7 +5,6 @@ using InWords.Data.Domains;
 using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Modules.ClassicCardGame;
-using InWords.WebApi.Modules.ClassicCardGame.Service;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApiTests.TestUtils;
 using MediatR;
