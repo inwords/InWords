@@ -77,10 +77,12 @@ namespace InWords.WebApi.Modules.ClassicCardGame
 
             existedLevels.ForEach((level) =>
             {
-                level.UserStars = scoreInfo[level.GameLevelId];
+                if(level.UserStars < scoreInfo[level.GameLevelId])
+                    level.UserStars = scoreInfo[level.GameLevelId];
+                
                 levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
                 {
-                    Score = scoreInfo[level.GameLevelId],
+                    Score = level.UserStars,
                     LevelId = level.GameLevelId
                 });
             });
