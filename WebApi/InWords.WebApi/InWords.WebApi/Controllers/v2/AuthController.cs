@@ -41,6 +41,11 @@ namespace InWords.WebApi.Controllers.v2
             return Ok(reply);
         }
 
+        /// <summary>
+        /// Basic access authentication using login, password
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [SwaggerResponse(StatusCodes.Status200OK, "Returns Token", typeof(TokenReply))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Route("basic")]
@@ -57,7 +62,11 @@ namespace InWords.WebApi.Controllers.v2
             }
             return Ok(reply);
         }
-
+        /// <summary>
+        /// Registering a new user and sending them an email
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [SwaggerResponse(StatusCodes.Status200OK, "Returns Token", typeof(TokenReply))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Route("register")]

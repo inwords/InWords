@@ -77,6 +77,11 @@ namespace InWords.WebApi.Controllers.v2
             }
         }
 
+        /// <summary>
+        /// Input point for the link from the confirmation email.
+        /// </summary>
+        /// <param name="encryptLink"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         [Route("Confirm/{encryptLink}")]
@@ -105,6 +110,12 @@ namespace InWords.WebApi.Controllers.v2
             }
         }
 
+        /// <summary>
+        /// Deletes all user information without being able to return it. 
+        /// When implementing this function, use the warning window.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpDelete]
         [Route("delete")]
