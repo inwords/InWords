@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Data", "InWords.Dat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13FB1C68-0D7F-4E89-A413-0694A2E8A26D}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		README.txt = README.txt
 	EndProjectSection
 EndProject
@@ -32,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.WebApiTests", "InWo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Data.DTOTests", "InWords.Data.DTOTests\InWords.Data.DTOTests.csproj", "{1EB09301-85EB-477F-8293-7AC8E2BBB4C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InWords.Protobuf", "InWords.Protobuf\InWords.Protobuf.csproj", "{3DC6FE52-CB0A-4DA9-BADE-DE3C8C9D883F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InWords.Protobuf", "InWords.Protobuf\InWords.Protobuf.csproj", "{3DC6FE52-CB0A-4DA9-BADE-DE3C8C9D883F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
