@@ -1,7 +1,7 @@
 @import 'src/theme/mixins';
 
 .homepage-hero {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: var(--palette-primary);
   min-height: calc(100vh - 64px);
   display: flex;
   justify-content: center;
@@ -20,7 +20,15 @@
   max-width: var(--breakpoints-md);
 }
 
+.homepage-hero-logo {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 2px;
+  background-color: var(--palette-primary-contrast-text);
+}
+
 .homepage-hero-title {
+  color: var(--palette-primary-contrast-text);
   margin-top: 24px;
   padding: 8px;
   text-align: center;
@@ -33,14 +41,18 @@
   flex: 1;
   justify-content: center;
 
-  & > :first-child {
-    margin-right: 24px;
-  }
-
   @include theme-breakpoints-down(sm) {
     flex-direction: column;
+  }
+}
 
-    & > :first-child {
+.homepage-hero-button {
+  border: 1px solid var(--palette-primary-contrast-text);
+
+  &:first-child {
+    margin-right: 24px;
+
+    @include theme-breakpoints-down(sm) {
       margin-right: 0;
       margin-bottom: 16px;
     }
