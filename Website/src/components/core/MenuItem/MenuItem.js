@@ -4,9 +4,7 @@ import classNames from 'classnames';
 
 import './MenuItem.scss';
 
-function MenuItem({ component = 'div', className, ...rest }) {
-  const Component = component;
-
+function MenuItem({ component: Component = 'div', className, ...rest }) {
   return <Component className={classNames('menu-item', className)} {...rest} />;
 }
 

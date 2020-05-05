@@ -4,9 +4,7 @@ import classNames from 'classnames';
 
 import './ButtonBase.css';
 
-function ButtonBase({ component = 'button', className, ...rest }) {
-  const Component = component;
-
+function ButtonBase({ component: Component = 'button', className, ...rest }) {
   return (
     <Component className={classNames('button-base', className)} {...rest} />
   );
