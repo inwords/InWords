@@ -29,12 +29,12 @@ namespace InWords.WebApi.Services.UserWordPairService
             return knowledgeGaranter[knowledgeQuality].Grant(knowledgeLicense);
         }
 
-        private bool IsEasyButEarlyToRepeat(Memorization knowledgeLicense, KnowledgeQualities knowledgeQuality)
+        private static bool IsEasyButEarlyToRepeat(Memorization knowledgeLicense, KnowledgeQualities knowledgeQuality)
         {
             return knowledgeQuality.Equals(KnowledgeQualities.EasyToRemember) && IsNotGrantingTime(knowledgeLicense);
         }
 
-        private bool IsNotGrantingTime(Memorization knowledgeLicense)
+        private static bool IsNotGrantingTime(Memorization knowledgeLicense)
         {
             return knowledgeLicense.RepeatTime > DateTime.UtcNow.AddDays(DAYS_GRANTING_TIMESPAN);
         }
