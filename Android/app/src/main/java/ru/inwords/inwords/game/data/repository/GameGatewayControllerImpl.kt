@@ -9,21 +9,20 @@ import ru.inwords.inwords.core.resource.ResourceCachingProvider
 import ru.inwords.inwords.core.resource.Source
 import ru.inwords.inwords.core.resource.wrapResource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.converter.GameConverter
+import ru.inwords.inwords.game.converter.GameEntityConverter
 import ru.inwords.inwords.game.converter.GameInfoConverter
 import ru.inwords.inwords.game.converter.GamesInfoDomainConverter
-import ru.inwords.inwords.game.converter.LevelResultConverter
-import ru.inwords.inwords.game.data.bean.*
+import ru.inwords.inwords.game.converter.LevelMetricConverter
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderHolder
+import ru.inwords.inwords.game.data.entity.GameEntity
+import ru.inwords.inwords.game.data.entity.GameInfoEntity
+import ru.inwords.inwords.game.data.entity.GameLevelEntity
 import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
 import ru.inwords.inwords.game.data.repository.custom_game.withUpdatedLevelScore
 import ru.inwords.inwords.game.data.source.GameDao
 import ru.inwords.inwords.game.data.source.GameInfoDao
 import ru.inwords.inwords.game.data.source.GameLevelDao
-import ru.inwords.inwords.game.domain.model.Game
-import ru.inwords.inwords.game.domain.model.GameInfo
-import ru.inwords.inwords.game.domain.model.GamesInfo
-import ru.inwords.inwords.game.domain.model.LevelResultModel
+import ru.inwords.inwords.game.domain.model.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,17 +36,17 @@ class GameGatewayControllerImpl @Inject constructor(
 ) : GameGatewayController, CustomGameGatewayController {
 
     private val gameInfoDatabaseRepository = GameDatabaseRepository<GameInfoEntity>(gameInfoDao)
-    private val gameDatabaseRepository = GameDatabaseRepository<GameResponse>(gameDao)
-    private val gameLevelDatabaseRepository = GameDatabaseRepository<GameLevel>(gameLevelDao)
+    private val gameDatabaseRepository = GameDatabaseRepository<GameEntity>(gameDao)
+    private val gameLevelDatabaseRepository = GameDatabaseRepository<GameLevelEntity>(gameLevelDao)
 
     private val gamesInfoCachingProviderLocator = ResourceCachingProvider.Locator { createGamesInfoCachingProvider() }
     private val gameCachingProviderLocator = ResourceCachingProvider.Locator { createGameCachingProvider(it) }
     private val gameLevelCachingProviderLocator = ResourceCachingProvider.Locator { createGameLevelCachingProvider(it) }
 
-    private val gameConverter = GameConverter()
+    private val gameConverter = GameEntityConverter()
     private val gameInfoConverter = GameInfoConverter()
     private val gamesInfoDomainConverter = GamesInfoDomainConverter()
-    private val wordOpenCountsConverter = LevelResultConverter()
+    private val wordOpenCountsConverter = LevelMetricConverter()
 
     override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<GamesInfo>> {
         val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
@@ -80,7 +79,7 @@ class GameGatewayControllerImpl @Inject constructor(
         return gameDatabaseRepository.insertAll(listOf(gameConverter.reverse(game))).ignoreElement() //TODO think of ignore
     }
 
-    override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevel>> {
+    override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevelEntity>> {
         return if (levelId < 0) {
             getLevelLocal(levelId).toObservable()
         } else {
@@ -88,16 +87,16 @@ class GameGatewayControllerImpl @Inject constructor(
         }
     }
 
-    private fun getLevelLocal(levelId: Int): Single<Resource<GameLevel>> {
+    private fun getLevelLocal(levelId: Int): Single<Resource<GameLevelEntity>> {
         return gameLevelDatabaseRepository.getById(levelId).wrapResource(Source.CACHE)
     }
 
-    override fun storeLevel(gameLevel: GameLevel): Completable {
-        return gameLevelDatabaseRepository.insertAll(listOf(gameLevel)).ignoreElement() //TODO think of ignore
+    override fun storeLevel(gameLevelEntity: GameLevelEntity): Completable {
+        return gameLevelDatabaseRepository.insertAll(listOf(gameLevelEntity)).ignoreElement() //TODO think of ignore
     }
 
-    override fun getScore(game: Game, levelResultModel: LevelResultModel): Single<Resource<LevelScore>> {
-        val levelScoreRequest = wordOpenCountsConverter.convert(levelResultModel)
+    override fun getScore(game: Game, levelMetric: LevelMetric): Single<Resource<LevelScore>> {
+        val levelScoreRequest = wordOpenCountsConverter.convert(levelMetric)
 
         return levelScoreDeferredUploaderHolder.request(levelScoreRequest) { res ->
                 gameCachingProviderLocator.get(game.gameId)
@@ -110,8 +109,8 @@ class GameGatewayControllerImpl @Inject constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun uploadScoresToServer(): Single<List<LevelScoreRequest>> {
-        return levelScoreDeferredUploaderHolder.tryUploadDataToRemote()
+    override fun uploadScoresToServer(): Single<List<LevelScore>> {
+        return levelScoreDeferredUploaderHolder.tryUploadDataToRemote().toSingle(emptyList())
     }
 
     override fun addWordsToUserDictionary(gameId: Int) = gameRemoteRepository.addWordsToUserDictionary(gameId)
@@ -131,7 +130,7 @@ class GameGatewayControllerImpl @Inject constructor(
         )
     }
 
-    private fun createGameCachingProvider(gameId: Int): ResourceCachingProvider<GameResponse> {
+    private fun createGameCachingProvider(gameId: Int): ResourceCachingProvider<GameEntity> {
         return ResourceCachingProvider(
             { data -> gameDatabaseRepository.insertAll(listOf(data)).map { data } },
             { gameDatabaseRepository.getById(gameId) },
@@ -146,7 +145,7 @@ class GameGatewayControllerImpl @Inject constructor(
         )
     }
 
-    private fun createGameLevelCachingProvider(levelId: Int): ResourceCachingProvider<GameLevel> {
+    private fun createGameLevelCachingProvider(levelId: Int): ResourceCachingProvider<GameLevelEntity> {
         return ResourceCachingProvider(
             { data -> gameLevelDatabaseRepository.insertAll(listOf(data)).map { data } },
             { gameLevelDatabaseRepository.getById(levelId) },

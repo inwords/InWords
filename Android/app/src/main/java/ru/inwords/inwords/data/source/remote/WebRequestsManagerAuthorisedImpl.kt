@@ -7,14 +7,14 @@ import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.bean.LevelScore
-import ru.inwords.inwords.game.data.bean.TrainingEstimateRequest
+import ru.inwords.inwords.game.data.grpc.ClassicCardGameGrpcService
 import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.data.grpc.ProfileGrpcService
-import ru.inwords.inwords.proto.dictionary.AddWordsReply
-import ru.inwords.inwords.proto.dictionary.LookupReply
-import ru.inwords.inwords.proto.dictionary.WordsReply
+import ru.inwords.inwords.proto.classic_card_game.CardGameInfos
+import ru.inwords.inwords.proto.classic_card_game.CardGameMetrics
+import ru.inwords.inwords.proto.classic_card_game.LevelPoints
+import ru.inwords.inwords.proto.dictionary.*
 import ru.inwords.inwords.proto.profile.EmailChangeReply
 import ru.inwords.inwords.proto.word_set.GetLevelWordsReply
 import ru.inwords.inwords.proto.word_set.GetLevelsReply
@@ -30,6 +30,7 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
     private val sessionHelper: SessionHelper,
     private val dictionaryGrpcService: DictionaryGrpcService,
     private val wordSetGrpcService: WordSetGrpcService,
+    private val classicCardGameGrpcService: ClassicCardGameGrpcService,
     private val profileGrpcService: ProfileGrpcService
 ) : WebRequestsManagerAuthorised {
 
@@ -42,23 +43,9 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
         authenticatedNotifierSubject.onNext(authorised)
     }
 
-    override fun getLogin(): Single<String> {
-        return valve()
-            .flatMap { apiServiceAuthorised.getLogin() }
-            .interceptError()
-            .subscribeOn(SchedulersFacade.io())
-    }
-
     override fun getAuthorisedUser(): Single<User> {
         return valve()
             .flatMap { apiServiceAuthorised.getAuthorisedUser() }
-            .interceptError()
-            .subscribeOn(SchedulersFacade.io())
-    }
-
-    override fun getUserById(id: Int): Single<User> {
-        return valve()
-            .flatMap { apiServiceAuthorised.getUserById(id) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
@@ -126,10 +113,16 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getScore(trainingEstimateRequest: TrainingEstimateRequest): Single<List<LevelScore>> {
+    override fun estimate(cardGameMetrics: List<CardGameMetrics.CardGameMetric>): Single<LevelPoints> {
         return valve()
-            .flatMap { apiServiceAuthorised.getLevelScore(trainingEstimateRequest) }
-            .map { it.classicCardLevelResult }
+            .flatMap { classicCardGameGrpcService.estimate(cardGameMetrics) }
+            .interceptError()
+            .subscribeOn(SchedulersFacade.io())
+    }
+
+    override fun save(cardGameInfos: List<CardGameInfos.CardGameInfo>): Single<LevelPoints> {
+        return valve()
+            .flatMap { classicCardGameGrpcService.save(cardGameInfos) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
@@ -141,16 +134,16 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getWordsForTraining(): Single<List<WordTranslation>> {
+    override fun trainingWords(): Single<TrainingReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getWordsForTraining() }
+            .flatMap { dictionaryGrpcService.trainingWords() }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun getIdsForTraining(): Single<List<Int>> {
+    override fun trainingIds(): Single<TrainingIdsReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getIdsForTraining() }
+            .flatMap { dictionaryGrpcService.trainingIds() }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

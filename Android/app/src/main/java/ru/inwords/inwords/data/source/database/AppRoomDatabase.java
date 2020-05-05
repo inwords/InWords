@@ -4,10 +4,10 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import ru.inwords.inwords.game.data.bean.GameInfoEntity;
-import ru.inwords.inwords.game.data.bean.GameLevel;
-import ru.inwords.inwords.game.data.bean.GameResponse;
-import ru.inwords.inwords.game.data.bean.LevelScoreRequest;
+import ru.inwords.inwords.game.data.entity.GameEntity;
+import ru.inwords.inwords.game.data.entity.GameInfoEntity;
+import ru.inwords.inwords.game.data.entity.GameLevelEntity;
+import ru.inwords.inwords.game.data.entity.LevelMetricEntity;
 import ru.inwords.inwords.game.data.source.GameDao;
 import ru.inwords.inwords.game.data.source.GameInfoDao;
 import ru.inwords.inwords.game.data.source.GameLevelDao;
@@ -23,12 +23,12 @@ import ru.inwords.inwords.translation.data.deferred.WordTranslationEntriesListDa
 })
 @Database(entities = {
         User.class,
-        GameResponse.class,
-        GameLevel.class,
+        GameEntity.class,
+        GameLevelEntity.class,
         GameInfoEntity.class,
-        LevelScoreRequest.class,
+        LevelMetricEntity.class,
         WordTranslationDeferredEntry.class
-}, version = 6)
+}, version = 7)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();

@@ -2,7 +2,7 @@ package ru.inwords.inwords.game.presentation.game_level
 
 import ru.inwords.inwords.core.utils.addOrPut
 import ru.inwords.inwords.game.domain.CardsData
-import ru.inwords.inwords.game.domain.model.LevelResultModel
+import ru.inwords.inwords.game.domain.model.LevelMetric
 import ru.inwords.inwords.game.domain.model.WordModel
 
 class GameLevelOrchestrator(private val onCardFlipped: (WordModel) -> Unit) {
@@ -11,7 +11,7 @@ class GameLevelOrchestrator(private val onCardFlipped: (WordModel) -> Unit) {
     private var showingIncorrectCards: Boolean = false
     private val wordTranslationIdOpenCount = HashMap<WordModel, Int>()
 
-    private var gameEndListener: ((LevelResultModel) -> Unit)? = null
+    private var gameEndListener: ((LevelMetric) -> Unit)? = null
     private var flipState = FlipState()
         set(value) {
             field = value
@@ -41,7 +41,7 @@ class GameLevelOrchestrator(private val onCardFlipped: (WordModel) -> Unit) {
         gameScene.renderCards(cardsData, flipState)
     }
 
-    fun setGameEndListener(listener: (LevelResultModel) -> Unit) {
+    fun setGameEndListener(listener: (LevelMetric) -> Unit) {
         gameEndListener = listener
     }
 
@@ -58,7 +58,7 @@ class GameLevelOrchestrator(private val onCardFlipped: (WordModel) -> Unit) {
         stateMap[openedCardWord] = true
 
         if (stateMap.values.all { it }) {
-            gameEndListener?.invoke(LevelResultModel(0, wordTranslationIdOpenCount)) //TODO care
+            gameEndListener?.invoke(LevelMetric(0, wordTranslationIdOpenCount)) //TODO care
         }
     }
 

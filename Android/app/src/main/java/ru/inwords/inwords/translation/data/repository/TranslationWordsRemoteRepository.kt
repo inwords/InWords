@@ -10,4 +10,6 @@ interface TranslationWordsRemoteRepository {
     fun removeAllByServerId(serverIds: List<Int>): Completable
     fun pullWords(wordTranslations: List<Int>): Single<PullWordsAnswer>
     fun lookup(text: String, lookupDirection: LookupDirection): Single<List<Definition>>
+    fun trainingWords(): Single<List<WordTranslation>>
+    fun trainingIds(): Single<List<Int>>
 }

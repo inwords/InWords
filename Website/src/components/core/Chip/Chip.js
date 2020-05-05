@@ -13,6 +13,7 @@ function Chip({ component = 'div', className, ...rest }) {
 
   return (
     <ButtonBase
+      component={component}
       className={classNames('chip', className)}
       {...chipProps}
       {...rest}

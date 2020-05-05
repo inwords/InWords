@@ -5,12 +5,8 @@ import io.mockk.mockk
 import io.reactivex.Observable
 import org.junit.jupiter.api.Test
 import ru.inwords.inwords.core.resource.Resource
-import ru.inwords.inwords.game.data.bean.GameLevelInfo
 import ru.inwords.inwords.game.data.repository.GameGatewayController
-import ru.inwords.inwords.game.domain.model.ContinueGameQueryResult
-import ru.inwords.inwords.game.domain.model.Game
-import ru.inwords.inwords.game.domain.model.GameInfo
-import ru.inwords.inwords.game.domain.model.GamesInfo
+import ru.inwords.inwords.game.domain.model.*
 
 internal class ContinueGameInteractorTest {
 

@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using InWords.WebApi.Module;
-using InWords.WebApi.Modules.ClassicCardGame.Service;
 
 namespace InWords.WebApi.Modules.ClassicCardGame
 {

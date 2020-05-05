@@ -1,4 +1,4 @@
-package ru.inwords.inwords.game.data.bean
+package ru.inwords.inwords.game.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

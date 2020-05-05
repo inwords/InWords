@@ -50,6 +50,11 @@ namespace InWords.WebApi.Controllers.v2
             return Ok(reply);
         }
 
+        /// <summary>
+        /// Adds all words from the set of words to the user's dictionary
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Route("to-dictionary")]
         [HttpPost]
         [SwaggerResponse(StatusCodes.Status200OK, "Words added", typeof(Empty))]
@@ -61,6 +66,11 @@ namespace InWords.WebApi.Controllers.v2
             };
             return Ok(await mediator.Send(requestObject).ConfigureAwait(false));
         }
+
+        /// <summary>
+        /// Returns a list of the official sets of words.
+        /// </summary>
+        /// <returns></returns>
         [Route("sets")]
         [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK, "Words added", typeof(WordSetReply))]
@@ -75,6 +85,11 @@ namespace InWords.WebApi.Controllers.v2
             return Ok(reply);
         }
 
+        /// <summary>
+        /// Returns the levels of the selected set of words
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, "WordSet's levels list", typeof(GetLevelsReply))]
         public async Task<IActionResult> GetLevels([FromRoute]int id)
