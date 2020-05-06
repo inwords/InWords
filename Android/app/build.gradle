@@ -194,6 +194,10 @@ dependencies {
         exclude group: 'com.facebook.soloader', module: 'soloader'
     }
 
+    //Groupie
+    implementation "com.github.lisawray.groupie:groupie:$versions.GROUPIE"
+    implementation "com.github.lisawray.groupie:groupie-viewbinding:$versions.GROUPIE"
+
     //Shimmer
     implementation "com.facebook.shimmer:shimmer:$versions.SHIMMER"
 

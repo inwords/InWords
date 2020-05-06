@@ -29,6 +29,7 @@ buildscript {
                 FRAGMENT         : '1.2.4',
                 PROTOC           : '3.11.4',
                 GRPC             : '1.29.0',
+                GROUPIE          : '2.8.0'
         ]
     }
 
@@ -38,7 +39,6 @@ buildscript {
         maven {
             url 'https://maven.fabric.io/public'
         }
-
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.3'
@@ -58,6 +58,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
