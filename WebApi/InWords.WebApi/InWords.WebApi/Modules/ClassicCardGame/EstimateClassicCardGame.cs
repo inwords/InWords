@@ -56,7 +56,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
             var scoreInfo = value.LevelStars();
             var levelIds = scoreInfo.Keys.ToArray();
             var existedLevels = Context.UserGameLevels
-                .Where(u=>u.UserId == userId)
+                .Where(u => u.UserId == userId)
                 .Where(u => levelIds.Contains(u.GameLevelId));
             var levelsToAdd = levelIds.Except(existedLevels.Select(d => d.GameLevelId));
 
@@ -84,7 +84,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
                 if (level.UserStars < calculatedGameScore)
                     // update database score
                     level.UserStars = scoreInfo[level.GameLevelId];
-                
+
                 levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
                 {
                     // but return current calculated stars to user

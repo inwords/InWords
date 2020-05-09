@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Extensions
 {
-    public static class ServiceHandler
+    public static class AuthorizeHandlerExtention
     {
         /// <summary>
         /// Grpc Authorize handler
@@ -53,7 +53,7 @@ namespace InWords.WebApi.Extensions
         /// <param name="request"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static async Task<(TReply reply, Status status)> AuthorizeHandler<TRequest, TReply>(
+        private static async Task<(TReply reply, Status status)> AuthorizeHandler<TRequest, TReply>(
             this IMediator mediator,
             TRequest request,
             ClaimsPrincipal user) where TRequest : new() where TReply : new()
@@ -87,18 +87,18 @@ namespace InWords.WebApi.Extensions
             return Switch(result, status);
         }
 
-        private static IActionResult Switch<TReply>(TReply reply, Status status) => status switch
+        public static IActionResult Switch<TReply>(TReply reply, Status status) => status switch
         {
             var s when s.StatusCode == StatusCode.OK => new OkObjectResult(reply),
             var s when s.StatusCode == StatusCode.DataLoss => new ConflictObjectResult(s),
             var s when s.StatusCode == StatusCode.Unauthenticated => new UnauthorizedObjectResult(s),
             var s when s.StatusCode == StatusCode.NotFound => new NotFoundObjectResult(s),
-            var s when 
+            var s when
             s.StatusCode == StatusCode.Internal ||
             s.StatusCode == StatusCode.Unavailable ||
             s.StatusCode == StatusCode.Unimplemented ||
             s.StatusCode == StatusCode.Unknown
-            => new ObjectResult(s) 
+            => new ObjectResult(s)
             {
                 StatusCode = StatusCodes.Status500InternalServerError
             },
