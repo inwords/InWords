@@ -1,5 +1,6 @@
 ﻿using InWords.Protobuf;
 using InWords.Service.Auth.Extensions;
+using InWords.WebApi.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -34,21 +35,10 @@ namespace InWords.WebApi.Controllers.v2
         [Route("updateEmail")]
         [HttpPost]
         public async Task<IActionResult> UpdateEmail([FromBody] EmailChangeRequest request)
-        {
-            try
-            {
-                var reqestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(request)
-                {
-                    UserId = User.GetUserId()
-                };
-                EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok(reply);
-            }
-            catch (ArgumentNullException e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+         => await mediator
+            .AuthorizeHandlerActionResult<EmailChangeRequest, EmailChangeReply>(request, User)
+            .ConfigureAwait(false);
+
 
         /// <summary>
         ///   Use this to confirm email code
@@ -61,21 +51,7 @@ namespace InWords.WebApi.Controllers.v2
         [Route("confirmEmail")]
         [HttpPost]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request)
-        {
-            try
-            {
-                var reqestObject = new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(request)
-                {
-                    UserId = User.GetUserId()
-                };
-                ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok(reply);
-            }
-            catch (ArgumentNullException e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+       => await mediator.AuthorizeHandlerActionResult<ConfirmEmailRequest, ConfirmEmailReply>(request, User).ConfigureAwait(false);
 
         /// <summary>
         /// Input point for the link from the confirmation email.
@@ -94,20 +70,9 @@ namespace InWords.WebApi.Controllers.v2
             {
                 ActivationGuid = encryptLink
             };
-            var reqestObject = new RequestObject<ConfirmEmailLinkRequest, ConfirmEmailReply>(request);
-            try
-            {
-                ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok(reply);
-            }
-            catch (ArgumentNullException e)
-            {
-                return NotFound(e.Message);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
+            return await mediator
+                .AuthorizeHandlerActionResult<ConfirmEmailLinkRequest, ConfirmEmailReply>(request, User)
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -122,22 +87,6 @@ namespace InWords.WebApi.Controllers.v2
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromBody] DeleteAccountRequest request)
-        {
-            int id = User.GetUserId();
-            try
-            {
-                var reqestObject = new AuthorizedRequestObject<DeleteAccountRequest, Empty>(request)
-                {
-                    UserId = User.GetUserId()
-                };
-                await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok();
-            }
-            catch (ArgumentNullException e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
+        => await mediator.AuthorizeHandlerActionResult<DeleteAccountRequest, Empty>(request, User).ConfigureAwait(false);
     }
 }
