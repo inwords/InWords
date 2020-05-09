@@ -74,5 +74,10 @@ namespace InWords.WebApi.gRPC.Services
             };
             return await mediator.Send(requestObject).ConfigureAwait(false);
         }
+
+        public override Task<GameScoreReply> History(Empty request, ServerCallContext context)
+        {
+            return base.History(request, context);
+        }
     }
 }
