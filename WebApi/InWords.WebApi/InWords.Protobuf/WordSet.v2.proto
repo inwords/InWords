@@ -16,6 +16,17 @@ service WordSetProvider {
 	rpc ToDictionary (WordSetWordsRequest) returns (Common.v2.Empty);
 	rpc GetLevels (GetLevelsRequest) returns (GetLevelsReply);
 	rpc GetLevelWords (GetLevelWordsRequest) returns (GetLevelWordsReply);
+	rpc History (Common.v2.Empty) returns (GameScoreReply);
+}
+
+message GameScoreReply{
+	message ConcreteGameScore {
+		int32 levelId = 1;
+		int32 stars = 2;
+		bool isAvailable = 3;
+		int32 gameType = 4;
+	}
+	repeated ConcreteGameScore levels = 1;
 }
 
 message GetLevelWordsRequest{

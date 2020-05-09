@@ -51,7 +51,7 @@ function Homepage() {
       <section className="homepage-hero">
         <div className="homepage-hero-content">
           <a href="/">
-            <InWordsLogo height={128} />
+            <InWordsLogo height={128} className="homepage-hero-logo" />
           </a>
           <Typography
             component="h1"
@@ -61,10 +61,21 @@ function Homepage() {
             Система изучения иностранной лексики для начинающих
           </Typography>
           <div className="homepage-hero-buttons-container">
-            <Button color="primary" large onClick={handleSignInAnonymously}>
+            <Button
+              onClick={handleSignInAnonymously}
+              color="primary"
+              large
+              className="homepage-hero-button"
+            >
               Начать без регистрации
             </Button>
-            <LinkButton component={RouterLink} to="/sign-in" large>
+            <LinkButton
+              component={RouterLink}
+              to="/sign-in"
+              color="primary"
+              large
+              className="homepage-hero-button"
+            >
               Войти в аккаунт
             </LinkButton>
           </div>

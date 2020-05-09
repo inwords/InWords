@@ -5,11 +5,9 @@ import classNames from 'classnames';
 import './Paper.scss';
 
 const Paper = forwardRef(function Paper(
-  { component = 'div', depthShadow = 4, className, ...rest },
+  { component: Component = 'div', depthShadow = 4, className, ...rest },
   ref
 ) {
-  const Component = component;
-
   return (
     <Component
       ref={ref}

@@ -21,10 +21,7 @@ namespace InWords.WebApi.Controllers.v2
     {
         private readonly IMediator mediator;
 
-        public DictionaryController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
+        public DictionaryController(IMediator mediator) => this.mediator = mediator;
         /// <summary>
         ///   Used to add words to the user's dictionary.
         ///   The (localId) value should be zero (0) if you don't need to track words.
@@ -36,14 +33,7 @@ namespace InWords.WebApi.Controllers.v2
         [Route("addwords")]
         [HttpPost]
         public async Task<IActionResult> AddWords([FromBody] AddWordsRequest request)
-        {
-            var reqestObject = new AuthorizedRequestObject<AddWordsRequest, AddWordsReply>(request)
-            {
-                UserId = User.GetUserId()
-            };
-            AddWordsReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-            return Ok(reply);
-        }
+            => await mediator.AuthorizeHandlerActionResult<AddWordsRequest, AddWordsReply>(request, User).ConfigureAwait(false);
 
         /// <summary>
         ///   Use this to get words and delete words that not exists
@@ -58,14 +48,8 @@ namespace InWords.WebApi.Controllers.v2
         [Route("getwords")]
         [HttpPost]
         public async Task<IActionResult> GetWords([FromBody] GetWordsRequest request)
-        {
-            var reqestObject = new AuthorizedRequestObject<GetWordsRequest, WordsReply>(request)
-            {
-                UserId = User.GetUserId()
-            };
-            WordsReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-            return Ok(reply);
-        }
+            => await mediator.AuthorizeHandlerActionResult<GetWordsRequest, WordsReply>(request, User).ConfigureAwait(false);
+
 
         /// <summary>
         /// Deletes the old word and adds a new one. Use during editing
@@ -94,31 +78,15 @@ namespace InWords.WebApi.Controllers.v2
         [Route("deletewords")]
         [HttpPost]
         public async Task<IActionResult> DeleteWords([FromBody]DeleteWordsRequest request)
-        {
-            var reqestObject = new AuthorizedRequestObject<DeleteWordsRequest, Empty>(request)
-            {
-                UserId = User.GetUserId()
-            };
-            Empty reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-            return Ok(reply);
-        }
+            => await mediator.AuthorizeHandlerActionResult<DeleteWordsRequest, Empty>(request, User).ConfigureAwait(false);
+
+
 
         [SwaggerResponse(StatusCodes.Status200OK, "", typeof(LookupReply))]
         [Route("lookup")]
         [HttpPost]
         public async Task<IActionResult> Lookup(LookupRequest request)
-        {
-            var reqestObject = new RequestObject<LookupRequest, LookupReply>(request);
-            var response = await mediator.Send(reqestObject).ConfigureAwait(false);
-            if (reqestObject.StatusCode == Grpc.Core.StatusCode.OK)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                return BadRequest(response);
-            }
-        }
+            => await mediator.AuthorizeHandlerActionResult<LookupRequest, LookupReply>(request, User).ConfigureAwait(false);
 
         /// <summary>
         /// Use this to request pairs to learn
@@ -130,18 +98,7 @@ namespace InWords.WebApi.Controllers.v2
         [Route("training")]
         [HttpGet]
         public async Task<IActionResult> Training()
-        {
-
-            var (reply, status) = await mediator.AuthorizeHandler<Empty, TrainingReply>(new Empty(), User).ConfigureAwait(false);
-            if (status.StatusCode == Grpc.Core.StatusCode.OK)
-            {
-                return Ok(reply);
-            }
-            else
-            {
-                return BadRequest(status);
-            }
-        }
+            => await mediator.AuthorizeHandlerActionResult<Empty, TrainingReply>(new Empty(), User).ConfigureAwait(false);
 
         /// <summary>
         /// Use this to request pairs to learn
@@ -153,18 +110,6 @@ namespace InWords.WebApi.Controllers.v2
         [Route("trainingIds")]
         [HttpGet]
         public async Task<IActionResult> TrainingIds()
-        {
-
-            var (reply, status) = await mediator.AuthorizeHandler<Empty, TrainingIdsReply>(new Empty(), User)
-                .ConfigureAwait(false);
-            if (status.StatusCode == Grpc.Core.StatusCode.OK)
-            {
-                return Ok(reply);
-            }
-            else
-            {
-                return BadRequest(status);
-            }
-        }
+            => await mediator.AuthorizeHandlerActionResult<Empty, TrainingIdsReply>(new Empty(), User).ConfigureAwait(false);
     }
 }
