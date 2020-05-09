@@ -5,10 +5,7 @@ using InWords.Protobuf;
 using InWords.WebApi.Modules.ClassicCardGame;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApiTests.TestUtils;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 using static InWords.Protobuf.CardGameMetrics.Types;
 

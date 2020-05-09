@@ -13,7 +13,7 @@ namespace InWords.WebApi.Swagger
 
             var swaggerDocPaths = new OpenApiPaths();
             foreach (string key in swaggerDoc.Paths.Keys)
-                swaggerDocPaths.Add(key.Replace("v{version}", swaggerDoc.Info.Version,StringComparison.InvariantCultureIgnoreCase), swaggerDoc.Paths[key]);
+                swaggerDocPaths.Add(key.Replace("v{version}", swaggerDoc.Info.Version, StringComparison.InvariantCultureIgnoreCase), swaggerDoc.Paths[key]);
             swaggerDoc.Paths = swaggerDocPaths;
         }
     }

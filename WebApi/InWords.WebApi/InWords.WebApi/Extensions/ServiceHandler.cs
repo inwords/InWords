@@ -93,12 +93,12 @@ namespace InWords.WebApi.Extensions
             var s when s.StatusCode == StatusCode.DataLoss => new ConflictObjectResult(s),
             var s when s.StatusCode == StatusCode.Unauthenticated => new UnauthorizedObjectResult(s),
             var s when s.StatusCode == StatusCode.NotFound => new NotFoundObjectResult(s),
-            var s when 
+            var s when
             s.StatusCode == StatusCode.Internal ||
             s.StatusCode == StatusCode.Unavailable ||
             s.StatusCode == StatusCode.Unimplemented ||
             s.StatusCode == StatusCode.Unknown
-            => new ObjectResult(s) 
+            => new ObjectResult(s)
             {
                 StatusCode = StatusCodes.Status500InternalServerError
             },
