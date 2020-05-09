@@ -1,6 +1,5 @@
 ﻿using Grpc.Core;
 using InWords.Protobuf;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services

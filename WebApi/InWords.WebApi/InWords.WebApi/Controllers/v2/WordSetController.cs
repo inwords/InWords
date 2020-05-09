@@ -68,7 +68,7 @@ namespace InWords.WebApi.Controllers.v2
         => await mediator
             .AuthorizeHandlerActionResult<Empty, WordSetReply>(new Empty(), User)
             .ConfigureAwait(false);
-        
+
 
         /// <summary>
         /// Returns the levels of the selected set of words

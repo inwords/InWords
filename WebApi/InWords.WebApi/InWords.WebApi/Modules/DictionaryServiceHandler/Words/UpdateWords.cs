@@ -2,8 +2,6 @@
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
