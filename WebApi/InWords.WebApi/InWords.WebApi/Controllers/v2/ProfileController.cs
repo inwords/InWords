@@ -48,7 +48,7 @@ namespace InWords.WebApi.Controllers.v2
         [Route("confirmEmail")]
         [HttpPost]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request)
-       => await mediator.AuthorizeHandlerActionResult<ConfirmEmailRequest, ConfirmEmailReply>(request, User).ConfigureAwait(false);
+            => await mediator.AnonimousHandlerActionResult<ConfirmEmailRequest, ConfirmEmailReply>(request).ConfigureAwait(false);
 
         /// <summary>
         /// Input point for the link from the confirmation email.

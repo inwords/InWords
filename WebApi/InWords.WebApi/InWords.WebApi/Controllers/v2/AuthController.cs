@@ -28,7 +28,7 @@ namespace InWords.WebApi.Controllers.v2
         [Route("oauth2")]
         [HttpPost]
         public async Task<IActionResult> OAuth2([FromBody] OAuthTokenRequest request)
-            => await mediator.AuthorizeHandlerActionResult<OAuthTokenRequest, TokenReply>(request, User).ConfigureAwait(false);
+            => await mediator.AnonimousHandlerActionResult<OAuthTokenRequest, TokenReply>(request).ConfigureAwait(false);
 
         /// <summary>
         /// Basic access authentication using login, password
@@ -40,7 +40,7 @@ namespace InWords.WebApi.Controllers.v2
         [Route("basic")]
         [HttpPost]
         public async Task<IActionResult> Basic([FromBody] TokenRequest request)
-            => await mediator.AuthorizeHandlerActionResult<TokenRequest, TokenReply>(request, User).ConfigureAwait(false);
+            => await mediator.AnonimousHandlerActionResult<TokenRequest, TokenReply>(request).ConfigureAwait(false);
 
         /// <summary>
         /// Registering a new user and sending them an email
@@ -52,6 +52,6 @@ namespace InWords.WebApi.Controllers.v2
         [Route("register")]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
-            => await mediator.AuthorizeHandlerActionResult<RegistrationRequest, TokenReply>(request, User).ConfigureAwait(false);
+            => await mediator.AnonimousHandlerActionResult<RegistrationRequest, TokenReply>(request).ConfigureAwait(false);
     }
 }
