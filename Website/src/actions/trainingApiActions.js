@@ -32,8 +32,8 @@ export const getTrainingHistory = () => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        apiVersion: '1.1',
-        endpoint: '/customLevel/history',
+        apiVersion: '2',
+        endpoint: '/wordSet/history',
         resolve,
         reject
       })
