@@ -68,7 +68,7 @@ namespace InWords.WebApiTests.Moduls.ClassicCardGame
         }
 
         [Fact]
-        public async void GetLowerScoreButHigherExist_KeepHigherScore() 
+        public async void SendLowerScoreToClient_KeepHigherInDatabase() 
         {
             int userId = 1;
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
@@ -111,7 +111,7 @@ namespace InWords.WebApiTests.Moduls.ClassicCardGame
             LevelPoints response = await handler.HandleRequest(requestObject).ConfigureAwait(false);
 
             Assert.Single(response.Points);
-            Assert.Equal(3, response.Points.First().Score);
+            Assert.Equal(0, response.Points.First().Score);
             Assert.Equal(3, context.UserGameLevels.First().UserStars);
         }
     }
