@@ -15,8 +15,8 @@ namespace InWords.WebApi.Model.UserWordPair
         ///     Implementation of
         ///     <a href="https://en.wikipedia.org/wiki/Forgetting_curve">Forgetting curve</a>
         /// </summary>
-        /// <param name="subconsciousLevel"></param>
-        /// <param name="MemoryLevel"></param>
+        /// <param name="stability"></param>
+        /// <param name="retrievabilityLevel"></param>
         /// <returns></returns>
         public static int Ebbinghaus(int stability, double retrievabilityLevel = 0.8)
         {

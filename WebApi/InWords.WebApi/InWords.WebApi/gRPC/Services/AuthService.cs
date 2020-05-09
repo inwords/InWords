@@ -9,7 +9,7 @@ namespace InWords.WebApi.gRPC.Services
 {
     public class AuthService : Authenticator.AuthenticatorBase
     {
-        IMediator mediator;
+        readonly IMediator mediator;
         public AuthService(IMediator mediator)
         {
             this.mediator = mediator;

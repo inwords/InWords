@@ -5,11 +5,13 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1dot1.CardsGame
 {
+    [Obsolete]
     [Authorize]
     [ApiVersion("1.1")]
     [Route("v{version:apiVersion}/CustomLevel")]
@@ -25,12 +27,13 @@ namespace InWords.WebApi.Controllers.v1dot1.CardsGame
         }
 
         /// <summary>
-        ///     Use this to get last custom played games
+        ///     "Use v2 wordset history"
         /// </summary>
         /// <deprecated>true</deprecated>
         /// <returns>History of users custom levels</returns>
         /// <response code="401">Unauthorized</response>
         /// <response code="200">OK</response>
+        [Obsolete("Use v2 wordset history")]
         [Route("History")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<LevelInfo>), StatusCodes.Status200OK)]
