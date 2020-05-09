@@ -2,21 +2,27 @@
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Enums;
-using InWords.WebApi.Services.UserGameService.GetUsersGameHistory;
+using InWords.Protobuf;
+using InWords.WebApi.Modules.WordsSets;
+using InWords.WebApi.Services.Abstractions;
 using InWords.WebApiTests.TestUtils;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
-namespace InWords.WebApiTests.Services.UserGameService.GetUsersGameHistory
+namespace InWords.WebApiTests.Moduls.WordsSets
 {
-    public class GetUserGameStoryHandlerTests
+    public class GetTrainingLevelsHistoryTests
     {
         [Fact]
-        public async void HandleWords()
+        public async Task Get_History_Levels()
         {
             // prepare
             var userId = 2;
 
-            await using InWordsDataContext context = InWordsDataContextFactory.Create();
+            using InWordsDataContext context = InWordsDataContextFactory.Create();
 
             var creation2 = new Game { CreatorId = userId + 1 }; // != user 
             var creation1 = new Game { CreatorId = userId, GameId = 2 };
@@ -31,12 +37,12 @@ namespace InWords.WebApiTests.Services.UserGameService.GetUsersGameHistory
             context.SaveChanges();
 
             // action
-            var words = new GetUserGameStoryHandler(context);
-            var test = await words.Handle(new GetUserGameStoryQuery() { UserId = userId })
-                    .ConfigureAwait(false);
+            var words = new GetTrainingLevelsHistory(context);
+            var test = await words.Handle((new AuthorizedRequestObject<Empty, GameScoreReply>(new Empty()) { UserId = userId }))
+                .ConfigureAwait(false);
 
             // assert
-            Assert.Equal(2, test.Count);
+            Assert.Equal(2, test.Levels.Count);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 
 using InWords.Data.Domains;
+using InWords.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,6 +20,7 @@ namespace InWords.Data.Creations.GameBox
         [ForeignKey(nameof(GameLevelId))] public virtual GameLevel GameLevel { get; set; }
 
         [Required] public int UserStars { get; set; }
+        [Required] public GameType GameType { get; set; }
 
         #region ctor
 
