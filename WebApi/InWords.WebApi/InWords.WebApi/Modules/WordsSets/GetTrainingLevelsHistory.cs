@@ -4,6 +4,7 @@ using InWords.Data.Creations.GameBox;
 using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,16 +26,13 @@ namespace InWords.WebApi.Modules.WordsSets
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            var value = request.Value;
             var userId = request.UserId;
 
             var userHistoryGames = SelectUserCustomGameHistory(userId);
 
             var userHistoryLevels = SelectLevelsInGame(userHistoryGames);
 
-            var levelInfos = SelectLevelInfos(userHistoryLevels);
-
-            return Task.Run(() => levelInfos);
+            return SelectLevelInfos(userHistoryLevels);
         }
 
         private IQueryable<Game> SelectUserCustomGameHistory(int userId)
@@ -51,20 +49,22 @@ namespace InWords.WebApi.Modules.WordsSets
             return Context.GameLevels.Where(g => userHistoryGames.Any(a => a.GameId.Equals(g.GameId)));
         }
 
-        private GameScoreReply SelectLevelInfos(IQueryable<GameLevel> userHistoryLevels)
+        private async Task<GameScoreReply> SelectLevelInfos(IQueryable<GameLevel> userHistoryLevels)
         {
             GameScoreReply gameScoreReply = new GameScoreReply();
 
-            var levels = from level in userHistoryLevels
-                         join stars in Context.UserGameLevels on level.GameLevelId equals stars.GameLevelId into st
-                         from stars in st.DefaultIfEmpty()
-                         select new ConcreteGameScore()
-                         {
-                             LevelId = level.GameLevelId,
-                             IsAvailable = true,
-                             Stars = stars.UserStars,
-                             GameType = (int)stars.GameType
-                         };
+            var levels = await (from level in userHistoryLevels
+                                join stars in Context.UserGameLevels on level.GameLevelId equals stars.GameLevelId into st
+                                from stars in st.DefaultIfEmpty()
+                                select new ConcreteGameScore()
+                                {
+                                    LevelId = level.GameLevelId,
+                                    IsAvailable = true,
+                                    Stars = stars == null ? 0 : stars.UserStars,
+                                    GameType = stars == null ? -1 : (int)stars.GameType
+                                })
+                         .ToArrayAsync()
+                         .ConfigureAwait(false);
 
             gameScoreReply.Levels.Add(levels);
 
