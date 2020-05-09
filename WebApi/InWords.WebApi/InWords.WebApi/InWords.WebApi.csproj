@@ -26,16 +26,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\GameService\Commands\**" />
+    <Compile Remove="Services\ObsoleteGameService\Commands\**" />
     <Compile Remove="Services\ObsoleteUserWordPairService\Models\**" />
     <Compile Remove="wwwroot\**" />
-    <Content Remove="Services\GameService\Commands\**" />
+    <Content Remove="Services\ObsoleteGameService\Commands\**" />
     <Content Remove="Services\ObsoleteUserWordPairService\Models\**" />
     <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="Services\GameService\Commands\**" />
+    <EmbeddedResource Remove="Services\ObsoleteGameService\Commands\**" />
     <EmbeddedResource Remove="Services\ObsoleteUserWordPairService\Models\**" />
     <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="Services\GameService\Commands\**" />
+    <None Remove="Services\ObsoleteGameService\Commands\**" />
     <None Remove="Services\ObsoleteUserWordPairService\Models\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
