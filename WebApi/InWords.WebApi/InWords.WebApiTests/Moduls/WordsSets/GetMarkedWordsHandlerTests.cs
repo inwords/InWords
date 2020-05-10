@@ -21,9 +21,9 @@ namespace InWords.WebApiTests.Moduls.WordsSets
 
             context.Languages.AddLanguages();
 
-            int word1 = context.AddWordPair("test", "Тест");
-            int word2 = context.AddWordPair("tes2", "Тест2");
-            int word3 = context.AddWordPair("test3", "Тест3");
+            context.AddWordPair("test", "Тест");
+            context.AddWordPair("tes2", "Тест2");
+            context.AddWordPair("test3", "Тест3");
 
             HashSet<GameLevelWord> gameLevelWords = new HashSet<GameLevelWord>
             {

@@ -5,7 +5,7 @@ namespace InWords.WebApi.Swagger.Examples
 {
     public class RegistrationRequestExample : IExamplesProvider<RegistrationRequest>
     {
-        RegistrationRequest IExamplesProvider<RegistrationRequest>.GetExamples()
+        public RegistrationRequest GetExamples()
         {
             return new RegistrationRequest()
             {

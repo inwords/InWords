@@ -11,9 +11,9 @@ namespace InWords.WebApi.Services.Abstractions
     public class ContextRequestHandler<TQuery, TResult, TContext> : IRequestHandler<TQuery, TResult> where TQuery : IRequest<TResult>
     {
         [Inject]
-        private ILogger? logger { get; set; }
+        private ILogger? Logger { get; set; }
 
-        private Stopwatch stopwatch;
+        private readonly Stopwatch stopwatch;
         private readonly TContext context;
         protected TContext Context => context;
 
@@ -43,13 +43,13 @@ namespace InWords.WebApi.Services.Abstractions
             {
                 var name = typeof(TQuery).Name;
                 string message = $"InWords Long Running Request: {name} ({stopwatch.ElapsedMilliseconds} milliseconds) {request}";
-                if (logger == null)
+                if (Logger == null)
                 {
                     Debug.WriteLine(message);
                 }
                 else
                 {
-                    logger.LogWarning(message);
+                    Logger.LogWarning(message);
                 }
             }
         }

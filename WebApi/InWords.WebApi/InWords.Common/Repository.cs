@@ -102,7 +102,7 @@ namespace InWords.Common
         {
             TEntity entity = GetWhere(predicate).SingleOrDefault();
 
-            entity = entity ?? await CreateAsync(item);
+            entity ??= await CreateAsync(item);
 
             return entity;
         }

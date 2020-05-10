@@ -355,8 +355,8 @@
                 Implementation of
                 <a href="https://en.wikipedia.org/wiki/Forgetting_curve">Forgetting curve</a>
             </summary>
-            <param name="subconsciousLevel"></param>
-            <param name="MemoryLevel"></param>
+            <param name="stability"></param>
+            <param name="retrievabilityLevel"></param>
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthorizedRequestObject{InWords.Protobuf.DeleteAccountRequest,InWords.Protobuf.Empty},System.Threading.CancellationToken)">

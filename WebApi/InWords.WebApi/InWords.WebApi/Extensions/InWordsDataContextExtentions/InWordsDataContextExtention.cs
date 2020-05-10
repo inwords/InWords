@@ -1,10 +1,7 @@
 ﻿using InWords.Data;
 using InWords.Data.Domains;
-using Org.BouncyCastle.Bcpg;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Extensions.InWordsDataContextExtention
 {

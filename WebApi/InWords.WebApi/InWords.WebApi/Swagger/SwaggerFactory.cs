@@ -63,7 +63,7 @@ namespace InWords.WebApi.Swagger
             if (!apiDescription.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
 
             IEnumerable<ApiVersion> versions = GetApiVersions(methodInfo);
-            return versions.Any(v => $"v{v.ToString()}" == docName);
+            return versions.Any(v => $"v{v}" == docName);
         }
 
         /// <summary>

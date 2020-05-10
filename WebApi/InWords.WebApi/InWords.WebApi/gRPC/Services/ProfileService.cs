@@ -11,7 +11,7 @@ namespace InWords.WebApi.gRPC.Services
 {
     public class ProfileService : Profile.ProfileBase
     {
-        IMediator mediator;
+        readonly IMediator mediator;
         public ProfileService(IMediator mediator)
         {
             this.mediator = mediator;
