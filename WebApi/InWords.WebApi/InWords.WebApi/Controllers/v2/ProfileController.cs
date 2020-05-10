@@ -48,7 +48,7 @@ namespace InWords.WebApi.Controllers.v2
         [Route("confirmEmail")]
         [HttpPost]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request)
-            => await mediator.AnonimousHandlerActionResult<ConfirmEmailRequest, ConfirmEmailReply>(request).ConfigureAwait(false);
+            => await mediator.AuthorizeHandlerActionResult<ConfirmEmailRequest, ConfirmEmailReply>(request, User).ConfigureAwait(false);
 
         /// <summary>
         /// Input point for the link from the confirmation email.
@@ -67,9 +67,19 @@ namespace InWords.WebApi.Controllers.v2
             {
                 ActivationGuid = encryptLink
             };
-            return await mediator
-                .AuthorizeHandlerActionResult<ConfirmEmailLinkRequest, ConfirmEmailReply>(request, User)
+            var result = await mediator
+                .AnonimousHandlerActionResult<ConfirmEmailLinkRequest, ConfirmEmailReply>(request)
                 .ConfigureAwait(false);
+
+            if (result is ObjectResult resultObject)
+            {
+                if (resultObject.StatusCode == StatusCodes.Status200OK)
+                {
+                    // email confirm
+                    return Redirect("http://inwords.ru/");
+                }
+            }
+            return BadRequest();
         }
 
         /// <summary>
