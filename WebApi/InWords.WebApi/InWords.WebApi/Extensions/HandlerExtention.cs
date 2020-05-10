@@ -12,7 +12,7 @@ namespace InWords.WebApi.Extensions
 {
     public static partial class HandlerExtention
     {
-        private static async Task<(TReply reply, Status status)> AnonimousHandler<TRequest, TReply>(
+        private static async Task<(TReply reply, Status status)> GenericHandler<TRequest, TReply>(
             this IMediator mediator,
             TRequest request, int? userId = null) where TRequest : new() where TReply : new()
         {

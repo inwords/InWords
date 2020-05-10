@@ -20,8 +20,7 @@ namespace InWords.WebApi.Extensions
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            var (reply, status) = await mediator
-                .AnonimousHandler<TRequest, TReply>(request, context.GetHttpContext().User.GetUserId())
+            var (reply, status) = await mediator.GenericHandler<TRequest, TReply>(request, context.GetHttpContext().User.GetUserId())
                 .ConfigureAwait(false);
 
             context.Status = status;
@@ -34,8 +33,7 @@ namespace InWords.WebApi.Extensions
             TRequest request,
             ClaimsPrincipal user) where TRequest : new() where TReply : new()
         {
-            var (result, status) = await mediator
-                .AnonimousHandler<TRequest, TReply>(request, user.GetUserId())
+            var (result, status) = await mediator.GenericHandler<TRequest, TReply>(request, user.GetUserId())
                 .ConfigureAwait(false);
 
             return Switch(result, status);
@@ -49,22 +47,20 @@ namespace InWords.WebApi.Extensions
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            var (reply, status) = await mediator
-                .AnonimousHandler<TRequest, TReply>(request)
+            var (reply, status) = await mediator.GenericHandler<TRequest, TReply>(request)
                 .ConfigureAwait(false);
 
             context.Status = status;
+            
             return reply;
         }
 
 
         public static async Task<IActionResult> AnonimousHandlerActionResult<TRequest, TReply>(
             this IMediator mediator,
-            TRequest request,
-            ClaimsPrincipal user) where TRequest : new() where TReply : new()
+            TRequest request) where TRequest : new() where TReply : new()
         {
-            var (result, status) = await mediator
-                .AnonimousHandler<TRequest, TReply>(request)
+            var (result, status) = await mediator.GenericHandler<TRequest, TReply>(request)
                 .ConfigureAwait(false);
 
             return Switch(result, status);
