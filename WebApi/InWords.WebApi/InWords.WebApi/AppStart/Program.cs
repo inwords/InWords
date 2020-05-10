@@ -39,7 +39,7 @@ namespace InWords.WebApi.AppStart
                     .UseKestrel((hostingContext, options) =>
                     {
                         options.Listen(IPAddress.Loopback, http,
-                            listenOptions => listenOptions.Protocols = HttpProtocols.Http1
+                            listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2
                             );
 
                         options.Listen(IPAddress.Loopback, https,
