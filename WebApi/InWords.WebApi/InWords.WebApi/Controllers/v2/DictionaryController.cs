@@ -86,7 +86,7 @@ namespace InWords.WebApi.Controllers.v2
         [Route("lookup")]
         [HttpPost]
         public async Task<IActionResult> Lookup(LookupRequest request)
-            => await mediator.AuthorizeHandlerActionResult<LookupRequest, LookupReply>(request, User).ConfigureAwait(false);
+            => await mediator.AnonimousHandlerActionResult<LookupRequest, LookupReply>(request).ConfigureAwait(false);
 
         /// <summary>
         /// Use this to request pairs to learn

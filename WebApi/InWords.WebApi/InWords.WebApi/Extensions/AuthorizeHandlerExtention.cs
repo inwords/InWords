@@ -81,7 +81,8 @@ namespace InWords.WebApi.Extensions
             TRequest request,
             ClaimsPrincipal user) where TRequest : new() where TReply : new()
         {
-            var (result, status) = await mediator.AuthorizeHandler<TRequest, TReply>(request, user)
+            var (result, status) = await mediator
+                .AuthorizeHandler<TRequest, TReply>(request, user)
                 .ConfigureAwait(false);
 
             return Switch(result, status);

@@ -94,6 +94,6 @@ namespace InWords.WebApi.Controllers.v2
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromBody] DeleteAccountRequest request)
-        => await mediator.AuthorizeHandlerActionResult<DeleteAccountRequest, Empty>(request, User).ConfigureAwait(false);
+            => await mediator.AuthorizeHandlerActionResult<DeleteAccountRequest, Empty>(request, User).ConfigureAwait(false);
     }
 }
