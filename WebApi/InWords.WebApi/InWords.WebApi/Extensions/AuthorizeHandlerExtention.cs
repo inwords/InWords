@@ -10,17 +10,8 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Extensions
 {
-    public static class AuthorizeHandlerExtention
+    public static partial class HandlerExtention
     {
-        /// <summary>
-        /// Grpc Authorize handler
-        /// </summary>
-        /// <typeparam name="TRequest"></typeparam>
-        /// <typeparam name="TReply"></typeparam>
-        /// <param name="mediator"></param>
-        /// <param name="request"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
         public static async Task<TReply> AuthorizeHandler<TRequest, TReply>(
             this IMediator mediator,
             TRequest request,
@@ -29,80 +20,50 @@ namespace InWords.WebApi.Extensions
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            if (mediator == null)
-            {
-                context.Status = new Status(StatusCode.Internal, "Mediator is null or method not registred");
-                return new TReply();
-            }
+            var (reply, status) = await mediator.GenericHandler<TRequest, TReply>(request, context.GetHttpContext().User.GetUserId())
+                .ConfigureAwait(false);
 
-            var reqestObject = new AuthorizedRequestObject<TRequest, TReply>(request)
-            {
-                UserId = context.GetHttpContext().User.GetUserId()
-            };
-            context.Status = new Status(reqestObject.StatusCode, reqestObject.Detail);
-            TReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
+            context.Status = status;
             return reply;
         }
 
-        /// <summary>
-        /// Http authorize handler
-        /// </summary>
-        /// <typeparam name="TRequest"></typeparam>
-        /// <typeparam name="TReply"></typeparam>
-        /// <param name="mediator"></param>
-        /// <param name="request"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        private static async Task<(TReply reply, Status status)> AuthorizeHandler<TRequest, TReply>(
-            this IMediator mediator,
-            TRequest request,
-            ClaimsPrincipal user) where TRequest : new() where TReply : new()
-        {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-
-            if (mediator == null)
-            {
-                Status status = new Status(StatusCode.Internal, "Mediator is null or method not registred");
-                return (new TReply(), status);
-            }
-
-            var reqestObject = new AuthorizedRequestObject<TRequest, TReply>(request)
-            {
-                UserId = user.GetUserId()
-            };
-            TReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-
-            return (reply, new Status(reqestObject.StatusCode, reqestObject.Detail));
-        }
-
+    
         public static async Task<IActionResult> AuthorizeHandlerActionResult<TRequest, TReply>(
             this IMediator mediator,
             TRequest request,
             ClaimsPrincipal user) where TRequest : new() where TReply : new()
         {
-            var (result, status) = await mediator.AuthorizeHandler<TRequest, TReply>(request, user)
+            var (result, status) = await mediator.GenericHandler<TRequest, TReply>(request, user.GetUserId())
                 .ConfigureAwait(false);
 
             return Switch(result, status);
         }
 
-        public static IActionResult Switch<TReply>(TReply reply, Status status) => status switch
+        public static async Task<TReply> AnonimousHandler<TRequest, TReply>(
+            this IMediator mediator,
+            TRequest request,
+            ServerCallContext context) where TRequest : new() where TReply : new()
         {
-            var s when s.StatusCode == StatusCode.OK => new OkObjectResult(reply),
-            var s when s.StatusCode == StatusCode.DataLoss => new ConflictObjectResult(s),
-            var s when s.StatusCode == StatusCode.Unauthenticated => new UnauthorizedObjectResult(s),
-            var s when s.StatusCode == StatusCode.NotFound => new NotFoundObjectResult(s),
-            var s when
-            s.StatusCode == StatusCode.Internal ||
-            s.StatusCode == StatusCode.Unavailable ||
-            s.StatusCode == StatusCode.Unimplemented ||
-            s.StatusCode == StatusCode.Unknown
-            => new ObjectResult(s)
-            {
-                StatusCode = StatusCodes.Status500InternalServerError
-            },
-            _ => new BadRequestObjectResult(status)
-        };
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            var (reply, status) = await mediator.GenericHandler<TRequest, TReply>(request)
+                .ConfigureAwait(false);
+
+            context.Status = status;
+            
+            return reply;
+        }
+
+
+        public static async Task<IActionResult> AnonimousHandlerActionResult<TRequest, TReply>(
+            this IMediator mediator,
+            TRequest request) where TRequest : new() where TReply : new()
+        {
+            var (result, status) = await mediator.GenericHandler<TRequest, TReply>(request)
+                .ConfigureAwait(false);
+
+            return Switch(result, status);
+        }
     }
 }
