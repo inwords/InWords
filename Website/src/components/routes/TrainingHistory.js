@@ -14,7 +14,7 @@ import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
 
 const traininTypesMap = {
-  [0]: 'Закрытые карточки'
+  0: 'Закрытые карточки'
 };
 
 function TrainingHistory() {
