@@ -27,7 +27,7 @@ message UpdateRequest{
 message ProfileReply{
 	int32 userId = 1;
 	string nickName = 2;
-	string experience = 3;
+	int32 experience = 3;
 	string lastLogin = 4;
 	string role = 5;
 	string registrationDate = 6;
@@ -37,7 +37,7 @@ message ProfileReply{
 message PublicProfile {
 	int32 userId = 1;
 	string nickName = 2;
-	string experience = 3;
+	int32 experience = 3;
 	string lastLogin = 4;
 	string registrationDate = 5;
 }

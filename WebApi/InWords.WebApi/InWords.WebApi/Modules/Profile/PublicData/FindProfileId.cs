@@ -4,7 +4,6 @@ using InWords.Protobuf;
 using InWords.WebApi.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Localization;
-using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -16,10 +15,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
 {
     public class FindProfileId : AuthorizedRequestObjectHandler<FindIdRequest, PublicProfile, InWordsDataContext>
     {
-        public FindProfileId(InWordsDataContext context) : base(context)
-        {
-
-        }
+        public FindProfileId(InWordsDataContext context) : base(context) { }
 
         public override Task<PublicProfile> HandleRequest(
             AuthorizedRequestObject<FindIdRequest, PublicProfile> request,
@@ -31,15 +27,26 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             var userId = request.UserId;
             var value = request.Value;
 
-            var user = Context.Users.Find(value.Id);
-            if (user == null)
+            var publicInfo = (from user in Context.Users.Where(u => u.UserId == userId)
+                              join account in Context.Accounts on user.UserId equals account.AccountId
+                              select new PublicProfile()
+                              {
+                                  UserId = user == null ? 0 : user.UserId,
+                                  Experience = user == null ? 0 : user.Experience,
+                                  LastLogin = user == null ? "" : user.LastLogin.ToString("o", CultureInfo.InvariantCulture),
+                                  NickName = user == null ? "" : user.NickName,
+                                  RegistrationDate = account == null || account.RegistrationDate == null ?
+                                  "" : account.RegistrationDate.ToString("o", CultureInfo.InvariantCulture),
+                              }).SingleOrDefault();
+
+            if (publicInfo == null)
             {
                 request.StatusCode = StatusCode.NotFound;
-                request.Detail = Strings.GetDetailMessage(Locale.EnUs, DetailMessage.UserNickNotFound);
+                request.Detail = Strings.GetDetailMessage(Locale.EnUs, DetailMessage.UserIdNotFound);
+                return Task.Run(() => new PublicProfile());
             }
 
-
-            return base.HandleRequest(request, cancellationToken);
+            return Task.Run(() => publicInfo);
         }
     }
 }
