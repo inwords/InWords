@@ -124,9 +124,9 @@ namespace InWords.WebApi.AppStart
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "InWords Web API V1");
-                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "InWords Web API V1.1");
                 c.SwaggerEndpoint("/swagger/v2/swagger.json", "InWords Web API V2 (grpc is allowed)");
+                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "InWords Web API V1.1");
+                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "InWords Web API V1");
                 c.RoutePrefix = string.Empty;
             });
 
@@ -151,11 +151,13 @@ namespace InWords.WebApi.AppStart
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureIoc(builder));
 
+#warning remove this
             // register services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(a => a.Namespace != null && a.Name.EndsWith("Service") &&
                             a.Namespace.StartsWith("InWords.WebApi.Services") && !a.Namespace.Contains("Abstractions"))
                 .InstancePerLifetimeScope();
+//end warning
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
 

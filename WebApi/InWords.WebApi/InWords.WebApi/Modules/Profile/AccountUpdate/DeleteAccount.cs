@@ -26,6 +26,9 @@ namespace InWords.WebApi.Services.Users.AccountUpdate
             AuthorizedRequestObject<DeleteAccountRequest, Empty> request,
             CancellationToken cancellationToken = default)
         {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
             var accountId = request.UserId;
             Account account = await Context.Accounts.FindAsync(accountId).ConfigureAwait(false);
             if (account == default)
