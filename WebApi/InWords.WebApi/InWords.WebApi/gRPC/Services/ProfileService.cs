@@ -39,7 +39,8 @@ namespace InWords.WebApi.gRPC.Services
             => mediator.AuthorizeHandler<Empty, ProfileReply>(request, context);
 
         public override Task<Empty> Update(UpdateRequest request, ServerCallContext context)
-            => throw new NotImplementedException();
+            => mediator.AuthorizeHandler<UpdateRequest, Empty>(request, context);
+
 
 
         // Reset Password

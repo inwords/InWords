@@ -25,21 +25,6 @@ namespace InWords.WebApi.Controllers.v1
     public class UsersController : ControllerBase
     {
         /// <summary>
-        ///     Get user by nickname
-        /// </summary>
-        /// <returns>list of users like nickname</returns>
-        /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>
-        [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [HttpGet("find/{nick}")]
-        [Obsolete("Use v2 profile api")]
-        public IActionResult GetUsers(string nick)
-        {
-            return Ok(userService.GetUsers(nick));
-        }
-
-        /// <summary>
         ///     Get user by id
         /// </summary>
         /// <returns>user with id</returns>
@@ -146,13 +131,10 @@ namespace InWords.WebApi.Controllers.v1
         #region ctor
 
         private readonly AccountRepository accountRepository;
-        private readonly UserService userService;
         private readonly UserRepository usersRepository;
-        public UsersController(AccountRepository accountRepository, UserService userService,
+        public UsersController(AccountRepository accountRepository,
             UserRepository usersRepository)
         {
-            this.userService = userService;
-
             // TODO: remove
             this.usersRepository = usersRepository;
             this.accountRepository = accountRepository;
