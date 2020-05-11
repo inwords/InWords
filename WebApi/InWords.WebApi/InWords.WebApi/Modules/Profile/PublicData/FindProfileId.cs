@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using InWords.Data;
 using InWords.Protobuf;
+using InWords.WebApi.Modules.Profile.Extentions;
 using InWords.WebApi.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Localization;
@@ -27,17 +28,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             var userId = request.UserId;
             var value = request.Value;
 
-            var publicInfo = (from user in Context.Users.Where(u => u.UserId == value.Id)
-                              join account in Context.Accounts on user.UserId equals account.AccountId
-                              select new PublicProfile()
-                              {
-                                  UserId = user == null ? 0 : user.UserId,
-                                  Experience = user == null ? 0 : user.Experience,
-                                  LastLogin = user == null ? "" : user.LastLogin.ToString("o", CultureInfo.InvariantCulture),
-                                  NickName = user == null ? "" : user.NickName,
-                                  RegistrationDate = account == null || account.RegistrationDate == null ?
-                                  "" : account.RegistrationDate.ToString("o", CultureInfo.InvariantCulture),
-                              }).SingleOrDefault();
+            var publicInfo = Context.GetProfile(u => u.UserId == userId).SingleOrDefault();
 
             if (publicInfo == null)
             {
