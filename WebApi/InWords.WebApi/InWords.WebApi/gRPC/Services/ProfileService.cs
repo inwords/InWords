@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using InWords.Protobuf;
 using InWords.Service.Auth.Extensions;
+using InWords.WebApi.Extensions;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,51 +14,25 @@ namespace InWords.WebApi.gRPC.Services
     public class ProfileService : Profile.ProfileBase
     {
         readonly IMediator mediator;
-        public ProfileService(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
+        public ProfileService(IMediator mediator) => this.mediator = mediator;
 
         public override async Task<EmailChangeReply> RequestEmailUpdate(EmailChangeRequest request, ServerCallContext context)
-        {
-            var reqestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(request)
-            {
-                // TODO: how it works
-                UserId = context.GetHttpContext().User.GetUserId()
-            };
-            EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-            return reply;
-        }
+            => await mediator.AuthorizeHandler<EmailChangeRequest, EmailChangeReply>(request, context).ConfigureAwait(false);
+
         public override async Task<ConfirmEmailReply> ConfirmEmail(ConfirmEmailRequest request, ServerCallContext context)
-        {
-            var reqestObject = new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(request)
-            {
-                UserId = context.GetHttpContext().User.GetUserId()
-            };
-            ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-            return reply;
-            // TODO: how to return error in grpc
-        }
+            => await mediator.AuthorizeHandler<ConfirmEmailRequest, ConfirmEmailReply>(request, context).ConfigureAwait(false);
+
         [AllowAnonymous]
         public override async Task<ConfirmEmailReply> ConfirmEmailLink(ConfirmEmailLinkRequest request, ServerCallContext context)
-        {
-            CheckIfArgumentIsNull(ref context);
-
-            var reqestObject = new RequestObject<ConfirmEmailLinkRequest, ConfirmEmailReply>(request);
-            ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-            return reply;
-            // TODO: how to return error in grpc
-        }
+            => await mediator.AuthorizeHandler<ConfirmEmailLinkRequest, ConfirmEmailReply>(request, context).ConfigureAwait(false);
 
         public override Task<ProfileReply> Current(Empty request, ServerCallContext context)
         {
             return base.Current(request, context);
         }
 
-        public override Task<PublicProfile> FindId(FindIdRequest request, ServerCallContext context)
-        {
-            return base.FindId(request, context);
-        }
+        public override async Task<PublicProfile> FindId(FindIdRequest request, ServerCallContext context)
+            => await mediator.AuthorizeHandler<FindIdRequest, PublicProfile>(request, context).ConfigureAwait(false);
 
         public override Task<ProfilesReply> FindNickname(FindUsernameRequest request, ServerCallContext context)
         {
@@ -74,25 +49,6 @@ namespace InWords.WebApi.gRPC.Services
 
         // Delete Profile
         public override async Task<Empty> DeleteAccount(DeleteAccountRequest request, ServerCallContext context)
-        {
-            CheckIfArgumentIsNull(ref context);
-
-            var reqestObject = new AuthorizedRequestObject<DeleteAccountRequest, Empty>(request)
-            {
-                UserId = context.GetHttpContext().User.GetUserId()
-            };
-            Empty reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-            if (reqestObject.StatusCode != StatusCode.OK)
-            {
-                context.Status = new Status(reqestObject.StatusCode, reqestObject.Detail);
-            }
-            return reply;
-        }
-
-        private void CheckIfArgumentIsNull<T>(ref T resource)
-        {
-            if (resource == null)
-                throw new ArgumentNullException($"{nameof(resource)} is null");
-        }
+            => await mediator.AuthorizeHandler<DeleteAccountRequest, Empty>(request, context).ConfigureAwait(false);
     }
 }
