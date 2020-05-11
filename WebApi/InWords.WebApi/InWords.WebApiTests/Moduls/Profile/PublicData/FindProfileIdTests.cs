@@ -23,7 +23,7 @@ namespace InWords.WebApiTests.Moduls.Profile.PublicData
             // act
             var requestData = new FindIdRequest()
             {
-                Id = userId
+                UserId = userId
             };
             var request = new AuthorizedRequestObject<FindIdRequest, PublicProfile>(requestData)
             {

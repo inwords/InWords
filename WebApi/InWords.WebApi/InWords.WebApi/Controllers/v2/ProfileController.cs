@@ -1,5 +1,6 @@
 ﻿using InWords.Protobuf;
 using InWords.WebApi.Extensions;
+using InWords.WebApi.Modules.Profile.PublicData;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -102,9 +103,22 @@ namespace InWords.WebApi.Controllers.v2
         {
             var request = new FindIdRequest()
             {
-                Id = id
+                UserId = id
             };
             return await mediator.AuthorizeHandlerActionResult<FindIdRequest, PublicProfile>(request, User).ConfigureAwait(false);
+        }
+
+        [HttpGet]
+        [Route("{nickname}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> FindId([FromRoute] string nickname)
+        {
+            var request = new FindUsernameRequest()
+            {
+                UserName = nickname
+            };
+            return await mediator.AuthorizeHandlerActionResult<FindUsernameRequest, ProfilesReply>(request, User).ConfigureAwait(false);
         }
     }
 }

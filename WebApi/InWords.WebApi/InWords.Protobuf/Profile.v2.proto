@@ -47,7 +47,7 @@ message ProfilesReply{
 }
 
 message FindIdRequest{
-	int32 id = 1;
+	int32 userId = 1;
 }
 
 message FindUsernameRequest{

@@ -28,7 +28,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             var userId = request.UserId;
             var value = request.Value;
 
-            var publicInfo = Context.GetProfile(u => u.UserId == userId).SingleOrDefault();
+            var publicInfo = Context.GetProfile(u => u.UserId == value.UserId).SingleOrDefault();
 
             if (publicInfo == null)
             {

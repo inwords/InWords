@@ -16,39 +16,33 @@ namespace InWords.WebApi.gRPC.Services
         readonly IMediator mediator;
         public ProfileService(IMediator mediator) => this.mediator = mediator;
 
-        public override async Task<EmailChangeReply> RequestEmailUpdate(EmailChangeRequest request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<EmailChangeRequest, EmailChangeReply>(request, context).ConfigureAwait(false);
-
-        public override async Task<ConfirmEmailReply> ConfirmEmail(ConfirmEmailRequest request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<ConfirmEmailRequest, ConfirmEmailReply>(request, context).ConfigureAwait(false);
-
         [AllowAnonymous]
-        public override async Task<ConfirmEmailReply> ConfirmEmailLink(ConfirmEmailLinkRequest request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<ConfirmEmailLinkRequest, ConfirmEmailReply>(request, context).ConfigureAwait(false);
+        public override Task<ConfirmEmailReply> ConfirmEmailLink(ConfirmEmailLinkRequest request, ServerCallContext context)
+            => mediator.AnonimousHandler<ConfirmEmailLinkRequest, ConfirmEmailReply>(request, context);
 
-        public override Task<ProfileReply> Current(Empty request, ServerCallContext context)
-        {
-            return base.Current(request, context);
-        }
+        public override Task<EmailChangeReply> RequestEmailUpdate(EmailChangeRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<EmailChangeRequest, EmailChangeReply>(request, context);
 
-        public override async Task<PublicProfile> FindId(FindIdRequest request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<FindIdRequest, PublicProfile>(request, context).ConfigureAwait(false);
+        public override Task<ConfirmEmailReply> ConfirmEmail(ConfirmEmailRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<ConfirmEmailRequest, ConfirmEmailReply>(request, context);
+
+        public override Task<PublicProfile> FindId(FindIdRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<FindIdRequest, PublicProfile>(request, context);
 
         public override Task<ProfilesReply> FindNickname(FindUsernameRequest request, ServerCallContext context)
-        {
-            return base.FindNickname(request, context);
-        }
+            => mediator.AuthorizeHandler<FindUsernameRequest, ProfilesReply>(request, context);
 
+        public override Task<Empty> DeleteAccount(DeleteAccountRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<DeleteAccountRequest, Empty>(request, context);
+
+        public override Task<ProfileReply> Current(Empty request, ServerCallContext context)
+            => throw new NotImplementedException();
+        
         public override Task<Empty> Update(UpdateRequest request, ServerCallContext context)
-        {
-            return base.Update(request, context);
-        }
+            => throw new NotImplementedException();
+
 
         // Reset Password
         // Update Password
-
-        // Delete Profile
-        public override async Task<Empty> DeleteAccount(DeleteAccountRequest request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<DeleteAccountRequest, Empty>(request, context).ConfigureAwait(false);
     }
 }
