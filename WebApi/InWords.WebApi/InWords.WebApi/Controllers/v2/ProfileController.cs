@@ -129,5 +129,12 @@ namespace InWords.WebApi.Controllers.v2
             };
             return await mediator.AuthorizeHandlerActionResult<FindUsernameRequest, PublicProfilesReply>(request, User).ConfigureAwait(false);
         }
+
+        [HttpPut]
+        [Route("")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(Empty))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public Task<IActionResult> Update([FromBody] UpdateRequest request)
+         => mediator.AuthorizeHandlerActionResult<UpdateRequest, Empty>(request, User);
     }
 }
