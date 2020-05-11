@@ -10,10 +10,47 @@ package ProfilePackage.v2;
 import "Common.v2.proto";
 // The Profile service definition.
 service Profile {
+	rpc Current (Common.v2.Empty) returns (ProfileReply); // to be implemented
+	rpc Update (UpdateRequest) returns (Common.v2.Empty); // to be implemented
+	rpc FindId (FindIdRequest) returns (ProfileReply); // to be implemented
+	rpc FindNickname (FindUsernameRequest) returns (ProfilesReply); // to be implemented
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
 	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
 	rpc DeleteAccount (DeleteAccountRequest) returns (Common.v2.Empty);
+}
+
+message UpdateRequest{
+	string nickName = 1;
+}
+
+message ProfileReply{
+	int32 userId = 1;
+	string nickName = 2;
+	string experience = 3;
+	string lastLogin = 4;
+	string role = 5;
+	string registrationDate = 6;
+	string email = 7;
+}
+
+message ProfilesReply{
+	message PublicProfile{
+	 int32 userId = 1;
+	 string nickName = 2;
+	 string experience = 3;
+	 string lastLogin = 4;
+	 string registrationDate = 5;
+	}
+	repeated PublicProfile Users = 1;
+}
+
+message FindIdRequest{
+	int32 id = 1;
+}
+
+message FindUsernameRequest{
+	string UserName = 1;
 }
 
 // The response message containing the Token.
