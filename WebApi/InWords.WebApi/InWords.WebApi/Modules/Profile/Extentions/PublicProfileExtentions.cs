@@ -15,14 +15,14 @@ namespace InWords.WebApi.Modules.Profile.Extentions
 {
     public static class PublicProfileExtentions
     {
-        public static IEnumerable<PublicProfile> PublicProfile(this InWordsDataContext context, Expression<Func<User, bool>> predicate)
+        public static IEnumerable<PublicProfileReply> PublicProfile(this InWordsDataContext context, Expression<Func<User, bool>> predicate)
         {
             if (context == null)
-                return Array.Empty<PublicProfile>();
+                return Array.Empty<PublicProfileReply>();
 
             return (from user in context.Users.Where(predicate)
                     join account in context.Accounts on user.UserId equals account.AccountId
-                    select new PublicProfile()
+                    select new PublicProfileReply()
                     {
                         UserId = user == null ? 0 : user.UserId,
                         Experience = user == null ? 0 : user.Experience,

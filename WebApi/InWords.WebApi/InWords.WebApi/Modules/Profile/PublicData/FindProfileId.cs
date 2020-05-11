@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.Profile.PublicData
 {
-    public class FindProfileId : AuthorizedRequestObjectHandler<FindIdRequest, PublicProfile, InWordsDataContext>
+    public class FindProfileId : AuthorizedRequestObjectHandler<FindIdRequest, PublicProfileReply, InWordsDataContext>
     {
         public FindProfileId(InWordsDataContext context) : base(context) { }
 
-        public override Task<PublicProfile> HandleRequest(
-            AuthorizedRequestObject<FindIdRequest, PublicProfile> request,
+        public override Task<PublicProfileReply> HandleRequest(
+            AuthorizedRequestObject<FindIdRequest, PublicProfileReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)
@@ -34,7 +34,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             {
                 request.StatusCode = StatusCode.NotFound;
                 request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.UserIdNotFound);
-                return Task.Run(() => new PublicProfile());
+                return Task.Run(() => new PublicProfileReply());
             }
 
             return Task.Run(() => publicInfo);

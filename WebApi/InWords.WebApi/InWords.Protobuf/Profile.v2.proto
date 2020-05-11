@@ -12,8 +12,8 @@ import "Common.v2.proto";
 service Profile {
 	rpc Current (Common.v2.Empty) returns (ProfileReply); // to be implemented
 	rpc Update (UpdateRequest) returns (Common.v2.Empty); // to be implemented
-	rpc FindId (FindIdRequest) returns (PublicProfile); // to be implemented
-	rpc FindNickname (FindUsernameRequest) returns (ProfilesReply); // to be implemented
+	rpc FindId (FindIdRequest) returns (PublicProfileReply); // to be implemented
+	rpc FindNickname (FindUsernameRequest) returns (PublicProfilesReply); // to be implemented
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
 	rpc ConfirmEmailLink (ConfirmEmailLinkRequest) returns (ConfirmEmailReply);
@@ -35,7 +35,7 @@ message ProfileReply{
 	string avatarPath = 8;
 }
 
-message PublicProfile {
+message PublicProfileReply {
 	int32 userId = 1;
 	string nickName = 2;
 	int32 experience = 3;
@@ -44,8 +44,8 @@ message PublicProfile {
 	string avatarPath = 6;
 }
 
-message ProfilesReply{
-	repeated PublicProfile Users = 1;
+message PublicProfilesReply{
+	repeated PublicProfileReply Users = 1;
 }
 
 message FindIdRequest{

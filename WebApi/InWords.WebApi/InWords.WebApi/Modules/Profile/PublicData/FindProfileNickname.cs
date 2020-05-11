@@ -13,18 +13,18 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.Profile.PublicData
 {
-    public class FindProfileNickname : AuthorizedRequestObjectHandler<FindUsernameRequest, ProfilesReply, InWordsDataContext>
+    public class FindProfileNickname : AuthorizedRequestObjectHandler<FindUsernameRequest, PublicProfilesReply, InWordsDataContext>
     {
         public FindProfileNickname(InWordsDataContext context) : base(context) { }
 
-        public override Task<ProfilesReply> HandleRequest(
-            AuthorizedRequestObject<FindUsernameRequest, ProfilesReply> request, 
+        public override Task<PublicProfilesReply> HandleRequest(
+            AuthorizedRequestObject<FindUsernameRequest, PublicProfilesReply> request, 
             CancellationToken cancellationToken = default)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            ProfilesReply profilesReply = new ProfilesReply();
+            PublicProfilesReply profilesReply = new PublicProfilesReply();
 
             var userId = request.UserId;
             var value = request.Value;

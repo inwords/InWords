@@ -106,7 +106,7 @@ namespace InWords.WebApi.Controllers.v2
 
         [HttpGet]
         [Route("{id}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Returns Profile", typeof(PublicProfile))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Profile", typeof(PublicProfileReply))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
         public async Task<IActionResult> FindId([FromRoute] int id)
         {
@@ -114,12 +114,12 @@ namespace InWords.WebApi.Controllers.v2
             {
                 UserId = id
             };
-            return await mediator.AuthorizeHandlerActionResult<FindIdRequest, PublicProfile>(request, User).ConfigureAwait(false);
+            return await mediator.AuthorizeHandlerActionResult<FindIdRequest, PublicProfileReply>(request, User).ConfigureAwait(false);
         }
 
         [HttpGet]
         [Route("find/{nickname}")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(ProfilesReply))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(PublicProfilesReply))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
         public async Task<IActionResult> FindId([FromRoute] string nickname)
         {
@@ -127,7 +127,7 @@ namespace InWords.WebApi.Controllers.v2
             {
                 UserName = nickname
             };
-            return await mediator.AuthorizeHandlerActionResult<FindUsernameRequest, ProfilesReply>(request, User).ConfigureAwait(false);
+            return await mediator.AuthorizeHandlerActionResult<FindUsernameRequest, PublicProfilesReply>(request, User).ConfigureAwait(false);
         }
     }
 }

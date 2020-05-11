@@ -25,7 +25,7 @@ namespace InWords.WebApiTests.Moduls.Profile.PublicData
             {
                 UserId = userId
             };
-            var request = new AuthorizedRequestObject<FindIdRequest, PublicProfile>(requestData)
+            var request = new AuthorizedRequestObject<FindIdRequest, PublicProfileReply>(requestData)
             {
                 UserId = other,
             };

@@ -26,11 +26,11 @@ namespace InWords.WebApi.gRPC.Services
         public override Task<ConfirmEmailReply> ConfirmEmail(ConfirmEmailRequest request, ServerCallContext context)
             => mediator.AuthorizeHandler<ConfirmEmailRequest, ConfirmEmailReply>(request, context);
 
-        public override Task<PublicProfile> FindId(FindIdRequest request, ServerCallContext context)
-            => mediator.AuthorizeHandler<FindIdRequest, PublicProfile>(request, context);
+        public override Task<PublicProfileReply> FindId(FindIdRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<FindIdRequest, PublicProfileReply>(request, context);
 
-        public override Task<ProfilesReply> FindNickname(FindUsernameRequest request, ServerCallContext context)
-            => mediator.AuthorizeHandler<FindUsernameRequest, ProfilesReply>(request, context);
+        public override Task<PublicProfilesReply> FindNickname(FindUsernameRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<FindUsernameRequest, PublicProfilesReply>(request, context);
 
         public override Task<Empty> DeleteAccount(DeleteAccountRequest request, ServerCallContext context)
             => mediator.AuthorizeHandler<DeleteAccountRequest, Empty>(request, context);

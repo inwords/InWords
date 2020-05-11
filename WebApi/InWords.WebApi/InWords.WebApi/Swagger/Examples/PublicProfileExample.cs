@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Swagger.Examples
 {
-    public class PublicProfileExample : IExamplesProvider<PublicProfile>
+    public class PublicProfileExample : IExamplesProvider<PublicProfileReply>
     {
-        public PublicProfile GetExamples()
+        public PublicProfileReply GetExamples()
         {
-            PublicProfile publicProfile = new PublicProfile
+            return new PublicProfileReply
             {
                 AvatarPath = "https://static.inwords.ru/Avatars/a5b55193a3ae43f4.jpeg",
                 UserId = 122,
@@ -20,7 +20,6 @@ namespace InWords.WebApi.Swagger.Examples
                 NickName = "Alword",
                 RegistrationDate = "2019-01-13T11:12:11.5322102Z"
             };
-            return publicProfile;
         }
     }
 }
