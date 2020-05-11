@@ -28,12 +28,12 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             var userId = request.UserId;
             var value = request.Value;
 
-            var publicInfo = Context.GetProfile(u => u.UserId == value.UserId).SingleOrDefault();
+            var publicInfo = Context.PublicProfile(u => u.UserId == value.UserId).SingleOrDefault();
 
             if (publicInfo == null)
             {
                 request.StatusCode = StatusCode.NotFound;
-                request.Detail = Strings.GetDetailMessage(Locale.EnUs, DetailMessage.UserIdNotFound);
+                request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.UserIdNotFound);
                 return Task.Run(() => new PublicProfile());
             }
 

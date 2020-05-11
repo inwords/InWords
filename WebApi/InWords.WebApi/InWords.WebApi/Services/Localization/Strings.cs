@@ -1,4 +1,5 @@
-﻿using InWords.WebApi.Services.Localization;
+﻿using InWords.Data.Enums;
+using InWords.WebApi.Services.Localization;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Resources;
@@ -15,11 +16,17 @@ namespace InWords.WebApi.Services
 
         private static Dictionary<Locale, ResourceManager> resourceManagers = new Dictionary<Locale, ResourceManager>();
 
-        public static string GetDetailMessage(Locale locale,DetailMessage detailMessage) 
+        public static string GetDetailMessage(Locale locale, RoleType detailMessage)
+            => GetMessage(locale, detailMessage.ToString());
+
+        public static string GetDetailMessage(Locale locale, DetailMessage detailMessage)
+            => GetMessage(locale, detailMessage.ToString());
+
+        private static string GetMessage(Locale locale, string message)
         {
             var resourseManager = GetResourceManager(locale);
 
-            string? value = resourseManager.GetString(detailMessage.ToString(), System.Globalization.CultureInfo.CurrentCulture);
+            string? value = resourseManager.GetString(message, System.Globalization.CultureInfo.CurrentCulture);
             if (string.IsNullOrWhiteSpace(value))
                 value = "Message was not found in localization file";
 

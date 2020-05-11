@@ -36,8 +36,8 @@ namespace InWords.WebApi.gRPC.Services
             => mediator.AuthorizeHandler<DeleteAccountRequest, Empty>(request, context);
 
         public override Task<ProfileReply> Current(Empty request, ServerCallContext context)
-            => throw new NotImplementedException();
-        
+            => mediator.AuthorizeHandler<Empty, ProfileReply>(request, context);
+
         public override Task<Empty> Update(UpdateRequest request, ServerCallContext context)
             => throw new NotImplementedException();
 

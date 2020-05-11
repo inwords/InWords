@@ -29,9 +29,9 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             var userId = request.UserId;
             var value = request.Value;
 
-            var totalMatch = Context.GetProfile(u => u.NickName == value.UserName)
+            var totalMatch = Context.PublicProfile(u => u.NickName == value.UserName)
                 .Take(5);
-            var startWith = Context.GetProfile(u => u.NickName != value.UserName 
+            var startWith = Context.PublicProfile(u => u.NickName != value.UserName 
             && u.NickName.StartsWith(value.UserName,StringComparison.InvariantCultureIgnoreCase))
                 .Take(5);
 
@@ -40,7 +40,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             if (!users.Any())
             {
                 request.StatusCode = StatusCode.NotFound;
-                request.Detail = Strings.GetDetailMessage(Locale.EnUs, DetailMessage.UserNickNotFound);
+                request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.UserNickNotFound);
                 return Task.Run(() => profilesReply);
             }
 

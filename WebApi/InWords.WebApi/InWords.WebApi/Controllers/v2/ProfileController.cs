@@ -98,6 +98,13 @@ namespace InWords.WebApi.Controllers.v2
             => await mediator.AuthorizeHandlerActionResult<DeleteAccountRequest, Empty>(request, User).ConfigureAwait(false);
 
         [HttpGet]
+        [Route("")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(ProfileReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public async Task<IActionResult> Delete()
+            => await mediator.AuthorizeHandlerActionResult<Empty, ProfileReply>(new Empty(), User).ConfigureAwait(false);
+
+        [HttpGet]
         [Route("{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Returns Profile", typeof(PublicProfile))]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
