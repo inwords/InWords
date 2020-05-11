@@ -11,6 +11,7 @@ namespace InWords.WebApi.Controllers.v2
     [ApiVersion("2")]
     [Route("v{version:apiVersion}/profile")]
     [ApiController]
+    [Authorize]
     [Produces("application/json")]
     public class ProfileController : ControllerBase
     {
@@ -26,7 +27,6 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [ProducesResponseType(typeof(EmailChangeRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("updateEmail")]
@@ -42,7 +42,6 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [ProducesResponseType(typeof(ConfirmEmailRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("confirmEmail")]
@@ -88,12 +87,24 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpDelete]
         [Route("delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromBody] DeleteAccountRequest request)
             => await mediator.AuthorizeHandlerActionResult<DeleteAccountRequest, Empty>(request, User).ConfigureAwait(false);
+
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> FindId([FromRoute] int id)
+        {
+            var request = new FindIdRequest()
+            {
+                Id = id
+            };
+            return await mediator.AuthorizeHandlerActionResult<FindIdRequest, PublicProfile>(request, User).ConfigureAwait(false);
+        }
     }
 }

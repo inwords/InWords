@@ -27,7 +27,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             var userId = request.UserId;
             var value = request.Value;
 
-            var publicInfo = (from user in Context.Users.Where(u => u.UserId == userId)
+            var publicInfo = (from user in Context.Users.Where(u => u.UserId == value.Id)
                               join account in Context.Accounts on user.UserId equals account.AccountId
                               select new PublicProfile()
                               {
