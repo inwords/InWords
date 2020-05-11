@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'src/components/core/Icon';
 import FadeAnimation from 'src/components/core/FadeAnimation';
@@ -8,7 +8,30 @@ import Smiley from './Smiley';
 
 import './TrainingResult.css';
 
-function TrainingResult({ score, colorPair, handleNextLevel, handleReplay }) {
+const colorPairs = [
+  ['#F44336', '#FFCDD2'],
+  ['#E91E63', '#F8BBD0'],
+  ['#9C27B0', '#E1BEE7'],
+  ['#673AB7', '#D1C4E9'],
+  ['#3F51B5', '#C5CAE9'],
+  ['#2196F3', '#BBDEFB'],
+  ['#03A9F4', '#B3E5FC'],
+  ['#00BCD4', '#B2EBF2'],
+  ['#009688', '#B2DFDB'],
+  ['#4CAF50', '#C8E6C9'],
+  ['#8BC34A', '#DCEDC8'],
+  ['#CDDC39', '#F0F4C3'],
+  ['#FFC107', '#FFECB3'],
+  ['#FF9800', '#FFE0B2'],
+  ['#FF5722', '#FFCCBC']
+];
+
+const getRandomColorPair = () =>
+  colorPairs[Math.floor(Math.random() * colorPairs.length)];
+
+function TrainingResult({ score, handleNextLevel, handleReplay }) {
+  const colorPair = useMemo(() => getRandomColorPair(), []);
+
   return (
     <FadeAnimation>
       <Paper className="training-result-paper">
@@ -47,7 +70,6 @@ function TrainingResult({ score, colorPair, handleNextLevel, handleReplay }) {
 
 TrainingResult.propTypes = {
   score: PropTypes.number,
-  colorPair: PropTypes.array,
   handleNextLevel: PropTypes.func,
   handleReplay: PropTypes.func.isRequired
 };

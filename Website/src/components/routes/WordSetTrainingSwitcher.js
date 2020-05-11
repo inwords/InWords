@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateWordSetLevelResult } from 'src/actions/wordSetActions';
 import useServerTrainingLevel from 'src/components/routes-common/useServerTrainingLevel';
-import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
+import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
 function WordSetTrainingSwitcher() {
   const trainingLevel = useServerTrainingLevel();
@@ -51,7 +51,7 @@ function WordSetTrainingSwitcher() {
   };
 
   return (
-    <TrainingSwitcher
+    <TrainingsConveyor
       handleResultSuccess={handleResultSuccess}
       handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}

@@ -44,7 +44,7 @@ function TrainingRouter() {
         <Redirect to={`${url}/main/0`} />
       </Route>
       <Route exact path={`${url}/main/0`}>
-        <RouteContainer maxWidth="lg">
+        <RouteContainer maxWidth="md">
           <MainTrainingTypes />
         </RouteContainer>
       </Route>

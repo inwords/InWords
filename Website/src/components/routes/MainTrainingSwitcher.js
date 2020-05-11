@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { loadValue } from 'src/localStorage';
 import { removeWordSetLevelPairs } from 'src/actions/wordSetActions';
 import useClientTrainingLevel from 'src/components/routes-common/useClientTrainingLevel';
-import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
+import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
 function MainTrainingSwitcher({ redirectionUrl }) {
+  const [trainingsSettings, setTrainingsSettings] = useState({});
+
+  useEffect(() => {
+    const { quantity = '8', listOn = false } =
+      loadValue('trainingsSettings') || {};
+
+    setTrainingsSettings({ quantity, listOn });
+  }, []);
+
   const trainingLevel = useClientTrainingLevel(redirectionUrl);
 
   const dispatch = useDispatch();
@@ -14,13 +24,14 @@ function MainTrainingSwitcher({ redirectionUrl }) {
     dispatch(
       removeWordSetLevelPairs(
         levelId,
-        wordPairs.map(wordPair => wordPair.pairId)
+        wordPairs.map(wordPair => wordPair.serverId)
       )
     );
   };
 
   return (
-    <TrainingSwitcher
+    <TrainingsConveyor
+      trainingsSettings={trainingsSettings}
       handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}
     />
