@@ -25,6 +25,8 @@ namespace InWords.WebApi.Modules.Profile.Extentions
                         Experience = user == null ? 0 : user.Experience,
                         LastLogin = user == null ? "" : user.LastLogin.ToString("o", CultureInfo.InvariantCulture),
                         NickName = user == null ? "" : user.NickName,
+                        AvatarPath = user == null || string.IsNullOrWhiteSpace(user.AvatarPath) ?
+                        "" : user.AvatarPath,
                         RegistrationDate = account == null || account.RegistrationDate == null ?
                         "" : account.RegistrationDate.ToString("o", CultureInfo.InvariantCulture),
                     });

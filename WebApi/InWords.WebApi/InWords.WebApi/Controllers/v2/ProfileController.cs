@@ -109,7 +109,7 @@ namespace InWords.WebApi.Controllers.v2
         }
 
         [HttpGet]
-        [Route("{nickname}")]
+        [Route("find/{nickname}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> FindId([FromRoute] string nickname)
