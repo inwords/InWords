@@ -12,10 +12,10 @@ namespace InWords.WebApi.gRPC.Services
         readonly IMediator mediator;
         public AuthService(IMediator mediator) => this.mediator = mediator;
         public override Task<TokenReply> OAuth(OAuthTokenRequest request, ServerCallContext context)
-            => mediator.AuthorizeHandler<OAuthTokenRequest, TokenReply>(request, context);
+            => mediator.AnonimousHandler<OAuthTokenRequest, TokenReply>(request, context);
         public override Task<TokenReply> Basic(TokenRequest request, ServerCallContext context)
-            => mediator.AuthorizeHandler<TokenRequest, TokenReply>(request, context);
+            => mediator.AnonimousHandler<TokenRequest, TokenReply>(request, context);
         public override Task<TokenReply> Register(RegistrationRequest request, ServerCallContext context)
-            => mediator.AuthorizeHandler<RegistrationRequest, TokenReply>(request, context);
+            => mediator.AnonimousHandler<RegistrationRequest, TokenReply>(request, context);
     }
 }
