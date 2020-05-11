@@ -6,6 +6,7 @@ using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,6 +21,7 @@ namespace InWords.WebApi.Controllers.v1
     [Produces("application/json")]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/[controller]")]
+    [Obsolete("Use v2 profile api")]
     public class UsersController : ControllerBase
     {
         /// <summary>
@@ -31,6 +33,7 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet("find/{nick}")]
+        [Obsolete("Use v2 profile api")]
         public IActionResult GetUsers(string nick)
         {
             return Ok(userService.GetUsers(nick));
@@ -48,6 +51,7 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
+        [Obsolete("Use v2 profile api")]
         public async Task<IActionResult> GetUserId([FromRoute] int id)
         {
             User user = await usersRepository.FindById(id);
@@ -68,6 +72,7 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
+        [Obsolete("Use v2 profile api")]
         public IActionResult GetUser()
         {
             int userId = User.GetUserId();
@@ -93,6 +98,7 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut]
+        [Obsolete("Use v2 profile api")]
         public async Task<IActionResult> PutUser([FromBody] User user)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -126,6 +132,7 @@ namespace InWords.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         [Authorize(Roles = nameof(RoleType.Admin))]
+        [Obsolete("Use v2 profile api")]
         public async Task<IActionResult> AdminDeleteUser([FromRoute] int id)
         {
             Account account = await accountRepository.FindById(id);
@@ -141,7 +148,6 @@ namespace InWords.WebApi.Controllers.v1
         private readonly AccountRepository accountRepository;
         private readonly UserService userService;
         private readonly UserRepository usersRepository;
-
         public UsersController(AccountRepository accountRepository, UserService userService,
             UserRepository usersRepository)
         {

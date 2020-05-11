@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services
 {
+    [Authorize]
     public class ProfileService : Profile.ProfileBase
     {
         readonly IMediator mediator;
@@ -17,7 +18,6 @@ namespace InWords.WebApi.gRPC.Services
             this.mediator = mediator;
         }
 
-        [Authorize]
         public override async Task<EmailChangeReply> RequestEmailUpdate(EmailChangeRequest request, ServerCallContext context)
         {
             var reqestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(request)
@@ -28,7 +28,6 @@ namespace InWords.WebApi.gRPC.Services
             EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
             return reply;
         }
-        [Authorize]
         public override async Task<ConfirmEmailReply> ConfirmEmail(ConfirmEmailRequest request, ServerCallContext context)
         {
             var reqestObject = new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(request)
@@ -39,7 +38,7 @@ namespace InWords.WebApi.gRPC.Services
             return reply;
             // TODO: how to return error in grpc
         }
-
+        [AllowAnonymous]
         public override async Task<ConfirmEmailReply> ConfirmEmailLink(ConfirmEmailLinkRequest request, ServerCallContext context)
         {
             CheckIfArgumentIsNull(ref context);
@@ -50,11 +49,30 @@ namespace InWords.WebApi.gRPC.Services
             // TODO: how to return error in grpc
         }
 
+        public override Task<ProfileReply> Current(Empty request, ServerCallContext context)
+        {
+            return base.Current(request, context);
+        }
+
+        public override Task<PublicProfile> FindId(FindIdRequest request, ServerCallContext context)
+        {
+            return base.FindId(request, context);
+        }
+
+        public override Task<ProfilesReply> FindNickname(FindUsernameRequest request, ServerCallContext context)
+        {
+            return base.FindNickname(request, context);
+        }
+
+        public override Task<Empty> Update(UpdateRequest request, ServerCallContext context)
+        {
+            return base.Update(request, context);
+        }
+
         // Reset Password
         // Update Password
 
         // Delete Profile
-        [Authorize]
         public override async Task<Empty> DeleteAccount(DeleteAccountRequest request, ServerCallContext context)
         {
             CheckIfArgumentIsNull(ref context);

@@ -12,7 +12,7 @@ import "Common.v2.proto";
 service Profile {
 	rpc Current (Common.v2.Empty) returns (ProfileReply); // to be implemented
 	rpc Update (UpdateRequest) returns (Common.v2.Empty); // to be implemented
-	rpc FindId (FindIdRequest) returns (ProfileReply); // to be implemented
+	rpc FindId (FindIdRequest) returns (PublicProfile); // to be implemented
 	rpc FindNickname (FindUsernameRequest) returns (ProfilesReply); // to be implemented
 	rpc RequestEmailUpdate (EmailChangeRequest) returns (EmailChangeReply);
 	rpc ConfirmEmail (ConfirmEmailRequest) returns (ConfirmEmailReply);
@@ -34,14 +34,15 @@ message ProfileReply{
 	string email = 7;
 }
 
+message PublicProfile {
+	int32 userId = 1;
+	string nickName = 2;
+	string experience = 3;
+	string lastLogin = 4;
+	string registrationDate = 5;
+}
+
 message ProfilesReply{
-	message PublicProfile{
-	 int32 userId = 1;
-	 string nickName = 2;
-	 string experience = 3;
-	 string lastLogin = 4;
-	 string registrationDate = 5;
-	}
 	repeated PublicProfile Users = 1;
 }
 
