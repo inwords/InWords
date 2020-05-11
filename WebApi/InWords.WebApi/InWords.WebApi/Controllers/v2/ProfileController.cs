@@ -1,10 +1,12 @@
-﻿using InWords.Protobuf;
+﻿using Grpc.Core;
+using InWords.Protobuf;
 using InWords.WebApi.Extensions;
 using InWords.WebApi.Modules.Profile.PublicData;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
@@ -97,8 +99,8 @@ namespace InWords.WebApi.Controllers.v2
 
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Profile", typeof(PublicProfile))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
         public async Task<IActionResult> FindId([FromRoute] int id)
         {
             var request = new FindIdRequest()
@@ -110,8 +112,8 @@ namespace InWords.WebApi.Controllers.v2
 
         [HttpGet]
         [Route("find/{nickname}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(ProfilesReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
         public async Task<IActionResult> FindId([FromRoute] string nickname)
         {
             var request = new FindUsernameRequest()
