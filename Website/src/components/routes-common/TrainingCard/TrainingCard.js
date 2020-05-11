@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Paper from 'src/components/core/Paper';
 import Zoom from 'src/components/core/Zoom';
 
-import './GameCard.scss';
+import './TrainingCard.scss';
 
-function GameCard({
+function TrainingCard({
   open = true,
   dimension = 120,
   textSize = 16,
@@ -36,11 +36,11 @@ function GameCard({
   );
 }
 
-GameCard.propTypes = {
+TrainingCard.propTypes = {
   open: PropTypes.bool,
   dimension: PropTypes.number,
   textSize: PropTypes.number,
   children: PropTypes.node.isRequired
 };
 
-export default GameCard;
+export default TrainingCard;

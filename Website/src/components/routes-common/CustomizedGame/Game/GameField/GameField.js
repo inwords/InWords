@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import FadeAnimation from 'src/components/core/FadeAnimation';
 import Fade from 'src/components/core/Fade';
-import GameCard from './GameCard';
+import TrainingCard from 'src/components/routes-common/TrainingCard';
 
 import './GameField.scss';
 
@@ -12,7 +12,6 @@ function GameField({
   selectedWordPairs,
   completedPairIdsMap,
   selectedCompletedPairId,
-  gameCompleted,
   handleClick
 }) {
   const maxWidth = useMemo(() => {
@@ -31,9 +30,9 @@ function GameField({
     <div className="game-field" style={{ maxWidth }}>
       {wordPairs.map(({ id, pairId, word, onSpeech }) => (
         <FadeAnimation key={id}>
-          <Fade in={!gameCompleted}>
+          <Fade in>
             <div>
-              <GameCard
+              <TrainingCard
                 data-testid={`card-${pairId}-${word}`}
                 open={
                   completedPairIdsMap[pairId] ||
@@ -49,7 +48,7 @@ function GameField({
                 depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
               >
                 {word}
-              </GameCard>
+              </TrainingCard>
             </div>
           </Fade>
         </FadeAnimation>
@@ -78,7 +77,6 @@ GameField.propTypes = {
   ).isRequired,
   completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
-  gameCompleted: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired
 };
 

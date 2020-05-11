@@ -25,7 +25,10 @@ const setup = ({ initialState } = {}) => {
   };
   const utils = renderWithEnvironment(
     <Route path="/:levelId/:trainingId">
-      <TrainingsConveyor trainingLevel={trainingLevel} />
+      <TrainingsConveyor
+        trainingLevel={trainingLevel}
+        selectedTrainingTypes={[0]}
+      />
     </Route>,
     {
       initialState: { auth: { token: accessData.token }, ...initialState },

@@ -5,14 +5,14 @@ import Paper from 'src/components/core/Paper';
 import Toolbar from 'src/components/core/Toolbar';
 import Typography from 'src/components/core/Typography';
 import Space from 'src/components/core/Space';
-import Game from './Game';
-import ControlledGameSettingsDialog from './ControlledGameSettingsDialog';
+import AuditionTraining from './AuditionTraining';
+import ControlledAuditionTrainingSettingsDialog from './ControlledAuditionTrainingSettingsDialog';
 
-function CustomizedGame({ trainingLevel, handleEnd }) {
+function CustomizedAuditionTraining({ trainingLevel, handleEnd }) {
   const [trainingSettings, setTrainingSettings] = useState({});
 
   useEffect(() => {
-    setTrainingSettings(loadValue('trainingSettings-0') || {});
+    setTrainingSettings(loadValue('trainingSettings.1') || {});
   }, []);
 
   const [processedTrainingLevel, setProcessedTrainingLevel] = useState();
@@ -23,8 +23,7 @@ function CustomizedGame({ trainingLevel, handleEnd }) {
       cardSettings: {
         cardDimension: +trainingSettings.cardDimension || 120,
         cardTextSize: +trainingSettings.cardTextSize || 16
-      },
-      voiceOn: trainingSettings.voiceOn || false
+      }
     });
   }, [trainingLevel, trainingSettings]);
 
@@ -32,22 +31,25 @@ function CustomizedGame({ trainingLevel, handleEnd }) {
     <Fragment>
       <Paper>
         <Toolbar variant="dense">
-          <Typography variant="h6">Закрытые карточки</Typography>
+          <Typography variant="h6">Аудирование</Typography>
           <Space />
-          <ControlledGameSettingsDialog
+          <ControlledAuditionTrainingSettingsDialog
             trainingSettings={trainingSettings}
             setTrainingSettings={setTrainingSettings}
           />
         </Toolbar>
       </Paper>
       {Boolean(processedTrainingLevel) && (
-        <Game trainingLevel={processedTrainingLevel} handleEnd={handleEnd} />
+        <AuditionTraining
+          trainingLevel={processedTrainingLevel}
+          handleEnd={handleEnd}
+        />
       )}
     </Fragment>
   );
 }
 
-CustomizedGame.propTypes = {
+CustomizedAuditionTraining.propTypes = {
   trainingLevel: PropTypes.shape({
     levelId: PropTypes.number.isRequired,
     wordTranslations: PropTypes.arrayOf(
@@ -62,4 +64,4 @@ CustomizedGame.propTypes = {
   handleEnd: PropTypes.func
 };
 
-export default CustomizedGame;
+export default CustomizedAuditionTraining;

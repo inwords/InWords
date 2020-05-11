@@ -13,7 +13,7 @@ import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
 import Slider from 'src/components/core/Slider';
 
-function GameSettingsDialog({
+function AuditionTrainingSettingsDialog({
   open,
   handleClose,
   trainingSettings,
@@ -36,7 +36,7 @@ function GameSettingsDialog({
   const handleSubmit = event => {
     event.preventDefault();
 
-    saveValue('trainingSettings.0', inputs);
+    saveValue('trainingSettings.1', inputs);
     setTrainingSettings(inputs);
   };
 
@@ -83,19 +83,6 @@ function GameSettingsDialog({
               onChange={handleChange}
             />
           </FormGroup>
-          <div>
-            <FormControlLabel>
-              <Checkbox
-                name="voiceOn"
-                checked={inputs.voiceOn}
-                onChange={handleChange}
-                edge="start"
-              />
-              <Typography variant="body2">
-                Озвучивать английские слова
-              </Typography>
-            </FormControlLabel>
-          </div>
         </form>
       </DialogContent>
       <DialogActions>
@@ -115,7 +102,7 @@ function GameSettingsDialog({
   );
 }
 
-GameSettingsDialog.propTypes = {
+AuditionTrainingSettingsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   trainingSettings: PropTypes.shape({
@@ -126,4 +113,4 @@ GameSettingsDialog.propTypes = {
   setTrainingSettings: PropTypes.func.isRequired
 };
 
-export default GameSettingsDialog;
+export default AuditionTrainingSettingsDialog;

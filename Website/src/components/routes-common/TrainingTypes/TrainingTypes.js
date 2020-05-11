@@ -73,6 +73,7 @@ function TrainingTypes({ trainingLevel }) {
             <LinkButton
               component={RouterLink}
               to={`${match.url}/0`}
+              disabled={!checkedValues.length || !wordTranslations.length}
               color="primary"
             >
               Начать

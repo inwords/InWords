@@ -1,9 +1,9 @@
 import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'src/components/core/Icon';
 import FadeAnimation from 'src/components/core/FadeAnimation';
 import Paper from 'src/components/core/Paper';
 import IconButton from 'src/components/core/IconButton';
+import Icon from 'src/components/core/Icon';
 import Smiley from './Smiley';
 
 import './TrainingResult.css';

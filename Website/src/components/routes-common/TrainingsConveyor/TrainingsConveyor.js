@@ -10,15 +10,27 @@ import {
 } from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
 import CustomizedGame from 'src/components/routes-common/CustomizedGame';
+import CustomizedAuditionTraining from 'src/components/routes-common/CustomizedAuditionTraining';
 import GamePairsDialog from './GamePairsDialog';
 
+const trainingsTypesOrderMap = {
+  0: 1,
+  1: 0
+};
+
 function TrainingsConveyor({
+  selectedTrainingTypes = [0, 1],
   trainingsSettings = { quantity: '8', listOn: false },
   trainingLevel,
   handleNextLevel = () => {},
   handleResultSuccess = () => {}
 }) {
   const [processedTrainingLevel, setProcessedTrainingLevel] = useState();
+  const [restTrainingTypes, setRestTrainingTypes] = useState(
+    [...selectedTrainingTypes].sort(
+      (a, b) => trainingsTypesOrderMap[a] - trainingsTypesOrderMap[b]
+    )
+  );
 
   useEffect(() => {
     setProcessedTrainingLevel({
@@ -54,11 +66,19 @@ function TrainingsConveyor({
   const [resultReady, setResultReady] = useState(false);
   const [score, setScore] = useState(null);
 
-  const handleTrainingEnd = async metrics => {
+  const handleTrainingEnd = async (trainingType, metrics) => {
+    if (restTrainingTypes.length > 1) {
+      setRestTrainingTypes(restTrainingTypes.slice(1));
+      return;
+    }
+
     const levelId = trainingLevel.levelId;
     const actualLevelId = newServerLevelId || levelId;
 
     try {
+      // TODO
+      if (!metrics) throw Error('API NOT IMPLEMENTED');
+
       const { points } = await dispatch(
         actualLevelId > 0
           ? saveLevelResult({
@@ -90,6 +110,7 @@ function TrainingsConveyor({
     );
     resetGameResult();
     setNewServerLevelId(null);
+    setRestTrainingTypes(selectedTrainingTypes);
 
     if (trainingsSettings.listOn) {
       handleOpen();
@@ -98,6 +119,7 @@ function TrainingsConveyor({
 
   const handleReplay = () => {
     resetGameResult();
+    setRestTrainingTypes(selectedTrainingTypes);
 
     if (trainingsSettings.listOn) {
       handleOpen();
@@ -108,10 +130,24 @@ function TrainingsConveyor({
 
   return !resultReady ? (
     <Fragment>
-      <CustomizedGame
-        trainingLevel={processedTrainingLevel}
-        handleEnd={handleTrainingEnd}
-      />
+      {(() => {
+        switch (restTrainingTypes[0]) {
+          case 0:
+            return (
+              <CustomizedGame
+                trainingLevel={processedTrainingLevel}
+                handleEnd={handleTrainingEnd}
+              />
+            );
+          case 1:
+            return (
+              <CustomizedAuditionTraining
+                trainingLevel={processedTrainingLevel}
+                handleEnd={handleTrainingEnd}
+              />
+            );
+        }
+      })()}
       <GamePairsDialog
         open={open}
         handleClose={handleClose}
@@ -128,6 +164,7 @@ function TrainingsConveyor({
 }
 
 TrainingsConveyor.propTypes = {
+  selectedTrainingTypes: PropTypes.arrayOf(PropTypes.number),
   trainingsSettings: PropTypes.shape({
     quantity: PropTypes.string,
     listOn: PropTypes.bool

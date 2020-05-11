@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { loadValue } from 'src/localStorage';
+import useTrainingsConfig from 'src/components/routes-common/useTrainingsConfig';
 import useServerTrainingLevel from 'src/components/routes-common/useServerTrainingLevel';
 import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
 function HistoryTrainingSwitcher() {
-  const [trainingsSettings, setTrainingsSettings] = useState({});
-
-  useEffect(() => {
-    const { quantity = '8', listOn = false } =
-      loadValue('trainingsSettings') || {};
-
-    setTrainingsSettings({ quantity, listOn });
-  }, []);
+  const { selectedTrainingTypes, trainingsSettings } = useTrainingsConfig();
 
   const trainingLevel = useServerTrainingLevel();
 
@@ -45,6 +38,7 @@ function HistoryTrainingSwitcher() {
 
   return (
     <TrainingsConveyor
+      selectedTrainingTypes={selectedTrainingTypes}
       trainingsSettings={trainingsSettings}
       handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}

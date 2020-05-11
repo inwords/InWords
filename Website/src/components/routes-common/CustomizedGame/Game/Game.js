@@ -7,7 +7,6 @@ import GameField from './GameField';
 
 const CARD_CLOSING_DELAY = 700;
 const GAME_COMPLETION_DELAY = 1000;
-const GAME_FADE_DELAY = 500;
 
 function Game({ trainingLevel, handleEnd }) {
   const [wordPairs, setWordPairs] = useState([]);
@@ -15,39 +14,27 @@ function Game({ trainingLevel, handleEnd }) {
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [wordPairIdOpenCountsMap, setWordPairIdOpenCountsMap] = useState({});
-  const [gameCompleted, setGameCompleted] = useState(false);
-
-  const resetGameProgress = () => {
-    setSelectedWordPairs([]);
-    setCompletedPairIdsMap({});
-    setSelectedCompletedPairId(-1);
-    setWordPairIdOpenCountsMap({});
-  };
-
-  const resetGameResult = () => {
-    setGameCompleted(false);
-  };
 
   useEffect(() => {
-    resetGameProgress();
-    resetGameResult();
+    const preparedWordPairs = flatMap(
+      trainingLevel.wordTranslations,
+      wordPair => [
+        {
+          id: uuidv4(),
+          pairId: wordPair.serverId,
+          word: wordPair.wordForeign,
+          onSpeech: wordPair.onSpeech
+        },
+        {
+          id: uuidv4(),
+          pairId: wordPair.serverId,
+          word: wordPair.wordNative,
+          onSpeech: null
+        }
+      ]
+    );
 
-    const wordPairs = flatMap(trainingLevel.wordTranslations, wordPair => [
-      {
-        id: uuidv4(),
-        pairId: wordPair.serverId,
-        word: wordPair.wordForeign,
-        onSpeech: wordPair.onSpeech
-      },
-      {
-        id: uuidv4(),
-        pairId: wordPair.serverId,
-        word: wordPair.wordNative,
-        onSpeech: null
-      }
-    ]);
-
-    setWordPairs(shuffle(wordPairs));
+    setWordPairs(shuffle(preparedWordPairs));
   }, [trainingLevel.wordTranslations]);
 
   const isGameCompleted = newCompletedPairIdsMap => {
@@ -58,7 +45,7 @@ function Game({ trainingLevel, handleEnd }) {
     );
   };
 
-  const handleClick = (pairId, id, onSpeech) => async () => {
+  const handleClick = (pairId, id, onSpeech) => () => {
     if (trainingLevel.voiceOn && onSpeech) {
       onSpeech();
     }
@@ -106,10 +93,7 @@ function Game({ trainingLevel, handleEnd }) {
 
         if (isGameCompleted(newCompletedPairIdsMap)) {
           setTimeout(() => {
-            setGameCompleted(true);
-            setTimeout(() => {
-              handleEnd(wordPairIdOpenCountsMap);
-            }, GAME_FADE_DELAY);
+            handleEnd(0, wordPairIdOpenCountsMap);
           }, GAME_COMPLETION_DELAY);
         }
       } else {
@@ -127,7 +111,6 @@ function Game({ trainingLevel, handleEnd }) {
       selectedWordPairs={selectedWordPairs}
       completedPairIdsMap={completedPairIdsMap}
       selectedCompletedPairId={selectedCompletedPairId}
-      gameCompleted={gameCompleted}
       handleClick={handleClick}
     />
   );

@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { loadValue } from 'src/localStorage';
 import { removeWordSetLevelPairs } from 'src/actions/wordSetActions';
+import useTrainingsConfig from 'src/components/routes-common/useTrainingsConfig';
 import useClientTrainingLevel from 'src/components/routes-common/useClientTrainingLevel';
 import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
 function MainTrainingSwitcher({ redirectionUrl }) {
-  const [trainingsSettings, setTrainingsSettings] = useState({});
-
-  useEffect(() => {
-    const { quantity = '8', listOn = false } =
-      loadValue('trainingsSettings') || {};
-
-    setTrainingsSettings({ quantity, listOn });
-  }, []);
+  const { selectedTrainingTypes, trainingsSettings } = useTrainingsConfig();
 
   const trainingLevel = useClientTrainingLevel(redirectionUrl);
 
@@ -30,11 +23,14 @@ function MainTrainingSwitcher({ redirectionUrl }) {
   };
 
   return (
-    <TrainingsConveyor
-      trainingsSettings={trainingsSettings}
-      handleNextLevel={handleNextLevel}
-      trainingLevel={trainingLevel}
-    />
+    selectedTrainingTypes.length && (
+      <TrainingsConveyor
+        selectedTrainingTypes={selectedTrainingTypes}
+        trainingsSettings={trainingsSettings}
+        handleNextLevel={handleNextLevel}
+        trainingLevel={trainingLevel}
+      />
+    )
   );
 }
 
