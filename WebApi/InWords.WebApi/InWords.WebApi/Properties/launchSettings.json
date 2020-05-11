@@ -12,11 +12,11 @@
     "InWords.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "v1.0/values",
+      "launchUrl": "",
       "environmentVariables": {
+        "INWHTTP": "5100",
         "INWHTTPS": "5101",
         "INWHTTPS2": "5102",
-        "INWHTTP": "5100",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5101"

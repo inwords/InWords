@@ -1,9 +1,12 @@
-﻿using InWords.Protobuf;
+﻿using Grpc.Core;
+using InWords.Protobuf;
 using InWords.WebApi.Extensions;
+using InWords.WebApi.Modules.Profile.PublicData;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
@@ -11,6 +14,7 @@ namespace InWords.WebApi.Controllers.v2
     [ApiVersion("2")]
     [Route("v{version:apiVersion}/profile")]
     [ApiController]
+    [Authorize]
     [Produces("application/json")]
     public class ProfileController : ControllerBase
     {
@@ -26,7 +30,6 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [ProducesResponseType(typeof(EmailChangeRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("updateEmail")]
@@ -42,7 +45,6 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [ProducesResponseType(typeof(ConfirmEmailRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("confirmEmail")]
@@ -88,12 +90,51 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpDelete]
         [Route("delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromBody] DeleteAccountRequest request)
             => await mediator.AuthorizeHandlerActionResult<DeleteAccountRequest, Empty>(request, User).ConfigureAwait(false);
+
+        [HttpGet]
+        [Route("")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(ProfileReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public async Task<IActionResult> Delete()
+            => await mediator.AuthorizeHandlerActionResult<Empty, ProfileReply>(new Empty(), User).ConfigureAwait(false);
+
+        [HttpGet]
+        [Route("{id}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Profile", typeof(PublicProfileReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public async Task<IActionResult> FindId([FromRoute] int id)
+        {
+            var request = new FindIdRequest()
+            {
+                UserId = id
+            };
+            return await mediator.AuthorizeHandlerActionResult<FindIdRequest, PublicProfileReply>(request, User).ConfigureAwait(false);
+        }
+
+        [HttpGet]
+        [Route("find/{nickname}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(PublicProfilesReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public async Task<IActionResult> FindId([FromRoute] string nickname)
+        {
+            var request = new FindUsernameRequest()
+            {
+                UserName = nickname
+            };
+            return await mediator.AuthorizeHandlerActionResult<FindUsernameRequest, PublicProfilesReply>(request, User).ConfigureAwait(false);
+        }
+
+        [HttpPut]
+        [Route("")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(Empty))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public Task<IActionResult> Update([FromBody] UpdateRequest request)
+         => mediator.AuthorizeHandlerActionResult<UpdateRequest, Empty>(request, User);
     }
 }

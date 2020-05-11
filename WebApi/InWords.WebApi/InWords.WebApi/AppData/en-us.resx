@@ -117,7 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Email Not Found" xml:space="preserve">
-    <value>Email not found</value>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Unverified" xml:space="preserve">
+    <value>Unverified</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UserIdNotFound" xml:space="preserve">
+    <value>A user with this id was not found</value>
+  </data>
+  <data name="UserNickNotFound" xml:space="preserve">
+    <value>A user with this nickname was not found</value>
   </data>
 </root>
