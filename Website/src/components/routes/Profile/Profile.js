@@ -15,16 +15,14 @@ import ControlledAccountDeleteDialog from './ControlledAccountDeleteDialog';
 import './Profile.scss';
 
 function Profile() {
-  const {
-    nickname,
-    avatarPath,
-    account: { accountId, email }
-  } = useSelector(store => store.profile);
+  const { userId, nickname, avatarPath, email } = useSelector(
+    store => store.profile
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!accountId) {
+    if (!userId) {
       (async () => {
         try {
           const data = await dispatch(getUserInfo());
@@ -34,10 +32,10 @@ function Profile() {
         }
       })();
     }
-  }, [accountId, dispatch]);
+  }, [userId, dispatch]);
 
   return (
-    accountId && (
+    userId && (
       <Fragment>
         <div className="profile-root">
           <div className="profile-avatar-section">

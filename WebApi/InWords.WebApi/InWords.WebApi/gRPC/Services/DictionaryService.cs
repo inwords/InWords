@@ -14,30 +14,25 @@ namespace InWords.WebApi.gRPC.Services
         private readonly IMediator mediator;
         public DictionaryService(IMediator mediator) => this.mediator = mediator;
 
-        public override async Task<AddWordsReply> AddWords(AddWordsRequest request, ServerCallContext context)
-             => await mediator.AuthorizeHandler<AddWordsRequest, AddWordsReply>(request, context).ConfigureAwait(false);
+        public override Task<AddWordsReply> AddWords(AddWordsRequest request, ServerCallContext context)
+             => mediator.AuthorizeHandler<AddWordsRequest, AddWordsReply>(request, context);
 
-        public override async Task<WordsReply> GetWords(GetWordsRequest request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<GetWordsRequest, WordsReply>(request, context).ConfigureAwait(false);
+        public override Task<WordsReply> GetWords(GetWordsRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<GetWordsRequest, WordsReply>(request, context);
 
-        public override async Task<AddWordsReply> UpdateWords(UpdateWordsRequest request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<UpdateWordsRequest, AddWordsReply>(request, context).ConfigureAwait(false);
+        public override  Task<AddWordsReply> UpdateWords(UpdateWordsRequest request, ServerCallContext context)
+            =>  mediator.AuthorizeHandler<UpdateWordsRequest, AddWordsReply>(request, context);
 
-        public override async Task<Empty> DeleteWords(DeleteWordsRequest request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<DeleteWordsRequest, Empty>(request, context).ConfigureAwait(false);
+        public override Task<Empty> DeleteWords(DeleteWordsRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<DeleteWordsRequest, Empty>(request, context);
 
-        public override async Task<LookupReply> Lookup(LookupRequest request, ServerCallContext context)
-        {
-            var reqestObject = new RequestObject<LookupRequest, LookupReply>(request);
-            var response = await mediator.Send(reqestObject).ConfigureAwait(false);
-            context.UpdateStatus(reqestObject);
-            return response;
-        }
+        public override Task<LookupReply> Lookup(LookupRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<LookupRequest, LookupReply>(request, context);
 
-        public override async Task<TrainingReply> Training(Empty request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<Empty, TrainingReply>(request, context).ConfigureAwait(false);
+        public override Task<TrainingReply> Training(Empty request, ServerCallContext context)
+            => mediator.AuthorizeHandler<Empty, TrainingReply>(request, context);
 
-        public override async Task<TrainingIdsReply> TrainingIds(Empty request, ServerCallContext context)
-            => await mediator.AuthorizeHandler<Empty, TrainingIdsReply>(request, context).ConfigureAwait(false);
+        public override Task<TrainingIdsReply> TrainingIds(Empty request, ServerCallContext context)
+            => mediator.AuthorizeHandler<Empty, TrainingIdsReply>(request, context);
     }
 }

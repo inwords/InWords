@@ -50,6 +50,6 @@ test('select word set level', async () => {
   utils.clickLevel(level.levelId);
 
   expect(utils.history.location.pathname).toEqual(
-    `${utils.route}/${level.levelId}/0`
+    `${utils.route}/${level.levelId}/=)`
   );
 });

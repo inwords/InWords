@@ -24,10 +24,7 @@ const profile = (state = initialState, action) => {
         nickname: payload.nickName,
         avatarPath: payload.avatarPath,
         experience: payload.experience,
-        account: {
-          accountId: payload.account.accountId,
-          email: payload.account.email
-        }
+        email: payload.email
       };
     }
     case UPDATE_USER_INFO:

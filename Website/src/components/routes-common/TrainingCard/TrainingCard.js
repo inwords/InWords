@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import Paper from 'src/components/core/Paper';
 import Zoom from 'src/components/core/Zoom';
 
-import './GameCard.scss';
+import './TrainingCard.scss';
 
-function GameCard({
+function TrainingCard({
   open = true,
+  color,
   dimension = 120,
   textSize = 16,
   children,
@@ -14,7 +16,7 @@ function GameCard({
 }) {
   return (
     <Paper
-      className="game-card"
+      className="training-card"
       style={{
         width: dimension,
         height: dimension,
@@ -22,25 +24,27 @@ function GameCard({
       }}
       {...rest}
     >
-      <Zoom
-        in={open}
-        style={{
-          height: dimension
-        }}
-      >
-        <div className="game-card-content">
-          <span className="game-card-text">{children}</span>
+      <Zoom in={open} className="training-card-content-container">
+        <div>
+          <div
+            className={classNames('training-card-content', {
+              [`training-card-content--color--${color}`]: color
+            })}
+          >
+            <span className="training-card-text">{children}</span>
+          </div>
         </div>
       </Zoom>
     </Paper>
   );
 }
 
-GameCard.propTypes = {
+TrainingCard.propTypes = {
   open: PropTypes.bool,
+  color: PropTypes.string,
   dimension: PropTypes.number,
   textSize: PropTypes.number,
   children: PropTypes.node.isRequired
 };
 
-export default GameCard;
+export default TrainingCard;

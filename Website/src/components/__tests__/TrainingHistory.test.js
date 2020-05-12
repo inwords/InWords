@@ -33,7 +33,7 @@ const setup = () => {
   );
 
   const clickHistoryTraining = id =>
-    fireEvent.click(utils.getByTestId(`to-training-${id}-0`));
+    fireEvent.click(utils.getByTestId(`to-level-${id}`));
 
   return {
     ...utils,
@@ -51,6 +51,6 @@ test('select recent training', async () => {
   utils.clickHistoryTraining(recentTrainingInfo.levelId);
 
   expect(utils.history.location.pathname).toEqual(
-    `${utils.route}/${recentTrainingInfo.levelId}/0`
+    `${utils.route}/${recentTrainingInfo.levelId}`
   );
 });
