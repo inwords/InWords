@@ -4,7 +4,7 @@ import { toHaveStyle } from '@testing-library/jest-dom/matchers';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
-import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
+import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
 expect.extend({ toHaveStyle });
 
@@ -24,12 +24,15 @@ const setup = ({ initialState } = {}) => {
     points: [{ levelId: 1, score: 3 }]
   };
   const utils = renderWithEnvironment(
-    <Route path="/:levelId/:trainingId">
-      <TrainingSwitcher trainingLevel={trainingLevel} />
+    <Route path="/:levelId/=)">
+      <TrainingsConveyor
+        trainingLevel={trainingLevel}
+        selectedTrainingTypes={[0]}
+      />
     </Route>,
     {
       initialState: { auth: { token: accessData.token }, ...initialState },
-      route: `/${trainingLevel.levelId}/0`
+      route: `/${trainingLevel.levelId}/=)`
     }
   );
   const clickWordEl = el => fireEvent.click(el);
@@ -49,16 +52,6 @@ const setupForReplay = () => {
   return {
     ...utils,
     clickReplay
-  };
-};
-
-const setupForShuffle = () => {
-  const utils = setup();
-  const clickShuffle = () => fireEvent.click(utils.getByText('shuffle'));
-
-  return {
-    ...utils,
-    clickShuffle
   };
 };
 
@@ -124,13 +117,6 @@ test('finish game and replay', async () => {
   const utils = setupForReplay();
   await finishGameQuickly(utils);
   utils.clickReplay();
-  await finishGameQuickly(utils);
-});
-
-test('finish game and shuffle', async () => {
-  const utils = setupForShuffle();
-  await finishGameQuickly(utils);
-  utils.clickShuffle();
   await finishGameQuickly(utils);
 });
 

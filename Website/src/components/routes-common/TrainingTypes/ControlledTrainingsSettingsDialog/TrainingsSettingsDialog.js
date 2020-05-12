@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { saveValue } from 'src/localStorage';
+import { loadValue, saveValue } from 'src/localStorage';
 import useForm from 'src/components/core/useForm';
 import Dialog from 'src/components/core/Dialog';
 import DialogTitle from 'src/components/core/DialogTitle';
@@ -13,31 +13,21 @@ import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
 import Slider from 'src/components/core/Slider';
 
-function GameSettingsDialog({
-  open,
-  handleClose,
-  trainingSettings,
-  setTrainingSettings
-}) {
+function TrainingsSettingsDialog({ open, handleClose }) {
   const { inputs, setInputs, handleChange } = useForm({});
 
   useEffect(() => {
     if (open) {
-      const {
-        voiceOn = false,
-        cardDimension = '120',
-        cardTextSize = '16'
-      } = trainingSettings;
+      const { quantity = '8', listOn = false } =
+        loadValue('trainingsSettings') || {};
 
-      setInputs({ voiceOn, cardDimension, cardTextSize });
+      setInputs({ quantity, listOn });
     }
-  }, [trainingSettings, open, setInputs]);
+  }, [open, setInputs]);
 
   const handleSubmit = event => {
     event.preventDefault();
-
-    saveValue('trainingSettings.0', inputs);
-    setTrainingSettings(inputs);
+    saveValue('trainingsSettings', inputs);
   };
 
   return (
@@ -59,40 +49,26 @@ function GameSettingsDialog({
         >
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Размер карточки: {inputs.cardDimension}px
+              Cлов в тренировке: {inputs.quantity}
             </Typography>
             <Slider
-              name="cardDimension"
-              min="80"
-              max="140"
-              step="5"
-              value={inputs.cardDimension}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Typography component="p" variant="body2" gutterBottom>
-              Размер текста на карточке: {inputs.cardTextSize}px
-            </Typography>
-            <Slider
-              name="cardTextSize"
-              min="12"
-              max="24"
-              step="1"
-              value={inputs.cardTextSize}
+              name="quantity"
+              min="2"
+              max="8"
+              value={inputs.quantity}
               onChange={handleChange}
             />
           </FormGroup>
           <div>
             <FormControlLabel>
               <Checkbox
-                name="voiceOn"
-                checked={inputs.voiceOn}
+                name="listOn"
+                checked={inputs.listOn}
                 onChange={handleChange}
                 edge="start"
               />
               <Typography variant="body2">
-                Озвучивать английские слова
+                Показывать слова перед тренировкой
               </Typography>
             </FormControlLabel>
           </div>
@@ -115,15 +91,9 @@ function GameSettingsDialog({
   );
 }
 
-GameSettingsDialog.propTypes = {
+TrainingsSettingsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  trainingSettings: PropTypes.shape({
-    voiceOn: PropTypes.bool,
-    cardDimension: PropTypes.string,
-    cardTextSize: PropTypes.string
-  }).isRequired,
-  setTrainingSettings: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired
 };
 
-export default GameSettingsDialog;
+export default TrainingsSettingsDialog;

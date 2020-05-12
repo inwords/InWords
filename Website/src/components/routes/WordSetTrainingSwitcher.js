@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateWordSetLevelResult } from 'src/actions/wordSetActions';
 import useServerTrainingLevel from 'src/components/routes-common/useServerTrainingLevel';
-import TrainingSwitcher from 'src/components/routes-common/TrainingSwitcher';
+import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
 function WordSetTrainingSwitcher() {
   const trainingLevel = useServerTrainingLevel();
@@ -13,11 +13,7 @@ function WordSetTrainingSwitcher() {
   const levelsListsMap = useSelector(store => store.wordSet.levelsListsMap);
 
   const history = useHistory();
-  const {
-    wordSetId: paramWordSetId,
-    levelId: paramLevelId,
-    trainingId: paramTrainingId
-  } = useParams();
+  const { wordSetId: paramWordSetId, levelId: paramLevelId } = useParams();
 
   const handleResultSuccess = levelResult => {
     if (levelResult) {
@@ -39,7 +35,7 @@ function WordSetTrainingSwitcher() {
 
         if (nextLevel) {
           history.push(
-            `/training/courses/${paramWordSetId}/${nextLevel.levelId}/${paramTrainingId}`
+            `/training/courses/${paramWordSetId}/${nextLevel.levelId}/=)`
           );
 
           return;
@@ -51,7 +47,7 @@ function WordSetTrainingSwitcher() {
   };
 
   return (
-    <TrainingSwitcher
+    <TrainingsConveyor
       handleResultSuccess={handleResultSuccess}
       handleNextLevel={handleNextLevel}
       trainingLevel={trainingLevel}

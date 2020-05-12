@@ -1,95 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import flatMap from 'src/utils/flatMap';
 import shuffle from 'src/utils/shuffle';
-import { setSnackbar } from 'src/actions/commonActions';
-import {
-  saveLevelResult,
-  saveCustomLevelResult
-} from 'src/actions/trainingApiActions';
-import TrainingResult from 'src/components/routes-common/TrainingResult';
 import GameField from './GameField';
 
 const CARD_CLOSING_DELAY = 700;
 const GAME_COMPLETION_DELAY = 1000;
-const RESULT_DELAY = 500;
 
-const colorPairs = [
-  ['#F44336', '#FFCDD2'],
-  ['#E91E63', '#F8BBD0'],
-  ['#9C27B0', '#E1BEE7'],
-  ['#673AB7', '#D1C4E9'],
-  ['#3F51B5', '#C5CAE9'],
-  ['#2196F3', '#BBDEFB'],
-  ['#03A9F4', '#B3E5FC'],
-  ['#00BCD4', '#B2EBF2'],
-  ['#009688', '#B2DFDB'],
-  ['#4CAF50', '#C8E6C9'],
-  ['#8BC34A', '#DCEDC8'],
-  ['#CDDC39', '#F0F4C3'],
-  ['#FFC107', '#FFECB3'],
-  ['#FF9800', '#FFE0B2'],
-  ['#FF5722', '#FFCCBC']
-];
-
-const getRandomColorPair = () =>
-  colorPairs[Math.floor(Math.random() * colorPairs.length)];
-
-function Game({
-  trainingLevel,
-  handleResultSuccess,
-  handleNextLevel,
-  handleReplay
-}) {
+function Game({ trainingLevel, handleEnd }) {
   const [wordPairs, setWordPairs] = useState([]);
-  const [recentWordPairs, setRecentWordPairs] = useState([]);
-  const [newServerLevelId, setNewServerLevelId] = useState(null);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [wordPairIdOpenCountsMap, setWordPairIdOpenCountsMap] = useState({});
-  const [gameCompleted, setGameCompleted] = useState(false);
-  const [resultReady, setResultReady] = useState(false);
-  const [score, setScore] = useState(null);
-  const [colorPair, setColorPair] = useState(colorPairs[0]);
-
-  const dispatch = useDispatch();
-
-  const resetGameProgress = () => {
-    setSelectedWordPairs([]);
-    setCompletedPairIdsMap({});
-    setSelectedCompletedPairId(-1);
-    setWordPairIdOpenCountsMap({});
-  };
-
-  const resetGameResult = () => {
-    setGameCompleted(false);
-    setResultReady(false);
-    setScore(null);
-  };
 
   useEffect(() => {
-    resetGameProgress();
-    resetGameResult();
+    const preparedWordPairs = flatMap(
+      trainingLevel.wordTranslations,
+      wordPair => [
+        {
+          id: uuidv4(),
+          pairId: wordPair.serverId,
+          word: wordPair.wordForeign,
+          onSpeech: wordPair.onSpeech
+        },
+        {
+          id: uuidv4(),
+          pairId: wordPair.serverId,
+          word: wordPair.wordNative,
+          onSpeech: null
+        }
+      ]
+    );
 
-    const wordPairs = flatMap(trainingLevel.wordTranslations, wordPair => [
-      {
-        id: uuidv4(),
-        pairId: wordPair.serverId,
-        word: wordPair.wordForeign,
-        onSpeech: wordPair.onSpeech
-      },
-      {
-        id: uuidv4(),
-        pairId: wordPair.serverId,
-        word: wordPair.wordNative,
-        onSpeech: null
-      }
-    ]);
-
-    setWordPairs(shuffle(wordPairs));
+    setWordPairs(shuffle(preparedWordPairs));
   }, [trainingLevel.wordTranslations]);
 
   const isGameCompleted = newCompletedPairIdsMap => {
@@ -100,48 +45,7 @@ function Game({
     );
   };
 
-  const handleGameEnd = async () => {
-    const levelId = trainingLevel.levelId;
-    const actualLevelId = newServerLevelId || levelId;
-
-    try {
-      const { points } = await dispatch(
-        actualLevelId > 0
-          ? saveLevelResult({
-              gameLevelId: actualLevelId,
-              wordIdOpenCount: wordPairIdOpenCountsMap
-            })
-          : saveCustomLevelResult({ wordIdOpenCount: wordPairIdOpenCountsMap })
-      );
-      const levelResult = points[0];
-
-      setTimeout(() => {
-        setGameCompleted(true);
-        setTimeout(() => {
-          resetGameProgress();
-          setRecentWordPairs(wordPairs);
-          handleResultSuccess(levelResult);
-          setScore(levelResult.score);
-          setNewServerLevelId(levelResult.levelId);
-          setResultReady(true);
-          setColorPair(getRandomColorPair());
-        }, RESULT_DELAY);
-      }, GAME_COMPLETION_DELAY);
-    } catch (error) {
-      setTimeout(() => {
-        setGameCompleted(true);
-        setTimeout(() => {
-          resetGameProgress();
-          setRecentWordPairs(wordPairs);
-          setResultReady(true);
-          setColorPair(getRandomColorPair());
-        }, RESULT_DELAY);
-      }, GAME_COMPLETION_DELAY);
-      dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));
-    }
-  };
-
-  const handleClick = (pairId, id, onSpeech) => async () => {
+  const handleClick = (pairId, id, onSpeech) => () => {
     if (trainingLevel.voiceOn && onSpeech) {
       onSpeech();
     }
@@ -188,7 +92,9 @@ function Game({
         setSelectedCompletedPairId(pairId);
 
         if (isGameCompleted(newCompletedPairIdsMap)) {
-          await handleGameEnd();
+          setTimeout(() => {
+            handleEnd(0, wordPairIdOpenCountsMap);
+          }, GAME_COMPLETION_DELAY);
         }
       } else {
         setTimeout(() => {
@@ -198,35 +104,14 @@ function Game({
     }
   };
 
-  const handleEnhancedNextLevel = () => {
-    handleNextLevel(trainingLevel.levelId, wordPairs);
-    resetGameResult();
-    setNewServerLevelId(null);
-  };
-
-  const handleEnhancedReplay = () => {
-    handleReplay();
-    resetGameResult();
-    setWordPairs(shuffle([...recentWordPairs]));
-  };
-
-  return !resultReady ? (
+  return (
     <GameField
       cardSettings={trainingLevel.cardSettings}
       wordPairs={wordPairs}
       selectedWordPairs={selectedWordPairs}
       completedPairIdsMap={completedPairIdsMap}
       selectedCompletedPairId={selectedCompletedPairId}
-      gameCompleted={gameCompleted}
       handleClick={handleClick}
-    />
-  ) : (
-    <TrainingResult
-      wordPairs={wordPairs}
-      score={score}
-      colorPair={colorPair}
-      handleNextLevel={handleEnhancedNextLevel}
-      handleReplay={handleEnhancedReplay}
     />
   );
 }
@@ -245,9 +130,7 @@ Game.propTypes = {
     voiceOn: PropTypes.bool.isRequired,
     cardSettings: PropTypes.object.isRequired
   }).isRequired,
-  handleResultSuccess: PropTypes.func.isRequired,
-  handleNextLevel: PropTypes.func.isRequired,
-  handleReplay: PropTypes.func.isRequired
+  handleEnd: PropTypes.func.isRequired
 };
 
 export default Game;

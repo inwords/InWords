@@ -1,6 +1,7 @@
 @import 'src/theme/mixins';
 
 .game-card {
+  position: relative;
   margin: 4px;
   display: flex;
   align-items: center;
