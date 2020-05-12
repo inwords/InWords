@@ -14,7 +14,7 @@ const setup = ({ ui = <Profile /> } = {}) => {
     userId: 1,
     nickName: 'prometium',
     avatarPath: null,
-    account: { accountId: 1, email: '1@1' }
+    email: '1@1'
   };
   global.fetch = mockFetch(mockingUserInfoResponse);
   const utils = renderWithEnvironment(ui, {
@@ -140,7 +140,7 @@ test('edit nickname', async () => {
 
 test('edit email', async () => {
   const utils = setupForEmailEdit();
-  const email = utils.mockingUserInfoResponse.account.email;
+  const email = utils.mockingUserInfoResponse.email;
   const newEmail = utils.newEmail;
   await waitFor(() => utils.getByText(email));
 

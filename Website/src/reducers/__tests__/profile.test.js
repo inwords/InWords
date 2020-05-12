@@ -27,10 +27,7 @@ describe('profile reducer', () => {
           nickName: 'Prometium',
           avatarPath: '//avatar.png',
           experience: 0,
-          account: {
-            accountId: 1,
-            email: '1@1'
-          }
+          email: '1@1'
         }
       })
     ).toEqual({
@@ -38,10 +35,7 @@ describe('profile reducer', () => {
       nickname: 'Prometium',
       avatarPath: '//avatar.png',
       experience: 0,
-      account: {
-        accountId: 1,
-        email: '1@1'
-      }
+      email: '1@1'
     });
   });
 
