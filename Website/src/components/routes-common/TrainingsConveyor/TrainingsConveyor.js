@@ -11,7 +11,7 @@ import {
 import TrainingResult from 'src/components/routes-common/TrainingResult';
 import CustomizedGame from 'src/components/routes-common/CustomizedGame';
 import CustomizedAuditionTraining from 'src/components/routes-common/CustomizedAuditionTraining';
-import GamePairsDialog from './GamePairsDialog';
+import TrainingPairsDialog from './TrainingPairsDialog';
 
 const trainingsTypesOrderMap = {
   0: 1,
@@ -149,7 +149,7 @@ function TrainingsConveyor({
             );
         }
       })()}
-      <GamePairsDialog
+      <TrainingPairsDialog
         open={open}
         handleClose={handleClose}
         wordPairs={processedTrainingLevel.wordTranslations}

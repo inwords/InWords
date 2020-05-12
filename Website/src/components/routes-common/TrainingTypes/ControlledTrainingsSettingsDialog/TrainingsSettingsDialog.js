@@ -37,7 +37,7 @@ function TrainingsSettingsDialog({ open, handleClose }) {
       onClose={handleClose}
     >
       <DialogTitle id="training-settings-dialog">
-        Настройки тренировки
+        Настройки тренировочного процесса
       </DialogTitle>
       <DialogContent>
         <form
@@ -49,7 +49,7 @@ function TrainingsSettingsDialog({ open, handleClose }) {
         >
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Cлов в тренировке: {inputs.quantity}
+              Cлов в тренировках: {inputs.quantity}
             </Typography>
             <Slider
               name="quantity"
@@ -68,7 +68,7 @@ function TrainingsSettingsDialog({ open, handleClose }) {
                 edge="start"
               />
               <Typography variant="body2">
-                Показывать слова перед тренировкой
+                Показывать слова перед началом
               </Typography>
             </FormControlLabel>
           </div>

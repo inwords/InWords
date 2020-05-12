@@ -25,12 +25,12 @@
     color: var(--palette-gold);
   }
 
-  &--color--success {
-    color: var(--palette-success);
-  }
-
   &--color--error {
     color: var(--palette-error);
+  }
+
+  &--color--success {
+    color: var(--palette-success);
   }
 
   &--color--action {

@@ -1,8 +1,6 @@
 const synth = window.speechSynthesis;
 
 const createSpeech = (text, { lang = 'en-US' } = {}) => () => {
-  if (!synth) return;
-
   if (synth.speaking) {
     synth.cancel();
   }

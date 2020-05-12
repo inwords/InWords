@@ -12,7 +12,7 @@ function CustomizedAuditionTraining({ trainingLevel, handleEnd }) {
   const [trainingSettings, setTrainingSettings] = useState({});
 
   useEffect(() => {
-    setTrainingSettings(loadValue('trainingSettings.1') || {});
+    setTrainingSettings(loadValue('trainingSettings-1') || {});
   }, []);
 
   const [processedTrainingLevel, setProcessedTrainingLevel] = useState();

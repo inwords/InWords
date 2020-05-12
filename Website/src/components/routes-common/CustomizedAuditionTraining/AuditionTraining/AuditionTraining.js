@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import shuffle from 'src/utils/shuffle';
@@ -31,6 +31,16 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
     setWrongSelectedWordId(-1);
   };
 
+  const prepareRightWords = useCallback(words => {
+    const newCurrentWords = words.slice(0, 2);
+    setCurrentWords(newCurrentWords);
+
+    const rightWord = getRandomRightWord(newCurrentWords);
+    setRightWord(rightWord);
+
+    rightWord.onSpeech();
+  }, []);
+
   useEffect(() => {
     if (!trainingLevel.wordTranslations.length) return;
 
@@ -47,34 +57,19 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
     shuffle(preparedWords);
     setWords(preparedWords);
 
-    const currentPreparedWords = preparedWords.slice(0, 2);
-    setCurrentWords(currentPreparedWords);
-
-    const rightWord = getRandomRightWord(currentPreparedWords);
-    setRightWord(rightWord);
-    rightWord.onSpeech();
-  }, [trainingLevel.wordTranslations]);
+    prepareRightWords(preparedWords);
+  }, [trainingLevel.wordTranslations, prepareRightWords]);
 
   const handleClick = id => () => {
     if (selectedWordId !== -1) return;
 
     setSelectedWordId(id);
 
-    let isError = false;
-    if (id === rightWord.id) {
-      setRightSelectedWordId(rightWord.id);
-      setWrongSelectedWordId(-1);
+    const isError = id !== rightWord.id;
+    if (isError) {
+      setWrongSelectedWordId(id);
     } else {
-      isError = true;
-      setRightSelectedWordId(rightWord.id);
-
-      if (currentWords.length > 1) {
-        setWrongSelectedWordId(
-          currentWords[0].id === rightWord.id
-            ? currentWords[1].id
-            : currentWords[0].id
-        );
-      }
+      setRightSelectedWordId(id);
     }
 
     setTimeout(() => {
@@ -93,11 +88,8 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
 
       shuffle(restWords);
       setWords(restWords);
-      setCurrentWords(restWords.slice(0, 2));
 
-      const rightWord = getRandomRightWord(restWords);
-      setRightWord(rightWord);
-      rightWord.onSpeech();
+      prepareRightWords(restWords);
     }, NEXT_WORDS_DELAY);
   };
 
@@ -119,28 +111,18 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
                 <TrainingCard
                   data-testid={`card-${id}`}
                   open
+                  color={
+                    rightSelectedWordId === id
+                      ? 'success'
+                      : wrongSelectedWordId === id
+                      ? 'error'
+                      : null
+                  }
                   dimension={cardSettings.cardDimension}
                   textSize={cardSettings.cardTextSize}
                   onClick={handleClick(id, onSpeech)}
                   depthShadow={selectedWordId === id ? 16 : 4}
                 >
-                  {rightSelectedWordId === id ? (
-                    <Icon
-                      color="success"
-                      className="audition-training-result-icon"
-                    >
-                      check_circle
-                    </Icon>
-                  ) : (
-                    wrongSelectedWordId === id && (
-                      <Icon
-                        color="error"
-                        className="audition-training-result-icon"
-                      >
-                        error
-                      </Icon>
-                    )
-                  )}
                   {title}
                 </TrainingCard>
               </div>

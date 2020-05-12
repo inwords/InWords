@@ -4,7 +4,8 @@ export const getUserInfo = () => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        endpoint: '/users',
+        apiVersion: '2',
+        endpoint: '/profile',
         resolve,
         reject
       })
@@ -15,7 +16,8 @@ export const updateUserInfo = userInfo => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({
-        endpoint: '/users',
+        apiVersion: '2',
+        endpoint: '/profile',
         method: 'PUT',
         data: JSON.stringify(userInfo),
         resolve,

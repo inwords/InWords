@@ -5,8 +5,6 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import WordPairsDeleteDialog from './WordPairsDeleteDialog';
 
-import './ControlledWordPairsDeleteDialog.css';
-
 function ControlledWordPairsDeleteDialog(props) {
   const { open, handleOpen, handleClose } = useDialog();
 
@@ -17,7 +15,7 @@ function ControlledWordPairsDeleteDialog(props) {
         onClick={handleOpen}
         className="word-pairs-delete-button"
       >
-        <Icon>delete</Icon>
+        <Icon color="error">delete</Icon>
       </IconButton>
       <WordPairsDeleteDialog open={open} handleClose={handleClose} {...props} />
     </Fragment>

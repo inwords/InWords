@@ -11,6 +11,7 @@ const GAME_COMPLETION_DELAY = 1000;
 function Game({ trainingLevel, handleEnd }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
+  const [rightSelectedPairId, setRightSelectedPairId] = useState(-1);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [wordPairIdOpenCountsMap, setWordPairIdOpenCountsMap] = useState({});
@@ -63,6 +64,8 @@ function Game({ trainingLevel, handleEnd }) {
     }
 
     if (selectedWordPairs.length < 2) {
+      setRightSelectedPairId(-1);
+
       setSelectedWordPairs(selectedWordPairs =>
         selectedWordPairs.concat({
           id,
@@ -89,6 +92,7 @@ function Game({ trainingLevel, handleEnd }) {
         };
 
         setCompletedPairIdsMap(newCompletedPairIdsMap);
+        setRightSelectedPairId(pairId);
         setSelectedCompletedPairId(pairId);
 
         if (isGameCompleted(newCompletedPairIdsMap)) {
@@ -109,6 +113,7 @@ function Game({ trainingLevel, handleEnd }) {
       cardSettings={trainingLevel.cardSettings}
       wordPairs={wordPairs}
       selectedWordPairs={selectedWordPairs}
+      rightSelectedPairId={rightSelectedPairId}
       completedPairIdsMap={completedPairIdsMap}
       selectedCompletedPairId={selectedCompletedPairId}
       handleClick={handleClick}
