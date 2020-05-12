@@ -10,38 +10,12 @@ namespace InWords.WebApi.gRPC.Services
     public class AuthService : Authenticator.AuthenticatorBase
     {
         readonly IMediator mediator;
-        public AuthService(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
-
-
-        public override async Task<TokenReply> OAuth(OAuthTokenRequest request, ServerCallContext context)
-        {
-            var requestObject = new RequestObject<OAuthTokenRequest, TokenReply>(request);
-            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-            context.UpdateStatus(requestObject);
-            return reply;
-        }
-
-        public override async Task<TokenReply> Basic(TokenRequest request, ServerCallContext context)
-        {
-            var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
-            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-            context.UpdateStatus(requestObject);
-            return reply;
-        }
-
-        public override async Task<TokenReply> Register(RegistrationRequest request, ServerCallContext context)
-        {
-            var requestObject = new RequestObject<RegistrationRequest, TokenReply>(request);
-            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-            context.UpdateStatus(requestObject);
-            return new TokenReply()
-            {
-                Token = reply.Token,
-                UserId = reply.UserId
-            };
-        }
+        public AuthService(IMediator mediator) => this.mediator = mediator;
+        public override Task<TokenReply> OAuth(OAuthTokenRequest request, ServerCallContext context)
+            => mediator.AnonimousHandler<OAuthTokenRequest, TokenReply>(request, context);
+        public override Task<TokenReply> Basic(TokenRequest request, ServerCallContext context)
+            => mediator.AnonimousHandler<TokenRequest, TokenReply>(request, context);
+        public override Task<TokenReply> Register(RegistrationRequest request, ServerCallContext context)
+            => mediator.AnonimousHandler<RegistrationRequest, TokenReply>(request, context);
     }
 }
