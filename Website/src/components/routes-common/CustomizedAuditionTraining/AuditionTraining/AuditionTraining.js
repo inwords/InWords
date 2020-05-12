@@ -32,6 +32,8 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
   };
 
   useEffect(() => {
+    if (!trainingLevel.wordTranslations.length) return;
+
     resetWords();
 
     const preparedWords = trainingLevel.wordTranslations.map(
