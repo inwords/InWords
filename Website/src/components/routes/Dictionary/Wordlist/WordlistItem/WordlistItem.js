@@ -6,7 +6,7 @@ import ListItemText from 'src/components/core/ListItemText';
 import ListItemSecondaryAction from 'src/components/core/ListItemSecondaryAction';
 import ListItemIcon from 'src/components/core/ListItemIcon';
 import Checkbox from 'src/components/core/Checkbox';
-import SpeechButton from './SpeechButton';
+import SpeechButton from 'src/components/routes-common/SpeechButton';
 
 import './WordlistItem.css';
 

@@ -101,7 +101,6 @@ function WordSetPairs() {
               component="div"
               onClick={!hasAdded ? handleToggle(serverId) : undefined}
               button={!hasAdded}
-              hasSecondaryAction
               className="wordlist-item"
             >
               <ListItemIcon>

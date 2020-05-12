@@ -10,6 +10,7 @@ function GameField({
   cardSettings,
   wordPairs,
   selectedWordPairs,
+  rightSelectedPairId,
   completedPairIdsMap,
   selectedCompletedPairId,
   handleClick
@@ -42,6 +43,7 @@ function GameField({
                     )
                   )
                 }
+                color={rightSelectedPairId === pairId ? 'success' : null}
                 dimension={cardSettings.cardDimension}
                 textSize={cardSettings.cardTextSize}
                 onClick={handleClick(pairId, id, onSpeech)}
@@ -75,6 +77,7 @@ GameField.propTypes = {
       id: PropTypes.string.isRequired
     }).isRequired
   ).isRequired,
+  rightSelectedPairId: PropTypes.number.isRequired,
   completedPairIdsMap: PropTypes.objectOf(PropTypes.bool.isRequired).isRequired,
   selectedCompletedPairId: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired

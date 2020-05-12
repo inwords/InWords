@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import { loadValue, saveValue } from 'src/localStorage';
@@ -107,12 +107,7 @@ function TrainingTypes({ trainingLevel }) {
         <List>
           {trainingTypesInfo.map(({ typeId, title, description }) => (
             <ListItemContainer key={typeId}>
-              <ListItem
-                component="div"
-                onClick={handleToggle(typeId)}
-                button
-                hasSecondaryAction
-              >
+              <ListItem component="div" onClick={handleToggle(typeId)} button>
                 <ListItemIcon>
                   <Checkbox
                     inputProps={{

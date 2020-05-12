@@ -23,20 +23,16 @@ function AuditionTrainingSettingsDialog({
 
   useEffect(() => {
     if (open) {
-      const {
-        voiceOn = false,
-        cardDimension = '120',
-        cardTextSize = '16'
-      } = trainingSettings;
+      const { cardDimension = '120', cardTextSize = '16' } = trainingSettings;
 
-      setInputs({ voiceOn, cardDimension, cardTextSize });
+      setInputs({ cardDimension, cardTextSize });
     }
   }, [trainingSettings, open, setInputs]);
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    saveValue('trainingSettings.1', inputs);
+    saveValue('trainingSettings-1', inputs);
     setTrainingSettings(inputs);
   };
 
@@ -106,7 +102,6 @@ AuditionTrainingSettingsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   trainingSettings: PropTypes.shape({
-    voiceOn: PropTypes.bool,
     cardDimension: PropTypes.string,
     cardTextSize: PropTypes.string
   }).isRequired,
