@@ -7,9 +7,7 @@ import DialogTitle from 'src/components/core/DialogTitle';
 import DialogContent from 'src/components/core/DialogContent';
 import DialogActions from 'src/components/core/DialogActions';
 import FormGroup from 'src/components/core/FormGroup';
-import FormControlLabel from 'src/components/core/FormControlLabel';
 import Typography from 'src/components/core/Typography';
-import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
 import Slider from 'src/components/core/Slider';
 
