@@ -23,7 +23,7 @@ function MainTrainingSwitcher({ redirectionUrl }) {
   };
 
   return (
-    selectedTrainingTypes.length && (
+    Boolean(selectedTrainingTypes) && (
       <TrainingsConveyor
         selectedTrainingTypes={selectedTrainingTypes}
         trainingsSettings={trainingsSettings}

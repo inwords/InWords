@@ -7,12 +7,17 @@ import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 const MainTrainingTypes = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/MainTrainingTypes')
 );
-const TrainingHistory = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/TrainingHistory')
-);
 const MainTrainingSwitcher = lazy(() =>
   import(
     /* webpackPrefetch: true */ 'src/components/routes/MainTrainingSwitcher'
+  )
+);
+const TrainingHistory = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/TrainingHistory')
+);
+const HistoryTrainingTypes = lazy(() =>
+  import(
+    /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingTypes'
   )
 );
 const HistoryTrainingSwitcher = lazy(() =>
@@ -50,14 +55,12 @@ function TrainingRouter() {
       </Route>
       <Route
         exact
-        path={`${url}/main/:levelId/:trainingId`}
+        path={`${url}/main/:levelId/=)`}
         render={({ match: { params } }) => (
           <RouteContainer maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/main/0`}>Тренировки</BreadcrumbsLink>
-              <BreadcrumbsLink
-                to={`${url}/main/${params.levelId}/${params.trainingId}`}
-              >
+              <BreadcrumbsLink to={`${url}/main/${params.levelId}/=)`}>
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
@@ -72,14 +75,30 @@ function TrainingRouter() {
       </Route>
       <Route
         exact
-        path={`${url}/history/:levelId/:trainingId`}
+        path={`${url}/history/:levelId`}
+        render={({ match: { params } }) => (
+          <RouteContainer maxWidth="md">
+            <Breadcrumbs>
+              <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/history/${params.levelId}`}>
+                Тренировки
+              </BreadcrumbsLink>
+            </Breadcrumbs>
+            <HistoryTrainingTypes />
+          </RouteContainer>
+        )}
+      />
+      <Route
+        exact
+        path={`${url}/history/:levelId/=)`}
         render={({ match: { params } }) => (
           <RouteContainer maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
-              <BreadcrumbsLink
-                to={`${url}/history/${params.levelId}/${params.trainingId}`}
-              >
+              <BreadcrumbsLink to={`${url}/history/${params.levelId}`}>
+                Тренировки
+              </BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/history/${params.levelId}/=)`}>
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
@@ -126,7 +145,7 @@ function TrainingRouter() {
       />
       <Route
         exact
-        path={`${url}/courses/:wordSetId/:levelId/:trainingId`}
+        path={`${url}/courses/:wordSetId/:levelId/=)`}
         render={({ match: { params } }) => (
           <RouteContainer maxWidth="lg">
             <Breadcrumbs>
@@ -135,7 +154,7 @@ function TrainingRouter() {
                 Уровни
               </BreadcrumbsLink>
               <BreadcrumbsLink
-                to={`${url}/courses/${params.wordSetId}/${params.levelId}/${params.trainingId}`}
+                to={`${url}/courses/${params.wordSetId}/${params.levelId}/=)`}
               >
                 Тренировка
               </BreadcrumbsLink>

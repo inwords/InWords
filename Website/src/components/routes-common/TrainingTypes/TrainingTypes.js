@@ -51,7 +51,7 @@ function TrainingTypes({ trainingLevel }) {
   };
 
   useEffect(() => {
-    setCheckedValues(loadValue('selectedTrainingTypes') || []);
+    setCheckedValues(loadValue('selectedTrainingTypes') || [0, 1]);
   }, [setCheckedValues]);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ function TrainingTypes({ trainingLevel }) {
             <Space />
             <LinkButton
               component={RouterLink}
-              to={`${match.url}/0`}
+              to={`${match.url}/=)`}
               disabled={!checkedValues.length || !wordTranslations.length}
               color="primary"
             >

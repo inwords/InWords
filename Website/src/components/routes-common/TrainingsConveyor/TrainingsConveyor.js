@@ -18,6 +18,9 @@ const trainingsTypesOrderMap = {
   1: 0
 };
 
+const compareByOrder = (a, b) =>
+  trainingsTypesOrderMap[a] - trainingsTypesOrderMap[b];
+
 function TrainingsConveyor({
   selectedTrainingTypes = [0, 1],
   trainingsSettings = { quantity: '8', listOn: false },
@@ -27,9 +30,7 @@ function TrainingsConveyor({
 }) {
   const [processedTrainingLevel, setProcessedTrainingLevel] = useState();
   const [restTrainingTypes, setRestTrainingTypes] = useState(
-    [...selectedTrainingTypes].sort(
-      (a, b) => trainingsTypesOrderMap[a] - trainingsTypesOrderMap[b]
-    )
+    [...selectedTrainingTypes].sort(compareByOrder)
   );
 
   useEffect(() => {
@@ -119,7 +120,7 @@ function TrainingsConveyor({
 
   const handleReplay = () => {
     resetGameResult();
-    setRestTrainingTypes(selectedTrainingTypes);
+    setRestTrainingTypes([...selectedTrainingTypes].sort(compareByOrder));
 
     if (trainingsSettings.listOn) {
       handleOpen();

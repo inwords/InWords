@@ -13,11 +13,7 @@ function WordSetTrainingSwitcher() {
   const levelsListsMap = useSelector(store => store.wordSet.levelsListsMap);
 
   const history = useHistory();
-  const {
-    wordSetId: paramWordSetId,
-    levelId: paramLevelId,
-    trainingId: paramTrainingId
-  } = useParams();
+  const { wordSetId: paramWordSetId, levelId: paramLevelId } = useParams();
 
   const handleResultSuccess = levelResult => {
     if (levelResult) {
@@ -39,7 +35,7 @@ function WordSetTrainingSwitcher() {
 
         if (nextLevel) {
           history.push(
-            `/training/courses/${paramWordSetId}/${nextLevel.levelId}/${paramTrainingId}`
+            `/training/courses/${paramWordSetId}/${nextLevel.levelId}/=)`
           );
 
           return;

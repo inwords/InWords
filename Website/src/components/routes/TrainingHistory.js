@@ -55,9 +55,9 @@ function TrainingHistory() {
             </CardContent>
             <CardActions>
               <LinkButton
-                data-testid={`to-training-${levelId}-${gameType}`}
+                data-testid={`to-level-${levelId}`}
                 component={RouterLink}
-                to={`${match.url}/${levelId}/${gameType}`}
+                to={`${match.url}/${levelId}`}
                 variant="text"
                 color="primary"
               >

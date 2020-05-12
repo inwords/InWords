@@ -24,7 +24,7 @@ const setup = ({ initialState } = {}) => {
     points: [{ levelId: 1, score: 3 }]
   };
   const utils = renderWithEnvironment(
-    <Route path="/:levelId/:trainingId">
+    <Route path="/:levelId/=)">
       <TrainingsConveyor
         trainingLevel={trainingLevel}
         selectedTrainingTypes={[0]}
@@ -32,7 +32,7 @@ const setup = ({ initialState } = {}) => {
     </Route>,
     {
       initialState: { auth: { token: accessData.token }, ...initialState },
-      route: `/${trainingLevel.levelId}/0`
+      route: `/${trainingLevel.levelId}/=)`
     }
   );
   const clickWordEl = el => fireEvent.click(el);

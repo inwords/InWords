@@ -14,7 +14,7 @@ function HistoryTrainingSwitcher() {
 
   const history = useHistory();
 
-  const { levelId: paramLevelId, trainingId: paramTrainingId } = useParams();
+  const { levelId: paramLevelId } = useParams();
 
   const handleNextLevel = () => {
     const currentLevelIndex = trainingHistory.findIndex(
@@ -26,9 +26,7 @@ function HistoryTrainingSwitcher() {
       const nextLevel = trainingHistory[nextLevelIndex];
 
       if (nextLevel) {
-        history.push(
-          `/training/history/${nextLevel.levelId}/${paramTrainingId}`
-        );
+        history.push(`/training/history/${nextLevel.levelId}/training`);
         return;
       }
     }
@@ -37,12 +35,14 @@ function HistoryTrainingSwitcher() {
   };
 
   return (
-    <TrainingsConveyor
-      selectedTrainingTypes={selectedTrainingTypes}
-      trainingsSettings={trainingsSettings}
-      handleNextLevel={handleNextLevel}
-      trainingLevel={trainingLevel}
-    />
+    Boolean(selectedTrainingTypes) && (
+      <TrainingsConveyor
+        selectedTrainingTypes={selectedTrainingTypes}
+        trainingsSettings={trainingsSettings}
+        handleNextLevel={handleNextLevel}
+        trainingLevel={trainingLevel}
+      />
+    )
   );
 }
 

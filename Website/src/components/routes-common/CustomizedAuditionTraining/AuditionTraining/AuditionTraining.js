@@ -12,6 +12,9 @@ const NEXT_WORDS_DELAY = 1000;
 
 import './AuditionTraining.css';
 
+const getRandomRightWord = words =>
+  words.length > 1 ? words[Math.round(Math.random())] : words[0];
+
 function AuditionTraining({ trainingLevel, handleEnd }) {
   const [words, setWords] = useState([]);
   const [currentWords, setCurrentWords] = useState([]);
@@ -38,17 +41,16 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
         onSpeech
       })
     );
+
     shuffle(preparedWords);
     setWords(preparedWords);
 
     const currentPreparedWords = preparedWords.slice(0, 2);
     setCurrentWords(currentPreparedWords);
 
-    if (currentPreparedWords.length > 0) {
-      const rightWord = currentPreparedWords[0];
-      setRightWord(rightWord);
-      rightWord.onSpeech();
-    }
+    const rightWord = getRandomRightWord(currentPreparedWords);
+    setRightWord(rightWord);
+    rightWord.onSpeech();
   }, [trainingLevel.wordTranslations]);
 
   const handleClick = id => () => {
@@ -82,19 +84,18 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
           )
         : words;
 
+      if (!restWords.length) {
+        handleEnd(1);
+        return;
+      }
+
       shuffle(restWords);
       setWords(restWords);
       setCurrentWords(restWords.slice(0, 2));
 
-      if (restWords.length > 0) {
-        const rightWord = restWords[0];
-        setRightWord(rightWord);
-        rightWord.onSpeech();
-      }
-
-      if (!restWords.length) {
-        handleEnd(1);
-      }
+      const rightWord = getRandomRightWord(restWords);
+      setRightWord(rightWord);
+      rightWord.onSpeech();
     }, NEXT_WORDS_DELAY);
   };
 
