@@ -8,6 +8,8 @@
 .audition-training-cards {
   margin-bottom: 8px;
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .audition-training-result-icon {

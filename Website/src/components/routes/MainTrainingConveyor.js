@@ -6,7 +6,7 @@ import useTrainingsConfig from 'src/components/routes-common/useTrainingsConfig'
 import useClientTrainingLevel from 'src/components/routes-common/useClientTrainingLevel';
 import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
-function MainTrainingSwitcher({ redirectionUrl }) {
+function MainTrainingConveyor({ redirectionUrl }) {
   const { selectedTrainingTypes, trainingsSettings } = useTrainingsConfig();
 
   const trainingLevel = useClientTrainingLevel(redirectionUrl);
@@ -34,8 +34,8 @@ function MainTrainingSwitcher({ redirectionUrl }) {
   );
 }
 
-MainTrainingSwitcher.propTypes = {
+MainTrainingConveyor.propTypes = {
   redirectionUrl: PropTypes.string.isRequired
 };
 
-export default MainTrainingSwitcher;
+export default MainTrainingConveyor;
