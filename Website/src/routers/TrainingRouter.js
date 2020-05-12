@@ -7,9 +7,9 @@ import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 const MainTrainingTypes = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/MainTrainingTypes')
 );
-const MainTrainingSwitcher = lazy(() =>
+const MainTrainingConveyor = lazy(() =>
   import(
-    /* webpackPrefetch: true */ 'src/components/routes/MainTrainingSwitcher'
+    /* webpackPrefetch: true */ 'src/components/routes/MainTrainingConveyor'
   )
 );
 const TrainingHistory = lazy(() =>
@@ -20,9 +20,9 @@ const HistoryTrainingTypes = lazy(() =>
     /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingTypes'
   )
 );
-const HistoryTrainingSwitcher = lazy(() =>
+const HistoryTrainingConveyor = lazy(() =>
   import(
-    /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingSwitcher'
+    /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingConveyor'
   )
 );
 const WordSets = lazy(() =>
@@ -34,9 +34,9 @@ const WordSetPairs = lazy(() =>
 const WordSetLevels = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/WordSetLevels')
 );
-const WordSetTrainingSwitcher = lazy(() =>
+const WordSetTrainingConveyor = lazy(() =>
   import(
-    /* webpackPrefetch: true */ 'src/components/routes/WordSetTrainingSwitcher'
+    /* webpackPrefetch: true */ 'src/components/routes/WordSetTrainingConveyor'
   )
 );
 
@@ -64,7 +64,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <MainTrainingSwitcher redirectionUrl="/training/main/0" />
+            <MainTrainingConveyor redirectionUrl="/training/main/0" />
           </RouteContainer>
         )}
       />
@@ -102,7 +102,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <HistoryTrainingSwitcher />
+            <HistoryTrainingConveyor />
           </RouteContainer>
         )}
       />
@@ -159,7 +159,7 @@ function TrainingRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <WordSetTrainingSwitcher />
+            <WordSetTrainingConveyor />
           </RouteContainer>
         )}
       />

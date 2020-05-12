@@ -12,9 +12,9 @@ const DictionaryTrainingTypes = lazy(() =>
     /* webpackPrefetch: true */ 'src/components/routes/DictionaryTrainingTypes'
   )
 );
-const MainTrainingSwitcher = lazy(() =>
+const MainTrainingConveyor = lazy(() =>
   import(
-    /* webpackPrefetch: true */ 'src/components/routes/MainTrainingSwitcher'
+    /* webpackPrefetch: true */ 'src/components/routes/MainTrainingConveyor'
   )
 );
 
@@ -53,7 +53,7 @@ function DictionaryRouter() {
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
-            <MainTrainingSwitcher redirectionUrl="/dictionary" />
+            <MainTrainingConveyor redirectionUrl="/dictionary" />
           </RouteContainer>
         )}
       />

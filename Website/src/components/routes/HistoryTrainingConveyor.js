@@ -5,7 +5,7 @@ import useTrainingsConfig from 'src/components/routes-common/useTrainingsConfig'
 import useServerTrainingLevel from 'src/components/routes-common/useServerTrainingLevel';
 import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
-function HistoryTrainingSwitcher() {
+function HistoryTrainingConveyor() {
   const { selectedTrainingTypes, trainingsSettings } = useTrainingsConfig();
 
   const trainingLevel = useServerTrainingLevel();
@@ -46,4 +46,4 @@ function HistoryTrainingSwitcher() {
   );
 }
 
-export default HistoryTrainingSwitcher;
+export default HistoryTrainingConveyor;
