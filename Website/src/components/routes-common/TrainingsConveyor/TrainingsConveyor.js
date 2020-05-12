@@ -132,6 +132,8 @@ function TrainingsConveyor({
   return !resultReady ? (
     <Fragment>
       {(() => {
+        if (open) return null;
+
         switch (restTrainingTypes[0]) {
           case 0:
             return (
