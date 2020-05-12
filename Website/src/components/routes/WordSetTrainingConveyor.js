@@ -5,7 +5,7 @@ import { updateWordSetLevelResult } from 'src/actions/wordSetActions';
 import useServerTrainingLevel from 'src/components/routes-common/useServerTrainingLevel';
 import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
-function WordSetTrainingSwitcher() {
+function WordSetTrainingConveyor() {
   const trainingLevel = useServerTrainingLevel();
 
   const dispatch = useDispatch();
@@ -55,4 +55,4 @@ function WordSetTrainingSwitcher() {
   );
 }
 
-export default WordSetTrainingSwitcher;
+export default WordSetTrainingConveyor;
