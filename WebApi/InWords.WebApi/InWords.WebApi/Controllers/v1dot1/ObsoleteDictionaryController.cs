@@ -1,7 +1,5 @@
 ﻿using InWords.Data.DTO;
 using InWords.Service.Auth.Extensions;
-using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWords;
-using InWords.WebApi.Services.UserWordPairService.Requests.GetLearningWordsIds;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,10 +37,10 @@ namespace InWords.WebApi.Controllers.v1dot1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetTraining()
         {
-            int authorizedId = User.GetUserId();
-            var query = new GetLearningUserWordsQuery(authorizedId);
-            List<WordTranslation> result = await mediator.Send(query).ConfigureAwait(false);
-            return Ok(result);
+            return new ObjectResult(typeof(WordTranslation))
+            {
+                StatusCode = StatusCodes.Status301MovedPermanently,
+            };
         }
 
         /// <summary>
@@ -58,10 +56,10 @@ namespace InWords.WebApi.Controllers.v1dot1
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetTrainingIds()
         {
-            int authorizedId = User.GetUserId();
-            var query = new GetLearningUserWordsIdQuery(authorizedId);
-            List<int> result = await mediator.Send(query).ConfigureAwait(false);
-            return Ok(result);
+            return new ObjectResult(typeof(WordTranslation))
+            {
+                StatusCode = StatusCodes.Status301MovedPermanently,
+            };
         }
     }
 }

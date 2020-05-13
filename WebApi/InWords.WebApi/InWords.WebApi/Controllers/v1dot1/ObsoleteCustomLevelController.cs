@@ -1,6 +1,5 @@
 ﻿using InWords.Data.DTO.GameBox;
 using InWords.Service.Auth.Extensions;
-using InWords.WebApi.Services.UserGameService.GetUsersGameHistory;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -40,13 +39,10 @@ namespace InWords.WebApi.Controllers.v1dot1.CardsGame
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetHistory()
         {
-            int authorizedId = User.GetUserId();
-            var request = new GetUserGameStoryQuery()
+            return new ObjectResult(typeof(LevelInfo))
             {
-                UserId = authorizedId
+                StatusCode = StatusCodes.Status301MovedPermanently,
             };
-            List<LevelInfo> result = await mediator.Send(request).ConfigureAwait(false);
-            return Ok(result);
         }
     }
 }
