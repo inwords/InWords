@@ -46,9 +46,21 @@ function WordSetLevels() {
               <CardHeader title={`Уровень ${level}`} />
               <CardContent>
                 <div>
-                  <Icon color={stars > 0 ? 'gold' : 'disabled'}>star</Icon>
-                  <Icon color={stars > 1 ? 'gold' : 'disabled'}>star</Icon>
-                  <Icon color={stars > 2 ? 'gold' : 'disabled'}>star</Icon>
+                  {Array.apply(null, Array(parseInt(stars / 2))).map(
+                    (_, index) => (
+                      <Icon key={index} color="gold">
+                        star
+                      </Icon>
+                    )
+                  )}
+                  {stars % 2 !== 0 && <Icon color="gold">star_half</Icon>}
+                  {Array.apply(null, Array(parseInt((6 - stars) / 2))).map(
+                    (_, index) => (
+                      <Icon key={index} color="gold">
+                        star_border
+                      </Icon>
+                    )
+                  )}
                 </div>
               </CardContent>
               <CardActions>

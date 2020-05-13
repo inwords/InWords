@@ -41,15 +41,23 @@ function TrainingResult({ score, handleNextLevel, handleReplay }) {
               <Smiley score={score} colorPair={colorPair} />
             </div>
             <div className="training-result-stars">
-              <Icon color={score > 0 ? 'gold' : 'disabled'} fontSize="large">
-                star
-              </Icon>
-              <Icon color={score > 1 ? 'gold' : 'disabled'} fontSize="large">
-                star
-              </Icon>
-              <Icon color={score > 2 ? 'gold' : 'disabled'} fontSize="large">
-                star
-              </Icon>
+              {Array.apply(null, Array(parseInt(score / 2))).map((_, index) => (
+                <Icon key={index} color="gold" fontSize="large">
+                  star
+                </Icon>
+              ))}
+              {score % 2 !== 0 && (
+                <Icon color="gold" fontSize="large">
+                  star_half
+                </Icon>
+              )}
+              {Array.apply(null, Array(parseInt((6 - score) / 2))).map(
+                (_, index) => (
+                  <Icon key={index} color="gold" fontSize="large">
+                    star_border
+                  </Icon>
+                )
+              )}
             </div>
           </Fragment>
         )}
