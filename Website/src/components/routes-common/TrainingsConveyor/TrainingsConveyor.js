@@ -63,11 +63,14 @@ function TrainingsConveyor({
 
   const dispatch = useDispatch();
 
+  const [metricsList, setMetricsList] = useState([]);
   const [newServerLevelId, setNewServerLevelId] = useState(null);
   const [resultReady, setResultReady] = useState(false);
   const [score, setScore] = useState(null);
 
   const handleTrainingEnd = async (trainingType, metrics) => {
+    setMetricsList([...metricsList, metrics]);
+
     if (restTrainingTypes.length > 1) {
       setRestTrainingTypes(restTrainingTypes.slice(1));
       return;
@@ -127,7 +130,12 @@ function TrainingsConveyor({
     }
   };
 
-  if (!processedTrainingLevel) return null;
+  if (
+    !processedTrainingLevel ||
+    !processedTrainingLevel.wordTranslations.length
+  ) {
+    return null;
+  }
 
   return !resultReady ? (
     <Fragment>
