@@ -13,28 +13,27 @@ namespace InWords.WebApi.gRPC.Services
     {
         private readonly IMediator mediator;
         public WordsSetService(IMediator mediator) => this.mediator = mediator;
-        public override async Task<WordSetWordsReply> GetWordsList(WordSetWordsRequest request, ServerCallContext context)
-        => await mediator.AuthorizeHandler<WordSetWordsRequest, WordSetWordsReply>(request, context)
-            .ConfigureAwait(false);
+        public override Task<WordSetWordsReply> GetWordsList(WordSetWordsRequest request, ServerCallContext context)
+        => mediator.AuthorizeHandler<WordSetWordsRequest, WordSetWordsReply>(request, context);
 
-        public override async Task<Empty> ToDictionary(WordSetWordsRequest request, ServerCallContext context)
-        => await mediator.AuthorizeHandler<WordSetWordsRequest, Empty>(request, context)
-            .ConfigureAwait(false);
+        public override Task<Empty> ToDictionary(WordSetWordsRequest request, ServerCallContext context)
+        => mediator.AuthorizeHandler<WordSetWordsRequest, Empty>(request, context);
 
-        public override async Task<WordSetReply> GetSets(Empty request, ServerCallContext context)
-        => await mediator.AuthorizeHandler<Empty, WordSetReply>(request, context)
-            .ConfigureAwait(false);
+        public override Task<WordSetReply> GetSets(Empty request, ServerCallContext context)
+        => mediator.AuthorizeHandler<Empty, WordSetReply>(request, context);
 
-        public override async Task<GetLevelsReply> GetLevels(GetLevelsRequest request, ServerCallContext context)
-        => await mediator.AuthorizeHandler<GetLevelsRequest, GetLevelsReply>(request, context)
-            .ConfigureAwait(false);
+        public override Task<GetLevelsReply> GetLevels(GetLevelsRequest request, ServerCallContext context)
+        => mediator.AuthorizeHandler<GetLevelsRequest, GetLevelsReply>(request, context);
 
-        public override async Task<GetLevelWordsReply> GetLevelWords(GetLevelWordsRequest request, ServerCallContext context)
-        => await mediator.AuthorizeHandler<GetLevelWordsRequest, GetLevelWordsReply>(request, context)
-            .ConfigureAwait(false);
+        public override Task<GetLevelWordsReply> GetLevelWords(GetLevelWordsRequest request, ServerCallContext context)
+        => mediator.AuthorizeHandler<GetLevelWordsRequest, GetLevelWordsReply>(request, context);
 
-        public override async Task<GameScoreReply> History(Empty request, ServerCallContext context)
-        => await mediator.AuthorizeHandler<Empty, GameScoreReply>(request, context)
-            .ConfigureAwait(false);
+        public override Task<GameScoreReply> History(Empty request, ServerCallContext context)
+        => mediator.AuthorizeHandler<Empty, GameScoreReply>(request, context);
+
+        public override Task<TrainingScoreReply> Estimate(TrainingDataRequest request, ServerCallContext context)
+        {
+            return base.Estimate(request, context);
+        }
     }
 }

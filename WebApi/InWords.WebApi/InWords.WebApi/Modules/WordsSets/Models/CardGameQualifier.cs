@@ -1,19 +1,20 @@
 ﻿using InWords.Common.Extensions;
 using InWords.Data.DTO.Enums;
 using InWords.WebApi.Model.UserWordPair;
+using System;
 using System.Collections.Generic;
 
-namespace InWords.WebApi.Modules.ClassicCardGame.Service
+namespace InWords.WebApi.Modules.WordsSets.Models
 {
     public sealed class CardGameQualifier : IKnowledgeQualifier
     {
-        private readonly Dictionary<int, int> levelMetricQuery;
-        public CardGameQualifier(Dictionary<int, int> levelMetricQuery)
+        public int Complexity => 8;
+        private readonly IDictionary<int, int> levelMetricQuery;
+        public CardGameQualifier(IDictionary<int, int> levelMetricQuery)
         {
             this.levelMetricQuery = levelMetricQuery;
         }
-
-        Dictionary<int, KnowledgeQualities> IKnowledgeQualifier.Qualify()
+        public Dictionary<int, KnowledgeQualities> Qualify()
         {
             var qualifyPairs = new Dictionary<int, KnowledgeQualities>();
 

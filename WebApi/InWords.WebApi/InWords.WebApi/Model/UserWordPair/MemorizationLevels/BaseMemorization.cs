@@ -4,9 +4,17 @@ namespace InWords.WebApi.Model.UserWordPair
 {
     public abstract class BaseMemorization
     {
-        public virtual Memorization Grant(Memorization currentMemorization)
+        /// <summary>
+        /// </summary>
+        /// <param name="currentMemorization">Complexity of the game from 0 to 1]</param>
+        /// <param name="complexity"></param>
+        /// <returns></returns>
+        public virtual Memorization Grant(Memorization currentMemorization, double complexity)
         {
-            int days = Ebbinghaus(currentMemorization.Period);
+            if (complexity > 1.0 || complexity < 0.0)
+                throw new ArgumentOutOfRangeException(nameof(complexity));
+
+            int days = Ebbinghaus(currentMemorization.Period,complexity);
             currentMemorization.RepeatTime = DateTime.UtcNow.AddDays(days);
             return currentMemorization;
         }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
 import shuffle from 'src/utils/shuffle';
 import FadeAnimation from 'src/components/core/FadeAnimation';
 import Fade from 'src/components/core/Fade';
@@ -12,84 +11,76 @@ const NEXT_WORDS_DELAY = 1000;
 
 import './AuditionTraining.css';
 
-const getRandomRightWord = words =>
-  words.length > 1 ? words[Math.round(Math.random())] : words[0];
-
 function AuditionTraining({ trainingLevel, handleEnd }) {
   const [words, setWords] = useState([]);
+  const [restWords, setRestWords] = useState([]);
   const [currentWords, setCurrentWords] = useState([]);
   const [rightWord, setRightWord] = useState({});
   const [selectedWordId, setSelectedWordId] = useState(-1);
-  const [rightSelectedWordId, setRightSelectedWordId] = useState(-1);
-  const [wrongSelectedWordId, setWrongSelectedWordId] = useState(-1);
+  const [metrics, setMetrics] = useState({});
 
   const resetWords = () => {
     setCurrentWords([]);
     setRightWord(-1);
     setSelectedWordId(-1);
-    setRightSelectedWordId(-1);
-    setWrongSelectedWordId(-1);
   };
 
-  const prepareRightWords = useCallback(words => {
-    const newCurrentWords = words.slice(0, 2);
+  const prepareNextWords = useCallback((words, restWords) => {
+    const rightWord = shuffle([...restWords])[0];
+    let newCurrentWords = [rightWord];
+    if (words.length > 1) {
+      newCurrentWords.push(
+        shuffle([...words]).filter(({ id }) => id !== rightWord.id)[0]
+      );
+    }
+    shuffle(newCurrentWords);
     setCurrentWords(newCurrentWords);
 
-    const rightWord = getRandomRightWord(newCurrentWords);
     setRightWord(rightWord);
-
     rightWord.onSpeech();
   }, []);
 
   useEffect(() => {
-    if (!trainingLevel.wordTranslations.length) return;
-
     resetWords();
 
     const preparedWords = trainingLevel.wordTranslations.map(
-      ({ wordForeign, onSpeech }) => ({
-        id: uuidv4(),
+      ({ serverId, wordForeign, onSpeech }) => ({
+        id: serverId,
         title: wordForeign,
         onSpeech
       })
     );
 
-    shuffle(preparedWords);
     setWords(preparedWords);
-
-    prepareRightWords(preparedWords);
-  }, [trainingLevel.wordTranslations, prepareRightWords]);
+    setRestWords(preparedWords);
+    prepareNextWords(preparedWords, preparedWords);
+  }, [trainingLevel.wordTranslations, prepareNextWords]);
 
   const handleClick = id => () => {
     if (selectedWordId !== -1) return;
 
     setSelectedWordId(id);
 
-    const isError = id !== rightWord.id;
-    if (isError) {
-      setWrongSelectedWordId(id);
-    } else {
-      setRightSelectedWordId(id);
-    }
+    setMetrics({
+      ...metrics,
+      [id]: metrics[id] ? metrics[id] + 1 : 1
+    });
 
     setTimeout(() => {
       resetWords();
 
-      const restWords = !isError
-        ? words.filter(
-            ({ id }) => !currentWords.find(currentWord => id === currentWord.id)
-          )
-        : words;
+      let newRestWords = restWords;
+      if (id === rightWord.id) {
+        newRestWords = restWords.filter(({ id }) => id !== rightWord.id);
+        setRestWords(newRestWords);
 
-      if (!restWords.length) {
-        handleEnd(1);
-        return;
+        if (!newRestWords.length) {
+          handleEnd(1, metrics);
+          return;
+        }
       }
 
-      shuffle(restWords);
-      setWords(restWords);
-
-      prepareRightWords(restWords);
+      prepareNextWords(words, newRestWords);
     }, NEXT_WORDS_DELAY);
   };
 
@@ -112,9 +103,9 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
                   data-testid={`card-${id}`}
                   open
                   color={
-                    rightSelectedWordId === id
+                    id === rightWord.id && id === selectedWordId
                       ? 'success'
-                      : wrongSelectedWordId === id
+                      : id !== rightWord.id && id === selectedWordId
                       ? 'error'
                       : null
                   }
