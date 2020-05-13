@@ -37,23 +37,28 @@ function WordPairEditDialogContainer({
         wordNative: inputs.wordNative.trim()
       };
 
-      try {
-        const { wordIds } = await dispatch(updateWordPairs([preparedPair]));
-        dispatch(
-          updateWordPairsLocal([
-            {
-              ...preparedPair,
-              oldServerId: wordPair.serverId,
-              serverId: wordIds[0].serverId
-            }
-          ])
-        );
-      } catch (error) {
-        dispatch(
-          setSnackbar({
-            text: 'Не удалось изменить слова'
-          })
-        );
+      if (
+        preparedPair.wordForeign !== wordPair.wordForeign ||
+        preparedPair.wordNative !== wordPair.wordNative
+      ) {
+        try {
+          const { wordIds } = await dispatch(updateWordPairs([preparedPair]));
+          dispatch(
+            updateWordPairsLocal([
+              {
+                ...preparedPair,
+                oldServerId: wordPair.serverId,
+                serverId: wordIds[0].serverId
+              }
+            ])
+          );
+        } catch (error) {
+          dispatch(
+            setSnackbar({
+              text: 'Не удалось изменить слова'
+            })
+          );
+        }
       }
     }
   );
