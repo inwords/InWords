@@ -68,8 +68,7 @@ namespace InWords.WebApi.Modules.WordsSets
                     w += 0.1;
                 weight.Add(id, w * 0.8);
             }
-            existedWords.UpdateMemorisation(dic1.Union(dic2), 0.8);
-
+            //existedWords.UpdateMemorisation(dic1.Union(dic2), 0.8);
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
             // calculate card stars

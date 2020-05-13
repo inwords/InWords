@@ -73,6 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InWords.Business\InWords.Business.fsproj" />
     <ProjectReference Include="..\InWords.Common\InWords.Common.csproj" />
     <ProjectReference Include="..\InWords.Data.DTO\InWords.Data.DTO.csproj" />
     <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
