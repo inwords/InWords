@@ -27,7 +27,7 @@ namespace InWords.WebApi.gRPC.Services
             => mediator.AuthorizeHandler<DeleteWordsRequest, Empty>(request, context);
 
         public override Task<LookupReply> Lookup(LookupRequest request, ServerCallContext context)
-            => mediator.AuthorizeHandler<LookupRequest, LookupReply>(request, context);
+            => mediator.AnonimousHandler<LookupRequest, LookupReply>(request, context);
 
         public override Task<TrainingReply> Training(Empty request, ServerCallContext context)
             => mediator.AuthorizeHandler<Empty, TrainingReply>(request, context);
