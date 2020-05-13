@@ -55,7 +55,7 @@ function WordSetLevels() {
                 <LinkButton
                   data-testid={`to-level-${levelId}`}
                   component={Link}
-                  to={`${match.url}/${levelId}/0`}
+                  to={`${match.url}/${levelId}/=)`}
                   disabled={!isAvailable}
                   variant="text"
                   color="primary"

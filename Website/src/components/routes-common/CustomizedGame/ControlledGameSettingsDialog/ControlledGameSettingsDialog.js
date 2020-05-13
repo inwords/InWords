@@ -10,7 +10,7 @@ function ControlledGameSettingsDialog(props) {
 
   return (
     <Fragment>
-      <IconButton onClick={handleOpen} edge="start">
+      <IconButton onClick={handleOpen} edge="end">
         <Icon>settings</Icon>
       </IconButton>
       <GameSettingsDialog open={open} handleClose={handleClose} {...props} />

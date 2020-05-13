@@ -13,7 +13,7 @@ import CardActions from 'src/components/core/CardActions';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
 
-const traininTypesMap = {
+const trainingTypesMap = {
   0: 'Закрытые карточки'
 };
 
@@ -42,7 +42,7 @@ function TrainingHistory() {
           <Card>
             <CardContent>
               <Typography component="h2" variant="h6">
-                {traininTypesMap[gameType] || 'Неизвестная тренировка'}
+                {trainingTypesMap[gameType] || 'Неизвестная тренировка'}
               </Typography>
               <Typography component="p" color="text-secondary" gutterBottom>
                 #{levelId}
@@ -55,9 +55,9 @@ function TrainingHistory() {
             </CardContent>
             <CardActions>
               <LinkButton
-                data-testid={`to-training-${levelId}-${gameType}`}
+                data-testid={`to-level-${levelId}`}
                 component={RouterLink}
-                to={`${match.url}/${levelId}/${gameType}`}
+                to={`${match.url}/${levelId}`}
                 variant="text"
                 color="primary"
               >

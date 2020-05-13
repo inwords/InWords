@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import ListItemContainer from 'src/components/core/ListItemContainer';
 import ListItem from 'src/components/core/ListItem';
 import ListItemText from 'src/components/core/ListItemText';
 import ListItemSecondaryAction from 'src/components/core/ListItemSecondaryAction';
 import ListItemIcon from 'src/components/core/ListItemIcon';
 import Checkbox from 'src/components/core/Checkbox';
-import SpeechButton from './SpeechButton';
+import SpeechButton from 'src/components/routes-common/SpeechButton';
 
-import './WordlistItem.css';
+import './WordlistItem.scss';
 
 function WordlistItem({
   data: {
@@ -22,7 +23,8 @@ function WordlistItem({
   style
 }) {
   const wordPair = wordPairs[index];
-  const { serverId, onSpeech } = wordPair;
+  const { serverId, period = 0, onSpeech } = wordPair;
+  const acceptablePeriod = period <= 5 ? period : 5;
 
   return (
     <ListItemContainer style={style}>
@@ -35,6 +37,12 @@ function WordlistItem({
         hasSecondaryAction
         className="wordlist-item"
       >
+        <div
+          className={classNames('wordlist-item-progress', {
+            [`wordlist-item-progress--${acceptablePeriod}`]:
+              acceptablePeriod > 0
+          })}
+        />
         <ListItemIcon>
           <Checkbox
             inputProps={{
@@ -70,6 +78,7 @@ WordlistItem.propTypes = {
         serverId: PropTypes.number.isRequired,
         wordForeign: PropTypes.string.isRequired,
         wordNative: PropTypes.string.isRequired,
+        period: PropTypes.number,
         onSpeech: PropTypes.func.isRequired
       }).isRequired
     ).isRequired,

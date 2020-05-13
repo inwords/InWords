@@ -26,17 +26,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\ObsoleteGameService\Commands\**" />
-    <Compile Remove="Services\ObsoleteUserWordPairService\Models\**" />
     <Compile Remove="wwwroot\**" />
-    <Content Remove="Services\ObsoleteGameService\Commands\**" />
-    <Content Remove="Services\ObsoleteUserWordPairService\Models\**" />
     <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="Services\ObsoleteGameService\Commands\**" />
-    <EmbeddedResource Remove="Services\ObsoleteUserWordPairService\Models\**" />
     <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="Services\ObsoleteGameService\Commands\**" />
-    <None Remove="Services\ObsoleteUserWordPairService\Models\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
 

@@ -1,0 +1,44 @@
+@import 'src/theme/mixins';
+
+.training-card {
+  position: relative;
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  cursor: pointer;
+  background-color: var(--palette-primary);
+  transition: box-shadow var(--transition-duration-short)
+    var(--transition-easing-ease-in-out);
+
+  @include theme-typography(body1);
+}
+
+.training-card-content-container {
+  width: 100%;
+  height: 100%;
+}
+
+.training-card-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background-color: var(--palette-background-paper);
+  transition: background-color var(--transition-duration-shortest)
+    var(--transition-easing-ease-in-out);
+
+  &--color--success {
+    background-color: var(--palette-success-light);
+  }
+  &--color--error {
+    background-color: var(--palette-error-light);
+  }
+}
+
+.training-card-text {
+  width: 100%;
+  padding: 8px;
+  text-align: center;
+  word-wrap: break-word;
+  font-weight: 500;
+}

@@ -18,10 +18,6 @@ namespace InWords.Data
 
         public DbSet<Language> Languages { get; set; }
 
-        public DbSet<Word> Words { get; set; }
-
-        public DbSet<WordPair> WordPairs { get; set; }
-
         public DbSet<UserWordPair> UserWordPairs { get; set; }
 
         public DbSet<Game> Games { get; set; }
@@ -48,10 +44,6 @@ namespace InWords.Data
             modelBuilder.Entity<OAuth>(e =>
             {
                 e.HasIndex(e => e.OpenId).IsUnique();
-            });
-            modelBuilder.Entity<Word>(entity =>
-            {
-                entity.HasIndex(e => e.Content).IsUnique();
             });
         }
 

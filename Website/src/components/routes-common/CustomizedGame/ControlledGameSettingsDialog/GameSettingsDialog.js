@@ -13,7 +13,7 @@ import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
 import Slider from 'src/components/core/Slider';
 
-function GameSettingsDialogContainer({
+function GameSettingsDialog({
   open,
   handleClose,
   trainingSettings,
@@ -24,26 +24,19 @@ function GameSettingsDialogContainer({
   useEffect(() => {
     if (open) {
       const {
-        quantity = '8',
         voiceOn = false,
-        listOn = false,
         cardDimension = '120',
         cardTextSize = '16'
       } = trainingSettings;
 
-      setInputs({ quantity, voiceOn, listOn, cardDimension, cardTextSize });
+      setInputs({ voiceOn, cardDimension, cardTextSize });
     }
   }, [trainingSettings, open, setInputs]);
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    saveValue('trainingsSettings', {
-      [0]: {
-        ...inputs
-      }
-    });
-
+    saveValue('trainingSettings-0', inputs);
     setTrainingSettings(inputs);
   };
 
@@ -64,18 +57,6 @@ function GameSettingsDialogContainer({
             handleClose();
           }}
         >
-          <FormGroup>
-            <Typography component="p" variant="body2" gutterBottom>
-              Максимум слов в тренировке: {inputs.quantity}
-            </Typography>
-            <Slider
-              name="quantity"
-              min="2"
-              max="8"
-              value={inputs.quantity}
-              onChange={handleChange}
-            />
-          </FormGroup>
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
               Размер карточки: {inputs.cardDimension}px
@@ -115,19 +96,6 @@ function GameSettingsDialogContainer({
               </Typography>
             </FormControlLabel>
           </div>
-          <div>
-            <FormControlLabel>
-              <Checkbox
-                name="listOn"
-                checked={inputs.listOn}
-                onChange={handleChange}
-                edge="start"
-              />
-              <Typography variant="body2">
-                Показывать слова перед тренировкой
-              </Typography>
-            </FormControlLabel>
-          </div>
         </form>
       </DialogContent>
       <DialogActions>
@@ -147,17 +115,15 @@ function GameSettingsDialogContainer({
   );
 }
 
-GameSettingsDialogContainer.propTypes = {
+GameSettingsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   trainingSettings: PropTypes.shape({
-    quantity: PropTypes.string,
     voiceOn: PropTypes.bool,
-    listOn: PropTypes.bool,
     cardDimension: PropTypes.string,
     cardTextSize: PropTypes.string
   }).isRequired,
   setTrainingSettings: PropTypes.func.isRequired
 };
 
-export default GameSettingsDialogContainer;
+export default GameSettingsDialog;
