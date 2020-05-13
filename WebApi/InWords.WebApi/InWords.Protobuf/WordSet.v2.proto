@@ -17,6 +17,31 @@ service WordSetProvider {
 	rpc GetLevels (GetLevelsRequest) returns (GetLevelsReply);
 	rpc GetLevelWords (GetLevelWordsRequest) returns (GetLevelWordsReply);
 	rpc History (Common.v2.Empty) returns (GameScoreReply);
+	rpc Estimate (TrainingData)
+}
+
+message TrainingScoreReply{
+	message TraininScore{
+		message CardsStatus{
+			int32 score = 1;
+		}
+		message AuditionStatus{
+			int32 score = 1;
+		}
+		int32 gameLevelId = 1;
+		CardsStatus cardsStatus = 2;
+		AuditionStatus auditionStatus = 3;
+	}
+	repeated TraininScore Scores = 1;
+}
+
+message TrainingDataRequest{
+	message TrainingMetric{
+		int32 gameLevelId = 1;
+		map<int32,int32> AuditionWordIdOpenCount = 2;
+		map<int32,int32> CardsWordIdOpenCount = 3;
+	}
+	repeated TrainingMetric Metrics = 1;
 }
 
 message GameScoreReply{
