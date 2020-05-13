@@ -15,12 +15,5 @@ namespace InWords.Data.Creations.GameBox
 
         [MaxLength(128)] public string ForeignWord { get; set; }
         [MaxLength(128)] public string NativeWord { get; set; }
-
-        #region obsolete
-        [Obsolete] public int WordPairId { get; set; }
-
-        [Obsolete] [ForeignKey(nameof(WordPairId))] public virtual WordPair WordPair { get; set; }
-
-        #endregion
     }
 }
