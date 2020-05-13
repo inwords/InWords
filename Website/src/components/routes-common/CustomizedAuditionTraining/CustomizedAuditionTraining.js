@@ -1,10 +1,7 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { loadValue } from 'src/localStorage';
-import Paper from 'src/components/core/Paper';
-import Toolbar from 'src/components/core/Toolbar';
-import Typography from 'src/components/core/Typography';
-import Space from 'src/components/core/Space';
+import CustomizedTrainingWrapper from 'src/components/routes-common/CustomizedTrainingWrapper';
 import AuditionTraining from './AuditionTraining';
 import ControlledAuditionTrainingSettingsDialog from './ControlledAuditionTrainingSettingsDialog';
 
@@ -28,24 +25,23 @@ function CustomizedAuditionTraining({ trainingLevel, handleEnd }) {
   }, [trainingLevel, trainingSettings]);
 
   return (
-    <Fragment>
-      <Paper>
-        <Toolbar variant="dense">
-          <Typography variant="h6">Аудирование</Typography>
-          <Space />
-          <ControlledAuditionTrainingSettingsDialog
-            trainingSettings={trainingSettings}
-            setTrainingSettings={setTrainingSettings}
-          />
-        </Toolbar>
-      </Paper>
+    <CustomizedTrainingWrapper
+      title="Аудирование"
+      rightToolbarNodes={[
+        <ControlledAuditionTrainingSettingsDialog
+          key={0}
+          trainingSettings={trainingSettings}
+          setTrainingSettings={setTrainingSettings}
+        />
+      ]}
+    >
       {Boolean(processedTrainingLevel) && (
         <AuditionTraining
           trainingLevel={processedTrainingLevel}
           handleEnd={handleEnd}
         />
       )}
-    </Fragment>
+    </CustomizedTrainingWrapper>
   );
 }
 

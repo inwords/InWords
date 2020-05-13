@@ -14,7 +14,7 @@ function Game({ trainingLevel, handleEnd }) {
   const [rightSelectedPairId, setRightSelectedPairId] = useState(-1);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
   const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
-  const [wordPairIdOpenCountsMap, setWordPairIdOpenCountsMap] = useState({});
+  const [metrics, setMetrics] = useState({});
 
   useEffect(() => {
     const preparedWordPairs = flatMap(
@@ -73,12 +73,10 @@ function Game({ trainingLevel, handleEnd }) {
         })
       );
 
-      setWordPairIdOpenCountsMap(wordPairIdOpenCountsMap => ({
-        ...wordPairIdOpenCountsMap,
-        [pairId]: wordPairIdOpenCountsMap[pairId]
-          ? wordPairIdOpenCountsMap[pairId] + 1
-          : 1
-      }));
+      setMetrics({
+        ...metrics,
+        [pairId]: metrics[pairId] ? metrics[pairId] + 1 : 1
+      });
     }
 
     let newCompletedPairIdsMap = completedPairIdsMap;
@@ -97,7 +95,7 @@ function Game({ trainingLevel, handleEnd }) {
 
         if (isGameCompleted(newCompletedPairIdsMap)) {
           setTimeout(() => {
-            handleEnd(0, wordPairIdOpenCountsMap);
+            handleEnd(0, metrics);
           }, GAME_COMPLETION_DELAY);
         }
       } else {
