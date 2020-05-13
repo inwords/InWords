@@ -17,7 +17,7 @@ service WordSetProvider {
 	rpc GetLevels (GetLevelsRequest) returns (GetLevelsReply);
 	rpc GetLevelWords (GetLevelWordsRequest) returns (GetLevelWordsReply);
 	rpc History (Common.v2.Empty) returns (GameScoreReply);
-	rpc Estimate (TrainingData)
+	rpc Estimate (TrainingDataRequest) returns (TrainingScoreReply);
 }
 
 message TrainingScoreReply{

@@ -1,7 +1,9 @@
 ﻿using InWords.Common.Extensions;
 using InWords.Data;
 using InWords.Data.Creations;
+using InWords.Data.Creations.GameBox;
 using InWords.Data.Enums;
+using InWords.WebApi.Extensions.InWordsDataContextExtention;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +66,64 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
                 historyGameId = game.GameId;
             }
             return historyGameId;
+        }
+
+        public static async Task<int[]> CreateLevels(this InWordsDataContext context, int gameId, int userId, IList<int[]> pairsInLevels) 
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            if (pairsInLevels == null)
+                pairsInLevels = Array.Empty<int[]>();
+
+            // create levles
+            var levels = pairsInLevels.Select(d =>
+            {
+                var game = new GameLevel()
+                {
+                    GameId = gameId
+                };
+                context.Add(game);
+                return game;
+            }).ToArray();
+
+            await context.SaveChangesAsync().ConfigureAwait(false);
+
+            // fill levels with words
+            for (int i = 0; i < pairsInLevels.Count; i++)
+            {
+                var currentLevel = levels[i];
+                int[] currentWordsIds = pairsInLevels[i].ToArray();
+
+                var currentWords = context.CurrentUserWordPairs(userId)
+                    .Where(u => currentWordsIds.Contains(u.UserWordPairId))
+                    .ToArray();
+
+                var gameLevelWords = currentWords.Select(w => new GameLevelWord()
+                {
+                    ForeignWord = w.ForeignWord,
+                    NativeWord = w.NativeWord,
+                    GameLevelId = currentLevel.GameLevelId,
+                }).ToArray();
+
+                context.GameLevelWords.AddRange(gameLevelWords);
+            }
+            await context.SaveChangesAsync().ConfigureAwait(false);
+
+            return levels.Select(level => level.GameLevelId).ToArray();
+        }
+        
+        /// <summary>
+        /// GetOrAdd history usergame and save levels in game levels. Return levels ids.
+        /// </summary>
+        /// <param name="context">database context</param>
+        /// <param name="userId">auhtorized user identity</param>
+        /// <param name="levelsWords">words id array in list of levels</param>
+        /// <returns>Levels ids</returns>
+        public static async Task<int[]> CreateLevels(this InWordsDataContext context, int userId, IList<int[]> levelsWords) 
+        {
+            var historyGameId = await context.AddOrGetUserHistoryGame(userId).ConfigureAwait(false);
+            var levels = await context.CreateLevels(historyGameId, userId, levelsWords).ConfigureAwait(false);
+            return levels;
         }
     }
 }

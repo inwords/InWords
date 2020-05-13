@@ -16,11 +16,11 @@ namespace InWords.WebApi.Model.UserWordPair
             {KnowledgeQualities.NoLongerRemember, new UncertainMemorization()}
         };
 
-        public static Memorization Update(Memorization knowledgeLicense, KnowledgeQualities knowledgeQuality)
+        public static Memorization Update(Memorization knowledgeLicense, KnowledgeQualities knowledgeQuality,double complexity)
         {
             if (IsOkButBeforeTime(knowledgeLicense, knowledgeQuality))
                 knowledgeQuality = KnowledgeQualities.StillRemember;
-            return KnowledgeLicenseProviders[knowledgeQuality].Grant(knowledgeLicense);
+            return KnowledgeLicenseProviders[knowledgeQuality].Grant(knowledgeLicense,complexity);
         }
 
         private static bool IsOkButBeforeTime(Memorization knowledgeLicense, KnowledgeQualities knowledgeQuality)

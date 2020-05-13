@@ -115,7 +115,7 @@ namespace InWords.WebApi.Services.GameService.Requests.SendLevelsMetric
             foreach (UserWordPair uwp in dictionary.Keys)
             {
                 var knowledgeLicense =
-                    MemorizationCalculator.Update(dictionary[uwp], knowledgeQualities[uwp.WordPairId]);
+                    MemorizationCalculator.Update(dictionary[uwp], knowledgeQualities[uwp.WordPairId],0.8);
                 uwp.LearningPeriod = knowledgeLicense.Period;
                 uwp.TimeGap = knowledgeLicense.RepeatTime;
             }
