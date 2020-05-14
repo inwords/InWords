@@ -39,8 +39,8 @@ namespace InWords.WebApi.Modules.WordsSets
 
             // configure game level managers
             var cardGameManager = metrics
-                .Select(d => new CardGameLevel(d.GameLevelId, d.CardsMetric.CardsWordIdOpenCount) as IGameLevel)
-                .Union(metrics.Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.AuditionWordIdOpenCount)));
+                .Select(d => new CardGameLevel(d.GameLevelId, d.CardsMetric.WordIdOpenCount) as IGameLevel)
+                .Union(metrics.Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)));
             // TO-DO just union more levels types
 
             var scoreTask = cardGameManager.Select(d => d.Score());

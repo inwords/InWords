@@ -18,8 +18,8 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
             var historyGames = metrics.Where(d => d.GameLevelId == default).ToArray();
             var levelsToCreate = historyGames
                 .Select(
-                d => d.CardsMetric.CardsWordIdOpenCount.Select(d => d.Key)
-                .Union(d.AuditionMetric.AuditionWordIdOpenCount.Select(d => d.Key))
+                d => d.CardsMetric.WordIdOpenCount.Select(d => d.Key)
+                .Union(d.AuditionMetric.WordIdOpenCount.Select(d => d.Key))
                 // union with others levles types
                 .ToArray()).ToList();
             var createdIds = await context.CreateLevels(userId, levelsToCreate).ConfigureAwait(false);

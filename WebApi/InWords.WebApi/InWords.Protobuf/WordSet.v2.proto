@@ -38,10 +38,10 @@ message TrainingScoreReply{
 message TrainingDataRequest{
 	message Training{
 		message CardsMetric{
-			map<int32,int32> CardsWordIdOpenCount = 1;		
+			map<int32,int32> wordIdOpenCount = 1;		
 		}
 		message AuditionMetric{
-			map<int32,int32> AuditionWordIdOpenCount = 1;
+			map<int32,int32> wordIdOpenCount = 1;
 		}
 		int32 gameLevelId = 1;
 		CardsMetric cardsMetric = 2;
