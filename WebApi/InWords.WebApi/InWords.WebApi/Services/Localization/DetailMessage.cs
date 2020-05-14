@@ -9,5 +9,7 @@ namespace InWords.WebApi.Services
     {
         UserNickNotFound,
         UserIdNotFound,
+        EmailconfirmationNotfound,
+        LinkInvalid
     }
 }

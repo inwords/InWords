@@ -120,6 +120,12 @@
   <data name="Admin" xml:space="preserve">
     <value>Администратор</value>
   </data>
+  <data name="EmailconfirmationNotfound" xml:space="preserve">
+    <value>Ключ подтверждения не найден</value>
+  </data>
+  <data name="LinkInvalid" xml:space="preserve">
+    <value>Ссылка имеет неверный формат</value>
+  </data>
   <data name="Unverified" xml:space="preserve">
     <value>Гость</value>
   </data>

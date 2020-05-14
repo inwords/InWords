@@ -120,6 +120,12 @@
   <data name="Admin" xml:space="preserve">
     <value>Admin</value>
   </data>
+  <data name="EmailconfirmationNotfound" xml:space="preserve">
+    <value>The confirmation key was not found</value>
+  </data>
+  <data name="LinkInvalid" xml:space="preserve">
+    <value>The link has an invalid format</value>
+  </data>
   <data name="Unverified" xml:space="preserve">
     <value>Unverified</value>
   </data>

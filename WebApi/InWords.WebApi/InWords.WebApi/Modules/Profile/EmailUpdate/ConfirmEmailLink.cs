@@ -1,9 +1,12 @@
-﻿using InWords.Data;
+﻿using Grpc.Core;
+using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Services.Localization;
 using InWords.WebApi.Services.Users.Extentions;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,12 +27,18 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             var link = request.Value.ActivationGuid;
 
             if (!Guid.TryParse(link, out Guid guid))
-                throw new ArgumentException($"{nameof(link)} is invalid");
+            {
+                request.StatusCode = StatusCode.InvalidArgument;
+                request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.LinkInvalid);
+            }
 
             EmailVerifies linkedEmail = await Context.EmailVerifies.FindAsync(guid);
 
-            if (linkedEmail == null)
-                throw new ArgumentNullException($"{nameof(linkedEmail)} not found");
+            if (linkedEmail == null) 
+            {
+                request.StatusCode = StatusCode.NotFound;
+                request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.EmailconfirmationNotfound); 
+            }
 
             // set new email to account
             Account account = await Context.Accounts.FindAsync(linkedEmail.UserId).ConfigureAwait(false);
