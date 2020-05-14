@@ -9,6 +9,8 @@ namespace InWords.Data.Creations.GameBox
 {
     public class UserGameLevel
     {
+        public const int MAXSTARS = 6;
+        public const int MINSTARS = 0;
         [Key] public int UserGameLevelId { get; set; }
 
         [Required] public int UserId { get; set; }
@@ -19,10 +21,8 @@ namespace InWords.Data.Creations.GameBox
 
         [ForeignKey(nameof(GameLevelId))] public virtual GameLevel GameLevel { get; set; }
 
-        [Required] public int UserStars { get; set; }
+        [Required] [Range(MINSTARS,MAXSTARS)]public int UserStars { get; set; }
         [Required] public GameType GameType { get; set; }
-
-        #region ctor
 
         public UserGameLevel()
         {
@@ -34,7 +34,5 @@ namespace InWords.Data.Creations.GameBox
             GameLevelId = gameLevelId;
             UserStars = userStars;
         }
-
-        #endregion
     }
 }
