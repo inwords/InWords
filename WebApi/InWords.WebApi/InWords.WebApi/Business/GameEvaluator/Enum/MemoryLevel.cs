@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InWords.Common.GameEvaluator.Enum
+namespace InWords.WebApi.Business.GameEvaluator.Enum
 {
     public enum MemoryLevel
     {

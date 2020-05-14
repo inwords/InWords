@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InWords.Common.GameEvaluator.Game
+namespace InWords.WebApi.Business.GameEvaluator.Game
 {
     public class CardGame : BaseGame
     {
         public CardGame(Dictionary<int, int> metrics)
         {
-            this.WordIdOpenCount = metrics;
+            WordIdOpenCount = metrics;
         }
         public override void Qualify()
         {

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Utils\EmailHider.fs" />
     <Compile Include="GameEvaluator\Library.fs" />
   </ItemGroup>
 

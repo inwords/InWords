@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InWords.Common.GameEvaluator.Game
+namespace InWords.WebApi.Business.GameEvaluator.Game
 {
     public abstract class BaseGame : IGame
     {
