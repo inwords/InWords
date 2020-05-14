@@ -19,8 +19,8 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
 
         public abstract GameType Type { get; }
 
-        public abstract LevelScore Score()
+        public abstract LevelScore Score();
 
-        public abstract IList<WordKnowledge> Qualify()
+        public abstract IList<WordKnowledge> Qualify();
     }
 }

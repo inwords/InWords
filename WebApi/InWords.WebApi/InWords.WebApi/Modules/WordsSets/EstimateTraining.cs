@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.Collections;
 using InWords.Data;
+using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Business.GameEvaluator.Game;
 using InWords.WebApi.Extensions.InWordsDataContextExtentions;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static InWords.Protobuf.TrainingScoreReply.Types;
 
 namespace InWords.WebApi.Modules.WordsSets
 {
@@ -37,20 +39,45 @@ namespace InWords.WebApi.Modules.WordsSets
 
             // configure game level managers
             var cardGameManager = metrics
-                .Select(d => new CardGameLevel(d.GameLevelId, d.CardsWordIdOpenCount) as IGameLevel)
-                .Union(metrics.Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionWordIdOpenCount)));
+                .Select(d => new CardGameLevel(d.GameLevelId, d.CardsMetric.CardsWordIdOpenCount) as IGameLevel)
+                .Union(metrics.Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.AuditionWordIdOpenCount)));
             // TO-DO just union more levels types
 
             var scoreTask = cardGameManager.Select(d => d.Score());
-            var wordsMemoryTask = cardGameManager.Select(d => d.Qualify());
-            
+            var wordsMemoryTask = cardGameManager.SelectMany(d => d.Qualify());
+
             // TODO save history games
-            Context.AddOrUpdateUserGameLevel(scoreTask, userId);
-
-
-            // calculate words metrics
+            var scoreTaskResult = Context.AddOrUpdateUserGameLevel(scoreTask, userId);
+            Context.UpdateMemorization(wordsMemoryTask, userId);
             await Context.SaveChangesAsync().ConfigureAwait(false);
-            return await base.HandleRequest(request, cancellationToken).ConfigureAwait(false);
+
+
+            var dictionary = scoreTaskResult.GroupBy(d => d.GameLevelId, d => d).ToDictionary(d => d.Key, d => d.ToList());
+
+            TrainingScoreReply trainingScoreReply = new TrainingScoreReply();
+            foreach (var key in dictionary.Keys)
+            {
+                TrainigScore trainigScore = new TrainigScore
+                {
+                    GameLevelId = key
+                };
+
+                foreach (var score in dictionary[key])
+                {
+                    if (score.GameType == GameType.AudioGame)
+                    {
+                        trainigScore.AuditionStatus.Score = score.UserStars;
+                    }
+                    if (score.GameType == GameType.ClassicCardGame)
+                    {
+                        trainigScore.AuditionStatus.Score = score.UserStars;
+                    }
+                }
+
+                trainingScoreReply.Scores.Add(trainigScore);
+            }
+
+            return trainingScoreReply;
         }
 
     }
