@@ -26,11 +26,7 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
                 .GroupBy(d => d.UserWordPairId)
                 .ToDictionary(
                 d => d.Key, 
-                d => d.Aggregate(
-                    (d, c) => new WordKnowledge(
-                        d.UserWordPairId, 
-                        d.MemoryLevel, // TODO merge memory level 
-                        d.Complexity + c.Complexity)));
+                d => d.Aggregate(WordKnowledge.Agregate));
 
             foreach (var pair in userwordpairs)
             {

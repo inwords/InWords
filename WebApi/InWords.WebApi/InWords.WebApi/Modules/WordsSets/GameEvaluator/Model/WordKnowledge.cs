@@ -1,4 +1,6 @@
 ﻿using InWords.WebApi.Business.GameEvaluator.Enum;
+using InWords.WebApi.Services;
+using InWords.WebApi.Services.Localization;
 using System;
 
 namespace InWords.WebApi.Business.GameEvaluator.Model
@@ -42,6 +44,25 @@ namespace InWords.WebApi.Business.GameEvaluator.Model
         public static bool operator !=(WordKnowledge left, WordKnowledge right)
         {
             return !(left == right);
+        }
+
+        public static WordKnowledge Agregate(WordKnowledge left, WordKnowledge right)
+        {
+            if (left.UserWordPairId != right.UserWordPairId)
+                throw new ArgumentException(Strings.GetDetailMessage(SystemMessage.UserWordPairIdShouldBeSame));
+
+            if (left.MemoryLevel == right.MemoryLevel)
+            {
+                return new WordKnowledge(left.UserWordPairId, left.MemoryLevel, left.Complexity + right.Complexity);
+            }
+            else if (left.MemoryLevel < right.MemoryLevel)
+            {
+                return right;
+            }
+            else
+            {
+                return left;
+            }
         }
     }
 }
