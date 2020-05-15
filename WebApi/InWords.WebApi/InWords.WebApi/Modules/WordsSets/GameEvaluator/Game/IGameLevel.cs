@@ -9,6 +9,7 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
 {
     public interface IGameLevel
     {
+        int GameLevelId { get; set; }
         float Complexity { get; }
         GameType Type { get; }
         LevelScore Score();

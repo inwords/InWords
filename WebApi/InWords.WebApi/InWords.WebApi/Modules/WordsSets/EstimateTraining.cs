@@ -35,20 +35,21 @@ namespace InWords.WebApi.Modules.WordsSets
             var metrics = request.Value.Metrics;
 
             // configure game level managers
-            var cardGameManager = metrics
+            var levelsManage = metrics
                 .Where(d => d.CardsMetric != null && d.CardsMetric.WordIdOpenCount != null)
                 .Select(d => new CardGameLevel(d.GameLevelId, d.CardsMetric.WordIdOpenCount) as IGameLevel)
                 .Union(
                 metrics
                 .Where(d => d.AuditionMetric != null && d.AuditionMetric.WordIdOpenCount != null)
-                .Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)));
+                .Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)))
+                .ToList();
             // TO-DO just union more levels types
 
-            cardGameManager.save
+            await levelsManage.SaveCustomLevels(Context, userId).ConfigureAwait(false);
 
-            var addHistoryTask = cardGameManager.Select(d => d.LevelWords()).ToList();
-            var scoreTask = cardGameManager.Select(d => d.Score());
-            var wordsMemoryTask = cardGameManager.SelectMany(d => d.Qualify());
+            var addHistoryTask = levelsManage.Select(d => d.LevelWords()).ToList();
+            var scoreTask = levelsManage.Select(d => d.Score());
+            var wordsMemoryTask = levelsManage.SelectMany(d => d.Qualify());
 
             // TODO save history games
             var scoreTaskResult = Context.AddOrUpdateUserGameLevel(scoreTask, userId);

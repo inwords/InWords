@@ -10,7 +10,7 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
 {
     public abstract class BaseGameLevel : IGameLevel
     {
-        public int GameLevelId { get; protected set; }
+        public int GameLevelId { get; set; }
         public IDictionary<int, int> WordIdOpenCount { get; }
         public BaseGameLevel(int gameLevelId, IDictionary<int, int> wordIdOpenCount)
         {
