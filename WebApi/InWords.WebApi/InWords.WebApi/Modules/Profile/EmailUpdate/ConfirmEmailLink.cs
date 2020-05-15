@@ -30,6 +30,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             {
                 request.StatusCode = StatusCode.InvalidArgument;
                 request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.LinkInvalid);
+                return new ConfirmEmailReply();
             }
 
             EmailVerifies linkedEmail = await Context.EmailVerifies.FindAsync(guid);
@@ -37,7 +38,8 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
             if (linkedEmail == null) 
             {
                 request.StatusCode = StatusCode.NotFound;
-                request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.EmailconfirmationNotfound); 
+                request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.EmailconfirmationNotfound);
+                return new ConfirmEmailReply();
             }
 
             // set new email to account
