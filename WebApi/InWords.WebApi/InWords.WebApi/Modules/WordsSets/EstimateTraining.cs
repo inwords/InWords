@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static InWords.Protobuf.TrainingScoreReply.Types;
+using static InWords.Protobuf.TrainingScoreReply.Types.TrainigScore.Types;
 
 namespace InWords.WebApi.Modules.WordsSets
 {
@@ -39,8 +40,12 @@ namespace InWords.WebApi.Modules.WordsSets
 
             // configure game level managers
             var cardGameManager = metrics
+                .Where(d => d.CardsMetric != null && d.CardsMetric.WordIdOpenCount != null)
                 .Select(d => new CardGameLevel(d.GameLevelId, d.CardsMetric.WordIdOpenCount) as IGameLevel)
-                .Union(metrics.Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)));
+                .Union(
+                metrics
+                .Where(d => d.AuditionMetric != null && d.AuditionMetric.WordIdOpenCount != null)
+                .Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)));
             // TO-DO just union more levels types
 
             var scoreTask = cardGameManager.Select(d => d.Score());
@@ -66,11 +71,15 @@ namespace InWords.WebApi.Modules.WordsSets
                 {
                     if (score.GameType == GameType.AudioGame)
                     {
+                        if (trainigScore.AuditionStatus == null)
+                            trainigScore.AuditionStatus = new AuditionStatus();
                         trainigScore.AuditionStatus.Score = score.UserStars;
                     }
                     if (score.GameType == GameType.ClassicCardGame)
                     {
-                        trainigScore.AuditionStatus.Score = score.UserStars;
+                        if (trainigScore.CardsStatus == null)
+                            trainigScore.CardsStatus = new CardsStatus();
+                        trainigScore.CardsStatus.Score = score.UserStars;
                     }
                 }
 
