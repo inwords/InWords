@@ -1,0 +1,84 @@
+﻿using InWords.Common.Extensions;
+using InWords.Data;
+using InWords.Data.Creations;
+using InWords.Data.Creations.GameBox;
+using InWords.Data.Enums;
+using InWords.WebApi.Business.GameEvaluator.Model;
+using Org.BouncyCastle.Math.EC.Rfc7748;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace InWords.WebApi.Modules.WordsSets.Extentions
+{
+    public static class DBUpdateScoreExtention
+    {
+        public static IEnumerable<UserGameLevel> AddOrUpdateUserGameLevel(
+            this InWordsDataContext context,
+            IEnumerable<LevelScore> levelScores,
+            int userId)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            if (levelScores == null)
+                return Array.Empty<UserGameLevel>();
+
+
+            // select all games
+            var levelIds = levelScores.Select(d => d.GameLevelId).ToArray();
+            var existedLevels = context.UserGameLevels
+                .Where(u => u.UserId == userId)
+                .Where(u => levelIds.Contains(u.GameLevelId));
+
+            // find all users games
+            var usersGames = from gameLevel in existedLevels
+                             join usersGame in context.UserGameLevels.Where(s => s.UserId == userId)
+                             on gameLevel.GameLevelId equals usersGame.GameLevelId into ug
+                             from usersGame in ug.DefaultIfEmpty()
+                             select new { gameLevel.GameLevelId, usersGame };
+
+            // create if not exist
+            Dictionary<(int, GameType), UserGameLevel> userGameLevels = new Dictionary<(int, GameType), UserGameLevel>();
+            IList<UserGameLevel> corrupted = new List<UserGameLevel>();
+            foreach (var ugame in usersGames)
+            {
+                if (ugame == null) continue;
+
+                var key = (ugame.GameLevelId, ugame.usersGame.GameType);
+                if (userGameLevels.ContainsKey(key))
+                {
+                    var currentUserGame = ugame.usersGame;
+                    if (userGameLevels[key].UserGameLevelId < currentUserGame.UserGameLevelId)
+                    {
+                        int maxScore = Math.Max(userGameLevels[key].UserStars, currentUserGame.UserStars);
+                        currentUserGame.UserStars = maxScore;
+                        corrupted.Add(userGameLevels[key]);
+                        userGameLevels[key] = currentUserGame;
+                    }
+                }
+            }
+            context.RemoveRange(corrupted);
+
+            // update if currentScore > score in database
+            foreach (var ls in levelScores)
+            {
+                UserGameLevel currentScore;
+                var key = (ls.GameLevelId, ls.GameType);
+                if (userGameLevels.ContainsKey(key))
+                    currentScore = userGameLevels[key];
+                else
+                {
+                    currentScore = new UserGameLevel(userId, ls.GameLevelId, ls.Score);
+                    userGameLevels.Add(key, currentScore);
+                    context.Add(currentScore);
+                }
+
+                if (currentScore.UserStars < ls.Score)
+                    currentScore.UserStars = ls.Score;
+            }
+            return userGameLevels.Values;
+        }
+    }
+}

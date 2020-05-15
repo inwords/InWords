@@ -10,8 +10,8 @@ import Card from 'src/components/core/Card';
 import CardHeader from 'src/components/core/CardHeader';
 import CardContent from 'src/components/core/CardContent';
 import CardActions from 'src/components/core/CardActions';
-import Icon from 'src/components/core/Icon';
 import LinkButton from 'src/components/core/LinkButton';
+import Stars from 'src/components/routes-common/Stars';
 
 function WordSetLevels() {
   const levelsListsMap = useSelector(store => store.wordSet.levelsListsMap);
@@ -45,23 +45,7 @@ function WordSetLevels() {
             <Card>
               <CardHeader title={`Уровень ${level}`} />
               <CardContent>
-                <div>
-                  {Array.apply(null, Array(parseInt(stars / 2))).map(
-                    (_, index) => (
-                      <Icon key={index} color="gold">
-                        star
-                      </Icon>
-                    )
-                  )}
-                  {stars % 2 !== 0 && <Icon color="gold">star_half</Icon>}
-                  {Array.apply(null, Array(parseInt((6 - stars) / 2))).map(
-                    (_, index) => (
-                      <Icon key={index} color="gold">
-                        star_border
-                      </Icon>
-                    )
-                  )}
-                </div>
+                <Stars score={stars} />
               </CardContent>
               <CardActions>
                 <LinkButton

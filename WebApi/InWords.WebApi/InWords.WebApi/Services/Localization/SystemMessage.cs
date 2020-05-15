@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Localization
 {
-    public enum Locale
+    public enum SystemMessage
     {
-        EnUs,
-        RuRu,
-        System
+        UserWordPairIdShouldBeSame
     }
 }

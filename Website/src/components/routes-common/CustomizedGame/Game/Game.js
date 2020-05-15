@@ -63,6 +63,7 @@ function Game({ trainingLevel, handleEnd }) {
       return;
     }
 
+    let newMetrics = metrics;
     if (selectedWordPairs.length < 2) {
       setRightSelectedPairId(-1);
 
@@ -73,10 +74,11 @@ function Game({ trainingLevel, handleEnd }) {
         })
       );
 
-      setMetrics({
+      newMetrics = {
         ...metrics,
         [pairId]: metrics[pairId] ? metrics[pairId] + 1 : 1
-      });
+      };
+      setMetrics(newMetrics);
     }
 
     let newCompletedPairIdsMap = completedPairIdsMap;
@@ -95,7 +97,7 @@ function Game({ trainingLevel, handleEnd }) {
 
         if (isGameCompleted(newCompletedPairIdsMap)) {
           setTimeout(() => {
-            handleEnd(0, metrics);
+            handleEnd('cards', newMetrics);
           }, GAME_COMPLETION_DELAY);
         }
       } else {

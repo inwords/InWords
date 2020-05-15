@@ -1,8 +1,12 @@
-﻿using InWords.Data;
+﻿using Google.Protobuf.Collections;
+using InWords.Data;
+using InWords.Data.Enums;
 using InWords.Protobuf;
+using InWords.WebApi.Business.GameEvaluator.Game;
 using InWords.WebApi.Extensions.InWordsDataContextExtentions;
 using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Modules.ClassicCardGame.Extentions;
+using InWords.WebApi.Modules.WordsSets.Extentions;
 using InWords.WebApi.Modules.WordsSets.Models;
 using InWords.WebApi.Services.Abstractions;
 using System;
@@ -10,14 +14,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static InWords.Protobuf.TrainingScoreReply.Types;
+using static InWords.Protobuf.TrainingScoreReply.Types.TrainigScore.Types;
 
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class EstimateTraining
         : AuthorizedRequestObjectHandler<TrainingDataRequest, TrainingScoreReply, InWordsDataContext>
     {
-        private IEnumerable<object> knowledgeQualifiers;
-
         public EstimateTraining(InWordsDataContext context) : base(context) { }
 
         public override async Task<TrainingScoreReply> HandleRequest(
@@ -30,52 +34,60 @@ namespace InWords.WebApi.Modules.WordsSets
             int userId = request.UserId;
             var metrics = request.Value.Metrics;
 
-            // select levels to create
-            var levelsToCreate = metrics
-                .Select(
-                d => d.AuditionWordIdOpenCount.Select(d => d.Key)
-                .Union(d.CardsWordIdOpenCount.Select(d => d.Key))
-                // union with others levles types
-                .ToArray()).ToList();
+            // configure game level managers
+            var levelsManage = metrics
+                .Where(d => d.CardsMetric != null && d.CardsMetric.WordIdOpenCount != null)
+                .Select(d => new CardGameLevel(d.GameLevelId, d.CardsMetric.WordIdOpenCount) as IGameLevel)
+                .Union(
+                metrics
+                .Where(d => d.AuditionMetric != null && d.AuditionMetric.WordIdOpenCount != null)
+                .Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)))
+                .ToList();
+            // TO-DO just union more levels types
 
-            await Context.CreateLevels(userId, levelsToCreate).ConfigureAwait(false);
+            await levelsManage.SaveCustomLevels(Context, userId).ConfigureAwait(false);
 
-            // calculate words stats
-            int[] metricsWordIds = metrics.SelectMany(m => m.CardsWordIdOpenCount.Keys).ToArray();
-            metricsWordIds = metricsWordIds.Union(metrics.SelectMany(m => m.AuditionWordIdOpenCount.Keys)).ToArray();
+            var addHistoryTask = levelsManage.Select(d => d.LevelWords()).ToList();
+            var scoreTask = levelsManage.Select(d => d.Score());
+            var wordsMemoryTask = levelsManage.SelectMany(d => d.Qualify());
 
-
-            // update words stats
-            var userWords = Context.UserWordPairs.Where(u => u.UserId == userId);
-            var existedWords = userWords.Where(d => metricsWordIds.Contains(d.UserWordPairId)).ToArray();
-
-            var dic2 = metrics.SelectMany(d => new AuditionQualifier(d.AuditionWordIdOpenCount).Qualify())
-                .GroupBy(kvp => kvp.Key)
-                .ToDictionary(g => g.Key, g => g.Max(x => x.Value));
-            
-            var dic1 = metrics.SelectMany(d => new CardGameQualifier(d.CardsWordIdOpenCount).Qualify())
-                .GroupBy(kvp => kvp.Key)
-                .ToDictionary(g => g.Key, g => g.Max(x => x.Value));
-
-            Dictionary<int, double> weight = new Dictionary<int, double>(metricsWordIds.Length);
-
-            foreach (var id in metricsWordIds)
-            {
-                double w = 0;
-                if (dic1.ContainsKey(id))
-                    w += 0.9;
-                if (dic2.ContainsKey(id))
-                    w += 0.1;
-                weight.Add(id, w * 0.8);
-            }
-            existedWords.UpdateMemorisation(dic1.Union(dic2), 0.8);
-
+            // TODO save history games
+            var scoreTaskResult = Context.AddOrUpdateUserGameLevel(scoreTask, userId);
+            Context.UpdateMemorization(wordsMemoryTask, userId);
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
-            // calculate card stars
-            // calculat audition stars
 
-            return await base.HandleRequest(request, cancellationToken);
+            var dictionary = scoreTaskResult.GroupBy(d => d.GameLevelId, d => d).ToDictionary(d => d.Key, d => d.ToList());
+
+            TrainingScoreReply trainingScoreReply = new TrainingScoreReply();
+            foreach (var key in dictionary.Keys)
+            {
+                TrainigScore trainigScore = new TrainigScore
+                {
+                    GameLevelId = key
+                };
+
+                foreach (var score in dictionary[key])
+                {
+                    if (score.GameType == GameType.AudioGame)
+                    {
+                        if (trainigScore.AuditionStatus == null)
+                            trainigScore.AuditionStatus = new AuditionStatus();
+                        trainigScore.AuditionStatus.Score = score.UserStars;
+                    }
+                    if (score.GameType == GameType.ClassicCardGame)
+                    {
+                        if (trainigScore.CardsStatus == null)
+                            trainigScore.CardsStatus = new CardsStatus();
+                        trainigScore.CardsStatus.Score = score.UserStars;
+                    }
+                }
+
+                trainingScoreReply.Scores.Add(trainigScore);
+            }
+
+            return trainingScoreReply;
         }
+
     }
 }

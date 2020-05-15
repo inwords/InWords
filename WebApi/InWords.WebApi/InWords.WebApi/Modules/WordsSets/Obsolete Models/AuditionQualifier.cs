@@ -6,14 +6,16 @@ using System.Collections.Generic;
 
 namespace InWords.WebApi.Modules.WordsSets.Models
 {
-    public sealed class CardGameQualifier : IKnowledgeQualifier
+    [Obsolete("Use Game Evaluator models")]
+    public class AuditionQualifier : IKnowledgeQualifier
     {
-        public int Complexity => 8;
+        public int Complexity => 1;
         private readonly IDictionary<int, int> levelMetricQuery;
-        public CardGameQualifier(IDictionary<int, int> levelMetricQuery)
+        public AuditionQualifier(IDictionary<int, int> levelMetricQuery)
         {
             this.levelMetricQuery = levelMetricQuery;
         }
+
         public Dictionary<int, KnowledgeQualities> Qualify()
         {
             var qualifyPairs = new Dictionary<int, KnowledgeQualities>();
@@ -30,8 +32,7 @@ namespace InWords.WebApi.Modules.WordsSets.Models
         {
             return openCounts switch
             {
-                var o when o <= 4 => KnowledgeQualities.EasyToRemember,
-                5 => KnowledgeQualities.StillRemember,
+                var o when o <= 1 => KnowledgeQualities.EasyToRemember,
                 _ => KnowledgeQualities.NoLongerRemember,
             };
         }
