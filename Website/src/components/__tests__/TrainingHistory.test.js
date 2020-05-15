@@ -46,7 +46,7 @@ const setup = () => {
 test('select recent training', async () => {
   const utils = setup();
   const recentTrainingInfo = utils.mockingTrainingHistoryResponse.levels[0];
-  await waitFor(() => screen.getByText(`#${recentTrainingInfo.levelId}`));
+  await waitFor(() => screen.getByText(`${recentTrainingInfo.levelId}`));
 
   utils.clickHistoryTraining(recentTrainingInfo.levelId);
 

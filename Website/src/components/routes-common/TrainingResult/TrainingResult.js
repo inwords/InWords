@@ -4,6 +4,8 @@ import FadeAnimation from 'src/components/core/FadeAnimation';
 import Paper from 'src/components/core/Paper';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
+import Stars from 'src/components/routes-common/Stars';
+import Typography from 'src/components/core/Typography';
 import Smiley from './Smiley';
 
 import './TrainingResult.css';
@@ -38,27 +40,13 @@ function TrainingResult({ score, handleNextLevel, handleReplay }) {
         {score !== null && (
           <Fragment>
             <div className="training-result-smiley">
-              <Smiley score={score} colorPair={colorPair} />
+              <Smiley score={parseInt(score / 2)} colorPair={colorPair} />
             </div>
-            <div className="training-result-stars">
-              {Array.apply(null, Array(parseInt(score / 2))).map((_, index) => (
-                <Icon key={index} color="gold" fontSize="large">
-                  star
-                </Icon>
-              ))}
-              {score % 2 !== 0 && (
-                <Icon color="gold" fontSize="large">
-                  star_half
-                </Icon>
-              )}
-              {Array.apply(null, Array(parseInt((6 - score) / 2))).map(
-                (_, index) => (
-                  <Icon key={index} color="gold" fontSize="large">
-                    star_border
-                  </Icon>
-                )
-              )}
-            </div>
+            <Stars
+              score={score}
+              fontSize="large"
+              className="training-result-stars"
+            />
           </Fragment>
         )}
         <div>
