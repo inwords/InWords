@@ -1,16 +1,26 @@
+.training-result {
+  margin: -8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .training-result-paper {
+  margin: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 224px;
-  padding: 24px 0;
-  margin: 0 auto;
+  padding: 16px;
 }
 
 .training-result-smiley {
   margin-bottom: 8px;
 }
 
-.training-result-stars {
+.training-result-stars:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.training-result-name {
+  text-align: center;
 }

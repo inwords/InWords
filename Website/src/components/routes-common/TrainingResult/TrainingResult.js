@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import FadeAnimation from 'src/components/core/FadeAnimation';
 import Paper from 'src/components/core/Paper';
@@ -10,62 +10,80 @@ import Smiley from './Smiley';
 
 import './TrainingResult.css';
 
-const colorPairs = [
-  ['#F44336', '#FFCDD2'],
-  ['#E91E63', '#F8BBD0'],
-  ['#9C27B0', '#E1BEE7'],
-  ['#673AB7', '#D1C4E9'],
-  ['#3F51B5', '#C5CAE9'],
-  ['#2196F3', '#BBDEFB'],
-  ['#03A9F4', '#B3E5FC'],
-  ['#00BCD4', '#B2EBF2'],
-  ['#009688', '#B2DFDB'],
-  ['#4CAF50', '#C8E6C9'],
-  ['#8BC34A', '#DCEDC8'],
-  ['#CDDC39', '#F0F4C3'],
-  ['#FFC107', '#FFECB3'],
-  ['#FF9800', '#FFE0B2'],
-  ['#FF5722', '#FFCCBC']
+const trainingTypesInfo = [
+  {
+    title: 'Аудирование',
+    internalName: 'audition'
+  },
+  {
+    title: 'Закрытые карточки',
+    internalName: 'cards'
+  }
 ];
 
-const getRandomColorPair = () =>
-  colorPairs[Math.floor(Math.random() * colorPairs.length)];
-
-function TrainingResult({ score, handleNextLevel, handleReplay }) {
-  const colorPair = useMemo(() => getRandomColorPair(), []);
-
+function TrainingResult({
+  score,
+  detailedScore,
+  handleNextLevel,
+  handleReplay
+}) {
   return (
-    <FadeAnimation>
-      <Paper className="training-result-paper">
-        {score !== null && (
-          <Fragment>
-            <div className="training-result-smiley">
-              <Smiley score={parseInt(score / 2)} colorPair={colorPair} />
-            </div>
-            <Stars
-              score={score}
-              fontSize="large"
-              className="training-result-stars"
-            />
-          </Fragment>
-        )}
-        <div>
-          <IconButton aria-label="replay" onClick={handleReplay}>
-            <Icon fontSize="large">replay</Icon>
-          </IconButton>
-          {handleNextLevel && (
-            <IconButton aria-label="next level" onClick={handleNextLevel}>
-              <Icon fontSize="large">fast_forward</Icon>
-            </IconButton>
+    <div className="training-result">
+      <FadeAnimation>
+        <Paper className="training-result-paper">
+          {score !== null && (
+            <Fragment>
+              <div className="training-result-smiley">
+                <Smiley score={score} />
+              </div>
+              <Stars
+                score={score}
+                fontSize="large"
+                className="training-result-stars"
+              />
+            </Fragment>
           )}
-        </div>
-      </Paper>
-    </FadeAnimation>
+          <div>
+            <IconButton aria-label="replay" onClick={handleReplay}>
+              <Icon fontSize="large">replay</Icon>
+            </IconButton>
+            {handleNextLevel && (
+              <IconButton aria-label="next level" onClick={handleNextLevel}>
+                <Icon fontSize="large">fast_forward</Icon>
+              </IconButton>
+            )}
+          </div>
+        </Paper>
+      </FadeAnimation>
+      <FadeAnimation>
+        <Paper className="training-result-paper">
+          {trainingTypesInfo.map(
+            ({ internalName, title }) =>
+              detailedScore[internalName] && (
+                <Fragment key={internalName}>
+                  <Typography variant="body1" className="training-result-name">
+                    {title}
+                  </Typography>
+                  <Stars
+                    score={detailedScore[internalName]}
+                    fontSize="small"
+                    className="training-result-stars"
+                  />
+                </Fragment>
+              )
+          )}
+        </Paper>
+      </FadeAnimation>
+    </div>
   );
 }
 
 TrainingResult.propTypes = {
   score: PropTypes.number,
+  detailedScore: PropTypes.shape({
+    cards: PropTypes.number,
+    audition: PropTypes.number
+  }).isRequired,
   handleNextLevel: PropTypes.func,
   handleReplay: PropTypes.func.isRequired
 };
