@@ -2,9 +2,9 @@
 {
     public class SatisfactoryMemorization : BaseMemorization
     {
-        public override Memorization Grant(Memorization knowledgeLicense)
+        public override Memorization Grant(Memorization currentMemorization, double complexity)
         {
-            return base.Grant(knowledgeLicense);
+            return base.Grant(currentMemorization, complexity);
         }
     }
 }

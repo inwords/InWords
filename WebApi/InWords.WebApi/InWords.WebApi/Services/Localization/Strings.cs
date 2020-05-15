@@ -12,6 +12,7 @@ namespace InWords.WebApi.Services
         {
             { Locale.EnUs, "InWords.WebApi.AppData.en-us"},
             { Locale.RuRu, "InWords.WebApi.AppData.ru-ru"},
+            { Locale.System, "InWords.WebApi.AppData.system"},
         };
 
         private static Dictionary<Locale, ResourceManager> resourceManagers = new Dictionary<Locale, ResourceManager>();
@@ -21,6 +22,9 @@ namespace InWords.WebApi.Services
 
         public static string GetDetailMessage(Locale locale, DetailMessage detailMessage)
             => GetMessage(locale, detailMessage.ToString());
+
+        public static string GetDetailMessage(SystemMessage systemMessage)
+            => GetMessage(Locale.System, systemMessage.ToString());
 
         private static string GetMessage(Locale locale, string message)
         {

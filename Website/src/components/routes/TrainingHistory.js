@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializeTrainingHistory } from 'src/actions/trainingActions';
 import { getTrainingHistory } from 'src/actions/trainingApiActions';
-import Icon from 'src/components/core/Icon';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
 import Card from 'src/components/core/Card';
@@ -37,7 +36,7 @@ function TrainingHistory() {
 
   return (
     <Grid spacing={3}>
-      {trainingHistory.map(({ levelId, stars, gameType }) => (
+      {trainingHistory.map(({ levelId, gameType }) => (
         <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardContent>
@@ -47,11 +46,6 @@ function TrainingHistory() {
               <Typography component="p" color="text-secondary" gutterBottom>
                 #{levelId}
               </Typography>
-              <div>
-                <Icon color={stars > 0 ? 'gold' : 'disabled'}>star</Icon>
-                <Icon color={stars > 1 ? 'gold' : 'disabled'}>star</Icon>
-                <Icon color={stars > 2 ? 'gold' : 'disabled'}>star</Icon>
-              </div>
             </CardContent>
             <CardActions>
               <LinkButton

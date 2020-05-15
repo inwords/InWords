@@ -5,7 +5,7 @@ using InWords.Protobuf;
 using InWords.WebApi.Extensions.InWordsDataContextExtentions;
 using InWords.WebApi.Model.UserWordPair;
 using InWords.WebApi.Modules.ClassicCardGame.Extentions;
-using InWords.WebApi.Modules.ClassicCardGame.Service;
+using InWords.WebApi.Modules.WordsSets.Models;
 using InWords.WebApi.Services.Abstractions;
 using System;
 using System.Linq;
@@ -44,7 +44,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
                 IKnowledgeQualifier knowledgeQualifier = new CardGameQualifier(metric.WordIdOpenCount.ToDictionary(t => t.Key, t => t.Value));
                 var license = knowledgeQualifier.Qualify();
                 // update memorization
-                existedWords.UpdateMemorisation(license);
+                existedWords.UpdateMemorisation(license,0.8);
                 await Context.SaveChangesAsync().ConfigureAwait(false);
             }
 

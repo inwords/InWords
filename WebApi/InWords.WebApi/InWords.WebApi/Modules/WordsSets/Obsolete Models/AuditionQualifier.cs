@@ -1,19 +1,22 @@
 ﻿using InWords.Common.Extensions;
 using InWords.Data.DTO.Enums;
 using InWords.WebApi.Model.UserWordPair;
+using System;
 using System.Collections.Generic;
 
-namespace InWords.WebApi.Modules.ClassicCardGame.Service
+namespace InWords.WebApi.Modules.WordsSets.Models
 {
-    public sealed class CardGameQualifier : IKnowledgeQualifier
+    [Obsolete("Use Game Evaluator models")]
+    public class AuditionQualifier : IKnowledgeQualifier
     {
-        private readonly Dictionary<int, int> levelMetricQuery;
-        public CardGameQualifier(Dictionary<int, int> levelMetricQuery)
+        public int Complexity => 1;
+        private readonly IDictionary<int, int> levelMetricQuery;
+        public AuditionQualifier(IDictionary<int, int> levelMetricQuery)
         {
             this.levelMetricQuery = levelMetricQuery;
         }
 
-        Dictionary<int, KnowledgeQualities> IKnowledgeQualifier.Qualify()
+        public Dictionary<int, KnowledgeQualities> Qualify()
         {
             var qualifyPairs = new Dictionary<int, KnowledgeQualities>();
 
@@ -29,8 +32,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Service
         {
             return openCounts switch
             {
-                var o when o <= 4 => KnowledgeQualities.EasyToRemember,
-                5 => KnowledgeQualities.StillRemember,
+                var o when o <= 1 => KnowledgeQualities.EasyToRemember,
                 _ => KnowledgeQualities.NoLongerRemember,
             };
         }

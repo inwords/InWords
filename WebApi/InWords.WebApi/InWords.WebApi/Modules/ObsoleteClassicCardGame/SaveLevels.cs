@@ -36,11 +36,9 @@ namespace InWords.WebApi.Modules.ClassicCardGame
             var userId = request.UserId;
             var info = request.Value.Info;
 
-            var historyGameId = await Context.AddOrGetUserHistoryGame(userId).ConfigureAwait(false);
-
             // add level
             var list = info.Select(d => d.WordIdOpenCount.Select(d => d.Key).ToArray()).ToList();
-            var levels = await CreateLevels(historyGameId, userId, list).ConfigureAwait(false);
+            var levels = await Context.CreateLevels(userId, list).ConfigureAwait(false);
             return await CalculateMetrics(userId, info, levels, cancellationToken).ConfigureAwait(false);
         }
 
@@ -66,41 +64,6 @@ namespace InWords.WebApi.Modules.ClassicCardGame
             };
 
             return estimateClassicCardGame.Handle(estimateRequest, cancellationToken);
-        }
-
-        private async Task<int[]> CreateLevels(int gameId, int userId, IList<int[]> pairsInLevels)
-        {
-            var levels = pairsInLevels.Select(d =>
-            {
-                var game = new GameLevel()
-                {
-                    GameId = gameId
-                };
-                Context.Add(game);
-                return game;
-            }).ToArray();
-            await Context.SaveChangesAsync().ConfigureAwait(false);
-
-            for (int i = 0; i < pairsInLevels.Count; i++)
-            {
-                var currentLevel = levels[i];
-                int[] currentWordsIds = pairsInLevels[i].ToArray();
-
-                var currentWords = Context.CurrentUserWordPairs(userId)
-                    .Where(u => currentWordsIds.Contains(u.UserWordPairId))
-                    .ToArray();
-
-                var gameLevelWords = currentWords.Select(w => new GameLevelWord()
-                {
-                    ForeignWord = w.ForeignWord,
-                    NativeWord = w.NativeWord,
-                    GameLevelId = currentLevel.GameLevelId,
-                }).ToArray();
-
-                Context.GameLevelWords.AddRange(gameLevelWords);
-            }
-            await Context.SaveChangesAsync().ConfigureAwait(false);
-            return levels.Select(level => level.GameLevelId).ToArray();
         }
     }
 }

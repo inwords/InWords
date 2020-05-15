@@ -1,10 +1,7 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { loadValue } from 'src/localStorage';
-import Paper from 'src/components/core/Paper';
-import Toolbar from 'src/components/core/Toolbar';
-import Typography from 'src/components/core/Typography';
-import Space from 'src/components/core/Space';
+import CustomizedTrainingWrapper from 'src/components/routes-common/CustomizedTrainingWrapper';
 import Game from './Game';
 import ControlledGameSettingsDialog from './ControlledGameSettingsDialog';
 
@@ -29,21 +26,20 @@ function CustomizedGame({ trainingLevel, handleEnd }) {
   }, [trainingLevel, trainingSettings]);
 
   return (
-    <Fragment>
-      <Paper>
-        <Toolbar variant="dense">
-          <Typography variant="h6">Закрытые карточки</Typography>
-          <Space />
-          <ControlledGameSettingsDialog
-            trainingSettings={trainingSettings}
-            setTrainingSettings={setTrainingSettings}
-          />
-        </Toolbar>
-      </Paper>
+    <CustomizedTrainingWrapper
+      title="Закрытые карточки"
+      rightToolbarNodes={[
+        <ControlledGameSettingsDialog
+          key={0}
+          trainingSettings={trainingSettings}
+          setTrainingSettings={setTrainingSettings}
+        />
+      ]}
+    >
       {Boolean(processedTrainingLevel) && (
         <Game trainingLevel={processedTrainingLevel} handleEnd={handleEnd} />
       )}
-    </Fragment>
+    </CustomizedTrainingWrapper>
   );
 }
 

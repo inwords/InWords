@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace InWords.Data.DTO.Games.Levels
 {
-    public class ClassicCardLevelMetric : ILevelScore, IKnowledgeQualifier
+    public class ClassicCardLevelMetric : ILevelScore
     {
         /// <summary>
         /// Represent a shared game level id, id equals zero if it, history brand new levels

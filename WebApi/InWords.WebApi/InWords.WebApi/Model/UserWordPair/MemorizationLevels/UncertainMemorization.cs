@@ -4,10 +4,10 @@ namespace InWords.WebApi.Model.UserWordPair.MemorizationLevels
 {
     public class UncertainMemorization : BaseMemorization
     {
-        public override Memorization Grant(Memorization knowledgeLicense)
+        public override Memorization Grant(Memorization currentMemorization, double complexity)
         {
-            knowledgeLicense.Period = Convert.ToInt16(Math.Truncate(0.2 * knowledgeLicense.Period));
-            return base.Grant(knowledgeLicense);
+            currentMemorization.Period = Convert.ToInt16(Math.Truncate(0.2 * currentMemorization.Period));
+            return base.Grant(currentMemorization, complexity);
         }
     }
 }
