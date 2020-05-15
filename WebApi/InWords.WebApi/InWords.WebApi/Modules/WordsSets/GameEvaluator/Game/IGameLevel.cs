@@ -13,5 +13,6 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
         GameType Type { get; }
         LevelScore Score();
         IList<WordKnowledge> Qualify();
+        int[] LevelWords();
     }
 }

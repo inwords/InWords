@@ -34,10 +34,6 @@ namespace InWords.WebApi.Modules.WordsSets
             int userId = request.UserId;
             var metrics = request.Value.Metrics;
 
-            // select levels to create neet to union inside
-            // todo invent method that save cust training from IGamelevel ids
-            metrics = await metrics.SaveCustomTraining(Context, userId).ConfigureAwait(false);
-
             // configure game level managers
             var cardGameManager = metrics
                 .Where(d => d.CardsMetric != null && d.CardsMetric.WordIdOpenCount != null)
@@ -48,6 +44,9 @@ namespace InWords.WebApi.Modules.WordsSets
                 .Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)));
             // TO-DO just union more levels types
 
+            cardGameManager.save
+
+            var addHistoryTask = cardGameManager.Select(d => d.LevelWords()).ToList();
             var scoreTask = cardGameManager.Select(d => d.Score());
             var wordsMemoryTask = cardGameManager.SelectMany(d => d.Qualify());
 

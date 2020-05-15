@@ -13,9 +13,8 @@ namespace InWords.WebApiTests.Swagger.Examples
         [Fact]
         public void Example_ReturnNotNullValue()
         {
-            IEnumerable<dynamic> examples = from t in Assembly.GetExecutingAssembly().GetTypes()
+            IEnumerable<dynamic> examples = from t in Assembly.LoadFrom("InWords.WebApi.dll").GetTypes()
                                             where t.FullName.Contains("InWords.WebApi.Swagger.Examples")
-                                                     && t.GetConstructor(Type.EmptyTypes) != null
                                             select Activator.CreateInstance(t);
 
             foreach (var example in examples)

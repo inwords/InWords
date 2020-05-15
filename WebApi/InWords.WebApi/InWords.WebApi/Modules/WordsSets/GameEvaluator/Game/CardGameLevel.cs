@@ -13,11 +13,9 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
     {
         private bool chached = false;
         private readonly IList<WordKnowledge> wordKnowledges;
-        private readonly IDictionary<int, int> wordIdOpenCount;
-        public CardGameLevel(int gameLevelId, IDictionary<int, int> metrics) : base(gameLevelId)
+        public CardGameLevel(int gameLevelId, IDictionary<int, int> metrics) : base(gameLevelId, metrics)
         {
             wordKnowledges = new List<WordKnowledge>();
-            wordIdOpenCount = metrics;
         }
 
         public override float Complexity => .8f;
@@ -28,7 +26,7 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
         {
             if (chached) return wordKnowledges;
             chached = true;
-            wordIdOpenCount.ForEach((metric) =>
+            WordIdOpenCount.ForEach((metric) =>
             {
                 WordKnowledge wordKnowledge = new WordKnowledge(metric.Key, FromMetric(metric.Value), Complexity);
                 wordKnowledges.Add(wordKnowledge);
@@ -38,8 +36,8 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
 
         public override LevelScore Score()
         {
-            int bestCase = wordIdOpenCount.Count * 4 - 2;
-            int currentCase = wordIdOpenCount.Sum(s => s.Value);
+            int bestCase = WordIdOpenCount.Count * 4 - 2;
+            int currentCase = WordIdOpenCount.Sum(s => s.Value);
             int score = StarasFunction(bestCase, currentCase);
             return new LevelScore(GameLevelId, score, Type);
         }
