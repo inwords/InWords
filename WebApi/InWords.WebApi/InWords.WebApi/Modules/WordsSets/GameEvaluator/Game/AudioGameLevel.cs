@@ -44,8 +44,9 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
 
         public override LevelScore Score()
         {
-            float status = (float)wordIdOpenCount.Count / wordIdOpenCount.Sum(s => s.Value) * UserGameLevel.MAXSTARS;
-            int score = (int)Math.Floor(status);
+            int bestCase = wordIdOpenCount.Count;
+            int currentCase = wordIdOpenCount.Sum(s => s.Value);
+            int score = StarasFunction(bestCase, currentCase);
             return new LevelScore(GameLevelId, score, Type);
         }
     }
