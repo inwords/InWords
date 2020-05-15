@@ -61,10 +61,11 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
 
     setSelectedWordId(id);
 
-    setMetrics({
+    const newMetrics = {
       ...metrics,
       [id]: metrics[id] ? metrics[id] + 1 : 1
-    });
+    };
+    setMetrics(newMetrics);
 
     setTimeout(() => {
       resetWords();
@@ -75,7 +76,7 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
         setRestWords(newRestWords);
 
         if (!newRestWords.length) {
-          handleEnd(1, metrics);
+          handleEnd('audition', newMetrics);
           return;
         }
       }

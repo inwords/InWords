@@ -12,10 +12,6 @@ import CardActions from 'src/components/core/CardActions';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
 
-const trainingTypesMap = {
-  0: 'Закрытые карточки'
-};
-
 function TrainingHistory() {
   const trainingHistory = useSelector(store => store.trainingHistory);
 
@@ -36,15 +32,12 @@ function TrainingHistory() {
 
   return (
     <Grid spacing={3}>
-      {trainingHistory.map(({ levelId, gameType }) => (
+      {trainingHistory.map(({ levelId }) => (
         <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardContent>
               <Typography component="h2" variant="h6">
-                {trainingTypesMap[gameType] || 'Неизвестная тренировка'}
-              </Typography>
-              <Typography component="p" color="text-secondary" gutterBottom>
-                #{levelId}
+                {levelId}
               </Typography>
             </CardContent>
             <CardActions>

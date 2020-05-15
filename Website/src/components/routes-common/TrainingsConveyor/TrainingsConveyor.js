@@ -4,10 +4,7 @@ import { useDispatch } from 'react-redux';
 import shuffle from 'src/utils/shuffle';
 import createSpeech from 'src/utils/createSpeech';
 import { setSnackbar } from 'src/actions/commonActions';
-import {
-  saveLevelResult,
-  saveCustomLevelResult
-} from 'src/actions/trainingApiActions';
+import { saveLevelResult } from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
 import CustomizedGame from 'src/components/routes-common/CustomizedGame';
 import CustomizedAuditionTraining from 'src/components/routes-common/CustomizedAuditionTraining';
@@ -63,13 +60,15 @@ function TrainingsConveyor({
 
   const dispatch = useDispatch();
 
-  const [metricsList, setMetricsList] = useState([]);
+  const [finalMetrics, setFinalMetrics] = useState({});
   const [newServerLevelId, setNewServerLevelId] = useState(null);
   const [resultReady, setResultReady] = useState(false);
   const [score, setScore] = useState(null);
+  const [detailedScore, setDetailedScore] = useState({});
 
-  const handleTrainingEnd = async (trainingType, metrics) => {
-    setMetricsList([...metricsList, metrics]);
+  const handleTrainingEnd = async (title, metrics) => {
+    const newFinalMetrics = { ...finalMetrics, [`${title}Metric`]: metrics };
+    setFinalMetrics(newFinalMetrics);
 
     if (restTrainingTypes.length > 1) {
       setRestTrainingTypes(restTrainingTypes.slice(1));
@@ -80,20 +79,16 @@ function TrainingsConveyor({
     const actualLevelId = newServerLevelId || levelId;
 
     try {
-      // TODO
-      if (!metrics) throw Error('API NOT IMPLEMENTED');
-
-      const { points } = await dispatch(
-        actualLevelId > 0
-          ? saveLevelResult({
-              gameLevelId: actualLevelId,
-              wordIdOpenCount: metrics
-            })
-          : saveCustomLevelResult({ wordIdOpenCount: metrics })
+      const { scores } = await dispatch(
+        saveLevelResult(actualLevelId, newFinalMetrics)
       );
-      const levelResult = points[0];
-      setScore(levelResult.score);
-      setNewServerLevelId(levelResult.levelId);
+      const levelResult = scores[0];
+      setScore(levelResult.score || 0); // TODO!
+      setDetailedScore({
+        cards: levelResult.cardsStatus && levelResult.cardsStatus.score,
+        audition: levelResult.auditionStatus && levelResult.auditionStatus.score
+      });
+      setNewServerLevelId(levelResult.gameLevelId);
       setResultReady(true);
       handleResultSuccess(levelResult);
     } catch (error) {
@@ -102,9 +97,10 @@ function TrainingsConveyor({
     }
   };
 
-  const resetGameResult = () => {
+  const resetTrainingResult = () => {
     setResultReady(false);
     setScore(null);
+    setDetailedScore({});
   };
 
   const handleEnhancedNextLevel = () => {
@@ -112,7 +108,7 @@ function TrainingsConveyor({
       trainingLevel.levelId,
       processedTrainingLevel.wordTranslations
     );
-    resetGameResult();
+    resetTrainingResult();
     setNewServerLevelId(null);
     setRestTrainingTypes(selectedTrainingTypes);
 
@@ -122,7 +118,7 @@ function TrainingsConveyor({
   };
 
   const handleReplay = () => {
-    resetGameResult();
+    resetTrainingResult();
     setRestTrainingTypes([...selectedTrainingTypes].sort(compareByOrder));
 
     if (trainingsSettings.listOn) {
@@ -168,6 +164,7 @@ function TrainingsConveyor({
   ) : (
     <TrainingResult
       score={score}
+      detailedScore={detailedScore}
       handleNextLevel={handleEnhancedNextLevel}
       handleReplay={handleReplay}
     />
