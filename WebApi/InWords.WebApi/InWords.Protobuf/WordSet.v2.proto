@@ -31,6 +31,7 @@ message TrainingScoreReply{
 		int32 gameLevelId = 1;
 		CardsStatus cardsStatus = 2;
 		AuditionStatus auditionStatus = 3;
+		int32 score = 4;
 	}
 	repeated TrainigScore Scores = 1;
 }

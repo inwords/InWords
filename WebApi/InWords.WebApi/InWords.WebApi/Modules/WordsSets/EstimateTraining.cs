@@ -34,22 +34,22 @@ namespace InWords.WebApi.Modules.WordsSets
             int userId = request.UserId;
             var metrics = request.Value.Metrics;
 
-            // select levels to create neet to union inside
-            // todo invent method that save cust training from IGamelevel ids
-            metrics = await metrics.SaveCustomTraining(Context, userId).ConfigureAwait(false);
-
             // configure game level managers
-            var cardGameManager = metrics
+            var levelsManage = metrics
                 .Where(d => d.CardsMetric != null && d.CardsMetric.WordIdOpenCount != null)
                 .Select(d => new CardGameLevel(d.GameLevelId, d.CardsMetric.WordIdOpenCount) as IGameLevel)
                 .Union(
                 metrics
                 .Where(d => d.AuditionMetric != null && d.AuditionMetric.WordIdOpenCount != null)
-                .Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)));
+                .Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)))
+                .ToList();
             // TO-DO just union more levels types
 
-            var scoreTask = cardGameManager.Select(d => d.Score());
-            var wordsMemoryTask = cardGameManager.SelectMany(d => d.Qualify());
+            await levelsManage.SaveCustomLevels(Context, userId).ConfigureAwait(false);
+
+            var addHistoryTask = levelsManage.Select(d => d.LevelWords()).ToList();
+            var scoreTask = levelsManage.Select(d => d.Score());
+            var wordsMemoryTask = levelsManage.SelectMany(d => d.Qualify());
 
             // TODO save history games
             var scoreTaskResult = Context.AddOrUpdateUserGameLevel(scoreTask, userId);
