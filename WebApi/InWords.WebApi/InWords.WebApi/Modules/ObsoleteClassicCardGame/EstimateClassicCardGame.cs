@@ -1,6 +1,7 @@
 ﻿using InWords.Common.Extensions;
 using InWords.Data;
 using InWords.Data.Creations.GameBox;
+using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Extensions.InWordsDataContextExtentions;
 using InWords.WebApi.Model.UserWordPair;
@@ -44,7 +45,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
                 IKnowledgeQualifier knowledgeQualifier = new CardGameQualifier(metric.WordIdOpenCount.ToDictionary(t => t.Key, t => t.Value));
                 var license = knowledgeQualifier.Qualify();
                 // update memorization
-                existedWords.UpdateMemorisation(license,0.8);
+                existedWords.UpdateMemorisation(license, 0.8);
                 await Context.SaveChangesAsync().ConfigureAwait(false);
             }
 
@@ -68,7 +69,8 @@ namespace InWords.WebApi.Modules.ClassicCardGame
                 {
                     GameLevelId = levelToAdd,
                     UserId = userId,
-                    UserStars = scoreInfo[levelToAdd]
+                    UserStars = scoreInfo[levelToAdd] * 2,
+                    GameType = GameType.Total
                 });
                 levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
                 {
