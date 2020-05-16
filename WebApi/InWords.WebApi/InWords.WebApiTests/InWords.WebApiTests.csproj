@@ -47,4 +47,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\CardGameParser\" />
+  </ItemGroup>
+
 </Project>

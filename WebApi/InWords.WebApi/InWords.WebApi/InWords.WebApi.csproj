@@ -90,6 +90,8 @@
 
   <ItemGroup>
     <Folder Include="Business\" />
+    <Folder Include="Extensions\Transfer\" />
+    <Folder Include="Model\CardGameParser\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

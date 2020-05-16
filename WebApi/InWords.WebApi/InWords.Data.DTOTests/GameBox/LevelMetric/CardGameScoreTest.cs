@@ -1,5 +1,4 @@
-﻿using InWords.Data.DTO.GameBox.LevelMetric;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Xunit;
@@ -11,13 +10,10 @@ namespace InWords.Data.DTOTests.GameBox.LevelMetric
         [Fact]
         public void SerializationTest()
         {
-            var expected = new LevelMetricQuery
-            {
-                GameLevelId = 1,
-                WordPairIdOpenCounts = new Dictionary<int, int> { { 2, 3 } }
-            };
+            var WordPairIdOpenCounts = new Dictionary<int, int> { { 2, 3 } };
+            
 
-            Assert.Throws<NotSupportedException>(() => JsonSerializer.Serialize(expected));
+            Assert.Throws<NotSupportedException>(() => JsonSerializer.Serialize(WordPairIdOpenCounts));
             // replace when work and remove Add .AddNewtonsoftJson()
             // just after .AddControllers() / .AddMvc() or any other combination.
             // remove Microsoft.AspNetCore.Mvc.NewtonsoftJson
