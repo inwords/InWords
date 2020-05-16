@@ -1,7 +1,6 @@
 ﻿using Grpc.Core;
 using InWords.Protobuf;
 using InWords.WebApi.Extensions;
-using InWords.WebApi.Modules.Profile.PublicData;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

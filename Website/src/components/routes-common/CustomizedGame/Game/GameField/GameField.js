@@ -7,7 +7,7 @@ import TrainingCard from 'src/components/routes-common/TrainingCard';
 import './GameField.scss';
 
 function GameField({
-  cardSettings,
+  trainingSettings,
   wordPairs,
   selectedWordPairs,
   rightSelectedPairId,
@@ -24,8 +24,8 @@ function GameField({
       colsNum = 3;
     }
 
-    return cardSettings.cardDimension * colsNum + 8 * colsNum;
-  }, [wordPairs.length, cardSettings.cardDimension]);
+    return +trainingSettings.cardDimension * colsNum + 8 * colsNum;
+  }, [wordPairs.length, trainingSettings.cardDimension]);
 
   return (
     <div className="game-field" style={{ maxWidth }}>
@@ -44,8 +44,8 @@ function GameField({
                   )
                 }
                 color={rightSelectedPairId === pairId ? 'success' : null}
-                dimension={cardSettings.cardDimension}
-                textSize={cardSettings.cardTextSize}
+                dimension={+trainingSettings.cardDimension}
+                textSize={+trainingSettings.cardTextSize}
                 onClick={handleClick(pairId, id, onSpeech)}
                 depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
               >
@@ -60,9 +60,9 @@ function GameField({
 }
 
 GameField.propTypes = {
-  cardSettings: PropTypes.exact({
-    cardDimension: PropTypes.number.isRequired,
-    cardTextSize: PropTypes.number.isRequired
+  trainingSettings: PropTypes.shape({
+    cardDimension: PropTypes.string.isRequired,
+    cardTextSize: PropTypes.string.isRequired
   }).isRequired,
   wordPairs: PropTypes.arrayOf(
     PropTypes.exact({

@@ -1,7 +1,6 @@
 ﻿using Grpc.Core;
 using InWords.Protobuf;
 using InWords.WebApi.Extensions;
-using InWords.WebApi.Services.Abstractions;
 using MediatR;
 using System.Threading.Tasks;
 

@@ -3,10 +3,6 @@ using InWords.Protobuf;
 using InWords.WebApi.Services;
 using InWords.WebApi.Services.Localization;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Swagger.Examples
 {

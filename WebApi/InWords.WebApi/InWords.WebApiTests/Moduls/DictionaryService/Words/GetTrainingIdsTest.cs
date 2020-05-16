@@ -1,5 +1,4 @@
-﻿using Castle.DynamicProxy.Generators;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Protobuf;
 using InWords.WebApi.Modules.DictionaryServiceHandler.Words;
@@ -43,7 +42,7 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
             Assert.Contains(2, response.UserWordPairs);
         }
         [Fact]
-        public async void TrainingIds_Empty() 
+        public async void TrainingIds_Empty()
         {
             int userId = 1;
             int otherId = 2;

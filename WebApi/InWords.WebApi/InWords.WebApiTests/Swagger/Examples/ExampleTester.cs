@@ -1,9 +1,7 @@
-﻿using Swashbuckle.AspNetCore.Filters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Xunit;
 
 namespace InWords.WebApiTests.Swagger.Examples

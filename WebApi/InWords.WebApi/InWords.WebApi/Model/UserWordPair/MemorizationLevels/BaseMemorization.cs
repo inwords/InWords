@@ -14,7 +14,7 @@ namespace InWords.WebApi.Model.UserWordPair
             if (complexity > 1.0 || complexity < 0.0)
                 throw new ArgumentOutOfRangeException(nameof(complexity));
 
-            int days = Ebbinghaus(currentMemorization.Period,complexity);
+            int days = Ebbinghaus(currentMemorization.Period, complexity);
             currentMemorization.RepeatTime = DateTime.UtcNow.AddDays(days);
             return currentMemorization;
         }
