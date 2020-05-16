@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.IdRes
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -36,7 +38,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
         checkPlayServices()
 
-        navController = Navigation.findNavController(this, R.id.main_nav_host_fragment)
+        navController = findNavController(R.id.main_nav_host_fragment)
 
         viewModel.toString()
 
@@ -96,6 +98,12 @@ class MainActivity : DaggerAppCompatActivity() {
             //чтобы нельзя было выбрать текущий фрагмент еще раз
         }
     }
+
+    /**
+     * Workaround according to https://issuetracker.google.com/issues/142847973#comment8
+     */
+    private fun FragmentActivity.findNavController(@IdRes viewId: Int) =
+        (supportFragmentManager.findFragmentById(viewId) as NavHostFragment).navController
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
