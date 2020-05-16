@@ -23,12 +23,11 @@ android {
         buildConfigField "String", "TTS_GOOGLE_API_URL", "\"https://texttospeech.googleapis.com\""
         buildConfigField "String", "POLICY_PRIVACY_URL", "\"https://inwords.ru/policy/privacy.html\""
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"]
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+                arg("room.incremental", "true")
+                arg("room.expandProjection", "true")
             }
         }
     }
