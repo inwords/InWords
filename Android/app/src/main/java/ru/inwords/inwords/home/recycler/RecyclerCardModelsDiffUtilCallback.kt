@@ -12,7 +12,6 @@ class RecyclerCardModelsDiffUtilCallback internal constructor(oldGameLevels: Lis
 
     override fun areItemsTheSame(oldItem: CardWrapper, newItem: CardWrapper): Boolean {
         return oldItem is CardWrapper.DictionaryModel && newItem is CardWrapper.DictionaryModel ||
-            oldItem is CardWrapper.WordsTrainingModel && newItem is CardWrapper.WordsTrainingModel ||
             oldItem == newItem
     }
 

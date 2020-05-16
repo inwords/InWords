@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
+import ru.inwords.inwords.NavGraphDirections
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
@@ -75,7 +76,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
 
         observe(viewModel.navigationFromGameEnd) {
             when (it) {
-                FromGameEndEventsEnum.HOME -> navController.navigate(GameEndBottomSheetDirections.actionGlobalPopToMainFragment())
+                FromGameEndEventsEnum.HOME -> navController.navigate(NavGraphDirections.actionGlobalPopToStartDestination())
                 FromGameEndEventsEnum.BACK -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
                 FromGameEndEventsEnum.GAMES_FRAGMENT -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGamesFragment())
                 else -> navController.navigate(GameEndBottomSheetDirections.actionPop())

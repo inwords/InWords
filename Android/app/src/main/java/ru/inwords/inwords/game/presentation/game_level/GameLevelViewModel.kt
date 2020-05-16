@@ -21,10 +21,12 @@ import ru.inwords.inwords.game.presentation.game_level.FromGameEndEventsEnum.*
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 
-class GameLevelViewModel(private val gameInteractor: GameInteractor,
-                         private val continueGameInteractor: ContinueGameInteractor,
-                         private val ttsRepository: TtsRepository,
-                         private val settingsRepository: SettingsRepository) : BasicViewModel() {
+class GameLevelViewModel(
+    private val gameInteractor: GameInteractor,
+    private val continueGameInteractor: ContinueGameInteractor,
+    private val ttsRepository: TtsRepository,
+    private val settingsRepository: SettingsRepository
+) : BasicViewModel() {
     private val _navigationFromGameEnd = SingleLiveEvent<FromGameEndEventsEnum>()
     private val ttsSubject = PublishSubject.create<Resource<String>>()
     private val showProgressMutableLiveData = MutableLiveData<Event<Boolean>>()
@@ -67,7 +69,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
                 }
             }
             .observeOn(SchedulersFacade.ui())
-            .doFinally { showProgressMutableLiveData.postValue(Event(false)) }
+            .doFinally { showProgressMutableLiveData.value = Event(false) }
             .subscribe {
                 if (it is Resource.Success) {
                     gameLevelOrchestrator.updateGameScene(it.data, forceUpdate)
@@ -83,19 +85,25 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
         }
     }
 
+    /**
+     * should be called on background thread
+     */
     private fun queryContinueGame() {
         getCurrentLevelInfo()?.let {
             when (val queryResultResource = continueGameInteractor.queryContinueGame(game, it)) {
                 is Resource.Success -> {
                     when (val queryResult = queryResultResource.data) {
                         is ContinueGameQueryResult.NextLevelInfo -> {
-                            onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
-                            _navigationFromGameEnd.postValue(NEXT)
+                            if (queryResult.isLast) {
+                                //TODO show congrats screen with action "go to next"
+                                onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
+                                _navigationFromGameEnd.postValue(NEXT)
+                            } else {
+                                onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
+                                _navigationFromGameEnd.postValue(NEXT)
+                            }
                         }
-                        is ContinueGameQueryResult.NextGameInfo -> {
-                            _navigationFromGameEnd.postValue(GAMES_FRAGMENT) //TODO show congrats screen with action "go to next"
-                        }
-                        ContinueGameQueryResult.NoMoreGames -> {
+                        ContinueGameQueryResult.NoMoreLevels -> {
                             _navigationFromGameEnd.postValue(GAMES_FRAGMENT) //TODO show congrats screen
                         }
                     }
@@ -105,6 +113,7 @@ class GameLevelViewModel(private val gameInteractor: GameInteractor,
         }
     }
 
+    fun getCurrentGameId() = game.gameId
     fun getCurrentLevelInfo() = game.gameLevelInfos.getOrNull(currentLevelIndex)
 
     fun onNewEventCommand(path: FromGameEndEventsEnum) {

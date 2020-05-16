@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
+import ru.inwords.inwords.NavGraphDirections
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.NONE
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
@@ -84,7 +85,7 @@ class ProfileViewModel internal constructor(
             .subscribeOn(SchedulersFacade.io())
             .doOnSubscribe { logoutStatusMutableLiveData.postValue(Resource.Loading()) }
             .subscribe({
-                navigateTo(ProfileFragmentDirections.actionGlobalPopToMainFragment())
+                navigateTo(NavGraphDirections.actionGlobalPopToStartDestination())
                 logoutStatusMutableLiveData.postValue(Resource.Success(Unit))
             }, {
                 Log.w(TAG, it.message.orEmpty())

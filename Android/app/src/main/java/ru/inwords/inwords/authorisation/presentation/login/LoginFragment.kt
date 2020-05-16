@@ -176,7 +176,7 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
     }
 
     private fun navigateOnSuccess() {
-        viewModel.popOutOfAuth()
+        viewModel.popOutOfAuth(args.onTopOfRegistration)
     }
 
     companion object {

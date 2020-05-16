@@ -3,16 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/graph_game_selection">
 
     <action
-        android:id="@+id/action_global_pop_to_mainFragment"
-        app:popUpTo="@id/mainFragment" />
+        android:id="@+id/action_global_pop_to_startDestination"
+        app:popUpTo="@id/gamesFragment"
+        app:popUpToInclusive="false" />
+
+    <action
+        android:id="@+id/action_global_pop_to_registrationFragment_inclusive"
+        app:popUpTo="@id/registrationFragment"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_global_pop_to_loginFragment_inclusive"
+        app:popUpTo="@id/loginFragment"
+        app:popUpToInclusive="true" />
+
     <action
         android:id="@+id/action_global_dictionary"
         app:destination="@id/graph_dictionary"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_right" />
+
+    <action
+        android:id="@+id/action_global_to_policyFragment"
+        app:destination="@id/policyFragment"
+        app:popUpToInclusive="false" />
 
     <fragment
         android:id="@+id/mainFragment"
@@ -42,18 +59,6 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_mainFragment_to_policyFragment"
-            app:destination="@id/policyFragment"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/to_customGameCreatorFragment"
-            app:destination="@id/customGameCreatorFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/policyFragment"
@@ -61,7 +66,8 @@
         tools:layout="@layout/fragment_policy">
         <action
             android:id="@+id/action_policyFragment_pop"
-            app:popUpTo="@id/mainFragment" />
+            app:popUpTo="@id/policyFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/gameLevelFragment"
@@ -159,12 +165,27 @@
             android:name="ru.inwords.inwords.game.presentation.games.GamesFragment"
             tools:layout="@layout/fragment_games">
             <action
-                android:id="@+id/action_gamesFragment_to_gameLevelsFragment"
+                android:id="@+id/to_gameLevelsFragment"
                 app:destination="@id/gameLevelsFragment"
                 app:enterAnim="@anim/slide_in_right"
                 app:exitAnim="@anim/slide_out_left"
                 app:popEnterAnim="@anim/slide_in_left"
                 app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/to_gameLevelFragment"
+                app:destination="@id/gameLevelFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/to_customGameCreatorFragment"
+                app:destination="@id/customGameCreatorFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpToInclusive="false" />
         </fragment>
         <fragment
             android:id="@+id/gameLevelsFragment"

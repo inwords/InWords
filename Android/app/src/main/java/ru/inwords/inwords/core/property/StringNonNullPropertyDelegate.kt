@@ -3,14 +3,14 @@ package ru.inwords.inwords.core.property
 import android.content.SharedPreferences
 import androidx.core.content.edit
 
-class StringProperty(
+class StringNonNullPropertyDelegate(
     name: String,
     preferences: SharedPreferences,
     defaultValueProvider: () -> String
-) : Property<String>(name, preferences, defaultValueProvider) {
+) : NonNullPropertyDelegate<String>(name, preferences, defaultValueProvider) {
 
     override fun read(): String {
-        return preferences.getString(name, defaultValueProvider.invoke())!!
+        return preferences.getString(name, null) ?: defaultValueProvider.invoke()
     }
 
     override fun write(value: String) {

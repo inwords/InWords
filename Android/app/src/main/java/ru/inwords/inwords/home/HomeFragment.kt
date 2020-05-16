@@ -33,8 +33,6 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
 
         setupToolbar()
 
-        subscribePolicy().disposeOnViewDestroyed()
-
         observeData(view)
 
         setupRecycler()
@@ -84,17 +82,6 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
                 fixOverscrollBehaviour(binding.cardsRecycler)
             }) {
                 Log.e(javaClass.simpleName, it.message.orEmpty())
-            }
-    }
-
-    private fun subscribePolicy(): Disposable {
-        return viewModel.getPolicyAgreementState()
-            .subscribeOn(SchedulersFacade.io())
-            .observeOn(SchedulersFacade.ui())
-            .subscribe { agreed ->
-                if (!agreed && !isStateSaved) {
-                    viewModel.navigateToPolicy()
-                }
             }
     }
 }

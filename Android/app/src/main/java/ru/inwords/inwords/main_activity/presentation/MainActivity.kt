@@ -56,7 +56,6 @@ class MainActivity : DaggerAppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.policyFragment,
-                R.id.profileFragment,
                 R.id.registrationFragment,
                 R.id.loginFragment,
                 R.id.gameLevelFragment,
@@ -100,14 +99,6 @@ class MainActivity : DaggerAppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
-    }
-
-    override fun onBackPressed() {
-        if (navController.currentDestination?.id == R.id.policyFragment) {
-            finish()
-        } else {
-            super.onBackPressed()
-        }
     }
 
     private fun checkPlayServices(): Boolean {

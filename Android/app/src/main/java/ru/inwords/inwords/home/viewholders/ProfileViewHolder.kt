@@ -25,7 +25,7 @@ class ProfileViewHolder(
 
             binding.avatar.setImageRequest(request)
         } else {
-            binding.avatar.setPlaceholderImageWithBackground(R.drawable.ic_octopus1, R.color.colorSecondary)
+            binding.avatar.setPlaceholderImageWithBackground(R.drawable.octopus_welcome, R.color.colorSecondary)
         }
 
         binding.experience.text = itemView.context.getString(R.string.user_experience, 15)

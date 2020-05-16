@@ -1,9 +1,10 @@
 package ru.inwords.inwords.core.property
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import kotlin.reflect.KProperty
 
-abstract class Property<T>(
+abstract class NonNullPropertyDelegate<T : Any>(
     val name: String,
     protected val preferences: SharedPreferences,
     protected val defaultValueProvider: () -> T
@@ -12,8 +13,16 @@ abstract class Property<T>(
         return read()
     }
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        write(value)
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
+        if (value == null) {
+            invalidate()
+        } else {
+            write(value)
+        }
+    }
+
+    private fun invalidate() {
+        preferences.edit { remove(name) }
     }
 
     abstract fun read(): T

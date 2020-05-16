@@ -13,7 +13,7 @@
 
     <dimen name="top_progress_height">3dp</dimen>
 
-    <dimen name="policy_avatar_image_size">200dp</dimen>
+    <dimen name="policy_avatar_image_size">220dp</dimen>
 
     <dimen name="translation_main_recycler_padding">88dp</dimen>
 

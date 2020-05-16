@@ -123,7 +123,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
 
                     binding.avatarImage.setImageRequest(request)
                 } else {
-                    binding.avatarImage.setActualImageResource(R.drawable.ic_octopus1)
+                    binding.avatarImage.setActualImageResource(R.drawable.octopus_welcome)
                 }
 
                 binding.nameEditableField.text = userData.userName
@@ -134,7 +134,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
                 binding.emailEditableField.setDefaultViewState()
                 binding.emailEditableField.editButtonEnabled = true
             } else {
-                binding.avatarImage.setActualImageResource(R.drawable.ic_octopus1)
+                binding.avatarImage.setActualImageResource(R.drawable.octopus_welcome)
 
                 binding.nameEditableField.setDefaultViewState()
                 binding.nameEditableField.editButtonEnabled = false

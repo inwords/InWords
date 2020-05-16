@@ -46,5 +46,7 @@
         android:layout_height="@dimen/default_card_height"
         android:contentDescription="@string/avatar"
         android:elevation="@dimen/elevation_medium"
-        app:failureImage="@drawable/ic_octopus1" />
+        app:actualImageScaleType="fitCenter"
+        app:failureImage="@drawable/octopus_welcome"
+        app:failureImageScaleType="fitCenter" />
 </androidx.cardview.widget.CardView>
