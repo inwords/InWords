@@ -59,7 +59,7 @@ function TrainingResult({
         <Paper className="training-result-paper">
           {trainingTypesInfo.map(
             ({ internalName, title }) =>
-              detailedScore[internalName] && (
+              detailedScore[internalName] != null && (
                 <Fragment key={internalName}>
                   <Typography variant="body1" className="training-result-name">
                     {title}
