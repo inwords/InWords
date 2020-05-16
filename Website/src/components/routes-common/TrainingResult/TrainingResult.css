@@ -10,10 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-<<<<<<< HEAD
   min-width: 200px;
-=======
->>>>>>> develop
   padding: 16px;
 }
 
