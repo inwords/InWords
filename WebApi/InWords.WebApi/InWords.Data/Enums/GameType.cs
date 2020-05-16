@@ -9,5 +9,6 @@ namespace InWords.Data.Enums
         Unknown = -1,
         ClassicCardGame = 0,
         AudioGame = 1,
+        Total =2,
     }
 }

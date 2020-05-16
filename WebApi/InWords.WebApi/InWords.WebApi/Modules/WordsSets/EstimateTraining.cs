@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.Collections;
 using InWords.Data;
+using InWords.Data.Creations;
 using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Business.GameEvaluator.Game;
@@ -45,19 +46,21 @@ namespace InWords.WebApi.Modules.WordsSets
                 .ToList();
             // TO-DO just union more levels types
 
+            // Save custom trainings
             await levelsManage.SaveCustomLevels(Context, userId).ConfigureAwait(false);
 
-            var addHistoryTask = levelsManage.Select(d => d.LevelWords()).ToList();
             var scoreTask = levelsManage.Select(d => d.Score());
-            var wordsMemoryTask = levelsManage.SelectMany(d => d.Qualify());
+            var scoreTaskResult = Context.AddOrUpdateUserGameLevel(scoreTask, userId);
 
             // TODO save history games
-            var scoreTaskResult = Context.AddOrUpdateUserGameLevel(scoreTask, userId);
+            var wordsMemoryTask = levelsManage.SelectMany(d => d.Qualify());
             Context.UpdateMemorization(wordsMemoryTask, userId);
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
 
-            var dictionary = scoreTaskResult.GroupBy(d => d.GameLevelId, d => d).ToDictionary(d => d.Key, d => d.ToList());
+            var dictionary = scoreTaskResult
+                .GroupBy(d => d.GameLevelId, d => d)
+                .ToDictionary(d => d.Key, d => d.ToList());
 
             TrainingScoreReply trainingScoreReply = new TrainingScoreReply();
             foreach (var key in dictionary.Keys)
@@ -80,6 +83,10 @@ namespace InWords.WebApi.Modules.WordsSets
                         if (trainigScore.CardsStatus == null)
                             trainigScore.CardsStatus = new CardsStatus();
                         trainigScore.CardsStatus.Score = score.UserStars;
+                    }
+                    if (score.GameType == GameType.Total)
+                    {
+                        trainigScore.Score = score.UserStars;
                     }
                 }
 

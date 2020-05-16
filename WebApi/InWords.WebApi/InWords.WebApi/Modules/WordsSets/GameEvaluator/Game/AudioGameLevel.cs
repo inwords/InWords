@@ -13,12 +13,10 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
     {
         private bool chached;
         private readonly IList<WordKnowledge> wordKnowledges;
-        public AudioGameLevel(int gameLevelId, IDictionary<int, int> wordIdOpenCount) : base(gameLevelId,wordIdOpenCount)
+        public AudioGameLevel(int gameLevelId, IDictionary<int, int> wordIdOpenCount) : base(gameLevelId, wordIdOpenCount)
         {
             this.wordKnowledges = new List<WordKnowledge>();
         }
-
-        public override float Complexity => .1f;
 
         public override GameType Type => GameType.AudioGame;
 
@@ -28,7 +26,7 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
             chached = true;
             WordIdOpenCount.ForEach((metric) =>
             {
-                WordKnowledge wordKnowledge = new WordKnowledge(metric.Key, FromMetric(metric.Value), Complexity);
+                WordKnowledge wordKnowledge = new WordKnowledge(metric.Key, FromMetric(metric.Value), GetComplexity(Type));
                 wordKnowledges.Add(wordKnowledge);
             });
             return wordKnowledges;

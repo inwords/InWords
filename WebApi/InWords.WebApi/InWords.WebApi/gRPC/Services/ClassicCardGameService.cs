@@ -3,11 +3,13 @@ using InWords.Protobuf;
 using InWords.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.gRPC.Services
 {
     [Authorize]
+    [Obsolete("Use wordset.estimate")]
     public class ClassicCardGameService : ClassicCardGameProvider.ClassicCardGameProviderBase
     {
         private readonly IMediator mediator;
