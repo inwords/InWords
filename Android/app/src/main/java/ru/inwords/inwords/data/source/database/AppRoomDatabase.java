@@ -12,7 +12,7 @@ import ru.inwords.inwords.game.data.source.GameDao;
 import ru.inwords.inwords.game.data.source.GameInfoDao;
 import ru.inwords.inwords.game.data.source.GameLevelDao;
 import ru.inwords.inwords.game.data.source.LevelScoreRequestDao;
-import ru.inwords.inwords.profile.data.bean.User;
+import ru.inwords.inwords.profile.data.entity.ProfileEntity;
 import ru.inwords.inwords.profile.data.source.UserDao;
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredEntry;
 import ru.inwords.inwords.translation.data.deferred.WordTranslationEntriesListDao;
@@ -22,13 +22,13 @@ import ru.inwords.inwords.translation.data.deferred.WordTranslationEntriesListDa
         RoomDeferredEntryManagerStatusConverter.class
 })
 @Database(entities = {
-        User.class,
+        ProfileEntity.class,
         GameEntity.class,
         GameLevelEntity.class,
         GameInfoEntity.class,
         LevelMetricEntity.class,
         WordTranslationDeferredEntry.class
-}, version = 7)
+}, version = 8)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();

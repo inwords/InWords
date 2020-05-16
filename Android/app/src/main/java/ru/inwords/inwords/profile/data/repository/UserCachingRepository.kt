@@ -5,7 +5,9 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.resource.ResourceCachingProvider
-import ru.inwords.inwords.profile.data.bean.User
+import ru.inwords.inwords.profile.converter.ProfileEntityConverter
+import ru.inwords.inwords.profile.data.entity.ProfileEntity
+import ru.inwords.inwords.profile.domain.model.Profile
 
 class UserCachingRepository(
     private val databaseRepository: UserDatabaseRepository,
@@ -14,19 +16,22 @@ class UserCachingRepository(
 
     private val authorisedUserCachingProviderLocator = ResourceCachingProvider.Locator { createAuthorisedUserCachingProvider() }
 
-    override fun getAuthorisedUser(forceUpdate: Boolean): Observable<Resource<User>> {
+    private val profileEntityConverter= ProfileEntityConverter()
+
+    override fun getAuthorisedUser(forceUpdate: Boolean): Observable<Resource<Profile>> {
         val cachingProvider = authorisedUserCachingProviderLocator.getDefault()
 
         return cachingProvider.observe(forceUpdate)
+            .map { profileEntityConverter.convert(it) }
     }
 
-    override fun getUserById(id: Int): Single<User> {
+    override fun getUserById(id: Int): Single<Profile> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun updateUser(newUser: User): Completable {
-        return remoteRepository.updateUser(newUser)
-            .doOnComplete { postOnLoopback(newUser) }
+    override fun updateUser(newNickName: String, actualProfile: Profile): Completable {
+        return remoteRepository.updateUser(newNickName)
+            .doOnComplete { postOnLoopback(actualProfile.copy(nickName = newNickName)) }
     }
 
     override fun requestEmailUpdate(newEmail: String): Completable {
@@ -39,13 +44,13 @@ class UserCachingRepository(
         authorisedUserCachingProviderLocator.clear()
     }
 
-    override fun postOnLoopback(newUser: User) {
+    override fun postOnLoopback(newUser: Profile) {
         val cachingProvider = authorisedUserCachingProviderLocator.getDefault()
 
-        cachingProvider.postOnLoopback(newUser)
+        cachingProvider.postOnLoopback(profileEntityConverter.reverse(newUser))
     }
 
-    private fun createAuthorisedUserCachingProvider(): ResourceCachingProvider<User> {
+    private fun createAuthorisedUserCachingProvider(): ResourceCachingProvider<ProfileEntity> {
         return ResourceCachingProvider(
             { data -> databaseRepository.insert(data).map { data } },
             { databaseRepository.getAuthorisedUser() },

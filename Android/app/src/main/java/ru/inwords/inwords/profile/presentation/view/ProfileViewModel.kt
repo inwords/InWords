@@ -14,15 +14,15 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.validation.ValidationResult
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
-import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
+import ru.inwords.inwords.profile.domain.model.Profile
 
 class ProfileViewModel internal constructor(
     private val profileInteractor: ProfileInteractor,
     private val authorisationInteractor: AuthorisationInteractor
 ) : BasicViewModel() {
 
-    val profileDataSubject: Observable<Resource<User>> get() = profileInteractor.getAuthorisedUser()
+    val profileDataSubject: Observable<Resource<Profile>> get() = profileInteractor.getAuthorisedUser()
 
     private val changeNicknameMutableLiveData = SingleLiveEvent<Resource<Unit>>()
     val changeNicknameStatus: LiveData<Resource<Unit>> = changeNicknameMutableLiveData
@@ -48,8 +48,8 @@ class ProfileViewModel internal constructor(
             .autoDispose()
     }
 
-    fun updateUser(newUser: User) {
-        profileInteractor.updateUser(newUser)
+    fun updateUser(newNickName:String, actualProfile: Profile) {
+        profileInteractor.updateUser(newNickName, actualProfile)
             .observeOn(SchedulersFacade.ui())
             .doOnSubscribe { changeNicknameMutableLiveData.postValue(Resource.Loading()) }
             .subscribe({

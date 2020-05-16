@@ -15,10 +15,10 @@ class ProfileViewHolder(
     private val binding: CardProfileBinding = CardProfileBinding.bind(itemView)
 
     fun bind(item: CardWrapper.ProfileModel) {
-        val user = item.user
+        val user = item.profile
 
-        if (user.avatar != null) {
-            val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(user.avatar))
+        if (user.avatarPath != null) {
+            val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(user.avatarPath))
                 .setProgressiveRenderingEnabled(true)
                 .setLocalThumbnailPreviewsEnabled(true)
                 .build()
@@ -29,7 +29,7 @@ class ProfileViewHolder(
         }
 
         binding.experience.text = itemView.context.getString(R.string.user_experience, 15)
-        binding.name.text = user.userName
+        binding.name.text = user.nickName
 
         binding.root.setOnClickListener { onItemClickListener.invoke(item) }
     }

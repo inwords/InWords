@@ -9,8 +9,8 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.home.recycler.CardWrapper
 import ru.inwords.inwords.home.recycler.applyDiffUtil
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
-import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
+import ru.inwords.inwords.profile.domain.model.Profile
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 
 class HomeViewModel internal constructor(
@@ -19,9 +19,9 @@ class HomeViewModel internal constructor(
 ) : BasicViewModel() {
 
     private val errorLiveData = SingleLiveEvent<String>()
-    private val profileLiveData = MutableLiveData<User>()
+    private val profileLiveData = MutableLiveData<Profile>()
 
-    val profile: LiveData<User> = profileLiveData
+    val profile: LiveData<Profile> = profileLiveData
     val error: LiveData<String> = errorLiveData
 
     val cardWrappers
@@ -45,10 +45,10 @@ class HomeViewModel internal constructor(
     private fun getProfileData() = profileInteractor.getAuthorisedUser()
         .map {
             when (it) {
-                is Resource.Success -> CardWrapper.ProfileModel(it.data).also { model -> profileLiveData.postValue(model.user) }
+                is Resource.Success -> CardWrapper.ProfileModel(it.data).also { model -> profileLiveData.postValue(model.profile) }
                 is Resource.Loading -> CardWrapper.ProfileLoadingMarker
                 is Resource.Error -> {
-                    profileLiveData.postValue(User(-1, "InWords", null, 0, null))
+                    profileLiveData.postValue(Profile(-1, "InWords", 0, null, null, "", null, ""))
                     CardWrapper.CreateAccountMarker
                 }
             }

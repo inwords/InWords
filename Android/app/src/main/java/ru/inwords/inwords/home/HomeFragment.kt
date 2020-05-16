@@ -45,7 +45,7 @@ class HomeFragment : FragmentWithViewModelAndNav<HomeViewModel, HomeViewModelFac
         }
 
         observe(viewModel.profile) {
-            binding.toolbar.title = it.userName
+            binding.toolbar.title = it.nickName
         }
     }
 
