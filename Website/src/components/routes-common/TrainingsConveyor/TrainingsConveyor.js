@@ -67,10 +67,14 @@ function TrainingsConveyor({
   const [detailedScore, setDetailedScore] = useState({});
 
   const handleTrainingEnd = async (title, metrics) => {
+<<<<<<< HEAD
     const newFinalMetrics = {
       ...finalMetrics,
       [`${title}Metric`]: { wordIdOpenCount: metrics }
     };
+=======
+    const newFinalMetrics = { ...finalMetrics, [`${title}Metric`]: metrics };
+>>>>>>> develop
     setFinalMetrics(newFinalMetrics);
 
     if (restTrainingTypes.length > 1) {
@@ -86,7 +90,11 @@ function TrainingsConveyor({
         saveLevelResult(actualLevelId, newFinalMetrics)
       );
       const levelResult = scores[0];
+<<<<<<< HEAD
       setScore(levelResult.score);
+=======
+      setScore(levelResult.score || 0); // TODO!
+>>>>>>> develop
       setDetailedScore({
         cards: levelResult.cardsStatus && levelResult.cardsStatus.score,
         audition: levelResult.auditionStatus && levelResult.auditionStatus.score

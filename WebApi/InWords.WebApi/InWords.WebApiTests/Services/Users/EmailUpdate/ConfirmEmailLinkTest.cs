@@ -1,4 +1,5 @@
-﻿using InWords.Data;
+﻿using Grpc.Core;
+using InWords.Data;
 using InWords.Data.Domains.EmailEntitys;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
@@ -61,7 +62,9 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
                     new ConfirmEmailLinkRequest() { ActivationGuid = "wronglink" });
 
             var registration = new ConfirmEmailLink(context);
-            await Assert.ThrowsAsync<ArgumentException>(() => registration.HandleRequest(requestObject));
+            await registration.HandleRequest(requestObject);
+
+            Assert.Equal(StatusCode.InvalidArgument, requestObject.StatusCode);
         }
 
         [Fact]
@@ -81,7 +84,8 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
                     new ConfirmEmailLinkRequest() { ActivationGuid = $"{Guid.NewGuid()}" });
 
             var registration = new ConfirmEmailLink(context);
-            await Assert.ThrowsAsync<ArgumentNullException>(() => registration.HandleRequest(requestObject));
+            await registration.HandleRequest(requestObject);
+            Assert.Equal(StatusCode.NotFound, requestObject.StatusCode);
         }
     }
 }

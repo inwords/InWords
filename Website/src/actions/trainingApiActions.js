@@ -17,6 +17,23 @@ export const saveLevelResult = (levelId, metrics) => dispatch =>
               : metrics
           ]
         }),
+<<<<<<< HEAD
+=======
+        resolve,
+        reject
+      })
+    )
+  );
+
+export const saveCustomLevelResult = levelResult => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        apiVersion: '2',
+        endpoint: '/classicCardGame/save',
+        method: 'POST',
+        data: JSON.stringify({ info: [levelResult] }),
+>>>>>>> develop
         resolve,
         reject
       })

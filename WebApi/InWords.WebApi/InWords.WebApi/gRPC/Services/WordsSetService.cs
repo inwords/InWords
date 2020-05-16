@@ -32,8 +32,7 @@ namespace InWords.WebApi.gRPC.Services
         => mediator.AuthorizeHandler<Empty, GameScoreReply>(request, context);
 
         public override Task<TrainingScoreReply> Estimate(TrainingDataRequest request, ServerCallContext context)
-        {
-            return base.Estimate(request, context);
-        }
+         => mediator.AuthorizeHandler<TrainingDataRequest, TrainingScoreReply>(request, context);
+
     }
 }

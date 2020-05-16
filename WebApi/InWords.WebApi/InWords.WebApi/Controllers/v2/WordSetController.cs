@@ -112,5 +112,16 @@ namespace InWords.WebApi.Controllers.v2
         public async Task<IActionResult> History()
             => await mediator.AuthorizeHandlerActionResult<Empty, GameScoreReply>(new Empty(), User)
             .ConfigureAwait(false);
+
+        /// <summary>
+        /// This method saves trainings and evaluates games from 0 to 6 half stars
+        /// </summary>
+        /// <param name="trainingDataRequest"></param>
+        /// <returns></returns>
+        [HttpPost("estimate")]
+        [SwaggerResponse(StatusCodes.Status200OK, "history levels", typeof(TrainingScoreReply))]
+        public async Task<IActionResult> History(TrainingDataRequest trainingDataRequest)
+            => await mediator.AuthorizeHandlerActionResult<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest, User)
+            .ConfigureAwait(false);
     }
 }

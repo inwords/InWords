@@ -16,7 +16,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
 
             foreach (var metric in cardGameMetrics.Metrics)
             {
-                var score = CalculateScore(metric.WordIdOpenCount);
+                var score = CalculateScore(metric.WordIdOpenCount) * 2;
                 if (levelScore.ContainsKey(metric.GameLevelId))
                 {
                     if (score > levelScore[metric.GameLevelId])
