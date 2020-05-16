@@ -1,9 +1,6 @@
 ﻿using InWords.Protobuf;
 using Swashbuckle.AspNetCore.Filters;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using static InWords.Protobuf.TrainingDataRequest.Types.Training.Types;
 
 namespace InWords.WebApi.Swagger.Examples

@@ -6,9 +6,6 @@ using InWords.Protobuf;
 using InWords.WebApi.Modules.WordsSets;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApiTests.TestUtils;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

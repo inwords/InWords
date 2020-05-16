@@ -6,7 +6,6 @@ using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Localization;
 using InWords.WebApi.Services.Users.Extentions;
-using Org.BouncyCastle.Ocsp;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,7 +34,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
 
             EmailVerifies linkedEmail = await Context.EmailVerifies.FindAsync(guid);
 
-            if (linkedEmail == null) 
+            if (linkedEmail == null)
             {
                 request.StatusCode = StatusCode.NotFound;
                 request.Detail = Strings.GetDetailMessage(Locale.RuRu, DetailMessage.EmailconfirmationNotfound);

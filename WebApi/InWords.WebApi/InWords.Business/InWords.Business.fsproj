@@ -13,4 +13,8 @@
     <ProjectReference Include="..\InWords.Data\InWords.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.1" />
+  </ItemGroup>
+
 </Project>
