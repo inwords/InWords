@@ -3,15 +3,36 @@
 .training-card {
   position: relative;
   margin: 4px;
-  display: flex;
-  align-items: center;
+  border: 0;
   border-radius: 0;
+  outline: 0;
+  padding: 0;
   cursor: pointer;
   background-color: var(--palette-primary);
   transition: box-shadow var(--transition-duration-short)
     var(--transition-easing-ease-in-out);
 
   @include theme-typography(body1);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: background-color var(--transition-duration-shortest)
+      var(--transition-easing-ease-in-out);
+  }
+
+  &:hover::after,
+  &:focus::after {
+    background-color: var(--palette-action-hover);
+  }
+
+  &:active::after {
+    background-color: var(--palette-action-selected);
+  }
 }
 
 .training-card-content-container {
@@ -26,6 +47,24 @@
   background-color: var(--palette-background-paper);
   transition: background-color var(--transition-duration-shortest)
     var(--transition-easing-ease-in-out);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    &:hover,
+    &:focus {
+      background-color: var(--palette-primary-darken-less);
+    }
+
+    &:active {
+      background-color: var(--palette-primary-darken-more);
+    }
+  }
 
   &--color--success {
     background-color: var(--palette-success-light);

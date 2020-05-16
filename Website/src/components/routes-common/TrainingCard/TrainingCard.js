@@ -16,6 +16,8 @@ function TrainingCard({
 }) {
   return (
     <Paper
+      component="button"
+      square
       className="training-card"
       style={{
         width: dimension,
