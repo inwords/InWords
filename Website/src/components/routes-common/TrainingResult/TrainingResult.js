@@ -31,7 +31,7 @@ function TrainingResult({
     <div className="training-result">
       <FadeAnimation>
         <Paper className="training-result-paper">
-          {score !== null && (
+          {score != null && (
             <Fragment>
               <div className="training-result-smiley">
                 <Smiley score={score} />
