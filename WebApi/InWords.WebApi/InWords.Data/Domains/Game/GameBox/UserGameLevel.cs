@@ -21,18 +21,19 @@ namespace InWords.Data.Creations.GameBox
 
         [ForeignKey(nameof(GameLevelId))] public virtual GameLevel GameLevel { get; set; }
 
-        [Required] [Range(MINSTARS,MAXSTARS)]public int UserStars { get; set; }
+        [Required] [Range(MINSTARS, MAXSTARS)] public int UserStars { get; set; }
         [Required] public GameType GameType { get; set; }
 
         public UserGameLevel()
         {
         }
 
-        public UserGameLevel(int userId, int gameLevelId = 0, int userStars = 0)
+        public UserGameLevel(int userId, int gameLevelId, int userStars, GameType gameType)
         {
             UserId = userId;
             GameLevelId = gameLevelId;
             UserStars = userStars;
+            GameType = gameType;
         }
     }
 }

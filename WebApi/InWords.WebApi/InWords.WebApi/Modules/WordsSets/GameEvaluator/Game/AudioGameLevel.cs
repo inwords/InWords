@@ -18,8 +18,6 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
             this.wordKnowledges = new List<WordKnowledge>();
         }
 
-        public override float Complexity => .1f;
-
         public override GameType Type => GameType.AudioGame;
 
         public override IList<WordKnowledge> Qualify()
@@ -28,7 +26,7 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
             chached = true;
             WordIdOpenCount.ForEach((metric) =>
             {
-                WordKnowledge wordKnowledge = new WordKnowledge(metric.Key, FromMetric(metric.Value), Complexity);
+                WordKnowledge wordKnowledge = new WordKnowledge(metric.Key, FromMetric(metric.Value), GetComplexity(Type));
                 wordKnowledges.Add(wordKnowledge);
             });
             return wordKnowledges;

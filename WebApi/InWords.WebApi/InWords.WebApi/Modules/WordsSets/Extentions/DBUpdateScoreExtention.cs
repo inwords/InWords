@@ -3,8 +3,8 @@ using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Enums;
+using InWords.WebApi.Business.GameEvaluator.Game;
 using InWords.WebApi.Business.GameEvaluator.Model;
-using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +25,7 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
             if (levelScores == null)
                 return Array.Empty<UserGameLevel>();
 
+            levelScores = RecalculateTotalScore(levelScores.ToList());
 
             // select all games
             var levelIds = levelScores.Select(d => d.GameLevelId).ToArray();
@@ -70,7 +71,7 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
                     currentScore = userGameLevels[key];
                 else
                 {
-                    currentScore = new UserGameLevel(userId, ls.GameLevelId, ls.Score);
+                    currentScore = new UserGameLevel(userId, ls.GameLevelId, ls.Score, ls.GameType);
                     userGameLevels.Add(key, currentScore);
                     context.Add(currentScore);
                 }
@@ -79,6 +80,52 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
                     currentScore.UserStars = ls.Score;
             }
             return userGameLevels.Values;
+        }
+
+        private static IList<LevelScore> RecalculateTotalScore(IList<LevelScore> scores)
+        {
+            Dictionary<int, LevelTotalScoreCalculator> pairs = new Dictionary<int, LevelTotalScoreCalculator>();
+
+            foreach (var s in scores)
+            {
+                if (pairs.ContainsKey(s.GameLevelId))
+                {
+                    if (pairs[s.GameLevelId] == null)
+                        pairs[s.GameLevelId] = new LevelTotalScoreCalculator();
+
+                    pairs[s.GameLevelId].Add(s.Score, s.GameType);
+                }
+            }
+            IList<LevelScore> levelScores = new List<LevelScore>();
+            foreach (var key in pairs.Keys)
+            {
+                levelScores.Add(new LevelScore(key, pairs[key].Score(), GameType.Total));
+            }
+            return levelScores.Union(scores).ToList();
+        }
+
+        private class LevelTotalScoreCalculator
+        {
+            private readonly List<(int score, float complexity)> scoreComplexity;
+            public LevelTotalScoreCalculator()
+            {
+                scoreComplexity = new List<(int score, float complexity)>();
+            }
+
+            public void Add(int score, GameType gameType)
+            {
+                scoreComplexity.Add((score, BaseGameLevel.GetComplexity(gameType)));
+            }
+
+            public int Score()
+            {
+                float sum = scoreComplexity.Sum(d => d.score * d.complexity);
+                float complexity = scoreComplexity.Sum(d => d.complexity);
+                int score = (int)Math.Round(sum / complexity);
+                score = Math.Min(score, UserGameLevel.MAXSTARS);
+                score = Math.Max(score, UserGameLevel.MINSTARS);
+                return score;
+            }
         }
     }
 }
