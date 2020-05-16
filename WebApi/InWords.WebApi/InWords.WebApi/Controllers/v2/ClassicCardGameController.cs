@@ -20,6 +20,11 @@ namespace InWords.WebApi.Controllers.v2
         private readonly IMediator mediator;
         public ClassicCardGameController(IMediator mediator) => this.mediator = mediator;
 
+        /// <summary>
+        /// Use wordset estimate
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Obsolete("Use wordset estimate")]
         [HttpPost]
         [Route("estimate")]
@@ -28,6 +33,11 @@ namespace InWords.WebApi.Controllers.v2
         public async Task<IActionResult> Estimate(CardGameMetrics request)
             => await mediator.AuthorizeHandlerActionResult<CardGameMetrics, LevelPoints>(request, User).ConfigureAwait(false);
 
+        /// <summary>
+        /// Use wordset estimate without game level id
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Obsolete("Use wordset estimate without game level id")]
         [HttpPost]
         [Route("save")]

@@ -114,7 +114,7 @@ namespace InWords.WebApi.Controllers.v2
             .ConfigureAwait(false);
 
         /// <summary>
-        /// Experimental use only. under testing until 15.05.2020
+        /// This method saves trainings and evaluates games from 0 to 6 half stars
         /// </summary>
         /// <param name="trainingDataRequest"></param>
         /// <returns></returns>
