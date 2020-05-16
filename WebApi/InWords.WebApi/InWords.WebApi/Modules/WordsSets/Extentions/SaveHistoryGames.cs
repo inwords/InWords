@@ -1,13 +1,9 @@
-﻿using Google.Protobuf.Collections;
-using InWords.Data;
-using InWords.Protobuf;
+﻿using InWords.Data;
 using InWords.WebApi.Business.GameEvaluator.Game;
 using InWords.WebApi.Modules.ClassicCardGame.Extentions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static InWords.Protobuf.TrainingDataRequest.Types;
 
 namespace InWords.WebApi.Modules.WordsSets.Extentions
 {

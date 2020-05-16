@@ -157,7 +157,7 @@ namespace InWords.WebApi.AppStart
                 .Where(a => a.Namespace != null && a.Name.EndsWith("Service") &&
                             a.Namespace.StartsWith("InWords.WebApi.Services") && !a.Namespace.Contains("Abstractions"))
                 .InstancePerLifetimeScope();
-//end warning
+            //end warning
 
             builder.RegisterType<EmailVerifierRepository>().As<IEmailVerifierRepository>();
 

@@ -1,6 +1,4 @@
-﻿using InWords.Common.Extensions;
-using InWords.Data;
-using InWords.Data.Creations;
+﻿using InWords.Data;
 using InWords.Data.Creations.GameBox;
 using InWords.Data.Enums;
 using InWords.WebApi.Business.GameEvaluator.Game;
@@ -8,7 +6,6 @@ using InWords.WebApi.Business.GameEvaluator.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.WordsSets.Extentions
 {

@@ -2,12 +2,10 @@
 using InWords.Data.Enums;
 using InWords.Data.Repositories;
 using InWords.Service.Auth.Extensions;
-using InWords.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v1

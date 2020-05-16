@@ -30,7 +30,7 @@ namespace InWords.WebApi.Extensions.InWordsDataContextExtentions
         {
             userWordPairs.ForEach(w =>
             {
-                var updatedMemorization = MemorizationCalculator.Update(w.Memorization(), knowledgeQualifiers[w.UserWordPairId],complexity);
+                var updatedMemorization = MemorizationCalculator.Update(w.Memorization(), knowledgeQualifiers[w.UserWordPairId], complexity);
                 w.LearningPeriod = updatedMemorization.Period;
                 w.TimeGap = updatedMemorization.RepeatTime;
             });

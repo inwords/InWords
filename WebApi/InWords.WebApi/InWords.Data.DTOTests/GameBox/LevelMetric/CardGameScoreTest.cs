@@ -11,7 +11,7 @@ namespace InWords.Data.DTOTests.GameBox.LevelMetric
         public void SerializationTest()
         {
             var WordPairIdOpenCounts = new Dictionary<int, int> { { 2, 3 } };
-            
+
 
             Assert.Throws<NotSupportedException>(() => JsonSerializer.Serialize(WordPairIdOpenCounts));
             // replace when work and remove Add .AddNewtonsoftJson()
