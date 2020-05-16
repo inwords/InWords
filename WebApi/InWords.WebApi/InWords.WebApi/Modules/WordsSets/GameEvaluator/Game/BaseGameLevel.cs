@@ -23,6 +23,7 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
         public int[] LevelWords() => WordIdOpenCount.Keys.ToArray();
         protected static int StarasFunction(int bestCase, int currentCase)
         {
+            currentCase = Math.Max(bestCase, currentCase);
             double status = -Math.Pow(currentCase - bestCase, 2) / (2.5 * bestCase) + UserGameLevel.MAXSTARS;
             int score = Math.Min((int)Math.Floor(status), UserGameLevel.MAXSTARS);
             score = Math.Max(UserGameLevel.MINSTARS, score);

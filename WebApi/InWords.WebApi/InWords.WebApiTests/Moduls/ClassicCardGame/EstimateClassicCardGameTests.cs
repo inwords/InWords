@@ -61,7 +61,7 @@ namespace InWords.WebApiTests.Moduls.ClassicCardGame
             // assert 
             Assert.Single(response.Points);
             Assert.Equal(3, response.Points.First().Score);
-            Assert.Equal(3, context.UserGameLevels.First().UserStars);
+            Assert.Equal(6, context.UserGameLevels.First().UserStars);
         }
 
         [Fact]
