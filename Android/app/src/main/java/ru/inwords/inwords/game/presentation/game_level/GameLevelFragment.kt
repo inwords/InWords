@@ -14,7 +14,6 @@ import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.databinding.FragmentGameLevelBinding
 import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
-import ru.inwords.inwords.presentation.GAME_LEVEL_INFO
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.texttospeech.TtsMediaPlayerAdapter
 import java.lang.ref.WeakReference
@@ -32,15 +31,18 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
     private lateinit var ttsMediaPlayerAdapter: TtsMediaPlayerAdapter
 
+    private var gameId: Int = 0
     private lateinit var gameLevelInfo: GameLevelInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        gameId = savedInstanceState?.getInt(GAME_ID, args.gameId) ?: args.gameId
         gameLevelInfo = savedInstanceState?.getParcelable(GAME_LEVEL_INFO) ?: args.gameLevelInfo
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        viewModel.getCurrentGameId()?.let { outState.putInt(GAME_ID, it) }
         viewModel.getCurrentLevelInfo()?.let { outState.putParcelable(GAME_LEVEL_INFO, it) }
         super.onSaveInstanceState(outState)
     }
@@ -50,12 +52,10 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
         setupWithNavController(binding.toolbar)
 
-        observe(viewModel.showProgress) {
-            it.contentIfNotHandled?.let {
-                binding.progressView.post {
-                    binding.progressView.isVisible = it
-                    binding.progressView.progress = if (it) 50 else 0
-                }
+        observe(viewModel.progress) {
+            binding.progressView.post {
+                binding.progressView.isVisible = it
+                binding.progressView.progress = if (it) 50 else 0
             }
         }
 
@@ -65,7 +65,7 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
                 viewModel.onAttachGameScene(GameScene(WeakReference(binding.table)))
 
-                viewModel.onGameLevelSelected(args.gameId, gameLevelInfo)
+                viewModel.onGameLevelSelected(gameId, gameLevelInfo)
             }
         })
 
@@ -78,5 +78,10 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
         ttsMediaPlayerAdapter
             .observeTtsStream(viewModel.ttsStream)
             .disposeOnViewDestroyed()
+    }
+
+    companion object {
+        private const val GAME_LEVEL_INFO = "GAME_LEVEL_INFO"
+        private const val GAME_ID = "GAME_ID"
     }
 }

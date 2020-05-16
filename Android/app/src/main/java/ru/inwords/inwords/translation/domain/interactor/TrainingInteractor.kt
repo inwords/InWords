@@ -1,27 +1,16 @@
 package ru.inwords.inwords.translation.domain.interactor
 
-import android.util.Log
-import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
+import io.reactivex.Single
+import ru.inwords.inwords.core.resource.Resource
+import ru.inwords.inwords.translation.data.repository.TrainingRepository
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 
-class TrainingInteractor(
-    private val translationWordsInteractor: TranslationWordsInteractor,
-    private val translationWordsRemoteRepository: TranslationWordsRemoteRepository
-) {
-
-    fun getActualWordsForTraining(): List<WordTranslation> {
-        val words = translationWordsInteractor.getAllWords().blockingFirst(emptyList())
-
-        val idsForTraining = translationWordsRemoteRepository.trainingIds().blockingGet().toSet()
-
-        val wordsForTrainingFiltered = words.filter { it.serverId in idsForTraining }
-
-        return if (wordsForTrainingFiltered.size != idsForTraining.size) {
-            Log.w(javaClass.simpleName, "wordsForTraining.size != idsForTraining")
-
-            translationWordsRemoteRepository.trainingWords().blockingGet()
-        } else {
-            wordsForTrainingFiltered
-        }
+class TrainingInteractor(private val trainingRepository: TrainingRepository) {
+    fun getActualWordsForTraining(forceUpdate: Boolean = false): Single<List<WordTranslation>> {
+        return trainingRepository.getActualWordsForTraining(forceUpdate)
+            .map { (it as? Resource.Success)?.data ?: emptyList() }
+            .firstOrError()
     }
+
+    fun clearCache() = trainingRepository.clearCache()
 }
