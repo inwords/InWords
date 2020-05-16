@@ -23,7 +23,6 @@ import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
 import ru.inwords.inwords.game.presentation.games.recycler.ContinueGameItem
 import ru.inwords.inwords.game.presentation.games.recycler.GameInfoItem
 import ru.inwords.inwords.game.presentation.games.recycler.WordsTrainingItem
-import ru.inwords.inwords.home.recycler.SimpleStateWithVisibility
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 

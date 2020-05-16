@@ -18,7 +18,6 @@ import ru.inwords.inwords.game.domain.interactor.ContinueGameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.FirstZeroStarsLevelNotFoundException
 import ru.inwords.inwords.game.domain.model.GameInfo
-import ru.inwords.inwords.home.recycler.SimpleStateWithVisibility
 import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor

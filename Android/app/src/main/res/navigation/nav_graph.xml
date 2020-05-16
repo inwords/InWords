@@ -32,35 +32,6 @@
         app:popUpToInclusive="false" />
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="ru.inwords.inwords.home.HomeFragment"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_mainFragment_to_profileFragment"
-            app:destination="@id/graph_profile"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_mainFragment_to_register"
-            app:destination="@id/registrationFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_mainFragment_to_dictionary"
-            app:destination="@id/graph_dictionary"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
         android:id="@+id/policyFragment"
         android:name="ru.inwords.inwords.policy.presentation.PolicyFragment"
         tools:layout="@layout/fragment_policy">

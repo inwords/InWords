@@ -2,8 +2,6 @@ package ru.inwords.inwords.game.presentation.games
 
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import ru.inwords.inwords.home.recycler.SimpleState
-import ru.inwords.inwords.home.recycler.SimpleStateWithVisibility
 
 class TrainingStateReducer(defaultState: SimpleStateWithVisibility) {
     private val trainingState: BehaviorSubject<SimpleStateWithVisibility> = BehaviorSubject.createDefault(defaultState)

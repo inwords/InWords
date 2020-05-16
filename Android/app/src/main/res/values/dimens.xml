@@ -5,9 +5,6 @@
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="card_corner_radius_large">8dp</dimen>
 
-    <dimen name="text_24sp_box">28dp</dimen>
-    <dimen name="text_16sp_box">20dp</dimen>
-
     <dimen name="default_card_height">80dp</dimen>
     <dimen name="large_logo_height">60dp</dimen>
 
@@ -25,7 +22,6 @@
 
     <dimen name="profile_avatar_size">128dp</dimen>
     <dimen name="profile_header_height">208dp</dimen>
-    <dimen name="profile_edit_text_height">64dp</dimen>
     <dimen name="profile_avatar_border_width">3dp</dimen>
     <dimen name="profile_rounded_shape_height">16dp</dimen>
 

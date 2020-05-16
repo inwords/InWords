@@ -1,8 +1,6 @@
 package ru.inwords.inwords.game.presentation.games
 
 import org.junit.jupiter.api.Test
-import ru.inwords.inwords.home.recycler.SimpleState
-import ru.inwords.inwords.home.recycler.SimpleStateWithVisibility
 
 internal class TrainingStateReducerTest {
 

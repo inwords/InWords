@@ -5,8 +5,8 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.viewbinding.BindableItem
 import ru.inwords.inwords.R
 import ru.inwords.inwords.databinding.CardTrainingBinding
-import ru.inwords.inwords.home.recycler.SimpleState
-import ru.inwords.inwords.home.recycler.SimpleState.*
+import ru.inwords.inwords.game.presentation.games.SimpleState
+import ru.inwords.inwords.game.presentation.games.SimpleState.*
 
 class WordsTrainingItem internal constructor(
     private val simpleState: SimpleState,
