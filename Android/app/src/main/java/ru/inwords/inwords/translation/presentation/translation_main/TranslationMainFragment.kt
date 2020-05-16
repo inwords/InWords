@@ -86,7 +86,13 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         viewModel.translationWordsStream
             .applyDiffUtil()
             .observeOn(SchedulersFacade.ui())
-            .subscribe(recyclerAdapter)
+            .subscribe({
+                recyclerAdapter.accept(it)
+                val quantity = it.first.size
+                binding.toolbar.subtitle = resources.getQuantityString(R.plurals.words_in_dictionary, quantity, quantity)
+            }, {
+                Log.wtf(TAG, it)
+            })
             .disposeOnViewDestroyed()
     }
 
@@ -233,5 +239,9 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
         override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
             viewModel.onConfirmItemsDismiss(word)
         }
+    }
+
+    companion object {
+        const val TAG = "TranslationMainFragment"
     }
 }

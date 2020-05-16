@@ -59,12 +59,12 @@
     <string name="translation_multiple_deleted">Слов удалено: %d</string>
 
     <plurals name="words_in_dictionary">
-        <item quantity="zero">В словаре %1$d слов</item>
-        <item quantity="one">В словаре %1$d слово</item>
-        <item quantity="two">В словаре %1$d слова</item>
-        <item quantity="few">В словаре %1$d слова</item>
-        <item quantity="many">В словаре %1$d слов</item>
-        <item quantity="other">В словаре %1$d слов</item>
+        <item quantity="zero">%1$d слов</item>
+        <item quantity="one">%1$d слово</item>
+        <item quantity="two">%1$d слова</item>
+        <item quantity="few">%1$d слова</item>
+        <item quantity="many">%1$d слов</item>
+        <item quantity="other">%1$d слов</item>
     </plurals>
     <!-- word addition end -->
 
