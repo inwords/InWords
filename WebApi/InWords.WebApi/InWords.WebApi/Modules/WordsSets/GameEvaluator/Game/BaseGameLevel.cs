@@ -4,7 +4,6 @@ using InWords.WebApi.Business.GameEvaluator.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace InWords.WebApi.Business.GameEvaluator.Game
 {

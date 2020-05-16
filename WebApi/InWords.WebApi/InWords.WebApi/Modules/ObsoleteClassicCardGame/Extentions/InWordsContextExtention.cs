@@ -68,7 +68,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
             return historyGameId;
         }
 
-        public static async Task<int[]> CreateLevels(this InWordsDataContext context, int gameId, int userId, IList<int[]> pairsInLevels) 
+        public static async Task<int[]> CreateLevels(this InWordsDataContext context, int gameId, int userId, IList<int[]> pairsInLevels)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -111,7 +111,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
 
             return levels.Select(level => level.GameLevelId).ToArray();
         }
-        
+
         /// <summary>
         /// GetOrAdd history usergame and save levels in game levels. Return levels ids.
         /// </summary>
@@ -119,7 +119,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
         /// <param name="userId">auhtorized user identity</param>
         /// <param name="levelsWords">words id array in list of levels</param>
         /// <returns>Levels ids</returns>
-        public static async Task<int[]> CreateLevels(this InWordsDataContext context, int userId, IList<int[]> levelsWords) 
+        public static async Task<int[]> CreateLevels(this InWordsDataContext context, int userId, IList<int[]> levelsWords)
         {
             var historyGameId = await context.AddOrGetUserHistoryGame(userId).ConfigureAwait(false);
             var levels = await context.CreateLevels(historyGameId, userId, levelsWords).ConfigureAwait(false);

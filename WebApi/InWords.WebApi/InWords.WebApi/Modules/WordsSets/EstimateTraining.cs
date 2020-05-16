@@ -1,14 +1,8 @@
-﻿using Google.Protobuf.Collections;
-using InWords.Data;
-using InWords.Data.Creations;
+﻿using InWords.Data;
 using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Business.GameEvaluator.Game;
-using InWords.WebApi.Extensions.InWordsDataContextExtentions;
-using InWords.WebApi.Model.UserWordPair;
-using InWords.WebApi.Modules.ClassicCardGame.Extentions;
 using InWords.WebApi.Modules.WordsSets.Extentions;
-using InWords.WebApi.Modules.WordsSets.Models;
 using InWords.WebApi.Services.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -36,15 +30,29 @@ namespace InWords.WebApi.Modules.WordsSets
             var metrics = request.Value.Metrics;
 
             // configure game level managers
-            var levelsManage = metrics
-                .Where(d => d.CardsMetric != null && d.CardsMetric.WordIdOpenCount != null)
-                .Select(d => new CardGameLevel(d.GameLevelId, d.CardsMetric.WordIdOpenCount) as IGameLevel)
-                .Union(
-                metrics
-                .Where(d => d.AuditionMetric != null && d.AuditionMetric.WordIdOpenCount != null)
-                .Select(d => new AudioGameLevel(d.GameLevelId, d.AuditionMetric.WordIdOpenCount)))
-                .ToList();
-            // TO-DO just union more levels types
+            List<IGameLevel> levelsManage = new List<IGameLevel>();
+            int trainingId = 0;
+            foreach (var metric in metrics)
+            {
+                var currentGameLevelid = metric.GameLevelId;
+                if (currentGameLevelid == default)
+                {
+                    currentGameLevelid = trainingId--;
+                }
+
+                if (metric.CardsMetric != null && metric.CardsMetric.WordIdOpenCount != null) 
+                {
+                    levelsManage.Add(new CardGameLevel(currentGameLevelid, metric.CardsMetric.WordIdOpenCount));
+                }
+
+                if (metric.AuditionMetric != null && metric.AuditionMetric.WordIdOpenCount != null)
+                {
+                    levelsManage.Add(new AudioGameLevel(currentGameLevelid, metric.AuditionMetric.WordIdOpenCount));
+                }
+
+                // TO-DO just union more levels types
+            }
+
 
             // Save custom trainings
             await levelsManage.SaveCustomLevels(Context, userId).ConfigureAwait(false);

@@ -28,7 +28,7 @@ namespace InWords.WebApi.AppStart
                 {
 
                     GetPorts(out int http, out int https, out int https2);
-                    
+
                     string? path = AppDomain.CurrentDomain.BaseDirectory;
                     if (string.IsNullOrWhiteSpace(path)) path = "";
 
@@ -78,7 +78,7 @@ namespace InWords.WebApi.AppStart
             if (!string.IsNullOrWhiteSpace(INWHTTPS))
                 https = int.Parse(INWHTTPS, NumberFormatInfo.InvariantInfo);
             if (!string.IsNullOrWhiteSpace(INWHTTPS2))
-                https2 = int.Parse(INWHTTPS2, NumberFormatInfo.InvariantInfo);          
+                https2 = int.Parse(INWHTTPS2, NumberFormatInfo.InvariantInfo);
         }
     }
 }

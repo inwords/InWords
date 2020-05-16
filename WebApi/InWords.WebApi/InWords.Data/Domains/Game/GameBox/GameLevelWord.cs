@@ -1,6 +1,4 @@
-﻿using InWords.Data.Domains;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InWords.Data.Creations.GameBox

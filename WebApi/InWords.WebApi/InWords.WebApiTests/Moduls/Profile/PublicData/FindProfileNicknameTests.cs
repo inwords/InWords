@@ -1,16 +1,8 @@
-﻿using Grpc.Core;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Protobuf;
-using InWords.WebApi.Modules.Profile.Extentions;
-using InWords.WebApi.Services;
 using InWords.WebApi.Services.Abstractions;
-using InWords.WebApi.Services.Localization;
 using InWords.WebApiTests.TestUtils;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace InWords.WebApi.Modules.Profile.PublicData
