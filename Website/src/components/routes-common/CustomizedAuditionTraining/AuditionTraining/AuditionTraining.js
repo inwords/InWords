@@ -11,7 +11,7 @@ const NEXT_WORDS_DELAY = 1000;
 
 import './AuditionTraining.css';
 
-function AuditionTraining({ trainingLevel, handleEnd }) {
+function AuditionTraining({ trainingLevel, trainingSettings, handleEnd }) {
   const [words, setWords] = useState([]);
   const [restWords, setRestWords] = useState([]);
   const [currentWords, setCurrentWords] = useState([]);
@@ -91,8 +91,6 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
     }
   };
 
-  const cardSettings = trainingLevel.cardSettings;
-
   return (
     <div className="audition-training-field">
       <div className="audition-training-cards">
@@ -110,8 +108,8 @@ function AuditionTraining({ trainingLevel, handleEnd }) {
                       ? 'error'
                       : null
                   }
-                  dimension={cardSettings.cardDimension}
-                  textSize={cardSettings.cardTextSize}
+                  dimension={+trainingSettings.cardDimension}
+                  textSize={+trainingSettings.cardTextSize}
                   onClick={handleClick(id, onSpeech)}
                   depthShadow={selectedWordId === id ? 16 : 4}
                 >
@@ -139,8 +137,11 @@ AuditionTraining.propTypes = {
         wordNative: PropTypes.string.isRequired,
         onSpeech: PropTypes.func
       }).isRequired
-    ).isRequired,
-    cardSettings: PropTypes.object.isRequired
+    ).isRequired
+  }).isRequired,
+  trainingSettings: PropTypes.exact({
+    cardDimension: PropTypes.string.isRequired,
+    cardTextSize: PropTypes.string.isRequired
   }).isRequired,
   handleEnd: PropTypes.func.isRequired
 };

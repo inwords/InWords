@@ -8,7 +8,7 @@ import GameField from './GameField';
 const CARD_CLOSING_DELAY = 700;
 const GAME_COMPLETION_DELAY = 1000;
 
-function Game({ trainingLevel, handleEnd }) {
+function Game({ trainingLevel, trainingSettings, handleEnd }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [rightSelectedPairId, setRightSelectedPairId] = useState(-1);
@@ -110,7 +110,7 @@ function Game({ trainingLevel, handleEnd }) {
 
   return (
     <GameField
-      cardSettings={trainingLevel.cardSettings}
+      trainingSettings={trainingSettings}
       wordPairs={wordPairs}
       selectedWordPairs={selectedWordPairs}
       rightSelectedPairId={rightSelectedPairId}
@@ -131,9 +131,12 @@ Game.propTypes = {
         wordNative: PropTypes.string.isRequired,
         onSpeech: PropTypes.func
       }).isRequired
-    ).isRequired,
-    voiceOn: PropTypes.bool.isRequired,
-    cardSettings: PropTypes.object.isRequired
+    ).isRequired
+  }).isRequired,
+  trainingSettings: PropTypes.exact({
+    cardDimension: PropTypes.string.isRequired,
+    cardTextSize: PropTypes.string.isRequired,
+    voiceOn: PropTypes.bool.isRequired
   }).isRequired,
   handleEnd: PropTypes.func.isRequired
 };
