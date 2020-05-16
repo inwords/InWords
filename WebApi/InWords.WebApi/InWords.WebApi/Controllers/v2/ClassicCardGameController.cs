@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
@@ -19,6 +20,7 @@ namespace InWords.WebApi.Controllers.v2
         private readonly IMediator mediator;
         public ClassicCardGameController(IMediator mediator) => this.mediator = mediator;
 
+        [Obsolete("Use wordset estimate")]
         [HttpPost]
         [Route("estimate")]
         [ProducesResponseType(typeof(LevelPoints), StatusCodes.Status200OK)]
@@ -26,6 +28,7 @@ namespace InWords.WebApi.Controllers.v2
         public async Task<IActionResult> Estimate(CardGameMetrics request)
             => await mediator.AuthorizeHandlerActionResult<CardGameMetrics, LevelPoints>(request, User).ConfigureAwait(false);
 
+        [Obsolete("Use wordset estimate without game level id")]
         [HttpPost]
         [Route("save")]
         [ProducesResponseType(typeof(LevelPoints), StatusCodes.Status200OK)]
