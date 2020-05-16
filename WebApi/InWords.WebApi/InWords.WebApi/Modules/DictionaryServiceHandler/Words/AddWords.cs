@@ -44,17 +44,26 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
-            var userWords1 = Context.UserWordPairs.Where(u => u.UserId == userId);
-            var userWords2 = Context.UserWordPairs.Where(u => u.UserId == userId);
-
-            var dubles = (from uwp1 in userWords1
-                          from uwp2 in userWords2
+            var dubles = (from uwp1 in Context.UserWordPairs.Where(u => u.UserId == userId)
+                          from uwp2 in Context.UserWordPairs.Where(u => u.UserId == userId)
                           where uwp1.ForeignWord == uwp2.ForeignWord &&
-                          uwp1.NativeWord == uwp2.NativeWord &&
-                          uwp1.UserWordPairId > uwp2.UserWordPairId
+                                        uwp1.NativeWord == uwp2.NativeWord &&
+                                        uwp1.UserWordPairId > uwp2.UserWordPairId
                           select uwp1).ToArray();
 
             Context.UserWordPairs.RemoveRange(dubles);
+
+            var backgrounds = (from uwp1 in Context.UserWordPairs.Where(u => u.UserId == userId)
+                               from uwp2 in Context.UserWordPairs.Where(u => u.UserId == userId)
+                               where
+                               !uwp1.Background && uwp2.Background &&
+                               uwp1.UserWordPairId > uwp2.UserWordPairId &&
+                               uwp1.ForeignWord == uwp2.ForeignWord &&
+                               uwp1.NativeWord == uwp2.NativeWord
+                               select uwp2).ToArray();
+
+            backgrounds.ForEach(d => d.Background = false);
+
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
             var replys = dictionaryPairs.Select(d => d.Value.Select(w => new AddWordReply()
