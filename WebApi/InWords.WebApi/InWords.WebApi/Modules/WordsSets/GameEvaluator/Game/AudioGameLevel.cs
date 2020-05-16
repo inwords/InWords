@@ -13,7 +13,7 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
     {
         private bool chached;
         private readonly IList<WordKnowledge> wordKnowledges;
-        public AudioGameLevel(int gameLevelId, IDictionary<int, int> wordIdOpenCount) : base(gameLevelId,wordIdOpenCount)
+        public AudioGameLevel(int gameLevelId, IDictionary<int, int> wordIdOpenCount) : base(gameLevelId, wordIdOpenCount)
         {
             this.wordKnowledges = new List<WordKnowledge>();
         }
