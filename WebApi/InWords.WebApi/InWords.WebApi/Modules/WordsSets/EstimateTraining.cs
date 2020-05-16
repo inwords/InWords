@@ -58,7 +58,9 @@ namespace InWords.WebApi.Modules.WordsSets
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
 
-            var dictionary = scoreTaskResult.GroupBy(d => d.GameLevelId, d => d).ToDictionary(d => d.Key, d => d.ToList());
+            var dictionary = scoreTaskResult
+                .GroupBy(d => d.GameLevelId, d => d)
+                .ToDictionary(d => d.Key, d => d.ToList());
 
             TrainingScoreReply trainingScoreReply = new TrainingScoreReply();
             foreach (var key in dictionary.Keys)

@@ -88,13 +88,11 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
 
             foreach (var s in scores)
             {
-                if (pairs.ContainsKey(s.GameLevelId))
+                if (!pairs.ContainsKey(s.GameLevelId))
                 {
-                    if (pairs[s.GameLevelId] == null)
-                        pairs[s.GameLevelId] = new LevelTotalScoreCalculator();
-
-                    pairs[s.GameLevelId].Add(s.Score, s.GameType);
+                    pairs.Add(s.GameLevelId, new LevelTotalScoreCalculator());
                 }
+                pairs[s.GameLevelId].Add(s.Score, s.GameType);
             }
             IList<LevelScore> levelScores = new List<LevelScore>();
             foreach (var key in pairs.Keys)

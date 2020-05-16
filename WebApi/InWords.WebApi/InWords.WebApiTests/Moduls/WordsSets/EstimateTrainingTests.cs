@@ -50,6 +50,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             // assert
             Assert.Single(result.Scores);
             Assert.Equal(6, result.Scores.First().CardsStatus.Score);
+            Assert.Equal(6, result.Scores.First().Score);
         }
 
         [Fact]
@@ -84,7 +85,8 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             var result = await requestHandler.Handle(requestData);
             // assert
             Assert.Single(result.Scores);
-            Assert.Equal(5, result.Scores.First().CardsStatus.Score);
+            Assert.Equal(5, result.Scores.First().AuditionStatus.Score);
+            Assert.Equal(5, result.Scores.First().Score);
         }
     }
 }
