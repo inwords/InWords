@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
-import ru.inwords.inwords.NavGraphDirections
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
@@ -60,11 +59,15 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
 
+        observe(viewModel.navigateFromGameEnd) {
+            navController.navigate(it)
+        }
+
         compositeDisposable.add(viewModel.getScore(levelMetric)
             .toObservable()
             .startWith(Resource.Loading())
             .observeOn(SchedulersFacade.ui())
-            .subscribe {
+            .subscribe({
                 Log.d(TAG, it.toString())
 
                 when (it) {
@@ -72,16 +75,10 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
                     is Resource.Loading -> showLoading()
                     is Resource.Error -> showError()
                 }
+            }, {
+                Log.e(TAG, it.message.orEmpty())
             })
-
-        observe(viewModel.navigationFromGameEnd) {
-            when (it) {
-                FromGameEndEventsEnum.HOME -> navController.navigate(NavGraphDirections.actionGlobalPopToStartDestination())
-                FromGameEndEventsEnum.BACK -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
-                FromGameEndEventsEnum.GAMES_FRAGMENT -> navController.navigate(GameEndBottomSheetDirections.actionPopUpToGamesFragment())
-                else -> navController.navigate(GameEndBottomSheetDirections.actionPop())
-            }
-        }
+        )
 
         setupView()
     }
@@ -92,10 +89,10 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupView() {
-        binding.buttonHome.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.HOME) }
-        binding.buttonBack.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.BACK) }
-        binding.buttonNext.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.NEXT) }
-        binding.buttonRetry.setOnClickListener { viewModel.onNewEventCommand(FromGameEndEventsEnum.REFRESH) }
+        binding.buttonHome.setOnClickListener { viewModel.onHomeButtonClicked() }
+        binding.buttonBack.setOnClickListener { viewModel.onBackButtonClicked() }
+        binding.buttonNext.setOnClickListener { viewModel.onNextButtonClicked() }
+        binding.buttonRetry.setOnClickListener { viewModel.onRetryButtonCLicked() }
     }
 
     private fun showSuccess(levelScore: LevelScore) {

@@ -45,7 +45,7 @@
         android:name="ru.inwords.inwords.game.presentation.game_level.GameLevelFragment"
         tools:layout="@layout/fragment_game_level">
         <action
-            android:id="@+id/action_gameLevelFragment_to_gameEndBottomSheet"
+            android:id="@+id/to_gameEndBottomSheet"
             app:destination="@id/gameEndBottomSheet" />
         <argument
             android:name="gameLevelInfo"

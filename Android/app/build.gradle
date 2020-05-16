@@ -226,8 +226,9 @@ dependencies {
     //androidTestImplementation "android.arch.persistence.room:testing:$versions.ROOM"
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:$versions.LIFECYCLE"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.LIFECYCLE"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.LIFECYCLE"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$versions.LIFECYCLE"
 
     // Dagger
     implementation "com.google.dagger:dagger:$versions.DAGGER"

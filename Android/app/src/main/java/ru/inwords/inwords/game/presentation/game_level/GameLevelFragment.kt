@@ -52,12 +52,10 @@ class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGa
 
         setupWithNavController(binding.toolbar)
 
-        observe(viewModel.showProgress) {
-            it.contentIfNotHandled?.let {
-                binding.progressView.post {
-                    binding.progressView.isVisible = it
-                    binding.progressView.progress = if (it) 50 else 0
-                }
+        observe(viewModel.progress) {
+            binding.progressView.post {
+                binding.progressView.isVisible = it
+                binding.progressView.progress = if (it) 50 else 0
             }
         }
 

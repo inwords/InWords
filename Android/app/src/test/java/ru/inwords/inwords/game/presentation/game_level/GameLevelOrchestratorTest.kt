@@ -4,7 +4,6 @@ import io.mockk.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import ru.inwords.inwords.game.domain.CardsData
-import ru.inwords.inwords.game.domain.model.LevelMetric
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.game_level.GameLevelOrchestrator.FlipState
 import ru.inwords.inwords.translation.domain.model.WordTranslation
@@ -52,8 +51,8 @@ internal class GameLevelOrchestratorTest {
         verify(exactly = 1) { gameScene.clearState() }
         verify(exactly = 1) { gameScene.renderCards(data, FlipState(listOf(false, false, false, false))) }
 
-        val gameEndListener = mockk<(LevelMetric) -> Unit>()
-        every { gameEndListener.invoke(any<LevelMetric>()) } just runs
+        val gameEndListener = mockk<(HashMap<WordModel, Int>) -> Unit>()
+        every { gameEndListener.invoke(any()) } just runs
         gameLevelOrchestrator.setGameEndListener(gameEndListener)
 
         repeat(4) { index ->
