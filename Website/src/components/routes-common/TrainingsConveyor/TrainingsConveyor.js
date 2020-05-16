@@ -67,7 +67,10 @@ function TrainingsConveyor({
   const [detailedScore, setDetailedScore] = useState({});
 
   const handleTrainingEnd = async (title, metrics) => {
-    const newFinalMetrics = { ...finalMetrics, [`${title}Metric`]: metrics };
+    const newFinalMetrics = {
+      ...finalMetrics,
+      [`${title}Metric`]: { wordIdOpenCount: metrics }
+    };
     setFinalMetrics(newFinalMetrics);
 
     if (restTrainingTypes.length > 1) {
