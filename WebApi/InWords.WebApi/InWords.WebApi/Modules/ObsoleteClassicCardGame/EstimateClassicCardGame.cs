@@ -69,12 +69,12 @@ namespace InWords.WebApi.Modules.ClassicCardGame
                 {
                     GameLevelId = levelToAdd,
                     UserId = userId,
-                    UserStars = scoreInfo[levelToAdd] * 2,
+                    UserStars = scoreInfo[levelToAdd],
                     GameType = GameType.Total
                 });
                 levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
                 {
-                    Score = scoreInfo[levelToAdd],
+                    Score = scoreInfo[levelToAdd] / 2,
                     LevelId = levelToAdd
                 });
             });
@@ -90,7 +90,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
                 levelPoints.Points.Add(new LevelPoints.Types.LevelPoint()
                 {
                     // but return current calculated stars to user
-                    Score = calculatedGameScore,
+                    Score = calculatedGameScore / 2,
                     LevelId = level.GameLevelId
                 });
             });
