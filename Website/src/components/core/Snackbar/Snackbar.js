@@ -36,7 +36,7 @@ function Snackbar({
 
   const actuallyOpen = open && !hidden;
 
-  const elementRef = useRef();
+  const elementRef = useRef(null);
 
   useEffect(() => {
     const outsideClickListener = event => {

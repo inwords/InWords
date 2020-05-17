@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import useDialog from 'src/components/core/useDialog';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
-import GameSettingsDialog from './GameSettingsDialog';
 
-function ControlledGameSettingsDialog(props) {
+function ControlledTrainingSettingsDialog({ component: Component, ...rest }) {
   const { open, handleOpen, handleClose } = useDialog();
 
   return (
@@ -13,14 +12,13 @@ function ControlledGameSettingsDialog(props) {
       <IconButton onClick={handleOpen} edge="end">
         <Icon>settings</Icon>
       </IconButton>
-      <GameSettingsDialog open={open} handleClose={handleClose} {...props} />
+      <Component open={open} handleClose={handleClose} {...rest} />
     </Fragment>
   );
 }
 
-ControlledGameSettingsDialog.propTypes = {
-  trainingSettings: PropTypes.object.isRequired,
-  setTrainingSettings: PropTypes.func
+ControlledTrainingSettingsDialog.propTypes = {
+  component: PropTypes.elementType.isRequired
 };
 
-export default ControlledGameSettingsDialog;
+export default ControlledTrainingSettingsDialog;

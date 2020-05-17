@@ -2,7 +2,7 @@
 
 $card-dimension: 120px;
 
-.game-field {
+.cards-game-field {
   margin: 16px auto 0;
   display: flex;
   justify-content: center;
@@ -12,5 +12,9 @@ $card-dimension: 120px;
     &--cols-#{$cols} {
       max-width: $card-dimension * $cols + 4 * $cols * 2;
     }
+  }
+
+  &__card {
+    margin: 4px;
   }
 }

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { loadValue } from 'src/localStorage';
 import CustomizedTrainingWrapper from 'src/components/routes-common/CustomizedTrainingWrapper';
+import ControlledTrainingSettingsDialog from 'src/components/routes-common/ControlledTrainingSettingsDialog';
 import AuditionTraining from './AuditionTraining';
-import ControlledAuditionTrainingSettingsDialog from './ControlledAuditionTrainingSettingsDialog';
+import AuditionTrainingSettingsDialog from './AuditionTrainingSettingsDialog';
 
 function CustomizedAuditionTraining({ trainingLevel, handleEnd }) {
   const [trainingSettings, setTrainingSettings] = useState(null);
@@ -19,8 +20,9 @@ function CustomizedAuditionTraining({ trainingLevel, handleEnd }) {
       <CustomizedTrainingWrapper
         title="Аудирование"
         rightToolbarNodes={[
-          <ControlledAuditionTrainingSettingsDialog
+          <ControlledTrainingSettingsDialog
             key={0}
+            component={AuditionTrainingSettingsDialog}
             trainingSettings={trainingSettings}
             setTrainingSettings={setTrainingSettings}
           />

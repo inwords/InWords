@@ -10,6 +10,7 @@ import MenuItem from 'src/components/core/MenuItem';
 import usePopup from 'src/components/core/usePopup';
 import PopupContainer from 'src/components/core/PopupContainer';
 import Popup from 'src/components/core/Popup';
+import ButtonBase from 'src/components/core/ButtonBase';
 
 const handleOAuth2Logout = async () => {
   if (window.gapi) {
@@ -64,6 +65,7 @@ function ControlledProfileMenu() {
           </li>
           <li>
             <MenuItem
+              component={ButtonBase}
               onClick={() => {
                 handleLogout();
                 handleClose();

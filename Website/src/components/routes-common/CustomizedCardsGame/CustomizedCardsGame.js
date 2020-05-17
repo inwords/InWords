@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { loadValue } from 'src/localStorage';
 import CustomizedTrainingWrapper from 'src/components/routes-common/CustomizedTrainingWrapper';
-import Game from './Game';
-import ControlledGameSettingsDialog from './ControlledGameSettingsDialog';
+import ControlledTrainingSettingsDialog from 'src/components/routes-common/ControlledTrainingSettingsDialog';
+import CardsGame from './CardsGame';
+import CardsGameSettingsDialog from './CardsGameSettingsDialog';
 
-function CustomizedGame({ trainingLevel, handleEnd }) {
+function CustomizedCardsGame({ trainingLevel, handleEnd }) {
   const [trainingSettings, setTrainingSettings] = useState(null);
 
   useEffect(() => {
@@ -20,14 +21,15 @@ function CustomizedGame({ trainingLevel, handleEnd }) {
       <CustomizedTrainingWrapper
         title="Закрытые карточки"
         rightToolbarNodes={[
-          <ControlledGameSettingsDialog
+          <ControlledTrainingSettingsDialog
             key={0}
+            component={CardsGameSettingsDialog}
             trainingSettings={trainingSettings}
             setTrainingSettings={setTrainingSettings}
           />
         ]}
       >
-        <Game
+        <CardsGame
           trainingLevel={trainingLevel}
           trainingSettings={trainingSettings}
           handleEnd={handleEnd}
@@ -37,7 +39,7 @@ function CustomizedGame({ trainingLevel, handleEnd }) {
   );
 }
 
-CustomizedGame.propTypes = {
+CustomizedCardsGame.propTypes = {
   trainingLevel: PropTypes.shape({
     levelId: PropTypes.number.isRequired,
     wordTranslations: PropTypes.arrayOf(
@@ -52,4 +54,4 @@ CustomizedGame.propTypes = {
   handleEnd: PropTypes.func
 };
 
-export default CustomizedGame;
+export default CustomizedCardsGame;

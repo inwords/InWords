@@ -112,6 +112,7 @@ function AuditionTraining({ trainingLevel, trainingSettings, handleEnd }) {
                   textSize={+trainingSettings.cardTextSize}
                   onClick={handleClick(id, onSpeech)}
                   depthShadow={selectedWordId === id ? 16 : 4}
+                  className="audition-training-card"
                 >
                   {title}
                 </TrainingCard>
