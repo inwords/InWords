@@ -6,40 +6,34 @@ import Game from './Game';
 import ControlledGameSettingsDialog from './ControlledGameSettingsDialog';
 
 function CustomizedGame({ trainingLevel, handleEnd }) {
-  const [trainingSettings, setTrainingSettings] = useState({});
+  const [trainingSettings, setTrainingSettings] = useState(null);
 
   useEffect(() => {
-    setTrainingSettings(loadValue('trainingSettings-0') || {});
+    const { cardDimension = '120', cardTextSize = '1', voiceOn = false } =
+      loadValue('trainingSettings-0') || {};
+
+    setTrainingSettings({ cardDimension, cardTextSize, voiceOn });
   }, []);
 
-  const [processedTrainingLevel, setProcessedTrainingLevel] = useState();
-
-  useEffect(() => {
-    setProcessedTrainingLevel({
-      ...trainingLevel,
-      cardSettings: {
-        cardDimension: +trainingSettings.cardDimension || 120,
-        cardTextSize: +trainingSettings.cardTextSize || 16
-      },
-      voiceOn: trainingSettings.voiceOn || false
-    });
-  }, [trainingLevel, trainingSettings]);
-
   return (
-    <CustomizedTrainingWrapper
-      title="Закрытые карточки"
-      rightToolbarNodes={[
-        <ControlledGameSettingsDialog
-          key={0}
+    trainingSettings && (
+      <CustomizedTrainingWrapper
+        title="Закрытые карточки"
+        rightToolbarNodes={[
+          <ControlledGameSettingsDialog
+            key={0}
+            trainingSettings={trainingSettings}
+            setTrainingSettings={setTrainingSettings}
+          />
+        ]}
+      >
+        <Game
+          trainingLevel={trainingLevel}
           trainingSettings={trainingSettings}
-          setTrainingSettings={setTrainingSettings}
+          handleEnd={handleEnd}
         />
-      ]}
-    >
-      {Boolean(processedTrainingLevel) && (
-        <Game trainingLevel={processedTrainingLevel} handleEnd={handleEnd} />
-      )}
-    </CustomizedTrainingWrapper>
+      </CustomizedTrainingWrapper>
+    )
   );
 }
 

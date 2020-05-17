@@ -2,12 +2,12 @@ package ru.inwords.inwords.data.source.remote
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.proto.classic_card_game.CardGameInfos
 import ru.inwords.inwords.proto.classic_card_game.CardGameMetrics
 import ru.inwords.inwords.proto.classic_card_game.LevelPoints
 import ru.inwords.inwords.proto.dictionary.*
 import ru.inwords.inwords.proto.profile.EmailChangeReply
+import ru.inwords.inwords.proto.profile.ProfileReply
 import ru.inwords.inwords.proto.word_set.GetLevelWordsReply
 import ru.inwords.inwords.proto.word_set.GetLevelsReply
 import ru.inwords.inwords.proto.word_set.WordSetReply
@@ -16,11 +16,11 @@ import ru.inwords.inwords.translation.domain.model.WordTranslation
 interface WebRequestsManagerAuthorised {
     fun notifyAuthStateChanged(authorised: Boolean)
 
-    fun getAuthorisedUser(): Single<User>
+    fun getAuthorisedUser(): Single<ProfileReply>
 
     fun getGameInfos(): Single<WordSetReply>
 
-    fun updateUser(newUser: User): Completable
+    fun updateUser(newNickName:String): Completable
 
     fun requestEmailUpdate(newEmail: String): Single<EmailChangeReply>
 

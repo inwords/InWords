@@ -6,8 +6,9 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 
-class IntegrationViewModel internal constructor(authorisationInteractor: AuthorisationInteractor,
-                                                integrationInteractor: IntegrationInteractor
+class IntegrationViewModel internal constructor(
+    authorisationInteractor: AuthorisationInteractor,
+    integrationInteractor: IntegrationInteractor
 ) : BasicViewModel() {
     init {
         authorisationInteractor.trySignInExistingAccount()

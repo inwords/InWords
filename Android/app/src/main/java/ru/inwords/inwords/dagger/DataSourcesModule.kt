@@ -23,7 +23,6 @@ import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.dagger.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.dagger.annotations.UnauthorisedZone
 import ru.inwords.inwords.data.source.database.AppRoomDatabase
-import ru.inwords.inwords.data.source.remote.ApiServiceAuthorised
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -47,12 +46,6 @@ class DataSourcesModule {
     @Singleton
     fun provideApiServiceUnauthorised(@UnauthorisedZone client: OkHttpClient, gson: Gson): ApiServiceUnauthorised {
         return provideRetrofit1(client, gson).create(ApiServiceUnauthorised::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideApiServiceAuthorised(@AuthorisedZone client: OkHttpClient, gson: Gson): ApiServiceAuthorised {
-        return provideRetrofit1(client, gson).create(ApiServiceAuthorised::class.java)
     }
 
     private fun provideRetrofit1(@AuthorisedZone client: OkHttpClient, gson: Gson): Retrofit {

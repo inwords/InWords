@@ -6,42 +6,33 @@ import AuditionTraining from './AuditionTraining';
 import ControlledAuditionTrainingSettingsDialog from './ControlledAuditionTrainingSettingsDialog';
 
 function CustomizedAuditionTraining({ trainingLevel, handleEnd }) {
-  const [trainingSettings, setTrainingSettings] = useState({});
+  const [trainingSettings, setTrainingSettings] = useState(null);
 
   useEffect(() => {
-    setTrainingSettings(loadValue('trainingSettings-1') || {});
+    const { cardDimension = '120', cardTextSize = '1' } =
+      loadValue('trainingSettings-1') || {};
+    setTrainingSettings({ cardDimension, cardTextSize });
   }, []);
 
-  const [processedTrainingLevel, setProcessedTrainingLevel] = useState();
-
-  useEffect(() => {
-    setProcessedTrainingLevel({
-      ...trainingLevel,
-      cardSettings: {
-        cardDimension: +trainingSettings.cardDimension || 120,
-        cardTextSize: +trainingSettings.cardTextSize || 16
-      }
-    });
-  }, [trainingLevel, trainingSettings]);
-
   return (
-    <CustomizedTrainingWrapper
-      title="Аудирование"
-      rightToolbarNodes={[
-        <ControlledAuditionTrainingSettingsDialog
-          key={0}
-          trainingSettings={trainingSettings}
-          setTrainingSettings={setTrainingSettings}
-        />
-      ]}
-    >
-      {Boolean(processedTrainingLevel) && (
+    trainingSettings && (
+      <CustomizedTrainingWrapper
+        title="Аудирование"
+        rightToolbarNodes={[
+          <ControlledAuditionTrainingSettingsDialog
+            key={0}
+            trainingSettings={trainingSettings}
+            setTrainingSettings={setTrainingSettings}
+          />
+        ]}
+      >
         <AuditionTraining
-          trainingLevel={processedTrainingLevel}
+          trainingLevel={trainingLevel}
+          trainingSettings={trainingSettings}
           handleEnd={handleEnd}
         />
-      )}
-    </CustomizedTrainingWrapper>
+      </CustomizedTrainingWrapper>
+    )
   );
 }
 

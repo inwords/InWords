@@ -2,11 +2,9 @@
 using InWords.WebApi.Business.GameEvaluator.Enum;
 using InWords.WebApi.Business.GameEvaluator.Model;
 using InWords.WebApi.Model.UserWordPair;
-using InWords.WebApi.Modules.ClassicCardGame.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.WordsSets.Extentions
 {
@@ -25,7 +23,7 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
             var knowledgeDictionary = wordKnowledges
                 .GroupBy(d => d.UserWordPairId)
                 .ToDictionary(
-                d => d.Key, 
+                d => d.Key,
                 d => d.Aggregate(WordKnowledge.Agregate));
 
             foreach (var pair in userwordpairs)

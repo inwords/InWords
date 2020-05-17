@@ -1,5 +1,4 @@
-﻿using Castle.DynamicProxy.Generators;
-using InWords.Data;
+﻿using InWords.Data;
 using InWords.Data.Domains;
 using InWords.Protobuf;
 using InWords.WebApi.Modules.DictionaryServiceHandler.Words;
@@ -40,11 +39,11 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
 
             // assert 
             Assert.Equal(2, response.Pairs.Count);
-            Assert.Single(response.Pairs.Where(d=>d.UserWordPair == 1));
-            Assert.Single(response.Pairs.Where(d=>d.UserWordPair == 2));
+            Assert.Single(response.Pairs.Where(d => d.UserWordPair == 1));
+            Assert.Single(response.Pairs.Where(d => d.UserWordPair == 2));
         }
         [Fact]
-        public async void Training_Empty() 
+        public async void Training_Empty()
         {
             int userId = 1;
             int otherId = 2;

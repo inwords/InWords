@@ -35,7 +35,8 @@ function HistoryTrainingConveyor() {
   };
 
   return (
-    Boolean(selectedTrainingTypes) && (
+    selectedTrainingTypes &&
+    trainingsSettings && (
       <TrainingsConveyor
         selectedTrainingTypes={selectedTrainingTypes}
         trainingsSettings={trainingsSettings}

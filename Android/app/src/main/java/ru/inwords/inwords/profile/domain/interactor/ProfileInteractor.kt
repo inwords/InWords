@@ -4,24 +4,24 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.inwords.inwords.core.resource.Resource
-import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.data.repository.UserRepository
+import ru.inwords.inwords.profile.domain.model.Profile
 import javax.inject.Inject
 
 class ProfileInteractor @Inject internal constructor(
     private val userRepository: UserRepository
 ) {
-    fun getAuthorisedUser(forceUpdate: Boolean = false): Observable<Resource<User>> {
+    fun getAuthorisedUser(forceUpdate: Boolean = false): Observable<Resource<Profile>> {
         return userRepository.getAuthorisedUser(forceUpdate)
     }
 
-    fun getUserById(id: Int): Single<User> = userRepository.getUserById(id)
+    fun getUserById(id: Int): Single<Profile> = userRepository.getUserById(id)
 
-    fun updateUser(newUser: User): Completable {
-        return userRepository.updateUser(newUser)
+    fun updateUser(newNickName: String, actualProfile: Profile): Completable {
+        return userRepository.updateUser(newNickName, actualProfile)
     }
 
-    fun requestEmailUpdate(newEmail: String):Completable {
+    fun requestEmailUpdate(newEmail: String): Completable {
         return userRepository.requestEmailUpdate(newEmail)
     }
 

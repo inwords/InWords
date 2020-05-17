@@ -1,8 +1,6 @@
 ﻿using Grpc.Core;
 using InWords.Service.Auth.Extensions;
-using InWords.WebApi.Services.Abstractions;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
@@ -27,7 +25,7 @@ namespace InWords.WebApi.Extensions
             return reply;
         }
 
-    
+
         public static async Task<IActionResult> AuthorizeHandlerActionResult<TRequest, TReply>(
             this IMediator mediator,
             TRequest request,
@@ -51,7 +49,7 @@ namespace InWords.WebApi.Extensions
                 .ConfigureAwait(false);
 
             context.Status = status;
-            
+
             return reply;
         }
 

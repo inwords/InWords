@@ -31,7 +31,7 @@ function TrainingResult({
     <div className="training-result">
       <FadeAnimation>
         <Paper className="training-result-paper">
-          {score !== null && (
+          {score != null && (
             <Fragment>
               <div className="training-result-smiley">
                 <Smiley score={score} />
@@ -59,11 +59,9 @@ function TrainingResult({
         <Paper className="training-result-paper">
           {trainingTypesInfo.map(
             ({ internalName, title }) =>
-              detailedScore[internalName] && (
+              detailedScore[internalName] != null && (
                 <Fragment key={internalName}>
-                  <Typography variant="body1" className="training-result-name">
-                    {title}
-                  </Typography>
+                  <Typography variant="body1">{title}</Typography>
                   <Stars
                     score={detailedScore[internalName]}
                     fontSize="small"

@@ -6,7 +6,6 @@ using InWords.WebApi.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Localization;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +17,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
         public FindProfileNickname(InWordsDataContext context) : base(context) { }
 
         public override Task<PublicProfilesReply> HandleRequest(
-            AuthorizedRequestObject<FindUsernameRequest, PublicProfilesReply> request, 
+            AuthorizedRequestObject<FindUsernameRequest, PublicProfilesReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)
@@ -31,8 +30,8 @@ namespace InWords.WebApi.Modules.Profile.PublicData
 
             var totalMatch = Context.PublicProfile(u => u.NickName == value.UserName)
                 .Take(5);
-            var startWith = Context.PublicProfile(u => u.NickName != value.UserName 
-            && u.NickName.StartsWith(value.UserName,StringComparison.InvariantCultureIgnoreCase))
+            var startWith = Context.PublicProfile(u => u.NickName != value.UserName
+            && u.NickName.StartsWith(value.UserName, StringComparison.InvariantCultureIgnoreCase))
                 .Take(5);
 
             var users = totalMatch.Union(startWith);

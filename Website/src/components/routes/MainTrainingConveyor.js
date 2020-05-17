@@ -23,7 +23,8 @@ function MainTrainingConveyor({ redirectionUrl }) {
   };
 
   return (
-    Boolean(selectedTrainingTypes) && (
+    selectedTrainingTypes &&
+    trainingsSettings && (
       <TrainingsConveyor
         selectedTrainingTypes={selectedTrainingTypes}
         trainingsSettings={trainingsSettings}

@@ -20,7 +20,7 @@ function TrainingCard({
       style={{
         width: dimension,
         height: dimension,
-        fontSize: textSize
+        fontSize: `${textSize}rem`
       }}
       {...rest}
     >

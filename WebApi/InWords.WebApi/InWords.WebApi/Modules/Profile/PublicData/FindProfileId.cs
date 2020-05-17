@@ -6,8 +6,6 @@ using InWords.WebApi.Services;
 using InWords.WebApi.Services.Abstractions;
 using InWords.WebApi.Services.Localization;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/card_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Вы остановились на теме"
+        android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
+        app:layout_constraintBottom_toTopOf="@id/wordset_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/wordset_name"
+        android:layout_width="@dimen/constraint_match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/space_medium"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAppearance="@style/TextAppearance.Inwords.Headline5.Default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/continue_game_button"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_hint"
+        tools:text="Я и моя семья" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="@dimen/constraint_match_parent"
+        android:layout_height="@dimen/constraint_match_parent"
+        app:layout_constraintBottom_toBottomOf="@id/wordset_name"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintEnd_toEndOf="@id/wordset_name"
+        app:layout_constraintStart_toStartOf="@id/wordset_name"
+        app:layout_constraintTop_toTopOf="@id/wordset_name" />
+
+    <Button
+        android:id="@+id/continue_game_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Продолжить"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

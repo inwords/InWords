@@ -65,7 +65,7 @@ namespace InWords.WebApiTests.Moduls.ClassicCardGame
         }
 
         [Fact]
-        public async void SendLowerScoreToClient_KeepHigherInDatabase() 
+        public async void SendLowerScoreToClient_KeepHigherInDatabase()
         {
             int userId = 1;
             await using InWordsDataContext context = InWordsDataContextFactory.Create();

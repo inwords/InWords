@@ -13,7 +13,7 @@ open class BasicViewModel protected constructor() : ViewModel() {
     private val _navigateTo = SingleLiveEvent<NavDirections>()
     val navigateTo: LiveData<NavDirections> = _navigateTo
 
-    protected fun navigateTo(navDirections: NavDirections) {
+    fun navigateTo(navDirections: NavDirections) {
         _navigateTo.postValue(navDirections)
     }
 
