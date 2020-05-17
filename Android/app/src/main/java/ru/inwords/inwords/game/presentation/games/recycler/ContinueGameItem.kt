@@ -34,6 +34,7 @@ class ContinueGameItem internal constructor(
                 viewBinding.progress.visibility = View.VISIBLE
             }
             Error -> {
+
             }
         }
 

@@ -2,6 +2,7 @@ package ru.inwords.inwords.authorisation.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import ru.inwords.inwords.authorisation.presentation.choose_method.ChooseSignMethodFragment
 import ru.inwords.inwords.authorisation.presentation.login.LoginFragment
 import ru.inwords.inwords.authorisation.presentation.registration.RegistrationFragment
 
@@ -12,4 +13,7 @@ abstract class AuthorisationDaggerModule {
 
     @ContributesAndroidInjector
     internal abstract fun registrationFragmentInjector(): RegistrationFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun сhooseSignMethodFragmentInjector(): ChooseSignMethodFragment
 }
