@@ -37,8 +37,8 @@ namespace InWords.WebApi.Modules.WordsSets
                                     LevelId = level.GameLevelId,
                                     Level = level.Level,
                                     IsAvailable = true,
-                                    Stars = (int)Math.Round(userLevel.UserStars / 2.0),
-                                    Score = userLevel.UserStars
+                                    Stars = userLevel == null ? 0 : (int)Math.Round(userLevel.UserStars / 2.0),
+                                    Score = userLevel == null? 0 : userLevel.UserStars
                                 };
 
             getLevelsReply.Levels.AddRange(starredLevels);
