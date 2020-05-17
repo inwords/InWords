@@ -58,7 +58,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
             var levelIds = scoreInfo.Keys.ToArray();
             var existedLevels = Context.UserGameLevels
                 .Where(u => u.UserId == userId)
-                .Where(u => levelIds.Contains(u.GameLevelId));
+                .Where(u => levelIds.Contains(u.GameLevelId) && u.GameType == GameType.Total);
             var levelsToAdd = levelIds.Except(existedLevels.Select(d => d.GameLevelId));
 
             LevelPoints levelPoints = new LevelPoints();
