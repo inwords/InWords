@@ -59,6 +59,10 @@ function TrainingTypes({ trainingLevel }) {
     saveValue('selectedTrainingTypes', checkedValues);
   }, [checkedValues]);
 
+  const handleCheckboxClick = event => {
+    event.stopPropagation();
+  };
+
   return (
     <Fragment>
       <Paper>
@@ -122,9 +126,7 @@ function TrainingTypes({ trainingLevel }) {
                     tabIndex={-1}
                     checked={checkedValues.includes(typeId)}
                     onChange={handleToggle(typeId)}
-                    onClick={event => {
-                      event.stopPropagation();
-                    }}
+                    onClick={handleCheckboxClick}
                     edge="start"
                   />
                 </ListItemIcon>

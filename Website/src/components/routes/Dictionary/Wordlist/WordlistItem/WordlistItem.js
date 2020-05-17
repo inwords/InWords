@@ -27,6 +27,10 @@ function WordlistItem({
   const { serverId, period = 0, onSpeech } = wordPair;
   const acceptablePeriod = period <= 5 ? period : 5;
 
+  const handleCheckboxClick = event => {
+    event.stopPropagation();
+  };
+
   return (
     <ListItemContainer style={style}>
       <ListItem
@@ -53,9 +57,7 @@ function WordlistItem({
             tabIndex={editingModeEnabled ? -1 : 0}
             checked={checkedValues.includes(serverId)}
             onChange={handleToggle(serverId)}
-            onClick={event => {
-              event.stopPropagation();
-            }}
+            onClick={handleCheckboxClick}
             edge="start"
           />
         </ListItemIcon>

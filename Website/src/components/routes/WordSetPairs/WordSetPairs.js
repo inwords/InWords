@@ -85,6 +85,10 @@ function WordSetPairs() {
     }
   };
 
+  const handleCheckboxClick = event => {
+    event.stopPropagation();
+  };
+
   return (
     <Paper>
       <WordSetPairsToolbar
@@ -113,9 +117,7 @@ function WordSetPairs() {
                   checked={hasAdded || checkedValues.includes(serverId)}
                   disabled={hasAdded}
                   onChange={handleToggle(serverId)}
-                  onClick={event => {
-                    event.stopPropagation();
-                  }}
+                  onClick={handleCheckboxClick}
                   edge="start"
                 />
               </ListItemIcon>
