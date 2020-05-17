@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Fade from 'src/components/core/Fade';
@@ -45,8 +45,16 @@ function Modal({
     return null;
   }
 
-  return ReactDOM.createPortal(
+  const handleRootRef = el => {
+    if (el) {
+      el.focus();
+    }
+  };
+
+  return createPortal(
     <div
+      tabIndex={-1}
+      ref={handleRootRef}
       className={classNames('modal', className)}
       style={{
         visibility: exited ? 'hidden' : undefined

@@ -6,6 +6,7 @@ import ListItem from 'src/components/core/ListItem';
 import ListItemText from 'src/components/core/ListItemText';
 import ListItemSecondaryAction from 'src/components/core/ListItemSecondaryAction';
 import ListItemIcon from 'src/components/core/ListItemIcon';
+import ButtonBase from 'src/components/core/ButtonBase';
 import Checkbox from 'src/components/core/Checkbox';
 import SpeechButton from 'src/components/routes-common/SpeechButton';
 
@@ -26,20 +27,24 @@ function WordlistItem({
   const { serverId, period = 0, onSpeech } = wordPair;
   const acceptablePeriod = period <= 5 ? period : 5;
 
+  const handleCheckboxClick = event => {
+    event.stopPropagation();
+  };
+
   return (
     <ListItemContainer style={style}>
       <ListItem
-        component="div"
+        component={ButtonBase}
         onClick={
-          !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
+          editingModeEnabled ? handleToggle(serverId) : handleOpen(wordPair)
         }
         button
         hasSecondaryAction
         className="wordlist-item"
       >
         <div
-          className={classNames('wordlist-item-progress', {
-            [`wordlist-item-progress--${acceptablePeriod}`]:
+          className={classNames('wordlist-item__progress', {
+            [`wordlist-item__progress--${acceptablePeriod}`]:
               acceptablePeriod > 0
           })}
         />
@@ -49,12 +54,10 @@ function WordlistItem({
               'aria-labelledby': `pair-${serverId}`,
               'data-testid': `pair-${serverId}-checkbox`
             }}
-            tabIndex={-1}
+            tabIndex={editingModeEnabled ? -1 : 0}
             checked={checkedValues.includes(serverId)}
             onChange={handleToggle(serverId)}
-            onClick={event => {
-              event.stopPropagation();
-            }}
+            onClick={handleCheckboxClick}
             edge="start"
           />
         </ListItemIcon>
@@ -62,6 +65,7 @@ function WordlistItem({
           id={`pair-${wordPair.serverId}`}
           primary={wordPair.wordForeign}
           secondary={wordPair.wordNative}
+          className="wordlist-item__text"
         />
       </ListItem>
       <ListItemSecondaryAction>

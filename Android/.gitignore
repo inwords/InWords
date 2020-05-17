@@ -41,19 +41,20 @@ captures/
 # IntelliJ
 *.iml
 /.idea/modules.xml
-.idea/workspace.xml
-.idea/misc.xml 
-.idea/navEditor.xml
-.idea/tasks.xml
-.idea/gradle.xml
-.idea/assetWizardSettings.xml
-.idea/vcs.xml
-.idea/statistic.xml
-.idea/render.experimental.xml
-.idea/codeStyles
-.idea/dictionaries
-.idea/libraries
-.idea/caches
+/.idea/workspace.xml
+/.idea/misc.xml 
+/.idea/navEditor.xml
+/.idea/tasks.xml
+/.idea/gradle.xml
+/.idea/assetWizardSettings.xml
+/.idea/vcs.xml
+/.idea/statistic.xml
+/.idea/render.experimental.xml
+/.idea/codeStyles
+/.idea/dictionaries
+/.idea/libraries
+/.idea/caches
+/.idea/inspectionProfiles/
 
 # Windows thumbnail db
 Thumbs.db

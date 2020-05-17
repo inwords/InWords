@@ -188,6 +188,6 @@ class RegistrationFragment : FragmentWithViewModelAndNav<RegistrationViewModel, 
 
     private fun navigateOnSuccess() {
         KeyboardUtils.hideKeyboard(view)
-        viewModel.popOutOfAuth()
+        viewModel.popOutOfAuth(args.onTopOfLogin)
     }
 }

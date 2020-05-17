@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.xwray.groupie.Group
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.recycler.EmptySpaceItemDecoration
 import ru.inwords.inwords.core.recycler.fixOverscrollBehaviour
@@ -18,8 +20,9 @@ import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.databinding.FragmentGamesBinding
 import ru.inwords.inwords.game.domain.model.GameInfo
 import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
-import ru.inwords.inwords.game.presentation.games.recycler.GamesAdapter
-import ru.inwords.inwords.game.presentation.games.recycler.applyDiffUtil
+import ru.inwords.inwords.game.presentation.games.recycler.ContinueGameItem
+import ru.inwords.inwords.game.presentation.games.recycler.GameInfoItem
+import ru.inwords.inwords.game.presentation.games.recycler.WordsTrainingItem
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 
@@ -31,23 +34,16 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewMo
         return FragmentGamesBinding.inflate(inflater, container, attachToRoot)
     }
 
-    private lateinit var recyclerAdapter: GamesAdapter
+    private lateinit var recyclerAdapter: GroupAdapter<GroupieViewHolder>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupWithNavController(binding.toolbar)
 
-        recyclerAdapter = GamesAdapter(
-            onItemClickedListener = { viewModel.navigateToGame(it) },
-            onSaveToDictionaryClickedListener = {
-                AlertDialog.Builder(requireContext())
-                    .setNegativeButton("Отмена") { _, _ -> }
-                    .setPositiveButton("Добавить") { _, _ -> viewModel.onSaveToDictionaryClicked(it) }
-                    .setMessage("Добавить все слова из темы в словарь?")
-                    .show()
-            }
-        )
+       viewModel.checkPolicy().disposeOnViewDestroyed()
+
+        recyclerAdapter = GroupAdapter<GroupieViewHolder>()
 
         val dividerItemDecoration = EmptySpaceItemDecoration(resources.getDimensionPixelSize(R.dimen.space_medium))
 
@@ -58,29 +54,45 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewMo
         }
 
         observe(viewModel.toast) {
-            Toast.makeText(
-                requireContext(),
-                if (it) {
-                    "Слова сохранены в словарь"
-                } else {
-                    "Сохранить слова в словарь не удалось"
-                },
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.onViewCreated()
+
+        val onItemClickedListener: (GameInfo) -> Unit = { viewModel.navigateToGame(it) }
+        val onSaveToDictionaryClickedListener: (GameInfo) -> Unit = {
+            AlertDialog.Builder(requireContext())
+                .setNegativeButton(R.string.cancel) { _, _ -> }
+                .setPositiveButton("Добавить") { _, _ -> viewModel.onSaveToDictionaryClicked(it) }
+                .setMessage("Добавить все слова из темы в словарь?")
+                .show()
         }
 
         viewModel.screenInfoStream()
-            .observeOn(SchedulersFacade.computation())
-            .applyDiffUtil()
+            .subscribeOn(SchedulersFacade.io())
+            .map { state ->
+                val items = mutableListOf<Group>()
+                if (state.gameInfos.isNotEmpty()) {
+                    items.add(ContinueGameItem(state.continueGameState) { viewModel.onSuggestionGameClicked() })
+                }
+                if (state.trainingState is SimpleStateWithVisibility.Visible) {
+                    items.add(WordsTrainingItem(state.trainingState.state) { viewModel.onStartTrainingClicked() })
+                }
+                state.gameInfos.forEach {
+                    items.add(GameInfoItem(it, onItemClickedListener, onSaveToDictionaryClickedListener))
+                }
+
+                items
+            }
             .observeOn(SchedulersFacade.ui())
             .doOnSubscribe { showLoading() }
             .subscribe({
-                if (it.first.isNotEmpty()) {
+                if (it.isNotEmpty()) {
                     showContent()
                 } else {
                     showNoContent()
                 }
-                recyclerAdapter.accept(it)
+                recyclerAdapter.updateAsync(it)
 
                 fixOverscrollBehaviour(binding.gamesRecycler)
             }) {
@@ -109,25 +121,5 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewMo
         binding.gamesRecycler.isVisible = false
         binding.gameNoContent.root.isVisible = false
         binding.progress.isVisible = true
-    }
-
-    private fun showPopupMenu(v: View) { //TODO
-        context?.let {
-            with(PopupMenu(it, v)) {
-                inflate(R.menu.game_actions)
-
-                setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.game_remove -> {
-                            viewModel.onGameRemoved(v.tag as GameInfo)
-                            true
-                        }
-                        else -> false
-                    }
-                }
-
-                show()
-            }
-        }
     }
 }

@@ -23,7 +23,7 @@ import ru.inwords.inwords.databinding.FragmentProfileBinding
 import ru.inwords.inwords.policy.presentation.renderPolicyText
 import ru.inwords.inwords.presentation.createAppBarNavIconOnScrimColorAnimatorListener
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
-import ru.inwords.inwords.profile.data.bean.User
+import ru.inwords.inwords.profile.domain.model.Profile
 import ru.inwords.inwords.profile.presentation.ProfileViewModelFactory
 
 
@@ -35,7 +35,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
         return FragmentProfileBinding.inflate(inflater, container, attachToRoot)
     }
 
-    private var user: User? = null
+    private var profile: Profile? = null
 
     private var navIconAnimationListener: AppBarLayout.OnOffsetChangedListener? = null
 
@@ -80,7 +80,7 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
         subscribeFieldUpdateResult(binding.emailEditableField) { it ?: getString(R.string.unable_to_change_email) }
         subscribeLogoutResult()
 
-        binding.emailEditableField.defaultValueProvider = { user?.account?.email.orEmpty() }
+        binding.emailEditableField.defaultValueProvider = { profile?.email.orEmpty() }
 
         observe(viewModel.lastAuthMethod) {
             if (it == LastAuthInfoProvider.AuthMethod.NONE) {
@@ -110,31 +110,31 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     }
 
     private fun subscribeUser(): Disposable {
-        fun renderUser(userResource: Resource<User>) {
+        fun renderUser(userResource: Resource<Profile>) {
             if (userResource is Resource.Success) {
                 val userData = userResource.data
-                user = userData
+                profile = userData
 
-                if (userData.avatar != null) {
-                    val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(userData.avatar))
+                if (userData.avatarPath != null) {
+                    val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(userData.avatarPath))
                         .setProgressiveRenderingEnabled(true)
                         .setLocalThumbnailPreviewsEnabled(true)
                         .build()
 
                     binding.avatarImage.setImageRequest(request)
                 } else {
-                    binding.avatarImage.setActualImageResource(R.drawable.ic_octopus1)
+                    binding.avatarImage.setActualImageResource(R.drawable.octopus_welcome)
                 }
 
-                binding.nameEditableField.text = userData.userName
+                binding.nameEditableField.text = userData.nickName
                 binding.nameEditableField.setDefaultViewState()
                 binding.nameEditableField.editButtonEnabled = true
 
-                binding.emailEditableField.text = userData.account?.email.orEmpty()
+                binding.emailEditableField.text = userData.email
                 binding.emailEditableField.setDefaultViewState()
                 binding.emailEditableField.editButtonEnabled = true
             } else {
-                binding.avatarImage.setActualImageResource(R.drawable.ic_octopus1)
+                binding.avatarImage.setActualImageResource(R.drawable.octopus_welcome)
 
                 binding.nameEditableField.setDefaultViewState()
                 binding.nameEditableField.editButtonEnabled = false
@@ -191,14 +191,12 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     }
 
     private fun nameApplyClickListener(): (View) -> Unit = fun(_) {
-        val user = user ?: return
+        val profile = profile ?: return
 
-        val newUsername = binding.nameEditableField.text
+        val newNickName = binding.nameEditableField.text
 
-        if (newUsername != user.userName) { //TODO validate also
-            val newUser = user.copy(userName = newUsername)
-
-            viewModel.updateUser(newUser)
+        if (newNickName != profile.nickName && newNickName.isNotBlank()) { //TODO validate also
+            viewModel.updateUser(newNickName, profile)
 
             binding.nameEditableField.setLoadingViewState()
         } else {
@@ -213,11 +211,11 @@ class ProfileFragment : FragmentWithViewModelAndNav<ProfileViewModel, ProfileVie
     }
 
     private fun emailApplyClickListener(): (View) -> Unit = fun(_) {
-        val user = user ?: return
+        val user = profile ?: return
 
         val newEmail = binding.emailEditableField.text
 
-        if (newEmail != user.account?.email && newEmail.isNotBlank()) { //TODO validate also
+        if (newEmail != user.email && newEmail.isNotBlank()) { //TODO validate also
             viewModel.updateEmail(newEmail) { getString(R.string.incorrect_input_email) }
 
             binding.emailEditableField.setLoadingViewState()

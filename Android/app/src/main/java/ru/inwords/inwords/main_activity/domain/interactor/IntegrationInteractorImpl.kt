@@ -9,6 +9,7 @@ import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
+import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 import javax.inject.Inject
 
@@ -17,6 +18,7 @@ internal constructor(
     private val translationWordsInteractor: TranslationWordsInteractor,
     private val profileInteractor: ProfileInteractor,
     private val gameInteractor: GameInteractor,
+    private val trainingInteractor: TrainingInteractor,
     private val integrationDatabaseRepository: IntegrationDatabaseRepository,
     @Common private val sharedPreferences: SharedPreferences
 ) : IntegrationInteractor {
@@ -47,6 +49,7 @@ internal constructor(
             gameInteractor.clearCache()
             profileInteractor.clearCache()
             translationWordsInteractor.clearCache()
+            trainingInteractor.clearCache()
         }
     }
 
@@ -58,6 +61,7 @@ internal constructor(
             gameInteractor.clearCache()
             profileInteractor.clearCache()
             translationWordsInteractor.clearCache()
+            trainingInteractor.clearCache()
         }
     }
 

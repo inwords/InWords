@@ -2,6 +2,8 @@
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
 using MediatR;
+using Org.BouncyCastle.Ocsp;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +25,9 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
         public override async Task<AddWordsReply> HandleRequest(AuthorizedRequestObject<UpdateWordsRequest, AddWordsReply> request,
             CancellationToken cancellationToken = default)
         {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
             var userId = request.UserId;
             var requestData = request.Value;
 

@@ -14,11 +14,13 @@ class TtsMediaPlayerAdapter(private val resultCallback: (Resource<String>) -> Un
     private val mediaPlayer = MediaPlayer()
 
     fun observeTtsStream(ttsStream: Observable<Resource<String>>): Disposable {
-        return ttsStream.doOnNext {
-            if (it is Resource.Success) {
-                playAudio(it.data)
+        return ttsStream
+            .observeOn(SchedulersFacade.io())
+            .doOnNext {
+                if (it is Resource.Success) {
+                    playAudio(it.data)
+                }
             }
-        }
             .observeOn(SchedulersFacade.ui())
             .subscribe { resultCallback(it) }
     }
@@ -35,7 +37,7 @@ class TtsMediaPlayerAdapter(private val resultCallback: (Resource<String>) -> Un
         }
     }
 
-    fun destroy(){
+    fun destroy() {
         mediaPlayer.stop()
         mediaPlayer.release()
     }

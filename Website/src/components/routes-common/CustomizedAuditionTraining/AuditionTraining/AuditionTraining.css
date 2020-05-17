@@ -12,6 +12,10 @@
   flex-wrap: wrap;
 }
 
+.audition-training-card {
+  margin: 8px;
+}
+
 .audition-training-result-icon {
   position: absolute;
   left: 0;

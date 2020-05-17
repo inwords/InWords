@@ -1,5 +1,6 @@
 package ru.inwords.inwords.game.presentation.game_levels
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -85,8 +86,9 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     }
 
     private fun showIntro(view: View) = with(view) {
-        val imageRequest = ImageRequestBuilder
-            .newBuilderWithResourceId(R.drawable.octopus_default)
+        val imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(args.gameInfo.picture))
+            .setProgressiveRenderingEnabled(true)
+            .setLocalThumbnailPreviewsEnabled(true)
             .build()
 
         with(binding.welcomeScreen) {

@@ -17,6 +17,7 @@ import Space from 'src/components/core/Space';
 import Checkbox from 'src/components/core/Checkbox';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
+import ButtonBase from 'src/components/core/ButtonBase';
 import ControlledTrainingsSettingsDialog from './ControlledTrainingsSettingsDialog';
 
 import './TrainingTypes.scss';
@@ -57,6 +58,10 @@ function TrainingTypes({ trainingLevel }) {
   useEffect(() => {
     saveValue('selectedTrainingTypes', checkedValues);
   }, [checkedValues]);
+
+  const handleCheckboxClick = event => {
+    event.stopPropagation();
+  };
 
   return (
     <Fragment>
@@ -107,7 +112,11 @@ function TrainingTypes({ trainingLevel }) {
         <List>
           {trainingTypesInfo.map(({ typeId, title, description }) => (
             <ListItemContainer key={typeId}>
-              <ListItem component="div" onClick={handleToggle(typeId)} button>
+              <ListItem
+                component={ButtonBase}
+                onClick={handleToggle(typeId)}
+                button
+              >
                 <ListItemIcon>
                   <Checkbox
                     inputProps={{
@@ -117,9 +126,7 @@ function TrainingTypes({ trainingLevel }) {
                     tabIndex={-1}
                     checked={checkedValues.includes(typeId)}
                     onChange={handleToggle(typeId)}
-                    onClick={event => {
-                      event.stopPropagation();
-                    }}
+                    onClick={handleCheckboxClick}
                     edge="start"
                   />
                 </ListItemIcon>

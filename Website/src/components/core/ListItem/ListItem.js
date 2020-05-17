@@ -11,12 +11,6 @@ function ListItem({
   className,
   ...rest
 }) {
-  const listItemProps = {};
-
-  if (button) {
-    listItemProps.role = 'button';
-  }
-
   return (
     <Component
       className={classNames(
@@ -27,7 +21,6 @@ function ListItem({
         },
         className
       )}
-      {...listItemProps}
       {...rest}
     />
   );
