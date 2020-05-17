@@ -12,13 +12,14 @@ function TrainingCard({
   dimension = 120,
   textSize = 16,
   children,
+  className,
   ...rest
 }) {
   return (
     <Paper
       component="button"
       square
-      className="training-card"
+      className={classNames('training-card', className)}
       style={{
         width: dimension,
         height: dimension,
@@ -46,7 +47,8 @@ TrainingCard.propTypes = {
   color: PropTypes.string,
   dimension: PropTypes.number,
   textSize: PropTypes.number,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string
 };
 
 export default TrainingCard;

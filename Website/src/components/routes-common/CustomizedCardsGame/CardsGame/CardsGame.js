@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import flatMap from 'src/utils/flatMap';
 import shuffle from 'src/utils/shuffle';
-import GameField from './GameField';
+import CardsGameField from './CardsGameField';
 
 const CARD_CLOSING_DELAY = 700;
 const GAME_COMPLETION_DELAY = 1000;
 
-function Game({ trainingLevel, trainingSettings, handleEnd }) {
+function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [rightSelectedPairId, setRightSelectedPairId] = useState(-1);
@@ -109,7 +109,7 @@ function Game({ trainingLevel, trainingSettings, handleEnd }) {
   };
 
   return (
-    <GameField
+    <CardsGameField
       trainingSettings={trainingSettings}
       wordPairs={wordPairs}
       selectedWordPairs={selectedWordPairs}
@@ -121,7 +121,7 @@ function Game({ trainingLevel, trainingSettings, handleEnd }) {
   );
 }
 
-Game.propTypes = {
+CardsGame.propTypes = {
   trainingLevel: PropTypes.shape({
     levelId: PropTypes.number.isRequired,
     wordTranslations: PropTypes.arrayOf(
@@ -141,4 +141,4 @@ Game.propTypes = {
   handleEnd: PropTypes.func.isRequired
 };
 
-export default Game;
+export default CardsGame;

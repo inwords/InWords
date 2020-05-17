@@ -13,7 +13,7 @@ import Checkbox from 'src/components/core/Checkbox';
 import Button from 'src/components/core/Button';
 import Slider from 'src/components/core/Slider';
 
-function GameSettingsDialog({
+function CardsGameSettingsDialog({
   open,
   handleClose,
   trainingSettings,
@@ -109,7 +109,7 @@ function GameSettingsDialog({
   );
 }
 
-GameSettingsDialog.propTypes = {
+CardsGameSettingsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   trainingSettings: PropTypes.shape({
@@ -120,4 +120,4 @@ GameSettingsDialog.propTypes = {
   setTrainingSettings: PropTypes.func.isRequired
 };
 
-export default GameSettingsDialog;
+export default CardsGameSettingsDialog;

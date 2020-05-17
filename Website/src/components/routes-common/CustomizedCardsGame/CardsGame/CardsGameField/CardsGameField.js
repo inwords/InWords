@@ -4,9 +4,9 @@ import FadeAnimation from 'src/components/core/FadeAnimation';
 import Fade from 'src/components/core/Fade';
 import TrainingCard from 'src/components/routes-common/TrainingCard';
 
-import './GameField.scss';
+import './CardsGameField.scss';
 
-function GameField({
+function CardsGameField({
   trainingSettings,
   wordPairs,
   selectedWordPairs,
@@ -28,7 +28,7 @@ function GameField({
   }, [wordPairs.length, trainingSettings.cardDimension]);
 
   return (
-    <div className="game-field" style={{ maxWidth }}>
+    <div className="cards-game-field" style={{ maxWidth }}>
       {wordPairs.map(({ id, pairId, word, onSpeech }) => (
         <FadeAnimation key={id}>
           <Fade in>
@@ -48,6 +48,7 @@ function GameField({
                 textSize={+trainingSettings.cardTextSize}
                 onClick={handleClick(pairId, id, onSpeech)}
                 depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
+                className="cards-game-field__card"
               >
                 {word}
               </TrainingCard>
@@ -59,7 +60,7 @@ function GameField({
   );
 }
 
-GameField.propTypes = {
+CardsGameField.propTypes = {
   trainingSettings: PropTypes.shape({
     cardDimension: PropTypes.string.isRequired,
     cardTextSize: PropTypes.string.isRequired
@@ -83,4 +84,4 @@ GameField.propTypes = {
   handleClick: PropTypes.func.isRequired
 };
 
-export default GameField;
+export default CardsGameField;

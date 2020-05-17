@@ -6,7 +6,7 @@ import createSpeech from 'src/utils/createSpeech';
 import { setSnackbar } from 'src/actions/commonActions';
 import { saveLevelResult } from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
-import CustomizedGame from 'src/components/routes-common/CustomizedGame';
+import CustomizedCardsGame from 'src/components/routes-common/CustomizedCardsGame';
 import CustomizedAuditionTraining from 'src/components/routes-common/CustomizedAuditionTraining';
 import TrainingPairsDialog from './TrainingPairsDialog';
 
@@ -140,7 +140,7 @@ function TrainingsConveyor({
           switch (restTrainingTypes[0]) {
             case 0:
               return (
-                <CustomizedGame
+                <CustomizedCardsGame
                   trainingLevel={processedTrainingLevel}
                   handleEnd={handleTrainingEnd}
                 />
