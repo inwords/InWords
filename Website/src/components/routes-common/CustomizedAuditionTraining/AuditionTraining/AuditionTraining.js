@@ -44,9 +44,9 @@ function AuditionTraining({ trainingLevel, trainingSettings, handleEnd }) {
     resetWords();
 
     const preparedWords = trainingLevel.wordTranslations.map(
-      ({ serverId, wordForeign, onSpeech }) => ({
+      ({ serverId, wordNative, onSpeech }) => ({
         id: serverId,
-        title: wordForeign,
+        title: wordNative,
         onSpeech
       })
     );
