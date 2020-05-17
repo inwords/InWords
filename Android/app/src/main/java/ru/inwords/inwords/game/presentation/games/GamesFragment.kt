@@ -41,7 +41,7 @@ class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewMo
 
         setupWithNavController(binding.toolbar)
 
-       viewModel.checkPolicy().disposeOnViewDestroyed()
+        viewModel.checkPolicy().disposeOnViewDestroyed()
 
         recyclerAdapter = GroupAdapter<GroupieViewHolder>()
 

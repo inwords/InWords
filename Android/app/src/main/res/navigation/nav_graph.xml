@@ -21,6 +21,11 @@
         app:popUpToInclusive="true" />
 
     <action
+        android:id="@+id/action_global_pop_to_chooseSignMethodFragment_inclusive"
+        app:popUpTo="@id/chooseSignMethodFragment"
+        app:popUpToInclusive="true" />
+
+    <action
         android:id="@+id/action_global_dictionary"
         app:destination="@id/graph_dictionary"
         app:enterAnim="@anim/slide_in_right"
@@ -37,6 +42,15 @@
         tools:layout="@layout/fragment_policy">
         <action
             android:id="@+id/action_policyFragment_pop"
+            app:popUpTo="@id/policyFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/to_chooseSignMethodFragment"
+            app:destination="@id/chooseSignMethodFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/policyFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -155,8 +169,14 @@
                 app:enterAnim="@anim/slide_in_right"
                 app:exitAnim="@anim/slide_out_left"
                 app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"
-                app:popUpToInclusive="false" />
+                app:popExitAnim="@anim/slide_out_right" />
+            <action
+                android:id="@+id/to_chooseSignMethodFragment"
+                app:destination="@id/chooseSignMethodFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
         </fragment>
         <fragment
             android:id="@+id/gameLevelsFragment"
@@ -213,13 +233,15 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment_pop"
             app:popUpTo="@id/registrationFragment" />
         <argument
             android:name="onTopOfRegistration"
+            app:argType="boolean" />
+        <argument
+            android:name="onTopOfChooseSignMethod"
             app:argType="boolean" />
     </fragment>
 
@@ -233,14 +255,36 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment_pop"
             app:popUpTo="@id/loginFragment" />
         <argument
             android:name="onTopOfLogin"
             app:argType="boolean" />
+        <argument
+            android:name="onTopOfChooseSignMethod"
+            app:argType="boolean" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chooseSignMethodFragment"
+        android:name="ru.inwords.inwords.authorisation.presentation.choose_method.ChooseSignMethodFragment"
+        tools:layout="@layout/fragment_choose_sign_method">
+        <action
+            android:id="@+id/to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/to_registrationFragment"
+            app:destination="@id/registrationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
 </navigation>

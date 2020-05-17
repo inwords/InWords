@@ -40,8 +40,8 @@ class WebRequestsManagerUnauthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun registerUser(userCredentials: UserCredentials): Single<TokenResponse> {
-        return authenticatorGrpcService.register(userCredentials)
+    override fun registerUser(userCredentials: UserCredentials, isAnonymous: Boolean): Single<TokenResponse> {
+        return authenticatorGrpcService.register(userCredentials, isAnonymous)
             .applyAuthSessionHelper()
             .subscribeOn(Schedulers.io())
     }

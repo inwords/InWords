@@ -23,6 +23,7 @@ import ru.inwords.inwords.profile.data.bean.UserCredentials
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
+import kotlin.random.Random
 
 class AuthorisationWebInteractor @Inject internal constructor(
     private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised,
@@ -67,7 +68,26 @@ class AuthorisationWebInteractor @Inject internal constructor(
     }
 
     override fun signUp(userCredentials: UserCredentials): Completable {
-        return webRequestsManagerUnauthorised.registerUser(userCredentials)
+        return signUpInternal(userCredentials, false)
+    }
+
+    override fun signInGuest(): Completable {
+        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
+        val randomString = (1..14)
+            .map { charPool[Random.nextInt(0, charPool.size)] }
+            .joinToString("")
+
+        return signUpInternal(
+            UserCredentials(
+                email = "inwords_$randomString@inwords.guest",
+                password = ""
+            ), true
+        )
+    }
+
+    private fun signUpInternal(userCredentials: UserCredentials, isAnonymous: Boolean): Completable {
+        return webRequestsManagerUnauthorised.registerUser(userCredentials, isAnonymous)
             .doOnSuccess { lastAuthInfoProvider.setAuthMethod(NATIVE) }
             .saveNativeCredentials(userCredentials)
             .detectNewUser(userCredentials.email)

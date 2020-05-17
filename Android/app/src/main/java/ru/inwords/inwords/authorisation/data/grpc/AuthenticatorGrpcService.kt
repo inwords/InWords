@@ -38,8 +38,9 @@ internal class AuthenticatorGrpcService @Inject constructor(@GrpcDefaultChannel 
             .map { TokenResponse(it.token, it.userId) }
     }
 
-    fun register(userCredentials: UserCredentials): Single<TokenResponse> {
+    fun register(userCredentials: UserCredentials, isAnonymous: Boolean): Single<TokenResponse> {
         val request = RegistrationRequest.newBuilder()
+            .setIsAnonymous(isAnonymous)
             .setEmail(userCredentials.email)
             .setPassword(userCredentials.password)
             .build()
