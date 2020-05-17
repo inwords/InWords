@@ -9,13 +9,13 @@ import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.grpc.ClassicCardGameGrpcService
 import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
-import ru.inwords.inwords.profile.data.bean.User
 import ru.inwords.inwords.profile.data.grpc.ProfileGrpcService
 import ru.inwords.inwords.proto.classic_card_game.CardGameInfos
 import ru.inwords.inwords.proto.classic_card_game.CardGameMetrics
 import ru.inwords.inwords.proto.classic_card_game.LevelPoints
 import ru.inwords.inwords.proto.dictionary.*
 import ru.inwords.inwords.proto.profile.EmailChangeReply
+import ru.inwords.inwords.proto.profile.ProfileReply
 import ru.inwords.inwords.proto.word_set.GetLevelWordsReply
 import ru.inwords.inwords.proto.word_set.GetLevelsReply
 import ru.inwords.inwords.proto.word_set.WordSetReply
@@ -26,7 +26,6 @@ import javax.inject.Singleton
 
 @Singleton
 class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
-    private val apiServiceAuthorised: ApiServiceAuthorised,
     private val sessionHelper: SessionHelper,
     private val dictionaryGrpcService: DictionaryGrpcService,
     private val wordSetGrpcService: WordSetGrpcService,
@@ -43,16 +42,16 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
         authenticatedNotifierSubject.onNext(authorised)
     }
 
-    override fun getAuthorisedUser(): Single<User> {
+    override fun getAuthorisedUser(): Single<ProfileReply> {
         return valve()
-            .flatMap { apiServiceAuthorised.getAuthorisedUser() }
+            .flatMap { profileGrpcService.current() }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun updateUser(newUser: User): Completable {
+    override fun updateUser(newNickName:String): Completable {
         return valve()
-            .flatMapCompletable { apiServiceAuthorised.updateUser(newUser) }
+            .flatMapCompletable { profileGrpcService.update(newNickName) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

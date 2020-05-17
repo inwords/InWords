@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Single
+import ru.inwords.inwords.NavGraphDirections
 import ru.inwords.inwords.R
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
@@ -82,8 +83,12 @@ class LoginViewModel(
         }
     }
 
-    fun popOutOfAuth() {
-        navigateTo(LoginFragmentDirections.actionGlobalPopToMainFragment())
+    fun popOutOfAuth(onTopOfRegistration: Boolean) {
+        if (onTopOfRegistration) {
+            navigateTo(NavGraphDirections.actionGlobalPopToRegistrationFragmentInclusive())
+        } else {
+            navigateTo(NavGraphDirections.actionGlobalPopToLoginFragmentInclusive())
+        }
     }
 
     companion object {

@@ -2,6 +2,7 @@
 using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +37,8 @@ namespace InWords.WebApi.Modules.WordsSets
                                     LevelId = level.GameLevelId,
                                     Level = level.Level,
                                     IsAvailable = true,
-                                    Stars = userLevel.UserStars / 2
+                                    Stars = userLevel == null ? 0 : (int)Math.Round(userLevel.UserStars / 2.0),
+                                    Score = userLevel == null? 0 : userLevel.UserStars
                                 };
 
             getLevelsReply.Levels.AddRange(starredLevels);

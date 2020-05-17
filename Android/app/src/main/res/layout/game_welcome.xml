@@ -30,6 +30,7 @@
                 android:layout_marginStart="@dimen/space_medium"
                 android:layout_marginEnd="@dimen/space_medium"
                 app:actualImageScaleType="fitCenter"
+                app:failureImage="@drawable/octopus_school"
                 app:viewAspectRatio="1" />
 
             <TextView

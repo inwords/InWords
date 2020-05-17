@@ -23,13 +23,7 @@ function GameSettingsDialog({
 
   useEffect(() => {
     if (open) {
-      const {
-        voiceOn = false,
-        cardDimension = '120',
-        cardTextSize = '16'
-      } = trainingSettings;
-
-      setInputs({ voiceOn, cardDimension, cardTextSize });
+      setInputs(trainingSettings);
     }
   }, [trainingSettings, open, setInputs]);
 
@@ -59,7 +53,7 @@ function GameSettingsDialog({
         >
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Размер карточки: {inputs.cardDimension}px
+              Размер карточки: {inputs.cardDimension}
             </Typography>
             <Slider
               name="cardDimension"
@@ -72,13 +66,13 @@ function GameSettingsDialog({
           </FormGroup>
           <FormGroup>
             <Typography component="p" variant="body2" gutterBottom>
-              Размер текста на карточке: {inputs.cardTextSize}px
+              Размер текста на карточке: {inputs.cardTextSize}
             </Typography>
             <Slider
               name="cardTextSize"
-              min="12"
-              max="24"
-              step="1"
+              min="0.75"
+              max="1.5"
+              step="0.0625"
               value={inputs.cardTextSize}
               onChange={handleChange}
             />

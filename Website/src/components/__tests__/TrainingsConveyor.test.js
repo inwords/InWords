@@ -60,11 +60,11 @@ const setupForCardSettingsEdit = () => {
   const clickSettings = () => fireEvent.click(utils.getByText('settings'));
   const cardSettings = {
     dimensions: '120',
-    textSize: '16'
+    textSize: '1'
   };
   const newCardSettings = {
     dimensions: '130',
-    textSize: '18'
+    textSize: '1.125'
   };
   const changeCardDimensionsInput = value =>
     fireEvent.change(utils.getByDisplayValue(cardSettings.dimensions), {

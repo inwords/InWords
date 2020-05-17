@@ -25,7 +25,7 @@ function TrainingsConveyor({
   handleNextLevel = () => {},
   handleResultSuccess = () => {}
 }) {
-  const [processedTrainingLevel, setProcessedTrainingLevel] = useState();
+  const [processedTrainingLevel, setProcessedTrainingLevel] = useState(null);
   const [restTrainingTypes, setRestTrainingTypes] = useState(
     [...selectedTrainingTypes].sort(compareByOrder)
   );
@@ -129,48 +129,45 @@ function TrainingsConveyor({
     }
   };
 
-  if (
-    !processedTrainingLevel ||
-    !processedTrainingLevel.wordTranslations.length
-  ) {
-    return null;
-  }
+  return (
+    processedTrainingLevel &&
+    processedTrainingLevel.wordTranslations.length > 0 &&
+    (!resultReady ? (
+      <Fragment>
+        {(() => {
+          if (open) return null;
 
-  return !resultReady ? (
-    <Fragment>
-      {(() => {
-        if (open) return null;
-
-        switch (restTrainingTypes[0]) {
-          case 0:
-            return (
-              <CustomizedGame
-                trainingLevel={processedTrainingLevel}
-                handleEnd={handleTrainingEnd}
-              />
-            );
-          case 1:
-            return (
-              <CustomizedAuditionTraining
-                trainingLevel={processedTrainingLevel}
-                handleEnd={handleTrainingEnd}
-              />
-            );
-        }
-      })()}
-      <TrainingPairsDialog
-        open={open}
-        handleClose={handleClose}
-        wordPairs={processedTrainingLevel.wordTranslations}
+          switch (restTrainingTypes[0]) {
+            case 0:
+              return (
+                <CustomizedGame
+                  trainingLevel={processedTrainingLevel}
+                  handleEnd={handleTrainingEnd}
+                />
+              );
+            case 1:
+              return (
+                <CustomizedAuditionTraining
+                  trainingLevel={processedTrainingLevel}
+                  handleEnd={handleTrainingEnd}
+                />
+              );
+          }
+        })()}
+        <TrainingPairsDialog
+          open={open}
+          handleClose={handleClose}
+          wordPairs={processedTrainingLevel.wordTranslations}
+        />
+      </Fragment>
+    ) : (
+      <TrainingResult
+        score={score}
+        detailedScore={detailedScore}
+        handleNextLevel={handleEnhancedNextLevel}
+        handleReplay={handleReplay}
       />
-    </Fragment>
-  ) : (
-    <TrainingResult
-      score={score}
-      detailedScore={detailedScore}
-      handleNextLevel={handleEnhancedNextLevel}
-      handleReplay={handleReplay}
-    />
+    ))
   );
 }
 

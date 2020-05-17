@@ -35,16 +35,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Хобби" />
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/media_image"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="@dimen/constraint_match_parent"
             android:importantForAccessibility="no"
+            app:actualImageScaleType="fitCenter"
+            app:failureImage="@drawable/octopus_school"
             app:layout_constraintDimensionRatio="H,21:9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/primary_text"
-            app:srcCompat="@drawable/octopus_school" />
+            app:layout_constraintTop_toBottomOf="@id/primary_text" />
 
         <TextView
             android:id="@+id/sub_text"
