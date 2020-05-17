@@ -40,12 +40,12 @@ function WordSetLevels() {
   return (
     <Grid spacing={3}>
       {Boolean(levels) &&
-        levels.map(({ levelId, stars, isAvailable, level }) => (
+        levels.map(({ levelId, score, isAvailable, level }) => (
           <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
             <Card>
               <CardHeader title={`Уровень ${level}`} />
               <CardContent>
-                <Stars score={stars} />
+                <Stars score={score} />
               </CardContent>
               <CardActions>
                 <LinkButton

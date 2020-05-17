@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Paper from 'src/components/core/Paper';
+import ButtonBase from 'src/components/core/ButtonBase';
 import Zoom from 'src/components/core/Zoom';
 
 import './TrainingCard.scss';
@@ -17,7 +18,7 @@ function TrainingCard({
 }) {
   return (
     <Paper
-      component="button"
+      component={ButtonBase}
       square
       className={classNames('training-card', className)}
       style={{

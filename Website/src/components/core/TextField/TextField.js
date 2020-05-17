@@ -35,7 +35,7 @@ const TextField = forwardRef(function TextField(
   const [filled, setFilled] = useState(false);
   const [focused, setFocused] = useState(false);
 
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const combinedRef = useCombinedRefs(ref, inputRef);
 
   useEffect(() => {

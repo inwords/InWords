@@ -26,7 +26,7 @@ const Checkbox = forwardRef(function Checkbox(
   const { current: isControlled } = useRef(checkedProp != null);
   const [checked, setChecked] = useState(false);
 
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const combinedRef = useCombinedRefs(ref, inputRef);
 
   useEffect(() => {

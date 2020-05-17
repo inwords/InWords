@@ -47,7 +47,7 @@ function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
   };
 
   const handleClick = (pairId, id, onSpeech) => () => {
-    if (trainingLevel.voiceOn && onSpeech) {
+    if (trainingSettings.voiceOn && onSpeech) {
       onSpeech();
     }
 
