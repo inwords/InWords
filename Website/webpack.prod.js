@@ -56,7 +56,16 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new CopyPlugin([{ from: 'public', ignore: ['index.html'] }]),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'public',
+          globOptions: {
+            ignore: ['index.html']
+          }
+        }
+      ]
+    }),
     new MiniCssExtractPlugin({
       filename: 'static/css/[name].[contenthash:8].css',
       chunkFilename: 'static/css/[id].[contenthash:8].css'
