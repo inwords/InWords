@@ -6,7 +6,7 @@ import ControlledTrainingSettingsDialog from 'src/components/routes-common/Contr
 import AuditionTraining from './AuditionTraining';
 import AuditionTrainingSettingsDialog from './AuditionTrainingSettingsDialog';
 
-function CustomizedAuditionTraining({ trainingLevel, handleEnd }) {
+function CustomizedAuditionTraining(props) {
   const [trainingSettings, setTrainingSettings] = useState(null);
 
   useEffect(() => {
@@ -28,28 +28,14 @@ function CustomizedAuditionTraining({ trainingLevel, handleEnd }) {
           />
         ]}
       >
-        <AuditionTraining
-          trainingLevel={trainingLevel}
-          trainingSettings={trainingSettings}
-          handleEnd={handleEnd}
-        />
+        <AuditionTraining trainingSettings={trainingSettings} {...props} />
       </CustomizedTrainingWrapper>
     )
   );
 }
 
 CustomizedAuditionTraining.propTypes = {
-  trainingLevel: PropTypes.shape({
-    levelId: PropTypes.number.isRequired,
-    wordTranslations: PropTypes.arrayOf(
-      PropTypes.shape({
-        serverId: PropTypes.number.isRequired,
-        wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired,
-        onSpeech: PropTypes.func
-      }).isRequired
-    ).isRequired
-  }).isRequired,
+  trainingLevel: PropTypes.object.isRequired,
   handleEnd: PropTypes.func
 };
 

@@ -6,7 +6,7 @@ import ControlledTrainingSettingsDialog from 'src/components/routes-common/Contr
 import CardsGame from './CardsGame';
 import CardsGameSettingsDialog from './CardsGameSettingsDialog';
 
-function CustomizedCardsGame({ trainingLevel, handleEnd }) {
+function CustomizedCardsGame(props) {
   const [trainingSettings, setTrainingSettings] = useState(null);
 
   useEffect(() => {
@@ -29,28 +29,14 @@ function CustomizedCardsGame({ trainingLevel, handleEnd }) {
           />
         ]}
       >
-        <CardsGame
-          trainingLevel={trainingLevel}
-          trainingSettings={trainingSettings}
-          handleEnd={handleEnd}
-        />
+        <CardsGame trainingSettings={trainingSettings} {...props} />
       </CustomizedTrainingWrapper>
     )
   );
 }
 
 CustomizedCardsGame.propTypes = {
-  trainingLevel: PropTypes.shape({
-    levelId: PropTypes.number.isRequired,
-    wordTranslations: PropTypes.arrayOf(
-      PropTypes.shape({
-        serverId: PropTypes.number.isRequired,
-        wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired,
-        onSpeech: PropTypes.func
-      }).isRequired
-    ).isRequired
-  }).isRequired,
+  trainingLevel: PropTypes.object.isRequired,
   handleEnd: PropTypes.func
 };
 

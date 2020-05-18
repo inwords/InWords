@@ -11,15 +11,15 @@ import CustomizedAuditionTraining from 'src/components/routes-common/CustomizedA
 import TrainingPairsDialog from './TrainingPairsDialog';
 
 const trainingsTypesOrderMap = {
-  0: 1,
-  1: 0
+  audition: 0,
+  closedCards: 1
 };
 
 const compareByOrder = (a, b) =>
   trainingsTypesOrderMap[a] - trainingsTypesOrderMap[b];
 
 function TrainingsConveyor({
-  selectedTrainingTypes = [0, 1],
+  selectedTrainingTypes = ['audition', 'closedCards'],
   trainingsSettings = { quantity: '8', listOn: false },
   trainingLevel,
   handleNextLevel = () => {},
@@ -129,31 +129,28 @@ function TrainingsConveyor({
     }
   };
 
+  const TrainingComponent = (() => {
+    switch (restTrainingTypes[0]) {
+      case 'audition':
+        return CustomizedAuditionTraining;
+      case 'closedCards':
+        return CustomizedCardsGame;
+      default:
+        return null;
+    }
+  })();
+
   return (
     processedTrainingLevel &&
     processedTrainingLevel.wordTranslations.length > 0 &&
     (!resultReady ? (
       <Fragment>
-        {(() => {
-          if (open) return null;
-
-          switch (restTrainingTypes[0]) {
-            case 0:
-              return (
-                <CustomizedCardsGame
-                  trainingLevel={processedTrainingLevel}
-                  handleEnd={handleTrainingEnd}
-                />
-              );
-            case 1:
-              return (
-                <CustomizedAuditionTraining
-                  trainingLevel={processedTrainingLevel}
-                  handleEnd={handleTrainingEnd}
-                />
-              );
-          }
-        })()}
+        {!open && TrainingComponent && (
+          <TrainingComponent
+            trainingLevel={processedTrainingLevel}
+            handleEnd={handleTrainingEnd}
+          />
+        )}
         <TrainingPairsDialog
           open={open}
           handleClose={handleClose}
@@ -172,7 +169,7 @@ function TrainingsConveyor({
 }
 
 TrainingsConveyor.propTypes = {
-  selectedTrainingTypes: PropTypes.arrayOf(PropTypes.number),
+  selectedTrainingTypes: PropTypes.arrayOf(PropTypes.string.isRequired),
   trainingsSettings: PropTypes.shape({
     quantity: PropTypes.string,
     listOn: PropTypes.bool

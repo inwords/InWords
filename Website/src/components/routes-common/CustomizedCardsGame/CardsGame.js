@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import flatMap from 'src/utils/flatMap';
 import shuffle from 'src/utils/shuffle';
-import CardsGameField from './CardsGameField';
+import CardsGameField from 'src/components/routes-common/CardsGameField';
+import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
 
 const CARD_CLOSING_DELAY = 700;
 const GAME_COMPLETION_DELAY = 1000;
@@ -110,14 +111,32 @@ function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
 
   return (
     <CardsGameField
-      trainingSettings={trainingSettings}
-      wordPairs={wordPairs}
-      selectedWordPairs={selectedWordPairs}
-      rightSelectedPairId={rightSelectedPairId}
-      completedPairIdsMap={completedPairIdsMap}
-      selectedCompletedPairId={selectedCompletedPairId}
-      handleClick={handleClick}
-    />
+      cardDimension={+trainingSettings.cardDimension}
+      numberOfCards={wordPairs.length}
+    >
+      {wordPairs.map(({ id, pairId, word, onSpeech }) => (
+        <AnimatedTrainingCard
+          key={id}
+          data-testid={`card-${pairId}-${word}`}
+          open={
+            completedPairIdsMap[pairId] ||
+            Boolean(
+              selectedWordPairs.find(
+                selectedWordInfo => selectedWordInfo.id === id
+              )
+            )
+          }
+          color={rightSelectedPairId === pairId ? 'success' : null}
+          dimension={+trainingSettings.cardDimension}
+          textSize={+trainingSettings.cardTextSize}
+          margin={4}
+          onClick={handleClick(pairId, id, onSpeech)}
+          depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
+        >
+          {word}
+        </AnimatedTrainingCard>
+      ))}
+    </CardsGameField>
   );
 }
 
