@@ -7,7 +7,7 @@ import CardsGameField from 'src/components/routes-common/CardsGameField';
 import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
 
 const CARDS_CLOSING_DELAY = 1000;
-const CARDS_RESET_DELAY = 700;
+const CARDS_RESET_DELAY = 500;
 const GAME_COMPLETION_DELAY = 500;
 
 function OpenedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
