@@ -108,7 +108,7 @@ function AuditionTraining({ trainingLevel, trainingSettings, handleEnd }) {
             textSize={+trainingSettings.cardTextSize}
             margin={8}
             onClick={handleClick(id, onSpeech)}
-            depthShadow={selectedWordId === id ? 16 : 4}
+            depthShadow={selectedWordId === id ? 64 : 4}
           >
             {title}
           </AnimatedTrainingCard>

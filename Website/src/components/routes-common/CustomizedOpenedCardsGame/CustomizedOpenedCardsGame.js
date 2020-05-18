@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { loadValue } from 'src/localStorage';
 import CustomizedTrainingWrapper from 'src/components/routes-common/CustomizedTrainingWrapper';
 import ControlledTrainingSettingsDialog from 'src/components/routes-common/ControlledTrainingSettingsDialog';
-import CardsGame from './CardsGame';
-import CardsGameSettingsDialog from './CardsGameSettingsDialog';
+import CardsGameSettingsDialog from 'src/components/routes-common//CardsGameSettingsDialog';
+import OpenedCardsGame from './OpenedCardsGame';
 
-function CustomizedCardsGame(props) {
+function CustomizedOpenedCardsGame(props) {
   const [trainingSettings, setTrainingSettings] = useState(null);
 
   useEffect(() => {
     const { cardDimension = '120', cardTextSize = '1', voiceOn = false } =
-      loadValue('trainingSettings-0') || {};
+      loadValue('trainingSettings-*cards') || {};
 
     setTrainingSettings({ cardDimension, cardTextSize, voiceOn });
   }, []);
@@ -19,7 +19,7 @@ function CustomizedCardsGame(props) {
   return (
     trainingSettings && (
       <CustomizedTrainingWrapper
-        title="Закрытые карточки"
+        title="Открытые карточки"
         rightToolbarNodes={[
           <ControlledTrainingSettingsDialog
             key={0}
@@ -29,15 +29,15 @@ function CustomizedCardsGame(props) {
           />
         ]}
       >
-        <CardsGame trainingSettings={trainingSettings} {...props} />
+        <OpenedCardsGame trainingSettings={trainingSettings} {...props} />
       </CustomizedTrainingWrapper>
     )
   );
 }
 
-CustomizedCardsGame.propTypes = {
+CustomizedOpenedCardsGame.propTypes = {
   trainingLevel: PropTypes.object.isRequired,
   handleEnd: PropTypes.func
 };
 
-export default CustomizedCardsGame;
+export default CustomizedOpenedCardsGame;

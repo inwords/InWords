@@ -6,20 +6,22 @@ import createSpeech from 'src/utils/createSpeech';
 import { setSnackbar } from 'src/actions/commonActions';
 import { saveLevelResult } from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
-import CustomizedCardsGame from 'src/components/routes-common/CustomizedCardsGame';
 import CustomizedAuditionTraining from 'src/components/routes-common/CustomizedAuditionTraining';
+import CustomizedOpenedCardsGame from 'src/components/routes-common/CustomizedOpenedCardsGame';
+import CustomizedClosedCardsGame from 'src/components/routes-common/CustomizedClosedCardsGame';
 import TrainingPairsDialog from './TrainingPairsDialog';
 
 const trainingsTypesOrderMap = {
   audition: 0,
-  closedCards: 1
+  openedCards: 1,
+  closedCards: 2
 };
 
 const compareByOrder = (a, b) =>
   trainingsTypesOrderMap[a] - trainingsTypesOrderMap[b];
 
 function TrainingsConveyor({
-  selectedTrainingTypes = ['audition', 'closedCards'],
+  selectedTrainingTypes = ['audition', 'openedCards', 'closedCards'],
   trainingsSettings = { quantity: '8', listOn: false },
   trainingLevel,
   handleNextLevel = () => {},
@@ -133,8 +135,10 @@ function TrainingsConveyor({
     switch (restTrainingTypes[0]) {
       case 'audition':
         return CustomizedAuditionTraining;
+      case 'openedCards':
+        return CustomizedOpenedCardsGame;
       case 'closedCards':
-        return CustomizedCardsGame;
+        return CustomizedClosedCardsGame;
       default:
         return null;
     }

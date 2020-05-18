@@ -28,7 +28,7 @@ function AuditionTrainingSettingsDialog({
   const handleSubmit = event => {
     event.preventDefault();
 
-    saveValue('trainingSettings-1', inputs);
+    saveValue('trainingSettings-audition', inputs);
     setTrainingSettings(inputs);
   };
 

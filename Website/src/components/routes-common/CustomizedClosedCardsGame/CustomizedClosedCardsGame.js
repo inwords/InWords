@@ -3,40 +3,41 @@ import PropTypes from 'prop-types';
 import { loadValue } from 'src/localStorage';
 import CustomizedTrainingWrapper from 'src/components/routes-common/CustomizedTrainingWrapper';
 import ControlledTrainingSettingsDialog from 'src/components/routes-common/ControlledTrainingSettingsDialog';
-import AuditionTrainingSettingsDialog from './AuditionTrainingSettingsDialog';
-import AuditionTraining from './AuditionTraining';
+import CardsGameSettingsDialog from 'src/components/routes-common//CardsGameSettingsDialog';
+import ClosedCardsGame from './ClosedCardsGame';
 
-function CustomizedAuditionTraining(props) {
+function CustomizedClosedCardsGame(props) {
   const [trainingSettings, setTrainingSettings] = useState(null);
 
   useEffect(() => {
-    const { cardDimension = '120', cardTextSize = '1' } =
-      loadValue('trainingSettings-audition') || {};
-    setTrainingSettings({ cardDimension, cardTextSize });
+    const { cardDimension = '120', cardTextSize = '1', voiceOn = false } =
+      loadValue('trainingSettings-*cards') || {};
+
+    setTrainingSettings({ cardDimension, cardTextSize, voiceOn });
   }, []);
 
   return (
     trainingSettings && (
       <CustomizedTrainingWrapper
-        title="Аудирование"
+        title="Закрытые карточки"
         rightToolbarNodes={[
           <ControlledTrainingSettingsDialog
             key={0}
-            component={AuditionTrainingSettingsDialog}
+            component={CardsGameSettingsDialog}
             trainingSettings={trainingSettings}
             setTrainingSettings={setTrainingSettings}
           />
         ]}
       >
-        <AuditionTraining trainingSettings={trainingSettings} {...props} />
+        <ClosedCardsGame trainingSettings={trainingSettings} {...props} />
       </CustomizedTrainingWrapper>
     )
   );
 }
 
-CustomizedAuditionTraining.propTypes = {
+CustomizedClosedCardsGame.propTypes = {
   trainingLevel: PropTypes.object.isRequired,
   handleEnd: PropTypes.func
 };
 
-export default CustomizedAuditionTraining;
+export default CustomizedClosedCardsGame;

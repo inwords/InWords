@@ -6,15 +6,15 @@ import shuffle from 'src/utils/shuffle';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
 import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
 
-const CARD_CLOSING_DELAY = 700;
-const GAME_COMPLETION_DELAY = 1000;
+const CARDS_CLOSING_DELAY = 1000;
+const CARDS_RESET_DELAY = 700;
+const GAME_COMPLETION_DELAY = 500;
 
-function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
+function OpenedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
   const [wordPairs, setWordPairs] = useState([]);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [rightSelectedPairId, setRightSelectedPairId] = useState(-1);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
-  const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [metrics, setMetrics] = useState({});
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     }
 
     if (completedPairIdsMap[pairId]) {
-      setSelectedCompletedPairId(pairId);
+      setSelectedWordPairs([]);
       return;
     }
 
@@ -65,15 +65,11 @@ function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     }
 
     let newMetrics = metrics;
+    const newSelectedWordPairs = selectedWordPairs.concat({ id, pairId });
     if (selectedWordPairs.length < 2) {
       setRightSelectedPairId(-1);
 
-      setSelectedWordPairs(selectedWordPairs =>
-        selectedWordPairs.concat({
-          id,
-          pairId
-        })
-      );
+      setSelectedWordPairs(newSelectedWordPairs);
 
       newMetrics = {
         ...metrics,
@@ -85,26 +81,27 @@ function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     let newCompletedPairIdsMap = completedPairIdsMap;
     if (selectedWordPairs.length === 1) {
       if (selectedWordPairs[0].pairId === pairId) {
-        setSelectedWordPairs([]);
-
         newCompletedPairIdsMap = {
           ...completedPairIdsMap,
           [pairId]: true
         };
 
-        setCompletedPairIdsMap(newCompletedPairIdsMap);
         setRightSelectedPairId(pairId);
-        setSelectedCompletedPairId(pairId);
 
-        if (isGameCompleted(newCompletedPairIdsMap)) {
-          setTimeout(() => {
-            handleEnd('cards', newMetrics);
-          }, GAME_COMPLETION_DELAY);
-        }
+        setTimeout(() => {
+          setSelectedWordPairs([]);
+          setCompletedPairIdsMap(newCompletedPairIdsMap);
+
+          if (isGameCompleted(newCompletedPairIdsMap)) {
+            setTimeout(() => {
+              handleEnd('cards', newMetrics);
+            }, GAME_COMPLETION_DELAY);
+          }
+        }, CARDS_CLOSING_DELAY);
       } else {
         setTimeout(() => {
           setSelectedWordPairs([]);
-        }, CARD_CLOSING_DELAY);
+        }, CARDS_RESET_DELAY);
       }
     }
   };
@@ -118,20 +115,15 @@ function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
         <AnimatedTrainingCard
           key={id}
           data-testid={`card-${pairId}-${word}`}
-          open={
-            completedPairIdsMap[pairId] ||
-            Boolean(
-              selectedWordPairs.find(
-                selectedWordInfo => selectedWordInfo.id === id
-              )
-            )
-          }
+          open={!completedPairIdsMap[pairId]}
           color={rightSelectedPairId === pairId ? 'success' : null}
           dimension={+trainingSettings.cardDimension}
           textSize={+trainingSettings.cardTextSize}
           margin={4}
           onClick={handleClick(pairId, id, onSpeech)}
-          depthShadow={selectedCompletedPairId === pairId ? 16 : 4}
+          depthShadow={
+            selectedWordPairs.find(wordInfo => wordInfo.id === id) ? 64 : 4
+          }
         >
           {word}
         </AnimatedTrainingCard>
@@ -140,7 +132,7 @@ function CardsGame({ trainingLevel, trainingSettings, handleEnd }) {
   );
 }
 
-CardsGame.propTypes = {
+OpenedCardsGame.propTypes = {
   trainingLevel: PropTypes.shape({
     levelId: PropTypes.number.isRequired,
     wordTranslations: PropTypes.arrayOf(
@@ -160,4 +152,4 @@ CardsGame.propTypes = {
   handleEnd: PropTypes.func.isRequired
 };
 
-export default CardsGame;
+export default OpenedCardsGame;
