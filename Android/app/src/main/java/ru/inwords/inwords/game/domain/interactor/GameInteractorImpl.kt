@@ -11,9 +11,8 @@ import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
 import ru.inwords.inwords.game.domain.model.*
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
 import ru.inwords.inwords.translation.domain.model.WordTranslation
-import javax.inject.Inject
 
-class GameInteractorImpl @Inject constructor(
+class GameInteractorImpl(
     private val gameGatewayController: GameGatewayController,
     private val translationWordsInteractor: TranslationWordsInteractor,
     private val gameCreator: GameCreator

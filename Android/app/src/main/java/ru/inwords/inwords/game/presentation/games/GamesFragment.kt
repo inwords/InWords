@@ -19,14 +19,14 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.databinding.FragmentGamesBinding
 import ru.inwords.inwords.game.domain.model.GameInfo
-import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
+import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.game.presentation.games.recycler.ContinueGameItem
 import ru.inwords.inwords.game.presentation.games.recycler.GameInfoItem
 import ru.inwords.inwords.game.presentation.games.recycler.WordsTrainingItem
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 
-class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, OctoGameViewModelFactory, FragmentGamesBinding>() {
+class GamesFragment : FragmentWithViewModelAndNav<GamesViewModel, WordsSetsViewModelFactory, FragmentGamesBinding>() {
     override val layout = R.layout.fragment_games
     override val classType = GamesViewModel::class.java
 

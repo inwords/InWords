@@ -8,9 +8,8 @@ import ru.inwords.inwords.core.resource.ResourceCachingProvider
 import ru.inwords.inwords.translation.converter.WordTranslationValueConverter
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
 import ru.inwords.inwords.translation.domain.model.WordTranslation
-import javax.inject.Inject
 
-class TrainingRepositoryImpl @Inject internal constructor(
+class TrainingRepositoryImpl internal constructor(
     private val translationWordsRemoteRepository: TranslationWordsRemoteRepository,
     private val adapterHolder: WordTranslationDeferredAdapterHolder,
     private val wordsForTrainingCache: SharedPrefsCache<List<WordTranslation>>

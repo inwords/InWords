@@ -14,9 +14,12 @@ interface CustomGameGatewayController {
     fun storeLevel(gameLevelEntity: GameLevelEntity): Completable
 }
 
-interface GameGatewayController {
-    fun getGamesInfo(forceUpdate: Boolean = false): Observable<Resource<GamesInfo>>
+interface GetGameGameGatewayController {
     fun getGame(gameId: Int, forceUpdate: Boolean = false): Observable<Resource<Game>>
+    fun getGamesInfo(forceUpdate: Boolean = false): Observable<Resource<GamesInfo>>
+}
+
+interface GameGatewayController : GetGameGameGatewayController {
     fun getLevel(levelId: Int, forceUpdate: Boolean = false): Observable<Resource<GameLevelEntity>>
     fun getScore(game: Game, levelMetric: LevelMetric): Single<Resource<LevelScore>>
     fun uploadScoresToServer(): Single<List<LevelScore>>

@@ -9,9 +9,8 @@ import ru.inwords.inwords.game.domain.model.Game
 import ru.inwords.inwords.game.domain.model.GameInfo
 import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.translation.domain.model.WordTranslation
-import javax.inject.Inject
 
-class CustomGameCreator @Inject constructor(
+class CustomGameCreator(
     private val customGameGatewayController: CustomGameGatewayController,
     private val levelInfoGenerator: LevelInfoGenerator
 ) : GameCreator {

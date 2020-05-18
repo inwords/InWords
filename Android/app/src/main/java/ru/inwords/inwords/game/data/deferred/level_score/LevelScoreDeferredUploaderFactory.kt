@@ -4,11 +4,11 @@ import io.reactivex.Single
 import ru.inwords.inwords.core.deferred_uploader.DeferredUploader
 import ru.inwords.inwords.core.deferred_uploader.DeferredUploaderLocalDao
 import ru.inwords.inwords.core.deferred_uploader.DeferredUploaderRemoteDao
-import ru.inwords.inwords.data.WorkManagerWrapper
 import ru.inwords.inwords.game.data.entity.LevelMetricEntity
 import ru.inwords.inwords.game.data.repository.GameRemoteRepository
 import ru.inwords.inwords.game.data.source.LevelScoreRequestDao
 import ru.inwords.inwords.game.domain.model.LevelScore
+import ru.inwords.inwords.main_activity.data.WorkManagerWrapper
 
 class LevelScoreDeferredUploaderFactory(
     private val gameRemoteRepository: GameRemoteRepository,

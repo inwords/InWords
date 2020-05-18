@@ -23,17 +23,14 @@ import ru.inwords.inwords.game.data.source.GameDao
 import ru.inwords.inwords.game.data.source.GameInfoDao
 import ru.inwords.inwords.game.data.source.GameLevelDao
 import ru.inwords.inwords.game.domain.model.*
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class GameGatewayControllerImpl @Inject constructor(
+class GameGatewayControllerImpl (
     private val gameRemoteRepository: GameRemoteRepository,
     gameInfoDao: GameInfoDao,
     gameDao: GameDao,
     gameLevelDao: GameLevelDao,
     private val levelScoreDeferredUploaderHolder: LevelScoreDeferredUploaderHolder
-) : GameGatewayController, CustomGameGatewayController {
+) : GameGatewayController, CustomGameGatewayController, GetGameGameGatewayController {
 
     private val gameInfoDatabaseRepository = GameDatabaseRepository<GameInfoEntity>(gameInfoDao)
     private val gameDatabaseRepository = GameDatabaseRepository<GameEntity>(gameDao)

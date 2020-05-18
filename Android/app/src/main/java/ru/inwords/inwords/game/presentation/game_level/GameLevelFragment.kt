@@ -13,13 +13,13 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.databinding.FragmentGameLevelBinding
 import ru.inwords.inwords.game.domain.model.GameLevelInfo
-import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
+import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.texttospeech.TtsMediaPlayerAdapter
 import java.lang.ref.WeakReference
 
 
-class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, OctoGameViewModelFactory, FragmentGameLevelBinding>() {
+class GameLevelFragment : FragmentWithViewModelAndNav<GameLevelViewModel, WordsSetsViewModelFactory, FragmentGameLevelBinding>() {
     override val layout = R.layout.fragment_game_level
     override val classType = GameLevelViewModel::class.java
 

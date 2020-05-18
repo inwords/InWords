@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import ru.inwords.inwords.R
 import ru.inwords.inwords.databinding.FragmentCustomGameCreatorBinding
-import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
+import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
 
-class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorViewModel, OctoGameViewModelFactory, FragmentCustomGameCreatorBinding>() {
+class CustomGameCreatorFragment : FragmentWithViewModelAndNav<CustomGameCreatorViewModel, WordsSetsViewModelFactory, FragmentCustomGameCreatorBinding>() {
     override val layout = R.layout.fragment_custom_game_creator
     override val classType = CustomGameCreatorViewModel::class.java
 
