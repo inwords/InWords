@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { loadValue } from 'src/localStorage';
 import CustomizedTrainingWrapper from 'src/components/routes-common/CustomizedTrainingWrapper';
 import ControlledTrainingSettingsDialog from 'src/components/routes-common/ControlledTrainingSettingsDialog';
-import CardsGame from './CardsGame';
-import CardsGameSettingsDialog from './CardsGameSettingsDialog';
+import CardsGameSettingsDialog from 'src/components/routes-common//CardsGameSettingsDialog';
+import OpenedCardsGame from './OpenedCardsGame';
 
-function CustomizedCardsGame({ trainingLevel, handleEnd }) {
+function CustomizedOpenedCardsGame(props) {
   const [trainingSettings, setTrainingSettings] = useState(null);
 
   useEffect(() => {
     const { cardDimension = '120', cardTextSize = '1', voiceOn = false } =
-      loadValue('trainingSettings-0') || {};
+      loadValue('trainingSettings-*cards') || {};
 
     setTrainingSettings({ cardDimension, cardTextSize, voiceOn });
   }, []);
@@ -19,7 +19,7 @@ function CustomizedCardsGame({ trainingLevel, handleEnd }) {
   return (
     trainingSettings && (
       <CustomizedTrainingWrapper
-        title="Закрытые карточки"
+        title="Открытые карточки"
         rightToolbarNodes={[
           <ControlledTrainingSettingsDialog
             key={0}
@@ -29,29 +29,15 @@ function CustomizedCardsGame({ trainingLevel, handleEnd }) {
           />
         ]}
       >
-        <CardsGame
-          trainingLevel={trainingLevel}
-          trainingSettings={trainingSettings}
-          handleEnd={handleEnd}
-        />
+        <OpenedCardsGame trainingSettings={trainingSettings} {...props} />
       </CustomizedTrainingWrapper>
     )
   );
 }
 
-CustomizedCardsGame.propTypes = {
-  trainingLevel: PropTypes.shape({
-    levelId: PropTypes.number.isRequired,
-    wordTranslations: PropTypes.arrayOf(
-      PropTypes.shape({
-        serverId: PropTypes.number.isRequired,
-        wordForeign: PropTypes.string.isRequired,
-        wordNative: PropTypes.string.isRequired,
-        onSpeech: PropTypes.func
-      }).isRequired
-    ).isRequired
-  }).isRequired,
+CustomizedOpenedCardsGame.propTypes = {
+  trainingLevel: PropTypes.object.isRequired,
   handleEnd: PropTypes.func
 };
 
-export default CustomizedCardsGame;
+export default CustomizedOpenedCardsGame;

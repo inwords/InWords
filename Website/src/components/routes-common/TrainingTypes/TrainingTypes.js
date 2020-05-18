@@ -24,15 +24,22 @@ import './TrainingTypes.scss';
 
 const trainingTypesInfo = [
   {
-    typeId: 1,
+    typeId: 'audition',
     title: 'Аудирование',
     description:
-      'Необходимо правильно выбрать английское слово по его произношению'
+      'Необходимо выбрать правильный перевод слова по его произношению'
   },
   {
-    typeId: 0,
+    typeId: 'openedCards',
+    title: 'Открытые карточки',
+    description:
+      'Необходимо правильно закрыть все пары карточек «Слово-Перевод»'
+  },
+  {
+    typeId: 'closedCards',
     title: 'Закрытые карточки',
-    description: 'Необходимо правильно открыть пару карточек «Слово-Перевод»'
+    description:
+      'Необходимо правильно открыть все пары карточек «Слово-Перевод»'
   }
 ];
 
@@ -52,7 +59,13 @@ function TrainingTypes({ trainingLevel }) {
   };
 
   useEffect(() => {
-    setCheckedValues(loadValue('selectedTrainingTypes') || [0, 1]);
+    setCheckedValues(
+      loadValue('selectedTrainingTypes') || [
+        'audition',
+        'openedCards',
+        'closedCards'
+      ]
+    );
   }, [setCheckedValues]);
 
   useEffect(() => {

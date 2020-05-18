@@ -30,7 +30,7 @@ function CardsGameSettingsDialog({
   const handleSubmit = event => {
     event.preventDefault();
 
-    saveValue('trainingSettings-0', inputs);
+    saveValue('trainingSettings-*cards', inputs);
     setTrainingSettings(inputs);
   };
 

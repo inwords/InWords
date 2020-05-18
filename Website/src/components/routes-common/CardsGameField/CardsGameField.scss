@@ -13,8 +13,4 @@ $card-dimension: 120px;
       max-width: $card-dimension * $cols + 4 * $cols * 2;
     }
   }
-
-  &__card {
-    margin: 4px;
-  }
 }
