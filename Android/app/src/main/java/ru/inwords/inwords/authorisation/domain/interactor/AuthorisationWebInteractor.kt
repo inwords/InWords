@@ -16,16 +16,15 @@ import ru.inwords.inwords.authorisation.data.session.requireCredentials
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle.GoogleSignedInData
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.getErrorMessage
-import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
+import ru.inwords.inwords.main_activity.data.getErrorMessage
+import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import javax.inject.Inject
 import kotlin.random.Random
 
-class AuthorisationWebInteractor @Inject internal constructor(
+class AuthorisationWebInteractor internal constructor(
     private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised,
     private val webRequestsManagerUnauthorised: WebRequestsManagerUnauthorised,
     private val integrationInteractor: IntegrationInteractor,

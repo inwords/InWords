@@ -6,9 +6,8 @@ import io.reactivex.Single
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.profile.data.repository.UserRepository
 import ru.inwords.inwords.profile.domain.model.Profile
-import javax.inject.Inject
 
-class ProfileInteractor @Inject internal constructor(
+class ProfileInteractor internal constructor(
     private val userRepository: UserRepository
 ) {
     fun getAuthorisedUser(forceUpdate: Boolean = false): Observable<Resource<Profile>> {

@@ -6,7 +6,7 @@ import androidx.work.RxWorker
 import androidx.work.WorkerParameters
 import io.reactivex.Single
 import ru.inwords.inwords.App
-import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationWebInteractor
+import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import javax.inject.Inject
 
 class LevelScoreUploadWorker(context: Context, workerParams: WorkerParameters) : RxWorker(context, workerParams) {
@@ -14,7 +14,7 @@ class LevelScoreUploadWorker(context: Context, workerParams: WorkerParameters) :
     internal lateinit var levelScoreDeferredUploaderHolder: LevelScoreDeferredUploaderHolder
 
     @Inject
-    internal lateinit var authorisationInteractor: AuthorisationWebInteractor
+    internal lateinit var authorisationInteractor: AuthorisationInteractor
 
     override fun createWork(): Single<Result> {
         Log.d(javaClass.simpleName, "createWork called")

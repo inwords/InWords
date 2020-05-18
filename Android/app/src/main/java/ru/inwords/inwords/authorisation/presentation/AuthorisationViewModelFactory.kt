@@ -7,10 +7,8 @@ import ru.inwords.inwords.authorisation.presentation.choose_method.ChooseSignMet
 import ru.inwords.inwords.authorisation.presentation.login.LoginViewModel
 import ru.inwords.inwords.authorisation.presentation.registration.RegistrationViewModel
 import ru.inwords.inwords.core.managers.ResourceManager
-import javax.inject.Inject
 
-class AuthorisationViewModelFactory @Inject
-internal constructor(
+class AuthorisationViewModelFactory internal constructor(
     private val authorisationInteractor: AuthorisationInteractor,
     private val resourceManager: ResourceManager
 ) : ViewModelProvider.Factory {

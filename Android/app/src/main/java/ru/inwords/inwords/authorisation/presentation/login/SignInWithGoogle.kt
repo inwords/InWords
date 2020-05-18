@@ -12,11 +12,8 @@ import com.google.android.gms.tasks.Task
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.R
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SignInWithGoogle @Inject constructor(context: Context) {
+class SignInWithGoogle constructor(context: Context) {
 
     private val googleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(context, getOptions(context))
 

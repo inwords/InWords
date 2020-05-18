@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
-import javax.inject.Inject
 
-class PolicyViewModelFactory @Inject constructor(
+class PolicyViewModelFactory internal constructor(
     private val policyInteractor: PolicyInteractor,
     private val authorisationInteractor: AuthorisationInteractor
 ) : ViewModelProvider.Factory {

@@ -8,9 +8,8 @@ import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
-import javax.inject.Inject
 
-class TranslationSyncController @Inject internal constructor(
+class TranslationSyncController internal constructor(
     private val adapterHolder: WordTranslationDeferredAdapterHolder
 ) {
     private val dataChangesCounter: AtomicInteger = AtomicInteger()

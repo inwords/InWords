@@ -5,36 +5,33 @@ import android.util.Log
 import androidx.core.content.edit
 import io.reactivex.Completable
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.dagger.annotations.Common
-import ru.inwords.inwords.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
+import ru.inwords.inwords.main_activity.data.repository.integration.IntegrationDatabaseRepository
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
 import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
-import javax.inject.Inject
 
-class IntegrationInteractorImpl @Inject
-internal constructor(
+class IntegrationInteractorImpl internal constructor(
     private val translationWordsInteractor: TranslationWordsInteractor,
     private val profileInteractor: ProfileInteractor,
     private val gameInteractor: GameInteractor,
     private val trainingInteractor: TrainingInteractor,
     private val integrationDatabaseRepository: IntegrationDatabaseRepository,
-    @Common private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences
 ) : IntegrationInteractor {
     override fun getOnAuthCallback(): Completable = Completable.mergeDelayError(
-            listOf( //TODO getAllWords
-                translationWordsInteractor.tryUploadUpdatesToRemote()
-                    .subscribeOn(SchedulersFacade.io()),
-                gameInteractor.uploadScoresToServer()
-                    .ignoreElement()
-                    .subscribeOn(SchedulersFacade.io()),
-                profileInteractor.getAuthorisedUser()
-                    .firstOrError()
-                    .ignoreElement()
-                    .subscribeOn(SchedulersFacade.io())
-            )
+        listOf( //TODO getAllWords
+            translationWordsInteractor.tryUploadUpdatesToRemote()
+                .subscribeOn(SchedulersFacade.io()),
+            gameInteractor.uploadScoresToServer()
+                .ignoreElement()
+                .subscribeOn(SchedulersFacade.io()),
+            profileInteractor.getAuthorisedUser()
+                .firstOrError()
+                .ignoreElement()
+                .subscribeOn(SchedulersFacade.io())
         )
+    )
         .doOnError { Log.e(javaClass.simpleName, it.message.orEmpty()) }
         .onErrorComplete()
 

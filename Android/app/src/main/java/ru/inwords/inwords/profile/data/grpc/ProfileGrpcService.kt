@@ -7,7 +7,7 @@ import io.reactivex.Single
 import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
 import ru.inwords.inwords.core.grpc.HeaderAttachingClientInterceptor
 import ru.inwords.inwords.core.utils.unsafeLazy
-import ru.inwords.inwords.dagger.annotations.GrpcDefaultChannel
+import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.proto.common.Empty
 import ru.inwords.inwords.proto.profile.*
 import javax.inject.Inject
