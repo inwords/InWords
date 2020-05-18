@@ -2,6 +2,7 @@ package ru.inwords.inwords.game.presentation.games
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -10,6 +11,8 @@ import io.reactivex.functions.Function4
 import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.NavGraphDirections
 import ru.inwords.inwords.R
+import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.NONE
+import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
@@ -27,6 +30,7 @@ class GamesViewModel(
     private val continueGameInteractor: ContinueGameInteractor,
     private val trainingInteractor: TrainingInteractor,
     private val policyInteractor: PolicyInteractor,
+    private val authorisationInteractor: AuthorisationInteractor,
     private val resourceManager: ResourceManager
 ) : BasicViewModel() {
 
@@ -169,10 +173,28 @@ class GamesViewModel(
 
     fun checkPolicy(): Disposable = policyInteractor.getPolicyAgreementState()
         .subscribeOn(SchedulersFacade.io())
-        .observeOn(SchedulersFacade.ui())
-        .subscribe { agreed ->
-            if (!agreed) {
-                navigateTo(NavGraphDirections.actionGlobalToPolicyFragment())
+        .flatMapCompletable { agreed ->
+            if (agreed) {
+                authorisationInteractor.getLastAuthMethod()
+                    .observeOn(SchedulersFacade.ui())
+                    .doOnSuccess {
+                        if (it == NONE) {
+                            navigateTo(GamesFragmentDirections.toChooseSignMethodFragment())
+                        }
+                    }
+                    .ignoreElement()
+            } else {
+                Completable.complete()
+                    .observeOn(SchedulersFacade.ui())
+                    .doOnComplete {
+                        navigateTo(NavGraphDirections.actionGlobalToPolicyFragment())
+                    }
             }
         }
+        .observeOn(SchedulersFacade.ui())
+        .subscribe({}, { Log.wtf(TAG, it) })
+
+    companion object {
+        const val TAG = "GamesViewModel"
+    }
 }

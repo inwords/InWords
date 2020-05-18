@@ -1,13 +1,10 @@
 package ru.inwords.inwords.game.domain.interactor
 
 import ru.inwords.inwords.core.resource.Resource
-import ru.inwords.inwords.game.data.repository.GameGatewayController
+import ru.inwords.inwords.game.data.repository.GetGameGameGatewayController
 import ru.inwords.inwords.game.domain.model.*
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class ContinueGameInteractor @Inject constructor(private val gameGatewayController: GameGatewayController) { //TODO restrict to one method only
+class ContinueGameInteractor internal constructor(private val gameGatewayController: GetGameGameGatewayController) {
     fun getFirstZeroStarsLevel(): Resource<GamePathToLevel> {
         val gamesInfoRes = gameGatewayController.getGamesInfo(forceUpdate = false).blockingFirst()
 

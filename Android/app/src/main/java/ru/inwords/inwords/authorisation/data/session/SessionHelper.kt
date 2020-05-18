@@ -5,8 +5,7 @@ import retrofit2.HttpException
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
-class SessionHelper @Inject
-internal constructor(/*int maxRequests*/) {
+class SessionHelper @Inject internal constructor(/*int maxRequests*/) {
     companion object {
         private const val MAX_UNAUTHORISED_REQUESTS = 3
     }

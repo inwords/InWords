@@ -1,10 +1,6 @@
 package ru.inwords.inwords.authorisation.data.session
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
-@Singleton
-class NativeTokenHolder @Inject constructor() {
+class NativeTokenHolder internal constructor() {
     private var tokenResponse: TokenResponse = noToken
 
     fun setAuthToken(tokenResponse: TokenResponse) {

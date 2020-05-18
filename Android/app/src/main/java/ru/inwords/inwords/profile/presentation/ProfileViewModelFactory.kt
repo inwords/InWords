@@ -5,10 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.profile.domain.interactor.ProfileInteractor
 import ru.inwords.inwords.profile.presentation.view.ProfileViewModel
-import javax.inject.Inject
 
-class ProfileViewModelFactory @Inject
-internal constructor(
+class ProfileViewModelFactory internal constructor(
     private val profileInteractor: ProfileInteractor,
     private val authorisationInteractor: AuthorisationInteractor
 ) : ViewModelProvider.Factory {

@@ -12,6 +12,7 @@ function TrainingCard({
   color,
   dimension = 120,
   textSize = 16,
+  margin,
   children,
   className,
   ...rest
@@ -24,7 +25,8 @@ function TrainingCard({
       style={{
         width: dimension,
         height: dimension,
-        fontSize: `${textSize}rem`
+        fontSize: `${textSize}rem`,
+        margin
       }}
       {...rest}
     >
@@ -48,6 +50,10 @@ TrainingCard.propTypes = {
   color: PropTypes.string,
   dimension: PropTypes.number,
   textSize: PropTypes.number,
+  margin: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.number.isRequired
+  ]),
   children: PropTypes.node.isRequired,
   className: PropTypes.string
 };

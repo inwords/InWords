@@ -95,7 +95,7 @@ class ProfileViewModel internal constructor(
     }
 
     fun onNavigateToLoginClicked() {
-        navigateTo(ProfileFragmentDirections.actionProfileFragmentToLoginFragment(false))
+        navigateTo(ProfileFragmentDirections.actionProfileFragmentToLoginFragment(false, onTopOfChooseSignMethod = false))
     }
 
     fun onNavigateToSettingsClicked() {

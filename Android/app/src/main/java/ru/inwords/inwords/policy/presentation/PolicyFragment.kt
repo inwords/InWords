@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import ru.inwords.inwords.R
-import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.databinding.FragmentPolicyBinding
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 
@@ -36,10 +35,7 @@ class PolicyFragment : FragmentWithViewModelAndNav<PolicyViewModel, PolicyViewMo
         binding.startButton.setOnClickListener {
             binding.startButton.isEnabled = false
 
-            viewModel.setPolicyAgreementState(true)
-                .subscribeOn(SchedulersFacade.io())
-                .observeOn(SchedulersFacade.ui())
-                .subscribe { viewModel.popBack() }
+            viewModel.agreeWithPolicy().disposeOnViewDestroyed()
         }
 
         renderPolicyText(binding.policyTextView)

@@ -12,6 +12,7 @@ interface AuthorisationInteractor {
     fun trySignInExistingAccount(): Completable
     fun signIn(userCredentials: UserCredentials): Completable
     fun signUp(userCredentials: UserCredentials): Completable
+    fun signInGuest(): Completable
 
     fun getLastAuthMethod(): Single<AuthMethod>
 

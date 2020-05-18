@@ -13,15 +13,15 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.recycler.fixOverscrollBehaviour
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.INVALID_ID
 import ru.inwords.inwords.databinding.FragmentGameLevelsBinding
 import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.game.presentation.BaseContentFragment
-import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
+import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.game.presentation.game_levels.recycler.GameLevelsAdapter
 import ru.inwords.inwords.game.presentation.game_levels.recycler.applyDiffUtil
+import ru.inwords.inwords.main_activity.data.INVALID_ID
 
-class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, OctoGameViewModelFactory, FragmentGameLevelsBinding>() {
+class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, WordsSetsViewModelFactory, FragmentGameLevelsBinding>() {
     override val layout = R.layout.fragment_game_levels
     override val classType = GameLevelsViewModel::class.java
 
