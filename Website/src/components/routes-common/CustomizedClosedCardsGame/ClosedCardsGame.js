@@ -38,8 +38,8 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     setWordPairs(shuffle(preparedWordPairs));
   }, [trainingLevel.wordTranslations]);
 
-  const isGameCompleted = newCompletedPairIdsMap => {
-    const numberOfCompletedPairs = Object.keys(newCompletedPairIdsMap).length;
+  const isGameCompleted = completedPairIdsMap => {
+    const numberOfCompletedPairs = Object.keys(completedPairIdsMap).length;
     return (
       numberOfCompletedPairs === wordPairs.length / 2 &&
       numberOfCompletedPairs > 0
@@ -80,12 +80,11 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
       setMetrics(newMetrics);
     }
 
-    let newCompletedPairIdsMap = completedPairIdsMap;
     if (selectedWordPairs.length === 1) {
       if (selectedWordPairs[0].pairId === pairId) {
         setSelectedWordPairs([]);
 
-        newCompletedPairIdsMap = {
+        const newCompletedPairIdsMap = {
           ...completedPairIdsMap,
           [pairId]: true
         };

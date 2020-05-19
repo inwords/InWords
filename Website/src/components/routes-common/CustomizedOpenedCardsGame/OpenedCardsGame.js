@@ -6,7 +6,7 @@ import shuffle from 'src/utils/shuffle';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
 import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
 
-const CARDS_CLOSING_DELAY = 1000;
+const CARDS_CLOSING_DELAY = 700;
 const CARDS_RESET_DELAY = 500;
 const GAME_COMPLETION_DELAY = 500;
 
@@ -65,11 +65,10 @@ function OpenedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     }
 
     let newMetrics = metrics;
-    const newSelectedWordPairs = selectedWordPairs.concat({ id, pairId });
     if (selectedWordPairs.length < 2) {
       setRightSelectedPairId(-1);
 
-      setSelectedWordPairs(newSelectedWordPairs);
+      setSelectedWordPairs(selectedWordPairs.concat({ id, pairId }));
 
       newMetrics = {
         ...metrics,
@@ -81,15 +80,15 @@ function OpenedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     let newCompletedPairIdsMap = completedPairIdsMap;
     if (selectedWordPairs.length === 1) {
       if (selectedWordPairs[0].pairId === pairId) {
-        newCompletedPairIdsMap = {
-          ...completedPairIdsMap,
-          [pairId]: true
-        };
-
         setRightSelectedPairId(pairId);
 
         setTimeout(() => {
           setSelectedWordPairs([]);
+
+          newCompletedPairIdsMap = {
+            ...completedPairIdsMap,
+            [pairId]: true
+          };
           setCompletedPairIdsMap(newCompletedPairIdsMap);
 
           if (isGameCompleted(newCompletedPairIdsMap)) {
