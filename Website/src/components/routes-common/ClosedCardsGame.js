@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 import useCardsGame from 'src/components/routes-common/useCardsGame';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
 import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
+import Icon from 'src/components/core/Icon';
 
 const CARD_CLOSING_DELAY = 700;
 const GAME_COMPLETION_DELAY = 1000;
 
-function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
+function ClosedCardsGame({
+  trainingLevel,
+  trainingSettings,
+  handleEnd,
+  variantions: { isAudio, isSameLang }
+}) {
   const {
     wordPairs,
     selectedWordPairs,
@@ -19,7 +25,7 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     metrics,
     setMetrics,
     isGameCompleted
-  } = useCardsGame(trainingLevel.wordTranslations);
+  } = useCardsGame(trainingLevel.wordTranslations, { isSameLang });
 
   const handleClick = (pairId, id, onSpeech) => () => {
     if (trainingSettings.voiceOn && onSpeech) {
@@ -102,7 +108,11 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
             onClick={handleClick(pairId, id, onSpeech)}
             depthShadow={selected ? 64 : 4}
           >
-            {word}
+            {isAudio && onSpeech ? (
+              <Icon fontSize="large">volume_up</Icon>
+            ) : (
+              word
+            )}
           </AnimatedTrainingCard>
         );
       })}
@@ -127,7 +137,11 @@ ClosedCardsGame.propTypes = {
     cardTextSize: PropTypes.string.isRequired,
     voiceOn: PropTypes.bool.isRequired
   }).isRequired,
-  handleEnd: PropTypes.func.isRequired
+  handleEnd: PropTypes.func.isRequired,
+  variantions: PropTypes.shape({
+    isAudio: PropTypes.bool.isRequired,
+    isSameLang: PropTypes.bool.isRequired
+  }).isRequired
 };
 
 export default ClosedCardsGame;

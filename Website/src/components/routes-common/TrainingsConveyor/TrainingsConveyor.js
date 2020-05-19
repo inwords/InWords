@@ -9,22 +9,22 @@ import TrainingResult from 'src/components/routes-common/TrainingResult';
 import CustomizedCardsGame from 'src/components/routes-common/CustomizedCardsGame';
 import ClosedCardsGame from 'src/components/routes-common/ClosedCardsGame';
 import OpenedCardsGame from 'src/components/routes-common/OpenedCardsGame';
-import CustomizedAuditionTraining from 'src/components/routes-common/CustomizedAuditionTraining';
-import CustomizedOpenedCardsGame from 'src/components/routes-common/CustomizedOpenedCardsGame';
-import CustomizedClosedCardsGame from 'src/components/routes-common/CustomizedClosedCardsGame';
 import TrainingPairsDialog from './TrainingPairsDialog';
 
 const trainingsTypesOrderMap = {
-  audition: 0,
   openedCards: 1,
-  closedCards: 2
+  openedAudioCards: 2,
+  openedAudioCards2: 3,
+  closedCards: 4,
+  closedAudioCards: 5,
+  closedAudioCards2: 6
 };
 
 const compareByOrder = (a, b) =>
   trainingsTypesOrderMap[a] - trainingsTypesOrderMap[b];
 
 function TrainingsConveyor({
-  selectedTrainingTypes = ['audition', 'openedCards', 'closedCards'],
+  selectedTrainingTypes = [],
   trainingsSettings = { quantity: '8', listOn: false },
   trainingLevel,
   handleNextLevel = () => {},

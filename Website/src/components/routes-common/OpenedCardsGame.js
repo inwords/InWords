@@ -26,9 +26,7 @@ function OpenedCardsGame({
     metrics,
     setMetrics,
     isGameCompleted
-  } = useCardsGame(trainingLevel.wordTranslations, {
-    isSameLang
-  });
+  } = useCardsGame(trainingLevel.wordTranslations, { isSameLang });
 
   const handleClick = (pairId, id, onSpeech) => () => {
     if (trainingSettings.voiceOn && onSpeech) {
@@ -107,15 +105,7 @@ function OpenedCardsGame({
             selectedWordPairs.find(wordInfo => wordInfo.id === id) ? 64 : 4
           }
         >
-          {isAudio ? (
-            onSpeech ? (
-              <Icon fontSize="large">volume_up</Icon>
-            ) : (
-              word
-            )
-          ) : (
-            word
-          )}
+          {isAudio && onSpeech ? <Icon fontSize="large">volume_up</Icon> : word}
         </AnimatedTrainingCard>
       ))}
     </CardsGameField>
