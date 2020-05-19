@@ -130,7 +130,6 @@ function Homepage() {
                   </Typography>
                   <Typography
                     component="h2"
-                    variant="body1"
                     className="homepage-feature-description"
                   >
                     {description}
@@ -172,7 +171,6 @@ function Homepage() {
                   </Typography>
                   <Typography
                     component="h2"
-                    variant="body1"
                     className="homepage-feature-description"
                   >
                     {description}
@@ -189,7 +187,7 @@ function Homepage() {
           <Typography component="h2" variant="h5" gutterBottom>
             Изучайте слова без интернета
           </Typography>
-          <Typography variant="body1" gutterBottom>
+          <Typography gutterBottom>
             Загрузите наше приложение для Android
           </Typography>
           <a href="https://play.google.com/store/apps/details?id=ru.inwords.inwords&hl=ru&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
@@ -204,9 +202,7 @@ function Homepage() {
       <Divider />
       <section>
         <Container maxWidth="md" className="homepage-section-container">
-          <Link href="/policy/privacy.html" variant="body1">
-            Политика конфиденциальности
-          </Link>
+          <Link href="/policy/privacy.html">Политика конфиденциальности</Link>
         </Container>
       </section>
     </Fragment>

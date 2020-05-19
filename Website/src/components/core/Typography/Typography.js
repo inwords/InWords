@@ -17,7 +17,7 @@ const variantMapping = {
 
 function Typography({
   component,
-  variant = 'body2',
+  variant = 'body1',
   color = 'text-primary',
   gutterBottom,
   className,

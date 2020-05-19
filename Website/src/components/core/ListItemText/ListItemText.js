@@ -17,11 +17,12 @@ function ListItemText({ primary, secondary, className, ...rest }) {
       )}
       {...rest}
     >
-      <Typography variant="body1">{primary}</Typography>
+      <Typography>{primary}</Typography>
       {secondary && (
         <Typography
-          className="list-item-text__secondary"
+          variant="body2"
           color="text-secondary"
+          className="list-item-text__secondary"
         >
           {secondary}
         </Typography>

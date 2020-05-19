@@ -84,9 +84,7 @@ function TrainingTypes({ trainingLevel }) {
             <Icon color="action" className="training-types-study-icon">
               school
             </Icon>
-            <Typography variant="body1">
-              Слов на изучение: {wordTranslations.length}
-            </Typography>
+            <Typography>Слов на изучение: {wordTranslations.length}</Typography>
             <Space />
             <LinkButton
               component={RouterLink}
