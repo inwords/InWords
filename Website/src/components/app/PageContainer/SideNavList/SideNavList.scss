@@ -8,14 +8,14 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    min-height: 44px;
+    min-height: 40px;
     padding: 0 24px 0;
     cursor: pointer;
     user-select: none;
     outline: 0;
     text-decoration: none;
 
-    @include theme-typography(body1);
+    @include theme-typography(body2);
 
     color: var(--palette-text-primary);
     transition: background-color var(--transition-duration-shortest)
