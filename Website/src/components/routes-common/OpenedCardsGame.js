@@ -29,7 +29,7 @@ function OpenedCardsGame({
   } = useCardsGame(trainingLevel.wordTranslations, { isSameLang });
 
   const handleClick = (pairId, id, onSpeech) => () => {
-    if (trainingSettings.voiceOn && onSpeech) {
+    if ((trainingSettings.voiceOn || isAudio) && onSpeech) {
       onSpeech();
     }
 
@@ -58,7 +58,6 @@ function OpenedCardsGame({
       setMetrics(newMetrics);
     }
 
-    let newCompletedPairIdsMap = completedPairIdsMap;
     if (selectedWordPairs.length === 1) {
       if (selectedWordPairs[0].pairId === pairId) {
         setRightSelectedPairId(pairId);
@@ -66,7 +65,7 @@ function OpenedCardsGame({
         setTimeout(() => {
           setSelectedWordPairs([]);
 
-          newCompletedPairIdsMap = {
+          const newCompletedPairIdsMap = {
             ...completedPairIdsMap,
             [pairId]: true
           };

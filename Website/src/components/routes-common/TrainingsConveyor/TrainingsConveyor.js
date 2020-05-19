@@ -149,7 +149,7 @@ function TrainingsConveyor({
                     title="Открытые аудио-карточки"
                     component={OpenedCardsGame}
                     variantions={{
-                      isSameLang: true
+                      isAudio: true
                     }}
                     {...basicProps}
                   />
@@ -180,7 +180,7 @@ function TrainingsConveyor({
                     title="Закрытые аудио-карточки"
                     component={ClosedCardsGame}
                     variantions={{
-                      isSameLang: true
+                      isAudio: true
                     }}
                     {...basicProps}
                   />

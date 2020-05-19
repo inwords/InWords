@@ -28,15 +28,12 @@ function ClosedCardsGame({
   } = useCardsGame(trainingLevel.wordTranslations, { isSameLang });
 
   const handleClick = (pairId, id, onSpeech) => () => {
-    if (trainingSettings.voiceOn && onSpeech) {
+    if ((trainingSettings.voiceOn || isAudio) && onSpeech) {
       onSpeech();
     }
 
-    if (completedPairIdsMap[pairId]) {
-      return;
-    }
-
     if (
+      completedPairIdsMap[pairId] ||
       selectedWordPairs.length === 2 ||
       (selectedWordPairs.length && selectedWordPairs[0].id === id)
     ) {
