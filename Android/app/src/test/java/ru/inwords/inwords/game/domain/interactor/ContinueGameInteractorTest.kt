@@ -56,7 +56,7 @@ internal class ContinueGameInteractorTest {
     fun `queryContinueGame should return next level with last when pre last`() {
         every { gameGatewayController.getGamesInfo() } returns Observable.just(Resource.Success(gamesInfoModel))
 
-        val result = continueGameInteractor.queryContinueGame(game1, gameLevelInfos1[1])
+        val result = continueGameInteractor.queryContinueGame(game1, gameLevelInfos1[0])
 
         assert(result is Resource.Success)
         assert((result as Resource.Success).data is ContinueGameQueryResult.NextLevelInfo)
