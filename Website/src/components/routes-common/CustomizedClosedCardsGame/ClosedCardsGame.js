@@ -14,7 +14,6 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [rightSelectedPairId, setRightSelectedPairId] = useState(-1);
   const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
-  const [selectedCompletedPairId, setSelectedCompletedPairId] = useState(-1);
   const [metrics, setMetrics] = useState({});
 
   useEffect(() => {
@@ -53,7 +52,6 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     }
 
     if (completedPairIdsMap[pairId]) {
-      setSelectedCompletedPairId(pairId);
       return;
     }
 
@@ -94,7 +92,6 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
 
         setCompletedPairIdsMap(newCompletedPairIdsMap);
         setRightSelectedPairId(pairId);
-        setSelectedCompletedPairId(pairId);
 
         if (isGameCompleted(newCompletedPairIdsMap)) {
           setTimeout(() => {
@@ -114,24 +111,27 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
       cardDimension={+trainingSettings.cardDimension}
       numberOfCards={wordPairs.length}
     >
-      {wordPairs.map(({ id, pairId, word, onSpeech }) => (
-        <AnimatedTrainingCard
-          key={id}
-          data-testid={`card-${pairId}-${word}`}
-          open={
-            completedPairIdsMap[pairId] ||
-            Boolean(selectedWordPairs.find(wordInfo => wordInfo.id === id))
-          }
-          color={rightSelectedPairId === pairId ? 'success' : null}
-          dimension={+trainingSettings.cardDimension}
-          textSize={+trainingSettings.cardTextSize}
-          margin={4}
-          onClick={handleClick(pairId, id, onSpeech)}
-          depthShadow={selectedCompletedPairId === pairId ? 64 : 4}
-        >
-          {word}
-        </AnimatedTrainingCard>
-      ))}
+      {wordPairs.map(({ id, pairId, word, onSpeech }) => {
+        const selected = Boolean(
+          selectedWordPairs.find(wordInfo => wordInfo.id === id)
+        );
+
+        return (
+          <AnimatedTrainingCard
+            key={id}
+            data-testid={`card-${pairId}-${word}`}
+            open={completedPairIdsMap[pairId] || selected}
+            color={rightSelectedPairId === pairId ? 'success' : null}
+            dimension={+trainingSettings.cardDimension}
+            textSize={+trainingSettings.cardTextSize}
+            margin={4}
+            onClick={handleClick(pairId, id, onSpeech)}
+            depthShadow={selected ? 64 : 4}
+          >
+            {word}
+          </AnimatedTrainingCard>
+        );
+      })}
     </CardsGameField>
   );
 }

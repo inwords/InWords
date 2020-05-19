@@ -23,7 +23,7 @@ class ErrorBoundary extends Component {
               &#128543;
             </span>
           </Typography>
-          <Typography variant="body1">
+          <Typography>
             К сожалению, не удалось загрузить страницу. Проверьте соединение с
             интернетом или повторите попытку позже.
           </Typography>

@@ -1,0 +1,10 @@
+@import 'src/theme/mixins';
+
+.list-item-icon {
+  display: inline-flex;
+  min-width: 56px;
+
+  @include theme-breakpoints-down(sm) {
+    min-width: 48px;
+  }
+}
