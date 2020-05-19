@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-export default function useClientTrainingLevel(redirectionUrl) {
+const useClientTrainingLevel = redirectionUrl => {
   const levelsMap = useSelector(store => store.wordSet.levelsMap);
 
   const history = useHistory();
@@ -21,4 +21,6 @@ export default function useClientTrainingLevel(redirectionUrl) {
       wordTranslations: []
     }
   );
-}
+};
+
+export default useClientTrainingLevel;

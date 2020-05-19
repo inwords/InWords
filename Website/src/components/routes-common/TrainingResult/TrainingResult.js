@@ -16,6 +16,10 @@ const trainingTypesInfo = [
     internalName: 'audition'
   },
   {
+    title: 'Открытые карточки',
+    internalName: 'openCards'
+  },
+  {
     title: 'Закрытые карточки',
     internalName: 'cards'
   }

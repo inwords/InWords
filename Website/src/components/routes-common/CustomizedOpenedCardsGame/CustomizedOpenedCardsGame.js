@@ -11,7 +11,7 @@ function CustomizedOpenedCardsGame(props) {
 
   useEffect(() => {
     const { cardDimension = '120', cardTextSize = '1', voiceOn = false } =
-      loadValue('trainingSettings-*cards') || {};
+      loadValue('trainingSettings-*Cards') || {};
 
     setTrainingSettings({ cardDimension, cardTextSize, voiceOn });
   }, []);

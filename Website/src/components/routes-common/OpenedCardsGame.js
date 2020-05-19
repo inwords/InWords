@@ -9,7 +9,12 @@ const CARDS_CLOSING_DELAY = 700;
 const CARDS_RESET_DELAY = 500;
 const GAME_COMPLETION_DELAY = 500;
 
-function OpenedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
+function OpenedCardsGame({
+  trainingLevel,
+  trainingSettings,
+  handleEnd,
+  variantions: { isAudio, isSameLang }
+}) {
   const {
     wordPairs,
     selectedWordPairs,
@@ -21,7 +26,9 @@ function OpenedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
     metrics,
     setMetrics,
     isGameCompleted
-  } = useCardsGame(trainingLevel.wordTranslations);
+  } = useCardsGame(trainingLevel.wordTranslations, {
+    isSameLang
+  });
 
   const handleClick = (pairId, id, onSpeech) => () => {
     if (trainingSettings.voiceOn && onSpeech) {
@@ -100,8 +107,15 @@ function OpenedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
             selectedWordPairs.find(wordInfo => wordInfo.id === id) ? 64 : 4
           }
         >
-          {word}
-          {/* {onSpeech ? <Icon fontSize="large">volume_up</Icon> : word} */}
+          {isAudio ? (
+            onSpeech ? (
+              <Icon fontSize="large">volume_up</Icon>
+            ) : (
+              word
+            )
+          ) : (
+            word
+          )}
         </AnimatedTrainingCard>
       ))}
     </CardsGameField>
@@ -125,7 +139,11 @@ OpenedCardsGame.propTypes = {
     cardTextSize: PropTypes.string.isRequired,
     voiceOn: PropTypes.bool.isRequired
   }).isRequired,
-  handleEnd: PropTypes.func.isRequired
+  handleEnd: PropTypes.func.isRequired,
+  variantions: PropTypes.shape({
+    isAudio: PropTypes.bool.isRequired,
+    isSameLang: PropTypes.bool.isRequired
+  }).isRequired
 };
 
 export default OpenedCardsGame;

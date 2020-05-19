@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { loadValue } from 'src/localStorage';
 
-export default function useTrainingsConfig() {
+const useTrainingsConfig = () => {
   const [selectedTrainingTypes, setSelectedTrainingTypes] = useState(null);
   const [trainingsSettings, setTrainingsSettings] = useState(null);
 
@@ -20,4 +20,6 @@ export default function useTrainingsConfig() {
   }, []);
 
   return { selectedTrainingTypes, trainingsSettings };
-}
+};
+
+export default useTrainingsConfig;

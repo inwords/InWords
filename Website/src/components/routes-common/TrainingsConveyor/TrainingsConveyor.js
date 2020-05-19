@@ -6,6 +6,9 @@ import createSpeech from 'src/utils/createSpeech';
 import { setSnackbar } from 'src/actions/commonActions';
 import { saveLevelResult } from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
+import CustomizedCardsGame from 'src/components/routes-common/CustomizedCardsGame';
+import ClosedCardsGame from 'src/components/routes-common/ClosedCardsGame';
+import OpenedCardsGame from 'src/components/routes-common/OpenedCardsGame';
 import CustomizedAuditionTraining from 'src/components/routes-common/CustomizedAuditionTraining';
 import CustomizedOpenedCardsGame from 'src/components/routes-common/CustomizedOpenedCardsGame';
 import CustomizedClosedCardsGame from 'src/components/routes-common/CustomizedClosedCardsGame';
@@ -131,30 +134,51 @@ function TrainingsConveyor({
     }
   };
 
-  const TrainingComponent = (() => {
-    switch (restTrainingTypes[0]) {
-      case 'audition':
-        return CustomizedAuditionTraining;
-      case 'openedCards':
-        return CustomizedOpenedCardsGame;
-      case 'closedCards':
-        return CustomizedClosedCardsGame;
-      default:
-        return null;
-    }
-  })();
-
   return (
     processedTrainingLevel &&
     processedTrainingLevel.wordTranslations.length > 0 &&
     (!resultReady ? (
       <Fragment>
-        {!open && TrainingComponent && (
-          <TrainingComponent
-            trainingLevel={processedTrainingLevel}
-            handleEnd={handleTrainingEnd}
-          />
-        )}
+        {!open &&
+          (() => {
+            const basicProps = {
+              trainingLevel: processedTrainingLevel,
+              handleEnd: handleTrainingEnd
+            };
+
+            switch (restTrainingTypes[0]) {
+              case 'audition':
+                return (
+                  <CustomizedCardsGame
+                    title="Открытые карточки"
+                    component={OpenedCardsGame}
+                    variantions={{
+                      isAudio: true,
+                      isSameLang: true
+                    }}
+                    {...basicProps}
+                  />
+                );
+              case 'openedCards':
+                return (
+                  <CustomizedCardsGame
+                    title="Открытые карточки"
+                    component={OpenedCardsGame}
+                    {...basicProps}
+                  />
+                );
+              case 'closedCards':
+                return (
+                  <CustomizedCardsGame
+                    title="Закрытые карточки"
+                    component={ClosedCardsGame}
+                    {...basicProps}
+                  />
+                );
+              default:
+                return null;
+            }
+          })()}
         <TrainingPairsDialog
           open={open}
           handleClose={handleClose}
