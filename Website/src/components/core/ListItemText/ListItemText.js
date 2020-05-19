@@ -20,8 +20,9 @@ function ListItemText({ primary, secondary, className, ...rest }) {
       <Typography>{primary}</Typography>
       {secondary && (
         <Typography
-          className="list-item-text__secondary"
+          variant="body2"
           color="text-secondary"
+          className="list-item-text__secondary"
         >
           {secondary}
         </Typography>
