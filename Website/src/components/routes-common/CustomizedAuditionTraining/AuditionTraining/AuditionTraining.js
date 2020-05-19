@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import shuffle from 'src/utils/shuffle';
-import FadeAnimation from 'src/components/core/FadeAnimation';
-import Fade from 'src/components/core/Fade';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
-import TrainingCard from 'src/components/routes-common/TrainingCard';
+import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
 
 const NEXT_WORDS_DELAY = 1000;
 
@@ -44,9 +42,9 @@ function AuditionTraining({ trainingLevel, trainingSettings, handleEnd }) {
     resetWords();
 
     const preparedWords = trainingLevel.wordTranslations.map(
-      ({ serverId, wordForeign, onSpeech }) => ({
+      ({ serverId, wordNative, onSpeech }) => ({
         id: serverId,
-        title: wordForeign,
+        title: wordNative,
         onSpeech
       })
     );
@@ -95,29 +93,25 @@ function AuditionTraining({ trainingLevel, trainingSettings, handleEnd }) {
     <div className="audition-training-field">
       <div className="audition-training-cards">
         {currentWords.map(({ id, title, onSpeech }) => (
-          <FadeAnimation key={id}>
-            <Fade in>
-              <div>
-                <TrainingCard
-                  data-testid={`card-${id}`}
-                  open
-                  color={
-                    id === rightWord.id && id === selectedWordId
-                      ? 'success'
-                      : id !== rightWord.id && id === selectedWordId
-                      ? 'error'
-                      : null
-                  }
-                  dimension={+trainingSettings.cardDimension}
-                  textSize={+trainingSettings.cardTextSize}
-                  onClick={handleClick(id, onSpeech)}
-                  depthShadow={selectedWordId === id ? 16 : 4}
-                >
-                  {title}
-                </TrainingCard>
-              </div>
-            </Fade>
-          </FadeAnimation>
+          <AnimatedTrainingCard
+            key={id}
+            data-testid={`card-${id}`}
+            open
+            color={
+              id === rightWord.id && id === selectedWordId
+                ? 'success'
+                : id !== rightWord.id && id === selectedWordId
+                ? 'error'
+                : null
+            }
+            dimension={+trainingSettings.cardDimension}
+            textSize={+trainingSettings.cardTextSize}
+            margin={8}
+            onClick={handleClick(id, onSpeech)}
+            depthShadow={selectedWordId === id ? 64 : 4}
+          >
+            {title}
+          </AnimatedTrainingCard>
         ))}
       </div>
       <IconButton aria-label="speak" color="primary" onClick={handleSpeak}>

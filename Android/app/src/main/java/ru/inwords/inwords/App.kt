@@ -16,9 +16,9 @@ import dagger.android.HasAndroidInjector
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import okhttp3.OkHttpClient
-import ru.inwords.inwords.dagger.AppComponent
-import ru.inwords.inwords.dagger.DaggerAppComponent
-import ru.inwords.inwords.dagger.annotations.UnauthorisedZone
+import ru.inwords.inwords.main_activity.di.AppComponent
+import ru.inwords.inwords.main_activity.di.DaggerAppComponent
+import ru.inwords.inwords.main_activity.di.annotations.UnauthorisedZone
 import javax.inject.Inject
 
 

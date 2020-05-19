@@ -2,30 +2,31 @@ package ru.inwords.inwords.game.presentation.games
 
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.Subject
 import ru.inwords.inwords.game.domain.model.GamePathToLevel
 import java.util.concurrent.TimeUnit
 
 class ContinueGameReducer(defaultState: GamePathToLevelState) {
-    private val trainingState: BehaviorSubject<GamePathToLevelState> = BehaviorSubject.create()
+    private val continueGameState: Subject<GamePathToLevelState> = BehaviorSubject.create<GamePathToLevelState>().toSerialized()
 
-    val state: Observable<GamePathToLevelState> = trainingState
+    val state: Observable<GamePathToLevelState> = continueGameState
         .throttleLast(100, TimeUnit.MILLISECONDS)
         .distinctUntilChanged()
         .startWith(defaultState)
 
     fun toReady(path: GamePathToLevel) {
-        trainingState.onNext(GamePathToLevelState.Ready(path))
+        continueGameState.onNext(GamePathToLevelState.Ready(path))
     }
 
     fun toGameEnd() {
-        trainingState.onNext(GamePathToLevelState.GameEnd)
+        continueGameState.onNext(GamePathToLevelState.GameEnd)
     }
 
     fun toLoading() {
-        trainingState.onNext(GamePathToLevelState.Loading)
+        continueGameState.onNext(GamePathToLevelState.Loading)
     }
 
     fun toError() {
-        trainingState.onNext(GamePathToLevelState.Error)
+        continueGameState.onNext(GamePathToLevelState.Error)
     }
 }

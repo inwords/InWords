@@ -27,7 +27,7 @@ const setup = ({ initialState } = {}) => {
     <Route path="/:levelId/=)">
       <TrainingsConveyor
         trainingLevel={trainingLevel}
-        selectedTrainingTypes={[0]}
+        selectedTrainingTypes={['closedCards']}
       />
     </Route>,
     {

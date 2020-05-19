@@ -4,13 +4,9 @@ import android.content.SharedPreferences
 import io.reactivex.Single
 import ru.inwords.inwords.authorisation.data.AuthExceptionType
 import ru.inwords.inwords.authorisation.data.AuthenticationException
-import ru.inwords.inwords.dagger.annotations.Common
 import ru.inwords.inwords.profile.data.bean.UserCredentials
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class NativeAuthInfo @Inject constructor(@Common private val sharedPreferences: SharedPreferences) {
+class NativeAuthInfo internal constructor(private val sharedPreferences: SharedPreferences) {
     private var credentialsInternal: UserCredentials = UserCredentials()
         get() {
             if (!field.validCredentials()) {

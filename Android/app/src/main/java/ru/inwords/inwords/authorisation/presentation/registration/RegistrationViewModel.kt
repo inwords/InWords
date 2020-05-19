@@ -28,8 +28,8 @@ class RegistrationViewModel(
     private val validationMutableLiveData = MutableLiveData<UserCredentialsWithConfirmationValidationState>()
     val validationLiveData: LiveData<UserCredentialsWithConfirmationValidationState> get() = validationMutableLiveData
 
-    fun onNavigateToLoginClicked(onTopOfLogin: Boolean) {
-        navigateToLogin(onTopOfLogin)
+    fun onNavigateToLoginClicked(onTopOfLogin: Boolean, onTopOfChooseSignMethod: Boolean) {
+        navigateToLogin(onTopOfLogin, onTopOfChooseSignMethod)
     }
 
     fun onSignInClicked(googleSignedInData: SignInWithGoogle.GoogleSignedInData) {
@@ -81,19 +81,25 @@ class RegistrationViewModel(
         }
     }
 
-    private fun navigateToLogin(onTopOfLogin: Boolean) {
+    private fun navigateToLogin(onTopOfLogin: Boolean, onTopOfChooseSignMethod: Boolean) {
         if (onTopOfLogin) {
             navigateTo(RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragmentPop())
         } else {
-            navigateTo(RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment(true))
+            navigateTo(RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment(true, onTopOfChooseSignMethod))
         }
     }
 
-    fun popOutOfAuth(onTopOfLogin: Boolean) {
-        if (onTopOfLogin) {
-            navigateTo(NavGraphDirections.actionGlobalPopToLoginFragmentInclusive())
-        } else {
-            navigateTo(NavGraphDirections.actionGlobalPopToRegistrationFragmentInclusive())
+    fun popOutOfAuth(onTopOfLogin: Boolean, onTopOfChooseSignMethod: Boolean) {
+        when {
+            onTopOfChooseSignMethod -> {
+                navigateTo(NavGraphDirections.actionGlobalPopToChooseSignMethodFragmentInclusive())
+            }
+            onTopOfLogin -> {
+                navigateTo(NavGraphDirections.actionGlobalPopToLoginFragmentInclusive())
+            }
+            else -> {
+                navigateTo(NavGraphDirections.actionGlobalPopToRegistrationFragmentInclusive())
+            }
         }
     }
 

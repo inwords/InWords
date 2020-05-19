@@ -10,7 +10,7 @@ import WordPairEditDialog from './WordPairEditDialog';
 const RESIZE_DELAY = 200;
 
 function Wordlist({ wordPairs, ...rest }) {
-  const listRef = useRef();
+  const listRef = useRef(null);
 
   const [listHeight, setListHeight] = useState(0);
 

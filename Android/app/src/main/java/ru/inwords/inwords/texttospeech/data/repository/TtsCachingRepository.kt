@@ -2,7 +2,7 @@ package ru.inwords.inwords.texttospeech.data.repository
 
 import io.reactivex.Single
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.repository.SettingsRepository
+import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.texttospeech.data.bean.AudioConfig
 import java.io.File
 

@@ -17,21 +17,29 @@ import Space from 'src/components/core/Space';
 import Checkbox from 'src/components/core/Checkbox';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
+import ButtonBase from 'src/components/core/ButtonBase';
 import ControlledTrainingsSettingsDialog from './ControlledTrainingsSettingsDialog';
 
 import './TrainingTypes.scss';
 
 const trainingTypesInfo = [
   {
-    typeId: 1,
+    typeId: 'audition',
     title: 'Аудирование',
     description:
-      'Необходимо правильно выбрать английское слово по его произношению'
+      'Необходимо выбрать правильный перевод слова по его произношению'
   },
   {
-    typeId: 0,
+    typeId: 'openedCards',
+    title: 'Открытые карточки',
+    description:
+      'Необходимо правильно закрыть все пары карточек «Слово-Перевод»'
+  },
+  {
+    typeId: 'closedCards',
     title: 'Закрытые карточки',
-    description: 'Необходимо правильно открыть пару карточек «Слово-Перевод»'
+    description:
+      'Необходимо правильно открыть все пары карточек «Слово-Перевод»'
   }
 ];
 
@@ -51,12 +59,22 @@ function TrainingTypes({ trainingLevel }) {
   };
 
   useEffect(() => {
-    setCheckedValues(loadValue('selectedTrainingTypes') || [0, 1]);
+    setCheckedValues(
+      loadValue('selectedTrainingTypes') || [
+        'audition',
+        'openedCards',
+        'closedCards'
+      ]
+    );
   }, [setCheckedValues]);
 
   useEffect(() => {
     saveValue('selectedTrainingTypes', checkedValues);
   }, [checkedValues]);
+
+  const handleCheckboxClick = event => {
+    event.stopPropagation();
+  };
 
   return (
     <Fragment>
@@ -66,9 +84,7 @@ function TrainingTypes({ trainingLevel }) {
             <Icon color="action" className="training-types-study-icon">
               school
             </Icon>
-            <Typography variant="body1">
-              Слов на изучение: {wordTranslations.length}
-            </Typography>
+            <Typography>Слов на изучение: {wordTranslations.length}</Typography>
             <Space />
             <LinkButton
               component={RouterLink}
@@ -107,7 +123,11 @@ function TrainingTypes({ trainingLevel }) {
         <List>
           {trainingTypesInfo.map(({ typeId, title, description }) => (
             <ListItemContainer key={typeId}>
-              <ListItem component="div" onClick={handleToggle(typeId)} button>
+              <ListItem
+                component={ButtonBase}
+                onClick={handleToggle(typeId)}
+                button
+              >
                 <ListItemIcon>
                   <Checkbox
                     inputProps={{
@@ -117,9 +137,7 @@ function TrainingTypes({ trainingLevel }) {
                     tabIndex={-1}
                     checked={checkedValues.includes(typeId)}
                     onChange={handleToggle(typeId)}
-                    onClick={event => {
-                      event.stopPropagation();
-                    }}
+                    onClick={handleCheckboxClick}
                     edge="start"
                   />
                 </ListItemIcon>

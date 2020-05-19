@@ -18,11 +18,11 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
-import ru.inwords.inwords.data.validId
 import ru.inwords.inwords.databinding.GameEndBinding
 import ru.inwords.inwords.game.domain.model.LevelMetric
 import ru.inwords.inwords.game.domain.model.LevelScore
-import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
+import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
+import ru.inwords.inwords.main_activity.data.validId
 import javax.inject.Inject
 
 class GameEndBottomSheet : BottomSheetDialogFragment() {
@@ -32,7 +32,7 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     private lateinit var levelMetric: LevelMetric
 
     @Inject
-    internal lateinit var modelFactory: OctoGameViewModelFactory
+    internal lateinit var modelFactory: WordsSetsViewModelFactory
     private lateinit var viewModel: GameLevelViewModel
 
     private lateinit var navController: NavController

@@ -10,6 +10,6 @@ interface WebRequestsManagerUnauthorised {
     fun invalidateToken()
     fun getToken(userCredentials: UserCredentials): Single<TokenResponse>
     fun getTokenGoogle(tokenId: String): Single<TokenResponse>
-    fun registerUser(userCredentials: UserCredentials): Single<TokenResponse>
+    fun registerUser(userCredentials: UserCredentials, isAnonymous: Boolean): Single<TokenResponse>
     fun ttsSynthesize(request: TtsSynthesizeRequest, googleServicesApiKey: String): Single<String>
 }

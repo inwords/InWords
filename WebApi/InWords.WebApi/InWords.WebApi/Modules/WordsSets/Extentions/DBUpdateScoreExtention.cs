@@ -25,7 +25,7 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
             levelScores = RecalculateTotalScore(levelScores.ToList());
 
             // select all games
-            var levelIds = levelScores.Select(d => d.GameLevelId).ToArray();
+            var levelIds = levelScores.Select(d => d.GameLevelId).Distinct().ToArray();
             var existedLevels = context.UserGameLevels
                 .Where(u => u.UserId == userId)
                 .Where(u => levelIds.Contains(u.GameLevelId));
@@ -44,10 +44,10 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
             {
                 if (ugame == null) continue;
 
-                var key = (ugame.GameLevelId, ugame.usersGame.GameType);
+                var currentUserGame = ugame.usersGame;
+                var key = (ugame.GameLevelId, currentUserGame.GameType);
                 if (userGameLevels.ContainsKey(key))
                 {
-                    var currentUserGame = ugame.usersGame;
                     if (userGameLevels[key].UserGameLevelId < currentUserGame.UserGameLevelId)
                     {
                         int maxScore = Math.Max(userGameLevels[key].UserStars, currentUserGame.UserStars);
@@ -55,6 +55,10 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
                         corrupted.Add(userGameLevels[key]);
                         userGameLevels[key] = currentUserGame;
                     }
+                }
+                else
+                {
+                    userGameLevels.Add(key, currentUserGame);
                 }
             }
             context.RemoveRange(corrupted);

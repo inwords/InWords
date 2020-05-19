@@ -60,12 +60,7 @@ function Profile() {
                 </div>
                 <div className="profile-personal-info-entry-content">
                   <div className="profile-personal-info-value">
-                    <Typography
-                      variant="body1"
-                      className="profile-personal-info-value-text"
-                    >
-                      {email}
-                    </Typography>
+                    <Typography>{email}</Typography>
                   </div>
                   <ControlledEmailEditDialog />
                 </div>

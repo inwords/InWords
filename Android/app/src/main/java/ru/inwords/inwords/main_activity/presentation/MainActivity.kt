@@ -60,6 +60,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 R.id.policyFragment,
                 R.id.registrationFragment,
                 R.id.loginFragment,
+                R.id.chooseSignMethodFragment,
                 R.id.gameLevelFragment,
                 R.id.gameEndBottomSheet,
                 R.id.addEditWordFragment -> hideNavigation()

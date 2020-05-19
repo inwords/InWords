@@ -6,7 +6,13 @@ export default function useTrainingsConfig() {
   const [trainingsSettings, setTrainingsSettings] = useState(null);
 
   useEffect(() => {
-    setSelectedTrainingTypes(loadValue('selectedTrainingTypes') || [0, 1]);
+    setSelectedTrainingTypes(
+      loadValue('selectedTrainingTypes') || [
+        'audition',
+        'openedCards',
+        'closedCards'
+      ]
+    );
 
     const { quantity = '8', listOn = false } =
       loadValue('trainingsSettings') || {};

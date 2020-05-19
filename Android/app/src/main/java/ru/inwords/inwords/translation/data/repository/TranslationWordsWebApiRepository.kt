@@ -2,17 +2,16 @@ package ru.inwords.inwords.translation.data.repository
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
+import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.translation.converter.LookupReplyConverter
 import ru.inwords.inwords.translation.converter.TrainingPairConverter
 import ru.inwords.inwords.translation.converter.WordTranslationReplyConverter
 import ru.inwords.inwords.translation.domain.model.*
 import ru.inwords.inwords.translation.domain.model.LookupDirection.EN_RU
 import ru.inwords.inwords.translation.domain.model.LookupDirection.RU_EN
-import javax.inject.Inject
 import kotlin.math.abs
 
-class TranslationWordsWebApiRepository @Inject internal constructor(
+class TranslationWordsWebApiRepository internal constructor(
     private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised
 ) : TranslationWordsRemoteRepository {
 
