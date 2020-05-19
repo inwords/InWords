@@ -29,7 +29,8 @@ namespace InWords.WebApi.Modules.WordsSets
 
             // join users score
             var starredLevels = from level in levelsOfGame
-                                join userLevel in Context.UserGameLevels.Where(u => u.UserId.Equals(request.UserId) && u.GameType == GameType.Total)
+                                join userLevel in Context.UserGameLevels.Where(u => u.UserId.Equals(request.UserId) 
+                                && u.GameType == GameType.Total)
                                 on level.GameLevelId equals userLevel.GameLevelId into st
                                 from userLevel in st.DefaultIfEmpty()
                                 select new LevelReply()
