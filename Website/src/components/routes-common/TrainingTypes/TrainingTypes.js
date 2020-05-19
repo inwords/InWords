@@ -60,14 +60,9 @@ const trainingTypesInfo = [
 ];
 
 function TrainingTypes({ trainingLevel }) {
-  const [fluentTrainingTypesInfo, setFluentTrainingTypesInfo] = useState(
-    trainingTypesInfo
-  );
   const [trainingTypesPriorityMap, setTrainingTypesPriorityMap] = useState({});
 
   const match = useRouteMatch();
-
-  const wordTranslations = trainingLevel.wordTranslations;
 
   const { checkedValues, setCheckedValues, handleToggle } = useCheckboxList();
 
@@ -76,36 +71,30 @@ function TrainingTypes({ trainingLevel }) {
   };
 
   const handleCheckAll = () => {
-    setCheckedValues(fluentTrainingTypesInfo.map(({ typeId }) => typeId));
+    setCheckedValues(trainingTypesInfo.map(({ typeId }) => typeId));
   };
 
   useEffect(() => {
     setCheckedValues(loadValue('selectedTrainingTypes') || []);
   }, [setCheckedValues]);
 
-  useEffect(() => {
-    let newTrainingTypesPriorityMap = {};
-    checkedValues.forEach((value, index) => {
-      newTrainingTypesPriorityMap[value] = checkedValues.length - index;
-    });
-    setTrainingTypesPriorityMap(newTrainingTypesPriorityMap);
+  console.log(trainingTypesPriorityMap);
 
+  useEffect(() => {
+    setTrainingTypesPriorityMap(
+      checkedValues.reduce((map, value, index) => {
+        map[value] = index;
+        return map;
+      }, {})
+    );
     saveValue('selectedTrainingTypes', checkedValues);
   }, [checkedValues]);
-
-  useEffect(() => {
-    setFluentTrainingTypesInfo(fluentTrainingTypesInfo =>
-      [...fluentTrainingTypesInfo].sort(
-        (a, b) =>
-          (trainingTypesPriorityMap[b.typeId] || 0) -
-          (trainingTypesPriorityMap[a.typeId] || 0)
-      )
-    );
-  }, [trainingTypesPriorityMap]);
 
   const handleCheckboxClick = event => {
     event.stopPropagation();
   };
+
+  const wordTranslations = trainingLevel.wordTranslations;
 
   return (
     <Fragment>
@@ -152,13 +141,28 @@ function TrainingTypes({ trainingLevel }) {
         </Toolbar>
         <Divider />
         <List>
-          {fluentTrainingTypesInfo.map(({ typeId, title, description }) => (
+          {trainingTypesInfo.map(({ typeId, title, description }) => (
             <ListItemContainer key={typeId}>
               <ListItem
                 component={ButtonBase}
                 onClick={handleToggle(typeId)}
                 button
               >
+                <div
+                  className="training-types-item-order"
+                  style={
+                    checkedValues.length &&
+                    trainingTypesPriorityMap[typeId] != null
+                      ? {
+                          left: `calc(${
+                            (100 / checkedValues.length) *
+                            trainingTypesPriorityMap[typeId]
+                          }%)`,
+                          width: `calc(100% / ${checkedValues.length})`
+                        }
+                      : null
+                  }
+                />
                 <ListItemIcon>
                   <Checkbox
                     inputProps={{
