@@ -35,7 +35,8 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
             {GameType.Total, 0f},
 
             {GameType.AudioGame, 0.1f},
-            {GameType.ClassicCardGame, 0.8f}
+            {GameType.ClassicCardGame, 0.8f},
+            {GameType.OpenCardGame, 0.4f}
         };
         public static float GetComplexity(GameType gameType)
         {
