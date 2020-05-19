@@ -78,8 +78,6 @@ function TrainingTypes({ trainingLevel }) {
     setCheckedValues(loadValue('selectedTrainingTypes') || []);
   }, [setCheckedValues]);
 
-  console.log(trainingTypesPriorityMap);
-
   useEffect(() => {
     setTrainingTypesPriorityMap(
       checkedValues.reduce((map, value, index) => {
