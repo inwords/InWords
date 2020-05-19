@@ -11,20 +11,8 @@ import ClosedCardsGame from 'src/components/routes-common/ClosedCardsGame';
 import OpenedCardsGame from 'src/components/routes-common/OpenedCardsGame';
 import TrainingPairsDialog from './TrainingPairsDialog';
 
-const trainingsTypesOrderMap = {
-  openedCards: 1,
-  openedAudioCards: 2,
-  openedAudioCards2: 3,
-  closedCards: 4,
-  closedAudioCards: 5,
-  closedAudioCards2: 6
-};
-
-const compareByOrder = (a, b) =>
-  trainingsTypesOrderMap[a] - trainingsTypesOrderMap[b];
-
 function TrainingsConveyor({
-  selectedTrainingTypes = [],
+  selectedTrainingTypes = ['openedCards', 'closedCards'],
   trainingsSettings = { quantity: '8', listOn: false },
   trainingLevel,
   handleNextLevel = () => {},
@@ -32,7 +20,7 @@ function TrainingsConveyor({
 }) {
   const [processedTrainingLevel, setProcessedTrainingLevel] = useState(null);
   const [restTrainingTypes, setRestTrainingTypes] = useState(
-    [...selectedTrainingTypes].sort(compareByOrder)
+    selectedTrainingTypes
   );
 
   useEffect(() => {
@@ -127,7 +115,7 @@ function TrainingsConveyor({
 
   const handleReplay = () => {
     resetTrainingResult();
-    setRestTrainingTypes([...selectedTrainingTypes].sort(compareByOrder));
+    setRestTrainingTypes(selectedTrainingTypes);
 
     if (trainingsSettings.listOn) {
       handleOpen();
@@ -147,18 +135,6 @@ function TrainingsConveyor({
             };
 
             switch (restTrainingTypes[0]) {
-              case 'audition':
-                return (
-                  <CustomizedCardsGame
-                    title="Открытые карточки"
-                    component={OpenedCardsGame}
-                    variantions={{
-                      isAudio: true,
-                      isSameLang: true
-                    }}
-                    {...basicProps}
-                  />
-                );
               case 'openedCards':
                 return (
                   <CustomizedCardsGame
@@ -167,11 +143,57 @@ function TrainingsConveyor({
                     {...basicProps}
                   />
                 );
+              case 'openedAudioCards':
+                return (
+                  <CustomizedCardsGame
+                    title="Открытые аудио-карточки"
+                    component={OpenedCardsGame}
+                    variantions={{
+                      isSameLang: true
+                    }}
+                    {...basicProps}
+                  />
+                );
+              case 'openedAudioCards2':
+                return (
+                  <CustomizedCardsGame
+                    title="Открытые аудио-карточки (версия 2)"
+                    component={OpenedCardsGame}
+                    variantions={{
+                      isAudio: true,
+                      isSameLang: true
+                    }}
+                    {...basicProps}
+                  />
+                );
               case 'closedCards':
                 return (
                   <CustomizedCardsGame
                     title="Закрытые карточки"
                     component={ClosedCardsGame}
+                    {...basicProps}
+                  />
+                );
+              case 'closedAudioCards':
+                return (
+                  <CustomizedCardsGame
+                    title="Закрытые аудио-карточки"
+                    component={ClosedCardsGame}
+                    variantions={{
+                      isSameLang: true
+                    }}
+                    {...basicProps}
+                  />
+                );
+              case 'closedAudioCards2':
+                return (
+                  <CustomizedCardsGame
+                    title="Закрытые аудио-карточки (версия 2)"
+                    component={ClosedCardsGame}
+                    variantions={{
+                      isAudio: true,
+                      isSameLang: true
+                    }}
                     {...basicProps}
                   />
                 );

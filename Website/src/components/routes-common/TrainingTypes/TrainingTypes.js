@@ -158,7 +158,6 @@ function TrainingTypes({ trainingLevel }) {
                 component={ButtonBase}
                 onClick={handleToggle(typeId)}
                 button
-                hasSecondaryAction
               >
                 <ListItemIcon>
                   <Checkbox
