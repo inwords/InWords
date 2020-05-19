@@ -28,9 +28,13 @@ message TrainingScoreReply{
 		message AuditionStatus{
 			int32 score = 1;
 		}
+		message OpenCardsStatus{
+			int32 score = 1;
+		}
 		int32 gameLevelId = 1;
 		CardsStatus cardsStatus = 2;
 		AuditionStatus auditionStatus = 3;
+		OpenCardsStatus openCardsStatus= 5;
 		int32 score = 4;
 	}
 	repeated TrainigScore Scores = 1;
@@ -44,9 +48,13 @@ message TrainingDataRequest{
 		message AuditionMetric{
 			map<int32,int32> wordIdOpenCount = 1;
 		}
+		message OpenCardsMetric{
+			map<int32,int32> wordIdOpenCount = 1;
+		}
 		int32 gameLevelId = 1;
 		CardsMetric cardsMetric = 2;
 		AuditionMetric auditionMetric = 3;
+		OpenCardsMetric openCardsMetric = 4;
 	}
 	repeated Training metrics = 1;
 }
