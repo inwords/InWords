@@ -17,7 +17,8 @@ function CardsGameSettingsDialog({
   open,
   handleClose,
   trainingSettings,
-  setTrainingSettings
+  setTrainingSettings,
+  voiceSettingEditable = true
 }) {
   const { inputs, setInputs, handleChange } = useForm({});
 
@@ -30,7 +31,7 @@ function CardsGameSettingsDialog({
   const handleSubmit = event => {
     event.preventDefault();
 
-    saveValue('trainingSettings-*cards', inputs);
+    saveValue('trainingSettings-*Cards', inputs);
     setTrainingSettings(inputs);
   };
 
@@ -84,6 +85,7 @@ function CardsGameSettingsDialog({
                 checked={inputs.voiceOn}
                 onChange={handleChange}
                 edge="start"
+                disabled={!voiceSettingEditable}
               />
               <Typography variant="body2">
                 Озвучивать английские слова
@@ -117,7 +119,8 @@ CardsGameSettingsDialog.propTypes = {
     cardDimension: PropTypes.string,
     cardTextSize: PropTypes.string
   }).isRequired,
-  setTrainingSettings: PropTypes.func.isRequired
+  setTrainingSettings: PropTypes.func.isRequired,
+  voiceSettingEditable: PropTypes.bool
 };
 
 export default CardsGameSettingsDialog;
