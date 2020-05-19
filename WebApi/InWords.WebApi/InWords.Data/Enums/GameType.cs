@@ -6,5 +6,6 @@
         ClassicCardGame = 0,
         AudioGame = 1,
         Total = 2,
+        OpenCardGame = 3,
     }
 }

@@ -3,7 +3,9 @@ using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Business.GameEvaluator.Game;
 using InWords.WebApi.Modules.WordsSets.Extentions;
+using InWords.WebApi.Modules.WordsSets.GameEvaluator.Game;
 using InWords.WebApi.Services.Abstractions;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +42,7 @@ namespace InWords.WebApi.Modules.WordsSets
                     currentGameLevelid = trainingId--;
                 }
 
-                if (metric.CardsMetric != null && metric.CardsMetric.WordIdOpenCount != null) 
+                if (metric.CardsMetric != null && metric.CardsMetric.WordIdOpenCount != null)
                 {
                     levelsManage.Add(new CardGameLevel(currentGameLevelid, metric.CardsMetric.WordIdOpenCount));
                 }
@@ -49,7 +51,10 @@ namespace InWords.WebApi.Modules.WordsSets
                 {
                     levelsManage.Add(new AudioGameLevel(currentGameLevelid, metric.AuditionMetric.WordIdOpenCount));
                 }
-
+                if (metric.OpenCardsMetric != null && metric.OpenCardsMetric.WordIdOpenCount != null)
+                {
+                    levelsManage.Add(new OpenCardGameLevel(currentGameLevelid, metric.OpenCardsMetric.WordIdOpenCount));
+                }
                 // TO-DO just union more levels types
             }
 
@@ -86,13 +91,19 @@ namespace InWords.WebApi.Modules.WordsSets
                             trainigScore.AuditionStatus = new AuditionStatus();
                         trainigScore.AuditionStatus.Score = score.UserStars;
                     }
-                    if (score.GameType == GameType.ClassicCardGame)
+                    else if (score.GameType == GameType.ClassicCardGame)
                     {
                         if (trainigScore.CardsStatus == null)
                             trainigScore.CardsStatus = new CardsStatus();
                         trainigScore.CardsStatus.Score = score.UserStars;
                     }
-                    if (score.GameType == GameType.Total)
+                    else if (score.GameType == GameType.OpenCardGame)
+                    {
+                        if (trainigScore.OpenCardsStatus == null)
+                            trainigScore.OpenCardsStatus = new OpenCardsStatus();
+                        trainigScore.OpenCardsStatus.Score = score.UserStars;
+                    }
+                    else if (score.GameType == GameType.Total)
                     {
                         trainigScore.Score = score.UserStars;
                     }
