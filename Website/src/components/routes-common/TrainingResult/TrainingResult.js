@@ -61,7 +61,7 @@ function TrainingResult({
             ({ internalName, title }) =>
               detailedScore[internalName] != null && (
                 <Fragment key={internalName}>
-                  <Typography variant="body1">{title}</Typography>
+                  <Typography>{title}</Typography>
                   <Stars
                     score={detailedScore[internalName]}
                     fontSize="small"
