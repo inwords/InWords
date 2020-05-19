@@ -4,8 +4,8 @@
   &__progress {
     position: absolute;
     top: 0;
+    bottom: 0;
     left: 0;
-    height: 100%;
 
     $period-colors: (
       1: fade-out(#ffd600, 0.92),

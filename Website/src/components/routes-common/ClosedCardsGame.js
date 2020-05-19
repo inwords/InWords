@@ -1,61 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
-import flatMap from 'src/utils/flatMap';
-import shuffle from 'src/utils/shuffle';
+import useCardsGame from 'src/components/routes-common/useCardsGame';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
 import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
+import Icon from 'src/components/core/Icon';
 
 const CARD_CLOSING_DELAY = 700;
 const GAME_COMPLETION_DELAY = 1000;
 
-function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
-  const [wordPairs, setWordPairs] = useState([]);
-  const [selectedWordPairs, setSelectedWordPairs] = useState([]);
-  const [rightSelectedPairId, setRightSelectedPairId] = useState(-1);
-  const [completedPairIdsMap, setCompletedPairIdsMap] = useState({});
-  const [metrics, setMetrics] = useState({});
-
-  useEffect(() => {
-    const preparedWordPairs = flatMap(
-      trainingLevel.wordTranslations,
-      wordPair => [
-        {
-          id: uuidv4(),
-          pairId: wordPair.serverId,
-          word: wordPair.wordForeign,
-          onSpeech: wordPair.onSpeech
-        },
-        {
-          id: uuidv4(),
-          pairId: wordPair.serverId,
-          word: wordPair.wordNative,
-          onSpeech: null
-        }
-      ]
-    );
-
-    setWordPairs(shuffle(preparedWordPairs));
-  }, [trainingLevel.wordTranslations]);
-
-  const isGameCompleted = newCompletedPairIdsMap => {
-    const numberOfCompletedPairs = Object.keys(newCompletedPairIdsMap).length;
-    return (
-      numberOfCompletedPairs === wordPairs.length / 2 &&
-      numberOfCompletedPairs > 0
-    );
-  };
+function ClosedCardsGame({
+  trainingLevel,
+  trainingSettings,
+  handleEnd,
+  variantions: { isAudio, isSameLang }
+}) {
+  const {
+    wordPairs,
+    selectedWordPairs,
+    setSelectedWordPairs,
+    rightSelectedPairId,
+    setRightSelectedPairId,
+    completedPairIdsMap,
+    setCompletedPairIdsMap,
+    metrics,
+    setMetrics,
+    isGameCompleted
+  } = useCardsGame(trainingLevel.wordTranslations, { isSameLang });
 
   const handleClick = (pairId, id, onSpeech) => () => {
-    if (trainingSettings.voiceOn && onSpeech) {
+    if ((trainingSettings.voiceOn || isAudio) && onSpeech) {
       onSpeech();
     }
 
-    if (completedPairIdsMap[pairId]) {
-      return;
-    }
-
     if (
+      completedPairIdsMap[pairId] ||
       selectedWordPairs.length === 2 ||
       (selectedWordPairs.length && selectedWordPairs[0].id === id)
     ) {
@@ -80,12 +58,11 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
       setMetrics(newMetrics);
     }
 
-    let newCompletedPairIdsMap = completedPairIdsMap;
     if (selectedWordPairs.length === 1) {
       if (selectedWordPairs[0].pairId === pairId) {
         setSelectedWordPairs([]);
 
-        newCompletedPairIdsMap = {
+        const newCompletedPairIdsMap = {
           ...completedPairIdsMap,
           [pairId]: true
         };
@@ -128,7 +105,11 @@ function ClosedCardsGame({ trainingLevel, trainingSettings, handleEnd }) {
             onClick={handleClick(pairId, id, onSpeech)}
             depthShadow={selected ? 64 : 4}
           >
-            {word}
+            {isAudio && onSpeech ? (
+              <Icon fontSize="large">volume_up</Icon>
+            ) : (
+              word
+            )}
           </AnimatedTrainingCard>
         );
       })}
@@ -153,7 +134,11 @@ ClosedCardsGame.propTypes = {
     cardTextSize: PropTypes.string.isRequired,
     voiceOn: PropTypes.bool.isRequired
   }).isRequired,
-  handleEnd: PropTypes.func.isRequired
+  handleEnd: PropTypes.func.isRequired,
+  variantions: PropTypes.shape({
+    isAudio: PropTypes.bool.isRequired,
+    isSameLang: PropTypes.bool.isRequired
+  }).isRequired
 };
 
 export default ClosedCardsGame;

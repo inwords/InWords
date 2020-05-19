@@ -63,7 +63,9 @@ const Checkbox = forwardRef(function Checkbox(
         {checked ? (
           <Icon>check_box</Icon>
         ) : (
-          <Icon color="action">check_box_outline_blank</Icon>
+          <Icon color={disabled ? 'disabled' : 'action'}>
+            check_box_outline_blank
+          </Icon>
         )}
         <input
           ref={combinedRef}

@@ -1,21 +1,14 @@
-.training-type-card-pairs-info {
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-
-  &__icon {
-    margin-right: 12px;
-  }
-
-  &__text {
-    font-weight: 500;
-  }
-}
-
 .training-types-toolbar {
   margin-bottom: 16px;
 }
 
 .training-types-study-icon {
   margin-right: 12px;
+}
+
+.training-types-item-order {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: var(--palette-action-hover);
 }
