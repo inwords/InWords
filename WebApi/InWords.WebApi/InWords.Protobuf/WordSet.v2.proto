@@ -22,39 +22,63 @@ service WordSetProvider {
 
 message TrainingScoreReply{
 	message TrainigScore{
-		message CardsStatus{
+		message OpenedCardGame{
 			int32 score = 1;
 		}
-		message AuditionStatus{
+		message OpenedAudioCards{
 			int32 score = 1;
 		}
-		message OpenCardsStatus{
+		message OpenedAudioCardsTwo{
+			int32 score = 1;
+		}
+		message ClosedCards{
+			int32 score = 1;
+		}
+		message ClosedAudioCards{
+			int32 score = 1;
+		}
+		message ClosedAudioCardsTwo{
 			int32 score = 1;
 		}
 		int32 gameLevelId = 1;
-		CardsStatus cardsStatus = 2;
-		AuditionStatus auditionStatus = 3;
-		OpenCardsStatus openCardsStatus= 5;
-		int32 score = 4;
+		int32 score = 2;
+		OpenedCardGame openedCardGame = 3;
+		OpenedAudioCards openedAudioCards = 4;
+		OpenedAudioCardsTwo openedAudioCards2= 5;
+		ClosedCards closedCards = 6;
+		ClosedAudioCards closedAudioCards = 7;
+		ClosedAudioCardsTwo closedAudioCards2 = 8;
 	}
 	repeated TrainigScore Scores = 1;
 }
 
 message TrainingDataRequest{
 	message Training{
-		message CardsMetric{
+		message OpenedCardGameMetric{
 			map<int32,int32> wordIdOpenCount = 1;		
 		}
-		message AuditionMetric{
-			map<int32,int32> wordIdOpenCount = 1;
+		message OpenedAudioCardsMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
 		}
-		message OpenCardsMetric{
-			map<int32,int32> wordIdOpenCount = 1;
+		message OpenedAudioCardsTwoMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		message ClosedCardsMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		message ClosedAudioCardsMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		message ClosedAudioCardsTwoMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
 		}
 		int32 gameLevelId = 1;
-		CardsMetric cardsMetric = 2;
-		AuditionMetric auditionMetric = 3;
-		OpenCardsMetric openCardsMetric = 4;
+		OpenedCardGameMetric openedCardGameMetric = 2;
+		OpenedAudioCardsMetric openedAudioCardsMetric = 3;
+		OpenedAudioCardsTwoMetric openedAudioCardsTwoMetric = 4;
+		ClosedCardsMetric closedCardsMetric = 5;
+		ClosedAudioCardsMetric closedAudioCardsMetric = 6;
+		ClosedAudioCardsTwoMetric closedAudioCardsTwoMetric = 7;
 	}
 	repeated Training metrics = 1;
 }
