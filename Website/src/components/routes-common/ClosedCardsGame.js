@@ -13,7 +13,7 @@ function ClosedCardsGame({
   trainingSettings,
   handleEnd,
   variations: { audible, sameLang },
-  internalName = 'cards'
+  internalName
 }) {
   const {
     wordPairs,
@@ -140,7 +140,7 @@ ClosedCardsGame.propTypes = {
     audible: PropTypes.bool.isRequired,
     sameLang: PropTypes.bool.isRequired
   }).isRequired,
-  internalName: PropTypes.string
+  internalName: PropTypes.string.isRequired
 };
 
 export default ClosedCardsGame;

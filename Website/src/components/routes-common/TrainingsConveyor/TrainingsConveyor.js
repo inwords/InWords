@@ -80,10 +80,7 @@ function TrainingsConveyor({
       );
       const levelResult = scores[0];
       setScore(levelResult.score);
-      setDetailedScore({
-        cards: levelResult.cardsStatus && levelResult.cardsStatus.score,
-        audition: levelResult.auditionStatus && levelResult.auditionStatus.score
-      });
+      setDetailedScore(levelResult);
       setNewServerLevelId(levelResult.gameLevelId);
       setResultReady(true);
       handleResultSuccess(levelResult);
@@ -141,6 +138,7 @@ function TrainingsConveyor({
                     key="openedCards"
                     title="Открытые карточки"
                     component={OpenedCardsGame}
+                    internalName="openedCardGame"
                     {...basicProps}
                   />
                 );
@@ -153,6 +151,7 @@ function TrainingsConveyor({
                     variations={{
                       audible: true
                     }}
+                    internalName="openedAudioCards"
                     {...basicProps}
                   />
                 );
@@ -166,6 +165,7 @@ function TrainingsConveyor({
                       audible: true,
                       sameLang: true
                     }}
+                    internalName="openedAudioCardsTwo"
                     {...basicProps}
                   />
                 );
@@ -175,6 +175,7 @@ function TrainingsConveyor({
                     key="closedCards"
                     title="Закрытые карточки"
                     component={ClosedCardsGame}
+                    internalName="closedCards"
                     {...basicProps}
                   />
                 );
@@ -187,6 +188,7 @@ function TrainingsConveyor({
                     variations={{
                       audible: true
                     }}
+                    internalName="closedAudioCards"
                     {...basicProps}
                   />
                 );
@@ -200,6 +202,7 @@ function TrainingsConveyor({
                       audible: true,
                       sameLang: true
                     }}
+                    internalName="closedAudioCardsTwo"
                     {...basicProps}
                   />
                 );

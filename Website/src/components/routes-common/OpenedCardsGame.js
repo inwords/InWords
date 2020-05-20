@@ -14,7 +14,7 @@ function OpenedCardsGame({
   trainingSettings,
   handleEnd,
   variations: { audible, sameLang },
-  internalName = 'openCards'
+  internalName
 }) {
   const {
     wordPairs,
@@ -138,7 +138,7 @@ OpenedCardsGame.propTypes = {
     audible: PropTypes.bool.isRequired,
     sameLang: PropTypes.bool.isRequired
   }).isRequired,
-  internalName: PropTypes.string
+  internalName: PropTypes.string.isRequired
 };
 
 export default OpenedCardsGame;
