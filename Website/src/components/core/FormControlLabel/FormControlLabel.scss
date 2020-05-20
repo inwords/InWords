@@ -1,0 +1,14 @@
+.form-control-label {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+
+  &--disabled {
+    cursor: default;
+    color: var(--palette-text-disabled);
+  }
+
+  &__label--disabled {
+    color: var(--palette-text-disabled);
+  }
+}

@@ -89,6 +89,7 @@ function Homepage() {
           <Typography
             component="h1"
             variant="h4"
+            align="center"
             className="homepage-hero-title"
           >
             Система изучения иностранной лексики для начинающих
