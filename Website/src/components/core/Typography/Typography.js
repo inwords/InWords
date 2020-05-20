@@ -19,6 +19,7 @@ function Typography({
   component,
   variant = 'body1',
   color = 'text-primary',
+  align = 'inherit',
   gutterBottom,
   className,
   ...rest
@@ -33,6 +34,7 @@ function Typography({
         `typography--color--${color}`,
         className,
         {
+          [`typography--align--${align}`]: align !== 'inherit',
           'typography--gutter-bottom': gutterBottom
         }
       )}
@@ -45,6 +47,7 @@ Typography.propTypes = {
   component: PropTypes.elementType,
   variant: PropTypes.string,
   color: PropTypes.string,
+  align: PropTypes.string,
   gutterBottom: PropTypes.bool,
   className: PropTypes.string
 };

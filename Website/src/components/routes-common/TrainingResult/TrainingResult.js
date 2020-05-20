@@ -13,11 +13,27 @@ import './TrainingResult.css';
 const trainingTypesInfo = [
   {
     title: 'Открытые карточки',
-    internalName: 'openCards'
+    internalName: 'openedCardGame'
+  },
+  {
+    title: 'Открытые аудио-карточки',
+    internalName: 'openedAudioCards'
+  },
+  {
+    title: 'Открытые аудио-карточки 2',
+    internalName: 'openedAudioCards2'
   },
   {
     title: 'Закрытые карточки',
-    internalName: 'cards'
+    internalName: 'closedCards'
+  },
+  {
+    title: 'Закрытые аудио-карточки',
+    internalName: 'closedAudioCards'
+  },
+  {
+    title: 'Закрытые аудио-карточки 2',
+    internalName: 'closedAudioCards2'
   }
 ];
 
@@ -61,9 +77,9 @@ function TrainingResult({
             ({ internalName, title }) =>
               detailedScore[internalName] != null && (
                 <Fragment key={internalName}>
-                  <Typography>{title}</Typography>
+                  <Typography align="center">{title}</Typography>
                   <Stars
-                    score={detailedScore[internalName]}
+                    score={detailedScore[internalName].score}
                     fontSize="small"
                     className="training-result-stars"
                   />

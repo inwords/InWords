@@ -5,13 +5,15 @@ import Paper from 'src/components/core/Paper';
 import Toolbar from 'src/components/core/Toolbar';
 import Typography from 'src/components/core/Typography';
 import Space from 'src/components/core/Space';
-import ControlledTrainingSettingsDialog from 'src/components/routes-common/ControlledTrainingSettingsDialog';
-import CardsGameSettingsDialog from 'src/components/routes-common//CardsGameSettingsDialog';
+import ControlledCardsGameSettingsDialog from './ControlledCardsGameSettingsDialog';
 
 function CustomizedCardsGame({
   title,
   component: Component,
-  variantions = { isAudio: false, isSameLang: false },
+  variations: { audible = false, sameLang = false } = {
+    audible: false,
+    sameLang: false
+  },
   ...rest
 }) {
   const [trainingSettings, setTrainingSettings] = useState(null);
@@ -30,16 +32,18 @@ function CustomizedCardsGame({
           <Toolbar variant="dense">
             <Typography variant="h6">{title}</Typography>
             <Space />
-            <ControlledTrainingSettingsDialog
-              component={CardsGameSettingsDialog}
+            <ControlledCardsGameSettingsDialog
               trainingSettings={trainingSettings}
               setTrainingSettings={setTrainingSettings}
-              voiceSettingEditable={!variantions.isAudio}
+              voiceSettingEditable={!audible}
             />
           </Toolbar>
         </Paper>
         <Component
-          variantions={variantions}
+          variations={{
+            audible,
+            sameLang
+          }}
           trainingSettings={trainingSettings}
           {...rest}
         />
@@ -51,13 +55,14 @@ function CustomizedCardsGame({
 CustomizedCardsGame.propTypes = {
   title: PropTypes.string.isRequired,
   component: PropTypes.elementType.isRequired,
-  variantions: PropTypes.shape({
-    isAudio: PropTypes.bool,
-    isSameLang: PropTypes.bool
+  variations: PropTypes.shape({
+    audible: PropTypes.bool,
+    sameLang: PropTypes.bool
   }),
   isAudio: PropTypes.bool,
   trainingLevel: PropTypes.object.isRequired,
-  handleEnd: PropTypes.func
+  handleEnd: PropTypes.func,
+  internalName: PropTypes.string
 };
 
 export default CustomizedCardsGame;

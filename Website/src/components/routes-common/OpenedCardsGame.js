@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import useCardsGame from 'src/components/routes-common/useCardsGame';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
@@ -7,13 +7,14 @@ import TrainingCardValue from 'src/components/routes-common/TrainingCardValue';
 
 const CARDS_CLOSING_DELAY = 700;
 const CARDS_RESET_DELAY = 500;
-const GAME_COMPLETION_DELAY = 500;
+const GAME_COMPLETION_DELAY = 300;
 
 function OpenedCardsGame({
   trainingLevel,
   trainingSettings,
   handleEnd,
-  variantions: { isAudio, isSameLang }
+  variations: { audible, sameLang },
+  internalName
 }) {
   const {
     wordPairs,
@@ -26,30 +27,64 @@ function OpenedCardsGame({
     metrics,
     setMetrics,
     isGameCompleted
-  } = useCardsGame(trainingLevel.wordTranslations, { isSameLang });
+  } = useCardsGame(trainingLevel.wordTranslations, { sameLang });
+
+  const successTimer = useRef(null);
+  const failureTimer = useRef(null);
+
+  const completeGame = metrics => {
+    setTimeout(() => {
+      handleEnd(internalName, metrics);
+    }, GAME_COMPLETION_DELAY);
+  };
 
   const handleClick = (pairId, id, onSpeech) => () => {
-    if (completedPairIdsMap[pairId]) {
+    let actualSelectedWordPairs = selectedWordPairs;
+    let actualCompletedPairIdsMap = completedPairIdsMap;
+    if (successTimer.current) {
+      clearTimeout(successTimer.current);
+      successTimer.current = null;
+
+      actualSelectedWordPairs = [];
+      setSelectedWordPairs(actualSelectedWordPairs);
+
+      actualCompletedPairIdsMap = {
+        ...completedPairIdsMap,
+        [rightSelectedPairId]: true
+      };
+      setCompletedPairIdsMap(actualCompletedPairIdsMap);
+      if (isGameCompleted(actualCompletedPairIdsMap)) {
+        completeGame(metrics);
+        return;
+      }
+    } else if (failureTimer.current) {
+      clearTimeout(failureTimer.current);
+      failureTimer.current = null;
+
+      actualSelectedWordPairs = [];
+      setSelectedWordPairs(actualSelectedWordPairs);
+    }
+
+    if (actualCompletedPairIdsMap[pairId]) {
       setSelectedWordPairs([]);
       return;
     }
 
-    if ((trainingSettings.voiceOn || isAudio) && onSpeech) {
+    if ((trainingSettings.voiceOn || audible) && onSpeech) {
       onSpeech();
     }
 
     if (
-      selectedWordPairs.length === 2 ||
-      (selectedWordPairs.length && selectedWordPairs[0].id === id)
+      actualSelectedWordPairs.length &&
+      actualSelectedWordPairs[0].id === id
     ) {
       return;
     }
 
     let newMetrics = metrics;
-    if (selectedWordPairs.length < 2) {
+    if (actualSelectedWordPairs.length < 2) {
       setRightSelectedPairId(-1);
-
-      setSelectedWordPairs(selectedWordPairs.concat({ id, pairId }));
+      setSelectedWordPairs(actualSelectedWordPairs.concat({ id, pairId }));
 
       newMetrics = {
         ...metrics,
@@ -58,27 +93,25 @@ function OpenedCardsGame({
       setMetrics(newMetrics);
     }
 
-    if (selectedWordPairs.length === 1) {
-      if (selectedWordPairs[0].pairId === pairId) {
+    if (actualSelectedWordPairs.length === 1) {
+      if (actualSelectedWordPairs[0].pairId === pairId) {
         setRightSelectedPairId(pairId);
 
-        setTimeout(() => {
+        successTimer.current = setTimeout(() => {
           setSelectedWordPairs([]);
 
           const newCompletedPairIdsMap = {
-            ...completedPairIdsMap,
+            ...actualCompletedPairIdsMap,
             [pairId]: true
           };
           setCompletedPairIdsMap(newCompletedPairIdsMap);
 
           if (isGameCompleted(newCompletedPairIdsMap)) {
-            setTimeout(() => {
-              handleEnd('openCards', newMetrics);
-            }, GAME_COMPLETION_DELAY);
+            completeGame(metrics);
           }
         }, CARDS_CLOSING_DELAY);
       } else {
-        setTimeout(() => {
+        failureTimer.current = setTimeout(() => {
           setSelectedWordPairs([]);
         }, CARDS_RESET_DELAY);
       }
@@ -107,7 +140,7 @@ function OpenedCardsGame({
           <TrainingCardValue
             word={word}
             onSpeech={onSpeech}
-            isAudio={isAudio}
+            audible={audible}
           />
         </AnimatedTrainingCard>
       ))}
@@ -133,10 +166,11 @@ OpenedCardsGame.propTypes = {
     voiceOn: PropTypes.bool.isRequired
   }).isRequired,
   handleEnd: PropTypes.func.isRequired,
-  variantions: PropTypes.shape({
-    isAudio: PropTypes.bool.isRequired,
-    isSameLang: PropTypes.bool.isRequired
-  }).isRequired
+  variations: PropTypes.shape({
+    audible: PropTypes.bool.isRequired,
+    sameLang: PropTypes.bool.isRequired
+  }).isRequired,
+  internalName: PropTypes.string.isRequired
 };
 
 export default OpenedCardsGame;
