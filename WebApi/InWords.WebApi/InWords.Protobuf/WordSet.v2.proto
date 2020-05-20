@@ -22,7 +22,7 @@ service WordSetProvider {
 
 message TrainingScoreReply{
 	message TrainigScore{
-		message OpenedCardGame{
+		message OpenedCards{
 			int32 score = 1;
 		}
 		message OpenedAudioCards{
@@ -42,7 +42,7 @@ message TrainingScoreReply{
 		}
 		int32 gameLevelId = 1;
 		int32 score = 2;
-		OpenedCardGame openedCardGame = 3;
+		OpenedCards openedCards = 3;
 		OpenedAudioCards openedAudioCards = 4;
 		OpenedAudioCardsTwo openedAudioCards2= 5;
 		ClosedCards closedCards = 6;
@@ -54,7 +54,7 @@ message TrainingScoreReply{
 
 message TrainingDataRequest{
 	message Training{
-		message OpenedCardGameMetric{
+		message OpenedCardsMetric{
 			map<int32,int32> wordIdOpenCount = 1;		
 		}
 		message OpenedAudioCardsMetric{
@@ -73,12 +73,12 @@ message TrainingDataRequest{
 			map<int32,int32> wordIdOpenCount = 1;		
 		}
 		int32 gameLevelId = 1;
-		OpenedCardGameMetric openedCardGameMetric = 2;
+		OpenedCardsMetric openedCardsMetric = 2;
 		OpenedAudioCardsMetric openedAudioCardsMetric = 3;
-		OpenedAudioCardsTwoMetric openedAudioCardsTwoMetric = 4;
+		OpenedAudioCardsTwoMetric openedAudioCards2Metric = 4;
 		ClosedCardsMetric closedCardsMetric = 5;
 		ClosedAudioCardsMetric closedAudioCardsMetric = 6;
-		ClosedAudioCardsTwoMetric closedAudioCardsTwoMetric = 7;
+		ClosedAudioCardsTwoMetric closedAudioCards2Metric = 7;
 	}
 	repeated Training metrics = 1;
 }

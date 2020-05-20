@@ -52,21 +52,21 @@ namespace InWords.WebApi.Modules.WordsSets
                 {
                     levelsManage.Add(new ClosedAudioCardsLevel(currentGameLevelid, metric.ClosedAudioCardsMetric.WordIdOpenCount));
                 }
-                if (metric.ClosedAudioCardsTwoMetric != null && metric.ClosedAudioCardsTwoMetric.WordIdOpenCount != null)
+                if (metric.ClosedAudioCards2Metric != null && metric.ClosedAudioCards2Metric.WordIdOpenCount != null)
                 {
-                    levelsManage.Add(new ClosedAudioCards2Level(currentGameLevelid, metric.ClosedAudioCardsTwoMetric.WordIdOpenCount));
+                    levelsManage.Add(new ClosedAudioCards2Level(currentGameLevelid, metric.ClosedAudioCards2Metric.WordIdOpenCount));
                 }
-                if (metric.OpenedCardGameMetric != null && metric.OpenedCardGameMetric.WordIdOpenCount != null)
+                if (metric.OpenedCardsMetric != null && metric.OpenedCardsMetric.WordIdOpenCount != null)
                 {
-                    levelsManage.Add(new OpenCardGameLevel(currentGameLevelid, metric.OpenedCardGameMetric.WordIdOpenCount));
+                    levelsManage.Add(new OpenCardGameLevel(currentGameLevelid, metric.OpenedCardsMetric.WordIdOpenCount));
                 }
                 if (metric.OpenedAudioCardsMetric != null && metric.OpenedAudioCardsMetric.WordIdOpenCount != null)
                 {
                     levelsManage.Add(new OpenedAudioCardsLevel(currentGameLevelid, metric.OpenedAudioCardsMetric.WordIdOpenCount));
                 }
-                if (metric.OpenedAudioCardsTwoMetric != null && metric.OpenedAudioCardsTwoMetric.WordIdOpenCount != null)
+                if (metric.OpenedAudioCards2Metric != null && metric.OpenedAudioCards2Metric.WordIdOpenCount != null)
                 {
-                    levelsManage.Add(new OpenedAudioCards2Level(currentGameLevelid, metric.OpenedAudioCardsTwoMetric.WordIdOpenCount));
+                    levelsManage.Add(new OpenedAudioCards2Level(currentGameLevelid, metric.OpenedAudioCards2Metric.WordIdOpenCount));
                 }
 
             }
@@ -100,9 +100,9 @@ namespace InWords.WebApi.Modules.WordsSets
                 {
                     if (score.GameType == GameType.OpenedCardGame)
                     {
-                        if (trainigScore.OpenedCardGame == null)
-                            trainigScore.OpenedCardGame = new OpenedCardGame();
-                        trainigScore.OpenedCardGame.Score = score.UserStars;
+                        if (trainigScore.OpenedCards == null)
+                            trainigScore.OpenedCards = new OpenedCards();
+                        trainigScore.OpenedCards.Score = score.UserStars;
                     }
                     else if (score.GameType == GameType.OpenedAudioCards)
                     {

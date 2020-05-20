@@ -36,10 +36,10 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             training.ClosedCardsMetric.WordIdOpenCount.Add(1, 4);
             training.ClosedCardsMetric.WordIdOpenCount.Add(2, 4);
             training.ClosedCardsMetric.WordIdOpenCount.Add(3, 2);
-            training.OpenedCardGameMetric = new OpenedCardGameMetric();
-            training.OpenedCardGameMetric.WordIdOpenCount.Add(1, 3);
-            training.OpenedCardGameMetric.WordIdOpenCount.Add(2, 2);
-            training.OpenedCardGameMetric.WordIdOpenCount.Add(3, 2);
+            training.OpenedCardsMetric = new OpenedCardsMetric();
+            training.OpenedCardsMetric.WordIdOpenCount.Add(1, 3);
+            training.OpenedCardsMetric.WordIdOpenCount.Add(2, 2);
+            training.OpenedCardsMetric.WordIdOpenCount.Add(3, 2);
             trainingDataRequest.Metrics.Add(training);
 
             var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
@@ -51,7 +51,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             // assert
             Assert.Single(result.Scores);
             Assert.Equal(6, result.Scores.Single().ClosedCards.Score);
-            Assert.Equal(5, result.Scores.Single().OpenedCardGame.Score);
+            Assert.Equal(5, result.Scores.Single().OpenedCards.Score);
             Assert.Equal(6, result.Scores.Single().Score);
         }
 
@@ -109,10 +109,10 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             // act
             TrainingDataRequest trainingDataRequest = new TrainingDataRequest();
             Training training = new Training { GameLevelId = 1 };
-            training.OpenedCardGameMetric = new OpenedCardGameMetric();
-            training.OpenedCardGameMetric.WordIdOpenCount.Add(1, 3);
-            training.OpenedCardGameMetric.WordIdOpenCount.Add(2, 2);
-            training.OpenedCardGameMetric.WordIdOpenCount.Add(3, 2);
+            training.OpenedCardsMetric = new OpenedCardsMetric();
+            training.OpenedCardsMetric.WordIdOpenCount.Add(1, 3);
+            training.OpenedCardsMetric.WordIdOpenCount.Add(2, 2);
+            training.OpenedCardsMetric.WordIdOpenCount.Add(3, 2);
             trainingDataRequest.Metrics.Add(training);
 
             var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
@@ -123,7 +123,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             var result = await requestHandler.Handle(requestData);
             // assert
             Assert.Single(result.Scores);
-            Assert.Equal(5, result.Scores.Single().OpenedCardGame.Score);
+            Assert.Equal(5, result.Scores.Single().OpenedCards.Score);
             Assert.Equal(5, result.Scores.Single().Score);
         }
 
@@ -145,9 +145,9 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             // act
             TrainingDataRequest trainingDataRequest = new TrainingDataRequest();
             Training training = new Training { GameLevelId = 1 };
-            training.OpenedCardGameMetric = new OpenedCardGameMetric();
-            training.OpenedCardGameMetric.WordIdOpenCount.Add(1, 2);
-            training.OpenedCardGameMetric.WordIdOpenCount.Add(2, 2);
+            training.OpenedCardsMetric = new OpenedCardsMetric();
+            training.OpenedCardsMetric.WordIdOpenCount.Add(1, 2);
+            training.OpenedCardsMetric.WordIdOpenCount.Add(2, 2);
             trainingDataRequest.Metrics.Add(training);
 
             var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
@@ -158,7 +158,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             var result = await requestHandler.Handle(requestData);
             // assert
             Assert.Single(result.Scores);
-            Assert.Equal(6, result.Scores.Single().OpenedCardGame.Score);
+            Assert.Equal(6, result.Scores.Single().OpenedCards.Score);
             Assert.Equal(6, result.Scores.Single().Score);
         }
     }
