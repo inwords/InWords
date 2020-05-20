@@ -21,7 +21,7 @@ function IconButton({
         `icon-button--color--${color}`,
         {
           [`icon-button--edge--${edge}`]: edge,
-          ['icon-button--disabled']: component !== 'button' && disabled
+          disabled: component !== 'button' && disabled
         },
         className
       )}
