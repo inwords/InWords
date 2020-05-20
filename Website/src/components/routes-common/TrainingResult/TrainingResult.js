@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import FadeAnimation from 'src/components/core/FadeAnimation';
 import Paper from 'src/components/core/Paper';
@@ -13,14 +13,14 @@ import './TrainingResult.css';
 const trainingTypesInfo = [
   {
     title: 'Открытые карточки',
-    internalName: 'openedCardGame'
+    internalName: 'openedCards'
   },
   {
-    title: 'Открытые аудио-карточки',
+    title: 'Открытые аудио-карточки I',
     internalName: 'openedAudioCards'
   },
   {
-    title: 'Открытые аудио-карточки 2',
+    title: 'Открытые аудио-карточки II',
     internalName: 'openedAudioCards2'
   },
   {
@@ -28,11 +28,11 @@ const trainingTypesInfo = [
     internalName: 'closedCards'
   },
   {
-    title: 'Закрытые аудио-карточки',
+    title: 'Закрытые аудио-карточки I',
     internalName: 'closedAudioCards'
   },
   {
-    title: 'Закрытые аудио-карточки 2',
+    title: 'Закрытые аудио-карточки II',
     internalName: 'closedAudioCards2'
   }
 ];
@@ -40,9 +40,20 @@ const trainingTypesInfo = [
 function TrainingResult({
   score,
   detailedScore,
+  selectedTrainingTypes,
   handleNextLevel,
   handleReplay
 }) {
+  const sortedTrainingTypesInfo = useMemo(
+    () =>
+      trainingTypesInfo.sort(
+        (a, b) =>
+          selectedTrainingTypes.indexOf(a.internalName) -
+          selectedTrainingTypes.indexOf(b.internalName)
+      ),
+    [selectedTrainingTypes]
+  );
+
   return (
     <div className="training-result">
       <FadeAnimation>
@@ -73,7 +84,7 @@ function TrainingResult({
       </FadeAnimation>
       <FadeAnimation>
         <Paper className="training-result-paper">
-          {trainingTypesInfo.map(
+          {sortedTrainingTypesInfo.map(
             ({ internalName, title }) =>
               detailedScore[internalName] != null && (
                 <Fragment key={internalName}>
@@ -98,6 +109,7 @@ TrainingResult.propTypes = {
     cards: PropTypes.number,
     audition: PropTypes.number
   }).isRequired,
+  selectedTrainingTypes: PropTypes.arrayOf(PropTypes.string.isRequired),
   handleNextLevel: PropTypes.func,
   handleReplay: PropTypes.func.isRequired
 };
