@@ -73,7 +73,12 @@ function TrainingTypes({ trainingLevel }) {
   };
 
   const handleCheckAll = () => {
-    setCheckedValues(trainingTypesInfo.map(({ typeId }) => typeId));
+    setCheckedValues([
+      ...checkedValues,
+      ...trainingTypesInfo
+        .filter(({ typeId }) => !checkedValues.includes(typeId))
+        .map(({ typeId }) => typeId)
+    ]);
   };
 
   useEffect(() => {
