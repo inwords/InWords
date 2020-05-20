@@ -138,6 +138,7 @@ function TrainingsConveyor({
               case 'openedCards':
                 return (
                   <CustomizedCardsGame
+                    key="openedCards"
                     title="Открытые карточки"
                     component={OpenedCardsGame}
                     {...basicProps}
@@ -146,6 +147,7 @@ function TrainingsConveyor({
               case 'openedAudioCards':
                 return (
                   <CustomizedCardsGame
+                    key="openedAudioCards"
                     title="Открытые аудио-карточки"
                     component={OpenedCardsGame}
                     variantions={{
@@ -157,6 +159,7 @@ function TrainingsConveyor({
               case 'openedAudioCards2':
                 return (
                   <CustomizedCardsGame
+                    key="openedAudioCards2"
                     title="Открытые аудио-карточки (версия 2)"
                     component={OpenedCardsGame}
                     variantions={{
@@ -169,6 +172,7 @@ function TrainingsConveyor({
               case 'closedCards':
                 return (
                   <CustomizedCardsGame
+                    key="closedCards"
                     title="Закрытые карточки"
                     component={ClosedCardsGame}
                     {...basicProps}
@@ -177,6 +181,7 @@ function TrainingsConveyor({
               case 'closedAudioCards':
                 return (
                   <CustomizedCardsGame
+                    key="closedAudioCards"
                     title="Закрытые аудио-карточки"
                     component={ClosedCardsGame}
                     variantions={{
@@ -188,6 +193,7 @@ function TrainingsConveyor({
               case 'closedAudioCards2':
                 return (
                   <CustomizedCardsGame
+                    key="closedAudioCards2"
                     title="Закрытые аудио-карточки (версия 2)"
                     component={ClosedCardsGame}
                     variantions={{
