@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Icon from 'src/components/core/Icon';
 
 const iconStyle = {
-  fontSize: '2em'
+  fontSize: '2em',
+  lineHeight: 'inherit'
 };
 
 function TrainingCardValue({ word, onSpeech, audible }) {

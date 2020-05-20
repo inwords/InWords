@@ -6,7 +6,7 @@ import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingC
 import TrainingCardValue from 'src/components/routes-common/TrainingCardValue';
 
 const CARD_CLOSING_DELAY = 700;
-const GAME_COMPLETION_DELAY = 1000;
+const GAME_COMPLETION_DELAY = 700;
 
 function ClosedCardsGame({
   trainingLevel,
