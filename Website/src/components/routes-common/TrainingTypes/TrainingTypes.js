@@ -24,22 +24,28 @@ import './TrainingTypes.scss';
 
 const trainingTypesInfo = [
   {
+    typeId: 'openedAudioCards',
+    title: 'Открытые аудио-карточки I',
+    description:
+      'Необходимо правильно закрыть все пары карточек «Озвучка слова – Слово»'
+  },
+  {
     typeId: 'openedCards',
     title: 'Открытые карточки',
     description:
       'Необходимо правильно закрыть все пары карточек «Слово – Перевод»'
   },
   {
-    typeId: 'openedAudioCards',
-    title: 'Открытые аудио-карточки',
+    typeId: 'openedAudioCards2',
+    title: 'Открытые аудио-карточки II',
     description:
       'Необходимо правильно закрыть все пары карточек «Озвучка слова – Перевод»'
   },
   {
-    typeId: 'openedAudioCards2',
-    title: 'Открытые аудио-карточки 2',
+    typeId: 'closedAudioCards',
+    title: 'Закрытые аудио-карточки I',
     description:
-      'Необходимо правильно закрыть все пары карточек «Озвучка слова – Слово»'
+      'Необходимо правильно открыть все пары карточек «Озвучка слова – Слово»'
   },
   {
     typeId: 'closedCards',
@@ -48,16 +54,10 @@ const trainingTypesInfo = [
       'Необходимо правильно открыть все пары карточек «Слово – Перевод»'
   },
   {
-    typeId: 'closedAudioCards',
-    title: 'Закрытые аудио-карточки',
+    typeId: 'closedAudioCards2',
+    title: 'Закрытые аудио-карточки II',
     description:
       'Необходимо правильно открыть все пары карточек «Озвучка слова – Перевод»'
-  },
-  {
-    typeId: 'closedAudioCards2',
-    title: 'Закрытые аудио-карточки 2',
-    description:
-      'Необходимо правильно открыть все пары карточек «Озвучка слова – Слово»'
   }
 ];
 
