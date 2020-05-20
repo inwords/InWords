@@ -2,10 +2,16 @@
 {
     public enum GameType
     {
+        // AudioGame = 1,
         Unknown = -1,
-        ClassicCardGame = 0,
-        AudioGame = 1,
         Total = 2,
-        OpenCardGame = 3,
+
+        OpenedCardGame = 3,
+        OpenedAudioCards = 1,
+        OpenedAudioCards2 = 4,
+
+        ClosedCards = 0,
+        ClosedAudioCards = 5,
+        ClosedAudioCards2 = 6,
     }
 }
