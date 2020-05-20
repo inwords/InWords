@@ -15,12 +15,12 @@ namespace InWords.WebApi.Swagger.Examples
             {
                 GameLevelId = 123,
                 ClosedAudioCardsMetric = new ClosedAudioCardsMetric(),
-                ClosedAudioCardsTwoMetric = new ClosedAudioCardsTwoMetric(),
+                ClosedAudioCards2Metric = new ClosedAudioCardsTwoMetric(),
                 ClosedCardsMetric = new ClosedCardsMetric(),
                 
                 OpenedAudioCardsMetric = new OpenedAudioCardsMetric(),
-                OpenedAudioCardsTwoMetric = new OpenedAudioCardsTwoMetric(),
-                OpenedCardGameMetric = new OpenedCardGameMetric(),
+                OpenedAudioCards2Metric = new OpenedAudioCardsTwoMetric(),
+                OpenedCardsMetric = new OpenedCardsMetric(),
             };
             Dictionary<int, int> keyValuePairs = new Dictionary<int, int>
             {
@@ -29,10 +29,10 @@ namespace InWords.WebApi.Swagger.Examples
             };
 
             metric1.ClosedCardsMetric.WordIdOpenCount.Add(keyValuePairs);
-            metric1.ClosedAudioCardsTwoMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.ClosedAudioCards2Metric.WordIdOpenCount.Add(keyValuePairs);
             metric1.ClosedAudioCardsMetric.WordIdOpenCount.Add(keyValuePairs);
-            metric1.OpenedCardGameMetric.WordIdOpenCount.Add(keyValuePairs);
-            metric1.OpenedAudioCardsTwoMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.OpenedCardsMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.OpenedAudioCards2Metric.WordIdOpenCount.Add(keyValuePairs);
             metric1.OpenedAudioCardsMetric.WordIdOpenCount.Add(keyValuePairs);
             trainingDataRequest.Metrics.Add(metric1);
 
