@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import useCardsGame from 'src/components/routes-common/useCardsGame';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
 import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
-import Icon from 'src/components/core/Icon';
+import TrainingCardValue from 'src/components/routes-common/TrainingCardValue';
 
 const CARDS_CLOSING_DELAY = 700;
 const CARDS_RESET_DELAY = 500;
@@ -29,13 +29,13 @@ function OpenedCardsGame({
   } = useCardsGame(trainingLevel.wordTranslations, { isSameLang });
 
   const handleClick = (pairId, id, onSpeech) => () => {
-    if ((trainingSettings.voiceOn || isAudio) && onSpeech) {
-      onSpeech();
-    }
-
     if (completedPairIdsMap[pairId]) {
       setSelectedWordPairs([]);
       return;
+    }
+
+    if ((trainingSettings.voiceOn || isAudio) && onSpeech) {
+      onSpeech();
     }
 
     if (
@@ -104,7 +104,11 @@ function OpenedCardsGame({
             selectedWordPairs.find(wordInfo => wordInfo.id === id) ? 64 : 4
           }
         >
-          {isAudio && onSpeech ? <Icon fontSize="large">volume_up</Icon> : word}
+          <TrainingCardValue
+            word={word}
+            onSpeech={onSpeech}
+            isAudio={isAudio}
+          />
         </AnimatedTrainingCard>
       ))}
     </CardsGameField>
