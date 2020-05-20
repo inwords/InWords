@@ -53,7 +53,7 @@ function CardsGameSettingsDialog({
           }}
         >
           <FormGroup>
-            <Typography component="p" variant="body2" gutterBottom>
+            <Typography component="p" gutterBottom>
               Размер карточки: {inputs.cardDimension}
             </Typography>
             <Slider
@@ -66,7 +66,7 @@ function CardsGameSettingsDialog({
             />
           </FormGroup>
           <FormGroup>
-            <Typography component="p" variant="body2" gutterBottom>
+            <Typography component="p" gutterBottom>
               Размер текста на карточке: {inputs.cardTextSize}
             </Typography>
             <Slider
@@ -79,18 +79,18 @@ function CardsGameSettingsDialog({
             />
           </FormGroup>
           <div>
-            <FormControlLabel>
-              <Checkbox
-                name="voiceOn"
-                checked={inputs.voiceOn}
-                onChange={handleChange}
-                edge="start"
-                disabled={!voiceSettingEditable}
-              />
-              <Typography variant="body2">
-                Озвучивать английские слова
-              </Typography>
-            </FormControlLabel>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="voiceOn"
+                  checked={inputs.voiceOn}
+                  onChange={handleChange}
+                  edge="start"
+                />
+              }
+              label="Озвучивать английские слова"
+              disabled={!voiceSettingEditable}
+            ></FormControlLabel>
           </div>
         </form>
       </DialogContent>
