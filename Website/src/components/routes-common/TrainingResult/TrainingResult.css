@@ -21,7 +21,3 @@
 .training-result-stars:not(:last-child) {
   margin-bottom: 8px;
 }
-
-.training-result-name {
-  text-align: center;
-}

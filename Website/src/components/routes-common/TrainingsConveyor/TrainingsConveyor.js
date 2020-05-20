@@ -80,10 +80,7 @@ function TrainingsConveyor({
       );
       const levelResult = scores[0];
       setScore(levelResult.score);
-      setDetailedScore({
-        cards: levelResult.cardsStatus && levelResult.cardsStatus.score,
-        audition: levelResult.auditionStatus && levelResult.auditionStatus.score
-      });
+      setDetailedScore(levelResult);
       setNewServerLevelId(levelResult.gameLevelId);
       setResultReady(true);
       handleResultSuccess(levelResult);
@@ -141,6 +138,7 @@ function TrainingsConveyor({
                     key="openedCards"
                     title="Открытые карточки"
                     component={OpenedCardsGame}
+                    internalName="openedCardGame"
                     {...basicProps}
                   />
                 );
@@ -150,9 +148,10 @@ function TrainingsConveyor({
                     key="openedAudioCards"
                     title="Открытые аудио-карточки"
                     component={OpenedCardsGame}
-                    variantions={{
-                      isAudio: true
+                    variations={{
+                      audible: true
                     }}
+                    internalName="openedAudioCards"
                     {...basicProps}
                   />
                 );
@@ -160,12 +159,13 @@ function TrainingsConveyor({
                 return (
                   <CustomizedCardsGame
                     key="openedAudioCards2"
-                    title="Открытые аудио-карточки (версия 2)"
+                    title="Открытые аудио-карточки 2"
                     component={OpenedCardsGame}
-                    variantions={{
-                      isAudio: true,
-                      isSameLang: true
+                    variations={{
+                      audible: true,
+                      sameLang: true
                     }}
+                    internalName="openedAudioCardsTwo"
                     {...basicProps}
                   />
                 );
@@ -175,6 +175,7 @@ function TrainingsConveyor({
                     key="closedCards"
                     title="Закрытые карточки"
                     component={ClosedCardsGame}
+                    internalName="closedCards"
                     {...basicProps}
                   />
                 );
@@ -184,9 +185,10 @@ function TrainingsConveyor({
                     key="closedAudioCards"
                     title="Закрытые аудио-карточки"
                     component={ClosedCardsGame}
-                    variantions={{
-                      isAudio: true
+                    variations={{
+                      audible: true
                     }}
+                    internalName="closedAudioCards"
                     {...basicProps}
                   />
                 );
@@ -194,12 +196,13 @@ function TrainingsConveyor({
                 return (
                   <CustomizedCardsGame
                     key="closedAudioCards2"
-                    title="Закрытые аудио-карточки (версия 2)"
+                    title="Закрытые аудио-карточки 2"
                     component={ClosedCardsGame}
-                    variantions={{
-                      isAudio: true,
-                      isSameLang: true
+                    variations={{
+                      audible: true,
+                      sameLang: true
                     }}
+                    internalName="closedAudioCardsTwo"
                     {...basicProps}
                   />
                 );

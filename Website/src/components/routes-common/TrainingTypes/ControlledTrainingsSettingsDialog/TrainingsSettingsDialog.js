@@ -48,7 +48,7 @@ function TrainingsSettingsDialog({ open, handleClose }) {
           }}
         >
           <FormGroup>
-            <Typography component="p" variant="body2" gutterBottom>
+            <Typography component="p" gutterBottom>
               Cлов в тренировках: {inputs.quantity}
             </Typography>
             <Slider
@@ -60,17 +60,17 @@ function TrainingsSettingsDialog({ open, handleClose }) {
             />
           </FormGroup>
           <div>
-            <FormControlLabel>
-              <Checkbox
-                name="listOn"
-                checked={inputs.listOn}
-                onChange={handleChange}
-                edge="start"
-              />
-              <Typography variant="body2">
-                Показывать слова перед началом
-              </Typography>
-            </FormControlLabel>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="listOn"
+                  checked={inputs.listOn}
+                  onChange={handleChange}
+                  edge="start"
+                />
+              }
+              label="Показывать слова перед началом"
+            />
           </div>
         </form>
       </DialogContent>

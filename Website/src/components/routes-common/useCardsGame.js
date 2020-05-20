@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import flatMap from 'src/utils/flatMap';
 import shuffle from 'src/utils/shuffle';
 
-const useCardsGame = (wordTranslations, { isSameLang }) => {
+const useCardsGame = (wordTranslations, { sameLang }) => {
   const [wordPairs, setWordPairs] = useState([]);
   const [selectedWordPairs, setSelectedWordPairs] = useState([]);
   const [rightSelectedPairId, setRightSelectedPairId] = useState(-1);
@@ -21,13 +21,13 @@ const useCardsGame = (wordTranslations, { isSameLang }) => {
       {
         id: uuidv4(),
         pairId: wordPair.serverId,
-        word: isSameLang ? wordPair.wordForeign : wordPair.wordNative,
+        word: sameLang ? wordPair.wordForeign : wordPair.wordNative,
         onSpeech: null
       }
     ]);
 
     setWordPairs(shuffle(preparedWordPairs));
-  }, [wordTranslations, isSameLang]);
+  }, [wordTranslations, sameLang]);
 
   const isGameCompleted = newCompletedPairIdsMap => {
     const numberOfCompletedPairs = Object.keys(newCompletedPairIdsMap).length;

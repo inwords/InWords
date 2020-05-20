@@ -32,14 +32,14 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             // act
             TrainingDataRequest trainingDataRequest = new TrainingDataRequest();
             Training training = new Training {};
-            training.CardsMetric = new CardsMetric();
-            training.CardsMetric.WordIdOpenCount.Add(1, 4);
-            training.CardsMetric.WordIdOpenCount.Add(2, 4);
-            training.CardsMetric.WordIdOpenCount.Add(3, 2);
-            training.AuditionMetric = new AuditionMetric();
-            training.AuditionMetric.WordIdOpenCount.Add(1, 2);
-            training.AuditionMetric.WordIdOpenCount.Add(2, 1);
-            training.AuditionMetric.WordIdOpenCount.Add(3, 1);
+            training.ClosedCardsMetric = new ClosedCardsMetric();
+            training.ClosedCardsMetric.WordIdOpenCount.Add(1, 4);
+            training.ClosedCardsMetric.WordIdOpenCount.Add(2, 4);
+            training.ClosedCardsMetric.WordIdOpenCount.Add(3, 2);
+            training.OpenedCardGameMetric = new OpenedCardGameMetric();
+            training.OpenedCardGameMetric.WordIdOpenCount.Add(1, 3);
+            training.OpenedCardGameMetric.WordIdOpenCount.Add(2, 2);
+            training.OpenedCardGameMetric.WordIdOpenCount.Add(3, 2);
             trainingDataRequest.Metrics.Add(training);
 
             var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
@@ -50,8 +50,8 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             var result = await requestHandler.HandleRequest(requestData);
             // assert
             Assert.Single(result.Scores);
-            Assert.Equal(6, result.Scores.Single().CardsStatus.Score);
-            Assert.Equal(5, result.Scores.Single().AuditionStatus.Score);
+            Assert.Equal(6, result.Scores.Single().ClosedCards.Score);
+            Assert.Equal(5, result.Scores.Single().OpenedCardGame.Score);
             Assert.Equal(6, result.Scores.Single().Score);
         }
 
@@ -73,10 +73,10 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             // act
             TrainingDataRequest trainingDataRequest = new TrainingDataRequest();
             Training training = new Training { GameLevelId = 1 };
-            training.CardsMetric = new CardsMetric();
-            training.CardsMetric.WordIdOpenCount.Add(1, 4);
-            training.CardsMetric.WordIdOpenCount.Add(2, 4);
-            training.CardsMetric.WordIdOpenCount.Add(3, 2);
+            training.ClosedCardsMetric = new ClosedCardsMetric();
+            training.ClosedCardsMetric.WordIdOpenCount.Add(1, 4);
+            training.ClosedCardsMetric.WordIdOpenCount.Add(2, 4);
+            training.ClosedCardsMetric.WordIdOpenCount.Add(3, 2);
             trainingDataRequest.Metrics.Add(training);
 
             var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
@@ -87,7 +87,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             var result = await requestHandler.Handle(requestData);
             // assert
             Assert.Single(result.Scores);
-            Assert.Equal(6, result.Scores.Single().CardsStatus.Score);
+            Assert.Equal(6, result.Scores.Single().ClosedCards.Score);
             Assert.Equal(6, result.Scores.Single().Score);
         }
 
@@ -109,10 +109,10 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             // act
             TrainingDataRequest trainingDataRequest = new TrainingDataRequest();
             Training training = new Training { GameLevelId = 1 };
-            training.AuditionMetric = new AuditionMetric();
-            training.AuditionMetric.WordIdOpenCount.Add(1, 2);
-            training.AuditionMetric.WordIdOpenCount.Add(2, 1);
-            training.AuditionMetric.WordIdOpenCount.Add(3, 1);
+            training.OpenedCardGameMetric = new OpenedCardGameMetric();
+            training.OpenedCardGameMetric.WordIdOpenCount.Add(1, 3);
+            training.OpenedCardGameMetric.WordIdOpenCount.Add(2, 2);
+            training.OpenedCardGameMetric.WordIdOpenCount.Add(3, 2);
             trainingDataRequest.Metrics.Add(training);
 
             var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
@@ -123,7 +123,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             var result = await requestHandler.Handle(requestData);
             // assert
             Assert.Single(result.Scores);
-            Assert.Equal(5, result.Scores.Single().AuditionStatus.Score);
+            Assert.Equal(5, result.Scores.Single().OpenedCardGame.Score);
             Assert.Equal(5, result.Scores.Single().Score);
         }
 
@@ -145,13 +145,9 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             // act
             TrainingDataRequest trainingDataRequest = new TrainingDataRequest();
             Training training = new Training { GameLevelId = 1 };
-            training.AuditionMetric = new AuditionMetric();
-            training.AuditionMetric.WordIdOpenCount.Add(1, 1);
-            training.AuditionMetric.WordIdOpenCount.Add(2, 1);
-            training.CardsMetric = new CardsMetric();
-            training.CardsMetric.WordIdOpenCount.Add(1, 2);
-            training.CardsMetric.WordIdOpenCount.Add(2, 2);
-
+            training.OpenedCardGameMetric = new OpenedCardGameMetric();
+            training.OpenedCardGameMetric.WordIdOpenCount.Add(1, 2);
+            training.OpenedCardGameMetric.WordIdOpenCount.Add(2, 2);
             trainingDataRequest.Metrics.Add(training);
 
             var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
@@ -162,7 +158,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             var result = await requestHandler.Handle(requestData);
             // assert
             Assert.Single(result.Scores);
-            Assert.Equal(6, result.Scores.Single().AuditionStatus.Score);
+            Assert.Equal(6, result.Scores.Single().OpenedCardGame.Score);
             Assert.Equal(6, result.Scores.Single().Score);
         }
     }
