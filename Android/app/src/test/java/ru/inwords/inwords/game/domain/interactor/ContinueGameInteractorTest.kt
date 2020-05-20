@@ -60,7 +60,7 @@ internal class ContinueGameInteractorTest {
 
         assert(result is Resource.Success)
         assert((result as Resource.Success).data is ContinueGameQueryResult.NextLevelInfo)
-        assert((result.data as ContinueGameQueryResult.NextLevelInfo).levelInfo == gameLevelInfos1[2])
+        assert((result.data as ContinueGameQueryResult.NextLevelInfo).levelInfo == gameLevelInfos1[1])
         assert((result.data as ContinueGameQueryResult.NextLevelInfo).isLast)
     }
 
