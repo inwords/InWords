@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import useCardsGame from 'src/components/routes-common/useCardsGame';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
@@ -32,13 +32,6 @@ function OpenedCardsGame({
   const successTimer = useRef(null);
   const failureTimer = useRef(null);
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(successTimer.current);
-      clearTimeout(failureTimer.current);
-    };
-  }, []);
-
   const completeGame = metrics => {
     setTimeout(() => {
       handleEnd(internalName, metrics);
@@ -46,20 +39,24 @@ function OpenedCardsGame({
   };
 
   const handleClick = (pairId, id, onSpeech) => () => {
-    let actualCompletedPairIdsMap = completedPairIdsMap;
     let actualSelectedWordPairs = selectedWordPairs;
-    if (selectedWordPairs.length === 2 && successTimer.current) {
+    let actualCompletedPairIdsMap = completedPairIdsMap;
+    if (successTimer.current) {
       clearTimeout(successTimer.current);
       successTimer.current = null;
+
+      actualSelectedWordPairs = [];
+      setSelectedWordPairs(actualSelectedWordPairs);
 
       actualCompletedPairIdsMap = {
         ...completedPairIdsMap,
         [rightSelectedPairId]: true
       };
       setCompletedPairIdsMap(actualCompletedPairIdsMap);
-
-      actualSelectedWordPairs = [];
-      setSelectedWordPairs(actualSelectedWordPairs);
+      if (isGameCompleted(actualCompletedPairIdsMap)) {
+        completeGame(metrics);
+        return;
+      }
     } else if (failureTimer.current) {
       clearTimeout(failureTimer.current);
       failureTimer.current = null;
@@ -111,7 +108,6 @@ function OpenedCardsGame({
 
           if (isGameCompleted(newCompletedPairIdsMap)) {
             completeGame(metrics);
-            return;
           }
         }, CARDS_CLOSING_DELAY);
       } else {
