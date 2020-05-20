@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import useCardsGame from 'src/components/routes-common/useCardsGame';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
 import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
-import Icon from 'src/components/core/Icon';
+import TrainingCardValue from 'src/components/routes-common/TrainingCardValue';
 
 const CARD_CLOSING_DELAY = 700;
 const GAME_COMPLETION_DELAY = 1000;
@@ -105,11 +105,11 @@ function ClosedCardsGame({
             onClick={handleClick(pairId, id, onSpeech)}
             depthShadow={selected ? 64 : 4}
           >
-            {isAudio && onSpeech ? (
-              <Icon fontSize="large">volume_up</Icon>
-            ) : (
-              word
-            )}
+            <TrainingCardValue
+              word={word}
+              onSpeech={onSpeech}
+              isAudio={isAudio}
+            />
           </AnimatedTrainingCard>
         );
       })}
