@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import { loadValue, saveValue } from 'src/localStorage';
@@ -24,29 +24,45 @@ import './TrainingTypes.scss';
 
 const trainingTypesInfo = [
   {
-    typeId: 'audition',
-    title: 'Аудирование',
-    description:
-      'Необходимо выбрать правильный перевод слова по его произношению'
-  },
-  {
     typeId: 'openedCards',
     title: 'Открытые карточки',
     description:
       'Необходимо правильно закрыть все пары карточек «Слово-Перевод»'
   },
   {
+    typeId: 'openedAudioCards',
+    title: 'Открытые аудио-карточки',
+    description:
+      'Необходимо правильно закрыть все пары карточек «Слово-Перевод»'
+  },
+  {
+    typeId: 'openedAudioCards2',
+    title: 'Открытые аудио-карточки (версия 2)',
+    description: 'Необходимо правильно закрыть все пары карточек «Слово-Слово»'
+  },
+  {
     typeId: 'closedCards',
     title: 'Закрытые карточки',
     description:
       'Необходимо правильно открыть все пары карточек «Слово-Перевод»'
+  },
+  {
+    typeId: 'closedAudioCards',
+    title: 'Закрытые аудио-карточки',
+    description:
+      'Необходимо правильно открыть все пары карточек «Слово-Перевод»'
+  },
+  {
+    typeId: 'closedAudioCards2',
+    title: 'Закрытые аудио-карточки (версия 2)',
+    description: 'Необходимо правильно открыть все пары карточек «Слово-Слово»'
   }
 ];
 
 function TrainingTypes({ trainingLevel }) {
-  const match = useRouteMatch();
+  const [trainingTypesPriorityMap, setTrainingTypesPriorityMap] = useState({});
 
-  const wordTranslations = trainingLevel.wordTranslations;
+  const match = useRouteMatch();
 
   const { checkedValues, setCheckedValues, handleToggle } = useCheckboxList();
 
@@ -59,22 +75,24 @@ function TrainingTypes({ trainingLevel }) {
   };
 
   useEffect(() => {
-    setCheckedValues(
-      loadValue('selectedTrainingTypes') || [
-        'audition',
-        'openedCards',
-        'closedCards'
-      ]
-    );
+    setCheckedValues(loadValue('selectedTrainingTypes') || []);
   }, [setCheckedValues]);
 
   useEffect(() => {
+    setTrainingTypesPriorityMap(
+      checkedValues.reduce((map, value, index) => {
+        map[value] = index;
+        return map;
+      }, {})
+    );
     saveValue('selectedTrainingTypes', checkedValues);
   }, [checkedValues]);
 
   const handleCheckboxClick = event => {
     event.stopPropagation();
   };
+
+  const wordTranslations = trainingLevel.wordTranslations;
 
   return (
     <Fragment>
@@ -128,6 +146,21 @@ function TrainingTypes({ trainingLevel }) {
                 onClick={handleToggle(typeId)}
                 button
               >
+                <div
+                  className="training-types-item-order"
+                  style={
+                    checkedValues.length &&
+                    trainingTypesPriorityMap[typeId] != null
+                      ? {
+                          left: `calc(${
+                            (100 / checkedValues.length) *
+                            trainingTypesPriorityMap[typeId]
+                          }%)`,
+                          width: `calc(100% / ${checkedValues.length})`
+                        }
+                      : null
+                  }
+                />
                 <ListItemIcon>
                   <Checkbox
                     inputProps={{

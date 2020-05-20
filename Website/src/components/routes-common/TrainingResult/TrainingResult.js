@@ -12,8 +12,8 @@ import './TrainingResult.css';
 
 const trainingTypesInfo = [
   {
-    title: 'Аудирование',
-    internalName: 'audition'
+    title: 'Открытые карточки',
+    internalName: 'openCards'
   },
   {
     title: 'Закрытые карточки',

@@ -14,8 +14,13 @@ namespace InWords.WebApi.Swagger.Examples
             var metric1 = new TrainingDataRequest.Types.Training
             {
                 GameLevelId = 123,
-                AuditionMetric = new AuditionMetric(),
-                CardsMetric = new CardsMetric()
+                ClosedAudioCardsMetric = new ClosedAudioCardsMetric(),
+                ClosedAudioCardsTwoMetric = new ClosedAudioCardsTwoMetric(),
+                ClosedCardsMetric = new ClosedCardsMetric(),
+                
+                OpenedAudioCardsMetric = new OpenedAudioCardsMetric(),
+                OpenedAudioCardsTwoMetric = new OpenedAudioCardsTwoMetric(),
+                OpenedCardGameMetric = new OpenedCardGameMetric(),
             };
             Dictionary<int, int> keyValuePairs = new Dictionary<int, int>
             {
@@ -23,8 +28,12 @@ namespace InWords.WebApi.Swagger.Examples
                 {3,4}
             };
 
-            metric1.AuditionMetric.WordIdOpenCount.Add(keyValuePairs);
-            metric1.CardsMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.ClosedCardsMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.ClosedAudioCardsTwoMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.ClosedAudioCardsMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.OpenedCardGameMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.OpenedAudioCardsTwoMetric.WordIdOpenCount.Add(keyValuePairs);
+            metric1.OpenedAudioCardsMetric.WordIdOpenCount.Add(keyValuePairs);
             trainingDataRequest.Metrics.Add(metric1);
 
             return trainingDataRequest;

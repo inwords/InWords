@@ -71,9 +71,11 @@
 }
 
 .training-card-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 8px;
-  text-align: center;
   word-wrap: break-word;
   font-weight: 500;
 }

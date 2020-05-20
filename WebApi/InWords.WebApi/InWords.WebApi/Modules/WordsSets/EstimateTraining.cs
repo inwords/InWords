@@ -13,6 +13,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using static InWords.Protobuf.TrainingScoreReply.Types;
 using static InWords.Protobuf.TrainingScoreReply.Types.TrainigScore.Types;
+using ClosedAudioCards = InWords.Protobuf.TrainingScoreReply.Types.TrainigScore.Types.ClosedAudioCards;
+using OpenedAudioCards = InWords.Protobuf.TrainingScoreReply.Types.TrainigScore.Types.OpenedAudioCards;
 
 namespace InWords.WebApi.Modules.WordsSets
 {
@@ -42,20 +44,31 @@ namespace InWords.WebApi.Modules.WordsSets
                     currentGameLevelid = trainingId--;
                 }
 
-                if (metric.CardsMetric != null && metric.CardsMetric.WordIdOpenCount != null)
+                if (metric.ClosedCardsMetric != null && metric.ClosedCardsMetric.WordIdOpenCount != null)
                 {
-                    levelsManage.Add(new CardGameLevel(currentGameLevelid, metric.CardsMetric.WordIdOpenCount));
+                    levelsManage.Add(new ClosedCardsLevel(currentGameLevelid, metric.ClosedCardsMetric.WordIdOpenCount));
+                }
+                if (metric.ClosedAudioCardsMetric != null && metric.ClosedAudioCardsMetric.WordIdOpenCount != null)
+                {
+                    levelsManage.Add(new ClosedAudioCardsLevel(currentGameLevelid, metric.ClosedAudioCardsMetric.WordIdOpenCount));
+                }
+                if (metric.ClosedAudioCardsTwoMetric != null && metric.ClosedAudioCardsTwoMetric.WordIdOpenCount != null)
+                {
+                    levelsManage.Add(new ClosedAudioCards2Level(currentGameLevelid, metric.ClosedAudioCardsTwoMetric.WordIdOpenCount));
+                }
+                if (metric.OpenedCardGameMetric != null && metric.OpenedCardGameMetric.WordIdOpenCount != null)
+                {
+                    levelsManage.Add(new OpenCardGameLevel(currentGameLevelid, metric.OpenedCardGameMetric.WordIdOpenCount));
+                }
+                if (metric.OpenedAudioCardsMetric != null && metric.OpenedAudioCardsMetric.WordIdOpenCount != null)
+                {
+                    levelsManage.Add(new OpenedAudioCardsLevel(currentGameLevelid, metric.OpenedAudioCardsMetric.WordIdOpenCount));
+                }
+                if (metric.OpenedAudioCardsTwoMetric != null && metric.OpenedAudioCardsTwoMetric.WordIdOpenCount != null)
+                {
+                    levelsManage.Add(new OpenedAudioCards2Level(currentGameLevelid, metric.OpenedAudioCardsTwoMetric.WordIdOpenCount));
                 }
 
-                if (metric.AuditionMetric != null && metric.AuditionMetric.WordIdOpenCount != null)
-                {
-                    levelsManage.Add(new AudioGameLevel(currentGameLevelid, metric.AuditionMetric.WordIdOpenCount));
-                }
-                if (metric.OpenCardsMetric != null && metric.OpenCardsMetric.WordIdOpenCount != null)
-                {
-                    levelsManage.Add(new OpenCardGameLevel(currentGameLevelid, metric.OpenCardsMetric.WordIdOpenCount));
-                }
-                // TO-DO just union more levels types
             }
 
 
@@ -85,24 +98,43 @@ namespace InWords.WebApi.Modules.WordsSets
 
                 foreach (var score in dictionary[key])
                 {
-                    if (score.GameType == GameType.AudioGame)
+                    if (score.GameType == GameType.OpenedCardGame)
                     {
-                        if (trainigScore.AuditionStatus == null)
-                            trainigScore.AuditionStatus = new AuditionStatus();
-                        trainigScore.AuditionStatus.Score = score.UserStars;
+                        if (trainigScore.OpenedCardGame == null)
+                            trainigScore.OpenedCardGame = new OpenedCardGame();
+                        trainigScore.OpenedCardGame.Score = score.UserStars;
                     }
-                    else if (score.GameType == GameType.ClassicCardGame)
+                    else if (score.GameType == GameType.OpenedAudioCards)
                     {
-                        if (trainigScore.CardsStatus == null)
-                            trainigScore.CardsStatus = new CardsStatus();
-                        trainigScore.CardsStatus.Score = score.UserStars;
+                        if (trainigScore.OpenedAudioCards == null)
+                            trainigScore.OpenedAudioCards = new OpenedAudioCards();
+                        trainigScore.OpenedAudioCards.Score = score.UserStars;
                     }
-                    else if (score.GameType == GameType.OpenCardGame)
+                    else if (score.GameType == GameType.OpenedAudioCards2)
                     {
-                        if (trainigScore.OpenCardsStatus == null)
-                            trainigScore.OpenCardsStatus = new OpenCardsStatus();
-                        trainigScore.OpenCardsStatus.Score = score.UserStars;
+                        if (trainigScore.OpenedAudioCards2 == null)
+                            trainigScore.OpenedAudioCards2 = new OpenedAudioCardsTwo();
+                        trainigScore.OpenedAudioCards2.Score = score.UserStars;
                     }
+                    else if (score.GameType == GameType.ClosedCards)
+                    {
+                        if (trainigScore.ClosedCards == null)
+                            trainigScore.ClosedCards = new ClosedCards();
+                        trainigScore.ClosedCards.Score = score.UserStars;
+                    }
+                    else if (score.GameType == GameType.ClosedAudioCards)
+                    {
+                        if (trainigScore.ClosedAudioCards == null)
+                            trainigScore.ClosedAudioCards = new ClosedAudioCards();
+                        trainigScore.ClosedAudioCards.Score = score.UserStars;
+                    }
+                    else if (score.GameType == GameType.ClosedAudioCards2)
+                    {
+                        if (trainigScore.ClosedAudioCards2 == null)
+                            trainigScore.ClosedAudioCards2 = new ClosedAudioCardsTwo();
+                        trainigScore.ClosedAudioCards2.Score = score.UserStars;
+                    }
+
                     else if (score.GameType == GameType.Total)
                     {
                         trainigScore.Score = score.UserStars;
