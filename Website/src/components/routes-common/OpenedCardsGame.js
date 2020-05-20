@@ -13,7 +13,8 @@ function OpenedCardsGame({
   trainingLevel,
   trainingSettings,
   handleEnd,
-  variantions: { isAudio, isSameLang }
+  variations: { audible, sameLang },
+  internalName = 'openCards'
 }) {
   const {
     wordPairs,
@@ -26,7 +27,7 @@ function OpenedCardsGame({
     metrics,
     setMetrics,
     isGameCompleted
-  } = useCardsGame(trainingLevel.wordTranslations, { isSameLang });
+  } = useCardsGame(trainingLevel.wordTranslations, { sameLang });
 
   const handleClick = (pairId, id, onSpeech) => () => {
     if (completedPairIdsMap[pairId]) {
@@ -34,7 +35,7 @@ function OpenedCardsGame({
       return;
     }
 
-    if ((trainingSettings.voiceOn || isAudio) && onSpeech) {
+    if ((trainingSettings.voiceOn || audible) && onSpeech) {
       onSpeech();
     }
 
@@ -73,7 +74,7 @@ function OpenedCardsGame({
 
           if (isGameCompleted(newCompletedPairIdsMap)) {
             setTimeout(() => {
-              handleEnd('openCards', newMetrics);
+              handleEnd(internalName, newMetrics);
             }, GAME_COMPLETION_DELAY);
           }
         }, CARDS_CLOSING_DELAY);
@@ -107,7 +108,7 @@ function OpenedCardsGame({
           <TrainingCardValue
             word={word}
             onSpeech={onSpeech}
-            isAudio={isAudio}
+            audible={audible}
           />
         </AnimatedTrainingCard>
       ))}
@@ -133,10 +134,11 @@ OpenedCardsGame.propTypes = {
     voiceOn: PropTypes.bool.isRequired
   }).isRequired,
   handleEnd: PropTypes.func.isRequired,
-  variantions: PropTypes.shape({
-    isAudio: PropTypes.bool.isRequired,
-    isSameLang: PropTypes.bool.isRequired
-  }).isRequired
+  variations: PropTypes.shape({
+    audible: PropTypes.bool.isRequired,
+    sameLang: PropTypes.bool.isRequired
+  }).isRequired,
+  internalName: PropTypes.string
 };
 
 export default OpenedCardsGame;

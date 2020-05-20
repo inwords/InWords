@@ -150,8 +150,8 @@ function TrainingsConveyor({
                     key="openedAudioCards"
                     title="Открытые аудио-карточки"
                     component={OpenedCardsGame}
-                    variantions={{
-                      isAudio: true
+                    variations={{
+                      audible: true
                     }}
                     {...basicProps}
                   />
@@ -160,11 +160,11 @@ function TrainingsConveyor({
                 return (
                   <CustomizedCardsGame
                     key="openedAudioCards2"
-                    title="Открытые аудио-карточки (версия 2)"
+                    title="Открытые аудио-карточки 2"
                     component={OpenedCardsGame}
-                    variantions={{
-                      isAudio: true,
-                      isSameLang: true
+                    variations={{
+                      audible: true,
+                      sameLang: true
                     }}
                     {...basicProps}
                   />
@@ -184,8 +184,8 @@ function TrainingsConveyor({
                     key="closedAudioCards"
                     title="Закрытые аудио-карточки"
                     component={ClosedCardsGame}
-                    variantions={{
-                      isAudio: true
+                    variations={{
+                      audible: true
                     }}
                     {...basicProps}
                   />
@@ -194,11 +194,11 @@ function TrainingsConveyor({
                 return (
                   <CustomizedCardsGame
                     key="closedAudioCards2"
-                    title="Закрытые аудио-карточки (версия 2)"
+                    title="Закрытые аудио-карточки 2"
                     component={ClosedCardsGame}
-                    variantions={{
-                      isAudio: true,
-                      isSameLang: true
+                    variations={{
+                      audible: true,
+                      sameLang: true
                     }}
                     {...basicProps}
                   />
