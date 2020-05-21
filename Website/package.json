@@ -11,8 +11,7 @@
     "lint": "npm-run-all --parallel lint:*",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:report": "jest --coverage --coverageReporters=cobertura",
-    "test:report": "jest --reporters=default --reporters=jest-junit"
+    "test:coverage:report": "jest --coverage --coverageReporters=cobertura --reporters=jest-junit"
   },
   "author": "Prometium",
   "license": "ISC",
