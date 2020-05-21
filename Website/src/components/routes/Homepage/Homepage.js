@@ -119,7 +119,7 @@ function Homepage() {
         <Container maxWidth="lg" className="homepage-section-container">
           {features.map(({ title, description, picture }, index) =>
             index % 2 === 0 ? (
-              <Grid spacing={3} className="homepage-feature">
+              <Grid key={index} spacing={3} className="homepage-feature">
                 <GridItem xs={12} md={6}>
                   <Typography
                     component="h2"
@@ -149,7 +149,7 @@ function Homepage() {
                 </GridItem>
               </Grid>
             ) : (
-              <Grid spacing={3} className="homepage-feature">
+              <Grid key={index} spacing={3} className="homepage-feature">
                 <GridItem
                   xs={12}
                   md={6}
