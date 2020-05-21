@@ -40,14 +40,14 @@ function WordPairAddDialog({ open, handleClose }) {
 
       try {
         const data = await dispatch(addWordPairs([preparedPair]));
-        dispatch(
-          addWordPairsLocal([
-            {
-              ...preparedPair,
-              serverId: data.wordIds[0].serverId
-            }
-          ])
-        );
+        // dispatch(
+        //   addWordPairsLocal([
+        //     {
+        //       ...preparedPair,
+        //       serverId: data.wordIds[0].serverId
+        //     }
+        //   ])
+        // );
       } catch (error) {
         dispatch(setSnackbar({ text: 'Не удалось добавить слово' }));
       }
