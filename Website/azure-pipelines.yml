@@ -32,14 +32,23 @@ steps:
   - script: |
       npm install
       npm run build
-      npm run test:coverage:report
-    displayName: 'npm install, build and test'
+    displayName: 'npm install and build'
     workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
+
+  - script: |
+      npm run test:coverage:report
+    displayName: 'npm test'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/Website/junit.xml'
 
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: Cobertura
       summaryFileLocation: $(System.DefaultWorkingDirectory)/Website/coverage/cobertura-coverage.xml
+
   - task: PublishPipelineArtifact@1
     displayName: 'Publish artifacts: _WebsiteBuild'
     inputs:
