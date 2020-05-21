@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.Single
+import ru.inwords.inwords.NavGraphDirections
 import ru.inwords.inwords.R
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
@@ -27,8 +28,8 @@ class LoginViewModel(
     private val validationMutableLiveData = MutableLiveData<UserCredentialsValidationState>()
     val validationLiveData: LiveData<UserCredentialsValidationState> get() = validationMutableLiveData
 
-    fun onNavigateToRegistrationClicked(onTopOfRegistration: Boolean) {
-        navigateToRegistration(onTopOfRegistration)
+    fun onNavigateToRegistrationClicked(onTopOfRegistration: Boolean, onTopOfChooseSignMethod: Boolean) {
+        navigateToRegistration(onTopOfRegistration, onTopOfChooseSignMethod)
     }
 
     fun onSignInClicked(googleSignedInData: GoogleSignedInData) {
@@ -74,16 +75,26 @@ class LoginViewModel(
         }
     }
 
-    private fun navigateToRegistration(onTopOfRegistration: Boolean) {
+    private fun navigateToRegistration(onTopOfRegistration: Boolean, onTopOfChooseSignMethod: Boolean) {
         if (onTopOfRegistration) {
             navigateTo(LoginFragmentDirections.actionLoginFragmentToRegistrationFragmentPop())
         } else {
-            navigateTo(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment(true))
+            navigateTo(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment(true, onTopOfChooseSignMethod))
         }
     }
 
-    fun popOutOfAuth() {
-        navigateTo(LoginFragmentDirections.actionGlobalPopToMainFragment())
+    fun popOutOfAuth(onTopOfRegistration: Boolean, onTopOfChooseSignMethod: Boolean) {
+        when {
+            onTopOfChooseSignMethod -> {
+                navigateTo(NavGraphDirections.actionGlobalPopToChooseSignMethodFragmentInclusive())
+            }
+            onTopOfRegistration -> {
+                navigateTo(NavGraphDirections.actionGlobalPopToRegistrationFragmentInclusive())
+            }
+            else -> {
+                navigateTo(NavGraphDirections.actionGlobalPopToLoginFragmentInclusive())
+            }
+        }
     }
 
     companion object {

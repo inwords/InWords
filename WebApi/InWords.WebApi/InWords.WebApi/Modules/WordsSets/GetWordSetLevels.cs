@@ -1,6 +1,8 @@
 ﻿using InWords.Data;
+using InWords.Data.Enums;
 using InWords.Protobuf;
 using InWords.WebApi.Services.Abstractions;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,14 +29,17 @@ namespace InWords.WebApi.Modules.WordsSets
 
             // join users score
             var starredLevels = from level in levelsOfGame
-                                join userLevel in Context.UserGameLevels.Where(u => u.UserId.Equals(request.UserId)) on level.GameLevelId equals userLevel.GameLevelId into st
+                                join userLevel in Context.UserGameLevels.Where(u => u.UserId.Equals(request.UserId) 
+                                && u.GameType == GameType.Total)
+                                on level.GameLevelId equals userLevel.GameLevelId into st
                                 from userLevel in st.DefaultIfEmpty()
                                 select new LevelReply()
                                 {
                                     LevelId = level.GameLevelId,
                                     Level = level.Level,
                                     IsAvailable = true,
-                                    Stars = userLevel.UserStars
+                                    Stars = userLevel == null ? 0 : (int)Math.Round(userLevel.UserStars / 2.0),
+                                    Score = userLevel == null? 0 : userLevel.UserStars
                                 };
 
             getLevelsReply.Levels.AddRange(starredLevels);

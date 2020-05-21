@@ -2,7 +2,6 @@ package ru.inwords.inwords.game.data.repository
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.game.converter.WordSetInfoReplyConverter
 import ru.inwords.inwords.game.data.converter.*
 import ru.inwords.inwords.game.data.entity.GameEntity
@@ -10,11 +9,9 @@ import ru.inwords.inwords.game.data.entity.GameInfoEntity
 import ru.inwords.inwords.game.data.entity.GameLevelEntity
 import ru.inwords.inwords.game.data.entity.LevelMetricEntity
 import ru.inwords.inwords.game.domain.model.LevelScore
-import javax.inject.Inject
-import javax.inject.Singleton
+import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 
-@Singleton
-class GameRemoteRepository @Inject constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised) {
+class GameRemoteRepository internal constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised) {
     private val wordSetInfoReplyConverter = WordSetInfoReplyConverter()
     private val levelWordReplyConverter = LevelWordConverter()
     private val levelReplyConverter = LevelReplyConverter()

@@ -20,9 +20,9 @@ namespace InWords.WebApi.Swagger
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1.0", new OpenApiInfo { Version = "v1.0", Title = "API V1.0" });
-                c.SwaggerDoc("v1.1", new OpenApiInfo { Version = "v1.1", Title = "API V1.1" });
                 c.SwaggerDoc("v2", new OpenApiInfo { Version = "v2", Title = "API V2 Allow Json & GRPC" });
+                c.SwaggerDoc("v1.1", new OpenApiInfo { Version = "v1.1", Title = "API V1.1" });
+                c.SwaggerDoc("v1.0", new OpenApiInfo { Version = "v1.0", Title = "API V1.0" });
                 //Enable export XML dev comments to swagger
                 ConfigureSwaggerComments(c);
                 //Provide custom strategy for selecting api 
@@ -63,7 +63,7 @@ namespace InWords.WebApi.Swagger
             if (!apiDescription.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
 
             IEnumerable<ApiVersion> versions = GetApiVersions(methodInfo);
-            return versions.Any(v => $"v{v.ToString()}" == docName);
+            return versions.Any(v => $"v{v}" == docName);
         }
 
         /// <summary>

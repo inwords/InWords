@@ -16,6 +16,81 @@ service WordSetProvider {
 	rpc ToDictionary (WordSetWordsRequest) returns (Common.v2.Empty);
 	rpc GetLevels (GetLevelsRequest) returns (GetLevelsReply);
 	rpc GetLevelWords (GetLevelWordsRequest) returns (GetLevelWordsReply);
+	rpc History (Common.v2.Empty) returns (GameScoreReply);
+	rpc Estimate (TrainingDataRequest) returns (TrainingScoreReply);
+}
+
+message TrainingScoreReply{
+	message TrainigScore{
+		message OpenedCards{
+			int32 score = 1;
+		}
+		message OpenedAudioCards{
+			int32 score = 1;
+		}
+		message OpenedAudioCardsTwo{
+			int32 score = 1;
+		}
+		message ClosedCards{
+			int32 score = 1;
+		}
+		message ClosedAudioCards{
+			int32 score = 1;
+		}
+		message ClosedAudioCardsTwo{
+			int32 score = 1;
+		}
+		int32 gameLevelId = 1;
+		int32 score = 2;
+		OpenedCards openedCards = 3;
+		OpenedAudioCards openedAudioCards = 4;
+		OpenedAudioCardsTwo openedAudioCards2= 5;
+		ClosedCards closedCards = 6;
+		ClosedAudioCards closedAudioCards = 7;
+		ClosedAudioCardsTwo closedAudioCards2 = 8;
+	}
+	repeated TrainigScore Scores = 1;
+}
+
+message TrainingDataRequest{
+	message Training{
+		message OpenedCardsMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		message OpenedAudioCardsMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		message OpenedAudioCardsTwoMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		message ClosedCardsMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		message ClosedAudioCardsMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		message ClosedAudioCardsTwoMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
+		int32 gameLevelId = 1;
+		OpenedCardsMetric openedCardsMetric = 2;
+		OpenedAudioCardsMetric openedAudioCardsMetric = 3;
+		OpenedAudioCardsTwoMetric openedAudioCards2Metric = 4;
+		ClosedCardsMetric closedCardsMetric = 5;
+		ClosedAudioCardsMetric closedAudioCardsMetric = 6;
+		ClosedAudioCardsTwoMetric closedAudioCards2Metric = 7;
+	}
+	repeated Training metrics = 1;
+}
+
+message GameScoreReply{
+	message ConcreteGameScore {
+		int32 levelId = 1;
+		int32 stars = 2;
+		bool isAvailable = 3;
+		int32 gameType = 4;
+	}
+	repeated ConcreteGameScore levels = 1;
 }
 
 message GetLevelWordsRequest{
@@ -45,6 +120,7 @@ message LevelReply {
 	int32 stars = 2;
 	bool isAvailable = 3;
 	int32 level = 4;
+	int32 score = 5;
 }
 
 message WordSetReply{

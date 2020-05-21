@@ -9,6 +9,7 @@ import GridItem from 'src/components/core/GridItem';
 import Card from 'src/components/core/Card';
 import CardHeader from 'src/components/core/CardHeader';
 import CardContent from 'src/components/core/CardContent';
+import CardMedia from 'src/components/core/CardMedia';
 import CardActions from 'src/components/core/CardActions';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
@@ -16,6 +17,8 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
 import ControlledWordSetPairsAddDialog from './ControlledWordSetPairsAddDialog';
+
+import './WordSets.css';
 
 function WordSets() {
   const wordSets = useSelector(store => store.wordSet.all);
@@ -39,10 +42,17 @@ function WordSets() {
 
   return (
     <Grid spacing={3}>
-      {wordSets.map(({ id, title, description }) => (
+      {wordSets.map(({ id, title, description, picture }) => (
         <GridItem key={id} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardHeader title={title} />
+            {picture && (
+              <CardMedia
+                src={picture}
+                alt={title}
+                className="word-set-card-media"
+              />
+            )}
             <CardContent>
               <Typography>{description}</Typography>
             </CardContent>

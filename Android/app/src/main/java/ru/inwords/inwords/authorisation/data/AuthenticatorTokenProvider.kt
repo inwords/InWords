@@ -8,9 +8,8 @@ import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMe
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
 import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
-import javax.inject.Inject
 
-class AuthenticatorTokenProvider @Inject internal constructor(
+class AuthenticatorTokenProvider internal constructor(
     private val webRequestsManagerUnauthorised: WebRequestsManagerUnauthorised,
     private val nativeAuthInfo: NativeAuthInfo,
     private val signInWithGoogle: SignInWithGoogle,

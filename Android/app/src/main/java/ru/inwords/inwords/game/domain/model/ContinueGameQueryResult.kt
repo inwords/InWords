@@ -7,9 +7,5 @@ sealed class ContinueGameQueryResult {
         val isLast: Boolean
     ) : ContinueGameQueryResult()
 
-    data class NextGameInfo(
-        val nextGameInfo: GameInfo
-    ) : ContinueGameQueryResult()
-
-    object NoMoreGames : ContinueGameQueryResult()
+    object NoMoreLevels : ContinueGameQueryResult()
 }

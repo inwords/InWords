@@ -16,15 +16,15 @@ import ru.inwords.inwords.authorisation.data.session.requireCredentials
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle.GoogleSignedInData
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.getErrorMessage
-import ru.inwords.inwords.data.source.remote.WebRequestsManagerAuthorised
+import ru.inwords.inwords.main_activity.data.getErrorMessage
+import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import javax.inject.Inject
+import kotlin.random.Random
 
-class AuthorisationWebInteractor @Inject internal constructor(
+class AuthorisationWebInteractor internal constructor(
     private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised,
     private val webRequestsManagerUnauthorised: WebRequestsManagerUnauthorised,
     private val integrationInteractor: IntegrationInteractor,
@@ -67,7 +67,26 @@ class AuthorisationWebInteractor @Inject internal constructor(
     }
 
     override fun signUp(userCredentials: UserCredentials): Completable {
-        return webRequestsManagerUnauthorised.registerUser(userCredentials)
+        return signUpInternal(userCredentials, false)
+    }
+
+    override fun signInGuest(): Completable {
+        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
+        val randomString = (1..14)
+            .map { charPool[Random.nextInt(0, charPool.size)] }
+            .joinToString("")
+
+        return signUpInternal(
+            UserCredentials(
+                email = "inwords_$randomString@inwords.guest",
+                password = ""
+            ), true
+        )
+    }
+
+    private fun signUpInternal(userCredentials: UserCredentials, isAnonymous: Boolean): Completable {
+        return webRequestsManagerUnauthorised.registerUser(userCredentials, isAnonymous)
             .doOnSuccess { lastAuthInfoProvider.setAuthMethod(NATIVE) }
             .saveNativeCredentials(userCredentials)
             .detectNewUser(userCredentials.email)

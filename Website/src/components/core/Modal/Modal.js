@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Fade from 'src/components/core/Fade';
@@ -19,6 +19,8 @@ function Modal({
   className,
   ...rest
 }) {
+  const rootRef = useRef(null);
+
   const [exited, setExited] = useState(true);
   const [exitStarted, setExitStarted] = useState(false);
 
@@ -30,6 +32,12 @@ function Modal({
       setExitStarted(true);
     }
   }, [open]);
+
+  useEffect(() => {
+    if (open && !exited) {
+      rootRef.current.focus();
+    }
+  }, [open, exited]);
 
   const handleTransitionEnd = event => {
     if (exitStarted) {
@@ -45,8 +53,10 @@ function Modal({
     return null;
   }
 
-  return ReactDOM.createPortal(
+  return createPortal(
     <div
+      ref={rootRef}
+      tabIndex={-1}
       className={classNames('modal', className)}
       style={{
         visibility: exited ? 'hidden' : undefined

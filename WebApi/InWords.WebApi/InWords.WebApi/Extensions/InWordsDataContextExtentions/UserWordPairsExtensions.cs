@@ -26,11 +26,11 @@ namespace InWords.WebApi.Extensions.InWordsDataContextExtentions
             return userWordPairs.Where(uwp => uwp.UserId.Equals(userId));
         }
 
-        public static IEnumerable<UserWordPair> UpdateMemorisation(this IEnumerable<UserWordPair> userWordPairs, Dictionary<int, KnowledgeQualities> knowledgeQualifiers)
+        public static IEnumerable<UserWordPair> UpdateMemorisation(this IEnumerable<UserWordPair> userWordPairs, Dictionary<int, KnowledgeQualities> knowledgeQualifiers, double complexity)
         {
             userWordPairs.ForEach(w =>
             {
-                var updatedMemorization = MemorizationCalculator.Update(w.Memorization(), knowledgeQualifiers[w.UserWordPairId]);
+                var updatedMemorization = MemorizationCalculator.Update(w.Memorization(), knowledgeQualifiers[w.UserWordPairId], complexity);
                 w.LearningPeriod = updatedMemorization.Period;
                 w.TimeGap = updatedMemorization.RepeatTime;
             });

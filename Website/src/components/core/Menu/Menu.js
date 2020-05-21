@@ -4,9 +4,7 @@ import classNames from 'classnames';
 
 import './Menu.css';
 
-function Menu({ component = 'ul', className, ...rest }) {
-  const Component = component;
-
+function Menu({ component: Component = 'ul', className, ...rest }) {
   return <Component className={classNames('menu', className)} {...rest} />;
 }
 

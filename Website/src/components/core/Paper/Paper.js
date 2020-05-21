@@ -5,17 +5,22 @@ import classNames from 'classnames';
 import './Paper.scss';
 
 const Paper = forwardRef(function Paper(
-  { component = 'div', depthShadow = 4, className, ...rest },
+  {
+    component: Component = 'div',
+    square = false,
+    depthShadow = 4,
+    className,
+    ...rest
+  },
   ref
 ) {
-  const Component = component;
-
   return (
     <Component
       ref={ref}
       className={classNames(
         'paper',
         {
+          ['paper--rounded']: !square,
           [`paper--depth-shadow--${depthShadow}`]: depthShadow !== 0
         },
         className
@@ -27,6 +32,7 @@ const Paper = forwardRef(function Paper(
 
 Paper.propTypes = {
   component: PropTypes.elementType,
+  square: PropTypes.bool,
   depthShadow: PropTypes.number,
   className: PropTypes.string
 };

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/play"
-        android:title="Играть" />
+        android:title="Тренировка" />
     <item
         android:id="@+id/remove"
         android:icon="@drawable/ic_delete_24dp"

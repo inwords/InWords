@@ -1,11 +1,11 @@
-﻿using InWords.Protobuf;
-using InWords.Service.Auth.Extensions;
-using InWords.WebApi.Services.Abstractions;
+﻿using Grpc.Core;
+using InWords.Protobuf;
+using InWords.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
@@ -13,6 +13,7 @@ namespace InWords.WebApi.Controllers.v2
     [ApiVersion("2")]
     [Route("v{version:apiVersion}/profile")]
     [ApiController]
+    [Authorize]
     [Produces("application/json")]
     public class ProfileController : ControllerBase
     {
@@ -28,55 +29,33 @@ namespace InWords.WebApi.Controllers.v2
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [ProducesResponseType(typeof(EmailChangeRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("updateEmail")]
         [HttpPost]
         public async Task<IActionResult> UpdateEmail([FromBody] EmailChangeRequest request)
-        {
-            try
-            {
-                var reqestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(request)
-                {
-                    UserId = User.GetUserId()
-                };
-                EmailChangeReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok(reply);
-            }
-            catch (ArgumentNullException e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+         => await mediator
+            .AuthorizeHandlerActionResult<EmailChangeRequest, EmailChangeReply>(request, User)
+            .ConfigureAwait(false);
+
 
         /// <summary>
         ///   Use this to confirm email code
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize]
         [ProducesResponseType(typeof(ConfirmEmailRequest), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("confirmEmail")]
         [HttpPost]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request)
-        {
-            try
-            {
-                var reqestObject = new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(request)
-                {
-                    UserId = User.GetUserId()
-                };
-                ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok(reply);
-            }
-            catch (ArgumentNullException e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+            => await mediator.AuthorizeHandlerActionResult<ConfirmEmailRequest, ConfirmEmailReply>(request, User).ConfigureAwait(false);
 
+        /// <summary>
+        /// Input point for the link from the confirmation email.
+        /// </summary>
+        /// <param name="encryptLink"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         [Route("Confirm/{encryptLink}")]
@@ -89,44 +68,72 @@ namespace InWords.WebApi.Controllers.v2
             {
                 ActivationGuid = encryptLink
             };
-            var reqestObject = new RequestObject<ConfirmEmailLinkRequest, ConfirmEmailReply>(request);
-            try
+            var result = await mediator
+                .AnonimousHandlerActionResult<ConfirmEmailLinkRequest, ConfirmEmailReply>(request)
+                .ConfigureAwait(false);
+
+            if (result is ObjectResult resultObject)
             {
-                ConfirmEmailReply reply = await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok(reply);
+                if (resultObject.StatusCode == StatusCodes.Status200OK)
+                {
+                    // email confirm
+                    return Redirect("http://inwords.ru/");
+                }
             }
-            catch (ArgumentNullException e)
-            {
-                return NotFound(e.Message);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
+            return BadRequest();
         }
 
-        [Authorize]
+        /// <summary>
+        /// Deletes all user information without being able to return it. 
+        /// When implementing this function, use the warning window.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromBody] DeleteAccountRequest request)
+            => await mediator.AuthorizeHandlerActionResult<DeleteAccountRequest, Empty>(request, User).ConfigureAwait(false);
+
+        [HttpGet]
+        [Route("")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(ProfileReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public async Task<IActionResult> Delete()
+            => await mediator.AuthorizeHandlerActionResult<Empty, ProfileReply>(new Empty(), User).ConfigureAwait(false);
+
+        [HttpGet]
+        [Route("{id}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns Profile", typeof(PublicProfileReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public async Task<IActionResult> FindId([FromRoute] int id)
         {
-            int id = User.GetUserId();
-            try
+            var request = new FindIdRequest()
             {
-                var reqestObject = new AuthorizedRequestObject<DeleteAccountRequest, Empty>(request)
-                {
-                    UserId = User.GetUserId()
-                };
-                await mediator.Send(reqestObject).ConfigureAwait(false);
-                return Ok();
-            }
-            catch (ArgumentNullException e)
-            {
-                return BadRequest(e.Message);
-            }
+                UserId = id
+            };
+            return await mediator.AuthorizeHandlerActionResult<FindIdRequest, PublicProfileReply>(request, User).ConfigureAwait(false);
         }
 
+        [HttpGet]
+        [Route("find/{nickname}")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(PublicProfilesReply))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public async Task<IActionResult> FindId([FromRoute] string nickname)
+        {
+            var request = new FindUsernameRequest()
+            {
+                UserName = nickname
+            };
+            return await mediator.AuthorizeHandlerActionResult<FindUsernameRequest, PublicProfilesReply>(request, User).ConfigureAwait(false);
+        }
+
+        [HttpPut]
+        [Route("")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Returns profiles", typeof(Empty))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Returns status", typeof(Status))]
+        public Task<IActionResult> Update([FromBody] UpdateRequest request)
+         => mediator.AuthorizeHandlerActionResult<UpdateRequest, Empty>(request, User);
     }
 }

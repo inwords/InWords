@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import ListItemContainer from 'src/components/core/ListItemContainer';
 import ListItem from 'src/components/core/ListItem';
 import ListItemText from 'src/components/core/ListItemText';
 import ListItemSecondaryAction from 'src/components/core/ListItemSecondaryAction';
 import ListItemIcon from 'src/components/core/ListItemIcon';
+import ButtonBase from 'src/components/core/ButtonBase';
 import Checkbox from 'src/components/core/Checkbox';
-import SpeechButton from './SpeechButton';
+import SpeechButton from 'src/components/routes-common/SpeechButton';
 
-import './WordlistItem.css';
+import './WordlistItem.scss';
 
 function WordlistItem({
   data: {
@@ -22,31 +24,40 @@ function WordlistItem({
   style
 }) {
   const wordPair = wordPairs[index];
-  const { serverId, onSpeech } = wordPair;
+  const { serverId, period = 0, onSpeech } = wordPair;
+  const acceptablePeriod = period <= 5 ? period : 5;
+
+  const handleCheckboxClick = event => {
+    event.stopPropagation();
+  };
 
   return (
     <ListItemContainer style={style}>
       <ListItem
-        component="div"
+        component={ButtonBase}
         onClick={
-          !editingModeEnabled ? handleOpen(wordPair) : handleToggle(serverId)
+          editingModeEnabled ? handleToggle(serverId) : handleOpen(wordPair)
         }
         button
         hasSecondaryAction
         className="wordlist-item"
       >
+        <div
+          className={classNames('wordlist-item__progress', {
+            [`wordlist-item__progress--${acceptablePeriod}`]:
+              acceptablePeriod > 0
+          })}
+        />
         <ListItemIcon>
           <Checkbox
             inputProps={{
               'aria-labelledby': `pair-${serverId}`,
               'data-testid': `pair-${serverId}-checkbox`
             }}
-            tabIndex={-1}
+            tabIndex={editingModeEnabled ? -1 : 0}
             checked={checkedValues.includes(serverId)}
             onChange={handleToggle(serverId)}
-            onClick={event => {
-              event.stopPropagation();
-            }}
+            onClick={handleCheckboxClick}
             edge="start"
           />
         </ListItemIcon>
@@ -54,6 +65,7 @@ function WordlistItem({
           id={`pair-${wordPair.serverId}`}
           primary={wordPair.wordForeign}
           secondary={wordPair.wordNative}
+          className="wordlist-item__text"
         />
       </ListItem>
       <ListItemSecondaryAction>
@@ -70,6 +82,7 @@ WordlistItem.propTypes = {
         serverId: PropTypes.number.isRequired,
         wordForeign: PropTypes.string.isRequired,
         wordNative: PropTypes.string.isRequired,
+        period: PropTypes.number,
         onSpeech: PropTypes.func.isRequired
       }).isRequired
     ).isRequired,

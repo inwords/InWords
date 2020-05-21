@@ -43,7 +43,7 @@
         </member>
         <member name="M:InWords.WebApi.Controllers.v1dot1.DictionaryController.GetTraining">
             <summary>
-                Get user dictionary words pairs to be repeated. Use when dictionary is not loaded or storage unavailable 
+               Use v2 Dictionary.TrainingIds 
             </summary>
             <returns>Quantity of stars</returns>
             <response code="200">Words to be repeated</response>
@@ -51,7 +51,7 @@
         </member>
         <member name="M:InWords.WebApi.Controllers.v1dot1.DictionaryController.GetTrainingIds">
             <summary>
-                Get user dictionary word pairs ids to be repeated. Use when dictionary is downloaded and resolve worlds on client
+                Use v2 Dictionary.Training
             </summary>
             <returns>Quantity of stars</returns>
             <response code="200">Word pairs Ids to be repeated</response>
@@ -65,156 +65,6 @@
             <response code="200">Words to be repeated</response>
             <response code="401">Unauthorized access</response>
             <response code="417">File is zero length</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1dot1.TrainingController.Estimate(InWords.Data.DTO.Games.Levels.ClassicCardLevelMetricQuery)">
-             <summary>
-             Use this to upload user's level's metric
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 POST /estimate
-                 
-               {
-                "metrics": [
-                {
-                    "gameLevelId": 12,
-                    "wordPairIdOpenCounts": {
-                        "1": 4,
-                        "2": 5,
-                        "5": 1
-                    }
-                },
-               "metrics": [
-                {
-                    "gameLevelId": 0, (NOTE: If gameLevelId is zero game will be created in history)
-                    "wordPairIdOpenCounts": {
-                        "3": 1,
-                        "2": 2,
-                        "1": 3
-                    }
-                }
-                ]
-               }
-                            
-             </remarks>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.CardsGame.GameController">
-            <inheritdoc />
-            <summary>
-                This game controller allow CRUD games
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.GetGameInfo">
-            <summary>
-                Returns short information about all games in database
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.GetLevel(System.Int32)">
-            <summary>
-                This is to get Words translation list of level
-            </summary>
-            <see cref="T:InWords.Data.DTO.GameBox.Level" />
-            <see cref="T:InWords.Data.DTO.WordTranslation" />
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.Delete(System.Int32)">
-            <summary>
-                This is api to delete game box
-                Deletion allow only if it is your game
-                of if your are admin
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.DeleteRange(System.Int32[])">
-            <summary>
-                This is to delete more then one game at request
-            </summary>
-            <param name="ids">array of game to be deleted</param>
-            <response code="200">Count of deleted words</response>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.CardsGame.GameController.AddWordsToUserDictionary(System.Int32)">
-             <summary>
-             Adds words to the user dictionary by GameId avoiding existing ones
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 POST /AddWordsToUserDictionary
-                 
-                 42 // id of the game
-                            
-             </remarks>
-             <param name="gameId">Game Id from which to take the words</param>
-             <response code="200">Count of added words</response>
-             <returns>Count of adding words</returns>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.AuthController">
-            <inheritdoc />
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Token(InWords.Service.Auth.Models.BasicAuthClaims)">
-            <summary>
-                Request auth token
-            </summary>
-            <returns>A newly token</returns>
-            <response code="200">Success</response>
-            <response code="400">Access denied</response>
-            
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.AuthController.Registration(InWords.Service.Auth.Models.BasicAuthClaims)">
-            <summary>
-                Create new user
-            </summary>
-            <returns>A newly created token</returns>
-            <response code="200">returns new token</response>
-            <response code="400">User already exists</response>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.SyncController">
-            <summary>
-                Everething about sync
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.SyncController.PullWordPairs(System.Collections.Generic.List{System.Int32})">
-            <summary>
-                Pull word pairs
-            </summary>
-            <returns>Words pairs to delete and to add</returns>
-            <response code="200">OK</response>
-            <response code="401">Unauthorized</response>
-        </member>
-        <member name="T:InWords.WebApi.Controllers.v1.WordsController">
-            <inheritdoc />
-            <summary>
-                This is to CRUD words
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.AddPair(System.Collections.Generic.List{InWords.Data.DTO.WordTranslation})">
-            <summary>
-                Add list of words in dictionary
-            </summary>
-            <returns>user with id</returns>
-            <response code="200">OK</response>
-            <response code="400">Model is not valid</response>
-            <response code="401">Unauthorized</response>
-            <response code="404">User not found</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.DeletePair(System.Collections.Generic.IEnumerable{System.Int32})">
-            <summary>
-                Delete pairs from user dictionary
-            </summary>
-            <returns>user with id</returns>
-            <response code="200">OK pair deleted count</response>
-            <response code="400">Model is not valid</response>
-            <response code="401">Unauthorized</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.WordsController.#ctor(InWords.WebApi.Services.WordsService)">
-            <summary>
-            </summary>
-            <param name="wordsService"></param>
         </member>
         <member name="T:InWords.WebApi.Controllers.v1.UsersController">
             <inheritdoc />
@@ -310,6 +160,20 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:InWords.WebApi.Controllers.v2.AuthController.Basic(InWords.Protobuf.TokenRequest)">
+            <summary>
+            Basic access authentication using login, password
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.AuthController.Register(InWords.Protobuf.RegistrationRequest)">
+            <summary>
+            Registering a new user and sending them an email
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.AddWords(InWords.Protobuf.AddWordsRequest)">
             <summary>
               Used to add words to the user's dictionary.
@@ -330,7 +194,7 @@
         </member>
         <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.UpdateWords(InWords.Protobuf.UpdateWordsRequest)">
             <summary>
-            Experimental use only! ZERO TESTS
+            Deletes the old word and adds a new one. Use during editing
             </summary>
             <param name="request"></param>
             <returns></returns>
@@ -338,6 +202,20 @@
         <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.DeleteWords(InWords.Protobuf.DeleteWordsRequest)">
             <summary>
             Use this do delete user's words
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.Training">
+            <summary>
+            Use this to request pairs to learn
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.DictionaryController.TrainingIds">
+            <summary>
+            Use this to request pairs to learn
             </summary>
             <param name="request"></param>
             <returns></returns>
@@ -356,6 +234,21 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.ConfirmLink(System.String)">
+            <summary>
+            Input point for the link from the confirmation email.
+            </summary>
+            <param name="encryptLink"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ProfileController.Delete(InWords.Protobuf.DeleteAccountRequest)">
+            <summary>
+            Deletes all user information without being able to return it. 
+            When implementing this function, use the warning window.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:InWords.WebApi.Controllers.v2.WordSetController.Register(InWords.Protobuf.WordSetWordsRequest)">
             <summary>
             This is to get word's in word set
@@ -369,6 +262,55 @@
              
             
             </remarks>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.ToDictionary(InWords.Protobuf.WordSetWordsRequest)">
+            <summary>
+            Adds all words from the set of words to the user's dictionary
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.GetSets">
+            <summary>
+            Returns a list of the official sets of words.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.GetLevels(System.Int32)">
+            <summary>
+            Returns the levels of the selected set of words
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.GetLevelWords(System.Int32)">
+            <summary>
+            Use this to get word's in level
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Extensions.ServiceHandler.AuthorizeHandler``2(MediatR.IMediator,``0,Grpc.Core.ServerCallContext)">
+            <summary>
+            Grpc Authorize handler
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TReply"></typeparam>
+            <param name="mediator"></param>
+            <param name="request"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Extensions.ServiceHandler.AuthorizeHandler``2(MediatR.IMediator,``0,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Http authorize handler
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TReply"></typeparam>
+            <param name="mediator"></param>
+            <param name="request"></param>
+            <param name="user"></param>
+            <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Extensions.StringExtensions.StripHTML(System.String)">
             <summary>
@@ -402,36 +344,19 @@
             <param name="uwp"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetGameStarsAsync(System.Int32,InWords.Data.DTO.GameBox.GameObject)">
+        <member name="M:InWords.WebApi.Model.UserWordPair.IKnowledgeQualifier.Qualify">
             <summary>
-                This is to read user score on game level
+            User's word pair ID and the quality of training
             </summary>
-            <param name="userId"></param>
-            <param name="game"></param>
-            <returns></returns>
+            <returns>Dictionary of id and quality</returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.GetLevelScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
+        <member name="M:InWords.WebApi.Model.UserWordPair.BaseMemorization.Ebbinghaus(System.Int32,System.Double)">
             <summary>
-                This is to update user score on game level
+                Implementation of
+                <a href="https://en.wikipedia.org/wiki/Forgetting_curve">Forgetting curve</a>
             </summary>
-            <param name="levelResult"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.PostScoreAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult)">
-            <summary>
-                This is to set level score to user level storage
-            </summary>
-            <param name="userId"></param>
-            <param name="levelMetricQueryResult"></param>
-            <exception cref="T:System.ArgumentNullException">Null game box is not find</exception>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.Abstractions.IGameScoreService.UploadScoreAsync(System.Int32,System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult})">
-            <summary>
-                This is to push all score from cache storage
-            </summary>
-            <param name="userId"></param>
-            <param name="levelScores"></param>
+            <param name="stability"></param>
+            <param name="retrievabilityLevel"></param>
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthorizedRequestObject{InWords.Protobuf.DeleteAccountRequest,InWords.Protobuf.Empty},System.Threading.CancellationToken)">
@@ -443,7 +368,7 @@
             <exception cref="T:System.ArgumentNullException">Account not found</exception>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.Protobuf.RegistrationRequest,InWords.Protobuf.RegistrationReply},System.Threading.CancellationToken)">
+        <member name="M:InWords.WebApi.Services.Users.Registration.UserRegistration.HandleRequest(InWords.WebApi.Services.Abstractions.RequestObject{InWords.Protobuf.RegistrationRequest,InWords.Protobuf.TokenReply},System.Threading.CancellationToken)">
             <summary>
             Use this is to register new yousers
             </summary>
@@ -513,80 +438,7 @@
                 send it by <see cref="T:InWords.WebApi.Services.Email.EmailSenders.EmailTemplateSender" />
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.InWords#WebApi#Services#Abstractions#IGameScoreService#GetLevelScore(InWords.Data.DTO.GameBox.LevelMetric.LevelResult)">
-            <summary>
-                This is to local compute score
-            </summary>
-            <param name="levelResult"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameScoreService.UpdateLevelsAsync(System.Collections.Generic.IEnumerable{InWords.Data.Creations.GameBox.UserGameLevel},System.Collections.Generic.IEnumerable{InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQueryResult})">
-            <summary>
-            </summary>
-            <param name="levelsToUpdate">All levels that exist in database</param>
-            <param name="levelScores">All score that user send</param>
-            <returns></returns>
-        </member>
-        <member name="T:InWords.WebApi.Services.GameService.GameService">
-            <summary>
-                Service that contain CRUD for Game
-            </summary>
-            <see cref="T:InWords.Data.Models.InWords.Games.Game" />
-        </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameService.#ctor(InWords.WebApi.Services.CreationService,InWords.Data.Repositories.CreationRepository,InWords.WebApi.Services.GameService.GameLevelService)">
-            <summary>
-                Basic constructor
-            </summary>
-            <param name="creationService"></param>
-            <param name="creationRepository"></param>
-            <param name="gameLevelService"></param>
-        </member>
-        <member name="M:InWords.WebApi.Services.GameService.GameService.GetGameObjectAsync(System.Int32)">
-            <summary>
-                This is to get full information about certain game
-            </summary>
-            <param name="gameId"></param>
-            <returns></returns>
-        </member>
-        <member name="P:InWords.WebApi.Services.GameWordsToDictionary.ByGameIdUserId.GameToUserQueryResult.WordsAdded">
-            <summary>
-                Total words added excluding existing ones
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Services.CardGame.GameResultService.SetResultsAsync(System.Int32,InWords.Data.DTO.GameBox.LevelMetric.LevelMetricQuery)">
-            <summary>
-                This is to get score by level and update information of memorizing user word pairs
-            </summary>
-            <param name="userId"></param>
-            <param name="levelMetricQuery"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.UserWordPairService.Abstraction.KnowledgeLicenseProvider.Ebbinghaus(System.Int32,System.Double)">
-            <summary>
-                Implementation of
-                <a href="https://en.wikipedia.org/wiki/Forgetting_curve">Forgetting curve</a>
-            </summary>
-            <param name="subconsciousLevel"></param>
-            <param name="MemoryLevel"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateKnowledge(System.Int32,InWords.WebApi.Services.UserWordPairService.Abstraction.IKnowledgeQualifier)">
-            <summary>
-                This is to update <see cref="T:InWords.Data.Domains.UserWordPair" /> learning period
-            </summary>
-            <param name="PairKnowledges">Int is <see cref="T:InWords.Data.Domains.UserWordPair" /> id</param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Services.UserWordPairService.KnowledgeUpdateService.UpdateLicenseInformation(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair},System.Collections.Generic.Dictionary{System.Int32,InWords.WebApi.Services.UserWordPairService.Enum.KnowledgeQualitys})">
-            <summary>
-                This method for updating <see cref="T:InWords.Data.Domains.UserWordPair" />'s learning period and time to learning
-                using PairKnowledges from IKnowledgeQualifier.
-            </summary>
-            <param name="userWordPairs"></param>
-            <param name="PairKnowledges"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Modules.DictionaryService.Extentions.AddWordPairsExtentions.AddWordPairs(Microsoft.EntityFrameworkCore.DbSet{InWords.Data.Domains.WordPair},System.Collections.Generic.IEnumerable{InWords.Data.Domains.WordPair})">
+        <member name="M:InWords.WebApi.Modules.DictionaryServiceHandler.Extentions.AddWordPairsExtentions.AddWordPairs(Microsoft.EntityFrameworkCore.DbSet{InWords.Data.Domains.WordPair},System.Collections.Generic.IEnumerable{InWords.Data.Domains.WordPair})">
             <summary>
             Return map of inverted keyPair
             </summary>

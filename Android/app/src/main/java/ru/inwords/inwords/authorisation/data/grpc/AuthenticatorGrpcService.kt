@@ -5,7 +5,7 @@ import io.grpc.ManagedChannel
 import io.reactivex.Single
 import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.core.utils.unsafeLazy
-import ru.inwords.inwords.dagger.annotations.GrpcDefaultChannel
+import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import ru.inwords.inwords.proto.auth.AuthenticatorGrpc
 import ru.inwords.inwords.proto.auth.OAuthTokenRequest
@@ -38,8 +38,9 @@ internal class AuthenticatorGrpcService @Inject constructor(@GrpcDefaultChannel 
             .map { TokenResponse(it.token, it.userId) }
     }
 
-    fun register(userCredentials: UserCredentials): Single<TokenResponse> {
+    fun register(userCredentials: UserCredentials, isAnonymous: Boolean): Single<TokenResponse> {
         val request = RegistrationRequest.newBuilder()
+            .setIsAnonymous(isAnonymous)
             .setEmail(userCredentials.email)
             .setPassword(userCredentials.password)
             .build()

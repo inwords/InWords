@@ -7,12 +7,22 @@ import './ListItemText.scss';
 
 function ListItemText({ primary, secondary, className, ...rest }) {
   return (
-    <div className={classNames('list-item-text', className)} {...rest}>
+    <div
+      className={classNames(
+        'list-item-text',
+        {
+          'list-item-text--multiline': primary && secondary
+        },
+        className
+      )}
+      {...rest}
+    >
       <Typography>{primary}</Typography>
       {secondary && (
         <Typography
-          className="list-item-text__secondary"
+          variant="body2"
           color="text-secondary"
+          className="list-item-text__secondary"
         >
           {secondary}
         </Typography>
@@ -23,8 +33,8 @@ function ListItemText({ primary, secondary, className, ...rest }) {
 
 ListItemText.propTypes = {
   primary: PropTypes.string.isRequired,
-  secondary: PropTypes.string,
-  className: PropTypes.string
+  secondary: PropTypes.node,
+  className: PropTypes.node
 };
 
 export default ListItemText;

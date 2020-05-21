@@ -13,6 +13,8 @@ namespace InWords.WebApi.Modules.WordsSets
             builder.RegisterType<GetWordSetsHandler>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<GetWordSetLevels>().AsImplementedInterfaces().InstancePerDependency();
             builder.RegisterType<GetLevelWords>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<GetTrainingLevelsHistory>().AsImplementedInterfaces().InstancePerDependency();
+            builder.RegisterType<EstimateTraining>().AsImplementedInterfaces().InstancePerDependency();
         }
     }
 }

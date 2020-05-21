@@ -26,7 +26,7 @@ const Checkbox = forwardRef(function Checkbox(
   const { current: isControlled } = useRef(checkedProp != null);
   const [checked, setChecked] = useState(false);
 
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const combinedRef = useCombinedRefs(ref, inputRef);
 
   useEffect(() => {
@@ -63,7 +63,9 @@ const Checkbox = forwardRef(function Checkbox(
         {checked ? (
           <Icon>check_box</Icon>
         ) : (
-          <Icon color="action">check_box_outline_blank</Icon>
+          <Icon color={disabled ? 'disabled' : 'action'}>
+            check_box_outline_blank
+          </Icon>
         )}
         <input
           ref={combinedRef}

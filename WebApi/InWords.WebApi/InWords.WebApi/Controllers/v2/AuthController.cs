@@ -1,5 +1,5 @@
 ﻿using InWords.Protobuf;
-using InWords.WebApi.Services.Abstractions;
+using InWords.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +16,7 @@ namespace InWords.WebApi.Controllers.v2
     {
         private readonly IMediator mediator;
 
-        public AuthController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
+        public AuthController(IMediator mediator) => this.mediator = mediator;
         /// <summary>
         ///   Used to add words to the user's dictionary.
         ///   The (localId) value should be zero (0) if you don't need to track words.
@@ -31,47 +28,30 @@ namespace InWords.WebApi.Controllers.v2
         [Route("oauth2")]
         [HttpPost]
         public async Task<IActionResult> OAuth2([FromBody] OAuthTokenRequest request)
-        {
-            var requestObject = new RequestObject<OAuthTokenRequest, TokenReply>(request);
-            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-            if (requestObject.StatusCode != Grpc.Core.StatusCode.OK)
-            {
-                return BadRequest(requestObject.Detail);
-            }
-            return Ok(reply);
-        }
+            => await mediator.AnonimousHandlerActionResult<OAuthTokenRequest, TokenReply>(request).ConfigureAwait(false);
 
+        /// <summary>
+        /// Basic access authentication using login, password
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [SwaggerResponse(StatusCodes.Status200OK, "Returns Token", typeof(TokenReply))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Route("basic")]
         [HttpPost]
         public async Task<IActionResult> Basic([FromBody] TokenRequest request)
-        {
-            var requestObject = new RequestObject<TokenRequest, TokenReply>(request);
+            => await mediator.AnonimousHandlerActionResult<TokenRequest, TokenReply>(request).ConfigureAwait(false);
 
-            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-
-            if (requestObject.StatusCode != Grpc.Core.StatusCode.OK)
-            {
-                return BadRequest(requestObject.Detail);
-            }
-            return Ok(reply);
-        }
-
+        /// <summary>
+        /// Registering a new user and sending them an email
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [SwaggerResponse(StatusCodes.Status200OK, "Returns Token", typeof(TokenReply))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Route("register")]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest request)
-        {
-            var requestObject = new RequestObject<RegistrationRequest, TokenReply>(request);
-            TokenReply reply = await mediator.Send(requestObject).ConfigureAwait(false);
-
-            if (requestObject.StatusCode != Grpc.Core.StatusCode.OK)
-            {
-                BadRequest(requestObject.Detail);
-            }
-            return Ok(reply);
-        }
+            => await mediator.AnonimousHandlerActionResult<RegistrationRequest, TokenReply>(request).ConfigureAwait(false);
     }
 }

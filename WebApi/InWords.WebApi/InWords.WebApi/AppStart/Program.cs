@@ -14,7 +14,7 @@ namespace InWords.WebApi.AppStart
 {
     public static class Program
     {
-        public static IList<InModule> InModules = InModule.FindModules();
+        public static readonly IList<InModule> InModules = InModule.FindModules();
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
@@ -26,20 +26,18 @@ namespace InWords.WebApi.AppStart
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webHostBuilder =>
                 {
-                    string INWHTTP = Environment.GetEnvironmentVariable("INWHTTP");
-                    string INWHTTPS = Environment.GetEnvironmentVariable("INWHTTPS");
-                    string INWHTTPS2 = Environment.GetEnvironmentVariable("INWHTTPS2");
-                    Console.WriteLine($"Environment {INWHTTP} {INWHTTPS} {INWHTTPS2}");
-                    int http = int.Parse(INWHTTP, NumberFormatInfo.InvariantInfo);
-                    int https = int.Parse(INWHTTPS, NumberFormatInfo.InvariantInfo);
-                    int https2 = int.Parse(INWHTTPS2, NumberFormatInfo.InvariantInfo);
+
+                    GetPorts(out int http, out int https, out int https2);
+
+                    string? path = AppDomain.CurrentDomain.BaseDirectory;
+                    if (string.IsNullOrWhiteSpace(path)) path = "";
 
                     webHostBuilder
                     .UseStartup<Startup>()
                     .UseKestrel((hostingContext, options) =>
                     {
                         options.Listen(IPAddress.Loopback, http,
-                            listenOptions => listenOptions.Protocols = HttpProtocols.Http1
+                            listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2
                             );
 
                         options.Listen(IPAddress.Loopback, https,
@@ -59,8 +57,28 @@ namespace InWords.WebApi.AppStart
                     .ReadFrom.Configuration(hostingContext.Configuration)
                     .Enrich.FromLogContext()
                     .WriteTo.Console()
-                    .WriteTo.File(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt")));
+                    .WriteTo.File(Path.Combine(path, $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt")));
                 });
+        }
+
+        private static void GetPorts(out int http, out int https, out int https2)
+        {
+            http = 5100;
+            https = 5101;
+            https2 = 5102;
+
+            string? INWHTTP = Environment.GetEnvironmentVariable("INWHTTP");
+            string? INWHTTPS = Environment.GetEnvironmentVariable("INWHTTPS");
+            string? INWHTTPS2 = Environment.GetEnvironmentVariable("INWHTTPS2");
+
+            Console.WriteLine($"Environment {INWHTTP} {INWHTTPS} {INWHTTPS2}");
+
+            if (!string.IsNullOrWhiteSpace(INWHTTP))
+                http = int.Parse(INWHTTP, NumberFormatInfo.InvariantInfo);
+            if (!string.IsNullOrWhiteSpace(INWHTTPS))
+                https = int.Parse(INWHTTPS, NumberFormatInfo.InvariantInfo);
+            if (!string.IsNullOrWhiteSpace(INWHTTPS2))
+                https2 = int.Parse(INWHTTPS2, NumberFormatInfo.InvariantInfo);
         }
     }
 }

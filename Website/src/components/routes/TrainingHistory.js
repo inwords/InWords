@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializeTrainingHistory } from 'src/actions/trainingActions';
 import { getTrainingHistory } from 'src/actions/trainingApiActions';
-import Icon from 'src/components/core/Icon';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
 import Card from 'src/components/core/Card';
@@ -21,8 +20,8 @@ function TrainingHistory() {
   useEffect(() => {
     (async () => {
       try {
-        const data = await dispatch(getTrainingHistory());
-        dispatch(initializeTrainingHistory(data));
+        const { levels } = await dispatch(getTrainingHistory());
+        dispatch(initializeTrainingHistory(levels));
       } catch (error) {
         dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
       }
@@ -33,27 +32,19 @@ function TrainingHistory() {
 
   return (
     <Grid spacing={3}>
-      {trainingHistory.map(({ levelId, playerStars }) => (
+      {trainingHistory.map(({ levelId }) => (
         <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardContent>
               <Typography component="h2" variant="h6">
-                Закрытые карточки
+                {levelId}
               </Typography>
-              <Typography component="p" color="text-secondary" gutterBottom>
-                #{levelId}
-              </Typography>
-              <div>
-                <Icon color={playerStars > 0 ? 'gold' : 'disabled'}>star</Icon>
-                <Icon color={playerStars > 1 ? 'gold' : 'disabled'}>star</Icon>
-                <Icon color={playerStars > 2 ? 'gold' : 'disabled'}>star</Icon>
-              </div>
             </CardContent>
             <CardActions>
               <LinkButton
-                data-testid={`to-training-${levelId}-0`}
+                data-testid={`to-level-${levelId}`}
                 component={RouterLink}
-                to={`${match.url}/${levelId}/0`}
+                to={`${match.url}/${levelId}`}
                 variant="text"
                 color="primary"
               >

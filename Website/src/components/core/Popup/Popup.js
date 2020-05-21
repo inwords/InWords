@@ -14,7 +14,7 @@ function Popup({
   className,
   ...rest
 }) {
-  const elementRef = useRef();
+  const elementRef = useRef(null);
 
   useEffect(() => {
     const outsideClickListener = event => {

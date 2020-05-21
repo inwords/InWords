@@ -53,7 +53,7 @@ namespace InWords.WebApi.Services.Email
             await emailSender.SendEmailAsync(EmailTemplates.ConfirmEmail, keyValuePairs, EmailSubject, email);
         }
 
-        private Dictionary<string, string> ReplaceTemplateData(string username, int code, string link)
+        private static Dictionary<string, string> ReplaceTemplateData(string username, int code, string link)
         {
             return new Dictionary<string, string>
             {

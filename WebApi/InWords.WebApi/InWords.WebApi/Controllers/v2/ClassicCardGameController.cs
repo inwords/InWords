@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace InWords.WebApi.Controllers.v2
@@ -17,41 +18,33 @@ namespace InWords.WebApi.Controllers.v2
     public class ClassicCardGameController : Controller
     {
         private readonly IMediator mediator;
-        public ClassicCardGameController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
+        public ClassicCardGameController(IMediator mediator) => this.mediator = mediator;
 
+        /// <summary>
+        /// Use wordset estimate
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Obsolete("Use wordset estimate")]
         [HttpPost]
         [Route("estimate")]
         [ProducesResponseType(typeof(LevelPoints), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Status), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Estimate(CardGameMetrics request)
-        {
-            var (reply, status) = await mediator
-                .AuthorizeHandler<CardGameMetrics, LevelPoints>(request, User)
-                .ConfigureAwait(false);
+            => await mediator.AuthorizeHandlerActionResult<CardGameMetrics, LevelPoints>(request, User).ConfigureAwait(false);
 
-            if (status.StatusCode == Grpc.Core.StatusCode.OK)
-                return Ok(reply);
-
-            return BadRequest(status);
-        }
-
+        /// <summary>
+        /// Use wordset estimate without game level id
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Obsolete("Use wordset estimate without game level id")]
         [HttpPost]
         [Route("save")]
         [ProducesResponseType(typeof(LevelPoints), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Status), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Save(CardGameInfos request)
-        {
-            var (reply, status) = await mediator
-                .AuthorizeHandler<CardGameInfos, LevelPoints>(request, User)
-                .ConfigureAwait(false);
+            => await mediator.AuthorizeHandlerActionResult<CardGameInfos, LevelPoints>(request, User).ConfigureAwait(false);
 
-            if (status.StatusCode == Grpc.Core.StatusCode.OK)
-                return Ok(reply);
-
-            return BadRequest(status);
-        }
     }
 }

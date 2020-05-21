@@ -53,7 +53,9 @@ class RegistrationFragment : FragmentWithViewModelAndNav<RegistrationViewModel, 
                 binding.confirmPasswordEditText.text?.toString().orEmpty()
             )
         }
-        binding.signInTextView.setOnClickListener { viewModel.onNavigateToLoginClicked(args.onTopOfLogin) } //TODO clicks
+        binding.signInTextView.setOnClickListener {
+            viewModel.onNavigateToLoginClicked(onTopOfLogin = args.onTopOfLogin, onTopOfChooseSignMethod = args.onTopOfChooseSignMethod)
+        } //TODO clicks
 
         observe(viewModel.authorisationState) {
             processViewState(it)
@@ -155,7 +157,6 @@ class RegistrationFragment : FragmentWithViewModelAndNav<RegistrationViewModel, 
         binding.emailEditText.error = null
         binding.passwordEditText.error = null
 
-        @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
         when (authorisationViewState.status) {
             AuthorisationViewState.Status.LOADING -> {
                 renderLoadingState()
@@ -188,6 +189,6 @@ class RegistrationFragment : FragmentWithViewModelAndNav<RegistrationViewModel, 
 
     private fun navigateOnSuccess() {
         KeyboardUtils.hideKeyboard(view)
-        viewModel.popOutOfAuth()
+        viewModel.popOutOfAuth(onTopOfLogin = args.onTopOfLogin, onTopOfChooseSignMethod = args.onTopOfChooseSignMethod)
     }
 }

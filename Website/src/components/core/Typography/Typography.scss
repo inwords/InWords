@@ -4,7 +4,6 @@
   margin: 0;
 
   $variants: h1, h2, h3, h4, h5, h6, body1, body2;
-
   @each $variant in $variants {
     &--variant--#{$variant} {
       @include theme-typography($variant);
@@ -14,13 +13,24 @@
   &--color--text-primary {
     color: var(--palette-text-primary);
   }
-
   &--color--text-secondary {
     color: var(--palette-text-secondary);
   }
-
   &--color--primary {
     color: var(--palette-primary);
+  }
+
+  &--align--left {
+    text-align: left;
+  }
+  &--align--center {
+    text-align: center;
+  }
+  &--align--right {
+    text-align: right;
+  }
+  &--align--justify {
+    text-align: justify;
   }
 
   &--gutter-bottom {

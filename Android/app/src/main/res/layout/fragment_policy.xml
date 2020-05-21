@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".home.HomeFragment">
+    tools:context=".policy.presentation.PolicyFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,12 +36,10 @@
                 android:id="@+id/avatar_image"
                 android:layout_width="@dimen/policy_avatar_image_size"
                 android:layout_height="@dimen/policy_avatar_image_size"
-                android:layout_marginTop="@dimen/space_medium"
-                android:layout_marginBottom="@dimen/space_medium"
                 android:importantForAccessibility="no"
                 android:paddingStart="@dimen/space_medium"
                 android:paddingEnd="@dimen/space_medium"
-                android:src="@drawable/octopus_clothes" />
+                android:src="@drawable/octopus_welcome" />
 
             <TextView
                 android:id="@+id/to_login_button"
@@ -82,10 +80,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_medium"
-        android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
         android:layout_marginEnd="@dimen/space_medium"
         android:layout_marginBottom="@dimen/space_medium"
         android:text="@string/policy_agree_button"
+        android:textAppearance="@style/TextAppearance.Inwords.Button.Default"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,9 +3,8 @@ package ru.inwords.inwords.core.grpc
 import io.grpc.*
 import io.grpc.ForwardingClientCall.SimpleForwardingClientCall
 import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
-import javax.inject.Inject
 
-class HeaderAttachingClientInterceptor @Inject internal constructor(
+class HeaderAttachingClientInterceptor internal constructor(
     private val nativeTokenHolder: NativeTokenHolder
 ) : ClientInterceptor {
     private val key: Metadata.Key<String> = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)

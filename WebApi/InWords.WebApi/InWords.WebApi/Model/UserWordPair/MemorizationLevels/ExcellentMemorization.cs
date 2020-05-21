@@ -2,10 +2,10 @@
 {
     public class ExcellentMemorization : BaseMemorization
     {
-        public override Memorization Grant(Memorization knowledgeLicense)
+        public override Memorization Grant(Memorization currentMemorization, double complexity)
         {
-            knowledgeLicense.Period += 1;
-            return base.Grant(knowledgeLicense);
+            currentMemorization.Period += 1;
+            return base.Grant(currentMemorization, complexity);
         }
     }
 }

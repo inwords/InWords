@@ -32,11 +32,12 @@
 #-keep class com.google.gson.stream.** { *; }
 
 # Application classes that will be serialized/deserialized over Gson
--keep class ru.inwords.inwords.**.dto.** { <fields>; }
 -keep class ru.inwords.inwords.**.bean.** { <fields>; }
 -keep class ru.inwords.inwords.**.model.** { <fields>; }
 -keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite { *; }
 -keepclassmembers class org.chromium.net.impl.** { *; }
+
+-keep class androidx.navigation.fragment.NavHostFragment
 
 # Remove logs
 -assumenosideeffects class android.util.Log {

@@ -13,10 +13,8 @@ import ru.inwords.inwords.translation.data.sync.TranslationSyncController
 import ru.inwords.inwords.translation.domain.model.Definition
 import ru.inwords.inwords.translation.domain.model.LookupDirection
 import ru.inwords.inwords.translation.domain.model.WordTranslation
-import javax.inject.Inject
 
-class TranslationWordsInteractorImpl @Inject
-internal constructor(
+class TranslationWordsInteractorImpl internal constructor(
     private val translationWordsRemoteRepository: TranslationWordsRemoteRepository,
     private val adapterHolder: WordTranslationDeferredAdapterHolder,
     private val syncController: TranslationSyncController

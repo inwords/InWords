@@ -5,6 +5,7 @@ namespace InWords.WebApi.Model.UserWordPair
 {
     public interface IKnowledgeQualifier
     {
+        int Complexity { get; }
         /// <summary>
         /// User's word pair ID and the quality of training
         /// </summary>

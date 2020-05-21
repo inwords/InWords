@@ -1,8 +1,14 @@
 .list-item-text {
   margin-top: 4px;
   margin-bottom: 4px;
+  text-align: left;
 
   &__secondary {
     display: block;
+  }
+
+  &__multiline {
+    margin-top: 6px;
+    margin-bottom: 6px;
   }
 }

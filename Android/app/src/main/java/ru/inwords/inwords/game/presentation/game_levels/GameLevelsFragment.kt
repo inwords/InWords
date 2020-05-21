@@ -1,5 +1,6 @@
 package ru.inwords.inwords.game.presentation.game_levels
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,15 +13,15 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.recycler.fixOverscrollBehaviour
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.data.INVALID_ID
 import ru.inwords.inwords.databinding.FragmentGameLevelsBinding
 import ru.inwords.inwords.game.domain.model.GameLevelInfo
 import ru.inwords.inwords.game.presentation.BaseContentFragment
-import ru.inwords.inwords.game.presentation.OctoGameViewModelFactory
+import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.game.presentation.game_levels.recycler.GameLevelsAdapter
 import ru.inwords.inwords.game.presentation.game_levels.recycler.applyDiffUtil
+import ru.inwords.inwords.main_activity.data.INVALID_ID
 
-class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, OctoGameViewModelFactory, FragmentGameLevelsBinding>() {
+class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewModel, WordsSetsViewModelFactory, FragmentGameLevelsBinding>() {
     override val layout = R.layout.fragment_game_levels
     override val classType = GameLevelsViewModel::class.java
 
@@ -85,8 +86,9 @@ class GameLevelsFragment : BaseContentFragment<GameLevelInfo, GameLevelsViewMode
     }
 
     private fun showIntro(view: View) = with(view) {
-        val imageRequest = ImageRequestBuilder
-            .newBuilderWithResourceId(R.drawable.octopus_default)
+        val imageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse(args.gameInfo.picture))
+            .setProgressiveRenderingEnabled(true)
+            .setLocalThumbnailPreviewsEnabled(true)
             .build()
 
         with(binding.welcomeScreen) {

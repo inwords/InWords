@@ -1,15 +1,14 @@
 package ru.inwords.inwords.texttospeech.data.repository
 
-import android.content.Context
 import android.util.Base64
 import ru.inwords.inwords.R
+import ru.inwords.inwords.core.managers.ResourceManager
 import java.io.File
 import java.io.FileOutputStream
-import javax.inject.Inject
 
-class TtsDatabaseRepository @Inject internal constructor(private val context: Context) {
+class TtsDatabaseRepository internal constructor(private val cacheDir: File, private val resourceManager: ResourceManager) {
     fun getFile(textToSpeak: String, extension: String): File {
-        return File(context.cacheDir.resolve("tts"), textToSpeak.hashCode().toString() + extension)
+        return File(cacheDir.resolve("tts"), textToSpeak.hashCode().toString() + extension)
     }
 
     fun storeFile(file: File, base64String: String) {
@@ -20,6 +19,6 @@ class TtsDatabaseRepository @Inject internal constructor(private val context: Co
     }
 
     fun getGoogleServicesApiKey(): String {
-        return context.resources.getString(R.string.google_api_key)
+        return resourceManager.getString(R.string.google_api_key)
     }
 }

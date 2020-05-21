@@ -10,14 +10,16 @@ const setup = () => {
     token: 'xyz',
     userId: 1
   };
-  const mockingTrainingHistoryResponse = [
-    {
-      levelId: 1,
-      stars: 3,
-      isAvailable: true,
-      level: 1
-    }
-  ];
+  const mockingTrainingHistoryResponse = {
+    levels: [
+      {
+        levelId: 1,
+        stars: 3,
+        isAvailable: true,
+        gameType: 0
+      }
+    ]
+  };
   global.fetch = mockFetch(mockingTrainingHistoryResponse);
   const route = '/training/history';
   const utils = renderWithEnvironment(
@@ -31,7 +33,7 @@ const setup = () => {
   );
 
   const clickHistoryTraining = id =>
-    fireEvent.click(utils.getByTestId(`to-training-${id}-0`));
+    fireEvent.click(utils.getByTestId(`to-level-${id}`));
 
   return {
     ...utils,
@@ -43,12 +45,12 @@ const setup = () => {
 
 test('select recent training', async () => {
   const utils = setup();
-  const recentTrainingInfo = utils.mockingTrainingHistoryResponse[0];
-  await waitFor(() => screen.getByText(`#${recentTrainingInfo.levelId}`));
+  const recentTrainingInfo = utils.mockingTrainingHistoryResponse.levels[0];
+  await waitFor(() => screen.getByText(`${recentTrainingInfo.levelId}`));
 
   utils.clickHistoryTraining(recentTrainingInfo.levelId);
 
   expect(utils.history.location.pathname).toEqual(
-    `${utils.route}/${recentTrainingInfo.levelId}/0`
+    `${utils.route}/${recentTrainingInfo.levelId}`
   );
 });

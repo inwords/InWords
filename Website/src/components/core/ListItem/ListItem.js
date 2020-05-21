@@ -5,19 +5,12 @@ import classNames from 'classnames';
 import './ListItem.scss';
 
 function ListItem({
-  component = 'li',
+  component: Component = 'li',
   button = false,
   hasSecondaryAction = false,
   className,
   ...rest
 }) {
-  const Component = component;
-  const listItemProps = {};
-
-  if (button) {
-    listItemProps.role = 'button';
-  }
-
   return (
     <Component
       className={classNames(
@@ -28,7 +21,6 @@ function ListItem({
         },
         className
       )}
-      {...listItemProps}
       {...rest}
     />
   );

@@ -5,11 +5,9 @@ import classNames from 'classnames';
 import './List.css';
 
 const List = forwardRef(function List(
-  { component = 'ul', className, ...rest },
+  { component: Component = 'ul', className, ...rest },
   ref
 ) {
-  const Component = component;
-
   return (
     <Component ref={ref} className={classNames('list', className)} {...rest} />
   );

@@ -5,7 +5,7 @@ import { setSnackbar } from 'src/actions/commonActions';
 import { initializeWordSetLevel } from 'src/actions/wordSetActions';
 import { getWordSetLevel } from 'src/actions/wordSetApiActions';
 
-export default function useServerTrainingLevel() {
+const useServerTrainingLevel = () => {
   const levelsMap = useSelector(store => store.wordSet.levelsMap);
 
   const dispatch = useDispatch();
@@ -47,4 +47,6 @@ export default function useServerTrainingLevel() {
       wordTranslations: []
     }
   );
-}
+};
+
+export default useServerTrainingLevel;
