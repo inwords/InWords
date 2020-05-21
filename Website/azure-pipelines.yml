@@ -36,7 +36,7 @@ steps:
     displayName: 'npm install, build and test'
     workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
 
-    - task: PublishTestResults@2
+  - task: PublishTestResults@2
     inputs:
       testResultsFiles: '$(System.DefaultWorkingDirectory)/Website/junit.xml'
 
