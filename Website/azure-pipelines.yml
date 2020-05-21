@@ -32,8 +32,12 @@ steps:
   - script: |
       npm install
       npm run build
+    displayName: 'npm install and build'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
+
+  - script: |
       npm run test:coverage:report
-    displayName: 'npm install, build and test'
+    displayName: 'npm test'
     workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
 
   - task: PublishTestResults@2
