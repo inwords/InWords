@@ -41,6 +41,7 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/Website/'
 
   - task: PublishTestResults@2
+    condition: succeededOrFailed()
     inputs:
       testResultsFiles: '$(System.DefaultWorkingDirectory)/Website/junit.xml'
 
