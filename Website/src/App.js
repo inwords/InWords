@@ -8,7 +8,6 @@ import RouteContainer from 'src/components/app-common/RouteContainer';
 import ScrollToTop from 'src/components/core/ScrollToTop';
 import PageProgress from 'src/components/app/PageProgress';
 import SmartSnackbar from 'src/components/app/SmartSnackbar';
-import ParallaxBubbles from 'src/components/app/ParallaxBubbles';
 import PageContainer from 'src/components/app/PageContainer';
 import ControlledProfileMenu from 'src/components/app/ControlledProfileMenu';
 import NotFound from 'src/components/routes/NotFound';
@@ -116,7 +115,6 @@ function App() {
         </ErrorBoundary>
       </PageContainer>
       <SmartSnackbar />
-      <ParallaxBubbles />
     </Router>
   );
 }

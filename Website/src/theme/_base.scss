@@ -1,4 +1,5 @@
 html {
+  height: 100%;
   box-sizing: border-box;
 }
 
@@ -13,7 +14,12 @@ html * {
 }
 
 body {
-  background-color: var(--palette-background-default);
+  background: radial-gradient(
+      ellipse at bottom,
+      var(--palette-background-paper) 0%,
+      var(--palette-background-default) 100%
+    )
+    fixed;
 }
 
 @supports (-webkit-overflow-scrolling: touch) {
