@@ -13,7 +13,7 @@ $track-h: 8px;
 @mixin track {
   width: 100%;
   height: $track-h;
-  border-radius: 2px;
+  border-radius: var(--shape-border-radius);
   background-color: var(--palette-default);
 }
 

@@ -23,7 +23,7 @@
 .homepage-hero-logo {
   margin-top: 16px;
   padding: 16px;
-  border-radius: 2px;
+  border-radius: var(--shape-border-radius);
   background-color: var(--palette-primary-contrast-text);
 }
 

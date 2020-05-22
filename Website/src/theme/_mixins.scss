@@ -23,6 +23,8 @@
         --transition-#{$style-type}-#{$style}: #{$value};
       }
     }
+
+    --shape-border-radius: #{$theme-shape-border-radius};
   }
 }
 

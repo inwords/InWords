@@ -32,6 +32,8 @@ $theme-palette-values: (
   action-disabled-background: rgba(0, 0, 0, 0.12)
 );
 
+$theme-shape-border-radius: 2px;
+
 $theme-breakpoints-values: (
   xs: 0,
   sm: 600px,
@@ -52,11 +54,12 @@ $theme-depth-shadow-values: (
 );
 
 $theme-z-index-values: (
-  app-bar: 1100,
-  drawer: 1200,
-  popup: 1300,
-  modal: 1400,
-  snackbar: 1500
+  app-bar: 1000,
+  drawer: 1100,
+  popup: 1200,
+  modal: 1300,
+  snackbar: 1400,
+  tooltip: 1500
 );
 
 $theme-transitions-values: (
