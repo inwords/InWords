@@ -13,7 +13,7 @@ function ControlledWordSetPairsAddDialog({ gameId }) {
     <Fragment>
       <Tooltip
         id="word-set-pairs-add-dialog-tooltip"
-        title="Добавить в словарь"
+        title="Добавить в&nbsp;словарь"
         placement="bottom"
       >
         <IconButton

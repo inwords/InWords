@@ -46,7 +46,7 @@ function WordSetPairsToolbar({
       <Space />
       <Tooltip
         id="word-set-pairs-add-tooltip"
-        title="Добавить в словарь"
+        title="Добавить в&nbsp;словарь"
         placement="left"
       >
         <IconButton
