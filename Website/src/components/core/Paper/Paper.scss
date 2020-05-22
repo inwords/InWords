@@ -10,6 +10,6 @@
   }
 
   &--rounded {
-    border-radius: 2px;
+    border-radius: var(--shape-border-radius);
   }
 }
