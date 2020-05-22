@@ -3,7 +3,7 @@
 .button {
   min-width: 80px;
   height: 32px;
-  border-radius: 2px;
+  border-radius: var(--shape-border-radius);
   font-family: inherit;
   text-transform: uppercase;
   white-space: nowrap;
