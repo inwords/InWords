@@ -77,10 +77,14 @@ class AuthorisationWebInteractor internal constructor(
             .map { charPool[Random.nextInt(0, charPool.size)] }
             .joinToString("")
 
+        val randomPassword = (1..16)
+            .map { charPool[Random.nextInt(0, charPool.size)] }
+            .joinToString("")
+
         return signUpInternal(
             UserCredentials(
-                email = "inwords_$randomString@inwords.guest",
-                password = ""
+                email = "inwords_$randomString@inwords",
+                password = randomPassword
             ), true
         )
     }
