@@ -1,11 +1,6 @@
 .icon-button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50%;
   padding: 12px;
-  background-color: transparent;
   transition: background-color var(--transition-duration-shortest)
     var(--transition-easing-ease-in-out);
 
@@ -65,8 +60,6 @@
 
   &.disabled,
   &:disabled {
-    cursor: default;
-    pointer-events: none;
     color: var(--palette-action-disabled);
   }
 }

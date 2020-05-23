@@ -1,9 +1,6 @@
 @import 'src/theme/mixins';
 
 .training-card {
-  display: block;
-  position: relative;
-  padding: 0;
   background-color: var(--palette-primary);
   transition: box-shadow var(--transition-duration-short)
     var(--transition-easing-ease-in-out);

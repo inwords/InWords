@@ -20,7 +20,7 @@ function Animation({
     }
   };
 
-  const animationStyles = {
+  const animationStyle = {
     animationName,
     animationDuration: `${animationDuration}`,
     animationTimingFunction,
@@ -28,7 +28,7 @@ function Animation({
   };
 
   return cloneElement(children, {
-    style: !fired ? animationStyles : style,
+    style: !fired ? animationStyle : style,
     onAnimationEnd: handleAnimationEnd,
     ...rest
   });
