@@ -20,8 +20,7 @@
     color: var(--palette-text-secondary);
 
     &:hover,
-    &.focus-visible,
-    &.focus-visible:focus-within {
+    &.focus-visible {
       background-color: var(--palette-action-hover);
     }
 
@@ -34,8 +33,7 @@
     color: var(--palette-primary);
 
     &:hover,
-    &.focus-visible,
-    &.focus-visible:focus-within {
+    &.focus-visible {
       background-color: var(--palette-primary-transparentize-more);
     }
 
@@ -48,8 +46,7 @@
     color: inherit;
 
     &:hover,
-    &.focus-visible,
-    &.focus-visible:focus-within {
+    &.focus-visible {
       background-color: var(--palette-action-hover);
     }
 
