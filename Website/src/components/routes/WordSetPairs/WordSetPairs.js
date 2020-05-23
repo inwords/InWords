@@ -105,7 +105,8 @@ function WordSetPairs() {
             <ListItem
               component={ButtonBase}
               onClick={!hasAdded ? handleToggle(serverId) : undefined}
-              button={!hasAdded}
+              button
+              disabled={hasAdded}
               className="wordlist-item"
             >
               <ListItemIcon>

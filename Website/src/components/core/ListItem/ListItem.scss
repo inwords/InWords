@@ -28,5 +28,10 @@
     &:active {
       background-color: var(--palette-action-selected);
     }
+
+    &:disabled {
+      cursor: default;
+      pointer-events: none;
+    }
   }
 }
