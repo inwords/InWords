@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import useFocusVisible from 'src/components/core/useFocusVisible';
 
-import './ButtonBase.css';
+import './ButtonBase.scss';
 
 function ButtonBase({
   component: Component = 'button',

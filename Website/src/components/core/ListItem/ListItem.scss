@@ -14,9 +14,6 @@
   }
 
   &--button {
-    cursor: pointer;
-    user-select: none;
-    text-decoration: none;
     transition: background-color var(--transition-duration-shortest)
       var(--transition-easing-ease-in-out);
 
@@ -27,11 +24,6 @@
 
     &:active {
       background-color: var(--palette-action-selected);
-    }
-
-    &:disabled {
-      cursor: default;
-      pointer-events: none;
     }
   }
 }
