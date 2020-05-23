@@ -65,8 +65,6 @@
 
   &.disabled,
   &:disabled {
-    cursor: default;
-    pointer-events: none;
     color: var(--palette-action-disabled);
   }
 }

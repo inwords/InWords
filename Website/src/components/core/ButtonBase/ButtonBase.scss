@@ -9,4 +9,10 @@
   user-select: none;
   text-decoration: none;
   background-color: transparent;
+
+  &.disabled,
+  &:disabled {
+    cursor: default;
+    pointer-events: none;
+  }
 }
