@@ -14,8 +14,8 @@ function LinkButton({
   return (
     <Button
       component={component}
-      className={classNames({ disabled }, className)}
       tabIndex={disabled ? -1 : tabIndex}
+      className={classNames({ disabled }, className)}
       {...rest}
     >
       {children}

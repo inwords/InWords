@@ -10,7 +10,7 @@
     var(--transition-easing-ease-in-out);
 
   &:hover,
-  &:focus {
+  &.focus-visible {
     background-color: var(--palette-primary-darken-less);
 
     @media (hover: none) {

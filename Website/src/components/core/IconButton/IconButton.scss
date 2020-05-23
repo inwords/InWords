@@ -10,7 +10,7 @@
     var(--transition-easing-ease-in-out);
 
   &:hover,
-  &:focus {
+  &.focus-visible {
     @media (hover: none) {
       background-color: transparent;
     }
@@ -20,8 +20,8 @@
     color: var(--palette-text-secondary);
 
     &:hover,
-    &:focus,
-    &:focus-within {
+    &.focus-visible,
+    &.focus-visible:focus-within {
       background-color: var(--palette-action-hover);
     }
 
@@ -34,8 +34,8 @@
     color: var(--palette-primary);
 
     &:hover,
-    &:focus,
-    &:focus-within {
+    &.focus-visible,
+    &.focus-visible:focus-within {
       background-color: var(--palette-primary-transparentize-more);
     }
 
@@ -48,8 +48,8 @@
     color: inherit;
 
     &:hover,
-    &:focus,
-    &:focus-within {
+    &.focus-visible,
+    &.focus-visible:focus-within {
       background-color: var(--palette-action-hover);
     }
 

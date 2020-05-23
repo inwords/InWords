@@ -20,7 +20,7 @@ $theme-palette-values: (
   divider: rgba(0, 0, 0, 0.12),
   divider-light: rgba(0, 0, 0, 0.08),
   background-paper: #fff,
-  background-default: #e8eaf6,
+  background-default: #eceff1,
   text-primary: rgba(0, 0, 0, 0.87),
   text-secondary: rgba(0, 0, 0, 0.54),
   text-disabled: rgba(0, 0, 0, 0.38),
@@ -57,9 +57,9 @@ $theme-z-index-values: (
   app-bar: 1000,
   drawer: 1100,
   popup: 1200,
-  modal: 1300,
-  snackbar: 1400,
-  tooltip: 1500
+  tooltip: 1300,
+  modal: 1400,
+  snackbar: 1500
 );
 
 $theme-transitions-values: (
