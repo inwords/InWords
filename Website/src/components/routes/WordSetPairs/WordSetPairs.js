@@ -16,6 +16,7 @@ import ListItemContainer from 'src/components/core/ListItemContainer';
 import ListItem from 'src/components/core/ListItem';
 import ListItemText from 'src/components/core/ListItemText';
 import ListItemIcon from 'src/components/core/ListItemIcon';
+import ButtonBase from 'src/components/core/ButtonBase';
 import Checkbox from 'src/components/core/Checkbox';
 import WordSetPairsToolbar from './WordSetPairsToolbar';
 
@@ -102,7 +103,7 @@ function WordSetPairs() {
         {wordSetPairs.map(({ serverId, hasAdded, wordForeign, wordNative }) => (
           <ListItemContainer key={serverId}>
             <ListItem
-              component="div"
+              component={ButtonBase}
               onClick={!hasAdded ? handleToggle(serverId) : undefined}
               button={!hasAdded}
               className="wordlist-item"
