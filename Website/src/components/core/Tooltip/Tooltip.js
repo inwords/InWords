@@ -14,7 +14,7 @@ function Tooltip({
   ...rest
 }) {
   const childrenProps = {
-    'aria-labelledby': id,
+    'aria-describedby': id,
     className: 'tooltip-subject'
   };
 

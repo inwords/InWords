@@ -48,17 +48,17 @@
 
   &--placement--top,
   &--placement--bottom {
-    transform: translateX(-50%) scale(0.75);
+    transform: translateX(-50%) scale(0.7);
   }
 
   &--placement--right,
   &--placement--left {
-    transform: translateY(-50%) scale(0.75);
+    transform: translateY(-50%) scale(0.7);
   }
 }
 
-.tooltip-container .tooltip-subject:hover + .tooltip,
-.tooltip-container .tooltip-subject:focus + .tooltip {
+.tooltip-container .tooltip-subject:hover ~ .tooltip,
+.tooltip-container .tooltip-subject.focus-visible ~ .tooltip {
   visibility: visible;
   opacity: 1;
 

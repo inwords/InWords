@@ -11,7 +11,9 @@ module.exports = merge(common, {
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
     historyApiFallback: true,
+    host: '0.0.0.0',
     port: 3000,
+    public: 'localhost:3000',
     hot: true,
     open: true
   },
