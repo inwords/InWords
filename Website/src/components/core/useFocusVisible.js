@@ -6,7 +6,6 @@ const useFocusVisible = () => {
   const { hadKeyboardEvent, initialized } = useContext(FocusVisibleContext);
 
   const onFocus = () => {
-    console.log('focus', initialized);
     setFocused(true);
   };
 
