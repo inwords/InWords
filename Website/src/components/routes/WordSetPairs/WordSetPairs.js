@@ -103,9 +103,10 @@ function WordSetPairs() {
         {wordSetPairs.map(({ serverId, hasAdded, wordForeign, wordNative }) => (
           <ListItemContainer key={serverId}>
             <ListItem
-              component={!hasAdded ? ButtonBase : 'div'}
+              component={ButtonBase}
               onClick={!hasAdded ? handleToggle(serverId) : undefined}
-              button={!hasAdded}
+              button
+              disabled={hasAdded}
               className="wordlist-item"
             >
               <ListItemIcon>
