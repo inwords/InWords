@@ -125,16 +125,16 @@ function TrainingTypes({ trainingLevel }) {
       <Paper>
         <Toolbar>
           <IconButton
+            aria-label="сбросить выбор"
             onClick={handleReset}
             edge="start"
-            aria-label="clear selection"
             color="inherit"
           >
             <Icon>close</Icon>
           </IconButton>
           <IconButton
             onClick={handleCheckAll}
-            aria-label="check all"
+            aria-label="выбрать все"
             color="inherit"
           >
             <Icon>done_all</Icon>

@@ -21,7 +21,7 @@ function WordSetPairsToolbar({
   return (
     <Toolbar className="word-set-pairs-toolbar">
       <IconButton
-        aria-label="clear selection"
+        aria-label="сбросить выбор"
         disabled={!selectionAvailable}
         onClick={handleReset}
         color="inherit"
@@ -30,7 +30,7 @@ function WordSetPairsToolbar({
         <Icon>close</Icon>
       </IconButton>
       <IconButton
-        aria-label="check all"
+        aria-label="выбрать все"
         disabled={!selectionAvailable}
         onClick={handleCheckAll}
         color="inherit"

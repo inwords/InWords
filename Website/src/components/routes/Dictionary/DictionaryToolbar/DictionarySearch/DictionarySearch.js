@@ -13,7 +13,6 @@ function DictionarySearch({ value, onChange }) {
       </div>
       <Input
         id="dictionary-search"
-        aria-label="search"
         type="text"
         placeholder="Поиск слова"
         name="pattern"

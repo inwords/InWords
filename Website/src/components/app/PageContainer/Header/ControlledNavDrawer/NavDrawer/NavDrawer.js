@@ -21,7 +21,7 @@ function NavDrawer({ open, handleClose, routes }) {
     >
       <Toolbar>
         <IconButton
-          aria-label="side-nav-menu"
+          aria-label="меню навигации"
           onClick={handleClose}
           edge="start"
           color="inherit"

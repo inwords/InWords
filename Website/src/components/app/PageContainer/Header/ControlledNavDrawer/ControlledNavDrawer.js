@@ -11,7 +11,7 @@ function ControlledNavDrawer({ routes, className }) {
   return (
     <Fragment>
       <IconButton
-        aria-label="side-nav-menu"
+        aria-label="меню навигации"
         onClick={handleOpen}
         edge="start"
         color="inherit"

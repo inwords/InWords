@@ -74,6 +74,7 @@ function WordSets() {
                 placement="bottom"
               >
                 <IconButton
+                  aria-label="посмотреть слова"
                   data-testid={`to-word-set-${id}-pairs`}
                   component={Link}
                   to={`${match.url}/${id}/word-pairs`}
