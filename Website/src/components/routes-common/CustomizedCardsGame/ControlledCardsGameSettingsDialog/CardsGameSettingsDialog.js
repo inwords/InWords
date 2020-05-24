@@ -90,7 +90,7 @@ function CardsGameSettingsDialog({
               }
               label="Озвучивать английские слова"
               disabled={!voiceSettingEditable}
-            ></FormControlLabel>
+            />
           </div>
         </form>
       </DialogContent>
@@ -100,7 +100,7 @@ function CardsGameSettingsDialog({
         </Button>
         <Button
           type="submit"
-          form="training-settings-form"
+          form="cards-game-settings-form"
           variant="text"
           color="primary"
         >
