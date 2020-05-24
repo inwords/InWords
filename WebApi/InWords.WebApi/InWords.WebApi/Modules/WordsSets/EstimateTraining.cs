@@ -69,6 +69,11 @@ namespace InWords.WebApi.Modules.WordsSets
                     levelsManage.Add(new OpenedAudioCards2Level(currentGameLevelid, metric.OpenedAudioCards2Metric.WordIdOpenCount));
                 }
 
+                if (metric.AudioMetric != null && metric.AudioMetric.WordIdOpenCount != null)
+                {
+                    levelsManage.Add(new AudioLevel(currentGameLevelid, metric.AudioMetric.WordIdOpenCount));
+                }
+
             }
 
 
@@ -133,6 +138,12 @@ namespace InWords.WebApi.Modules.WordsSets
                         if (trainigScore.ClosedAudioCards2 == null)
                             trainigScore.ClosedAudioCards2 = new ClosedAudioCardsTwo();
                         trainigScore.ClosedAudioCards2.Score = score.UserStars;
+                    }
+                    else if (score.GameType == GameType.Audio)
+                    {
+                        if (trainigScore.Audio == null)
+                            trainigScore.Audio = new Audio();
+                        trainigScore.Audio.Score = score.UserStars;
                     }
 
                     else if (score.GameType == GameType.Total)

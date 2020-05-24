@@ -72,6 +72,8 @@ namespace InWords.WebApi.Business.GameEvaluator.Game
             {GameType.OpenedCardGame, 0.3f},
             {GameType.OpenedAudioCards, 0.4f},
             {GameType.OpenedAudioCards2, 0.5f},
+            
+            {GameType.Audio, 0.1f},
         };
     }
 }
