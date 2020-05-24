@@ -19,7 +19,7 @@ class ErrorBoundary extends Component {
         <RouteContainer component="div" maxWidth="sm">
           <Typography component="h1" variant="h4" gutterBottom>
             Что-то пошло не так{' '}
-            <span role="img" aria-label="worried-face">
+            <span role="img" aria-label="взволнованное лицо">
               &#128543;
             </span>
           </Typography>

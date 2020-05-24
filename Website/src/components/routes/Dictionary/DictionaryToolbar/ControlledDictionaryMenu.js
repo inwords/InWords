@@ -29,7 +29,7 @@ function ControlledDictionaryMenu({ checkedValues }) {
   return (
     <PopupContainer>
       <IconButton
-        aria-label="dictionary features"
+        aria-label="меню других функций"
         aria-controls="dictionary-menu"
         aria-haspopup="true"
         onClick={handleOpen}

@@ -71,11 +71,14 @@ function TrainingResult({
             </Fragment>
           )}
           <div>
-            <IconButton aria-label="replay" onClick={handleReplay}>
+            <IconButton aria-label="повторить" onClick={handleReplay}>
               <Icon fontSize="large">replay</Icon>
             </IconButton>
             {handleNextLevel && (
-              <IconButton aria-label="next level" onClick={handleNextLevel}>
+              <IconButton
+                aria-label="следующий уровень"
+                onClick={handleNextLevel}
+              >
                 <Icon fontSize="large">fast_forward</Icon>
               </IconButton>
             )}

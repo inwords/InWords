@@ -17,6 +17,7 @@ function ControlledWordSetPairsAddDialog({ gameId }) {
         placement="bottom"
       >
         <IconButton
+          aria-label="добавить в словарь"
           data-testid={`add-to-dictionary-${gameId}`}
           onClick={handleOpen}
         >

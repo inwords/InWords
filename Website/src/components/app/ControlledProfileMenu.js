@@ -47,7 +47,7 @@ function ControlledProfileMenu() {
   return (
     <PopupContainer>
       <IconButton
-        aria-label="user account"
+        aria-label="меню профиля"
         aria-controls="profile-menu"
         aria-haspopup="true"
         onClick={handleOpen}
