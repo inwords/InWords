@@ -37,16 +37,16 @@ function CardsGameSettingsDialog({
 
   return (
     <Dialog
-      aria-labelledby="training-settings-dialog"
+      aria-labelledby="cards-game-settings-dialog"
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle id="training-settings-dialog">
+      <DialogTitle id="cards-game-settings-dialog">
         Настройки тренировки
       </DialogTitle>
       <DialogContent>
         <form
-          id="training-settings-form"
+          id="cards-game-settings-form"
           onSubmit={event => {
             handleSubmit(event);
             handleClose();
