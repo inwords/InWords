@@ -15,7 +15,7 @@ namespace InWords.WebApi.Modules.WordsSets.GameEvaluator.Game
             : base(gameLevelId, wordIdOpenCount)
         { }
 
-        public override GameType Type => GameType.OpenedAudioCards;
+        public override GameType Type => GameType.Audio;
 
         public override MemoryLevel LevelFromMetric(int openCounts) => openCounts switch
         {
