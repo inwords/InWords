@@ -15,19 +15,5 @@ namespace InWords.WebApi.Modules.WordsSets.GameEvaluator.Game
         { }
 
         public override GameType Type => GameType.OpenedAudioCards;
-
-        public override MemoryLevel LevelFromMetric(int openCounts) => openCounts switch
-        {
-            var o when o <= 1 => MemoryLevel.WellKnown,
-            _ => MemoryLevel.Unknown,
-        };
-
-        public override LevelScore Score()
-        {
-            int bestCase = WordIdOpenCount.Count;
-            int currentCase = WordIdOpenCount.Sum(s => s.Value);
-            int score = StarasFunction(bestCase, currentCase);
-            return new LevelScore(GameLevelId, score, Type);
-        }
     }
 }
