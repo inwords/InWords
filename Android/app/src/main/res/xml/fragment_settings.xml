@@ -8,7 +8,7 @@
             android:key="@string/key_scale_game"
             android:persistent="true"
             android:summary="Игровые карточки будут занимать всё доступное на экране пространство, а текст будет крупнее"
-            android:title="Увеличить текст в игре" />
+            android:title="Увеличить текст в тренировке" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Произношение">

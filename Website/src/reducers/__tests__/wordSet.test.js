@@ -53,18 +53,18 @@ describe('wordSet reducer', () => {
       expect(
         levelsListsMap(
           {
-            1: [{ levelId: 1, stars: 2, isAvailable: true, level: 1 }]
+            1: [{ levelId: 1, score: 2, isAvailable: true, level: 1 }]
           },
           {
             type: UPDATE_WORD_SET_LEVEL_RESULT,
             payload: {
               wordSetId: 1,
-              levelResult: { levelId: 1, score: 3 }
+              levelResult: { gameLevelId: 1, score: 3 }
             }
           }
         )
       ).toEqual({
-        1: [{ levelId: 1, stars: 3, isAvailable: true, level: 1 }]
+        1: [{ levelId: 1, score: 3, isAvailable: true, level: 1 }]
       });
     });
   });

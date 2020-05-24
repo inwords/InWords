@@ -1,0 +1,74 @@
+@import 'src/theme/mixins';
+
+.tooltip {
+  z-index: var(--z-index-tooltip);
+  position: absolute;
+  max-width: 300px;
+  padding: 4px 8px;
+  border-radius: var(--shape-border-radius);
+  word-wrap: break-word;
+  background-color: rgba(97, 97, 97, 0.9);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  transition: transform var(--transition-duration-shortest)
+      var(--transition-easing-ease-in-out),
+    opacity var(--transition-duration-shorter)
+      var(--transition-easing-ease-in-out);
+
+  @include theme-typography(body2);
+
+  &--placement--top {
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: 8px;
+    transform-origin: bottom center;
+  }
+
+  &--placement--right {
+    top: 50%;
+    left: 100%;
+    margin-left: 8px;
+    transform-origin: center left;
+  }
+
+  &--placement--bottom {
+    top: 100%;
+    left: 50%;
+    margin-top: 8px;
+    transform-origin: top center;
+  }
+
+  &--placement--left {
+    top: 50%;
+    right: 100%;
+    margin-right: 8px;
+    transform-origin: center right;
+  }
+
+  &--placement--top,
+  &--placement--bottom {
+    transform: translateX(-50%) scale(0.7);
+  }
+
+  &--placement--right,
+  &--placement--left {
+    transform: translateY(-50%) scale(0.7);
+  }
+}
+
+.tooltip-container .tooltip-subject:hover ~ .tooltip,
+.tooltip-container .tooltip-subject.focus-visible ~ .tooltip {
+  visibility: visible;
+  opacity: 1;
+
+  &--placement--top,
+  &--placement--bottom {
+    transform: translateX(-50%) scale(1);
+  }
+
+  &--placement--right,
+  &--placement--left {
+    transform: translateY(-50%) scale(1);
+  }
+}

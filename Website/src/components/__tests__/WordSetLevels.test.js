@@ -14,7 +14,7 @@ const setup = () => {
     levels: [
       {
         levelId: 1,
-        stars: 3,
+        score: 3,
         isAvailable: true,
         level: 1
       }

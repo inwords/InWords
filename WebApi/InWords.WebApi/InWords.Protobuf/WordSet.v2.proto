@@ -40,6 +40,9 @@ message TrainingScoreReply{
 		message ClosedAudioCardsTwo{
 			int32 score = 1;
 		}
+		message Audio{
+			int32 score = 1;
+		}
 		int32 gameLevelId = 1;
 		int32 score = 2;
 		OpenedCards openedCards = 3;
@@ -48,6 +51,7 @@ message TrainingScoreReply{
 		ClosedCards closedCards = 6;
 		ClosedAudioCards closedAudioCards = 7;
 		ClosedAudioCardsTwo closedAudioCards2 = 8;
+		Audio audio = 9;
 	}
 	repeated TrainigScore Scores = 1;
 }
@@ -72,6 +76,9 @@ message TrainingDataRequest{
 		message ClosedAudioCardsTwoMetric{
 			map<int32,int32> wordIdOpenCount = 1;		
 		}
+		message AudioMetric{
+			map<int32,int32> wordIdOpenCount = 1;		
+		}
 		int32 gameLevelId = 1;
 		OpenedCardsMetric openedCardsMetric = 2;
 		OpenedAudioCardsMetric openedAudioCardsMetric = 3;
@@ -79,6 +86,7 @@ message TrainingDataRequest{
 		ClosedCardsMetric closedCardsMetric = 5;
 		ClosedAudioCardsMetric closedAudioCardsMetric = 6;
 		ClosedAudioCardsTwoMetric closedAudioCards2Metric = 7;
+		AudioMetric audioMetric = 8;
 	}
 	repeated Training metrics = 1;
 }

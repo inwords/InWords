@@ -4,7 +4,7 @@ import ru.inwords.inwords.game.domain.model.Game
 
 fun Game.withUpdatedLevelScore(levelId: Int, newScore: Int): Game {
     val newGameLevelInfos = gameLevelInfos.map {
-        if (it.levelId == levelId) {
+        if (it.levelId == levelId && newScore > it.playerStars) {
             it.copy(playerStars = newScore)
         } else {
             it

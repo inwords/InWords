@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import useDialog from 'src/components/core/useDialog';
+import Tooltip from 'src/components/core/Tooltip';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import WordSetPairsAddDialog from './WordSetPairsAddDialog';
@@ -10,12 +11,18 @@ function ControlledWordSetPairsAddDialog({ gameId }) {
 
   return (
     <Fragment>
-      <IconButton
-        data-testid={`add-to-dictionary-${gameId}`}
-        onClick={handleOpen}
+      <Tooltip
+        id="word-set-pairs-add-dialog-tooltip"
+        title="Добавить в&nbsp;словарь"
+        placement="bottom"
       >
-        <Icon>playlist_add</Icon>
-      </IconButton>
+        <IconButton
+          data-testid={`add-to-dictionary-${gameId}`}
+          onClick={handleOpen}
+        >
+          <Icon>playlist_add</Icon>
+        </IconButton>
+      </Tooltip>
       <WordSetPairsAddDialog
         open={open}
         handleClose={handleClose}
