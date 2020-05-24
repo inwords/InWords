@@ -93,6 +93,7 @@ android {
             proto {
                 // In addition to the default 'src/main/proto'
                 srcDir '..\\..\\WebApi\\InWords.WebApi\\InWords.Protobuf\\'
+                srcDir 'src\\main\\java\\ru\\inwords\\inwords\\texttospeech\\data\\grpc'
             }
         }
     }
@@ -166,6 +167,8 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc01"
 
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
 
     implementation "androidx.constraintlayout:constraintlayout:$versions.CONSTRAINT_LAYOUT"
@@ -178,7 +181,6 @@ dependencies {
 
     // Fragment
     implementation "androidx.fragment:fragment:$versions.FRAGMENT"
-
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.NAVIGATION"

@@ -3,9 +3,9 @@ package ru.inwords.inwords.texttospeech.di
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import ru.inwords.inwords.authorisation.data.WebRequestsManagerUnauthorised
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
+import ru.inwords.inwords.texttospeech.data.grpc.TtsGrpcService
 import ru.inwords.inwords.texttospeech.data.repository.TtsCachingRepository
 import ru.inwords.inwords.texttospeech.data.repository.TtsDatabaseRepository
 import ru.inwords.inwords.texttospeech.data.repository.TtsRemoteRepository
@@ -19,10 +19,10 @@ class TtsModule {
     fun ttsRep(
         context: Context,
         resourceManager: ResourceManager,
-        webRequestsManagerUnauthorised: WebRequestsManagerUnauthorised,
+        ttsGrpcService: TtsGrpcService,
         settingsRepository: SettingsRepository
     ): TtsRepository {
-        val remoteRepository = TtsRemoteRepository(webRequestsManagerUnauthorised)
+        val remoteRepository = TtsRemoteRepository(ttsGrpcService)
         val databaseRepository = TtsDatabaseRepository(context.cacheDir, resourceManager)
 
         return TtsCachingRepository(databaseRepository, remoteRepository, settingsRepository)
