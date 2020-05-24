@@ -5,6 +5,7 @@ import Typography from 'src/components/core/Typography';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
+import Tooltip from 'src/components/core/Tooltip';
 
 import './WordSetPairsToolbar.scss';
 
@@ -43,17 +44,23 @@ function WordSetPairsToolbar({
         </Typography>
       </div>
       <Space />
-      <IconButton
-        disabled={numberOfChecked === 0}
-        onClick={() => {
-          handleAdd();
-          handleReset();
-        }}
-        color="primary"
-        edge="end"
+      <Tooltip
+        id="word-set-pairs-add-tooltip"
+        title="Добавить в&nbsp;словарь"
+        placement="left"
       >
-        <Icon>add</Icon>
-      </IconButton>
+        <IconButton
+          disabled={numberOfChecked === 0}
+          onClick={() => {
+            handleAdd();
+            handleReset();
+          }}
+          color="primary"
+          edge="end"
+        >
+          <Icon>add</Icon>
+        </IconButton>
+      </Tooltip>
     </Toolbar>
   );
 }

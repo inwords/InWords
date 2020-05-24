@@ -1,7 +1,4 @@
 .fab {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50%;
   padding: 12px;
   background-color: var(--palette-primary);
@@ -10,7 +7,7 @@
     var(--transition-easing-ease-in-out);
 
   &:hover,
-  &:focus {
+  &.focus-visible {
     background-color: var(--palette-primary-darken-less);
 
     @media (hover: none) {
@@ -23,8 +20,6 @@
   }
 
   &:disabled {
-    cursor: default;
-    pointer-events: none;
     color: var(--palette-action-disabled);
     background-color: var(--palette-action-disabled-background);
   }

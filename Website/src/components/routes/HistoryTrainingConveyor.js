@@ -26,7 +26,7 @@ function HistoryTrainingConveyor() {
       const nextLevel = trainingHistory[nextLevelIndex];
 
       if (nextLevel) {
-        history.push(`/training/history/${nextLevel.levelId}/training`);
+        history.push(`/training/history/${nextLevel.levelId}/=)`);
         return;
       }
     }

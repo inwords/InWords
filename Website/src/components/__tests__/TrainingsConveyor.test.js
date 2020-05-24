@@ -8,7 +8,7 @@ import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
 
 expect.extend({ toHaveStyle });
 
-const setup = ({ initialState } = {}) => {
+const setup = ({ initialState, selectedTrainingTypes } = {}) => {
   const accessData = {
     token: 'xyz',
     userId: 1
@@ -27,7 +27,7 @@ const setup = ({ initialState } = {}) => {
     <Route path="/:levelId/=)">
       <TrainingsConveyor
         trainingLevel={trainingLevel}
-        selectedTrainingTypes={['closedCards']}
+        selectedTrainingTypes={selectedTrainingTypes}
       />
     </Route>,
     {
@@ -42,16 +42,6 @@ const setup = ({ initialState } = {}) => {
     trainingLevel,
     mockingLevelResultResponse,
     clickWordEl
-  };
-};
-
-const setupForReplay = () => {
-  const utils = setup();
-  const clickReplay = () => fireEvent.click(utils.getByText('replay'));
-
-  return {
-    ...utils,
-    clickReplay
   };
 };
 
@@ -88,7 +78,7 @@ const setupForCardSettingsEdit = () => {
   };
 };
 
-const finishGameQuickly = async utils => {
+const finishCardsGame = async utils => {
   const wordTranslations = utils.trainingLevel.wordTranslations;
   const wordEls = await waitFor(() => [
     utils.getByText(wordTranslations[0].wordForeign),
@@ -102,26 +92,13 @@ const finishGameQuickly = async utils => {
   wordEls.forEach(wordEl => {
     utils.clickWordEl(wordEl);
   });
-  await Promise.resolve();
-  await Promise.resolve();
-  await Promise.resolve();
   act(() => {
     jest.runAllTimers();
   });
   jest.useRealTimers();
-
-  await waitFor(() => utils.getAllByText('star'));
 };
 
-test('finish game and replay', async () => {
-  const utils = setupForReplay();
-  await finishGameQuickly(utils);
-  utils.clickReplay();
-  await finishGameQuickly(utils);
-});
-
-test('finish game with one mistake', async () => {
-  const utils = setup();
+const finishCardsGameWithMistake = async utils => {
   const wordTranslations = utils.trainingLevel.wordTranslations;
   const wordEls = await waitFor(() => [
     utils.getByText(wordTranslations[0].wordForeign),
@@ -130,28 +107,44 @@ test('finish game with one mistake', async () => {
     utils.getByText(wordTranslations[1].wordNative)
   ]);
 
+  global.fetch = mockFetch(utils.mockingLevelResultResponse);
   jest.useFakeTimers();
   utils.clickWordEl(wordEls[0]);
   utils.clickWordEl(wordEls[3]);
-  act(() => {
-    jest.runAllTimers();
-  });
   wordEls.forEach(wordEl => {
     utils.clickWordEl(wordEl);
   });
-  await Promise.resolve();
-  await Promise.resolve();
-  await Promise.resolve();
   act(() => {
     jest.runAllTimers();
   });
   jest.useRealTimers();
+};
 
+test('finish opened cards game with one mistake', async () => {
+  const utils = setup({ selectedTrainingTypes: ['openedCards'] });
+  await finishCardsGameWithMistake(utils);
+  await waitFor(() => utils.getAllByText('star'));
+});
+
+test('finish closed cards game with one mistake', async () => {
+  const utils = setup({ selectedTrainingTypes: ['closedCards'] });
+  await finishCardsGameWithMistake(utils);
+  await waitFor(() => utils.getAllByText('star'));
+});
+
+test('finish opened cards game + closed cards game', async () => {
+  const utils = setup({
+    selectedTrainingTypes: ['openedCards', 'closedCards']
+  });
+  await finishCardsGame(utils);
+  await finishCardsGame(utils);
   await waitFor(() => utils.getAllByText('star'));
 });
 
 test('edit card settings', async () => {
-  const utils = setupForCardSettingsEdit();
+  const utils = setupForCardSettingsEdit({
+    selectedTrainingTypes: ['openedCards']
+  });
   const firstPair = utils.trainingLevel.wordTranslations[0];
   const firstCard = await waitFor(() =>
     utils.getByTestId(`card-${firstPair.serverId}-${firstPair.wordForeign}`)

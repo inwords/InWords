@@ -20,7 +20,7 @@ $theme-palette-values: (
   divider: rgba(0, 0, 0, 0.12),
   divider-light: rgba(0, 0, 0, 0.08),
   background-paper: #fff,
-  background-default: #fafafa,
+  background-default: #eceff1,
   text-primary: rgba(0, 0, 0, 0.87),
   text-secondary: rgba(0, 0, 0, 0.54),
   text-disabled: rgba(0, 0, 0, 0.38),
@@ -32,6 +32,8 @@ $theme-palette-values: (
   action-disabled-background: rgba(0, 0, 0, 0.12)
 );
 
+$theme-shape-border-radius: 2px;
+
 $theme-breakpoints-values: (
   xs: 0,
   sm: 600px,
@@ -41,20 +43,21 @@ $theme-breakpoints-values: (
 );
 
 $theme-depth-shadow-values: (
-  4: #{0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132),
-  0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108)},
-  8: #{0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132),
-  0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108)},
-  16: #{0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132),
-  0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)},
-  64: #{0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22),
-  0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)}
+  4:
+    '0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108)',
+  8:
+    '0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108)',
+  16:
+    '0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108)',
+  64:
+    '0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18)'
 );
 
 $theme-z-index-values: (
-  app-bar: 1100,
-  drawer: 1200,
-  popup: 1300,
+  app-bar: 1000,
+  drawer: 1100,
+  popup: 1200,
+  tooltip: 1300,
   modal: 1400,
   snackbar: 1500
 );

@@ -1,16 +1,11 @@
 .icon-button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50%;
   padding: 12px;
-  background-color: transparent;
   transition: background-color var(--transition-duration-shortest)
     var(--transition-easing-ease-in-out);
 
   &:hover,
-  &:focus {
+  &.focus-visible {
     @media (hover: none) {
       background-color: transparent;
     }
@@ -20,8 +15,7 @@
     color: var(--palette-text-secondary);
 
     &:hover,
-    &:focus,
-    &:focus-within {
+    &.focus-visible {
       background-color: var(--palette-action-hover);
     }
 
@@ -34,8 +28,7 @@
     color: var(--palette-primary);
 
     &:hover,
-    &:focus,
-    &:focus-within {
+    &.focus-visible {
       background-color: var(--palette-primary-transparentize-more);
     }
 
@@ -48,8 +41,7 @@
     color: inherit;
 
     &:hover,
-    &:focus,
-    &:focus-within {
+    &.focus-visible {
       background-color: var(--palette-action-hover);
     }
 
@@ -68,8 +60,6 @@
 
   &.disabled,
   &:disabled {
-    cursor: default;
-    pointer-events: none;
     color: var(--palette-action-disabled);
   }
 }

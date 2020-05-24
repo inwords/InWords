@@ -26,7 +26,7 @@ function TrainingsConveyor({
   useEffect(() => {
     setProcessedTrainingLevel({
       ...trainingLevel,
-      wordTranslations: shuffle([...trainingLevel.wordTranslations])
+      wordTranslations: shuffle(trainingLevel.wordTranslations)
         .slice(0, +trainingsSettings.quantity)
         .map(wordTranslation => ({
           ...wordTranslation,
@@ -132,26 +132,27 @@ function TrainingsConveyor({
             };
 
             switch (restTrainingTypes[0]) {
+              case 'openedAudioCards':
+                return (
+                  <CustomizedCardsGame
+                    key="openedAudioCards"
+                    title="Открытые аудио-карточки I"
+                    component={OpenedCardsGame}
+                    variations={{
+                      audible: true,
+                      sameLang: true
+                    }}
+                    internalName="openedAudioCards"
+                    {...basicProps}
+                  />
+                );
               case 'openedCards':
                 return (
                   <CustomizedCardsGame
                     key="openedCards"
                     title="Открытые карточки"
                     component={OpenedCardsGame}
-                    internalName="openedCardGame"
-                    {...basicProps}
-                  />
-                );
-              case 'openedAudioCards':
-                return (
-                  <CustomizedCardsGame
-                    key="openedAudioCards"
-                    title="Открытые аудио-карточки"
-                    component={OpenedCardsGame}
-                    variations={{
-                      audible: true
-                    }}
-                    internalName="openedAudioCards"
+                    internalName="openedCards"
                     {...basicProps}
                   />
                 );
@@ -159,13 +160,26 @@ function TrainingsConveyor({
                 return (
                   <CustomizedCardsGame
                     key="openedAudioCards2"
-                    title="Открытые аудио-карточки 2"
+                    title="Открытые аудио-карточки II"
                     component={OpenedCardsGame}
+                    variations={{
+                      audible: true
+                    }}
+                    internalName="openedAudioCards2"
+                    {...basicProps}
+                  />
+                );
+              case 'closedAudioCards':
+                return (
+                  <CustomizedCardsGame
+                    key="closedAudioCards"
+                    title="Закрытые аудио-карточки I"
+                    component={ClosedCardsGame}
                     variations={{
                       audible: true,
                       sameLang: true
                     }}
-                    internalName="openedAudioCardsTwo"
+                    internalName="closedAudioCards"
                     {...basicProps}
                   />
                 );
@@ -179,30 +193,16 @@ function TrainingsConveyor({
                     {...basicProps}
                   />
                 );
-              case 'closedAudioCards':
-                return (
-                  <CustomizedCardsGame
-                    key="closedAudioCards"
-                    title="Закрытые аудио-карточки"
-                    component={ClosedCardsGame}
-                    variations={{
-                      audible: true
-                    }}
-                    internalName="closedAudioCards"
-                    {...basicProps}
-                  />
-                );
               case 'closedAudioCards2':
                 return (
                   <CustomizedCardsGame
                     key="closedAudioCards2"
-                    title="Закрытые аудио-карточки 2"
+                    title="Закрытые аудио-карточки II"
                     component={ClosedCardsGame}
                     variations={{
-                      audible: true,
-                      sameLang: true
+                      audible: true
                     }}
-                    internalName="closedAudioCardsTwo"
+                    internalName="closedAudioCards2"
                     {...basicProps}
                   />
                 );
@@ -220,6 +220,7 @@ function TrainingsConveyor({
       <TrainingResult
         score={score}
         detailedScore={detailedScore}
+        selectedTrainingTypes={selectedTrainingTypes}
         handleNextLevel={handleEnhancedNextLevel}
         handleReplay={handleReplay}
       />
