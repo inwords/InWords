@@ -337,6 +337,9 @@
                 app:popExitAnim="@anim/slide_out_right"
                 app:popUpTo="@id/gameLevelFragment"
                 app:popUpToInclusive="true" />
+            <action
+                android:id="@+id/action_popUpTo_gamesFragment"
+                app:popUpTo="@id/gamesFragment" />
         </fragment>
         <dialog
             android:id="@+id/gameEndBottomSheet"
@@ -356,9 +359,6 @@
                 android:id="@+id/action_popUpTo_gameLevelFragment_inclusive"
                 app:popUpTo="@id/gameLevelFragment"
                 app:popUpToInclusive="true" />
-            <action
-                android:id="@+id/action_popUpTo_gamesFragment"
-                app:popUpTo="@id/gamesFragment" />
         </dialog>
     </navigation>
 

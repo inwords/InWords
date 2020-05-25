@@ -35,7 +35,7 @@ class WordsSetsViewModelFactory internal constructor(
         return when {
             modelClass.isAssignableFrom(GameLevelViewModel::class.java) -> GameLevelViewModel(gameInteractor, continueGameInteractor, ttsRepository, settingsRepository) as T
             modelClass.isAssignableFrom(GameLevelsViewModel::class.java) -> GameLevelsViewModel(gameInteractor) as T
-            modelClass.isAssignableFrom(GamesViewModel::class.java) -> GamesViewModel(gameInteractor, continueGameInteractor, trainingInteractor, policyInteractor, authorisationInteractor, resourceManager) as T
+            modelClass.isAssignableFrom(GamesViewModel::class.java) -> GamesViewModel(gameInteractor, continueGameInteractor, trainingInteractor, policyInteractor, authorisationInteractor, resourceManager, gameCreator) as T
             modelClass.isAssignableFrom(CustomGameCreatorViewModel::class.java) -> CustomGameCreatorViewModel(gameCreator) as T
             modelClass.isAssignableFrom(ListeningViewModel::class.java) -> ListeningViewModel(gameInteractor, ttsRepository) as T
             modelClass.isAssignableFrom(ListeningLevelViewModel::class.java) -> ListeningLevelViewModel(settingsRepository) as T

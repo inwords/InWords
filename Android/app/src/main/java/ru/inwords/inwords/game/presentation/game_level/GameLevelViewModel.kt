@@ -176,7 +176,7 @@ class GameLevelViewModel(
         )
     }
 
-    private fun navigateToGamesFragment() = navigateTo(GameEndBottomSheetDirections.actionPopUpToGamesFragment())
+    private fun navigateToGamesFragment() = navigateTo(GameLevelFragmentDirections.actionPopUpToGamesFragment())
 
     private fun navigateToListeningFragment(gameLevelInfo: GameLevelInfo, gameId: Int, trainingState: TrainingState) {
         navigateTo(
