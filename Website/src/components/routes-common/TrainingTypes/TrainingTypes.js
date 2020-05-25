@@ -146,49 +146,53 @@ function TrainingTypes({ trainingLevel }) {
         </Toolbar>
         <Divider />
         <List>
-          {trainingTypesInfo.map(({ typeId, title, description }) => (
-            <ListItemContainer key={typeId}>
-              <ListItem
-                component={ButtonBase}
-                onClick={handleToggle(typeId)}
-                button
-              >
-                <div
-                  className="training-types-item-order"
-                  style={
-                    checkedValues.length &&
-                    trainingTypesPriorityMap[typeId] != null
-                      ? {
-                          left: `calc(${
-                            (100 / checkedValues.length) *
-                            trainingTypesPriorityMap[typeId]
-                          }%)`,
-                          width: `calc(100% / ${checkedValues.length})`
-                        }
-                      : null
+          {trainingTypesInfo.map(({ typeId, title, description }) => {
+            const labelId = `training-${typeId}`;
+
+            const itemOrderStyle =
+              checkedValues.length && trainingTypesPriorityMap[typeId] != null
+                ? {
+                    left: `calc(${
+                      (100 / checkedValues.length) *
+                      trainingTypesPriorityMap[typeId]
+                    }%)`,
+                    width: `calc(100% / ${checkedValues.length})`
                   }
-                />
-                <ListItemIcon>
-                  <Checkbox
-                    inputProps={{
-                      'aria-labelledby': `training-${typeId}`,
-                      'data-testid': `training-${typeId}-checkbox`
-                    }}
-                    tabIndex={-1}
-                    checked={checkedValues.includes(typeId)}
-                    onChange={handleToggle(typeId)}
-                    onClick={handleCheckboxClick}
-                    edge="start"
+                : null;
+
+            return (
+              <ListItemContainer key={typeId}>
+                <ListItem
+                  component={ButtonBase}
+                  onClick={handleToggle(typeId)}
+                  button
+                >
+                  <div
+                    className="training-types-item-order"
+                    style={itemOrderStyle}
                   />
-                </ListItemIcon>
-                <ListItemText
-                  id={`training-${typeId}`}
-                  primary={title}
-                  secondary={description}
-                />
-              </ListItem>
-            </ListItemContainer>
-          ))}
+                  <ListItemIcon>
+                    <Checkbox
+                      inputProps={{
+                        'aria-labelledby': labelId,
+                        'data-testid': `training-${typeId}-checkbox`
+                      }}
+                      tabIndex={-1}
+                      checked={checkedValues.includes(typeId)}
+                      onChange={handleToggle(typeId)}
+                      onClick={handleCheckboxClick}
+                      edge="start"
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    id={labelId}
+                    primary={title}
+                    secondary={description}
+                  />
+                </ListItem>
+              </ListItemContainer>
+            );
+          })}
         </List>
       </Paper>
     </Fragment>

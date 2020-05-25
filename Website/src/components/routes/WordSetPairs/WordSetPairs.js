@@ -100,37 +100,41 @@ function WordSetPairs() {
         handleAdd={handleAdd}
       />
       <List>
-        {wordSetPairs.map(({ serverId, hasAdded, wordForeign, wordNative }) => (
-          <ListItemContainer key={serverId}>
-            <ListItem
-              component={ButtonBase}
-              onClick={!hasAdded ? handleToggle(serverId) : undefined}
-              button
-              disabled={hasAdded}
-              className="wordlist-item"
-            >
-              <ListItemIcon>
-                <Checkbox
-                  inputProps={{
-                    'aria-labelledby': `pair-${serverId}`,
-                    'data-testid': `pair-${serverId}-checkbox`
-                  }}
-                  tabIndex={-1}
-                  checked={hasAdded || checkedValues.includes(serverId)}
-                  disabled={hasAdded}
-                  onChange={handleToggle(serverId)}
-                  onClick={handleCheckboxClick}
-                  edge="start"
+        {wordSetPairs.map(({ serverId, hasAdded, wordForeign, wordNative }) => {
+          const labelId = `pair-${serverId}`;
+
+          return (
+            <ListItemContainer key={serverId}>
+              <ListItem
+                component={ButtonBase}
+                onClick={handleToggle(serverId)}
+                button
+                disabled={hasAdded}
+                className="wordlist-item"
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    inputProps={{
+                      'aria-labelledby': labelId,
+                      'data-testid': `pair-${serverId}-checkbox`
+                    }}
+                    tabIndex={-1}
+                    checked={hasAdded || checkedValues.includes(serverId)}
+                    disabled={hasAdded}
+                    onChange={handleToggle(serverId)}
+                    onClick={handleCheckboxClick}
+                    edge="start"
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  id={labelId}
+                  primary={wordForeign}
+                  secondary={wordNative}
                 />
-              </ListItemIcon>
-              <ListItemText
-                id={`pair-${serverId}`}
-                primary={wordForeign}
-                secondary={wordNative}
-              />
-            </ListItem>
-          </ListItemContainer>
-        ))}
+              </ListItem>
+            </ListItemContainer>
+          );
+        })}
       </List>
     </Paper>
   );
