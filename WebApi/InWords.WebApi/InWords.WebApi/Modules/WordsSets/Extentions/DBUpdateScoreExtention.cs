@@ -3,6 +3,7 @@ using InWords.Data.Creations.GameBox;
 using InWords.Data.Enums;
 using InWords.WebApi.Business.GameEvaluator.Game;
 using InWords.WebApi.Business.GameEvaluator.Model;
+using MimeKit.Encodings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
     {
         public static IEnumerable<UserGameLevel> AddOrUpdateUserGameLevel(
             this InWordsDataContext context,
-            IEnumerable<LevelScore> levelScores,
+            List<LevelScore> levelScores,
             int userId)
         {
             if (context == null)
@@ -22,12 +23,14 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
             if (levelScores == null)
                 return Array.Empty<UserGameLevel>();
 
-            levelScores = RecalculateTotalScore(levelScores.ToList());
+            levelScores.AddRange(GetTotalScores(levelScores));
 
             // select all games
+            var types = levelScores.Select(d => d.GameType).Distinct().ToArray();
             var levelIds = levelScores.Select(d => d.GameLevelId).Distinct().ToArray();
             var existedLevels = context.UserGameLevels
                 .Where(u => u.UserId == userId)
+                .Where(u => types.Contains(u.GameType))
                 .Where(u => levelIds.Contains(u.GameLevelId));
 
             // find all users games
@@ -83,7 +86,7 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
             return userGameLevels.Values;
         }
 
-        private static IList<LevelScore> RecalculateTotalScore(IList<LevelScore> scores)
+        private static IList<LevelScore> GetTotalScores(IList<LevelScore> scores)
         {
             Dictionary<int, LevelTotalScoreCalculator> pairs = new Dictionary<int, LevelTotalScoreCalculator>();
 
@@ -95,12 +98,12 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
                 }
                 pairs[s.GameLevelId].Add(s.Score, s.GameType);
             }
-            IList<LevelScore> levelScores = new List<LevelScore>();
+            IList<LevelScore> totalScore = new List<LevelScore>();
             foreach (var key in pairs.Keys)
             {
-                levelScores.Add(new LevelScore(key, pairs[key].Score(), GameType.Total));
+                totalScore.Add(new LevelScore(key, pairs[key].Score(), GameType.Total));
             }
-            return levelScores.Union(scores).ToList();
+            return totalScore;
         }
 
         private class LevelTotalScoreCalculator
