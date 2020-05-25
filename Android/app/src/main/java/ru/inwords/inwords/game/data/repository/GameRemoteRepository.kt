@@ -3,12 +3,15 @@ package ru.inwords.inwords.game.data.repository
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.game.converter.WordSetInfoReplyConverter
-import ru.inwords.inwords.game.data.converter.*
+import ru.inwords.inwords.game.data.converter.LevelReplyConverter
+import ru.inwords.inwords.game.data.converter.LevelWordConverter
+import ru.inwords.inwords.game.data.converter.TrainingMetricEntityToCardGameMetricConverter
+import ru.inwords.inwords.game.data.converter.TrainingScoreConverter
 import ru.inwords.inwords.game.data.entity.GameEntity
 import ru.inwords.inwords.game.data.entity.GameInfoEntity
 import ru.inwords.inwords.game.data.entity.GameLevelEntity
-import ru.inwords.inwords.game.data.entity.LevelMetricEntity
-import ru.inwords.inwords.game.domain.model.LevelScore
+import ru.inwords.inwords.game.data.entity.TrainingMetricEntity
+import ru.inwords.inwords.game.domain.model.TrainingScore
 import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 
 class GameRemoteRepository internal constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised) {
@@ -16,9 +19,8 @@ class GameRemoteRepository internal constructor(private val webRequestsManagerAu
     private val levelWordReplyConverter = LevelWordConverter()
     private val levelReplyConverter = LevelReplyConverter()
 
-    private val levelPointConverter = LevelPointConverter()
-    private val levelMetricEntityToCardGameMetricConverter = LevelMetricEntityToCardGameMetricConverter()
-    private val levelMetricEntityToCardGameInfoConverter = LevelMetricEntityToCardGameInfoConverter()
+    private val trainingScoreConverter = TrainingScoreConverter()
+    private val trainingMetricEntityToCardGameMetricConverter = TrainingMetricEntityToCardGameMetricConverter()
 
     fun getGameInfos(): Single<List<GameInfoEntity>> {
         return webRequestsManagerAuthorised.getGameInfos()
@@ -35,22 +37,21 @@ class GameRemoteRepository internal constructor(private val webRequestsManagerAu
             .map { getLevelWordsReply -> GameLevelEntity(levelId, levelWordReplyConverter.convertList(getLevelWordsReply.wordsList)) }
     }
 
-    fun trainingEstimate(levelMetricEntity: LevelMetricEntity): Single<LevelScore> {
-        return trainingEstimate(listOf(levelMetricEntity)).map { it.first() }
+    fun trainingEstimate(trainingMetricEntity: TrainingMetricEntity): Single<TrainingScore> {
+        return trainingEstimate(listOf(trainingMetricEntity)).map { it.first() }
     }
 
-    fun trainingEstimate(levelMetricEntities: List<LevelMetricEntity>): Single<List<LevelScore>> {
-        return webRequestsManagerAuthorised.estimate(levelMetricEntityToCardGameMetricConverter.convertList(levelMetricEntities))
-            .map { levelPoints -> levelPoints.pointsList.map { levelPointConverter.convert(it) } }
+    fun trainingEstimate(trainingMetricEntities: List<TrainingMetricEntity>): Single<List<TrainingScore>> {
+        return webRequestsManagerAuthorised.estimate(trainingMetricEntityToCardGameMetricConverter.convertList(trainingMetricEntities))
+            .map { reply -> reply.scoresList.map { trainingScoreConverter.convert(it) } }
     }
 
-    fun save(levelMetricEntity: LevelMetricEntity): Single<LevelScore> {
-        return save(listOf(levelMetricEntity)).map { it.first() }
+    fun save(trainingMetricEntity: TrainingMetricEntity): Single<TrainingScore> {
+        return trainingEstimate(trainingMetricEntity)
     }
 
-    fun save(levelMetricEntities: List<LevelMetricEntity>): Single<List<LevelScore>> {
-        return webRequestsManagerAuthorised.save(levelMetricEntityToCardGameInfoConverter.convertList(levelMetricEntities))
-            .map { levelPoints -> levelPoints.pointsList.map { levelPointConverter.convert(it) } }
+    fun save(trainingMetricEntities: List<TrainingMetricEntity>): Single<List<TrainingScore>> {
+        return trainingEstimate(trainingMetricEntities)
     }
 
     fun addWordsToUserDictionary(gameId: Int): Completable {

@@ -12,9 +12,6 @@ class LevelMetricConverter : BaseOneWayConverter<LevelMetric, LevelMetricEntity>
             openCountConverted.addOrPut(it.key.wordTranslationServerId, it.value)
         }
 
-        return LevelMetricEntity(
-            source.levelId,
-            openCountConverted
-        )
+        return LevelMetricEntity(openCountConverted)
     }
 }

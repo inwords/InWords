@@ -55,10 +55,9 @@ class WordSetsModule {
     @Singleton
     fun provideGameInteractor(
         gameGatewayController: GameGatewayController,
-        translationWordsInteractor: TranslationWordsInteractor,
-        gameCreator: GameCreator
+        translationWordsInteractor: TranslationWordsInteractor
     ): GameInteractor {
-        return GameInteractorImpl(gameGatewayController, translationWordsInteractor, gameCreator)
+        return GameInteractorImpl(gameGatewayController, translationWordsInteractor)
     }
 
     @Provides
@@ -103,14 +102,19 @@ class WordSetsModule {
 
     @Provides
     @Singleton
-    fun provideContinueGameInteractor(gameGatewayControllerImpl: GameGatewayControllerImpl): ContinueGameInteractor {
-        return ContinueGameInteractor(gameGatewayControllerImpl)
+    fun provideContinueGameInteractor(
+        gameGatewayControllerImpl: GameGatewayControllerImpl,
+        trainingInteractor: TrainingInteractor,
+        gameCreator: GameCreator
+    ): ContinueGameInteractor {
+        return ContinueGameInteractor(gameGatewayControllerImpl, trainingInteractor, gameCreator)
     }
 
     @Provides
     @Singleton
     fun provideWordsSetsViewModelFactory(
         gameInteractor: GameInteractor,
+        gameCreator: GameCreator,
         continueGameInteractor: ContinueGameInteractor,
         ttsRepository: TtsRepository,
         settingsRepository: SettingsRepository,
@@ -121,6 +125,7 @@ class WordSetsModule {
     ): WordsSetsViewModelFactory {
         return WordsSetsViewModelFactory(
             gameInteractor,
+            gameCreator,
             continueGameInteractor,
             ttsRepository,
             settingsRepository,

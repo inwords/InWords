@@ -3,15 +3,12 @@ package ru.inwords.inwords.game.presentation.game_level
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
-import androidx.navigation.NavDirections
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
-import io.reactivex.subjects.PublishSubject
-import ru.inwords.inwords.NavGraphDirections
-import ru.inwords.inwords.core.SingleLiveEvent
+import ru.inwords.inwords.GraphGameLevelDirections
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.domain.CardsData
@@ -20,30 +17,29 @@ import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.*
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
+import ru.inwords.inwords.texttospeech.TtsDelegate
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 import java.util.concurrent.TimeUnit
 
 class GameLevelViewModel(
     private val gameInteractor: GameInteractor,
     private val continueGameInteractor: ContinueGameInteractor,
-    private val ttsRepository: TtsRepository,
+    ttsRepository: TtsRepository,
     private val settingsRepository: SettingsRepository
 ) : BasicViewModel() {
 
-    private val _navigateFromGameEnd = SingleLiveEvent<NavDirections>()
-    val navigateFromGameEnd: LiveData<NavDirections> = _navigateFromGameEnd
-
-    private val ttsSubject = PublishSubject.create<Resource<String>>()
-    val ttsStream: Observable<Resource<String>> = ttsSubject
+    private val ttsDelegate = TtsDelegate(ttsRepository)
+    val ttsStream: Observable<Resource<String>> = ttsDelegate.ttsStream
 
     private val _progress = PublishProcessor.create<Boolean>()
     val progress: LiveData<Boolean> = LiveDataReactiveStreams.fromPublisher(
         _progress.onBackpressureLatest().throttleLast(75, TimeUnit.MILLISECONDS)
     )
 
-    private var ttsDisposable: Disposable? = null
+    private var trainingState: TrainingState = TrainingState.empty()
+    private var listeningMetric: LevelMetric? = null
 
-    private val gameLevelOrchestrator = GameLevelOrchestrator(onCardFlipped = { ttsWordModel(it) })
+    private val gameLevelOrchestrator: GameLevelOrchestrator = GameLevelOrchestrator(onCardFlipped = { ttsWordModel(it) })
         .apply {
             setGameEndListener { showGameEndDialog(it) }
         }
@@ -51,27 +47,41 @@ class GameLevelViewModel(
     private var game: Game? = null
     private var currentLevelIndex = 0
 
+    fun setTrainingState(trainingState: TrainingState) {
+        this.trainingState = trainingState
+    }
+
+    fun setListeningMetric(listeningMetric: LevelMetric?) {
+        this.listeningMetric = listeningMetric
+    }
+
     fun onAttachGameScene(gameScene: GameScene) {
         gameScene.scaleGame = settingsRepository.scaleGame
         gameLevelOrchestrator.attachGameScene(gameScene)
     }
 
-    fun onGameLevelSelected(gameId: Int, gameLevelInfo: GameLevelInfo, forceUpdate: Boolean = false) {
-        _progress.onNext(true)
-
+    fun onGameLevelSelected(gameId: Int, gameLevelInfo: GameLevelInfo, cardsData: CardsData? = null, forceUpdate: Boolean = false) {
         compositeDisposable.clear()
+
+        _progress.onNext(true)
 
         currentLevelIndex = gameLevelInfo.level - 1
 
         gameInteractor.getGame(gameId)
             .firstElement()
             .doOnSuccess { storeGame(it) }
-            .flatMap { gameInteractor.getLevel(gameLevelInfo.levelId).firstElement() }
-            .map {
-                when (it) {
-                    is Resource.Success -> Resource.Success(CardsData(it.data.wordTranslations))
-                    is Resource.Loading -> Resource.Loading<CardsData>()
-                    is Resource.Error -> Resource.Error(it.message, it.throwable)
+            .flatMap {
+                if (cardsData != null) {
+                    Maybe.just(Resource.Success(cardsData))
+                } else {
+                    gameInteractor.getLevel(gameLevelInfo.levelId).firstElement()
+                        .map {
+                            when (it) {
+                                is Resource.Success -> Resource.Success(CardsData(it.data.wordTranslations))
+                                is Resource.Loading -> Resource.Loading<CardsData>()
+                                is Resource.Error -> Resource.Error(it.message, it.throwable)
+                            }
+                        }
                 }
             }
             .observeOn(SchedulersFacade.ui())
@@ -98,17 +108,17 @@ class GameLevelViewModel(
         val game = game ?: return
 
         getCurrentLevelInfo()?.let {
-            when (val queryResultResource = continueGameInteractor.queryContinueGame(game, it)) {
+            when (val queryResultResource = continueGameInteractor.queryContinueGame(game, it, trainingState.mode)) {
                 is Resource.Success -> {
                     when (val queryResult = queryResultResource.data) {
                         is ContinueGameQueryResult.NextLevelInfo -> {
                             if (queryResult.isLast) {
                                 //TODO show congrats screen with action "go to next"
-                                onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
-                                navigateOutOfGameEndBottomShit()
+                                navigateToListeningFragment(queryResult.levelInfo, queryResult.game.gameId, trainingState)
+//                                onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
                             } else {
-                                onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
-                                navigateOutOfGameEndBottomShit()
+                                navigateToListeningFragment(queryResult.levelInfo, queryResult.game.gameId, trainingState)
+//                                onGameLevelSelected(queryResult.game.gameId, queryResult.levelInfo)
                             }
                         }
                         ContinueGameQueryResult.NoMoreLevels -> {
@@ -124,12 +134,18 @@ class GameLevelViewModel(
     fun getCurrentGameId() = game?.gameId
     fun getCurrentLevelInfo() = game?.gameLevelInfos?.getOrNull(currentLevelIndex)
 
-    fun onHomeButtonClicked() {
-        navigateToHomeFragment()
+    fun getScore(trainingMetric: TrainingMetric): Single<Resource<TrainingScore>> {
+        val game = game ?: return Single.error(IllegalStateException("game is null but called getScore"))
+
+        return gameInteractor.getScore(game, trainingMetric)
     }
 
-    fun onBackButtonClicked() {
-        navigateOutOfGameLevel()
+    private fun ttsWordModel(wordModel: WordModel) {
+        if (wordModel.isForeign) {
+            ttsDelegate.ttsWordModel(wordModel) {
+                _progress.onNext(it)
+            }.autoDispose()
+        }
     }
 
     fun onNextButtonClicked() {
@@ -143,44 +159,28 @@ class GameLevelViewModel(
         val currentLevelInfo = getCurrentLevelInfo() ?: return
         val gameId = getCurrentGameId() ?: return
 
-        onGameLevelSelected(gameId, currentLevelInfo, true)
-        navigateOutOfGameEndBottomShit()
-    }
-
-    fun getScore(levelMetric: LevelMetric): Single<Resource<LevelScore>> {
-        val game = game ?: return Single.error(IllegalStateException("game is null but called getScore"))
-
-        return gameInteractor.getScore(game, levelMetric)
-    }
-
-    private fun ttsWordModel(wordModel: WordModel) {
-        if (wordModel.isForeign) {
-            ttsDisposable?.dispose()
-
-            _progress.onNext(true)
-            ttsDisposable = ttsRepository.synthesize(wordModel.word)
-                .subscribeOn(SchedulersFacade.io())
-                .map { Resource.Success(it.absolutePath) as Resource<String> }
-                .onErrorReturn { Resource.Error(it.message, it) }
-                .observeOn(SchedulersFacade.ui())
-                .doFinally { _progress.onNext(false) }
-                .subscribe({
-                    ttsSubject.onNext(it)
-                }, {
-                    Log.e(javaClass.simpleName, it.message.orEmpty())
-                })
-                .autoDispose()
-        }
+        navigateToListeningFragment(currentLevelInfo, gameId, trainingState)
+//        onGameLevelSelected(gameId, currentLevelInfo, forceUpdate = true)
     }
 
     private fun showGameEndDialog(levelMetric: HashMap<WordModel, Int>) {
         val levelId = getCurrentLevelInfo()?.levelId ?: return
+        val listeningMetric = listeningMetric ?: return
+        val game = game ?: return
 
-        navigateTo(GameLevelFragmentDirections.toGameEndBottomSheet(LevelMetric(levelId, levelMetric)))
+        navigateTo(
+            GraphGameLevelDirections.actionGlobalToGameEndBottomSheet(
+                TrainingMetric(levelId = levelId, audioMetric = listeningMetric, closedCardsMetric = LevelMetric(levelId, levelMetric)),
+                game
+            )
+        )
     }
 
-    private fun navigateToGamesFragment() = navigateTo(GameEndBottomSheetDirections.actionPopUpToGamesFragment())
-    private fun navigateToHomeFragment() = navigateTo(NavGraphDirections.actionGlobalPopToStartDestination())
-    private fun navigateOutOfGameLevel() = navigateTo(GameEndBottomSheetDirections.actionPopUpToGameLevelFragmentInclusive())
-    private fun navigateOutOfGameEndBottomShit() = navigateTo(GameEndBottomSheetDirections.actionPop())
+    private fun navigateToGamesFragment() = navigateTo(GameLevelFragmentDirections.actionPopUpToGamesFragment())
+
+    private fun navigateToListeningFragment(gameLevelInfo: GameLevelInfo, gameId: Int, trainingState: TrainingState) {
+        navigateTo(
+            GameLevelFragmentDirections.toListeningFragment(gameLevelInfo, gameId, trainingState, null)
+        )
+    }
 }

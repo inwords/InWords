@@ -8,8 +8,11 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.game.presentation.BaseSingleTypeAdapter
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 
-class WordTranslationsAdapter(onItemClickedListener: (WordTranslation) -> Unit,
-                              private val onSpeakerClickedListener: Subject<WordTranslation>) :
+class WordTranslationsAdapter(
+    onItemClickedListener: (WordTranslation) -> Unit,
+    private val onSpeakerClickedListener: Subject<WordTranslation>,
+    private val scaleText: Boolean
+) :
     BaseSingleTypeAdapter<WordTranslation, WordTranslationViewHolder>(onItemClickedListener) {
 
     var tracker: SelectionTracker<WordTranslation>? = null
@@ -17,7 +20,7 @@ class WordTranslationsAdapter(onItemClickedListener: (WordTranslation) -> Unit,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordTranslationViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item_word, parent, false)
 
-        return WordTranslationViewHolder(v, onItemClickListener, onSpeakerClickedListener)
+        return WordTranslationViewHolder(v, onItemClickListener, onSpeakerClickedListener, scaleText)
     }
 
     override fun onBindViewHolder(holder: WordTranslationViewHolder, position: Int) {

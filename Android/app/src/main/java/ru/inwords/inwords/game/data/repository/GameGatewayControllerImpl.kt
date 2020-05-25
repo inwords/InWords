@@ -13,6 +13,7 @@ import ru.inwords.inwords.game.converter.GameEntityConverter
 import ru.inwords.inwords.game.converter.GameInfoConverter
 import ru.inwords.inwords.game.converter.GamesInfoDomainConverter
 import ru.inwords.inwords.game.converter.LevelMetricConverter
+import ru.inwords.inwords.game.data.converter.TrainingMetricConverter
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderHolder
 import ru.inwords.inwords.game.data.entity.GameEntity
 import ru.inwords.inwords.game.data.entity.GameInfoEntity
@@ -24,7 +25,7 @@ import ru.inwords.inwords.game.data.source.GameInfoDao
 import ru.inwords.inwords.game.data.source.GameLevelDao
 import ru.inwords.inwords.game.domain.model.*
 
-class GameGatewayControllerImpl (
+class GameGatewayControllerImpl(
     private val gameRemoteRepository: GameRemoteRepository,
     gameInfoDao: GameInfoDao,
     gameDao: GameDao,
@@ -43,7 +44,7 @@ class GameGatewayControllerImpl (
     private val gameConverter = GameEntityConverter()
     private val gameInfoConverter = GameInfoConverter()
     private val gamesInfoDomainConverter = GamesInfoDomainConverter()
-    private val wordOpenCountsConverter = LevelMetricConverter()
+    private val trainingMetricConverter = TrainingMetricConverter(LevelMetricConverter())
 
     override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<GamesInfo>> {
         val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
@@ -56,7 +57,7 @@ class GameGatewayControllerImpl (
         val cachingProvider = gamesInfoCachingProviderLocator.getDefault()
 
         return gameInfoDatabaseRepository.insertAll(listOf(gameInfoConverter.reverse(gameInfo)))
-            .doOnSuccess { cachingProvider.askForContentUpdate() }
+            .doOnSuccess { cachingProvider.askForDatabaseContent() }
             .ignoreElement() //TODO think of ignore
     }
 
@@ -92,21 +93,21 @@ class GameGatewayControllerImpl (
         return gameLevelDatabaseRepository.insertAll(listOf(gameLevelEntity)).ignoreElement() //TODO think of ignore
     }
 
-    override fun getScore(game: Game, levelMetric: LevelMetric): Single<Resource<LevelScore>> {
-        val levelScoreRequest = wordOpenCountsConverter.convert(levelMetric)
+    override fun getScore(game: Game, trainingMetric: TrainingMetric): Single<Resource<TrainingScore>> {
+        val trainingMetricEntity = trainingMetricConverter.convert(trainingMetric)
 
-        return levelScoreDeferredUploaderHolder.request(levelScoreRequest) { res ->
-                gameCachingProviderLocator.get(game.gameId)
-                    .postOnLoopback(
-                        gameConverter.reverse(
-                            game.withUpdatedLevelScore(levelId = res.data.levelId, newScore = res.data.score)
-                        )
+        return levelScoreDeferredUploaderHolder.request(trainingMetricEntity) { res ->
+            gameCachingProviderLocator.get(game.gameId)
+                .postOnLoopback(
+                    gameConverter.reverse(
+                        game.withUpdatedLevelScore(levelId = res.data.levelId, newScore = res.data.score)
                     )
-            }
+                )
+        }
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun uploadScoresToServer(): Single<List<LevelScore>> {
+    override fun uploadScoresToServer(): Single<List<TrainingScore>> {
         return levelScoreDeferredUploaderHolder.tryUploadDataToRemote().toSingle(emptyList())
     }
 

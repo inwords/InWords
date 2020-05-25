@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/speaker_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_medium"
+        android:layout_marginEnd="@dimen/space_medium"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="@dimen/card_corner_radius_large"
+        app:cardElevation="@dimen/elevation_medium"
+        app:layout_constraintBottom_toTopOf="@id/variant_first_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/space_xsmall"
+                android:src="@drawable/ic_volume_up_black_24dp"
+                app:tint="@color/icon_color_selector_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/space_xsmall"
+                android:text="Нажмите, чтобы прослушать слово"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/variant_first_button"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="@dimen/constraint_match_parent"
+        android:layout_height="@dimen/constraint_match_parent"
+        android:layout_marginStart="@dimen/space_medium"
+        android:layout_marginBottom="@dimen/space_medium"
+        android:textAppearance="@style/TextAppearance.Inwords.Title.Default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintEnd_toStartOf="@id/variant_second_button"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Слово нумер 1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/variant_second_button"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="@dimen/constraint_match_parent"
+        android:layout_height="@dimen/constraint_match_parent"
+        android:layout_marginStart="@dimen/space_medium"
+        android:layout_marginEnd="@dimen/space_medium"
+        android:layout_marginBottom="@dimen/space_medium"
+        android:textAppearance="@style/TextAppearance.Inwords.Title.Default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/variant_first_button"
+        tools:text="Слово нумер 1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

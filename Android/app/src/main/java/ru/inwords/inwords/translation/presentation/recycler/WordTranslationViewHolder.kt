@@ -9,7 +9,8 @@ import ru.inwords.inwords.translation.domain.model.WordTranslation
 class WordTranslationViewHolder(
     itemView: View,
     onItemClickedListener: ((WordTranslation) -> Unit)?,
-    onSpeakerClickedListener: Subject<WordTranslation>
+    onSpeakerClickedListener: Subject<WordTranslation>,
+    scaleText: Boolean
 ) : SelectableViewHolder<WordTranslation>(itemView) {
     private val binding: ListItemWordBinding = ListItemWordBinding.bind(itemView)
 
@@ -17,6 +18,11 @@ class WordTranslationViewHolder(
         onItemClickedListener?.let { listener -> itemView.setOnClickListener { listener.invoke(item) } }
         binding.speakerView.setOnClickListener { onSpeakerClickedListener.onNext(item) }
         itemView.setOnLongClickListener { true }
+
+        if (scaleText) {
+            binding.tvWordNative.textSize = 20f //TODO remove hardcode
+            binding.tvWordForeign.textSize = 24f
+        }
     }
 
     override fun setActivatedState(isActivated: Boolean) {

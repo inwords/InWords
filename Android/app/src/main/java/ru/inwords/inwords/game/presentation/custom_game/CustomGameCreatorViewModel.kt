@@ -1,28 +1,29 @@
 package ru.inwords.inwords.game.presentation.custom_game
 
 import android.util.Log
-import io.reactivex.Observable
-import ru.inwords.inwords.core.resource.Resource
+import io.reactivex.Single
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
-import ru.inwords.inwords.game.domain.interactor.GameInteractor
-import ru.inwords.inwords.game.domain.model.GamesInfo
+import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
+import ru.inwords.inwords.game.domain.model.TrainingState
+import ru.inwords.inwords.game.domain.model.defaultTrainingStrategy
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 
-class CustomGameCreatorViewModel(private val gameInteractor: GameInteractor) : BasicViewModel() {
-    fun screenInfoStream(): Observable<Resource<GamesInfo>> = gameInteractor.getGamesInfo()
-
+class CustomGameCreatorViewModel(private val gameCreator: GameCreator) : BasicViewModel() {
     fun onStartClicked(wordTranslations: List<WordTranslation>) {
         createCustomLevel(wordTranslations)
     }
 
     private fun createCustomLevel(wordTranslations: List<WordTranslation>) {
-        gameInteractor.createCustomLevel(wordTranslations)
+        Single.fromCallable { gameCreator.createLevel(wordTranslations) }
             .subscribeOn(SchedulersFacade.io())
             .subscribe({
                 navigateTo(
-                    CustomGameCreatorFragmentDirections.actionCustomGameCreatorFragmentToGameLevelFragment(it, CUSTOM_GAME_ID)
+                    CustomGameCreatorFragmentDirections.actionCustomGameCreatorFragmentToGraphGameLevel(
+                        it, CUSTOM_GAME_ID,
+                        TrainingState(defaultTrainingStrategy)
+                    )
                 )
             }, { Log.d("CustomGameCreatorViewMo", it.message.orEmpty()) })
             .autoDispose()
