@@ -7,8 +7,10 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.core.widget.TextViewCompat
 
 fun setSpannableUri(textView: TextView, text: String, uri: Uri, startPos: Int, endPos: Int, changeStyle: Boolean = true) {
     val context = textView.context
@@ -32,4 +34,8 @@ fun setSpannableUri(textView: TextView, text: String, uri: Uri, startPos: Int, e
 
     textView.movementMethod = LinkMovementMethod.getInstance()
     textView.text = spannableString
+}
+
+fun TextView.scaleText(minSp: Int, maxSp: Int) {
+    TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(this, minSp, maxSp, 1, TypedValue.COMPLEX_UNIT_SP)
 }
