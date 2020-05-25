@@ -2,6 +2,7 @@ package ru.inwords.inwords.translation.domain.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
 @Parcelize
 data class WordTranslation(
@@ -9,4 +10,4 @@ data class WordTranslation(
     val wordNative: String,
     val id: Long = 0,
     val serverId: Int = 0
-) : Parcelable
+) : Parcelable, Serializable

@@ -1,8 +1,7 @@
-package ru.inwords.inwords.game.domain
+package ru.inwords.inwords.game.domain.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import ru.inwords.inwords.game.domain.model.WordModel
 
 @Parcelize
 data class UsersChoice(val listeningLevelData: ListeningLevelData, val chosenWord: WordModel) : Parcelable {

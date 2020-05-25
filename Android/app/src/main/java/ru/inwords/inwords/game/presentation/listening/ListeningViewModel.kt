@@ -10,11 +10,7 @@ import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.addOrPut
-import ru.inwords.inwords.game.domain.CardsData
-import ru.inwords.inwords.game.domain.ListeningLevelData
-import ru.inwords.inwords.game.domain.UsersChoice
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
-import ru.inwords.inwords.game.domain.makeListeningData
 import ru.inwords.inwords.game.domain.model.*
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.TtsDelegate

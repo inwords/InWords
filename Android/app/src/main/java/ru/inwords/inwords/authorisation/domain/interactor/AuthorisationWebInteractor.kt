@@ -1,9 +1,9 @@
 package ru.inwords.inwords.authorisation.domain.interactor
 
 import android.util.Log
+import io.grpc.StatusRuntimeException
 import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.HttpException
 import ru.inwords.inwords.authorisation.data.AuthExceptionType
 import ru.inwords.inwords.authorisation.data.AuthenticationException
 import ru.inwords.inwords.authorisation.data.AuthenticatorTokenProvider
@@ -160,7 +160,7 @@ class AuthorisationWebInteractor internal constructor(
             Log.e(TAG, e.message.orEmpty())
 
             val t = when (e) {
-                is HttpException -> AuthenticationException(getErrorMessage(e), AuthExceptionType.UNHANDLED) //TODO use code
+                is StatusRuntimeException -> AuthenticationException(getErrorMessage(e), AuthExceptionType.UNHANDLED) //TODO use code
                 is UnknownHostException, is SocketTimeoutException -> RuntimeException("Network troubles")
                 else -> RuntimeException(e.message)
             }
