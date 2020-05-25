@@ -94,7 +94,12 @@ function AvatarEditDialog({ open, handleClose }) {
               className="avatar-edit-dialog-input"
             />
             <label htmlFor="avatar-upload">
-              <IconButton component="span" role="button" tabIndex="0">
+              <IconButton
+                aria-label="загрузить изображение"
+                component="span"
+                role="button"
+                tabIndex="0"
+              >
                 <Icon>photo_camera</Icon>
               </IconButton>
             </label>

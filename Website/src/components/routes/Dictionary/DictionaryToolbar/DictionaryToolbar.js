@@ -54,15 +54,15 @@ function DictionaryToolbarContainer({
       ) : (
         <Fragment>
           <IconButton
-            edge="start"
-            aria-label="clear selection"
+            aria-label="сбросить выбор"
             onClick={handleReset}
+            edge="start"
             color="inherit"
           >
             <Icon>close</Icon>
           </IconButton>
           <IconButton
-            aria-label="check all"
+            aria-label="выбрать все"
             onClick={handleCheckAll}
             color="inherit"
           >

@@ -15,11 +15,11 @@ import SpeechButton from 'src/components/routes-common/SpeechButton';
 function TrainingPairsDialog({ open, handleClose, wordPairs }) {
   return (
     <Dialog
-      aria-labelledby="game-pairs-dialog"
+      aria-labelledby="training-pairs-dialog"
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle id="game-pairs-dialog">Слова в тренировке</DialogTitle>
+      <DialogTitle id="training-pairs-dialog">Слова в тренировке</DialogTitle>
       <DialogContent>
         <List>
           {wordPairs.map(({ serverId, wordForeign, wordNative, onSpeech }) => (
