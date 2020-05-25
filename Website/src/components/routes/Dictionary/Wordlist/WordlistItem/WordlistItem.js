@@ -24,12 +24,14 @@ function WordlistItem({
   style
 }) {
   const wordPair = wordPairs[index];
-  const { serverId, period = 0, onSpeech } = wordPair;
+  const { serverId, wordForeign, wordNative, period = 0, onSpeech } = wordPair;
   const acceptablePeriod = period <= 5 ? period : 5;
 
   const handleCheckboxClick = event => {
     event.stopPropagation();
   };
+
+  const labelId = `pair-${serverId}`;
 
   return (
     <ListItemContainer style={style}>
@@ -51,7 +53,7 @@ function WordlistItem({
         <ListItemIcon>
           <Checkbox
             inputProps={{
-              'aria-labelledby': `pair-${serverId}`,
+              'aria-labelledby': labelId,
               'data-testid': `pair-${serverId}-checkbox`
             }}
             tabIndex={editingModeEnabled ? -1 : 0}
@@ -62,9 +64,9 @@ function WordlistItem({
           />
         </ListItemIcon>
         <ListItemText
-          id={`pair-${wordPair.serverId}`}
-          primary={wordPair.wordForeign}
-          secondary={wordPair.wordNative}
+          id={labelId}
+          primary={wordForeign}
+          secondary={wordNative}
           className="wordlist-item__text"
         />
       </ListItem>
