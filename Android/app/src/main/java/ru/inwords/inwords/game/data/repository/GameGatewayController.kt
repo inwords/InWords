@@ -21,8 +21,8 @@ interface GetGameGameGatewayController {
 
 interface GameGatewayController : GetGameGameGatewayController {
     fun getLevel(levelId: Int, forceUpdate: Boolean = false): Observable<Resource<GameLevelEntity>>
-    fun getScore(game: Game, levelMetric: LevelMetric): Single<Resource<LevelScore>>
-    fun uploadScoresToServer(): Single<List<LevelScore>>
+    fun getScore(game: Game, trainingMetric: TrainingMetric): Single<Resource<TrainingScore>>
+    fun uploadScoresToServer(): Single<List<TrainingScore>>
     fun addWordsToUserDictionary(gameId: Int): Completable
     fun clearCache()
 }

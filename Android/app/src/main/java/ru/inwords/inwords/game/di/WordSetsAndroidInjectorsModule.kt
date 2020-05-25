@@ -7,6 +7,8 @@ import ru.inwords.inwords.game.presentation.game_level.GameEndBottomSheet
 import ru.inwords.inwords.game.presentation.game_level.GameLevelFragment
 import ru.inwords.inwords.game.presentation.game_levels.GameLevelsFragment
 import ru.inwords.inwords.game.presentation.games.GamesFragment
+import ru.inwords.inwords.game.presentation.listening.ListeningFragment
+import ru.inwords.inwords.game.presentation.listening.ListeningLevelFragment
 
 @Module
 abstract class WordSetsAndroidInjectorsModule {
@@ -24,4 +26,10 @@ abstract class WordSetsAndroidInjectorsModule {
 
     @ContributesAndroidInjector
     internal abstract fun customGameCreatorFragmentInjector(): CustomGameCreatorFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun customListeningFragmentInjector(): ListeningFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun customListeningLevelFragmentInjector(): ListeningLevelFragment
 }

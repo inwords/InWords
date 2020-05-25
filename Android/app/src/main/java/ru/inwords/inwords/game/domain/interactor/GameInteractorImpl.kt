@@ -7,15 +7,15 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.game.data.entity.GameLevelEntity
 import ru.inwords.inwords.game.data.repository.GameGatewayController
-import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
-import ru.inwords.inwords.game.domain.model.*
+import ru.inwords.inwords.game.domain.model.Game
+import ru.inwords.inwords.game.domain.model.GamesInfo
+import ru.inwords.inwords.game.domain.model.TrainingMetric
+import ru.inwords.inwords.game.domain.model.TrainingScore
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
-import ru.inwords.inwords.translation.domain.model.WordTranslation
 
 class GameInteractorImpl(
     private val gameGatewayController: GameGatewayController,
-    private val translationWordsInteractor: TranslationWordsInteractor,
-    private val gameCreator: GameCreator
+    private val translationWordsInteractor: TranslationWordsInteractor
 ) : GameInteractor {
 
     override fun getGamesInfo(forceUpdate: Boolean): Observable<Resource<GamesInfo>> {
@@ -26,19 +26,15 @@ class GameInteractorImpl(
         return gameGatewayController.getGame(gameId, forceUpdate)
     }
 
-    override fun createCustomLevel(wordTranslations: List<WordTranslation>): Single<GameLevelInfo> {
-        return Single.fromCallable { gameCreator.createLevel(wordTranslations) }
-    }
-
     override fun getLevel(levelId: Int, forceUpdate: Boolean): Observable<Resource<GameLevelEntity>> {
         return gameGatewayController.getLevel(levelId, forceUpdate)
     }
 
-    override fun getScore(game: Game, levelMetric: LevelMetric): Single<Resource<LevelScore>> {
-        return gameGatewayController.getScore(game, levelMetric)
+    override fun getScore(game: Game, trainingMetric: TrainingMetric): Single<Resource<TrainingScore>> {
+        return gameGatewayController.getScore(game, trainingMetric)
     }
 
-    override fun uploadScoresToServer(): Single<List<LevelScore>> {
+    override fun uploadScoresToServer(): Single<List<TrainingScore>> {
         return gameGatewayController.uploadScoresToServer()
             .subscribeOn(SchedulersFacade.io())
     }

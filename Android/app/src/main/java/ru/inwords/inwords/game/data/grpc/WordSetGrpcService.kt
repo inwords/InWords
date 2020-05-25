@@ -50,4 +50,12 @@ internal class WordSetGrpcService @Inject constructor(
 
         return Single.fromCallable { wordSetStub.getLevelWords(request) }
     }
+
+    fun estimate(metrics: List<TrainingDataRequest.Training>): Single<TrainingScoreReply> {
+        val request = TrainingDataRequest.newBuilder()
+            .addAllMetrics(metrics)
+            .build()
+
+        return Single.fromCallable { wordSetStub.estimate(request) }
+    }
 }

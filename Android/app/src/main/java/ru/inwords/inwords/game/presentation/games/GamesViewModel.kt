@@ -21,6 +21,8 @@ import ru.inwords.inwords.game.domain.interactor.ContinueGameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.domain.model.FirstZeroStarsLevelNotFoundException
 import ru.inwords.inwords.game.domain.model.GameInfo
+import ru.inwords.inwords.game.domain.model.TrainingState
+import ru.inwords.inwords.game.domain.model.defaultWordSetsStrategy
 import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor
@@ -115,7 +117,14 @@ class GamesViewModel(
                 when (it) {
                     is Resource.Success -> {
                         if (!prefetch) {
-                            navigateTo(GamesFragmentDirections.toGameLevelFragment(it.data.gameLevelInfo, it.data.game.gameId))
+                            navigateTo(
+                                GamesFragmentDirections.toGraphGameLevel(
+                                    it.data.gameLevelInfo,
+                                    it.data.game.gameId,
+                                    TrainingState(defaultWordSetsStrategy)
+                                ),
+                                R.id.listeningFragment
+                            )
                         }
                         continueGameReducer.toReady(it.data)
                     }

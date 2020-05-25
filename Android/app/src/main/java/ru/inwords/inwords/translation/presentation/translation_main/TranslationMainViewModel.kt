@@ -112,6 +112,6 @@ class TranslationMainViewModel(
     }
 
     fun onPlayClicked(wordTranslations: List<WordTranslation>) {
-        TranslationMainFragmentDirections.actionTranslationMainFragmentToCustomGameCreatorFragment(wordTranslations.toTypedArray())
+        navigateTo(TranslationMainFragmentDirections.toCustomGameCreatorFragment(wordTranslations.toTypedArray()))
     }
 }
