@@ -5,7 +5,7 @@ import IconButton from 'src/components/core/IconButton';
 
 function SpeechButton({ onSpeech, ...rest }) {
   return (
-    <IconButton aria-label="speak" onClick={onSpeech} {...rest}>
+    <IconButton aria-label="произнести" onClick={onSpeech} {...rest}>
       <Icon>volume_up</Icon>
     </IconButton>
   );
