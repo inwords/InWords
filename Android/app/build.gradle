@@ -209,12 +209,7 @@ dependencies {
     //Shimmer
     implementation "com.facebook.shimmer:shimmer:$versions.SHIMMER"
 
-    // retrofit
-    implementation "com.squareup.retrofit2:retrofit:$versions.RETROFIT"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.RETROFIT"
-    implementation "com.squareup.retrofit2:converter-gson:$versions.RETROFIT"
-    //implementation "com.squareup.retrofit2:retrofit-mock:$versions.RETROFIT"
-
+    // OkHttp
     implementation "com.squareup.okhttp3:okhttp:$versions.OK_HTTP"
     implementation "com.squareup.okhttp3:logging-interceptor:$versions.OK_HTTP"
 
