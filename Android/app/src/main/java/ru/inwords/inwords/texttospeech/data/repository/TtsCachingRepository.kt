@@ -9,27 +9,28 @@ import java.io.File
 class TtsCachingRepository(
     private val databaseRepository: TtsDatabaseRepository,
     private val remoteRepository: TtsRemoteRepository,
-    private val settingsRepository: SettingsRepository) : TtsRepository {
+    private val settingsRepository: SettingsRepository
+) : TtsRepository {
 
     override fun synthesize(textToSpeak: String): Single<File> {
         return Single.fromCallable { databaseRepository.getFile(textToSpeak, getExtension()) }
-                .flatMap { synthesizedFile ->
-                    if (!synthesizedFile.exists()) {
-                        remoteRepository.getTtsAudioContent(textToSpeak, getAudioConfig(), databaseRepository.getGoogleServicesApiKey())
-                                .map {
-                                    databaseRepository.storeFile(synthesizedFile, it)
-                                    synthesizedFile
-                                }
-                    } else {
-                        Single.just(synthesizedFile)
-                    }
+            .flatMap { synthesizedFile ->
+                if (!synthesizedFile.exists()) {
+                    remoteRepository.getTtsAudioContent(textToSpeak, getAudioConfig(), databaseRepository.getGoogleServicesApiKey())
+                        .map {
+                            databaseRepository.storeFile(synthesizedFile, it)
+                            synthesizedFile
+                        }
+                } else {
+                    Single.just(synthesizedFile)
                 }
-                .subscribeOn(SchedulersFacade.io())
+            }
+            .subscribeOn(SchedulersFacade.io())
     }
 
     override fun forget(textsToSpeak: List<String>): Single<List<Boolean>> {
         return Single.fromCallable {
-            textsToSpeak.map { databaseRepository.getFile(it, getExtension()).delete()  }
+            textsToSpeak.map { databaseRepository.getFile(it, getExtension()).delete() }
         }
     }
 

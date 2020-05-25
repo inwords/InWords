@@ -37,16 +37,16 @@ function CardsGameSettingsDialog({
 
   return (
     <Dialog
-      aria-labelledby="training-settings-dialog"
+      aria-labelledby="cards-game-settings-dialog"
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle id="training-settings-dialog">
+      <DialogTitle id="cards-game-settings-dialog">
         Настройки тренировки
       </DialogTitle>
       <DialogContent>
         <form
-          id="training-settings-form"
+          id="cards-game-settings-form"
           onSubmit={event => {
             handleSubmit(event);
             handleClose();
@@ -90,7 +90,7 @@ function CardsGameSettingsDialog({
               }
               label="Озвучивать английские слова"
               disabled={!voiceSettingEditable}
-            ></FormControlLabel>
+            />
           </div>
         </form>
       </DialogContent>
@@ -100,7 +100,7 @@ function CardsGameSettingsDialog({
         </Button>
         <Button
           type="submit"
-          form="training-settings-form"
+          form="cards-game-settings-form"
           variant="text"
           color="primary"
         >

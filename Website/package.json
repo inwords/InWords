@@ -11,7 +11,7 @@
     "lint": "npm-run-all --parallel lint:*",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:report": "jest --coverage --coverageReporters=cobertura"
+    "test:coverage:report": "jest --coverage --coverageReporters=cobertura --reporters=jest-junit"
   },
   "author": "Prometium",
   "license": "ISC",
@@ -30,14 +30,14 @@
     "react-window": "^1.8.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "uuid": "^8.0.0"
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
-    "@testing-library/jest-dom": "^5.7.0",
+    "@testing-library/jest-dom": "^5.8.0",
     "@testing-library/react": "^10.0.4",
     "autoprefixer": "^9.8.0",
     "babel-loader": "^8.1.0",
@@ -47,7 +47,7 @@
     "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
-    "eslint": "^7.0.0",
+    "eslint": "^7.1.0",
     "eslint-import-resolver-webpack": "^0.12.1",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
@@ -56,6 +56,7 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^26.0.1",
+    "jest-junit": "^10.0.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
@@ -63,7 +64,7 @@
     "prettier": "^2.0.5",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
-    "stylelint": "^13.4.1",
+    "stylelint": "^13.5.0",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-standard": "^20.0.0",
     "webpack": "^4.43.0",

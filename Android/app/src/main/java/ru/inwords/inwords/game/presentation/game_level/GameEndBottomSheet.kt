@@ -7,7 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -19,8 +20,7 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.databinding.GameEndBinding
-import ru.inwords.inwords.game.domain.model.LevelMetric
-import ru.inwords.inwords.game.domain.model.LevelScore
+import ru.inwords.inwords.game.domain.model.TrainingScore
 import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.main_activity.data.validId
 import javax.inject.Inject
@@ -29,11 +29,10 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     private val args by navArgs<GameEndBottomSheetArgs>()
 
     private val compositeDisposable = CompositeDisposable()
-    private lateinit var levelMetric: LevelMetric
 
     @Inject
     internal lateinit var modelFactory: WordsSetsViewModelFactory
-    private lateinit var viewModel: GameLevelViewModel
+    private val viewModel: GameEndViewModel by viewModels { modelFactory }
 
     private lateinit var navController: NavController
 
@@ -42,11 +41,6 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
-
-        levelMetric = args.levelMetric
-
-        val realParentFragment = requireNotNull(parentFragment?.childFragmentManager?.fragments?.findLast { it is GameLevelFragment })
-        viewModel = ViewModelProvider(realParentFragment, modelFactory).get(GameLevelViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,25 +53,26 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
 
-        observe(viewModel.navigateFromGameEnd) {
-            navController.navigate(it)
+        observe(viewModel.navigateTo) {
+            it.perform(navController)
         }
 
-        compositeDisposable.add(viewModel.getScore(levelMetric)
-            .toObservable()
-            .startWith(Resource.Loading())
-            .observeOn(SchedulersFacade.ui())
-            .subscribe({
-                Log.d(TAG, it.toString())
+        compositeDisposable.add(
+            viewModel.getScore(args.game, args.trainingMetric)
+                .toObservable()
+                .startWith(Resource.Loading())
+                .observeOn(SchedulersFacade.ui())
+                .subscribe({
+                    Log.d(TAG, it.toString())
 
-                when (it) {
-                    is Resource.Success -> showSuccess(it.data)
-                    is Resource.Loading -> showLoading()
-                    is Resource.Error -> showError()
-                }
-            }, {
-                Log.e(TAG, it.message.orEmpty())
-            })
+                    when (it) {
+                        is Resource.Success -> showSuccess(it.data)
+                        is Resource.Loading -> showLoading()
+                        is Resource.Error -> showError()
+                    }
+                }, {
+                    Log.e(TAG, it.message.orEmpty())
+                })
         )
 
         setupView()
@@ -89,15 +84,31 @@ class GameEndBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupView() {
-        binding.buttonHome.setOnClickListener { viewModel.onHomeButtonClicked() }
-        binding.buttonBack.setOnClickListener { viewModel.onBackButtonClicked() }
-        binding.buttonNext.setOnClickListener { viewModel.onNextButtonClicked() }
-        binding.buttonRetry.setOnClickListener { viewModel.onRetryButtonCLicked() }
+        fun setResultClickedButton(clickedButton: ClickedButton) {
+            parentFragmentManager.setFragmentResult(GAME_END_RESULT_KEY, bundleOf(CLICKED_BUTTON_KEY to clickedButton))
+        }
+
+        binding.buttonHome.setOnClickListener {
+            viewModel.onHomeButtonClicked()
+            setResultClickedButton(ClickedButton.BUTTON_HOME)
+        }
+        binding.buttonBack.setOnClickListener {
+            viewModel.onBackButtonClicked()
+            setResultClickedButton(ClickedButton.BUTTON_BACK)
+        }
+        binding.buttonNext.setOnClickListener {
+            viewModel.onNextButtonClicked()
+            setResultClickedButton(ClickedButton.BUTTON_NEXT)
+        }
+        binding.buttonRetry.setOnClickListener {
+            viewModel.onRetryButtonCLicked()
+            setResultClickedButton(ClickedButton.BUTTON_RETRY)
+        }
     }
 
-    private fun showSuccess(levelScore: LevelScore) {
-        if (levelScore.levelId == levelMetric.levelId || !validId(levelMetric.levelId)) {
-            binding.ratingBar.rating = levelScore.score.toFloat()
+    private fun showSuccess(trainingScore: TrainingScore) {
+        if (trainingScore.levelId == args.trainingMetric.levelId || !validId(args.trainingMetric.levelId)) {
+            binding.ratingBar.rating = trainingScore.score.toFloat() / 2
             binding.ratingBar.visibility = View.VISIBLE
             binding.ratingLoadingProgress.visibility = View.INVISIBLE
             binding.ratingNotLoaded.visibility = View.INVISIBLE

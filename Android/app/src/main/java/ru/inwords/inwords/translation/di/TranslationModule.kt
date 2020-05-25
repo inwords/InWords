@@ -3,6 +3,7 @@ package ru.inwords.inwords.translation.di
 import dagger.Module
 import dagger.Provides
 import ru.inwords.inwords.core.managers.ResourceManager
+import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.main_activity.data.source.database.AppRoomDatabase
 import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
@@ -55,8 +56,9 @@ class TranslationModule {
     fun provideTranslationViewModelFactory(
         translationWordsInteractor: TranslationWordsInteractor,
         ttsRepository: TtsRepository,
+        settingsRepository: SettingsRepository,
         resourceManager: ResourceManager
     ): TranslationViewModelFactory {
-        return TranslationViewModelFactory(translationWordsInteractor, ttsRepository, resourceManager)
+        return TranslationViewModelFactory(translationWordsInteractor, ttsRepository, settingsRepository, resourceManager)
     }
 }

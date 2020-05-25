@@ -3,7 +3,7 @@
   width: 100%;
   padding: 12px;
   border: 1px solid var(--palette-default);
-  border-radius: 2px;
+  border-radius: var(--shape-border-radius);
   font-size: 1rem;
   outline-offset: -2px;
   color: var(--palette-text-primary);

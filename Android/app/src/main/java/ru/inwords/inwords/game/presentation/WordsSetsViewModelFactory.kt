@@ -4,12 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.core.managers.ResourceManager
+import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
 import ru.inwords.inwords.game.domain.interactor.ContinueGameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
 import ru.inwords.inwords.game.presentation.custom_game.CustomGameCreatorViewModel
+import ru.inwords.inwords.game.presentation.game_level.GameEndViewModel
 import ru.inwords.inwords.game.presentation.game_level.GameLevelViewModel
 import ru.inwords.inwords.game.presentation.game_levels.GameLevelsViewModel
 import ru.inwords.inwords.game.presentation.games.GamesViewModel
+import ru.inwords.inwords.game.presentation.listening.ListeningLevelViewModel
+import ru.inwords.inwords.game.presentation.listening.ListeningViewModel
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
@@ -17,6 +21,7 @@ import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor
 
 class WordsSetsViewModelFactory internal constructor(
     private val gameInteractor: GameInteractor,
+    private val gameCreator: GameCreator,
     private val continueGameInteractor: ContinueGameInteractor,
     private val ttsRepository: TtsRepository,
     private val settingsRepository: SettingsRepository,
@@ -30,8 +35,11 @@ class WordsSetsViewModelFactory internal constructor(
         return when {
             modelClass.isAssignableFrom(GameLevelViewModel::class.java) -> GameLevelViewModel(gameInteractor, continueGameInteractor, ttsRepository, settingsRepository) as T
             modelClass.isAssignableFrom(GameLevelsViewModel::class.java) -> GameLevelsViewModel(gameInteractor) as T
-            modelClass.isAssignableFrom(GamesViewModel::class.java) -> GamesViewModel(gameInteractor, continueGameInteractor, trainingInteractor, policyInteractor, authorisationInteractor, resourceManager) as T
-            modelClass.isAssignableFrom(CustomGameCreatorViewModel::class.java) -> CustomGameCreatorViewModel(gameInteractor) as T
+            modelClass.isAssignableFrom(GamesViewModel::class.java) -> GamesViewModel(gameInteractor, continueGameInteractor, trainingInteractor, policyInteractor, authorisationInteractor, resourceManager, gameCreator) as T
+            modelClass.isAssignableFrom(CustomGameCreatorViewModel::class.java) -> CustomGameCreatorViewModel(gameCreator) as T
+            modelClass.isAssignableFrom(ListeningViewModel::class.java) -> ListeningViewModel(gameInteractor, ttsRepository) as T
+            modelClass.isAssignableFrom(ListeningLevelViewModel::class.java) -> ListeningLevelViewModel(settingsRepository) as T
+            modelClass.isAssignableFrom(GameEndViewModel::class.java) -> GameEndViewModel(gameInteractor) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

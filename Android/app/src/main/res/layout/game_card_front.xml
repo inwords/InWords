@@ -8,5 +8,5 @@
     android:backgroundTint="@color/colorPrimary"
     android:gravity="center"
     android:padding="@dimen/space_xxxsmall"
-    android:textAppearance="@style/TextAppearance.Inwords.Subtitle2.Inverse"
+    android:textAppearance="@style/TextAppearance.Inwords.Subtitle1.Inverse"
     tools:text="Front 1 1 1 1 1 1" />

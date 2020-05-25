@@ -1,4 +1,4 @@
-@keyframes indeterminate-first {
+@keyframes indeterminateFirst {
   0% {
     left: -100%;
     width: 100%;
@@ -10,7 +10,7 @@
   }
 }
 
-@keyframes indeterminate-second {
+@keyframes indeterminateSecond {
   0% {
     left: -150%;
     width: 100%;
@@ -33,7 +33,7 @@
     position: absolute;
     height: 100%;
     background-color: var(--palette-primary-contrast-text);
-    animation: indeterminate-first 1.5s infinite
+    animation: indeterminateFirst 1.5s infinite
       var(--transition-easing-ease-out);
   }
 
@@ -42,7 +42,7 @@
     position: absolute;
     height: 100%;
     background-color: var(--palette-primary-contrast-text);
-    animation: indeterminate-second 1.5s infinite
+    animation: indeterminateSecond 1.5s infinite
       var(--transition-easing-ease-in);
   }
 }

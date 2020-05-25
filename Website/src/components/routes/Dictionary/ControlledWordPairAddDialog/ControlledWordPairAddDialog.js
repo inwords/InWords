@@ -15,7 +15,7 @@ function ControlledWordPairAddDialog({ visible }) {
     <Fragment>
       <Zoom in={visible}>
         <div className="word-pair-add-button-container">
-          <Fab id="fab" aria-label="add" onClick={handleOpen}>
+          <Fab id="fab" aria-label="добавить" onClick={handleOpen}>
             <Icon>add</Icon>
           </Fab>
         </div>

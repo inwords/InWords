@@ -16,6 +16,7 @@ import LinkButton from 'src/components/core/LinkButton';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 import Space from 'src/components/core/Space';
+import Tooltip from 'src/components/core/Tooltip';
 import ControlledWordSetPairsAddDialog from './ControlledWordSetPairsAddDialog';
 
 import './WordSets.css';
@@ -67,13 +68,20 @@ function WordSets() {
                 Пройти
               </LinkButton>
               <Space />
-              <IconButton
-                data-testid={`to-word-set-${id}-pairs`}
-                component={Link}
-                to={`${match.url}/${id}/word-pairs`}
+              <Tooltip
+                id="word-set-pairs-tooltip"
+                title="Посмотреть слова"
+                placement="bottom"
               >
-                <Icon>list</Icon>
-              </IconButton>
+                <IconButton
+                  aria-label="посмотреть слова"
+                  data-testid={`to-word-set-${id}-pairs`}
+                  component={Link}
+                  to={`${match.url}/${id}/word-pairs`}
+                >
+                  <Icon>list</Icon>
+                </IconButton>
+              </Tooltip>
               <ControlledWordSetPairsAddDialog gameId={id} />
             </CardActions>
           </Card>

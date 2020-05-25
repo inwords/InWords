@@ -2,9 +2,17 @@ package ru.inwords.inwords.game.domain.interactor
 
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.game.data.repository.GetGameGameGatewayController
+import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
 import ru.inwords.inwords.game.domain.model.*
+import ru.inwords.inwords.game.domain.model.TrainingStrategy.TrainingMode.TRAINING
+import ru.inwords.inwords.game.domain.model.TrainingStrategy.TrainingMode.WORD_SETS
+import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor
 
-class ContinueGameInteractor internal constructor(private val gameGatewayController: GetGameGameGatewayController) {
+class ContinueGameInteractor internal constructor(
+    private val gameGatewayController: GetGameGameGatewayController,
+    private val trainingInteractor: TrainingInteractor,
+    private val gameCreator: GameCreator
+) {
     fun getFirstZeroStarsLevel(): Resource<GamePathToLevel> {
         val gamesInfoRes = gameGatewayController.getGamesInfo(forceUpdate = false).blockingFirst()
 
@@ -32,7 +40,14 @@ class ContinueGameInteractor internal constructor(private val gameGatewayControl
         return Resource.Error(FirstZeroStarsLevelNotFoundException.message, FirstZeroStarsLevelNotFoundException)
     }
 
-    fun queryContinueGame(game: Game, levelInfo: GameLevelInfo): Resource<ContinueGameQueryResult> {
+    fun queryContinueGame(game: Game, levelInfo: GameLevelInfo, mode: TrainingStrategy.TrainingMode): Resource<ContinueGameQueryResult> {
+        return when (mode) {
+            WORD_SETS -> queryContinueGameWordsSets(game, levelInfo)
+            TRAINING -> queryContinueGameTraining(game)
+        }
+    }
+
+    private fun queryContinueGameWordsSets(game: Game, levelInfo: GameLevelInfo): Resource<ContinueGameQueryResult> {
         val gameLevelInfos = game.gameLevelInfos
         val nextLevelIndex = levelInfo.level
 
@@ -65,6 +80,23 @@ class ContinueGameInteractor internal constructor(private val gameGatewayControl
                 Resource.Error("", RuntimeException("")) //TODO normal exception
             }
         }
+    }
+
+    private fun queryContinueGameTraining(game: Game): Resource<ContinueGameQueryResult> {
+        return trainingInteractor.getActualWordsForTraining()
+            .map {
+                if (it.isEmpty()) {
+                    Resource.Success(ContinueGameQueryResult.NoMoreLevels)
+                } else {
+                    val nextLevelInfo = gameCreator.createLevel(it)
+                    trainingInteractor.clearCache()
+                    Resource.Success(ContinueGameQueryResult.NextLevelInfo(game, nextLevelInfo, false))
+                } as Resource<ContinueGameQueryResult>
+            }
+            .onErrorReturn {
+                Resource.Error<ContinueGameQueryResult>(it.message, it)
+            }
+            .blockingGet()
     }
 
     private fun getFirstLevelInGame(gameId: Int): Resource<ContinueGameQueryResult.NextLevelInfo> {

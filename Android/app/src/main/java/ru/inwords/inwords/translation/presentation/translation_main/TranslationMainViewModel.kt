@@ -8,6 +8,7 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 import ru.inwords.inwords.translation.domain.interactor.TranslationWordsInteractor
@@ -15,8 +16,11 @@ import ru.inwords.inwords.translation.domain.model.WordTranslation
 import java.util.Collections.singletonList
 import java.util.concurrent.TimeUnit
 
-class TranslationMainViewModel(private val translationWordsInteractor: TranslationWordsInteractor,
-                               private val ttsRepository: TtsRepository) : BasicViewModel() {
+class TranslationMainViewModel(
+    private val translationWordsInteractor: TranslationWordsInteractor,
+    private val ttsRepository: TtsRepository,
+    private val settingsRepository: SettingsRepository
+) : BasicViewModel() {
     private var onSpeakerClickedDisposable: Disposable? = null
 
     private val ttsSubject = PublishSubject.create<Resource<String>>()
@@ -32,6 +36,8 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
             .observeOn(SchedulersFacade.computation())
 
     val ttsStream: Observable<Resource<String>> = ttsSubject
+
+    val scaleText get() = settingsRepository.scaleGame
 
     fun onSearchQueryChange(query: String) {
         filterSubject.onNext(query)
@@ -106,6 +112,6 @@ class TranslationMainViewModel(private val translationWordsInteractor: Translati
     }
 
     fun onPlayClicked(wordTranslations: List<WordTranslation>) {
-        TranslationMainFragmentDirections.actionTranslationMainFragmentToCustomGameCreatorFragment(wordTranslations.toTypedArray())
+        navigateTo(TranslationMainFragmentDirections.toCustomGameCreatorFragment(wordTranslations.toTypedArray()))
     }
 }

@@ -2,8 +2,9 @@ package ru.inwords.inwords.game.domain
 
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.translation.domain.model.WordTranslation
+import java.io.Serializable
 
-data class CardsData(val rawWordTranslations: List<WordTranslation>) { //TODO no need for val
+data class CardsData(val rawWordTranslations: List<WordTranslation>) : Serializable { //TODO no need for val
     private val _words: List<WordModel>
     private val _wordsMapping: Map<WordModel, WordModel>
 

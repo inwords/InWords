@@ -4,3 +4,5 @@ import javax.inject.Qualifier
 
 @Qualifier
 annotation class GrpcDefaultChannel
+@Qualifier
+annotation class GrpcTtsChannel

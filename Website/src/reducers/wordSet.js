@@ -39,13 +39,14 @@ export const levelsListsMap = (state = {}, action) => {
             ...state,
             [payload.wordSetId]: levels.map(level => {
               const levelResult = payload.levelResult;
-              if (level.levelId !== levelResult.levelId) {
-                return level;
+
+              if (level.levelId === levelResult.gameLevelId) {
+                return {
+                  ...level,
+                  score: Math.max(level.score, levelResult.score)
+                };
               }
-              return {
-                ...level,
-                stars: Math.max(level.stars, levelResult.score)
-              };
+              return level;
             })
           };
         }

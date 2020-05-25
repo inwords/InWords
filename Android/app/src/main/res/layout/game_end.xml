@@ -39,13 +39,13 @@
         android:numStars="3"
         android:progressBackgroundTint="@android:color/darker_gray"
         android:progressTint="@color/holo_orange_light"
-        android:stepSize="1"
+        android:stepSize="0.5"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/button_retry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:rating="2"
+        tools:rating="2.5"
         tools:visibility="visible" />
 
     <ImageButton

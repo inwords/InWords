@@ -3,6 +3,12 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
+schedules:
+- cron: "0 0 * * *"
+  displayName: Daily midnight Web API build
+  branches:
+    include:
+    - develop
 pr:
   branches:
     include:

@@ -9,7 +9,7 @@ function ControlledCardsGameSettingsDialog(props) {
 
   return (
     <Fragment>
-      <IconButton onClick={handleOpen} edge="end">
+      <IconButton aria-label="настройки" onClick={handleOpen} edge="end">
         <Icon>settings</Icon>
       </IconButton>
       <CardsGameSettingsDialog

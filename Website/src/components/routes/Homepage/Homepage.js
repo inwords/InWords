@@ -39,21 +39,24 @@ const features = [
     description: `Более 14 различных тем, включающих в себя самые используемые и
     необходимые слова. Каждая тема состоит из нескольких уровней,
     упрощающих изучение слов.`,
-    picture: coursesPicture
+    picture: coursesPicture,
+    pictureDescription: 'Темы'
   },
   {
     title: 'Уровни с возрастающей сложностью',
     description: `С каждым новым уровнем увеличивается количество слов на игровом
     поле, а также их сложность, что делает процесс обучения более
     плавным и увлекательным.`,
-    picture: levelsPicture
+    picture: levelsPicture,
+    pictureDescription: 'Уровни'
   },
   {
     title: 'Тренировка в виде игры',
     description: `Благодаря простой игре можно не только запоминать слова, но и
     тренировать память, запоминая размещение карточек на игровом
     поле.`,
-    picture: cardGamePicture
+    picture: cardGamePicture,
+    pictureDescription: 'Тренировка'
   },
   {
     title: 'Свой собственный словарь',
@@ -62,7 +65,8 @@ const features = [
     тренировки. Кроме того, тренировки по словам из словаря будут
     создаваться автоматически через некоторые промежутки времени,
     способствуя более качественному изучению слов.`,
-    picture: dictionaryPicture
+    picture: dictionaryPicture,
+    pictureDescription: 'Словарь'
   }
 ];
 
@@ -117,65 +121,37 @@ function Homepage() {
       </section>
       <section>
         <Container maxWidth="lg" className="homepage-section-container">
-          {features.map(({ title, description, picture }, index) =>
-            index % 2 === 0 ? (
-              <Grid spacing={3} className="homepage-feature">
+          {features.map(
+            ({ title, description, picture, pictureDescription }, index) => (
+              <Grid key={index} spacing={3} className="homepage-feature">
                 <GridItem xs={12} md={6}>
-                  <Typography
-                    component="h2"
-                    variant="h5"
-                    gutterBottom
-                    className="homepage-feature-title"
-                  >
-                    {title}
-                  </Typography>
-                  <Typography
-                    component="h2"
-                    className="homepage-feature-description"
-                  >
-                    {description}
-                  </Typography>
+                  <Fragment>
+                    <Typography
+                      component="h2"
+                      variant="h5"
+                      gutterBottom
+                      className="homepage-feature-title"
+                    >
+                      {title}
+                    </Typography>
+                    <Typography
+                      component="h2"
+                      className="homepage-feature-description"
+                    >
+                      {description}
+                    </Typography>
+                  </Fragment>
                 </GridItem>
                 <GridItem
                   xs={12}
                   md={6}
-                  className="homepage-feature-img-container-r"
+                  className="homepage-feature-img-container"
                 >
                   <img
                     src={picture}
-                    alt="courses"
+                    alt={pictureDescription}
                     className="homepage-app-img"
                   />
-                </GridItem>
-              </Grid>
-            ) : (
-              <Grid spacing={3} className="homepage-feature">
-                <GridItem
-                  xs={12}
-                  md={6}
-                  className="homepage-feature-img-container-l"
-                >
-                  <img
-                    src={picture}
-                    alt="levels"
-                    className="homepage-app-img"
-                  />
-                </GridItem>
-                <GridItem xs={12} md={6}>
-                  <Typography
-                    component="h2"
-                    variant="h5"
-                    gutterBottom
-                    className="homepage-feature-title"
-                  >
-                    {title}
-                  </Typography>
-                  <Typography
-                    component="h2"
-                    className="homepage-feature-description"
-                  >
-                    {description}
-                  </Typography>
                 </GridItem>
               </Grid>
             )

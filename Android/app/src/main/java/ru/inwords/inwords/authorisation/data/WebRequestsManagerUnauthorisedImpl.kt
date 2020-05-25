@@ -10,16 +10,15 @@ import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.profile.data.bean.UserCredentials
-import ru.inwords.inwords.texttospeech.data.bean.TtsSynthesizeRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class WebRequestsManagerUnauthorisedImpl @Inject internal constructor(
-    private val apiServiceUnauthorised: ApiServiceUnauthorised,
     private val sessionHelper: SessionHelper,
     private val authenticatorGrpcService: AuthenticatorGrpcService,
     private val nativeTokenHolder: NativeTokenHolder
+
 ) : WebRequestsManagerUnauthorised {
 
     override fun isUnauthorised() = nativeTokenHolder.isUnauthorised
@@ -44,11 +43,6 @@ class WebRequestsManagerUnauthorisedImpl @Inject internal constructor(
         return authenticatorGrpcService.register(userCredentials, isAnonymous)
             .applyAuthSessionHelper()
             .subscribeOn(Schedulers.io())
-    }
-
-    override fun ttsSynthesize(request: TtsSynthesizeRequest, googleServicesApiKey: String): Single<String> { //TODO
-        return apiServiceUnauthorised.ttsSynthesize(googleServicesApiKey, request)
-            .map { it.audioContent }
     }
 
     private fun setAuthToken(tokenResponse: TokenResponse): Single<TokenResponse> {

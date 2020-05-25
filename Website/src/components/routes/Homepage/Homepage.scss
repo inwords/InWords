@@ -23,7 +23,7 @@
 .homepage-hero-logo {
   margin-top: 16px;
   padding: 16px;
-  border-radius: 2px;
+  border-radius: var(--shape-border-radius);
   background-color: var(--palette-primary-contrast-text);
 }
 
@@ -78,20 +78,21 @@
   margin-bottom: 16px;
 }
 
-.homepage-feature-img-container-l,
-.homepage-feature-img-container-r {
+.homepage-feature:nth-child(even) {
+  flex-direction: row-reverse;
+
+  @include theme-breakpoints-down(md) {
+    flex-direction: row;
+  }
+}
+
+.homepage-feature-img-container {
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
 
   @include theme-breakpoints-down(md) {
     justify-content: center;
-  }
-}
-
-.homepage-feature-img-container-l {
-  @include theme-breakpoints-down(md) {
-    order: 1;
   }
 }
 

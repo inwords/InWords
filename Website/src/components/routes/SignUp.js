@@ -8,6 +8,7 @@ import { saveState } from 'src/localStorage';
 import useForm from 'src/components/core/useForm';
 import Form from 'src/components/core/Form';
 import FormGroup from 'src/components/core/FormGroup';
+import Typography from 'src/components/core/Typography';
 import TextField from 'src/components/core/TextField';
 import Link from 'src/components/core/Link';
 import Button from 'src/components/core/Button';
@@ -67,6 +68,9 @@ function SignUp() {
       <a href="/">
         <EntryInWordsLogo />
       </a>
+      <Typography component="h1" variant="h5" gutterBottom>
+        Регистрация
+      </Typography>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <TextField

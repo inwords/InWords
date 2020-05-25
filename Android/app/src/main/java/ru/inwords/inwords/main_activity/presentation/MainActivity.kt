@@ -63,7 +63,8 @@ class MainActivity : DaggerAppCompatActivity() {
                 R.id.chooseSignMethodFragment,
                 R.id.gameLevelFragment,
                 R.id.gameEndBottomSheet,
-                R.id.addEditWordFragment -> hideNavigation()
+                R.id.addEditWordFragment,
+                R.id.listeningFragment -> hideNavigation()
 //                R.id.customGameCreatorFragment -> hideNavigation()
 
                 else -> showNavigation()

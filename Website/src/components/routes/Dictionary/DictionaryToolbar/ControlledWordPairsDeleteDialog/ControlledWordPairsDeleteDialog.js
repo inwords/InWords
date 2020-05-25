@@ -11,7 +11,7 @@ function ControlledWordPairsDeleteDialog(props) {
   return (
     <Fragment>
       <IconButton
-        aria-label="delete"
+        aria-label="удалить"
         onClick={handleOpen}
         className="word-pairs-delete-button"
       >
