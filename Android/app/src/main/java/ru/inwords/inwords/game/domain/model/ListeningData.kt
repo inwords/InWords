@@ -1,13 +1,13 @@
-package ru.inwords.inwords.game.domain
+package ru.inwords.inwords.game.domain.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import ru.inwords.inwords.game.domain.model.WordModel
+import java.io.Serializable
 
 data class ListeningData(val levels: List<ListeningLevelData>)
 
 @Parcelize
-data class ListeningLevelData(val levelIndex: Int, val ttsWord: WordModel, val correctWord: WordModel, val incorrectWord: WordModel) : Parcelable
+data class ListeningLevelData(val levelIndex: Int, val ttsWord: WordModel, val correctWord: WordModel, val incorrectWord: WordModel) : Parcelable, Serializable
 
 fun CardsData.makeListeningData(): ListeningData {
     val cardsData = this

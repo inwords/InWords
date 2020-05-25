@@ -13,13 +13,13 @@ import com.google.android.material.button.MaterialButton
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.utils.scaleText
 import ru.inwords.inwords.databinding.FragmentListeningLevelBinding
-import ru.inwords.inwords.game.domain.UsersChoice
+import ru.inwords.inwords.game.domain.model.UsersChoice
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithBinding
 import javax.inject.Inject
 
-class ListeningLevelFragment private constructor() : FragmentWithBinding<FragmentListeningLevelBinding>() {
+class ListeningLevelFragment : FragmentWithBinding<FragmentListeningLevelBinding>() {
     override val layout = R.layout.fragment_listening_level
 
     override fun bindingInflate(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentListeningLevelBinding {

@@ -2,29 +2,31 @@ package ru.inwords.inwords.game.presentation.listening
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.core.view.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import io.reactivex.Single
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.databinding.FragmentListeningBinding
-import ru.inwords.inwords.game.domain.ListeningLevelData
-import ru.inwords.inwords.game.domain.UsersChoice
+import ru.inwords.inwords.game.domain.model.ListeningLevelData
+import ru.inwords.inwords.game.domain.model.UsersChoice
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav
 import ru.inwords.inwords.texttospeech.TtsMediaPlayerAdapter
+import java.util.concurrent.TimeUnit
 
 class ListeningFragment : FragmentWithViewModelAndNav<ListeningViewModel, WordsSetsViewModelFactory, FragmentListeningBinding>() {
     override val layout = R.layout.fragment_listening
@@ -86,13 +88,15 @@ class ListeningFragment : FragmentWithViewModelAndNav<ListeningViewModel, WordsS
         binding.viewPager.isUserInputEnabled = false
 
         observe(viewModel.usersChoice) {
-            view.postDelayed(900) {
+            Single.timer(900, TimeUnit.MILLISECONDS).subscribe({
                 if (pagerAdapter.itemCount == binding.viewPager.currentItem + 1) {
                     viewModel.onListeningEnd()
                 } else {
                     binding.viewPager.currentItem = binding.viewPager.currentItem + 1
                 }
-            }
+            }, {
+                Log.e("ListeningFragment", it.message.orEmpty())
+            }).disposeOnViewDestroyed()
         }
 
         val ttsMediaPlayerAdapter = TtsMediaPlayerAdapter { resource ->

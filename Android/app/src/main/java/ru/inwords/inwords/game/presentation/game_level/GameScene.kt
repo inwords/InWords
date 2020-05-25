@@ -16,7 +16,7 @@ import androidx.core.view.marginTop
 import ru.inwords.flipview.FlipView
 import ru.inwords.inwords.core.utils.scaleText
 import ru.inwords.inwords.databinding.GameCardBinding
-import ru.inwords.inwords.game.domain.CardsData
+import ru.inwords.inwords.game.domain.model.CardsData
 import ru.inwords.inwords.game.domain.model.WordModel
 import java.lang.ref.WeakReference
 import kotlin.math.ceil

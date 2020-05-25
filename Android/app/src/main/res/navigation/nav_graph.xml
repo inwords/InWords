@@ -60,7 +60,7 @@
         android:name="ru.inwords.inwords.game.presentation.listening.ListeningLevelFragment">
         <argument
             android:name="listeningLevelData"
-            app:argType="ru.inwords.inwords.game.domain.ListeningLevelData" />
+            app:argType="ru.inwords.inwords.game.domain.model.ListeningLevelData" />
     </fragment>
 
     <navigation
@@ -302,7 +302,7 @@
             <argument
                 android:name="cardsData"
                 android:defaultValue="@null"
-                app:argType="ru.inwords.inwords.game.domain.CardsData"
+                app:argType="ru.inwords.inwords.game.domain.model.CardsData"
                 app:nullable="true" />
         </fragment>
         <fragment
@@ -321,7 +321,7 @@
             <argument
                 android:name="cardsData"
                 android:defaultValue="@null"
-                app:argType="ru.inwords.inwords.game.domain.CardsData"
+                app:argType="ru.inwords.inwords.game.domain.model.CardsData"
                 app:nullable="true" />
             <argument
                 android:name="listeningMetric"
