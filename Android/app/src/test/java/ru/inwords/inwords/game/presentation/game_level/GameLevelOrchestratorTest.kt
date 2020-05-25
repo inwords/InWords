@@ -3,7 +3,7 @@ package ru.inwords.inwords.game.presentation.game_level
 import io.mockk.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import ru.inwords.inwords.game.domain.CardsData
+import ru.inwords.inwords.game.domain.model.CardsData
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.game_level.GameLevelOrchestrator.FlipState
 import ru.inwords.inwords.translation.domain.model.WordTranslation

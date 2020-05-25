@@ -19,8 +19,8 @@ import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.utils.observe
 import ru.inwords.inwords.databinding.FragmentListeningBinding
-import ru.inwords.inwords.game.domain.ListeningLevelData
-import ru.inwords.inwords.game.domain.UsersChoice
+import ru.inwords.inwords.game.domain.model.ListeningLevelData
+import ru.inwords.inwords.game.domain.model.UsersChoice
 import ru.inwords.inwords.game.domain.model.WordModel
 import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.presentation.view_scenario.FragmentWithViewModelAndNav

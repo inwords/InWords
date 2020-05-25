@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import ru.inwords.inwords.core.recycler.RxDiffUtil
 import ru.inwords.inwords.core.recycler.SimpleDiffUtilCallback
-import ru.inwords.inwords.game.domain.ListeningLevelData
+import ru.inwords.inwords.game.domain.model.ListeningLevelData
 
 class ListeningLevelDataDiffUtilCallback internal constructor(
     oldGameLevels: List<ListeningLevelData>,
