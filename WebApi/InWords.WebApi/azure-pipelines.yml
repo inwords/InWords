@@ -31,7 +31,7 @@ pool:
 
 variables:
   buildConfiguration: '-c Release'
-  testConfiguration: '-c Release --collect "Code coverage"'
+  testConfiguration: '$(buildConfiguration) --collect "Code coverage" '
 
 # Build Stage
 steps:
@@ -59,13 +59,28 @@ steps:
 
 # Unit testing
 - task: DotNetCoreCLI@2
-  displayName: 'Run tests'
+  displayName: 'dotnet run tests and collect code coverage'
   inputs:
-    command: test
+    command: 'test'
     projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
-    arguments: '$(testConfiguration)'
-    publishTestResults: true
-    
+    arguments: '$(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
+    testRunTitle: 'dotnet run tests and collect code coverage'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'custom'
+    projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
+    custom: 'reportgenerator'
+    arguments: '"-reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml" "-targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports" -tag:$(Build.BuildNumber) -reportTypes:htmlInline'
+    workingDirectory: 'D:\a\1\s\WebApi\InWords.WebApi\'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)\TestResults\Coverage\**\coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\TestResults\Coverage\Reports'
+
+
 # Publish artifacts stage
 
 - task: PublishPipelineArtifact@1
