@@ -62,7 +62,7 @@ steps:
   displayName: dotnet test
   inputs:
     command: test
-    arguments: '$(BuildConfiguration) --collect:"XPlat Code Coverage"
+    arguments: '$(BuildConfiguration) --collect:"XPlat Code Coverage"'
     projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
     nobuild: true
 
