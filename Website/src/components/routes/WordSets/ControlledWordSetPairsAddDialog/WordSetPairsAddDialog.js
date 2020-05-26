@@ -19,7 +19,7 @@ function WordSetPairsAddDialog({ open, handleClose, gameId }) {
       await dispatch(addWordSetToDictionary(gameId));
       dispatch(
         setSnackbar({
-          text: 'Слова из набора добавлены в словарь'
+          text: 'Слова из темы добавлены в словарь'
         })
       );
       dispatch(resetWordPairsActuality());
