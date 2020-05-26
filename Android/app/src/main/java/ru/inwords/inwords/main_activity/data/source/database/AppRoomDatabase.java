@@ -7,11 +7,11 @@ import androidx.room.TypeConverters;
 import ru.inwords.inwords.game.data.entity.GameEntity;
 import ru.inwords.inwords.game.data.entity.GameInfoEntity;
 import ru.inwords.inwords.game.data.entity.GameLevelEntity;
-import ru.inwords.inwords.game.data.entity.LevelMetricEntity;
+import ru.inwords.inwords.game.data.entity.TrainingMetricEntity;
 import ru.inwords.inwords.game.data.source.GameDao;
 import ru.inwords.inwords.game.data.source.GameInfoDao;
 import ru.inwords.inwords.game.data.source.GameLevelDao;
-import ru.inwords.inwords.game.data.source.LevelScoreRequestDao;
+import ru.inwords.inwords.game.data.source.TrainingMetricEntityDao;
 import ru.inwords.inwords.profile.data.entity.ProfileEntity;
 import ru.inwords.inwords.profile.data.source.UserDao;
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredEntry;
@@ -26,9 +26,9 @@ import ru.inwords.inwords.translation.data.deferred.WordTranslationEntriesListDa
         GameEntity.class,
         GameLevelEntity.class,
         GameInfoEntity.class,
-        LevelMetricEntity.class,
+        TrainingMetricEntity.class,
         WordTranslationDeferredEntry.class
-}, version = 9)
+}, version = 10)
 public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -39,7 +39,7 @@ public abstract class AppRoomDatabase extends RoomDatabase {
 
     public abstract GameInfoDao gameInfoDao();
 
-    public abstract LevelScoreRequestDao levelScoreRequestDao();
+    public abstract TrainingMetricEntityDao levelScoreRequestDao();
 
     public abstract WordTranslationEntriesListDao localWordTranslationEntriesListDao();
 

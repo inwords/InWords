@@ -45,8 +45,8 @@ const setup = ({ initialState, selectedTrainingTypes } = {}) => {
   };
 };
 
-const setupForCardSettingsEdit = () => {
-  const utils = setup();
+const setupForCardSettingsEdit = params => {
+  const utils = setup(params);
   const clickSettings = () => fireEvent.click(utils.getByText('settings'));
   const cardSettings = {
     dimensions: '120',

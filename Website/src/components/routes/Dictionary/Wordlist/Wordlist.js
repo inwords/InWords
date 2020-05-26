@@ -44,7 +44,7 @@ function Wordlist({ wordPairs, ...rest }) {
   return (
     <Fragment>
       <FixedSizeList
-        innerRef={listRef}
+        outerRef={listRef}
         innerElementType={InnerList}
         height={listHeight}
         itemCount={wordPairs.length}

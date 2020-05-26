@@ -1,11 +1,11 @@
 package ru.inwords.inwords.main_activity.data
 
-import retrofit2.HttpException
+import io.grpc.StatusRuntimeException
 import java.io.IOException
 
-fun getErrorMessage(e: HttpException): String =
+fun getErrorMessage(e: StatusRuntimeException): String =
         try {
-            e.response()?.errorBody()?.string()
+            e.message
         } catch (e1: IOException) {
             e1.printStackTrace()
             null

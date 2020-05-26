@@ -17,10 +17,11 @@ import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
+import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
 import ru.inwords.inwords.game.domain.interactor.ContinueGameInteractor
 import ru.inwords.inwords.game.domain.interactor.GameInteractor
-import ru.inwords.inwords.game.domain.model.FirstZeroStarsLevelNotFoundException
-import ru.inwords.inwords.game.domain.model.GameInfo
+import ru.inwords.inwords.game.domain.model.*
 import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.translation.domain.interactor.TrainingInteractor
@@ -31,7 +32,8 @@ class GamesViewModel(
     private val trainingInteractor: TrainingInteractor,
     private val policyInteractor: PolicyInteractor,
     private val authorisationInteractor: AuthorisationInteractor,
-    private val resourceManager: ResourceManager
+    private val resourceManager: ResourceManager,
+    private val gameCreator: GameCreator
 ) : BasicViewModel() {
 
     data class ScreenInfo(
@@ -115,7 +117,14 @@ class GamesViewModel(
                 when (it) {
                     is Resource.Success -> {
                         if (!prefetch) {
-                            navigateTo(GamesFragmentDirections.toGameLevelFragment(it.data.gameLevelInfo, it.data.game.gameId))
+                            navigateTo(
+                                GamesFragmentDirections.toGraphGameLevel(
+                                    it.data.gameLevelInfo,
+                                    it.data.game.gameId,
+                                    TrainingState(defaultWordSetsStrategy)
+                                ),
+                                R.id.listeningFragment
+                            )
                         }
                         continueGameReducer.toReady(it.data)
                     }
@@ -138,7 +147,8 @@ class GamesViewModel(
             .subscribe({
                 if (it.isNotEmpty()) {
                     if (!prefetch) {
-                        navigateTo(GamesFragmentDirections.toCustomGameCreatorFragment(it.toTypedArray()))
+                        val gameLevelInfo = gameCreator.createLevel(it)
+                        navigateTo(GamesFragmentDirections.toGraphGameLevel(gameLevelInfo, CUSTOM_GAME_ID, TrainingState(defaultTrainingStrategy)))
                         trainingInteractor.clearCache()
                     }
                     trainingStateReducer.toReady()

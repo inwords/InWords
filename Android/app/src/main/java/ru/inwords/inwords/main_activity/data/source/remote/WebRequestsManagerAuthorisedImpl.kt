@@ -7,18 +7,12 @@ import io.reactivex.subjects.BehaviorSubject
 import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.core.rxjava.ObservableTransformers
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.game.data.grpc.ClassicCardGameGrpcService
 import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.profile.data.grpc.ProfileGrpcService
-import ru.inwords.inwords.proto.classic_card_game.CardGameInfos
-import ru.inwords.inwords.proto.classic_card_game.CardGameMetrics
-import ru.inwords.inwords.proto.classic_card_game.LevelPoints
 import ru.inwords.inwords.proto.dictionary.*
 import ru.inwords.inwords.proto.profile.EmailChangeReply
 import ru.inwords.inwords.proto.profile.ProfileReply
-import ru.inwords.inwords.proto.word_set.GetLevelWordsReply
-import ru.inwords.inwords.proto.word_set.GetLevelsReply
-import ru.inwords.inwords.proto.word_set.WordSetReply
+import ru.inwords.inwords.proto.word_set.*
 import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
 import ru.inwords.inwords.translation.domain.model.WordTranslation
 import javax.inject.Inject
@@ -29,7 +23,6 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
     private val sessionHelper: SessionHelper,
     private val dictionaryGrpcService: DictionaryGrpcService,
     private val wordSetGrpcService: WordSetGrpcService,
-    private val classicCardGameGrpcService: ClassicCardGameGrpcService,
     private val profileGrpcService: ProfileGrpcService
 ) : WebRequestsManagerAuthorised {
 
@@ -112,16 +105,9 @@ class WebRequestsManagerAuthorisedImpl @Inject internal constructor(
             .subscribeOn(SchedulersFacade.io())
     }
 
-    override fun estimate(cardGameMetrics: List<CardGameMetrics.CardGameMetric>): Single<LevelPoints> {
+    override fun estimate(cardGameMetrics: List<TrainingDataRequest.Training>): Single<TrainingScoreReply> {
         return valve()
-            .flatMap { classicCardGameGrpcService.estimate(cardGameMetrics) }
-            .interceptError()
-            .subscribeOn(SchedulersFacade.io())
-    }
-
-    override fun save(cardGameInfos: List<CardGameInfos.CardGameInfo>): Single<LevelPoints> {
-        return valve()
-            .flatMap { classicCardGameGrpcService.save(cardGameInfos) }
+            .flatMap { wordSetGrpcService.estimate(cardGameMetrics) }
             .interceptError()
             .subscribeOn(SchedulersFacade.io())
     }

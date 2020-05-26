@@ -31,7 +31,7 @@ pool:
 
 variables:
   buildConfiguration: '-c Release'
-  testConfiguration: '-c Release --collect "Code coverage"'
+  testConfiguration: '$(buildConfiguration) --collect "Code coverage" '
 
 # Build Stage
 steps:
@@ -57,15 +57,33 @@ steps:
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '$(buildConfiguration)'
 
-# Unit testing
+# Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
 - task: DotNetCoreCLI@2
-  displayName: 'Run tests'
+  displayName: dotnet test
   inputs:
     command: test
+    arguments: '$(BuildConfiguration) --collect:"XPlat Code Coverage" --settings D:\a\1\s\WebApi\InWords.WebApi\coverlet.runsettings' 
     projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
-    arguments: '$(testConfiguration)'
-    publishTestResults: true
-    
+    nobuild: true
+
+# Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
+# First install the tool on the machine, then run it
+- script: |
+    dotnet tool install -g dotnet-reportgenerator-globaltool
+    reportgenerator -reports:D:\a\**\coverage.cobertura.xml -tag:$(Build.BuildNumber) -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
+  displayName: Create Code coverage report
+
+# Publish the code coverage result (summary and web site)
+# The summary allows to view the coverage percentage in the summary tab
+# The web site allows to view which lines are covered directly in Azure Pipeline
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+
+
 # Publish artifacts stage
 
 - task: PublishPipelineArtifact@1

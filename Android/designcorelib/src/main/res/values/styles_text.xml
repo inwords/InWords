@@ -68,6 +68,10 @@
         <item name="android:textColor">@color/text_color_default_inverse_selector</item>
     </style>
 
+    <style name="TextAppearance.Inwords.Subtitle1.Inverse" parent="TextAppearance.Inwords.Subtitle1.Default">
+        <item name="android:textColor">@color/text_color_default_inverse_selector</item>
+    </style>
+
     <style name="TextAppearance.Inwords.Subtitle2.Inverse" parent="TextAppearance.Inwords.Subtitle2.Default">
         <item name="android:textColor">@color/text_color_default_inverse_selector</item>
     </style>

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import shuffle from 'src/utils/shuffle';
 import createSpeech from 'src/utils/createSpeech';
 import { setSnackbar } from 'src/actions/commonActions';
-import { saveLevelResult } from 'src/actions/trainingApiActions';
+import { getLevelResult } from 'src/actions/trainingApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
 import CustomizedCardsGame from 'src/components/routes-common/CustomizedCardsGame';
 import ClosedCardsGame from 'src/components/routes-common/ClosedCardsGame';
@@ -12,7 +12,7 @@ import OpenedCardsGame from 'src/components/routes-common/OpenedCardsGame';
 import TrainingPairsDialog from './TrainingPairsDialog';
 
 function TrainingsConveyor({
-  selectedTrainingTypes = ['openedCards', 'closedCards'],
+  selectedTrainingTypes = ['openedAudioCards', 'openedCards', 'closedCards'],
   trainingsSettings = { quantity: '8', listOn: false },
   trainingLevel,
   handleNextLevel = () => {},
@@ -76,7 +76,7 @@ function TrainingsConveyor({
 
     try {
       const { scores } = await dispatch(
-        saveLevelResult(actualLevelId, newFinalMetrics)
+        getLevelResult(actualLevelId, newFinalMetrics)
       );
       const levelResult = scores[0];
       setScore(levelResult.score);
@@ -85,7 +85,7 @@ function TrainingsConveyor({
       setResultReady(true);
       handleResultSuccess(levelResult);
     } catch (error) {
-      dispatch(setSnackbar({ text: 'Не удалось сохранить результат' }));
+      dispatch(setSnackbar({ text: 'Не удалось получить результат' }));
       setResultReady(true);
     }
   };

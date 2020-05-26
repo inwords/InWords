@@ -136,8 +136,9 @@ class TranslationMainFragment : FragmentWithViewModelAndNav<TranslationMainViewM
 
     private fun setupRecyclerView(onSpeakerClickedListener: Subject<WordTranslation>) {
         val context = requireContext()
+        val scaleText = viewModel.scaleText
 
-        recyclerAdapter = WordTranslationsAdapter({ viewModel.onEditClicked(it) }, onSpeakerClickedListener)
+        recyclerAdapter = WordTranslationsAdapter({ viewModel.onEditClicked(it) }, onSpeakerClickedListener, scaleText)
 
         val linearLayoutManager = LinearLayoutManager(context)
         val dividerItemDecoration = DividerItemDecoration(context, linearLayoutManager.orientation)

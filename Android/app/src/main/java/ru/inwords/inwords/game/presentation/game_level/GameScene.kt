@@ -1,6 +1,5 @@
 package ru.inwords.inwords.game.presentation.game_level
 
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +13,10 @@ import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
-import androidx.core.widget.TextViewCompat
 import ru.inwords.flipview.FlipView
+import ru.inwords.inwords.core.utils.scaleText
 import ru.inwords.inwords.databinding.GameCardBinding
-import ru.inwords.inwords.game.domain.CardsData
+import ru.inwords.inwords.game.domain.model.CardsData
 import ru.inwords.inwords.game.domain.model.WordModel
 import java.lang.ref.WeakReference
 import kotlin.math.ceil
@@ -124,13 +123,7 @@ class GameScene(private val container: WeakReference<TableLayout>) {
     }
 
     private fun scaleText(flipView: FlipView) {
-        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
-            flipView.frontLayout as TextView,
-            14, //TODO remove hardcode
-            32,
-            1,
-            TypedValue.COMPLEX_UNIT_SP
-        )
+        (flipView.frontLayout as TextView).scaleText(16, 32)
     }
 
     private fun toSeqIndex(i: Int, j: Int, rows: Int) = i * rows + j

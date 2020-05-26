@@ -1,7 +1,7 @@
 package ru.inwords.inwords.game.presentation.game_level
 
 import ru.inwords.inwords.core.utils.addOrPut
-import ru.inwords.inwords.game.domain.CardsData
+import ru.inwords.inwords.game.domain.model.CardsData
 import ru.inwords.inwords.game.domain.model.WordModel
 
 class GameLevelOrchestrator(private val onCardFlipped: (WordModel) -> Unit) {

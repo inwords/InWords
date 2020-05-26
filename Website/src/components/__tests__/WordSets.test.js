@@ -127,5 +127,5 @@ test('add word set pairs to dictionary', async () => {
   utils.clickAdd(courseInfo.id);
   utils.clickAddConfirmation();
 
-  await waitFor(() => screen.getByText('Слова из набора добавлены в словарь'));
+  await waitFor(() => screen.getByText('Слова из темы добавлены в словарь'));
 });

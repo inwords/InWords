@@ -1,7 +1,8 @@
 package ru.inwords.inwords.authorisation.data.session
 
 import android.util.Log
-import retrofit2.HttpException
+import io.grpc.Status
+import io.grpc.StatusRuntimeException
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
@@ -13,9 +14,9 @@ class SessionHelper @Inject internal constructor(/*int maxRequests*/) {
     private val unauthorisedReqThreshold = AtomicInteger(0)
 
     fun interceptAuthError(throwable: Throwable): Boolean {
-        if (throwable is HttpException) {
-            when (throwable.code()) {
-                401 -> { //TODO find the const
+        if (throwable is StatusRuntimeException) {
+            when (throwable.status) {
+                Status.NOT_FOUND -> { //TODO find the const
                     val count = unauthorisedReqThreshold.getAndIncrement()
                     Log.d(javaClass.simpleName, "unauthorisedReqThreshold = $count")
                     return true

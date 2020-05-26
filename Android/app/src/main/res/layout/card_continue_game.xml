@@ -9,11 +9,13 @@
 
     <TextView
         android:id="@+id/card_hint"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/constraint_match_parent"
         android:layout_height="wrap_content"
         android:text="Вы остановились на теме"
         android:textAppearance="@style/TextAppearance.Inwords.Body2.Default"
         app:layout_constraintBottom_toTopOf="@id/wordset_name"
+        app:layout_constraintEnd_toStartOf="@id/continue_game_button"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />

@@ -1,6 +1,5 @@
 package ru.inwords.inwords.texttospeech.data.repository
 
-import android.util.Base64
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.managers.ResourceManager
 import java.io.File
@@ -11,10 +10,10 @@ class TtsDatabaseRepository internal constructor(private val cacheDir: File, pri
         return File(cacheDir.resolve("tts"), textToSpeak.hashCode().toString() + extension)
     }
 
-    fun storeFile(file: File, base64String: String) {
+    fun storeFile(file: File, byteArray: ByteArray) {
         file.parentFile?.mkdirs()
         FileOutputStream(file).use {
-            it.write(Base64.decode(base64String, Base64.DEFAULT))
+            it.write(byteArray)
         }
     }
 
