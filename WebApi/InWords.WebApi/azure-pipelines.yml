@@ -42,10 +42,6 @@ steps:
     version: '3.1.101'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- task: CmdLine@2
-  inputs:
-    script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'
-
 - task: NuGetCommand@2
   displayName: 'NuGet restore packages'
   inputs:
@@ -61,29 +57,31 @@ steps:
     projects: '**/InWords.WebApi/InWords.WebApi.csproj'
     arguments: '$(buildConfiguration)'
 
-# Unit testing
+# Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet run tests and collect code coverage'
+  displayName: dotnet test
   inputs:
-    command: 'test'
+    command: test
+    arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
     projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
-    arguments: '$(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
-    testRunTitle: 'dotnet run tests and collect code coverage'
+    nobuild: true
 
+# Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
+# First install the tool on the machine, then run it
+- script: |
+    dotnet tool install -g dotnet-reportgenerator-globaltool
+    reportgenerator -reports:D:\a\1\s\WebApi\InWords.WebApi\**\coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
+  displayName: Create Code coverage report
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'custom'
-    projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
-    custom: 'reportgenerator'
-    arguments: '"-reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml" "-targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports" -tag:$(Build.BuildNumber) -reportTypes:htmlInline'
-    workingDirectory: 'D:\a\1\s\WebApi\InWords.WebApi\'
-
+# Publish the code coverage result (summary and web site)
+# The summary allows to view the coverage percentage in the summary tab
+# The web site allows to view which lines are covered directly in Azure Pipeline
 - task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
   inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)\TestResults\Coverage\**\coverage.cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)\TestResults\Coverage\Reports'
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
 
 
 # Publish artifacts stage
