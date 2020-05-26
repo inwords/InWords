@@ -28,6 +28,7 @@
     padding-right: 24px;
 
     @include theme-breakpoints-down(md) {
+      grid-template-columns: 1fr 1fr;
       min-height: 56px;
       padding-left: 16px;
       padding-right: 16px;
@@ -41,6 +42,10 @@
 
   &__nav {
     display: flex;
+
+    @include theme-breakpoints-down(md) {
+      display: none;
+    }
   }
 
   &__right-nodes {
