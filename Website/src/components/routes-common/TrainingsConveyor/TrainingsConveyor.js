@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import shuffle from 'src/utils/shuffle';
 import createSpeech from 'src/utils/createSpeech';
 import { setSnackbar } from 'src/actions/commonActions';
-import { getLevelResult } from 'src/actions/trainingApiActions';
+import { getLevelResult } from 'src/actions/wordSetApiActions';
 import TrainingResult from 'src/components/routes-common/TrainingResult';
 import CustomizedCardsGame from 'src/components/routes-common/CustomizedCardsGame';
 import ClosedCardsGame from 'src/components/routes-common/ClosedCardsGame';
