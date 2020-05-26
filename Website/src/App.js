@@ -10,7 +10,6 @@ import ScrollToTop from 'src/components/core/ScrollToTop';
 import PageProgress from 'src/components/app/PageProgress';
 import SmartSnackbar from 'src/components/app/SmartSnackbar';
 import PageContainer from 'src/components/app/PageContainer';
-import ControlledProfileMenu from 'src/components/app/ControlledProfileMenu';
 import NotFound from 'src/components/routes/NotFound';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
@@ -45,22 +44,12 @@ const privateRoutes = [
     text: 'Словарь'
   },
   {
-    to: '/training',
-    text: 'Обучение',
-    nestedRoutes: [
-      {
-        to: '/training/main/0',
-        text: 'Тренировки'
-      },
-      // {
-      //   to: '/training/history',
-      //   text: 'История'
-      // },
-      {
-        to: '/training/courses',
-        text: 'Курсы'
-      }
-    ]
+    to: '/training/main/0',
+    text: 'Тренировки'
+  },
+  {
+    to: '/training/courses',
+    text: 'Курсы'
   }
 ];
 
@@ -75,7 +64,7 @@ function App() {
       <FocusVisibleManager>
         <PageContainer
           routes={userId ? privateRoutes : commonRoutes}
-          rightNodes={userId ? [<ControlledProfileMenu key={0} />] : null}
+          authorized={Boolean(userId)}
         >
           <ErrorBoundary>
             <Suspense fallback={<PageProgress />}>

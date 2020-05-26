@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from 'src/components/core/Drawer';
-import Toolbar from 'src/components/core/Toolbar';
 import Divider from 'src/components/core/Divider';
 import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
@@ -19,7 +18,7 @@ function NavDrawer({ open, handleClose, routes }) {
       open={open}
       onClose={handleClose}
     >
-      <Toolbar>
+      <div className="nav-drawer__header">
         <IconButton
           aria-label="меню навигации"
           onClick={handleClose}
@@ -30,7 +29,7 @@ function NavDrawer({ open, handleClose, routes }) {
         </IconButton>
         <Space x={2} />
         <BrandLink>InWords</BrandLink>
-      </Toolbar>
+      </div>
       <Divider />
       <DrawerNavList handleClose={handleClose} routes={routes} />
     </Drawer>

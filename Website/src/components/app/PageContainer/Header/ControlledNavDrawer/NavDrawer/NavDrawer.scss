@@ -1,7 +1,15 @@
 @import 'src/theme/mixins';
 
 .nav-drawer {
-  @include theme-breakpoints-up(lg) {
+  @include theme-breakpoints-up(md) {
     display: none;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }

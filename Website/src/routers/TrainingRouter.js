@@ -12,19 +12,6 @@ const MainTrainingConveyor = lazy(() =>
     /* webpackPrefetch: true */ 'src/components/routes/MainTrainingConveyor'
   )
 );
-const TrainingHistory = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/TrainingHistory')
-);
-const HistoryTrainingTypes = lazy(() =>
-  import(
-    /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingTypes'
-  )
-);
-const HistoryTrainingConveyor = lazy(() =>
-  import(
-    /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingConveyor'
-  )
-);
 const WordSets = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/WordSets')
 );
@@ -65,44 +52,6 @@ function TrainingRouter() {
               </BreadcrumbsLink>
             </Breadcrumbs>
             <MainTrainingConveyor redirectionUrl="/training/main/0" />
-          </RouteContainer>
-        )}
-      />
-      <Route exact path={`${url}/history`}>
-        <RouteContainer maxWidth="lg">
-          <TrainingHistory />
-        </RouteContainer>
-      </Route>
-      <Route
-        exact
-        path={`${url}/history/:levelId`}
-        render={({ match: { params } }) => (
-          <RouteContainer maxWidth="md">
-            <Breadcrumbs>
-              <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/history/${params.levelId}`}>
-                Тренировки
-              </BreadcrumbsLink>
-            </Breadcrumbs>
-            <HistoryTrainingTypes />
-          </RouteContainer>
-        )}
-      />
-      <Route
-        exact
-        path={`${url}/history/:levelId/=)`}
-        render={({ match: { params } }) => (
-          <RouteContainer maxWidth="lg">
-            <Breadcrumbs>
-              <BreadcrumbsLink to={`${url}/history`}>История</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/history/${params.levelId}`}>
-                Тренировки
-              </BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/history/${params.levelId}/=)`}>
-                Тренировка
-              </BreadcrumbsLink>
-            </Breadcrumbs>
-            <HistoryTrainingConveyor />
           </RouteContainer>
         )}
       />

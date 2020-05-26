@@ -9,6 +9,8 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+    min-height: 44px;
+    padding: 0 24px;
     cursor: pointer;
     user-select: none;
     text-decoration: none;
@@ -19,6 +21,8 @@
       color var(--transition-duration-shortest)
         var(--transition-easing-ease-in-out);
 
+    @include theme-typography(body1);
+
     &:hover,
     &:focus {
       background-color: var(--palette-action-hover);
@@ -27,24 +31,6 @@
     &:active {
       background-color: var(--palette-action-selected);
     }
-  }
-
-  &__general-link {
-    min-height: 44px;
-    padding: 0 24px;
-
-    @include theme-typography(body1);
-
-    &.active {
-      font-weight: 500;
-    }
-  }
-
-  &__nested-link {
-    min-height: 40px;
-    padding: 0 24px 0 48px;
-
-    @include theme-typography(body2);
 
     &.active {
       font-weight: 500;
