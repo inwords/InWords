@@ -52,10 +52,10 @@ const privateRoutes = [
         to: '/training/main/0',
         text: 'Тренировки'
       },
-      {
-        to: '/training/history',
-        text: 'История'
-      },
+      // {
+      //   to: '/training/history',
+      //   text: 'История'
+      // },
       {
         to: '/training/courses',
         text: 'Курсы'
