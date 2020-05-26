@@ -9,6 +9,7 @@
           <Include>[coverlet.*]*,[*]Coverlet.Core*</Include> <!-- [Assembly-Filter]Type-Filter -->
           <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
           <ExcludeByFile>**/InWords.Protobuf/**</ExcludeByFile> <!-- Globbing filter -->
+          <IncludeDirectory>**/**</IncludeDirectory>
           <SingleHit>false</SingleHit>
           <UseSourceLink>true</UseSourceLink>
           <IncludeTestAssembly>true</IncludeTestAssembly>
