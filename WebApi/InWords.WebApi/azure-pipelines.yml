@@ -42,6 +42,13 @@ steps:
     version: '3.1.101'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'custom'
+    projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
+    custom: 'tool install'
+    arguments: '--global dotnet-reportgenerator-globaltool --version 4.5.8'
+
 - task: NuGetCommand@2
   displayName: 'NuGet restore packages'
   inputs:
@@ -65,6 +72,7 @@ steps:
     projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
     arguments: '$(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
     testRunTitle: 'dotnet run tests and collect code coverage'
+
 
 - task: DotNetCoreCLI@2
   inputs:
