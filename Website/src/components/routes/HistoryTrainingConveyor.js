@@ -10,20 +10,20 @@ function HistoryTrainingConveyor() {
 
   const trainingLevel = useServerTrainingLevel();
 
-  const wordSetHistory = useSelector(store => store.wordSet.history);
+  const trainingHistory = useSelector(store => store.trainingHistory);
 
   const history = useHistory();
 
   const { levelId: paramLevelId } = useParams();
 
   const handleNextLevel = () => {
-    const currentLevelIndex = wordSetHistory.findIndex(
+    const currentLevelIndex = trainingHistory.findIndex(
       ({ levelId }) => levelId === +paramLevelId
     );
 
     if (currentLevelIndex !== -1) {
       const nextLevelIndex = currentLevelIndex + 1;
-      const nextLevel = wordSetHistory[nextLevelIndex];
+      const nextLevel = trainingHistory[nextLevelIndex];
 
       if (nextLevel) {
         history.push(`/history/${nextLevel.levelId}/=)`);

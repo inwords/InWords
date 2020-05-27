@@ -16,7 +16,6 @@ import ListItemText from 'src/components/core/ListItemText';
 import Space from 'src/components/core/Space';
 import Checkbox from 'src/components/core/Checkbox';
 import Typography from 'src/components/core/Typography';
-import Link from 'src/components/core/Link';
 import LinkButton from 'src/components/core/LinkButton';
 import ControlledTrainingsSettingsDialog from './ControlledTrainingsSettingsDialog';
 

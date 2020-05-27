@@ -6,8 +6,7 @@ import {
   INITIALIZE_WORD_SET_LEVEL,
   REMOVE_WORD_SET_LEVEL_PAIRS,
   INITIALIZE_WORD_SET_PAIRS,
-  UPDATE_WORD_SET_PAIRS,
-  INITIALIZE_WORD_SET_HISTORY
+  UPDATE_WORD_SET_PAIRS
 } from 'src/actions/wordSetActions';
 
 export const all = (state = [], action) => {
@@ -138,19 +137,9 @@ export const pairsListsMap = (state = {}, action) => {
   }
 };
 
-export const history = (state = [], action) => {
-  switch (action.type) {
-    case INITIALIZE_WORD_SET_HISTORY:
-      return (action.payload || []).reverse().slice(0, 30);
-    default:
-      return state;
-  }
-};
-
 export default combineReducers({
   all,
   levelsListsMap,
   levelsMap,
-  pairsListsMap,
-  history
+  pairsListsMap
 });

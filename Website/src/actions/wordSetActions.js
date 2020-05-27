@@ -57,9 +57,3 @@ export const updateWordSetPairs = (wordSetId, addedWordPairs) => ({
     addedWordPairs
   }
 });
-
-export const INITIALIZE_WORD_SET_HISTORY = 'INITIALIZE_WORD_SET_HISTORY';
-export const initializeWordSetHistory = history => ({
-  type: INITIALIZE_WORD_SET_HISTORY,
-  payload: history
-});

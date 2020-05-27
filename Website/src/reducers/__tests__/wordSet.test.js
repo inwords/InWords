@@ -2,8 +2,7 @@ import {
   all,
   levelsListsMap,
   levelsMap,
-  pairsListsMap,
-  history
+  pairsListsMap
 } from 'src/reducers/wordSet';
 import {
   INITIALIZE_WORD_SETS,
@@ -12,8 +11,7 @@ import {
   INITIALIZE_WORD_SET_LEVEL,
   REMOVE_WORD_SET_LEVEL_PAIRS,
   INITIALIZE_WORD_SET_PAIRS,
-  UPDATE_WORD_SET_PAIRS,
-  INITIALIZE_WORD_SET_HISTORY
+  UPDATE_WORD_SET_PAIRS
 } from 'src/actions/wordSetActions';
 
 describe('wordSet reducer', () => {
@@ -225,39 +223,6 @@ describe('wordSet reducer', () => {
           }
         ]
       });
-    });
-  });
-
-  describe('history reducer', () => {
-    it('should return the initial state', () => {
-      expect(history(undefined, {})).toEqual([]);
-    });
-
-    it('should handle INITIALIZE_WORD_SET_HISTORY', () => {
-      expect(
-        history(undefined, {
-          type: INITIALIZE_WORD_SET_HISTORY,
-          payload: [
-            {
-              levelId: 1,
-              isAvailable: true
-            },
-            {
-              levelId: 2,
-              isAvailable: true
-            }
-          ]
-        })
-      ).toEqual([
-        {
-          levelId: 2,
-          isAvailable: true
-        },
-        {
-          levelId: 1,
-          isAvailable: true
-        }
-      ]);
     });
   });
 });

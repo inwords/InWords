@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
-import { initializeWordSetHistory } from 'src/actions/wordSetActions';
-import { getWordSetHistory } from 'src/actions/wordSetApiActions';
+import { initializeTrainingHistory } from 'src/actions/trainingActions';
+import { getTrainingHistory } from 'src/actions/trainingApiActions';
 import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
 import Card from 'src/components/core/Card';
@@ -27,16 +27,16 @@ const dateFormatter = new Intl.DateTimeFormat('ru', {
   minute: 'numeric'
 });
 
-function WordSetHistory() {
-  const wordSetHistory = useSelector(store => store.wordSet.history);
+function TrainingHistory() {
+  const trainingHistory = useSelector(store => store.trainingHistory);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       try {
-        const { levels } = await dispatch(getWordSetHistory());
-        dispatch(initializeWordSetHistory(levels));
+        const { levels } = await dispatch(getTrainingHistory());
+        dispatch(initializeTrainingHistory(levels));
       } catch (error) {
         dispatch(setSnackbar({ text: 'Не удалось загрузить историю' }));
       }
@@ -47,7 +47,7 @@ function WordSetHistory() {
 
   return (
     <Grid spacing={3}>
-      {wordSetHistory.map(({ levelId, dateTime, wordsCount }) => (
+      {trainingHistory.map(({ levelId, dateTime, wordsCount }) => (
         <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardContent>
@@ -78,4 +78,4 @@ function WordSetHistory() {
   );
 }
 
-export default WordSetHistory;
+export default TrainingHistory;

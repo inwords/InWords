@@ -63,38 +63,3 @@ export const addWordSetToDictionary = id => dispatch =>
       })
     )
   );
-
-export const getLevelResult = (levelId, metrics) => dispatch =>
-  new Promise((resolve, reject) =>
-    dispatch(
-      apiAction({
-        apiVersion: '2',
-        endpoint: '/wordSet/estimate',
-        method: 'POST',
-        data: JSON.stringify({
-          metrics: [
-            levelId > 0
-              ? {
-                  gameLevelId: levelId > 0 ? levelId : 0,
-                  ...metrics
-                }
-              : metrics
-          ]
-        }),
-        resolve,
-        reject
-      })
-    )
-  );
-
-export const getWordSetHistory = () => dispatch =>
-  new Promise((resolve, reject) =>
-    dispatch(
-      apiAction({
-        apiVersion: '2',
-        endpoint: '/wordSet/history',
-        resolve,
-        reject
-      })
-    )
-  );

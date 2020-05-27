@@ -4,8 +4,8 @@ import RouteContainer from 'src/components/app-common/RouteContainer';
 import Breadcrumbs from 'src/components/core/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
 
-const WordSetHistory = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/WordSetHistory')
+const TrainingHistory = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/components/routes/TrainingHistory')
 );
 const HistoryTrainingTypes = lazy(() =>
   import(
@@ -25,7 +25,7 @@ function HistoryRouter() {
     <Switch>
       <Route exact path={url}>
         <RouteContainer maxWidth="lg">
-          <WordSetHistory />
+          <TrainingHistory />
         </RouteContainer>
       </Route>
       <Route
