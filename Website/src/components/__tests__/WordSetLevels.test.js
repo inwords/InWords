@@ -21,9 +21,9 @@ const setup = () => {
     ]
   };
   global.fetch = mockFetch(mockingTrainingLevelsResponse);
-  const route = '/training/courses/1';
+  const route = '/courses/1';
   const utils = renderWithEnvironment(
-    <Route path="/training/courses/:wordSetId">
+    <Route path="/courses/:wordSetId">
       <WordSetLevels />
     </Route>,
     {

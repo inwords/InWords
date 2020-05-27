@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import ButtonBase from 'src/components/core/ButtonBase';
 
 import './MenuItem.scss';
 
-function MenuItem({ component: Component = 'div', className, ...rest }) {
-  return <Component className={classNames('menu-item', className)} {...rest} />;
+function MenuItem({ className, ...rest }) {
+  return (
+    <ButtonBase className={classNames('menu-item', className)} {...rest} />
+  );
 }
 
 MenuItem.propTypes = {
-  component: PropTypes.elementType,
   className: PropTypes.string
 };
 

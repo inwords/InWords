@@ -5,10 +5,10 @@ import Header from './Header';
 
 import './PageContainer.scss';
 
-function PageContainer({ routes, authorized, children }) {
+function PageContainer({ routes, rightNodes, children }) {
   return (
     <div className="page-container">
-      <Header routes={routes} authorized={authorized} />
+      <Header routes={routes} rightNodes={rightNodes} />
       <main className={classNames('page-container__main')}>{children}</main>
     </div>
   );
@@ -16,7 +16,7 @@ function PageContainer({ routes, authorized, children }) {
 
 PageContainer.propTypes = {
   routes: PropTypes.array,
-  authorized: PropTypes.bool,
+  rightNodes: PropTypes.array,
   children: PropTypes.node
 };
 

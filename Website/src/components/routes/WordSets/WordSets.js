@@ -71,7 +71,7 @@ function WordSets() {
               <Tooltip
                 id="word-set-pairs-tooltip"
                 title="Посмотреть слова"
-                placement="bottom"
+                placement="top"
               >
                 <IconButton
                   aria-label="посмотреть слова"

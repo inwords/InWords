@@ -30,7 +30,7 @@ const handleSignInSuccess = (data, dispatch, history) => {
       userId: data.userId
     }
   });
-  history.push('/training/courses');
+  history.push('/training');
 };
 
 const features = [

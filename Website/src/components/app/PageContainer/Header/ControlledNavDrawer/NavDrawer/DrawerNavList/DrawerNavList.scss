@@ -4,17 +4,10 @@
   padding-top: 16px;
 
   &__link {
-    position: relative;
-    display: flex;
-    align-items: center;
     justify-content: flex-start;
     width: 100%;
     min-height: 44px;
     padding: 0 24px;
-    cursor: pointer;
-    user-select: none;
-    text-decoration: none;
-    outline: 0;
     color: var(--palette-text-primary);
     transition: background-color var(--transition-duration-shortest)
         var(--transition-easing-ease-in-out),
@@ -24,7 +17,7 @@
     @include theme-typography(body1);
 
     &:hover,
-    &:focus {
+    &.focus-visible {
       background-color: var(--palette-action-hover);
     }
 
