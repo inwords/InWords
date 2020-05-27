@@ -12,9 +12,10 @@ import SmartSnackbar from 'src/components/app/SmartSnackbar';
 import PageContainer from 'src/components/app/PageContainer';
 import ControlledProfileMenu from 'src/components/app/ControlledProfileMenu';
 import NotFound from 'src/components/routes/NotFound';
-import TrainingRouter from 'src/routers/TrainingRouter';
-import CoursesRouter from 'src/routers/CoursesRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
+import TrainingRouter from 'src/routers/TrainingRouter';
+import HistoryRouter from 'src/routers/HistoryRouter';
+import CoursesRouter from 'src/routers/CoursesRouter';
 
 const Homepage = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/Homepage')
@@ -37,6 +38,10 @@ const privateRoutes = [
   {
     to: '/training',
     text: 'Тренировки'
+  },
+  {
+    to: '/history',
+    text: 'История'
   },
   {
     to: '/courses',
@@ -92,6 +97,9 @@ function App() {
                 </Route>
                 <Route path="/training">
                   <TrainingRouter />
+                </Route>
+                <Route path="/history">
+                  <HistoryRouter />
                 </Route>
                 <Route path="/courses">
                   <CoursesRouter />
