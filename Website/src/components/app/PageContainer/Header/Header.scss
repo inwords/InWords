@@ -22,16 +22,21 @@
 
   &__toolbar {
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: 1fr 1fr;
     min-height: 72px;
     padding-left: 24px;
     padding-right: 24px;
 
     @include theme-breakpoints-down(md) {
-      grid-template-columns: 1fr 1fr;
       min-height: 56px;
       padding-left: 16px;
       padding-right: 16px;
+    }
+
+    &--has-nav {
+      @include theme-breakpoints-up(md) {
+        grid-template-columns: 1fr 4fr 1fr;
+      }
     }
   }
 

@@ -10,6 +10,7 @@ import ScrollToTop from 'src/components/core/ScrollToTop';
 import PageProgress from 'src/components/app/PageProgress';
 import SmartSnackbar from 'src/components/app/SmartSnackbar';
 import PageContainer from 'src/components/app/PageContainer';
+import ControlledProfileMenu from 'src/components/app/ControlledProfileMenu';
 import NotFound from 'src/components/routes/NotFound';
 import TrainingRouter from 'src/routers/TrainingRouter';
 import CoursesRouter from 'src/routers/CoursesRouter';
@@ -27,17 +28,6 @@ const SignUp = lazy(() =>
 const Profile = lazy(() =>
   import(/* webpackPrefetch: true */ 'src/components/routes/Profile')
 );
-
-const commonRoutes = [
-  {
-    to: '/sign-in',
-    text: 'Вход'
-  },
-  {
-    to: '/sign-up',
-    text: 'Регистрация'
-  }
-];
 
 const privateRoutes = [
   {
@@ -64,8 +54,10 @@ function App() {
       <ScrollToTop />
       <FocusVisibleManager>
         <PageContainer
-          routes={userId ? privateRoutes : commonRoutes}
-          authorized={Boolean(userId)}
+          routes={userId ? privateRoutes : null}
+          rightNodes={[
+            <ControlledProfileMenu key={0} authorized={Boolean(userId)} />
+          ]}
         >
           <ErrorBoundary>
             <Suspense fallback={<PageProgress />}>

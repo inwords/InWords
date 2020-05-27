@@ -1,32 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import BrandLink from 'src/components/app-common/BrandLink';
 import ControlledNavDrawer from './ControlledNavDrawer';
 import HeaderNavList from './HeaderNavList';
 import ApiProgress from './ApiProgress';
-import ControlledProfileMenu from './ControlledProfileMenu';
 
 import './Header.scss';
 
-function Header({ routes, authorized }) {
+function Header({ routes, rightNodes }) {
   return (
     <header className="header">
-      <div className="header__toolbar">
+      <div
+        className={classNames('header__toolbar', {
+          'header__toolbar--has-nav': routes
+        })}
+      >
         <div className="header__left-nodes">
-          <ControlledNavDrawer
-            routes={routes}
-            className="header__nav-menu-button"
-          />
+          {routes && (
+            <ControlledNavDrawer
+              routes={routes}
+              className="header__nav-menu-button"
+            />
+          )}
           <BrandLink>InWords</BrandLink>
         </div>
-        <nav role="navigation" className="header__nav">
-          <HeaderNavList routes={routes} />
-        </nav>
-        {authorized && (
-          <div className="header__right-nodes">
-            <ControlledProfileMenu />
-          </div>
+        {routes && (
+          <nav role="navigation" className="header__nav">
+            <HeaderNavList routes={routes} />
+          </nav>
         )}
+        {rightNodes && <div className="header__right-nodes">{rightNodes}</div>}
       </div>
       <ApiProgress />
     </header>
@@ -35,7 +39,7 @@ function Header({ routes, authorized }) {
 
 Header.propTypes = {
   routes: PropTypes.array,
-  authorized: PropTypes.bool.isRequired
+  rightNodes: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired
 };
 
 export default Header;
