@@ -7,7 +7,7 @@ import io.reactivex.Single
 import ru.inwords.inwords.authorisation.data.AuthExceptionType
 import ru.inwords.inwords.authorisation.data.AuthenticationException
 import ru.inwords.inwords.authorisation.data.AuthenticatorTokenProvider
-import ru.inwords.inwords.authorisation.data.WebRequestsManagerUnauthorised
+import ru.inwords.inwords.authorisation.data.AuthorisationRepository
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.*
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
@@ -26,7 +26,7 @@ import kotlin.random.Random
 
 class AuthorisationWebInteractor internal constructor(
     private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised,
-    private val webRequestsManagerUnauthorised: WebRequestsManagerUnauthorised,
+    private val authorisationRepository: AuthorisationRepository,
     private val integrationInteractor: IntegrationInteractor,
     private val nativeAuthInfo: NativeAuthInfo,
     private val lastAuthInfoProvider: LastAuthInfoProvider,
@@ -44,7 +44,7 @@ class AuthorisationWebInteractor internal constructor(
         val userId = googleSignedInData.userId
         val idToken = googleSignedInData.idToken
 
-        return webRequestsManagerUnauthorised.getTokenGoogle(idToken)
+        return authorisationRepository.getTokenGoogle(idToken)
             .doOnSuccess {
                 lastAuthInfoProvider.setAuthMethod(GOOGLE)
                 nativeAuthInfo.setCredentials(UserCredentials())
@@ -57,7 +57,7 @@ class AuthorisationWebInteractor internal constructor(
 
     override fun signIn(userCredentials: UserCredentials): Completable {
         return Single.fromCallable { userCredentials.requireCredentials() }
-            .flatMap { webRequestsManagerUnauthorised.getToken(userCredentials) }
+            .flatMap { authorisationRepository.getToken(userCredentials) }
             .doOnSuccess { lastAuthInfoProvider.setAuthMethod(NATIVE) }
             .saveNativeCredentials(userCredentials)
             .detectNewUser(userCredentials.email)
@@ -90,7 +90,7 @@ class AuthorisationWebInteractor internal constructor(
     }
 
     private fun signUpInternal(userCredentials: UserCredentials, isAnonymous: Boolean): Completable {
-        return webRequestsManagerUnauthorised.registerUser(userCredentials, isAnonymous)
+        return authorisationRepository.registerUser(userCredentials, isAnonymous)
             .doOnSuccess { lastAuthInfoProvider.setAuthMethod(NATIVE) }
             .saveNativeCredentials(userCredentials)
             .detectNewUser(userCredentials.email)
@@ -124,7 +124,7 @@ class AuthorisationWebInteractor internal constructor(
                                 )
                         }
                     }.doOnComplete {
-                        webRequestsManagerUnauthorised.invalidateToken()
+                        authorisationRepository.invalidateToken()
                         lastAuthInfoProvider.setAuthMethod(NONE)
                     }
                 }
@@ -168,7 +168,7 @@ class AuthorisationWebInteractor internal constructor(
             Single.error(t)
         }
             .doFinally {
-                webRequestsManagerAuthorised.notifyAuthStateChanged(!webRequestsManagerUnauthorised.isUnauthorised())
+                webRequestsManagerAuthorised.notifyAuthStateChanged(!authorisationRepository.isUnauthorised())
             }
     }
 

@@ -5,7 +5,9 @@ import io.grpc.Status
 import io.grpc.StatusRuntimeException
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SessionHelper @Inject internal constructor(/*int maxRequests*/) {
     companion object {
         private const val MAX_UNAUTHORISED_REQUESTS = 3
@@ -16,7 +18,7 @@ class SessionHelper @Inject internal constructor(/*int maxRequests*/) {
     fun interceptAuthError(throwable: Throwable): Boolean {
         if (throwable is StatusRuntimeException) {
             when (throwable.status) {
-                Status.NOT_FOUND -> { //TODO find the const
+                Status.UNAUTHENTICATED -> {
                     val count = unauthorisedReqThreshold.getAndIncrement()
                     Log.d(javaClass.simpleName, "unauthorisedReqThreshold = $count")
                     return true

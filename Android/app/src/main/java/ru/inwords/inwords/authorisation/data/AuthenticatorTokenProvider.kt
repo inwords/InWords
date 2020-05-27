@@ -10,7 +10,7 @@ import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 
 class AuthenticatorTokenProvider internal constructor(
-    private val webRequestsManagerUnauthorised: WebRequestsManagerUnauthorised,
+    private val authorisationRepository: AuthorisationRepository,
     private val nativeAuthInfo: NativeAuthInfo,
     private val signInWithGoogle: SignInWithGoogle,
     private val lastAuthInfoProvider: LastAuthInfoProvider
@@ -20,13 +20,13 @@ class AuthenticatorTokenProvider internal constructor(
             NONE -> Single.error(AuthenticationException("never authenticated before -> no way to authenticate silently", NO_CREDENTIALS))
             NATIVE -> {
                 nativeAuthInfo.getCredentials()
-                    .flatMap { webRequestsManagerUnauthorised.getToken(it) }
+                    .flatMap { authorisationRepository.getToken(it) }
             }
             GOOGLE -> {
                 signInWithGoogle.silentSignIn()
                     .flatMap {
                         Log.d(TAG, it.idToken)
-                        webRequestsManagerUnauthorised.getTokenGoogle(it.idToken)
+                        authorisationRepository.getTokenGoogle(it.idToken)
                     }
             }
         }

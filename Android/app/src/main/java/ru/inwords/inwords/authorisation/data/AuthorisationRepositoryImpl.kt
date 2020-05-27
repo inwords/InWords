@@ -10,16 +10,12 @@ import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.profile.data.bean.UserCredentials
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class WebRequestsManagerUnauthorisedImpl @Inject internal constructor(
+class AuthorisationRepositoryImpl internal constructor(
     private val sessionHelper: SessionHelper,
     private val authenticatorGrpcService: AuthenticatorGrpcService,
     private val nativeTokenHolder: NativeTokenHolder
-
-) : WebRequestsManagerUnauthorised {
+) : AuthorisationRepository {
 
     override fun isUnauthorised() = nativeTokenHolder.isUnauthorised
 

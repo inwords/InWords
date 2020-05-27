@@ -2,13 +2,17 @@ package ru.inwords.inwords.authorisation.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import io.grpc.ManagedChannel
 import ru.inwords.inwords.authorisation.data.AuthenticatorTokenProvider
-import ru.inwords.inwords.authorisation.data.WebRequestsManagerUnauthorised
+import ru.inwords.inwords.authorisation.data.AuthorisationRepositoryImpl
+import ru.inwords.inwords.authorisation.data.grpc.AuthenticatorGrpcService
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
 import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
+import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationWebInteractor
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
@@ -16,6 +20,7 @@ import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.main_activity.di.annotations.Common
+import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import javax.inject.Singleton
 
@@ -25,17 +30,20 @@ class AuthorisationModule {
     @Singleton
     fun authorisationWebInteractor(
         webRequestsManagerAuthorised: WebRequestsManagerAuthorised,
-        webRequestsManagerUnauthorised: WebRequestsManagerUnauthorised,
-        integrationInteractor: IntegrationInteractor,
+        integrationInteractor: IntegrationInteractor, //TODO inverse control somhow
         nativeAuthInfo: NativeAuthInfo,
         lastAuthInfoProvider: LastAuthInfoProvider,
-        signInWithGoogle: SignInWithGoogle
+        signInWithGoogle: SignInWithGoogle,
+        sessionHelper: SessionHelper,
+        @GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>,
+        nativeTokenHolder: NativeTokenHolder
     ): AuthorisationInteractor {
-        val authenticatorTokenProvider = AuthenticatorTokenProvider(webRequestsManagerUnauthorised, nativeAuthInfo, signInWithGoogle, lastAuthInfoProvider)
+        val authorisationRepository = AuthorisationRepositoryImpl(sessionHelper, AuthenticatorGrpcService(managedChannel), nativeTokenHolder)
+        val authenticatorTokenProvider = AuthenticatorTokenProvider(authorisationRepository, nativeAuthInfo, signInWithGoogle, lastAuthInfoProvider)
 
         return AuthorisationWebInteractor(
             webRequestsManagerAuthorised,
-            webRequestsManagerUnauthorised,
+            authorisationRepository,
             integrationInteractor,
             nativeAuthInfo,
             lastAuthInfoProvider,
