@@ -10,9 +10,10 @@
     "lint:style": "stylelint src/**/*.{css,scss}",
     "lint": "npm-run-all --parallel lint:*",
     "test": "jest",
-    "test:verbose": "jest --verbose",
+    "test:verbose:components": "jest --verbose --testPathPattern=components",
+    "test:verbose:reducers": "jest --verbose --testPathPattern=reducers",
     "test:coverage": "jest --coverage",
-    "test:coverage:report": "npm run test:coverage --coverageReporters=cobertura --reporters=jest-junit"
+    "test:coverage:report": "jest --coverage --coverageReporters=cobertura --reporters=jest-junit"
   },
   "author": "Prometium",
   "license": "ISC",
@@ -34,10 +35,10 @@
     "uuid": "^8.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/plugin-transform-runtime": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-react": "^7.9.4",
+    "@babel/core": "^7.10.0",
+    "@babel/plugin-transform-runtime": "^7.10.0",
+    "@babel/preset-env": "^7.10.0",
+    "@babel/preset-react": "^7.10.0",
     "@testing-library/jest-dom": "^5.8.0",
     "@testing-library/react": "^10.0.4",
     "autoprefixer": "^9.8.0",
@@ -53,7 +54,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^4.0.2",
+    "eslint-plugin-react-hooks": "^4.0.4",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^26.0.1",
