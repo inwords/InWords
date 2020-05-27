@@ -51,7 +51,7 @@
     <string name="button_edit_text">Изменить</string>
     <string name="inwords_logotype">InWords логотип</string>
     <string name="voice_translation">Озвучить перевод</string>
-    <string name="yandex_dictionary">Реализовано с помощью сервиса «Яндекс.Словарь</string>
+    <string name="yandex_dictionary">Реализовано с помощью сервиса «Яндекс.Словарь»</string>
     <string name="yandex_dictionary_url">https://tech.yandex.ru/dictionary</string>
 
     <string name="undo_translation_deletion">ОТМЕНИТЬ</string>
