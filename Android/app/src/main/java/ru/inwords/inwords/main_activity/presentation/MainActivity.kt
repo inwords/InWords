@@ -8,7 +8,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.android.support.DaggerAppCompatActivity
@@ -57,17 +57,11 @@ class MainActivity : DaggerAppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.policyFragment,
-                R.id.registrationFragment,
-                R.id.loginFragment,
-                R.id.chooseSignMethodFragment,
-                R.id.gameLevelFragment,
-                R.id.gameEndBottomSheet,
-                R.id.addEditWordFragment,
-                R.id.listeningFragment -> hideNavigation()
-//                R.id.customGameCreatorFragment -> hideNavigation()
+                R.id.gamesFragment,
+                R.id.translationMainFragment,
+                R.id.profileFragment -> showNavigation()
 
-                else -> showNavigation()
+                else -> hideNavigation()
             }
         }
     }
@@ -95,7 +89,7 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
-        NavigationUI.setupWithNavController(binding.navigation, navController)
+        binding.navigation.setupWithNavController(navController)
         binding.navigation.setOnNavigationItemReselectedListener {
             //чтобы нельзя было выбрать текущий фрагмент еще раз
         }
