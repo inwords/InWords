@@ -1,5 +1,6 @@
 ﻿using InWords.Data.Creations;
 using InWords.Data.Domains;
+using InWords.Data.Domains.Game;
 using Microsoft.EntityFrameworkCore;
 
 namespace InWords.Data
@@ -44,6 +45,11 @@ namespace InWords.Data
             modelBuilder.Entity<OAuth>(e =>
             {
                 e.HasIndex(e => e.OpenId).IsUnique();
+            });
+
+            modelBuilder.Entity<Historylevel>(e =>
+            {
+                e.HasIndex(e => e.GameLevelId).IsUnique();
             });
         }
 

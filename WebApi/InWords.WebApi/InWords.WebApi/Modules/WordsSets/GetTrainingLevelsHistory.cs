@@ -56,6 +56,7 @@ namespace InWords.WebApi.Modules.WordsSets
             var levels = await (from level in userHistoryLevels
                                 join stars in Context.UserGameLevels.Where(d=>d.GameType == GameType.Total) 
                                 on level.GameLevelId equals stars.GameLevelId into st
+                                join history in Context.
                                 from stars in st.DefaultIfEmpty()
                                 select new ConcreteGameScore()
                                 {
