@@ -166,7 +166,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
 
         
         [Fact]
-        public async void EstimageCustomGames_SaveOnce()
+        public async void CustomGames_SaveOnce()
         {
             int userId = 1;
             using InWordsDataContext context = InWordsDataContextFactory.Create();
@@ -199,6 +199,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             Assert.Single(context.GameTags);
             Assert.Equal(GameTags.CustomLevelsHistory, context.GameTags.First().Tags);
             Assert.Single(context.GameLevels);
+            Assert.Single(context.Historylevels);
             Assert.Empty(context.GameLevelWords); // Because words 1,2,3 is not not found
         }
     }
