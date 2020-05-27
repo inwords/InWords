@@ -54,14 +54,14 @@ namespace InWords.WebApi.Modules.WordsSets
             GameScoreReply gameScoreReply = new GameScoreReply();
 
             var levels = await (from level in userHistoryLevels
-                                join stars in Context.UserGameLevels on level.GameLevelId equals stars.GameLevelId into st
+                                join stars in Context.UserGameLevels.Where(d=>d.GameType == GameType.Total) 
+                                on level.GameLevelId equals stars.GameLevelId into st
                                 from stars in st.DefaultIfEmpty()
                                 select new ConcreteGameScore()
                                 {
                                     LevelId = level.GameLevelId,
                                     IsAvailable = true,
-                                    Stars = stars == null ? 0 : stars.UserStars,
-                                    GameType = stars == null ? -1 : (int)stars.GameType
+                                    Stars = stars == null ? 0 : stars.UserStars
                                 })
                          .ToArrayAsync()
                          .ConfigureAwait(false);

@@ -164,39 +164,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             Assert.Equal(6, result.Scores.Single().Score);
         }
 
-        [Fact]
-        public async void EstimageCustomGame_SaveOnce()
-        {
-            int userId = 1;
-            using InWordsDataContext context = InWordsDataContextFactory.Create();
-            await context.AddAccount(userId);
-            await context.SaveChangesAsync();
-
-            EstimateTraining handler = new EstimateTraining(context);
-
-            var payload = new TrainingDataRequest();
-
-            var training = new Training
-            {
-                AudioMetric = new AudioMetric()
-            };
-
-            training.AudioMetric.WordIdOpenCount.Add(1, 1);
-            training.AudioMetric.WordIdOpenCount.Add(2, 1);
-            training.AudioMetric.WordIdOpenCount.Add(3, 1);
-            payload.Metrics.Add(training);
-
-            var request = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(payload);
-
-            var result = await handler.HandleRequest(request);
-
-            Assert.Single(context.Games);
-            Assert.Single(context.GameTags);
-            Assert.Equal(GameTags.CustomLevelsHistory, context.GameTags.First().Tags);
-            Assert.Single(context.GameLevels);
-            Assert.Empty(context.GameLevelWords); // Because words 1,2,3 is not not found
-        }
-
+        
         [Fact]
         public async void EstimageCustomGames_SaveOnce()
         {
@@ -218,8 +186,6 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             training.AudioMetric.WordIdOpenCount.Add(1, 1);
             training.AudioMetric.WordIdOpenCount.Add(2, 1);
             training.AudioMetric.WordIdOpenCount.Add(3, 1);
-            payload.Metrics.Add(training);
-
             training.ClosedAudioCards2Metric.WordIdOpenCount.Add(1, 1);
             training.ClosedAudioCards2Metric.WordIdOpenCount.Add(2, 1);
             training.ClosedAudioCards2Metric.WordIdOpenCount.Add(3, 1);
