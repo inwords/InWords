@@ -34,10 +34,10 @@ const setup = ({ ui = <WordSets />, route = '' } = {}) => {
 };
 
 const setupForWordSetChoice = () => {
-  const route = '/training/courses';
+  const route = '/courses';
   const utils = setup({
     ui: (
-      <Route path="/training/courses">
+      <Route path="/courses">
         <WordSets />
       </Route>
     ),
@@ -53,10 +53,10 @@ const setupForWordSetChoice = () => {
 };
 
 const setupForWordSetPairsChoice = () => {
-  const route = '/training/courses';
+  const route = '/courses';
   const utils = setup({
     ui: (
-      <Route path="/training/courses">
+      <Route path="/courses">
         <WordSets />
       </Route>
     ),

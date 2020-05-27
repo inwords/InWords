@@ -16,19 +16,15 @@
   }
 
   &__link {
-    position: relative;
-    display: flex;
-    align-items: center;
     padding: 0 14px;
     font-size: 1rem;
-    text-decoration: none;
     color: inherit;
     outline: 0;
     transition: background-color var(--transition-duration-shortest)
       var(--transition-easing-ease-in-out);
 
     &:hover,
-    &:focus {
+    &.focus-visible {
       background-color: var(--palette-action-hover);
     }
 

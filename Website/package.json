@@ -10,8 +10,9 @@
     "lint:style": "stylelint src/**/*.{css,scss}",
     "lint": "npm-run-all --parallel lint:*",
     "test": "jest",
+    "test:verbose": "jest --verbose",
     "test:coverage": "jest --coverage",
-    "test:coverage:report": "jest --coverage --coverageReporters=cobertura --reporters=jest-junit"
+    "test:coverage:report": "npm run test:coverage --coverageReporters=cobertura --reporters=jest-junit"
   },
   "author": "Prometium",
   "license": "ISC",

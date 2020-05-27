@@ -12,6 +12,7 @@ import SmartSnackbar from 'src/components/app/SmartSnackbar';
 import PageContainer from 'src/components/app/PageContainer';
 import NotFound from 'src/components/routes/NotFound';
 import TrainingRouter from 'src/routers/TrainingRouter';
+import CoursesRouter from 'src/routers/CoursesRouter';
 import DictionaryRouter from 'src/routers/DictionaryRouter';
 
 const Homepage = lazy(() =>
@@ -44,11 +45,11 @@ const privateRoutes = [
     text: 'Словарь'
   },
   {
-    to: '/training/main/0',
+    to: '/training',
     text: 'Тренировки'
   },
   {
-    to: '/training/courses',
+    to: '/courses',
     text: 'Курсы'
   }
 ];
@@ -99,6 +100,9 @@ function App() {
                 </Route>
                 <Route path="/training">
                   <TrainingRouter />
+                </Route>
+                <Route path="/courses">
+                  <CoursesRouter />
                 </Route>
                 <Route path="*">
                   <RouteContainer maxWidth="md">
