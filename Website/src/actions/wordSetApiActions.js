@@ -86,3 +86,15 @@ export const getLevelResult = (levelId, metrics) => dispatch =>
       })
     )
   );
+
+export const getWordSetHistory = () => dispatch =>
+  new Promise((resolve, reject) =>
+    dispatch(
+      apiAction({
+        apiVersion: '2',
+        endpoint: '/wordSet/history',
+        resolve,
+        reject
+      })
+    )
+  );
