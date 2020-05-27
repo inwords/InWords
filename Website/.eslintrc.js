@@ -23,6 +23,7 @@ module.exports = {
     'react/prop-types': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn'
+    // 'import/no-unused-modules': [1, { unusedExports: true }]
   },
   settings: {
     'import/resolver': {

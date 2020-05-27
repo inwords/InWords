@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import ButtonBase from 'src/components/core/ButtonBase';
 
 import './ListItem.scss';
 
 function ListItem({
-  component: Component = 'li',
   button = false,
+  component: Component = button ? ButtonBase : 'li',
   hasSecondaryAction = false,
   className,
   ...rest

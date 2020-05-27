@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Toolbar from 'src/components/core/Toolbar';
-import Space from 'src/components/core/Space';
+import classNames from 'classnames';
 import BrandLink from 'src/components/app-common/BrandLink';
 import ControlledNavDrawer from './ControlledNavDrawer';
 import HeaderNavList from './HeaderNavList';
@@ -12,8 +11,12 @@ import './Header.scss';
 function Header({ routes, rightNodes }) {
   return (
     <header className="header">
-      <Toolbar className="header__toolbar">
-        <div className="header__toolbar-block">
+      <div
+        className={classNames('header__toolbar', {
+          'header__toolbar--has-nav': routes
+        })}
+      >
+        <div className="header__left-nodes">
           {routes && (
             <ControlledNavDrawer
               routes={routes}
@@ -22,16 +25,13 @@ function Header({ routes, rightNodes }) {
           )}
           <BrandLink>InWords</BrandLink>
         </div>
-        <Space />
         {routes && (
           <nav role="navigation" className="header__nav">
             <HeaderNavList routes={routes} />
           </nav>
         )}
-        {rightNodes && (
-          <div className="header__toolbar-block">{rightNodes}</div>
-        )}
-      </Toolbar>
+        {rightNodes && <div className="header__right-nodes">{rightNodes}</div>}
+      </div>
       <ApiProgress />
     </header>
   );
@@ -39,7 +39,7 @@ function Header({ routes, rightNodes }) {
 
 Header.propTypes = {
   routes: PropTypes.array,
-  rightNodes: PropTypes.arrayOf(PropTypes.node.isRequired)
+  rightNodes: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired
 };
 
 export default Header;

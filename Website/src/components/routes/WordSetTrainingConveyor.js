@@ -34,16 +34,14 @@ function WordSetTrainingConveyor() {
         const nextLevel = levels[nextLevelIndex];
 
         if (nextLevel) {
-          history.push(
-            `/training/courses/${paramWordSetId}/${nextLevel.levelId}/=)`
-          );
+          history.push(`/courses/${paramWordSetId}/${nextLevel.levelId}/=)`);
 
           return;
         }
       }
     }
 
-    history.push('/training/courses');
+    history.push('/courses');
   };
 
   return (

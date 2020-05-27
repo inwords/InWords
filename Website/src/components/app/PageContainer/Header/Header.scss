@@ -3,10 +3,9 @@
 .header {
   position: fixed;
   top: 0;
-  left: auto;
+  left: 0;
   right: 0;
   z-index: var(--z-index-app-bar);
-  width: 100%;
   background-color: var(--palette-primary);
   color: var(--palette-primary-contrast-text);
 
@@ -22,29 +21,47 @@
   }
 
   &__toolbar {
-    display: flex;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 72px;
+    padding-left: 24px;
+    padding-right: 24px;
+
+    @include theme-breakpoints-down(md) {
+      min-height: 56px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    &--has-nav {
+      @include theme-breakpoints-up(md) {
+        grid-template-columns: 1fr 4fr 1fr;
+      }
+    }
   }
 
-  &__toolbar-block {
+  &__left-nodes {
     display: flex;
     align-items: center;
   }
 
   &__nav {
-    margin-right: 48px;
     display: flex;
-    overflow: hidden;
 
-    @include theme-breakpoints-down(lg) {
+    @include theme-breakpoints-down(md) {
       display: none;
     }
+  }
+
+  &__right-nodes {
+    align-self: center;
+    justify-self: end;
   }
 
   &__nav-menu-button {
     margin-right: 16px;
 
-    @include theme-breakpoints-up(lg) {
+    @include theme-breakpoints-up(md) {
       display: none;
     }
   }

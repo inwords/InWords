@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import ButtonBase from 'src/components/core/ButtonBase';
 
 import './HeaderNavList.scss';
 
@@ -9,13 +10,14 @@ function HeaderNavList({ routes }) {
     <ul className="header-nav-list">
       {routes.map(({ to, text }) => (
         <li key={to} className="header-nav-list__item">
-          <NavLink
+          <ButtonBase
+            component={NavLink}
             to={to}
             className="header-nav-list__link"
             activeClassName="active"
           >
             {text}
-          </NavLink>
+          </ButtonBase>
         </li>
       ))}
     </ul>

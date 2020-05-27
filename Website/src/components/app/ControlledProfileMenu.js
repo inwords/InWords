@@ -1,4 +1,5 @@
-import React, { memo } from 'react';
+import React, { Fragment, memo } from 'react';
+import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { denyAccess } from 'src/actions/authActions';
@@ -26,7 +27,7 @@ const handleOAuth2Logout = async () => {
   }
 };
 
-function ControlledProfileMenu() {
+function ControlledProfileMenu({ authorized }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -58,26 +59,47 @@ function ControlledProfileMenu() {
       </IconButton>
       <Popup show={show} side="right" onClose={handleClose}>
         <ResponsiveMenu id="profile-menu" anchorEl={anchorEl} responsive={show}>
-          <li>
-            <MenuItem component={Link} to="/profile" onClick={handleClose}>
-              Профиль
-            </MenuItem>
-          </li>
-          <li>
-            <MenuItem
-              component={ButtonBase}
-              onClick={() => {
-                handleLogout();
-                handleClose();
-              }}
-            >
-              Выйти
-            </MenuItem>
-          </li>
+          {authorized ? (
+            <Fragment>
+              <li>
+                <MenuItem component={Link} to="/profile" onClick={handleClose}>
+                  Профиль
+                </MenuItem>
+              </li>
+              <li>
+                <MenuItem
+                  component={ButtonBase}
+                  onClick={() => {
+                    handleLogout();
+                    handleClose();
+                  }}
+                >
+                  Выйти
+                </MenuItem>
+              </li>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <li>
+                <MenuItem component={Link} to="/sign-in" onClick={handleClose}>
+                  Войти
+                </MenuItem>
+              </li>
+              <li>
+                <MenuItem component={Link} to="/sign-up" onClick={handleClose}>
+                  Создать аккаунт
+                </MenuItem>
+              </li>
+            </Fragment>
+          )}
         </ResponsiveMenu>
       </Popup>
     </PopupContainer>
   );
 }
+
+ControlledProfileMenu.propTypes = {
+  authorized: PropTypes.bool.isRequired
+};
 
 export default memo(ControlledProfileMenu);

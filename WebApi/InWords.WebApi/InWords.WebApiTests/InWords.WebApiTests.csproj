@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
     <Compile Remove="Services\GameWordsToDictionary\**" />
+    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Services\GameWordsToDictionary\**" />
+    <None Remove="Models\**" />
     <None Remove="Services\GameWordsToDictionary\**" />
   </ItemGroup>
 
@@ -52,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\CardGameParser\" />
+    <Folder Include="Moduls\ClassicCardGame\" />
   </ItemGroup>
 
 </Project>

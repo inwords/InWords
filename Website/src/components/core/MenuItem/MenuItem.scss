@@ -14,7 +14,7 @@
     var(--transition-easing-ease-in-out);
 
   &:hover,
-  &:focus {
+  &.focus-visible {
     background-color: var(--palette-action-hover);
   }
 
