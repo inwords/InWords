@@ -27,7 +27,7 @@ const dateFormatter = new Intl.DateTimeFormat('ru', {
   minute: 'numeric'
 });
 
-function TrainingHistory() {
+function WordSetHistory() {
   const wordSetHistory = useSelector(store => store.wordSet.history);
 
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ function TrainingHistory() {
             <CardContent>
               <Typography component="h2" variant="h6" gutterBottom>
                 {dateFormatter.format(
-                  Date.parse(`${new Date(dateTime || null)} UTC`)
+                  Date.parse(dateTime ? `${dateTime}Z` : null) || null
                 )}
               </Typography>
               <Typography>
@@ -78,4 +78,4 @@ function TrainingHistory() {
   );
 }
 
-export default TrainingHistory;
+export default WordSetHistory;
