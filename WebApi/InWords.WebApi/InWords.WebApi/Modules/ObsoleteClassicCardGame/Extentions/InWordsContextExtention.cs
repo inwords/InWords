@@ -2,6 +2,7 @@
 using InWords.Data;
 using InWords.Data.Creations;
 using InWords.Data.Creations.GameBox;
+using InWords.Data.Domains.Game;
 using InWords.Data.Enums;
 using InWords.WebApi.Extensions.InWordsDataContextExtention;
 using System;
@@ -81,6 +82,12 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
                 var game = new GameLevel()
                 {
                     GameId = gameId
+                };
+                game.Historylevel = new Historylevel()
+                {
+                    DateTime = DateTime.UtcNow,
+                    WordsCount = d.Length,
+                    GameLevel = game
                 };
                 context.Add(game);
                 return game;
