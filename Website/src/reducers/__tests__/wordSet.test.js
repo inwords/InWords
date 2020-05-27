@@ -232,26 +232,32 @@ describe('wordSet reducer', () => {
     it('should return the initial state', () => {
       expect(history(undefined, {})).toEqual([]);
     });
-    const recentTrainings = [
-      {
-        levelId: 1,
-        isAvailable: true,
-        wordsCount: 1
-      },
-      {
-        levelId: 1,
-        isAvailable: true,
-        wordsCount: 2
-      }
-    ];
 
     it('should handle INITIALIZE_WORD_SET_HISTORY', () => {
       expect(
         history(undefined, {
           type: INITIALIZE_WORD_SET_HISTORY,
-          payload: recentTrainings
+          payload: [
+            {
+              levelId: 1,
+              isAvailable: true
+            },
+            {
+              levelId: 2,
+              isAvailable: true
+            }
+          ]
         })
-      ).toEqual(recentTrainings.slice().reverse());
+      ).toEqual([
+        {
+          levelId: 2,
+          isAvailable: true
+        },
+        {
+          levelId: 1,
+          isAvailable: true
+        }
+      ]);
     });
   });
 });
