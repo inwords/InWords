@@ -43,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.0" />
     <PackageReference Include="Autofac" Version="5.2.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="FluentFTP" Version="32.4.1" />
@@ -80,6 +81,7 @@
     <ProjectReference Include="..\InWords.Protobuf\InWords.Protobuf.csproj" />
     <ProjectReference Include="..\InWords.Service.Auth\InWords.Service.Auth.csproj" />
     <ProjectReference Include="..\InWords.Service.Encryption\InWords.Service.Encryption.csproj" />
+    <ProjectReference Include="..\InWords.WebApi.Blazor\InWords.WebApi.Blazor.csproj" />
   </ItemGroup>
 
   <ItemGroup>

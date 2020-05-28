@@ -117,6 +117,7 @@ namespace InWords.WebApi.AppStart
             // you need to add resources to serve static files
             // and then build a folder structure to accommodate them.
             app.UseStaticFiles();
+            app.UseBlazorFrameworkFiles();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -127,9 +128,8 @@ namespace InWords.WebApi.AppStart
                 c.SwaggerEndpoint("/swagger/v2/swagger.json", "InWords Web API V2 (grpc is allowed)");
                 c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "InWords Web API V1.1");
                 c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "InWords Web API V1");
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "docs";
             });
-
 
 
             // Enable middleware to generated logs as a text file.
@@ -138,7 +138,6 @@ namespace InWords.WebApi.AppStart
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
-
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
             //app.UseHttpMetrics();
