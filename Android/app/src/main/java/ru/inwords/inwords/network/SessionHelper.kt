@@ -46,7 +46,7 @@ class SessionHelper internal constructor(/*int maxRequests*/) {
 
     private fun requireThreshold() {
         if (unauthorisedReqThreshold.get() > MAX_UNAUTHORISED_REQUESTS) {
-            throw RuntimeException("Threshold reached") //TODO make normal exception
+            throw RuntimeException("Threshold reached") //TODO make normal exception or navigate user to auth graph
         }
     }
 

@@ -3,10 +3,9 @@ package ru.inwords.inwords.authorisation.domain.interactor
 import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.authorisation.data.AuthExceptionType
-import ru.inwords.inwords.authorisation.data.AuthenticationException
 import ru.inwords.inwords.authorisation.data.AuthenticatorTokenProvider
 import ru.inwords.inwords.authorisation.data.AuthorisationRepository
+import ru.inwords.inwords.authorisation.data.NeverAuthenticatedBeforeException
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.*
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
@@ -128,7 +127,7 @@ class AuthorisationWebInteractor internal constructor(
         return lastAuthInfoProvider.getUserId()
             .onErrorResumeNext {  //skip first start exception
                 Log.d(TAG, "detectNewUser onError: ${it.message.orEmpty()}")
-                if (it is AuthenticationException && it.exceptionType == AuthExceptionType.NO_CREDENTIALS) {
+                if (it is NeverAuthenticatedBeforeException) {
                     Single.just("")
                 } else {
                     Single.error(it)

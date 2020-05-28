@@ -2,7 +2,6 @@ package ru.inwords.inwords.authorisation.data
 
 import android.util.Log
 import io.reactivex.Single
-import ru.inwords.inwords.authorisation.data.AuthExceptionType.NO_CREDENTIALS
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.*
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
@@ -17,7 +16,7 @@ class AuthenticatorTokenProvider internal constructor(
 ) {
     fun getTokenSilently(): Single<TokenResponse> {
         return when (lastAuthInfoProvider.getAuthMethod()) {
-            NONE -> Single.error(AuthenticationException("never authenticated before -> no way to authenticate silently", NO_CREDENTIALS))
+            NONE -> Single.error(NeverAuthenticatedBeforeException("never authenticated before -> no way to authenticate silently"))
             NATIVE -> {
                 nativeAuthInfo.getCredentials()
                     .flatMap { authorisationRepository.getToken(it) }
