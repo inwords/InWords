@@ -28,28 +28,24 @@ function DictionaryRouter() {
           <Dictionary />
         </RouteContainer>
       </Route>
-      <Route exact path={`${url}/training/-1`}>
+      <Route exact path={`${url}/-1`}>
         <RouteContainer maxWidth="md">
           <Breadcrumbs>
             <BreadcrumbsLink to={url}>Словарь</BreadcrumbsLink>
-            <BreadcrumbsLink to={`${url}/training/-1`}>
-              Тренировки
-            </BreadcrumbsLink>
+            <BreadcrumbsLink to={`${url}/-1`}>Тренировки</BreadcrumbsLink>
           </Breadcrumbs>
           <DictionaryTrainingTypes />
         </RouteContainer>
       </Route>
       <Route
         exact
-        path={`${url}/training/:levelId/=)`}
+        path={`${url}/:levelId/=)`}
         render={({ match: { params } }) => (
           <RouteContainer maxWidth="lg">
             <Breadcrumbs>
               <BreadcrumbsLink to={url}>Словарь</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/training/-1`}>
-                Тренировки
-              </BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/training/${params.levelId}/=)`}>
+              <BreadcrumbsLink to={`${url}/-1`}>Тренировки</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/${params.levelId}/=)`}>
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>
