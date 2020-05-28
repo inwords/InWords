@@ -12,16 +12,16 @@ import ru.inwords.inwords.authorisation.data.grpc.AuthenticatorGrpcService
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
 import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
-import ru.inwords.inwords.authorisation.data.session.SessionHelper
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationWebInteractor
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
+import ru.inwords.inwords.core.error_handler.ErrorDataToDomainMapper
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.main_activity.di.annotations.Common
 import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
-import ru.inwords.inwords.network.AuthorisedRequestsManager
+import ru.inwords.inwords.network.SessionHelper
 import javax.inject.Singleton
 
 @Module
@@ -29,22 +29,22 @@ class AuthorisationModule {
     @Provides
     @Singleton
     fun authorisationWebInteractor(
-        authorisedRequestsManager: AuthorisedRequestsManager,
         integrationInteractor: IntegrationInteractor, //TODO inverse control somhow
+        sessionHelper: SessionHelper,
         nativeAuthInfo: NativeAuthInfo,
+        nativeTokenHolder: NativeTokenHolder,
         lastAuthInfoProvider: LastAuthInfoProvider,
         signInWithGoogle: SignInWithGoogle,
-        sessionHelper: SessionHelper,
         @GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>,
-        nativeTokenHolder: NativeTokenHolder
+        errorDataToDomainMapper: ErrorDataToDomainMapper
     ): AuthorisationInteractor {
-        val authorisationRepository = AuthorisationRepositoryImpl(sessionHelper, AuthenticatorGrpcService(managedChannel), nativeTokenHolder)
+        val authorisationRepository = AuthorisationRepositoryImpl(AuthenticatorGrpcService(managedChannel), nativeTokenHolder, errorDataToDomainMapper)
         val authenticatorTokenProvider = AuthenticatorTokenProvider(authorisationRepository, nativeAuthInfo, signInWithGoogle, lastAuthInfoProvider)
 
         return AuthorisationWebInteractor(
-            authorisedRequestsManager,
             authorisationRepository,
             integrationInteractor,
+            sessionHelper,
             nativeAuthInfo,
             lastAuthInfoProvider,
             authenticatorTokenProvider,

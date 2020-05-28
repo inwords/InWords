@@ -27,7 +27,7 @@ fun StatusRuntimeException.mapToNetworkException(): NetworkException {
     val description = status.description.orEmpty()
     val message = "trailers: $trailers\noriginal status (${status.code}) description:$description"
 
-    //TODO разобрать также org.chromium.net.NetworkException
+    //TODO разобрать также org.chromium.net.NetworkException из cause
 
     return NetworkException(mappedStatus, description, message)
 }

@@ -7,6 +7,7 @@ import dagger.Module
 import ru.inwords.inwords.App
 import ru.inwords.inwords.authorisation.di.AuthorisationAndroidInjectorsModule
 import ru.inwords.inwords.authorisation.di.AuthorisationModule
+import ru.inwords.inwords.core.di.CoreModule
 import ru.inwords.inwords.game.di.WordSetsAndroidInjectorsModule
 import ru.inwords.inwords.game.di.WordSetsModule
 import ru.inwords.inwords.network.di.NetworkCoreModule
@@ -33,7 +34,8 @@ import ru.inwords.inwords.translation.di.TranslationModule
         TtsModule::class,
         PolicyAndroidInjectorsModule::class,
         PolicyModule::class,
-        NetworkCoreModule::class
+        NetworkCoreModule::class,
+        CoreModule::class
     ]
 )
 abstract class AppModule {

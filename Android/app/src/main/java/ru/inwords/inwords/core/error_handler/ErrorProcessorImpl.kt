@@ -5,7 +5,7 @@ import ru.inwords.inwords.R
 import ru.inwords.inwords.core.error_handler.NetworkRequestStatus.*
 import ru.inwords.inwords.core.managers.ResourceManager
 
-interface ErrorHandler {
+interface ErrorProcessor {
 
     fun logError(tag: String, error: String)
 
@@ -26,7 +26,7 @@ interface ErrorHandler {
     )
 }
 
-class ErrorHandlerImpl internal constructor(private val resourceManager: ResourceManager) : ErrorHandler {
+class ErrorProcessorImpl internal constructor(private val resourceManager: ResourceManager) : ErrorProcessor {
 
     override fun logError(tag: String, error: String) {
         Log.e(tag, error)

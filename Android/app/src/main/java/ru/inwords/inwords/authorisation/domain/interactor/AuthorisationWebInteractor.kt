@@ -18,16 +18,16 @@ import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle.Goog
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.main_activity.data.getErrorMessage
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
-import ru.inwords.inwords.network.AuthorisedRequestsManager
+import ru.inwords.inwords.network.SessionHelper
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlin.random.Random
 
 class AuthorisationWebInteractor internal constructor(
-    private val authorisedRequestsManager: AuthorisedRequestsManager,
     private val authorisationRepository: AuthorisationRepository,
     private val integrationInteractor: IntegrationInteractor,
+    private val sessionHelper: SessionHelper,
     private val nativeAuthInfo: NativeAuthInfo,
     private val lastAuthInfoProvider: LastAuthInfoProvider,
     private val authenticatorTokenProvider: AuthenticatorTokenProvider,
@@ -166,10 +166,9 @@ class AuthorisationWebInteractor internal constructor(
             }
 
             Single.error(t)
+        }.doFinally {
+            sessionHelper.notifyAuthStateChanged(!authorisationRepository.isUnauthorised())
         }
-            .doFinally {
-                authorisedRequestsManager.notifyAuthStateChanged(!authorisationRepository.isUnauthorised())
-            }
     }
 
     private fun Single<TokenResponse>.checkAuthToken(): Completable {

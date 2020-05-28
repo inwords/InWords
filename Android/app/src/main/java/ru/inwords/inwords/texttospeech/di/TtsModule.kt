@@ -5,6 +5,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import io.grpc.ManagedChannel
+import ru.inwords.inwords.core.error_handler.ErrorDataToDomainMapper
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.main_activity.di.annotations.GrpcTtsChannel
@@ -23,9 +24,10 @@ class TtsModule {
         context: Context,
         resourceManager: ResourceManager,
         settingsRepository: SettingsRepository,
-        @GrpcTtsChannel managedChannel: Lazy<ManagedChannel>
+        @GrpcTtsChannel managedChannel: Lazy<ManagedChannel>,
+        errorDataToDomainMapper: ErrorDataToDomainMapper
     ): TtsRepository {
-        val remoteRepository = TtsRemoteRepository(TtsGrpcService(managedChannel))
+        val remoteRepository = TtsRemoteRepository(TtsGrpcService(managedChannel), errorDataToDomainMapper)
         val databaseRepository = TtsDatabaseRepository(context.cacheDir, resourceManager)
 
         return TtsCachingRepository(databaseRepository, remoteRepository, settingsRepository)
