@@ -1,7 +1,7 @@
 package ru.inwords.inwords.core.error_handler
 
 import io.grpc.StatusRuntimeException
-import ru.inwords.inwords.core.grpc.GrpcStatus
+import ru.inwords.inwords.network.grpc.GrpcStatus
 
 fun GrpcStatus.mapToNetworkRequestStatus(): NetworkRequestStatus {
     return when (this) {
@@ -26,6 +26,8 @@ fun StatusRuntimeException.mapToNetworkException(): NetworkException {
 
     val description = status.description.orEmpty()
     val message = "trailers: $trailers\noriginal status (${status.code}) description:$description"
+
+    //TODO разобрать также org.chromium.net.NetworkException
 
     return NetworkException(mappedStatus, description, message)
 }

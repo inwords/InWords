@@ -1,4 +1,4 @@
-package ru.inwords.inwords.core.grpc
+package ru.inwords.inwords.network.grpc
 
 import android.content.Context
 import io.grpc.ManagedChannel

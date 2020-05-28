@@ -17,15 +17,15 @@ import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle.GoogleSignedInData
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.main_activity.data.getErrorMessage
-import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
+import ru.inwords.inwords.network.AuthorisedRequestsManager
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlin.random.Random
 
 class AuthorisationWebInteractor internal constructor(
-    private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised,
+    private val authorisedRequestsManager: AuthorisedRequestsManager,
     private val authorisationRepository: AuthorisationRepository,
     private val integrationInteractor: IntegrationInteractor,
     private val nativeAuthInfo: NativeAuthInfo,
@@ -168,7 +168,7 @@ class AuthorisationWebInteractor internal constructor(
             Single.error(t)
         }
             .doFinally {
-                webRequestsManagerAuthorised.notifyAuthStateChanged(!authorisationRepository.isUnauthorised())
+                authorisedRequestsManager.notifyAuthStateChanged(!authorisationRepository.isUnauthorised())
             }
     }
 

@@ -18,10 +18,10 @@ import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationWebIntera
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.core.managers.ResourceManager
-import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.main_activity.di.annotations.Common
 import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
+import ru.inwords.inwords.network.AuthorisedRequestsManager
 import javax.inject.Singleton
 
 @Module
@@ -29,7 +29,7 @@ class AuthorisationModule {
     @Provides
     @Singleton
     fun authorisationWebInteractor(
-        webRequestsManagerAuthorised: WebRequestsManagerAuthorised,
+        authorisedRequestsManager: AuthorisedRequestsManager,
         integrationInteractor: IntegrationInteractor, //TODO inverse control somhow
         nativeAuthInfo: NativeAuthInfo,
         lastAuthInfoProvider: LastAuthInfoProvider,
@@ -42,7 +42,7 @@ class AuthorisationModule {
         val authenticatorTokenProvider = AuthenticatorTokenProvider(authorisationRepository, nativeAuthInfo, signInWithGoogle, lastAuthInfoProvider)
 
         return AuthorisationWebInteractor(
-            webRequestsManagerAuthorised,
+            authorisedRequestsManager,
             authorisationRepository,
             integrationInteractor,
             nativeAuthInfo,

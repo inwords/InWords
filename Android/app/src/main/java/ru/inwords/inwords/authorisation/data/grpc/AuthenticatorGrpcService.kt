@@ -12,7 +12,7 @@ import ru.inwords.inwords.proto.auth.OAuthTokenRequest
 import ru.inwords.inwords.proto.auth.RegistrationRequest
 import ru.inwords.inwords.proto.auth.TokenRequest
 
-internal class AuthenticatorGrpcService constructor(@GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>) {
+internal class AuthenticatorGrpcService internal constructor(@GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>) {
     private val authenticatorStub: AuthenticatorGrpc.AuthenticatorBlockingStub by unsafeLazy { AuthenticatorGrpc.newBlockingStub(managedChannel.get()) }
 
     fun getTokenOauth(tokenId: String, serviceName: String): Single<TokenResponse> {

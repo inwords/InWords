@@ -1,10 +1,10 @@
-package ru.inwords.inwords.core.grpc
+package ru.inwords.inwords.network.grpc
 
 import io.grpc.*
 import io.grpc.ForwardingClientCall.SimpleForwardingClientCall
 import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
 
-class HeaderAttachingClientInterceptor internal constructor(
+class TokenHeaderAttachingClientInterceptor internal constructor(
     private val nativeTokenHolder: NativeTokenHolder
 ) : ClientInterceptor {
     private val key: Metadata.Key<String> = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)

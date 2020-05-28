@@ -1,15 +1,20 @@
 package ru.inwords.inwords.translation.di
 
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import io.grpc.ManagedChannel
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.main_activity.data.source.database.AppRoomDatabase
-import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
+import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
+import ru.inwords.inwords.network.AuthorisedRequestsManager
+import ru.inwords.inwords.network.grpc.TokenHeaderAttachingClientInterceptor
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 import ru.inwords.inwords.translation.data.deferred.LocalWordTranslationsListDao
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterFactory
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
+import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
 import ru.inwords.inwords.translation.data.repository.TranslationWordsRemoteRepository
 import ru.inwords.inwords.translation.data.repository.TranslationWordsWebApiRepository
 import ru.inwords.inwords.translation.data.sync.TranslationSyncController
@@ -47,8 +52,12 @@ class TranslationModule {
 
     @Singleton
     @Provides
-    fun provideTranslationWordsRemoteRepository(webRequestsManagerAuthorised: WebRequestsManagerAuthorised): TranslationWordsRemoteRepository {
-        return TranslationWordsWebApiRepository(webRequestsManagerAuthorised)
+    fun provideTranslationWordsRemoteRepository(
+        authorisedRequestsManager: AuthorisedRequestsManager,
+        @GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>,
+        tokenHeaderAttachingClientInterceptor: TokenHeaderAttachingClientInterceptor
+    ): TranslationWordsRemoteRepository {
+        return TranslationWordsWebApiRepository(DictionaryGrpcService(managedChannel, tokenHeaderAttachingClientInterceptor), authorisedRequestsManager)
     }
 
     @Provides
