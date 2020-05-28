@@ -47,7 +47,7 @@ function HistoryRouter() {
         exact
         path={`${url}/:levelId/=)`}
         render={({ match: { params } }) => (
-          <RouteContainer maxWidth="lg">
+          <RouteContainer maxWidth="md">
             <Breadcrumbs>
               <BreadcrumbsLink to={url}>История</BreadcrumbsLink>
               <BreadcrumbsLink to={`${url}/${params.levelId}`}>

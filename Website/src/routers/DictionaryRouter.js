@@ -41,7 +41,7 @@ function DictionaryRouter() {
         exact
         path={`${url}/:levelId/=)`}
         render={({ match: { params } }) => (
-          <RouteContainer maxWidth="lg">
+          <RouteContainer maxWidth="md">
             <Breadcrumbs>
               <BreadcrumbsLink to={url}>Словарь</BreadcrumbsLink>
               <BreadcrumbsLink to={`${url}/-1`}>Тренировки</BreadcrumbsLink>
