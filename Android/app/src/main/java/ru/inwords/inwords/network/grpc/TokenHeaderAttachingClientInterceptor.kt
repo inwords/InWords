@@ -22,7 +22,7 @@ class TokenHeaderAttachingClientInterceptor internal constructor(
     internal constructor(call: ClientCall<ReqT, RespT>?) : SimpleForwardingClientCall<ReqT, RespT>(call) {
         override fun start(responseListener: Listener<RespT>, headers: Metadata) {
 
-            if (headers.get(key) == NativeTokenHolder.unauthorisedToken.bearer) {
+            if (nativeTokenHolder.isUnauthorisedBearer(headers.get(key))) {
                 return super.start(responseListener, headers)
             }
 

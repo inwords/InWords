@@ -42,7 +42,7 @@ class AuthorisedRequestsManagerImpl(
             sessionHelper.registerPossibleAuthError(mappedThrowable)
 
             if (sessionHelper.registerPossibleAuthError(mappedThrowable)) {
-                nativeTokenHolder.setAuthToken(NativeTokenHolder.unauthorisedToken) //TODO this has no sense in real
+                nativeTokenHolder.setUnauthorisedToken() //TODO this has no sense in real
             }
 
             Single.error(mappedThrowable)

@@ -1,7 +1,6 @@
 package ru.inwords.inwords.authorisation.domain.interactor
 
 import android.util.Log
-import io.grpc.StatusRuntimeException
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.inwords.inwords.authorisation.data.AuthExceptionType
@@ -16,12 +15,9 @@ import ru.inwords.inwords.authorisation.data.session.requireCredentials
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle.GoogleSignedInData
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
-import ru.inwords.inwords.main_activity.data.getErrorMessage
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.network.SessionHelper
 import ru.inwords.inwords.profile.data.bean.UserCredentials
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import kotlin.random.Random
 
 class AuthorisationWebInteractor internal constructor(
@@ -36,8 +32,7 @@ class AuthorisationWebInteractor internal constructor(
 
     override fun trySignInExistingAccount(): Completable {
         return authenticatorTokenProvider.getTokenSilently()
-            .interceptError()
-            .checkAuthToken()
+            .notifyAuthStateChanged()
     }
 
     override fun signInGoogleAccount(googleSignedInData: GoogleSignedInData): Completable {
@@ -51,8 +46,7 @@ class AuthorisationWebInteractor internal constructor(
             }
             .detectNewUser(idToken)
             .saveUserId(userId)
-            .interceptError()
-            .checkAuthToken()
+            .notifyAuthStateChanged()
     }
 
     override fun signIn(userCredentials: UserCredentials): Completable {
@@ -62,8 +56,7 @@ class AuthorisationWebInteractor internal constructor(
             .saveNativeCredentials(userCredentials)
             .detectNewUser(userCredentials.email)
             .saveUserId(userCredentials.email)
-            .interceptError()
-            .checkAuthToken()
+            .notifyAuthStateChanged()
     }
 
     override fun signUp(userCredentials: UserCredentials): Completable {
@@ -95,8 +88,7 @@ class AuthorisationWebInteractor internal constructor(
             .saveNativeCredentials(userCredentials)
             .detectNewUser(userCredentials.email)
             .saveUserId(userCredentials.email)
-            .interceptError()
-            .checkAuthToken()
+            .notifyAuthStateChanged()
     }
 
     override fun getLastAuthMethod(): Single<LastAuthInfoProvider.AuthMethod> {
@@ -155,30 +147,17 @@ class AuthorisationWebInteractor internal constructor(
             }
     }
 
-    private fun Single<TokenResponse>.interceptError(): Single<TokenResponse> {
-        return onErrorResumeNext { e ->
-            Log.e(TAG, e.message.orEmpty())
-
-            val t = when (e) {
-                is StatusRuntimeException -> AuthenticationException(getErrorMessage(e), AuthExceptionType.UNHANDLED) //TODO use code
-                is UnknownHostException, is SocketTimeoutException -> RuntimeException("Network troubles")
-                else -> RuntimeException(e.message)
-            }
-
-            Single.error(t)
-        }.doFinally {
+    private fun Single<TokenResponse>.notifyAuthStateChanged(): Completable {
+        return doOnEvent { _, _ ->
             sessionHelper.notifyAuthStateChanged(!authorisationRepository.isUnauthorised())
         }
-    }
-
-    private fun Single<TokenResponse>.checkAuthToken(): Completable {
-        return flatMapCompletable { tokenResponse ->
-            if (tokenResponse.isValid) {
-                integrationInteractor.getOnAuthCallback()
-            } else {
-                Completable.error(RuntimeException("unhandled")) //TODO think
+            .flatMapCompletable {
+                if (authorisationRepository.tokenSeemsValid()) {
+                    integrationInteractor.getOnAuthCallback()
+                } else {
+                    Completable.error(RuntimeException("### WATCH THIS unhandled WATCH THIS ###")) //TODO think
+                }
             }
-        }
     }
 
     private fun Single<TokenResponse>.saveNativeCredentials(userCredentials: UserCredentials): Single<TokenResponse> {

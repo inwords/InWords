@@ -5,7 +5,6 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import ru.inwords.inwords.authorisation.data.grpc.AuthenticatorGrpcService
 import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
-import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder.Companion.noToken
 import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.core.error_handler.ErrorDataToDomainMapper
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
@@ -18,8 +17,9 @@ class AuthorisationRepositoryImpl internal constructor(
 ) : AuthorisationRepository {
 
     override fun isUnauthorised() = nativeTokenHolder.isUnauthorised
+    override fun tokenSeemsValid() = nativeTokenHolder.seemsValid
 
-    override fun invalidateToken() = nativeTokenHolder.setAuthToken(noToken)
+    override fun invalidateToken() = nativeTokenHolder.invalidateToken()
 
     override fun getToken(userCredentials: UserCredentials): Single<TokenResponse> {
         return authenticatorGrpcService.getToken(userCredentials)
