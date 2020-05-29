@@ -14,14 +14,27 @@ class NativeTokenHolder internal constructor() {
         return tokenResponse
     }
 
-    val isNoToken: Boolean get() = tokenResponse == noToken
+    fun setUnauthorisedToken() {
+        setAuthToken(unauthorisedToken)
+    }
+
+    fun invalidateToken() {
+        setAuthToken(noToken)
+    }
+
+    fun isUnauthorisedBearer(bearer: String?): Boolean {
+        return bearer == unauthorisedToken.bearer
+    }
+
+    private val isNoToken: Boolean get() = tokenResponse == noToken
     val isUnauthorised: Boolean get() = tokenResponse == unauthorisedToken
+    val seemsValid: Boolean get() = !isNoToken && !isUnauthorised && tokenResponse.bearer.length > 37 //TODO think about more convenient check
 
     class NoTokenException : Exception("no token")
     class UnauthorisedTokenException : Exception("invalid token")
 
     companion object {
-        val noToken = TokenResponse()
-        val unauthorisedToken = TokenResponse("invalid_token")
+        private val noToken = TokenResponse()
+        private val unauthorisedToken = TokenResponse("invalid_token")
     }
 }

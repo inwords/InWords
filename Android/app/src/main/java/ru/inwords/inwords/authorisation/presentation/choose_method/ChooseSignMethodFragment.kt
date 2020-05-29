@@ -57,9 +57,9 @@ class ChooseSignMethodFragment : FragmentWithViewModelAndNav<ChooseSignMethodVie
         hideProgress()
     }
 
-    private fun renderErrorState(throwable: Throwable?) {
+    private fun renderErrorState(message: String) {
         binding.signInGuestButton.isEnabled = true
-        binding.errorTextView.text = "Попробуйте ещё раз\nОшибка: ${throwable?.localizedMessage.orEmpty()}"
+        binding.errorTextView.text = message
         binding.errorTextView.isVisible = true
         hideProgress()
     }
@@ -68,7 +68,7 @@ class ChooseSignMethodFragment : FragmentWithViewModelAndNav<ChooseSignMethodVie
         when (authorisationViewState.status) {
             AuthorisationViewState.Status.LOADING -> renderLoadingState()
             AuthorisationViewState.Status.SUCCESS -> renderSuccessState()
-            AuthorisationViewState.Status.ERROR -> renderErrorState(authorisationViewState.throwable)
+            AuthorisationViewState.Status.ERROR -> renderErrorState(authorisationViewState.errorMessage.orEmpty())
         }
     }
 

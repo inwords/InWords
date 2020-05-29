@@ -2,13 +2,16 @@ package ru.inwords.inwords.game.di
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import io.grpc.ManagedChannel
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.property.SharedPrefsCache
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderFactory
 import ru.inwords.inwords.game.data.deferred.level_score.LevelScoreDeferredUploaderHolder
+import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.game.data.repository.GameGatewayController
 import ru.inwords.inwords.game.data.repository.GameGatewayControllerImpl
 import ru.inwords.inwords.game.data.repository.GameRemoteRepository
@@ -22,8 +25,10 @@ import ru.inwords.inwords.game.presentation.WordsSetsViewModelFactory
 import ru.inwords.inwords.main_activity.data.WorkManagerWrapper
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.main_activity.data.source.database.AppRoomDatabase
-import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
 import ru.inwords.inwords.main_activity.di.annotations.Common
+import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
+import ru.inwords.inwords.network.AuthorisedRequestsManager
+import ru.inwords.inwords.network.grpc.TokenHeaderAttachingClientInterceptor
 import ru.inwords.inwords.policy.domain.interactor.PolicyInteractor
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterHolder
@@ -90,8 +95,12 @@ class WordSetsModule {
 
     @Provides
     @Singleton
-    fun provideGameRemoteRepository(webRequestsManagerAuthorised: WebRequestsManagerAuthorised): GameRemoteRepository {
-        return GameRemoteRepository(webRequestsManagerAuthorised)
+    fun provideGameRemoteRepository(
+        authorisedRequestsManager: AuthorisedRequestsManager,
+        @GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>,
+        tokenHeaderAttachingClientInterceptor: TokenHeaderAttachingClientInterceptor
+    ): GameRemoteRepository {
+        return GameRemoteRepository(authorisedRequestsManager, WordSetGrpcService(managedChannel, tokenHeaderAttachingClientInterceptor))
     }
 
     @Provides

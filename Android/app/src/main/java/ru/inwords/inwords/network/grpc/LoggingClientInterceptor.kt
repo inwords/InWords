@@ -1,4 +1,4 @@
-package ru.inwords.inwords.core.grpc
+package ru.inwords.inwords.network.grpc
 
 import android.util.Log
 import io.grpc.*

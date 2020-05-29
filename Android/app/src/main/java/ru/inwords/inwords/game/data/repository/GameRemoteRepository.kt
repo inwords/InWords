@@ -11,10 +11,14 @@ import ru.inwords.inwords.game.data.entity.GameEntity
 import ru.inwords.inwords.game.data.entity.GameInfoEntity
 import ru.inwords.inwords.game.data.entity.GameLevelEntity
 import ru.inwords.inwords.game.data.entity.TrainingMetricEntity
+import ru.inwords.inwords.game.data.grpc.WordSetGrpcService
 import ru.inwords.inwords.game.domain.model.TrainingScore
-import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
+import ru.inwords.inwords.network.AuthorisedRequestsManager
 
-class GameRemoteRepository internal constructor(private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised) {
+class GameRemoteRepository internal constructor(
+    private val authorisedRequestsManager: AuthorisedRequestsManager,
+    private val wordSetGrpcService: WordSetGrpcService
+) {
     private val wordSetInfoReplyConverter = WordSetInfoReplyConverter()
     private val levelWordReplyConverter = LevelWordConverter()
     private val levelReplyConverter = LevelReplyConverter()
@@ -23,17 +27,17 @@ class GameRemoteRepository internal constructor(private val webRequestsManagerAu
     private val trainingMetricEntityToCardGameMetricConverter = TrainingMetricEntityToCardGameMetricConverter()
 
     fun getGameInfos(): Single<List<GameInfoEntity>> {
-        return webRequestsManagerAuthorised.getGameInfos()
+        return authorisedRequestsManager.wrapRequest(wordSetGrpcService.getWordSets())
             .map { wordSetReply -> wordSetInfoReplyConverter.convertList(wordSetReply.wordSetsList) }
     }
 
     fun getGame(wordSetId: Int): Single<GameEntity> {
-        return webRequestsManagerAuthorised.getLevels(wordSetId)
+        return authorisedRequestsManager.wrapRequest(wordSetGrpcService.getLevels(wordSetId))
             .map { getLevelsReply -> GameEntity(wordSetId, levelReplyConverter.convertList(getLevelsReply.levelsList)) }
     }
 
     fun getLevel(levelId: Int): Single<GameLevelEntity> {
-        return webRequestsManagerAuthorised.getLevelWords(levelId)
+        return authorisedRequestsManager.wrapRequest(wordSetGrpcService.getLevelWords(levelId))
             .map { getLevelWordsReply -> GameLevelEntity(levelId, levelWordReplyConverter.convertList(getLevelWordsReply.wordsList)) }
     }
 
@@ -42,7 +46,9 @@ class GameRemoteRepository internal constructor(private val webRequestsManagerAu
     }
 
     fun trainingEstimate(trainingMetricEntities: List<TrainingMetricEntity>): Single<List<TrainingScore>> {
-        return webRequestsManagerAuthorised.estimate(trainingMetricEntityToCardGameMetricConverter.convertList(trainingMetricEntities))
+        return authorisedRequestsManager.wrapRequest(
+            wordSetGrpcService.estimate(trainingMetricEntityToCardGameMetricConverter.convertList(trainingMetricEntities))
+        )
             .map { reply -> reply.scoresList.map { trainingScoreConverter.convert(it) } }
     }
 
@@ -55,6 +61,6 @@ class GameRemoteRepository internal constructor(private val webRequestsManagerAu
     }
 
     fun addWordsToUserDictionary(gameId: Int): Completable {
-        return webRequestsManagerAuthorised.addWordSetToDictionary(gameId)
+        return authorisedRequestsManager.wrapRequest(wordSetGrpcService.addWordSetToDictionary(gameId))
     }
 }

@@ -1,10 +1,15 @@
 package ru.inwords.inwords.profile.di
 
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import io.grpc.ManagedChannel
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.main_activity.data.source.database.AppRoomDatabase
-import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
+import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
+import ru.inwords.inwords.network.AuthorisedRequestsManager
+import ru.inwords.inwords.network.grpc.TokenHeaderAttachingClientInterceptor
+import ru.inwords.inwords.profile.data.grpc.ProfileGrpcService
 import ru.inwords.inwords.profile.data.repository.UserCachingRepository
 import ru.inwords.inwords.profile.data.repository.UserDatabaseRepository
 import ru.inwords.inwords.profile.data.repository.UserRemoteRepository
@@ -18,9 +23,11 @@ class ProfileModule {
     @Singleton
     fun provideProfileInteractor(
         database: AppRoomDatabase,
-        webRequestsManagerAuthorised: WebRequestsManagerAuthorised
+        authorisedRequestsManager: AuthorisedRequestsManager,
+        @GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>,
+        tokenHeaderAttachingClientInterceptor: TokenHeaderAttachingClientInterceptor
     ): ProfileInteractor {
-        val remoteRepository = UserRemoteRepository(webRequestsManagerAuthorised)
+        val remoteRepository = UserRemoteRepository(authorisedRequestsManager, ProfileGrpcService(managedChannel, tokenHeaderAttachingClientInterceptor))
         val repository = UserCachingRepository(UserDatabaseRepository(database.userDao()), remoteRepository)
 
         return ProfileInteractor(repository)
