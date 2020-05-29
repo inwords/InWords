@@ -31,6 +31,11 @@ jobs:
   timeoutInMinutes: 10
   pool:
     vmImage: 'ubuntu-latest'
+  variables:
+    MajorVersion: 1
+    MinorVersion: 0
+    InitialReleaseTagNumber: 147
+    IncrementReleaseTagNumber: $[counter(variables['InitialReleaseTagNumber'], 0)]
   steps:
   - task: UseDotNet@2
     displayName: 'Install .net core 3.1.300'
@@ -57,8 +62,8 @@ jobs:
       action: 'create'
       target: '$(Build.SourceVersion)'
       tagSource: 'gitTag'
-      tagPattern: 'api-v2.0.*'
-      title: 'API Release'
+      tagPattern: 'api-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+      title: 'API Release v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       releaseNotesFilePath: '$(Build.ArtifactStagingDirectory)/publish/releasenotes.md'
       assets: '$(Build.ArtifactStagingDirectory)/publish/'
       changeLogCompareToRelease: 'lastFullRelease'
