@@ -25,7 +25,10 @@ trigger:
   paths:
     include:
     - WebApi/*
-    
+variables:
+    major: 2.0
+    incremental: $[counter(variables['major'], 150)]
+
 jobs:
 - job: BuildAndTest
   timeoutInMinutes: 10
@@ -87,13 +90,10 @@ jobs:
     condition: succeeded()
 
 - job: DeployReadyToRun
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'webapi-release'))
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/webapi-release'))
   timeoutInMinutes: 10
   pool:
     vmImage: 'ubuntu-latest'
-  variables:
-    major: 2.0
-    incremental: $[counter(variables['major'], 150)]
   steps:
   - task: UseDotNet@2
     displayName: 'Install .net core 3.1.300'
