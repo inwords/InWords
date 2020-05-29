@@ -64,8 +64,8 @@ jobs:
       tagSource: 'userSpecifiedTag'
       tag: 'api-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       title: 'API Release v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
-      releaseNotesFilePath: '$(Build.ArtifactStagingDirectory)/publish/releasenotes.md'
-      assets: '$(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/releasenotes.md'
+      releaseNotesFilePath: '$(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/releasenotes.md'
+      assets: '$(Build.ArtifactStagingDirectory)/linux64/'
       changeLogCompareToRelease: 'lastFullRelease'
       changeLogType: 'commitBased'
 
