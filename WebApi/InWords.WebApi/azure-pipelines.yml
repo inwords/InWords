@@ -62,7 +62,7 @@ jobs:
       action: 'create'
       target: '$(Build.SourceVersion)'
       tagSource: 'userSpecifiedTag'
-      tagPattern: 'api-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+      tag: 'api-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       title: 'API Release v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       releaseNotesFilePath: '$(Build.ArtifactStagingDirectory)/publish/releasenotes.md'
       assets: '$(Build.ArtifactStagingDirectory)/publish/'
