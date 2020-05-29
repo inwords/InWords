@@ -229,7 +229,7 @@ test('select word pair to study', async () => {
   utils.clickMenu();
   utils.clickStudy();
 
-  expect(utils.history.location.pathname).toEqual(`${utils.route}/training/-1`);
+  expect(utils.history.location.pathname).toEqual(`${utils.route}/-1`);
 });
 
 test('find word pair', async () => {

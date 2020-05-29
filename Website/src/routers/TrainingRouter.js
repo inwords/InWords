@@ -30,7 +30,7 @@ function TrainingRouter() {
         exact
         path={`${url}/:levelId/=)`}
         render={({ match: { params } }) => (
-          <RouteContainer maxWidth="lg">
+          <RouteContainer maxWidth="md">
             <Breadcrumbs>
               <BreadcrumbsLink to={`${url}/0`}>Тренировки</BreadcrumbsLink>
               <BreadcrumbsLink to={`${url}/${params.levelId}/=)`}>
