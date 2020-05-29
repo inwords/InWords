@@ -61,7 +61,7 @@ jobs:
       repositoryName: 'inwords/InWords'
       action: 'create'
       target: '$(Build.SourceVersion)'
-      tagSource: 'manual'
+      tagSource: 'userSpecifiedTag'
       tagPattern: 'api-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       title: 'API Release v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       releaseNotesFilePath: '$(Build.ArtifactStagingDirectory)/publish/releasenotes.md'
