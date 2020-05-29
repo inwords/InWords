@@ -36,10 +36,10 @@ variables:
 # Build Stage
 steps:
 - task: UseDotNet@2
-  displayName: 'Install .net core 3.1.4'
+  displayName: 'Install .net core 3.1.300'
   inputs:
     packageType: sdk
-    version: '3.1.202'
+    version: '3.1.300'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: NuGetCommand@2
