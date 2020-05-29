@@ -48,11 +48,11 @@ jobs:
       command: 'publish'
       publishWebProjects: false
       projects: '**/InWords.WebApi/InWords.WebApi.csproj'
-      arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/publish -p:PublishReadyToRun=true -p:PublishTrimmed=true -r linux-x64 --self-contained true'
+      arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/linux64 -p:PublishReadyToRun=true -p:PublishTrimmed=true -r linux-x64 --self-contained true'
       modifyOutputPath: false
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/linux64'
       ArtifactName: '_APIReady2Run'
       publishLocation: 'Container'
   - task: GitHubRelease@1
@@ -61,7 +61,7 @@ jobs:
       repositoryName: 'inwords/InWords'
       action: 'create'
       target: '$(Build.SourceVersion)'
-      tagSource: 'userSpecifiedTag'
+      tagSource: 'manual'
       tagPattern: 'api-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       title: 'API Release v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       releaseNotesFilePath: '$(Build.ArtifactStagingDirectory)/publish/releasenotes.md'
