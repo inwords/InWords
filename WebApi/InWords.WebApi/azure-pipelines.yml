@@ -122,7 +122,7 @@ jobs:
       target: '$(Build.SourceVersion)'
       tagSource: 'userSpecifiedTag'
       tag: 'api-v$(major).$(minor).$(incremental)'
-      title: 'API Release v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
+      title: 'API Release v$(major).$(minor).$(incremental)'
       releaseNotesFilePath: '$(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/releasenotes.md'
       assets: '$(Build.ArtifactStagingDirectory)/linux64/linux64.zip'
       addChangeLog: false
