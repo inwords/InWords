@@ -26,76 +26,102 @@ trigger:
     include:
     - WebApi/*
     
-pool:
-  vmImage: 'windows-2019'
+jobs:
+- job: BuildAndTest
+  timeoutInMinutes: 10
+  pool:
+    vmImage: 'windows-2019'
+  variables:
+    buildConfiguration: '-c Release'
+    testConfiguration: '$(buildConfiguration) --collect "Code coverage" '
+  steps:
+  - task: NuGetCommand@2
+    displayName: 'NuGet restore packages'
+    inputs:
+      command: 'restore'
+      restoreSolution: '**/InWords.WebApi/InWords.WebApi.sln'
+      feedsToUse: 'select'
+      vstsFeed: 'http://nuget.org/'
+  - task: DotNetCoreCLI@2
+    displayName: 'build any OS Release'
+    inputs:
+      command: build
+      projects: '**/InWords.WebApi/InWords.WebApi.csproj'
+      arguments: '$(buildConfiguration)'
+  # Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: test
+      arguments: '$(BuildConfiguration) --collect:"XPlat Code Coverage" --settings D:\a\1\s\WebApi\InWords.WebApi\coverlet.runsettings' 
+      projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
+      nobuild: true
+  # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
+  # First install the tool on the machine, then run it
+  - script: |
+      dotnet tool install -g dotnet-reportgenerator-globaltool
+      reportgenerator -reports:D:\a\**\coverage.cobertura.xml -tag:$(Build.BuildNumber) -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
+    displayName: Create Code coverage report
+  # Publish the code coverage result (summary and web site)
+  # The summary allows to view the coverage percentage in the summary tab
+  # The web site allows to view which lines are covered directly in Azure Pipeline
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
+      reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
 
-variables:
-  buildConfiguration: '-c Release'
-  testConfiguration: '$(buildConfiguration) --collect "Code coverage" '
+  # Publish artifacts stage
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish artifacts: _WebApiBuild'
+    inputs:
+      path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.1/
+      artifact: _WebApiBuild
+    condition: succeeded()
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish artifacts: _WebApiTests'
+    inputs:
+      path: $(System.DefaultWorkingDirectory)/WebApi/
+      artifact: _WebApiTests
+    condition: succeeded()
 
-# Build Stage
-steps:
-- task: UseDotNet@2
-  displayName: 'Install .net core 3.1.300'
-  inputs:
-    packageType: sdk
-    version: '3.1.300'
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-
-- task: NuGetCommand@2
-  displayName: 'NuGet restore packages'
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/InWords.WebApi/InWords.WebApi.sln'
-    feedsToUse: 'select'
-    vstsFeed: 'http://nuget.org/'
-
-- task: DotNetCoreCLI@2
-  displayName: 'build any OS Release'
-  inputs:
-    command: build
-    projects: '**/InWords.WebApi/InWords.WebApi.csproj'
-    arguments: '$(buildConfiguration)'
-
-# Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
-- task: DotNetCoreCLI@2
-  displayName: dotnet test
-  inputs:
-    command: test
-    arguments: '$(BuildConfiguration) --collect:"XPlat Code Coverage" --settings D:\a\1\s\WebApi\InWords.WebApi\coverlet.runsettings' 
-    projects: 'D:\a\1\s\WebApi\InWords.WebApi\**\*Tests.csproj'
-    nobuild: true
-
-# Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
-# First install the tool on the machine, then run it
-- script: |
-    dotnet tool install -g dotnet-reportgenerator-globaltool
-    reportgenerator -reports:D:\a\**\coverage.cobertura.xml -tag:$(Build.BuildNumber) -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
-  displayName: Create Code coverage report
-
-# Publish the code coverage result (summary and web site)
-# The summary allows to view the coverage percentage in the summary tab
-# The web site allows to view which lines are covered directly in Azure Pipeline
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage'
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
-
-
-# Publish artifacts stage
-
-- task: PublishPipelineArtifact@1
-  displayName: 'Publish artifacts: _WebApiBuild'
-  inputs:
-    path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.1/
-    artifact: _WebApiBuild
-  condition: succeeded()
-
-- task: PublishPipelineArtifact@1
-  displayName: 'Publish artifacts: _WebApiTests'
-  inputs:
-    path: $(System.DefaultWorkingDirectory)/WebApi/
-    artifact: _WebApiTests
-  condition: succeeded()
+- job: DeployReadyToRun
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'webapi-release'))
+  timeoutInMinutes: 10
+  pool:
+    vmImage: 'ubuntu-latest'
+  variables:
+    major: 2.0
+    incremental: $[counter(variables['major'], 150)]
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Install .net core 3.1.300'
+    inputs:
+      packageType: sdk
+      version: '3.1.300'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: '**/InWords.WebApi/InWords.WebApi.csproj'
+      arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/linux64 -p:PublishReadyToRun=true -p:PublishTrimmed=true -r linux-x64 --self-contained true'
+      modifyOutputPath: false
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/linux64'
+      ArtifactName: '_API-Linux64-Ready2Run'
+      publishLocation: 'Container'
+  - task: GitHubRelease@1
+    inputs:
+      gitHubConnection: 'Alword'
+      repositoryName: 'inwords/InWords'
+      action: 'create'
+      target: '$(Build.SourceVersion)'
+      tagSource: 'userSpecifiedTag'
+      tag: 'api-v$(major).$(minor).$(incremental)'
+      title: 'API Release v$(major).$(minor).$(incremental)'
+      releaseNotesFilePath: '$(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/releasenotes.md'
+      assets: '$(Build.ArtifactStagingDirectory)/linux64/linux64.zip'
+      addChangeLog: false
