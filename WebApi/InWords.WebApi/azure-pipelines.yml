@@ -65,7 +65,7 @@ jobs:
       tag: 'api-v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       title: 'API Release v$(MajorVersion).$(MinorVersion).$(IncrementReleaseTagNumber)'
       releaseNotesFilePath: '$(Build.ArtifactStagingDirectory)/publish/releasenotes.md'
-      assets: '$(Build.ArtifactStagingDirectory)/publish/'
+      assets: '$(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/releasenotes.md'
       changeLogCompareToRelease: 'lastFullRelease'
       changeLogType: 'commitBased'
 
