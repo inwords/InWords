@@ -1,10 +1,10 @@
-package ru.inwords.inwords.core.grpc
+package ru.inwords.inwords.network.grpc
 
 import io.grpc.*
 import io.grpc.ForwardingClientCall.SimpleForwardingClientCall
 import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
 
-class HeaderAttachingClientInterceptor internal constructor(
+class TokenHeaderAttachingClientInterceptor internal constructor(
     private val nativeTokenHolder: NativeTokenHolder
 ) : ClientInterceptor {
     private val key: Metadata.Key<String> = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
@@ -22,7 +22,7 @@ class HeaderAttachingClientInterceptor internal constructor(
     internal constructor(call: ClientCall<ReqT, RespT>?) : SimpleForwardingClientCall<ReqT, RespT>(call) {
         override fun start(responseListener: Listener<RespT>, headers: Metadata) {
 
-            if (headers.get(key) == NativeTokenHolder.unauthorisedToken.bearer) {
+            if (nativeTokenHolder.isUnauthorisedBearer(headers.get(key))) {
                 return super.start(responseListener, headers)
             }
 

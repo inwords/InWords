@@ -4,8 +4,9 @@ import io.reactivex.Single
 import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 
-interface WebRequestsManagerUnauthorised {
+interface AuthorisationRepository {
     fun isUnauthorised(): Boolean
+    fun tokenSeemsValid(): Boolean
     fun invalidateToken()
     fun getToken(userCredentials: UserCredentials): Single<TokenResponse>
     fun getTokenGoogle(tokenId: String): Single<TokenResponse>

@@ -20,7 +20,7 @@ class GameLevelViewHolder internal constructor(
         this.gameLevelInfo = gameLevelInfo
 
         binding.title.text = gameLevelInfo.level.toString()
-        binding.ratingBar.rating = gameLevelInfo.playerStars.toFloat()
+        binding.ratingBar.rating = gameLevelInfo.playerStars.toFloat() / 2
     }
 
     override fun onClick(v: View) {
