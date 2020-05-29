@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Transition from 'src/components/core/Transition';
 
-function Fade({ in: inProp, style, ...rest }) {
+function Fade({ in: inProp, ...rest }) {
   return (
     <Transition
       transitionProperty="opacity"
       in={inProp}
       style={{
-        opacity: inProp ? '1' : '0',
-        ...style
+        opacity: inProp ? '1' : '0'
       }}
       {...rest}
     />
@@ -18,7 +17,6 @@ function Fade({ in: inProp, style, ...rest }) {
 
 Fade.propTypes = {
   in: PropTypes.bool,
-  style: PropTypes.object,
   onTransitionEnd: PropTypes.func
 };
 

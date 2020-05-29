@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Paper from 'src/components/core/Paper';
 import ButtonBase from 'src/components/core/ButtonBase';
 import Zoom from 'src/components/core/Zoom';
+import ZoomAnimation from 'src/components/core/ZoomAnimation';
 
 import './TrainingCard.scss';
 
@@ -18,30 +19,32 @@ function TrainingCard({
   ...rest
 }) {
   return (
-    <Paper
-      component={ButtonBase}
-      square
-      className={classNames('training-card', className)}
-      style={{
-        width: dimension,
-        height: dimension,
-        fontSize: `${textSize}rem`,
-        margin
-      }}
-      {...rest}
-    >
-      <Zoom in={open} className="training-card-content-container">
-        <div>
-          <div
-            className={classNames('training-card-content', {
-              [`training-card-content--color--${color}`]: color
-            })}
-          >
-            <span className="training-card-text">{children}</span>
+    <ZoomAnimation>
+      <Paper
+        component={ButtonBase}
+        square
+        className={classNames('training-card', className)}
+        style={{
+          width: dimension,
+          height: dimension,
+          fontSize: `${textSize}rem`,
+          margin
+        }}
+        {...rest}
+      >
+        <Zoom in={open}>
+          <div className="training-card-content-container">
+            <div
+              className={classNames('training-card-content', {
+                [`training-card-content--color--${color}`]: color
+              })}
+            >
+              <span className="training-card-text">{children}</span>
+            </div>
           </div>
-        </div>
-      </Zoom>
-    </Paper>
+        </Zoom>
+      </Paper>
+    </ZoomAnimation>
   );
 }
 
