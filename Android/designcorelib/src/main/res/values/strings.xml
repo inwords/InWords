@@ -9,7 +9,7 @@
     <string name="try_again">Попробовать еще раз</string>
     <string name="logout">Выйти</string>
 
-    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="something_went_wrong">Что-то пошло не так. Попробуйте повторить позже</string>
     <string name="error_server_unimplemented">Функционал недоступ или переехал на новое место. Попробуйте повторить позже</string>
     <string name="error_permission_denied">Не разрешения на выполнение операции</string>
     <string name="error_resource_exhausted">Похоже, исчерпана квота на запрашиваемый ресурс</string>

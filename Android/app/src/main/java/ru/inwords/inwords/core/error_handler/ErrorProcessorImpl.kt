@@ -1,6 +1,8 @@
 package ru.inwords.inwords.core.error_handler
 
 import android.util.Log
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes.*
+import com.google.android.gms.common.api.ApiException
 import ru.inwords.inwords.R
 import ru.inwords.inwords.core.error_handler.NetworkRequestStatus.*
 import ru.inwords.inwords.core.managers.ResourceManager
@@ -82,6 +84,23 @@ class ErrorProcessorImpl internal constructor(private val resourceManager: Resou
                     INTERNAL -> resourceManager.getString(R.string.error_server_internal_error)
                     LOW_CONNECTION -> resourceManager.getString(R.string.error_connection_low)
                     UNAUTHENTICATED -> resourceManager.getString(R.string.error_unauthorized)
+                }
+            }
+            is ApiException -> {
+                when (throwable.statusCode) {
+                    /**
+                     * https://developers.google.com/android/reference/com/google/android/gms/auth/api/signin/GoogleSignInStatusCodes
+                     */
+                    SIGN_IN_CANCELLED -> "Попытка входа отменена пользователем"
+                    SIGN_IN_CURRENTLY_IN_PROGRESS -> "Процесс входа уже запущен"
+                    SIGN_IN_FAILED -> "Попытка входа с текущей учётной записью не удалась"
+
+                    //TODO https://developers.google.com/android/reference/com/google/android/gms/common/api/CommonStatusCodes
+                    SIGN_IN_REQUIRED -> "Необходимо сначала войти в аккаунт Google на устройстве"
+                    NETWORK_ERROR -> resourceManager.getString(R.string.error_connection_low)
+                    INVALID_ACCOUNT -> "Неверно указано имя пользователя"
+                    INTERNAL_ERROR -> resourceManager.getString(R.string.something_went_wrong)
+                    else -> resourceManager.getString(R.string.something_went_wrong)
                 }
             }
             else -> {

@@ -17,6 +17,7 @@ import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationWebIntera
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.core.error_handler.ErrorDataToDomainMapper
+import ru.inwords.inwords.core.error_handler.ErrorProcessor
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.main_activity.di.annotations.Common
 import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
@@ -79,8 +80,9 @@ class AuthorisationModule {
     @Provides
     fun provideAuthorisationViewModelFactory(
         authorisationInteractor: AuthorisationInteractor,
+        errorProcessor: ErrorProcessor,
         resourceManager: ResourceManager
     ): AuthorisationViewModelFactory {
-        return AuthorisationViewModelFactory(authorisationInteractor, resourceManager)
+        return AuthorisationViewModelFactory(authorisationInteractor, errorProcessor, resourceManager)
     }
 }

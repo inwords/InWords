@@ -149,7 +149,7 @@ enum class GrpcStatus(val status: Status) {
 
     companion object {
         fun from(status: Status): GrpcStatus {
-            return values().find { it.status == status } ?: UNKNOWN
+            return values().find { it.status.code == status.code } ?: UNKNOWN
         }
     }
 }
