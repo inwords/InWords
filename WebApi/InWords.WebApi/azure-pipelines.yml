@@ -30,7 +30,7 @@ jobs:
 - job: DeployReadyToRun
   timeoutInMinutes: 10
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-latest'
   steps:
   - task: UseDotNet@2
     displayName: 'Install .net core 3.1.300'
@@ -42,7 +42,7 @@ jobs:
     inputs:
       command: 'publish'
       publishWebProjects: false
-      projects: '**InWords.WebApi/InWords.WebApi.csproj'
+      projects: '**/InWords.WebApi/InWords.WebApi.csproj'
       arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/publish -p:PublishReadyToRun=true -p:PublishTrimmed=true -r linux-x64 --self-contained true'
       modifyOutputPath: false
   - task: PublishBuildArtifacts@1
