@@ -32,7 +32,7 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   variables:
-    MajorVersion: 1
+    MajorVersion: 2
     MinorVersion: 0
     InitialReleaseTagNumber: 147
     IncrementReleaseTagNumber: $[counter(variables['InitialReleaseTagNumber'], 0)]
