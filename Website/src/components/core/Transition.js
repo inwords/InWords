@@ -39,8 +39,9 @@ function Transition({
       transitionProperty,
       transitionDuration: transitionDurations[inProp ? 'enter' : 'exit'],
       transitionTimingFunction,
-      visibility: exited ? 'hidden' : undefined,
-      ...style
+      visibility: exited ? 'hidden' : null,
+      ...style,
+      ...children.props.style
     },
     onTransitionEnd: handleTransitionEnd,
     ...rest

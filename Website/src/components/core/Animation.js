@@ -20,15 +20,20 @@ function Animation({
     }
   };
 
-  const animationStyle = {
-    animationName,
-    animationDuration: `${animationDuration}`,
-    animationTimingFunction,
-    ...style
-  };
+  const animationStyle = !fired
+    ? {
+        animationName,
+        animationDuration: `${animationDuration}`,
+        animationTimingFunction
+      }
+    : {};
 
   return cloneElement(children, {
-    style: !fired ? animationStyle : style,
+    style: {
+      ...animationStyle,
+      ...style,
+      ...children.props.style
+    },
     onAnimationEnd: handleAnimationEnd,
     ...rest
   });
