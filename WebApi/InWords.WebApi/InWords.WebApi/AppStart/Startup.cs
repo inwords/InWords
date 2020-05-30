@@ -117,7 +117,6 @@ namespace InWords.WebApi.AppStart
             // you need to add resources to serve static files
             // and then build a folder structure to accommodate them.
             app.UseStaticFiles();
-            app.UseBlazorFrameworkFiles();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
