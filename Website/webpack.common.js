@@ -29,6 +29,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
+      'process.env.API_ROOT': JSON.stringify(process.env.API_ROOT),
       'process.env.WEB_CLIENT_ID': JSON.stringify(process.env.WEB_CLIENT_ID)
     }),
     new HtmlWebpackPlugin({
