@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
-    public class GetTrainingIds : AuthorizedRequestObjectHandler<Empty, TrainingIdsReply, InWordsDataContext>
+    public class GetTrainingIds : AuthReqHandler<Empty, TrainingIdsReply, InWordsDataContext>
     {
         public GetTrainingIds(InWordsDataContext context) : base(context) { }
 

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
-    public class AddWords : AuthorizedRequestObjectHandler<AddWordsRequest, AddWordsReply, InWordsDataContext>
+    public class AddWords : AuthReqHandler<AddWordsRequest, AddWordsReply, InWordsDataContext>
     {
         public AddWords(InWordsDataContext context) : base(context)
         {

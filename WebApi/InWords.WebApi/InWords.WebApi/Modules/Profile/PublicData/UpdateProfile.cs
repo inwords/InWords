@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.Profile.PublicData
 {
-    public class UpdateProfile : AuthorizedRequestObjectHandler<UpdateRequest, Empty, InWordsDataContext>
+    public class UpdateProfile : AuthReqHandler<UpdateRequest, Empty, InWordsDataContext>
     {
         public UpdateProfile(InWordsDataContext context) : base(context) { }
 

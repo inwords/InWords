@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Users.EmailUpdate
 {
-    public class ConfirmEmail : AuthorizedRequestObjectHandler<ConfirmEmailRequest, ConfirmEmailReply, InWordsDataContext>
+    public class ConfirmEmail : AuthReqHandler<ConfirmEmailRequest, ConfirmEmailReply, InWordsDataContext>
     {
         public ConfirmEmail(InWordsDataContext context) : base(context)
         {

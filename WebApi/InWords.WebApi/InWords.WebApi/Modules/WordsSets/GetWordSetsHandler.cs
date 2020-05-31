@@ -11,7 +11,7 @@ using static InWords.Protobuf.WordSetReply.Types;
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class GetWordSetsHandler
-        : AuthorizedRequestObjectHandler<Empty, WordSetReply, InWordsDataContext>
+        : AuthReqHandler<Empty, WordSetReply, InWordsDataContext>
     {
         public GetWordSetsHandler(InWordsDataContext context) : base(context)
         {

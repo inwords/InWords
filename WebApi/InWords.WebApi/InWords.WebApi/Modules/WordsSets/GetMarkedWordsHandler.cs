@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class GetMarkedWordsHandler
-        : AuthorizedRequestObjectHandler<WordSetWordsRequest, WordSetWordsReply, InWordsDataContext>
+        : AuthReqHandler<WordSetWordsRequest, WordSetWordsReply, InWordsDataContext>
     {
         public GetMarkedWordsHandler(InWordsDataContext context) : base(context)
         {

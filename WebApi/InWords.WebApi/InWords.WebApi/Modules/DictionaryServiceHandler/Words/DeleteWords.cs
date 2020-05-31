@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
-    public class DeleteWords : AuthorizedRequestObjectHandler<DeleteWordsRequest, Empty, InWordsDataContext>
+    public class DeleteWords : AuthReqHandler<DeleteWordsRequest, Empty, InWordsDataContext>
     {
         public DeleteWords(InWordsDataContext context) : base(context)
         {

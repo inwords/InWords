@@ -12,7 +12,7 @@ using static InWords.Protobuf.CardGameMetrics.Types;
 
 namespace InWords.WebApi.Modules.ClassicCardGame
 {
-    public class SaveLevels : AuthorizedRequestObjectHandler<CardGameInfos, LevelPoints, InWordsDataContext>
+    public class SaveLevels : AuthReqHandler<CardGameInfos, LevelPoints, InWordsDataContext>
     {
         private readonly IRequestHandler<AuthorizedRequestObject<CardGameMetrics, LevelPoints>, LevelPoints> estimateClassicCardGame;
         public SaveLevels(InWordsDataContext context,

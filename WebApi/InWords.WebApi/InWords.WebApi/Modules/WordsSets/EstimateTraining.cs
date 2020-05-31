@@ -19,7 +19,7 @@ using OpenedAudioCards = InWords.Protobuf.TrainingScoreReply.Types.TrainigScore.
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class EstimateTraining
-        : AuthorizedRequestObjectHandler<TrainingDataRequest, TrainingScoreReply, InWordsDataContext>
+        : AuthReqHandler<TrainingDataRequest, TrainingScoreReply, InWordsDataContext>
     {
         public EstimateTraining(InWordsDataContext context) : base(context) { }
 

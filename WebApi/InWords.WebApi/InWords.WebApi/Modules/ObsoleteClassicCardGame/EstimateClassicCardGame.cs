@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace InWords.WebApi.Modules.ClassicCardGame
 {
     public class EstimateClassicCardGame
-        : AuthorizedRequestObjectHandler<CardGameMetrics, LevelPoints, InWordsDataContext>
+        : AuthReqHandler<CardGameMetrics, LevelPoints, InWordsDataContext>
     {
         public EstimateClassicCardGame(InWordsDataContext context) : base(context)
         {

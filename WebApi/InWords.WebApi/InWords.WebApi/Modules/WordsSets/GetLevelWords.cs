@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class GetLevelWords
-        : AuthorizedRequestObjectHandler<GetLevelWordsRequest, GetLevelWordsReply, InWordsDataContext>
+        : AuthReqHandler<GetLevelWordsRequest, GetLevelWordsReply, InWordsDataContext>
     {
         public GetLevelWords(InWordsDataContext context) : base(context)
         {

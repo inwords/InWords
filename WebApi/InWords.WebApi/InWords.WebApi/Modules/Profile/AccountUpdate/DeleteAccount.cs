@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Users.AccountUpdate
 {
-    public class DeleteAccount : AuthorizedRequestObjectHandler<DeleteAccountRequest, Empty, InWordsDataContext>
+    public class DeleteAccount : AuthReqHandler<DeleteAccountRequest, Empty, InWordsDataContext>
     {
         public DeleteAccount(InWordsDataContext context) : base(context)
         {

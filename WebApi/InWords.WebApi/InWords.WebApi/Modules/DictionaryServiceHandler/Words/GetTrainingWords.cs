@@ -11,7 +11,7 @@ using static InWords.Protobuf.TrainingReply.Types;
 
 namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
-    public class GetTrainingWords : AuthorizedRequestObjectHandler<Empty, TrainingReply, InWordsDataContext>
+    public class GetTrainingWords : AuthReqHandler<Empty, TrainingReply, InWordsDataContext>
     {
         public GetTrainingWords(InWordsDataContext context) : base(context) { }
 

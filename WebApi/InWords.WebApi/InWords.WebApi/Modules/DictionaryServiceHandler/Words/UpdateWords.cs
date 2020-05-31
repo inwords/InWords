@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
-    public class UpdateWords : AuthorizedRequestObjectHandler<UpdateWordsRequest, AddWordsReply, InWordsDataContext>
+    public class UpdateWords : AuthReqHandler<UpdateWordsRequest, AddWordsReply, InWordsDataContext>
     {
         IRequestHandler<AuthorizedRequestObject<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords;
         IRequestHandler<AuthorizedRequestObject<DeleteWordsRequest, Empty>, Empty> deleteWords;

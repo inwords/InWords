@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Users.EmailUpdate
 {
-    public class ChangeEmail : AuthorizedRequestObjectHandler<EmailChangeRequest, EmailChangeReply, InWordsDataContext>
+    public class ChangeEmail : AuthReqHandler<EmailChangeRequest, EmailChangeReply, InWordsDataContext>
     {
         private readonly IEmailTemplateSender emailTemplateSender;
         public ChangeEmail(InWordsDataContext context, IEmailTemplateSender emailTemplateSender) : base(context)

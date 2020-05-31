@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class ToDictionaryHandler
-        : AuthorizedRequestObjectHandler<WordSetWordsRequest, Empty, InWordsDataContext>
+        : AuthReqHandler<WordSetWordsRequest, Empty, InWordsDataContext>
     {
         IRequestHandler<AuthorizedRequestObject<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords;
 

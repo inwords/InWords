@@ -16,7 +16,7 @@ using static InWords.Protobuf.GameScoreReply.Types;
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class GetTrainingLevelsHistory
-        : AuthorizedRequestObjectHandler<Empty, GameScoreReply, InWordsDataContext>
+        : AuthReqHandler<Empty, GameScoreReply, InWordsDataContext>
     {
         public GetTrainingLevelsHistory(InWordsDataContext context) : base(context) { }
 

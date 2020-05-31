@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.Profile.PublicData
 {
-    public class FindProfileId : AuthorizedRequestObjectHandler<FindIdRequest, PublicProfileReply, InWordsDataContext>
+    public class FindProfileId : AuthReqHandler<FindIdRequest, PublicProfileReply, InWordsDataContext>
     {
         public FindProfileId(InWordsDataContext context) : base(context) { }
 
