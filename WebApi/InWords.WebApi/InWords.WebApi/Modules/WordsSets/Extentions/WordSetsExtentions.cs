@@ -1,4 +1,5 @@
 ﻿using InWords.Data;
+using InWords.Data.Creations.GameBox;
 using InWords.Data.Enums;
 using InWords.Protobuf;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,29 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
             });
             reply.WordSets.AddRange(wordsSets);
             return reply;
+        }
+
+        public static IEnumerable<LevelReply> GetStarredLevels(
+            this InWordsDataContext context,
+            IQueryable<GameLevel> levelsOfGame,
+            int userId)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            return from level in levelsOfGame
+                   join userLevel in context.UserGameLevels.Where(u => u.UserId.Equals(userId)
+                   && u.GameType == GameType.Total)
+                   on level.GameLevelId equals userLevel.GameLevelId into st
+                   from userLevel in st.DefaultIfEmpty()
+                   select new LevelReply()
+                   {
+                       LevelId = level.GameLevelId,
+                       Level = level.Level,
+                       IsAvailable = true,
+                       Stars = userLevel == null ? 0 : (int)Math.Round(userLevel.UserStars / 2.0),
+                       Score = userLevel == null ? 0 : userLevel.UserStars
+                   };
         }
     }
 }

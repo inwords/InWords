@@ -1,4 +1,5 @@
 ﻿using InWords.Data;
+using InWords.Data.Creations.GameBox;
 using InWords.Protobuf;
 using InWords.WebApi.Modules.WordsSets.Extentions;
 using InWords.WebApi.Services.Abstractions;
@@ -18,7 +19,7 @@ namespace InWords.WebApi.Modules.WordsSets
 
         }
 
-        public override Task<WordSetReply> HandleRequest(AuthReq<SetsCountRequest, WordSetReply> request,
+        public override async Task<WordSetReply> HandleRequest(AuthReq<SetsCountRequest, WordSetReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)
@@ -26,13 +27,26 @@ namespace InWords.WebApi.Modules.WordsSets
 
             var value = request.Value;
             var userId = request.UserId;
-            
-            var wordSets = Context.GetWordSets(value.Offset, value.Limit);
 
-            // request levels in sets
+            var wordSets = await Context.GetWordSets(value.Offset, value.Limit).ConfigureAwait(false);
 
+            var ids = wordSets.WordSets.Select(d => d.Id).ToArray();
 
-            return base.HandleRequest(request, cancellationToken);
+            var gameLevels = Context.GameLevels.Where(d => ids.Contains(d.GameId));
+
+            var levels = Context.GetStarredLevels(gameLevels, userId);
+
+            var levelInSet = gameLevels.GroupBy(d => d.GameId).ToDictionary(d => d.Key, d => d.ToArray());
+
+            foreach (var set in wordSets.WordSets)
+            {
+                if (levelInSet.ContainsKey(set.Id))
+                {
+                    var toAdd = levels.Where(d => levelInSet[set.Id].Any(w => w.GameLevelId == d.LevelId));
+                    set.Levels.AddRange(toAdd);
+                }
+            }
+            return wordSets;
         }
     }
 }
