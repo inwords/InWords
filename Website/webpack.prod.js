@@ -46,7 +46,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|woff|woff2)$/,
+        test: /\.(woff|woff2)$/,
         loader: 'file-loader',
         options: {
           name: 'static/media/[name].[hash:8].[ext]'

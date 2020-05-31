@@ -1,23 +1,12 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import RouteContainer from 'src/components/app-common/RouteContainer';
 import Breadcrumbs from 'src/components/core/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
-
-const WordSets = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/WordSets')
-);
-const WordSetPairs = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/WordSetPairs')
-);
-const WordSetLevels = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/WordSetLevels')
-);
-const WordSetTrainingConveyor = lazy(() =>
-  import(
-    /* webpackPrefetch: true */ 'src/components/routes/WordSetTrainingConveyor'
-  )
-);
+import WordSets from 'src/components/routes/WordSets';
+import WordSetPairs from 'src/components/routes/WordSetPairs';
+import WordSetLevels from 'src/components/routes/WordSetLevels';
+import WordSetTrainingConveyor from 'src/components/routes/WordSetTrainingConveyor';
 
 function CoursesRouter() {
   const { url } = useRouteMatch();
