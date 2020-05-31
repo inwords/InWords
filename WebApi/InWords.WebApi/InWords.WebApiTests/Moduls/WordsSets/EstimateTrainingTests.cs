@@ -44,7 +44,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             training.OpenedCardsMetric.WordIdOpenCount.Add(3, 2);
             trainingDataRequest.Metrics.Add(training);
 
-            var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
+            var requestData = new AuthReq<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
             {
                 UserId = userId
             };
@@ -81,7 +81,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             training.ClosedCardsMetric.WordIdOpenCount.Add(3, 2);
             trainingDataRequest.Metrics.Add(training);
 
-            var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
+            var requestData = new AuthReq<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
             {
                 UserId = userId
             };
@@ -117,7 +117,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             training.OpenedCardsMetric.WordIdOpenCount.Add(3, 2);
             trainingDataRequest.Metrics.Add(training);
 
-            var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
+            var requestData = new AuthReq<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
             {
                 UserId = userId
             };
@@ -152,7 +152,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             training.OpenedCardsMetric.WordIdOpenCount.Add(2, 2);
             trainingDataRequest.Metrics.Add(training);
 
-            var requestData = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
+            var requestData = new AuthReq<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest)
             {
                 UserId = userId
             };
@@ -191,7 +191,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             training.ClosedAudioCards2Metric.WordIdOpenCount.Add(3, 1);
             payload.Metrics.Add(training);
 
-            var request = new AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply>(payload);
+            var request = new AuthReq<TrainingDataRequest, TrainingScoreReply>(payload);
 
             var result = await handler.HandleRequest(request);
 

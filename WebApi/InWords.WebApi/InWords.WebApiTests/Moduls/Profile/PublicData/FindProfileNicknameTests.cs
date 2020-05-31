@@ -29,7 +29,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             {
                 UserName = nickname
             };
-            var request = new AuthorizedRequestObject<FindUsernameRequest, PublicProfilesReply>(requestData)
+            var request = new AuthReq<FindUsernameRequest, PublicProfilesReply>(requestData)
             {
                 UserId = other,
             };

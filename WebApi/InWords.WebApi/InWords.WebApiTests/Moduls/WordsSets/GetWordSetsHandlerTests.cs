@@ -47,7 +47,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
 
             // act
             Empty empty = new Empty();
-            var request = new AuthorizedRequestObject<Empty, WordSetReply>(empty) { UserId = 0 };
+            var request = new AuthReq<Empty, WordSetReply>(empty) { UserId = 0 };
             var reply = await new GetWordSetsHandler(context).Handle(request);
 
             // assert

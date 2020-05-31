@@ -86,7 +86,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame.Extentions
                 game.Historylevel = new Historylevel()
                 {
                     DateTime = DateTime.UtcNow,
-                    WordsCount = d.Length,
+                    WordsCount = d.Distinct().Count(),
                     GameLevel = game
                 };
                 context.Add(game);

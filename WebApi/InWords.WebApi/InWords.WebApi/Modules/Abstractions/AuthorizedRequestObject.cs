@@ -2,13 +2,13 @@
 
 namespace InWords.WebApi.Services.Abstractions
 {
-    public class AuthorizedRequestObject<TRequest, TReply> : RequestObject<TRequest, TReply>
+    public class AuthReq<TRequest, TReply> : RequestObject<TRequest, TReply>
         where TRequest : new()
         where TReply : new()
     {
         public int UserId { get; set; }
         public Locale Locale { get; set; }
-        public AuthorizedRequestObject(TRequest value) : base(value)
+        public AuthReq(TRequest value) : base(value)
         {
         }
     }

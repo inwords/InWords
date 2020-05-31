@@ -77,12 +77,6 @@ jobs:
 
   # Publish artifacts stage
   - task: PublishPipelineArtifact@1
-    displayName: 'Publish artifacts: _WebApiBuild'
-    inputs:
-      path: $(System.DefaultWorkingDirectory)/WebApi/InWords.WebApi/InWords.WebApi/bin/Release/netcoreapp3.1/
-      artifact: _WebApiBuild
-    condition: succeeded()
-  - task: PublishPipelineArtifact@1
     displayName: 'Publish artifacts: _WebApiTests'
     inputs:
       path: $(System.DefaultWorkingDirectory)/WebApi/
@@ -113,6 +107,7 @@ jobs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)/linux64'
       ArtifactName: '_API-Linux64-Ready2Run'
       publishLocation: 'Container'
+    condition: succeeded()
   - task: GitHubRelease@1
     inputs:
       gitHubConnection: 'Alword'

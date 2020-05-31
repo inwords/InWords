@@ -33,7 +33,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
 
             // act
             var requestObject =
-                new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(
+                new AuthReq<ConfirmEmailRequest, ConfirmEmailReply>(
                     new ConfirmEmailRequest() { Email = newEmail, Code = rightCode })
                 {
                     UserId = account.AccountId
@@ -69,7 +69,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
 
             // act
             var requestObject =
-                new AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply>(
+                new AuthReq<ConfirmEmailRequest, ConfirmEmailReply>(
                     new ConfirmEmailRequest() { Email = newEmail, Code = badCode })
                 {
                     UserId = account.AccountId

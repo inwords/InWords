@@ -31,7 +31,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             {
                 WordSetId = context.Games.First().GameId
             };
-            var request = new AuthorizedRequestObject<WordSetWordsRequest, Empty>(requestData)
+            var request = new AuthReq<WordSetWordsRequest, Empty>(requestData)
             {
                 UserId = context.Users.First().UserId
             };
@@ -44,7 +44,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             context.SaveChanges();
             // act
 
-            var mock = new Mock<IRequestHandler<AuthorizedRequestObject<AddWordsRequest, AddWordsReply>, AddWordsReply>>();
+            var mock = new Mock<IRequestHandler<AuthReq<AddWordsRequest, AddWordsReply>, AddWordsReply>>();
             mock.Setup(a => a.Handle(It.Is(IsGameOne()), It.IsAny<CancellationToken>()));
 
             var reply = await new ToDictionaryHandler(context, mock.Object).Handle(request);
@@ -53,7 +53,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             mock.Verify(a => a.Handle(It.Is(IsGameOne()), It.IsAny<CancellationToken>()), Times.Once());
         }
 
-        private static Expression<Func<AuthorizedRequestObject<AddWordsRequest, AddWordsReply>, bool>> IsGameOne()
+        private static Expression<Func<AuthReq<AddWordsRequest, AddWordsReply>, bool>> IsGameOne()
         {
             return d => d.UserId == 1 && d.Value.Words.Count == 2
                                 && d.Value.Words.Any(d => d.WordForeign == "test4")

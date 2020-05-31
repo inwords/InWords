@@ -26,9 +26,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Business\**" />
     <Compile Remove="wwwroot\**" />
+    <Content Remove="Business\**" />
     <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="Business\**" />
     <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="Business\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
 
@@ -91,7 +95,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Business\" />
     <Folder Include="Extensions\Transfer\" />
     <Folder Include="Model\CardGameParser\" />
   </ItemGroup>
