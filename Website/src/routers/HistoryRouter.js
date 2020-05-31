@@ -1,22 +1,11 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import RouteContainer from 'src/components/app-common/RouteContainer';
 import Breadcrumbs from 'src/components/core/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
-
-const TrainingHistory = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/TrainingHistory')
-);
-const HistoryTrainingTypes = lazy(() =>
-  import(
-    /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingTypes'
-  )
-);
-const HistoryTrainingConveyor = lazy(() =>
-  import(
-    /* webpackPrefetch: true */ 'src/components/routes/HistoryTrainingConveyor'
-  )
-);
+import TrainingHistory from 'src/components/routes/TrainingHistory';
+import HistoryTrainingTypes from 'src/components/routes/HistoryTrainingTypes';
+import HistoryTrainingConveyor from 'src/components/routes/HistoryTrainingConveyor';
 
 function HistoryRouter() {
   const { url } = useRouteMatch();

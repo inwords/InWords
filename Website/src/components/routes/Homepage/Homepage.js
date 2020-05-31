@@ -34,7 +34,7 @@ const features = [
     description: `Более 14 различных тем, включающих в себя самые используемые и
     необходимые слова. Каждая тема состоит из нескольких уровней, упрощающих
     изучение слов.`,
-    picture: '/coursesPicture',
+    picture: `${process.env.STATIC_ROOT}/img/courses8.png`,
     pictureDescription: 'Темы'
   },
   {
@@ -42,7 +42,7 @@ const features = [
     description: `С каждым новым уровнем увеличивается количество слов на игровом
     поле, а также их сложность, что делает процесс обучения более плавным и
     увлекательным.`,
-    picture: '/levelsPicture',
+    picture: `${process.env.STATIC_ROOT}/img/levels8.png`,
     pictureDescription: 'Уровни'
   },
   {
@@ -50,7 +50,7 @@ const features = [
     description: `Благодаря простым играм можно не только запоминать слова, но и
     тренировать память, запоминая размещение карточек на игровом поле. На выбор
     доступно целых 6 игр!`,
-    picture: '/cardGamePicture',
+    picture: `${process.env.STATIC_ROOT}/img/cardGame8.png`,
     pictureDescription: 'Тренировки'
   },
   {
@@ -60,7 +60,7 @@ const features = [
     прогресса их изучения. Кроме того, слова из словаря будут автоматически
     предлагаться для повторения через некоторые промежутки времени для их более
     качественного запоминания.`,
-    picture: '/dictionaryPicture',
+    picture: `${process.env.STATIC_ROOT}/img/dictionary8.png`,
     pictureDescription: 'Словарь'
   }
 ];

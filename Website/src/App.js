@@ -12,22 +12,22 @@ import SmartSnackbar from 'src/components/app/SmartSnackbar';
 import PageContainer from 'src/components/app/PageContainer';
 import ControlledProfileMenu from 'src/components/app/ControlledProfileMenu';
 import NotFound from 'src/components/routes/NotFound';
-import DictionaryRouter from 'src/routers/DictionaryRouter';
-import TrainingRouter from 'src/routers/TrainingRouter';
-import HistoryRouter from 'src/routers/HistoryRouter';
-import CoursesRouter from 'src/routers/CoursesRouter';
+import Homepage from 'src/components/routes/Homepage';
+import SignIn from 'src/components/routes/SignIn';
+import SignUp from 'src/components/routes/SignUp';
+import Profile from 'src/components/routes/Profile';
 
-const Homepage = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/Homepage')
+const DictionaryRouter = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/routers/DictionaryRouter')
 );
-const SignIn = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/SignIn')
+const TrainingRouter = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/routers/TrainingRouter')
 );
-const SignUp = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/SignUp')
+const HistoryRouter = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/routers/HistoryRouter')
 );
-const Profile = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/Profile')
+const CoursesRouter = lazy(() =>
+  import(/* webpackPrefetch: true */ 'src/routers/CoursesRouter')
 );
 
 const privateRoutes = [
