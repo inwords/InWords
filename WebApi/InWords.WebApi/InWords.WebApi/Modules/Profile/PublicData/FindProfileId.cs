@@ -17,7 +17,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
         public FindProfileId(InWordsDataContext context) : base(context) { }
 
         public override Task<PublicProfileReply> HandleRequest(
-            AuthorizedRequestObject<FindIdRequest, PublicProfileReply> request,
+            AuthReq<FindIdRequest, PublicProfileReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

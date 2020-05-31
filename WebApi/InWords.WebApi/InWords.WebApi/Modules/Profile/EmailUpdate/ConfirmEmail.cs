@@ -18,7 +18,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
         }
 
         public override async Task<ConfirmEmailReply> HandleRequest(
-            AuthorizedRequestObject<ConfirmEmailRequest, ConfirmEmailReply> request,
+            AuthReq<ConfirmEmailRequest, ConfirmEmailReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

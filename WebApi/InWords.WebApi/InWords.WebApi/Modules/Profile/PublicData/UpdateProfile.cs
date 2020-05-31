@@ -15,7 +15,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
         public UpdateProfile(InWordsDataContext context) : base(context) { }
 
         public override async Task<Empty> HandleRequest(
-            AuthorizedRequestObject<UpdateRequest, Empty> request,
+            AuthReq<UpdateRequest, Empty> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

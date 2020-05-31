@@ -23,7 +23,7 @@ namespace InWords.WebApi.Services.Users.AccountUpdate
         /// <exception cref="ArgumentNullException">Account not found</exception>
         /// <returns></returns>
         public override async Task<Empty> HandleRequest(
-            AuthorizedRequestObject<DeleteAccountRequest, Empty> request,
+            AuthReq<DeleteAccountRequest, Empty> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

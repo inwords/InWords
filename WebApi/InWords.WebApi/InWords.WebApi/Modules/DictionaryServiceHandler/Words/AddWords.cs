@@ -19,7 +19,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
         }
 
         public override async Task<AddWordsReply> HandleRequest(
-            AuthorizedRequestObject<AddWordsRequest, AddWordsReply> request,
+            AuthReq<AddWordsRequest, AddWordsReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

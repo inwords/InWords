@@ -26,7 +26,7 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
             addWordsRequest.Words.Add(new AddWordRequest() { LocalId = 2, WordForeign = "2", WordNative = "2-2" });
 
             // act
-            var requestObject = new AuthorizedRequestObject<AddWordsRequest, AddWordsReply>(addWordsRequest)
+            var requestObject = new AuthReq<AddWordsRequest, AddWordsReply>(addWordsRequest)
             {
                 UserId = userId
             };
@@ -55,7 +55,7 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
             addWordsRequest.Words.Add(new AddWordRequest() { LocalId = 0, WordForeign = "2", WordNative = "2-2" });
 
             // act
-            var requestObject = new AuthorizedRequestObject<AddWordsRequest, AddWordsReply>(addWordsRequest)
+            var requestObject = new AuthReq<AddWordsRequest, AddWordsReply>(addWordsRequest)
             {
                 UserId = userId
             };

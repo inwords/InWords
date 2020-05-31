@@ -18,7 +18,7 @@ namespace InWords.WebApiTests.Moduls.Profile.PublicData
             await context.AddAccount(userId);
             await context.SaveChangesAsync();
 
-            var request = new AuthorizedRequestObject<Empty, ProfileReply>(new Empty())
+            var request = new AuthReq<Empty, ProfileReply>(new Empty())
             {
                 UserId = userId,
             };

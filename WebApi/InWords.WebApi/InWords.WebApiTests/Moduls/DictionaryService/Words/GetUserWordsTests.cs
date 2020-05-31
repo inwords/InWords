@@ -29,7 +29,7 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
             // act
             var service = new GetUserWords(context);
             var requestData = new GetWordsRequest();
-            var request = new AuthorizedRequestObject<GetWordsRequest, WordsReply>(requestData)
+            var request = new AuthReq<GetWordsRequest, WordsReply>(requestData)
             {
                 UserId = userId
             };
@@ -58,7 +58,7 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
             var service = new GetUserWords(context);
             var requestData = new GetWordsRequest();
             requestData.UserWordpairIds.Add(new int[] { 1, 2, 99, 100 });
-            var request = new AuthorizedRequestObject<GetWordsRequest, WordsReply>(requestData)
+            var request = new AuthReq<GetWordsRequest, WordsReply>(requestData)
             {
                 UserId = userId
             };

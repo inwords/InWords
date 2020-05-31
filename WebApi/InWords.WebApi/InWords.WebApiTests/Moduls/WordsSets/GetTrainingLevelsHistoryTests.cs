@@ -37,7 +37,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
 
             // action
             var words = new GetTrainingLevelsHistory(context);
-            var test = await words.Handle((new AuthorizedRequestObject<Empty, GameScoreReply>(new Empty()) { UserId = userId }))
+            var test = await words.Handle((new AuthReq<Empty, GameScoreReply>(new Empty()) { UserId = userId }))
                 .ConfigureAwait(false);
 
             // assert
@@ -66,7 +66,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
 
             // action
             var words = new GetTrainingLevelsHistory(context);
-            var test = await words.Handle((new AuthorizedRequestObject<Empty, GameScoreReply>(new Empty()) { UserId = userId }))
+            var test = await words.Handle((new AuthReq<Empty, GameScoreReply>(new Empty()) { UserId = userId }))
                 .ConfigureAwait(false);
 
             // assert

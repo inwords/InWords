@@ -50,7 +50,7 @@ namespace InWords.WebApiTests.Moduls.DictionaryService
             deletewordsRequets.Delete.AddRange(new int[] { 1, 3 });
 
             // act
-            var requestObject = new AuthorizedRequestObject<DeleteWordsRequest, Empty>(deletewordsRequets)
+            var requestObject = new AuthReq<DeleteWordsRequest, Empty>(deletewordsRequets)
             {
                 UserId = userId
             };
@@ -101,7 +101,7 @@ namespace InWords.WebApiTests.Moduls.DictionaryService
             deletewordsRequets.Delete.AddRange(new int[] { 1, 3 });
 
             // act
-            var requestObject = new AuthorizedRequestObject<DeleteWordsRequest, Empty>(deletewordsRequets)
+            var requestObject = new AuthReq<DeleteWordsRequest, Empty>(deletewordsRequets)
             {
                 UserId = userId
             };

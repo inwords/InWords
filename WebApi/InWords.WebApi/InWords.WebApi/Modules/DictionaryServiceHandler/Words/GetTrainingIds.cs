@@ -14,7 +14,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
     {
         public GetTrainingIds(InWordsDataContext context) : base(context) { }
 
-        public override async Task<TrainingIdsReply> HandleRequest(AuthorizedRequestObject<Empty, TrainingIdsReply> request,
+        public override async Task<TrainingIdsReply> HandleRequest(AuthReq<Empty, TrainingIdsReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

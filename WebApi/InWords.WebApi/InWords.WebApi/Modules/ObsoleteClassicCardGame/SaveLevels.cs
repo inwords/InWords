@@ -14,16 +14,16 @@ namespace InWords.WebApi.Modules.ClassicCardGame
 {
     public class SaveLevels : AuthReqHandler<CardGameInfos, LevelPoints, InWordsDataContext>
     {
-        private readonly IRequestHandler<AuthorizedRequestObject<CardGameMetrics, LevelPoints>, LevelPoints> estimateClassicCardGame;
+        private readonly IRequestHandler<AuthReq<CardGameMetrics, LevelPoints>, LevelPoints> estimateClassicCardGame;
         public SaveLevels(InWordsDataContext context,
-            IRequestHandler<AuthorizedRequestObject<CardGameMetrics, LevelPoints>, LevelPoints> estimateClassicCardGame
+            IRequestHandler<AuthReq<CardGameMetrics, LevelPoints>, LevelPoints> estimateClassicCardGame
             ) : base(context)
         {
             this.estimateClassicCardGame = estimateClassicCardGame;
         }
 
         public override async Task<LevelPoints> HandleRequest(
-            AuthorizedRequestObject<CardGameInfos, LevelPoints> request,
+            AuthReq<CardGameInfos, LevelPoints> request,
             CancellationToken cancellationToken = default)
         {
 
@@ -55,7 +55,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
                 cardGameMetrics.Metrics.Add(cardGameMetric);
             }
 
-            var estimateRequest = new AuthorizedRequestObject<CardGameMetrics, LevelPoints>(cardGameMetrics)
+            var estimateRequest = new AuthReq<CardGameMetrics, LevelPoints>(cardGameMetrics)
             {
                 UserId = userId
             };

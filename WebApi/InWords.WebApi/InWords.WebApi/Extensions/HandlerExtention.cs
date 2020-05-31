@@ -16,7 +16,7 @@ namespace InWords.WebApi.Extensions
             dynamic reqestObject;
             if (userId.HasValue)
             {
-                reqestObject = new AuthorizedRequestObject<TRequest, TReply>(request)
+                reqestObject = new AuthReq<TRequest, TReply>(request)
                 {
                     UserId = userId.Value
                 };

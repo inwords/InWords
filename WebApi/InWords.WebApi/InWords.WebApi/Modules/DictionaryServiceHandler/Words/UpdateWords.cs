@@ -12,17 +12,17 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
     public class UpdateWords : AuthReqHandler<UpdateWordsRequest, AddWordsReply, InWordsDataContext>
     {
-        IRequestHandler<AuthorizedRequestObject<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords;
-        IRequestHandler<AuthorizedRequestObject<DeleteWordsRequest, Empty>, Empty> deleteWords;
+        IRequestHandler<AuthReq<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords;
+        IRequestHandler<AuthReq<DeleteWordsRequest, Empty>, Empty> deleteWords;
         public UpdateWords(InWordsDataContext context,
-            IRequestHandler<AuthorizedRequestObject<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords,
-            IRequestHandler<AuthorizedRequestObject<DeleteWordsRequest, Empty>, Empty> deleteWords) : base(context)
+            IRequestHandler<AuthReq<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords,
+            IRequestHandler<AuthReq<DeleteWordsRequest, Empty>, Empty> deleteWords) : base(context)
         {
             this.addWords = addWords;
             this.deleteWords = deleteWords;
         }
 
-        public override async Task<AddWordsReply> HandleRequest(AuthorizedRequestObject<UpdateWordsRequest, AddWordsReply> request,
+        public override async Task<AddWordsReply> HandleRequest(AuthReq<UpdateWordsRequest, AddWordsReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)
@@ -42,12 +42,12 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
                 WordNative = d.WordNative
             }));
 
-            var addWordsRequest = new AuthorizedRequestObject<AddWordsRequest, AddWordsReply>(addRequestData)
+            var addWordsRequest = new AuthReq<AddWordsRequest, AddWordsReply>(addRequestData)
             {
                 UserId = userId
             };
 
-            var deleteRequest = new AuthorizedRequestObject<DeleteWordsRequest, Empty>(deleteRequestData)
+            var deleteRequest = new AuthReq<DeleteWordsRequest, Empty>(deleteRequestData)
             {
                 UserId = userId
             };

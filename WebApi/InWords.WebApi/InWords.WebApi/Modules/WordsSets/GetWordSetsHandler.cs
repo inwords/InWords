@@ -18,7 +18,7 @@ namespace InWords.WebApi.Modules.WordsSets
         }
 
         public override async Task<WordSetReply> HandleRequest(
-            AuthorizedRequestObject<Empty, WordSetReply> request, CancellationToken cancellationToken = default)
+            AuthReq<Empty, WordSetReply> request, CancellationToken cancellationToken = default)
         {
             WordSetReply wordSetReply = new WordSetReply();
 

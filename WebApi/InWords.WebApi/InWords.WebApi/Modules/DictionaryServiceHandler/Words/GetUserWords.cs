@@ -17,7 +17,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
         }
 
         [SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
-        public override async Task<WordsReply> HandleRequest(AuthorizedRequestObject<GetWordsRequest, WordsReply> request,
+        public override async Task<WordsReply> HandleRequest(AuthReq<GetWordsRequest, WordsReply> request,
             CancellationToken cancellationToken = default)
         {
 

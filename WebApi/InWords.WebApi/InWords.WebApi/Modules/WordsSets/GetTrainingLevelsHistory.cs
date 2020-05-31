@@ -20,7 +20,7 @@ namespace InWords.WebApi.Modules.WordsSets
     {
         public GetTrainingLevelsHistory(InWordsDataContext context) : base(context) { }
 
-        public override Task<GameScoreReply> HandleRequest(AuthorizedRequestObject<Empty, GameScoreReply> request,
+        public override Task<GameScoreReply> HandleRequest(AuthReq<Empty, GameScoreReply> request,
             CancellationToken cancellationToken = default)
         {
 

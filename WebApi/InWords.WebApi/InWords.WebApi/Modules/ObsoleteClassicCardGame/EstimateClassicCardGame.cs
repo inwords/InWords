@@ -24,7 +24,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
         }
 
         public override async Task<LevelPoints> HandleRequest(
-            AuthorizedRequestObject<CardGameMetrics, LevelPoints> request,
+            AuthReq<CardGameMetrics, LevelPoints> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

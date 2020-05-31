@@ -18,7 +18,7 @@ namespace InWords.WebApi.Modules.WordsSets
         }
 
         public override Task<GetLevelsReply> HandleRequest(
-            AuthorizedRequestObject<GetLevelsRequest, GetLevelsReply> request,
+            AuthReq<GetLevelsRequest, GetLevelsReply> request,
             CancellationToken cancellationToken = default)
         {
             var requestData = request.Value;

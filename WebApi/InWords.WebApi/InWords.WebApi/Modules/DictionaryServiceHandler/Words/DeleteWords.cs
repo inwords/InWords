@@ -13,7 +13,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
         {
         }
 
-        public override async Task<Empty> HandleRequest(AuthorizedRequestObject<DeleteWordsRequest, Empty> request, CancellationToken cancellationToken = default)
+        public override async Task<Empty> HandleRequest(AuthReq<DeleteWordsRequest, Empty> request, CancellationToken cancellationToken = default)
         {
             int[] toDelete = request.Value.Delete.ToArray();
             var uwp = Context.UserWordPairs.Where(d => d.UserId == request.UserId).Where(d => toDelete.Any(t => t == d.UserWordPairId));
