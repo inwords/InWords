@@ -77,7 +77,7 @@ namespace InWords.WebApi.Controllers.v2
         /// <returns></returns>
         [HttpGet("{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, "WordSet's levels list", typeof(GetLevelsReply))]
-        public async Task<IActionResult> GetLevels([FromRoute]int id)
+        public async Task<IActionResult> GetLevels([FromRoute] int id)
         {
             var request = new GetLevelsRequest()
             {
@@ -96,7 +96,7 @@ namespace InWords.WebApi.Controllers.v2
         /// <returns></returns>
         [HttpGet("level/{id}")]
         [SwaggerResponse(StatusCodes.Status200OK, "Level's words list", typeof(GetLevelWordsReply))]
-        public async Task<IActionResult> GetLevelWords([FromRoute]int id)
+        public async Task<IActionResult> GetLevelWords([FromRoute] int id)
         {
             var request = new GetLevelWordsRequest()
             {
@@ -123,5 +123,11 @@ namespace InWords.WebApi.Controllers.v2
         public async Task<IActionResult> History(TrainingDataRequest trainingDataRequest)
             => await mediator.AuthorizeHandlerActionResult<TrainingDataRequest, TrainingScoreReply>(trainingDataRequest, User)
             .ConfigureAwait(false);
+
+        [HttpPost("fullsets")]
+        [SwaggerResponse(StatusCodes.Status200OK, "history levels", typeof(WordSetReply))]
+        public Task<IActionResult> GetFullSets(SetsCountRequest request)
+            => mediator.AuthorizeHandlerActionResult<SetsCountRequest, WordSetReply>(request, User);
+
     }
 }
