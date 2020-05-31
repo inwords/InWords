@@ -93,15 +93,7 @@ export const pairsListsMap = (state = {}, action) => {
 
       return {
         ...state,
-        [payload.wordSetId]: payload.wordPairs.map(wordPair => {
-          const convertedWordPair = {
-            ...wordPair,
-            serverId: wordPair.wordPairId
-          };
-          delete convertedWordPair.wordPairId;
-
-          return convertedWordPair;
-        })
+        [payload.wordSetId]: payload.wordPairs
       };
     }
     case UPDATE_WORD_SET_PAIRS:

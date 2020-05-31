@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { syncWordPairs as syncWordPairsLocal } from 'src/actions/dictionaryActions';
 import { syncWordPairs } from 'src/actions/dictionaryApiActions';
+import convertDictionaryWordPairs from 'src/converters/convertDictionaryWordPairs';
 import useCheckboxList from 'src/components/core/useCheckboxList';
 import createSpeech from 'src/utils/createSpeech';
 import Paper from 'src/components/core/Paper';
@@ -19,10 +20,12 @@ function Dictionary() {
     if (!actual) {
       (async () => {
         try {
-          const data = await dispatch(
+          const { toAdd, toDelete } = await dispatch(
             syncWordPairs(wordPairs.map(({ serverId }) => serverId))
           );
-          dispatch(syncWordPairsLocal(data));
+          dispatch(
+            syncWordPairsLocal(convertDictionaryWordPairs(toAdd), toDelete)
+          );
         } catch (error) {
           dispatch(setSnackbar({ text: 'Не удалось загрузить словарь' }));
         }

@@ -55,7 +55,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             {
                 WordSetId = context.Games.First().GameId
             };
-            var request = new AuthorizedRequestObject<WordSetWordsRequest, WordSetWordsReply>(requestData)
+            var request = new AuthReq<WordSetWordsRequest, WordSetWordsReply>(requestData)
             {
                 UserId = context.Users.First().UserId
             };
@@ -79,7 +79,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             {
                 WordSetId = context.Games.First().GameId
             };
-            var request = new AuthorizedRequestObject<WordSetWordsRequest, WordSetWordsReply>(requestData)
+            var request = new AuthReq<WordSetWordsRequest, WordSetWordsReply>(requestData)
             {
                 UserId = context.Users.First().UserId
             };

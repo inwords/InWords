@@ -61,7 +61,7 @@ namespace InWords.WebApi.Controllers.v2
         [HttpPost]
         public async Task<IActionResult> UpdateWords([FromBody]UpdateWordsRequest request)
         {
-            var reqestObject = new AuthorizedRequestObject<UpdateWordsRequest, AddWordsReply>(request)
+            var reqestObject = new AuthReq<UpdateWordsRequest, AddWordsReply>(request)
             {
                 UserId = User.GetUserId()
             };

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
-    public class GetTrainingIds : AuthorizedRequestObjectHandler<Empty, TrainingIdsReply, InWordsDataContext>
+    public class GetTrainingIds : AuthReqHandler<Empty, TrainingIdsReply, InWordsDataContext>
     {
         public GetTrainingIds(InWordsDataContext context) : base(context) { }
 
-        public override async Task<TrainingIdsReply> HandleRequest(AuthorizedRequestObject<Empty, TrainingIdsReply> request,
+        public override async Task<TrainingIdsReply> HandleRequest(AuthReq<Empty, TrainingIdsReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

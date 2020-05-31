@@ -19,12 +19,12 @@ using OpenedAudioCards = InWords.Protobuf.TrainingScoreReply.Types.TrainigScore.
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class EstimateTraining
-        : AuthorizedRequestObjectHandler<TrainingDataRequest, TrainingScoreReply, InWordsDataContext>
+        : AuthReqHandler<TrainingDataRequest, TrainingScoreReply, InWordsDataContext>
     {
         public EstimateTraining(InWordsDataContext context) : base(context) { }
 
         public override async Task<TrainingScoreReply> HandleRequest(
-            AuthorizedRequestObject<TrainingDataRequest, TrainingScoreReply> request,
+            AuthReq<TrainingDataRequest, TrainingScoreReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

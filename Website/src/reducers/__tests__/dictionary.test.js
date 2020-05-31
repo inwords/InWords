@@ -30,8 +30,8 @@ describe('dictionary reducer', () => {
           payload: {
             toDelete: [2],
             toAdd: [
-              { userWordPair: 3, wordForeign: 'cat', wordNative: 'кошка' },
-              { userWordPair: 4, wordForeign: 'dog', wordNative: 'собака' }
+              { serverId: 3, wordForeign: 'cat', wordNative: 'кошка' },
+              { serverId: 4, wordForeign: 'dog', wordNative: 'собака' }
             ]
           }
         }

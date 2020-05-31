@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import useCardsGame from 'src/components/routes-common/useCardsGame';
 import CardsGameField from 'src/components/routes-common/CardsGameField';
-import AnimatedTrainingCard from 'src/components/routes-common/AnimatedTrainingCard';
+import TrainingCard from 'src/components/routes-common/TrainingCard';
 import TrainingCardValue from 'src/components/routes-common/TrainingCardValue';
 
 const CARDS_CLOSING_DELAY = 700;
@@ -124,7 +124,7 @@ function OpenedCardsGame({
       numberOfCards={wordPairs.length}
     >
       {wordPairs.map(({ id, pairId, word, onSpeech }) => (
-        <AnimatedTrainingCard
+        <TrainingCard
           key={id}
           data-testid={`card-${pairId}-${word}`}
           open={!completedPairIdsMap[pairId]}
@@ -142,7 +142,7 @@ function OpenedCardsGame({
             onSpeech={onSpeech}
             audible={audible}
           />
-        </AnimatedTrainingCard>
+        </TrainingCard>
       ))}
     </CardsGameField>
   );

@@ -3,6 +3,7 @@ using InWords.Protobuf;
 using InWords.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Org.BouncyCastle.Ocsp;
 using System.Threading.Tasks;
 
 
@@ -32,7 +33,9 @@ namespace InWords.WebApi.gRPC.Services
         => mediator.AuthorizeHandler<Empty, GameScoreReply>(request, context);
 
         public override Task<TrainingScoreReply> Estimate(TrainingDataRequest request, ServerCallContext context)
-         => mediator.AuthorizeHandler<TrainingDataRequest, TrainingScoreReply>(request, context);
+            => mediator.AuthorizeHandler<TrainingDataRequest, TrainingScoreReply>(request, context);
 
+        public override Task<WordSetReply> GetFullSets(SetsCountRequest request, ServerCallContext context)
+            => mediator.AuthorizeHandler<SetsCountRequest, WordSetReply>(request, context);
     }
 }

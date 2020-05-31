@@ -15,11 +15,6 @@ import Grid from 'src/components/core/Grid';
 import GridItem from 'src/components/core/GridItem';
 import InWordsLogo from 'src/components/routes-common/InWordsLogo';
 
-import coursesPicture from './courses.png';
-import levelsPicture from './levels.png';
-import cardGamePicture from './cardGame.png';
-import dictionaryPicture from './dictionary.png';
-
 import './Homepage.scss';
 
 const handleSignInSuccess = (data, dispatch, history) => {
@@ -37,35 +32,35 @@ const features = [
   {
     title: 'Множество готовых тем',
     description: `Более 14 различных тем, включающих в себя самые используемые и
-    необходимые слова. Каждая тема состоит из нескольких уровней,
-    упрощающих изучение слов.`,
-    picture: coursesPicture,
+    необходимые слова. Каждая тема состоит из нескольких уровней, упрощающих
+    изучение слов.`,
+    picture: `${process.env.STATIC_ROOT}/img/courses8.png`,
     pictureDescription: 'Темы'
   },
   {
     title: 'Уровни с возрастающей сложностью',
     description: `С каждым новым уровнем увеличивается количество слов на игровом
-    поле, а также их сложность, что делает процесс обучения более
-    плавным и увлекательным.`,
-    picture: levelsPicture,
+    поле, а также их сложность, что делает процесс обучения более плавным и
+    увлекательным.`,
+    picture: `${process.env.STATIC_ROOT}/img/levels8.png`,
     pictureDescription: 'Уровни'
   },
   {
-    title: 'Тренировка в виде игры',
-    description: `Благодаря простой игре можно не только запоминать слова, но и
-    тренировать память, запоминая размещение карточек на игровом
-    поле.`,
-    picture: cardGamePicture,
-    pictureDescription: 'Тренировка'
+    title: 'Тренировки в игровой форме',
+    description: `Благодаря простым играм можно не только запоминать слова, но и
+    тренировать память, запоминая размещение карточек на игровом поле. На выбор
+    доступно целых 6 игр!`,
+    picture: `${process.env.STATIC_ROOT}/img/cardGame8.png`,
+    pictureDescription: 'Тренировки'
   },
   {
-    title: 'Свой собственный словарь',
-    description: `Слова из тем, а также любые другие слова можно добавлять в
-    личный словарь и составлять из них свои свои собственные
-    тренировки. Кроме того, тренировки по словам из словаря будут
-    создаваться автоматически через некоторые промежутки времени,
-    способствуя более качественному изучению слов.`,
-    picture: dictionaryPicture,
+    title: 'Свой словарь',
+    description: `Слова из тем и любые другие слова можно добавлять в свой
+    словарь для составления из них своих тренировочных уровней и отслеживания
+    прогресса их изучения. Кроме того, слова из словаря будут автоматически
+    предлагаться для повторения через некоторые промежутки времени для их более
+    качественного запоминания.`,
+    picture: `${process.env.STATIC_ROOT}/img/dictionary8.png`,
     pictureDescription: 'Словарь'
   }
 ];

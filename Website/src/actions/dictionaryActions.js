@@ -1,7 +1,10 @@
 export const SYNC_WORD_PAIRS = 'SYNC_WORD_PAIRS';
-export const syncWordPairs = data => ({
+export const syncWordPairs = (toAdd, toDelete) => ({
   type: SYNC_WORD_PAIRS,
-  payload: data
+  payload: {
+    toAdd,
+    toDelete
+  }
 });
 
 export const DELETE_WORD_PAIRS = 'DELETE_WORD_PAIRS';

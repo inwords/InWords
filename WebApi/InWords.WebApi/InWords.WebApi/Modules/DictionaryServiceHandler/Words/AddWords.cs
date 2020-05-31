@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
 {
-    public class AddWords : AuthorizedRequestObjectHandler<AddWordsRequest, AddWordsReply, InWordsDataContext>
+    public class AddWords : AuthReqHandler<AddWordsRequest, AddWordsReply, InWordsDataContext>
     {
         public AddWords(InWordsDataContext context) : base(context)
         {
@@ -19,7 +19,7 @@ namespace InWords.WebApi.Modules.DictionaryServiceHandler.Words
         }
 
         public override async Task<AddWordsReply> HandleRequest(
-            AuthorizedRequestObject<AddWordsRequest, AddWordsReply> request,
+            AuthReq<AddWordsRequest, AddWordsReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

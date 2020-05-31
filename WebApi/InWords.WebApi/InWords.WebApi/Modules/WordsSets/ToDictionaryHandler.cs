@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class ToDictionaryHandler
-        : AuthorizedRequestObjectHandler<WordSetWordsRequest, Empty, InWordsDataContext>
+        : AuthReqHandler<WordSetWordsRequest, Empty, InWordsDataContext>
     {
-        IRequestHandler<AuthorizedRequestObject<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords;
+        IRequestHandler<AuthReq<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords;
 
         public ToDictionaryHandler(InWordsDataContext context,
-            IRequestHandler<AuthorizedRequestObject<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords) : base(context)
+            IRequestHandler<AuthReq<AddWordsRequest, AddWordsReply>, AddWordsReply> addWords) : base(context)
         {
             this.addWords = addWords;
         }
 
-        public override async Task<Empty> HandleRequest(AuthorizedRequestObject<WordSetWordsRequest, Empty> request, CancellationToken cancellationToken = default)
+        public override async Task<Empty> HandleRequest(AuthReq<WordSetWordsRequest, Empty> request, CancellationToken cancellationToken = default)
         {
             if (request == null)
                 throw new NullReferenceException();
@@ -54,7 +54,7 @@ namespace InWords.WebApi.Modules.WordsSets
         {
             AddWordsRequest addRequestData = new AddWordsRequest();
             addRequestData.Words.AddRange(pairs);
-            var addWordsRequest = new AuthorizedRequestObject<AddWordsRequest, AddWordsReply>(addRequestData)
+            var addWordsRequest = new AuthReq<AddWordsRequest, AddWordsReply>(addRequestData)
             {
                 UserId = userId
             };

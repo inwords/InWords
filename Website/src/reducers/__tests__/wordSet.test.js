@@ -141,13 +141,13 @@ describe('wordSet reducer', () => {
             wordSetId: 1,
             wordPairs: [
               {
-                wordPairId: 1,
+                serverId: 1,
                 hasAdded: false,
                 wordForeign: 'cat',
                 wordNative: 'кошка'
               },
               {
-                wordPairId: 2,
+                serverId: 2,
                 hasAdded: false,
                 wordForeign: 'dog',
                 wordNative: 'собака'

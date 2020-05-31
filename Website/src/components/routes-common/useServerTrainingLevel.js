@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializeWordSetLevel } from 'src/actions/wordSetActions';
 import { getWordSetLevel } from 'src/actions/wordSetApiActions';
+import convertWordSetLevelPairs from 'src/converters/convertWordSetLevelPairs';
 
 const useServerTrainingLevel = () => {
   const levelsMap = useSelector(store => store.wordSet.levelsMap);
@@ -20,18 +21,7 @@ const useServerTrainingLevel = () => {
           dispatch(
             initializeWordSetLevel(
               +paramLevelId,
-              words.map(wordPair => {
-                const convertedWordPair = {
-                  serverId: wordPair.userWordPairId,
-                  wordForeign: wordPair.foreignWord,
-                  wordNative: wordPair.nativeWord
-                };
-                delete convertedWordPair.userWordPairId;
-                delete convertedWordPair.foreignWord;
-                delete convertedWordPair.nativeWord;
-
-                return convertedWordPair;
-              })
+              convertWordSetLevelPairs(words)
             )
           );
         } catch (error) {

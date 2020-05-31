@@ -59,7 +59,7 @@ function Modal({
       tabIndex={-1}
       className={classNames('modal', className)}
       style={{
-        visibility: exited ? 'hidden' : undefined
+        visibility: exited ? 'hidden' : null
       }}
       {...rest}
     >

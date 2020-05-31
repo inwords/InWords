@@ -24,17 +24,7 @@ const dictionary = (
         actual: true,
         wordPairs: state.wordPairs
           .filter(({ serverId }) => !payload.toDelete.includes(serverId))
-          .concat(
-            payload.toAdd.map(wordPair => {
-              const convertedWordPair = {
-                ...wordPair,
-                serverId: wordPair.userWordPair
-              };
-              delete convertedWordPair.userWordPair;
-
-              return convertedWordPair;
-            })
-          )
+          .concat(payload.toAdd)
           .sort(lexicographicalComparison)
       };
     }

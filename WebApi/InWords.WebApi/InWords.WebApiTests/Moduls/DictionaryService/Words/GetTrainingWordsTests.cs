@@ -29,7 +29,7 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
             context.UserWordPairs.Add(new UserWordPair() { UserWordPairId = 4, UserId = otherId, NativeWord = "3", ForeignWord = "3", Background = false, TimeGap = time });
             context.SaveChanges();
             // act
-            var requestObject = new AuthorizedRequestObject<Empty, TrainingReply>(new Empty())
+            var requestObject = new AuthReq<Empty, TrainingReply>(new Empty())
             {
                 UserId = userId
             };
@@ -52,7 +52,7 @@ namespace InWords.WebApiTests.Services.DictionaryService.Words
             await context.AddAccount(otherId);
             await context.SaveChangesAsync();
 
-            var requestObject = new AuthorizedRequestObject<Empty, TrainingReply>(new Empty())
+            var requestObject = new AuthReq<Empty, TrainingReply>(new Empty())
             {
                 UserId = userId
             };
