@@ -48,6 +48,6 @@ steps:
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/jacocoTestDebugUnitTestReport/html'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/build/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/build/reports/jacoco/jacocoTestDebugUnitTestReport/html'
     failIfCoverageEmpty: true
