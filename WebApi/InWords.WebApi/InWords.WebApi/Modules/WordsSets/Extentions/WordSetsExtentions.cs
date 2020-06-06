@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Globalization;
 using static InWords.Protobuf.WordSetReply.Types;
 
 namespace InWords.WebApi.Modules.WordsSets.Extentions
@@ -29,16 +31,16 @@ namespace InWords.WebApi.Modules.WordsSets.Extentions
 
             var wordsSets = include.Select(g =>
             {
-                var description = g.CreationDescriptions.Single(d => d.LanguageId == 2);
+                var description = g.CreationDescriptions.SingleOrDefault(d => d.LanguageId == 2);
                 return new WordSetInfo()
                 {
                     Id = g.GameId,
                     Picture = g.Picture,
-                    Title = description.Title,
-                    Description = description.Description
+                    Title = description == null ? Properties.Strings.EmptyString: description.Title,
+                    Description = description == null ? Properties.Strings.EmptyString : description.Description
                 };
             });
-            reply.WordSets.AddRange(wordsSets);
+            reply.WordSets.AddRange(wordsSets.ToArray());
             return reply;
         }
 

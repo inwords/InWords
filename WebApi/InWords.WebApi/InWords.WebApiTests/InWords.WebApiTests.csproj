@@ -8,10 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Models\**" />
+    <Compile Remove="Moduls\ClassicCardGame\**" />
     <Compile Remove="Services\GameWordsToDictionary\**" />
     <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Moduls\ClassicCardGame\**" />
     <EmbeddedResource Remove="Services\GameWordsToDictionary\**" />
     <None Remove="Models\**" />
+    <None Remove="Moduls\ClassicCardGame\**" />
     <None Remove="Services\GameWordsToDictionary\**" />
   </ItemGroup>
 
@@ -52,10 +55,6 @@
     <None Update="test1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Moduls\ClassicCardGame\" />
   </ItemGroup>
 
 </Project>
