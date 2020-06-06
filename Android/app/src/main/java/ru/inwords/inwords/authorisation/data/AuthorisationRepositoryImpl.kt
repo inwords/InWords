@@ -4,10 +4,10 @@ import android.util.Log
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import ru.inwords.inwords.authorisation.data.grpc.AuthenticatorGrpcService
-import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
-import ru.inwords.inwords.authorisation.data.session.TokenResponse
-import ru.inwords.inwords.core.error_handler.ErrorDataToDomainMapper
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.network.NativeTokenHolder
+import ru.inwords.inwords.network.TokenResponse
+import ru.inwords.inwords.network.error_handler.ErrorDataToDomainMapper
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 class AuthorisationRepositoryImpl internal constructor(

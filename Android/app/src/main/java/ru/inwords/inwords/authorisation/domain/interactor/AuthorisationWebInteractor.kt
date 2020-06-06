@@ -9,13 +9,13 @@ import ru.inwords.inwords.authorisation.data.NeverAuthenticatedBeforeException
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.*
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
-import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.authorisation.data.session.requireCredentials
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle.GoogleSignedInData
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
 import ru.inwords.inwords.network.SessionHelper
+import ru.inwords.inwords.network.TokenResponse
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import kotlin.random.Random
 

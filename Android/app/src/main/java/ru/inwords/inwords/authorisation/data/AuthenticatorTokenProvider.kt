@@ -5,8 +5,8 @@ import io.reactivex.Single
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider.AuthMethod.*
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
-import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
+import ru.inwords.inwords.network.TokenResponse
 
 class AuthenticatorTokenProvider internal constructor(
     private val authorisationRepository: AuthorisationRepository,

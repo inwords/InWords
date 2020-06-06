@@ -2,14 +2,18 @@ package ru.inwords.inwords.translation.data.repository
 
 import io.reactivex.Completable
 import io.reactivex.Single
+import ru.inwords.inwords.core.deferred_entry_manager.EntityIdentificator
 import ru.inwords.inwords.network.AuthorisedRequestsManager
 import ru.inwords.inwords.translation.converter.LookupReplyConverter
 import ru.inwords.inwords.translation.converter.TrainingPairConverter
 import ru.inwords.inwords.translation.converter.WordTranslationReplyConverter
 import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
-import ru.inwords.inwords.translation.domain.model.*
+import ru.inwords.inwords.translation.domain.model.Definition
+import ru.inwords.inwords.translation.domain.model.LookupDirection
 import ru.inwords.inwords.translation.domain.model.LookupDirection.EN_RU
 import ru.inwords.inwords.translation.domain.model.LookupDirection.RU_EN
+import ru.inwords.inwords.translation.domain.model.PullWordsAnswer
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import kotlin.math.abs
 
 class TranslationWordsWebApiRepository internal constructor(
