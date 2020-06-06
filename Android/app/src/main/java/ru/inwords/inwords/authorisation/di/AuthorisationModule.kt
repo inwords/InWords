@@ -11,18 +11,18 @@ import ru.inwords.inwords.authorisation.data.AuthorisationRepositoryImpl
 import ru.inwords.inwords.authorisation.data.grpc.AuthenticatorGrpcService
 import ru.inwords.inwords.authorisation.data.session.LastAuthInfoProvider
 import ru.inwords.inwords.authorisation.data.session.NativeAuthInfo
-import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationWebInteractor
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewModelFactory
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
-import ru.inwords.inwords.core.error_handler.ErrorDataToDomainMapper
-import ru.inwords.inwords.core.error_handler.ErrorProcessor
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.main_activity.di.annotations.Common
 import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.main_activity.domain.interactor.IntegrationInteractor
+import ru.inwords.inwords.network.NativeTokenHolder
 import ru.inwords.inwords.network.SessionHelper
+import ru.inwords.inwords.network.error_handler.ErrorDataToDomainMapper
+import ru.inwords.inwords.network.error_handler.ErrorProcessor
 import javax.inject.Singleton
 
 @Module
@@ -69,12 +69,6 @@ class AuthorisationModule {
     @Singleton
     fun provideSignInWithGoogle(context: Context): SignInWithGoogle {
         return SignInWithGoogle(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideNativeTokenHolder(): NativeTokenHolder {
-        return NativeTokenHolder()
     }
 
     @Provides

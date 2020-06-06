@@ -6,8 +6,8 @@ import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteracto
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
 import ru.inwords.inwords.authorisation.presentation.login.LoginViewModel
 import ru.inwords.inwords.core.SingleLiveEvent
-import ru.inwords.inwords.core.error_handler.ErrorProcessor
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.network.error_handler.ErrorProcessor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 
 class ChooseSignMethodViewModel(

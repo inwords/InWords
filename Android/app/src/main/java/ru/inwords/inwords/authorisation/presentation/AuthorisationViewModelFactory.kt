@@ -6,8 +6,8 @@ import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteracto
 import ru.inwords.inwords.authorisation.presentation.choose_method.ChooseSignMethodViewModel
 import ru.inwords.inwords.authorisation.presentation.login.LoginViewModel
 import ru.inwords.inwords.authorisation.presentation.registration.RegistrationViewModel
-import ru.inwords.inwords.core.error_handler.ErrorProcessor
 import ru.inwords.inwords.core.managers.ResourceManager
+import ru.inwords.inwords.network.error_handler.ErrorProcessor
 
 class AuthorisationViewModelFactory internal constructor(
     private val authorisationInteractor: AuthorisationInteractor,

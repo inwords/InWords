@@ -1,7 +1,7 @@
 package ru.inwords.inwords.texttospeech.data.repository
 
 import io.reactivex.Single
-import ru.inwords.inwords.core.error_handler.ErrorDataToDomainMapper
+import ru.inwords.inwords.network.error_handler.ErrorDataToDomainMapper
 import ru.inwords.inwords.texttospeech.data.bean.AudioConfig
 import ru.inwords.inwords.texttospeech.data.grpc.TtsGrpcService
 

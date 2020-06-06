@@ -1,7 +1,7 @@
 package ru.inwords.inwords.authorisation.data
 
 import io.reactivex.Single
-import ru.inwords.inwords.authorisation.data.session.TokenResponse
+import ru.inwords.inwords.network.TokenResponse
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 interface AuthorisationRepository {
