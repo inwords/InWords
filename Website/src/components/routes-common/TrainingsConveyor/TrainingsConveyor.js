@@ -12,7 +12,7 @@ import OpenedCardsGame from 'src/components/routes-common/OpenedCardsGame';
 import TrainingPairsDialog from './TrainingPairsDialog';
 
 function TrainingsConveyor({
-  selectedTrainingTypes = ['openedAudioCards', 'openedCards', 'closedCards'],
+  selectedTrainingTypes = ['openedAudioCards', 'closedCards'],
   trainingsSettings = { quantity: '8', listOn: false },
   trainingLevel,
   handleNextLevel = () => {},
