@@ -5,7 +5,7 @@ import CardsGameField from 'src/components/routes-common/CardsGameField';
 import TrainingCard from 'src/components/routes-common/TrainingCard';
 import TrainingCardValue from 'src/components/routes-common/TrainingCardValue';
 
-const CARD_CLOSING_DELAY = 700;
+const CARD_CLOSING_DELAY = 900;
 const GAME_COMPLETION_DELAY = 700;
 
 function ClosedCardsGame({
