@@ -1,4 +1,4 @@
-package ru.inwords.shimmer_recycler;
+package ru.inwords.designcorelib.custom_views.shimmer_recycler;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import ru.inwords.designcorelib.R;
 
 public class ShimmerRecyclerView extends RecyclerView {
     public enum LayoutMangerType {

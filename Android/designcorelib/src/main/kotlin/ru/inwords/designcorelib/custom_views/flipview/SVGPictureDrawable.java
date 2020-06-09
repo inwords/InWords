@@ -1,4 +1,4 @@
-package ru.inwords.flipview;
+package ru.inwords.designcorelib.custom_views.flipview;
 
 import android.graphics.drawable.PictureDrawable;
 

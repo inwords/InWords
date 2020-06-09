@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ru.inwords.flipview.FlipView xmlns:android="http://schemas.android.com/apk/res/android"
+<ru.inwords.designcorelib.custom_views.flipview.FlipView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/flip_view"
     android:layout_width="@dimen/game_card_size"
@@ -13,4 +13,4 @@
 
     <include layout="@layout/game_card_rear" />
 
-</ru.inwords.flipview.FlipView>
+</ru.inwords.designcorelib.custom_views.flipview.FlipView>
