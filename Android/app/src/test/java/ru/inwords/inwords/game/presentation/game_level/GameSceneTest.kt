@@ -7,7 +7,7 @@ import android.widget.TextView
 import io.mockk.*
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import ru.inwords.flipview.FlipView
+import ru.inwords.designcorelib.custom_views.flipview.FlipView
 import ru.inwords.inwords.R
 import ru.inwords.inwords.game.domain.model.CardsData
 import ru.inwords.inwords.translation.domain.model.WordTranslation

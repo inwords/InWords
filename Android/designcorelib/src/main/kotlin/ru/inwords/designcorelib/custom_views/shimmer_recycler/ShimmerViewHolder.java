@@ -1,4 +1,4 @@
-package ru.inwords.shimmer_recycler;
+package ru.inwords.designcorelib.custom_views.shimmer_recycler;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

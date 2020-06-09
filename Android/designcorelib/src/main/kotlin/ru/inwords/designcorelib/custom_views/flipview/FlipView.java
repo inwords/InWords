@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.inwords.flipview;
+package ru.inwords.designcorelib.custom_views.flipview;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -55,6 +55,8 @@ import androidx.annotation.IntRange;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import ru.inwords.designcorelib.R;
 
 /**
  * FlipView is a ViewGroup (FrameLayout) that is designed to display 2 views/layouts by flipping
