@@ -6,8 +6,8 @@ import io.reactivex.Single
 import io.reactivex.schedulers.TestScheduler
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.inwords.inwords.core.deferred_entry_manager.LocalEntriesListDaoMock
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
+import ru.inwords.inwords.core.mock.LocalEntriesListDaoMock
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.translation.converter.WordTranslationValueConverter
 import ru.inwords.inwords.translation.data.deferred.WordTranslationDeferredAdapterFactory

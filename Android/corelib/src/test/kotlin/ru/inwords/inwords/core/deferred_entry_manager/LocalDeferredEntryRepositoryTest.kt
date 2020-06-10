@@ -5,11 +5,12 @@ import io.mockk.spyk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.inwords.inwords.core.deferred_entry_manager.LocalEntriesListDaoMock.UnitDeferredEntry
+import ru.inwords.inwords.core.mock.LocalEntriesListDaoMock.UnitDeferredEntry
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntryFactory
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalDeferredEntryRepository
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
+import ru.inwords.inwords.core.mock.LocalEntriesListDaoMock
 
 internal class LocalDeferredEntryRepositoryTest {
 
