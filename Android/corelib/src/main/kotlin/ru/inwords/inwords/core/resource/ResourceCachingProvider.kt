@@ -41,8 +41,8 @@ class ResourceCachingProvider<T : Any>(
 
     init {
         askForContentStream //TODO loading state emit somewhere
-            .observeOn(SchedulersFacade.io())
             .doOnNext { inProgress.set(true) }
+            .observeOn(SchedulersFacade.io())
             .switchMap {
                 fakeRemoteStream.mergeWith(remoteObservable.subscribeOn(SchedulersFacade.io()))
             }

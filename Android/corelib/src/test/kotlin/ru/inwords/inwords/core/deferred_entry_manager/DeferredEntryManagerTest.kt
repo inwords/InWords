@@ -3,13 +3,14 @@ package ru.inwords.inwords.core.deferred_entry_manager
 import io.mockk.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.inwords.inwords.core.deferred_entry_manager.LocalEntriesListDaoMock.UnitDeferredEntry
+import ru.inwords.inwords.core.mock.LocalEntriesListDaoMock.UnitDeferredEntry
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntryFactory
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalDeferredEntryRepository
 import ru.inwords.inwords.core.deferred_entry_manager.repository.LocalEntriesListDao
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteDeferredEntryWriteRepository
 import ru.inwords.inwords.core.deferred_entry_manager.repository.RemoteEntriesListBasicDao
+import ru.inwords.inwords.core.mock.LocalEntriesListDaoMock
 
 internal class DeferredEntryManagerTest {
     private lateinit var localDao: LocalEntriesListDao<EntityIdentificator, UnitDeferredEntry>

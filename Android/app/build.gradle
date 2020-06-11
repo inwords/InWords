@@ -84,10 +84,6 @@ android {
                 srcDir 'src\\main\\java\\ru\\inwords\\inwords\\texttospeech\\data\\grpc'
             }
         }
-        String sharedTestDir = project(':corelib').file("src/test/kotlin")
-        test {
-            java.srcDir sharedTestDir
-        }
     }
 
     packagingOptions {
