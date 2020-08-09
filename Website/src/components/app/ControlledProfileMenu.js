@@ -1,9 +1,10 @@
-import React, { Fragment, memo } from 'react';
+import React, { Fragment, useContext, memo } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { denyAccess } from 'src/actions/authActions';
 import { removeState } from 'src/localStorage';
+import { OAuth2Context } from 'src/components/app/OAuth2Manager';
 import Icon from 'src/components/core/Icon';
 import IconButton from 'src/components/core/IconButton';
 import ResponsiveMenu from 'src/components/core/ResponsiveMenu';
@@ -13,27 +14,25 @@ import PopupContainer from 'src/components/core/PopupContainer';
 import Popup from 'src/components/core/Popup';
 import ButtonBase from 'src/components/core/ButtonBase';
 
-const handleOAuth2Logout = async () => {
-  if (window.gapi) {
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    if (auth2 != null) {
-      try {
-        await auth2.signOut();
-        auth2.disconnect();
-      } catch (error) {
-        // die
-      }
-    }
-  }
-};
-
 function ControlledProfileMenu({ authorized }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const { initialized } = useContext(OAuth2Context);
+
   const handleLogout = async () => {
     try {
-      await handleOAuth2Logout();
+      if (!initialized) return;
+
+      const auth2 = window.gapi.auth2.getAuthInstance();
+      if (auth2 != null) {
+        try {
+          await auth2.signOut();
+          auth2.disconnect();
+        } catch (error) {
+          // die
+        }
+      }
     } catch (error) {
       // die
     } finally {
