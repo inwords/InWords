@@ -19,7 +19,7 @@
             app:title="@string/choose_level" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ru.inwords.shimmer_recycler.ShimmerRecyclerView
+    <ru.inwords.designcorelib.custom_views.shimmer_recycler.ShimmerRecyclerView
         android:id="@+id/levels_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -9,6 +9,8 @@ buildscript {
 
         kotlin_version = '1.3.72'
 
+        jacoco_version = '0.8.5'
+
         versions = [
                 ANDROID_X        : '1.1.0',
                 MATERIAL_COMP    : '1.0.0',
@@ -83,4 +85,52 @@ subprojects { subproject ->
 static boolean isAndroidLibraryOrAppPlugin(Plugin plugin) {
     plugin.getClass().canonicalName in ["com.android.build.gradle.LibraryPlugin",
                                         "com.android.build.gradle.AppPlugin"]
+}
+
+final def (JacocoMerge mergeTask, JacocoReport mergedReportTask) = addJacocoMergeToRootProject(rootProject)
+ext.mergeTask = mergeTask
+ext.mergedReportTask = mergedReportTask
+
+protected static addJacocoMergeToRootProject(final Project project) {
+    project.plugins.apply('jacoco')
+
+    project.jacoco {
+        toolVersion = project.ext.jacoco_version
+    }
+
+    def mergeTask = project.task("mergeJacocoReports", type: JacocoMerge) {
+        executionData project.files().asFileTree // Start with an empty collection.
+        destinationFile project.file("${project.buildDir}/jacoco/mergedReport.exec")
+
+        doFirst {
+            // Filter non existing files.
+            def realExecutionData = project.files()
+
+            executionData.each {
+                if (it.exists()) {
+                    realExecutionData.setFrom(project.files(it) + realExecutionData.files)
+                }
+            }
+
+            executionData = realExecutionData
+        }
+    }
+
+    def mergedReportTask = project.task("jacocoTestReportMerged", type: JacocoReport, dependsOn: mergeTask) {
+        group = "Reporting"
+
+        executionData mergeTask.destinationFile
+
+        reports {
+            html.enabled = true
+            xml.enabled = true
+        }
+
+        // Start with empty collections.
+        getClassDirectories().from(project.files())
+        getAdditionalSourceDirs().from(project.files())
+        getSourceDirectories().from(project.files())
+    }
+
+    return [mergeTask, mergedReportTask]
 }

@@ -1,1 +1,1 @@
-include ':corelib', ':networklib', ':app', ':flipview', ':shimmer_recycler', ':designcorelib'
+include ':corelib', ':networklib', ':app', ':designcorelib'

@@ -2,21 +2,20 @@ package ru.inwords.inwords.core.resource
 
 import android.util.Log
 import io.mockk.every
-import io.mockk.junit5.MockKExtension
 import io.mockk.mockkStatic
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Single
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subscribers.TestSubscriber
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 
-@ExtendWith(MockKExtension::class)
 internal class ResourceCachingProviderTest {
     private val localRepo = HashMap<Int, String>()
     private val id = 10
 
+    @Disabled
     @Test
     fun resourceCachingProvider_create_all_success1() {
         val str = StringBuilder("Remote val")
@@ -68,7 +67,7 @@ internal class ResourceCachingProviderTest {
         println("1")
         provider.observe(true)
             .observeOn(SchedulersFacade.io())
-            .subscribe { subject.onNext(it) }
+            .subscribe(subject)
 
         Thread.sleep(50)
 //        subscriber.awaitCount(1, {}, 100)
@@ -80,20 +79,20 @@ internal class ResourceCachingProviderTest {
         println("2")
         provider.observe()
             .observeOn(SchedulersFacade.io())
-            .subscribe { subject.onNext(it) }
+            .subscribe(subject)
 
         Thread.sleep(50)
         println("3")
 
         provider.observe()
             .observeOn(SchedulersFacade.io())
-            .subscribe { subject.onNext(it) }
+            .subscribe(subject)
 
         Thread.sleep(50)
         println("4")
         provider.observe()
             .observeOn(SchedulersFacade.io())
-            .subscribe { subject.onNext(it) }
+            .subscribe(subject)
 
         val strr = "Remote val" + 11
         val value = Resource.Success(strr, Source.NETWORK)
@@ -111,8 +110,8 @@ internal class ResourceCachingProviderTest {
 
         val provider = ResourceCachingProvider<String>(
             { data -> Single.fromCallable { localRepo.put(id, data) }.map { data } },
-            { Single.just(localRepo[id]!!) }, //by id local
-            { Single.just(str) }) //by id remote
+            { Single.fromCallable { localRepo[id]!! } }, //by id local
+            { Single.fromCallable { str } }) //by id remote
 
         provider.observe()
             .test()
@@ -136,9 +135,9 @@ internal class ResourceCachingProviderTest {
         val str = "Remote val"
 
         val provider = ResourceCachingProvider<String>(
-            { Single.error(Throwable("local error")) },
-            { Single.just(localRepo[id]!!) }, //by id local
-            { Single.just(str) }) //by id remote
+            { Single.defer { Single.error<String>(Throwable("local error")) } },
+            { Single.fromCallable { localRepo[id]!! } }, //by id local
+            { Single.fromCallable { str } }) //by id remote
 
         provider.observe()
             .test()
@@ -162,18 +161,15 @@ internal class ResourceCachingProviderTest {
             { Single.fromCallable { localRepo[id]!! } }, //by id local
             { Single.fromCallable { str.toString() } }) //by id remote
 
-        val subscriber = TestSubscriber<Resource<String>>()
+        val testObserver = provider.observe()
+            .test()
 
-        provider.observe()
-            .toFlowable(BackpressureStrategy.BUFFER)
-            .subscribe(subscriber)
-
-        subscriber.awaitCount(1)
+        testObserver.awaitCount(1)
 
         str.append(2)
         provider.askForContentUpdate()
 
-        subscriber
+        testObserver
             .awaitCount(3, {}, 50) //TODO
             .assertNoErrors()
             .assertValueAt(1) { it is Resource.Success }
@@ -195,12 +191,12 @@ internal class ResourceCachingProviderTest {
 
         val str = "Local val"
 
+        localRepo[id] = str
+
         val provider = ResourceCachingProvider<String>(
             { data -> Single.fromCallable { localRepo.put(id, data) }.map { data } },
-            { Single.just(localRepo[id]!!) }, //by id local
-            { Single.error(Throwable("remote error")) }) //by id remote
-
-        localRepo[id] = str
+            { Single.fromCallable { localRepo[id]!! } }, //by id local
+            { Single.defer { Single.error<String>(Throwable("remote error")) } }) //by id remote
 
         provider.observe()
             .test()

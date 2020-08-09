@@ -1,7 +1,8 @@
-package ru.inwords.inwords.core.deferred_entry_manager
+package ru.inwords.inwords.core.mock
 
 import io.reactivex.Completable
 import io.reactivex.Single
+import ru.inwords.inwords.core.deferred_entry_manager.EntityIdentificator
 import ru.inwords.inwords.core.deferred_entry_manager.model.CopyableWithId
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.DeferredEntry
 import ru.inwords.inwords.core.deferred_entry_manager.model.local.Status

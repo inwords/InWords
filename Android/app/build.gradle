@@ -84,10 +84,6 @@ android {
                 srcDir 'src\\main\\java\\ru\\inwords\\inwords\\texttospeech\\data\\grpc'
             }
         }
-        String sharedTestDir = project(':corelib').file("src/test/kotlin")
-        test {
-            java.srcDir sharedTestDir
-        }
     }
 
     packagingOptions {
@@ -130,8 +126,6 @@ protobuf {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation project(path: ':flipview')
-    implementation project(path: ':shimmer_recycler')
     implementation project(path: ':designcorelib')
     implementation project(path: ':networklib')
     implementation project(path: ':corelib')

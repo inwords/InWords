@@ -6,8 +6,9 @@ import {
   RESET_WORD_PAIRS_ACTUALITY
 } from 'src/actions/dictionaryActions';
 
+const collator = new Intl.Collator('en');
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
-  firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign);
+  collator.compare(firstWordPair.wordForeign, secondWordPair.wordForeign);
 
 const dictionary = (
   state = {

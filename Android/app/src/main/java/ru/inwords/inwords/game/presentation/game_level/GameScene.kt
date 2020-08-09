@@ -13,7 +13,7 @@ import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
-import ru.inwords.flipview.FlipView
+import ru.inwords.designcorelib.custom_views.flipview.FlipView
 import ru.inwords.inwords.core.utils.scaleText
 import ru.inwords.inwords.databinding.GameCardBinding
 import ru.inwords.inwords.game.domain.model.CardsData
