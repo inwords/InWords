@@ -1,12 +1,9 @@
 import React from 'react';
 import { act, fireEvent, waitFor } from '@testing-library/react';
-import { toHaveStyle } from '@testing-library/jest-dom/matchers';
 import { Route } from 'react-router-dom';
 import mockFetch from 'src/test-utils/mockFetch';
 import renderWithEnvironment from 'src/test-utils/renderWithEnvironment';
 import TrainingsConveyor from 'src/components/routes-common/TrainingsConveyor';
-
-expect.extend({ toHaveStyle });
 
 const setup = ({ initialState, selectedTrainingTypes } = {}) => {
   const accessData = {
@@ -42,39 +39,6 @@ const setup = ({ initialState, selectedTrainingTypes } = {}) => {
     trainingLevel,
     mockingLevelResultResponse,
     clickWordEl
-  };
-};
-
-const setupForCardSettingsEdit = params => {
-  const utils = setup(params);
-  const clickSettings = () => fireEvent.click(utils.getByText('settings'));
-  const cardSettings = {
-    dimensions: '120',
-    textSize: '1'
-  };
-  const newCardSettings = {
-    dimensions: '130',
-    textSize: '1.125'
-  };
-  const changeCardDimensionsInput = value =>
-    fireEvent.change(utils.getByDisplayValue(cardSettings.dimensions), {
-      target: { value }
-    });
-  const changeCardTextSizeInput = value =>
-    fireEvent.change(utils.getByDisplayValue(cardSettings.textSize), {
-      target: { value }
-    });
-  const clickSettingsSubmit = () =>
-    fireEvent.click(utils.getByText('Сохранить'));
-
-  return {
-    ...utils,
-    cardSettings,
-    newCardSettings,
-    clickSettings,
-    changeCardDimensionsInput,
-    changeCardTextSizeInput,
-    clickSettingsSubmit
   };
 };
 
@@ -139,31 +103,4 @@ test('finish opened cards game + closed cards game', async () => {
   await finishCardsGame(utils);
   await finishCardsGame(utils);
   await waitFor(() => utils.getAllByText('star'));
-});
-
-test('edit card settings', async () => {
-  const utils = setupForCardSettingsEdit({
-    selectedTrainingTypes: ['openedCards']
-  });
-  const firstPair = utils.trainingLevel.wordTranslations[0];
-  const firstCard = await waitFor(() =>
-    utils.getByTestId(`card-${firstPair.serverId}-${firstPair.wordForeign}`)
-  );
-  const cardSettings = utils.cardSettings;
-  const newCardSettings = utils.newCardSettings;
-
-  expect(firstCard).toHaveStyle({
-    width: `${cardSettings.dimensions}px`,
-    height: `${cardSettings.dimensions}px`,
-    fontSize: `${cardSettings.fontSize}px`
-  });
-  utils.clickSettings();
-  utils.changeCardDimensionsInput(newCardSettings.dimensions);
-  utils.changeCardTextSizeInput(newCardSettings.textSize);
-  utils.clickSettingsSubmit();
-  expect(firstCard).toHaveStyle({
-    width: `${newCardSettings.dimensions}px`,
-    height: `${newCardSettings.dimensions}px`,
-    fontSize: `${newCardSettings.fontSize}px`
-  });
 });
