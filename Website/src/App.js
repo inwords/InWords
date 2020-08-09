@@ -1,16 +1,21 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import history from 'src/history';
 import FocusVisibleManager from 'src/components/core/FocusVisibleManager';
+import ScrollToTop from 'src/components/core/ScrollToTop';
 import OAuth2Manager from 'src/components/app/OAuth2Manager';
 import ErrorBoundary from 'src/components/app/ErrorBoundary';
 import RouteContainer from 'src/components/app-common/RouteContainer';
-import ScrollToTop from 'src/components/core/ScrollToTop';
 import PageProgress from 'src/components/app/PageProgress';
 import SmartSnackbar from 'src/components/app/SmartSnackbar';
 import PageContainer from 'src/components/app/PageContainer';
 import ControlledProfileMenu from 'src/components/app/ControlledProfileMenu';
+import AccessController from 'src/components/app/AccessController';
 import NotFound from 'src/components/routes/NotFound';
 import Homepage from 'src/components/routes/Homepage';
 import SignIn from 'src/components/routes/SignIn';
@@ -53,7 +58,7 @@ function App() {
   const userId = useSelector(store => store.auth.userId);
 
   return (
-    <BrowserRouter>
+    <Router>
       <ScrollToTop />
       <FocusVisibleManager>
         <OAuth2Manager>
@@ -87,20 +92,25 @@ function App() {
                     </RouteContainer>
                   </Route>
                   <Route path="/profile">
+                    <AccessController />
                     <RouteContainer maxWidth="md">
                       <Profile />
                     </RouteContainer>
                   </Route>
                   <Route path="/dictionary">
+                    <AccessController />
                     <DictionaryRouter />
                   </Route>
                   <Route path="/training">
+                    <AccessController />
                     <TrainingRouter />
                   </Route>
                   <Route path="/history">
+                    <AccessController />
                     <HistoryRouter />
                   </Route>
                   <Route path="/courses">
+                    <AccessController />
                     <CoursesRouter />
                   </Route>
                   <Route path="*">
@@ -115,7 +125,7 @@ function App() {
         </OAuth2Manager>
       </FocusVisibleManager>
       <SmartSnackbar />
-    </BrowserRouter>
+    </Router>
   );
 }
 

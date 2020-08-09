@@ -1,4 +1,3 @@
-import history from 'src/history';
 import { beginLoading, endLoading } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/authActions';
 
@@ -26,10 +25,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
   if (withCredentials) {
     const token = getState().auth.token;
 
-    if (!token) {
-      history.push('/sign-in');
-      return;
-    }
+    if (!token) return;
 
     headers.append('Authorization', `Bearer ${token}`);
   }
@@ -65,7 +61,6 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
       const statusCode = error.statusCode;
       if (statusCode === 401) {
         dispatch(denyAccess());
-        history.push('/sign-in');
       } else {
         reject(statusCode);
       }
