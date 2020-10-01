@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import io.grpc.ManagedChannel
 import ru.inwords.inwords.core.managers.ResourceManager
+import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.main_activity.data.source.database.AppRoomDatabase
 import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
@@ -66,8 +67,9 @@ class TranslationModule {
         translationWordsInteractor: TranslationWordsInteractor,
         ttsRepository: TtsRepository,
         settingsRepository: SettingsRepository,
-        resourceManager: ResourceManager
+        resourceManager: ResourceManager,
+        gameCreator: GameCreator
     ): TranslationViewModelFactory {
-        return TranslationViewModelFactory(translationWordsInteractor, ttsRepository, settingsRepository, resourceManager)
+        return TranslationViewModelFactory(translationWordsInteractor, ttsRepository, settingsRepository, resourceManager, gameCreator)
     }
 }
