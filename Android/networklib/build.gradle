@@ -33,7 +33,7 @@ dependencies {
     implementation project(path: ':corelib')
     implementation project(path: ':designcorelib')
 
-    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 

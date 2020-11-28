@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion targetSdk
@@ -21,11 +21,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    androidExtensions {
-        features = ["parcelize"]
-        //TODO its now no need to use this to Parcelize, but it shows warning otherwise
-    }
 }
 
 dependencies {
@@ -35,7 +30,7 @@ dependencies {
 
     //support
     implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc01"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"
 
     //preference
     implementation "androidx.preference:preference-ktx:$versions.PREFERENCE"
@@ -51,7 +46,7 @@ dependencies {
     // Gson
     implementation "com.google.code.gson:gson:$versions.GSON"
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
 
     androidTestImplementation "androidx.test:runner:$versions.ANDROIDX_TEST"
     androidTestImplementation "androidx.test:core:$versions.ANDROIDX_TEST"
