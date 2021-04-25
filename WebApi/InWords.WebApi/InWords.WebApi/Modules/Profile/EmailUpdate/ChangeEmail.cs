@@ -64,7 +64,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
                 SentTime = DateTime.UtcNow,
                 Attempts = 0,
                 UserId = request.UserId,
-                Guid = Guid.Parse(approveEmailTemplate.Link),
+                Guid = approveEmailTemplate.Link,
                 Email = email
             };
             Context.EmailVerifies.Add(emailVerifies);

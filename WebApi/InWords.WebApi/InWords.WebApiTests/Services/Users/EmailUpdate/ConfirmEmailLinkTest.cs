@@ -18,7 +18,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
         {
             // arrange
             int userId = 1;
-            Guid rightGuid = Guid.NewGuid();
+            string rightGuid = Guid.NewGuid().ToString();
             string newEmail = "new@mail.ru";
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
             await context.AddAccount(userId);
@@ -48,7 +48,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
         public async void WrongLinkTest()
         {
             // arrange
-            Guid rightGuid = Guid.NewGuid();
+            string rightGuid = Guid.NewGuid().ToString();
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
             context.EmailVerifies.Add(new EmailVerifies()
             {
@@ -74,7 +74,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
             await using InWordsDataContext context = InWordsDataContextFactory.Create();
             context.EmailVerifies.Add(new EmailVerifies()
             {
-                Guid = Guid.NewGuid(),
+                Guid = Guid.NewGuid().ToString(),
             });
             await context.SaveChangesAsync();
 

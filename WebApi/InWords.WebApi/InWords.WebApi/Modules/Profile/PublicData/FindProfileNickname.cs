@@ -31,7 +31,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             var totalMatch = Context.PublicProfile(u => u.NickName == value.UserName)
                 .Take(5);
             var startWith = Context.PublicProfile(u => u.NickName != value.UserName
-            && u.NickName.StartsWith(value.UserName, StringComparison.InvariantCultureIgnoreCase))
+            && u.NickName.ToLower().StartsWith(value.UserName.ToLower()))
                 .Take(5);
 
             var users = totalMatch.Union(startWith);

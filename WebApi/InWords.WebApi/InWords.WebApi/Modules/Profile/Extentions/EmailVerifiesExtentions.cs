@@ -14,7 +14,7 @@ namespace InWords.WebApi.Services.Users.Extentions
             return emailVerifies
                 .Where(e => (e.UserId.Equals(userId) &&
                 e.Code.Equals(code) &&
-                e.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase)) || e.SentTime < outOfdate);
+                e.Email.ToLower() == email.ToLower()) || e.SentTime < outOfdate);
         }
 
         public static IQueryable<EmailVerifies> OutOfDated(this DbSet<EmailVerifies> emailVerifies, Guid guid)

@@ -36,7 +36,7 @@ namespace InWords.WebApi.Services.OAuth2.Requests
 
             var requestData = request.Value;
             // TODO: hashSet
-            if (requestData.ServiceName.Equals("google", StringComparison.InvariantCultureIgnoreCase))
+            if (requestData.ServiceName.ToLower() == "google")
             {
                 var payload = GoogleJsonWebSignature.ValidateAsync(requestData.Token, new GoogleJsonWebSignature.ValidationSettings()).Result;
 
