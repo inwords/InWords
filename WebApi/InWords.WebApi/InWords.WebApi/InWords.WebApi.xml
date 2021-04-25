@@ -307,7 +307,7 @@
             <param name="retrievabilityLevel"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthorizedRequestObject{InWords.Protobuf.DeleteAccountRequest,InWords.Protobuf.Empty},System.Threading.CancellationToken)">
+        <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthReq{InWords.Protobuf.DeleteAccountRequest,InWords.Protobuf.Empty},System.Threading.CancellationToken)">
             <summary>
             Delete account by id if exist
             </summary>
