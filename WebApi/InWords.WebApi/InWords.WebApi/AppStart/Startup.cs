@@ -88,7 +88,7 @@ namespace InWords.WebApi.AppStart
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerInWords();
-            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton(Configuration);
             services.AddHttpClient();
             // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureServices(services));
@@ -108,7 +108,6 @@ namespace InWords.WebApi.AppStart
             app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
             app.UseMiddleware<ResponseMetricMiddleware>();
             app.UseMvc();
-
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -117,10 +116,8 @@ namespace InWords.WebApi.AppStart
             // you need to add resources to serve static files
             // and then build a folder structure to accommodate them.
             app.UseStaticFiles();
-
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
@@ -130,17 +127,11 @@ namespace InWords.WebApi.AppStart
                 c.RoutePrefix = "docs";
             });
 
-
-            // Enable middleware to generated logs as a text file.
-            //loggerFactory;
-
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
                 app.UseMiddleware<SecureConnectionMiddleware>();
 
-            //app.UseHttpMetrics();
-            // to register types of modules
             Program.InModules.ForEach(m => m.ConfigureApp(app));
         }
 

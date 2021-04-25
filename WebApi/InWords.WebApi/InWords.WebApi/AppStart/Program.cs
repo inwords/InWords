@@ -26,9 +26,7 @@ namespace InWords.WebApi.AppStart
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webHostBuilder =>
                 {
-
-                    GetPorts(out int http, out int https, out int https2);
-
+                    GetPorts(out int https, out int https2);
                     string? path = AppDomain.CurrentDomain.BaseDirectory;
                     if (string.IsNullOrWhiteSpace(path)) path = "";
 
@@ -36,14 +34,9 @@ namespace InWords.WebApi.AppStart
                     .UseStartup<Startup>()
                     .UseKestrel((hostingContext, options) =>
                     {
-                        options.Listen(IPAddress.Loopback, http,
-                            listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2
-                            );
-
                         options.Listen(IPAddress.Loopback, https,
                             listenOptions =>
                             {
-                                listenOptions.UseHttps();
                                 listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                             });
 
@@ -61,20 +54,16 @@ namespace InWords.WebApi.AppStart
                 });
         }
 
-        private static void GetPorts(out int http, out int https, out int https2)
+        private static void GetPorts(out int https, out int https2)
         {
-            http = 5100;
             https = 5101;
             https2 = 5102;
 
-            string? INWHTTP = Environment.GetEnvironmentVariable("INWHTTP");
             string? INWHTTPS = Environment.GetEnvironmentVariable("INWHTTPS");
             string? INWHTTPS2 = Environment.GetEnvironmentVariable("INWHTTPS2");
 
-            Console.WriteLine($"Environment {INWHTTP} {INWHTTPS} {INWHTTPS2}");
+            Console.WriteLine($"Environment {INWHTTPS} {INWHTTPS2}");
 
-            if (!string.IsNullOrWhiteSpace(INWHTTP))
-                http = int.Parse(INWHTTP, NumberFormatInfo.InvariantInfo);
             if (!string.IsNullOrWhiteSpace(INWHTTPS))
                 https = int.Parse(INWHTTPS, NumberFormatInfo.InvariantInfo);
             if (!string.IsNullOrWhiteSpace(INWHTTPS2))

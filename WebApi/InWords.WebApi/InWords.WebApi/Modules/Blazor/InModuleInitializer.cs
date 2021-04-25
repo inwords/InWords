@@ -9,11 +9,9 @@ namespace InWords.WebApi.Modules.Blazor
     {
         public override void ConfigureApp(IApplicationBuilder app)
         {
-            app.UseBlazorFrameworkFiles();
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToFile("index.html");
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
