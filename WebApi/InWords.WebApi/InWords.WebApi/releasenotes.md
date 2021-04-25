@@ -1,14 +1,16 @@
-﻿### Release notes
+﻿### Release notes 2.1.0
 
-- [x] INW-147 fix history dubles
-- [x] INW-148 remove redundant pipeline artefacts
-- [x] INW-149 update default router
+- [X] Update to .NET 5
+- [X] Move to container
+- [X] Replace MySQL with PostgreSQL (in container :) )
+- [ ] Update Build and Release pipeline
+- [ ] Test GRPC without https behind load balancer
+- [ ] Test entire application with new database
+- [ ] Write migration scripts using evolve
 
-### NEW experimental API
-- [ ] INW-132 all levels request
-
-* GRPC WordSets.v2.GetFullsets
-
-* REST GET WordSets.Fullsets
-
-Load all games with stars using pagination.
+### Roadmap to 2.1.*
+- [ ] Learn F#
+- [ ] Test QUIC HTTP3
+- [ ] Test Envoy GRPC-REST PROXY
+- [ ] Test Kibana loggers
+- [ ] Test docker swarm
