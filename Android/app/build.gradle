@@ -7,11 +7,12 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.protobuf'
 
 android {
-    compileSdkVersion targetSdk
+    compileSdkVersion rootProject.ext.targetSdk
+
     defaultConfig {
         applicationId "ru.inwords.inwords"
-        minSdkVersion minSdk
-        targetSdkVersion targetSdk
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
         versionCode 20
         versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -125,10 +126,10 @@ dependencies {
     implementation project(path: ':networklib')
     implementation project(path: ':corelib')
 
-    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.3.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.0.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -136,7 +137,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.ANDROID_X"
 
     implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
@@ -211,7 +212,7 @@ dependencies {
 
     implementation "com.google.code.gson:gson:$versions.GSON"
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     androidTestImplementation "androidx.test:runner:$versions.ANDROIDX_TEST"
     androidTestImplementation "androidx.test:core:$versions.ANDROIDX_TEST"

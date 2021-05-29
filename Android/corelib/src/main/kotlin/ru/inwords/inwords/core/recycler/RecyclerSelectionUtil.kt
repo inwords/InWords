@@ -35,7 +35,7 @@ interface ViewHolderWithDetails<T> {
 abstract class SelectableViewHolder<T : Any>(itemView: View) : RecyclerView.ViewHolder(itemView), ViewHolderWithDetails<T> {
     lateinit var item: T
 
-    override fun getItemDetail() = SelectionDetails(adapterPosition, item)
+    override fun getItemDetail() = SelectionDetails(bindingAdapterPosition, item)
 
     abstract fun setActivatedState(isActivated: Boolean)
 }

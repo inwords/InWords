@@ -3,11 +3,11 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion targetSdk
+    compileSdkVersion rootProject.ext.targetSdk
 
     defaultConfig {
-        minSdkVersion minSdk
-        targetSdkVersion targetSdk
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
         versionCode 1
         versionName '1.0'
 
@@ -30,7 +30,7 @@ dependencies {
 
     //support
     implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     //preference
     implementation "androidx.preference:preference-ktx:$versions.PREFERENCE"
@@ -46,7 +46,7 @@ dependencies {
     // Gson
     implementation "com.google.code.gson:gson:$versions.GSON"
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     androidTestImplementation "androidx.test:runner:$versions.ANDROIDX_TEST"
     androidTestImplementation "androidx.test:core:$versions.ANDROIDX_TEST"

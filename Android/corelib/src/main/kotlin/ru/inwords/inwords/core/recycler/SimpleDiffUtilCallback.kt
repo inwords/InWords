@@ -31,7 +31,7 @@ class BasicDiffUtilCallback<T : Any> private constructor(old: List<T>, new: List
     }
 
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-        return oldItem == newItem
+        return true
     }
 
     companion object {
