@@ -12,6 +12,7 @@ android {
             jacoco {
                 includeNoLocationClasses = true
                 destinationFile = file("$buildDir/jacoco/testResult.exec")
+                jacoco.excludes = ['jdk.internal.*']
             }
         }
     }

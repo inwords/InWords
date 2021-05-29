@@ -1,7 +1,7 @@
 package ru.inwords.inwords.core.deferred_entry_manager
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import ru.inwords.inwords.core.deferred_entry_manager.model.CopyableWithId
 
 @Parcelize
