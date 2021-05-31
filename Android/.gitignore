@@ -55,6 +55,7 @@ captures/
 /.idea/libraries
 /.idea/caches
 /.idea/inspectionProfiles/
+/.idea/shelf/
 
 # Windows thumbnail db
 Thumbs.db
