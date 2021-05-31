@@ -104,7 +104,7 @@ function SignIn() {
         </EntryButtonContainer>
         <EntryLinksContainer>
           <Link component={RouterLink} to="/sign-up">
-            Нет аккаунта? Зарегистрироваться
+            Нет аккаунта? Создать аккаунт
           </Link>
         </EntryLinksContainer>
       </Form>

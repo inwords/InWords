@@ -2,12 +2,17 @@ package ru.inwords.inwords.translation.presentation.translation_main
 
 import android.util.Log
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import ru.inwords.inwords.core.resource.Resource
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.game.data.repository.custom_game.CUSTOM_GAME_ID
+import ru.inwords.inwords.game.data.repository.custom_game.GameCreator
+import ru.inwords.inwords.game.domain.model.TrainingState
+import ru.inwords.inwords.game.domain.model.defaultTrainingStrategy
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.texttospeech.data.repository.TtsRepository
@@ -19,7 +24,8 @@ import java.util.concurrent.TimeUnit
 class TranslationMainViewModel(
     private val translationWordsInteractor: TranslationWordsInteractor,
     private val ttsRepository: TtsRepository,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val gameCreator: GameCreator
 ) : BasicViewModel() {
     private var onSpeakerClickedDisposable: Disposable? = null
 
@@ -112,6 +118,16 @@ class TranslationMainViewModel(
     }
 
     fun onPlayClicked(wordTranslations: List<WordTranslation>) {
-        navigateTo(TranslationMainFragmentDirections.toCustomGameCreatorFragment(wordTranslations.toTypedArray()))
+        Single.fromCallable { gameCreator.createLevel(wordTranslations) }
+            .subscribeOn(SchedulersFacade.io())
+            .subscribe({
+                navigateTo(
+                    TranslationMainFragmentDirections.toGraphGameLevel(
+                        it, CUSTOM_GAME_ID,
+                        TrainingState(defaultTrainingStrategy)
+                    )
+                )
+            }, { Log.d("CustomGameCreatorViewMo", it.message.orEmpty()) })
+            .autoDispose()
     }
 }

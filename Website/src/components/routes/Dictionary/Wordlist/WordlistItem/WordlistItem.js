@@ -6,7 +6,6 @@ import ListItem from 'src/components/core/ListItem';
 import ListItemText from 'src/components/core/ListItemText';
 import ListItemSecondaryAction from 'src/components/core/ListItemSecondaryAction';
 import ListItemIcon from 'src/components/core/ListItemIcon';
-import ButtonBase from 'src/components/core/ButtonBase';
 import Checkbox from 'src/components/core/Checkbox';
 import SpeechButton from 'src/components/routes-common/SpeechButton';
 
@@ -36,7 +35,6 @@ function WordlistItem({
   return (
     <ListItemContainer style={style}>
       <ListItem
-        component={ButtonBase}
         onClick={
           editingModeEnabled ? handleToggle(serverId) : handleOpen(wordPair)
         }

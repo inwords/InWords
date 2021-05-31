@@ -1,13 +1,12 @@
 package ru.inwords.inwords.authorisation.presentation.registration
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.Single
 import ru.inwords.inwords.NavGraphDirections
 import ru.inwords.inwords.R
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
+import ru.inwords.inwords.authorisation.presentation.login.LoginViewModel
 import ru.inwords.inwords.authorisation.presentation.login.SignInWithGoogle
 import ru.inwords.inwords.authorisation.validators.UserCredentialsWithConfirmationValidationState
 import ru.inwords.inwords.authorisation.validators.validateUserCredentialsWithConfirmation
@@ -15,11 +14,13 @@ import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
 import ru.inwords.inwords.core.validation.ValidationResult
+import ru.inwords.inwords.network.error_handler.ErrorProcessor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 class RegistrationViewModel(
     private val authorisationInteractor: AuthorisationInteractor,
+    private val errorProcessor: ErrorProcessor,
     private val resourceManager: ResourceManager
 ) : BasicViewModel() {
     private val authorisationStateLiveData = SingleLiveEvent<AuthorisationViewState>()
@@ -37,18 +38,19 @@ class RegistrationViewModel(
 
         authorisationInteractor.signInGoogleAccount(googleSignedInData)
             .subscribeOn(SchedulersFacade.io())
-            .andThen(Single.just(AuthorisationViewState.success()))
-            .onErrorResumeNext { Single.just(AuthorisationViewState.error(it)) }
+            .observeOn(SchedulersFacade.ui())
             .subscribe({
-                authorisationStateLiveData.postValue(it)
-            }, {
-                Log.e(TAG, it.message.orEmpty())
+                authorisationStateLiveData.setValue(AuthorisationViewState.success())
+            }, { throwable ->
+                onException(throwable)
             })
             .autoDispose()
     }
 
     fun onException(throwable: Throwable) {
-        authorisationStateLiveData.setValue(AuthorisationViewState.error(throwable))
+        errorProcessor.processError(LoginViewModel.TAG, throwable, onErrorText = {
+            authorisationStateLiveData.setValue(AuthorisationViewState.error(it))
+        })
     }
 
     fun onSignClicked(userCredentials: UserCredentials, passwordConfirmation: String) {
@@ -70,12 +72,11 @@ class RegistrationViewModel(
             authorisationStateLiveData.setValue(AuthorisationViewState.loading())
 
             authorisationInteractor.signUp(userCredentials)
-                .andThen(Single.just(AuthorisationViewState.success()))
-                .onErrorResumeNext { Single.just(AuthorisationViewState.error(it)) }
+                .observeOn(SchedulersFacade.ui())
                 .subscribe({
-                    authorisationStateLiveData.postValue(it)
-                }, {
-                    Log.e(TAG, it.message.orEmpty())
+                    authorisationStateLiveData.setValue(AuthorisationViewState.success())
+                }, { throwable ->
+                    onException(throwable)
                 })
                 .autoDispose()
         }

@@ -39,7 +39,7 @@ namespace InWords.WebApi.Services.Users.Token
                 // check username and password
                 var requestedAccount = Context
                     .Accounts
-                    .Where(a => a.Email.Equals(tokenRequest.Email, StringComparison.InvariantCultureIgnoreCase))
+                    .Where(a => a.Email.ToLower() == tokenRequest.Email.ToLower())
                     .Select(c => new { c.AccountId, c.Role, c.Hash })
                     .SingleOrDefault();
 

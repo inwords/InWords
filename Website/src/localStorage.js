@@ -25,7 +25,7 @@ export const saveState = state => {
   saveValue('state', state);
 };
 
-export const removeValue = name => {
+const removeValue = name => {
   try {
     localStorage.removeItem(name);
   } catch (error) {

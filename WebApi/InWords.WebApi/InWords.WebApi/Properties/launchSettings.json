@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:53636",
+      "applicationUrl": "http://localhost:53636/docs/",
       "sslPort": 44377
     }
   },
@@ -12,14 +12,17 @@
     "InWords.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "",
       "environmentVariables": {
-        "INWHTTP": "5100",
-        "INWHTTPS": "5101",
-        "INWHTTPS2": "5102",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5101"
+      "applicationUrl": "http://localhost:8080/docs"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "publishAllPorts": true,
+      "useSSL": false,
+      "launchUrl": "http://{ServiceHost}:{ServicePort}/docs"
     }
   }
 }

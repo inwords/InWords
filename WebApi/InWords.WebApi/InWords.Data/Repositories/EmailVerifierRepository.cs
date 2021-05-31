@@ -16,7 +16,7 @@ namespace InWords.Data.Repositories
         {
             var emailVerifier = new EmailVerifies
             {
-                Guid = guid,
+                Guid = guid.ToString(),
                 UserId = userId,
                 Email = email,
                 Code = code,

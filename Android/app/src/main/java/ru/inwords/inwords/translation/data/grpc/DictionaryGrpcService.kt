@@ -4,24 +4,20 @@ import dagger.Lazy
 import io.grpc.ManagedChannel
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.authorisation.data.session.NativeTokenHolder
-import ru.inwords.inwords.core.grpc.HeaderAttachingClientInterceptor
 import ru.inwords.inwords.core.utils.unsafeLazy
 import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
+import ru.inwords.inwords.network.grpc.TokenHeaderAttachingClientInterceptor
 import ru.inwords.inwords.proto.common.Empty
 import ru.inwords.inwords.proto.dictionary.*
 import ru.inwords.inwords.translation.domain.model.WordTranslation
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class DictionaryGrpcService @Inject constructor(
+internal class DictionaryGrpcService internal constructor(
     @GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>,
-    nativeTokenHolder: NativeTokenHolder
+    tokenHeaderAttachingClientInterceptor: TokenHeaderAttachingClientInterceptor
 ) {
     private val dictionaryStub: DictionaryProviderGrpc.DictionaryProviderBlockingStub by unsafeLazy {
         DictionaryProviderGrpc.newBlockingStub(managedChannel.get())
-            .withInterceptors(HeaderAttachingClientInterceptor(nativeTokenHolder))
+            .withInterceptors(tokenHeaderAttachingClientInterceptor)
     }
 
     fun deleteWords(serverIds: List<Int>): Completable {

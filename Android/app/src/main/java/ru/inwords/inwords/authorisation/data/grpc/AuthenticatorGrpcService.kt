@@ -3,19 +3,16 @@ package ru.inwords.inwords.authorisation.data.grpc
 import dagger.Lazy
 import io.grpc.ManagedChannel
 import io.reactivex.Single
-import ru.inwords.inwords.authorisation.data.session.TokenResponse
 import ru.inwords.inwords.core.utils.unsafeLazy
 import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
+import ru.inwords.inwords.network.TokenResponse
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 import ru.inwords.inwords.proto.auth.AuthenticatorGrpc
 import ru.inwords.inwords.proto.auth.OAuthTokenRequest
 import ru.inwords.inwords.proto.auth.RegistrationRequest
 import ru.inwords.inwords.proto.auth.TokenRequest
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class AuthenticatorGrpcService @Inject constructor(@GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>) {
+internal class AuthenticatorGrpcService internal constructor(@GrpcDefaultChannel managedChannel: Lazy<ManagedChannel>) {
     private val authenticatorStub: AuthenticatorGrpc.AuthenticatorBlockingStub by unsafeLazy { AuthenticatorGrpc.newBlockingStub(managedChannel.get()) }
 
     fun getTokenOauth(tokenId: String, serviceName: String): Single<TokenResponse> {

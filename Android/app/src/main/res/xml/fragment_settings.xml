@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Игра">
+    <PreferenceCategory android:title="Отображение">
         <SwitchPreference
             android:defaultValue="false"
             android:icon="@drawable/ic_format_size_primary_32dp"
             android:key="@string/key_scale_game"
             android:persistent="true"
-            android:summary="Игровые карточки будут занимать всё доступное на экране пространство, а текст будет крупнее"
-            android:title="Увеличить текст в тренировке" />
+            android:summary="Тренировочные карточки будут занимать всё доступное на экране пространство, а важный текст будет крупнее"
+            android:title="Увеличить шрифт" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Произношение">

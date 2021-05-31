@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from 'src/actions/commonActions';
 import { initializeWordSetLevel } from 'src/actions/wordSetActions';
 import { getWordPairsToStudy } from 'src/actions/dictionaryApiActions';
+import convertWordPairsToStudy from 'src/converters/convertWordPairsToStudy';
 import TrainingTypes from 'src/components/routes-common/TrainingTypes';
 
 function MainTrainingTypes() {
@@ -13,23 +14,7 @@ function MainTrainingTypes() {
     (async () => {
       try {
         const { pairs } = await dispatch(getWordPairsToStudy());
-        dispatch(
-          initializeWordSetLevel(
-            0,
-            pairs.map(wordPair => {
-              const convertedWordPair = {
-                serverId: wordPair.userWordPair,
-                wordForeign: wordPair.foreignWord,
-                wordNative: wordPair.nativeWord
-              };
-              delete convertedWordPair.userWordPairId;
-              delete convertedWordPair.foreignWord;
-              delete convertedWordPair.nativeWord;
-
-              return convertedWordPair;
-            })
-          )
-        );
+        dispatch(initializeWordSetLevel(0, convertWordPairsToStudy(pairs)));
       } catch (error) {
         dispatch(
           setSnackbar({

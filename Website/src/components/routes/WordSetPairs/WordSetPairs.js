@@ -9,6 +9,7 @@ import {
 import { addWordPairs as addWordPairsLocal } from 'src/actions/dictionaryActions';
 import { getWordSetList } from 'src/actions/wordSetApiActions';
 import { addWordPairs } from 'src/actions/dictionaryApiActions';
+import convertWordSetPairs from 'src/converters/convertWordSetPairs';
 import useCheckboxList from 'src/components/core/useCheckboxList';
 import Paper from 'src/components/core/Paper';
 import List from 'src/components/core/List';
@@ -16,7 +17,6 @@ import ListItemContainer from 'src/components/core/ListItemContainer';
 import ListItem from 'src/components/core/ListItem';
 import ListItemText from 'src/components/core/ListItemText';
 import ListItemIcon from 'src/components/core/ListItemIcon';
-import ButtonBase from 'src/components/core/ButtonBase';
 import Checkbox from 'src/components/core/Checkbox';
 import WordSetPairsToolbar from './WordSetPairsToolbar';
 
@@ -32,8 +32,10 @@ function WordSetPairs() {
   useEffect(() => {
     (async () => {
       try {
-        const data = await dispatch(getWordSetList(paramWordSetId));
-        dispatch(initializeWordSetPairs(paramWordSetId, data.words));
+        const { words } = await dispatch(getWordSetList(paramWordSetId));
+        dispatch(
+          initializeWordSetPairs(paramWordSetId, convertWordSetPairs(words))
+        );
       } catch (error) {
         dispatch(setSnackbar({ text: 'Не удалось загрузить набор слов' }));
       }
@@ -106,7 +108,6 @@ function WordSetPairs() {
           return (
             <ListItemContainer key={serverId}>
               <ListItem
-                component={ButtonBase}
                 onClick={handleToggle(serverId)}
                 button
                 disabled={hasAdded}

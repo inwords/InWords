@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -24,7 +24,7 @@ module.exports = merge(common, {
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
       },
       {
-        test: /\.(png|woff|woff2)$/,
+        test: /\.(woff|woff2)$/,
         loader: 'file-loader',
         options: {
           name: 'static/media/[name].[ext]'

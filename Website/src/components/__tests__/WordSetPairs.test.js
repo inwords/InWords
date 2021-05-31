@@ -28,9 +28,9 @@ const setup = () => {
   };
   const mockingWordPairsAddResponse = { wordIds: [{ id: 0, serverId: 3 }] };
   global.fetch = mockFetch(mockingWordSetResponse);
-  const route = '/training/courses/1/word-pairs';
+  const route = '/courses/1/word-pairs';
   const utils = renderWithEnvironment(
-    <Route path="/training/courses/:wordSetId/word-pairs">
+    <Route path="/courses/:wordSetId/word-pairs">
       <WordSetPairs />
     </Route>,
     {

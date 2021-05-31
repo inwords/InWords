@@ -2,7 +2,7 @@ package ru.inwords.inwords.authorisation.presentation
 
 data class AuthorisationViewState(
         val status: Status,
-        val throwable: Throwable? = null
+        val errorMessage: String? = null
 ) {
     enum class Status {
         LOADING, SUCCESS, ERROR
@@ -20,8 +20,8 @@ data class AuthorisationViewState(
             return LOADING_STATE
         }
 
-        internal fun error(t: Throwable): AuthorisationViewState {
-            return AuthorisationViewState(Status.ERROR, t)
+        internal fun error(errorMessage: String): AuthorisationViewState {
+            return AuthorisationViewState(Status.ERROR, errorMessage)
         }
     }
 }

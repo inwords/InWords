@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class GetLevelWords
-        : AuthorizedRequestObjectHandler<GetLevelWordsRequest, GetLevelWordsReply, InWordsDataContext>
+        : AuthReqHandler<GetLevelWordsRequest, GetLevelWordsReply, InWordsDataContext>
     {
         public GetLevelWords(InWordsDataContext context) : base(context)
         {
         }
 
         public override async Task<GetLevelWordsReply> HandleRequest(
-            AuthorizedRequestObject<GetLevelWordsRequest, GetLevelWordsReply> request, CancellationToken cancellationToken = default)
+            AuthReq<GetLevelWordsRequest, GetLevelWordsReply> request, CancellationToken cancellationToken = default)
         {
             var userId = request.UserId;
             var data = request.Value;

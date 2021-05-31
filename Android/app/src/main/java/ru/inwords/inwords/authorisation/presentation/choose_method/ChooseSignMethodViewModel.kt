@@ -4,12 +4,15 @@ import androidx.lifecycle.LiveData
 import ru.inwords.inwords.NavGraphDirections
 import ru.inwords.inwords.authorisation.domain.interactor.AuthorisationInteractor
 import ru.inwords.inwords.authorisation.presentation.AuthorisationViewState
+import ru.inwords.inwords.authorisation.presentation.login.LoginViewModel
 import ru.inwords.inwords.core.SingleLiveEvent
 import ru.inwords.inwords.core.rxjava.SchedulersFacade
+import ru.inwords.inwords.network.error_handler.ErrorProcessor
 import ru.inwords.inwords.presentation.view_scenario.BasicViewModel
 
 class ChooseSignMethodViewModel(
-    private val authorisationInteractor: AuthorisationInteractor
+    private val authorisationInteractor: AuthorisationInteractor,
+    private val errorProcessor: ErrorProcessor
 ) : BasicViewModel() {
     private val authorisationStateLiveData = SingleLiveEvent<AuthorisationViewState>()
     val authorisationState: LiveData<AuthorisationViewState> = authorisationStateLiveData
@@ -27,8 +30,10 @@ class ChooseSignMethodViewModel(
             .subscribe({
                 authorisationStateLiveData.setValue(AuthorisationViewState.success())
                 navigateTo(NavGraphDirections.actionGlobalPopToStartDestination())
-            }, {
-                authorisationStateLiveData.setValue(AuthorisationViewState.error(it))
+            }, { throwable ->
+                errorProcessor.processError(LoginViewModel.TAG, throwable, onErrorText = {
+                    authorisationStateLiveData.setValue(AuthorisationViewState.error(it))
+                })
             })
             .autoDispose()
     }

@@ -1,4 +1,4 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -46,7 +46,7 @@ module.exports = merge(common, {
         ]
       },
       {
-        test: /\.(png|woff|woff2)$/,
+        test: /\.(woff|woff2)$/,
         loader: 'file-loader',
         options: {
           name: 'static/media/[name].[hash:8].[ext]'

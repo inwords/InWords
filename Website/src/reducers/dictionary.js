@@ -6,8 +6,9 @@ import {
   RESET_WORD_PAIRS_ACTUALITY
 } from 'src/actions/dictionaryActions';
 
+const collator = new Intl.Collator('en');
 const lexicographicalComparison = (firstWordPair, secondWordPair) =>
-  firstWordPair.wordForeign.localeCompare(secondWordPair.wordForeign);
+  collator.compare(firstWordPair.wordForeign, secondWordPair.wordForeign);
 
 const dictionary = (
   state = {
@@ -24,17 +25,7 @@ const dictionary = (
         actual: true,
         wordPairs: state.wordPairs
           .filter(({ serverId }) => !payload.toDelete.includes(serverId))
-          .concat(
-            payload.toAdd.map(wordPair => {
-              const convertedWordPair = {
-                ...wordPair,
-                serverId: wordPair.userWordPair
-              };
-              delete convertedWordPair.userWordPair;
-
-              return convertedWordPair;
-            })
-          )
+          .concat(payload.toAdd)
           .sort(lexicographicalComparison)
       };
     }

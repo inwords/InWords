@@ -12,12 +12,18 @@ import "Common.v2.proto";
 service WordSetProvider {
 	// Sends a greeting
 	rpc GetSets (Common.v2.Empty) returns (WordSetReply);
+	rpc GetFullSets (SetsCountRequest) returns (WordSetReply);
 	rpc GetWordsList (WordSetWordsRequest) returns (WordSetWordsReply);
 	rpc ToDictionary (WordSetWordsRequest) returns (Common.v2.Empty);
 	rpc GetLevels (GetLevelsRequest) returns (GetLevelsReply);
 	rpc GetLevelWords (GetLevelWordsRequest) returns (GetLevelWordsReply);
 	rpc History (Common.v2.Empty) returns (GameScoreReply);
 	rpc Estimate (TrainingDataRequest) returns (TrainingScoreReply);
+}
+
+message SetsCountRequest{
+	int32 offset = 1;
+	int32 limit = 2;
 }
 
 message TrainingScoreReply{
@@ -96,7 +102,8 @@ message GameScoreReply{
 		int32 levelId = 1;
 		int32 stars = 2;
 		bool isAvailable = 3;
-		int32 gameType = 4;
+		int32 wordsCount = 4;
+		string dateTime = 5;
 	}
 	repeated ConcreteGameScore levels = 1;
 }
@@ -137,6 +144,7 @@ message WordSetReply{
 		string title = 2;
 		string description = 3;
 		string picture = 4;
+		repeated LevelReply levels = 5;
 	}
 	repeated WordSetInfo wordSets = 1;
 }

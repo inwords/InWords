@@ -1,22 +1,11 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import RouteContainer from 'src/components/app-common/RouteContainer';
 import Breadcrumbs from 'src/components/core/Breadcrumbs';
 import BreadcrumbsLink from 'src/components/core/BreadcrumbsLink';
-
-const Dictionary = lazy(() =>
-  import(/* webpackPrefetch: true */ 'src/components/routes/Dictionary')
-);
-const DictionaryTrainingTypes = lazy(() =>
-  import(
-    /* webpackPrefetch: true */ 'src/components/routes/DictionaryTrainingTypes'
-  )
-);
-const MainTrainingConveyor = lazy(() =>
-  import(
-    /* webpackPrefetch: true */ 'src/components/routes/MainTrainingConveyor'
-  )
-);
+import Dictionary from 'src/components/routes/Dictionary';
+import DictionaryTrainingTypes from 'src/components/routes/DictionaryTrainingTypes';
+import MainTrainingConveyor from 'src/components/routes/MainTrainingConveyor';
 
 function DictionaryRouter() {
   const { url } = useRouteMatch();
@@ -28,28 +17,24 @@ function DictionaryRouter() {
           <Dictionary />
         </RouteContainer>
       </Route>
-      <Route exact path={`${url}/training/-1`}>
+      <Route exact path={`${url}/-1`}>
         <RouteContainer maxWidth="md">
           <Breadcrumbs>
-            <BreadcrumbsLink to={url}>Мой словарь</BreadcrumbsLink>
-            <BreadcrumbsLink to={`${url}/training/-1`}>
-              Тренировки
-            </BreadcrumbsLink>
+            <BreadcrumbsLink to={url}>Словарь</BreadcrumbsLink>
+            <BreadcrumbsLink to={`${url}/-1`}>Тренировки</BreadcrumbsLink>
           </Breadcrumbs>
           <DictionaryTrainingTypes />
         </RouteContainer>
       </Route>
       <Route
         exact
-        path={`${url}/training/:levelId/=)`}
+        path={`${url}/:levelId/=)`}
         render={({ match: { params } }) => (
-          <RouteContainer maxWidth="lg">
+          <RouteContainer maxWidth="md">
             <Breadcrumbs>
-              <BreadcrumbsLink to={url}>Мой словарь</BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/training/-1`}>
-                Тренировки
-              </BreadcrumbsLink>
-              <BreadcrumbsLink to={`${url}/training/${params.levelId}/=)`}>
+              <BreadcrumbsLink to={url}>Словарь</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/-1`}>Тренировки</BreadcrumbsLink>
+              <BreadcrumbsLink to={`${url}/${params.levelId}/=)`}>
                 Тренировка
               </BreadcrumbsLink>
             </Breadcrumbs>

@@ -23,7 +23,7 @@ namespace InWords.WebApiTests.Services.Users.AccountUpdate
 
             // act
             var requestObject =
-                new AuthorizedRequestObject<DeleteAccountRequest, Empty>(
+                new AuthReq<DeleteAccountRequest, Empty>(
                     new DeleteAccountRequest() { Text = "Delete me just for test" })
                 {
                     UserId = userId

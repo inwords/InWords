@@ -40,7 +40,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
 
             // act
             var data = new GetLevelWordsRequest() { LevelId = gameLevel.GameLevelId };
-            var request = new AuthorizedRequestObject<GetLevelWordsRequest, GetLevelWordsReply>(data)
+            var request = new AuthReq<GetLevelWordsRequest, GetLevelWordsReply>(data)
             {
                 UserId = userId
             };

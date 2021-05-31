@@ -26,12 +26,12 @@ function HistoryTrainingConveyor() {
       const nextLevel = trainingHistory[nextLevelIndex];
 
       if (nextLevel) {
-        history.push(`/training/history/${nextLevel.levelId}/=)`);
+        history.push(`/history/${nextLevel.levelId}/=)`);
         return;
       }
     }
 
-    history.push('/training/history');
+    history.push('/history');
   };
 
   return (

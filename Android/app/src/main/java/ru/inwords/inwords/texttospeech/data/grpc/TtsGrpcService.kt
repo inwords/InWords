@@ -9,12 +9,9 @@ import io.reactivex.Single
 import ru.inwords.inwords.core.utils.unsafeLazy
 import ru.inwords.inwords.main_activity.di.annotations.GrpcTtsChannel
 import ru.inwords.inwords.texttospeech.data.bean.AudioConfig
-import javax.inject.Inject
-import javax.inject.Singleton
 import com.google.cloud.texttospeech.v1beta1.AudioConfig as TextToSpeechAudioConfig
 
-@Singleton
-class TtsGrpcService @Inject internal constructor(
+internal class TtsGrpcService internal constructor(
     @GrpcTtsChannel managedChannel: Lazy<ManagedChannel>
 ) {
     private val wordSetStub: TextToSpeechGrpc.TextToSpeechBlockingStub by unsafeLazy {

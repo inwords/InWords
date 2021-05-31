@@ -1,6 +1,6 @@
 import apiAction from './apiAction';
 
-export const saveLevelResult = (levelId, metrics) => dispatch =>
+export const getLevelResult = (levelId, metrics) => dispatch =>
   new Promise((resolve, reject) =>
     dispatch(
       apiAction({

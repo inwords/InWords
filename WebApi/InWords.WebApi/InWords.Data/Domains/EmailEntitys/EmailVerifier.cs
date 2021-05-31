@@ -5,7 +5,7 @@ namespace InWords.Data.Domains.EmailEntitys
 {
     public class EmailVerifies
     {
-        [Key] public Guid Guid { get; set; }
+        [Key] public string Guid { get; set; }
 
         public int UserId { get; set; }
 

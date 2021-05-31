@@ -1,7 +1,7 @@
 package ru.inwords.inwords.game.domain.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import ru.inwords.inwords.game.domain.model.TrainingStrategy.TrainingMode
 import ru.inwords.inwords.game.domain.model.TrainingStrategy.TrainingStep
 

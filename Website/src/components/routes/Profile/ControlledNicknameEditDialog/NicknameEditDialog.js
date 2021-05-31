@@ -23,7 +23,7 @@ function NicknameEditDialog({ open, handleClose, nickname }) {
         await dispatch(updateUserInfo(inputs));
         dispatch(updateUserInfoLocal(inputs));
       } catch (error) {
-        dispatch(setSnackbar({ text: 'Не удалось сохранить никнейм' }));
+        dispatch(setSnackbar({ text: 'Не удалось изменить никнейм' }));
       }
     }
   );

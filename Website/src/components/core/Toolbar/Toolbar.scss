@@ -6,7 +6,7 @@
   padding-left: 24px;
   padding-right: 24px;
 
-  @include theme-breakpoints-down(sm) {
+  @include theme-breakpoints-down(md) {
     padding-left: 16px;
     padding-right: 16px;
   }
@@ -14,7 +14,7 @@
   &--variant--regular {
     min-height: 64px;
 
-    @include theme-breakpoints-down(sm) {
+    @include theme-breakpoints-down(md) {
       min-height: 56px;
     }
   }

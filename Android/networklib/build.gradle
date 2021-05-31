@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.targetSdk
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
+        versionCode 1
+        versionName '1.0'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildFeatures {
+        // Determines whether to generate a BuildConfig class.
+        buildConfig = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation project(path: ':corelib')
+    implementation project(path: ':designcorelib')
+
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    //android core ktx
+    implementation "androidx.core:core-ktx:$versions.CORE_KTX"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$versions.RX_JAVA" //TODO migrate to 3
+
+    // Dagger
+    implementation "com.google.dagger:dagger:$versions.DAGGER"
+    kapt "com.google.dagger:dagger-compiler:$versions.DAGGER"
+
+    // You need to build grpc-java to obtain these libraries below.
+    implementation "io.grpc:grpc-cronet:$versions.GRPC"
+    implementation 'com.google.android.gms:play-services-cronet:17.0.0'
+    implementation 'org.chromium.net:cronet-fallback:76.3809.111'
+
+    implementation "io.grpc:grpc-core:$versions.GRPC"
+    implementation "io.grpc:grpc-api:$versions.GRPC"
+
+    androidTestImplementation "androidx.test:runner:$versions.ANDROIDX_TEST"
+    androidTestImplementation "androidx.test:core:$versions.ANDROIDX_TEST"
+    androidTestImplementation "androidx.test:rules:$versions.ANDROIDX_TEST"
+    androidTestImplementation "androidx.test.ext:junit:$versions.ANDROIDX_TEST_EXT"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$versions.JUNIT_JUPITER"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$versions.JUNIT_JUPITER"
+
+    testImplementation "io.mockk:mockk:$versions.MOCKK"
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

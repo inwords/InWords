@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Services.Users.EmailUpdate
 {
-    public class ChangeEmail : AuthorizedRequestObjectHandler<EmailChangeRequest, EmailChangeReply, InWordsDataContext>
+    public class ChangeEmail : AuthReqHandler<EmailChangeRequest, EmailChangeReply, InWordsDataContext>
     {
         private readonly IEmailTemplateSender emailTemplateSender;
         public ChangeEmail(InWordsDataContext context, IEmailTemplateSender emailTemplateSender) : base(context)
@@ -29,7 +29,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Проверить аргументы или открытые методы", Justification = "<Ожидание>")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Ожидание>")]
         public override async Task<EmailChangeReply> HandleRequest(
-            AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply> request,
+            AuthReq<EmailChangeRequest, EmailChangeReply> request,
             CancellationToken cancellationToken = default)
         {
             // TODO: add time change email timelock
@@ -64,7 +64,7 @@ namespace InWords.WebApi.Services.Users.EmailUpdate
                 SentTime = DateTime.UtcNow,
                 Attempts = 0,
                 UserId = request.UserId,
-                Guid = Guid.Parse(approveEmailTemplate.Link),
+                Guid = approveEmailTemplate.Link,
                 Email = email
             };
             Context.EmailVerifies.Add(emailVerifies);

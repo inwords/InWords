@@ -51,7 +51,7 @@ class ContinueGameInteractor internal constructor(
         val gameLevelInfos = game.gameLevelInfos
         val nextLevelIndex = levelInfo.level
 
-        val lastLevelNum = gameLevelInfos.maxBy { it.level }
+        val lastLevelNum = gameLevelInfos.maxByOrNull { it.level }
 
         val nextLevelInfo = gameLevelInfos.getOrNull(nextLevelIndex)
 
@@ -106,7 +106,7 @@ class ContinueGameInteractor internal constructor(
                 val firstLevelInfo = gameLevelInfos.getOrNull(0)
 
                 if (firstLevelInfo != null) {
-                    val lastLevelNum = gameLevelInfos.maxBy { it.level }
+                    val lastLevelNum = gameLevelInfos.maxByOrNull { it: GameLevelInfo -> it.level }
                     val isLast = firstLevelInfo.level == lastLevelNum?.level
 
                     Resource.Success(ContinueGameQueryResult.NextLevelInfo(gameRes.data, firstLevelInfo, isLast))

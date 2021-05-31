@@ -1,10 +1,7 @@
-import history from 'src/history';
 import { beginLoading, endLoading } from 'src/actions/commonActions';
 import { denyAccess } from 'src/actions/authActions';
 
 const CALL_API = 'CALL_API';
-
-const API_ROOT = 'https://api.inwords.ru';
 
 const apiMiddleware = ({ dispatch, getState }) => next => async action => {
   if (action.type !== CALL_API) {
@@ -28,10 +25,7 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
   if (withCredentials) {
     const token = getState().auth.token;
 
-    if (!token) {
-      history.push('/sign-in');
-      return;
-    }
+    if (!token) return;
 
     headers.append('Authorization', `Bearer ${token}`);
   }
@@ -43,11 +37,14 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
   dispatch(beginLoading());
 
   try {
-    const response = await fetch(`${API_ROOT}/v${apiVersion}${endpoint}`, {
-      method,
-      headers,
-      body: data
-    });
+    const response = await fetch(
+      `${process.env.API_ROOT}/v${apiVersion}${endpoint}`,
+      {
+        method,
+        headers,
+        body: data
+      }
+    );
 
     if (!response.ok) {
       throw new HttpError(response.statusText, response.status);
@@ -64,7 +61,6 @@ const apiMiddleware = ({ dispatch, getState }) => next => async action => {
       const statusCode = error.statusCode;
       if (statusCode === 401) {
         dispatch(denyAccess());
-        history.push('/sign-in');
       } else {
         reject(statusCode);
       }

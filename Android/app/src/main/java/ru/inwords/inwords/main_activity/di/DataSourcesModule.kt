@@ -12,7 +12,6 @@ import io.grpc.ManagedChannel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import ru.inwords.inwords.BuildConfig
-import ru.inwords.inwords.core.grpc.buildManagedChannel
 import ru.inwords.inwords.core.managers.ResourceManager
 import ru.inwords.inwords.main_activity.data.WorkManagerWrapper
 import ru.inwords.inwords.main_activity.data.repository.SettingsRepository
@@ -21,6 +20,7 @@ import ru.inwords.inwords.main_activity.di.annotations.Common
 import ru.inwords.inwords.main_activity.di.annotations.GrpcDefaultChannel
 import ru.inwords.inwords.main_activity.di.annotations.GrpcTtsChannel
 import ru.inwords.inwords.main_activity.di.annotations.UnauthorisedZone
+import ru.inwords.inwords.network.grpc.buildManagedChannel
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 

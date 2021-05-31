@@ -66,10 +66,17 @@ private def createReportTask(project, variant) {
         xml.enabled = true
     }
 
+    def mergeTask = rootProject.ext.mergeTask
+    mergeTask.executionData.setFrom(reportTask.executionData.files + mergeTask.executionData.files)
+
+    def mergedReportTask = rootProject.ext.mergedReportTask
+    mergedReportTask.sourceDirectories.setFrom(reportTask.sourceDirectories.getFrom() + mergedReportTask.sourceDirectories.getFrom())
+    mergedReportTask.classDirectories.setFrom(reportTask.classDirectories.getFrom() + mergedReportTask.classDirectories.getFrom())
+
     reportTask
 }
 
-def configureJacoco(project) {
+private def configureJacoco(project) {
     def plugin = findAndroidPluginOrThrow(project.plugins)
     def jacocoTestReportTask = findOrCreateJacocoTestReportTask(project.tasks)
     def variants = getVariants(project, plugin)

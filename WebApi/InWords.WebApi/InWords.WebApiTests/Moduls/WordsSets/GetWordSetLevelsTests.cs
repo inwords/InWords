@@ -32,7 +32,7 @@ namespace InWords.WebApiTests.Moduls.WordsSets
             {
                 WordSetId = game1.GameId
             };
-            var request = new AuthorizedRequestObject<GetLevelsRequest, GetLevelsReply>(data);
+            var request = new AuthReq<GetLevelsRequest, GetLevelsReply>(data);
             var handler = new GetWordSetLevels(context);
             var result = await handler.Handle(request);
             // assert

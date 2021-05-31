@@ -34,10 +34,10 @@ const setup = ({ ui = <WordSets />, route = '' } = {}) => {
 };
 
 const setupForWordSetChoice = () => {
-  const route = '/training/courses';
+  const route = '/courses';
   const utils = setup({
     ui: (
-      <Route path="/training/courses">
+      <Route path="/courses">
         <WordSets />
       </Route>
     ),
@@ -53,10 +53,10 @@ const setupForWordSetChoice = () => {
 };
 
 const setupForWordSetPairsChoice = () => {
-  const route = '/training/courses';
+  const route = '/courses';
   const utils = setup({
     ui: (
-      <Route path="/training/courses">
+      <Route path="/courses">
         <WordSets />
       </Route>
     ),
@@ -127,5 +127,5 @@ test('add word set pairs to dictionary', async () => {
   utils.clickAdd(courseInfo.id);
   utils.clickAddConfirmation();
 
-  await waitFor(() => screen.getByText('Слова из набора добавлены в словарь'));
+  await waitFor(() => screen.getByText('Слова из темы добавлены в словарь'));
 });

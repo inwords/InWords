@@ -137,10 +137,10 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
         hideProgress()
     }
 
-    private fun renderErrorState(throwable: Throwable) {
+    private fun renderErrorState(message:String) {
         binding.buttonEnterSignIn.isEnabled = true
         binding.signInWithGoogleButton.isEnabled = true
-        binding.errorTextView.text = "Попробуйте ещё раз\nОшибка: ${throwable.localizedMessage}"
+        binding.errorTextView.text = message
         binding.errorTextView.isVisible = true
         hideProgress()
     }
@@ -162,7 +162,7 @@ class LoginFragment : FragmentWithViewModelAndNav<LoginViewModel, AuthorisationV
             }
 
             AuthorisationViewState.Status.ERROR -> {
-                authorisationViewState.throwable?.let {
+                authorisationViewState.errorMessage?.let {
                     renderErrorState(it)
                 }
             }

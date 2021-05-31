@@ -4,50 +4,61 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/android
 
 schedules:
-- cron: "0 0 * * *"
-  displayName: Daily midnight Android build
-  branches:
-    include:
-    - develop
+  - cron: "0 0 * * *"
+    displayName: Daily midnight Android build
+    branches:
+      include:
+        - develop
 pr:
   branches:
     include:
-    - develop
+      - develop
   paths:
     include:
-    - Android/*
+      - Android/*
 trigger: none
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: DownloadSecureFile@1
-  displayName: 'Download google-services.json'
-  inputs:
-    secureFile: 'google-services.json'
+  - task: DownloadSecureFile@1
+    displayName: 'Download google-services.json'
+    inputs:
+      secureFile: 'google-services.json'
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: 'google-services.json'
-    TargetFolder: 'Android/app/'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: 'google-services.json'
+      TargetFolder: 'Android/app/'
 
-- task: Gradle@2
-  inputs:
-    workingDirectory: 'Android/'
-    gradleWrapperFile: 'Android/gradlew'
-    tasks: 'clean jacocoTestDebugUnitTestReport assembleDebug'
-    publishJUnitResults: true
-    testResultsFiles: '**/testDebugUnitTest/TEST-*.xml'
-    testRunTitle: 'Run JUnit5 tests'
-    javaHomeOption: 'JDKVersion'
-    gradleOptions: '-Xmx3072m'
-    sonarQubeRunAnalysis: false
+  - task: Gradle@2
+    inputs:
+      workingDirectory: 'Android/'
+      gradleWrapperFile: 'Android/gradlew'
+      tasks: 'clean jacocoTestDebugUnitTestReport assembleDebug'
+      publishJUnitResults: true
+      testResultsFiles: '**/testDebugUnitTest/TEST-*.xml'
+      testRunTitle: 'Run JUnit5 tests'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      gradleOptions: '-Xmx3072m'
+      sonarQubeRunAnalysis: false
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/app/build/reports/jacoco/jacocoTestDebugUnitTestReport/html'
-    failIfCoverageEmpty: true
+  - task: Gradle@2
+    inputs:
+      workingDirectory: 'Android/'
+      gradleWrapperFile: 'Android/gradlew'
+      tasks: 'jacocoTestReportMerged'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      gradleOptions: '-Xmx3072m'
+      sonarQubeRunAnalysis: false
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'JaCoCo'
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/Android/build/reports/jacoco/jacocoTestReportMerged/jacocoTestReportMerged.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/Android/build/reports/jacoco/jacocoTestReportMerged/html'
+      failIfCoverageEmpty: true

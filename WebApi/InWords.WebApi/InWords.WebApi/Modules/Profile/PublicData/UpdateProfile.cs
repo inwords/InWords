@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.Profile.PublicData
 {
-    public class UpdateProfile : AuthorizedRequestObjectHandler<UpdateRequest, Empty, InWordsDataContext>
+    public class UpdateProfile : AuthReqHandler<UpdateRequest, Empty, InWordsDataContext>
     {
         public UpdateProfile(InWordsDataContext context) : base(context) { }
 
         public override async Task<Empty> HandleRequest(
-            AuthorizedRequestObject<UpdateRequest, Empty> request,
+            AuthReq<UpdateRequest, Empty> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

@@ -1,7 +1,7 @@
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = '0.8.5'
+    toolVersion = rootProject.ext.jacoco_version
     def reportsDirPath = "${project.buildDir}/reports/jacoco/"
     reportsDir = file(reportsDirPath)
 }
@@ -12,6 +12,7 @@ android {
             jacoco {
                 includeNoLocationClasses = true
                 destinationFile = file("$buildDir/jacoco/testResult.exec")
+                jacoco.excludes = ['jdk.internal.*']
             }
         }
     }
@@ -38,7 +39,10 @@ rootProject.ext.jacocoAndroidUnitTestReportExcludes += ['**/di/**',
              '**/dagger/**',
              '**/proto/**',
              '**/model/**',
+             '**/entity/**',
              '**/bean/**']
+
+rootProject.ext.jacocoAndroidUnitTestReportExcludes += ['**/com/google/cloud/**']
 
 // not testable Android classes
 rootProject.ext.jacocoAndroidUnitTestReportExcludes += ['**/*Activity.class',
@@ -48,6 +52,9 @@ rootProject.ext.jacocoAndroidUnitTestReportExcludes += ['**/*Activity.class',
              '**/*Service.class',
              '**/*Receiver.class',
              '**/*View.class',
+             '**/*Args.class',
+             '**/*Args**.class',
+             '**/*Directions**.class',
              '**/*Binding.class']
 
 // not testable classes for Recycler View
@@ -63,6 +70,7 @@ rootProject.ext.jacocoAndroidUnitTestReportExcludes += ['**/*Injector.class',
              '**/*_Impl*.class',
              '**/*$$State.class',
              '**/*$$State*Command.class',
+             '**/di/**',
              '**/*$$PresentersBinder.class',
              '**/*$$PresentersBinder*Binder.class']
 

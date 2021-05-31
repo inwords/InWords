@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace InWords.WebApi.Modules.ClassicCardGame
 {
     public class EstimateClassicCardGame
-        : AuthorizedRequestObjectHandler<CardGameMetrics, LevelPoints, InWordsDataContext>
+        : AuthReqHandler<CardGameMetrics, LevelPoints, InWordsDataContext>
     {
         public EstimateClassicCardGame(InWordsDataContext context) : base(context)
         {
@@ -24,7 +24,7 @@ namespace InWords.WebApi.Modules.ClassicCardGame
         }
 
         public override async Task<LevelPoints> HandleRequest(
-            AuthorizedRequestObject<CardGameMetrics, LevelPoints> request,
+            AuthReq<CardGameMetrics, LevelPoints> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)

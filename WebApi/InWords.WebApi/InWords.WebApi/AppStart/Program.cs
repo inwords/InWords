@@ -12,73 +12,35 @@ using System.Net;
 
 namespace InWords.WebApi.AppStart
 {
-    public static class Program
-    {
-        public static readonly IList<InModule> InModules = InModule.FindModules();
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+	public static class Program
+	{
+		public static readonly IList<InModule> InModules = InModule.FindModules();
+		public static void Main(string[] args)
+		{
+			CreateWebHostBuilder(args).Build().Run();
+		}
 
-        public static IHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-                .ConfigureWebHostDefaults(webHostBuilder =>
-                {
+		public static IHostBuilder CreateWebHostBuilder(string[] args)
+		{
+			return Host.CreateDefaultBuilder(args)
+				.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+				.ConfigureWebHostDefaults(webHostBuilder =>
+				{
+					string? path = AppDomain.CurrentDomain.BaseDirectory;
+					if (string.IsNullOrWhiteSpace(path)) path = "";
 
-                    GetPorts(out int http, out int https, out int https2);
-
-                    string? path = AppDomain.CurrentDomain.BaseDirectory;
-                    if (string.IsNullOrWhiteSpace(path)) path = "";
-
-                    webHostBuilder
-                    .UseStartup<Startup>()
-                    .UseKestrel((hostingContext, options) =>
-                    {
-                        options.Listen(IPAddress.Loopback, http,
-                            listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2
-                            );
-
-                        options.Listen(IPAddress.Loopback, https,
-                            listenOptions =>
-                            {
-                                listenOptions.UseHttps();
-                                listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                            });
-
-                        options.Listen(IPAddress.Loopback, https2, o =>
-                        {
-                            o.UseHttps();
-                            o.Protocols = HttpProtocols.Http2;
-                        });
-                    })
-                    .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-                    .ReadFrom.Configuration(hostingContext.Configuration)
-                    .Enrich.FromLogContext()
-                    .WriteTo.Console()
-                    .WriteTo.File(Path.Combine(path, $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt")));
-                });
-        }
-
-        private static void GetPorts(out int http, out int https, out int https2)
-        {
-            http = 5100;
-            https = 5101;
-            https2 = 5102;
-
-            string? INWHTTP = Environment.GetEnvironmentVariable("INWHTTP");
-            string? INWHTTPS = Environment.GetEnvironmentVariable("INWHTTPS");
-            string? INWHTTPS2 = Environment.GetEnvironmentVariable("INWHTTPS2");
-
-            Console.WriteLine($"Environment {INWHTTP} {INWHTTPS} {INWHTTPS2}");
-
-            if (!string.IsNullOrWhiteSpace(INWHTTP))
-                http = int.Parse(INWHTTP, NumberFormatInfo.InvariantInfo);
-            if (!string.IsNullOrWhiteSpace(INWHTTPS))
-                https = int.Parse(INWHTTPS, NumberFormatInfo.InvariantInfo);
-            if (!string.IsNullOrWhiteSpace(INWHTTPS2))
-                https2 = int.Parse(INWHTTPS2, NumberFormatInfo.InvariantInfo);
-        }
-    }
+					webHostBuilder
+					.UseStartup<Startup>()
+					.UseKestrel((hostingContext, options) =>
+					{
+						options.Listen(IPAddress.Any, 8080);
+					})
+					.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+					.ReadFrom.Configuration(hostingContext.Configuration)
+					.Enrich.FromLogContext()
+					.WriteTo.Console()
+					.WriteTo.File(Path.Combine(path, $"log/{DateTime.Now:yyyy-MM-dd-HH-mm}.txt")));
+				});
+		}
+	}
 }

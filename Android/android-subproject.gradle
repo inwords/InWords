@@ -1,16 +1,26 @@
+apply plugin: 'kotlin-android'
+apply plugin: "de.mannodermaus.android-junit5"
+
 android {
-    ndkVersion "21.1.6352462"
+    ndkVersion "22.1.7171670"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
     testOptions {
         unitTests.all {
-            // Always run tests, even when nothing changed.
-            dependsOn 'clean'
-
             // Show test results.
             testLogging {
                 events "passed", "skipped", "failed"

@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace InWords.WebApi.Modules.Profile.PublicData
 {
-    public class FindProfileNickname : AuthorizedRequestObjectHandler<FindUsernameRequest, PublicProfilesReply, InWordsDataContext>
+    public class FindProfileNickname : AuthReqHandler<FindUsernameRequest, PublicProfilesReply, InWordsDataContext>
     {
         public FindProfileNickname(InWordsDataContext context) : base(context) { }
 
         public override Task<PublicProfilesReply> HandleRequest(
-            AuthorizedRequestObject<FindUsernameRequest, PublicProfilesReply> request,
+            AuthReq<FindUsernameRequest, PublicProfilesReply> request,
             CancellationToken cancellationToken = default)
         {
             if (request == null)
@@ -31,7 +31,7 @@ namespace InWords.WebApi.Modules.Profile.PublicData
             var totalMatch = Context.PublicProfile(u => u.NickName == value.UserName)
                 .Take(5);
             var startWith = Context.PublicProfile(u => u.NickName != value.UserName
-            && u.NickName.StartsWith(value.UserName, StringComparison.InvariantCultureIgnoreCase))
+            && u.NickName.ToLower().StartsWith(value.UserName.ToLower()))
                 .Take(5);
 
             var users = totalMatch.Union(startWith);

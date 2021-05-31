@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { initializeWordSetLevel } from 'src/actions/wordSetActions';
 import usePopup from 'src/components/core/usePopup';
@@ -12,6 +12,8 @@ import IconButton from 'src/components/core/IconButton';
 import Icon from 'src/components/core/Icon';
 
 function ControlledDictionaryMenu({ checkedValues }) {
+  const match = useRouteMatch();
+
   const { wordPairs } = useSelector(store => store.dictionary);
 
   const dispatch = useDispatch();
@@ -46,7 +48,7 @@ function ControlledDictionaryMenu({ checkedValues }) {
         >
           <MenuItem
             component={Link}
-            to="/dictionary/training/-1"
+            to={`${match.url}/-1`}
             onClick={() => {
               handleLearning();
               handleClose();

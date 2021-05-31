@@ -32,31 +32,6 @@
             <param name="env"></param>
             <param name="loggerFactory"></param>
         </member>
-        <member name="M:InWords.WebApi.Controllers.v1dot1.CardsGame.CustomLevelController.GetHistory">
-            <summary>
-                Use this to get last custom played games
-            </summary>
-            <deprecated>true</deprecated>
-            <returns>History of users custom levels</returns>
-            <response code="401">Unauthorized</response>
-            <response code="200">OK</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1dot1.DictionaryController.GetTraining">
-            <summary>
-               Use v2 Dictionary.TrainingIds 
-            </summary>
-            <returns>Quantity of stars</returns>
-            <response code="200">Words to be repeated</response>
-            <response code="401">Unauthorized access</response>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1dot1.DictionaryController.GetTrainingIds">
-            <summary>
-                Use v2 Dictionary.Training
-            </summary>
-            <returns>Quantity of stars</returns>
-            <response code="200">Word pairs Ids to be repeated</response>
-            <response code="401">Unauthorized access</response>
-        </member>
         <member name="M:InWords.WebApi.Controllers.v1dot1.ProfileSettings.UploadAvatar(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
                 Use this to update user avatar
@@ -71,14 +46,6 @@
             <summary>
                 Everything about user
             </summary>
-        </member>
-        <member name="M:InWords.WebApi.Controllers.v1.UsersController.GetUsers(System.String)">
-            <summary>
-                Get user by nickname
-            </summary>
-            <returns>list of users like nickname</returns>
-            <response code="200">OK</response>
-            <response code="401">Unauthorized</response>
         </member>
         <member name="M:InWords.WebApi.Controllers.v1.UsersController.GetUserId(System.Int32)">
             <summary>
@@ -170,6 +137,20 @@
         <member name="M:InWords.WebApi.Controllers.v2.AuthController.Register(InWords.Protobuf.RegistrationRequest)">
             <summary>
             Registering a new user and sending them an email
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ClassicCardGameController.Estimate(InWords.Protobuf.CardGameMetrics)">
+            <summary>
+            Use wordset estimate
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InWords.WebApi.Controllers.v2.ClassicCardGameController.Save(InWords.Protobuf.CardGameInfos)">
+            <summary>
+            Use wordset estimate without game level id
             </summary>
             <param name="request"></param>
             <returns></returns>
@@ -290,26 +271,11 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Extensions.ServiceHandler.AuthorizeHandler``2(MediatR.IMediator,``0,Grpc.Core.ServerCallContext)">
+        <member name="M:InWords.WebApi.Controllers.v2.WordSetController.History(InWords.Protobuf.TrainingDataRequest)">
             <summary>
-            Grpc Authorize handler
+            This method saves trainings and evaluates games from 0 to 6 half stars
             </summary>
-            <typeparam name="TRequest"></typeparam>
-            <typeparam name="TReply"></typeparam>
-            <param name="mediator"></param>
-            <param name="request"></param>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Extensions.ServiceHandler.AuthorizeHandler``2(MediatR.IMediator,``0,System.Security.Claims.ClaimsPrincipal)">
-            <summary>
-            Http authorize handler
-            </summary>
-            <typeparam name="TRequest"></typeparam>
-            <typeparam name="TReply"></typeparam>
-            <param name="mediator"></param>
-            <param name="request"></param>
-            <param name="user"></param>
+            <param name="trainingDataRequest"></param>
             <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Extensions.StringExtensions.StripHTML(System.String)">
@@ -319,36 +285,18 @@
             <param name="source"></param>
             <returns></returns>
         </member>
-        <member name="T:InWords.WebApi.Extensions.Transfer.DescriptionInfoExtensions">
-            <summary>
-            </summary>
-        </member>
-        <member name="M:InWords.WebApi.Extensions.Transfer.DescriptionInfoExtensions.GetRus(System.Collections.Generic.List{InWords.Data.DTO.Creation.DescriptionInfo})">
-            <summary>
-                Test method returning Russian description
-            </summary>
-            <param name="descriptionInfos"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Extensions.UserWordPairExtensions.ToWordTranslations(System.Collections.Generic.IEnumerable{InWords.Data.Domains.UserWordPair})">
-            <summary>
-                Convert UserWorkPair to WordTranslation
-            </summary>
-            <param name="userWordPairs"></param>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Extensions.UserWordPairExtensions.ToWordTranslations(InWords.Data.Domains.UserWordPair)">
-            <summary>
-                Convert UserWorkPair to WordTranslation
-            </summary>
-            <param name="uwp"></param>
-            <returns></returns>
-        </member>
         <member name="M:InWords.WebApi.Model.UserWordPair.IKnowledgeQualifier.Qualify">
             <summary>
             User's word pair ID and the quality of training
             </summary>
             <returns>Dictionary of id and quality</returns>
+        </member>
+        <member name="M:InWords.WebApi.Model.UserWordPair.BaseMemorization.Grant(InWords.WebApi.Model.UserWordPair.Memorization,System.Double)">
+            <summary>
+            </summary>
+            <param name="currentMemorization">Complexity of the game from 0 to 1]</param>
+            <param name="complexity"></param>
+            <returns></returns>
         </member>
         <member name="M:InWords.WebApi.Model.UserWordPair.BaseMemorization.Ebbinghaus(System.Int32,System.Double)">
             <summary>
@@ -359,7 +307,7 @@
             <param name="retrievabilityLevel"></param>
             <returns></returns>
         </member>
-        <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthorizedRequestObject{InWords.Protobuf.DeleteAccountRequest,InWords.Protobuf.Empty},System.Threading.CancellationToken)">
+        <member name="M:InWords.WebApi.Services.Users.AccountUpdate.DeleteAccount.HandleRequest(InWords.WebApi.Services.Abstractions.AuthReq{InWords.Protobuf.DeleteAccountRequest,InWords.Protobuf.Empty},System.Threading.CancellationToken)">
             <summary>
             Delete account by id if exist
             </summary>
@@ -438,13 +386,14 @@
                 send it by <see cref="T:InWords.WebApi.Services.Email.EmailSenders.EmailTemplateSender" />
             </summary>
         </member>
-        <member name="M:InWords.WebApi.Modules.DictionaryServiceHandler.Extentions.AddWordPairsExtentions.AddWordPairs(Microsoft.EntityFrameworkCore.DbSet{InWords.Data.Domains.WordPair},System.Collections.Generic.IEnumerable{InWords.Data.Domains.WordPair})">
+        <member name="M:InWords.WebApi.Modules.ClassicCardGame.Extentions.InWordsContextExtention.CreateLevels(InWords.Data.InWordsDataContext,System.Int32,System.Collections.Generic.IList{System.Int32[]})">
             <summary>
-            Return map of inverted keyPair
+            GetOrAdd history usergame and save levels in game levels. Return levels ids.
             </summary>
-            <param name="wordPairs"></param>
-            <param name="request"></param>
-            <returns></returns>
+            <param name="context">database context</param>
+            <param name="userId">auhtorized user identity</param>
+            <param name="levelsWords">words id array in list of levels</param>
+            <returns>Levels ids</returns>
         </member>
         <member name="T:InWords.WebApi.Module.InModule">
             <summary>
@@ -469,36 +418,6 @@
                This is to provide ApplicationBuilder to configure
             </summary>
             <param name="app"></param>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.#ctor(InWords.Service.Auth.Interfaces.IJwtProvider,InWords.Data.Repositories.AccountRepository,InWords.Data.Repositories.UserRepository)">
-            <summary>
-                Create provider via repository
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Service.Auth.Models.BasicAuthClaims)">
-            <summary>
-                This is to check user identity [FromBody]
-            </summary>
-            <param name="user"></param>
-            <exception cref="T:System.ArgumentException"></exception>
-            <returns></returns>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(System.String,System.String)">
-            <summary>
-                This is to check user identity
-            </summary>
-            <param name="email"></param>
-            <param name="password"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentException"></exception>
-        </member>
-        <member name="M:InWords.WebApi.Providers.AccountIdentityProvider.GetIdentity(InWords.Data.Domains.Account)">
-            <summary>
-            </summary>
-            <param name="account"></param>
-            <exception cref="T:System.ArgumentException"></exception>
-            <returns></returns>
         </member>
         <member name="T:InWords.WebApi.Swagger.RemoveVersionParameters">
             <summary>

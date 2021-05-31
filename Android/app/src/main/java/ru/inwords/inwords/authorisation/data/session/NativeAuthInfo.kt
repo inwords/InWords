@@ -2,8 +2,7 @@ package ru.inwords.inwords.authorisation.data.session
 
 import android.content.SharedPreferences
 import io.reactivex.Single
-import ru.inwords.inwords.authorisation.data.AuthExceptionType
-import ru.inwords.inwords.authorisation.data.AuthenticationException
+import ru.inwords.inwords.authorisation.data.NeverAuthenticatedBeforeException
 import ru.inwords.inwords.profile.data.bean.UserCredentials
 
 class NativeAuthInfo internal constructor(private val sharedPreferences: SharedPreferences) {
@@ -41,7 +40,7 @@ fun UserCredentials.validCredentials() = email.isNotBlank() && password.isNotBla
 
 fun UserCredentials.requireCredentials(): UserCredentials {
     if (!validCredentials()) {
-        throw AuthenticationException("invalid credentials (no credentials)", AuthExceptionType.NO_CREDENTIALS)
+        throw NeverAuthenticatedBeforeException("invalid credentials (no credentials)")
     }
 
     return this

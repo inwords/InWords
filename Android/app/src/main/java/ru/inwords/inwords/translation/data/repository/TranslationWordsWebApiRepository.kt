@@ -2,17 +2,23 @@ package ru.inwords.inwords.translation.data.repository
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.inwords.inwords.main_activity.data.source.remote.WebRequestsManagerAuthorised
+import ru.inwords.inwords.core.deferred_entry_manager.EntityIdentificator
+import ru.inwords.inwords.network.AuthorisedRequestsManager
 import ru.inwords.inwords.translation.converter.LookupReplyConverter
 import ru.inwords.inwords.translation.converter.TrainingPairConverter
 import ru.inwords.inwords.translation.converter.WordTranslationReplyConverter
-import ru.inwords.inwords.translation.domain.model.*
+import ru.inwords.inwords.translation.data.grpc.DictionaryGrpcService
+import ru.inwords.inwords.translation.domain.model.Definition
+import ru.inwords.inwords.translation.domain.model.LookupDirection
 import ru.inwords.inwords.translation.domain.model.LookupDirection.EN_RU
 import ru.inwords.inwords.translation.domain.model.LookupDirection.RU_EN
+import ru.inwords.inwords.translation.domain.model.PullWordsAnswer
+import ru.inwords.inwords.translation.domain.model.WordTranslation
 import kotlin.math.abs
 
 class TranslationWordsWebApiRepository internal constructor(
-    private val webRequestsManagerAuthorised: WebRequestsManagerAuthorised
+    private val dictionaryGrpcService: DictionaryGrpcService,
+    private val authorisedRequestsManager: AuthorisedRequestsManager
 ) : TranslationWordsRemoteRepository {
 
     private val wordTranslationReplyConverter = WordTranslationReplyConverter()
@@ -20,17 +26,17 @@ class TranslationWordsWebApiRepository internal constructor(
     private val lookupReplyConverter = LookupReplyConverter()
 
     override fun insertAllWords(wordTranslations: List<WordTranslation>): Single<List<EntityIdentificator>> {
-        return webRequestsManagerAuthorised.insertAllWords(wordTranslations)
+        return authorisedRequestsManager.wrapRequest(dictionaryGrpcService.addWords(wordTranslations))
             .map { list -> list.wordIdsList.map { EntityIdentificator(it.localId.toLong(), it.serverId) } }
     }
 
     override fun removeAllByServerId(serverIds: List<Int>): Completable {
         return Single.fromCallable { absList(serverIds) }
-            .flatMapCompletable { webRequestsManagerAuthorised.removeAllByServerId(it) }
+            .flatMapCompletable { authorisedRequestsManager.wrapRequest(dictionaryGrpcService.deleteWords(it)) }
     }
 
     override fun pullWords(wordTranslations: List<Int>): Single<PullWordsAnswer> {
-        return webRequestsManagerAuthorised.pullWords(wordTranslations)
+        return authorisedRequestsManager.wrapRequest(dictionaryGrpcService.pullWords(wordTranslations))
             .map { PullWordsAnswer(it.toDeleteList, wordTranslationReplyConverter.convertList(it.toAddList)) }
     }
 
@@ -40,17 +46,17 @@ class TranslationWordsWebApiRepository internal constructor(
             RU_EN -> "ru-en"
         }
 
-        return webRequestsManagerAuthorised.lookup(text, lang)
+        return authorisedRequestsManager.wrapRequest(dictionaryGrpcService.lookup(text, lang))
             .map { lookupReplyConverter.convert(it) }
     }
 
     override fun trainingWords(): Single<List<WordTranslation>> {
-        return webRequestsManagerAuthorised.trainingWords()
+        return authorisedRequestsManager.wrapRequest(dictionaryGrpcService.trainingWords())
             .map { reply -> reply.pairsList.map { trainingPairConverter.convert(it) } }
     }
 
     override fun trainingIds(): Single<List<Int>> {
-        return webRequestsManagerAuthorised.trainingIds()
+        return authorisedRequestsManager.wrapRequest(dictionaryGrpcService.trainingIds())
             .map { it.userWordPairsList }
     }
 

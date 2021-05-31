@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 namespace InWords.WebApi.Modules.WordsSets
 {
     public class GetMarkedWordsHandler
-        : AuthorizedRequestObjectHandler<WordSetWordsRequest, WordSetWordsReply, InWordsDataContext>
+        : AuthReqHandler<WordSetWordsRequest, WordSetWordsReply, InWordsDataContext>
     {
         public GetMarkedWordsHandler(InWordsDataContext context) : base(context)
         {
         }
 
         public override Task<WordSetWordsReply> HandleRequest(
-            AuthorizedRequestObject<WordSetWordsRequest, WordSetWordsReply> request,
+            AuthReq<WordSetWordsRequest, WordSetWordsReply> request,
             CancellationToken cancellationToken = default)
         {
             return Task.Run(() =>

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import io.reactivex.disposables.CompositeDisposable
@@ -55,7 +56,7 @@ abstract class FragmentWithViewModelAndNav<ViewModelType : BasicViewModel, ViewM
     }
 
     protected fun setupWithNavController(toolbar: Toolbar) {
-        NavigationUI.setupWithNavController(toolbar, navController)
+        toolbar.setupWithNavController(navController)
     }
 
     protected fun setupWithNavController(collapsingToolbarLayout: CollapsingToolbarLayout, toolbar: Toolbar) {

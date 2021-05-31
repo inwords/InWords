@@ -12,6 +12,21 @@ import CardActions from 'src/components/core/CardActions';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
 
+const pickRightWord = n => {
+  const lastDigit = n % 10;
+  return `слов${
+    lastDigit > 4 || lastDigit === 0 ? '' : lastDigit > 1 ? 'а' : 'о'
+  }`;
+};
+
+const dateFormatter = new Intl.DateTimeFormat('ru', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric'
+});
+
 function TrainingHistory() {
   const trainingHistory = useSelector(store => store.trainingHistory);
 
@@ -32,12 +47,17 @@ function TrainingHistory() {
 
   return (
     <Grid spacing={3}>
-      {trainingHistory.map(({ levelId }) => (
+      {trainingHistory.map(({ levelId, dateTime, wordsCount }) => (
         <GridItem key={levelId} xs={12} sm={6} md={4} lg={3}>
           <Card>
             <CardContent>
-              <Typography component="h2" variant="h6">
-                {levelId}
+              <Typography component="h2" variant="h6" gutterBottom>
+                {dateFormatter.format(
+                  Date.parse(dateTime ? `${dateTime}Z` : null) || null
+                )}
+              </Typography>
+              <Typography>
+                {wordsCount} {pickRightWord(wordsCount)}
               </Typography>
             </CardContent>
             <CardActions>

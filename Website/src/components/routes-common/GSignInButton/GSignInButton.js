@@ -1,11 +1,16 @@
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, useContext, memo } from 'react';
 import PropTypes from 'prop-types';
 import createScriptsLoader from 'src/utils/createScriptsLoader';
+import { OAuth2Context } from 'src/components/app/OAuth2Manager';
 
 import './GSignInButton.css';
 
 function GSignInButton({ handleSuccess, handleFailure }) {
+  const { initialized } = useContext(OAuth2Context);
+
   useEffect(() => {
+    if (!initialized) return;
+
     const handleLoad = () => {
       window.gapi.signin2.render('g-signin2', {
         scope: 'profile email',
@@ -34,7 +39,7 @@ function GSignInButton({ handleSuccess, handleFailure }) {
     return () => {
       cleanUp();
     };
-  }, [handleSuccess, handleFailure]);
+  }, [handleSuccess, handleFailure, initialized]);
 
   return <div id="g-signin2" className="g-signin2"></div>;
 }

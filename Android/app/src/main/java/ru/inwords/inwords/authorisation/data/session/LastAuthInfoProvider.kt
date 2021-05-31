@@ -2,8 +2,7 @@ package ru.inwords.inwords.authorisation.data.session
 
 import android.content.SharedPreferences
 import io.reactivex.Single
-import ru.inwords.inwords.authorisation.data.AuthExceptionType
-import ru.inwords.inwords.authorisation.data.AuthenticationException
+import ru.inwords.inwords.authorisation.data.NeverAuthenticatedBeforeException
 import ru.inwords.inwords.core.property.IntNonNullPropertyDelegate
 import ru.inwords.inwords.core.property.StringNonNullPropertyDelegate
 
@@ -57,7 +56,7 @@ private fun String.validUserId() = this.isNotBlank()
 
 private fun String.requireUserId(): String {
     if (!validUserId()) {
-        throw AuthenticationException("invalid credentials (no credentials)", AuthExceptionType.NO_CREDENTIALS)
+        throw NeverAuthenticatedBeforeException("last logged user id does not exist")
     }
 
     return this

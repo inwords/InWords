@@ -32,7 +32,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
             // act 
             var registration = new ChangeEmail(context, mock.Object);
 
-            var requestObject = new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(
+            var requestObject = new AuthReq<EmailChangeRequest, EmailChangeReply>(
                 new EmailChangeRequest()
                 {
                     Email = testEmail,
@@ -42,7 +42,7 @@ namespace InWords.WebApiTests.Services.Users.EmailUpdate
             };
 
             var test = await registration.HandleRequest(
-                new AuthorizedRequestObject<EmailChangeRequest, EmailChangeReply>(
+                new AuthReq<EmailChangeRequest, EmailChangeReply>(
                     new EmailChangeRequest()
                     {
                         Email = testEmail,

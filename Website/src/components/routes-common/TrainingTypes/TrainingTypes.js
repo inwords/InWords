@@ -17,7 +17,6 @@ import Space from 'src/components/core/Space';
 import Checkbox from 'src/components/core/Checkbox';
 import Typography from 'src/components/core/Typography';
 import LinkButton from 'src/components/core/LinkButton';
-import ButtonBase from 'src/components/core/ButtonBase';
 import ControlledTrainingsSettingsDialog from './ControlledTrainingsSettingsDialog';
 
 import './TrainingTypes.scss';
@@ -162,11 +161,7 @@ function TrainingTypes({ trainingLevel }) {
 
             return (
               <ListItemContainer key={typeId}>
-                <ListItem
-                  component={ButtonBase}
-                  onClick={handleToggle(typeId)}
-                  button
-                >
+                <ListItem onClick={handleToggle(typeId)} button>
                   <div
                     className="training-types-item-order"
                     style={itemOrderStyle}

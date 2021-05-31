@@ -1,0 +1,61 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.targetSdk
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
+        versionCode 1
+        versionName '1.0'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    //support
+    implementation "androidx.recyclerview:recyclerview:$versions.RECYCLER"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
+    //preference
+    implementation "androidx.preference:preference-ktx:$versions.PREFERENCE"
+
+    // Work manager
+    implementation "androidx.work:work-runtime-ktx:$versions.WORK_MANAGER"
+    implementation "androidx.work:work-rxjava2:$versions.WORK_MANAGER"
+
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$versions.RX_JAVA"
+    implementation "io.reactivex.rxjava2:rxandroid:$versions.RX_ANDROID"
+
+    // Gson
+    implementation "com.google.code.gson:gson:$versions.GSON"
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
+    androidTestImplementation "androidx.test:runner:$versions.ANDROIDX_TEST"
+    androidTestImplementation "androidx.test:core:$versions.ANDROIDX_TEST"
+    androidTestImplementation "androidx.test:rules:$versions.ANDROIDX_TEST"
+    androidTestImplementation "androidx.test.ext:junit:$versions.ANDROIDX_TEST_EXT"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$versions.JUNIT_JUPITER"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$versions.JUNIT_JUPITER"
+
+    testImplementation "io.mockk:mockk:$versions.MOCKK"
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
