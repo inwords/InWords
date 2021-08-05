@@ -16,13 +16,8 @@
     <Protobuf Include="gRPC\Protos\Profile.v2.proto" GrpcServices="Server" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\aasle\source\repos\InWords\WebApi\InWords.WebApi\InWords.WebApi\InWords.WebApi.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\Artyom\source\repos\InWords\WebApi\InWords.WebApi\InWords.WebApi\InWords.WebApi.xml</DocumentationFile>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 

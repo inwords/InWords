@@ -5,6 +5,12 @@
       "environmentVariables": {
         "URL": "https://localhost:5102"
       }
+    },
+    "CentosServer": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "URL": "https://test.grpc.inwords.ru"
+      }
     }
   }
 }
