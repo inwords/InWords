@@ -9,7 +9,7 @@
     "CentosServer": {
       "commandName": "Project",
       "environmentVariables": {
-        "URL": "https://test.grpc.inwords.ru"
+        "URL": "https://test.app.inwords.ru"
       }
     }
   }

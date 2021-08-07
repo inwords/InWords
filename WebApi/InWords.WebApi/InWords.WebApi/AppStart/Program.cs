@@ -36,11 +36,11 @@ namespace InWords.WebApi.AppStart
 					.UseStartup<Startup>()
 					.UseKestrel((hostingContext, options) =>
 					{
-						options.Listen(IPAddress.Loopback, http1_2,
+						options.Listen(IPAddress.Any, http1_2,
 							listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2
 							);
 
-						options.Listen(IPAddress.Loopback, http2,
+						options.Listen(IPAddress.Any, http2,
 							listenOptions =>
 							{
 								listenOptions.Protocols = HttpProtocols.Http2;
