@@ -27,7 +27,7 @@ namespace InWords.WebApi.AppStart
 				.ConfigureWebHostDefaults(webHostBuilder =>
 				{
 
-					GetPorts(out int http1_2, out int http2);
+					GetPorts(out int http1, out int http2);
 
 					string? path = AppDomain.CurrentDomain.BaseDirectory;
 					if (string.IsNullOrWhiteSpace(path)) path = "";
@@ -36,9 +36,9 @@ namespace InWords.WebApi.AppStart
 					.UseStartup<Startup>()
 					.UseKestrel((hostingContext, options) =>
 					{
-						options.Listen(IPAddress.Any, http1_2,
-							listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2
-							);
+						options.Listen(IPAddress.Any, http1,
+							listenOptions => listenOptions.Protocols = HttpProtocols.Http1
+						);
 
 						options.Listen(IPAddress.Any, http2,
 							listenOptions =>
@@ -54,18 +54,15 @@ namespace InWords.WebApi.AppStart
 				});
 		}
 
-		private static void GetPorts(out int http1_2, out int http2)
+		private static void GetPorts(out int http1, out int http2)
 		{
-			http1_2 = 5100;
+			http1 = 5100;
 			http2 = 5101;
-
 			string? INWHTTP = Environment.GetEnvironmentVariable("INWHTTP");
 			string? INWHTTPS = Environment.GetEnvironmentVariable("INWHTTPS");
-
 			Console.WriteLine($"Environment {INWHTTP} {INWHTTPS}");
-
 			if (!string.IsNullOrWhiteSpace(INWHTTP))
-				http1_2 = int.Parse(INWHTTP, NumberFormatInfo.InvariantInfo);
+				http1 = int.Parse(INWHTTP, NumberFormatInfo.InvariantInfo);
 			if (!string.IsNullOrWhiteSpace(INWHTTPS))
 				http2 = int.Parse(INWHTTPS, NumberFormatInfo.InvariantInfo);
 		}
