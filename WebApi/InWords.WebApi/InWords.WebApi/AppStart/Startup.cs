@@ -36,7 +36,7 @@ namespace InWords.WebApi.AppStart
 			IConfigurationBuilder builder = new ConfigurationBuilder()
 				.SetBasePath(env.ContentRootPath)
 				.AddJsonFile("appsettings.json", false, true)
-				.AddJsonFile("appsettings.security.json", false, true)
+				.AddJsonFile("AppData/appsettings.security.json", false, true)
 				.AddJsonFile($"appsettings{env.EnvironmentName}.json", true)
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
