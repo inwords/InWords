@@ -42,7 +42,7 @@ steps:
       testResultsFiles: '**/testDebugUnitTest/TEST-*.xml'
       testRunTitle: 'Run JUnit5 tests'
       javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
+      jdkVersionOption: '1.11'
       gradleOptions: '-Xmx3072m'
       sonarQubeRunAnalysis: false
 
@@ -52,7 +52,7 @@ steps:
       gradleWrapperFile: 'Android/gradlew'
       tasks: 'jacocoTestReportMerged'
       javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
+      jdkVersionOption: '1.11'
       gradleOptions: '-Xmx3072m'
       sonarQubeRunAnalysis: false
 
