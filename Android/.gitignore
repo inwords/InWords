@@ -42,7 +42,7 @@ captures/
 *.iml
 /.idea/modules.xml
 /.idea/workspace.xml
-/.idea/misc.xml 
+/.idea/misc.xml
 /.idea/navEditor.xml
 /.idea/tasks.xml
 /.idea/gradle.xml
