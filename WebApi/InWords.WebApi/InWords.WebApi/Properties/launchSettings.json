@@ -19,10 +19,11 @@
     },
     "Docker": {
       "commandName": "Docker",
+      "DockerfileRunArguments": "-v \"C:\\Users\\Artyom\\source\\docker\\inwords\\AppData\":\"/app/AppData\" -p 5100:5100 -p 5101:5101",
       "launchBrowser": true,
       "publishAllPorts": true,
       "useSSL": false,
-      "launchUrl": "http://{ServiceHost}:{ServicePort}/docs"
+      "launchUrl": "http://{ServiceHost}:5100/docs"
     }
   }
 }

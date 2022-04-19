@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.IO;
 using System.Reflection;
 
 namespace InWords.WebApi.AppStart
@@ -35,9 +34,9 @@ namespace InWords.WebApi.AppStart
 		public Startup(IWebHostEnvironment env)
 		{
 			IConfigurationBuilder builder = new ConfigurationBuilder()
-				.SetBasePath(Path.Combine(env.ContentRootPath, "AppData"))
+				.SetBasePath(env.ContentRootPath)
 				.AddJsonFile("appsettings.json", false, true)
-				.AddJsonFile("appsettings.security.json", false, true)
+				.AddJsonFile("AppData/appsettings.security.json", false, true)
 				.AddJsonFile($"appsettings{env.EnvironmentName}.json", true)
 				.AddEnvironmentVariables();
 			Configuration = builder.Build();
@@ -89,7 +88,7 @@ namespace InWords.WebApi.AppStart
 
 			// Register the Swagger generator, defining 1 or more Swagger documents
 			services.AddSwaggerInWords();
-			services.AddSingleton(Configuration);
+			services.AddSingleton<IConfiguration>(Configuration);
 			services.AddHttpClient();
 			// to register types of modules
 			Program.InModules.ForEach(m => m.ConfigureServices(services));
@@ -109,6 +108,7 @@ namespace InWords.WebApi.AppStart
 			app.UseAuthorization();  // should be before UseEndpoints but after UseRouting
 			app.UseMiddleware<ResponseMetricMiddleware>();
 			app.UseMvc();
+
 			app.UseForwardedHeaders(new ForwardedHeadersOptions
 			{
 				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -117,8 +117,10 @@ namespace InWords.WebApi.AppStart
 			// you need to add resources to serve static files
 			// and then build a folder structure to accommodate them.
 			app.UseStaticFiles();
+
 			// Enable middleware to serve generated Swagger as a JSON endpoint.
 			app.UseSwagger();
+			// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
 			// specifying the Swagger JSON endpoint.
 			app.UseSwaggerUI(c =>
 			{
@@ -128,11 +130,14 @@ namespace InWords.WebApi.AppStart
 				c.RoutePrefix = "docs";
 			});
 
-			if (env.IsDevelopment())
-				app.UseDeveloperExceptionPage();
-			else
-				app.UseMiddleware<SecureConnectionMiddleware>();
 
+			// Enable middleware to generated logs as a text file.
+			//loggerFactory;
+
+			app.UseDeveloperExceptionPage();
+
+			//app.UseHttpMetrics();
+			// to register types of modules
 			Program.InModules.ForEach(m => m.ConfigureApp(app));
 		}
 

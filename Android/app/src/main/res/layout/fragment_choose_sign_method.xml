@@ -61,10 +61,12 @@
         android:layout_marginEnd="@dimen/space_medium"
         android:textAppearance="@style/TextAppearance.Inwords.Body1.Primary"
         android:visibility="gone"
+        android:gravity="center"
+        app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sign_in_guest_button"
-        tools:text="Ошибка: ываываываыва"
+        tools:text="Ошибка: ываываываыва ываываываыва ываываываыва ываываываыва"
         tools:visibility="visible" />
 
     <ru.inwords.designcorelib.custom_views.ProgressView

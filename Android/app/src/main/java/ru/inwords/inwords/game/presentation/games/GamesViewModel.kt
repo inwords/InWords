@@ -131,6 +131,7 @@ class GamesViewModel(
                     is Resource.Error -> {
                         handleError(it.throwable)
                     }
+                    is Resource.Loading -> Unit
                 }
             }, {
                 handleError(it)

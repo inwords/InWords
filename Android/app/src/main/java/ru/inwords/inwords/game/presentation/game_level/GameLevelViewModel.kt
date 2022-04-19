@@ -97,6 +97,7 @@ class GameLevelViewModel(
         when (gameResource) {
             is Resource.Success -> game = gameResource.data.copy(gameLevelInfos = gameResource.data.gameLevelInfos.sortedBy { g -> g.level })
             is Resource.Error -> Log.e("GameLevelViewModel", gameResource.message.orEmpty())  //TODO
+            is Resource.Loading -> Unit
         }
     }
 

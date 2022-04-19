@@ -18,7 +18,7 @@ data class NavigateToGraphWithChangedStartDestinationCommand(val graphDirection:
         if (navAction != null) {
             val graph = navController.graph.findNode(navAction.destinationId)
             if (graph is NavGraph) {
-                graph.startDestination = newStartDestination
+                graph.setStartDestination(newStartDestination)
             }
         }
 

@@ -33,7 +33,7 @@ dependencies {
     implementation project(path: ':corelib')
     implementation project(path: ':designcorelib')
 
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -49,8 +49,8 @@ dependencies {
 
     // You need to build grpc-java to obtain these libraries below.
     implementation "io.grpc:grpc-cronet:$versions.GRPC"
-    implementation 'com.google.android.gms:play-services-cronet:17.0.0'
-    implementation 'org.chromium.net:cronet-fallback:76.3809.111'
+    implementation 'com.google.android.gms:play-services-cronet:18.0.1'
+    implementation 'org.chromium.net:cronet-fallback:98.4758.101'
 
     implementation "io.grpc:grpc-core:$versions.GRPC"
     implementation "io.grpc:grpc-api:$versions.GRPC"
@@ -64,5 +64,4 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$versions.JUNIT_JUPITER"
 
     testImplementation "io.mockk:mockk:$versions.MOCKK"
-    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
