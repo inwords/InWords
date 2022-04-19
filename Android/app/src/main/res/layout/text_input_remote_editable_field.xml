@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,8 +17,8 @@
         android:contentDescription="@string/button_apply_text"
         android:enabled="false"
         android:src="@drawable/ic_check_24dp"
-        android:tint="@color/icon_color_selector_primary"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:tint="@color/icon_color_selector_primary" />
 
     <ImageButton
         android:id="@+id/edit_button"
@@ -29,7 +30,7 @@
         android:contentDescription="@string/button_edit_text"
         android:enabled="false"
         android:src="@drawable/ic_create_24dp"
-        android:tint="@color/icon_color_selector_primary" />
+        app:tint="@color/icon_color_selector_primary" />
 
     <ProgressBar
         android:id="@+id/edit_progress"
@@ -61,11 +62,13 @@
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:enabled="false"
             android:inputType="textCapSentences"
             android:maxLength="64"
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+            app:boxBackgroundColor="@android:color/transparent"
             tools:enabled="true"
             tools:text="Ник" />
     </com.google.android.material.textfield.TextInputLayout>

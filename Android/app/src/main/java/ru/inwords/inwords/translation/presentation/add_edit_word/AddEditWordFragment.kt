@@ -2,6 +2,7 @@ package ru.inwords.inwords.translation.presentation.add_edit_word
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,6 +77,7 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
                     listOf(DictionaryTranslationViewHolder.Params("Загрузка перевода...", LOADING))
                 }
                 is Resource.Error -> {
+                    Log.e(TAG, res.message, res.throwable)
                     listOf(DictionaryTranslationViewHolder.Params("Что-то пошло не так", ERROR))
                 }
             })
@@ -163,4 +165,9 @@ class AddEditWordFragment : FragmentWithViewModelAndNav<AddEditWordViewModel, Tr
         binding.foreignWordEditText.setText(wordTranslation.wordForeign)
         binding.nativeWordEditText.setText(wordTranslation.wordNative)
     }
+
+    private companion object {
+        const val TAG = "AddEditWordFragment"
+    }
+
 }

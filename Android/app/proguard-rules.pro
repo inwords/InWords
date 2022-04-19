@@ -70,6 +70,10 @@
   @com.facebook.soloader.DoNotOptimize *;
 }
 
+-keep public class com.facebook.imageutils.** {
+   public *;
+}
+
 -dontwarn com.google.common.**
 # Ignores: can't find referenced class javax.lang.model.element.Modifier
 -dontwarn com.google.errorprone.annotations.**

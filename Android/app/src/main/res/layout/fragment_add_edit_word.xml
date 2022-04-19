@@ -53,11 +53,13 @@
                     android:id="@+id/foreign_word_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:hint="@string/word_addition_word"
                     android:inputType="textAutoCorrect"
                     android:lines="1"
                     android:maxLength="64"
-                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+                    app:boxBackgroundColor="@android:color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -74,9 +76,11 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/word_addition_translation"
                     android:inputType="textAutoCorrect"
+                    android:background="@android:color/transparent"
                     android:lines="1"
                     android:maxLength="64"
                     android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+                    app:boxBackgroundColor="@android:color/transparent"
                     tools:text="Перевод" />
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -57,9 +57,11 @@
                     android:id="@+id/email_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:hint="@string/sign_up_email"
                     android:inputType="textEmailAddress"
-                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+                    app:boxBackgroundColor="@android:color/transparent" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,9 +76,11 @@
                     android:id="@+id/password_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:hint="@string/sign_up_password"
                     android:inputType="textPassword"
-                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+                    app:boxBackgroundColor="@android:color/transparent" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,10 +94,12 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/confirm_password_edit_text"
                     android:layout_width="match_parent"
+                    android:background="@android:color/transparent"
                     android:layout_height="wrap_content"
                     android:hint="@string/sign_up_confirm_password"
                     android:inputType="textPassword"
-                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular" />
+                    android:textAppearance="@style/TextAppearance.Inwords.Title.Regular"
+                    app:boxBackgroundColor="@android:color/transparent" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

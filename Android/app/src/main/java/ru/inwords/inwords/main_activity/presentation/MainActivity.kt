@@ -90,7 +90,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private fun setupBottomNavMenu(navController: NavController) {
         binding.navigation.setupWithNavController(navController)
-        binding.navigation.setOnNavigationItemReselectedListener {
+        binding.navigation.setOnItemReselectedListener {
             //чтобы нельзя было выбрать текущий фрагмент еще раз
         }
     }
@@ -110,8 +110,7 @@ class MainActivity : DaggerAppCompatActivity() {
         val resultCode = apiAvailability.isGooglePlayServicesAvailable(this)
         if (resultCode != ConnectionResult.SUCCESS) {
             if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                    .show()
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)?.show()
             } else {
                 Log.i(TAG, "This device is not supported.")
                 finish()

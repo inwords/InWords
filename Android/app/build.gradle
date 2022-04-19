@@ -17,8 +17,7 @@ android {
         versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "API_URL", "\"https://api.inwords.ru/\""
-        buildConfigField "String", "GRPC_API_URL", "\"grpc.inwords.ru\""
+        buildConfigField "String", "GRPC_API_URL", "\"app.inwords.ru\""
         buildConfigField "String", "TTS_GOOGLE_API_URL", "\"https://texttospeech.googleapis.com\""
         buildConfigField "String", "POLICY_PRIVACY_URL", "\"https://inwords.ru/policy/privacy.html\""
 
@@ -65,11 +64,11 @@ android {
 
     buildFeatures {
         // Determines whether to generate a BuildConfig class.
-        buildConfig = true
+        buildConfig true
         // Determines whether to support View Binding.
-        viewBinding = true
+        viewBinding true
         // Determines whether to support injecting custom variables into the module's R class.
-        resValues = true
+        resValues true
     }
 
     sourceSets {
@@ -126,10 +125,10 @@ dependencies {
     implementation project(path: ':networklib')
     implementation project(path: ':corelib')
 
-    implementation 'com.google.firebase:firebase-analytics:19.0.0'
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-analytics:20.1.0'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.8'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -141,7 +140,7 @@ dependencies {
 
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
 
     implementation "androidx.constraintlayout:constraintlayout:$versions.CONSTRAINT_LAYOUT"
 
@@ -167,10 +166,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$versions.RX_ANDROID"
 
     //Fresco
-    implementation('com.facebook.fresco:fresco:2.1.0') {
+    implementation('com.facebook.fresco:fresco:2.5.0') {
         exclude group: 'com.facebook.soloader', module: 'soloader'
     }
-    implementation("com.facebook.fresco:imagepipeline-okhttp3:2.1.0") {
+    implementation("com.facebook.fresco:imagepipeline-okhttp3:2.5.0") {
         exclude group: 'com.facebook.soloader', module: 'soloader'
     }
 
