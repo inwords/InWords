@@ -75,7 +75,7 @@ internal class TranslationWordsInteractorImplTest {
                 listOf(WordTranslationDeferredEntry(Status.SYNCED, wordTranslationValueConverter.convert(wordTranslationInserted), 1))
             )
         }
-        verify(exactly = 1) { remoteRepository.pullWords(emptyList()) }
+        verify(exactly = 2) { remoteRepository.pullWords(emptyList()) }
 
         confirmVerified(localEntriesListDao, remoteRepository)
     }
