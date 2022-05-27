@@ -19,7 +19,7 @@ pr:
 trigger: none
 
 pool:
-  vmImage: 'macOS-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
   - task: DownloadSecureFile@1
